@@ -1,75 +1,82 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
+import { bytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Replication Factor',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'keyspacesInfo', row.key, 'replicationFactor']);
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: 'Disk Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.diskSize`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function KeyspacesTable({ snapshot, timeframe }) {
-  const keyspaces = snapshot.getIn(['data', 'keyspaces'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'keyspaces'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      snapshot,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (keyspaces.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Keyspace Details">
-      <ExpandableTable
-        data={keyspaces}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Keyspace Details (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(keyspaceName) {
-  return keyspaceName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Keyspace</th>
-        <th>Replication Factor</th>
-        <th>Disk Size</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(keyspaceName, i, context) {
-  return [
-    <td>{keyspaceName}</td>,
-    <td>{context.snapshot.getIn(['data', 'keyspacesInfo', keyspaceName, 'replicationFactor'])}</td>,
-    <Mtd
-      metric={'keyspace.' + keyspaceName + '.diskSize'}
-      snapshot={context.snapshot}
-      formatter={bytesTwoDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(keyspaceName, i, context) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80,
         right: 80
       }}
       y1={{
-        metrics: ['keyspace.' + keyspaceName + '.diskSize'],
+        metrics: ['keyspace.' + row.key + '.diskSize'],
         labels: ['Disk Size'],
         formatter: bytesTwoDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
