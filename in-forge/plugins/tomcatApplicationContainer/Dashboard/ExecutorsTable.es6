@@ -2,75 +2,100 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
+import { number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Executor',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Thread Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `executors.${row.key}.active`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Executor',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.executor.get('maxThreads');
+      }
+    }
+  },
+  {
+    title: 'Queue Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `executors.${row.key}.queueSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ExecutorsTable({ snapshot, timeframe }) {
-  const executors = snapshot.getIn(['data', 'executor-config'], emptyMap);
-  if (executors.size === 0) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'executor-config'], emptyMap)
+    .map((executor, name) => {
+      return {
+        key: name,
+        executor,
+        timeframe,
+        snapshotId
+      };
+    })
+    .valueSeq()
+    .toArray();
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Executors">
-      <ExpandableTable
-        data={executors}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Executors (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(executor, executorName) {
-  return executorName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th />
-        <th colSpan="2">Threads</th>
-        <th />
-      </tr>
-      <tr>
-        <th>Executor</th>
-        <th>Current</th>
-        <th>Max</th>
-        <th>Queue Size</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(executor, name, context) {
-  return [
-    <td>{name}</td>,
-    <Mtd metric={'executors.' + name + '.active'} snapshot={context.snapshot} />,
-    <td>{executor.getIn(['maxThreads'])}</td>,
-    <Mtd metric={'executors.' + name + '.queueSize'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(executor, name, context) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80
       }}
       y1={{
-        metrics: ['executors.' + name + '.active', 'executors.' + name + '.queueSize'],
-        labels: [name + ' Active Threads', name + ' Queue Size'],
+        metrics: ['executors.' + row.key + '.active', 'executors.' + row.key + '.queueSize'],
+        labels: [row.key + ' Active Threads', row.key + ' Queue Size'],
         type: 'line'
       }}
     />

@@ -3,8 +3,8 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
