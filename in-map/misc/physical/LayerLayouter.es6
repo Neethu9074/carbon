@@ -33,10 +33,10 @@ export default function createLayouter(node) {
     _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
     // - 1 : if you have only one plugin, you have zero gaps. seems legit
-    const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
+    const numGaps = 0.0000001 + countDifferentPluginsFromSortedArray(_layer) - 1;
 
     // the space between each group of layer
-    const heightOfGap = numGaps === 0 ? 0 : nodeFullHeight / (numGaps * 10);
+    const heightOfGap = nodeFullHeight / (numGaps * 10);
 
     // the remaining height to sliver for the layer
     const heightUsedForLayer = nodeFullHeight - numGaps * heightOfGap;
