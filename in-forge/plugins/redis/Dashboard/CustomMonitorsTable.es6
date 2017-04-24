@@ -3,9 +3,36 @@ import React from 'react';
 import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.monitorName;
+      }
+    }
+  },
+  {
+    title: 'Value',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'monitor.' + row.monitorName;
+      },
+      getContent: withSiPrefixThreeDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function CustomMonitorsTable({ snapshot, timeframe }) {
   const monitors = snapshot.getIn(['data', 'monitor'], emptyList);
@@ -13,59 +40,34 @@ export default function CustomMonitorsTable({ snapshot, timeframe }) {
     return null;
   }
 
+  const rows = monitors.map(name => {
+    return {
+      key: name,
+      timeframe,
+      monitorName: name,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
-    <DashboardSection title="Custom Monitors">
-      <ExpandableTable
-        data={monitors}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Custom Monitors (${monitors.size})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(monitorName) {
-  return monitorName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(monitorName, index, context) {
-  return [
-    <td>
-      {monitorName}
-    </td>,
-    <Mtd metric={'monitor.' + monitorName} snapshot={context.snapshot} formatter={withSiPrefixThreeDecimalPlaces} />
-  ];
-}
-
-function createDetails(monitorName, index, context) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 90
       }}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
-        metrics: ['monitor.' + monitorName],
-        labels: [monitorName],
+        metrics: ['monitor.' + row.monitorName],
+        labels: [row.monitorName],
         type: 'line'
       }}
     />

@@ -102,8 +102,7 @@ export default connectTo(
 
     const rows = nodes.map(node => {
       return {
-        key: name,
-        name,
+        key: node.get('id'),
         timeframe,
         node
       };
