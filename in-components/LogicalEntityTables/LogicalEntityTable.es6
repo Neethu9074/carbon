@@ -23,14 +23,10 @@ const cols = [
   },
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return (
-          <HierarchicalLink snapshotId={row.node.get('id')} calculateHierarchy kind="dark">
-            {getLabel(row.node)}
-          </HierarchicalLink>
-        );
+      getSnapshotId(row) {
+        return row.node.get('id');
       }
     }
   },
