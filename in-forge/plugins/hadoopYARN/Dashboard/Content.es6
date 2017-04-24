@@ -28,7 +28,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <TwoColumnRow>
-        <DashboardSection title="Cluster Apps">
+        <DashboardSection title="Apps">
           <ChartWithLegend
             snapshotId={snapshotId}
             timeframe={timeframe}

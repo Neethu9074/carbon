@@ -2,82 +2,169 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Table from 'in-sdk/components/dashboard/Table';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 
-export default function Table({ snapshot, timeframe }) {
+const cols = [
+  {
+    title: 'Labels',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('labels', emptyList).join(', ');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('state');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Rack',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('rack');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Http Address',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('httpAddress');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Last Health Update',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('lastHealthUpdate');
+      },
+      getContent: formatDateTime
+    }
+  },
+  {
+    title: 'Health Report',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.get('healthReport');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Containers Running',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `nodes.${row.node.get('id')}.containers`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Memory Available',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `nodes.${row.node.get('id')}.memoryAvailable`;
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Virtual Cores Available',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `nodes.${row.node.get('id')}.virtualCoresAvailable`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function NodesTable({ snapshot, timeframe }) {
   const nodes = snapshot.getIn(['data', 'nodes.nodeList'], emptyList);
   if (nodes.size === 0) {
     return null;
   }
 
+  const rows = nodes
+    .map(node => {
+      return {
+        key: node.get('id'),
+        node,
+        timeframe,
+        snapshotId: snapshot.get('id')
+      };
+    })
+    .toArray();
+
   return (
     <DashboardSection title="Nodes">
-      <ExpandableTable
-        data={nodes}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(node) {
-  return node.get('id');
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Labels</th>
-        <th>State</th>
-        <th>Rack</th>
-        <th>Http Address</th>
-        <th>Last Health Update</th>
-        <th>Health Report</th>
-        <th>Containers Running</th>
-        <th>Memory Available</th>
-        <th>Virtual Cores Available</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(node, i, context) {
-  const id = node.get('id');
-  return [
-    <td>{node.get('labels', emptyList).join(', ')}</td>,
-    <td>{node.get('state')}</td>,
-    <td>{node.get('rack')}</td>,
-    <td>{node.get('httpAddress')}</td>,
-    <td>{formatDateTime(node.get('lastHealthUpdate'))}</td>,
-    <td>{node.get('healthReport')}</td>,
-    <Mtd metric={'nodes.' + id + '.containers'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd metric={'nodes.' + id + '.memoryAvailable'} formatter={bytesZeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd metric={'nodes.' + id + '.virtualCoresAvailable'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(node, i, context) {
-  const id = node.get('id');
+function getDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeframe = row.timeframe;
+  const leftMarginSize = 60;
+  const id = row.node.get('id');
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
-          left: 80
+          left: leftMarginSize
         }}
         y1={{
           formatter: zeroDecimalPlaces,
@@ -88,10 +175,10 @@ function createDetails(node, i, context) {
       />
       <TwoColumnRow>
         <ChartWithLegend
-          snapshotId={context.snapshot.get('id')}
-          timeframe={context.timeframe}
+          snapshotId={snapshotId}
+          timeframe={timeframe}
           margins={{
-            left: 80
+            left: leftMarginSize
           }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
@@ -102,10 +189,10 @@ function createDetails(node, i, context) {
           }}
         />
         <ChartWithLegend
-          snapshotId={context.snapshot.get('id')}
-          timeframe={context.timeframe}
+          snapshotId={snapshotId}
+          timeframe={timeframe}
           margins={{
-            left: 80
+            left: leftMarginSize
           }}
           y1={{
             formatter: zeroDecimalPlaces,

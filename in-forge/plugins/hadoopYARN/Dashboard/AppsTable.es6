@@ -1,68 +1,126 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
+import Table from 'in-sdk/components/dashboard/Table';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 
-export default function Table({ snapshot, timeframe }) {
+const cols = [
+  {
+    title: 'Application Id',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('id');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('state');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('name');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Final Status',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('finalStatus');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'User',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('user');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Type',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('type');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Start Time',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('startTime');
+      },
+      getContent: formatDateTime
+    }
+  },
+  {
+    title: 'Finish Time',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('finishTime');
+      },
+      getContent: formatDateTime
+    }
+  }
+];
+
+export default function AppsTable({ snapshot, timeframe }) {
   const apps = snapshot.getIn(['data', 'apps'], emptyList);
 
   if (apps.size === 0) {
     return null;
   }
 
+  const rows = apps
+    .map(app => {
+      return {
+        key: app.get('id'),
+        app,
+        timeframe,
+        snapshotId: snapshot.get('id')
+      };
+    })
+    .toArray();
+
   return (
     <DashboardSection title="Most Recent Apps">
-      <ExpandableTable
-        data={apps}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} initialSortColumn={7} initialSortDirection={'asc'} />
     </DashboardSection>
   );
-}
-
-function getKey(app) {
-  return app.get('id');
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Application Id</th>
-        <th>Name</th>
-        <th>State</th>
-        <th>Final Status</th>
-        <th>User</th>
-        <th>Type</th>
-        <th>Start Time</th>
-        <th>Finish Time</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(app) {
-  return [
-    <td>{app.get('id')}</td>,
-    <td>{app.get('name')}</td>,
-    <td>{app.get('state')}</td>,
-    <td>{app.get('finalStatus')}</td>,
-    <td>{app.get('user')}</td>,
-    <td>{app.get('type')}</td>,
-    <td>{formatDateTime(app.get('startTime'))}</td>,
-    <td>{formatDateTime(app.get('finishTime'))}</td>
-  ];
-}
-
-function createDetails() {
-  return null;
 }
