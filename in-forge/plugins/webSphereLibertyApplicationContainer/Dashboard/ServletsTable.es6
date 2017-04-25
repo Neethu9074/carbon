@@ -4,8 +4,60 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'App Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Servlet Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.servletName;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.key + '.' + row.servletName + '.requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.key + '.' + row.servletName + '.avgResponseTime';
+      },
+      getContent: muSecondsToMillisTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ServletsTable({ snapshot, timeframe }) {
   const servlets = [];
@@ -21,84 +73,49 @@ export default function ServletsTable({ snapshot, timeframe }) {
     return null;
   }
 
+  const rows = servlets.map(servlet => {
+    return {
+      key: servlet.appName,
+      servletName: servlet.servletName,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Servlets">
-      <ExpandableTable
-        data={servlets}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Servlets (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(servlet) {
-  return servlet.appName + '.' + servlet.servletName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>App Name</th>
-        <th>Servlet Name</th>
-        <th>Requests</th>
-        <th>Average Response Time</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(servlet, i, context) {
-  return [
-    <td>{servlet.appName}</td>,
-    <td>{servlet.servletName}</td>,
-    <Mtd
-      metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'}
-      formatter={muSecondsToMillisTwoDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(servlet, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 40
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'],
+          metrics: ['servlets.' + row.key + '.' + row.servletName + '.requests'],
           labels: ['Requests'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 40
         }}
         y1={{
           formatter: muSecondsToMillisTwoDecimalPlaces,
-          metrics: ['servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'],
+          metrics: ['servlets.' + row.key + '.' + row.servletName + '.avgResponseTime'],
           labels: ['Average Response Time'],
           type: 'line'
         }}

@@ -1,101 +1,140 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'ManagedConnection Objects in Use',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'connectionPools.' + row.key + '.managedConnectionCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Free Connections in Pool',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'connectionPools.' + row.key + '.freeConnectionCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connection Objects in Use',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'connectionPools.' + row.key + '.connectionHandleCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Waiting Time for Connection',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'connectionPools.' + row.key + '.waitTime';
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connections Created',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'connectionPools.' + row.key + '.connectionsCreated';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ConnectionPoolsTable({ snapshot, timeframe }) {
-  const connectionPoolNames = snapshot.getIn(['data', 'connectionPoolNames'], emptyList).sort();
+  const connectionPoolNames = snapshot.getIn(['data', 'connectionPoolNames'], emptyList);
   if (connectionPoolNames.size === 0) {
     return null;
   }
 
+  const rows = connectionPoolNames.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Database Connection Pools">
-      <ExpandableTable
-        data={connectionPoolNames}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Database Connection Pools (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(connectionPoolName) {
-  return connectionPoolName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>ManagedConnection Objects in Use</th>
-        <th>Free Connections in Pool</th>
-        <th>Connection Objects in Use</th>
-        <th>Average Waiting Time for Connection</th>
-        <th>Connections Created</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(connectionPoolName, i, context) {
-  return [
-    <td>{connectionPoolName}</td>,
-    <Mtd
-      metric={'connectionPools.' + connectionPoolName + '.managedConnectionCount'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'connectionPools.' + connectionPoolName + '.freeConnectionCount'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'connectionPools.' + connectionPoolName + '.connectionHandleCount'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'connectionPools.' + connectionPoolName + '.waitTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'connectionPools.' + connectionPoolName + '.connectionsCreated'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(connectionPoolName, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
-            'connectionPools.' + connectionPoolName + '.managedConnectionCount',
-            'connectionPools.' + connectionPoolName + '.freeConnectionCount',
-            'connectionPools.' + connectionPoolName + '.connectionHandleCount',
-            'connectionPools.' + connectionPoolName + '.connectionsCreated'
+            'connectionPools.' + row.key + '.managedConnectionCount',
+            'connectionPools.' + row.key + '.freeConnectionCount',
+            'connectionPools.' + row.key + '.connectionHandleCount',
+            'connectionPools.' + row.key + '.connectionsCreated'
           ],
           labels: [
             'ManagedConnection Objects in Use',
@@ -107,15 +146,15 @@ function createDetails(connectionPoolName, i, context) {
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 40
         }}
         y1={{
           formatter: msZeroDecimalPlaces,
-          metrics: ['connectionPools.' + connectionPoolName + '.waitTime'],
+          metrics: ['connectionPools.' + row.key + '.waitTime'],
           labels: ['Average Waiting Time for Connection'],
           type: 'line'
         }}
