@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
-import { sortedSnapshotIds$ } from 'in-views/tableView/stores/sorting';
+import { snapshots$ } from 'in-views/tableView/stores/snapshotIds';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -13,10 +13,10 @@ const block = 'in-table-view-table';
 
 export default connectTo(
   {
-    snapshotIds: sortedSnapshotIds$,
+    snapshots: snapshots$,
     plugin: plugin$
   },
-  function TableViewTable({ snapshotIds, plugin }) {
+  function TableViewTable({ snapshots, plugin }) {
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>
@@ -25,11 +25,17 @@ export default connectTo(
       );
     }
 
+    if (!snapshots) {
+      return null;
+    }
+
     const cols = getTableDefinition(plugin);
-    const rows = snapshotIds.map(snapshotId => {
+    const rows = snapshots.map(snapshot => {
+      const snapshotId = snapshot.get('id');
       return {
         key: snapshotId,
-        snapshotId
+        snapshotId: snapshotId,
+        snapshot
       };
     });
 

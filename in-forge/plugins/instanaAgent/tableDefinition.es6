@@ -7,7 +7,7 @@ export default [
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshot.get('id');
+        return row.snapshotId;
       }
     }
   },

@@ -6,7 +6,7 @@ import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { setKeyword, getValues } from 'in-stores/search/keywords';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { setColumn } from 'in-views/tableView/stores/sorting';
+import { getSnapshot } from 'in-stores/snapshot';
 import { query$ } from 'in-stores/search/query';
 
 // TODO: Read this mapping from backend
@@ -46,7 +46,6 @@ export const plugin$ = selectedType$
   })
   .distinct()
   .tap(() => {
-    setColumn(null);
     clearMetrics();
     clearSelectedSnapshots();
   });
@@ -66,6 +65,11 @@ export const snapshotIds$ = query$.flatMap(query => {
     }).map(list => list.toArray());
   });
 });
+
+export const snapshots$ = snapshotIds$
+  .flatMap(snapshotIds => combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId).startWith(null))))
+  .debounce(100)
+  .map(snapshots => snapshots.filter(snapshot => snapshot));
 
 export const matchedSnapshotCount$ = snapshotIds$.map(snapshotIds => snapshotIds.length);
 
