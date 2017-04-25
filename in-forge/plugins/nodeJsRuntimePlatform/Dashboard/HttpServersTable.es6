@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -25,11 +26,12 @@ const cols = [
   },
   {
     title: 'Port',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.server.getIn(['address', 'port']);
-      }
+      },
+      getContent: number.compact
     }
   }
 ];
