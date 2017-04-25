@@ -1,79 +1,59 @@
-import React from 'react';
-
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { getMetricForFocusedMoment } from 'in-stores/metric';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default [
   {
     title: 'Name',
-    sortableType: String,
-    get(snapshot) {
-      const label = getLabel(snapshot);
-
-      return {
-        content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
-            {label}
-          </HierarchicalLink>
-        ),
-        sortable: label
-      };
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
     }
   },
   {
     title: 'Java Version',
-    sortableType: String,
-    get(snapshot) {
-      return snapshot.getIn(['data', 'jvm.version']) + ' ' + snapshot.getIn(['data', 'jvm.build']);
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'jvm.version']) + ' ' + row.snapshot.getIn(['data', 'jvm.build']);
+      }
     }
   },
   {
     title: 'Java Runtime',
-    sortableType: String,
-    get(snapshot) {
-      return snapshot.getIn(['data', 'jvm.vendor']) + ' ' + snapshot.getIn(['data', 'jvm.name']);
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'jvm.vendor']) + ' ' + row.snapshot.getIn(['data', 'jvm.name']);
+      }
     }
   },
   {
     title: 'Max Heap',
-    sortableType: String,
-    style: {
-      maxWidth: '6.25rem',
-      textAlign: 'right'
-    },
-    get(snapshot) {
-      return {
-        content: bytesTwoDecimalPlaces(snapshot.getIn(['data', 'memory.max'])),
-        sortable: snapshot.getIn(['data', 'memory.max'])
-      };
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'memory.max']);
+      },
+      getContent(val) {
+        return bytesTwoDecimalPlaces(val);
+      }
     }
   },
   {
     title: 'Heap Used',
-    sortableType: Number,
-    style: {
-      maxWidth: '6.25rem',
-      textAlign: 'right'
-    },
-    defaultSortDirection: 'desc',
-    get(snapshot) {
-      return {
-        content: (
-          <MetricValue
-            snapshotId={snapshot.get('id')}
-            metric="memory.used"
-            formatter={bytesTwoDecimalPlaces}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'memory.used'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'memory.used';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
