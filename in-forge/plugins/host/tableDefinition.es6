@@ -1,192 +1,131 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-import { getMetricForFocusedMoment } from 'in-stores/metric';
-import { alwaysNull } from 'in-services/fixedStreams';
-import { getFoundations } from 'in-stores/snapshot';
-import { always } from 'in-services/fixedStreams';
-import { getSnapshot } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
+// import { getFoundations } from 'in-stores/snapshot';
 import { getZone } from 'in-stores/zone';
-
-const nonVirtualized$ = always({
-  content: '',
-  sortable: ''
-});
 
 export default [
   {
     title: 'Zone',
-    sortableType: String,
-    get(snapshot) {
-      return getZone(snapshot.get('id'))
-        .flatMap(zoneId => {
-          if (zoneId) {
-            return getSnapshot(zoneId);
-          }
-          return alwaysNull;
-        })
-        .map(zone => {
-          if (!zone) {
-            return {
-              content: '',
-              sortable: ''
-            };
-          }
-
-          const zoneLabel = getLabel(zone);
-          return {
-            content: (
-              <HierarchicalLink snapshotId={zone.get('id')} kind="dark">
-                {zoneLabel}
-              </HierarchicalLink>
-            ),
-            sortable: zoneLabel
-          };
-        });
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId$(row) {
+        return getZone(row.snapshotId);
+      }
     }
   },
   {
     title: 'FQDN',
-    sortableType: String,
-    get(snapshot) {
-      const fqdn = snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
-      return {
-        content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
-            {fqdn}
-          </HierarchicalLink>
-        ),
-        sortable: fqdn
-      };
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
     }
   },
   {
     title: 'Hostname',
-    sortableType: String,
-    get(snapshot) {
-      return snapshot.getIn(['data', 'hostname']);
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'hostname']);
+      }
     }
   },
   {
     title: 'OS',
-    sortableType: String,
-    get(snapshot) {
-      const data = snapshot.get('data');
-      return {
-        content: (
-          <ImageAndLabel snapshot={snapshot}>
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        const data = row.snapshot.get('data');
+        return `${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`;
+      },
+      getContent(val, row) {
+        const data = row.snapshot.get('data');
+        return (
+          <ImageAndLabel snapshot={row.snapshot}>
             {data.get('os.version', '')} ({data.get('os.arch', '')})
           </ImageAndLabel>
-        ),
-        sortable: `${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`
-      };
+        );
+      }
     }
   },
-  {
-    title: 'Type',
-    sortableType: String,
-    style: {
-      maxWidth: '8rem'
-    },
-    get(snapshot) {
-      return getFoundations(snapshot.get('id')).flatMap(foundations => {
-        if (foundations.size === 0) {
-          return nonVirtualized$;
-        }
-
-        const foundationId = foundations.first();
-        return getSnapshot(foundationId).map(foundation => {
-          const instanceType = foundation.getIn(['data', 'instance-type']) || '';
-          return {
-            content: (
-              <ImageAndLabel snapshot={snapshot}>
-                {instanceType}
-              </ImageAndLabel>
-            ),
-            sortable: instanceType
-          };
-        });
-      });
-    }
-  },
+  // {
+  //   title: 'Type',
+  //   type: 'string',
+  //   typeArgs: {
+  //     getValue(row) {
+  //       return row.snapshot.getIn(['data', 'instance-type']) || '';
+  //     },
+  //     getContent(row) {
+  //       const instanceType = row.snapshot.getIn(['data', 'instance-type']) || '';
+  //       return (
+  //         <ImageAndLabel snapshot={row.snapshot}>
+  //           {instanceType}
+  //         </ImageAndLabel>
+  //       );
+  //     },
+  //     getSnapshotId$(row) {
+  //       return getFoundations(row.snapshotId).flatMap(foundations => {
+  //         if (foundations.size === 0) {
+  //           return null;
+  //         }
+  //         return foundations.first();
+  //       });
+  //     }
+  //   }
+  // },
   {
     title: '#CPUs',
-    style: {
-      textAlign: 'right',
-      maxWidth: '6.5rem'
-    },
-    sortableType: Number,
-    get(snapshot) {
-      return snapshot.getIn(['data', 'cpu.count']);
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'cpu.count']);
+      },
+      getContent: zeroDecimalPlaces
     }
   },
   {
     title: 'CPU Usage',
-    style: {
-      textAlign: 'right',
-      maxWidth: '6.5rem'
-    },
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    get(snapshot) {
-      return {
-        content: (
-          <PercentageIndicator
-            snapshotId={snapshot.get('id')}
-            metric="cpu.used"
-            formatter={percentageZeroDecimalPlaces}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'cpu.used'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cpu.used';
+      },
+      getContent: percentageZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'Memory',
-    style: {
-      textAlign: 'right',
-      maxWidth: '7.5rem'
-    },
-    sortableType: Number,
-    get(snapshot) {
-      const memoryTotal = snapshot.getIn(['data', 'memory.total']);
-      return {
-        content: bytesTwoDecimalPlaces(memoryTotal),
-        sortable: memoryTotal
-      };
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'memory.total']);
+      },
+      getContent: bytesTwoDecimalPlaces
     }
   },
   {
     title: 'Memory Used',
-    style: {
-      textAlign: 'right',
-      maxWidth: '7.5rem'
-    },
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    get(snapshot) {
-      return {
-        content: (
-          <PercentageIndicator
-            snapshotId={snapshot.get('id')}
-            metric="memory.used"
-            formatter={percentageZeroDecimalPlaces}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'memory.used'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'memory.used';
+      },
+      getContent: percentageZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];

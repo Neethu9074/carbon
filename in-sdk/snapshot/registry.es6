@@ -1,9 +1,5 @@
-import React from 'react';
-
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
 import { setAggregation, setStatAggregation } from 'in-sdk/metrics/aggregation';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
@@ -36,19 +32,11 @@ function enrichTableDefinition(snapshotDefinition) {
   snapshotDefinition.tableDefinition = snapshotDefinition.tableDefinition.slice();
   snapshotDefinition.tableDefinition.push({
     title: 'Health',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      minWidth: '8rem',
-      maxWidth: '8rem'
-    },
-    get(snapshot) {
-      return {
-        content: <AnnotatedHealthBar snapshotId={snapshot.get('id')} />,
-        sortable$: getHealthInfoAtFocusedMoment(snapshot.get('id')).map(healthInfo => healthInfo.get('maxSeverity'))
-      };
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
     }
   });
 }
