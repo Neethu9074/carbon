@@ -1,11 +1,14 @@
 import React from 'react';
 
+import SvgIcon from 'in-components/SvgIcon';
+
 import './Pagination.less';
 
 const block = 'in-pagination';
 const element = `${block}__element`;
 const pageIndicator = `${block}__page-indicator`;
 const switchElement = `${block}__switch`;
+const switchIconElement = `${block}__switch-icon`;
 const disabledSwitchElement = `${switchElement} ${switchElement}--disabled`;
 
 export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPage, onPrevPage }) {
@@ -35,7 +38,7 @@ export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPa
             onClick={prev}
             className={prevDisabled ? disabledSwitchElement : switchElement}
           >
-            <span aria-hidden="true">«</span>
+            <SvgIcon type="chevron_left" width={5} className={switchIconElement} />
           </a>
         </li>
         <li className={element}>
@@ -45,7 +48,7 @@ export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPa
         </li>
         <li className={element}>
           <a href="" aria-label="Next" onClick={next} className={nextDisabled ? disabledSwitchElement : switchElement}>
-            <span aria-hidden="true">»</span>
+            <SvgIcon type="chevron_right" width={5} className={switchIconElement} />
           </a>
         </li>
       </ul>
