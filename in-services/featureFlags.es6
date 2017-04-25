@@ -9,7 +9,6 @@ const onlyInternally =
 export const instanaInternalFeaturesEnabled = onlyInternally;
 
 export const webVrEnabled = onlyInternally;
-export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
