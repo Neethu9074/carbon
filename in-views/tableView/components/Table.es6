@@ -7,7 +7,7 @@ import RightHeader from 'in-views/tableView/components/RightHeader';
 import { snapshots$ } from 'in-views/tableView/stores/snapshotIds';
 import LeftHeader from 'in-views/tableView/components/LeftHeader';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import { emptyArray } from 'in-services/fixedObjects';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
@@ -31,7 +31,9 @@ export default connectTo(
       );
     }
 
-    snapshots = snapshots || emptyArray;
+    if (!snapshots) {
+      return <LoadingIndicator type="dark" />;
+    }
 
     const cols = getTableDefinition(plugin);
     const rows = snapshots.map(snapshot => {
