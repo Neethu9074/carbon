@@ -1,59 +1,76 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Mtd from 'in-components/Mtd';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Operation',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key.replace(/_/g, ' ');
+      }
+    }
+  },
+  {
+    title: 'Success',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'storage.' + row.key + '_success';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Fail',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'storage.' + row.key + '_fail';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function OperationsTable({ snapshot, timeframe }) {
   const ops = ['gets', 'sets', 'create', 'delete', 'update', 'compare_and_swap', 'compare_and_delete'];
 
+  const rows = ops.map(key => {
+    return {
+      key,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
-    <DashboardSection title="Operations">
-      <ExpandableTable
-        data={ops}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Operations (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(opName) {
-  return opName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Operation</th>
-        <th>Success</th>
-        <th>Fail</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(operation, i, context) {
-  return [
-    <td>{operation.replace(/_/g, ' ')}</td>,
-    <Mtd metric={'storage.' + operation + '_success'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd metric={'storage.' + operation + '_fail'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(operation, i, context) {
-  const snapshotId = context.snapshot.get('id');
-  const timeframe = context.timeframe;
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeframe = row.timeframe;
 
   return (
     <TwoColumnRow>
@@ -65,7 +82,7 @@ function createDetails(operation, i, context) {
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['storage.' + operation + '_success'],
+          metrics: ['storage.' + row.key + '_success'],
           labels: ['Success'],
           type: 'line'
         }}
@@ -79,7 +96,7 @@ function createDetails(operation, i, context) {
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['storage.' + operation + '_fail'],
+          metrics: ['storage.' + row.key + '_fail'],
           labels: ['Fail'],
           type: 'line'
         }}
