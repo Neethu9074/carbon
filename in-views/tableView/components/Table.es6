@@ -3,9 +3,10 @@ import React from 'react';
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-views/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-views/tableView/components/ChartsForSelectedEntities';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
+import RightHeader from 'in-views/tableView/components/RightHeader';
 import { snapshots$ } from 'in-views/tableView/stores/snapshotIds';
+import LeftHeader from 'in-views/tableView/components/LeftHeader';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import Header from 'in-views/tableView/components/Header';
 import { emptyArray } from 'in-services/fixedObjects';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -48,7 +49,8 @@ export default connectTo(
           cols={cols}
           rows={rows}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
-          leftHeader={<Header />}
+          leftHeader={<LeftHeader />}
+          rightHeader={<RightHeader />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key)}
           maxItemsPerPage={50}
