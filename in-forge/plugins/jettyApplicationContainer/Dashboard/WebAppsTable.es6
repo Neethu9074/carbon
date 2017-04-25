@@ -2,73 +2,75 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Web App',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Active Sessions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `webAppsSessionData.${row.name}.sessions`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function WebAppsTable({ snapshot, timeframe }) {
-  const webApps = snapshot
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
     .getIn(['data', 'webApps'], emptyList)
+    .toArray()
     .filter(webApp => webApp.get('state') === 'STARTED')
-    .sortBy(webApp => webApp.get('displayName'));
+    .map((webApp, i) => {
+      return {
+        key: i,
+        name: webApp.get('displayName') || '<unnamed>',
+        timeframe,
+        snapshotId
+      };
+    });
 
-  if (webApps.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Web Apps">
-      <ExpandableTable
-        data={webApps}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Web Apps (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(webApp, i) {
-  // web app names are not guaranteed to be unique
-  return i;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Web App</th>
-        <th>Active Sessions</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(webApp, i, context) {
-  const webAppName = webApp.get('displayName');
-  return [
-    <td>{webAppName || '<unnamed>'}</td>,
-    <Mtd metric={'webAppsSessionData.' + webAppName + '.sessions'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(webApp, i, context) {
-  const webAppName = webApp.get('displayName');
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['webAppsSessionData.' + webAppName + '.sessions'],
+          metrics: ['webAppsSessionData.' + row.name + '.sessions'],
           labels: ['Active Sessions'],
           type: 'line'
         }}
