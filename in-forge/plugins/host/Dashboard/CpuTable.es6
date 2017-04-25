@@ -118,12 +118,12 @@ export default function CpuTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title="Individual CPU Usage">
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getDetails(row) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
       snapshotId={row.snapshotId}
