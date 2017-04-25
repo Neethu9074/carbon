@@ -3,109 +3,138 @@ import React from 'react';
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Pool Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.poolSize';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Free Connections in Pool',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.poolSize';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Threads Waiting for Connection',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.poolSize';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Waiting Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.poolSize';
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function DatasourcesTable({ snapshot, timeframe }) {
-  const datasources = snapshot.getIn(['data', 'datasourceNames'], emptyList).sort();
+  const datasources = snapshot.getIn(['data', 'datasourceNames'], emptyList);
   if (datasources.size === 0) {
     return null;
   }
 
+  const rows = datasources.toArray().map(datasource => {
+    return {
+      key: datasource,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Datasources">
-      <ExpandableTable
-        data={datasources}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Datasources (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(datasource) {
-  return datasource;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Pool Size</th>
-        <th>Free Connections in Pool</th>
-        <th>Threads Waiting for Connection</th>
-        <th>Average Waiting Time</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(datasource, i, context) {
-  return [
-    <td>{datasource}</td>,
-    <Mtd
-      metric={'datasources.' + datasource + '.poolSize'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasource + '.freePoolSize'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasource + '.waitingThreadCount'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasource + '.averageWaitTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(datasource, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['datasources.' + datasource + '.poolSize', 'datasources.' + datasource + '.freePoolSize'],
+          metrics: ['datasources.' + row.key + '.poolSize', 'datasources.' + row.key + '.freePoolSize'],
           labels: ['Pool Size', 'Free Connections in Pool'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 40
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['datasources.' + datasource + '.waitingThreadCount'],
+          metrics: ['datasources.' + row.key + '.waitingThreadCount'],
           labels: ['Threads Waiting for Connection'],
           type: 'line'
         }}
         y2={{
           formatter: msZeroDecimalPlaces,
-          metrics: ['datasources.' + datasource + '.averageWaitTime'],
+          metrics: ['datasources.' + row.key + '.averageWaitTime'],
           labels: ['Average Waiting Time'],
           type: 'line'
         }}
