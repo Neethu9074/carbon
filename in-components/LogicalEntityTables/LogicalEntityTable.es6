@@ -3,12 +3,10 @@ import React from 'react';
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { always, alwaysNull } from 'in-services/fixedStreams';
 import { getClusterMembers } from 'in-stores/clusterMembers';
-import { alwaysNull } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
@@ -32,11 +30,9 @@ const cols = [
   },
   {
     title: 'Host',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return <Host nodeSnapshot={row.node} />;
-      }
+      getSnapshotId$
     }
   },
   {
@@ -103,6 +99,7 @@ export default connectTo(
     const rows = nodes.map(node => {
       return {
         key: node.get('id'),
+        snapshot: node,
         timeframe,
         node
       };
@@ -116,42 +113,20 @@ export default connectTo(
   }
 );
 
-const Host = connectTo(
-  props => {
-    const hostSnapshot$ = getHostSnapshotId(props.nodeSnapshot).flatMap(hostSnapshotId => {
-      if (hostSnapshotId) {
-        return getSnapshot(hostSnapshotId);
-      }
-
-      // maybe we have logic instances for which we need to navigate the cluster members one level deeper
-      return getClusterMembers(props.nodeSnapshot.get('id'))
-        .map(clusterMembers => clusterMembers.first())
-        .flatMap(clusterMemberId => {
-          if (clusterMemberId) {
-            return getSnapshot(clusterMemberId).flatMap(clusterMember => getHostSnapshotId(clusterMember));
-          }
-          return alwaysNull;
-        })
-        .flatMap(hostSnapshotId => {
-          if (hostSnapshotId) {
-            return getSnapshot(hostSnapshotId);
-          }
-          return alwaysNull;
-        });
-    });
-    return {
-      hostSnapshot: hostSnapshot$
-    };
-  },
-  function Host({ hostSnapshot }) {
-    if (hostSnapshot === undefined) {
-      return null;
+function getSnapshotId$(row) {
+  return getHostSnapshotId(row.snapshot).flatMap(hostSnapshotId => {
+    if (hostSnapshotId) {
+      return always(hostSnapshotId);
     }
 
-    return (
-      <HierarchicalLink snapshotId={hostSnapshot.get('id')} calculateHierarchy kind="dark">
-        {getLabel(hostSnapshot)}
-      </HierarchicalLink>
-    );
-  }
-);
+    // maybe we have logic instances for which we need to navigate the cluster members one level deeper
+    return getClusterMembers(row.snapshot.get('id'))
+      .map(clusterMembers => clusterMembers.first())
+      .flatMap(clusterMemberId => {
+        if (clusterMemberId) {
+          return getSnapshot(clusterMemberId).flatMap(clusterMember => getHostSnapshotId(clusterMember));
+        }
+        return alwaysNull;
+      });
+  });
+}
