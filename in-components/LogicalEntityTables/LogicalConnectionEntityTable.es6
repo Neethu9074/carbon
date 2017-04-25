@@ -32,7 +32,7 @@ const cols = [
         return row.node.get('id');
       },
       getMetricName() {
-        return `count`;
+        return 'count';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -48,7 +48,7 @@ const cols = [
         return row.node.get('id');
       },
       getMetricName() {
-        return `duration.mean`;
+        return 'duration.mean';
       },
       getContent: msTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -64,7 +64,7 @@ const cols = [
         return row.node.get('id');
       },
       getMetricName() {
-        return `error_rate`;
+        return 'error_rate';
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -94,7 +94,7 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title={`${title} (${nodes.length})`}>
+      <DashboardSection title={`${title} (${rows.length})`}>
         <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
     );

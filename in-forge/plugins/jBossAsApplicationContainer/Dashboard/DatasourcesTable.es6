@@ -1,100 +1,137 @@
 import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import { yesOrNo } from 'in-services/formatters/boolean';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
+import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Datasource JNDI Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Active Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.metrics.' + row.key + '.active';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Available Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.metrics.' + row.key + '.available';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connections Currently In Use',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.metrics.' + row.key + '.inUse';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Time Waited for Exclusive Lock on Pool',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.metrics.' + row.key + '.blockingTime';
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Statistics Enabled',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return yesOrNo(row.datasource.get('statisticsEnabled'));
+      }
+    }
+  }
+];
 
 export default function DatasourcesTable({ snapshot, timeframe }) {
   const datasources = snapshot.getIn(['data', 'datasources.snapshot'], emptyMap);
-
   if (datasources.size === 0) {
     return null;
   }
 
+  const rows = datasources.keySeq().toArray().map(key => {
+    const datasource = datasources.get(key);
+    return {
+      key,
+      timeframe,
+      snapshotId: snapshot.get('id'),
+      datasource
+    };
+  });
+
   return (
-    <DashboardSection title="Datasource Connection Pools">
-      <ExpandableTable
-        data={datasources}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Datasource Connection Pools (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(datasourceSnapshot, datasourceName) {
-  return datasourceName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Datasource JNDI Name</th>
-        <th>Active Connections</th>
-        <th>Available Connections</th>
-        <th>Connections Currently In Use</th>
-        <th>Time Waited for Exclusive Lock on Pool</th>
-        <th>Statistics Enabled</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(datasourceSnapshot, datasourceName, context) {
-  return [
-    <td>{datasourceName}</td>,
-    <Mtd
-      metric={'datasources.metrics.' + datasourceName + '.active'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.metrics.' + datasourceName + '.available'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.metrics.' + datasourceName + '.inUse'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.metrics.' + datasourceName + '.blockingTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <td>{yesOrNo(datasourceSnapshot.get('statisticsEnabled'))}</td>
-  ];
-}
-
-function createDetails(datasourceSnapshot, datasourceName, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
-            'datasources.metrics.' + datasourceName + '.active',
-            'datasources.metrics.' + datasourceName + '.available',
-            'datasources.metrics.' + datasourceName + '.inUse',
-            'datasources.metrics.' + datasourceName + '.created',
-            'datasources.metrics.' + datasourceName + '.timedOut'
+            'datasources.metrics.' + row.key + '.active',
+            'datasources.metrics.' + row.key + '.available',
+            'datasources.metrics.' + row.key + '.inUse',
+            'datasources.metrics.' + row.key + '.created',
+            'datasources.metrics.' + row.key + '.timedOut'
           ],
           labels: [
             'Active Connections',
@@ -107,16 +144,16 @@ function createDetails(datasourceSnapshot, datasourceName, context) {
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: [
-            'datasources.metrics.' + datasourceName + '.blockingTime',
-            'datasources.metrics.' + datasourceName + '.creationTime'
+            'datasources.metrics.' + row.key + '.blockingTime',
+            'datasources.metrics.' + row.key + '.creationTime'
           ],
           labels: ['Time Waited for Exclusive Lock on Pool', 'Time Spent on Creating Connections'],
           type: 'line'

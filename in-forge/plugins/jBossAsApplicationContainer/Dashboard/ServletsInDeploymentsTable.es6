@@ -1,75 +1,87 @@
 import React from 'react';
 
-import { msZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Servlet',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.servletKey + '.requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.servletKey + '.avgResponseTime';
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ServletsTable({ deploymentContext, snapshot, timeframe }) {
-  const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyMap).sort();
-
+  const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyList);
   if (servlets.size === 0) {
     return null;
   }
 
+  const rows = servlets.toArray().map(key => {
+    const servletKey = deploymentContext + '.' + key;
+    return {
+      key,
+      timeframe,
+      snapshotId: snapshot.get('id'),
+      deploymentContext,
+      servletKey
+    };
+  });
+
   return (
-    <DashboardSection title={'Servlets of ' + deploymentContext}>
-      <ExpandableTable
-        data={servlets}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe,
-          deploymentContext
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Servlets (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(servlet) {
-  return servlet;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Servlet</th>
-        <th>Requests</th>
-        <th>Average Response Time</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(servletName, servletIndex, context) {
-  const servletKey = context.deploymentContext + '.' + servletName;
-
-  return [
-    <td>{servletName}</td>,
-    <Mtd metric={'servlets.' + servletKey + '.requests'} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'servlets.' + servletKey + '.avgResponseTime'}
-      snapshot={context.snapshot}
-      formatter={msZeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(servletName, servletIndex, context) {
-  const servletKey = context.deploymentContext + '.' + servletName;
+function getRowDetails(row) {
+  const servletKey = row.deploymentContext + '.' + row.key;
 
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
@@ -81,8 +93,8 @@ function createDetails(servletName, servletIndex, context) {
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
