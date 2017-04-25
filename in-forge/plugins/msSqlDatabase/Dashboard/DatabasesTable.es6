@@ -2,45 +2,34 @@ import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
+import Table from 'in-sdk/components/dashboard/Table';
 
-export default function DatabasesTable({ snapshot, timeframe }) {
-  const allDatabases = snapshot.getIn(['data', 'databases'], emptyList);
+const cols = [
+  {
+    title: 'Schema',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  }
+];
 
-  if (allDatabases.size === 0) {
+export default function DatabasesTable({ snapshot }) {
+  const rows = snapshot.getIn(['data', 'databases'], emptyList).toArray().map(name => {
+    return {
+      key: name
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Databases">
-      <ExpandableTable
-        data={allDatabases}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-      />
+    <DashboardSection title={`Databases (${rows.length})`}>
+      <Table cols={cols} rows={rows} />
     </DashboardSection>
   );
-}
-
-function getKey(name) {
-  return name;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(name) {
-  return [<td>{name}</td>];
 }
