@@ -1,68 +1,59 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Component',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  }
+];
 
 export default function DiegoTable({ snapshot, timeframe }) {
   const diegoComponents = ['auctioneer', 'stager', 'fileserver'];
 
+  const rows = diegoComponents.map(component => {
+    return {
+      key: component,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Diego">
-      <ExpandableTable
-        data={diegoComponents}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Diego (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(componentId) {
-  return componentId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Component</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(componentId) {
-  return [<td>{componentId}</td>];
-}
-
-function createDetails(componentId, i, context) {
-  if (componentId === 'auctioneer') {
-    return auctioneerCharts(context);
-  } else if (componentId === 'stager') {
-    return stagerCharts(context);
+function getRowDetails(row) {
+  if (row.key === 'auctioneer') {
+    return auctioneerCharts(row);
+  } else if (row.key === 'stager') {
+    return stagerCharts(row);
   } else {
-    return fileserverCharts(context);
+    return fileserverCharts(row);
   }
 }
 
-function auctioneerCharts(context) {
-  const snapshotId = context.snapshot.get('id');
+function auctioneerCharts(row) {
+  const snapshotId = row.snapshotId;
   return (
     <TwoColumnRow>
       <DashboardSection title="Routines">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -79,7 +70,7 @@ function auctioneerCharts(context) {
       <DashboardSection title="Memory">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -100,15 +91,15 @@ function auctioneerCharts(context) {
   );
 }
 
-function stagerCharts(context) {
-  const snapshotId = context.snapshot.get('id');
+function stagerCharts(row) {
+  const snapshotId = row.snapshotId;
   return (
     <div>
       <TwoColumnRow>
         <DashboardSection title="Routines">
           <ChartWithLegend
             snapshotId={snapshotId}
-            timeframe={context.timeframe}
+            timeframe={row.timeframe}
             margins={{
               left: 60
             }}
@@ -125,7 +116,7 @@ function stagerCharts(context) {
         <DashboardSection title="Memory">
           <ChartWithLegend
             snapshotId={snapshotId}
-            timeframe={context.timeframe}
+            timeframe={row.timeframe}
             margins={{
               left: 60
             }}
@@ -146,7 +137,7 @@ function stagerCharts(context) {
       <DashboardSection title="Requests">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -163,14 +154,14 @@ function stagerCharts(context) {
   );
 }
 
-function fileserverCharts(context) {
-  const snapshotId = context.snapshot.get('id');
+function fileserverCharts(row) {
+  const snapshotId = row.snapshotId;
   return (
     <TwoColumnRow>
       <DashboardSection title="Routines">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -187,7 +178,7 @@ function fileserverCharts(context) {
       <DashboardSection title="Memory">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}

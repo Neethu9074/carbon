@@ -1,72 +1,82 @@
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('instances_data.' + row.key + '.name');
+      }
+    }
+  },
+  {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('instances_data.' + row.key + '.state');
+      }
+    }
+  },
+  {
+    title: 'Host',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('instances_data.' + row.key + '.host');
+      }
+    }
+  },
+  {
+    title: 'Post',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('instances_data.' + row.key + '.post');
+      }
+    }
+  }
+];
 
 export default function InstancesTable({ snapshot, timeframe, instances }) {
+  const rows = instances.map(instance => {
+    return {
+      key: instance.get('id'),
+      snapshotId: snapshot.get('id'),
+      data: snapshot.get('data'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Instances">
-      <ExpandableTable
-        data={instances}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Instances (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(instanceId) {
-  return instanceId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>State</th>
-        <th>Host</th>
-        <th>Port</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(instanceId, i, context) {
-  const data = context.snapshot.get('data');
-  return [
-    <td>{data.get('instances_data.' + instanceId + '.name')}</td>,
-    <td>{data.get('instances_data.' + instanceId + '.state')}</td>,
-    <td>{data.get('instances_data.' + instanceId + '.host')}</td>,
-    <td>{data.get('instances_data.' + instanceId + '.port')}</td>
-  ];
-}
-
-function createDetails(instanceId, i, context) {
-  const snapshotId = context.snapshot.get('id');
+function getRowDetails(row) {
+  const snapshotId = row.snapshot.get('id');
   return (
     <TwoColumnRow>
       <DashboardSection title="CPU">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
           y1={{
             formatter: percentageTwoDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
-            metrics: ['instances_metrics.' + instanceId + '.cpu'],
+            metrics: ['instances_metrics.' + row.key + '.cpu'],
             labels: ['CPU'],
             type: 'stackedArea'
           }}
@@ -75,14 +85,14 @@ function createDetails(instanceId, i, context) {
       <DashboardSection title="Memory">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
-            metrics: ['instances_metrics.' + instanceId + '.disk', 'instances_metrics.' + instanceId + '.memory'],
+            metrics: ['instances_metrics.' + row.key + '.disk', 'instances_metrics.' + row.key + '.memory'],
             labels: ['Disk', 'Memory'],
             type: 'line'
           }}

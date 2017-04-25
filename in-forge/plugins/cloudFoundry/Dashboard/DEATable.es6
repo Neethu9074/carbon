@@ -1,78 +1,167 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import Mtd from 'in-components/Mtd';
-
 import { zeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Available disk ratio',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_available_disk_ratio';
+      },
+      getContent: percentageTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Available memory ratio',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_available_memory_ratio';
+      },
+      getContent: percentageTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Born',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_born';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Crashed',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_crashed';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Evacuating',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_evacuating';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Running',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_running';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Starting',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_starting';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Stopped',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'dea.dea_registry_stopped';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function DEATable({ snapshot, timeframe }) {
   const deaComponents = [''];
 
+  const rows = deaComponents.map(component => {
+    return {
+      key: component,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="DEA">
-      <ExpandableTable
-        data={deaComponents}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`DEA (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(componentId) {
-  return componentId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Available disk ratio</th>
-        <th>Available memory ratio</th>
-        <th>Born</th>
-        <th>Crashed</th>
-        <th>Evacuating</th>
-        <th>Running</th>
-        <th>Starting</th>
-        <th>Stopped</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(componentId, i, context) {
-  return [
-    <Mtd metric={'dea.dea_available_disk_ratio'} snapshot={context.snapshot} formatter={percentageTwoDecimalPlaces} />,
-    <Mtd
-      metric={'dea.dea_available_memory_ratio'}
-      snapshot={context.snapshot}
-      formatter={percentageTwoDecimalPlaces}
-    />,
-    <Mtd metric={'dea.dea_registry_born'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'dea.dea_registry_crashed'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'dea.dea_registry_evacuating'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'dea.dea_registry_running'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'dea.dea_registry_starting'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'dea.dea_registry_stopped'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(componentId, i, context) {
-  const snapshotId = context.snapshot.get('id');
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
   return (
     <div>
       <DashboardSection title="Resources">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -88,7 +177,7 @@ function createDetails(componentId, i, context) {
       <DashboardSection title="Registry">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}

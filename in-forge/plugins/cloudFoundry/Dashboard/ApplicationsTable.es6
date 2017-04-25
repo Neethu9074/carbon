@@ -1,76 +1,106 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { emptyList } from 'in-services/fixedImmutables';
-
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Application',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.name');
+      }
+    }
+  },
+  {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.state');
+      }
+    }
+  },
+  {
+    title: 'Disk quota',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.disk_quota');
+      }
+    }
+  },
+  {
+    title: 'Memory limit',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.memory_limit');
+      }
+    }
+  },
+  {
+    title: 'Instances',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.num_instances');
+      }
+    }
+  },
+  {
+    title: 'Instances running',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.running_instances');
+      }
+    }
+  },
+  {
+    title: 'Urls',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('applications_data.' + row.key + '.urls');
+      }
+    }
+  }
+];
 
 export default function ApplicationsTable({ snapshot, timeframe }) {
-  const apps = snapshot.getIn(['data', 'applications'], emptyList).sort();
-
+  const apps = snapshot.getIn(['data', 'applications'], emptyList).toArray().sort();
   if (apps.length === 0) {
     return null;
   }
 
+  const rows = apps.map(app => {
+    return {
+      key: app.get('id'),
+      data: snapshot.get('data'),
+      snapshot,
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Applications">
-      <ExpandableTable
-        data={apps}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Applications (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(appId) {
-  return appId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Application</th>
-        <th>State</th>
-        <th>Disk quota</th>
-        <th>Memory limit</th>
-        <th>Instances</th>
-        <th>Instances running</th>
-        <th>Urls</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(appId, i, context) {
-  const data = context.snapshot.get('data');
-  return [
-    <td>{data.get('applications_data.' + appId + '.name')}</td>,
-    <td>{data.get('applications_data.' + appId + '.state')}</td>,
-    <td>{data.get('applications_data.' + appId + '.disk_quota')}</td>,
-    <td>{data.get('applications_data.' + appId + '.memory_limit')}</td>,
-    <td>{data.get('applications_data.' + appId + '.num_instances')}</td>,
-    <td>{data.get('applications_data.' + appId + '.running_instances')}</td>,
-    <td>{data.get('applications_data.' + appId + '.urls')}</td>
-  ];
-}
-
-function createDetails(appId, i, context) {
-  const appInstances = getInstancesForApplication(context.snapshot, appId);
+function getRowDetails(row) {
+  const appInstances = getInstancesForApplication(row.snapshot, row.key);
 
   if (appInstances.length === 0) {
     return null;
   }
 
-  return <InstancesTable snapshot={context.snapshot} timeframe={context.timeframe} instances={appInstances} />;
+  return <InstancesTable snapshot={row.snapshot} timeframe={row.timeframe} instances={appInstances} />;
 }
 
 function getInstancesForApplication(snapshot, appId) {

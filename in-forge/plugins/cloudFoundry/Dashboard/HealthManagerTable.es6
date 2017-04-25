@@ -1,76 +1,169 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Mtd from 'in-components/Mtd';
-
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Routines',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_api_num_go_routines';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Allocated',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_api_bytes_allocated';
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Allocated heap',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_api_bytes_allocated_heap';
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Allocated stack',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_api_bytes_allocated_stack';
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Crashed indices',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_analyzer_num_crashed_indices';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Crashed instances',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_analyzer_num_crashed_instances';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Missing indices',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_analyzer_num_missing_indices';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Running instances',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'hm.hm_analyzer_num_running_instances';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function HealthManagerTable({ snapshot, timeframe }) {
   const hmComponents = [''];
 
+  const rows = hmComponents.map(component => {
+    return {
+      key: component,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Health Manager">
-      <ExpandableTable
-        data={hmComponents}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Health Manager (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(componentId) {
-  return componentId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Routines</th>
-        <th>Allocated</th>
-        <th>Allocated Heap</th>
-        <th>Allocated Stack</th>
-        <th>Crashed indices</th>
-        <th>Crashed instances</th>
-        <th>Missing indices</th>
-        <th>Running instances</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(componentId, i, context) {
-  return [
-    <Mtd metric={'hm.hm_api_num_go_routines'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_api_bytes_allocated'} snapshot={context.snapshot} formatter={bytesZeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_api_bytes_allocated_heap'} snapshot={context.snapshot} formatter={bytesZeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_api_bytes_allocated_stack'} snapshot={context.snapshot} formatter={bytesZeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_analyzer_num_crashed_indices'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_analyzer_num_crashed_instances'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_analyzer_num_missing_indices'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'hm.hm_analyzer_num_running_instances'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(componentId, i, context) {
-  const snapshotId = context.snapshot.get('id');
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
   return (
     <div>
       <TwoColumnRow>
         <DashboardSection title="Routines">
           <ChartWithLegend
             snapshotId={snapshotId}
-            timeframe={context.timeframe}
+            timeframe={row.timeframe}
             margins={{
               left: 60
             }}
@@ -87,7 +180,7 @@ function createDetails(componentId, i, context) {
         <DashboardSection title="Memory">
           <ChartWithLegend
             snapshotId={snapshotId}
-            timeframe={context.timeframe}
+            timeframe={row.timeframe}
             margins={{
               left: 60
             }}
@@ -108,7 +201,7 @@ function createDetails(componentId, i, context) {
       <DashboardSection title="Health Manager Analyzer">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}

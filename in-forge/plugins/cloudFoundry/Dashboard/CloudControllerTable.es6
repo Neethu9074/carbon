@@ -1,77 +1,120 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import Mtd from 'in-components/Mtd';
-
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Requests completed',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cloud_controller.cc_requests_completed';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Requests outstanding',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cloud_controller.cc_requests_outstanding';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Total users',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cloud_controller.cc_total_users';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Thread count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cloud_controller.cc_thread_count';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Total failed jobs',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'cloud_controller.cc_total_failed_job_count';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function CloudControllerTable({ snapshot, timeframe }) {
   const ccComponents = [''];
 
+  const rows = ccComponents.map(app => {
+    return {
+      key: app,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Cloud Controller">
-      <ExpandableTable
-        data={ccComponents}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Cloud Controller (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(componentId) {
-  return componentId;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Requests completed</th>
-        <th>Requests outstanding</th>
-        <th>Total users</th>
-        <th>Thread count</th>
-        <th>Total failed jobs</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(componentId, i, context) {
-  return [
-    <Mtd metric={'cloud_controller.cc_requests_completed'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd
-      metric={'cloud_controller.cc_requests_outstanding'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd metric={'cloud_controller.cc_total_users'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'cloud_controller.cc_thread_count'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd
-      metric={'cloud_controller.cc_total_failed_job_count'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(componentId, i, context) {
-  const snapshotId = context.snapshot.get('id');
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
 
   return (
     <div>
       <DashboardSection title="Requests">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
@@ -87,7 +130,7 @@ function createDetails(componentId, i, context) {
       <DashboardSection title="Statistics">
         <ChartWithLegend
           snapshotId={snapshotId}
-          timeframe={context.timeframe}
+          timeframe={row.timeframe}
           margins={{
             left: 60
           }}
