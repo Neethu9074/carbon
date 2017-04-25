@@ -2,9 +2,7 @@ import React from 'react';
 
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
@@ -19,14 +17,10 @@ const cols = [
   },
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return (
-          <HierarchicalLink snapshotId={row.node.get('id')} calculateHierarchy kind="dark">
-            {getLabel(row.node)}
-          </HierarchicalLink>
-        );
+      getSnapshotId(row) {
+        return row.node.get('id');
       }
     }
   },
@@ -54,7 +48,7 @@ const cols = [
         return row.node.get('id');
       },
       getMetricName() {
-        return `msTwoDecimalPlaces`;
+        return `duration.mean`;
       },
       getContent: msTwoDecimalPlaces,
       getTimeWindowAggregation() {
