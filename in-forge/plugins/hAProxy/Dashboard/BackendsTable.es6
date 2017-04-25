@@ -1,148 +1,238 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { msZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { msZeroDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Backend Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Average Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.avgResponseTime`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Queue Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.avgQueueTime`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Queue Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.queueSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connection Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.reqConnErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Response Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.errorRes`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connection Retries',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.connRetries`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Denied Responses',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.deniedRes`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Re-Dispatched Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `backendStats.${row.key}.reDispatchedReq`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function BackendsTable({ snapshot, timeframe }) {
-  const backends = snapshot.getIn(['data', 'backends'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'backends'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (backends.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title={`Backends (${backends.size})`}>
-      <ExpandableTable
-        data={backends}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Backends (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(backendName) {
-  return backendName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Backend Name</th>
-        <th>Average Response Time</th>
-        <th>Average Queue Time</th>
-        <th>Queue Size</th>
-        <th>Connection Errors</th>
-        <th>Response Errors</th>
-        <th>Connection Retries</th>
-        <th>Denied Responses</th>
-        <th>Re-Dispatched Requests</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(backendName, i, context) {
-  return [
-    <td>{backendName}</td>,
-    <Mtd
-      metric={'backendStats.' + backendName + '.avgResponseTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'backendStats.' + backendName + '.avgQueueTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd metric={'backendStats.' + backendName + '.queueSize'} snapshot={context.snapshot} />,
-    <Mtd metric={'backendStats.' + backendName + '.reqConnErrors'} snapshot={context.snapshot} />,
-    <Mtd metric={'backendStats.' + backendName + '.errorRes'} snapshot={context.snapshot} />,
-    <Mtd metric={'backendStats.' + backendName + '.connRetries'} snapshot={context.snapshot} />,
-    <Mtd metric={'backendStats.' + backendName + '.deniedRes'} snapshot={context.snapshot} />,
-    <Mtd metric={'backendStats.' + backendName + '.reDispatchedReq'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(backendName, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
-          left: 80
+          left: 80,
+          right: 80
         }}
         y1={{
           formatter: msZeroDecimalPlaces,
-          metrics: [
-            'backendStats.' + backendName + '.avgResponseTime',
-            'backendStats.' + backendName + '.avgQueueTime'
-          ],
+          metrics: ['backendStats.' + row.key + '.avgResponseTime', 'backendStats.' + row.key + '.avgQueueTime'],
           labels: ['Average Response Time', 'Average Queue Time'],
           type: 'line'
         }}
         y2={{
-          metrics: ['backendStats.' + backendName + '.queueSize'],
+          metrics: ['backendStats.' + row.key + '.queueSize'],
           labels: ['Queue Size'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['backendStats.' + backendName + '.reqConnErrors', 'backendStats.' + backendName + '.errorRes'],
+          metrics: ['backendStats.' + row.key + '.reqConnErrors', 'backendStats.' + row.key + '.errorRes'],
           labels: ['Connection Errors', 'Response Errors'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['backendStats.' + backendName + '.connRetries'],
+          metrics: ['backendStats.' + row.key + '.connRetries'],
           labels: ['Connection Retries'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['backendStats.' + backendName + '.deniedRes'],
+          metrics: ['backendStats.' + row.key + '.deniedRes'],
           labels: ['Denied Responses'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['backendStats.' + backendName + '.reDispatchedReq'],
+          metrics: ['backendStats.' + row.key + '.reDispatchedReq'],
           labels: ['Re-Dispatched Requests'],
           type: 'line'
         }}
