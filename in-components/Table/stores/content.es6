@@ -33,6 +33,7 @@ export function createStore({
   //   key
   //   rowConfig
   //   expanded: true/false
+  //   selected: true/false
   //
   //   columns: [
   //     {
@@ -68,6 +69,7 @@ export function createStore({
     sort$,
     setSort,
     sortedPagedData$: sortedPagedDataWithRepaintSignals$,
+    onSelectedRowKeyChange,
     dispose,
     toggleExpanded,
     onPrevPage,
@@ -126,6 +128,22 @@ export function createStore({
     }
     sweep();
     emitRawDataChange();
+  }
+
+  function onSelectedRowKeyChange(selectedRowKeys) {
+    for (let key in data) {
+      data[key].selected = false;
+      data[key].mutationCount++;
+    }
+
+    if (selectedRowKeys) {
+      for (let i = 0, length = selectedRowKeys.length; i < length; i++) {
+        const key = selectedRowKeys[i];
+        data[key].selected = true;
+        data[key].mutationCount++;
+        emitRawDataChange();
+      }
+    }
   }
 
   function mark() {

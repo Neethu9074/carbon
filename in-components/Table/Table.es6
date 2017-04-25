@@ -38,8 +38,13 @@ export default class Table extends React.Component {
     if (!shallowEquals(this.props.cols, nextProps.cols) || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
       this.dispose();
       this.newStore(nextProps);
-    } else if (this.props.rows !== nextProps.rows) {
-      this.store.onRowChange(nextProps.rows);
+    } else {
+      if (this.props.rows !== nextProps.rows) {
+        this.store.onRowChange(nextProps.rows);
+      }
+      if (!shallowEquals(this.props.selectedRowKeys, nextProps.selectedRowKeys)) {
+        this.store.onSelectedRowKeyChange(nextProps.selectedRowKeys);
+      }
     }
   }
 
@@ -51,6 +56,7 @@ export default class Table extends React.Component {
       initialSortDirection: props.initialSortDirection || 'asc'
     });
     this.store.onRowChange(props.rows);
+    this.store.onSelectedRowKeyChange(props.selectedRowKeys);
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
   }
 
@@ -84,7 +90,7 @@ export default class Table extends React.Component {
     if (data.rows.length === 0) {
       rows.push(
         <tr className={rowElement} key="no-data">
-          <td colSpan={colCount} className={cellElement}>No data, sorry bro!</td>
+          <td colSpan={colCount} className={cellElement}>No data.</td>
         </tr>
       );
     } else {
@@ -97,6 +103,7 @@ export default class Table extends React.Component {
             rowClassName={rowElement}
             cellClassName={cellElement}
             toggleRowDetails={toggleRowDetails}
+            onClick={this.props.onRowClick}
           />
         );
 
@@ -137,6 +144,8 @@ export default class Table extends React.Component {
               </div>
             </div>
           : null}
+
+        {this.props.contentBetweenHeaderAndTable}
 
         <table className={tableElement}>
           <thead>
