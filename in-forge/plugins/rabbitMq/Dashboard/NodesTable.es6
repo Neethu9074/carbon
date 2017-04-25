@@ -1,56 +1,48 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { emptyList } from 'in-services/fixedImmutables';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Node',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  }
+];
 
 export default function NodesTable({ snapshot, timeframe }) {
-  const nodes = snapshot.getIn(['data', 'nodes'], emptyList).sort();
-  if (nodes.size === 0) {
+  const nodes = snapshot.getIn(['data', 'nodes'], emptyList).toArray().sort();
+  if (nodes.length === 0) {
     return null;
   }
 
+  const rows = nodes.map(node => {
+    return {
+      key: node,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
-    <DashboardSection title="Nodes">
-      <ExpandableTable
-        data={nodes}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Nodes (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(nodeName) {
-  return nodeName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Node</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(nodeName) {
-  return [<td>{nodeName}</td>];
-}
-
-function createDetails(nodeName, i, context) {
-  const snapshotId = context.snapshot.get('id');
-  const timeframe = context.timeframe;
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeframe = row.timeframe;
 
   return (
     <TwoColumnRow>
@@ -62,7 +54,7 @@ function createDetails(nodeName, i, context) {
             left: 80
           }}
           y1={{
-            metrics: ['node_map.' + nodeName + '.fd_used', 'node_map.' + nodeName + '.fd_total'],
+            metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
             labels: ['Used file descriptors', 'Total file descriptors'],
             type: 'line'
           }}
@@ -76,7 +68,7 @@ function createDetails(nodeName, i, context) {
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['node_map.' + nodeName + '.mem_used', 'node_map.' + nodeName + '.mem_limit'],
+            metrics: ['node_map.' + row.key + '.mem_used', 'node_map.' + row.key + '.mem_limit'],
             labels: ['Used memory', 'Memory limit'],
             type: 'line'
           }}
@@ -90,7 +82,7 @@ function createDetails(nodeName, i, context) {
             left: 80
           }}
           y1={{
-            metrics: ['node_map.' + nodeName + '.proc_used', 'node_map.' + nodeName + '.proc_total'],
+            metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
             labels: ['Erlang processes in use', 'Maximum number of Erlang processes'],
             type: 'line'
           }}
@@ -105,7 +97,7 @@ function createDetails(nodeName, i, context) {
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['node_map.' + nodeName + '.disk_free', 'node_map.' + nodeName + '.disk_free_limit'],
+            metrics: ['node_map.' + row.key + '.disk_free', 'node_map.' + row.key + '.disk_free_limit'],
             labels: ['Disk alarm threshold', 'Disk free space in bytes'],
             type: 'line'
           }}
