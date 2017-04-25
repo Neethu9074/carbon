@@ -1,74 +1,73 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpandableTable from 'in-components/ExpandableTable';
-import DashboardNotification from 'in-components/DashboardNotification';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
-export default function AlertsTable({ snapshot, timeframe }) {
-  const alerts = snapshot.getIn(['data', 'alerts'], emptyList).toArray().sort((alert1, alert2) => {
-    const rating1 = alert1.get('rating');
-    const rating2 = alert2.get('rating');
-    if (rating1 > rating2) {
-      return -1;
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.alert.get('name');
+      }
     }
-    if (rating1 < rating2) {
-      return 1;
+  },
+  {
+    title: 'Timestamp',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.alert.get('timestamp');
+      },
+      getContent: formatDateTime
     }
-    if (rating1 === rating2) {
-      return 0;
+  },
+  {
+    title: 'Priority',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.alert.get('rating');
+      },
+      getContent: mapRating
     }
+  }
+];
+
+export default function AlertsTable({ snapshot }) {
+  const rows = snapshot.getIn(['data', 'alerts'], emptyList).toArray().map((alert, i) => {
+    return {
+      key: i,
+      alert
+    };
   });
 
-  if (alerts.size === 0) {
-    return (
-      <DashboardNotification type="info">
-        There are no alerts currently
-      </DashboardNotification>
-    );
+  if (rows.length === 0) {
+    return null;
   }
 
   return (
-    <DashboardSection title="Alerts">
-      <ExpandableTable
-        data={alerts}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Alerts ${rows.length}`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} initialSortColumn={2} initialSortDirection="desc" />
     </DashboardSection>
   );
 }
 
-function getKey(alert, i) {
-  return i;
-}
-
-function createHeader() {
+function getRowDetails(row) {
   return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Timestamp</th>
-        <th>Priority</th>
-      </tr>
-    </thead>
+    <DescriptionList>
+      <DescriptionItem title="Details">
+        {row.alert.get('details')}
+      </DescriptionItem>
+      <DescriptionItem title="User Action">
+        {row.alert.get('userAction')}
+      </DescriptionItem>
+    </DescriptionList>
   );
-}
-
-function createRow(alert) {
-  return [
-    <td>{alert.get('name')}</td>,
-    <td>{formatDateTime(alert.get('timestamp'))}</td>,
-    <td>{mapRating(alert.get('rating'))}</td>
-  ];
 }
 
 function mapRating(rating) {
@@ -82,17 +81,4 @@ function mapRating(rating) {
     return 'High';
   }
   return rating;
-}
-
-function createDetails(alert) {
-  return (
-    <DescriptionList>
-      <DescriptionItem title="Details">
-        {alert.get('details')}
-      </DescriptionItem>
-      <DescriptionItem title="User Action">
-        {alert.get('userAction')}
-      </DescriptionItem>
-    </DescriptionList>
-  );
 }
