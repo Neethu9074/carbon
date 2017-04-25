@@ -1,72 +1,130 @@
 import React from 'react';
 
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Current Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName(row) {
+        return 'siteperf.' + row.key + '.current_connections';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName(row) {
+        return 'siteperf.' + row.key + '.total_requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'GET Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName(row) {
+        return 'siteperf.' + row.key + '.get_requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'POST Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName(row) {
+        return 'siteperf.' + row.key + '.post_requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'PUT Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName(row) {
+        return 'siteperf.' + row.key + '.put_requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function WebsitesTable({ snapshot, timeframe }) {
   const webSites = snapshot.getIn(['data', 'allsites'], emptyList);
-
   if (webSites.size === 0) {
     return null;
   }
 
+  const rows = webSites.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Websites">
-      <ExpandableTable
-        data={webSites}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Websites (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(name) {
-  return name;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Current Connections</th>
-        <th>Requests</th>
-        <th>GET Requests</th>
-        <th>POST Requests</th>
-        <th>PUT Requests</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(name, i, context) {
-  return [
-    <td>{name}</td>,
-    <Mtd metric={'siteperf.' + name + '.current_connections'} snapshot={context.snapshot} />,
-    <Mtd metric={'siteperf.' + name + '.total_requests'} snapshot={context.snapshot} />,
-    <Mtd metric={'siteperf.' + name + '.get_requests'} snapshot={context.snapshot} />,
-    <Mtd metric={'siteperf.' + name + '.post_requests'} snapshot={context.snapshot} />,
-    <Mtd metric={'siteperf.' + name + '.put_requests'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(name, i, context) {
+function getDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 60
         }}
@@ -78,8 +136,8 @@ function createDetails(name, i, context) {
       />
 
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
@@ -91,8 +149,8 @@ function createDetails(name, i, context) {
       />
 
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 80
