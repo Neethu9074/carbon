@@ -1,4 +1,5 @@
 import { on, create } from 'reactive-observables';
+import invariant from 'invariant';
 
 import { setHighlightedTimeframe, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import { highlightedMoment$, clearHighlightedMoment, setHighlightedMoment } from 'in-stores/timeline';
@@ -27,6 +28,15 @@ export default function createChart(config) {
   config.signals = {
     restartRendering$: create(signalRoSpec)
   };
+
+  if (__DEV__) {
+    invariant(config.margins.left != null && config.margins.left, 'Left margin must always be defined!');
+    invariant(
+      config.y2 == null || (config.margins.right != null && config.margins.right > 0),
+      'Right margin must be defined when defining a second y axis!'
+    );
+  }
+
   config.margins = {
     top: 1,
     bottom: 22,

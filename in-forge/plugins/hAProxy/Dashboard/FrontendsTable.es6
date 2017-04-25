@@ -1,147 +1,247 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytes, number, percentage } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { percentageTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Frontend Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.reqRate`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Request Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.reqErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Denied Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.deniedReq`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Sessions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.sessionRate`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Session Usage',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.sessionUtilization`;
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Client Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.clientErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Server Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.serverErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Bytes Sent',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.bytesSent`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Bytes Received',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `frontendStats.${row.key}.bytesReceived`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function FrontendsTable({ snapshot, timeframe }) {
-  const frontends = snapshot.getIn(['data', 'frontends'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'frontends'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (frontends.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title={`Frontends (${frontends.size})`}>
-      <ExpandableTable
-        data={frontends}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Frontends (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(indexName) {
-  return indexName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Frontend Name</th>
-        <th>Requests</th>
-        <th>Request Errors</th>
-        <th>Denied Requests</th>
-        <th>Sessions</th>
-        <th>Session Usage</th>
-        <th>Client Errors</th>
-        <th>Server Errors</th>
-        <th>Bytes Sent</th>
-        <th>Bytes Received</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(frontendName, i, context) {
-  return [
-    <td>{frontendName}</td>,
-    <Mtd metric={'frontendStats.' + frontendName + '.reqRate'} snapshot={context.snapshot} />,
-    <Mtd metric={'frontendStats.' + frontendName + '.reqErrors'} snapshot={context.snapshot} />,
-    <Mtd metric={'frontendStats.' + frontendName + '.deniedReq'} snapshot={context.snapshot} />,
-    <Mtd metric={'frontendStats.' + frontendName + '.sessionRate'} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'frontendStats.' + frontendName + '.sessionUtilization'}
-      formatter={percentageTwoDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd metric={'frontendStats.' + frontendName + '.clientErrors'} snapshot={context.snapshot} />,
-    <Mtd metric={'frontendStats.' + frontendName + '.serverErrors'} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'frontendStats.' + frontendName + '.bytesSent'}
-      formatter={bytesTwoDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'frontendStats.' + frontendName + '.bytesReceived'}
-      formatter={bytesTwoDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(frontendName, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           metrics: [
-            'frontendStats.' + frontendName + '.reqRate',
-            'frontendStats.' + frontendName + '.reqErrors',
-            'frontendStats.' + frontendName + '.deniedReq'
+            'frontendStats.' + row.key + '.reqRate',
+            'frontendStats.' + row.key + '.reqErrors',
+            'frontendStats.' + row.key + '.deniedReq'
           ],
           labels: ['Requests', 'Request Errors', 'Denied Requests'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
-          left: 80
+          left: 80,
+          right: 80
         }}
         y1={{
-          metrics: ['frontendStats.' + frontendName + '.sessionRate'],
+          metrics: ['frontendStats.' + row.key + '.sessionRate'],
           labels: ['Sessions'],
           type: 'line'
         }}
         y2={{
-          formatter: percentageTwoDecimalPlaces,
-          metrics: ['frontendStats.' + frontendName + '.sessionUtilization'],
+          formatter: percentage.detailed,
+          metrics: ['frontendStats.' + row.key + '.sessionUtilization'],
           labels: ['Session Usage'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: [
-            'frontendStats.' + frontendName + '.clientErrors',
-            'frontendStats.' + frontendName + '.serverErrors'
-          ],
+          metrics: ['frontendStats.' + row.key + '.clientErrors', 'frontendStats.' + row.key + '.serverErrors'],
           labels: ['Client Errors', 'Server Errors'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: bytesTwoDecimalPlaces,
-          metrics: ['frontendStats.' + frontendName + '.bytesSent', 'frontendStats.' + frontendName + '.bytesReceived'],
+          formatter: bytes.detailed,
+          metrics: ['frontendStats.' + row.key + '.bytesSent', 'frontendStats.' + row.key + '.bytesReceived'],
           labels: ['Bytes Sent', 'Bytes Received'],
           type: 'line'
         }}
