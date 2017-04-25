@@ -51,6 +51,7 @@ export default connectTo(
           leftHeader={<Header />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key)}
+          maxItemsPerPage={50}
         />
       </div>
     );
