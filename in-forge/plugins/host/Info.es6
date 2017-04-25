@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function HardwareInfo({ snapshot }) {
   const data = snapshot.get('data');
   const memoryTotal = data.get('memory.total');
+  const start = data.get('start');
 
   return (
     <DescriptionList>
@@ -30,6 +32,13 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title="FQDN">
         {data.get('fqdn')}
       </DescriptionItem>
+
+      {start != null
+        ? <DescriptionItem title="Started At">
+            {formatDateTime(start)} ({fromNowAccurately(start)})
+          </DescriptionItem>
+        : null}
+
     </DescriptionList>
   );
 }
