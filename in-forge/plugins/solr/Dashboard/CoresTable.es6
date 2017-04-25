@@ -4,94 +4,145 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  msZeroDecimalPlaces
+  msZeroDecimalPlaces,
+  number,
+  millis,
+  percentage
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Core',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `core_stats.${row.key}.avg_requests`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Request Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `core_stats.${row.key}.avg_time_request`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Cache Hit Rate',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `core_stats.${row.key}.hitratio`;
+      },
+      getContent: percentage.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Evictions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `core_stats.${row.key}.evictions`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `core_stats.${row.key}.errors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function CoresTable({ snapshot, timeframe }) {
-  const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).sort();
-  if (coreNames.size === 0) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'core_names'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      timeframe,
+      snapshotId
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Cores">
-      <ExpandableTable
-        data={coreNames}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Cores (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(coreName) {
-  return coreName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Core</th>
-        <th>Requests</th>
-        <th>Request Time</th>
-        <th>Cache Hit Rate</th>
-        <th>Evictions</th>
-        <th>Errors</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(core, index, context) {
-  return [
-    <td>{core}</td>,
-    <Mtd metric={'core_stats.' + core + '.avg_requests'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd
-      metric={'core_stats.' + core + '.avg_time_request'}
-      snapshot={context.snapshot}
-      formatter={msZeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'core_stats.' + core + '.hitratio'}
-      snapshot={context.snapshot}
-      formatter={percentageZeroDecimalPlaces}
-    />,
-    <Mtd metric={'core_stats.' + core + '.evictions'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'core_stats.' + core + '.errors'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(core, i, context) {
-  const snapshotId = context.snapshot.get('id');
-  const timeframe = context.timeframe;
-
+function getRowDetails(row) {
   return (
     <div>
       <TwoColumnRow>
         <DashboardSection title="Requests">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.avg_requests'],
+              metrics: ['core_stats.' + row.key + '.avg_requests'],
               labels: ['Average Requests'],
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -100,14 +151,14 @@ function createDetails(core, i, context) {
         </DashboardSection>
         <DashboardSection title="Request Time">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.avg_time_request'],
+              metrics: ['core_stats.' + row.key + '.avg_time_request'],
               labels: ['Average Request Time'],
               type: 'line',
               formatter: msZeroDecimalPlaces
@@ -119,14 +170,14 @@ function createDetails(core, i, context) {
       <TwoColumnRow>
         <DashboardSection title="Cache Lookups">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.lookups'],
+              metrics: ['core_stats.' + row.key + '.lookups'],
               labels: ['Lookups'],
               type: 'line',
               formatter: twoDecimalPlaces
@@ -135,14 +186,14 @@ function createDetails(core, i, context) {
         </DashboardSection>
         <DashboardSection title="Cache Hit Rate">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.hitratio'],
+              metrics: ['core_stats.' + row.key + '.hitratio'],
               labels: ['Hit-rate'],
               type: 'line',
               formatter: percentageZeroDecimalPlaces
@@ -154,14 +205,14 @@ function createDetails(core, i, context) {
       <TwoColumnRow>
         <DashboardSection title="Insertions">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.inserts'],
+              metrics: ['core_stats.' + row.key + '.inserts'],
               labels: ['Inserts'],
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -170,14 +221,14 @@ function createDetails(core, i, context) {
         </DashboardSection>
         <DashboardSection title="Evictions">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.evictions'],
+              metrics: ['core_stats.' + row.key + '.evictions'],
               labels: ['Evictions'],
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -189,14 +240,14 @@ function createDetails(core, i, context) {
       <TwoColumnRow>
         <DashboardSection title="Errors">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.errors'],
+              metrics: ['core_stats.' + row.key + '.errors'],
               labels: ['Errors'],
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -205,14 +256,14 @@ function createDetails(core, i, context) {
         </DashboardSection>
         <DashboardSection title="Timeouts">
           <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80
             }}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + core + '.timeouts'],
+              metrics: ['core_stats.' + row.key + '.timeouts'],
               labels: ['Timeouts'],
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -223,14 +274,14 @@ function createDetails(core, i, context) {
 
       <DashboardSection title="Documents">
         <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
           margins={{
             left: 80
           }}
           y1={{
             min: 0,
-            metrics: ['core_stats.' + core + '.docs_added', 'core_stats.' + core + '.docs_pending'],
+            metrics: ['core_stats.' + row.key + '.docs_added', 'core_stats.' + row.key + '.docs_pending'],
             labels: ['Documents added', 'Documents pending'],
             type: 'line',
             formatter: zeroDecimalPlaces
