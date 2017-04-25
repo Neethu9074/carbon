@@ -2,75 +2,91 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 
 const queriesFormatter = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
 
-export default function DatabasesTable({ snapshot, timeframe }) {
-  const databases = snapshot.getIn(['data', 'dbs'], emptyList).toArray().sort();
+const cols = [
+  {
+    title: 'Schema',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Queries',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `databases.${row.key}.queries`;
+      },
+      getContent: queriesFormatter,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Avg. Query Latency',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `databases.${row.key}.avg_query_latency`;
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
-  if (databases.size === 0) {
+export default function DatabasesTable({ snapshot, timeframe }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'dbs'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      snapshotId,
+      timeframe
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Schemas">
-      <ExpandableTable
-        data={databases}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Schemas (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(db) {
-  return db;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Schema</th>
-        <th>Queries</th>
-        <th>Avg. Query Latency</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(db, index, context) {
-  return [
-    <td>{db}</td>,
-    <Mtd metric={'databases.' + db + '.queries'} snapshot={context.snapshot} />,
-    <Mtd metric={'databases.' + db + '.avg_query_latency'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(db, i, context) {
+function getDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           min: 0,
-          metrics: ['databases.' + db + '.avg_query_latency'],
+          metrics: ['databases.' + row.key + '.avg_query_latency'],
           labels: ['avg. Query Latency'],
           type: 'line',
           formatter: msZeroDecimalPlaces
@@ -78,22 +94,22 @@ function createDetails(db, i, context) {
       />
       <TwoColumnRow>
         <ChartWithLegend
-          snapshotId={context.snapshot.get('id')}
-          timeframe={context.timeframe}
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
           margins={{
             left: 80
           }}
           y1={{
             min: 0,
             formatter: queriesFormatter,
-            metrics: ['databases.' + db + '.queries'],
+            metrics: ['databases.' + row.key + '.queries'],
             labels: ['Queries'],
             type: 'line'
           }}
         />
         <ChartWithLegend
-          snapshotId={context.snapshot.get('id')}
-          timeframe={context.timeframe}
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
           margins={{
             left: 80
           }}
@@ -101,11 +117,11 @@ function createDetails(db, i, context) {
             min: 0,
             formatter: queriesFormatter,
             metrics: [
-              'databases.' + db + '.select_count',
-              'databases.' + db + '.insert_count',
-              'databases.' + db + '.update_count',
-              'databases.' + db + '.delete_count',
-              'databases.' + db + '.other_count'
+              'databases.' + row.key + '.select_count',
+              'databases.' + row.key + '.insert_count',
+              'databases.' + row.key + '.update_count',
+              'databases.' + row.key + '.delete_count',
+              'databases.' + row.key + '.other_count'
             ],
             labels: ['SELECTS', 'INSERTS', 'UPDATES', 'DELETES', 'OTHER'],
             type: 'stackedArea'
