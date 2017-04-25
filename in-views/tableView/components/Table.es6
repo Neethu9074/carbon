@@ -1,12 +1,11 @@
 import React from 'react';
 
-import TableHeader from 'in-views/tableView/components/TableHeader';
+import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import { sortedSnapshotIds$ } from 'in-views/tableView/stores/sorting';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import TableRow from 'in-views/tableView/components/TableRow';
-import { supportTableView } from 'in-sdk/snapshot';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
+import Table from 'in-components/Table';
 
 import './Table.less';
 
@@ -17,7 +16,7 @@ export default connectTo(
     snapshotIds: sortedSnapshotIds$,
     plugin: plugin$
   },
-  function Table({ snapshotIds, plugin }) {
+  function TableViewTable({ snapshotIds, plugin }) {
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>
@@ -26,15 +25,17 @@ export default connectTo(
       );
     }
 
+    const cols = getTableDefinition(plugin);
+    const rows = snapshotIds.map(snapshotId => {
+      return {
+        key: snapshotId,
+        snapshotId
+      };
+    });
+
     return (
       <div className={block}>
-        <TableHeader plugin={plugin} />
-
-        <div className={`${block}__rows`}>
-          {snapshotIds
-            ? snapshotIds.map(snapshotId => <TableRow snapshotId={snapshotId} key={snapshotId} plugin={plugin} />)
-            : null}
-        </div>
+        <Table cols={cols} rows={rows} />
       </div>
     );
   }
