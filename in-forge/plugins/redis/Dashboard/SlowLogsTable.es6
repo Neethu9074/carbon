@@ -7,6 +7,10 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+import './SlowLogsTable.less';
+
+const block = 'in-redis-slow-logs';
+
 const cols = [
   {
     title: 'ID',
@@ -19,20 +23,22 @@ const cols = [
   },
   {
     title: 'Time',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return formatDateTime(row.slowLog.get('timestamp'));
-      }
+        return row.slowLog.get('timestamp');
+      },
+      getContent: formatDateTime
     }
   },
   {
     title: 'Duration',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return muSecondsZeroDecimalPlaces(row.slowLog.get('duration'));
-      }
+        return row.slowLog.get('duration');
+      },
+      getContent: muSecondsZeroDecimalPlaces
     }
   },
   {
@@ -41,6 +47,9 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.slowLog.get('args').join(' ');
+      },
+      getContent(args) {
+        return <Args args={args} />;
       }
     }
   }
@@ -74,3 +83,7 @@ export default connectTo(
     );
   }
 );
+
+function Args({ args }) {
+  return <code className={`${block}__slow-log`}>{args}</code>;
+}
