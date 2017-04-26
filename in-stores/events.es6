@@ -193,12 +193,19 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
 }
 
 export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
-  // No focused moment? Then it is according to server time which means
-  // we color based on the state property.
-  return (
-    (focusedMoment == null && state === 'open') ||
-    ((start <= focusedMoment && (focusedMoment < end || !end)) || state === 'open')
-  );
+  // We must believe in state == open and should not use the focused moment to compare
+  // against start and end (even when not in live mode) as processing lags may
+  // cause the end date to be inaccurate.
+  if (state === 'open') {
+    return true;
+  }
+
+  // live mode, state == closed which always means false
+  if (focusedMoment == null) {
+    return false;
+  }
+
+  return start <= focusedMoment && focusedMoment < end;
 }
 
 function insertSorted(store, event) {
