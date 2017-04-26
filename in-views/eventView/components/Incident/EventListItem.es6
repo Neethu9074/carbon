@@ -85,7 +85,7 @@ export default connectTo(
               <DetailsHeader
                 event={event}
                 iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
-                background={background}
+                background={background === '#ffffff' ? '#bababa' : background}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
