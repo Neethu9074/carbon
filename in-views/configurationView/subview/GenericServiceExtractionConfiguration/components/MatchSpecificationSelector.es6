@@ -52,11 +52,11 @@ export default function MatchSpecificationSelector({
           />
         ))}
       </Select>
-      {matchSpecificationForm.error
-        ? <ValidationBlock hasError>
-            {matchSpecificationForm.error}
-          </ValidationBlock>
-        : null}
+      {matchSpecificationForm.valid
+        ? null
+        : <ValidationBlock hasError>
+            {matchSpecificationForm.messages.map(e => e.message)}
+          </ValidationBlock>}
       <HelpBlock>
         {helpTexts.matchesHelp}
       </HelpBlock>

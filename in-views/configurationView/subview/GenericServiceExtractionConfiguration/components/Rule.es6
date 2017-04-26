@@ -44,7 +44,7 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    if (!this.props.ruleForm.valid) {
+    if (!this.props.ruleForm.hierarchyValid) {
       this.setState({ isExpanded: true });
     }
   }
@@ -58,7 +58,7 @@ export default class extends React.Component {
           <div
             className={evaluateClassNames({
               [`${block}__actions`]: true,
-              [`${block}__actions--has-error`]: !ruleForm.valid
+              [`${block}__actions--has-error`]: !ruleForm.hierarchyValid
             })}
           >
             <SvgIcon type="chevron_up" width={12} className={`${block}__up`} onClick={() => moveRuleDown(path)} />
@@ -75,7 +75,7 @@ export default class extends React.Component {
         <div
           className={evaluateClassNames({
             [block]: true,
-            [`${block}--has-error`]: !ruleForm.valid
+            [`${block}--has-error`]: !ruleForm.hierarchyValid
           })}
         >
           <div className={`${block}__header`}>
@@ -144,11 +144,11 @@ export default class extends React.Component {
                         onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
                         hasError={!field.valid}
                       />
-                      {field.error
-                        ? <ValidationBlock hasError>
-                            {field.error}
-                          </ValidationBlock>
-                        : null}
+                      {field.valid
+                        ? null
+                        : <ValidationBlock hasError>
+                            {field.messages}
+                          </ValidationBlock>}
                       <HelpBlock>
                         {matchSpecificationOptions[key].help}
                       </HelpBlock>

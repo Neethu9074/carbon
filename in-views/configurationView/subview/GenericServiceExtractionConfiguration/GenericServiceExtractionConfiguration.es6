@@ -51,7 +51,7 @@ export default connectTo(
                   Edit as JSON
                 </Button>
                 {' '}
-                <Button kind="success" disabled={!ruleForms.valid} onClick={() => saveRules(ruleForms)}>
+                <Button kind="success" disabled={!ruleForms.hierarchyValid} onClick={() => saveRules(ruleForms)}>
                   Save
                 </Button>
               </span>
