@@ -51,8 +51,7 @@ export default class extends React.Component {
 
   render() {
     const { ruleForm, path, helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = this.props;
-    const id = ruleForm.getItem('id').value;
-
+    const id = ruleForm.get('id').value;
     return (
       <div>
         <div className={`${block}__actions-wrapper`}>
@@ -80,7 +79,7 @@ export default class extends React.Component {
           })}
         >
           <div className={`${block}__header`}>
-            {ruleForm.getItem('name').map(nameField => (
+            {ruleForm.get('name').map(nameField => (
               <FormGroup
                 className={evaluateClassNames({
                   [`${block}__name-group`]: true,
@@ -97,7 +96,7 @@ export default class extends React.Component {
               </FormGroup>
             ))}
 
-            {ruleForm.getItem('enabled').map(enabledField => (
+            {ruleForm.get('enabled').map(enabledField => (
               <FormGroup
                 className={evaluateClassNames({
                   [`${block}__without-bottom-margin`]: !this.state.isExpanded
@@ -115,20 +114,18 @@ export default class extends React.Component {
 
           {this.state.isExpanded
             ? <div>
-                {ruleForm
-                  .getItem('matchSpecification')
-                  .mapItem(matchSpecificationForm => (
-                    <MatchSpecificationSelector
-                      id={id}
-                      matchSpecificationForm={matchSpecificationForm}
-                      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-                      helpTexts={helpTexts}
-                      onChangeMatchOption={this.onChangeMatchOption}
-                    />
-                  ))}
+                {
+                  <MatchSpecificationSelector
+                    id={id}
+                    matchSpecificationForm={ruleForm.get('matchSpecification')}
+                    matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+                    helpTexts={helpTexts}
+                    onChangeMatchOption={this.onChangeMatchOption}
+                  />
+                }
 
-                {ruleForm.getItem('matchSpecification').keys().sort().map(key => {
-                  const field = ruleForm.getItem(['matchSpecification', key]);
+                {ruleForm.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort().map(key => {
+                  const field = ruleForm.get('matchSpecification').get(key);
 
                   return (
                     <FormGroup key={key}>
@@ -159,7 +156,7 @@ export default class extends React.Component {
                   );
                 })}
 
-                {ruleForm.getItem('label').map(labelField => (
+                {ruleForm.get('label').map(labelField => (
                   <FormGroup>
                     <Label htmlFor={`${id}-service-name`}>Service Name</Label>
                     <Input
@@ -175,7 +172,7 @@ export default class extends React.Component {
                   </FormGroup>
                 ))}
 
-                {ruleForm.getItem('comment').map(commentField => (
+                {ruleForm.get('comment').map(commentField => (
                   <FormGroup>
                     <Label htmlFor={`${id}-comment`}>Comment</Label>
                     <TextArea

@@ -40,13 +40,13 @@ export default class extends React.Component {
       );
     }
 
-    const id = ruleForm.getItem('id').value;
-    const matchSpecificationForm = ruleForm.getItem('matchSpecification');
-    const matchKeys = matchSpecificationForm.keys().sort();
+    const id = ruleForm.get('id').value;
+    const matchSpecificationForm = ruleForm.get('matchSpecification');
+    const matchKeys = matchSpecificationForm.reduce((acc, cur, key) => acc.concat(key), []).sort();
     const matches = {};
     matchKeys.forEach(key => {
       // require a full match in order to have the same matching behavior on client and server side
-      const regex = new RegExp(`^${matchSpecificationForm.getItem(key).value}$`);
+      const regex = new RegExp(`^${matchSpecificationForm.get(key).value}$`);
       matches[key] = (this.state[key] || '').match(regex);
     });
 

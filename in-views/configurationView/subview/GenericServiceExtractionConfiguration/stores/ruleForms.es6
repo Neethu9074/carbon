@@ -13,7 +13,7 @@ import {
   SavingRulesSuccessfulNotification
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Notifications';
 import { getServiceExtractionConfig, savePartialServiceExtractionConfig } from 'in-services/api/serviceExtraction';
-import { ListForm, MapForm, Field } from 'in-services/form';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { createStore } from 'in-stores/store';
 
@@ -27,42 +27,42 @@ const ruleFormsStore = createStore({
 export const ruleForms$ = ruleFormsStore.observable;
 
 export function addNewRule(id) {
-  const ruleForm = new MapForm()
-    .addItem('id', new Field(id || generateUniqueShortId()))
-    .addItem('name', new Field('New Service Rule'))
-    .addItem('enabled', new Field(false))
-    .addItem('comment', new Field(''))
-    .addItem('matchSpecification', new MapForm(atLeastOneMatchSpecificationRule))
-    .addItem('label', new Field('Unnamed service'));
+  const ruleForm = createMapForm()
+    .put('id', createField({ value: id || generateUniqueShortId() }))
+    .put('name', createField({ value: 'New Service Rule' }))
+    .put('enabled', createField({ value: false }))
+    .put('comment', createField({ value: '' }))
+    .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
+    .put('label', createField({ value: 'Unnamed service' }));
 
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.addItem(ruleForms.length, ruleForm));
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.push(ruleForm));
 }
 
 export function addMatchSpecification(rulePath, matchName, initialValue) {
-  const path = [...rulePath, 'matchSpecification', matchName];
-  const field = new Field(initialValue, matchSpecificationMustCompileRule);
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.addItem(path, field));
+  const path = [...rulePath, 'matchSpecification'];
+  const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.updateIn(path, item => item.put(matchName, field)));
 }
 
 export function removeMatchSpecification(rulePath, matchName) {
-  const path = [...rulePath, 'matchSpecification', matchName];
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.removeItem(path));
+  const path = [...rulePath, 'matchSpecification'];
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.updateIn(path, item => item.remove(matchName)));
 }
 
 export function setValue(path, value) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.setValue(path, value));
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.updateIn(path, item => item.setValue(value)));
 }
 
-export function moveRuleUp(path) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveUp(path));
+export function moveRuleUp(index) {
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveUp(Number(index)));
 }
 
-export function moveRuleDown(path) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveDown(path));
+export function moveRuleDown(index) {
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveDown(Number(index)));
 }
 
-export function removeRule(path) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.removeItem(path));
+export function removeRule(index) {
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.remove(index));
 }
 
 export function removeAllRules() {
@@ -101,29 +101,34 @@ function loadRules() {
 }
 
 function createRuleForms(rules) {
-  let ruleForms = new ListForm();
-
-  rules.forEach((rule, i) => {
-    let matchSpecificationForm = new MapForm(atLeastOneMatchSpecificationRule);
-
-    Object.keys(rule.matchSpecification).forEach(matchKey => {
-      matchSpecificationForm = matchSpecificationForm.addItem(
-        matchKey,
-        new Field(rule.matchSpecification[matchKey], matchSpecificationMustCompileRule)
-      );
-    });
-
-    const ruleForm = new MapForm()
-      .addItem('id', new Field(rule.id))
-      .addItem('name', new Field(rule.name))
-      .addItem('enabled', new Field(rule.enabled))
-      .addItem('comment', new Field(rule.comment))
-      .addItem('matchSpecification', matchSpecificationForm)
-      .addItem('label', new Field(rule.extractSpecification.label || ''));
-    ruleForms = ruleForms.addItem(i, ruleForm);
-  });
+  const ruleForms = rules.reduce((acc, cur) => {
+    const ruleForm = ruleToMapForm(cur);
+    return acc.push(ruleForm);
+  }, createListForm({}));
 
   return ruleForms;
+}
+
+function ruleToMapForm(rule, fromJson = false) {
+  const initialForm = createMapForm({ validator: atLeastOneMatchSpecificationRule });
+
+  const matchSpecificationForm = rule.matchSpecification
+    ? Object.keys(rule.matchSpecification).reduce((acc, cur) => {
+        const field = createField({
+          value: rule.matchSpecification[cur],
+          validator: matchSpecificationMustCompileRule
+        });
+        return acc.put(cur, field, matchSpecificationMustCompileRule);
+      }, initialForm)
+    : initialForm;
+
+  return createMapForm({})
+    .put('id', createField({ value: fromJson ? rule.id : generateUniqueShortId() }))
+    .put('name', createField({ value: rule.name || '' }))
+    .put('enabled', createField({ value: Boolean(rule.enabled) }))
+    .put('comment', createField({ value: rule.comment || '' }))
+    .put('matchSpecification', matchSpecificationForm)
+    .put('label', createField({ value: (rule.extractSpecification && rule.extractSpecification.label) || '' }));
 }
 
 export function saveRules(ruleForms) {
@@ -152,32 +157,41 @@ export function saveRules(ruleForms) {
 
 export function createRulesFromRuleForms(ruleForms) {
   return ruleForms.map((ruleForm, i) => {
-    const matchSpecification = {};
-    ruleForm.getItem('matchSpecification').forEach((field, key) => {
-      matchSpecification[key] = field.value;
-    });
+    const matchSpecificationForm = ruleForm.get('matchSpecification').toJS();
+
+    const matchSpecification = Object.keys(matchSpecificationForm).reduce((acc, cur) => {
+      acc[cur] = matchSpecificationForm[cur].value;
+      return acc;
+    }, {});
     return {
-      id: ruleForm.getItem('id').value,
-      name: ruleForm.getItem('name').value,
-      enabled: ruleForm.getItem('enabled').value,
-      comment: ruleForm.getItem('comment').value,
+      id: ruleForm.get('id').value,
+      name: ruleForm.get('name').value,
+      enabled: ruleForm.get('enabled').value,
+      comment: ruleForm.get('comment').value,
       order: i,
       type: ruleType,
       parent: null,
       matchSpecification,
       extractSpecification: {
-        label: ruleForm.getItem('label').value
+        label: ruleForm.get('label').value
       }
     };
   });
 }
 
 function atLeastOneMatchSpecificationRule(mapForm) {
-  if (mapForm.keys().length === 0) {
-    return 'At least one match expression is required.';
+  if (Object.keys(mapForm).length === 0) {
+    return atLeastOneMatchResult;
   }
   return null;
 }
+
+const atLeastOneMatchResult = [
+  {
+    severity: 'error',
+    message: 'At least one match expression is required.'
+  }
+];
 
 function matchSpecificationMustCompileRule(regex) {
   try {
@@ -186,7 +200,12 @@ function matchSpecificationMustCompileRule(regex) {
     /* eslint-enable no-new */
     return null;
   } catch (e) {
-    return e.message;
+    return [
+      {
+        severity: 'error',
+        message: e.message
+      }
+    ];
   }
 }
 
@@ -195,29 +214,10 @@ export function setRuleFormsFromJsonUserInput(rules) {
     return;
   }
 
-  let ruleForms = new ListForm();
-
-  rules.forEach((rule, i) => {
-    let matchSpecificationForm = new MapForm(atLeastOneMatchSpecificationRule);
-
-    if (rule.matchSpecification) {
-      Object.keys(rule.matchSpecification).forEach(matchKey => {
-        matchSpecificationForm = matchSpecificationForm.addItem(
-          matchKey,
-          new Field(String(rule.matchSpecification[matchKey]), matchSpecificationMustCompileRule)
-        );
-      });
-    }
-
-    const ruleForm = new MapForm()
-      .addItem('id', new Field(generateUniqueShortId()))
-      .addItem('name', new Field(rule.name || ''))
-      .addItem('enabled', new Field(Boolean(rule.enabled)))
-      .addItem('comment', new Field(rule.comment || ''))
-      .addItem('matchSpecification', matchSpecificationForm)
-      .addItem('label', new Field((rule.extractSpecification && rule.extractSpecification.label) || ''));
-    ruleForms = ruleForms.addItem(i, ruleForm);
-  });
+  const ruleForms = rules.reduce((acc, cur) => {
+    const ruleForm = ruleToMapForm(cur, true);
+    return acc.push(ruleForm);
+  }, createListForm({}));
 
   ruleFormsStore.mutateTo(ruleForms);
 }

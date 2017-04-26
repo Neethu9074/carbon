@@ -7,7 +7,7 @@ import './ExtractedServiceNamePresenter.less';
 const block = 'in-config-generic-ex-rule-service-name-presenter';
 
 export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
-  const ruleKeys = ruleForm.getItem('matchSpecification').keys();
+  const ruleKeys = ruleForm.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []);
   const mismatches = ruleKeys.filter(key => !matches[key]);
 
   let content;
@@ -26,7 +26,7 @@ export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
 
     content = (
       <div className={`${block}__content`}>
-        {formatter(ruleForm.getItem('label').value)}
+        {formatter(ruleForm.get('label').value)}
       </div>
     );
   }

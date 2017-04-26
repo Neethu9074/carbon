@@ -65,9 +65,9 @@ export default connectTo(
         </Section>
 
         {ruleForms &&
-          ruleForms.map((ruleForm, i) => (
+          ruleForms.map(i => i).map((ruleForm, i) => ( //map doesn't take an index in formalistic. Maybe make a PR?
             <Rule
-              key={ruleForm.getItem('id').value}
+              key={ruleForm.get('id').value}
               ruleForm={ruleForm}
               path={[i]}
               helpTexts={helpTexts}
