@@ -1,74 +1,85 @@
 import React from 'react';
 
+import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
 import { emptyList } from 'in-services/fixedImmutables';
-import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 
-export default function Table({ contextRootPath, snapshot, timeframe }) {
-  const servlets = snapshot.getIn(['data', 'contextsToServlets', contextRootPath], emptyList).sort();
+const cols = [
+  {
+    title: 'Servlet',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.servletKey + '.requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Average Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.servletKey + '.avgResponseTime';
+      },
+      getContent: msZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
+export default function ServletsInWebAppTable({ contextRootPath, snapshot, timeframe }) {
+  const servlets = snapshot.getIn(['data', 'contextsToServlets', contextRootPath], emptyList);
   if (servlets.size === 0) {
     return null;
   }
 
+  const rows = servlets.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      servletKey: contextRootPath + '/' + key,
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title={'Servlets of ' + contextRootPath}>
-      <ExpandableTable
-        data={servlets}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe,
-          contextRootPath
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Servlets (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(servlet) {
-  return servlet;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Servlet</th>
-        <th>Requests</th>
-        <th>Average Response Time</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(servletName, i, context) {
-  const servletKey = context.contextRootPath + '/' + servletName;
-  return [
-    <td>{servletName}</td>,
-    <Mtd metric={'servlets.' + servletKey + '.requests'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
-    <Mtd
-      metric={'servlets.' + servletKey + '.avgResponseTime'}
-      snapshot={context.snapshot}
-      formatter={msZeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(servletName, i, context) {
-  const servletKey = context.contextRootPath + '/' + servletName;
+function getRowDetails(row) {
+  const servletKey = row.servletKey;
 
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
@@ -80,8 +91,8 @@ function createDetails(servletName, i, context) {
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}

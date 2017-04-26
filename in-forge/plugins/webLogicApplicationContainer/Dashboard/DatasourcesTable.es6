@@ -1,95 +1,124 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
-export default function Table({ snapshot, timeframe }) {
-  const datasourceNames = snapshot.getIn(['data', 'datasourceNames'], emptyList).sort();
+const cols = [
+  {
+    title: '',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Available Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.availableConnections';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connections in Pool',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.connectionsInPool';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Requests Waiting for Connection',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.requestsWaitingForConnection';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connections Created',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.connectionsCreated';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function DatasourcesTable({ snapshot, timeframe }) {
+  const datasourceNames = snapshot.getIn(['data', 'datasourceNames'], emptyList);
   if (datasourceNames.size === 0) {
     return null;
   }
 
+  const rows = datasourceNames.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Database Connection Pools">
-      <ExpandableTable
-        data={datasourceNames}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Database Connection Pools (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(datasourceName) {
-  return datasourceName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Available Connections</th>
-        <th>Connections in Pool</th>
-        <th>Requests Waiting for Connection</th>
-        <th>Connections Created</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(datasourceName, i, context) {
-  return [
-    <td>{datasourceName}</td>,
-    <Mtd
-      metric={'datasources.' + datasourceName + '.availableConnections'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasourceName + '.connectionsInPool'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasourceName + '.requestsWaitingForConnection'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'datasources.' + datasourceName + '.connectionsCreated'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(datasourceName, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
-            'datasources.' + datasourceName + '.availableConnections',
-            'datasources.' + datasourceName + '.connectionsInPool',
-            'datasources.' + datasourceName + '.requestsWaitingForConnection',
-            'datasources.' + datasourceName + '.connectionsCreated'
+            'datasources.' + row.key + '.availableConnections',
+            'datasources.' + row.key + '.connectionsInPool',
+            'datasources.' + row.key + '.requestsWaitingForConnection',
+            'datasources.' + row.key + '.connectionsCreated'
           ],
           labels: [
             'Available Connections',
