@@ -28,10 +28,13 @@ const cols = [
   },
   {
     title: 'Session Timeout',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return String(row.data.get('webApps.' + row.key + '.sessionTimeout'));
+        return row.data.get('webApps.' + row.key + '.sessionTimeout');
+      },
+      getContent(value) {
+        return value;
       }
     }
   },
