@@ -3,13 +3,13 @@ import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
+import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
-import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
+import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 

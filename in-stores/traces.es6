@@ -3,21 +3,17 @@ import { combineLatest } from 'reactive-observables';
 import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
 import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation';
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
+import { timeframe as timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
-import { timeframe as timeframe$ } from 'in-stores/timeline';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 
-export const totalTraceCountNoFiltering$ = timeframe$.flatMap(timeframe =>
-  createTotalTraceCountObservable({ timeframe, query: '' })
-);
+export const totalTraceCountNoFiltering$ = getTraceCount('');
 
-export const totalTraceCountOnlyEum$ = timeframe$.flatMap(timeframe =>
-  createTotalTraceCountObservable({ timeframe, query: ' trace.type:eum' })
-);
+export const totalTraceCountOnlyEum$ = getTraceCount(' trace.type:eum');
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating
@@ -26,60 +22,37 @@ export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFilter
   ([total, eum]) => total - eum
 );
 
-export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$]).flatMap(([
-  timeframe,
-  luceneQuery
-]) => createTotalTraceCountObservable({ timeframe, query: luceneQuery || '' }));
+export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
-  return timeframe$.flatMap(timeframe =>
-    createTotalTraceCountObservable({
-      timeframe,
-      query: `trace.startingAt:"${serviceId}"`
-    })
-  );
+  return getTraceCount(`trace.startingAt:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
-  return timeframe$.flatMap(timeframe =>
-    createTotalTraceCountObservable({
-      timeframe,
-      query: `trace.touchedLogicalService:"${serviceId}"`
-    })
-  );
+  return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`);
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
-  return timeframe$.flatMap(timeframe =>
-    createTotalTraceCountObservable({
-      timeframe,
-      query: `trace.startingAtInstance:"${serviceId}"`
-    })
-  );
+  return getTraceCount(`trace.startingAtInstance:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
-  return timeframe$.flatMap(timeframe =>
-    createTotalTraceCountObservable({
-      timeframe,
-      query: `trace.touchedServiceInstance:"${serviceId}"`
-    })
-  );
+  return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  const query = `trace.touching:"${id}"`;
-  return timeframe
-    ? createTotalTraceCountObservable({ timeframe, query })
-    : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({ timeframe: _timeframe, query }));
+  return getTraceCount(`trace.touching:"${id}"`, timeframe);
 }
 
-export function getTraceCount(query) {
-  return timeframe$.flatMap(timeframe =>
-    createTotalTraceCountObservable({
-      timeframe,
-      query
-    })
+export function getTraceCount(query, timeframe) {
+  if (timeframe) {
+    return focusedMoment$.flatMap(_focusedMoment =>
+      createTotalTraceCountObservable({ timeframe, focusedMoment: _focusedMoment, query })
+    );
+  }
+
+  return combineLatest([timeframe$, focusedMoment$]).flatMap(([_timeframe, _focusedMoment]) =>
+    createTotalTraceCountObservable({ timeframe: _timeframe, focusedMoment: _focusedMoment, query })
   );
 }
 
