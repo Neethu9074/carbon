@@ -53,8 +53,9 @@ export function createStore({
     column: initialSortColumn,
     direction: initialSortDirection
   });
+  const rowsChanged$ = create().emit(true);
   const expandStateChange$ = create().emit(true);
-  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis)])
+  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis), rowsChanged$])
     // Data changes synchronously when the table is created. Force this sorting to happen
     // after all columns have been created.
     .nextFrame()
@@ -128,6 +129,7 @@ export function createStore({
     }
     sweep();
     emitRawDataChange();
+    rowsChanged$.emit(true);
   }
 
   function onSelectedRowKeyChange(selectedRowKeys) {
