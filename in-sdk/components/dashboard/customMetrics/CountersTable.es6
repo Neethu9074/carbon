@@ -51,7 +51,7 @@ export default function CountersTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title={`Counters (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={20} />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
     </DashboardSection>
   );
 }

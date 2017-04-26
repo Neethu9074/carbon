@@ -53,7 +53,7 @@ export default function MetersTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title={`Meters (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={20} />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
     </DashboardSection>
   );
 }
