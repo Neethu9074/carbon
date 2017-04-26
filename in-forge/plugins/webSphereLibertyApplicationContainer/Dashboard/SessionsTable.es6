@@ -1,11 +1,102 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Session Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Live Sessions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessions.' + row.key + '.live';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Active Sessions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessions.' + row.key + '.active';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Sessions Created',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessions.' + row.key + '.created';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Sessions Invalidated',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessions.' + row.key + '.invalidated';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Sessions Invalidated by a Timeout',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessions.' + row.key + '.invalidatedByTimeout';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ConnectionPoolsTable({ snapshot, timeframe }) {
   const sessionNames = snapshot.getIn(['data', 'sessionStatsNames'], emptyList).sort();
@@ -13,78 +104,38 @@ export default function ConnectionPoolsTable({ snapshot, timeframe }) {
     return null;
   }
 
+  const rows = sessionNames.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Sessions">
-      <ExpandableTable
-        data={sessionNames}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Sessions (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(sessionName) {
-  return sessionName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Session Name</th>
-        <th>Live Sessions</th>
-        <th>Active Sessions</th>
-        <th>Sessions Created</th>
-        <th>Sessions Invalidated</th>
-        <th>Sessions Invalidated by a Timeout</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(sessionName, i, context) {
-  return [
-    <td>{sessionName}</td>,
-    <Mtd metric={'sessions.' + sessionName + '.live'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd metric={'sessions.' + sessionName + '.active'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd metric={'sessions.' + sessionName + '.created'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'sessions.' + sessionName + '.invalidated'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd
-      metric={'sessions.' + sessionName + '.invalidatedByTimeout'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />
-  ];
-}
-
-function createDetails(sessionName, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
-            'sessions.' + sessionName + '.live',
-            'sessions.' + sessionName + '.active',
-            'sessions.' + sessionName + '.created',
-            'sessions.' + sessionName + '.invalidated',
-            'sessions.' + sessionName + '.invalidatedByTimeout'
+            'sessions.' + row.key + '.live',
+            'sessions.' + row.key + '.active',
+            'sessions.' + row.key + '.created',
+            'sessions.' + row.key + '.invalidated',
+            'sessions.' + row.key + '.invalidatedByTimeout'
           ],
           labels: [
             'Live Sessions',

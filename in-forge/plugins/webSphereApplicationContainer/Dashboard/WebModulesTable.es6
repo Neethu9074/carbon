@@ -3,101 +3,138 @@ import React from 'react';
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Number of Sessions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'sessionManagers.' + row.key + '.activeCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Servlets Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.key + '.requests';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Servlets Average Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.key + '.avgResponseTime';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Servlets Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'servlets.' + row.key + '.errors';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function WebModulesTable({ snapshot, timeframe }) {
-  const webModules = snapshot.getIn(['data', 'webModules'], emptyList).sort();
+  const webModules = snapshot.getIn(['data', 'webModules'], emptyList);
   if (webModules.size === 0) {
     return null;
   }
 
+  const rows = webModules.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
   return (
-    <DashboardSection title="Web Modules">
-      <ExpandableTable
-        data={webModules}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Web Modules (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(webModule) {
-  return webModule;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Number of Sessions</th>
-        <th>Servlets Requests</th>
-        <th>Servlets Average Response Time</th>
-        <th>Servlets Errors</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(webModule, i, context) {
-  return [
-    <td>{webModule}</td>,
-    <Mtd
-      metric={'sessionManagers.' + webModule + '.activeCount'}
-      formatter={zeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd metric={'servlets.' + webModule + '.requests'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'servlets.' + webModule + '.avgResponseTime'}
-      formatter={msZeroDecimalPlaces}
-      snapshot={context.snapshot}
-    />,
-    <Mtd metric={'servlets.' + webModule + '.errors'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(webModule, i, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['sessionManagers.' + webModule + '.activeCount'],
+          metrics: ['sessionManagers.' + row.key + '.activeCount'],
           labels: ['Sessions'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 40
         }}
         y1={{
           formatter: msZeroDecimalPlaces,
-          metrics: ['servlets.' + webModule + '.avgResponseTime'],
+          metrics: ['servlets.' + row.key + '.avgResponseTime'],
           labels: ['Average Response Time'],
           type: 'line'
         }}
         y2={{
           formatter: zeroDecimalPlaces,
-          metrics: ['servlets.' + webModule + '.requests', 'servlets.' + webModule + '.errors'],
+          metrics: ['servlets.' + row.key + '.requests', 'servlets.' + row.key + '.errors'],
           labels: ['Request Count', 'Errors'],
           type: 'line'
         }}
