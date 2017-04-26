@@ -1,11 +1,6 @@
 import { memoize } from 'lodash';
-import React from 'react';
 
 import { siPrefixPerSecond } from 'in-services/formatters/number';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { getMetricForFocusedMoment } from 'in-stores/metric';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 
 const getTenantUnitCoordinates = memoize(
   function getTenantUnitCoordinates(snapshot) {
@@ -35,159 +30,166 @@ const getTenantUnitCoordinates = memoize(
 export default [
   {
     title: 'App',
-    sortableType: String,
-    get(snapshot) {
-      const label = getLabel(snapshot);
-
-      return {
-        content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
-            {label}
-          </HierarchicalLink>
-        ),
-        sortable: label
-      };
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
     }
   },
   {
     title: 'Environment',
-    sortableType: String,
-    get(snapshot) {
-      return getTenantUnitCoordinates(snapshot).environment;
+    type: 'string',
+    typeArgs: {
+      getContent(row) {
+        return getTenantUnitCoordinates(row.snapshot).environment;
+      }
     }
   },
   {
     title: 'Tenant',
-    sortableType: String,
-    get(snapshot) {
-      return getTenantUnitCoordinates(snapshot).tenant;
+    type: 'string',
+    typeArgs: {
+      getContent(row) {
+        return getTenantUnitCoordinates(row.snapshot).tenant;
+      }
     }
   },
   {
     title: 'Unit',
-    sortableType: String,
-    get(snapshot) {
-      return getTenantUnitCoordinates(snapshot).unit;
+    type: 'string',
+    typeArgs: {
+      getContent(row) {
+        return getTenantUnitCoordinates(row.snapshot).unit;
+      }
     }
   },
   {
     title: 'Accepted Spans',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get: getMeterCellContent.bind(
-      null,
-      'metrics.meters.com.instana.filler.topology.spans.SpansStreamInitializer.accepted-from-kafka-spans'
-    )
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'metrics.meters.com.instana.filler.topology.spans.SpansStreamInitializer.accepted-from-kafka-spans';
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   },
   {
     title: 'Dropped Spans',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get: getMeterCellContent.bind(
-      null,
-      'metrics.meters.com.instana.filler.spanbuffer.ScheduledSpanBatcher.dropped-spans'
-    )
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'metrics.meters.com.instana.filler.spanbuffer.ScheduledSpanBatcher.dropped-spans';
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   },
   {
     title: 'Raw Messages',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get(snapshot) {
-      const coords = getTenantUnitCoordinates(snapshot);
-      const metric =
-        'com.instana.backend.common.kafka.GenericKafkaConsumerRunnable.' +
-        `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`;
-      return getMeterCellContent(metric, snapshot);
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        const coords = getTenantUnitCoordinates(row.snapshot);
+        return (
+          'com.instana.backend.common.kafka.GenericKafkaConsumerRunnable.' +
+          `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`
+        );
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'Dropped Messages',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get: getMeterCellContent.bind(
-      null,
-      'metrics.meters.com.instana.filler.topology.RawMessagesStreamInitializer.dropped-messages'
-    )
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'metrics.meters.com.instana.filler.topology.RawMessagesStreamInitializer.dropped-messages';
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   },
   {
     title: 'Combined Metrics',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get(snapshot) {
-      const coords = getTenantUnitCoordinates(snapshot);
-      const metric =
-        'metrics.meters.com.instana.filler.topology.downstream.FilledMetricsKafkaDownstream.' +
-        `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_combined_metrics`;
-      return getMeterCellContent(metric, snapshot);
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        const coords = getTenantUnitCoordinates(row.snapshot);
+        return (
+          'metrics.meters.com.instana.filler.topology.downstream.FilledMetricsKafkaDownstream.' +
+          `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_combined_metrics`
+        );
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'Rollups',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get(snapshot) {
-      const coords = getTenantUnitCoordinates(snapshot);
-      const metric =
-        'metrics.meters.com.instana.filler.topology.downstream.RollupsKafkaDownstream.' +
-        `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_rollups`;
-      return getMeterCellContent(metric, snapshot);
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        const coords = getTenantUnitCoordinates(row.snapshot);
+        return (
+          'metrics.meters.com.instana.filler.topology.downstream.RollupsKafkaDownstream.' +
+          `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_rollups`
+        );
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'Snapshots',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get(snapshot) {
-      const coords = getTenantUnitCoordinates(snapshot);
-      const metric =
-        'metrics.meters.com.instana.filler.topology.downstream.SnapshotsKafkaDownstream.' +
-        `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_snapshots`;
-      return getMeterCellContent(metric, snapshot);
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        const coords = getTenantUnitCoordinates(row.snapshot);
+        return (
+          'metrics.meters.com.instana.filler.topology.downstream.SnapshotsKafkaDownstream.' +
+          `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_snapshots`
+        );
+      },
+      getContent: siPrefixPerSecond.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
-
-function getMeterCellContent(metric, snapshot) {
-  return {
-    content: (
-      <MetricValue
-        snapshotId={snapshot.get('id')}
-        metric={metric}
-        formatter={siPrefixPerSecond.detailed}
-        optionalTimeWindowAggregation="mean"
-      />
-    ),
-    sortable$: getMetricForFocusedMoment({
-      snapshotId: snapshot.get('id'),
-      metric
-    }).map(v => v[1])
-  };
-}
