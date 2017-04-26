@@ -130,7 +130,8 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 80
+            left: 80,
+            right: 80
           }}
           y1={{
             min: 0,
@@ -217,7 +218,8 @@ export default function RedisDashboard({ snapshot, timeframe }) {
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
-                left: 80
+                left: 80,
+                right: 80
               }}
               y1={{
                 metrics: pubSubMetrics(channelNames),
@@ -257,8 +259,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
-                left: 80,
-                right: 80
+                left: 80
               }}
               y1={{
                 min: 0,
