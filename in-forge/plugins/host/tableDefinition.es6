@@ -2,7 +2,9 @@ import React from 'react';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-// import { getFoundations } from 'in-stores/snapshot';
+import { getFoundations, getSnapshot } from 'in-stores/snapshot';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { getZone } from 'in-stores/zone';
 
 export default [
@@ -51,31 +53,33 @@ export default [
       }
     }
   },
-  // {
-  //   title: 'Type',
-  //   type: 'string',
-  //   typeArgs: {
-  //     getValue(row) {
-  //       return row.snapshot.getIn(['data', 'instance-type']) || '';
-  //     },
-  //     getContent(row) {
-  //       const instanceType = row.snapshot.getIn(['data', 'instance-type']) || '';
-  //       return (
-  //         <ImageAndLabel snapshot={row.snapshot}>
-  //           {instanceType}
-  //         </ImageAndLabel>
-  //       );
-  //     },
-  //     getSnapshotId$(row) {
-  //       return getFoundations(row.snapshotId).flatMap(foundations => {
-  //         if (foundations.size === 0) {
-  //           return null;
-  //         }
-  //         return foundations.first();
-  //       });
-  //     }
-  //   }
-  // },
+  {
+    title: 'Type',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        return getFoundations(row.snapshotId)
+          .flatMap(foundations => {
+            if (foundations.size === 0) {
+              return alwaysNull;
+            }
+            return getSnapshot(foundations.first());
+          })
+          .map(foundationSnapshot => {
+            if (!foundationSnapshot) {
+              return null;
+            }
+
+            const instanceType = foundationSnapshot.getIn(['data', 'instance-type']) || '';
+            return {
+              value: instanceType,
+              content: instanceType
+            };
+          });
+      }
+    }
+  },
   {
     title: '#CPUs',
     type: 'number',

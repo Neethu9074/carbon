@@ -28,6 +28,11 @@ import {
   validate as validateSnapshotLinkColumn,
   initialize as initializeSnapshotLinkColumn
 } from 'in-components/Table/renderers/snapshotLink';
+import {
+  type as customType,
+  validate as validateCustomColumn,
+  initialize as initializeCustomColumn
+} from 'in-components/Table/renderers/custom';
 
 export const renderers = {
   [healthColumnType]: { validate: validateHealthColumn, initialize: initializeHealthColumn },
@@ -35,5 +40,6 @@ export const renderers = {
   [metricType]: { validate: validateMetricColumn, initialize: initializeMetricColumn },
   [stringType]: { validate: validateStringColumn, initialize: initializeStringColumn },
   [numberType]: { validate: validateNumberColumn, initialize: initializeNumberColumn },
-  [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn }
+  [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
+  [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn }
 };

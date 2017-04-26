@@ -12,7 +12,7 @@ export default [
       getValue(row) {
         getSingular(row.snapshot.get('plugin'));
       },
-      getContent(row) {
+      getContent(value, row) {
         const pluginName = getSingular(row.snapshot.get('plugin'));
         return (
           <ImageAndLabel snapshot={row.snapshot}>
@@ -27,7 +27,7 @@ export default [
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshot;
+        return row.snapshotId;
       }
     }
   },
