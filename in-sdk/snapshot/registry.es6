@@ -29,8 +29,8 @@ function enrichTableDefinition(snapshotDefinition) {
   }
 
   // shallow copy to allow reuse of table definitions
-  snapshotDefinition.tableDefinition = snapshotDefinition.tableDefinition.slice();
-  snapshotDefinition.tableDefinition.push({
+  snapshotDefinition.tableDefinition.cols = snapshotDefinition.tableDefinition.cols.slice();
+  snapshotDefinition.tableDefinition.cols.push({
     title: 'Health',
     type: 'health',
     typeArgs: {
