@@ -1,5 +1,5 @@
 export function compare(a, b) {
-  if (a == null || b == null) {
+  if (a == null && b == null) {
     return 0;
   } else if (a == null) {
     return -1;
