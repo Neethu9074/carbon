@@ -27,7 +27,7 @@ export default function ClusterSummary({ snapshot }) {
         <MetricValue snapshotId={snapshotId} metric="document_count" formatter={withSiPrefixThreeDecimalPlaces} />
       </KpiKeyValue>
 
-      <KpiKeyValue label="Size of Store">
+      <KpiKeyValue label="Store Size">
         <MetricValue snapshotId={snapshotId} metric="store_size" formatter={withSiPrefixThreeDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>

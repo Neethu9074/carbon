@@ -31,7 +31,7 @@ export default function NodeSummary({ snapshot }) {
         />
       </KpiKeyValue>
 
-      <KpiKeyValue label="Size of Store">
+      <KpiKeyValue label="Store Size">
         <MetricValue snapshotId={snapshotId} metric="indices.store_size" formatter={withSiPrefixThreeDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>

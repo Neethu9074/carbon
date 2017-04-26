@@ -42,7 +42,7 @@ export default function ElasticsearchSidebar({ snapshot }) {
           },
           {
             metric: 'indices.store_size',
-            label: 'Size of store',
+            label: 'Store Size',
             formatter: bytesTwoDecimalPlaces
           }
         ]}
