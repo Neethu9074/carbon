@@ -31,7 +31,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.data.get('webApps.' + row.key + '.sessionTimeout');
+        return String(row.data.get('webApps.' + row.key + '.sessionTimeout'));
       }
     }
   },
@@ -63,6 +63,7 @@ export default function WebAppsTable({ snapshot, timeframe }) {
       key,
       snapshotId: snapshot.get('id'),
       snapshot,
+      data: snapshot.get('data'),
       timeframe
     };
   });
