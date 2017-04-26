@@ -5,14 +5,11 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
-  zeroDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces,
+  withSiMultiplyPrefixThreeDecimalPlaces,
   timeByMillisTwoDecimalPlaces,
   msTwoDecimalPlaces,
-  msZeroDecimalPlaces,
-  withSiPrefixZeroDecimalPlaces,
-  twoDecimalPlaces,
-  withSiPrefixThreeDecimalPlaces
+  withSiPrefixThreeDecimalPlaces,
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 
 import NodeSummary from '../NodeSummary.es6';
@@ -32,15 +29,14 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           }}
           y1={{
             min: 0,
-            formatter: msZeroDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
+            formatter: msTwoDecimalPlaces,
             metrics: ['indices.query_latency'],
             labels: ['Latency'],
             type: 'line'
           }}
           y2={{
             min: 0,
-            formatter: withSiPrefixZeroDecimalPlaces,
+            formatter: withSiPrefixThreeDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
             metrics: ['indices.query_count'],
             labels: ['Number Of Queries'],
@@ -59,7 +55,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
             }}
             y1={{
               min: 0,
-              formatter: withSiPrefixZeroDecimalPlaces,
+              formatter: withSiPrefixThreeDecimalPlaces,
               tooltipFormatter: twoDecimalPlaces,
               metrics: ['indices_count'],
               labels: ['Indices'],
@@ -126,8 +122,8 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['indices.refresh_count', 'indices.flush_count'],
             labels: ['Refresh Count', 'Flush Count'],
-            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
             type: 'line'
           }}
           y2={{
@@ -150,8 +146,8 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
             min: 0,
             metrics: ['indices.segment_count'],
             labels: ['Segments'],
-            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
         />
@@ -176,7 +172,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
               'threads.refresh_active'
             ],
             labels: ['Search', 'Index', 'Bulk', 'Merge', 'Flush', 'Get', 'Management', 'Refresh'],
-            formatter: zeroDecimalPlaces,
+            formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
         />
@@ -197,7 +193,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
               'threads.get_rejected'
             ],
             labels: ['Search', 'Index', 'Bulk', 'Get'],
-            formatter: zeroDecimalPlaces,
+            formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
         />
@@ -222,7 +218,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
               'threads.refresh_queue'
             ],
             labels: ['Search', 'Index', 'Bulk', 'Merge', 'Flush', 'Get', 'Management', 'Refresh'],
-            formatter: zeroDecimalPlaces,
+            formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
         />
