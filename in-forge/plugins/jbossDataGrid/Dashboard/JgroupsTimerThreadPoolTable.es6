@@ -1,91 +1,115 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sdk/components/dashboard/Table';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+
+const cols = [
+  {
+    title: 'Cluster name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Timer Threads Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.timerThreadsSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Timer Queue Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.timerQueueSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Timer Tasks Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.timerTasks`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ClusterUDPStatisticsTable({ snapshot, timeframe }) {
   const clusters = snapshot
     .getIn(['data', 'clusters'], emptyMap)
-    .filter(clusterInfo => clusterInfo.get('udpStats') === true);
+    .filter(clusterInfo => clusterInfo.get('udpStats') === true)
+    .keySeq()
+    .toArray();
 
   if (clusters.size === 0) {
     return null;
   }
 
+  const rows = clusters.map(cluster => {
+    return {
+      key: cluster,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
-    <DashboardSection title="JGroups Cluster UDP Statistics">
-      <ExpandableTable
-        data={clusters}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title="JGroups Timer Thread Pool Statistics">
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(cacheInfo, cacheName) {
-  return cacheName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Cluster name</th>
-        <th>Timer Threads Size</th>
-        <th>Timer Queue Size</th>
-        <th>Timer Tasks Size</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(clusterInfo, clusterName, context) {
-  return [
-    <td>{clusterName}</td>,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.timerThreadsSize'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.timerQueueSize'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.timerTasks'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(clusterInfo, clusterName, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: zeroDecimalPlaces,
+          formatter: number.compact,
           metrics: [
-            'clustersUDPStatistics.' + clusterName + '.timerThreadsSize',
-            'clustersUDPStatistics.' + clusterName + '.timerQueueSize',
-            'clustersUDPStatistics.' + clusterName + '.timerTasks'
+            'clustersUDPStatistics.' + row.key + '.timerThreadsSize',
+            'clustersUDPStatistics.' + row.key + '.timerQueueSize',
+            'clustersUDPStatistics.' + row.key + '.timerTasks'
           ],
           labels: ['Timer Threads Size', 'Timer Queue Size', 'Timer Tasks Size'],
           type: 'line'

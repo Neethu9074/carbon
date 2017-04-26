@@ -1,133 +1,168 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sdk/components/dashboard/Table';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+
+const cols = [
+  {
+    title: 'Cache Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Cache Puts',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cachesStatistics.${row.key}.stores`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Read/Write Ratio',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cachesStatistics.${row.key}.readWriteRatio`;
+      },
+      getContent: percentage.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Entries',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cachesStatistics.${row.key}.numberOfEntries`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Evictions',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cachesStatistics.${row.key}.evictions`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function CacheStatisticsTable({ snapshot, timeframe }) {
   const caches = snapshot
     .getIn(['data', 'caches'], emptyMap)
-    .filter(cacheInfo => cacheInfo.get('statisticsEnabled') === true);
+    .filter(cacheInfo => cacheInfo.get('statisticsEnabled') === true)
+    .keySeq()
+    .toArray();
 
   if (caches.size === 0) {
     return null;
   }
 
+  const rows = caches.map(cache => {
+    return {
+      key: cache,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
     <DashboardSection title="Other Cache Statistics">
-      <ExpandableTable
-        data={caches}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(cacheInfo, cacheName) {
-  return cacheName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Cache Name</th>
-        <th>Cache Puts</th>
-        <th>Read/Write Ratio</th>
-        <th>Entries</th>
-        <th>Evictions</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(cacheInfo, cacheName, context) {
-  return [
-    <td>{cacheName}</td>,
-    <Mtd
-      metric={'cachesStatistics.' + cacheName + '.stores'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'cachesStatistics.' + cacheName + '.readWriteRatio'}
-      snapshot={context.snapshot}
-      formatter={percentageZeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'cachesStatistics.' + cacheName + '.numberOfEntries'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'cachesStatistics.' + cacheName + '.evictions'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(cacheInfo, cacheName, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: zeroDecimalPlaces,
-          metrics: ['cachesStatistics.' + cacheName + '.stores'],
+          formatter: number.compact,
+          metrics: ['cachesStatistics.' + row.key + '.stores'],
           labels: ['Cache Puts'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: percentageZeroDecimalPlaces,
-          metrics: ['cachesStatistics.' + cacheName + '.readWriteRatio'],
+          formatter: percentage.compact,
+          tooltipFormatter: percentage.detailed,
+          metrics: ['cachesStatistics.' + row.key + '.readWriteRatio'],
           labels: ['Read/Write Ratio'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: zeroDecimalPlaces,
-          metrics: ['cachesStatistics.' + cacheName + '.numberOfEntries'],
+          formatter: number.compact,
+          metrics: ['cachesStatistics.' + row.key + '.numberOfEntries'],
           labels: ['Entries'],
           type: 'line'
         }}
       />
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: zeroDecimalPlaces,
-          metrics: ['cachesStatistics.' + cacheName + '.evictions'],
+          formatter: number.compact,
+          metrics: ['cachesStatistics.' + row.key + '.evictions'],
           labels: ['Evictions'],
           type: 'line'
         }}

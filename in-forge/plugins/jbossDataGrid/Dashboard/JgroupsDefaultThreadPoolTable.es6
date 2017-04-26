@@ -1,91 +1,115 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sdk/components/dashboard/Table';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+
+const cols = [
+  {
+    title: 'Cluster name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Incoming Messages Threads Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.defaultThreadsSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Incoming Messages Active Threads Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.defaultActiveThreadsSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Incoming Messages Queue Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `clustersUDPStatistics.${row.key}.defaultQueueSize`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ClusterUDPStatisticsTable({ snapshot, timeframe }) {
   const clusters = snapshot
     .getIn(['data', 'clusters'], emptyMap)
-    .filter(clusterInfo => clusterInfo.get('udpStats') === true);
+    .filter(clusterInfo => clusterInfo.get('udpStats') === true)
+    .keySeq()
+    .toArray();
 
   if (clusters.size === 0) {
     return null;
   }
 
+  const rows = clusters.map(cluster => {
+    return {
+      key: cluster,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
   return (
     <DashboardSection title="JGroups Default Thread Pool Statistics">
-      <ExpandableTable
-        data={clusters}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(cacheInfo, cacheName) {
-  return cacheName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Cluster name</th>
-        <th>Incoming Messages Threads Size</th>
-        <th>Incoming Messages Active Threads Size</th>
-        <th>Incoming Messages Queue Size</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(clusterInfo, clusterName, context) {
-  return [
-    <td>{clusterName}</td>,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.defaultThreadsSize'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.defaultActiveThreadsSize'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />,
-    <Mtd
-      metric={'clustersUDPStatistics.' + clusterName + '.defaultQueueSize'}
-      snapshot={context.snapshot}
-      formatter={zeroDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(clusterInfo, clusterName, context) {
+function getRowDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          formatter: zeroDecimalPlaces,
+          formatter: number.compact,
           metrics: [
-            'clustersUDPStatistics.' + clusterName + '.defaultThreadsSize',
-            'clustersUDPStatistics.' + clusterName + '.defaultActiveThreadsSize',
-            'clustersUDPStatistics.' + clusterName + '.defaultQueueSize'
+            'clustersUDPStatistics.' + row.key + '.defaultThreadsSize',
+            'clustersUDPStatistics.' + row.key + '.defaultActiveThreadsSize',
+            'clustersUDPStatistics.' + row.key + '.defaultQueueSize'
           ],
           labels: [
             'Incoming Messages Threads Size',
