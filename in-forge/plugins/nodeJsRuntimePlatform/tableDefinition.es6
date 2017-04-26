@@ -1,96 +1,61 @@
-import React from 'react';
-
-import { bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { getMetricForFocusedMoment } from 'in-stores/metric';
-import MetricValue from 'in-components/MetricValue';
-import { time } from 'in-services/formatters/number';
-import { getLabel } from 'in-sdk/snapshot';
+import { time, bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
     title: 'App',
-    sortableType: String,
-    get(snapshot) {
-      const label = getLabel(snapshot);
-
-      return {
-        content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
-            {label}
-          </HierarchicalLink>
-        ),
-        sortable: label
-      };
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
     }
   },
   {
     title: 'Heap Used',
-    sortableType: Number,
-    style: {
-      textAlign: 'right'
-    },
-    get(snapshot) {
-      return {
-        content: (
-          <MetricValue
-            snapshotId={snapshot.get('id')}
-            metric="memory.heapUsed"
-            formatter={bytesTwoDecimalPlaces}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'memory.heapUsed'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'memory.heapUsed';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'GC pause/s',
-    sortableType: Number,
-    style: {
-      textAlign: 'right'
-    },
-    get(snapshot) {
-      return {
-        content: (
-          <MetricValue
-            snapshotId={snapshot.get('id')}
-            metric="gc.gcPause"
-            formatter={timeByMillisTwoDecimalPlaces}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'gc.gcPause'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'gc.gcPause';
+      },
+      getContent: timeByMillisTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: 'Event Loop Lag',
-    sortableType: Number,
-    style: {
-      textAlign: 'right'
-    },
-    get(snapshot) {
-      return {
-        content: (
-          <MetricValue
-            snapshotId={snapshot.get('id')}
-            metric="libuv.lag"
-            formatter={time}
-            optionalTimeWindowAggregation="mean"
-          />
-        ),
-        sortable$: getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'libuv.lag'
-        }).map(v => v[1])
-      };
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'libuv.lag';
+      },
+      getContent: time,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
