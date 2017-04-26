@@ -35,7 +35,8 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    const cols = getTableDefinition(plugin);
+    const tableDefinition = getTableDefinition(plugin);
+    const cols = tableDefinition.cols;
     const rows = snapshots.map(snapshot => {
       const snapshotId = snapshot.get('id');
       return {
@@ -50,6 +51,8 @@ export default connectTo(
         <Table
           cols={cols}
           rows={rows}
+          initialSortColumn={tableDefinition.initialSortColumn}
+          initialSortDirection={tableDefinition.initialSortDirection}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
           leftHeader={<LeftHeader />}
           rightHeader={<RightHeader />}

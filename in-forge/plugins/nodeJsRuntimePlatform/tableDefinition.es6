@@ -1,61 +1,66 @@
 import { time, bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 
-export default [
-  {
-    title: 'App',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+export default {
+  initialSortColumn: 0,
+  initialSortDirection: 'asc',
+
+  cols: [
+    {
+      title: 'App',
+      type: 'snapshotLink',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        }
+      }
+    },
+    {
+      title: 'Heap Used',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'memory.heapUsed';
+        },
+        getContent: bytesTwoDecimalPlaces,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
+      title: 'GC pause/s',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'gc.gcPause';
+        },
+        getContent: timeByMillisTwoDecimalPlaces,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
+      title: 'Event Loop Lag',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'libuv.lag';
+        },
+        getContent: time,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
       }
     }
-  },
-  {
-    title: 'Heap Used',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName() {
-        return 'memory.heapUsed';
-      },
-      getContent: bytesTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'GC pause/s',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName() {
-        return 'gc.gcPause';
-      },
-      getContent: timeByMillisTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Event Loop Lag',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName() {
-        return 'libuv.lag';
-      },
-      getContent: time,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  }
-];
+  ]
+};
