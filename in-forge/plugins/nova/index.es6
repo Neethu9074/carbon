@@ -10,13 +10,6 @@ registerSnapshotDefinition({
     singular: 'OpenStack Compute Instance',
     plural: 'OpenStack Compute Instances'
   },
-
-  namesForTypeSearch: ['nova'],
-
   iconSvgPath,
-  metricDefinitions,
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'instance-id']);
-  }
+  metricDefinitions
 });
