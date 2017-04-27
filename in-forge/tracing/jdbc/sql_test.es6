@@ -7,6 +7,10 @@ import { formatSql, shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 
 describe('in-forge/tracing/jdbc/sql', () => {
   describe('formatSql', () => {
+    it('must not explode when null is passed', () => {
+      expect(formatSql(null)).to.equal(null);
+    });
+
     describe('select statements', () => {
       it('must format simple select statements', () => {
         expect(formatSql('select name from person')).to.equal('SELECT name\nFROM person');
@@ -21,6 +25,10 @@ describe('in-forge/tracing/jdbc/sql', () => {
   });
 
   describe('shortenSqlStatement', () => {
+    it('must not explode when null is passed', () => {
+      expect(shortenSqlStatement(null)).to.equal(null);
+    });
+
     describe('select statements', () => {
       it('must include count hint', () => {
         expect(shortenSqlStatement('select count(*) from product')).to.equal('SELECT COUNT … FROM product');

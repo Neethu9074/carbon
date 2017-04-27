@@ -14,6 +14,10 @@ const replacements = [
 ].map(keyword => new RegExp('(?:^|\\s+)(' + keyword + ')\\s', 'ig'));
 
 export function formatSql(statement) {
+  if (!statement) {
+    return statement;
+  }
+
   let formattedStatement = statement;
 
   // we want to be in total control over line breaks
@@ -38,6 +42,10 @@ export function formatSql(statement) {
 }
 
 export function shortenSqlStatement(sql) {
+  if (!sql) {
+    return sql;
+  }
+
   sql = sql.trim().replace(/\n/g, ' ');
   if (isSelectStatement(sql)) {
     return shortenSelectStatement(sql);
