@@ -54,11 +54,11 @@ export function setValue(path, value) {
 }
 
 export function moveRuleUp(index) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveUp(Number(index)));
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveUp(index));
 }
 
 export function moveRuleDown(index) {
-  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveDown(Number(index)));
+  ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveDown(index));
 }
 
 export function removeRule(index) {
@@ -157,12 +157,12 @@ export function saveRules(ruleForms) {
 
 export function createRulesFromRuleForms(ruleForms) {
   return ruleForms.map((ruleForm, i) => {
-    const matchSpecificationForm = ruleForm.get('matchSpecification').toJS();
+    const matchSpecificationForm = ruleForm.get('matchSpecification');
 
-    const matchSpecification = Object.keys(matchSpecificationForm).reduce((acc, cur) => {
-      acc[cur] = matchSpecificationForm[cur].value;
-      return acc;
+    const matchSpecification = matchSpecificationForm.reduce((acc, cur, key) => {
+      return { ...acc, [key]: cur.value };
     }, {});
+
     return {
       id: ruleForm.get('id').value,
       name: ruleForm.get('name').value,

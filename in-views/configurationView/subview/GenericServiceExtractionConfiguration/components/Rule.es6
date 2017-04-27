@@ -61,8 +61,8 @@ export default class extends React.Component {
               [`${block}__actions--has-error`]: !ruleForm.hierarchyValid
             })}
           >
-            <SvgIcon type="chevron_up" width={12} className={`${block}__up`} onClick={() => moveRuleDown(path)} />
-            <SvgIcon type="chevron_down" width={12} className={`${block}__down`} onClick={() => moveRuleUp(path)} />
+            <SvgIcon type="chevron_up" width={12} className={`${block}__up`} onClick={() => moveRuleDown(path[0])} />
+            <SvgIcon type="chevron_down" width={12} className={`${block}__down`} onClick={() => moveRuleUp(path[0])} />
             <SvgIcon
               type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
               width={12}
@@ -147,7 +147,7 @@ export default class extends React.Component {
                       {field.valid
                         ? null
                         : <ValidationBlock hasError>
-                            {field.messages}
+                            {field.messages.map(e => e.message)}
                           </ValidationBlock>}
                       <HelpBlock>
                         {matchSpecificationOptions[key].help}
