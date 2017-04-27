@@ -103,6 +103,7 @@ import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
 import './solr';
+import './sparkApplication';
 import './springbootApplicationContainer';
 import './statsd';
 import './tomcatApplicationContainer';
