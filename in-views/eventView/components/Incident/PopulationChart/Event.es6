@@ -15,7 +15,7 @@ export default connectTo(
     return {
       color: fireCallbacksForEventAtFocusedMomentAsStream(
         props.event,
-        e => getColorByEvent(e.event, e.focusedMoment),
+        e => getColorByEvent(e.event, { focusedMoment: e.focusedMoment }),
         () => '#40535b'
       ),
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)

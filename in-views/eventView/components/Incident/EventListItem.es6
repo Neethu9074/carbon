@@ -26,7 +26,7 @@ const block = 'in-event-view-incident-event-list-item';
 export default connectTo(
   props => {
     return {
-      background: getColorForEventAtFocusedMomentAsStream(props.event),
+      background: getColorForEventAtFocusedMomentAsStream(props.event, 'day'),
       highlightedEventId: highlightedEventId$
     };
   },
@@ -85,7 +85,7 @@ export default connectTo(
               <DetailsHeader
                 event={event}
                 iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
-                background={background === '#ffffff' ? '#bababa' : background}
+                background={background}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
