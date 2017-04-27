@@ -108,7 +108,7 @@ export default function createEventRenderer(ctx, scale) {
       }
     }
 
-    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent(event);
+    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent({event});
 
     const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;

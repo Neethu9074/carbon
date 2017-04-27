@@ -46,7 +46,7 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
 
     const buffer = ctx;
     buffer.globalAlpha = 0.2;
-    buffer.fillStyle = getColorByEvent(highlightedEvent, { focusedMoment });
+    buffer.fillStyle = getColorByEvent({ event: highlightedEvent, focusedMoment });
     buffer.fillRect(from, y, to - from, 36);
     buffer.globalAlpha = 1;
   }

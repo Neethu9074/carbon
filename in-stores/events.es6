@@ -386,7 +386,7 @@ export function countEvents(events) {
   return counter;
 }
 
-export function getColorByEvent(event, { focusedMoment, theme = 'night' }) {
+export function getColorByEvent({ event, focusedMoment, theme = 'night' }) {
   const severity = event.getIn(['problem', 'severity'], 0);
   const start = event.get('start');
   const end = event.get('end');
@@ -402,7 +402,7 @@ export function getColorByEvent(event, { focusedMoment, theme = 'night' }) {
 }
 
 export function getColorForEventAtFocusedMomentAsStream(event, theme) {
-  return focusedMoment$.map(focusedMoment => getColorByEvent(event, { focusedMoment, theme }));
+  return focusedMoment$.map(focusedMoment => getColorByEvent({ event, focusedMoment, theme }));
 }
 
 export function getColorForMostSevereEvents(events) {
@@ -415,7 +415,7 @@ export function getColorForMostSevereEvents(events) {
       eventWithMaxSeverity = event;
     }
   });
-  return getColorByEvent(eventWithMaxSeverity);
+  return getColorByEvent({event: eventWithMaxSeverity});
 }
 
 const health = [
