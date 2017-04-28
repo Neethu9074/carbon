@@ -1,13 +1,12 @@
 import { combineLatest } from 'reactive-observables';
 
-import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
-
 import ParticleEmitterComponent from 'in-map/sceneObjectComponents/ParticleEmitterComponent';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 
 import {
   shortenPathAtSourceAndDestination,

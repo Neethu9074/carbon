@@ -2,7 +2,7 @@ import { Line, BufferGeometry, LineBasicMaterial, Vector3 } from 'in-map/3DLibPr
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { UP } from 'in-map/misc/fixedVectors';
 
-const COLLISION_LINE_MATERIAL = new LineBasicMaterial();
+const COLLISION_LINE_MATERIAL = new LineBasicMaterial({ color: 0xff00ff });
 
 export function getManhattanPath(fromX, fromY, toX, toY) {
   const p0 = new Vector3(fromX, 0, fromY);
@@ -156,7 +156,12 @@ export function intersects(raycaster, collisionLine) {
 
   raycaster.linePrecision = 0.25;
   const hit = raycaster.intersectObject(collisionLine, false);
-  return hit.length > 0;
+  for (let i = 0, length = hit.length; i < length; i++) {
+    if (hit[i].distance >= 0) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function getOffsetVectors(from, to) {
