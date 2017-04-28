@@ -38,19 +38,19 @@ describe('in-components/SearchBar/misc/fields', () => {
     ]);
   });
 
-  it('returns root on empty null', () => {
+  it('must return root on empty null', () => {
     expect(mod.findNode().name).to.equal('root');
   });
 
-  it('returns root on empty string', () => {
+  it('must return root on empty string', () => {
     expect(mod.findNode('').name).to.equal('root');
   });
 
-  it('returns matching nodes', () => {
+  it('must return matching nodes', () => {
     expect(mod.findNode('e').name).to.equal('root');
   });
 
-  it('returns all children for valid first stage', () => {
+  it('must return all children for valid first stage', () => {
     expect(mod.findNode('entity').name).to.equal('root');
     expect(mod.findNode('span').name).to.equal('root');
     expect(mod.findNode('graph').name).to.equal('root');
@@ -58,7 +58,7 @@ describe('in-components/SearchBar/misc/fields', () => {
     expect(mod.findNode('event').name).to.equal('root');
   });
 
-  it('should only enter the matching node on dot', () => {
+  it('must only enter the matching node on dot', () => {
     expect(mod.findNode('entity.').name).to.equal('entity');
     expect(mod.findNode('span.').name).to.equal('span');
     expect(mod.findNode('graph.').name).to.equal('graph');
@@ -66,28 +66,27 @@ describe('in-components/SearchBar/misc/fields', () => {
     expect(mod.findNode('event.').name).to.equal('event');
   });
 
-  it('returns all children for valid second stage', () => {
+  it('must return all children for valid second stage', () => {
     expect(mod.findNode('span.location').name).to.equal('span');
     expect(mod.findNode('span.location.').name).to.equal('location');
   });
 
-  it('returns all children for valid third stage', () => {
+  it('must return all children for valid third stage', () => {
     expect(mod.findNode('span.location.country').name).to.equal('location');
     expect(mod.findNode('span.location.country.')).to.equal(null);
   });
 
-  it('should skip unknown path', () => {
+  it('must skip unknown path', () => {
     expect(mod.findNode('span.unknnown')).to.equal(null);
   });
 
-  it('should skip unknown path', () => {
+  it('must skip unknown path', () => {
     expect(mod.findNode('unknown.')).to.equal(null);
     expect(mod.findNode('ent.')).to.equal(null);
     expect(mod.findNode('.')).to.equal(null);
   });
 
-  it('should skip blacklisted items', () => {
+  it('must skip blacklisted items', () => {
     expect(mod.findNode('log')).to.equal(null);
-    expect(mod.findNode('span.content')).to.equal(null);
   });
 });

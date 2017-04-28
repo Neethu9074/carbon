@@ -14,7 +14,7 @@ export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
 export const cockpitEnabled = false;
 
-export const blackListedSearchFieldKeywords = ['log', 'span.content'];
+export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'event.type': ['objectiveViolation'],
