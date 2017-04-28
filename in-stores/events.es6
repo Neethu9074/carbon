@@ -78,7 +78,8 @@ function filterEventsByTime([to, from, events]) {
     const result = [];
     for (let i = 0, len = eventsToFiler.length; i < len; i++) {
       const event = eventsToFiler[i];
-      if (event.time < from) {
+      const eventTo = event.state === 'open' ? Number.MAX_VALUE : event.end;
+      if (eventTo < from) {
         continue;
       } else if (event.time > to) {
         break;
@@ -415,7 +416,7 @@ export function getColorForMostSevereEvents(events) {
       eventWithMaxSeverity = event;
     }
   });
-  return getColorByEvent({event: eventWithMaxSeverity});
+  return getColorByEvent({ event: eventWithMaxSeverity });
 }
 
 const health = [
