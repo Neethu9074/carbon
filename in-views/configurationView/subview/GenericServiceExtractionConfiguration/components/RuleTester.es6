@@ -28,7 +28,7 @@ export default class extends React.Component {
 
   render() {
     const ruleForm = this.props.ruleForm;
-    if (!ruleForm.valid) {
+    if (!ruleForm.hierarchyValid) {
       return (
         <div className={block}>
           {this.getHeader()}
