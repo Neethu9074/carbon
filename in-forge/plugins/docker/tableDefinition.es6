@@ -25,6 +25,24 @@ export default {
       }
     },
     {
+      title: 'Created',
+      type: 'dateTime',
+      typeArgs: {
+        getValue(row) {
+          return row.snapshot.getIn(['data', 'Created']);
+        }
+      }
+    },
+    {
+      title: 'Started',
+      type: 'dateTime',
+      typeArgs: {
+        getValue(row) {
+          return row.snapshot.getIn(['data', 'Started']);
+        }
+      }
+    },
+    {
       title: 'CPU Usage',
       type: 'metric',
       typeArgs: {

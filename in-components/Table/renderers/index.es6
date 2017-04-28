@@ -19,6 +19,11 @@ import {
   initialize as initializeStringColumn
 } from 'in-components/Table/renderers/string';
 import {
+  type as dateTimeType,
+  validate as validateDateTimeColumn,
+  initialize as initializeDateTimeColumn
+} from 'in-components/Table/renderers/dateTime';
+import {
   type as numberType,
   validate as validateNumberColumn,
   initialize as initializeNumberColumn
@@ -39,6 +44,7 @@ export const renderers = {
   [sparkChartType]: { validate: validateSparkChartColumn, initialize: initializeSparkChartColumn },
   [metricType]: { validate: validateMetricColumn, initialize: initializeMetricColumn },
   [stringType]: { validate: validateStringColumn, initialize: initializeStringColumn },
+  [dateTimeType]: { validate: validateDateTimeColumn, initialize: initializeDateTimeColumn },
   [numberType]: { validate: validateNumberColumn, initialize: initializeNumberColumn },
   [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
   [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn }
