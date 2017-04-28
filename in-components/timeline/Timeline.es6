@@ -9,7 +9,7 @@ import DateTimePickerPopup from 'in-components/timeline/components/DatePicker';
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
 import './Timeline.less';
@@ -20,7 +20,7 @@ export default connectTo(
   {
     isCollapsed: isCollapsed$,
     showTimeSelector: showTimeSelector$,
-    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+    autoCollapseTimeline: getSetting$('autoCollapseTimeline')
   },
   function Timeline({ showTimeSelector, isCollapsed, autoCollapseTimeline }) {
     return (

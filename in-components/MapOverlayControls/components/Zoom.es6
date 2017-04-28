@@ -2,7 +2,7 @@ import React from 'react';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import Control from 'in-components/MapOverlayControls/components/Control';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
 import './Zoom.less';
@@ -12,7 +12,7 @@ const UNITS_TO_ZOOM = 100;
 
 export default connectTo(
   {
-    showZoomPanel: getIn(['zoomPanelIsActive'])
+    showZoomPanel: getSetting$('zoomPanelIsActive')
   },
   function Zoom({ showZoomPanel }) {
     if (!showZoomPanel) {

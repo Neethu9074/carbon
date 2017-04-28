@@ -2,7 +2,7 @@ import React from 'react';
 
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,7 +13,7 @@ export default createStickyNote(
     props => {
       return {
         snapshot: getSnapshot(props.id),
-        showHostLabels: getIn(['map', 'showHostLabels'])
+        showHostLabels: getSetting$('map_showHostLabels')
       };
     },
     function Node({ snapshot, showHostLabels }) {

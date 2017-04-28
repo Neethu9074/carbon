@@ -11,7 +11,7 @@ import {
 import { serverTime$ } from 'in-stores/serverTime';
 import activeTheme from 'in-themes/active.json';
 import { createStore } from 'in-stores/store';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
@@ -35,7 +35,7 @@ const isCollapsedStore = createStore({
 });
 export const isCollapsed$ = isCollapsedStore.observable;
 
-export const timelineHeight$ = combineLatest([isCollapsed$, getIn(['autoCollapseTimeline'])])
+export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
   .map(([isCollapsed, autoCollapseTimeline]) => {
     if (autoCollapseTimeline) {
       return activeTheme.footer.height;

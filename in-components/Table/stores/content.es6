@@ -3,10 +3,10 @@ import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
 
 import { renderers } from 'in-components/Table/renderers';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 
 let updateFrequencyMillis = 3000;
-getIn(['tables', 'refreshRate']).subscribe(refreshRate => updateFrequencyMillis = refreshRate);
+getSetting$('tables_refreshRate').subscribe(refreshRate => updateFrequencyMillis = refreshRate);
 
 export function createStore({
   columnDefinitions,

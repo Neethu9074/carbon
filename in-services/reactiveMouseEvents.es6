@@ -1,11 +1,11 @@
 import { combineLatest, on } from 'reactive-observables';
 
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 
 export function onWheel(domElement, callback) {
   return combineLatest([
-    getIn(['map', 'scrollSpeed']),
-    getIn(['map', 'scrollDirection']),
+    getSetting$('map_scrollSpeed'),
+    getSetting$('map_scrollDirection'),
     on(domElement, 'wheel', { passive: true }).throttle(50)
   ]).subscribe(props => {
     const event = props[2];

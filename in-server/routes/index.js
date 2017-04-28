@@ -84,7 +84,8 @@ const prefetchItems = fs.readdirSync(paths.bundleDir)
 
 router.get('/', (req, res) => {
   getCurrentUser(req)
-    .then(([statusCode, userStr]) => sendIndex(req, res, statusCode, userStr))
+    .then(([statusCode, userStr]) => getUserSettings(req, res, statusCode, userStr))
+    .then(([statusCode, userStr, userSettings]) => sendIndex(req, res, statusCode, userStr, userSettings))
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
       errorPages.send500(req, res);
@@ -110,8 +111,25 @@ function getCurrentUser(req) {
   });
 }
 
+function getUserSettings(req, res, getUserStatusCode, userStr) {
+  return new Promise((resolve, reject) => {
+    sendRequest({
+      url: serverConfig.uiBackendBaseUrl + '/api/ui/settings',
+      headers: {
+        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+      },
+      timeout: 5000
+    }, (error, response, userSettings) => {
+      if (error) {
+        reject(new Error('Failed to retrieve user settings from ui-backend: ' + String(error)));
+      } else {
+        resolve([response.statusCode, userStr, userSettings]);
+      }
+    });
+  });
+}
 
-function sendIndex(req, res, getUserStatusCode, userStr) {
+function sendIndex(req, res, getUserStatusCode, userStr, userSettings) {
   if (getUserStatusCode === 401) {
     const requestedAbsoluteUrl = serverConfig.baseUrl + req.originalUrl;
     res.redirect(
@@ -176,6 +194,7 @@ function sendIndex(req, res, getUserStatusCode, userStr) {
     user: userStr,
     config: stringifiedClientConfig,
     build: stringifiedBuildInformation,
-    searchFields: searchFields.searchFieldsStr
+    searchFields: searchFields.searchFieldsStr,
+    settings: userSettings
   }));
 }

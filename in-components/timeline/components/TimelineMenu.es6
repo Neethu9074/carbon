@@ -5,7 +5,7 @@ import TimelineLiveIndicator from 'in-components/timeline/components/TimelineLiv
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
 import { isCollapsed$, toggleMenu } from 'in-components/timeline/timelineStore';
-import { getIn, toggleIn } from 'in-services/settings';
+import { getSetting$, toggleIn } from 'in-services/settings';
 import { eventsInTimeframe$ } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -19,7 +19,7 @@ export default connectTo(
   {
     events: eventsInTimeframe$,
     isCollapsed: isCollapsed$,
-    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+    autoCollapseTimeline: getSetting$('autoCollapseTimeline')
   },
   function TimelineMenu({ events, isCollapsed, autoCollapseTimeline }) {
     return (
@@ -29,7 +29,7 @@ export default connectTo(
             type={autoCollapseTimeline ? 'unpin' : 'pinned'}
             width={12}
             className={`${block}__toggle-auto-expand`}
-            onClick={() => toggleIn(['autoCollapseTimeline'])}
+            onClick={() => toggleIn('autoCollapseTimeline')}
           />
         </Tooltip>
 

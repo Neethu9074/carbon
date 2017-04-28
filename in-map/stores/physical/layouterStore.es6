@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 
 import SimpleLayouter from 'in-map/misc/physical/layoutingStrategies/SimpleLayouter';
 import PackedLayouter from 'in-map/misc/physical/layoutingStrategies/PackedLayouter';
-import { setIn, getIn, settings$ } from 'in-services/settings';
+import { setIn, getSetting$, settings$ } from 'in-services/settings';
 import { always } from 'in-services/fixedStreams';
 
 export const simpleLayouting$ = always({
@@ -14,15 +14,14 @@ export const packedLayouting$ = settings$.map(settings => {
   return {
     applyLayout: PackedLayouter,
     config: {
-      packingXSpace: settings.getIn(['map', 'packingXSpace']),
-      packingYSpace: settings.getIn(['map', 'packingYSpace'])
+      packingXSpace: settings.get('map_packingXSpace'),
+      packingYSpace: settings.get('map_packingYSpace')
     }
   };
 });
 
-const layouterSettingsPath = ['map', 'physical', 'layouter'];
 export const currentLayoutingStrategy$ = create();
-getIn(layouterSettingsPath).once(storedLayouter => {
+getSetting$('map_physical_layouter').once(storedLayouter => {
   if (storedLayouter === 'simple') {
     currentLayoutingStrategy$.emit(simpleLayouting$);
   } else if (storedLayouter === 'packed') {
@@ -33,8 +32,8 @@ getIn(layouterSettingsPath).once(storedLayouter => {
 export function setLayoutingStrategy(newLayouting$) {
   currentLayoutingStrategy$.emit(newLayouting$);
   if (newLayouting$ === simpleLayouting$) {
-    setIn(layouterSettingsPath, 'simple');
+    setIn('map_physical_layouter', 'simple');
   } else if (newLayouting$ === packedLayouting$) {
-    setIn(layouterSettingsPath, 'packed');
+    setIn('map_physical_layouter', 'packed');
   }
 }
