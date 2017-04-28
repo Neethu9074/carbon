@@ -17,6 +17,7 @@ export const cockpitEnabled = false;
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
+  'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'event.type': ['objectiveViolation'],
   'entity.type': ['agent']
 };
