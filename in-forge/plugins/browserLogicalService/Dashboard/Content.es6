@@ -29,7 +29,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
             timeWindowAggregation="adjustedCount"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="time to page load  (95th)">
+        <KpiKeyValue label="time to page load (95th)">
           <MetricValue snapshotId={snapshotId} metric="duration. (95th)" formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. time to page load in " />}>
@@ -71,23 +71,48 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
           />
         </DashboardSection>
 
-        <DashboardSection title="Errors/s">
+        <DashboardSection title="XHR / AJAX">
           <ChartWithLegend
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
-              left: 80
+              left: 80,
+              right: 80
             }}
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
-              metrics: ['error_count'],
-              labels: ['errors/s'],
+              metrics: ['xhrCalls'],
+              labels: ['Calls'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: twoDecimalPlaces,
+              metrics: ['xhrErrors'],
+              labels: ['Errors'],
               type: 'line'
             }}
           />
         </DashboardSection>
       </TwoColumnRow>
+
+      <DashboardSection title="Uncaught Errors">
+        <ChartWithLegend
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: twoDecimalPlaces,
+            metrics: ['uncaughtErrors'],
+            labels: ['Uncaught errors'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <DashboardSection title="Page Load Time">
         <ChartWithLegend
