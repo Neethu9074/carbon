@@ -43,6 +43,13 @@ export default [
     formatter: percentage
   },
   {
+    metric: 'error_count',
+    label: 'Errors/s',
+    category: [],
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'instances',
     label: 'Instances',
     category: [],
