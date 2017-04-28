@@ -85,7 +85,7 @@ gulp.task('askForDevOptions', cb => {
             tenant: 'instana',
             tenantUnit: 'test',
             environment: 'local',
-            butlerDomain: 'internal-groundskeeper-instana.instana.io'
+            butlerDomain: 'local-instana.instana.io'
           }
         },
         {
