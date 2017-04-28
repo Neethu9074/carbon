@@ -4,7 +4,7 @@ import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function MySqlSpanDetailView({ span }) {
-  const statement = span.getIn(['data', 'mysql', 'sql']);
+  const statement = span.getIn(['data', 'mysql', 'stmt'], span.getIn(['data', 'mysql', 'sql']));
 
   return (
     <div>
