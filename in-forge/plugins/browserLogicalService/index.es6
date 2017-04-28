@@ -21,7 +21,10 @@ registerSnapshotDefinition({
     req: 'stats',
     rsp: 'stats',
     pro: 'stats',
-    loa: 'stats'
+    loa: 'stats',
+    uncaughtErrors: 'sum',
+    xhrCalls: 'sum',
+    xhrErrors: 'sum'
   },
 
   pluginName: {

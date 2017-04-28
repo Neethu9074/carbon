@@ -37,14 +37,28 @@ export default [
   },
   {
     metric: 'error_rate',
-    label: 'Error Rate',
+    label: '(deprecated) Error Rate',
     category: [],
     min: 0,
     formatter: percentage
   },
   {
-    metric: 'error_count',
-    label: 'Errors/s',
+    metric: 'uncaughtErrors',
+    label: 'Uncaught errors',
+    category: [],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'xhrCalls',
+    label: 'XHR Calls',
+    category: [],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'xhrErrors',
+    label: 'XHR Errors',
     category: [],
     min: 0,
     formatter: number
