@@ -13,7 +13,7 @@ registerSpanDefinition({
   detailView: 'MySqlSpanDetailView',
 
   getLabel(span) {
-    const statement = span.getIn(['data', 'mysql', 'sql']);
+    const statement = span.getIn(['data', 'mysql', 'stmt'], span.getIn(['data', 'mysql', 'sql']));
     return shortenSqlStatement(statement);
   }
 });
