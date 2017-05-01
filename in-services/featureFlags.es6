@@ -26,4 +26,4 @@ export const blackListedSearchFieldValues = {
 // For example, the following configuration will hide up to 2.3s of missing data points.
 // rollup = 1s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
-export const allowedMultiplesOfRollupSizeMissingInCharts = config.tenant === 'edmunds' ? 50 : 2.3;
+export const allowedMultiplesOfRollupSizeMissingInCharts = 2.3;
