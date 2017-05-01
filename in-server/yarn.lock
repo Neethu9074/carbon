@@ -21,9 +21,9 @@ admin-plugin-environment@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-environment/-/admin-plugin-environment-1.0.0.tgz#9d9dd9b639ecb4149964d1c64b185e088f11a372"
 
-admin-plugin-healthcheck@^1.0.0:
-  version "1.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-healthcheck/-/admin-plugin-healthcheck-1.0.0.tgz#3962c2814e2699aa88d5131920cc0852df41687f"
+admin-plugin-healthcheck@^1.1.0:
+  version "1.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-healthcheck/-/admin-plugin-healthcheck-1.1.0.tgz#e6d0721e8908a72a19af00cdc6bb173e9c8101ce"
   dependencies:
     bluebird "^3.5.0"
 
@@ -44,23 +44,22 @@ admin-plugin-terminate@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-terminate/-/admin-plugin-terminate-1.0.0.tgz#e10374288daa623965bbf2f30f76db4c21dbb106"
 
-admin@^1.3.0:
-  version "1.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin/-/admin-1.3.0.tgz#3c55b6842ebe2912f2c927bfb1b114b15a3d7b94"
+admin@^1.4.0:
+  version "1.4.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin/-/admin-1.4.0.tgz#870fac6a31389d5e0b29677073eda3b6e63b7320"
   dependencies:
-    ajv "^4.11.3"
     bootstrap "3"
     bootswatch "^3.3.7"
     express "^4.15.0"
     express-prettify "^0.0.7"
+    get-logger "^1.0.0"
     handlebars "^4.0.6"
     hbs "^4.0.1"
     jquery "^3.2.1"
     lodash "^4.17.4"
-    pino "^4.0.1"
     prismjs "^1.6.0"
 
-ajv@^4.11.3, ajv@^4.9.1:
+ajv@^4.9.1:
   version "4.11.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ajv/-/ajv-4.11.5.tgz#b6ee74657b993a01dce44b7944d56f485828d5bd"
   dependencies:
@@ -392,12 +391,6 @@ encodeurl@~1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/encodeurl/-/encodeurl-1.0.1.tgz#79e3d58655346909fe6f0f45a5de68103b294d20"
 
-end-of-stream@^1.1.0:
-  version "1.4.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/end-of-stream/-/end-of-stream-1.4.0.tgz#7a90d833efda6cfa6eac0f4949dbb0fad3a63206"
-  dependencies:
-    once "^1.4.0"
-
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -467,14 +460,6 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fast-json-parse@^1.0.0:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fast-json-parse/-/fast-json-parse-1.0.2.tgz#3fb1ca12db68a85933612cc3fab4d7060cfff1d7"
-
-fast-safe-stringify@^1.0.8, fast-safe-stringify@^1.1.11:
-  version "1.1.13"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fast-safe-stringify/-/fast-safe-stringify-1.1.13.tgz#a01e9cd9c9e491715c98a75a42d5f0bbd107ff76"
-
 finalhandler@~1.0.0:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/finalhandler/-/finalhandler-1.0.1.tgz#bcd15d1689c0e5ed729b6f7f541a6df984117db8"
@@ -486,10 +471,6 @@ finalhandler@~1.0.0:
     parseurl "~1.3.1"
     statuses "~1.3.1"
     unpipe "~1.0.0"
-
-flatstr@^1.0.4:
-  version "1.0.5"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/flatstr/-/flatstr-1.0.5.tgz#5b451b08cbd48e2eac54a2bbe0bf46165aa14be3"
 
 foreachasync@^3.0.0:
   version "3.0.0"
@@ -572,6 +553,10 @@ generate-object-property@^1.1.0:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/generate-object-property/-/generate-object-property-1.2.0.tgz#9c0e1c40308ce804f4783618b937fa88f99d50d0"
   dependencies:
     is-property "^1.0.0"
+
+get-logger@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-logger/-/get-logger-1.0.0.tgz#9c7823b1c5e15faf2450047f24e51a1299d47374"
 
 getpass@^0.1.1:
   version "0.1.6"
@@ -981,7 +966,7 @@ on-finished@~2.3.0:
   dependencies:
     ee-first "1.1.1"
 
-once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0:
+once@^1.3.0, once@^1.3.3:
   version "1.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
@@ -1039,18 +1024,6 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-pino@^4.0.1:
-  version "4.2.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pino/-/pino-4.2.4.tgz#e893cc31446402574aa976816e5c373e869106fa"
-  dependencies:
-    chalk "^1.1.1"
-    fast-json-parse "^1.0.0"
-    fast-safe-stringify "^1.1.11"
-    flatstr "^1.0.4"
-    pump "^1.0.2"
-    quick-format-unescaped "^1.1.1"
-    split2 "^2.0.1"
-
 pretty-bytes@^4.0.2:
   version "4.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pretty-bytes/-/pretty-bytes-4.0.2.tgz#b2bf82e7350d65c6c33aa95aaa5a4f6327f61cd9"
@@ -1072,13 +1045,6 @@ proxy-addr@~1.1.3:
     forwarded "~0.1.0"
     ipaddr.js "1.3.0"
 
-pump@^1.0.2:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pump/-/pump-1.0.2.tgz#3b3ee6512f94f0e575538c17995f9f16990a5d51"
-  dependencies:
-    end-of-stream "^1.1.0"
-    once "^1.3.1"
-
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
@@ -1090,12 +1056,6 @@ qs@6.4.0, qs@~6.4.0:
 qs@~5.2.0:
   version "5.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/qs/-/qs-5.2.1.tgz#801fee030e0b9450d6385adc48a4cc55b44aedfc"
-
-quick-format-unescaped@^1.1.1:
-  version "1.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/quick-format-unescaped/-/quick-format-unescaped-1.1.1.tgz#e77555ef3e66e105d4039e13ef79201284fee916"
-  dependencies:
-    fast-safe-stringify "^1.0.8"
 
 range-parser@~1.2.0:
   version "1.2.0"
@@ -1110,7 +1070,7 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.1.4, readable-stream@^2.1.5:
+"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.1.4:
   version "2.2.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/readable-stream/-/readable-stream-2.2.6.tgz#8b43aed76e71483938d12a8d46c6cf1a00b1f816"
   dependencies:
@@ -1281,12 +1241,6 @@ source-map@~0.5.1:
   version "0.5.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
-split2@^2.0.1:
-  version "2.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/split2/-/split2-2.1.1.tgz#7a1f551e176a90ecd3345f7246a0cfe175ef4fd0"
-  dependencies:
-    through2 "^2.0.2"
-
 sshpk@^1.7.0:
   version "1.11.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sshpk/-/sshpk-1.11.0.tgz#2d8d5ebb4a6fab28ffba37fa62a90f4a3ea59d77"
@@ -1360,13 +1314,6 @@ tar@^2.2.1:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
-
-through2@^2.0.2:
-  version "2.0.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
-  dependencies:
-    readable-stream "^2.1.5"
-    xtend "~4.0.1"
 
 tiny-emitter@^1.0.0:
   version "1.1.0"
@@ -1481,7 +1428,7 @@ wrappy@1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-xtend@^4.0.0, xtend@~4.0.1:
+xtend@^4.0.0:
   version "4.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
