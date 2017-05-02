@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import MetricValue from 'in-components/MetricValue';
 
@@ -24,7 +25,7 @@ export default function RedisInfo({ snapshot }) {
         {data.get('port')}
       </DescriptionItem>
       <DescriptionItem title="Max Memory">
-        {data.get('max_memory')}
+        {bytesZeroDecimalPlaces(data.get('max_memory'))}
       </DescriptionItem>
       <DescriptionItem title="Max Clients">
         {data.get('maxclients')}
