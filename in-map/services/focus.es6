@@ -24,5 +24,5 @@ export function clampCameraPositionToVerticesDimensions() {
 }
 
 export function init() {
-  query$.debounce(AUTO_FOCUS).subscribe(clampCameraPositionToVerticesDimensions);
+  query$.debounce(AUTO_FOCUS).subscribe(() => focusId());
 }
