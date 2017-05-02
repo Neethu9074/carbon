@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -86,6 +87,8 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
+      <HealthchecksTable snapshot={snapshot} timeframe={timeframe} />
 
       <CpuProfiler snapshot={snapshot} />
 
