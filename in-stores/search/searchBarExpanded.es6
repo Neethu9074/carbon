@@ -1,5 +1,6 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
+import { query$ } from 'in-stores/search/query';
 
 export const expanded$ = createTrackingStore({
   name: 'search/searchBarExpanded',
@@ -23,4 +24,8 @@ export function open() {
   mutateUrl(params => {
     params.query.ss = '1';
   });
+}
+
+export function init() {
+  query$.subscribe(open);
 }

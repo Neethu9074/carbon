@@ -2,10 +2,10 @@ import { emptyArray } from 'in-services/fixedObjects';
 import Node from 'in-map/SceneGraph/Node';
 
 export default class ConnectionHandlerNode extends Node {
-  constructor(params) {
+  constructor({ connectionNodeType, params }) {
     super({ params });
 
-    this.connectionNodeType = params.connectionNodeType;
+    this.connectionNodeType = connectionNodeType;
   }
 
   createConnections(entity, entities) {
@@ -17,7 +17,7 @@ export default class ConnectionHandlerNode extends Node {
 
     let connectionIndex = 0;
     function addConnection(entity, sourceNode, destinationNode) {
-      if (sourceNode && destinationNode) {
+      if (sourceNode !== undefined && destinationNode !== undefined) {
         connections[connectionIndex++] = {
           NodeType,
           params: {
@@ -40,9 +40,7 @@ export default class ConnectionHandlerNode extends Node {
       addConnection(entity, entities[entity.otherId], entities[hostId]);
     }
 
-    for (let i = 0, length = connections.length; i < length; i++) {
-      this.updateEntities(connections);
-    }
+    this.updateEntities(connections);
   }
 
   clearConnections() {
