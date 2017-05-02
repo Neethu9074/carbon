@@ -13,15 +13,6 @@ const block = 'in-redis-slow-logs';
 
 const cols = [
   {
-    title: 'ID',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.key;
-      }
-    }
-  },
-  {
     title: 'Time',
     type: 'number',
     typeArgs: {
@@ -58,9 +49,7 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      slowLogs: getRawPayload(props.snapshotId, 'slow_logs').map(slowLogs =>
-        slowLogs.toArray().sort((a, b) => a.get('timestamp') - b.get('timestamp'))
-      )
+      slowLogs: getRawPayload(props.snapshotId, 'slow_logs')
     };
   },
   function SlowLogsTable({ slowLogs }) {
@@ -68,17 +57,16 @@ export default connectTo(
       return null;
     }
 
-    const rows = slowLogs.map(slowLog => {
-      const id = slowLog.get('id');
+    const rows = slowLogs.toArray().map((slowLog, idx) => {
       return {
-        key: String(id),
+        key: String(idx),
         slowLog
       };
     });
 
     return (
       <DashboardSection title={`Slow Logs (${slowLogs.length})`}>
-        <Table cols={cols} rows={rows} />
+        <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardSection>
     );
   }
