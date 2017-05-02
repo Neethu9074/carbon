@@ -12,7 +12,7 @@ registerSpanDefinition({
 
   detailView: 'ActionViewSpanDetailView',
 
-  getLabel() {
-    return '';
+  getLabel(span) {
+    return span.getIn(['data', 'actionview', 'name']);
   }
 });
