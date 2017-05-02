@@ -11,7 +11,7 @@ export const instanaInternalFeaturesEnabled = onlyInternally;
 export const webVrEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
-export const roleViewFilterEnabled = onlyInternally;
+export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
 export const cockpitEnabled = false;
 
 export const blackListedSearchFieldKeywords = ['log'];
