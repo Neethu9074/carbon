@@ -171,6 +171,8 @@ export default class extends React.Component {
         replaceWith += ':';
       } else if (child.children.length > 0) {
         replaceWith += '.';
+      } else {
+        replaceWith += ' ';
       }
     }
 
