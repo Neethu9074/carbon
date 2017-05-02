@@ -61,7 +61,7 @@ export function getViewStructure() {
             const outgoing = service.outgoingConnections;
 
             incoming.forEach(_incoming => serviceIds[_incoming.otherId] = true);
-            outgoing.forEach(_incoming => serviceIds[_incoming.otherId] = true);
+            outgoing.forEach(_outgoing => serviceIds[_outgoing.otherId] = true);
             // TODO: add support for hops > 1
           }
         }
