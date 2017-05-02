@@ -4,6 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { muSecondsZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
+import NoWrap from 'in-sdk/components/common/NoWrap';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -19,7 +20,13 @@ const cols = [
       getValue(row) {
         return row.slowLog.get('timestamp');
       },
-      getContent: formatDateTime
+      getContent(value) {
+        return (
+          <NoWrap>
+            {formatDateTime(value)}
+          </NoWrap>
+        );
+      }
     }
   },
   {
@@ -65,7 +72,7 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title={`Slow Logs (${slowLogs.length})`}>
+      <DashboardSection title={`Slow Logs (${rows.length})`}>
         <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardSection>
     );
