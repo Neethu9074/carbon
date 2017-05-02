@@ -27,5 +27,5 @@ export function open() {
 }
 
 export function init() {
-  query$.subscribe(open);
+  query$.skipFirst().subscribe(open);
 }
