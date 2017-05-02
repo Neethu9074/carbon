@@ -1,5 +1,6 @@
 import React from 'react';
 
+import HealthcheckResultDescriptionItem from 'in-forge/plugins/nodeJsRuntimePlatform/HealthcheckResultDescriptionItem';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
@@ -17,15 +18,16 @@ export default function NodeJsInfo({ snapshot }) {
       <DescriptionItem title="Description">
         {data.get('description')}
       </DescriptionItem>
+      <DescriptionItem title="Process ID">
+        {data.get('pid')}
+      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
+      <HealthcheckResultDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Application Arguments">
         {data.get('args', []).join(' ')}
       </DescriptionItem>
       <DescriptionItem title="Runtime Arguments">
         {data.get('execArgs', []).join(' ')}
-      </DescriptionItem>
-      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
       </DescriptionItem>
     </DescriptionList>
   );

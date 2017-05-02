@@ -8,7 +8,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Healthcheck',
+    title: 'Health check',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -68,7 +68,7 @@ export default function HealthchecksTable({ snapshot, timeframe }) {
   }
 
   return (
-    <DashboardSection title={`Healthchecks (${rows.length})`}>
+    <DashboardSection title={`Health checks (${rows.length})`}>
       <Table cols={cols} rows={rows} maxItemsPerPage={20} />
     </DashboardSection>
   );
