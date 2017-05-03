@@ -5,7 +5,7 @@ const uiBackend = require('./healthcheck/uiBackend');
 
 admin.configure({
   http: {
-    bindAddress: '127.0.0.1',
+    bindAddress: '0.0.0.0',
     port: serverConfig.adminPort
   },
 
