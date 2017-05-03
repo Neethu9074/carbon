@@ -39,30 +39,8 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
       const oldProperties = Object.keys(this.observables);
 
       for (let i = 0, len = newProperties.length; i < len; i++) {
-        const property = newProperties[i];
-
-        const prevObservable = this.observables[property];
-        const newObservable = observables[property];
-
-        if (prevObservable === newObservable) {
-          // Nothing to do, we have the same observable
-          continue;
-        }
-
-        const oldSubscription = this.subscriptions[property];
-        this.observables[property] = newObservable;
-        this.subscriptions[property] = newObservable.subscribe(value => {
-          this.setState({
-            [property]: value
-          });
-        });
-
-        // dispose previous subscriptions only after new subscriptions were
-        // established to ensure that the connection to the backend does not
-        // need to be reestablished.
-        if (oldSubscription) {
-          oldSubscription.dispose();
-        }
+        // not inlined because babel would not to create a closure.
+        this.subscribeToProperty(observables, newProperties, oldProperties, newProperties[i]);
       }
 
       // Remove properties / subscriptions for all properties that haven't been
@@ -77,7 +55,32 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
         clearStateProps[property] = null;
       }
       this.setState(clearStateProps);
-    };
+    }
+
+    subscribeToProperty = (observables, newProperties, oldProperties, property) => {
+      const prevObservable = this.observables[property];
+      const newObservable = observables[property];
+
+      if (prevObservable === newObservable) {
+        // Nothing to do, we have the same observable
+        return;
+      }
+
+      const oldSubscription = this.subscriptions[property];
+      this.observables[property] = newObservable;
+      this.subscriptions[property] = newObservable.subscribe(value => {
+        this.setState({
+          [property]: value
+        });
+      });
+
+      // dispose previous subscriptions only after new subscriptions were
+      // established to ensure that the connection to the backend does not
+      // need to be reestablished.
+      if (oldSubscription) {
+        oldSubscription.dispose();
+      }
+    }
 
     componentWillUnmount() {
       Object.keys(this.subscriptions).forEach(key => this.subscriptions[key].dispose());
