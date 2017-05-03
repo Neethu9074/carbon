@@ -6,24 +6,23 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'MySql Call',
-    plural: 'MySql Calls'
+    singular: 'MySQL Call',
+    plural: 'MySQL Calls'
   },
 
   detailView: 'MySQLiSpanDetailView',
 
   getLabel(span) {
     const statement = span.getIn(['data', 'mysqli', 'stmt']);
-    const dsn = span.getIn(['data', 'mysqli', 'dsn']);
-
     if (statement != null) {
       return shortenSqlStatement(statement);
     }
 
+    const dsn = span.getIn(['data', 'mysqli', 'dsn']);
     if (dsn != null) {
       return dsn;
     }
 
-    return 'Unknown database call';
+    return 'Unknown MySQL call';
   }
 });
