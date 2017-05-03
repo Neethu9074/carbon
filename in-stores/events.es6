@@ -6,11 +6,11 @@ import { List, Map } from 'immutable';
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import { getEvent, getEventType, EVENT_TYPES } from 'in-services/issueTracker';
-import { focusedMoment$, timeframe$, to$, from$ } from 'in-stores/timeline';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { createStore, createTrackingStore } from 'in-stores/store';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import getOpenEvents from 'in-services/subscription/openEvents';
 import getEvents from 'in-services/subscription/events';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -52,42 +52,6 @@ function insertEventsToStoreSorted(store, update) {
     insertSorted(store, update.get(i));
   }
   return store;
-}
-
-export const eventsInTimeframe$ = combineLatest([
-  timeframe$.flatMap(timeframe => {
-    if (timeframe.to == null) {
-      return to$.throttle(10000);
-    }
-    return to$;
-  }),
-  from$,
-  retrievedEvents$
-]).map(filterEventsByTime);
-
-function filterEventsByTime([to, from, events]) {
-  // TODO improve perf by doing a binary search for from
-  return {
-    issues: filter(events.issues),
-    changes: filter(events.changes),
-    incidents: filter(events.incidents),
-    objectives: filter(events.objectives)
-  };
-
-  function filter(eventsToFiler) {
-    const result = [];
-    for (let i = 0, len = eventsToFiler.length; i < len; i++) {
-      const event = eventsToFiler[i];
-      const eventTo = event.state === 'open' ? Number.MAX_VALUE : event.end;
-      if (eventTo < from) {
-        continue;
-      } else if (event.time > to) {
-        break;
-      }
-      result.push(event);
-    }
-    return result;
-  }
 }
 
 const openEventsAtServerTime = createStore({

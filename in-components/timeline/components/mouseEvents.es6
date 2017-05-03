@@ -17,8 +17,9 @@ import {
   setHighlightedMoment,
   clearHighlightedMoment
 } from 'in-stores/timeline';
-import { eventsInTimeframe$, getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/reactiveMouseEvents';
+import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
+import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { selectEvent } from 'in-services/issueTracker';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';

@@ -14,9 +14,9 @@ import { logViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
+import { getColorBySeverity } from 'in-stores/events';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
-import { getColorBySeverity } from 'in-stores/events';
 
 import './ViewSwitcher.less';
 
