@@ -156,6 +156,7 @@ export default class extends React.Component {
 
     let replaceWith;
     let replaceFrom;
+
     if (isFieldSeparator(changedToken)) {
       replaceWith = `${child.query} `;
       replaceFrom = changedToken.start + 1;
@@ -202,7 +203,7 @@ function getChildrenForConfig(config) {
   }
 
   if (config.field) {
-    return getValueSuggestions(config.field, config.fieldValue).map(field => createNode(field));
+    return getValueSuggestions(config.field, config.fieldValue).map(field => createNode(field, { isPreset: true }));
   }
 
   const tokenAtCursor = getTokenForConfig(config);
