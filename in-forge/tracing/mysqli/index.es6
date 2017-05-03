@@ -14,6 +14,16 @@ registerSpanDefinition({
 
   getLabel(span) {
     const statement = span.getIn(['data', 'mysqli', 'stmt']);
-    return shortenSqlStatement(statement);
+    const dsn = span.getIn(['data', 'mysqli', 'dsn']);
+
+    if (statement != null) {
+      return shortenSqlStatement(statement);
+    }
+
+    if (dsn != null) {
+      return dsn;
+    }
+
+    return 'Unknown database call';
   }
 });
