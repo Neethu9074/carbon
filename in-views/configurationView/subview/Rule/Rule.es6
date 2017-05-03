@@ -126,7 +126,7 @@ export default class extends React.Component {
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], field => field.setValue(value[i]).setTouched(true));
+        updatedForm = updatedForm.updateIn([fieldName[i]], setFieldValue.bind(null, value[i]));
       }
     } else {
       updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
@@ -257,4 +257,8 @@ function createForm(rule) {
         }
       })
     );
+}
+
+function setFieldValue(value, field) {
+  return field.setValue(value).setTouched(true);
 }

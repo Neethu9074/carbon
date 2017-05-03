@@ -24,6 +24,7 @@
     "transform-regenerator"
   ],
   "presets": [
-    "react"
+    "react",
+    "stage-2"
   ]
 }
