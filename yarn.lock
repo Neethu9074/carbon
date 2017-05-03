@@ -74,10 +74,6 @@ ansi-html@0.0.5:
   version "0.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-html/-/ansi-html-0.0.5.tgz#0dcaa5a081206866bc240a3b773a184ea3b88b64"
 
-ansi-regex@*, ansi-regex@^2.0.0:
-  version "2.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
-
 ansi-regex@^0.2.0, ansi-regex@^0.2.1:
   version "0.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-regex/-/ansi-regex-0.2.1.tgz#0d8e946967a3d8143f93e24e298525fc1b2235f9"
@@ -85,6 +81,10 @@ ansi-regex@^0.2.0, ansi-regex@^0.2.1:
 ansi-regex@^1.0.0:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-regex/-/ansi-regex-1.1.1.tgz#41c847194646375e6a1a5d10c3ca054ef9fc980d"
+
+ansi-regex@^2.0.0:
+  version "2.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
 
 ansi-styles@^1.1.0:
   version "1.1.0"
@@ -1774,7 +1774,7 @@ debug@^2.6.6:
   dependencies:
     ms "0.7.3"
 
-debuglog@*, debuglog@^1.0.1:
+debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
 
@@ -3571,7 +3571,7 @@ immutable@^3.8.1:
   version "3.8.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
 
@@ -4381,10 +4381,6 @@ lodash._basecopy@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz#8da0e6a876cf344c0ad8a54882111dd3c5c7ca36"
 
-lodash._baseindexof@*:
-  version "3.1.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz#fe52b53a1c6761e42618d654e4a25789ed61822c"
-
 lodash._basetostring@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._basetostring/-/lodash._basetostring-3.0.1.tgz#d1861d877f824a52f669832dcaf3ee15566a07d5"
@@ -4400,25 +4396,11 @@ lodash._basevalues@^3.0.0:
   version "3.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._basevalues/-/lodash._basevalues-3.0.0.tgz#5b775762802bde3d3297503e26300820fdf661b7"
 
-lodash._bindcallback@*:
-  version "3.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-
-lodash._cacheindexof@*:
-  version "3.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz#3dc69ac82498d2ee5e3ce56091bafd2adc7bde92"
-
-lodash._createcache@*:
-  version "3.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._createcache/-/lodash._createcache-3.1.2.tgz#56d6a064017625e79ebca6b8018e17440bdcf093"
-  dependencies:
-    lodash._getnative "^3.0.0"
-
 lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
 
-lodash._getnative@*, lodash._getnative@^3.0.0:
+lodash._getnative@^3.0.0:
   version "3.9.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
 
@@ -4520,7 +4502,7 @@ lodash.pick@^4.2.1:
   version "4.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
 
-lodash.restparam@*, lodash.restparam@^3.0.0:
+lodash.restparam@^3.0.0:
   version "3.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
 
@@ -6342,9 +6324,15 @@ react@^15.0.0, react@^15.5.0:
     object-assign "^4.1.0"
     prop-types "^15.5.7"
 
-reactive-observables@^1.1.0, reactive-observables@^1.35.0:
+reactive-observables@^1.1.0:
   version "1.35.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.35.0.tgz#81e176d375a1b73b0de257e60104ee732699224f"
+  dependencies:
+    lodash "^4.0.0"
+
+reactive-observables@^1.36.0:
+  version "1.36.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.36.0.tgz#28f1c7c8187bdd7971bfef089c5a2bfd501fbfc9"
   dependencies:
     lodash "^4.0.0"
 
@@ -6491,7 +6479,7 @@ readable-stream@~2.1.5:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
-readdir-scoped-modules@*, readdir-scoped-modules@^1.0.0:
+readdir-scoped-modules@^1.0.0:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/readdir-scoped-modules/-/readdir-scoped-modules-1.0.2.tgz#9fafa37d286be5d92cbaebdee030dc9b5f406747"
   dependencies:
@@ -7896,7 +7884,7 @@ vali-date@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/vali-date/-/vali-date-1.0.0.tgz#1b904a59609fb328ef078138420934f6b86709a6"
 
-validate-npm-package-license@*, validate-npm-package-license@^3.0.1, validate-npm-package-license@~3.0.1:
+validate-npm-package-license@^3.0.1, validate-npm-package-license@~3.0.1:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/validate-npm-package-license/-/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
   dependencies:
