@@ -10,7 +10,6 @@ import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 
 import {
   shortenPathAtSourceAndDestination,
-  updateLogicalCollisionMesh,
   addArrowToDestination,
   logicalCollisionMesh,
   getCenterPosition,
@@ -50,7 +49,6 @@ export default class Connection extends SceneObject {
     });
 
     this.ghostConncetionSpawner = new GhostConncetionSpawner(this);
-    this.collisionLine = logicalCollisionMesh();
   }
 
   initComponents() {
@@ -112,7 +110,7 @@ export default class Connection extends SceneObject {
     const to = toTransform.position.clone();
     this.addOffsetIfBidirectional(from, to);
 
-    updateLogicalCollisionMesh(this.collisionLine, from, to);
+    this.collisionLine = this.createCollisionLine(from, to);
     this.getComponent('particles').setFromAndTo(from, to);
 
     this.eventEmitter.emit('transformationChanged', {
@@ -169,7 +167,21 @@ export default class Connection extends SceneObject {
   }
 
   intersects(raycaster) {
-    return intersects(raycaster, this.collisionLine);
+    if (this.collisionLine) {
+      return intersects(raycaster, this.collisionLine);
+    }
+  }
+
+  createCollisionLine(from, to) {
+    this.disposeCollisionLine();
+    return logicalCollisionMesh(from, to);
+  }
+
+  disposeCollisionLine() {
+    if (this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
   }
 
   addOffsetIfBidirectional(from, to) {
@@ -190,8 +202,7 @@ export default class Connection extends SceneObject {
     connections.remove(this.id);
 
     this.ghostConncetionSpawner.dispose();
-    this.collisionLine.geometry.dispose();
-    this.collisionLine = null;
+    this.disposeCollisionLine();
 
     this.lineContentProvider = null;
     this.destinationNode = null;

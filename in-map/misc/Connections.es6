@@ -126,12 +126,9 @@ export function getCenterPosition(from, to) {
   };
 }
 
-export function updateLogicalCollisionMesh(collisionLine, from, to) {
-  updateAttribute(collisionLine.geometry, 'position', [from.x, from.y, from.z, to.x, to.y, to.z]);
-}
-
-export function logicalCollisionMesh() {
+export function logicalCollisionMesh(from, to) {
   const geometry = new BufferGeometry();
+  updateAttribute(geometry, 'position', [from.x, 0.1, from.z, to.x, 0.1, to.z]);
   const line = new Line(geometry, COLLISION_LINE_MATERIAL);
   line.frustumCulled = false;
   return line;
