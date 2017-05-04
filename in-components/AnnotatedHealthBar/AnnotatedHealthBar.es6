@@ -24,7 +24,7 @@ export default connectTo(
 
     const maxSeverity = healthInfo.get('maxSeverity');
     const color = getColorBySeverity(maxSeverity);
-    const numberOfOpenIssues = healthInfo.get('numberOfOpenIssues');
+    const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
 
     let classes = block;
     if (className) {
