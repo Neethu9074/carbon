@@ -5,8 +5,8 @@ import TimelineLiveIndicator from 'in-components/timeline/components/TimelineLiv
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
 import { isCollapsed$, toggleMenu } from 'in-components/timeline/timelineStore';
+import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { getIn, toggleIn } from 'in-services/settings';
-import { eventsInTimeframe$ } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

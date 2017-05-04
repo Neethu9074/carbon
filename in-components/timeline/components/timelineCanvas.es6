@@ -15,10 +15,11 @@ import createApplyTimeButton from 'in-components/timeline/components/renderer/ap
 import createRealtimeUpateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
-import { eventsInTimeframe$, highlightedEvent$ } from 'in-stores/events';
 import { isCollapsed$ } from 'in-components/timeline/timelineStore';
+import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getAxisConfig } from 'in-charts/timeFormatting';
+import { highlightedEvent$ } from 'in-stores/events';
 import createScale from 'in-charts/scale';
 
 export default function createTimelineRenderer({ container, canvas, glassPane }) {

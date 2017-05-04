@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import Metric from 'in-views/cockpit/components/Metric';
-import { eventsInTimeframe$ } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
