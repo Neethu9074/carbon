@@ -1,7 +1,7 @@
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 
 export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
-  const query = encodeURIComponent(` trace.startingAt:"${snapshotId}"`);
+  const query = ` trace.startingAt:"${snapshotId}"`;
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
     appendToQuery(params, query);
@@ -10,7 +10,7 @@ export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
 }
 
 export function getTraceViewFilteredByTouchingLink(snapshotId) {
-  const query = encodeURIComponent(` trace.touching:"${snapshotId}"`);
+  const query = ` trace.touching:"${snapshotId}"`;
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
     appendToQuery(params, query);
@@ -19,7 +19,7 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
 }
 
 export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
-  const query = encodeURIComponent(` trace.startingAtInstance:"${snapshotId}"`);
+  const query = ` trace.startingAtInstance:"${snapshotId}"`;
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
     appendToQuery(params, query);
@@ -28,7 +28,7 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
 }
 
 export function getTraceViewFilteredBySnapshotIdAndTimeframe({ snapshotId, from, to }) {
-  const query = encodeURIComponent(` trace.touching:"${snapshotId}"`);
+  const query = ` trace.touching:"${snapshotId}"`;
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
     appendToQuery(params, query);
@@ -39,7 +39,6 @@ export function getTraceViewFilteredBySnapshotIdAndTimeframe({ snapshotId, from,
 }
 
 export function getCurrentViewWithFilter(filter) {
-  filter = encodeURIComponent(filter);
   return getModifiedUrlStream(params => {
     params.query.q = filter;
     params.query.ss = '1';

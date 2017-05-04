@@ -62,7 +62,7 @@ export const to$ = timeframe$
 
 export function setTo(to) {
   mutateUrl(navParams => {
-    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+    navParams.query['timeline.to'] = to == null ? '' : to;
     return navParams;
   });
 }
@@ -91,20 +91,18 @@ export const focusedMoment$ = createTrackingStore({
 }).observable;
 
 let currentTimeframe;
-timeframe$.subscribe(tf => currentTimeframe = tf);
+timeframe$.subscribe(tf => (currentTimeframe = tf));
 
 let currentServertime;
-serverTime$.subscribe(st => currentServertime = st);
+serverTime$.subscribe(st => (currentServertime = st));
 
 export function setFocusedMoment(newFocusedMoment) {
   mutateUrl(navParams => {
-    navParams.query['timeline.fm'] = encodeURIComponent(newFocusedMoment != null ? newFocusedMoment : '');
+    navParams.query['timeline.fm'] = newFocusedMoment != null ? newFocusedMoment : '';
     if (newFocusedMoment && !currentTimeframe.to) {
-      navParams.query['timeline.to'] = encodeURIComponent(
-        currentTimeframe.to ? currentTimeframe.to : currentServertime
-      );
+      navParams.query['timeline.to'] = currentTimeframe.to ? currentTimeframe.to : currentServertime;
     }
-    navParams.query['timeline.ws'] = encodeURIComponent(currentTimeframe.windowSize);
+    navParams.query['timeline.ws'] = currentTimeframe.windowSize;
     return navParams;
   });
 }
@@ -113,7 +111,7 @@ export function lockFocusedMoment() {
   serverTime$.once(sTime => {
     mutateUrl(navParams => {
       if (isBlank(navParams.query['timeline.fm'])) {
-        navParams.query['timeline.fm'] = encodeURIComponent(sTime);
+        navParams.query['timeline.fm'] = sTime;
       }
       return navParams;
     });
@@ -144,8 +142,8 @@ export const timeframeShape = rpt.shape({
 
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {
-    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
-    navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+    navParams.query['timeline.to'] = to == null ? '' : to;
+    navParams.query['timeline.ws'] = windowSize;
     return navParams;
   });
 }

@@ -30,7 +30,7 @@ navigationParameters$.subscribe(params => {
     return;
   }
 
-  const parts = decodeURIComponent(tf).split(',');
+  const parts = tf.split(',');
   if (parts.length !== 2) {
     return;
   }
@@ -45,7 +45,7 @@ navigationParameters$.subscribe(params => {
 highlightedTimeframe$.skipFirst().debounce(500).subscribe(tf => {
   mutateUrl(navParams => {
     if (tf) {
-      navParams.query[queryKey] = encodeURIComponent(`${tf[0]},${tf[1]}`);
+      navParams.query[queryKey] = `${tf[0]},${tf[1]}`;
     } else {
       delete navParams.query[queryKey];
     }

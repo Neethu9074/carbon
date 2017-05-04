@@ -1,4 +1,4 @@
-import { millis, number, bytes } from 'in-services/formatters/number';
+import { health, millis, number, bytes } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -134,5 +134,13 @@ export default [
     min: 0,
     category: ['Http'],
     formatter: millis
+  },
+  {
+    metric: 'healthcheckResult',
+    label: 'Health check result',
+    min: 0,
+    max: 1.1,
+    category: ['Health'],
+    formatter: health
   }
 ];

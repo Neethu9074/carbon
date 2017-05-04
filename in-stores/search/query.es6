@@ -33,7 +33,7 @@ export const error$ = errorStore.observable;
 navigationParameters$.subscribe(params => {
   const query = params.query;
   if ('q' in query) {
-    unvalidatedQueryStore.mutateTo(decodeURIComponent(query.q));
+    unvalidatedQueryStore.mutateTo(query.q);
   } else {
     unvalidatedQueryStore.mutateTo('');
   }
@@ -41,7 +41,7 @@ navigationParameters$.subscribe(params => {
 
 unvalidatedQuery$.skipFirst().debounce(500).subscribe(query => {
   mutateUrl(navParams => {
-    navParams.query.q = encodeURIComponent(query);
+    navParams.query.q = query;
     return navParams;
   });
 });
@@ -93,7 +93,7 @@ export function setInputString(newString) {
 
 export function mutateQuery(fn) {
   mutateUrl(navParams => {
-    navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
+    navParams.query.q = fn(navParams.query.q || '');
     return navParams;
   });
 }

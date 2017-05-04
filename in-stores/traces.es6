@@ -67,7 +67,7 @@ export const selectedTraceId$ = createTrackingStore({
     .map(params => {
       const query = params.query;
       if ('traceId' in query) {
-        return decodeURIComponent(query.traceId);
+        return query.traceId;
       }
       return null;
     })
@@ -91,7 +91,7 @@ export function setSelectedTraceId(id) {
     clearTraceSelection();
   } else {
     mutateUrl(navParams => {
-      navParams.query.traceId = encodeURIComponent(id);
+      navParams.query.traceId = id;
       return navParams;
     });
   }
