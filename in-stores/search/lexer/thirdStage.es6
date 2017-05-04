@@ -67,10 +67,10 @@ function detectLonelyBlocks(tokens) {
     const currentToken = tokens[i];
     const nextToken = tokens[i + 1];
 
-    if (isWhitespace(currentToken) || isProhibitOrRequiredOperator(currentToken)) {
+    if (isWhitespace(currentToken) || isProhibitOrRequiredOperator(currentToken) || isGrouping(currentToken)) {
       const nextNextToken = tokens[i + 2];
       if (
-        (nextNextToken == null || isWhitespace(nextNextToken)) &&
+        (nextNextToken == null || isWhitespace(nextNextToken) || isGrouping(nextNextToken)) &&
         (isTerm(nextToken) || isRegex(nextToken) || isPhrase(nextToken) || isOperator(nextToken)) &&
         nextToken.blockId == null
       ) {
