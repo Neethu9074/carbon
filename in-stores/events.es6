@@ -308,7 +308,7 @@ export function setHighlightedEvent(event) {
 export function selectEvent(event) {
   if (event) {
     mutateUrl(navParams => {
-      navParams.query.eventId = encodeURIComponent(event.get('id'));
+      navParams.query.eventId = event.get('id');
       return navParams;
     });
   } else {
@@ -332,7 +332,7 @@ export const selectedEventId$ = createTrackingStore({
     .map(params => {
       const query = params.query;
       if ('eventId' in query) {
-        return decodeURIComponent(query.eventId);
+        return query.eventId;
       }
       return null;
     })

@@ -91,9 +91,9 @@ function toBaseUrl(params) {
   for (const key in params.query) {
     if (first) {
       first = false;
-      url = `${url}?${key}=${params.query[key]}`;
+      url = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(params.query[key])}`;
     } else {
-      url = `${url}&${key}=${params.query[key]}`;
+      url = `${url}&${encodeURIComponent(key)}=${encodeURIComponent(params.query[key])}`;
     }
   }
 
@@ -132,13 +132,12 @@ export function goToDashboard(snapshotId) {
   mutateUrl(params => {
     const view = getActiveView(params);
     params.pathname = `/${view}/dashboard`;
-    params.query.snapshotId = encodeURIComponent(snapshotId);
+    params.query.snapshotId = snapshotId;
     return params;
   });
 }
 
 export function getDashboardLink(snapshotId) {
-  snapshotId = encodeURIComponent(snapshotId);
   return getModifiedUrlStream(params => {
     const view = getActiveView(params);
     params.pathname = `/${view}/dashboard`;
@@ -153,7 +152,6 @@ export const isDashboardOpen$ = navigationParameters$
   .distinct();
 
 export function getLinkToSnapshotInCurrentView(snapshotId) {
-  snapshotId = encodeURIComponent(snapshotId);
   return getModifiedUrlStream(params => {
     params.query.snapshotId = snapshotId;
   });
@@ -169,15 +167,15 @@ export function closeDashboard() {
 export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
   return getModifiedUrlStream(navParams => {
     if (!focusedMoment) {
-      navParams.query['timeline.fm'] = encodeURIComponent('');
+      navParams.query['timeline.fm'] = '';
     } else {
-      navParams.query['timeline.fm'] = encodeURIComponent(focusedMoment);
+      navParams.query['timeline.fm'] = focusedMoment;
     }
 
-    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+    navParams.query['timeline.to'] = to == null ? '' : to;
 
     if (windowSize) {
-      navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+      navParams.query['timeline.ws'] = windowSize;
     }
 
     if (clearHighlightedTimeframe) {
@@ -189,8 +187,8 @@ export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighl
 export function getTimelineLiveUrl() {
   return getModifiedUrlStream(navParams => {
     delete navParams.query.fm;
-    navParams.query['timeline.to'] = encodeURIComponent('');
-    navParams.query['timeline.fm'] = encodeURIComponent('');
+    navParams.query['timeline.to'] = '';
+    navParams.query['timeline.fm'] = '';
   });
 }
 
@@ -257,14 +255,14 @@ export function goToEventsView() {
 
 export function showHelp(id) {
   mutateUrl(navParams => {
-    navParams.query.help = encodeURIComponent(id);
+    navParams.query.help = id;
     return navParams;
   });
 }
 
 export function closeHelpIfOpen(id) {
   mutateUrl(navParams => {
-    if (navParams.query.help && decodeURIComponent(navParams.query.help) === id) {
+    if (navParams.query.help && navParams.query.help === id) {
       delete navParams.query.help;
     }
     return navParams;

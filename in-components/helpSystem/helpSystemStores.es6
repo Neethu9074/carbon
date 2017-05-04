@@ -7,7 +7,7 @@ export const helpId$ = createTrackingStore({
     .map(params => {
       const query = params.query;
       if ('help' in query) {
-        return decodeURIComponent(query.help);
+        return query.help;
       }
 
       return null;
