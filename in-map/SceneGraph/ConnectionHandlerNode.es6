@@ -18,14 +18,21 @@ export default class ConnectionHandlerNode extends Node {
     let connectionIndex = 0;
     function addConnection(entity, sourceNode, destinationNode) {
       if (sourceNode !== undefined && destinationNode !== undefined) {
+        sourceNode = sourceNode.sceneObjectInstance || sourceNode;
+        destinationNode = destinationNode.sceneObjectInstance || destinationNode;
+        // protect against self connceted entities
+        if (sourceNode.id === destinationNode.id) {
+          return;
+        }
+
         connections[connectionIndex++] = {
           NodeType,
           params: {
             id: entity.id,
             entity,
             bidirectional: entity.bidirectional || false,
-            sourceNode: sourceNode.sceneObjectInstance || sourceNode,
-            destinationNode: destinationNode.sceneObjectInstance || destinationNode
+            sourceNode,
+            destinationNode
           }
         };
       }
