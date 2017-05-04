@@ -7,7 +7,7 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
   let y = 0;
 
   let focusedMoment = null;
-  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => focusedMoment = _focusedMoment);
+  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => (focusedMoment = _focusedMoment));
 
   return {
     draw,
@@ -24,6 +24,7 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
       if (eventType === EVENT_TYPES.INCIDENT) {
         y = 37;
       } else if (eventType === EVENT_TYPES.CHANGE) {
+        highlightedEvent = null;
         y = 111;
       }
     }
@@ -44,11 +45,10 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
       ? ctx.canvas.width
       : scale.getRange(highlightedEvent.get('end'));
 
-    const buffer = ctx;
-    buffer.globalAlpha = 0.2;
-    buffer.fillStyle = getColorByEvent({ event: highlightedEvent, focusedMoment });
-    buffer.fillRect(from, y, to - from, 36);
-    buffer.globalAlpha = 1;
+    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = getColorByEvent({ event: highlightedEvent, focusedMoment });
+    ctx.fillRect(from, y, to - from, 36);
+    ctx.globalAlpha = 1;
   }
 
   function dispose() {
