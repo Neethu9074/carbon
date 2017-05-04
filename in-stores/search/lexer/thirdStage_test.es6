@@ -84,6 +84,22 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
+  it('must recognize block start when first char is an parenthesized', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('(ui-backend)')), 0)).to.deep.equal([
+      { token: 'grouping', lexeme: '(', start: 0, end: 1 },
+      {
+        token: 'term',
+        lexeme: 'ui-backend',
+        start: 1,
+        end: 11,
+        blockId: '0',
+        isBlockingStart: true,
+        isBlockingEnd: true
+      },
+      { token: 'grouping', lexeme: ')', start: 11, end: 12 }
+    ]);
+  });
+
   it('must set field token for a valid field sequence, term - fieldSeperator - term)', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:bar')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
