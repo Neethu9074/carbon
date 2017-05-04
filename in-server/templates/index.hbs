@@ -56,6 +56,8 @@
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/]);
+    ineum('meta', 'build-tag', window.instana.build.tag);
+    ineum('meta', 'build-revision', window.instana.build.revision);
   </script>
   {{/if}}
 </head>
