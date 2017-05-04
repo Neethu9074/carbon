@@ -41,7 +41,8 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 100
+            left: 100,
+            right: 100
           }}
           y1={{
             min: 0,
@@ -85,7 +86,8 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 100
+            left: 100,
+            right: 100
           }}
           y1={{
             min: 0,
