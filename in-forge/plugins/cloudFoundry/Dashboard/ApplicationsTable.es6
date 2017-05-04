@@ -3,6 +3,7 @@ import React from 'react';
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -11,7 +12,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.name');
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.name']);
       }
     }
   },
@@ -20,44 +21,48 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.state');
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.state']);
       }
     }
   },
   {
     title: 'Disk quota',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.disk_quota');
-      }
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.disk_quota']);
+      },
+      getContent: number.detailed
     }
   },
   {
     title: 'Memory limit',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.memory_limit');
-      }
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.memory_limit']);
+      },
+      getContent: number.detailed
     }
   },
   {
     title: 'Instances',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.num_instances');
-      }
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.num_instances']);
+      },
+      getContent: number.compact
     }
   },
   {
-    title: 'Instances running',
-    type: 'string',
+    title: 'Running instances',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.running_instances');
-      }
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.running_instances']);
+      },
+      getContent: number.compact
     }
   },
   {
@@ -65,22 +70,21 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.data.get('applications_data.' + row.key + '.urls');
+        return row.snapshot.getIn(['data', 'applications_data.' + row.key + '.urls'], emptyList).join(', ');
       }
     }
   }
 ];
 
 export default function ApplicationsTable({ snapshot, timeframe }) {
-  const apps = snapshot.getIn(['data', 'applications'], emptyList).toArray().sort();
+  const apps = snapshot.getIn(['data', 'applications'], emptyList).toArray();
   if (apps.length === 0) {
     return null;
   }
 
   const rows = apps.map(app => {
     return {
-      key: app.get('id'),
-      data: snapshot.get('data'),
+      key: app,
       snapshot,
       timeframe
     };
