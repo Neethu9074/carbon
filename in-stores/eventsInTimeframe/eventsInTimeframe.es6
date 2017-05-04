@@ -103,10 +103,5 @@ function categorize(data) {
     }
   }
 
-  categories.issues.sort((a, b) => a.time - b.time);
-  categories.changes.sort((a, b) => a.time - b.time);
-  categories.incidents.sort((a, b) => a.time - b.time);
-  categories.objectives.sort((a, b) => a.time - b.time);
-
   return categories;
 }

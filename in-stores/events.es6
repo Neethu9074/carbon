@@ -221,32 +221,17 @@ export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALU
     return null;
   }
 
-  let index = sortedIndexBy(events, { time: timestamp }, event => event.time);
-
-  let B = events[index];
-  if (!B) {
-    index = events.length - 1;
-    B = events[index];
-  }
-  const distanceToB = Math.abs(B.time - timestamp);
-
-  if (index === 0) {
-    if (distanceToB < maxDistance) {
-      return B;
+  let nearestEvent = null;
+  let minDistance = Number.MAX_VALUE;
+  for (let i = 0, length = events.length; i < length; i++) {
+    const event = events[i];
+    const distance = Math.abs(timestamp - event.time);
+    if (distance < maxDistance && distance < minDistance) {
+      minDistance = distance;
+      nearestEvent = event;
     }
-    return null;
   }
-
-  const A = events[index - 1];
-  const distanceToA = Math.abs(A.time - timestamp);
-
-  if (distanceToA <= distanceToB && distanceToA <= maxDistance) {
-    return A;
-  } else if (distanceToB < distanceToA && distanceToB <= maxDistance) {
-    return B;
-  }
-
-  return null;
+  return nearestEvent;
 }
 
 const highlightedEvent = createStore({
@@ -407,5 +392,5 @@ export function getColorBySeverity(severity, params = {}) {
   if (severity === 0 && params.theme === 'day') {
     return '#bababa';
   }
-  return health[severity | 0];
+  return health[Math.max(0, severity) | 0];
 }
