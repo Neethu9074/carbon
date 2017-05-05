@@ -109,7 +109,7 @@ function getRowDetails(row) {
 
 function getInstancesForApplication(snapshot, appId) {
   const retList = [];
-  const instances = snapshot.getIn(['data', 'instances'], emptyList).sort();
+  const instances = snapshot.getIn(['data', 'instances'], emptyList).toArray();
 
   instances.forEach(function(instance) {
     if (instance.indexOf(appId) === 0) {
