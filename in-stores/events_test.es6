@@ -62,10 +62,8 @@ describe('in-stores/events', () => {
         resolvedFocusedMoment$
       },
       'in-services/subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
-      'in-services/subscription/eventUpdates': { default: getEventUpdates },
       'in-services/subscription/events': { default: getEvents },
       'in-services/issueTracker': { getEvent: () => getEvent$ },
-      'in-services/subscription/openEvents': { default: () => create() },
       'in-services/subscription/healthInfo': { default: () => healthInfo$ },
       'in-stores/serverTime': { serverTime$ },
       'in-services/stores/highlightedEntityId': {
