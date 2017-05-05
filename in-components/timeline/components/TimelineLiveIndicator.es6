@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import { live$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,7 +12,7 @@ const block = 'in-timeline-live-indicator';
 export default connectTo(
   {
     live: live$,
-    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+    autoCollapseTimeline: getSetting$('autoCollapseTimeline')
   },
   function TimelineLiveIndicator({ autoCollapseTimeline, live }) {
     if (!autoCollapseTimeline) {

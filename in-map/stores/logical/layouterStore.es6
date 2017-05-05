@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 
 import FruchtermannReingold from 'in-map/misc/logical/layoutingStrategies/FruchtermannReingold';
 import Vizceral from 'in-map/misc/logical/layoutingStrategies/Vizceral';
-import { setIn, getIn } from 'in-services/settings';
+import { setIn, getSetting$ } from 'in-services/settings';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 
@@ -52,9 +52,8 @@ export const vizceralLayouting$ = always({
   config: {}
 });
 
-const layouterSettingsPath = ['map', 'logical', 'layouter'];
 export const currentLayoutingStrategy$ = create();
-getIn(layouterSettingsPath).once(storedLayouter => {
+getSetting$('map_logical_layouter').once(storedLayouter => {
   if (storedLayouter === 'flow') {
     currentLayoutingStrategy$.emit(vizceralLayouting$);
   } else if (storedLayouter === 'fruchtermann') {
@@ -65,8 +64,8 @@ getIn(layouterSettingsPath).once(storedLayouter => {
 export function setLayoutingStrategy(newLayouting$) {
   currentLayoutingStrategy$.emit(newLayouting$);
   if (newLayouting$ === vizceralLayouting$) {
-    setIn(layouterSettingsPath, 'flow');
+    setIn('map_logical_layouter', 'flow');
   } else if (newLayouting$ === fruchtermannReingoldLayouting$) {
-    setIn(layouterSettingsPath, 'fruchtermann');
+    setIn('map_logical_layouter', 'fruchtermann');
   }
 }

@@ -5,7 +5,7 @@ import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { focusedMoment$ } from 'in-stores/timeline';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
@@ -26,7 +26,7 @@ export function getViewStructure() {
     view$,
     focusedMoment$,
     searchMatches$,
-    getIn(['map', 'logical', 'numServiceHops'], 0),
+    getSetting$('map_logical_numServiceHops'),
     debouncedQuery$,
     viewGrouping$
   ]).flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops, query, grouping]) => {

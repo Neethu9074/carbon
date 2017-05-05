@@ -5,9 +5,9 @@ import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { toHtml } from 'in-services/formatters/markdown';
+import { getSetting$ } from 'in-services/settings';
 import { isOnPremise } from 'in-services/config';
 import { createStore } from 'in-stores/store';
-import { getIn } from 'in-services/settings';
 import http from 'in-services/http';
 
 const messageId = 'maintenanceNote';
@@ -33,7 +33,7 @@ export function init() {
     retrieveLatestMessage();
     setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 
-    combineLatest([message$, messageRead$, getIn(['showMaintenanceNotes'])]).subscribe(([
+    combineLatest([message$, messageRead$, getSetting$('showMaintenanceNotes')]).subscribe(([
       message,
       messageRead,
       showMaintenanceNotes

@@ -1,16 +1,16 @@
 import { combineLatest } from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
-import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
+import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { focusedMoment$ } from 'in-stores/timeline';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
-const excludeUnmonitoredHosts$ = getIn(['map', 'excludeUnmonitoredHosts']);
+const excludeUnmonitoredHosts$ = getSetting$('map_excludeUnmonitoredHosts');
 
 const nothingMatches = {
   contains() {

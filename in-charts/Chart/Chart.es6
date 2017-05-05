@@ -13,7 +13,7 @@ import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
 import { toServerTime } from 'in-stores/timeOffset';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 
 import './Chart.less';
 
@@ -74,7 +74,7 @@ export default function createChart(config) {
 
   function addLowDetailModeSupport() {
     config.subscriptions.push(
-      getIn(['charts', 'adaptToDevicePixelRatio']).subscribe(adaptToDevicePixelRatio => {
+      getSetting$('charts_adaptToDevicePixelRatio').subscribe(adaptToDevicePixelRatio => {
         config.devicePixelRatio = adaptToDevicePixelRatio ? window.devicePixelRatio : 1;
         if (!initPhase) {
           onResize();

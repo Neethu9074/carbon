@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 
 export const timeFormat = 'HH:mm:ss';
 export const dateFormat = 'YYYY-MM-DD';
@@ -13,7 +13,7 @@ let parseDateInternal = parseDateAccordingToLocalTime;
 let parseDateTimeInternal = parseDateTimeAccordingToLocalTime;
 let parseTimeInternal = parseTimeAccordingToLocalTime;
 
-getIn(['formatTimestampsAsUtc']).subscribe(asUtc => {
+getSetting$('formatTimestampsAsUtc').subscribe(asUtc => {
   if (asUtc) {
     formatTimeInternal = formatTimeInternalAccordingToUTC;
     formatTimeWithoutSecondsInternal = formatTimeWithoutSecondsInternalAccordingToUTC;

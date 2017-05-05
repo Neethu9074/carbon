@@ -10,7 +10,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { webVRIsActive } from 'in-map/stores/webVRStore';
-import { getIn } from 'in-services/settings';
+import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
 import 'in-map/Map.less';
@@ -19,7 +19,7 @@ const block = 'in-map';
 
 export default connectTo(
   {
-    antialias: getIn(['map', 'antialias']),
+    antialias: getSetting$('map_antialias'),
     isContextLost: isContextLost$,
     canvas: canvas$
   },

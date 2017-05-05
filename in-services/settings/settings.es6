@@ -1,93 +1,37 @@
 import { create } from 'reactive-observables';
-import { fromJS } from 'immutable';
+import { createLogger } from 'instalog';
 
-import { emptyMap } from 'in-services/fixedImmutables';
+import { saveSettings } from 'in-services/api/settings';
+const logger = createLogger('SearchBar/stores/filers');
 
-const settingsPath = 'in-settings';
 export const settingsStore = create({ emitLatestOnSubscribe: true });
 export const settings$ = settingsStore;
 
-let settings = getFromStorage();
+settingsStore.emit(window.instana.settings);
 
-// load defaults if the storage emits null
-if (!settings) {
-  settings = emptyMap;
+export function setIn(key, value) {
+  saveProperty(key, value);
 }
 
-loadDefault();
-
-settingsStore.emit(settings);
-
-function loadDefault() {
-  const aa = settings.getIn(['map', 'antialias']);
-  if (aa === true) {
-    setIn(['map', 'antialias'], 'browserAA');
-  } else if (aa === false) {
-    setIn(['map', 'antialias'], 'off');
-  }
-
-  setDefaultConfigValue(['map', 'scrollSpeed'], 1);
-  setDefaultConfigValue(['map', 'packingXSpace'], 2);
-  setDefaultConfigValue(['map', 'packingYSpace'], 6);
-  setDefaultConfigValue(['map', 'scrollDirection'], 1);
-  setDefaultConfigValue(['map', 'antialias'], 'browserAA');
-  setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
-  setDefaultConfigValue(['map', 'showHostLabels'], false);
-  setDefaultConfigValue(['map', 'logical', 'layouter'], 'flow'); // [flow, fruchtermann]
-  setDefaultConfigValue(['map', 'physical', 'layouter'], 'simple'); // [simple, packed]
-  setDefaultConfigValue(['map', 'logical', 'numServiceHops'], 1); // 0 or 1
-  setDefaultConfigValue(['experiments'], false);
-  setDefaultConfigValue(['autoCollapseTimeline'], false);
-  setDefaultConfigValue(['showMaintenanceNotes'], true);
-  setDefaultConfigValue(['zoomPanelIsActive'], true);
-  setDefaultConfigValue(['charts', 'adaptToDevicePixelRatio'], true);
-  setDefaultConfigValue(['tables', 'refreshRate'], 3000); // millis
-  setDefaultConfigValue(['formatTimestampsAsUtc'], false);
-
-  setIn(['dataSource'], 'defaults');
+export function toggleIn(key) {
+  saveProperty(key, !window.instana.settings[key]);
 }
 
-function setDefaultConfigValue(path, defaultValue) {
-  if (settings.getIn(path) === undefined) {
-    setIn(path, defaultValue);
-  }
+export function getSetting$(key) {
+  return settingsStore.map(set => set[key]).distinct();
 }
 
-export function setIn(path, value) {
-  settings = settings.setIn(path, value);
-  settingsStore.emit(settings);
-  setToStorage();
-}
+function saveProperty(key, value) {
+  // optimistic write
+  const oldValue = window.instana.settings[key];
+  window.instana.settings[key] = value;
+  settingsStore.emit(window.instana.settings);
 
-export function toggleIn(path) {
-  settings = settings.setIn(path, !settings.getIn(path, false));
-  settingsStore.emit(settings);
-  setToStorage();
-}
-
-export function getIn(path, defaultValue) {
-  return settingsStore
-    .map(set => {
-      return set.getIn(path, defaultValue);
-    })
-    .distinct();
-}
-
-function setToStorage() {
-  if (typeof Storage !== 'undefined') {
-    localStorage.setItem(settingsPath, JSON.stringify(settings.toJS()));
-  }
-}
-
-function getFromStorage() {
-  if (typeof localStorage === 'undefined') {
-    return null;
-  }
-  const temp = localStorage.getItem(settingsPath);
-  if (!temp) {
-    return null;
-  }
-  const fromStorage = fromJS(JSON.parse(temp));
-  fromStorage.setIn(['dataSource'], 'local storage');
-  return fromStorage;
+  const result$ = saveSettings(window.instana.settings);
+  result$.errors().once(error => {
+    // rollback on error
+    window.instana.settings[key] = oldValue;
+    settingsStore.emit(window.instana.settings);
+    logger.error(`failed to save settings: ${error.message}`, error);
+  });
 }

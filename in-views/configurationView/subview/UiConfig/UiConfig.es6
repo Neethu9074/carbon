@@ -35,8 +35,8 @@ export default connectTo(
           <Group>
             <Toggle
               id="toggle-timeline-expand"
-              checked={settings.get('autoCollapseTimeline')}
-              onChange={e => setIn(['autoCollapseTimeline'], e.target.checked)}
+              checked={settings['autoCollapseTimeline']}
+              onChange={e => setIn('autoCollapseTimeline', e.target.checked)}
             />
             <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
           </Group>
@@ -44,8 +44,8 @@ export default connectTo(
           <Group helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide maintenance notes.">
             <Toggle
               id="maintenance-notes"
-              checked={settings.get('showMaintenanceNotes')}
-              onChange={e => setIn(['showMaintenanceNotes'], e.target.checked)}
+              checked={settings['showMaintenanceNotes']}
+              onChange={e => setIn('showMaintenanceNotes', e.target.checked)}
             />
             <Heading text="Show maintenance notes" htmlFor="maintenance-notes" />
           </Group>
@@ -53,8 +53,8 @@ export default connectTo(
           <Group helpText="Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.">
             <Toggle
               id="chart-quality"
-              checked={settings.getIn(['charts', 'adaptToDevicePixelRatio'])}
-              onChange={e => setIn(['charts', 'adaptToDevicePixelRatio'], e.target.checked)}
+              checked={settings['charts_adaptToDevicePixelRatio']}
+              onChange={e => setIn('charts_adaptToDevicePixelRatio', e.target.checked)}
             />
             <Heading text="High quality chart rendering" htmlFor="chart-quality" />
           </Group>
@@ -68,7 +68,7 @@ export default connectTo(
                 Define how often tables with live metrics should be refreshed. Ranges from once per second to once{' '}
                 every ten seconds. Current refresh rate is once every
                 {' '}
-                {settings.getIn(['tables', 'refreshRate']) / 1000}
+                {settings['tables_refreshRate'] / 1000}
                 {' '}
                 second(s).
               </span>
@@ -76,7 +76,7 @@ export default connectTo(
             isWarning
           >
             <Heading
-              text={`Table refresh rate (${settings.getIn(['tables', 'refreshRate']) / 1000}s)`}
+              text={`Table refresh rate (${settings['tables_refreshRate'] / 1000}s)`}
               htmlFor="table-refresh-rate"
             />
             <input
@@ -85,8 +85,8 @@ export default connectTo(
               min={1000}
               max={10000}
               step={1000}
-              value={settings.getIn(['tables', 'refreshRate'])}
-              onChange={e => setIn(['tables', 'refreshRate'], e.target.value)}
+              value={settings['tables_refreshRate']}
+              onChange={e => setIn('tables_refreshRate', e.target.value)}
             />
           </Group>
 
@@ -100,8 +100,8 @@ export default connectTo(
           >
             <Toggle
               id="format-time"
-              checked={settings.get('formatTimestampsAsUtc')}
-              onChange={e => setIn(['formatTimestampsAsUtc'], e.target.checked)}
+              checked={settings['formatTimestampsAsUtc']}
+              onChange={e => setIn('formatTimestampsAsUtc', e.target.checked)}
             />
             <Heading text="Format time according to UTC" htmlFor="format-time" />
           </Group>
@@ -115,8 +115,8 @@ export default connectTo(
           <Group>
             <Toggle
               id="scroll-direction"
-              checked={settings.getIn(['map', 'scrollDirection']) === -1}
-              onChange={e => setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1)}
+              checked={settings['map_scrollDirection'] === -1}
+              onChange={e => setIn('map_scrollDirection', e.target.checked ? -1 : 1)}
             />
             <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
           </Group>
@@ -124,8 +124,8 @@ export default connectTo(
           <Group>
             <Toggle
               id="zoom-panel"
-              checked={settings.get('zoomPanelIsActive')}
-              onChange={e => setIn(['zoomPanelIsActive'], e.target.checked)}
+              checked={settings['zoomPanelIsActive']}
+              onChange={e => setIn('zoomPanelIsActive', e.target.checked)}
             />
             <Heading text="Show zoom panel" htmlFor="zoom-panel" />
           </Group>
@@ -133,8 +133,8 @@ export default connectTo(
           <Group helpText="Instana automatically detects open TCP connections to hosts which are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map.">
             <Toggle
               id="unmonitored-hosts"
-              checked={!settings.getIn(['map', 'excludeUnmonitoredHosts'])}
-              onChange={e => setIn(['map', 'excludeUnmonitoredHosts'], !e.target.checked)}
+              checked={!settings['map_excludeUnmonitoredHosts']}
+              onChange={e => setIn('map_excludeUnmonitoredHosts', !e.target.checked)}
             />
             <Heading text="Show unmonitored hosts" htmlFor="unmonitored-hosts" />
           </Group>
@@ -142,8 +142,8 @@ export default connectTo(
           <Group>
             <Toggle
               id="host-labels"
-              checked={settings.getIn(['map', 'showHostLabels'])}
-              onChange={e => setIn(['map', 'showHostLabels'], e.target.checked)}
+              checked={settings['map_showHostLabels']}
+              onChange={e => setIn('map_showHostLabels', e.target.checked)}
             />
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />
           </Group>
@@ -157,14 +157,14 @@ export default connectTo(
               max={20}
               step={0.1}
               className={`${block}__zoom-speed`}
-              value={settings.getIn(['map', 'scrollSpeed'])}
-              onChange={e => setIn(['map', 'scrollSpeed'], e.target.value)}
+              value={settings['map_scrollSpeed']}
+              onChange={e => setIn('map_scrollSpeed', e.target.value)}
             />
           </Group>
 
           <Group>
             <Heading
-              text={`Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
+              text={`Space between groups in x direction (${settings['map_packingXSpace']})`}
               htmlFor="packing_x_direction"
             />
             <input
@@ -174,14 +174,14 @@ export default connectTo(
               max={10}
               step={1}
               className={`${block}__slider`}
-              value={settings.getIn(['map', 'packingXSpace'])}
-              onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))}
+              value={settings['map_packingXSpace']}
+              onChange={e => setIn('map_packingXSpace', Number(e.target.value))}
             />
           </Group>
 
           <Group>
             <Heading
-              text={`Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`}
+              text={`Space between groups in y direction (${settings['map_packingYSpace']})`}
               htmlFor="packing_y_direction"
             />
             <input
@@ -191,16 +191,16 @@ export default connectTo(
               max={10}
               step={1}
               className={`${block}__slider`}
-              value={settings.getIn(['map', 'packingYSpace'])}
-              onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))}
+              value={settings['map_packingYSpace']}
+              onChange={e => setIn('map_packingYSpace', Number(e.target.value))}
             />
           </Group>
 
           <Group helpText="Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems.">
             <Toggle
               id="antialiasing"
-              checked={settings.getIn(['map', 'antialias']) === 'browserAA'}
-              onChange={e => setIn(['map', 'antialias'], e.target.checked ? 'browserAA' : 'off')}
+              checked={settings['map_antialias'] === 'browserAA'}
+              onChange={e => setIn('map_antialias', e.target.checked ? 'browserAA' : 'off')}
             />
             <Heading text="Anti-aliasing" htmlFor="antialiasing" />
           </Group>
@@ -210,10 +210,7 @@ export default connectTo(
           </SectionHeading>
           <Group>
             <Heading
-              text={`Compact layouter: Space between groups in x direction (${settings.getIn([
-                'map',
-                'packingXSpace'
-              ])})`}
+              text={`Compact layouter: Space between groups in x direction (${settings['map_packingXSpace']})`}
               htmlFor="packing_x_direction"
             />
             <input
@@ -223,16 +220,13 @@ export default connectTo(
               max={10}
               step={1}
               className={`${block}__slider`}
-              value={settings.getIn(['map', 'packingXSpace'])}
-              onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))}
+              value={settings['map_packingXSpace']}
+              onChange={e => setIn('map_packingXSpace', Number(e.target.value))}
             />
           </Group>
           <Group>
             <Heading
-              text={`Compact layouter: Space between groups in y direction (${settings.getIn([
-                'map',
-                'packingYSpace'
-              ])})`}
+              text={`Compact layouter: Space between groups in y direction (${settings['map_packingYSpace']})`}
               htmlFor="packing_y_direction"
             />
             <input
@@ -242,8 +236,8 @@ export default connectTo(
               max={10}
               step={1}
               className={`${block}__slider`}
-              value={settings.getIn(['map', 'packingYSpace'])}
-              onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))}
+              value={settings['map_packingYSpace']}
+              onChange={e => setIn('map_packingYSpace', Number(e.target.value))}
             />
           </Group>
 
@@ -252,11 +246,7 @@ export default connectTo(
           </SectionHeading>
           <Group>
             <Heading
-              text={`Number of shown hops when filtering services (${settings.getIn([
-                'map',
-                'logical',
-                'numServiceHops'
-              ])})`}
+              text={`Number of shown hops when filtering services (${settings['map_logical_numServiceHops']})`}
               htmlFor="num_service_hops"
             />
             <input
@@ -266,8 +256,8 @@ export default connectTo(
               max={1}
               step={1}
               className={`${block}__slider`}
-              value={settings.getIn(['map', 'logical', 'numServiceHops'])}
-              onChange={e => setIn(['map', 'logical', 'numServiceHops'], Number(e.target.value))}
+              value={settings['map_logical_numServiceHops']}
+              onChange={e => setIn('map_logical_numServiceHops', Number(e.target.value))}
             />
           </Group>
 
