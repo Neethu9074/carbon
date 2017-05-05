@@ -48,7 +48,7 @@ const cols = [
 export default function InstancesTable({ snapshot, timeframe, instances }) {
   const rows = instances.map(instance => {
     return {
-      key: instance.get('id'),
+      key: instance,
       snapshotId: snapshot.get('id'),
       data: snapshot.get('data'),
       timeframe
@@ -63,12 +63,11 @@ export default function InstancesTable({ snapshot, timeframe, instances }) {
 }
 
 function getRowDetails(row) {
-  const snapshotId = row.snapshot.get('id');
   return (
     <TwoColumnRow>
       <DashboardSection title="CPU">
         <ChartWithLegend
-          snapshotId={snapshotId}
+          snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{
             left: 60
@@ -84,7 +83,7 @@ function getRowDetails(row) {
       </DashboardSection>
       <DashboardSection title="Memory">
         <ChartWithLegend
-          snapshotId={snapshotId}
+          snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{
             left: 60
