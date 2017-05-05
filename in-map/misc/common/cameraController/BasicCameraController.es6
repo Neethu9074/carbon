@@ -3,11 +3,11 @@ import RoEmitter from 'roemitter';
 import { setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { requestRendering } from 'in-map/stores/renderingStore';
+import { clearSelectedEvent } from 'in-stores/navigation/view';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import Camera from 'in-map/misc/OrthographicCamera';
 import { emptyArray } from 'in-services/fixedObjects';
-import { clearSelectedEvent } from 'in-stores/events';
 import { goToDashboard } from 'in-stores/navigation';
 import { height } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -72,7 +72,7 @@ export default class BasicCameraController extends Subscriber {
           goToDashboard(this.lastHitten.object.dashboardId);
         }
       }),
-      timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)
+      timelineHeight$.subscribe(timelineHeight => (BOTTOM_MARGIN_IN_PX = timelineHeight))
     ]);
   }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import { formatDate, formatTime } from 'in-services/formatters/date';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 
 import './Marker.less';
 

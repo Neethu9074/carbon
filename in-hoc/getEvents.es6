@@ -4,8 +4,7 @@ import React from 'react';
 
 import createReactClass from 'create-react-class';
 
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import { getEvent } from 'in-services/issueTracker';
+import { getEvent, getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
 export default function getEvents(ComposedComponent) {
   return createReactClass({

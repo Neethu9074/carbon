@@ -2,8 +2,8 @@ import { create, combineLatest } from 'reactive-observables';
 
 import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { getEvent } from 'in-services/issueTracker';
 import { query$ } from 'in-stores/search/query';
+import { getEvent } from 'in-stores/events';
 
 const data = {};
 export const data$ = create().emit(data);

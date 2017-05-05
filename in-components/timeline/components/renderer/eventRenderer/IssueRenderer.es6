@@ -1,4 +1,4 @@
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import icons from 'in-components/timeline/icons/icons';
 
 const y = 74;

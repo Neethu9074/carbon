@@ -74,7 +74,8 @@ export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => 
 
 export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
 
-export function focusEvent(eventId) {
+export function focusEvent(event) {
+  const eventId = event.get('id');
   mutateUrl(params => {
     const match = params.pathname.match(/\/(logical|physical)/i);
     if (match) {
@@ -87,6 +88,13 @@ export function focusEvent(eventId) {
     params.query.eventId = eventId;
     delete params.query.snapshotId;
     return params;
+  });
+}
+
+export function clearSelectedEvent() {
+  mutateUrl(navParams => {
+    delete navParams.query.eventId;
+    return navParams;
   });
 }
 

@@ -1,7 +1,13 @@
 import React from 'react';
 
-import { getEvent, selectEvent, clearEvent, getIconTypeForEventType, getEventType } from 'in-services/issueTracker';
-import { getColorForEventAtFocusedMomentAsStream, selectedEventId$ } from 'in-stores/events';
+import {
+  getEvent,
+  getIconTypeForEventType,
+  getEventType,
+  getColorForEventAtFocusedMomentAsStream,
+  selectedEventId$
+} from 'in-stores/events';
+import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/view';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -43,7 +49,7 @@ export default connectTo(
 );
 
 function toggleEvent(event, selectedEventId) {
-  event.get('id') !== selectedEventId ? selectEvent(event) : clearEvent();
+  event.get('id') !== selectedEventId ? focusEvent(event) : clearSelectedEvent();
 }
 
 function Cell({ content }) {

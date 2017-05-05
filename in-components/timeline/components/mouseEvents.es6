@@ -20,7 +20,7 @@ import {
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/reactiveMouseEvents';
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
-import { selectEvent } from 'in-services/issueTracker';
+import { focusEvent } from 'in-stores/navigation/view';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
 
@@ -36,25 +36,25 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
   let isPanning = false;
 
   let categorizedEvents;
-  const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
+  const eventsSubscription = eventsInTimeframe$.subscribe(events => (categorizedEvents = events));
 
   let serverTime = Number.MAX_VALUE;
-  const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
+  const serverTimeSubscription = serverTime$.subscribe(time => (serverTime = time));
 
   let bigBangTimestamp = 0;
-  const bigBangTimestampSubscription = bigBangTimestamp$.subscribe(time => bigBangTimestamp = time);
+  const bigBangTimestampSubscription = bigBangTimestamp$.subscribe(time => (bigBangTimestamp = time));
 
   let timeframe;
-  const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
+  const timeframeSubscription = timeframe$.subscribe(_timeframe => (timeframe = _timeframe));
 
   let focusedMoment;
-  const focusedMomentSubscription = focusedMoment$.subscribe(fm => focusedMoment = fm);
+  const focusedMomentSubscription = focusedMoment$.subscribe(fm => (focusedMoment = fm));
 
   let isCollapsed;
-  const isCollapsedSubscription = isCollapsed$.subscribe(isC => isCollapsed = isC);
+  const isCollapsedSubscription = isCollapsed$.subscribe(isC => (isCollapsed = isC));
 
   let currentTo;
-  const toSubscription = to$.subscribe(_to => currentTo = _to);
+  const toSubscription = to$.subscribe(_to => (currentTo = _to));
 
   const mouseLeaveSubscription = onLeave(domElement, onMouseLeave);
   const mouseDownSubscription = onDown(domElement, onMouseDown);
@@ -130,7 +130,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
   function onClick(e) {
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
-      selectEvent(eventAtCursor);
+      focusEvent(eventAtCursor);
     } else {
       // if there is no event and the user clicked, set the focused moment to the time at pixel clicked
       setFocusedMoment(scale.getDomain(e.offsetX));

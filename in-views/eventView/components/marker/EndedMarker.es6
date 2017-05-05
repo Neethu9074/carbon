@@ -1,8 +1,7 @@
 import React from 'react';
 
+import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
-import { fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 import { alwaysNull } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';

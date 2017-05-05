@@ -1,6 +1,5 @@
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
-import { getColorByEvent } from 'in-stores/events';
+import { getColorByEvent, getEventType, EVENT_TYPES } from 'in-stores/events';
 
 export default function createHoveredEventLineRenderer(ctx, scale) {
   let highlightedEvent = null;

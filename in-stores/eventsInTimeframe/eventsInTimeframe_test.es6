@@ -32,7 +32,7 @@ describe('in-stores/eventsInTimeframe', () => {
       'in-stores/search/query': {
         query$
       },
-      'in-services/issueTracker': {
+      'in-stores/events': {
         getEvent: () => create()
       }
     });

@@ -2,10 +2,10 @@ import React from 'react';
 
 import { maxEventsOnCollapsed, isExpanded$ } from 'in-views/eventView/stores/populationChartExpandedStore';
 import { changesAreVisible$ } from 'in-views/eventView/stores/changesVisibilityStore';
-import Event from 'in-views/eventView/components/Incident/PopulationChart/Event';
 import { sortedRecentEvents$ } from 'in-views/eventView/stores/recentEventsStore';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
+import Event from 'in-views/eventView/components/Incident/PopulationChart/Event';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 import './Events.less';

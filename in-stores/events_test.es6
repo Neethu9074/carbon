@@ -54,6 +54,7 @@ describe('in-stores/events', () => {
     getEventUpdatesResult = create();
     getEventUpdates.returns(getEventUpdatesResult);
     mod = proxyquire('in-stores/events', {
+      'in-services/subscription/event': { default: () => getEvent$ },
       'in-stores/timeline': {
         timeframe$,
         from$,
@@ -63,7 +64,6 @@ describe('in-stores/events', () => {
       },
       'in-services/subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
       'in-services/subscription/events': { default: getEvents },
-      'in-services/issueTracker': { getEvent: () => getEvent$ },
       'in-services/subscription/healthInfo': { default: () => healthInfo$ },
       'in-stores/serverTime': { serverTime$ },
       'in-services/stores/highlightedEntityId': {
