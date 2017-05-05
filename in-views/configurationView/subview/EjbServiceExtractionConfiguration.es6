@@ -1,11 +1,13 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/GenericServiceExtractionConfiguration';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
+import {ejbServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
 
-const helpTexts = defaultsDeep(
+export const pathname = ejbServiceExtractionConfigViewPath;
+
+export const helpTexts = defaultsDeep(
   {
     viewHelp: 'Configure how Instana uses EJB attributes to extract services. You can define multiple rules ' +
       'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
@@ -18,7 +20,7 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
-const matchSpecificationOptionsTree = [
+export const matchSpecificationOptionsTree = [
   {
     label: 'Module',
     value: 'module'
@@ -33,7 +35,7 @@ const matchSpecificationOptionsTree = [
   }
 ];
 
-const matchSpecificationOptions = {
+export const matchSpecificationOptions = {
   module: {
     titleName: 'Module',
     placeholder: '',
@@ -83,8 +85,6 @@ export default function EjbServiceExtractionConfiguration() {
       ruleType="ejb"
       title="EJB Service Extraction Rules"
       helpTexts={helpTexts}
-      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-      matchSpecificationOptions={matchSpecificationOptions}
     />
   );
 }

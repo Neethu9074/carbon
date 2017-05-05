@@ -1,0 +1,6 @@
+{
+  "name": "ServiceExtraction",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ServiceExtraction.es6"
+}

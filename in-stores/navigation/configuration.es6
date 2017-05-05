@@ -7,17 +7,17 @@ import {
 
 export const configurationViewLink$ = buildUrlStream({ path: '/config' });
 
-const httpServiceExtractionConfigViewPath = '/config/httpServiceExtraction';
+export const httpServiceExtractionConfigViewPath = '/config/httpServiceExtraction';
 export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({
   path: httpServiceExtractionConfigViewPath
 });
 export const isHttpServiceExtractionConfigurationView$ = buildPathStartsWithStream(httpServiceExtractionConfigViewPath);
 
-const ejbServiceExtractionConfigViewPath = '/config/ejbServiceExtraction';
+export const ejbServiceExtractionConfigViewPath = '/config/ejbServiceExtraction';
 export const ejbServiceExtractionConfigurationViewLink$ = buildUrlStream({ path: ejbServiceExtractionConfigViewPath });
 export const isEjbServiceExtractionConfigurationView$ = buildPathStartsWithStream(ejbServiceExtractionConfigViewPath);
 
-const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServiceExtraction';
+export const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServiceExtraction';
 export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({
   path: elasticsearchServiceExtractionConfigViewPath
 });
@@ -25,7 +25,7 @@ export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStart
   elasticsearchServiceExtractionConfigViewPath
 );
 
-const messageBrokerServiceExtractionConfigViewPath = '/config/messageBrokerServiceExtraction';
+export const messageBrokerServiceExtractionConfigViewPath = '/config/messageBrokerServiceExtraction';
 export const messageBrokerServiceExtractionConfigurationViewLink$ = buildUrlStream({
   path: messageBrokerServiceExtractionConfigViewPath
 });
@@ -167,3 +167,24 @@ export function openRuleBindings() {
 }
 
 // end custom alerting rules ------------------------------------
+
+
+// service extraction ----------------------------------------
+function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
+  return ruleId
+    ? `/config/serviceExtraction/${encodeURIComponent(ruleType)}/${encodeURIComponent(ruleId)}`
+    : `/config/serviceExtraction/${encodeURIComponent(ruleType)}`;
+}
+
+export function getServiceRuleConfigLink(id, ruleType) {
+  return getModifiedUrlStream(params => params.pathname = getServiceExtractionRuleConfigPath(id, ruleType));
+}
+
+export function openServiceExtractionConfig(objectiveId, ruleType) {
+  mutateUrl(params => params.pathname = getServiceExtractionRuleConfigPath(objectiveId, ruleType));
+}
+
+export function openServiceExtractionConfigByDefinition(definition) {
+  mutateUrl(params => params.pathname = definition.pathname);
+}
+// end service extraction ------------------------------------

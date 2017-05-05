@@ -1,11 +1,13 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/GenericServiceExtractionConfiguration';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import {elasticsearchServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
 
-const helpTexts = defaultsDeep(
+export const pathname = elasticsearchServiceExtractionConfigViewPath;
+
+export const helpTexts = defaultsDeep(
   {
     viewHelp: 'Configure how Instana uses Elasticsearch attributes to extract services. You can define multiple rules ' +
       'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
@@ -18,7 +20,7 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
-const matchSpecificationOptionsTree = [
+export const matchSpecificationOptionsTree = [
   {
     label: 'Index',
     value: 'index'
@@ -29,7 +31,7 @@ const matchSpecificationOptionsTree = [
   }
 ];
 
-const matchSpecificationOptions = {
+export const matchSpecificationOptions = {
   index: {
     titleName: 'Index',
     placeholder: '',
@@ -65,8 +67,6 @@ export default function ElasticsearchServiceExtractionConfiguration() {
       ruleType="elasticsearchindex"
       title="Elasticsearch Service Extraction Rules"
       helpTexts={helpTexts}
-      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-      matchSpecificationOptions={matchSpecificationOptions}
     />
   );
 }

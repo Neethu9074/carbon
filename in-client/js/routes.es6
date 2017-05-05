@@ -1,5 +1,7 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
+import ServiceExtractionRuleConfiguration
+  from 'promise?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import ElasticServiceExtractionConfiguration
   from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration
@@ -80,6 +82,17 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
       windowTitle="Settings"
     >
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
+        path="serviceExtraction/:ruleType/:ruleId"
+        windowTitle="Service Extraction Rule"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
+        path="serviceExtraction/:ruleType"
+        windowTitle="Service Extraction Rule"
+      />
+
       <Route
         component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
         path="httpServiceExtraction"
