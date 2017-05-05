@@ -48,7 +48,6 @@ import './kafkaCluster';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
-import './logicalAdoConnection';
 import './logicalCassandraConnection';
 import './logicalCassandraKeyspace';
 import './logicalDatabase';
