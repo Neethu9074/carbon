@@ -24,7 +24,6 @@ function removeValuesWhichAreMeaninglessToUsers(rules) {
     delete rule.id;
     delete rule.order;
     delete rule.type;
-    delete rule.parent;
   });
   return rules;
 }

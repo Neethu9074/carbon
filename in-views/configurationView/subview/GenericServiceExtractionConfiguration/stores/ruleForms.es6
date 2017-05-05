@@ -170,7 +170,6 @@ export function createRulesFromRuleForms(ruleForms) {
       comment: ruleForm.get('comment').value,
       order: i,
       type: ruleType,
-      parent: null,
       matchSpecification,
       extractSpecification: {
         label: ruleForm.get('label').value
