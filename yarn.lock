@@ -6225,7 +6225,7 @@ proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
 
-proxrox@^1.12.2:
+proxrox@^1.13.0:
   version "1.13.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/proxrox/-/proxrox-1.13.0.tgz#ae8444a8a36264ea8abfbc21a47fa1b79440599b"
   dependencies:

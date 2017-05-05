@@ -264,6 +264,8 @@ gulp.task('startDevProxy', function startDevProxy() {
     root: paths.assetDir,
     ssi: true,
     tls: true,
+    tlsCertificateFile: './cert/server.crt',
+    tlsCertificateKeyFile: './cert/server.key',
     proxy,
 
     websocketProxy: {

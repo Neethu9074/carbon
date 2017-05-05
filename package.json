@@ -150,7 +150,7 @@
     "postcss-loader": "0.9.1",
     "prettier": "^1.0.2",
     "promise-loader": "1.0.0",
-    "proxrox": "^1.12.2",
+    "proxrox": "^1.13.0",
     "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
     "react-dev-utils": "^0.5.2",
