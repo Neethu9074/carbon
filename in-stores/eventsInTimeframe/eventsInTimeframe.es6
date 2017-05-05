@@ -61,7 +61,7 @@ function upsertEvent(event) {
   };
   eventProperty.eventSubscription = getEvent(event.id).subscribe(_event => {
     eventProperty.event = _event;
-    eventProperty.event.type = _event.get('type');
+    // store this property explicity for faster getNearestEvent checking
     eventProperty.event.time = _event.get('triggeringTime', _event.get('start'));
 
     emitRawDataChange();
@@ -97,7 +97,7 @@ function categorize(data) {
 
   for (let eventId in data) {
     const eventProperty = data[eventId];
-    const type = eventProperty.event ? `${eventProperty.event.type}s` : undefined;
+    const type = `${eventProperty.rawEvent.type.toLowerCase()}s`;
     if (eventProperty.event && categories[type]) {
       categories[type].push(eventProperty.event);
     }
