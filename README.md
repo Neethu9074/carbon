@@ -87,7 +87,7 @@ By default Chrome and other browsers won't accept self-signed SSL certificates.
 To overcome this, we use pre-generated certificates, which you can whitelist in Chrome.
 Described here are the steps to whitelist the local certificate:
 
-1. Double click the `server.crt` file inside the `cert` directory.
+1. Double click the `server.crt` file inside the `build/cert` directory.
 2. You should get a prompt asking you if you want to add the certificate to a keychain. Select the Keychain `System` and press "Add".
 3. You should now see the newly added certificate (local-instana.instana.io) in the list. Double click it.
 4. In the new window inside the `Trust` section, set `When using this certificate` to `Always Trust`. You may need to reauthenticate after this step.
