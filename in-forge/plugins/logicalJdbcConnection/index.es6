@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Jdbc Connection',
-    plural: 'Jdbc Connections'
+    singular: 'JDBC Connection',
+    plural: 'JDBC Connections'
   }
 });

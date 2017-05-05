@@ -10,11 +10,17 @@ export default function MySQLiSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
+        <DescriptionItem title="DSN">
+          {span.getIn(['data', 'mysqli', 'dsn'])}
+        </DescriptionItem>
         {statement
           ? <DescriptionItem title="Query">
               <Code code={formatSql(statement)} lang="sql" />
             </DescriptionItem>
           : null}
+        <DescriptionItem title="Error">
+          {span.getIn(['data', 'mysqli', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );

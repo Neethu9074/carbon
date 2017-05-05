@@ -2,8 +2,8 @@ import React from 'react';
 
 import HealthIconListing from 'in-components/HealthIconListing';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import connectTo from 'in-hoc/connectTo';
 import { getColorBySeverity } from 'in-stores/events';
+import connectTo from 'in-hoc/connectTo';
 
 import './SidebarHealthInfo.less';
 

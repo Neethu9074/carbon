@@ -14,6 +14,15 @@ registerSpanDefinition({
 
   getLabel(span) {
     const statement = span.getIn(['data', 'mysql', 'stmt'], span.getIn(['data', 'mysql', 'sql']));
-    return shortenSqlStatement(statement);
+    if (statement != null) {
+      return shortenSqlStatement(statement);
+    }
+
+    const host = span.getIn(['data', 'mysql', 'host']);
+    if (host != null) {
+      return host;
+    }
+
+    return 'Unknown MySQL call';
   }
 });

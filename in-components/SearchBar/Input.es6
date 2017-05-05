@@ -145,7 +145,8 @@ export default getElementDimensions(
           this.updateQuery(query);
 
           if (
-            !isFocused || (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
+            !isFocused ||
+            (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
           ) {
             return;
           }
@@ -240,7 +241,7 @@ export default getElementDimensions(
       render() {
         return (
           <div className={block}>
-            <div ref={input => this.input = input} />
+            <div ref={input => (this.input = input)} />
             <Suggestions
               searchbarWidth={this.props.width}
               eventEmitter={this.state.eventEmitter}
@@ -293,7 +294,7 @@ export default getElementDimensions(
 
       openSuggestionWindowOnEmptyQuery = autocompleteShownForCursorPosition => {
         const currentQuery = this.props.query;
-        if (currentQuery === '') {
+        if (currentQuery === '' && this.editor) {
           const { left } = this.editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           this.show({
             query: currentQuery,

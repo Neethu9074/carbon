@@ -6,8 +6,10 @@
 // Set our default time zone so that tests with date formatting are predictable.
 process.env.TZ = 'Europe/Berlin';
 
-var chai = require('chai');
-var jsdom = require('jsdom');
+const jsdom = require('jsdom');
+const path = require('path');
+const chai = require('chai');
+const fs = require('fs');
 
 var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
 var setupThemeGlobals = require('../in-test/setupThemeGlobals');
@@ -24,11 +26,10 @@ chai.use(require('sinon-chai'));
 });
 
 // support ES6
-require('babel-core/register')({
-  only: /es6/,
-  ignore: '^$',
-  presets: ['es2015', 'react', 'stage-2']
-});
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.babelrc'), {encoding: 'utf8'}));
+babelConfig.only = /es6/;
+babelConfig.ignore = '^$';
+require('babel-core/register')(babelConfig);
 
 // Ensuring a browser environment is simulated before React is loaded to avoid
 // "Error: Invariant Violation: Markup wrapping node not initialized"

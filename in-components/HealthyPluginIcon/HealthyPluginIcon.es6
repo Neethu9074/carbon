@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { getColorBySeverity } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { getColorBySeverity } from 'in-stores/events';
 
 export default connectTo(
   props => {
@@ -18,7 +18,7 @@ export default connectTo(
     return observables;
   },
   function HealthyEntityIcon({ snapshot, health, className, fallbackColor = '#fff', dimension = 16 }) {
-    const severity = health.get('maxSeverity');
+    const severity = health ? health.get('maxSeverity') : 0;
     const color = health && severity > 0 ? getColorBySeverity(severity) : fallbackColor;
 
     return <PluginIcon className={className} dimension={dimension} color={color} snapshot={snapshot} />;

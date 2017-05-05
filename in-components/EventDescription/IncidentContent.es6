@@ -3,11 +3,10 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
-import { getEvent } from 'in-services/issueTracker';
-import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getEvent, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import { toHtml } from 'in-services/formatters/markdown';
+import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';

@@ -2,12 +2,11 @@ import { combineLatest } from 'reactive-observables';
 
 import { restoreInitialExpandedState } from 'in-views/eventView/stores/populationChartExpandedStore';
 import { restoreInitialVisibilityState } from 'in-views/eventView/stores/changesVisibilityStore';
-import { selectedIncident$, selectedObjective$ } from 'in-stores/events';
+import { getEvent, selectedIncident$, selectedObjective$ } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { getEvent } from 'in-services/issueTracker';
 
 export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',

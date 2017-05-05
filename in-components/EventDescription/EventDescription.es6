@@ -4,9 +4,12 @@ import React from 'react';
 
 import {
   getColorForEventAtFocusedMomentAsStream,
-  fireCallbacksForEventAtFocusedMomentAsStream
+  fireCallbacksForEventAtFocusedMomentAsStream,
+  getIconTypeForEventType,
+  getEventType,
+  EVENT_TYPES
 } from 'in-stores/events';
-import { getIconTypeForEventType, getEventType, selectEvent, EVENT_TYPES } from 'in-services/issueTracker';
+import { focusEvent } from 'in-stores/navigation/view';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/Grid/Grid';
 import { getClassName } from 'in-services/react';
@@ -49,7 +52,7 @@ export default connectTo(
       const end = event.get('end');
 
       return (
-        <div className={className} onClick={() => selectEvent(event)}>
+        <div className={className} onClick={() => focusEvent(event)}>
           <SvgIcon
             className={block + '__icon'}
             type={getIconTypeForEventType(eventType)}

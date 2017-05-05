@@ -22,6 +22,13 @@ export default function PdoSpanDetailView({ span }) {
               <Code code={formatSql(statement)} lang="sql" />
             </DescriptionItem>
           : null}
+
+        <DescriptionItem title="Error">
+          {span.getIn(['data', 'pdo', 'error'])}
+        </DescriptionItem>
+        <DescriptionItem title="Error Code">
+          {span.getIn(['data', 'pdo', 'error_code'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );

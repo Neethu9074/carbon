@@ -152,8 +152,8 @@ export default function createAxisController(config) {
         config.signals.restartRendering$.emit(true);
       })
     );
-    config.subscriptions.push(to$.subscribe(to => config.to = to));
-    config.subscriptions.push(offset$.subscribe(serverTimeOffset => config.serverTimeOffset = serverTimeOffset));
+    config.subscriptions.push(to$.subscribe(to => (config.to = to)));
+    config.subscriptions.push(offset$.subscribe(serverTimeOffset => (config.serverTimeOffset = serverTimeOffset)));
   }
 
   function subscribeToDataSources() {
@@ -167,7 +167,6 @@ export default function createAxisController(config) {
     const metrics = config[axisName].metrics;
     const queue = config.queues[axisName];
 
-    /* eslint-disable no-loop-func */
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(
@@ -175,16 +174,16 @@ export default function createAxisController(config) {
           snapshotId: snapshotId,
           metric: metrics[i],
           timeframe: config.timeframe
-        }).subscribe(dataPoints => {
-          // data points are not guaranteed to be filled
-          if (dataPoints) {
-            queue.addDataPoints(i, dataPoints);
-          }
-        })
+        }).subscribe(onNewDataPoints, i, queue)
       );
     }
+  }
 
-    /* eslint-enable no-loop-func */
+  function onNewDataPoints(dataPoints, axisIndex, queue) {
+    // data points are not guaranteed to be filled
+    if (dataPoints) {
+      queue.addDataPoints(axisIndex, dataPoints);
+    }
   }
 
   function createAxisContentRenderers() {

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { totalTraceCountWithoutEum$, totalTraceCountOnlyEum$, totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import TraceListFilterToggle from 'in-views/traceView/components/TraceListFilterToggle';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
 import { setTypeFilter, removeTypeFilter } from 'in-views/traceView/stores/filters';
 import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import { refresh } from 'in-views/traceView/stores/traceList';
 import Count from 'in-views/traceView/components/Count';
 import AutoUpdate from 'in-components/AutoUpdate';
@@ -36,12 +36,10 @@ export default connectTo(
 
           <TraceListFilterToggle filter="without-eum" onClick={() => setTypeFilter('server')}>
             Server Calls
-            <Count count$={totalTraceCountWithoutEum$} formatCount={formatCount} />
           </TraceListFilterToggle>
 
           <TraceListFilterToggle filter="eum" onClick={() => setTypeFilter('eum')}>
             EUM Calls
-            <Count count$={totalTraceCountOnlyEum$} formatCount={formatCount} />
           </TraceListFilterToggle>
         </div>
 

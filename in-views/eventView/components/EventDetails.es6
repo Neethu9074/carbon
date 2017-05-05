@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { selectedEventId$, selectedEvent$, getEventType, EVENT_TYPES } from 'in-stores/events';
 import ObjectiveContent from 'in-views/eventView/components/Objective/Content';
 import IncidentContent from 'in-views/eventView/components/Incident/Content';
 import EventContent from 'in-views/eventView/components/Event/Content';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
-import { selectedEventId$, selectedEvent$ } from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 

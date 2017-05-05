@@ -5,7 +5,6 @@ import InputFields from 'in-components/timeline/components/DatePicker/InputField
 import DatePicker from 'in-components/timeline/components/DatePicker/DatePicker';
 import { interactableTimelineHeight$ } from 'in-components/timeline/timelineStore';
 import InfoPanel from 'in-components/timeline/components/DatePicker/InfoPanel';
-import { currentTimeSelector$ } from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
 import {
@@ -24,7 +23,6 @@ const block = 'in-timeline-date-time-picker-popup';
 
 export default connectTo(
   {
-    currentTimeSelector: currentTimeSelector$,
     height: interactableTimelineHeight$
   },
   class extends React.Component {

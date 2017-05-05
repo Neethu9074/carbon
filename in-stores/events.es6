@@ -1,94 +1,11 @@
-/* global process:false */
-import { combineLatest } from 'reactive-observables';
-import { sortedIndexBy } from 'lodash';
-import { List, Map } from 'immutable';
-
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
-import { getEvent, getEventType, EVENT_TYPES } from 'in-services/issueTracker';
-import { focusedMoment$, timeframe$, to$, from$ } from 'in-stores/timeline';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import getEventUpdates from 'in-services/subscription/eventUpdates';
-import memoize from 'in-services/util/memoizingObservableGenerator';
+import createHealthInfoSubscription from 'in-services/subscription/healthInfo';
+import createEventObservable from 'in-services/subscription/event';
 import { createStore, createTrackingStore } from 'in-stores/store';
-import getOpenEvents from 'in-services/subscription/openEvents';
-import getEvents from 'in-services/subscription/events';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
-
-const maxDataRetrieval = 1000 * 60 * 60 * 24 * 31; // one month
-
-export const retrievedEvents$ = createTrackingStore({
-  name: 'retrievedEvents',
-  observable: timeframe$
-    .flatMap(timeframe => {
-      return getEvents({
-        // Increase amount of retrieved data to ensure smooth vertical scrolling.
-        to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-
-        // load at most one month worth of data
-        windowSize: Math.min(timeframe.windowSize * 2, maxDataRetrieval)
-      });
-    })
-    .merge(getEventUpdates(), getOpenEvents(), focusedMoment$.flatMap(getOpenEvents))
-    .scan(insertEventsToStoreSorted, {
-      // Sorted array of events[] by start time. Permits quick lookup of events within a
-      // time range. Each events[] has a time property for fast lookups and comparisons
-      issues: [],
-      changes: [],
-      incidents: [],
-      objectives: []
-    })
-}).observable
-  .startWith({
-    issues: [],
-    changes: [],
-    incidents: [],
-    objectives: []
-  })
-  .throttle(process.env.IS_TEST ? 0 : 1000);
-
-function insertEventsToStoreSorted(store, update) {
-  for (let i = 0, length = update.size; i < length; i++) {
-    insertSorted(store, update.get(i));
-  }
-  return store;
-}
-
-export const eventsInTimeframe$ = combineLatest([
-  timeframe$.flatMap(timeframe => {
-    if (timeframe.to == null) {
-      return to$.throttle(10000);
-    }
-    return to$;
-  }),
-  from$,
-  retrievedEvents$
-]).map(filterEventsByTime);
-
-function filterEventsByTime([to, from, events]) {
-  // TODO improve perf by doing a binary search for from
-  return {
-    issues: filter(events.issues),
-    changes: filter(events.changes),
-    incidents: filter(events.incidents),
-    objectives: filter(events.objectives)
-  };
-
-  function filter(eventsToFiler) {
-    const result = [];
-    for (let i = 0, len = eventsToFiler.length; i < len; i++) {
-      const event = eventsToFiler[i];
-      const eventTo = event.state === 'open' ? Number.MAX_VALUE : event.end;
-      if (eventTo < from) {
-        continue;
-      } else if (event.time > to) {
-        break;
-      }
-      result.push(event);
-    }
-    return result;
-  }
-}
+import { focusedMoment$ } from 'in-stores/timeline';
 
 const openEventsAtServerTime = createStore({
   name: 'openEventsAtServerTime',
@@ -102,68 +19,14 @@ export function init() {
   }).subscribe(result => openEventsAtServerTime.mutateTo(result));
 }
 
-export const openEventsAtFocusedMoment$ = createTrackingStore({
-  name: 'openEventsAtFocusedMoment',
-  observable: combineLatest([focusedMoment$, retrievedEvents$]).map(filterOpenEventsAtFocusedMoment)
-}).observable;
-
-function filterOpenEventsAtFocusedMoment([focusedMoment, events]) {
-  return {
-    issues: events.issues.filter(filter),
-    changes: events.changes.filter(filter),
-    incidents: events.incidents.filter(filter),
-    objectives: events.objectives.filter(filter)
-  };
-
-  function filter(event) {
-    return isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment);
-  }
+export function getHealthInfoAtFocusedMoment(snapshotId) {
+  return focusedMoment$.flatMap(_focusedMoment =>
+    createHealthInfoSubscription({ focusedMoment: _focusedMoment, snapshotId })
+  );
 }
 
-export const getOpenIssuesAtFocusedMoment = memoize(
-  // TODO an index by entity would be great, but probably more expensive to
-  // maintain than actually to loop?
-  snapshotId =>
-    openEventsAtFocusedMoment$.map(events => {
-      return List(events.issues.filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
-    }),
-  id => id,
-  3000
-);
-
-export const getHealthInfoAtFocusedMoment = memoize(
-  snapshotId =>
-    getOpenIssuesAtFocusedMoment(snapshotId)
-      .scan(addHealthInfo, {})
-      .distinct()
-      .map(mutableHealthInfo => Map(mutableHealthInfo)),
-  id => id,
-  3000
-);
-
-function addHealthInfo(prevHealthInfo, issues) {
-  const nextHealthInfo = {
-    maxSeverity: 0,
-    issueWithMaxSeverity: null,
-    numberOfOpenIssues: issues.size
-  };
-
-  issues.forEach(issue => {
-    const severity = issue.getIn(['problem', 'severity'], 0);
-    if (severity >= nextHealthInfo.maxSeverity) {
-      nextHealthInfo.maxSeverity = severity;
-      nextHealthInfo.issueWithMaxSeverity = issue;
-    }
-  });
-
-  if (
-    prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
-    prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
-    prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues
-  ) {
-    return nextHealthInfo;
-  }
-  return prevHealthInfo;
+export function getEvent(eventId) {
+  return createEventObservable({ eventId });
 }
 
 /**
@@ -174,7 +37,9 @@ function addHealthInfo(prevHealthInfo, issues) {
  * @returns {Observable<Event>} The event with the highest severity
  */
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
-  return getHealthInfoAtFocusedMoment(snapshotId).map(healthInfo => healthInfo.get('issueWithMaxSeverity')).distinct();
+  return getHealthInfoAtFocusedMoment(snapshotId).flatMap(healthInfo =>
+    getEvent(healthInfo.get('eventWithMaxSeverity'))
+  );
 }
 
 export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
@@ -209,80 +74,22 @@ export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
   return start <= focusedMoment && focusedMoment < end;
 }
 
-function insertSorted(store, event) {
-  const time = event.get('triggeringTime', event.get('start'));
-  const id = event.get('id');
-  // Assigning some props to immutable object to allow for faster binary search and filtering
-  event.time = time;
-  event.id = id;
-  event.start = event.get('start');
-  event.end = event.get('end');
-  event.state = event.get('state');
-  const type = event.get('type');
-  const byTime = store[type + 's'];
-
-  const index = sortedIndexBy(byTime, event, e => e.time);
-
-  const existingItem = byTime[index];
-  if (existingItem) {
-    if (existingItem.time !== time) {
-      // event with new time
-      byTime.splice(index, 0, event);
-    } else if (existingItem.id === event.id) {
-      // updates
-      byTime[index] = event;
-    } else {
-      let i = index;
-      let found = false;
-      while (byTime[i] && byTime[i].time === time && !found) {
-        if (byTime[i].id === id) {
-          // update
-          byTime[i] = event;
-          found = true;
-        }
-        i++;
-      }
-
-      if (!found) {
-        byTime.splice(index, 0, event);
-      }
-    }
-  } else {
-    byTime.splice(index, 0, event);
-  }
-}
-
 export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALUE) {
   if (events.length === 0) {
     return null;
   }
 
-  let index = sortedIndexBy(events, { time: timestamp }, event => event.time);
-
-  let B = events[index];
-  if (!B) {
-    index = events.length - 1;
-    B = events[index];
-  }
-  const distanceToB = Math.abs(B.time - timestamp);
-
-  if (index === 0) {
-    if (distanceToB < maxDistance) {
-      return B;
+  let nearestEvent = null;
+  let minDistance = Number.MAX_VALUE;
+  for (let i = 0, length = events.length; i < length; i++) {
+    const event = events[i];
+    const distance = Math.abs(timestamp - event.time);
+    if (distance < maxDistance && distance < minDistance) {
+      minDistance = distance;
+      nearestEvent = event;
     }
-    return null;
   }
-
-  const A = events[index - 1];
-  const distanceToA = Math.abs(A.time - timestamp);
-
-  if (distanceToA <= distanceToB && distanceToA <= maxDistance) {
-    return A;
-  } else if (distanceToB < distanceToA && distanceToB <= maxDistance) {
-    return B;
-  }
-
-  return null;
+  return nearestEvent;
 }
 
 const highlightedEvent = createStore({
@@ -305,34 +112,13 @@ export function setHighlightedEvent(event) {
   }
 }
 
-export function selectEvent(event) {
-  if (event) {
-    mutateUrl(navParams => {
-      navParams.query.eventId = encodeURIComponent(event.get('id'));
-      return navParams;
-    });
-  } else {
-    mutateUrl(navParams => {
-      delete navParams.query.eventId;
-      return navParams;
-    });
-  }
-}
-
-export function clearSelectedEvent() {
-  mutateUrl(navParams => {
-    delete navParams.query.eventId;
-    return navParams;
-  });
-}
-
 export const selectedEventId$ = createTrackingStore({
   name: 'events/selectedEventId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
       if ('eventId' in query) {
-        return decodeURIComponent(query.eventId);
+        return query.eventId;
       }
       return null;
     })
@@ -443,5 +229,67 @@ export function getColorBySeverity(severity, params = {}) {
   if (severity === 0 && params.theme === 'day') {
     return '#bababa';
   }
-  return health[severity | 0];
+  return health[Math.max(0, severity) | 0];
+}
+export const EVENT_TYPES = {
+  CHANGE: 0,
+  ISSUE_WARNING: 1,
+  ISSUE_CRITICAL: 2,
+  ISSUE_OK: 3,
+  INCIDENT: 4,
+  OBJECTIVE: 5
+};
+
+/**
+ * Gets the icontype, needed for Icon components for an events type.
+ *
+ * @param {EVENT_TYPES} eventType The event type for which the icon type should be determined.
+ * @returns {string} The icon type of the event
+ */
+export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
+  switch (eventType) {
+    case EVENT_TYPES.ISSUE_WARNING:
+      return 'warning';
+    case EVENT_TYPES.ISSUE_CRITICAL:
+      return 'critical';
+    case EVENT_TYPES.INCIDENT:
+      return 'incidents';
+    case EVENT_TYPES.OBJECTIVE:
+      return 'objectives';
+    default:
+      return useAlternativeChangeIcon ? 'change2' : 'change';
+  }
+}
+
+/**
+ * Gets the icontype, needed for Icon components for an event.
+ *
+ * @param {Immutable<Event>} event The event for which the icon type should be determined.
+ * @returns {string} The icon type of the event
+ */
+export function getIconTypeForEvent(event, useAlternativeChangeIcon = false) {
+  return getIconTypeForEventType(getEventType(event, useAlternativeChangeIcon));
+}
+
+export function getEventType(event) {
+  const eventType = event.get('type');
+  switch (eventType) {
+    case 'incident':
+      return EVENT_TYPES.INCIDENT;
+    case 'objective':
+      return EVENT_TYPES.OBJECTIVE;
+    case 'change':
+      return EVENT_TYPES.CHANGE;
+    case 'issue': {
+      const severity = event.getIn(['problem', 'severity'], 0);
+      if (severity > 8) {
+        return EVENT_TYPES.ISSUE_CRITICAL;
+      } else if (severity > 4) {
+        return EVENT_TYPES.ISSUE_WARNING;
+      }
+      return EVENT_TYPES.ISSUE_OK;
+    }
+    default:
+      return EVENT_TYPES.CHANGE;
+  }
 }

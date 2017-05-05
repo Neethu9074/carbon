@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { getColorBySeverity } from 'in-stores/events';
 import EventListing from 'in-components/EventListing';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import { getColorBySeverity } from 'in-stores/events';
 
 import './HealthIconListing.less';
 
@@ -21,7 +21,7 @@ export default connectTo(
 
     const maxSeverity = healthInfo ? healthInfo.get('maxSeverity') : 0;
     const color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#92A5AE';
-    const numberOfOpenIssues = healthInfo ? healthInfo.get('numberOfOpenIssues') : 0;
+    const numberOfOpenIssues = healthInfo ? healthInfo.get('numberOfOpenEvents') : 0;
 
     let classes = 'in-health-icon-listing';
     if (className) {

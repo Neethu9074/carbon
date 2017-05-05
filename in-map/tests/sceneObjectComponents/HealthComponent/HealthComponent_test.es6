@@ -42,8 +42,8 @@ describe('in-map', () => {
     });
 
     it('should redirect health to client', () => {
-      expect(healthChanged).to.have.callCount(1);
-      expect(healthChanged.getCall(0).args[0].getIn(['problem', 'severity'])).to.equal(5);
+      expect(healthChanged).to.have.callCount(2);
+      expect(healthChanged.getCall(1).args[0].getIn(['problem', 'severity'])).to.equal(5);
     });
   });
 });

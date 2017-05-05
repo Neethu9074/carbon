@@ -162,6 +162,25 @@ export const nanos = {
   detailed: timeNs
 };
 
+export const health = {
+  compact(v) {
+    if (v === 1) {
+      return 'Healthy';
+    } else if (v === 0) {
+      return 'Unhealthy';
+    }
+    return twoDecimalPlaces(v);
+  },
+  detailed(v) {
+    if (v === 1) {
+      return 'Healthy';
+    } else if (v === 0) {
+      return 'Unhealthy';
+    }
+    return twoDecimalPlaces(v);
+  }
+};
+
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw
  * number to something like 10 Mb or 834.5 Gb.

@@ -40,7 +40,6 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
 
       for (let i = 0, len = newProperties.length; i < len; i++) {
         const property = newProperties[i];
-
         const prevObservable = this.observables[property];
         const newObservable = observables[property];
 
@@ -51,15 +50,13 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
 
         const oldSubscription = this.subscriptions[property];
         this.observables[property] = newObservable;
-        this.subscriptions[property] = newObservable.subscribe(value => {
-          this.setState({
-            [property]: value
-          });
-        });
+        this.subscriptions[property] = newObservable.subscribe(this.onNewValue, property);
 
         // dispose previous subscriptions only after new subscriptions were
         // established to ensure that the connection to the backend does not
-        // need to be reestablished.
+        // need to be reestablished. This makes reference counting more
+        // efficient for subscriptions which are immediately disposed or
+        // for which values are immediately recalculated.
         if (oldSubscription) {
           oldSubscription.dispose();
         }
@@ -77,6 +74,12 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
         clearStateProps[property] = null;
       }
       this.setState(clearStateProps);
+    };
+
+    onNewValue = (value, property) => {
+      this.setState({
+        [property]: value
+      });
     };
 
     componentWillUnmount() {

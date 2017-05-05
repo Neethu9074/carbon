@@ -1,13 +1,12 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import TriggeredMarker from 'in-views/eventView/components/marker/TriggeredMarker';
 import { sortedRecentEvents$ } from 'in-views/eventView/stores/recentEventsStore';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
-import { fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import Header from 'in-views/eventView/components/Header';
 import connectTo from 'in-hoc/connectTo';
 
@@ -32,7 +31,7 @@ export default connectTo(
     const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
     const numOpenEvents = openEvents ? openEvents.filter(e => e).length : '';
     const affectedEnties = {};
-    recentEvents.forEach(e => affectedEnties[e.getIn(['problem', 'snapshotId'])] = true);
+    recentEvents.forEach(e => (affectedEnties[e.getIn(['problem', 'snapshotId'])] = true));
     const affectedServices = {};
     recentEvents.forEach(e => {
       const affectedServiceId = e.get('affectedService');

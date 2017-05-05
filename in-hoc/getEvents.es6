@@ -1,9 +1,10 @@
+import { combineLatest } from 'reactive-observables';
 import rpt from 'prop-types';
 import React from 'react';
 
 import createReactClass from 'create-react-class';
 
-import { getOpenIssuesAtFocusedMoment } from 'in-stores/events';
+import { getEvent, getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
 export default function getEvents(ComposedComponent) {
   return createReactClass({
@@ -39,14 +40,11 @@ export default function getEvents(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getOpenIssuesAtFocusedMoment(snapshotId).subscribe(allEvents => {
-          const events = allEvents && allEvents.size > 0
-            ? allEvents
-                .toArray()
-                .sort((i1, i2) => i1.getIn(['problem', 'severity'], 0) - i2.getIn(['problem', 'severity'], 0))
-            : null;
+        this.subscription = getEventsForEntityAtFocusedMoment(snapshotId).subscribe(_events => {
           this.setState({
-            events
+            events: _events.sort(
+              (i1, i2) => i1.getIn(['problem', 'severity'], 0) - i2.getIn(['problem', 'severity'], 0)
+            )
           });
         });
       }
@@ -63,4 +61,10 @@ export default function getEvents(ComposedComponent) {
       return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
+}
+
+function getEventsForEntityAtFocusedMoment(snapshotId) {
+  return getHealthInfoAtFocusedMoment(snapshotId).flatMap(healthInfo =>
+    combineLatest(healthInfo.get('eventIds').toArray().map(getEvent))
+  );
 }

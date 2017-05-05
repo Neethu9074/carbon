@@ -1,5 +1,4 @@
-import { getColorByEvent, selectedEvent$, selectedEventId$ } from 'in-stores/events';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker/issueTracker';
+import { getEventType, EVENT_TYPES, getColorByEvent, selectedEvent$, selectedEventId$ } from 'in-stores/events';
 import { selectedSnapshotId as selectedSnapshotId$ } from 'in-stores/snapshot';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
@@ -29,16 +28,16 @@ export default function createEventRenderer(ctx, scale) {
   });
 
   let focusedMoment = null;
-  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => focusedMoment = _focusedMoment);
+  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => (focusedMoment = _focusedMoment));
 
   let highlightedEntityId = null;
-  const highlightedEntityIdSubscription = highlightedEntityId$.subscribe(_id => highlightedEntityId = _id);
+  const highlightedEntityIdSubscription = highlightedEntityId$.subscribe(_id => (highlightedEntityId = _id));
 
   let selectedSnapshotId = null;
-  const selectedSnapshotIdSubscription = selectedSnapshotId$.subscribe(_id => selectedSnapshotId = _id);
+  const selectedSnapshotIdSubscription = selectedSnapshotId$.subscribe(_id => (selectedSnapshotId = _id));
 
   let selectedEventId = null;
-  const selectedEventIdSubscription = selectedEventId$.subscribe(_id => selectedEventId = _id);
+  const selectedEventIdSubscription = selectedEventId$.subscribe(_id => (selectedEventId = _id));
 
   return {
     draw,
@@ -108,7 +107,7 @@ export default function createEventRenderer(ctx, scale) {
       }
     }
 
-    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent({event});
+    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent({ event });
 
     const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;

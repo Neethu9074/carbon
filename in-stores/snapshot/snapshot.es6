@@ -22,7 +22,7 @@ const selectedSnapshotIdStore = createTrackingStore({
     .map(params => {
       const query = params.query;
       if ('snapshotId' in query) {
-        return decodeURIComponent(query.snapshotId);
+        return query.snapshotId;
       }
 
       return null;
@@ -76,7 +76,7 @@ export function setSelectedSnapshotId(id) {
     mutateUrl(navParams => {
       delete navParams.query.incidentId;
       delete navParams.query.objectiveId;
-      navParams.query.snapshotId = encodeURIComponent(id);
+      navParams.query.snapshotId = id;
       return navParams;
     });
   }

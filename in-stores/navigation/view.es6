@@ -3,7 +3,7 @@ import { combineLatest } from 'reactive-observables';
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { trySetField } from 'in-stores/search/manipulation';
 
-export const cockpitLink$ = getModifiedUrlStream(params => params.pathname = '/cockpit');
+export const cockpitLink$ = getModifiedUrlStream(params => (params.pathname = '/cockpit'));
 
 export const isPhysicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/physical') === 0)
@@ -21,14 +21,13 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
   .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
-export const traceViewLink$ = getModifiedUrlStream(params => params.pathname = '/traces');
+export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces'));
 
 export const logView$ = getModifiedUrlStream(params => {
   params.pathname = '/logs';
 });
 
 export function getLogViewLinkWithQuery(query) {
-  query = encodeURIComponent(query);
   return getModifiedUrlStream(params => {
     params.pathname = '/logs';
     params.query.q = query;
@@ -37,7 +36,6 @@ export function getLogViewLinkWithQuery(query) {
 }
 
 export function getTraceViewLinkWithQuery(query) {
-  query = encodeURIComponent(query);
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
     params.query.q = query;
@@ -46,23 +44,22 @@ export function getTraceViewLinkWithQuery(query) {
 }
 
 export function getTraceViewLinkShowingTrace(traceId) {
-  const encodedTraceId = encodeURIComponent(traceId);
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
-    params.query.traceId = encodedTraceId;
+    params.query.traceId = traceId;
   });
 }
 
 export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
 
-export const eventViewLink$ = getModifiedUrlStream(params => params.pathname = '/events');
+export const eventViewLink$ = getModifiedUrlStream(params => (params.pathname = '/events'));
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 
 export function getEventViewWithEvent(eventId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/events';
-    params.eventId = encodeURIComponent(eventId);
+    params.eventId = eventId;
   });
 }
 
@@ -72,12 +69,13 @@ export const tableViewLink$ = getModifiedUrlStream(params => {
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
-  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), 'entity.selfType', 'service');
+  params.query.q = trySetField(params.query.q || '', 'entity.selfType', 'service');
 });
 
 export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
 
-export function focusEvent(eventId) {
+export function focusEvent(event) {
+  const eventId = event.get('id');
   mutateUrl(params => {
     const match = params.pathname.match(/\/(logical|physical)/i);
     if (match) {
@@ -87,14 +85,21 @@ export function focusEvent(eventId) {
     } else {
       params.pathname = '/events';
     }
-    params.query.eventId = encodeURIComponent(eventId);
+    params.query.eventId = eventId;
     delete params.query.snapshotId;
     return params;
   });
 }
 
+export function clearSelectedEvent() {
+  mutateUrl(navParams => {
+    delete navParams.query.eventId;
+    return navParams;
+  });
+}
+
 export function getLinkToCurrentViewWithViewGrouping(vg) {
-  return getModifiedUrlStream(params => params.query.vg = vg);
+  return getModifiedUrlStream(params => (params.query.vg = vg));
 }
 
 export function setCurrentViewwWithViewGrouping(vg) {

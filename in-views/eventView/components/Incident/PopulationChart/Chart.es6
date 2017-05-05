@@ -10,8 +10,8 @@ import { restoreInitialVisibilityState } from 'in-views/eventView/stores/changes
 import TimeAxis from 'in-views/eventView/components/Incident/PopulationChart/TimeAxis';
 import Events from 'in-views/eventView/components/Incident/PopulationChart/Events';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { getEvent } from 'in-services/issueTracker';
 import { serverTime$ } from 'in-stores/serverTime';
+import { getEvent } from 'in-stores/events';
 import createScale from 'in-charts/scale';
 
 import 'in-views/eventView/components/Incident/PopulationChart/Chart.less';

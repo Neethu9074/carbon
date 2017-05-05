@@ -16,12 +16,13 @@ import { init as initSubscriptonManager } from 'in-services/subscription/subscri
 import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDialogPresenter';
 import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayouterStorage';
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
-import { init as initPersistentConnection } from 'in-services/persistentConnection';
 import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/lib/timers';
+import { init as initPersistentConnection } from 'in-services/persistentConnection';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
-import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
+import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initSearchbar } from 'in-stores/search/searchBarExpanded';
+import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
@@ -77,6 +78,7 @@ initMaintenanceNoteStore();
 initUnhandledErrorHandling();
 initAutoFocus();
 initEvents();
+initEventsInTimeframe();
 initFaviconHandling();
 initSearchbar();
 

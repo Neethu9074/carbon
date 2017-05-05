@@ -2,7 +2,7 @@ import React from 'react';
 
 import { changesAreVisible$, toggle } from 'in-views/eventView/stores/changesVisibilityStore';
 import { sortedRecentEvents$ } from 'in-views/eventView/stores/recentEventsStore';
-import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 

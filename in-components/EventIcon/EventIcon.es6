@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getEventType, getIconTypeForEventType } from 'in-services/issueTracker';
+import { getEventType, getIconTypeForEventType } from 'in-stores/events';
 import SvgIcon from 'in-components/SvgIcon';
 
 export default function EventIcon({ event, className, size = 16, useAlternativeChangeIcon = true }) {
