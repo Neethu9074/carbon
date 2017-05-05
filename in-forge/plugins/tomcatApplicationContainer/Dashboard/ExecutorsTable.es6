@@ -38,7 +38,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.executor.get('maxThreads');
-      }
+      },
+      getContent: number.compact
     }
   },
   {

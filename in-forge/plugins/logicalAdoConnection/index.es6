@@ -5,7 +5,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.logicalJdbcConnection,
+  plugin: plugins.logicalAdoConnection,
 
   iconSvgPath,
   metricDefinitions,
@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'JDBC Connection',
-    plural: 'JDBC Connections'
+    singular: 'ADO.NET Connection',
+    plural: 'ADO.NET Connections'
   }
 });
