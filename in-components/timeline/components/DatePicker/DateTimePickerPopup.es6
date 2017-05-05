@@ -24,8 +24,8 @@ const block = 'in-timeline-date-time-picker-popup';
 
 export default connectTo(
   {
-    currentTimeSelector: currentTimeSelector$,
-    height: interactableTimelineHeight$
+    height: interactableTimelineHeight$,
+    currentTimeSelector: currentTimeSelector$
   },
   class extends React.Component {
     static displayName = 'DateTimePickerPopup';
