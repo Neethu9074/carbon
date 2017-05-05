@@ -26,7 +26,6 @@ import './etcd';
 import './ftpServiceInstance';
 import './gce';
 import './genericHardware';
-import './genericJavaWebapp';
 import './genericZone';
 import './glassfishApplicationContainer';
 import './golangRuntimePlatform';
