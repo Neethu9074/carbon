@@ -138,7 +138,7 @@ export default class Node extends SceneObject {
   }
 
   healthChanged(health) {
-    const severity = health.get('maxSeverity', 0);
+    const severity = health ? health.get('maxSeverity', 0) : 0;
     const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
     this.getComponent('color').setHex(color);
   }

@@ -4,6 +4,9 @@ import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 export default class HealthComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_health');
+
+    // send initial health event because the backend subscription doesn't return if there is no health
+    this.healthChanged(null);
   }
 
   initEvents() {

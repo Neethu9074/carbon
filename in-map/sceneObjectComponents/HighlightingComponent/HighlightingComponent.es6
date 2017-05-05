@@ -15,7 +15,7 @@ export default class HighlightingComponent extends SceneObjectComponent {
     super.initEvents();
 
     const highlightingChangedCallback = this.highlightingChanged.bind(this);
-    const connectedhighlightingChangedCallback = this.connectedhighlightingChanged.bind(this);
+    const connectedhighlightingChangedCallback = this.connectedHighlightingChanged.bind(this);
 
     this.addSubscriptions([
       combineLatest([selectedSnapshotIdForHighlightingInMap$, highlightedEntityId$, highlightedEntityIds$]).subscribe(
@@ -32,7 +32,7 @@ export default class HighlightingComponent extends SceneObjectComponent {
     this.emitToClient('isHighlighted', isHighlighted);
   }
 
-  connectedhighlightingChanged(connectedHighlightedIds) {
+  connectedHighlightingChanged(connectedHighlightedIds) {
     const id = this.sceneObject.id;
     const isHighlighted = connectedHighlightedIds[id] === true;
     this.emitToClient('isSecondaryHighlighted', isHighlighted);

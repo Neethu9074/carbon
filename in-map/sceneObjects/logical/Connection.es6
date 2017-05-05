@@ -123,7 +123,7 @@ export default class Connection extends SceneObject {
     isHighlighted = isHighlighted || isSecondaryHighlighted;
     let newColor = '#5c6e74';
 
-    const severity = health.get('maxSeverity', 0);
+    const severity = health ? health.get('maxSeverity', 0) : 0;
     if (severity > 0) {
       if (isHighlighted) {
         newColor = getColorBySeverity(severity);
