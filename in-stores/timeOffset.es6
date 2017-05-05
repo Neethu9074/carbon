@@ -88,23 +88,29 @@ function synchronize() {
 }
 
 /**
- * Process the server reply and try to get an offset approximation.
+ * Process the server reply and try to get an offset approximation. This only works
+ * reliably when the request latency is mostly stable.
+ *
+ * Example:
+ * clock skew client->server: +50ms
+ * clock skew server->client: -50ms
+ * latency: 10ms
+ * sending = latency + client->server = +60ms
+ * receiving = latency + server->client = -40ms
+ * rountrip = sending + receiving = 20ms
+ * latency = roundtrip / 2
+ * time difference = receiving - latency = -50ms
+ *
  * @param {object} reply An object with originate, transmit and receive
  *   timestamps as retrieved by the server.
  */
 function processTimestampReply(reply) {
   const returned = Date.now();
-
-  // calculate time difference between server and client timestamps
   const sending = reply.receive - reply.originate;
   const receiving = returned - reply.transmit;
-
-  // the roundtrip time is the sum of the two for the case that both clocks
-  // are aligned (which is quite unlikely)
   const roundtrip = sending + receiving;
-  const oneway = roundtrip / 2;
-
-  const difference = receiving - oneway;
+  const latency = roundtrip / 2;
+  const difference = receiving - latency;
   offsets.push(difference);
   offsets = offsets.slice(offsets.length - numberOfValuesForOffetMean, offsets.length);
   offsetStore.applyStateMutation(() => getOffset());
