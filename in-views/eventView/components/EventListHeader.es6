@@ -5,8 +5,6 @@ import { toggleAutoUpdate, autoUpdate$ } from 'in-views/eventView/stores/autoUpd
 import { expandedSide$, toggleLeft } from 'in-views/eventView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh } from 'in-views/eventView/stores/rawEventListStore';
-import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { objectivesEnabled } from 'in-services/featureFlags';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
@@ -26,17 +24,17 @@ export default connectTo(
         <div className={`${block}__left-side`}>
           <SvgIcon className={`${block}__icon`} type="danger_sign" width={20} height={20} color="#33d8d7" />
           <EventFilter>
-            All (<Count getCounter={counter => counter.get('incidentCount', 0) + counter.get('issueCount', 0)} />)
+            All
           </EventFilter>
           <EventFilter filter="incident">
-            Incidents (<Count getCounter={counter => counter.get('incidentCount', 0)} />)
+            Incidents
           </EventFilter>
           <EventFilter filter="event">
-            Events (<Count getCounter={counter => counter.get('issueCount', 0)} />)
+            Events
           </EventFilter>
           {objectivesEnabled
             ? <EventFilter filter="objectiveViolation">
-                Objective violations (<Count getCounter={counter => counter.get('objectiveCount', 0)} />)
+                Objective violations
               </EventFilter>
             : null}
         </div>
@@ -73,29 +71,6 @@ const EventFilter = connectTo(
       <div className={className} onClick={() => setEventTypeFilter(filter)}>
         {children}
       </div>
-    );
-  }
-);
-
-const Count = connectTo(
-  {
-    eventCounter: getTotalRawEventsCount()
-  },
-  function Count({ getCounter, eventCounter }) {
-    if (!eventCounter) {
-      return (
-        <LoadingIndicator
-          inline
-          style={{
-            height: '.375rem'
-          }}
-        />
-      );
-    }
-    return (
-      <span>
-        {getCounter(eventCounter)}
-      </span>
     );
   }
 );
