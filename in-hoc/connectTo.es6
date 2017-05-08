@@ -50,7 +50,7 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
 
         const oldSubscription = this.subscriptions[property];
         this.observables[property] = newObservable;
-        this.subscriptions[property] = newObservable.subscribe(this.onNewValue, property);
+        this.subscriptions[property] = newObservable.subscribe(this.onNewValue, null, property);
 
         // dispose previous subscriptions only after new subscriptions were
         // established to ensure that the connection to the backend does not

@@ -174,7 +174,7 @@ export default function createAxisController(config) {
           snapshotId: snapshotId,
           metric: metrics[i],
           timeframe: config.timeframe
-        }).subscribe(onNewDataPoints, i, queue)
+        }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
   }
