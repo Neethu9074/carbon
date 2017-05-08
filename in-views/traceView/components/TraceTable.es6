@@ -7,6 +7,7 @@ import { selectedTraceId, setSelectedTraceId, clearTraceSelection } from 'in-sto
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { selectedTraces$ } from 'in-stores/traces/analytics';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceTable.less';
@@ -18,7 +19,8 @@ export default getElementDimensions(
     {
       selectedTraceId,
       traces: traces$,
-      isInfiniteLoading: isLoading$
+      isInfiniteLoading: isLoading$,
+      tracesSelectedForAnalytics: selectedTraces$
     },
     class extends React.Component {
       static displayName = 'TraceTable';
@@ -27,6 +29,7 @@ export default getElementDimensions(
         isInfiniteLoading: rpt.bool.isRequired,
         traces: rpt.array.isRequired,
         selectedTraceId: rpt.string,
+        tracesSelectedForAnalytics: rpt.arrayOf(rpt.string),
         height: rpt.number
       };
 
@@ -54,6 +57,7 @@ export default getElementDimensions(
                       trace={trace}
                       selectedTraceId={this.props.selectedTraceId}
                       onClick={this.onClick}
+                      tracesSelectedForAnalytics={this.props.tracesSelectedForAnalytics}
                     />
                   ))}
                 </Infinite>

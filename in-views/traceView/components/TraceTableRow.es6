@@ -2,8 +2,9 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
-import { getServiceSideForOverview } from 'in-sdk/tracing';
+import { toggleIncludeInAnalytics } from 'in-stores/traces/analytics';
 import { stopPropagation } from 'in-services/util/function';
+import { getServiceSideForOverview } from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -12,7 +13,7 @@ import './TraceTableRow.less';
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 
-export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
+export default function TraceTableRow({ selectedTraceId, trace, onClick, tracesSelectedForAnalytics }) {
   let classes = block;
   if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
@@ -29,6 +30,7 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
           className={`${block}__include_in_analytics`}
           onChange={e => onToggleTraceAnalyticsInclusion(e, trace.id)}
           onClick={stopPropagation}
+          checked={tracesSelectedForAnalytics.indexOf(trace.id) !== -1}
         />
       </span>
       <span className={cellClassName}>
@@ -62,9 +64,11 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
 TraceTableRow.propTypes = {
   trace: rpt.object.isRequired,
   onClick: rpt.func.isRequired,
-  selectedTraceId: rpt.string
+  selectedTraceId: rpt.string,
+  tracesSelectedForAnalytics: rpt.arrayOf(rpt.string)
 };
 
-function onToggleTraceAnalyticsInclusion(event /*, traceId*/) {
+function onToggleTraceAnalyticsInclusion(event, traceId) {
   stopPropagation(event);
+  toggleIncludeInAnalytics(traceId);
 }

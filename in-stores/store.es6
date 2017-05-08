@@ -5,7 +5,7 @@ import invariant from 'invariant';
 // be used for debugging purposes in the future.
 export const allStates = {};
 
-export function createStore({ name, initialValue = null }) {
+export function createStore({ name, initialValue = null, reducers = null }) {
   invariant(!(name in allStates), 'Store (' + name + ') already exists');
 
   let currentState = (allStates[name] = initialValue);
@@ -21,8 +21,19 @@ export function createStore({ name, initialValue = null }) {
     mutateTo
   };
 
-  function applyStateMutation(reducer) {
-    mutateTo(reducer(currentState));
+  function applyStateMutation(action) {
+    if (reducers == null) {
+      mutateTo(action(currentState));
+    } else {
+      const reducer = reducers[action.type];
+      if (__DEV__) {
+        invariant(
+          typeof reducer === 'function',
+          `Unsupported action type ${action.type}. Did you forget to specify a reducer?`
+        );
+      }
+      mutateTo(reducer(currentState, action));
+    }
   }
 
   function mutateTo(newValue) {
