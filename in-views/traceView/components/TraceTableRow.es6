@@ -3,6 +3,7 @@ import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
+import { stopPropagation } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -22,13 +23,21 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
 
   return (
     <div className={classes} onClick={() => onClick(trace.id)}>
-      <div className={cellClassName}>
+      <span className={cellClassName}>
+        <input
+          type="checkbox"
+          className={`${block}__include_in_analytics`}
+          onChange={e => onToggleTraceAnalyticsInclusion(e, trace.id)}
+          onClick={stopPropagation}
+        />
+      </span>
+      <span className={cellClassName}>
         {trace.raw.get('errorCount') > 0
           ? <Tooltip content="Erroneous root span" align={'bottomLeft'}>
               <SvgIcon className={`${block}__error-icon`} type="error" height={12} color="#40535b" />
             </Tooltip>
           : null}
-      </div>
+      </span>
       <span className={cellClassName}>
         {trace.start}
       </span>
@@ -55,3 +64,7 @@ TraceTableRow.propTypes = {
   onClick: rpt.func.isRequired,
   selectedTraceId: rpt.string
 };
+
+function onToggleTraceAnalyticsInclusion(event /*, traceId*/) {
+  stopPropagation(event);
+}

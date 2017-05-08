@@ -17,7 +17,7 @@ export default function TraceView({ children }) {
       <TwoColumnView
         leftContent={getLeftContent()}
         rightContent={getRightContent()}
-        leftWidth="45rem"
+        leftWidth="47rem"
         expandedSide$={expandedSide$}
       />
       {children}
