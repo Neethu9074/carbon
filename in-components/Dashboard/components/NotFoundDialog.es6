@@ -98,8 +98,14 @@ const VersionList = connectTo(
 
 const ListItem = connectTo(
   props => {
+    let time = null;
+    let windowSize = 1000 * 60 * 10;
+    if (props.to != null) {
+      windowSize = props.to - props.from;
+      time = props.to - windowSize / 2;
+    }
     return {
-      link: getCurrentViewWithTimelineCenteredAt(props.to)
+      link: getCurrentViewWithTimelineCenteredAt(time, windowSize)
     };
   },
   function ListItem({ from, to, link }) {
