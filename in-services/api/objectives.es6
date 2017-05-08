@@ -18,13 +18,7 @@ export function getObjective(id) {
 }
 
 export function setEnabled(objective, enabled) {
-  const modifiedAlert = objective.toJS();
-  modifiedAlert.enabled = enabled;
-  return http({
-    method: 'PUT',
-    url: `/api/objectives/${encodeURIComponent(objective.get('id'))}`,
-    data: modifiedAlert
-  });
+  return saveObjective(objective.setIn(['enabled'], enabled));
 }
 
 export function saveObjective(objective) {

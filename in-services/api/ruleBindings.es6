@@ -18,13 +18,7 @@ export function getRuleBinding(ruleBindingId) {
 }
 
 export function setEnabled(ruleBinding, enabled) {
-  const modifiedRulebinding = ruleBinding.toJS();
-  modifiedRulebinding.enabled = enabled;
-  return http({
-    method: 'PUT',
-    url: `/api/ruleBindings/${encodeURIComponent(ruleBinding.get('id'))}`,
-    data: modifiedRulebinding
-  });
+  return saveRuleBinding(ruleBinding.setIn(['enabled'], enabled));
 }
 
 export function saveRuleBinding(ruleBinding) {
