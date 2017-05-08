@@ -1,71 +1,57 @@
-def versionBaseDir = '/mnt/efs/data/instana-release'
+#!groovy
 
-node {
+// define global vars for use in later stages
+def gitCommitId     = null
+def gitCommitAuthor = null
+def instanaVersion  = null
+def archiveName     = null
 
-  stage('Node Build') {
-    // build in clean workspace
+stage('Node Build') {
+  node {
+    
     deleteDir()
 
     checkout scm
 
-    gitCommitId          = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    gitShortCommitId     = gitCommitId.take(6)
-    gitCommitAuthor      = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitShortCommitId").trim()
-    instanaBackendBranch = env.BRANCH_NAME
+    instanaVersion  = getVersion('ui-client')
+    gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
+    gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
+    
+    currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
-    def majorNumber = readProperties  file: "${versionBaseDir}/major.number"
-    majorVersion = majorNumber.value as Integer
-    echo "DEBUG: Major Version: ${majorVersion}"
+    archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
 
-    def minorNumberFile = "${versionBaseDir}/ui-client-${instanaBackendBranch}-${majorVersion}-minor.number"
-    if ( fileExists("${minorNumberFile}") ) {
-      def minorNumber = readProperties file: minorNumberFile
-      minorVersion = minorNumber.value as Integer
-      def nextMinorVersion = minorVersion + 1
-      def f = new File(minorNumberFile)
-      f.write("value=${nextMinorVersion}")
-    } else {
-      minorVersion = 0
-      def f = new File(minorNumberFile)
-      f.write("value=1")
-    }
-    echo "DEBUG: Minor Version: ${minorVersion}"
-
-    def archiveName = "ui-client-${instanaBackendBranch}-${majorVersion}.${minorVersion}.tar.gz"
     sh """
       cp ~/.npmrc-private-registry .npmrc
 
       npm install -g yarn
-
+      
       yarn
-
       yarn run test
       yarn run build
-
+      
       tar -czf ${archiveName} target/*
     """
 
-    stash includes: "${archiveName}, deployment/**/*", name: "ui-client-${gitShortCommitId}"
-  }
+    stash includes: "${archiveName}, deployment/**/*", name: "$ui-client-${gitCommitId}"
 
+  }
 }
 
-node {
-  stage('Container Build') {
+stage('Container Build') {
+  node {
+    
     deleteDir()
 
-    unstash name: "ui-client-${gitShortCommitId}"
+    unstash name: "${ui-client-${gitCommitId}}"
 
-    instanaContainerTag = "${majorVersion}-${minorVersion}"
-    if ( instanaBackendBranch == 'master' ) {
-      instanaContainerTag = "instana-release-" + instanaContainerTag
-    }
+    sh "tar -xzf ${archiveName}"
 
     withEnv([
-      "NSTANA_UICLIENT_COMMIT=${gitShortCommitId}",
+      "INSTANA_UICLIENT_COMMIT=${gitCommitId}",
       "COMMIT_AUTHOR=${gitCommitAuthor}",
-      "INSTANA_CONTAINER_TAG=${instanaContainerTag}",
-      "INSTANA_UICLIENT_BRANCH=${instanaBackendBranch}",
+      "INSTANA_CONTAINER_TAG=${instanaVersion}",
+      "INSTANA_UICLIENT_BRANCH=${env.BRANCH_NAME}",
       "JOB_NAME=${env.JOB_NAME}",
       "BUILD_NUMBER=${env.BUILD_NUMBER}",
       "BUILD_URL=${env.BUILD_URL}"
@@ -77,7 +63,7 @@ node {
       }
       retry(3) {
         // wrap in retry as zfs sometimes fails when building containers
-        def containerName = "registry-internal.instana.io/instana/ui-client/${instanaBackendBranch}"
+        def containerName = "registry-internal.instana.io/instana/ui-client/${env.BRANCH_NAME}"
         sh "docker build -t ${containerName} ."
         sh "docker tag ${containerName} ${containerName}:${instanaContainerTag}"
         sh "docker push ${containerName}:latest"
@@ -85,5 +71,10 @@ node {
         sh "docker rmi ${containerName}"
       }
     }
+
   }
+}
+
+stage('Deployment') {
+  //TODO
 }
