@@ -33,7 +33,7 @@ stage('Node Build') {
       tar -czf ${archiveName} target/*
     """
 
-    stash includes: "${archiveName}, deployment/**/*", name: "$ui-client-${gitCommitId}"
+    stash includes: "${archiveName}, deployment/**/*", name: "ui-client-${gitCommitId}"
 
   }
 }
@@ -43,7 +43,7 @@ stage('Container Build') {
     
     deleteDir()
 
-    unstash name: "${ui-client-${gitCommitId}}"
+    unstash name: "ui-client-${gitCommitId}"
 
     sh "tar -xzf ${archiveName}"
 
@@ -57,17 +57,17 @@ stage('Container Build') {
       "BUILD_URL=${env.BUILD_URL}"
     ]) {
       sh  'j2 deployment/Dockerfile.j2 > Dockerfile'
-      sh  'mkdir ext-discovery'
-      dir('ext-discovery') {
+      sh  'mkdir deployment/ext-discovery'
+      dir('deployment/ext-discovery') {
         git 'git@github.com:instana/discovery.git'
       }
       retry(3) {
         // wrap in retry as zfs sometimes fails when building containers
         def containerName = "registry-internal.instana.io/instana/ui-client/${env.BRANCH_NAME}"
         sh "docker build -t ${containerName} ."
-        sh "docker tag ${containerName} ${containerName}:${instanaContainerTag}"
+        sh "docker tag ${containerName} ${containerName}:${instanaVersion}"
         sh "docker push ${containerName}:latest"
-        sh "docker push ${containerName}:${instanaContainerTag}"
+        sh "docker push ${containerName}:${instanaVersion}"
         sh "docker rmi ${containerName}"
       }
     }
