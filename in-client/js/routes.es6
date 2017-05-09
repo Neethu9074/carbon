@@ -29,16 +29,20 @@ import Rule from 'promise-loader?global,configView!in-views/configurationView/su
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
+import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 import { cockpitEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
-import { Route, IndexRedirect } from 'react-router';
 import React from 'react';
 
-import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
+import {
+  createAsyncFullscreenOverlayViewComponent,
+  createAsyncComponentWithLoadingIndicatorPlaceholder
+} from 'in-components/routing/createAsyncComponent';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
@@ -64,8 +68,16 @@ export default (
       <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)} path="traces" windowTitle="Traces">
-      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+    <Redirect from="traces" to="traces/search" />
+    <Redirect from="traces/dashboard" to="traces/search/dashboard" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="traces">
+      <Route
+        component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)}
+        path="search"
+        windowTitle="Traces"
+      >
+        <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+      </Route>
     </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="events" windowTitle="Events">
@@ -79,6 +91,7 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="logs" windowTitle="Logs">
       <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
+
     <Route
       path="config"
       component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}

@@ -1,0 +1,29 @@
+.in-trace-view-tabs {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+
+  &__tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    background: #6C8087;
+  }
+
+  &__tab {
+    display: inline-block;
+    background: #556971;
+    margin: 6px 0 0 8px;
+    padding: 6px 13px;
+    color: #fff;
+    font-size: 11px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    &--active {
+      background: #41535C;
+    }
+  }
+}
