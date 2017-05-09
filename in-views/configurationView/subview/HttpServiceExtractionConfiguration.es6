@@ -1,11 +1,13 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/GenericServiceExtractionConfiguration';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
+import {httpServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
 
-const helpTexts = defaultsDeep(
+export const pathname = httpServiceExtractionConfigViewPath;
+
+export const helpTexts = defaultsDeep(
   {
     viewHelp: 'Configure how Instana uses HTTP request attributes to extract services. You can define multiple rules ' +
       'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
@@ -19,7 +21,7 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
-const matchSpecificationOptions = {
+export const matchSpecificationOptions = {
   path: {
     titleName: 'Request Path',
     placeholder: '(.*)',
@@ -49,7 +51,7 @@ const matchSpecificationOptions = {
   }
 };
 
-const matchSpecificationOptionsTree = [
+export const matchSpecificationOptionsTree = [
   {
     label: 'Headers',
     children: [
@@ -71,8 +73,6 @@ export default function HttpServiceExtractionConfiguration() {
       ruleType="webapp"
       title="HTTP Service Extraction Rules"
       helpTexts={helpTexts}
-      matchSpecificationOptions={matchSpecificationOptions}
-      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
     />
   );
 }

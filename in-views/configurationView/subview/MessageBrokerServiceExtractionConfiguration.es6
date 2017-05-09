@@ -1,11 +1,13 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/GenericServiceExtractionConfiguration';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import {messageBrokerServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
 
-const helpTexts = defaultsDeep(
+export const pathname = messageBrokerServiceExtractionConfigViewPath;
+
+export const helpTexts = defaultsDeep(
   {
     viewHelp: 'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
       'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
@@ -18,14 +20,14 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
-const matchSpecificationOptionsTree = [
+export const matchSpecificationOptionsTree = [
   {
     label: 'Destination / Queue / Topic',
     value: 'destination'
   }
 ];
 
-const matchSpecificationOptions = {
+export const matchSpecificationOptions = {
   destination: {
     titleName: 'Destination / Queue / Topic',
     placeholder: '',
@@ -47,8 +49,6 @@ export default function MessageBrokerServiceExtractionConfiguration() {
       ruleType="messagebroker"
       title="Message Broker Service Extraction Rules"
       helpTexts={helpTexts}
-      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-      matchSpecificationOptions={matchSpecificationOptions}
     />
   );
 }

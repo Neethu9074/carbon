@@ -1,6 +1,9 @@
+import { fromJS } from 'immutable';
+
+import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getServiceExtractionConfig(type = null) {
+export function getServiceRules(type = null) {
   return http({
     method: 'GET',
     url: `/api/serviceExtractionConfigs`
@@ -9,14 +12,29 @@ export function getServiceExtractionConfig(type = null) {
     if (type == null) {
       return rules;
     }
-    return rules.filter(rule => rule.type === type);
+    return fromJS(rules.filter(rule => rule.type === type));
   });
 }
 
-export function saveServiceExtractionConfig(rules) {
+export function getServiceRule(id) {
+  return http({
+    method: 'GET',
+    url: `/api/serviceExtractionConfigs/${encodeURIComponent(id)}`
+  }).map(response => fromJS(response.body));
+}
+
+export function saveServiceRule(rule) {
   return http({
     method: 'PUT',
-    url: `/api/serviceExtractionConfigs`,
+    url: `/api/serviceExtractionConfigs/${encodeURIComponent(rule.get('id'))}`,
+    data: rule.toJS()
+  }).map(() => true);
+}
+
+export function updateServiceRules(rules) {
+  return http({
+    method: 'PUT',
+    url: '/api/serviceExtractionConfigs/order',
     data: {
       lastModificationTimestamp: Date.now(),
       rules
@@ -24,11 +42,37 @@ export function saveServiceExtractionConfig(rules) {
   }).map(() => true);
 }
 
-export function savePartialServiceExtractionConfig(ruleType, rules) {
-  return getServiceExtractionConfig().flatMap(existingRules => {
-    // merge with rules of other types
-    existingRules = existingRules.filter(rule => rule.type !== ruleType);
-    existingRules = existingRules.concat(rules);
-    return saveServiceExtractionConfig(existingRules);
-  });
+export function setEnabled(rule, enabled) {
+  return saveServiceRule(rule.setIn(['enabled'], enabled));
+}
+
+export function deleteServiceRule(id) {
+  return http({
+    method: 'DELETE',
+    url: `/api/serviceExtractionConfigs/${encodeURIComponent(id)}`
+  }).map(response => fromJS(response.body));
+}
+
+export function createServiceRule({
+  id,
+  name = 'New Service Rule',
+  enabled = true,
+  type = '',
+  comment = '',
+  matchSpecification,
+  label = 'Unnamed service',
+  order = 0
+}) {
+  return {
+    id: id || generateUniqueShortId(),
+    name,
+    enabled,
+    type,
+    order,
+    comment,
+    matchSpecification,
+    extractSpecification: {
+      label
+    }
+  };
 }
