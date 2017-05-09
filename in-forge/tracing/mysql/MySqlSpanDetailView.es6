@@ -21,6 +21,9 @@ export default function MySqlSpanDetailView({ span }) {
       <DescriptionItem title="User">
         {span.getIn(['data', 'mysql', 'user'])}
       </DescriptionItem>
+      <DescriptionItem title="Error">
+        {span.getIn(['data', 'mysql', 'error'])}
+      </DescriptionItem>
 
       {statement
         ? <DescriptionItem title="Query">
