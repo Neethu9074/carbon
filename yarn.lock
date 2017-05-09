@@ -6,7 +6,7 @@ Base64@~0.2.0:
   version "0.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/Base64/-/Base64-0.2.1.tgz#ba3a4230708e186705065e66babdd4c35cf60028"
 
-abbrev@1:
+abbrev@1, abbrev@^1.0.7:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
 
@@ -21,17 +21,27 @@ accepts@~1.3.3:
     mime-types "~2.1.11"
     negotiator "0.6.1"
 
+acorn-dynamic-import@^2.0.0:
+  version "2.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/acorn-dynamic-import/-/acorn-dynamic-import-2.0.2.tgz#c752bd210bef679501b6c6cb7fc84f8f47158cc4"
+  dependencies:
+    acorn "^4.0.3"
+
 acorn-jsx@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/acorn-jsx/-/acorn-jsx-3.0.1.tgz#afdf9488fb1ecefc8348f6fb22f464e32a58b36b"
   dependencies:
     acorn "^3.0.4"
 
-acorn@^3.0.0, acorn@^3.0.4:
+acorn@^3.0.4:
   version "3.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-acorn@^5.0.1:
+acorn@^4.0.3:
+  version "4.0.11"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
+
+acorn@^5.0.0, acorn@^5.0.1:
   version "5.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
 
@@ -39,13 +49,20 @@ after@0.8.1:
   version "0.8.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/after/-/after-0.8.1.tgz#ab5d4fb883f596816d3515f8f791c0af486dd627"
 
-ajv-keywords@^1.0.0:
+ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
   version "1.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
 
-ajv@^4.7.0, ajv@^4.9.1:
+ajv@^4.11.2, ajv@^4.7.0, ajv@^4.9.1:
   version "4.11.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
+  dependencies:
+    co "^4.6.0"
+    json-stable-stringify "^1.0.1"
+
+ajv@^5.0.0:
+  version "5.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ajv/-/ajv-5.0.1.tgz#5fd1a8f5cc92b371aa86445b1152fd4dec844ac9"
   dependencies:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
@@ -62,17 +79,23 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
 
-amdefine@>=0.0.4:
-  version "1.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+ansi-align@^1.1.0:
+  version "1.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-align/-/ansi-align-1.1.0.tgz#2f0c1658829739add5ebb15e6b0c6e3423f016ba"
+  dependencies:
+    string-width "^1.0.1"
 
-ansi-escapes@^1.0.0, ansi-escapes@^1.1.0:
+ansi-escapes@^1.0.0, ansi-escapes@^1.1.0, ansi-escapes@^1.3.0:
   version "1.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
 
 ansi-html@0.0.5:
   version "0.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-html/-/ansi-html-0.0.5.tgz#0dcaa5a081206866bc240a3b773a184ea3b88b64"
+
+ansi-html@0.0.7:
+  version "0.0.7"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-html/-/ansi-html-0.0.7.tgz#813584021962a9e9e6fd039f940d12f56ca7859e"
 
 ansi-regex@^0.2.0, ansi-regex@^0.2.1:
   version "0.2.1"
@@ -100,9 +123,9 @@ ansi-styles@^3.0.0:
   dependencies:
     color-convert "^1.0.0"
 
-ansi-to-html@^0.4.1:
-  version "0.4.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-to-html/-/ansi-to-html-0.4.2.tgz#5102e0273a598be2f8d08896603b179b0fdfcf11"
+ansi-to-html@^0.6.2:
+  version "0.6.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-to-html/-/ansi-to-html-0.6.2.tgz#df8baacf201d87eff1b1a4b69cb4473d34b190e6"
   dependencies:
     entities "^1.1.1"
 
@@ -110,7 +133,7 @@ ansi@^0.3.0, ansi@~0.3.1:
   version "0.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi/-/ansi-0.3.1.tgz#0c42d4fb17160d5a9af1e484bace1c66922c1b21"
 
-ansicolors@~0.3.2:
+ansicolors@^0.3.2, ansicolors@~0.3.2:
   version "0.3.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
 
@@ -218,6 +241,14 @@ asap@^2.0.0, asap@~2.0.3, asap@~2.0.5:
   version "2.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/asap/-/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
 
+asn1.js@^4.0.0:
+  version "4.9.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/asn1.js/-/asn1.js-4.9.1.tgz#48ba240b45a9280e94748990ba597d216617fd40"
+  dependencies:
+    bn.js "^4.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+
 asn1@~0.2.3:
   version "0.2.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
@@ -240,6 +271,10 @@ assertion-error@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/assertion-error/-/assertion-error-1.0.2.tgz#13ca515d86206da0bac66e834dd397d87581094c"
 
+ast-types@0.9.6:
+  version "0.9.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ast-types/-/ast-types-0.9.6.tgz#102c9e9e9005d3e7e3829bf0c4fa24ee862ee9b9"
+
 ast-types@0.9.8:
   version "0.9.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ast-types/-/ast-types-0.9.8.tgz#6cb6a40beba31f49f20928e28439fc14a3dab078"
@@ -258,35 +293,25 @@ async-hook@1.6.0:
   dependencies:
     stack-chain "^1.3.1"
 
-async-some@~1.0.2:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async-some/-/async-some-1.0.2.tgz#4d8a81620d5958791b5b98f802d3207776e95509"
-  dependencies:
-    dezalgo "^1.0.2"
-
-async@^0.9.0:
-  version "0.9.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
-
-async@^1.3.0, async@^1.5.0:
+async@^1.5.2, async@~1.5:
   version "1.5.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.0.1:
+async@^2.1.2:
   version "2.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-2.4.0.tgz#4990200f18ea5b837c2cc4f8c031a6985c385611"
   dependencies:
     lodash "^4.14.0"
 
-async@~0.2.6:
-  version "0.2.10"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
+async@~0.9.0:
+  version "0.9.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
 
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-autoprefixer@^6.3.1, autoprefixer@^6.3.6:
+autoprefixer@^6.3.1:
   version "6.7.7"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/autoprefixer/-/autoprefixer-6.7.7.tgz#1dbd1c835658e35ce3f9984099db00585c782014"
   dependencies:
@@ -295,6 +320,17 @@ autoprefixer@^6.3.1, autoprefixer@^6.3.6:
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
     postcss "^5.2.16"
+    postcss-value-parser "^3.2.3"
+
+autoprefixer@^7.0.1:
+  version "7.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/autoprefixer/-/autoprefixer-7.0.1.tgz#472d7620a1b286e55ad1d8345a09d76aaed99d92"
+  dependencies:
+    browserslist "^2.1.2"
+    caniuse-lite "^1.0.30000665"
+    normalize-range "^0.1.2"
+    num2fraction "^1.2.2"
+    postcss "^6.0.1"
     postcss-value-parser "^3.2.3"
 
 aws-sign2@~0.6.0:
@@ -326,7 +362,7 @@ babel-cli@^6.0.0:
   optionalDependencies:
     chokidar "^1.6.1"
 
-babel-code-frame@6.22.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
+babel-code-frame@6.22.0, babel-code-frame@^6.11.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
   version "6.22.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel-code-frame/-/babel-code-frame-6.22.0.tgz#027620bee567a88c32561574e7fd0801d33118e4"
   dependencies:
@@ -506,14 +542,13 @@ babel-helpers@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-loader@^6.0.0:
-  version "6.4.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel-loader/-/babel-loader-6.4.1.tgz#0b34112d5b0748a8dcdbf51acf6f9bd42d50b8ca"
+babel-loader@^7.0.0:
+  version "7.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel-loader/-/babel-loader-7.0.0.tgz#2e43a66bee1fff4470533d0402c8a4532fafbaf7"
   dependencies:
     find-cache-dir "^0.1.1"
-    loader-utils "^0.2.16"
+    loader-utils "^1.0.2"
     mkdirp "^0.5.1"
-    object-assign "^4.0.1"
 
 babel-messages@^6.23.0:
   version "6.23.0"
@@ -1076,21 +1111,50 @@ blob@0.0.4:
   version "0.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
 
-block-stream@*, block-stream@0.0.9:
+block-stream@*:
   version "0.0.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
   dependencies:
     inherits "~2.0.0"
 
-bluebird@^3.0.5, bluebird@^3.1.1:
+bluebird@^3.1.1, bluebird@^3.4.3:
   version "3.5.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
+
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
+  version "4.11.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/bn.js/-/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
 
 boom@2.x.x:
   version "2.10.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+boxen@^0.3.1:
+  version "0.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/boxen/-/boxen-0.3.1.tgz#a7d898243ae622f7abb6bb604d740a76c6a5461b"
+  dependencies:
+    chalk "^1.1.1"
+    filled-array "^1.0.0"
+    object-assign "^4.0.1"
+    repeating "^2.0.0"
+    string-width "^1.0.1"
+    widest-line "^1.0.0"
+
+boxen@^0.6.0:
+  version "0.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/boxen/-/boxen-0.6.0.tgz#8364d4248ac34ff0ef1b2f2bf49a6c60ce0d81b6"
+  dependencies:
+    ansi-align "^1.1.0"
+    camelcase "^2.1.0"
+    chalk "^1.1.1"
+    cli-boxes "^1.0.0"
+    filled-array "^1.0.0"
+    object-assign "^4.0.1"
+    repeating "^2.0.0"
+    string-width "^1.0.1"
+    widest-line "^1.0.0"
 
 brace-expansion@^1.0.0:
   version "1.1.7"
@@ -1107,15 +1171,62 @@ braces@^1.8.2:
     preserve "^0.2.0"
     repeat-element "^1.1.2"
 
+brorand@^1.0.1:
+  version "1.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
+
 "browser-request@>= 0.3.1 < 0.4.0":
   version "0.3.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browser-request/-/browser-request-0.3.3.tgz#9ece5b5aca89a29932242e18bf933def9876cc17"
 
-browserify-aes@0.4.0:
-  version "0.4.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-aes/-/browserify-aes-0.4.0.tgz#067149b668df31c4b58533e02d01e806d8608e2c"
+browser-stdout@1.3.0:
+  version "1.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browser-stdout/-/browser-stdout-1.3.0.tgz#f351d32969d32fa5d7a5567154263d928ae3bd1f"
+
+browserify-aes@^1.0.0, browserify-aes@^1.0.4:
+  version "1.0.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-aes/-/browserify-aes-1.0.6.tgz#5e7725dbdef1fd5930d4ebab48567ce451c48a0a"
   dependencies:
+    buffer-xor "^1.0.2"
+    cipher-base "^1.0.0"
+    create-hash "^1.1.0"
+    evp_bytestokey "^1.0.0"
     inherits "^2.0.1"
+
+browserify-cipher@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-cipher/-/browserify-cipher-1.0.0.tgz#9988244874bf5ed4e28da95666dcd66ac8fc363a"
+  dependencies:
+    browserify-aes "^1.0.4"
+    browserify-des "^1.0.0"
+    evp_bytestokey "^1.0.0"
+
+browserify-des@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-des/-/browserify-des-1.0.0.tgz#daa277717470922ed2fe18594118a175439721dd"
+  dependencies:
+    cipher-base "^1.0.1"
+    des.js "^1.0.0"
+    inherits "^2.0.1"
+
+browserify-rsa@^4.0.0:
+  version "4.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-rsa/-/browserify-rsa-4.0.1.tgz#21e0abfaf6f2029cf2fafb133567a701d4135524"
+  dependencies:
+    bn.js "^4.1.0"
+    randombytes "^2.0.1"
+
+browserify-sign@^4.0.0:
+  version "4.0.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserify-sign/-/browserify-sign-4.0.4.tgz#aa4eb68e5d7b658baa6bf6a57e630cbd7a93d298"
+  dependencies:
+    bn.js "^4.1.1"
+    browserify-rsa "^4.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.2"
+    elliptic "^6.0.0"
+    inherits "^2.0.1"
+    parse-asn1 "^5.0.0"
 
 browserify-zlib@^0.1.4, browserify-zlib@~0.1.4:
   version "0.1.4"
@@ -1129,6 +1240,17 @@ browserslist@^1.3.6, browserslist@^1.5.2, browserslist@^1.7.6:
   dependencies:
     caniuse-db "^1.0.30000639"
     electron-to-chromium "^1.2.7"
+
+browserslist@^2.1.2:
+  version "2.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/browserslist/-/browserslist-2.1.2.tgz#a9dd0791342dab019861c2dd1cd0fd5d83230d39"
+  dependencies:
+    caniuse-lite "^1.0.30000665"
+    electron-to-chromium "^1.3.9"
+
+btoa@^1.1.2:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/btoa/-/btoa-1.1.2.tgz#3e40b81663f81d2dd6596a4cb714a8dc16cfabe0"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -1147,6 +1269,10 @@ buffer-to-vinyl@^1.0.0:
     uuid "^2.0.1"
     vinyl "^1.0.0"
 
+buffer-xor@^1.0.2:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/buffer-xor/-/buffer-xor-1.0.3.tgz#26e61ed1422fb70dd42e6e36729ed51d855fe8d9"
+
 buffer@^3.0.3:
   version "3.6.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/buffer/-/buffer-3.6.0.tgz#a72c936f77b96bf52f5f7e7b467180628551defb"
@@ -1155,7 +1281,7 @@ buffer@^3.0.3:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^4.9.0:
+buffer@^4.3.0:
   version "4.9.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/buffer/-/buffer-4.9.1.tgz#6d1bb601b07a4efced97094132093027c95bc298"
   dependencies:
@@ -1206,11 +1332,11 @@ callsites@^0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/callsites/-/callsites-0.2.0.tgz#afab96262910a7f33c19a5775825c69f34e350ca"
 
-camel-case@^1.1.1:
-  version "1.2.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camel-case/-/camel-case-1.2.2.tgz#1aca7c4d195359a2ce9955793433c6e5542511f2"
+camel-case@3.0.x:
+  version "3.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camel-case/-/camel-case-3.0.0.tgz#ca3c3688a4e9cf3a4cda777dc4dcbc713249cf73"
   dependencies:
-    sentence-case "^1.1.1"
+    no-case "^2.2.0"
     upper-case "^1.1.1"
 
 camelcase-keys@^2.0.0:
@@ -1224,9 +1350,13 @@ camelcase@^1.0.2:
   version "1.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camelcase/-/camelcase-1.2.1.tgz#9bb5304d2e0b56698b2c758b08a3eaa9daa58a39"
 
-camelcase@^2.0.0:
+camelcase@^2.0.0, camelcase@^2.1.0:
   version "2.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
+
+camelcase@^3.0.0:
+  version "3.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
 
 caniuse-api@^1.5.2:
   version "1.6.1"
@@ -1241,13 +1371,17 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   version "1.0.30000665"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-db/-/caniuse-db-1.0.30000665.tgz#e84f4277935f295f546f8533cb0b410a8415b972"
 
+caniuse-lite@^1.0.30000665:
+  version "1.0.30000666"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-lite/-/caniuse-lite-1.0.30000666.tgz#831b63247e24fa408e20c6c546c4173d27c5a1a5"
+
 capture-stack-trace@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/capture-stack-trace/-/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"
 
-case-sensitive-paths-webpack-plugin@^1.1.3:
-  version "1.1.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-1.1.4.tgz#8aaedd5699a86cac2b34cf40d9b4145758978472"
+case-sensitive-paths-webpack-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.0.0.tgz#60142d7d0beabdb35676ef0aeace3027da0578ba"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -1309,36 +1443,7 @@ chalk@~0.5.1:
     strip-ansi "^0.3.0"
     supports-color "^0.2.0"
 
-change-case@2.3.x:
-  version "2.3.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/change-case/-/change-case-2.3.1.tgz#2c4fde3f063bb41d00cd68e0d5a09db61cbe894f"
-  dependencies:
-    camel-case "^1.1.1"
-    constant-case "^1.1.0"
-    dot-case "^1.1.0"
-    is-lower-case "^1.1.0"
-    is-upper-case "^1.1.0"
-    lower-case "^1.1.1"
-    lower-case-first "^1.0.0"
-    param-case "^1.1.0"
-    pascal-case "^1.1.0"
-    path-case "^1.1.0"
-    sentence-case "^1.1.1"
-    snake-case "^1.1.0"
-    swap-case "^1.1.0"
-    title-case "^1.1.0"
-    upper-case "^1.1.1"
-    upper-case-first "^1.1.0"
-
-char-spinner@~1.0.1:
-  version "1.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/char-spinner/-/char-spinner-1.0.1.tgz#e6ea67bd247e107112983b7ab0479ed362800081"
-
-chmodr@~1.0.2:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/chmodr/-/chmodr-1.0.2.tgz#04662b932d0f02ec66deaa2b0ea42811968e3eb9"
-
-chokidar@^1.0.0, chokidar@^1.6.1:
+chokidar@^1.4.3, chokidar@^1.6.0, chokidar@^1.6.1:
   version "1.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/chokidar/-/chokidar-1.6.1.tgz#2f4447ab5e96e50fb3d789fd90d4c72e0e4c70c2"
   dependencies:
@@ -1365,6 +1470,12 @@ cint@^8.2.1:
   version "8.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cint/-/cint-8.2.1.tgz#70386b1b48e2773d0d63166a55aff94ef4456a12"
 
+cipher-base@^1.0.0, cipher-base@^1.0.1:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cipher-base/-/cipher-base-1.0.3.tgz#eeabf194419ce900da3018c207d212f2a6df0a07"
+  dependencies:
+    inherits "^2.0.1"
+
 circular-json@^0.3.1:
   version "0.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
@@ -1379,12 +1490,15 @@ classnames@^2.2.3, classnames@^2.2.4, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
-clean-css@3.1.x:
-  version "3.1.9"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clean-css/-/clean-css-3.1.9.tgz#dbd05a148be4943bb37ce0679e676cbc9f580266"
+clean-css@4.0.x:
+  version "4.0.12"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clean-css/-/clean-css-4.0.12.tgz#a02e61707f1840bd3338f54dbc9acbda4e772fa3"
   dependencies:
-    commander "2.6.x"
-    source-map ">=0.1.43 <0.2"
+    source-map "0.5.x"
+
+cli-boxes@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cli-boxes/-/cli-boxes-1.0.0.tgz#4fa917c3e59c94a004cd61f8ee509da651687143"
 
 cli-cursor@^1.0.1, cli-cursor@^1.0.2:
   version "1.0.2"
@@ -1417,13 +1531,6 @@ cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
 
-cli@0.6.x:
-  version "0.6.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cli/-/cli-0.6.6.tgz#02ad44a380abf27adac5e6f0cdd7b043d74c53e3"
-  dependencies:
-    exit "0.1.2"
-    glob "~ 3.2.1"
-
 clipboard@^1.5.16, clipboard@^1.5.5:
   version "1.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clipboard/-/clipboard-1.6.1.tgz#65c5b654812466b0faab82dc6ba0f1d2f8e4be53"
@@ -1432,6 +1539,20 @@ clipboard@^1.5.16, clipboard@^1.5.5:
     select "^1.1.2"
     tiny-emitter "^1.0.0"
 
+clite@^0.3.0:
+  version "0.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clite/-/clite-0.3.0.tgz#e7fcbc8cc5bd3e7f8b84ed48db12e9474cc73441"
+  dependencies:
+    abbrev "^1.0.7"
+    debug "^2.2.0"
+    es6-promise "^3.1.2"
+    lodash.defaults "^4.0.1"
+    lodash.defaultsdeep "^4.3.1"
+    lodash.mergewith "^4.3.1"
+    then-fs "^2.0.0"
+    update-notifier "^0.6.0"
+    yargs "^4.3.2"
+
 cliui@^2.1.0:
   version "2.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cliui/-/cliui-2.1.0.tgz#4b475760ff80264c762c3a1719032e91c7fea0d1"
@@ -1439,6 +1560,14 @@ cliui@^2.1.0:
     center-align "^0.1.1"
     right-align "^0.1.1"
     wordwrap "0.0.2"
+
+cliui@^3.2.0:
+  version "3.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cliui/-/cliui-3.2.0.tgz#120601537a916d29940f934da3b48d585a39213d"
+  dependencies:
+    string-width "^1.0.1"
+    strip-ansi "^3.0.1"
+    wrap-ansi "^2.0.0"
 
 clone-stats@^0.0.1:
   version "0.0.1"
@@ -1451,6 +1580,10 @@ clone@^0.2.0:
 clone@^1.0.0, clone@^1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
+
+clone@^2.1.1:
+  version "2.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clone/-/clone-2.1.1.tgz#d217d1e961118e3ac9a4b8bba3285553bf647cdb"
 
 cmd-shim@~2.0.2:
   version "2.0.2"
@@ -1534,19 +1667,7 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@0.6.1:
-  version "0.6.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/commander/-/commander-0.6.1.tgz#fa68a14f6a945d54dbbe50d8cdb3320e9e3b1a06"
-
-commander@2.3.0:
-  version "2.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/commander/-/commander-2.3.0.tgz#fd430e889832ec353b9acd1de217c11cb3eef873"
-
-commander@2.6.x:
-  version "2.6.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/commander/-/commander-2.6.0.tgz#9df7e52fb2a0cb0fb89058ee80c3104225f37e1d"
-
-commander@^2.6.0, commander@^2.8.1, commander@^2.9.0:
+commander@2.9.0, commander@2.9.x, commander@^2.6.0, commander@^2.8.1, commander@^2.9.0:
   version "2.9.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
@@ -1599,14 +1720,6 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-concat-stream@1.4.x:
-  version "1.4.10"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/concat-stream/-/concat-stream-1.4.10.tgz#acc3bbf5602cb8cc980c6ac840fa7d8603e3ef36"
-  dependencies:
-    inherits "~2.0.1"
-    readable-stream "~1.1.9"
-    typedarray "~0.0.5"
-
 concat-stream@^1.4.6, concat-stream@^1.4.7, concat-stream@^1.5.2:
   version "1.6.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/concat-stream/-/concat-stream-1.6.0.tgz#0aac662fd52be78964d5532f694784e70110acf7"
@@ -1615,17 +1728,31 @@ concat-stream@^1.4.6, concat-stream@^1.4.7, concat-stream@^1.5.2:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-config-chain@~1.1.10, config-chain@~1.1.11:
+config-chain@~1.1.11:
   version "1.1.11"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/config-chain/-/config-chain-1.1.11.tgz#aba09747dfbe4c3e70e766a6e41586e1859fc6f2"
   dependencies:
     ini "^1.3.4"
     proto-list "~1.2.1"
 
-configstore@^1.0.0:
+configstore@^1.0.0, configstore@^1.2.0:
   version "1.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/configstore/-/configstore-1.4.0.tgz#c35781d0501d268c25c54b8b17f6240e8a4fb021"
   dependencies:
+    graceful-fs "^4.1.2"
+    mkdirp "^0.5.0"
+    object-assign "^4.0.1"
+    os-tmpdir "^1.0.0"
+    osenv "^0.1.0"
+    uuid "^2.0.1"
+    write-file-atomic "^1.1.2"
+    xdg-basedir "^2.0.0"
+
+configstore@^2.0.0:
+  version "2.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/configstore/-/configstore-2.1.0.tgz#737a3a7036e9886102aa6099e47bb33ab1aba1a1"
+  dependencies:
+    dot-prop "^3.0.0"
     graceful-fs "^4.1.2"
     mkdirp "^0.5.0"
     object-assign "^4.0.1"
@@ -1652,13 +1779,6 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
 console-stream@^0.1.1:
   version "0.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/console-stream/-/console-stream-0.1.1.tgz#a095fe07b20465955f2fafd28b5d72bccd949d44"
-
-constant-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/constant-case/-/constant-case-1.1.2.tgz#8ec2ca5ba343e00aa38dbf4e200fd5ac907efd63"
-  dependencies:
-    snake-case "^1.1.0"
-    upper-case "^1.1.1"
 
 constants-browserify@0.0.1:
   version "0.0.1"
@@ -1720,11 +1840,46 @@ cosmiconfig@^1.1.0:
     pinkie-promise "^2.0.0"
     require-from-string "^1.1.0"
 
+cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
+  version "2.1.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cosmiconfig/-/cosmiconfig-2.1.3.tgz#952771eb0dddc1cb3fa2f6fbe51a522e93b3ee0a"
+  dependencies:
+    is-directory "^0.3.1"
+    js-yaml "^3.4.3"
+    minimist "^1.2.0"
+    object-assign "^4.1.0"
+    os-homedir "^1.0.1"
+    parse-json "^2.2.0"
+    require-from-string "^1.1.0"
+
+create-ecdh@^4.0.0:
+  version "4.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-ecdh/-/create-ecdh-4.0.0.tgz#888c723596cdf7612f6498233eebd7a35301737d"
+  dependencies:
+    bn.js "^4.1.0"
+    elliptic "^6.0.0"
+
 create-error-class@^3.0.1:
   version "3.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
   dependencies:
     capture-stack-trace "^1.0.0"
+
+create-hash@^1.1.0, create-hash@^1.1.1:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-hash/-/create-hash-1.1.2.tgz#51210062d7bb7479f6c65bb41a92208b1d61abad"
+  dependencies:
+    cipher-base "^1.0.1"
+    inherits "^2.0.1"
+    ripemd160 "^1.0.0"
+    sha.js "^2.3.6"
+
+create-hmac@^1.1.0, create-hmac@^1.1.2:
+  version "1.1.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-hmac/-/create-hmac-1.1.4.tgz#d3fb4ba253eb8b3f56e39ea2fbcb8af747bd3170"
+  dependencies:
+    create-hash "^1.1.0"
+    inherits "^2.0.1"
 
 create-react-class@^15.5.2:
   version "15.5.2"
@@ -1732,6 +1887,13 @@ create-react-class@^15.5.2:
   dependencies:
     fbjs "^0.8.9"
     object-assign "^4.1.1"
+
+cross-spawn@^4.0.0:
+  version "4.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cross-spawn/-/cross-spawn-4.0.2.tgz#7b9247621c23adfdd3856004a823cbe397424d41"
+  dependencies:
+    lru-cache "^4.0.1"
+    which "^1.2.9"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -1747,14 +1909,20 @@ cryptiles@2.x.x:
   dependencies:
     boom "2.x.x"
 
-crypto-browserify@3.3.0:
-  version "3.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/crypto-browserify/-/crypto-browserify-3.3.0.tgz#b9fc75bb4a0ed61dcf1cd5dae96eb30c9c3e506c"
+crypto-browserify@^3.11.0:
+  version "3.11.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/crypto-browserify/-/crypto-browserify-3.11.0.tgz#3652a0906ab9b2a7e0c3ce66a408e957a2485522"
   dependencies:
-    browserify-aes "0.4.0"
-    pbkdf2-compat "2.0.1"
-    ripemd160 "0.2.0"
-    sha.js "2.2.6"
+    browserify-cipher "^1.0.0"
+    browserify-sign "^4.0.0"
+    create-ecdh "^4.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.0"
+    diffie-hellman "^5.0.0"
+    inherits "^2.0.1"
+    pbkdf2 "^3.0.3"
+    public-encrypt "^4.0.0"
+    randombytes "^2.0.0"
 
 crypto-browserify@~3.2.6:
   version "3.2.8"
@@ -1768,25 +1936,39 @@ css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
 
-css-loader@^0.19.0:
-  version "0.19.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-loader/-/css-loader-0.19.0.tgz#7383db6a20fcc42395bada4b8abc25c2735577b8"
+css-loader@^0.28.1:
+  version "0.28.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-loader/-/css-loader-0.28.1.tgz#220325599f8f00452d9ceb4c3ca6c8a66798642d"
   dependencies:
-    css-selector-tokenizer "^0.5.1"
+    babel-code-frame "^6.11.0"
+    css-selector-tokenizer "^0.7.0"
     cssnano ">=2.6.1 <4"
-    loader-utils "~0.2.2"
+    loader-utils "^1.0.2"
+    lodash.camelcase "^4.3.0"
+    object-assign "^4.0.1"
     postcss "^5.0.6"
-    postcss-modules-extract-imports "1.0.0-beta2"
-    postcss-modules-local-by-default "1.0.0-beta1"
-    postcss-modules-scope "1.0.0-beta2"
-    source-list-map "^0.1.4"
+    postcss-modules-extract-imports "^1.0.0"
+    postcss-modules-local-by-default "^1.0.1"
+    postcss-modules-scope "^1.0.0"
+    postcss-modules-values "^1.1.0"
+    postcss-value-parser "^3.3.0"
+    source-list-map "^0.1.7"
 
-css-selector-tokenizer@^0.5.0, css-selector-tokenizer@^0.5.1:
-  version "0.5.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-selector-tokenizer/-/css-selector-tokenizer-0.5.4.tgz#139bafd34a35fd0c1428487049e0699e6f6a2c21"
+css-selector-tokenizer@^0.6.0:
+  version "0.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-selector-tokenizer/-/css-selector-tokenizer-0.6.0.tgz#6445f582c7930d241dcc5007a43d6fcb8f073152"
   dependencies:
     cssesc "^0.1.0"
     fastparse "^1.1.1"
+    regexpu-core "^1.0.0"
+
+css-selector-tokenizer@^0.7.0:
+  version "0.7.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/css-selector-tokenizer/-/css-selector-tokenizer-0.7.0.tgz#e6988474ae8c953477bf5e7efecfceccd9cf4c86"
+  dependencies:
+    cssesc "^0.1.0"
+    fastparse "^1.1.1"
+    regexpu-core "^1.0.0"
 
 cssesc@^0.1.0:
   version "0.1.0"
@@ -1828,13 +2010,6 @@ cssesc@^0.1.0:
     postcss-unique-selectors "^2.0.2"
     postcss-value-parser "^3.2.3"
     postcss-zindex "^2.0.1"
-
-csso@~2.0.0:
-  version "2.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/csso/-/csso-2.0.0.tgz#178b43a44621221c27756086f531e02f42900ee8"
-  dependencies:
-    clap "^1.0.9"
-    source-map "^0.5.3"
 
 csso@~2.3.1:
   version "2.3.2"
@@ -1893,23 +2068,23 @@ debug@2.2.0, debug@~2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.3.3, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0:
+debug@2.3.3, debug@^2.1.1, debug@^2.2.0:
   version "2.3.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debug/-/debug-2.3.3.tgz#40c453e67e6e13c901ddec317af8986cda9eff8c"
   dependencies:
     ms "0.7.2"
 
-debug@^2.6.6:
-  version "2.6.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debug/-/debug-2.6.6.tgz#a9fa6fbe9ca43cf1e79f73b75c0189cbb7d6db5a"
+debug@2.6.0, debug@^2.1.0:
+  version "2.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
-    ms "0.7.3"
+    ms "0.7.2"
 
 debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
 
-decamelize@^1.0.0, decamelize@^1.1.2:
+decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
@@ -2040,6 +2215,13 @@ deprecated@^0.0.1:
   version "0.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/deprecated/-/deprecated-0.0.1.tgz#f9c9af5464afa1e7a971458a8bdef2aa94d5bb19"
 
+des.js@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/des.js/-/des.js-1.0.0.tgz#c074d2e2aa6a8a9a07dbd61f9a15c2cd83ec8ecc"
+  dependencies:
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
@@ -2056,16 +2238,24 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-dezalgo@^1.0.0, dezalgo@^1.0.1, dezalgo@^1.0.2, dezalgo@~1.0.3:
+dezalgo@^1.0.0, dezalgo@^1.0.1, dezalgo@~1.0.3:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/dezalgo/-/dezalgo-1.0.3.tgz#7f742de066fc748bc8db820569dddce49bf0d456"
   dependencies:
     asap "^2.0.0"
     wrappy "1"
 
-diff@1.4.0:
-  version "1.4.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
+diff@3.2.0, diff@^3.1.0:
+  version "3.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
+
+diffie-hellman@^5.0.0:
+  version "5.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/diffie-hellman/-/diffie-hellman-5.0.2.tgz#b5835739270cfe26acf632099fded2a07f209e5e"
+  dependencies:
+    bn.js "^4.1.0"
+    miller-rabin "^4.0.0"
+    randombytes "^2.0.0"
 
 docopt@^0.6.2:
   version "0.6.2"
@@ -2121,11 +2311,11 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dot-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/dot-case/-/dot-case-1.1.2.tgz#1e73826900de28d6de5480bc1de31d0842b06bec"
+dot-prop@^3.0.0:
+  version "3.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/dot-prop/-/dot-prop-3.0.0.tgz#1b708af094a49c9a0e7dbcad790aba539dac1177"
   dependencies:
-    sentence-case "^1.1.2"
+    is-obj "^1.0.0"
 
 download@^4.0.0, download@^4.1.2:
   version "4.4.3"
@@ -2203,13 +2393,25 @@ ejs@^2.3.4:
   version "2.5.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ejs/-/ejs-2.5.6.tgz#479636bfa3fe3b1debd52087f0acb204b4f19c88"
 
-electron-to-chromium@^1.2.7:
+electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.9:
   version "1.3.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/electron-to-chromium/-/electron-to-chromium-1.3.9.tgz#db1cba2a26aebcca2f7f5b8b034554468609157d"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
+
+elliptic@^6.0.0:
+  version "6.4.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+    minimalistic-crypto-utils "^1.0.0"
 
 emojis-list@^2.0.0:
   version "2.1.0"
@@ -2265,13 +2467,14 @@ engine.io-parser@1.3.1:
     has-binary "0.1.6"
     wtf-8 "1.0.0"
 
-enhanced-resolve@~0.9.0:
-  version "0.9.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/enhanced-resolve/-/enhanced-resolve-0.9.1.tgz#4d6e689b3725f86090927ccc86cd9f1635b89e2e"
+enhanced-resolve@^3.0.0:
+  version "3.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/enhanced-resolve/-/enhanced-resolve-3.1.0.tgz#9f4b626f577245edcf4b2ad83d86e17f4f421dec"
   dependencies:
     graceful-fs "^4.1.2"
-    memory-fs "^0.2.0"
-    tapable "^0.1.8"
+    memory-fs "^0.4.0"
+    object-assign "^4.0.1"
+    tapable "^0.2.5"
 
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
@@ -2332,6 +2535,10 @@ es6-map@^0.1.3:
     es6-symbol "~3.1.1"
     event-emitter "~0.3.5"
 
+es6-promise@^3.0.2, es6-promise@^3.1.2:
+  version "3.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
+
 es6-set@~0.1.5:
   version "0.1.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/es6-set/-/es6-set-0.1.5.tgz#d2b3ec5d4d800ced818db538d28974db0a73ccb1"
@@ -2349,6 +2556,13 @@ es6-symbol@3.1.1, es6-symbol@^3.0.2, es6-symbol@^3.1, es6-symbol@^3.1.1, es6-sym
     d "1"
     es5-ext "~0.10.14"
 
+es6-templates@^0.2.2:
+  version "0.2.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/es6-templates/-/es6-templates-0.2.3.tgz#5cb9ac9fb1ded6eb1239342b81d792bbb4078ee4"
+  dependencies:
+    recast "~0.11.12"
+    through "~2.3.6"
+
 es6-weak-map@^2.0.1:
   version "2.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/es6-weak-map/-/es6-weak-map-2.0.2.tgz#5e3ab32251ffd1538a1f8e5ffa1357772f92d96f"
@@ -2361,10 +2575,6 @@ es6-weak-map@^2.0.1:
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
-
-escape-string-regexp@1.0.2:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz#4dbc2fe674e71949caf3fb2695ce7f2dc1d9a8d1"
 
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -2452,7 +2662,7 @@ esprima@^2.6.0:
   version "2.7.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
 
-esprima@^3.1.1:
+esprima@^3.1.1, esprima@~3.1.0:
   version "3.1.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
 
@@ -2518,11 +2728,20 @@ eventsource@0.1.6, eventsource@^0.1.3:
   dependencies:
     original ">=0.0.5"
 
-exec-buffer@^2.0.0:
-  version "2.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/exec-buffer/-/exec-buffer-2.0.1.tgz#0028a31be0b1460b61d075f96af4583b9e335ea0"
+evp_bytestokey@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/evp_bytestokey/-/evp_bytestokey-1.0.0.tgz#497b66ad9fef65cd7c08a6180824ba1476b66e53"
   dependencies:
-    rimraf "^2.2.6"
+    create-hash "^1.1.1"
+
+exec-buffer@^3.0.0:
+  version "3.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/exec-buffer/-/exec-buffer-3.1.0.tgz#851b46d062fca9bcbc6ff8781693e28e8da80402"
+  dependencies:
+    execa "^0.5.0"
+    p-finally "^1.0.0"
+    pify "^2.3.0"
+    rimraf "^2.5.4"
     tempfile "^1.0.0"
 
 exec-series@^1.0.0:
@@ -2531,6 +2750,18 @@ exec-series@^1.0.0:
   dependencies:
     async-each-series "^1.1.0"
     object-assign "^4.1.0"
+
+execa@^0.5.0:
+  version "0.5.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/execa/-/execa-0.5.1.tgz#de3fb85cb8d6e91c85bcbceb164581785cb57b36"
+  dependencies:
+    cross-spawn "^4.0.0"
+    get-stream "^2.2.0"
+    is-stream "^1.1.0"
+    npm-run-path "^2.0.0"
+    p-finally "^1.0.0"
+    signal-exit "^3.0.0"
+    strip-eof "^1.0.0"
 
 execa@^0.6.0:
   version "0.6.3"
@@ -2553,10 +2784,6 @@ executable@^1.0.0:
 exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
-
-exit@0.1.2:
-  version "0.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
 
 expand-brackets@^0.1.4:
   version "0.1.5"
@@ -2623,12 +2850,13 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
-extract-text-webpack-plugin@^1.0.1:
-  version "1.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/extract-text-webpack-plugin/-/extract-text-webpack-plugin-1.0.1.tgz#c95bf3cbaac49dc96f1dc6e072549fbb654ccd2c"
+extract-text-webpack-plugin@^2.1.0:
+  version "2.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/extract-text-webpack-plugin/-/extract-text-webpack-plugin-2.1.0.tgz#69315b885f876dbf96d3819f6a9f1cca7aebf159"
   dependencies:
-    async "^1.5.0"
-    loader-utils "^0.2.3"
+    ajv "^4.11.2"
+    async "^2.1.2"
+    loader-utils "^1.0.2"
     webpack-sources "^0.1.0"
 
 extsprintf@1.0.2:
@@ -2650,7 +2878,7 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fastparse@^1.0.0, fastparse@^1.1.1:
+fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
 
@@ -2708,13 +2936,13 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-loader@*, file-loader@^0.8.1:
-  version "0.8.5"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/file-loader/-/file-loader-0.8.5.tgz#9275d031fe780f27d47f5f4af02bd43713cc151b"
+file-loader@^0.11.1:
+  version "0.11.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/file-loader/-/file-loader-0.11.1.tgz#6b328ee1234a729e4e47d36375dd6d35c0e1db84"
   dependencies:
-    loader-utils "~0.2.5"
+    loader-utils "^1.0.2"
 
-file-type@^3.1.0:
+file-type@^3.1.0, file-type@^3.8.0:
   version "3.9.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
 
@@ -2761,6 +2989,10 @@ fill-range@^2.1.0:
     repeat-element "^1.1.2"
     repeat-string "^1.5.2"
 
+filled-array@^1.0.0:
+  version "1.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/filled-array/-/filled-array-1.1.0.tgz#c3c4f6c663b923459a9aa29912d2d031f1507f84"
+
 finalhandler@0.5.0:
   version "0.5.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/finalhandler/-/finalhandler-0.5.0.tgz#e9508abece9b6dba871a6942a1d7911b91911ac7"
@@ -2787,7 +3019,7 @@ find-parent-dir@^0.3.0:
   version "0.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/find-parent-dir/-/find-parent-dir-0.3.0.tgz#33c44b429ab2b2f0646299c5f9f718f376ff8d54"
 
-find-up@^1.0.0, find-up@^1.1.0:
+find-up@1.1.2, find-up@^1.0.0:
   version "1.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/find-up/-/find-up-1.1.2.tgz#6b2e9822b1a2ce0a60ab64d610eccad53cb24d0f"
   dependencies:
@@ -2867,14 +3099,6 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
 
-form-data@~1.0.0-rc4:
-  version "1.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/form-data/-/form-data-1.0.1.tgz#ae315db9a4907fa065502304a66d7733475ee37c"
-  dependencies:
-    async "^2.0.1"
-    combined-stream "^1.0.5"
-    mime-types "^2.1.11"
-
 form-data@~2.0.0:
   version "2.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/form-data/-/form-data-2.0.0.tgz#6f0aebadcc5da16c13e1ecc11137d85f9b883b25"
@@ -2895,11 +3119,11 @@ formalistic@^1.5.0:
   version "1.5.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formalistic/-/formalistic-1.5.0.tgz#f1c4048ebb69e55a54dd5a227f261b226562fce7"
 
-formatio@1.1.1:
-  version "1.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formatio/-/formatio-1.1.1.tgz#5ed3ccd636551097383465d996199100e86161e9"
+formatio@1.2.0:
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formatio/-/formatio-1.2.0.tgz#f3b2167d9068c4698a8d51f4f760a39a54d818eb"
   dependencies:
-    samsam "~1.1"
+    samsam "1.x"
 
 forwarded@~0.1.0:
   version "0.1.0"
@@ -2962,13 +3186,6 @@ fstream-ignore@^1.0.0, fstream-ignore@^1.0.5:
     fstream "^1.0.0"
     inherits "2"
     minimatch "^3.0.0"
-
-fstream-npm@~1.1.1:
-  version "1.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fstream-npm/-/fstream-npm-1.1.1.tgz#6b9175db6239a83d8209e232426c494dbb29690c"
-  dependencies:
-    fstream-ignore "^1.0.0"
-    inherits "2"
 
 fstream-npm@~1.2.0:
   version "1.2.0"
@@ -3035,6 +3252,10 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
+get-caller-file@^1.0.1:
+  version "1.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
+
 get-proxy@^1.0.1:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-proxy/-/get-proxy-1.1.0.tgz#894854491bc591b0f147d7ae570f5c678b7256eb"
@@ -3048,6 +3269,13 @@ get-stdin@5.0.1, get-stdin@^5.0.1:
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
+
+get-stream@^2.2.0:
+  version "2.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-stream/-/get-stream-2.3.1.tgz#5f38f93f346009666ee0150a054167f91bdd95de"
+  dependencies:
+    object-assign "^4.0.1"
+    pinkie-promise "^2.0.0"
 
 get-stream@^3.0.0:
   version "3.0.0"
@@ -3067,11 +3295,11 @@ gifsicle@^3.0.0:
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
 
-github-url-from-git@^1.3.0, github-url-from-git@~1.4.0:
+github-url-from-git@^1.3.0:
   version "1.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/github-url-from-git/-/github-url-from-git-1.4.0.tgz#285e6b520819001bde128674704379e4ff03e0de"
 
-github-url-from-username-repo@^1.0.0, github-url-from-username-repo@~1.0.2:
+github-url-from-username-repo@^1.0.0:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/github-url-from-username-repo/-/github-url-from-username-repo-1.0.2.tgz#7dd79330d2abe69c10c2cef79714c97215791dfa"
 
@@ -3131,13 +3359,6 @@ glob2base@^0.0.12:
   dependencies:
     find-index "^0.1.1"
 
-glob@3.2.11, "glob@~ 3.2.1":
-  version "3.2.11"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/glob/-/glob-3.2.11.tgz#4a973f635b9190f715d10987d5c00fd2815ebe3d"
-  dependencies:
-    inherits "2"
-    minimatch "0.3"
-
 glob@7.1.1, glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@~7.1.0:
   version "7.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
@@ -3185,17 +3406,6 @@ glob@~3.1.21:
     graceful-fs "~1.2.0"
     inherits "1"
     minimatch "~0.2.11"
-
-glob@~7.0.6:
-  version "7.0.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/glob/-/glob-7.0.6.tgz#211bafaf49e525b8cd93260d14ab136152b3f57a"
-  dependencies:
-    fs.realpath "^1.0.0"
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "^3.0.2"
-    once "^1.3.0"
-    path-is-absolute "^1.0.0"
 
 global-modules@^0.2.3:
   version "0.2.3"
@@ -3289,7 +3499,7 @@ got@^5.0.0:
   dependencies:
     natives "^1.1.0"
 
-graceful-fs@^4.0.0, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@~4.1.6, graceful-fs@~4.1.9:
+graceful-fs@^4.0.0, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@~4.1.9:
   version "4.1.11"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -3406,6 +3616,10 @@ hammerjs@^2.0.4:
   version "2.0.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
 
+handle-thing@^1.2.4:
+  version "1.2.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/handle-thing/-/handle-thing-1.2.5.tgz#fd7aad726bf1a5fd16dfc29b2f7a6601d27139c4"
+
 har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
@@ -3474,6 +3688,18 @@ has@^1.0.1:
   dependencies:
     function-bind "^1.0.2"
 
+hasbin@^1.2.3:
+  version "1.2.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hasbin/-/hasbin-1.2.3.tgz#78c5926893c80215c2b568ae1fd3fcab7a2696b0"
+  dependencies:
+    async "~1.5"
+
+hash.js@^1.0.0, hash.js@^1.0.3:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hash.js/-/hash.js-1.0.3.tgz#1332ff00156c0a0ffdd8236013d07b77a0451573"
+  dependencies:
+    inherits "^2.0.1"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -3483,6 +3709,10 @@ hawk@~3.1.3:
     hoek "2.x.x"
     sntp "1.x.x"
 
+he@1.1.x:
+  version "1.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
+
 history@^2.1.2:
   version "2.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/history/-/history-2.1.2.tgz#4aa2de897a0e4867e4539843be6ecdb2986bfdec"
@@ -3491,6 +3721,14 @@ history@^2.1.2:
     invariant "^2.0.0"
     query-string "^3.0.0"
     warning "^2.0.0"
+
+hmac-drbg@^1.0.0:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
+  dependencies:
+    hash.js "^1.0.3"
+    minimalistic-assert "^1.0.0"
+    minimalistic-crypto-utils "^1.0.1"
 
 hoek@2.x.x:
   version "2.16.3"
@@ -3517,33 +3755,45 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@~2.1.5:
   version "2.1.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
 
+hpack.js@^2.1.6:
+  version "2.1.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
+  dependencies:
+    inherits "^2.0.1"
+    obuf "^1.0.0"
+    readable-stream "^2.0.1"
+    wbuf "^1.1.0"
+
 html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"
 
-html-entities@1.2.0:
+html-entities@1.2.0, html-entities@^1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-entities/-/html-entities-1.2.0.tgz#41948caf85ce82fed36e4e6a0ed371a6664379e2"
 
-html-loader@^0.3.0:
-  version "0.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-loader/-/html-loader-0.3.0.tgz#979a427ca3a8e6fc7c5bcb7c2f5ab3e940d52917"
+html-loader@^0.4.5:
+  version "0.4.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-loader/-/html-loader-0.4.5.tgz#5fbcd87cd63a5c49a7fce2fe56f425e05729c68c"
   dependencies:
-    fastparse "^1.0.0"
-    html-minifier "^0.7.2"
-    loader-utils "~0.2.2"
-    source-map "0.1.x"
+    es6-templates "^0.2.2"
+    fastparse "^1.1.1"
+    html-minifier "^3.0.1"
+    loader-utils "^1.0.2"
+    object-assign "^4.1.0"
 
-html-minifier@^0.7.2:
-  version "0.7.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-minifier/-/html-minifier-0.7.2.tgz#2b7959b1051a481e71cd7c6e59a64272af895cfd"
+html-minifier@^3.0.1:
+  version "3.4.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/html-minifier/-/html-minifier-3.4.4.tgz#616fe3e3ef16da02b393d9a6099eeff468a35df0"
   dependencies:
-    change-case "2.3.x"
-    clean-css "3.1.x"
-    cli "0.6.x"
-    concat-stream "1.4.x"
+    camel-case "3.0.x"
+    clean-css "4.0.x"
+    commander "2.9.x"
+    he "1.1.x"
+    ncname "1.0.x"
+    param-case "2.1.x"
     relateurl "0.2.x"
-    uglify-js "2.4.x"
+    uglify-js "~2.8.22"
 
 "htmlparser2@>= 3.7.3 < 4.0.0":
   version "3.9.2"
@@ -3563,6 +3813,10 @@ http-browserify@^1.3.2:
     Base64 "~0.2.0"
     inherits "~2.0.1"
 
+http-deceiver@^1.2.4:
+  version "1.2.7"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/http-deceiver/-/http-deceiver-1.2.7.tgz#fa7168944ab9a519d337cb0bec7284dc3e723d87"
+
 http-errors@~1.5.0, http-errors@~1.5.1:
   version "1.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/http-errors/-/http-errors-1.5.1.tgz#788c0d2c1de2c81b9e6e8c01843b6b97eb920750"
@@ -3571,7 +3825,7 @@ http-errors@~1.5.0, http-errors@~1.5.1:
     setprototypeof "1.0.2"
     statuses ">= 1.3.1 < 2"
 
-http-proxy-middleware@~0.17.1:
+http-proxy-middleware@~0.17.4:
   version "0.17.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/http-proxy-middleware/-/http-proxy-middleware-0.17.4.tgz#642e8848851d66f09d4f124912846dbaeb41b833"
   dependencies:
@@ -3616,6 +3870,10 @@ iconv-lite@~0.4.13:
   version "0.4.17"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/iconv-lite/-/iconv-lite-0.4.17.tgz#4fdaa3b38acbc2c031b045d0edcdfe1ecab18c8d"
 
+icss-replace-symbols@^1.0.2:
+  version "1.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/icss-replace-symbols/-/icss-replace-symbols-1.0.2.tgz#cb0b6054eb3af6edc9ab1d62d01933e2d4c8bfa5"
+
 ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
@@ -3632,71 +3890,68 @@ image-size@~0.5.0:
   version "0.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/image-size/-/image-size-0.5.1.tgz#28eea8548a4b1443480ddddc1e083ae54652439f"
 
-image-webpack-loader@^1.6.1:
-  version "1.8.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/image-webpack-loader/-/image-webpack-loader-1.8.0.tgz#3ee4363eb614b56657c9f1063ab2a7597cc004c2"
+image-webpack-loader@^3.3.0:
+  version "3.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/image-webpack-loader/-/image-webpack-loader-3.3.0.tgz#e377ed58b1418b8db20267b17d8fcbbfe6b0de63"
   dependencies:
-    file-loader "*"
-    imagemin "^4.0.0"
-    imagemin-pngquant "^4.2.0"
-    loader-utils "^0.2.14"
+    imagemin "^5.2.2"
+    imagemin-gifsicle "^5.1.0"
+    imagemin-mozjpeg "^6.0.0"
+    imagemin-optipng "^5.2.1"
+    imagemin-pngquant "^5.0.0"
+    imagemin-svgo "^5.2.1"
+    loader-utils "^1.1.0"
+    object-assign "^4.1.1"
 
-imagemin-gifsicle@^4.0.0:
-  version "4.2.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-gifsicle/-/imagemin-gifsicle-4.2.0.tgz#0fef9bbad3476e6b76885736cc5b0b87a08757ca"
+imagemin-gifsicle@^5.1.0:
+  version "5.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-gifsicle/-/imagemin-gifsicle-5.1.0.tgz#2e4ddcda2a109b221cabaec498e1e2dd28ca768f"
   dependencies:
+    exec-buffer "^3.0.0"
     gifsicle "^3.0.0"
     is-gif "^1.0.0"
-    through2 "^0.6.1"
 
-imagemin-jpegtran@^4.0.0:
-  version "4.3.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-jpegtran/-/imagemin-jpegtran-4.3.2.tgz#1bc6d1e2bd13fdb64d245526d635a7e5dfeb12fc"
+imagemin-mozjpeg@^6.0.0:
+  version "6.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-mozjpeg/-/imagemin-mozjpeg-6.0.0.tgz#71a32a457aa1b26117a68eeef2d9b190c2e5091e"
   dependencies:
+    exec-buffer "^3.0.0"
     is-jpg "^1.0.0"
-    jpegtran-bin "^3.0.0"
-    through2 "^2.0.0"
+    mozjpeg "^4.0.0"
 
-imagemin-optipng@^4.0.0:
-  version "4.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-optipng/-/imagemin-optipng-4.3.0.tgz#7604663ab2ee315733274726fd1c374d2b44adb6"
+imagemin-optipng@^5.2.1:
+  version "5.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-optipng/-/imagemin-optipng-5.2.1.tgz#d22da412c09f5ff00a4339960b98a88b1dbe8695"
   dependencies:
-    exec-buffer "^2.0.0"
+    exec-buffer "^3.0.0"
     is-png "^1.0.0"
     optipng-bin "^3.0.0"
-    through2 "^0.6.1"
 
-imagemin-pngquant@^4.2.0:
-  version "4.2.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-pngquant/-/imagemin-pngquant-4.2.2.tgz#2ccd853e7af9fba26f2b2dd252d35ee8e155c542"
+imagemin-pngquant@^5.0.0:
+  version "5.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-pngquant/-/imagemin-pngquant-5.0.0.tgz#7d72405778caba9c510eb3cb4590c8413383560e"
   dependencies:
+    exec-buffer "^3.0.0"
     is-png "^1.0.0"
     pngquant-bin "^3.0.0"
-    through2 "^2.0.0"
 
-imagemin-svgo@^4.0.0:
-  version "4.2.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-svgo/-/imagemin-svgo-4.2.1.tgz#54f07dc56f47260462df6a61c54befb44b57be55"
+imagemin-svgo@^5.2.1:
+  version "5.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-svgo/-/imagemin-svgo-5.2.1.tgz#74d593ce4cbe1b87efdb3d06a4a56078f71a8147"
   dependencies:
-    is-svg "^1.0.0"
-    svgo "^0.6.0"
-    through2 "^2.0.0"
+    is-svg "^2.0.0"
+    svgo "^0.7.0"
 
-imagemin@^4.0.0:
-  version "4.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin/-/imagemin-4.0.0.tgz#e90e7f0936836595f18fa15fe906f4fa259ea847"
+imagemin@^5.2.2:
+  version "5.2.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin/-/imagemin-5.2.2.tgz#e14a0f357f8810266875eda38634eeb96f6fbd16"
   dependencies:
-    buffer-to-vinyl "^1.0.0"
-    concat-stream "^1.4.6"
-    optional "^0.1.0"
-    readable-stream "^2.0.0"
-    stream-combiner2 "^1.1.1"
-    vinyl-fs "^2.1.1"
-  optionalDependencies:
-    imagemin-gifsicle "^4.0.0"
-    imagemin-jpegtran "^4.0.0"
-    imagemin-optipng "^4.0.0"
-    imagemin-svgo "^4.0.0"
+    file-type "^3.8.0"
+    globby "^5.0.0"
+    mkdirp "^0.5.1"
+    pify "^2.3.0"
+    promise.pipe "^3.0.0"
+    replace-ext "0.0.1"
 
 immutable@^3.8.1:
   version "3.8.1"
@@ -3728,7 +3983,7 @@ infinity-agent@^2.0.0:
   version "2.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/infinity-agent/-/infinity-agent-2.0.3.tgz#45e0e2ff7a9eb030b27d62b74b3744b7a7ac4216"
 
-inflight@^1.0.4, inflight@~1.0.4, inflight@~1.0.5:
+inflight@^1.0.4, inflight@~1.0.5:
   version "1.0.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
   dependencies:
@@ -3747,7 +4002,7 @@ inherits@2.0.1:
   version "2.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
 
-ini@^1.3.4, ini@~1.3.0, ini@~1.3.4:
+ini@1.x.x, ini@^1.3.4, ini@~1.3.0, ini@~1.3.4:
   version "1.3.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
 
@@ -3763,6 +4018,24 @@ init-package-json@~1.9.4:
     semver "2.x || 3.x || 4 || 5"
     validate-npm-package-license "^3.0.1"
     validate-npm-package-name "^3.0.0"
+
+inquirer@1.0.3:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/inquirer/-/inquirer-1.0.3.tgz#ebe3a0948571bcc46ccccbe2f9bcec251e984bd0"
+  dependencies:
+    ansi-escapes "^1.1.0"
+    chalk "^1.0.0"
+    cli-cursor "^1.0.1"
+    cli-width "^2.0.0"
+    figures "^1.3.5"
+    lodash "^4.3.0"
+    mute-stream "0.0.6"
+    pinkie-promise "^2.0.0"
+    run-async "^2.2.0"
+    rx "^4.1.0"
+    string-width "^1.0.1"
+    strip-ansi "^3.0.0"
+    through "^2.3.6"
 
 inquirer@^0.12.0:
   version "0.12.0"
@@ -3826,10 +4099,6 @@ instana-ui-theme@^1.8.0:
     react "^15.0.0"
     react-dom "^15.0.0"
 
-interpret@^0.6.4:
-  version "0.6.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/interpret/-/interpret-0.6.6.tgz#fecd7a18e7ce5ca6abfb953e1f86213a49f1625b"
-
 interpret@^1.0.0:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
@@ -3839,6 +4108,10 @@ invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
     loose-envify "^1.0.0"
+
+invert-kv@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
 ip-regex@^1.0.1:
   version "1.0.3"
@@ -3903,6 +4176,10 @@ is-date-object@^1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-date-object/-/is-date-object-1.0.1.tgz#9aa20eb6aeebbff77fbd33e74ca01b33581d3a16"
 
+is-directory@^0.3.1:
+  version "0.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-directory/-/is-directory-0.3.1.tgz#61339b6f2475fc772fd9c9d83f5c8575dc154ae1"
+
 is-dotfile@^1.0.0:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
@@ -3964,12 +4241,6 @@ is-gzip@^1.0.0:
 is-jpg@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-jpg/-/is-jpg-1.0.0.tgz#2959c17e73430db38264da75b90dd54f2d86da1c"
-
-is-lower-case@^1.1.0:
-  version "1.1.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-lower-case/-/is-lower-case-1.1.3.tgz#7e147be4768dc466db3bfb21cc60b31e6ad69393"
-  dependencies:
-    lower-case "^1.1.0"
 
 is-my-json-valid@^2.10.0, is-my-json-valid@^2.12.4:
   version "2.16.0"
@@ -4076,10 +4347,6 @@ is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
 
-is-svg@^1.0.0:
-  version "1.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-svg/-/is-svg-1.1.1.tgz#ac0efaafb653ac58473708b1f873636ca110e31b"
-
 is-svg@^2.0.0:
   version "2.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-svg/-/is-svg-2.1.0.tgz#cf61090da0d9efbcab8722deba6f032208dbb0e9"
@@ -4103,12 +4370,6 @@ is-unc-path@^0.1.1:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-unc-path/-/is-unc-path-0.1.2.tgz#6ab053a72573c10250ff416a3814c35178af39b9"
   dependencies:
     unc-path-regex "^0.1.0"
-
-is-upper-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-upper-case/-/is-upper-case-1.1.2.tgz#8d0b1fa7e7933a1e58483600ec7d9661cbaf756f"
-  dependencies:
-    upper-case "^1.1.0"
 
 is-url@^1.2.0:
   version "1.2.2"
@@ -4159,13 +4420,6 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jade@0.26.3:
-  version "0.26.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jade/-/jade-0.26.3.tgz#8f10d7977d8d79f2f6ff862a81b0513ccb25686c"
-  dependencies:
-    commander "0.6.1"
-    mkdirp "0.3.0"
-
 jest-matcher-utils@^19.0.0:
   version "19.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jest-matcher-utils/-/jest-matcher-utils-19.0.0.tgz#5ecd9b63565d2b001f61fbf7ec4c7f537964564d"
@@ -4192,14 +4446,6 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jpegtran-bin@^3.0.0:
-  version "3.2.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jpegtran-bin/-/jpegtran-bin-3.2.0.tgz#f60ecf4ae999c0bdad2e9fbcdf2b6f0981e7a29b"
-  dependencies:
-    bin-build "^2.0.0"
-    bin-wrapper "^3.0.0"
-    logalot "^2.0.0"
-
 js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
@@ -4208,7 +4454,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@^3.2.5, js-yaml@^3.4.3, js-yaml@^3.5.1:
+js-yaml@^3.2.5, js-yaml@^3.4.3, js-yaml@^3.5.1, js-yaml@^3.5.3:
   version "3.8.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-yaml/-/js-yaml-3.8.3.tgz#33a05ec481c850c8875929166fe1beb61c728766"
   dependencies:
@@ -4220,13 +4466,6 @@ js-yaml@~3.5.5:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-yaml/-/js-yaml-3.5.5.tgz#0377c38017cabc7322b0d1fbcd25a491641f2fbe"
   dependencies:
     argparse "^1.0.2"
-    esprima "^2.6.0"
-
-js-yaml@~3.6.0:
-  version "3.6.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-yaml/-/js-yaml-3.6.1.tgz#6e5fe67d8b205ce4d22fad05b7781e8dadcc4b30"
-  dependencies:
-    argparse "^1.0.7"
     esprima "^2.6.0"
 
 js-yaml@~3.7.0:
@@ -4262,7 +4501,7 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
-json-loader@0.5.4:
+json-loader@0.5.4, json-loader@^0.5.4:
   version "0.5.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/json-loader/-/json-loader-0.5.4.tgz#8baa1365a632f58a3c46d20175fc6002c96e37de"
 
@@ -4290,7 +4529,7 @@ json3@3.3.2, json3@^3.3.2:
   version "3.3.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
 
-json5@^0.5.0:
+json5@^0.5.0, json5@^0.5.1:
   version "0.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
 
@@ -4343,11 +4582,17 @@ latest-version@^1.0.0:
   dependencies:
     package-json "^1.0.0"
 
+latest-version@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/latest-version/-/latest-version-2.0.0.tgz#56f8d6139620847b8017f8f1f4d78e211324168b"
+  dependencies:
+    package-json "^2.0.0"
+
 lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
 
-lazy-req@^1.0.0:
+lazy-req@^1.0.0, lazy-req@^1.1.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lazy-req/-/lazy-req-1.1.0.tgz#bdaebead30f8d824039ce0ce149d4daa07ba1fac"
 
@@ -4357,11 +4602,19 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-less-loader@^2.0.0:
-  version "2.2.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/less-loader/-/less-loader-2.2.3.tgz#b6d8f8139c8493df09d992a93a00734b08f84528"
+lcid@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
-    loader-utils "^0.2.5"
+    invert-kv "^1.0.0"
+
+less-loader@^4.0.3:
+  version "4.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/less-loader/-/less-loader-4.0.3.tgz#d1e6462ca2f090c11248455e14b8dda4616d0521"
+  dependencies:
+    clone "^2.1.1"
+    loader-utils "^1.1.0"
+    pify "^2.3.0"
 
 less@^2.3.1:
   version "2.7.2"
@@ -4487,7 +4740,11 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-loader-utils@^0.2.11, loader-utils@^0.2.14, loader-utils@^0.2.16, loader-utils@^0.2.3, loader-utils@^0.2.5, loader-utils@^0.2.7, loader-utils@~0.2.2, loader-utils@~0.2.5:
+loader-runner@^2.3.0:
+  version "2.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
+
+loader-utils@^0.2.16:
   version "0.2.17"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -4496,7 +4753,7 @@ loader-utils@^0.2.11, loader-utils@^0.2.14, loader-utils@^0.2.16, loader-utils@^
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.0.2:
+loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.x:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -4504,13 +4761,24 @@ loader-utils@^1.0.2:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-lockfile@~1.0.1, lockfile@~1.0.2:
+lockfile@~1.0.2:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lockfile/-/lockfile-1.0.3.tgz#2638fc39a0331e9cac1a04b71799931c9c50df79"
+
+lodash._baseassign@^3.0.0:
+  version "3.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz#8c38a099500f215ad09e59f1722fd0c52bfe0a4e"
+  dependencies:
+    lodash._basecopy "^3.0.0"
+    lodash.keys "^3.0.0"
 
 lodash._basecopy@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz#8da0e6a876cf344c0ad8a54882111dd3c5c7ca36"
+
+lodash._basecreate@^3.0.0:
+  version "3.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._basecreate/-/lodash._basecreate-3.0.3.tgz#1bc661614daa7fc311b7d03bf16806a0213cf821"
 
 lodash._basetostring@^3.0.0:
   version "3.0.1"
@@ -4555,17 +4823,41 @@ lodash._root@^3.0.0, lodash._root@~3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash._root/-/lodash._root-3.0.1.tgz#fba1c4524c19ee9a5f8136b4609f017cf4ded692"
 
+lodash.assign@^4.0.3, lodash.assign@^4.0.6:
+  version "4.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
+
 lodash.assignwith@^4.0.7:
   version "4.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.assignwith/-/lodash.assignwith-4.2.0.tgz#127a97f02adc41751a954d24b0de17e100e038eb"
 
-lodash.clonedeep@~4.5.0:
+lodash.camelcase@^4.3.0:
+  version "4.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
+
+lodash.clonedeep@^4.3.0, lodash.clonedeep@^4.3.1, lodash.clonedeep@~4.5.0:
   version "4.5.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+
+lodash.create@3.1.1:
+  version "3.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.create/-/lodash.create-3.1.1.tgz#d7f2849f0dbda7e04682bb8cd72ab022461debe7"
+  dependencies:
+    lodash._baseassign "^3.0.0"
+    lodash._basecreate "^3.0.0"
+    lodash._isiterateecall "^3.0.0"
 
 lodash.debounce@^4.0.4:
   version "4.0.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
+lodash.defaults@^4.0.1:
+  version "4.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
+
+lodash.defaultsdeep@^4.3.1:
+  version "4.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.0.tgz#bec1024f85b1bd96cbea405b23c14ad6443a6f81"
 
 lodash.escape@^3.0.0:
   version "3.2.0"
@@ -4616,6 +4908,10 @@ lodash.mapvalues@^4.4.0:
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
+
+lodash.mergewith@^4.3.1:
+  version "4.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz#150cf0a16791f5903b8891eab154609274bdea55"
 
 lodash.pad@^4.1.0:
   version "4.5.1"
@@ -4674,7 +4970,7 @@ lodash@4.13.1:
   version "4.13.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash/-/lodash-4.13.1.tgz#83e4b10913f48496d4d16fec4a560af2ee744b68"
 
-lodash@^3.10.1, lodash@^3.3.1:
+lodash@^3.3.1:
   version "3.10.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
@@ -4706,9 +5002,9 @@ logalot@^2.0.0:
     figures "^1.3.5"
     squeak "^1.0.0"
 
-lolex@1.3.2:
-  version "1.3.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lolex/-/lolex-1.3.2.tgz#7c3da62ffcb30f0f5a80a2566ca24e45d8a01f31"
+lolex@^1.6.0:
+  version "1.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lolex/-/lolex-1.6.0.tgz#3a9a0283452a47d7439e72731b9e07d7386e49f6"
 
 longest@^1.0.0, longest@^1.0.1:
   version "1.0.1"
@@ -4727,13 +5023,7 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lower-case-first@^1.0.0:
-  version "1.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lower-case-first/-/lower-case-first-1.0.2.tgz#e5da7c26f29a7073be02d52bac9980e5922adfa1"
-  dependencies:
-    lower-case "^1.1.2"
-
-lower-case@^1.1.0, lower-case@^1.1.1, lower-case@^1.1.2:
+lower-case@^1.1.1:
   version "1.1.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
 
@@ -4758,7 +5048,7 @@ lru-cache@2:
   version "2.7.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
 
-lru-cache@^4.0.1, lru-cache@~4.0.1:
+lru-cache@^4.0.0, lru-cache@^4.0.1:
   version "4.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lru-cache/-/lru-cache-4.0.2.tgz#1d17679c069cda5d040991a09dbc2c0db377e55e"
   dependencies:
@@ -4785,25 +5075,24 @@ markdown-it-link-target@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-it-link-target/-/markdown-it-link-target-1.0.2.tgz#d2fd45575f35148e9c5e235eb787abb6f9460a67"
 
-markdown-it@^7.0.0:
-  version "7.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-it/-/markdown-it-7.0.1.tgz#f12d8b88a93e64254348dfd183bd70bf60567a42"
+markdown-it@^8.3.1:
+  version "8.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-it/-/markdown-it-8.3.1.tgz#2f4b622948ccdc193d66f3ca2d43125ac4ac7323"
   dependencies:
     argparse "^1.0.7"
     entities "~1.1.1"
     linkify-it "^2.0.0"
     mdurl "^1.0.1"
-    uc.micro "^1.0.1"
+    uc.micro "^1.0.3"
 
-markdown-loader@^0.1.3:
-  version "0.1.7"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-loader/-/markdown-loader-0.1.7.tgz#2ab6616fd17652a7cbfe66540781b55e4f19e267"
+markdown-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-loader/-/markdown-loader-2.0.0.tgz#421862d38c4224fd3615eb648017ea385b562d78"
   dependencies:
-    loader-utils "^0.2.7"
-    marked "^0.3.2"
-    object-assign "^2.0.0"
+    loader-utils "^0.2.16"
+    marked "^0.3.6"
 
-marked@^0.3.2, marked@~0.3.6:
+marked@^0.3.6, marked@~0.3.6:
   version "0.3.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
@@ -4819,18 +5108,7 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-memory-fs@^0.2.0:
-  version "0.2.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/memory-fs/-/memory-fs-0.2.0.tgz#f2bb25368bc121e391c2520de92969caee0a0290"
-
-memory-fs@~0.3.0:
-  version "0.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/memory-fs/-/memory-fs-0.3.0.tgz#7bcc6b629e3a43e871d7e29aca6ae8a7f15cbb20"
-  dependencies:
-    errno "^0.1.3"
-    readable-stream "^2.0.1"
-
-memory-fs@~0.4.1:
+memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
   dependencies:
@@ -4897,6 +5175,13 @@ micromatch@^2.1.5, micromatch@^2.3.11, micromatch@^2.3.7:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
+miller-rabin@^4.0.0:
+  version "4.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/miller-rabin/-/miller-rabin-4.0.0.tgz#4a62fb1d42933c05583982f4c716f6fb9e6c6d3d"
+  dependencies:
+    bn.js "^4.0.0"
+    brorand "^1.0.1"
+
 "mime-db@>= 1.27.0 < 2", mime-db@~1.27.0:
   version "1.27.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
@@ -4911,16 +5196,23 @@ mime@1.3.4, mime@1.3.x, mime@^1.2.11, mime@^1.3.4:
   version "1.3.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
 
-minimatch@0.3:
-  version "0.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimatch/-/minimatch-0.3.0.tgz#275d8edaac4f1bb3326472089e7949c8394699dd"
-  dependencies:
-    lru-cache "2"
-    sigmund "~1.0.0"
+minimalistic-assert@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimalistic-assert/-/minimalistic-assert-1.0.0.tgz#702be2dda6b37f4836bcb3f5db56641b64a1d3d3"
 
-"minimatch@2 || 3", minimatch@3.0.3, minimatch@^3.0.0, minimatch@^3.0.2, minimatch@~3.0.3:
+minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
+
+"minimatch@2 || 3", minimatch@3.0.3, minimatch@^3.0.0, minimatch@^3.0.2:
   version "3.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
+  dependencies:
+    brace-expansion "^1.0.0"
+
+minimatch@3.0.2:
+  version "3.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimatch/-/minimatch-3.0.2.tgz#0f398a7300ea441e9c348c83d98ab8c9dbf9c40a"
   dependencies:
     brace-expansion "^1.0.0"
 
@@ -4937,7 +5229,7 @@ minimatch@~0.2.11:
     lru-cache "2"
     sigmund "~1.0.0"
 
-minimist@0.0.8, minimist@~0.0.1:
+minimist@0.0.8:
   version "0.0.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
@@ -4945,11 +5237,7 @@ minimist@1.2.0, minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-mkdirp@0.3.0:
-  version "0.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mkdirp/-/mkdirp-0.3.0.tgz#1bbf5ab1ba827af23575143490426455f481fe1e"
-
-mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
+mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -4963,20 +5251,21 @@ mocha-jsdom@^1.0.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mocha-jsdom/-/mocha-jsdom-1.1.0.tgz#e1576fbd0601cc89d358a213a0e5585d1b7c7a01"
 
-mocha@^2.2.4:
-  version "2.5.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mocha/-/mocha-2.5.3.tgz#161be5bdeb496771eb9b35745050b622b5aefc58"
+mocha@^3.3.0:
+  version "3.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mocha/-/mocha-3.3.0.tgz#d29b7428d3f52c82e2e65df1ecb7064e1aabbfb5"
   dependencies:
-    commander "2.3.0"
-    debug "2.2.0"
-    diff "1.4.0"
-    escape-string-regexp "1.0.2"
-    glob "3.2.11"
+    browser-stdout "1.3.0"
+    commander "2.9.0"
+    debug "2.6.0"
+    diff "3.2.0"
+    escape-string-regexp "1.0.5"
+    glob "7.1.1"
     growl "1.9.2"
-    jade "0.26.3"
+    json3 "3.3.2"
+    lodash.create "3.1.1"
     mkdirp "0.5.1"
-    supports-color "1.2.0"
-    to-iso-string "0.0.2"
+    supports-color "3.1.2"
 
 module-not-found-error@^1.0.0:
   version "1.0.1"
@@ -4986,6 +5275,14 @@ moment@^2.10.6, moment@^2.14.1:
   version "2.18.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
+mozjpeg@^4.0.0:
+  version "4.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mozjpeg/-/mozjpeg-4.1.1.tgz#859030b24f689a53db9b40f0160d89195b88fd50"
+  dependencies:
+    bin-build "^2.0.0"
+    bin-wrapper "^3.0.0"
+    logalot "^2.0.0"
+
 ms@0.7.1:
   version "0.7.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -4993,10 +5290,6 @@ ms@0.7.1:
 ms@0.7.2:
   version "0.7.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
-
-ms@0.7.3:
-  version "0.7.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
 multipipe@^0.1.2:
   version "0.1.2"
@@ -5012,6 +5305,10 @@ mute-stream@0.0.5, mute-stream@~0.0.4:
   version "0.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
 
+mute-stream@0.0.6:
+  version "0.0.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mute-stream/-/mute-stream-0.0.6.tgz#48962b19e169fd1dfc240b3f1e7317627bbc47db"
+
 mv@~2:
   version "2.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mv/-/mv-2.1.1.tgz#ae6ce0d6f6d5e0a4f7d893798d03c1ea9559b6a2"
@@ -5024,6 +5321,10 @@ nan@^2.0.5, nan@^2.1.0, nan@^2.3.0, nan@^2.3.3, nan@^2.5.1:
   version "2.6.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
 
+native-promise-only@^0.8.1:
+  version "0.8.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/native-promise-only/-/native-promise-only-0.8.1.tgz#20a318c30cb45f71fe7adfbf7b21c99c1472ef11"
+
 natives@^1.1.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/natives/-/natives-1.1.0.tgz#e9ff841418a6b2ec7a495e939984f78f163e6e31"
@@ -5031,6 +5332,20 @@ natives@^1.1.0:
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
+
+ncname@1.0.x:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ncname/-/ncname-1.0.0.tgz#5b57ad18b1ca092864ef62b0b1ed8194f383b71c"
+  dependencies:
+    xml-char-classes "^1.0.0"
+
+nconf@^0.7.2:
+  version "0.7.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nconf/-/nconf-0.7.2.tgz#a05fdf22dc01c378dd5c4df27f2dc90b9aa8bb00"
+  dependencies:
+    async "~0.9.0"
+    ini "1.x.x"
+    yargs "~3.15.0"
 
 ncp@~2.0.0:
   version "2.0.0"
@@ -5045,6 +5360,19 @@ nested-error-stacks@^1.0.0:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nested-error-stacks/-/nested-error-stacks-1.0.2.tgz#19f619591519f096769a5ba9a86e6eeec823c3cf"
   dependencies:
     inherits "~2.0.1"
+
+no-case@^2.2.0:
+  version "2.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"
+  dependencies:
+    lower-case "^1.1.1"
+
+node-alias@^1.0.4:
+  version "1.0.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-alias/-/node-alias-1.0.4.tgz#1f1b916b56b9ea241c0135f97ced6940f556f292"
+  dependencies:
+    chalk "^1.1.1"
+    lodash "^4.2.0"
 
 node-fetch@^1.0.1:
   version "1.6.3"
@@ -5069,24 +5397,6 @@ node-gyp@~3.4.0:
     request "2"
     rimraf "2"
     semver "2.x || 3.x || 4 || 5"
-    tar "^2.0.0"
-    which "1"
-
-node-gyp@~3.6.0:
-  version "3.6.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-gyp/-/node-gyp-3.6.1.tgz#19561067ff185464aded478212681f47fd578cbc"
-  dependencies:
-    fstream "^1.0.0"
-    glob "^7.0.3"
-    graceful-fs "^4.1.2"
-    minimatch "^3.0.2"
-    mkdirp "^0.5.0"
-    nopt "2 || 3"
-    npmlog "0 || 1 || 2 || 3 || 4"
-    osenv "0"
-    request "2"
-    rimraf "2"
-    semver "~5.3.0"
     tar "^2.0.0"
     which "1"
 
@@ -5118,16 +5428,16 @@ node-libs-browser@^0.5.2:
     util "~0.10.3"
     vm-browserify "0.0.4"
 
-node-libs-browser@^0.7.0:
-  version "0.7.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-libs-browser/-/node-libs-browser-0.7.0.tgz#3e272c0819e308935e26674408d7af0e1491b83b"
+node-libs-browser@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-libs-browser/-/node-libs-browser-2.0.0.tgz#a3a59ec97024985b46e958379646f96c4b616646"
   dependencies:
     assert "^1.1.1"
     browserify-zlib "^0.1.4"
-    buffer "^4.9.0"
+    buffer "^4.3.0"
     console-browserify "^1.1.0"
     constants-browserify "^1.0.0"
-    crypto-browserify "3.3.0"
+    crypto-browserify "^3.11.0"
     domain-browser "^1.1.1"
     events "^1.0.0"
     https-browserify "0.0.1"
@@ -5235,34 +5545,29 @@ npm-cache-filename@~1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm-cache-filename/-/npm-cache-filename-1.0.2.tgz#ded306c5b0bfc870a9e9faf823bc5f283e05ae11"
 
-npm-check-updates@2.5.6:
-  version "2.5.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm-check-updates/-/npm-check-updates-2.5.6.tgz#48c47e2677f1f9fbf9ef11117357f97685f87994"
+npm-check-updates@2.11.0:
+  version "2.11.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm-check-updates/-/npm-check-updates-2.11.0.tgz#6073a2c022eaf27352e2a8b08de931776207b818"
   dependencies:
-    bluebird "^3.0.5"
-    chalk "^1.1.1"
+    bluebird "^3.4.3"
+    chalk "^1.1.3"
     cint "^8.2.1"
     cli-table "^0.3.1"
     commander "^2.9.0"
     fast-diff "^1.0.1"
-    find-up "^1.1.0"
+    find-up "1.1.2"
     get-stdin "^5.0.1"
     json-parse-helpfulerror "^1.0.3"
-    lodash "^3.10.1"
-    npm "^3.5.1"
-    npmi "^1.0.1"
+    lodash "^4.15.0"
+    node-alias "^1.0.4"
+    npm "^3.10.6"
+    npmi "^2.0.1"
     require-dir "^0.3.0"
-    semver "^5.1.0"
+    semver "^5.3.0"
     semver-utils "^1.1.1"
-    spawn-please "^0.1.0"
-    update-notifier "^0.5.0"
-
-npm-install-checks@~1.0.7:
-  version "1.0.7"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm-install-checks/-/npm-install-checks-1.0.7.tgz#6d91aeda0ac96801f1ed7aadee116a6c0a086a57"
-  dependencies:
-    npmlog "0.1 || 1 || 2"
-    semver "^2.3.0 || 3.x || 4 || 5"
+    snyk "^1.25.1"
+    spawn-please "^0.2.0"
+    update-notifier "^1.0.2"
 
 npm-install-checks@~3.0.0:
   version "3.0.0"
@@ -5276,13 +5581,6 @@ npm-install-checks@~3.0.0:
   dependencies:
     hosted-git-info "^2.1.5"
     semver "^5.1.0"
-
-npm-package-arg@~4.1.0:
-  version "4.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm-package-arg/-/npm-package-arg-4.1.1.tgz#86d9dca985b4c5e5d59772dfd5de6919998a495a"
-  dependencies:
-    hosted-git-info "^2.1.4"
-    semver "4 || 5"
 
 npm-path@^2.0.2:
   version "2.0.3"
@@ -5324,81 +5622,7 @@ npm-which@^3.0.1:
     npm-path "^2.0.2"
     which "^1.2.10"
 
-npm@^2.1.12:
-  version "2.15.12"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm/-/npm-2.15.12.tgz#df7c3ed5a277c3f9d4b5d819b05311d10a200ae6"
-  dependencies:
-    abbrev "~1.0.9"
-    ansi "~0.3.1"
-    ansicolors "~0.3.2"
-    ansistyles "~0.1.3"
-    archy "~1.0.0"
-    async-some "~1.0.2"
-    block-stream "0.0.9"
-    char-spinner "~1.0.1"
-    chmodr "~1.0.2"
-    chownr "~1.0.1"
-    cmd-shim "~2.0.2"
-    columnify "~1.5.4"
-    config-chain "~1.1.10"
-    dezalgo "~1.0.3"
-    editor "~1.0.0"
-    fs-vacuum "~1.2.9"
-    fs-write-stream-atomic "~1.0.8"
-    fstream "~1.0.10"
-    fstream-npm "~1.1.1"
-    github-url-from-git "~1.4.0"
-    github-url-from-username-repo "~1.0.2"
-    glob "~7.0.6"
-    graceful-fs "~4.1.6"
-    hosted-git-info "~2.1.5"
-    inflight "~1.0.4"
-    inherits "~2.0.3"
-    ini "~1.3.4"
-    init-package-json "~1.9.4"
-    lockfile "~1.0.1"
-    lru-cache "~4.0.1"
-    minimatch "~3.0.3"
-    mkdirp "~0.5.1"
-    node-gyp "~3.6.0"
-    nopt "~3.0.6"
-    normalize-git-url "~3.0.2"
-    normalize-package-data "~2.3.5"
-    npm-cache-filename "~1.0.2"
-    npm-install-checks "~1.0.7"
-    npm-package-arg "~4.1.0"
-    npm-registry-client "~7.2.1"
-    npm-user-validate "~0.1.5"
-    npmlog "~2.0.4"
-    once "~1.4.0"
-    opener "~1.4.1"
-    osenv "~0.1.3"
-    path-is-inside "~1.0.0"
-    read "~1.0.7"
-    read-installed "~4.0.3"
-    read-package-json "~2.0.4"
-    readable-stream "~2.1.5"
-    realize-package-specifier "~3.0.1"
-    request "~2.74.0"
-    retry "~0.10.0"
-    rimraf "~2.5.4"
-    semver "~5.1.0"
-    sha "~2.0.1"
-    slide "~1.1.6"
-    sorted-object "~2.0.0"
-    spdx-license-ids "~1.2.2"
-    strip-ansi "~3.0.1"
-    tar "~2.2.1"
-    text-table "~0.2.0"
-    uid-number "0.0.6"
-    umask "~1.1.0"
-    validate-npm-package-license "~3.0.1"
-    validate-npm-package-name "~2.2.2"
-    which "~1.2.11"
-    wrappy "~1.0.2"
-    write-file-atomic "~1.1.4"
-
-npm@^3.5.1:
+npm@^3, npm@^3.10.6:
   version "3.10.10"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npm/-/npm-3.10.10.tgz#5b1d577e4c8869d6c8603bc89e9cd1637303e46e"
   dependencies:
@@ -5474,14 +5698,14 @@ npm@^3.5.1:
     wrappy "~1.0.2"
     write-file-atomic "~1.2.0"
 
-npmi@^1.0.1:
-  version "1.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npmi/-/npmi-1.0.1.tgz#15d769273547545e6809dcf0ce18aed48b0290e2"
+npmi@^2.0.1:
+  version "2.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npmi/-/npmi-2.0.1.tgz#32607657e1bd47ca857ab4e9d98f0a0cff96bcea"
   dependencies:
-    npm "^2.1.12"
+    npm "^3"
     semver "^4.1.0"
 
-"npmlog@0 || 1 || 2 || 3", "npmlog@0.1 || 1 || 2", "npmlog@~2.0.0 || ~3.1.0", npmlog@~2.0.4:
+"npmlog@0 || 1 || 2 || 3", "npmlog@~2.0.0 || ~3.1.0":
   version "2.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npmlog/-/npmlog-2.0.4.tgz#98b52530f2514ca90d09ec5b22c8846722375692"
   dependencies:
@@ -5489,7 +5713,7 @@ npmi@^1.0.1:
     are-we-there-yet "~1.1.2"
     gauge "~1.2.5"
 
-"npmlog@0 || 1 || 2 || 3 || 4", npmlog@^4.0.2, npmlog@~4.0.0:
+npmlog@^4.0.2, npmlog@~4.0.0:
   version "4.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/npmlog/-/npmlog-4.0.2.tgz#d03950e0e78ce1527ba26d2a7592e9348ac3e75f"
   dependencies:
@@ -5553,6 +5777,10 @@ object.omit@^2.0.0:
     for-own "^0.1.4"
     is-extendable "^0.1.1"
 
+obuf@^1.0.0, obuf@^1.1.0:
+  version "1.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/obuf/-/obuf-1.1.1.tgz#104124b6c602c6796881a042541d36db43a5264e"
+
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
@@ -5579,11 +5807,11 @@ onetime@^1.0.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
 
-open@0.0.5:
+open@0.0.5, open@^0.0.5:
   version "0.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/open/-/open-0.0.5.tgz#42c3e18ec95466b6bf0dc42f3a2945c3f0cad8fc"
 
-opener@~1.4.1, opener@~1.4.2:
+opener@~1.4.2:
   version "1.4.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
 
@@ -5603,17 +5831,6 @@ opn@4.0.2:
   dependencies:
     object-assign "^4.0.1"
     pinkie-promise "^2.0.0"
-
-optimist@~0.6.0, optimist@~0.6.1:
-  version "0.6.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
-  dependencies:
-    minimist "~0.0.1"
-    wordwrap "~0.0.2"
-
-optional@^0.1.0:
-  version v0.1.3
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/optional/-/optional-0.1.3.tgz#f87537517b59a5e732cfd8f18e4f7eea7ab4761e"
 
 optionator@^0.8.2:
   version "0.8.2"
@@ -5688,6 +5905,19 @@ os-homedir@^1.0.0, os-homedir@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/os-homedir/-/os-homedir-1.0.2.tgz#ffbc4988336e0e833de0c168c7ef152121aa7fb3"
 
+os-locale@^1.4.0:
+  version "1.4.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/os-locale/-/os-locale-1.4.0.tgz#20f9f17ae29ed345e8bde583b13d2009803c14d9"
+  dependencies:
+    lcid "^1.0.0"
+
+os-name@^1.0.3:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/os-name/-/os-name-1.0.3.tgz#1b379f64835af7c5a7f498b357cb95215c159edf"
+  dependencies:
+    osx-release "^1.0.0"
+    win-release "^1.0.0"
+
 os-tmpdir@^1.0.0, os-tmpdir@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
@@ -5698,6 +5928,12 @@ osenv@0, osenv@^0.1.0, osenv@^0.1.4, osenv@~0.1.3:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
+
+osx-release@^1.0.0:
+  version "1.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/osx-release/-/osx-release-1.1.0.tgz#f217911a28136949af1bf9308b241e2737d3cd6c"
+  dependencies:
+    minimist "^1.1.0"
 
 output-file-sync@^1.1.0:
   version "1.1.2"
@@ -5722,15 +5958,34 @@ package-json@^1.0.0:
     got "^3.2.0"
     registry-url "^3.0.0"
 
+package-json@^2.0.0:
+  version "2.4.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/package-json/-/package-json-2.4.0.tgz#0d15bd67d1cbbddbb2ca222ff2edb86bcb31a8bb"
+  dependencies:
+    got "^5.0.0"
+    registry-auth-token "^3.0.1"
+    registry-url "^3.0.3"
+    semver "^5.1.0"
+
 pako@~0.2.0:
   version "0.2.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
 
-param-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/param-case/-/param-case-1.1.2.tgz#dcb091a43c259b9228f1c341e7b6a44ea0bf9743"
+param-case@2.1.x:
+  version "2.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/param-case/-/param-case-2.1.1.tgz#df94fd8cf6531ecf75e6bef9a0858fbc72be2247"
   dependencies:
-    sentence-case "^1.1.2"
+    no-case "^2.2.0"
+
+parse-asn1@^5.0.0:
+  version "5.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/parse-asn1/-/parse-asn1-5.1.0.tgz#37c4f9b7ed3ab65c74817b5f2480937fbf97c712"
+  dependencies:
+    asn1.js "^4.0.0"
+    browserify-aes "^1.0.0"
+    create-hash "^1.1.0"
+    evp_bytestokey "^1.0.0"
+    pbkdf2 "^3.0.3"
 
 parse-filepath@^1.0.1:
   version "1.0.1"
@@ -5785,13 +6040,6 @@ parseurl@~1.3.1:
   version "1.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/parseurl/-/parseurl-1.3.1.tgz#c8ab8c9223ba34888aa64a297b28853bec18da56"
 
-pascal-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pascal-case/-/pascal-case-1.1.2.tgz#3e5d64a20043830a7c49344c2d74b41be0c9c99b"
-  dependencies:
-    camel-case "^1.1.1"
-    upper-case-first "^1.1.0"
-
 path-array@^1.0.0:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-array/-/path-array-1.0.1.tgz#7e2f0f35f07a2015122b868b7eac0eb2c4fec271"
@@ -5801,12 +6049,6 @@ path-array@^1.0.0:
 path-browserify@0.0.0:
   version "0.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-browserify/-/path-browserify-0.0.0.tgz#a0b870729aae214005b7d5032ec2cbbb0fb4451a"
-
-path-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-case/-/path-case-1.1.2.tgz#50ce6ba0d3bed3dd0b5c2a9c4553697434409514"
-  dependencies:
-    sentence-case "^1.1.2"
 
 path-dirname@^1.0.0:
   version "1.0.2"
@@ -5822,7 +6064,7 @@ path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
 
-path-is-inside@^1.0.1, path-is-inside@~1.0.0, path-is-inside@~1.0.2:
+path-is-inside@^1.0.1, path-is-inside@~1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-is-inside/-/path-is-inside-1.0.2.tgz#365417dede44430d1c11af61027facf074bdfc53"
 
@@ -5844,6 +6086,12 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
 
+path-to-regexp@^1.7.0:
+  version "1.7.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
+  dependencies:
+    isarray "0.0.1"
+
 path-type@^1.0.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/path-type/-/path-type-1.1.0.tgz#59c44f7ee491da704da415da5a4070ba4f8fe441"
@@ -5856,6 +6104,12 @@ pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
 
+pbkdf2@^3.0.3:
+  version "3.0.9"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pbkdf2/-/pbkdf2-3.0.9.tgz#f2c4b25a600058b3c3773c086c37dbbee1ffe693"
+  dependencies:
+    create-hmac "^1.1.2"
+
 pend@~1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
@@ -5864,7 +6118,7 @@ performance-now@^0.2.0, performance-now@~0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
-pify@^2.0.0:
+pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
 
@@ -5895,6 +6149,14 @@ pngquant-bin@^3.0.0:
     bin-build "^2.0.0"
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
+
+portfinder@^1.0.9:
+  version "1.0.13"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
+  dependencies:
+    async "^1.5.2"
+    debug "^2.2.0"
+    mkdirp "0.5.x"
 
 postcss-calc@^5.2.0:
   version "5.3.1"
@@ -5957,12 +6219,37 @@ postcss-filter-plugins@^2.0.0:
     postcss "^5.0.4"
     uniqid "^4.0.0"
 
-postcss-loader@0.9.1:
-  version "0.9.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-loader/-/postcss-loader-0.9.1.tgz#87a3e70f58e46d68a75badc6725d9ea4773fd1d7"
+postcss-load-config@^1.x:
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-load-config/-/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
   dependencies:
-    loader-utils "^0.2.14"
-    postcss "^5.0.19"
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+    postcss-load-options "^1.2.0"
+    postcss-load-plugins "^2.3.0"
+
+postcss-load-options@^1.2.0:
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-load-options/-/postcss-load-options-1.2.0.tgz#b098b1559ddac2df04bc0bb375f99a5cfe2b6d8c"
+  dependencies:
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+
+postcss-load-plugins@^2.3.0:
+  version "2.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-load-plugins/-/postcss-load-plugins-2.3.0.tgz#745768116599aca2f009fad426b00175049d8d92"
+  dependencies:
+    cosmiconfig "^2.1.1"
+    object-assign "^4.1.0"
+
+postcss-loader@2.0.1:
+  version "2.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-loader/-/postcss-loader-2.0.1.tgz#4078aef52336c2434415aabaacbf9d7e7ae025e8"
+  dependencies:
+    loader-utils "^1.x"
+    postcss "^6.x"
+    postcss-load-config "^1.x"
+    schema-utils "^0.x"
 
 postcss-merge-idents@^2.1.5:
   version "2.1.7"
@@ -6025,25 +6312,32 @@ postcss-minify-selectors@^2.0.4:
     postcss "^5.0.14"
     postcss-selector-parser "^2.0.0"
 
-postcss-modules-extract-imports@1.0.0-beta2:
-  version "1.0.0-beta2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.0.0-beta2.tgz#f1d3533eea3fe79dffa97a2371cc916393401dc5"
+postcss-modules-extract-imports@^1.0.0:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.0.1.tgz#8fb3fef9a6dd0420d3f6d4353cf1ff73f2b2a341"
   dependencies:
     postcss "^5.0.4"
 
-postcss-modules-local-by-default@1.0.0-beta1:
-  version "1.0.0-beta1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-local-by-default/-/postcss-modules-local-by-default-1.0.0-beta1.tgz#89b3ad65f669973386804953948aad23b7330d5f"
+postcss-modules-local-by-default@^1.0.1:
+  version "1.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-local-by-default/-/postcss-modules-local-by-default-1.1.1.tgz#29a10673fa37d19251265ca2ba3150d9040eb4ce"
   dependencies:
-    css-selector-tokenizer "^0.5.1"
+    css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
 
-postcss-modules-scope@1.0.0-beta2:
-  version "1.0.0-beta2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-scope/-/postcss-modules-scope-1.0.0-beta2.tgz#76af8b0008ede646bb9db675e27bc4ee3aa044bc"
+postcss-modules-scope@^1.0.0:
+  version "1.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-scope/-/postcss-modules-scope-1.0.2.tgz#ff977395e5e06202d7362290b88b1e8cd049de29"
   dependencies:
-    css-selector-tokenizer "^0.5.0"
+    css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
+
+postcss-modules-values@^1.1.0:
+  version "1.2.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-modules-values/-/postcss-modules-values-1.2.2.tgz#f0e7d476fe1ed88c5e4c7f97533a3e772ad94ca1"
+  dependencies:
+    icss-replace-symbols "^1.0.2"
+    postcss "^5.0.14"
 
 postcss-normalize-charset@^1.1.0:
   version "1.1.1"
@@ -6125,12 +6419,20 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.16:
+postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.16:
   version "5.2.17"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss/-/postcss-5.2.17.tgz#cf4f597b864d65c8a492b2eabe9d706c879c388b"
   dependencies:
     chalk "^1.1.3"
     js-base64 "^2.1.9"
+    source-map "^0.5.6"
+    supports-color "^3.2.3"
+
+postcss@^6.0.1, postcss@^6.x:
+  version "6.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss/-/postcss-6.0.1.tgz#000dbd1f8eef217aa368b9a212c5fc40b2a8f3f2"
+  dependencies:
+    chalk "^1.1.3"
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
@@ -6146,9 +6448,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.0.2:
-  version "1.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prettier/-/prettier-1.3.0.tgz#cb02314f1ae2a99e951c17acb77a4096a1060ac2"
+prettier@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.3.1.tgz#fa0ea84b45ac0ba6de6a1e4cecdcff900d563151"
   dependencies:
     ast-types "0.9.8"
     babel-code-frame "6.22.0"
@@ -6183,7 +6485,7 @@ prismjs@^1.5.1:
   optionalDependencies:
     clipboard "^1.5.5"
 
-private@^0.1.6:
+private@^0.1.6, private@~0.1.5:
   version "0.1.7"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/private/-/private-0.1.7.tgz#68ce5e8a1ef0a23bb570cc28537b5332aba63ef1"
 
@@ -6203,7 +6505,11 @@ promise-loader@1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/promise-loader/-/promise-loader-1.0.0.tgz#6fc7c8529c1fdfc497bef5fe7448bb61af9546cc"
 
-promise@^7.1.1:
+promise.pipe@^3.0.0:
+  version "3.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/promise.pipe/-/promise.pipe-3.0.0.tgz#b8f729867f54353996e6d8e86f3bbd56882e32a6"
+
+"promise@>=3.2 <8", promise@^7.1.1:
   version "7.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/promise/-/promise-7.1.1.tgz#489654c692616b8aa55b0724fa809bb7db49c5bf"
   dependencies:
@@ -6262,6 +6568,16 @@ prr@~0.0.0:
 pseudomap@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
+
+public-encrypt@^4.0.0:
+  version "4.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/public-encrypt/-/public-encrypt-4.0.0.tgz#39f699f3a46560dd5ebacbca693caf7c65c18cc6"
+  dependencies:
+    bn.js "^4.1.0"
+    browserify-rsa "^4.0.0"
+    create-hash "^1.1.0"
+    parse-asn1 "^5.0.0"
+    randombytes "^2.0.1"
 
 punycode@1.3.2:
   version "1.3.2"
@@ -6325,6 +6641,10 @@ randomatic@^1.1.3:
     is-number "^2.0.2"
     kind-of "^3.0.2"
 
+randombytes@^2.0.0, randombytes@^2.0.1:
+  version "2.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/randombytes/-/randombytes-2.0.3.tgz#674c99760901c3c4112771a31e521dc349cc09ec"
+
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
@@ -6333,7 +6653,7 @@ raw-loader@^0.5.1:
   version "0.5.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
 
-rc@^1.0.1, rc@^1.1.2, rc@^1.1.7:
+rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.1.7:
   version "1.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
   dependencies:
@@ -6637,12 +6957,21 @@ readline2@^1.0.1:
     is-fullwidth-code-point "^1.0.0"
     mute-stream "0.0.5"
 
-realize-package-specifier@~3.0.1, realize-package-specifier@~3.0.3:
+realize-package-specifier@~3.0.3:
   version "3.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/realize-package-specifier/-/realize-package-specifier-3.0.3.tgz#d0def882952b8de3f67eba5e91199661271f41f4"
   dependencies:
     dezalgo "^1.0.1"
     npm-package-arg "^4.1.1"
+
+recast@~0.11.12:
+  version "0.11.23"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/recast/-/recast-0.11.23.tgz#451fd3004ab1e4df9b4e4b66376b2a21912462d3"
+  dependencies:
+    ast-types "0.9.6"
+    esprima "~3.1.0"
+    private "~0.1.5"
+    source-map "~0.5.0"
 
 rechoir@^0.6.2:
   version "0.6.2"
@@ -6700,6 +7029,14 @@ regex-cache@^0.4.2:
     is-equal-shallow "^0.1.3"
     is-primitive "^2.0.0"
 
+regexpu-core@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/regexpu-core/-/regexpu-core-1.0.0.tgz#86a763f58ee4d7c2f6b102e4764050de7ed90c6b"
+  dependencies:
+    regenerate "^1.2.1"
+    regjsgen "^0.2.0"
+    regjsparser "^0.1.4"
+
 regexpu-core@^2.0.0:
   version "2.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/regexpu-core/-/regexpu-core-2.0.0.tgz#49d038837b8dcf8bfa5b9a42139938e6ea2ae240"
@@ -6708,7 +7045,14 @@ regexpu-core@^2.0.0:
     regjsgen "^0.2.0"
     regjsparser "^0.1.4"
 
-registry-url@^3.0.0:
+registry-auth-token@^3.0.1:
+  version "3.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/registry-auth-token/-/registry-auth-token-3.3.1.tgz#fb0d3289ee0d9ada2cbb52af5dfe66cb070d3006"
+  dependencies:
+    rc "^1.1.6"
+    safe-buffer "^5.0.1"
+
+registry-url@^3.0.0, registry-url@^3.0.3:
   version "3.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/registry-url/-/registry-url-3.1.0.tgz#3d4ef870f73dde1d77f0cf9a381432444e174942"
   dependencies:
@@ -6783,32 +7127,6 @@ request@2, "request@>= 2.44.0 < 3.0.0", request@^2.72.0, request@^2.74.0, reques
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-request@~2.74.0:
-  version "2.74.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/request/-/request-2.74.0.tgz#7693ca768bbb0ea5c8ce08c084a45efa05b892ab"
-  dependencies:
-    aws-sign2 "~0.6.0"
-    aws4 "^1.2.1"
-    bl "~1.1.2"
-    caseless "~0.11.0"
-    combined-stream "~1.0.5"
-    extend "~3.0.0"
-    forever-agent "~0.6.1"
-    form-data "~1.0.0-rc4"
-    har-validator "~2.0.6"
-    hawk "~3.1.3"
-    http-signature "~1.1.0"
-    is-typedarray "~1.0.0"
-    isstream "~0.1.2"
-    json-stringify-safe "~5.0.1"
-    mime-types "~2.1.7"
-    node-uuid "~1.4.7"
-    oauth-sign "~0.8.1"
-    qs "~6.2.0"
-    stringstream "~0.0.4"
-    tough-cookie "~2.3.0"
-    tunnel-agent "~0.4.1"
-
 request@~2.75.0:
   version "2.75.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/request/-/request-2.75.0.tgz#d2b8268a286da13eaa5d01adf5d18cc90f657d93"
@@ -6839,9 +7157,17 @@ require-dir@^0.3.0:
   version "0.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/require-dir/-/require-dir-0.3.1.tgz#b5a8e28bae0343bb0d0cc38ab1f531e1931b264a"
 
+require-directory@^2.1.1:
+  version "2.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
+
 require-from-string@^1.1.0:
   version "1.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/require-from-string/-/require-from-string-1.2.1.tgz#529c9ccef27380adfec9a2f965b649bbee636418"
+
+require-main-filename@^1.0.1:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
 
 require-uncached@^1.0.2:
   version "1.0.3"
@@ -6886,7 +7212,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.2.6, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.5.2, rimraf@^2.6.1:
+rimraf@2, rimraf@^2.2.6, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.5.2, rimraf@^2.5.4, rimraf@^2.6.1:
   version "2.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rimraf/-/rimraf-2.6.1.tgz#c2338ec643df7a1b7fe5c54fa86f57428a55f33d"
   dependencies:
@@ -6912,6 +7238,10 @@ ripemd160@0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ripemd160/-/ripemd160-0.2.0.tgz#2bf198bde167cacfa51c0a928e84b68bbe171fce"
 
+ripemd160@^1.0.0:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ripemd160/-/ripemd160-1.0.1.tgz#93a4bbd4942bc574b69a8fa57c71de10ecca7d6e"
+
 roemitter@^2.0.0:
   version "2.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/roemitter/-/roemitter-2.0.1.tgz#14e58ad3d507f2055c6e77f2c7728e164d8691f7"
@@ -6924,6 +7254,12 @@ run-async@^0.1.0:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/run-async/-/run-async-0.1.0.tgz#c8ad4a5e110661e402a7d21b530e009f25f8e389"
   dependencies:
     once "^1.3.0"
+
+run-async@^2.2.0:
+  version "2.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
+  dependencies:
+    is-promise "^2.1.0"
 
 run-sequence@^1.1.2:
   version "1.2.2"
@@ -6940,6 +7276,10 @@ rx-lite@^3.1.2:
   version "3.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rx-lite/-/rx-lite-3.1.2.tgz#19ce502ca572665f3b647b10939f97fd1615f102"
 
+rx@^4.1.0:
+  version "4.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
+
 rxjs@^5.0.0-beta.11:
   version "5.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rxjs/-/rxjs-5.3.1.tgz#9ecc9e722247e4f4490d30a878577a3740fd0cb7"
@@ -6954,19 +7294,29 @@ safe-json-stringify@~1:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/safe-json-stringify/-/safe-json-stringify-1.0.4.tgz#81a098f447e4bbc3ff3312a243521bc060ef5911"
 
-samsam@1.1.2, samsam@~1.1:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/samsam/-/samsam-1.1.2.tgz#bec11fdc83a9fda063401210e40176c3024d1567"
+samsam@1.x, samsam@^1.1.3:
+  version "1.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/samsam/-/samsam-1.2.1.tgz#edd39093a3184370cb859243b2bdf255e7d8ea67"
 
 sax@~1.2.1:
   version "1.2.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
+
+schema-utils@^0.x:
+  version "0.3.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
+  dependencies:
+    ajv "^5.0.0"
 
 seek-bzip@^1.0.3:
   version "1.0.5"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/seek-bzip/-/seek-bzip-1.0.5.tgz#cfe917cb3d274bcffac792758af53173eb1fabdc"
   dependencies:
     commander "~2.8.1"
+
+select-hose@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
 
 select@^1.1.2:
   version "1.1.2"
@@ -6992,17 +7342,13 @@ semver-utils@^1.1.1:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver-utils/-/semver-utils-1.1.1.tgz#27d92fec34d27cfa42707d3b40d025ae9855f2df"
 
-"semver@2 >=2.2.1 || 3.x || 4 || 5", "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", "semver@4 || 5", semver@5.3.0, "semver@^2.3.0 || 3.x || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
+"semver@2 >=2.2.1 || 3.x || 4 || 5", "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@5.3.0, "semver@^2.3.0 || 3.x || 4 || 5", semver@^5.0.1, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
 "semver@2 || 3 || 4", semver@^4.0.3, semver@^4.1.0:
   version "4.3.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
-
-semver@~5.1.0:
-  version "5.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-5.1.1.tgz#a3292a373e6f3e0798da0b20641b9a9c5bc47e19"
 
 send@0.14.1:
   version "0.14.1"
@@ -7040,12 +7386,6 @@ send@0.14.2:
     range-parser "~1.2.0"
     statuses "~1.3.1"
 
-sentence-case@^1.1.1, sentence-case@^1.1.2:
-  version "1.1.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sentence-case/-/sentence-case-1.1.3.tgz#8034aafc2145772d3abe1509aa42c9e1042dc139"
-  dependencies:
-    lower-case "^1.1.1"
-
 sequencify@~0.0.7:
   version "0.0.7"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sequencify/-/sequencify-0.0.7.tgz#90cff19d02e07027fd767f5ead3e7b95d1e7380c"
@@ -7071,7 +7411,7 @@ serve-static@~1.11.1:
     parseurl "~1.3.1"
     send "0.14.2"
 
-set-blocking@~2.0.0:
+set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
 
@@ -7090,6 +7430,12 @@ setprototypeof@1.0.2:
 sha.js@2.2.6:
   version "2.2.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sha.js/-/sha.js-2.2.6.tgz#17ddeddc5f722fb66501658895461977867315ba"
+
+sha.js@^2.3.6:
+  version "2.4.8"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sha.js/-/sha.js-2.4.8.tgz#37068c2c476b6baf402d14a49c67f597921f634f"
+  dependencies:
+    inherits "^2.0.1"
 
 sha@~2.0.1:
   version "2.0.1"
@@ -7132,14 +7478,18 @@ sinon-chai@^2.8.0:
   version "2.10.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sinon-chai/-/sinon-chai-2.10.0.tgz#6ab3008bb8cae9929e744d766574b4cf35f34b5b"
 
-sinon@^1.14.1:
-  version "1.17.7"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sinon/-/sinon-1.17.7.tgz#4542a4f49ba0c45c05eb2e9dd9d203e2b8efe0bf"
+sinon@^2.2.0:
+  version "2.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sinon/-/sinon-2.2.0.tgz#3b1b42ff5defcbf51a52a62aca6d61171b9fd262"
   dependencies:
-    formatio "1.1.1"
-    lolex "1.3.2"
-    samsam "1.1.2"
-    util ">=0.10.3 <1"
+    diff "^3.1.0"
+    formatio "1.2.0"
+    lolex "^1.6.0"
+    native-promise-only "^0.8.1"
+    path-to-regexp "^1.7.0"
+    samsam "^1.1.3"
+    text-encoding "0.6.4"
+    type-detect "^4.0.0"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -7153,17 +7503,119 @@ slide@^1.1.3, slide@^1.1.5, slide@~1.1.3, slide@~1.1.6:
   version "1.1.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
 
-snake-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snake-case/-/snake-case-1.1.2.tgz#0c2f25e305158d9a18d3d977066187fef8a5a66a"
-  dependencies:
-    sentence-case "^1.1.2"
-
 sntp@1.x.x:
   version "1.0.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"
   dependencies:
     hoek "2.x.x"
+
+snyk-config@1.0.1:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-config/-/snyk-config-1.0.1.tgz#f27aec2498b24027ac719214026521591111508f"
+  dependencies:
+    debug "^2.2.0"
+    nconf "^0.7.2"
+    path-is-absolute "^1.0.0"
+
+snyk-module@1.8.1, snyk-module@^1.6.0, snyk-module@^1.8.1:
+  version "1.8.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-module/-/snyk-module-1.8.1.tgz#31d5080fb1c0dfd6fa8567dd34a523fd02bf1fca"
+  dependencies:
+    debug "^2.2.0"
+    hosted-git-info "^2.1.4"
+
+snyk-policy@1.7.1:
+  version "1.7.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-policy/-/snyk-policy-1.7.1.tgz#e413b6bd4af6050c5e5f445287909e4e98a09b22"
+  dependencies:
+    debug "^2.2.0"
+    es6-promise "^3.1.2"
+    js-yaml "^3.5.3"
+    lodash.clonedeep "^4.3.1"
+    semver "^5.1.0"
+    snyk-module "^1.8.1"
+    snyk-resolve "^1.0.0"
+    snyk-try-require "^1.1.1"
+    then-fs "^2.0.0"
+
+snyk-recursive-readdir@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-recursive-readdir/-/snyk-recursive-readdir-2.0.0.tgz#5cb59e94698169e0205a60e7d6a506d0b4d52ff3"
+  dependencies:
+    minimatch "3.0.2"
+
+snyk-resolve-deps@1.7.0:
+  version "1.7.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-resolve-deps/-/snyk-resolve-deps-1.7.0.tgz#13743a058437dff890baaf437c333c966a743cb6"
+  dependencies:
+    abbrev "^1.0.7"
+    ansicolors "^0.3.2"
+    clite "^0.3.0"
+    debug "^2.2.0"
+    es6-promise "^3.0.2"
+    lodash "^4.0.0"
+    lru-cache "^4.0.0"
+    minimist "^1.2.0"
+    semver "^5.1.0"
+    snyk-module "^1.6.0"
+    snyk-resolve "^1.0.0"
+    snyk-tree "^1.0.0"
+    snyk-try-require "^1.1.1"
+    then-fs "^2.0.0"
+
+snyk-resolve@1.0.0, snyk-resolve@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-resolve/-/snyk-resolve-1.0.0.tgz#bbe9196d37f57c39251e6be75ccdd5b2097e99a2"
+  dependencies:
+    debug "^2.2.0"
+    then-fs "^2.0.0"
+
+snyk-tree@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-tree/-/snyk-tree-1.0.0.tgz#0fb73176dbf32e782f19100294160448f9111cc8"
+  dependencies:
+    archy "^1.0.0"
+
+snyk-try-require@^1.1.1, snyk-try-require@^1.2.0:
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk-try-require/-/snyk-try-require-1.2.0.tgz#30fc2b11c07064591ee35780c826be91312f2144"
+  dependencies:
+    debug "^2.2.0"
+    es6-promise "^3.1.2"
+    lodash.clonedeep "^4.3.0"
+    lru-cache "^4.0.0"
+    then-fs "^2.0.0"
+
+snyk@^1.25.1:
+  version "1.30.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/snyk/-/snyk-1.30.0.tgz#a323809ea477d6aff0e325f5995cb491c0d7ca3d"
+  dependencies:
+    abbrev "^1.0.7"
+    ansi-escapes "^1.3.0"
+    chalk "^1.1.1"
+    configstore "^1.2.0"
+    debug "^2.2.0"
+    es6-promise "^3.0.2"
+    hasbin "^1.2.3"
+    inquirer "1.0.3"
+    open "^0.0.5"
+    os-name "^1.0.3"
+    request "^2.74.0"
+    semver "^5.1.0"
+    snyk-config "1.0.1"
+    snyk-module "1.8.1"
+    snyk-policy "1.7.1"
+    snyk-recursive-readdir "^2.0.0"
+    snyk-resolve "1.0.0"
+    snyk-resolve-deps "1.7.0"
+    snyk-tree "^1.0.0"
+    snyk-try-require "^1.2.0"
+    tempfile "^1.1.1"
+    then-fs "^2.0.0"
+    undefsafe "0.0.3"
+    update-notifier "^0.5.0"
+    url "^0.11.0"
+    uuid "^3.0.1"
 
 socket.io-client@1.7.1:
   version "1.7.1"
@@ -7201,18 +7653,18 @@ sockjs-client@1.0.1:
     json3 "^3.3.2"
     url-parse "^1.0.1"
 
-sockjs-client@^1.0.3:
-  version "1.1.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sockjs-client/-/sockjs-client-1.1.4.tgz#5babe386b775e4cf14e7520911452654016c8b12"
+sockjs-client@1.1.2:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sockjs-client/-/sockjs-client-1.1.2.tgz#f0212a8550e4c9468c8cceaeefd2e3493c033ad5"
   dependencies:
-    debug "^2.6.6"
+    debug "^2.2.0"
     eventsource "0.1.6"
     faye-websocket "~0.11.0"
     inherits "^2.0.1"
     json3 "^3.3.2"
-    url-parse "^1.1.8"
+    url-parse "^1.1.1"
 
-sockjs@^0.3.15:
+sockjs@0.3.18:
   version "0.3.18"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sockjs/-/sockjs-0.3.18.tgz#d9b289316ca7df77595ef299e075f0f937eb4207"
   dependencies:
@@ -7225,18 +7677,23 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
-sorted-object@~2.0.0, sorted-object@~2.0.1:
+sorted-object@~2.0.1:
   version "2.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sorted-object/-/sorted-object-2.0.1.tgz#7d631f4bd3a798a24af1dffcfbfe83337a5df5fc"
 
-source-list-map@^0.1.4, source-list-map@~0.1.7:
+source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-list-map/-/source-list-map-0.1.8.tgz#c550b2ab5427f6b3f21f5afead88c4f5587b2106"
 
-source-map-explorer@1.3.0:
-  version "1.3.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map-explorer/-/source-map-explorer-1.3.0.tgz#5e58ab92a6273b555f904cb583a8d82bc8b49212"
+source-list-map@^1.1.1:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-list-map/-/source-list-map-1.1.2.tgz#9889019d1024cce55cdc069498337ef6186a11a1"
+
+source-map-explorer@1.3.3:
+  version "1.3.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map-explorer/-/source-map-explorer-1.3.3.tgz#ff15cb038465fb652e57fa54ecd103f51e01bc43"
   dependencies:
+    btoa "^1.1.2"
     convert-source-map "^1.1.1"
     docopt "^0.6.2"
     file-url "^1.0.1"
@@ -7251,35 +7708,17 @@ source-map-support@^0.4.2:
   dependencies:
     source-map "^0.5.6"
 
-source-map@0.1.34:
-  version "0.1.34"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map/-/source-map-0.1.34.tgz#a7cfe89aec7b1682c3b198d0acfb47d7d090566b"
-  dependencies:
-    amdefine ">=0.0.4"
-
-source-map@0.1.x, "source-map@>=0.1.43 <0.2":
-  version "0.1.43"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
-  dependencies:
-    amdefine ">=0.0.4"
-
-source-map@^0.5.0, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1, source-map@~0.5.3:
+source-map@0.5.x, source-map@^0.5.0, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
   version "0.5.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
-
-source-map@~0.4.1:
-  version "0.4.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
-  dependencies:
-    amdefine ">=0.0.4"
 
 sparkles@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/sparkles/-/sparkles-1.0.0.tgz#1acbbfb592436d10bbe8f785b7cc6f82815012c3"
 
-spawn-please@^0.1.0:
-  version "0.1.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spawn-please/-/spawn-please-0.1.0.tgz#d4113ad6582445d076d1099997f0b250d7ddbaac"
+spawn-please@^0.2.0:
+  version "0.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spawn-please/-/spawn-please-0.2.0.tgz#bdd85991b80409f9c0dac709bc44a0a318a9760d"
 
 spdx-correct@~1.0.0:
   version "1.0.2"
@@ -7291,9 +7730,29 @@ spdx-expression-parse@~1.0.0:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spdx-expression-parse/-/spdx-expression-parse-1.0.4.tgz#9bdf2f20e1f40ed447fbe273266191fced51626c"
 
-spdx-license-ids@^1.0.2, spdx-license-ids@~1.2.2:
+spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
+
+spdy-transport@^2.0.15:
+  version "2.0.18"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spdy-transport/-/spdy-transport-2.0.18.tgz#43fc9c56be2cccc12bb3e2754aa971154e836ea6"
+  dependencies:
+    debug "^2.2.0"
+    hpack.js "^2.1.6"
+    obuf "^1.1.0"
+    readable-stream "^2.0.1"
+    wbuf "^1.4.0"
+
+spdy@^3.4.1:
+  version "3.4.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/spdy/-/spdy-3.4.4.tgz#e0406407ca90ff01b553eb013505442649f5a819"
+  dependencies:
+    debug "^2.2.0"
+    handle-thing "^1.2.4"
+    http-deceiver "^1.2.4"
+    select-hose "^2.0.0"
+    spdy-transport "^2.0.15"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
@@ -7352,10 +7811,6 @@ stream-browserify@^2.0.1:
     inherits "~2.0.1"
     readable-stream "^2.0.2"
 
-stream-cache@~0.0.1:
-  version "0.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/stream-cache/-/stream-cache-0.0.2.tgz#1ac5ad6832428ca55667dbdee395dad4e6db118f"
-
 stream-combiner2@^1.1.1:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/stream-combiner2/-/stream-combiner2-1.1.1.tgz#fb4d8a1420ea362764e21ad4780397bebcb41cbe"
@@ -7399,7 +7854,7 @@ string-length@^1.0.0:
   dependencies:
     strip-ansi "^3.0.0"
 
-string-width@^1.0.1:
+string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
   dependencies:
@@ -7501,11 +7956,11 @@ strip-outer@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-style-loader@^0.8.3:
-  version "0.8.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/style-loader/-/style-loader-0.8.3.tgz#f4f92eb7db63768748f15065cd6700f5a1c85357"
+style-loader@^0.17.0:
+  version "0.17.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/style-loader/-/style-loader-0.17.0.tgz#e8254bccdb7af74bd58274e36107b4d5ab4df310"
   dependencies:
-    loader-utils "^0.2.5"
+    loader-utils "^1.0.2"
 
 sum-up@^1.0.1:
   version "1.0.3"
@@ -7513,9 +7968,11 @@ sum-up@^1.0.1:
   dependencies:
     chalk "^1.0.0"
 
-supports-color@1.2.0:
-  version "1.2.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/supports-color/-/supports-color-1.2.0.tgz#ff1ed1e61169d06b3cf2d588e188b18d8847e17e"
+supports-color@3.1.2, supports-color@^3.1.0, supports-color@^3.1.1:
+  version "3.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
+  dependencies:
+    has-flag "^1.0.0"
 
 supports-color@^0.2.0:
   version "0.2.0"
@@ -7525,23 +7982,11 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.0, supports-color@^3.1.1, supports-color@^3.2.3:
+supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
-
-svgo@^0.6.0:
-  version "0.6.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/svgo/-/svgo-0.6.6.tgz#b340889036f20f9b447543077d0f5573ed044c08"
-  dependencies:
-    coa "~1.0.1"
-    colors "~1.1.2"
-    csso "~2.0.0"
-    js-yaml "~3.6.0"
-    mkdirp "~0.5.1"
-    sax "~1.2.1"
-    whet.extend "~0.9.9"
 
 svgo@^0.7.0:
   version "0.7.2"
@@ -7554,13 +7999,6 @@ svgo@^0.7.0:
     mkdirp "~0.5.1"
     sax "~1.2.1"
     whet.extend "~0.9.9"
-
-swap-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/swap-case/-/swap-case-1.1.2.tgz#c39203a4587385fad3c850a0bd1bcafa081974e3"
-  dependencies:
-    lower-case "^1.1.1"
-    upper-case "^1.1.1"
 
 symbol-observable@^1.0.1:
   version "1.0.4"
@@ -7577,9 +8015,9 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
-tapable@^0.1.8, tapable@~0.1.8:
-  version "0.1.10"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tapable/-/tapable-0.1.10.tgz#29c35707c2b70e50d07482b5d202e8ed446dafd4"
+tapable@^0.2.5, tapable@~0.2.5:
+  version "0.2.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tapable/-/tapable-0.2.6.tgz#206be8e188860b514425375e6f1ae89bfb01fd8d"
 
 tar-pack@^3.4.0:
   version "3.4.0"
@@ -7618,16 +8056,26 @@ temp@^0.8.3:
     os-tmpdir "^1.0.0"
     rimraf "~2.2.6"
 
-tempfile@^1.0.0:
+tempfile@^1.0.0, tempfile@^1.1.1:
   version "1.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tempfile/-/tempfile-1.1.1.tgz#5bcc4eaecc4ab2c707d8bc11d99ccc9a2cb287f2"
   dependencies:
     os-tmpdir "^1.0.0"
     uuid "^2.0.1"
 
+text-encoding@0.6.4:
+  version "0.6.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
+
 text-table@~0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
+
+then-fs@^2.0.0:
+  version "2.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/then-fs/-/then-fs-2.0.0.tgz#72f792dd9d31705a91ae19ebfcf8b3f968c81da2"
+  dependencies:
+    promise ">=3.2 <8"
 
 three@^0.85.0:
   version "0.85.2"
@@ -7654,7 +8102,7 @@ through2@^2.0.0, through2@~2.0.0:
     readable-stream "^2.1.5"
     xtend "~4.0.1"
 
-through@^2.3.6:
+through@^2.3.6, through@~2.3.6:
   version "2.3.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
@@ -7692,13 +8140,6 @@ tiny-emitter@^1.0.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tiny-emitter/-/tiny-emitter-1.2.0.tgz#6dc845052cb08ebefc1874723b58f24a648c3b6f"
 
-title-case@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/title-case/-/title-case-1.1.2.tgz#fae4a6ae546bfa22d083a0eea910a40d12ed4f5a"
-  dependencies:
-    sentence-case "^1.1.1"
-    upper-case "^1.0.3"
-
 to-absolute-glob@^0.1.1:
   version "0.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/to-absolute-glob/-/to-absolute-glob-0.1.1.tgz#1cdfa472a9ef50c239ee66999b662ca0eb39937f"
@@ -7716,10 +8157,6 @@ to-arraybuffer@^1.0.0:
 to-fast-properties@^1.0.1:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
-
-to-iso-string@0.0.2:
-  version "0.0.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/to-iso-string/-/to-iso-string-0.0.2.tgz#4dc19e664dfccbe25bd8db508b00c6da158255d1"
 
 tough-cookie@~2.3.0:
   version "2.3.2"
@@ -7781,6 +8218,10 @@ type-detect@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
+type-detect@^4.0.0:
+  version "4.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/type-detect/-/type-detect-4.0.3.tgz#0e3f2670b44099b0b46c284d136a7ef49c74c2ea"
+
 type-is@~1.6.13:
   version "1.6.15"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/type-is/-/type-is-1.6.15.tgz#cab10fb4909e441c82842eafe1ad646c81804410"
@@ -7788,7 +8229,7 @@ type-is@~1.6.13:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-typedarray@^0.0.6, typedarray@~0.0.5:
+typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
@@ -7796,27 +8237,18 @@ ua-parser-js@^0.7.9:
   version "0.7.12"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
-uc.micro@^1.0.1:
+uc.micro@^1.0.1, uc.micro@^1.0.3:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
 
-uglify-js@2.4.x:
-  version "2.4.24"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uglify-js/-/uglify-js-2.4.24.tgz#fad5755c1e1577658bb06ff9ab6e548c95bebd6e"
+uglify-js@^2.8.5, uglify-js@~2.8.22:
+  version "2.8.23"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uglify-js/-/uglify-js-2.8.23.tgz#8230dd9783371232d62a7821e2cf9a817270a8a0"
   dependencies:
-    async "~0.2.6"
-    source-map "0.1.34"
-    uglify-to-browserify "~1.0.0"
-    yargs "~3.5.4"
-
-uglify-js@~2.7.3:
-  version "2.7.5"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uglify-js/-/uglify-js-2.7.5.tgz#4612c0c7baaee2ba7c487de4904ae122079f2ca8"
-  dependencies:
-    async "~0.2.6"
     source-map "~0.5.1"
-    uglify-to-browserify "~1.0.0"
     yargs "~3.10.0"
+  optionalDependencies:
+    uglify-to-browserify "~1.0.0"
 
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
@@ -7837,6 +8269,10 @@ umask@~1.1.0:
 unc-path-regex@^0.1.0:
   version "0.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
+
+undefsafe@0.0.3:
+  version "0.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/undefsafe/-/undefsafe-0.0.3.tgz#ecca3a03e56b9af17385baac812ac83b994a962f"
 
 underscore@^1.8.3:
   version "1.8.3"
@@ -7899,13 +8335,31 @@ update-notifier@^0.5.0:
     semver-diff "^2.0.0"
     string-length "^1.0.0"
 
-upper-case-first@^1.1.0:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/upper-case-first/-/upper-case-first-1.1.2.tgz#5d79bedcff14419518fd2edb0a0507c9b6859115"
+update-notifier@^0.6.0:
+  version "0.6.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/update-notifier/-/update-notifier-0.6.3.tgz#776dec8daa13e962a341e8a1d98354306b67ae08"
   dependencies:
-    upper-case "^1.1.1"
+    boxen "^0.3.1"
+    chalk "^1.0.0"
+    configstore "^2.0.0"
+    is-npm "^1.0.0"
+    latest-version "^2.0.0"
+    semver-diff "^2.0.0"
 
-upper-case@^1.0.3, upper-case@^1.1.0, upper-case@^1.1.1:
+update-notifier@^1.0.2:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/update-notifier/-/update-notifier-1.0.3.tgz#8f92c515482bd6831b7c93013e70f87552c7cf5a"
+  dependencies:
+    boxen "^0.6.0"
+    chalk "^1.0.0"
+    configstore "^2.0.0"
+    is-npm "^1.0.0"
+    latest-version "^2.0.0"
+    lazy-req "^1.1.0"
+    semver-diff "^2.0.0"
+    xdg-basedir "^2.0.0"
+
+upper-case@^1.1.1:
   version "1.1.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/upper-case/-/upper-case-1.1.3.tgz#f6b4501c2ec4cdd26ba78be7222961de77621598"
 
@@ -7929,7 +8383,7 @@ url-parse@1.0.x:
     querystringify "0.0.x"
     requires-port "1.0.x"
 
-url-parse@^1.0.1, url-parse@^1.1.8:
+url-parse@^1.0.1, url-parse@^1.1.1:
   version "1.1.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/url-parse/-/url-parse-1.1.8.tgz#7a65b3a8d57a1e86af6b4e2276e34774167c0156"
   dependencies:
@@ -7974,7 +8428,7 @@ util-extend@^1.0.1:
   version "1.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/util-extend/-/util-extend-1.0.3.tgz#a7c216d267545169637b3b6edc6ca9119e2ff93f"
 
-util@0.10.3, "util@>=0.10.3 <1", util@^0.10.3, util@~0.10.3:
+util@0.10.3, util@^0.10.3, util@~0.10.3:
   version "0.10.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/util/-/util-0.10.3.tgz#7afb1afe50805246489e3db7fe0ed379336ac0f9"
   dependencies:
@@ -7988,7 +8442,7 @@ uuid@^2.0.1, uuid@^2.0.2:
   version "2.0.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
-uuid@^3.0.0:
+uuid@^3.0.0, uuid@^3.0.1:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
@@ -8009,7 +8463,7 @@ vali-date@^1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/vali-date/-/vali-date-1.0.0.tgz#1b904a59609fb328ef078138420934f6b86709a6"
 
-validate-npm-package-license@^3.0.1, validate-npm-package-license@~3.0.1:
+validate-npm-package-license@^3.0.1:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/validate-npm-package-license/-/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
   dependencies:
@@ -8062,7 +8516,7 @@ vinyl-fs@^0.3.0:
     through2 "^0.6.1"
     vinyl "^0.4.0"
 
-vinyl-fs@^2.1.1, vinyl-fs@^2.2.0:
+vinyl-fs@^2.2.0:
   version "2.4.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/vinyl-fs/-/vinyl-fs-2.4.4.tgz#be6ff3270cb55dfd7d3063640de81f25d7532239"
   dependencies:
@@ -8137,26 +8591,25 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-watchpack@^0.2.1:
-  version "0.2.9"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/watchpack/-/watchpack-0.2.9.tgz#62eaa4ab5e5ba35fdfc018275626e3c0f5e3fb0b"
+watchpack@^1.3.1:
+  version "1.3.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/watchpack/-/watchpack-1.3.1.tgz#7d8693907b28ce6013e7f3610aa2a1acf07dad87"
   dependencies:
-    async "^0.9.0"
-    chokidar "^1.0.0"
+    async "^2.1.2"
+    chokidar "^1.4.3"
     graceful-fs "^4.1.2"
+
+wbuf@^1.1.0, wbuf@^1.4.0:
+  version "1.7.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
+  dependencies:
+    minimalistic-assert "^1.0.0"
 
 wcwidth@^1.0.0:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
   dependencies:
     defaults "^1.0.3"
-
-webpack-core@~0.6.9:
-  version "0.6.9"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack-core/-/webpack-core-0.6.9.tgz#fc571588c8558da77be9efb6debdc5a3b172bdc2"
-  dependencies:
-    source-list-map "~0.1.7"
-    source-map "~0.4.1"
 
 webpack-dev-middleware@^1.10.2:
   version "1.10.2"
@@ -8167,23 +8620,27 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^1.7.0:
-  version "1.16.5"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack-dev-server/-/webpack-dev-server-1.16.5.tgz#0cbd5f2d2ac8d4e593aacd5c9702e7bbd5e59892"
+webpack-dev-server@^2.4.5:
+  version "2.4.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack-dev-server/-/webpack-dev-server-2.4.5.tgz#31384ce81136be1080b4b4cde0eb9b90e54ee6cf"
   dependencies:
+    ansi-html "0.0.7"
+    chokidar "^1.6.0"
     compression "^1.5.2"
     connect-history-api-fallback "^1.3.0"
     express "^4.13.3"
-    http-proxy-middleware "~0.17.1"
-    open "0.0.5"
-    optimist "~0.6.1"
+    html-entities "^1.2.0"
+    http-proxy-middleware "~0.17.4"
+    opn "4.0.2"
+    portfinder "^1.0.9"
     serve-index "^1.7.2"
-    sockjs "^0.3.15"
-    sockjs-client "^1.0.3"
-    stream-cache "~0.0.1"
+    sockjs "0.3.18"
+    sockjs-client "1.1.2"
+    spdy "^3.4.1"
     strip-ansi "^3.0.0"
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.10.2"
+    yargs "^6.0.0"
 
 webpack-sources@^0.1.0:
   version "0.1.5"
@@ -8192,25 +8649,38 @@ webpack-sources@^0.1.0:
     source-list-map "~0.1.7"
     source-map "~0.5.3"
 
-webpack@^1.5.3:
-  version "1.15.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack/-/webpack-1.15.0.tgz#4ff31f53db03339e55164a9d468ee0324968fe98"
+webpack-sources@^0.2.3:
+  version "0.2.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack-sources/-/webpack-sources-0.2.3.tgz#17c62bfaf13c707f9d02c479e0dcdde8380697fb"
   dependencies:
-    acorn "^3.0.0"
-    async "^1.3.0"
-    clone "^1.0.2"
-    enhanced-resolve "~0.9.0"
-    interpret "^0.6.4"
-    loader-utils "^0.2.11"
-    memory-fs "~0.3.0"
+    source-list-map "^1.1.1"
+    source-map "~0.5.3"
+
+webpack@^2.5.1:
+  version "2.5.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/webpack/-/webpack-2.5.1.tgz#61742f0cf8af555b87460a9cd8bba2f1e3ee2fce"
+  dependencies:
+    acorn "^5.0.0"
+    acorn-dynamic-import "^2.0.0"
+    ajv "^4.7.0"
+    ajv-keywords "^1.1.1"
+    async "^2.1.2"
+    enhanced-resolve "^3.0.0"
+    interpret "^1.0.0"
+    json-loader "^0.5.4"
+    json5 "^0.5.1"
+    loader-runner "^2.3.0"
+    loader-utils "^0.2.16"
+    memory-fs "~0.4.1"
     mkdirp "~0.5.0"
-    node-libs-browser "^0.7.0"
-    optimist "~0.6.0"
+    node-libs-browser "^2.0.0"
+    source-map "^0.5.3"
     supports-color "^3.1.0"
-    tapable "~0.1.8"
-    uglify-js "~2.7.3"
-    watchpack "^0.2.1"
-    webpack-core "~0.6.9"
+    tapable "~0.2.5"
+    uglify-js "^2.8.5"
+    watchpack "^1.3.1"
+    webpack-sources "^0.2.3"
+    yargs "^6.0.0"
 
 websocket-driver@>=0.3.6, websocket-driver@>=0.5.1:
   version "0.6.5"
@@ -8230,6 +8700,10 @@ whet.extend@~0.9.9:
   version "0.9.9"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/whet.extend/-/whet.extend-0.9.9.tgz#f877d5bf648c97e5aa542fadc16d6a259b9c11a1"
 
+which-module@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/which-module/-/which-module-1.0.0.tgz#bba63ca861948994ff307736089e3b96026c2a4f"
+
 which@1, which@^1.2.10, which@^1.2.12, which@^1.2.9, which@~1.2.11:
   version "1.2.14"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/which/-/which-1.2.14.tgz#9a87c4378f03e827cecaf1acdf56c736c01c14e5"
@@ -8242,21 +8716,44 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.1"
 
+widest-line@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/widest-line/-/widest-line-1.0.0.tgz#0c09c85c2a94683d0d7eaf8ee097d564bf0e105c"
+  dependencies:
+    string-width "^1.0.1"
+
+win-release@^1.0.0:
+  version "1.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/win-release/-/win-release-1.1.1.tgz#5fa55e02be7ca934edfc12665632e849b72e5209"
+  dependencies:
+    semver "^5.0.1"
+
 window-size@0.1.0:
   version "0.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
+
+window-size@^0.1.1:
+  version "0.1.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/window-size/-/window-size-0.1.4.tgz#f8e1aa1ee5a53ec5bf151ffa09742a6ad7697876"
+
+window-size@^0.2.0:
+  version "0.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/window-size/-/window-size-0.2.0.tgz#b4315bb4214a3d7058ebeee892e13fa24d98b075"
 
 wordwrap@0.0.2:
   version "0.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
 
-wordwrap@~0.0.2:
-  version "0.0.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
-
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+wrap-ansi@^2.0.0:
+  version "2.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/wrap-ansi/-/wrap-ansi-2.1.0.tgz#d8fc3d284dd05794fe84973caecdd1cf824fdd85"
+  dependencies:
+    string-width "^1.0.1"
+    strip-ansi "^3.0.1"
 
 wrap-fn@^0.1.0:
   version "0.1.5"
@@ -8271,14 +8768,6 @@ wrappy@1, wrappy@~1.0.2:
 write-file-atomic@^1.1.2, write-file-atomic@~1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/write-file-atomic/-/write-file-atomic-1.2.0.tgz#14c66d4e4cb3ca0565c28cf3b7a6f3e4d5938fab"
-  dependencies:
-    graceful-fs "^4.1.2"
-    imurmurhash "^0.1.4"
-    slide "^1.1.5"
-
-write-file-atomic@~1.1.4:
-  version "1.1.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/write-file-atomic/-/write-file-atomic-1.1.4.tgz#b1f52dc2e8dc0e3cb04d187a25f758a38a90ca3b"
   dependencies:
     graceful-fs "^4.1.2"
     imurmurhash "^0.1.4"
@@ -8307,6 +8796,10 @@ xdg-basedir@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
+xml-char-classes@^1.0.0:
+  version "1.0.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/xml-char-classes/-/xml-char-classes-1.0.0.tgz#64657848a20ffc5df583a42ad8a277b4512bbc4d"
+
 xmlhttprequest-ssl@1.5.3:
   version "1.5.3"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.3.tgz#185a888c04eca46c3e4070d99f7b49de3528992d"
@@ -8319,9 +8812,63 @@ xmlhttprequest-ssl@1.5.3:
   version "4.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
+y18n@^3.2.1:
+  version "3.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
+
 yallist@^2.0.0:
   version "2.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
+
+yargs-parser@^2.4.1:
+  version "2.4.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs-parser/-/yargs-parser-2.4.1.tgz#85568de3cf150ff49fa51825f03a8c880ddcc5c4"
+  dependencies:
+    camelcase "^3.0.0"
+    lodash.assign "^4.0.6"
+
+yargs-parser@^4.2.0:
+  version "4.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs-parser/-/yargs-parser-4.2.1.tgz#29cceac0dc4f03c6c87b4a9f217dd18c9f74871c"
+  dependencies:
+    camelcase "^3.0.0"
+
+yargs@^4.3.2:
+  version "4.8.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs/-/yargs-4.8.1.tgz#c0c42924ca4aaa6b0e6da1739dfb216439f9ddc0"
+  dependencies:
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    lodash.assign "^4.0.3"
+    os-locale "^1.4.0"
+    read-pkg-up "^1.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^1.0.1"
+    which-module "^1.0.0"
+    window-size "^0.2.0"
+    y18n "^3.2.1"
+    yargs-parser "^2.4.1"
+
+yargs@^6.0.0:
+  version "6.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs/-/yargs-6.6.0.tgz#782ec21ef403345f830a808ca3d513af56065208"
+  dependencies:
+    camelcase "^3.0.0"
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    os-locale "^1.4.0"
+    read-pkg-up "^1.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^1.0.2"
+    which-module "^1.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^4.2.0"
 
 yargs@~3.10.0:
   version "3.10.0"
@@ -8332,14 +8879,14 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yargs@~3.5.4:
-  version "3.5.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs/-/yargs-3.5.4.tgz#d8aff8f665e94c34bd259bdebd1bfaf0ddd35361"
+yargs@~3.15.0:
+  version "3.15.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yargs/-/yargs-3.15.0.tgz#3d9446ef21fb3791b3985690662e4b9683c7f181"
   dependencies:
     camelcase "^1.0.2"
+    cliui "^2.1.0"
     decamelize "^1.0.0"
-    window-size "0.1.0"
-    wordwrap "0.0.2"
+    window-size "^0.1.1"
 
 yauzl@^2.2.1:
   version "2.8.0"

@@ -2,7 +2,6 @@
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -25,51 +24,107 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    loaders: [{
-      test: /\.(css|less)$/i,
-      loader: ExtractTextPlugin.extract('style', 'css!postcss!less', {
+
+    rules: [
+      {
+        test: /\.(ttf|eot|obj)$/i,
+        use: [{loader: 'url-loader?limit=3000'}]
+      },
+      {
+        test: /\.(css|less)$/i,
         // assets will be located next to the CSS file. Thus no need to prefix the path with bundle/
-        publicPath: './'
-      })
-    }, {
-      test: /\.(ttf|eot|obj)$/i,
-      loader: 'url?limit=3000'
-    }, {
-      test: /\.(jpe?g|gif|png|svg)$/i,
-      loader: 'url?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
-    }, {
-      test: /\.glsl$/i,
-      loader: 'raw'
-    }, {
-      test: /\.es6$/i,
-      loader: 'babel'
-    }, {
-      test: /\.yaml$/i,
-      loader: 'raw'
-    }, {
-      test: /\.json$/i,
-      loader: 'json'
-    }, {
-      test: /\.mmd$/,
-      loader: 'json!meta-marked'
-    }, {
-      test: /\.md$/,
-      loader: 'html!markdown'
-    }, {
-      test: /\.woff?$/,
-      loader: 'url?limit=3000&mimetype=application/font-woff'
-    }]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'postcss-loader', options: {
+              sourceMap: true,
+              ident: 'postcss',
+              plugins: () => {
+                return [
+                  require('autoprefixer')({
+                    browsers: [
+                      'last 2 versions'
+                    ]
+                  })
+                ];
+              }
+            }
+            },
+            {
+              loader: 'less-loader'
+            }
+          ],
+          publicPath: './'
+        })
+      },
+      {
+        test: /\.(jpe?g|gif|png|svg)$/i,
+        use: [{loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'}]
+      },
+      {
+        test: /\.glsl$/i,
+        use: [{
+          loader: 'raw-loader'
+        }]
+      }, {
+        test: /\.es6$/i,
+        use: [{
+          loader: 'babel-loader'
+        }]
+      },
+      {
+        test: /\.yaml$/i,
+        use: [{
+          loader: 'raw-loader'
+        }]
+      },
+      {
+        test: /\.json$/i,
+        use: [{
+          loader: 'json-loader'
+        }]
+      },
+      {
+        test: /\.mmd$/,
+        use: [
+          {
+            loader: 'json-loader'
+          },
+          {
+            loader: 'meta-marked-loader'
+          }
+        ]
+      },
+      {
+        test: /\.md$/,
+        use: [{
+          loader: 'html-loader!markdown-loader'
+        }]
+      },
+      {
+        test: /\.woff?$/,
+        use: [{
+          loader: 'url-loader?limit=3000&mimetype=application/font-woff'
+        }]
+      }
+    ]
   },
-  postcss: [
-    autoprefixer({browsers: ['last 2 versions']})
-  ],
   plugins: [
     definePlugin,
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
-    new ExtractTextPlugin('index.css'),
+    new ExtractTextPlugin({
+      filename: 'index.css',
+      disable: false,
+      allChunks: true
+    }),
     new CaseSensitivePathsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.es6', '.ts']
+    extensions: ['.js', '.es6', '.ts']
   }
-};
+}
+;

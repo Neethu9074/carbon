@@ -108,6 +108,7 @@ gulp.task('webpack:build', (callback) => {
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       comments: /\/DONOTKEEPANYCOMMENTS/
     }),
     new webpack.BannerPlugin(buildUtil.getBanner())

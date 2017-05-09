@@ -3,34 +3,36 @@
 import ServiceExtractionRuleConfiguration
   from 'promise?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import ElasticServiceExtractionConfiguration
-  from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration
-  from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration
-  from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import MessageBrokerServiceExtractionConfiguration
-  from 'promise?global,configView!in-views/configurationView/subview/MessageBrokerServiceExtractionConfiguration';
-import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
-import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
-import ObjectivesConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectivesConfig';
-import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
-import ObjectiveConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectiveConfig';
-import ApiTokens from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
-import ApiToken from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
-import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/MessageBrokerServiceExtractionConfiguration';
+import UserManagement
+  from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
+import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
+import ObjectivesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectivesConfig';
+import RoleConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
+import ObjectiveConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectiveConfig';
+import ApiTokens from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
+import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
+import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 
-import RuleBindings from 'promise?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
-import RuleBinding from 'promise?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
-import Rules from 'promise?global,configView!in-views/configurationView/subview/Rules/Rules';
-import Rule from 'promise?global,configView!in-views/configurationView/subview/Rule/Rule';
+import RuleBindings
+  from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
+import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
+import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
+import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
-import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
-import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
-import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
-import TraceView from 'promise?global!in-views/traceView/TraceView';
-import EventView from 'promise?global!in-views/eventView/EventView';
-import TableView from 'promise?global!in-views/tableView/TableView';
-import LogView from 'promise?global!in-views/logView/LogView';
+import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
+import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
+import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
+import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
+import EventView from 'promise-loader?global!in-views/eventView/EventView';
+import TableView from 'promise-loader?global!in-views/tableView/TableView';
+import LogView from 'promise-loader?global!in-views/logView/LogView';
 import { cockpitEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
 import { Route, IndexRedirect } from 'react-router';
