@@ -285,10 +285,7 @@ gulp.task('webpack:dev', () => {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
   config.devtool = 'eval';
-  config.plugins.push(
-    new webpack.LoaderOptionsPlugin({
-      debug: true
-    }));
+  config.debug = true;
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
@@ -304,17 +301,16 @@ gulp.task('webpack:dev', () => {
       colors: true
     }
   })
-    .listen(3000, 'localhost', (err) => {
-      if (err) {
-        throw new gutil.PluginError('webpack-dev-server', err);
-      }
-      gutil.log('[webpack:dev]', 'http://localhost:3000/');
-    });
+  .listen(3000, 'localhost', (err) => {
+    if (err) {
+      throw new gutil.PluginError('webpack-dev-server', err);
+    }
+    gutil.log('[webpack:dev]', 'http://localhost:3000/');
+  });
 
   // return a Promise so that Gulp knows that this task is going to
   // continue to run asynchronously
-  return new Promise(() => {
-  });
+  return new Promise(() => {});
 });
 
 function createWebpackCompiler(config, onReadyCallback) {
@@ -390,13 +386,13 @@ function createWebpackCompiler(config, onReadyCallback) {
       console.log('You may use special comments to disable some warnings.');
       console.log(
         'Use ' +
-        chalk.yellow('// eslint-disable-next-line') +
-        ' to ignore the next line.'
+          chalk.yellow('// eslint-disable-next-line') +
+          ' to ignore the next line.'
       );
       console.log(
         'Use ' +
-        chalk.yellow('/* eslint-disable */') +
-        ' to ignore all warnings in a file.'
+          chalk.yellow('/* eslint-disable */') +
+          ' to ignore all warnings in a file.'
       );
     }
   });
