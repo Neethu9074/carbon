@@ -1,9 +1,9 @@
 import React from 'react';
 
+import FullscreenTwoColumnView from 'in-components/FullscreenTwoColumnView/FullscreenTwoColumnView';
 import TraceDetailHeader from 'in-views/traceView/components/TraceDetailHeader';
 import TraceTableHeader from 'in-views/traceView/components/TraceTableHeader';
 import TraceListHeader from 'in-views/traceView/components/TraceListHeader';
-import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { expandedSide$ } from 'in-views/traceView/stores/expandedSide';
 import { enable, disable } from 'in-views/traceView/stores/traceList';
 import TraceTable from 'in-views/traceView/components/TraceTable';
@@ -14,7 +14,7 @@ export default function TraceView({ children }) {
   return (
     <div>
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
-      <TwoColumnView
+      <FullscreenTwoColumnView
         leftContent={getLeftContent()}
         rightContent={getRightContent()}
         leftWidth="47rem"

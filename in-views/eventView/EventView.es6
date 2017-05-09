@@ -1,12 +1,12 @@
 import React from 'react';
 
+import FullscreenTwoColumnView from 'in-components/FullscreenTwoColumnView/FullscreenTwoColumnView';
+import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetailHeader from 'in-views/eventView/components/EventDetailHeader';
 import EventTableHeader from 'in-views/eventView/components/EventTableHeader';
 import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
-import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetails from 'in-views/eventView/components/EventDetails';
-import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { expandedSide$ } from 'in-views/eventView/stores/expandedSide';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
@@ -16,7 +16,7 @@ export default function EventView({ children }) {
     <div>
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
 
-      <TwoColumnView
+      <FullscreenTwoColumnView
         leftContent={getLeftContent()}
         rightContent={getRightContent()}
         leftWidth="50rem"
