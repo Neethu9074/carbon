@@ -14,6 +14,10 @@ export default function TableHeader() {
       </Header>
 
       <Header>
+        Ordering
+      </Header>
+
+      <Header>
         Enabled
       </Header>
 

@@ -41,6 +41,15 @@ export const TableRow = connectTo(
               width={12}
               color="#172429"
             />
+          </Column>
+
+          <Column>
+            <a href={href}>
+              {name}
+            </a>
+          </Column>
+
+          <Column>
             <SvgIcon
               className={`${block}__order-up`}
               type="chevron_up"
@@ -55,12 +64,6 @@ export const TableRow = connectTo(
               color="#172429"
               onClick={() => moveDown(rule)}
             />
-          </Column>
-
-          <Column>
-            <a href={href}>
-              {name}
-            </a>
           </Column>
 
           <Column>
