@@ -31,17 +31,17 @@ stage('Node Build') {
   def buildSteps = [:]
   buildSteps['test'] = {
     node {
-      runNodeBuild('yarn && yarn run test:unit')
+      runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
     }
   }
   buildSteps['lint'] = {
     node {
-      runNodeBuild('yarn && yarn run test:lint')
+      runNodeBuild(gitCommitId, 'yarn && yarn run test:lint')
     }
   }
   buildSteps['build'] = {
     node {
-      runNodeBuild('yarn && yarn run build')
+      runNodeBuild(gitCommitId, 'yarn && yarn run build')
       sh "tar -czf ${archiveName} target/*"
       stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
     }
@@ -145,7 +145,7 @@ def legacyDeploy(component, target) {
   }
 }
 
-def runNodeBuild(buildCommands) {
+def runNodeBuild(gitCommitId, buildCommands) {
   unstash name: "ui-client-checkout-${gitCommitId}"
   sh '''
     cp ~/.npmrc-private-registry .npmrc
