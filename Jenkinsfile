@@ -130,13 +130,13 @@ def legacyDeploy(component, target) {
   if ( target == "test" ) {
     execEnvironment << "INSTANA_ENVIRONMENT=internal"
     execEnvironment << "INSTANA_TENANT_UNIT=test"
-    execEnvironment << "INSTANA_BACKEND_BRANCH=develop"
+    execEnvironment << "INSTANA_UICLIENT_BRANCH=develop"
     execEnvironment << "INSTANA_EUM_TRACKING_ID=NebQtX9YTPGuKUnrnHUUXA"
   }
   if ( target == "staging" ) {
     execEnvironment << "INSTANA_ENVIRONMENT=staging"
     execEnvironment << "INSTANA_TENANT_UNIT=staging"
-    execEnvironment << "INSTANA_BACKEND_BRANCH=master"
+    execEnvironment << "INSTANA_UICLIENT_BRANCH=master"
     execEnvironment << "INSTANA_EUM_TRACKING_ID=ULOg7DZWRKWfNTSREGeRNg"
   }
 
@@ -153,5 +153,5 @@ def runNodeBuild(gitCommitId, buildCommands) {
       npm install -g yarn
     fi
   '''
-  ssh buildCommands
+  sh buildCommands
 }
