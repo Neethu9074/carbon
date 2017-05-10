@@ -13,7 +13,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import './TableRow.less';
 
-const block = 'in-objectives-table-row';
+const block = 'in-service-extraction-table-row';
 
 export const TableRow = connectTo(
   props => {
