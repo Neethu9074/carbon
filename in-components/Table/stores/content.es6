@@ -4,6 +4,7 @@ import invariant from 'invariant';
 
 import { renderers } from 'in-components/Table/renderers';
 import { getSetting$ } from 'in-services/settings';
+import { compare } from 'in-services/util/string';
 
 let updateFrequencyMillis = 3000;
 getSetting$('tables_refreshRate').subscribe(refreshRate => (updateFrequencyMillis = refreshRate));
@@ -277,7 +278,14 @@ function validateCol(col) {
 }
 
 function buildRowComparatorForIndex(comparator, index) {
-  return (rowA, rowB) => comparator(rowA.columns[index].value, rowB.columns[index].value);
+  return (rowA, rowB) => {
+    const value = comparator(rowA.columns[index].value, rowB.columns[index].value);
+    // sort by key as a second sort criteria so that sorting becomes stable
+    if (value === 0) {
+      return compare(rowA.key, rowB.key);
+    }
+    return value;
+  };
 }
 
 function validateRow(row) {
