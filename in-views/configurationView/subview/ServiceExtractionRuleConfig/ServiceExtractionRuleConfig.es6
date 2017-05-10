@@ -50,6 +50,9 @@ export default class extends React.Component {
 
   render() {
     const { form, rule } = this.state;
+    const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = typeDefinitions[
+      this.props.params.ruleType
+    ];
 
     return (
       <div>
@@ -77,7 +80,9 @@ export default class extends React.Component {
               ? <ServiceExtractionRuleConfigForm
                   ruleForm={form}
                   rule={rule}
-                  ruleType={this.props.params.ruleType}
+                  helpTexts={helpTexts}
+                  matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+                  matchSpecificationOptions={matchSpecificationOptions}
                   onChange={this.onChange}
                   onChangeIn={this.onChangeIn}
                   addMatchSpecification={this.addMatchSpecification}
@@ -92,6 +97,11 @@ export default class extends React.Component {
           serviceRule={rule}
           form={form}
           onChangeIn={this.onChangeIn}
+          helpTexts={helpTexts}
+          matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+          matchSpecificationOptions={matchSpecificationOptions}
+          addMatchSpecification={this.addMatchSpecification}
+          removeMatchSpecification={this.removeMatchSpecification}
           removeEndpointRule={this.removeEndpointRule}
           addEndpointRule={this.addEndpointRule}
         />
@@ -175,16 +185,16 @@ export default class extends React.Component {
     });
   };
 
-  addMatchSpecification = (matchName, initialValue) => {
+  addMatchSpecification = (path, matchName, initialValue) => {
     const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
     this.setState({
-      form: this.state.form.updateIn(['matchSpecification'], item => item.put(matchName, field).setTouched(true))
+      form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true))
     });
   };
 
-  removeMatchSpecification = key => {
+  removeMatchSpecification = (key, path) => {
     this.setState({
-      form: this.state.form.updateIn(['matchSpecification'], item => item.remove(key).setTouched(true))
+      form: this.state.form.updateIn(path, item => item.remove(key).setTouched(true))
     });
   };
 
@@ -217,14 +227,6 @@ export default class extends React.Component {
     const rule = this.state.rule;
     const form = this.state.form;
 
-    const matchSpecificationKeys = form.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort();
-    const matchSpecifications = {};
-    for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
-      matchSpecifications[matchSpecificationKeys[i]] = form
-        .get('matchSpecification')
-        .get(matchSpecificationKeys[i]).value;
-    }
-
     const endpointKeys = form.get('endpointRules').reduce((acc, cur, key) => acc.concat(key), []).sort();
     const endpoints = [];
     for (let i = 0, length = endpointKeys.length; i < length; i++) {
@@ -232,7 +234,11 @@ export default class extends React.Component {
       endpoints.push(
         createEndpointRule({
           id: endpointForm.get('id').value,
-          name: endpointForm.get('name').value
+          name: endpointForm.get('name').value,
+          enabled: form.get('enabled').value,
+          comment: endpointForm.get('comment').value,
+          matchSpecification: getMatchSpecifications(endpointForm),
+          label: endpointForm.get('label').value
         })
       );
     }
@@ -241,13 +247,13 @@ export default class extends React.Component {
       fromJS(
         createServiceRule({
           id: rule ? rule.get('id') : null,
-          enabled: rule ? rule.get('enabled').value : true,
           order: rule.get('order'),
           type: this.props.params.ruleType,
 
           name: form.get('name').value,
+          enabled: form.get('enabled').value,
           comment: form.get('comment').value,
-          matchSpecification: matchSpecifications,
+          matchSpecification: getMatchSpecifications(form),
           endpointRules: endpoints,
           label: form.get('label').value
         })
@@ -276,10 +282,38 @@ export default class extends React.Component {
   };
 }
 
+function getMatchSpecifications(form) {
+  const matchSpecificationKeys = form.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort();
+  const matchSpecifications = {};
+  for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
+    matchSpecifications[matchSpecificationKeys[i]] = form
+      .get('matchSpecification')
+      .get(matchSpecificationKeys[i]).value;
+  }
+  return matchSpecifications;
+}
+
 function createForm(rule) {
+  let form = createBasicRuleForm(rule);
+
+  const endpointRules = rule.get('endpointRules');
+  if (endpointRules) {
+    endpointRules.forEach(endpoint => {
+      form = form.updateIn(['endpointRules'], item => item.put(endpoint.get('id'), createEndpointRuleForm(endpoint)));
+    });
+  }
+  return form;
+}
+
+function createEndpointRuleForm(endpoint) {
+  return createBasicRuleForm(endpoint);
+}
+
+function createBasicRuleForm(rule) {
   let form = createMapForm()
     .put('id', createField({ value: rule.get('id') }))
     .put('name', createField({ value: rule.get('name') || '' }))
+    .put('enabled', createField({ value: rule.get('enabled', true) }))
     .put('comment', createField({ value: rule.get('comment') || '' }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
     .put('endpointRules', createMapForm())
@@ -299,20 +333,7 @@ function createForm(rule) {
       );
     });
   }
-
-  const endpointRules = rule.get('endpointRules');
-  if (endpointRules) {
-    endpointRules.forEach(endpoint => {
-      form = form.updateIn(['endpointRules'], item => item.put(endpoint.get('id'), createEndpointRuleForm(endpoint)));
-    });
-  }
   return form;
-}
-
-function createEndpointRuleForm(endpointRule) {
-  return createMapForm()
-    .put('id', createField({ value: endpointRule.get('id') }))
-    .put('name', createField({ value: endpointRule.get('name') }));
 }
 
 function atLeastOneMatchSpecificationRule(mapForm) {

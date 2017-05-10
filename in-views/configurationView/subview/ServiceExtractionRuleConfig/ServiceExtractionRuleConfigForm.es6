@@ -1,11 +1,8 @@
-import irpt from 'react-immutable-proptypes';
-import rpt from 'prop-types';
 import React from 'react';
 
 import MatchSpecificationSelector
   from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/RuleTester';
-import { typeDefinitions } from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/types';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
@@ -22,16 +19,6 @@ const block = 'in-config-service-extraction-rule-form';
 export default class extends React.Component {
   static displayName = 'Rule';
 
-  static propTypes = {
-    removeMatchSpecification: rpt.func.isRequired,
-    addMatchSpecification: rpt.func.isRequired,
-    onChangeIn: rpt.func.isRequired,
-    ruleType: rpt.string.isRequired,
-    onChange: rpt.func.isRequired,
-    ruleForm: rpt.any.isRequired,
-    rule: irpt.map.isRequired
-  };
-
   state = {
     isTesting: false
   };
@@ -43,10 +30,15 @@ export default class extends React.Component {
   }
 
   render() {
-    const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = typeDefinitions[
-      this.props.ruleType
-    ];
-    const { onChange, onChangeIn, ruleForm, rule } = this.props;
+    const {
+      onChange,
+      onChangeIn,
+      ruleForm,
+      rule,
+      helpTexts,
+      matchSpecificationOptionsTree,
+      matchSpecificationOptions
+    } = this.props;
     const id = rule.get('id');
     return (
       <div
@@ -75,7 +67,7 @@ export default class extends React.Component {
               matchSpecificationForm={ruleForm.get('matchSpecification')}
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
               helpTexts={helpTexts}
-              onChangeMatchOption={e => this.onChangeMatchOption(e, matchSpecificationOptions)}
+              onChangeMatchOption={e => this.onChangeMatchOption(e, matchSpecificationOptions, ['matchSpecification'])}
             />
           }
 
@@ -87,7 +79,11 @@ export default class extends React.Component {
                 <Label htmlFor={`${id}-${key}`} hasError={!field.valid}>
                   Match Expression: {matchSpecificationOptions[key].titleName}
 
-                  <a href="#" onClick={e => this.removeMatch(e, key)} className={`${block}__remove-match`}>
+                  <a
+                    href="#"
+                    onClick={e => this.removeMatch(e, key, ['matchSpecification'])}
+                    className={`${block}__remove-match`}
+                  >
                     Remove
                   </a>
                 </Label>
@@ -176,7 +172,7 @@ export default class extends React.Component {
     });
   };
 
-  onChangeMatchOption = (e, matchSpecificationOptions) => {
+  onChangeMatchOption = (e, matchSpecificationOptions, path) => {
     const newRuleName = e.target.value;
     if (!newRuleName) {
       return;
@@ -185,11 +181,11 @@ export default class extends React.Component {
     // reset selection to "Please Select"
     e.target.value = '';
 
-    this.props.addMatchSpecification(newRuleName, matchSpecificationOptions[newRuleName].initialValue || '');
+    this.props.addMatchSpecification(path, newRuleName, matchSpecificationOptions[newRuleName].initialValue || '');
   };
 
-  removeMatch = (e, key) => {
+  removeMatch = (e, key, path) => {
     e.preventDefault();
-    this.props.removeMatchSpecification(key);
+    this.props.removeMatchSpecification(key, path);
   };
 }

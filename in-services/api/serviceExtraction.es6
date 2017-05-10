@@ -67,7 +67,7 @@ export function createServiceRule({
   return {
     id: id || generateUniqueShortId(),
     name: name || 'New Service Rule',
-    enabled: enabled || true,
+    enabled: enabled === undefined ? true : enabled,
     type: type || '',
     order: order || 0,
     comment: comment || '',
@@ -83,7 +83,7 @@ export function createEndpointRule({ id, name, enabled, comment, matchSpecificat
   return {
     id: id || generateUniqueShortId(),
     name: name || 'New Endpoint',
-    enabled: enabled || true,
+    enabled: enabled === undefined ? true : enabled,
     comment: comment || '',
     matchSpecification: matchSpecification || {},
     extractSpecification: {

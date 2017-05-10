@@ -57,9 +57,11 @@ export default function MatchSpecificationSelector({
         : <ValidationBlock hasError>
             {matchSpecificationForm.messages.map(e => e.message)}
           </ValidationBlock>}
-      <HelpBlock>
-        {helpTexts.matchesHelp}
-      </HelpBlock>
+      {helpTexts
+        ? <HelpBlock>
+            {helpTexts.matchesHelp}
+          </HelpBlock>
+        : null}
     </FormGroup>
   );
 }
