@@ -15,9 +15,9 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
-import './components/Rule.less';
+import './ServiceExtractionRuleConfigForm.less';
 
-const block = 'in-config-generic-ex-rule';
+const block = 'in-config-service-extraction-rule-form';
 
 export default class extends React.Component {
   static displayName = 'Rule';

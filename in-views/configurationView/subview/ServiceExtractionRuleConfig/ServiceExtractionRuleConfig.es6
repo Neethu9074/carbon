@@ -3,8 +3,8 @@ import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import ServiceExtractionEndpointRuleConfig
-  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionEndpointRuleConfig';
+import ServiceExtractionEndpointRuleConfigSubForm
+  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionEndpointRuleConfigSubForm';
 import {
   getServiceRule,
   saveServiceRule,
@@ -88,7 +88,7 @@ export default class extends React.Component {
 
         </SubViewWrapper>
 
-        <ServiceExtractionEndpointRuleConfig
+        <ServiceExtractionEndpointRuleConfigSubForm
           serviceRule={rule}
           form={form}
           onChangeIn={this.onChangeIn}

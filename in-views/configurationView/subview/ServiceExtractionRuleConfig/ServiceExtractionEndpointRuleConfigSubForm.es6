@@ -8,12 +8,12 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
 
-import './ServiceExtractionEndpointRuleConfig.less';
+import './ServiceExtractionEndpointRuleConfigSubForm.less';
 
 const block = 'in-views-service-extraction-endpoint-form';
 
 export default class extends React.Component {
-  static displayName = 'ServiceExtractionEndpointRuleConfig';
+  static displayName = 'ServiceExtractionEndpointRuleConfigSubForm';
 
   render() {
     const { serviceRule, form, onChangeIn } = this.props;
