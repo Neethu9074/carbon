@@ -3,10 +3,17 @@ import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import ServiceExtractionEndpointRuleConfig
+  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionEndpointRuleConfig';
+import {
+  getServiceRule,
+  saveServiceRule,
+  createServiceRule,
+  createEndpointRule
+} from 'in-services/api/serviceExtraction';
 import ServiceExtractionRuleConfigForm
   from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
 import { typeDefinitions } from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/types';
-import { getServiceRule, saveServiceRule, createServiceRule } from 'in-services/api/serviceExtraction';
 import { openServiceExtractionConfigByDefinition } from 'in-stores/navigation/configuration';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -45,40 +52,50 @@ export default class extends React.Component {
     const { form, rule } = this.state;
 
     return (
-      <SubViewWrapper>
-        <SubViewHeader>
-          {rule ? `Configure service extraction rule: ${rule.get('name')}` : 'Configure service extraction rule'}
-        </SubViewHeader>
+      <div>
+        <SubViewWrapper>
+          <SubViewHeader>
+            {rule ? `Configure service extraction rule: ${rule.get('name')}` : 'Configure service extraction rule'}
+          </SubViewHeader>
 
-        <form onSubmit={this.onSubmit}>
-          <Section>
+          <form onSubmit={this.onSubmit}>
+            <Section>
+              {form
+                ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                    Save
+                  </Button>
+                : null}
+
+              {this.state.message
+                ? <Notification failure={this.state.error} loading={this.state.loading}>
+                    {this.state.message}
+                  </Notification>
+                : null}
+            </Section>
+
             {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
+              ? <ServiceExtractionRuleConfigForm
+                  ruleForm={form}
+                  rule={rule}
+                  ruleType={this.props.params.ruleType}
+                  onChange={this.onChange}
+                  onChangeIn={this.onChangeIn}
+                  addMatchSpecification={this.addMatchSpecification}
+                  removeMatchSpecification={this.removeMatchSpecification}
+                />
               : null}
+          </form>
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
-          </Section>
+        </SubViewWrapper>
 
-          {form
-            ? <ServiceExtractionRuleConfigForm
-                ruleForm={form}
-                rule={rule}
-                ruleType={this.props.params.ruleType}
-                onChange={this.onChange}
-                onChangeIn={this.onChangeIn}
-                addMatchSpecification={this.addMatchSpecification}
-                removeMatchSpecification={this.removeMatchSpecification}
-              />
-            : null}
-        </form>
-
-      </SubViewWrapper>
+        <ServiceExtractionEndpointRuleConfig
+          serviceRule={rule}
+          form={form}
+          onChangeIn={this.onChangeIn}
+          removeEndpointRule={this.removeEndpointRule}
+          addEndpointRule={this.addEndpointRule}
+        />
+      </div>
     );
   }
 
@@ -171,6 +188,22 @@ export default class extends React.Component {
     });
   };
 
+  addEndpointRule = () => {
+    const endpointRule = fromJS(createEndpointRule({}));
+    const ruleForm = createEndpointRuleForm(endpointRule);
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], item =>
+        item.put(endpointRule.get('id'), ruleForm).setTouched(true)
+      )
+    });
+  };
+
+  removeEndpointRule = key => {
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], item => item.remove(key).setTouched(true))
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -184,17 +217,39 @@ export default class extends React.Component {
     const rule = this.state.rule;
     const form = this.state.form;
 
+    const matchSpecificationKeys = form.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort();
+    const matchSpecifications = {};
+    for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
+      matchSpecifications[matchSpecificationKeys[i]] = form
+        .get('matchSpecification')
+        .get(matchSpecificationKeys[i]).value;
+    }
+
+    const endpointKeys = form.get('endpointRules').reduce((acc, cur, key) => acc.concat(key), []).sort();
+    const endpoints = [];
+    for (let i = 0, length = endpointKeys.length; i < length; i++) {
+      const endpointForm = form.get('endpointRules').get(endpointKeys[i]);
+      endpoints.push(
+        createEndpointRule({
+          id: endpointForm.get('id').value,
+          name: endpointForm.get('name').value
+        })
+      );
+    }
+
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({
           id: rule ? rule.get('id') : null,
-          name: form.get('name'),
-          enabled: rule ? rule.get('enabled') : true,
+          enabled: rule ? rule.get('enabled').value : true,
+          order: rule.get('order'),
           type: this.props.params.ruleType,
-          comment: form.get('comment'),
-          matchSpecification: form.get('matchSpecification'),
-          label: form.get('label'),
-          order: rule.get('order')
+
+          name: form.get('name').value,
+          comment: form.get('comment').value,
+          matchSpecification: matchSpecifications,
+          endpointRules: endpoints,
+          label: form.get('label').value
         })
       )
     );
@@ -227,6 +282,7 @@ function createForm(rule) {
     .put('name', createField({ value: rule.get('name') || '' }))
     .put('comment', createField({ value: rule.get('comment') || '' }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
+    .put('endpointRules', createMapForm())
     .put('label', createField({ value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service') }));
 
   const matchSpecifications = rule.get('matchSpecification');
@@ -244,7 +300,19 @@ function createForm(rule) {
     });
   }
 
+  const endpointRules = rule.get('endpointRules');
+  if (endpointRules) {
+    endpointRules.forEach(endpoint => {
+      form = form.updateIn(['endpointRules'], item => item.put(endpoint.get('id'), createEndpointRuleForm(endpoint)));
+    });
+  }
   return form;
+}
+
+function createEndpointRuleForm(endpointRule) {
+  return createMapForm()
+    .put('id', createField({ value: endpointRule.get('id') }))
+    .put('name', createField({ value: endpointRule.get('name') }));
 }
 
 function atLeastOneMatchSpecificationRule(mapForm) {

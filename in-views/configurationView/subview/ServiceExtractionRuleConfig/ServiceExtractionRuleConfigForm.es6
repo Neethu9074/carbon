@@ -43,7 +43,9 @@ export default class extends React.Component {
   }
 
   render() {
-    const {helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions} = typeDefinitions[this.props.ruleType];
+    const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = typeDefinitions[
+      this.props.ruleType
+    ];
     const { onChange, onChangeIn, ruleForm, rule } = this.props;
     const id = rule.get('id');
     return (
@@ -55,12 +57,7 @@ export default class extends React.Component {
       >
         <div className={`${block}__header`}>
           {ruleForm.get('name').map(nameField => (
-            <FormGroup
-              className={evaluateClassNames({
-                [`${block}__name-group`]: true,
-                [`${block}__without-bottom-margin`]: !this.state.isExpanded
-              })}
-            >
+            <FormGroup className={`${block}__name-group`}>
               <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
               <Input
                 type="text"
@@ -188,10 +185,7 @@ export default class extends React.Component {
     // reset selection to "Please Select"
     e.target.value = '';
 
-    this.props.addMatchSpecification(
-      newRuleName,
-      matchSpecificationOptions[newRuleName].initialValue || ''
-    );
+    this.props.addMatchSpecification(newRuleName, matchSpecificationOptions[newRuleName].initialValue || '');
   };
 
   removeMatch = (e, key) => {

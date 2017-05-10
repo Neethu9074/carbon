@@ -55,24 +55,39 @@ export function deleteServiceRule(id) {
 
 export function createServiceRule({
   id,
-  name = 'New Service Rule',
-  enabled = true,
-  type = '',
-  comment = '',
+  name,
+  enabled,
+  type,
+  comment,
   matchSpecification,
-  label = 'Unnamed service',
-  order = 0
+  label,
+  order,
+  endpointRules
 }) {
   return {
     id: id || generateUniqueShortId(),
-    name,
-    enabled,
-    type,
-    order,
-    comment,
-    matchSpecification,
+    name: name || 'New Service Rule',
+    enabled: enabled || true,
+    type: type || '',
+    order: order || 0,
+    comment: comment || '',
+    matchSpecification: matchSpecification || {},
+    endpointRules: endpointRules || [],
     extractSpecification: {
-      label
+      label: label || 'Unnamed service'
+    }
+  };
+}
+
+export function createEndpointRule({ id, name, enabled, comment, matchSpecification, label }) {
+  return {
+    id: id || generateUniqueShortId(),
+    name: name || 'New Endpoint',
+    enabled: enabled || true,
+    comment: comment || '',
+    matchSpecification: matchSpecification || {},
+    extractSpecification: {
+      label: label || 'Unnamed service endpoint'
     }
   };
 }
