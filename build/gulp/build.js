@@ -63,7 +63,7 @@ gulp.task('try-build-without-building', cb => {
       'writeTryBuildConfigFile',
       'writeTryBuildServerConfigFile'
     ],
-    'startTryBuildServer',
+     'startTryBuildServer',
     cb
   );
 });
@@ -106,8 +106,8 @@ gulp.task('webpack:build', (callback) => {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       comments: /\/DONOTKEEPANYCOMMENTS/
     }),
     new webpack.BannerPlugin(buildUtil.getBanner())
@@ -150,16 +150,6 @@ gulp.task('identifyTryBuildTargetEnvironment', cb => {
         // extract environment name
         return env.match(/(\w+)/)[1];
       }
-    },
-    {
-      type: 'list',
-      name: 'uiMode',
-      message: 'Mode of the UI?',
-      choices: [
-        'saas',
-        'demo'
-      ],
-      default: 'saas'
     }
   ];
 
@@ -172,7 +162,6 @@ gulp.task('identifyTryBuildTargetEnvironment', cb => {
 
 gulp.task('writeTryBuildConfigFile', () => {
   buildUtil.writeDevModeConfig(
-    tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo',
     environments[tryBuildModeOptions.environment]
   );
 });
@@ -181,7 +170,19 @@ gulp.task('writeTryBuildConfigFile', () => {
 gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
-    uiBackendBaseUrl: 'http://127.0.0.1:8080'
+    uiBackendBaseUrl: 'http://127.0.0.1:8080',
+    port: 3131,
+    adminPort: 3132,
+    bindAddress: '0.0.0.0',
+    cookie: {
+      name: 'in-token-internal'
+    },
+    googleAnalyticsTrackingId: '',
+    eum: {
+      apiKey: '',
+      domain: ''
+    }
+
   };
   fs.writeFileSync(
     path.join(paths.targetDir, 'serverConfig.json'),
@@ -191,6 +192,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
 
 
 gulp.task('startTryBuildServer', () => {
+  gutil.log(path.join(paths.targetDir, 'index.js'));
   execSync(
     'node "' +
     path.join(paths.targetDir, 'index.js') +
@@ -225,6 +227,7 @@ gulp.task('startTryBuildProxy', () => {
       '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
       '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
       '/uiTracker/': 'http://127.0.0.1:8484/',
+      '/api/': uiBackendUrl + '/api/',
       '/assets/': groundskeeperUrl + '/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/'
     },
