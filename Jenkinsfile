@@ -31,36 +31,18 @@ stage('Node Build') {
   def buildSteps = [:]
   buildSteps['test'] = {
     node {
-      unstash name: "ui-client-checkout-${gitCommitId}"
-      sh """
-        cp ~/.npmrc-private-registry .npmrc
-        npm install -g yarn
-        yarn
-        yarn run test:unit
-      """
+      runNodeBuild('yarn && yarn run test:unit')
     }
   }
   buildSteps['lint'] = {
     node {
-      unstash name: "ui-client-checkout-${gitCommitId}"
-      sh """
-        cp ~/.npmrc-private-registry .npmrc
-        npm install -g yarn
-        yarn
-        yarn run test:lint
-      """
+      runNodeBuild('yarn && yarn run test:lint')
     }
   }
   buildSteps['build'] = {
     node {
-      unstash name: "ui-client-checkout-${gitCommitId}"
-      sh """
-        cp ~/.npmrc-private-registry .npmrc
-        npm install -g yarn
-        yarn
-        yarn run build
-        tar -czf ${archiveName} target/*
-      """
+      runNodeBuild('yarn && yarn run build')
+      sh "tar -czf ${archiveName} target/*"
       stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
     }
   }
@@ -121,7 +103,7 @@ stage('Deployment') {
       deployments['deploy-staging'] = {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
         git url: 'git@github.com:instana/saas.git', branch: 'single-box-test'
-        legacyDeploy('ui-client', 'test')
+        legacyDeploy('ui-client', 'staging')
       }
     }
 
@@ -161,4 +143,15 @@ def legacyDeploy(component, target) {
   withEnv(execEnvironment) {
     sh ". ~/ansible.env && ansible-playbook playbooks/${component}.yml -v --tags ${INSTANA_CONTAINER_ACTION}"
   }
+}
+
+def runNodeBuild(buildCommands) {
+  unstash name: "ui-client-checkout-${gitCommitId}"
+  sh '''
+    cp ~/.npmrc-private-registry .npmrc
+    if [ -z "$(which yarn)" ]; then
+      npm install -g yarn
+    fi
+  '''
+  ssh buildCommands
 }
