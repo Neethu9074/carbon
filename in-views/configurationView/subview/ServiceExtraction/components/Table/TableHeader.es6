@@ -2,7 +2,7 @@ import React from 'react';
 
 import './TableHeader.less';
 
-const block = 'in-in-service-extraction-table-header';
+const block = 'in-service-extraction-table-header';
 
 export default function TableHeader() {
   return (
