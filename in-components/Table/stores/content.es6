@@ -6,7 +6,7 @@ import { renderers } from 'in-components/Table/renderers';
 import { getSetting$ } from 'in-services/settings';
 
 let updateFrequencyMillis = 3000;
-getSetting$('tables_refreshRate').subscribe(refreshRate => updateFrequencyMillis = refreshRate);
+getSetting$('tables_refreshRate').subscribe(refreshRate => (updateFrequencyMillis = refreshRate));
 
 export function createStore({
   columnDefinitions,
@@ -141,10 +141,12 @@ export function createStore({
     if (selectedRowKeys) {
       for (let i = 0, length = selectedRowKeys.length; i < length; i++) {
         const key = selectedRowKeys[i];
-        data[key].selected = true;
-        data[key].mutationCount++;
-        emitRawDataChange();
+        if (data[key]) {
+          data[key].selected = true;
+          data[key].mutationCount++;
+        }
       }
+      emitRawDataChange();
     }
   }
 
