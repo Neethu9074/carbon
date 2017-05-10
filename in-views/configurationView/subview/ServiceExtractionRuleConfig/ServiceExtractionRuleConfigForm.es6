@@ -23,12 +23,6 @@ export default class extends React.Component {
     isTesting: false
   };
 
-  componentWillMount() {
-    if (!this.props.ruleForm.hierarchyValid) {
-      this.setState({ isExpanded: true });
-    }
-  }
-
   render() {
     const {
       onChange,
@@ -158,13 +152,6 @@ export default class extends React.Component {
       </div>
     );
   }
-
-  toggleExpanded = () => {
-    this.setState({
-      isExpanded: !this.state.isExpanded,
-      isTesting: false
-    });
-  };
 
   toggleTesting = () => {
     this.setState({
