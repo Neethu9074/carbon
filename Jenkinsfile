@@ -6,7 +6,7 @@ def gitCommitAuthor = null
 def instanaVersion  = null
 def archiveName     = null
 
-stage('Node Build') {
+stage('Checkout') {
   node {
     
     deleteDir()
@@ -21,21 +21,51 @@ stage('Node Build') {
 
     archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
 
-    sh """
-      cp ~/.npmrc-private-registry .npmrc
-
-      npm install -g yarn
-      
-      yarn
-      yarn run test
-      yarn run build
-      
-      tar -czf ${archiveName} target/*
-    """
-
-    stash includes: "${archiveName}, deployment/**/*", name: "ui-client-${gitCommitId}"
-
+    stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}"
   }
+}
+
+//stash includes: "${archiveName}, deployment/**/*", name: "ui-client-checkout-${gitCommitId}"
+
+stage('Node Build') {
+  def buildSteps = [:]
+  buildSteps['test'] = {
+    node {
+      unstash name: "ui-client-checkout-${gitCommitId}"
+      sh """
+        cp ~/.npmrc-private-registry .npmrc
+        npm install -g yarn
+        yarn
+        yarn run test:unit
+      """
+    }
+  }
+  buildSteps['lint'] = {
+    node {
+      unstash name: "ui-client-checkout-${gitCommitId}"
+      sh """
+        cp ~/.npmrc-private-registry .npmrc
+        npm install -g yarn
+        yarn
+        yarn run test:lint
+      """
+    }
+  }
+  buildSteps['build'] = {
+    node {
+      unstash name: "ui-client-checkout-${gitCommitId}"
+      sh """
+        cp ~/.npmrc-private-registry .npmrc
+        npm install -g yarn
+        yarn
+        yarn run build
+        tar -czf ${archiveName} target/*
+      """
+      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+    }
+  }
+
+  parallel buildSteps
 }
 
 stage('Container Build') {
@@ -43,7 +73,7 @@ stage('Container Build') {
     
     deleteDir()
 
-    unstash name: "ui-client-${gitCommitId}"
+    unstash name: "ui-client-build-${gitCommitId}"
 
     sh "tar -xzf ${archiveName}"
 
