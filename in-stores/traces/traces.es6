@@ -5,7 +5,7 @@ import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/Ent
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
 import { timeframe as timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import createTraceObservable from 'in-services/subscription/trace';
+import getTrace from 'in-services/subscription/getTrace';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -79,7 +79,7 @@ export const selectedTrace = createTrackingStore({
   name: 'traces/selectedTrace',
   observable: selectedTraceId.flatMap(traceId => {
     if (traceId) {
-      return createTraceObservable(traceId);
+      return getTrace(traceId);
     }
     return alwaysNull;
   })

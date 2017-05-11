@@ -27,6 +27,7 @@ import Rules from 'promise-loader?global,configView!in-views/configurationView/s
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
+import TraceAnalyticsView from 'promise-loader?global!in-views/traceAnalyticsView/TraceAnalyticsView';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
@@ -75,6 +76,14 @@ export default (
         component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)}
         path="search"
         windowTitle="Traces"
+      >
+        <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+      </Route>
+
+      <Route
+        component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceAnalyticsView)}
+        path="analytics"
+        windowTitle="Trace Analytics"
       >
         <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
       </Route>

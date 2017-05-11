@@ -10,8 +10,7 @@ export default createSubscription({
   getData: (subscriptionId, traceId) => {
     return {
       subscriptionId,
-      traceId,
-      offset: 0
+      traceId
     };
   },
 

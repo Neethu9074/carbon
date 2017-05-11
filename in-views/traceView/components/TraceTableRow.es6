@@ -28,9 +28,9 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick, tracesS
         <input
           type="checkbox"
           className={`${block}__include_in_analytics`}
-          onChange={e => onToggleTraceAnalyticsInclusion(e, trace.id)}
+          onChange={e => onToggleTraceAnalyticsInclusion(e, trace.raw)}
           onClick={stopPropagation}
-          checked={tracesSelectedForAnalytics.indexOf(trace.id) !== -1}
+          checked={trace.id in tracesSelectedForAnalytics}
         />
       </span>
       <span className={cellClassName}>
@@ -65,10 +65,10 @@ TraceTableRow.propTypes = {
   trace: rpt.object.isRequired,
   onClick: rpt.func.isRequired,
   selectedTraceId: rpt.string,
-  tracesSelectedForAnalytics: rpt.arrayOf(rpt.string)
+  tracesSelectedForAnalytics: rpt.object
 };
 
-function onToggleTraceAnalyticsInclusion(event, traceId) {
+function onToggleTraceAnalyticsInclusion(event, trace) {
   stopPropagation(event);
-  toggleIncludeInAnalytics(traceId);
+  toggleIncludeInAnalytics(trace);
 }

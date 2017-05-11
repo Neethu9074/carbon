@@ -29,7 +29,7 @@ export default getElementDimensions(
         isInfiniteLoading: rpt.bool.isRequired,
         traces: rpt.array.isRequired,
         selectedTraceId: rpt.string,
-        tracesSelectedForAnalytics: rpt.arrayOf(rpt.string),
+        tracesSelectedForAnalytics: rpt.object,
         height: rpt.number
       };
 
