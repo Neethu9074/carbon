@@ -1,13 +1,12 @@
+import { isInstanaEmployee } from 'in-stores/user';
 import { config } from 'in-services/config';
 
-const onlyInternally =
-  config.tenant === 'instana' &&
-  config.environment !== 'staging' &&
-  config.tenantUnit !== 'current' &&
-  config.tenantUnit.indexOf('training') === -1;
+const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
+const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
+const trainingTu = config.tenant === 'training';
+const onlyInternally = config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu;
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
-
 export const webVrEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
@@ -26,4 +25,7 @@ export const blackListedSearchFieldValues = {
 // For example, the following configuration will hide up to 2.3s of missing data points.
 // rollup = 1s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
-export const allowedMultiplesOfRollupSizeMissingInCharts = 2.3;
+export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
+  (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu)
+  ? 2.3
+  : 4;
