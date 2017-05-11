@@ -8,7 +8,7 @@ def archiveName     = null
 
 stage('Checkout') {
   node {
-    
+
     deleteDir()
 
     checkout scm
@@ -16,7 +16,7 @@ stage('Checkout') {
     instanaVersion  = getVersion('ui-client')
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-    
+
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
     archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
@@ -52,7 +52,7 @@ stage('Node Build') {
 
 stage('Container Build') {
   node {
-    
+
     deleteDir()
 
     unstash name: "ui-client-build-${gitCommitId}"
