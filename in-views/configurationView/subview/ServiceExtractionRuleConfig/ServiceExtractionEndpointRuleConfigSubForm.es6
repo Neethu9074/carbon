@@ -5,7 +5,6 @@ import ServiceExtractionRuleConfigForm
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
 
@@ -56,18 +55,18 @@ export default class extends React.Component {
             const endpointHtmlId = `${serviceRuleId}-${key}`;
             return (
               <Section key={key}>
-                <FormGroup>
-                  <Label htmlFor={endpointHtmlId}>
-                    <a href="#" onClick={e => this.removeRule(e, key)} className={`${block}__remove-endpoint`}>
-                      Remove
-                    </a>
-                  </Label>
-                </FormGroup>
+                <Label htmlFor={endpointHtmlId}>
+                  <a href="#" onClick={e => this.removeRule(e, key)} className={`${block}__remove-endpoint`}>
+                    Remove
+                  </a>
+                </Label>
 
                 <ServiceExtractionRuleConfigForm
                   prePath={['endpointRules', key]}
                   ruleForm={endpointRuleForm}
                   helpTexts={helpTexts}
+                  resultingEntityNameTitle="Endpoint Name"
+                  resultingEntityTooltipText={helpTexts.serviceEndpointNameHelp}
                   matchSpecificationOptionsTree={matchSpecificationOptionsTree}
                   matchSpecificationOptions={matchSpecificationOptions}
                   onChangeIn={onChangeIn}

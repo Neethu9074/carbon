@@ -34,7 +34,9 @@ export default class extends React.Component {
       ruleForm,
       helpTexts,
       matchSpecificationOptionsTree,
-      matchSpecificationOptions
+      matchSpecificationOptions,
+      resultingEntityNameTitle,
+      resultingEntityTooltipText
     } = this.props;
     const id = ruleForm.get('id').value;
     return (
@@ -107,8 +109,8 @@ export default class extends React.Component {
 
           {ruleForm.get('label').map(labelField => (
             <FormGroup>
-              <Label htmlFor={`${id}-service-name`}>Service Name</Label>
-              <Helpify helpText={helpTexts.serviceNameHelp}>
+              <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
+              <Helpify helpText={resultingEntityTooltipText}>
                 <Input
                   type="text"
                   id={`${id}-service-name`}

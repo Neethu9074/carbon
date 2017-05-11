@@ -81,6 +81,8 @@ export default class extends React.Component {
                   prePath={[]}
                   ruleForm={form}
                   helpTexts={helpTexts}
+                  resultingEntityNameTitle="Service Name"
+                  resultingEntityTooltipText={helpTexts.serviceNameHelp}
                   matchSpecificationOptionsTree={matchSpecificationOptionsTree}
                   matchSpecificationOptions={matchSpecificationOptions}
                   onChangeIn={this.onChangeIn}
