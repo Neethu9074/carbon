@@ -8,6 +8,7 @@ const selectedTraces = createStore({
   }
 });
 export const selectedTraces$ = selectedTraces.observable;
+export const selectedTracesCount$ = selectedTraces$.map(traceIds => traceIds.length);
 
 function toggleReducer(currentState, action) {
   const index = currentState.indexOf(action.traceId);

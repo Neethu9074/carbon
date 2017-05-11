@@ -1,4 +1,7 @@
+import React from 'react';
+
 import connectTo from 'in-hoc/connectTo';
+import { number } from 'in-services/formatters/number';
 
 export default connectTo(
   props => {
@@ -6,11 +9,11 @@ export default connectTo(
       count: props.count$
     };
   },
-  function TotalTraceCount({ count, formatCount }) {
+  function TotalTraceCount({ count }) {
     if (count == null || count < 0) {
       return null;
     }
 
-    return formatCount(count);
+    return <span>{`(${number.compact(count)})`}</span>;
   }
 );

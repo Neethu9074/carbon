@@ -26,4 +26,22 @@
       background: #41535C;
     }
   }
+
+  &__link {
+    color: #D5DFE4;
+    display: block;
+    text-decoration: none;
+
+    .in-trace-view-tabs__tab--active & {
+      color: #fff;
+    }
+
+    em {
+      font-style: normal;
+
+      .in-trace-view-tabs__tab--active & {
+        font-weight: bold;
+      }
+    }
+  }
 }

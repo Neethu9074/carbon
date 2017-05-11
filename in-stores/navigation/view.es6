@@ -21,7 +21,23 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
   .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
-export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces'));
+export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/search'));
+export const traceAnalyticsViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/analytics'));
+
+export function getTraceViewLinkWithQuery(query) {
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces/search';
+    params.query.q = query;
+    params.query.ss = '1';
+  });
+}
+
+export function getTraceViewLinkShowingTrace(traceId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces/search';
+    params.query.traceId = traceId;
+  });
+}
 
 export const logView$ = getModifiedUrlStream(params => {
   params.pathname = '/logs';
@@ -32,21 +48,6 @@ export function getLogViewLinkWithQuery(query) {
     params.pathname = '/logs';
     params.query.q = query;
     params.query.ss = '1';
-  });
-}
-
-export function getTraceViewLinkWithQuery(query) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/traces';
-    params.query.q = query;
-    params.query.ss = '1';
-  });
-}
-
-export function getTraceViewLinkShowingTrace(traceId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/traces';
-    params.query.traceId = traceId;
   });
 }
 
