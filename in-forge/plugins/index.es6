@@ -31,6 +31,7 @@ import './glassfishApplicationContainer';
 import './golangRuntimePlatform';
 import './hadoopYARN';
 import './hAProxy';
+import './hBase';
 import './host';
 import './httpd';
 import './instanaAgent';
