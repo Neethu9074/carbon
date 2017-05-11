@@ -23,9 +23,13 @@ export default class extends React.Component {
     isTesting: false
   };
 
+  namePath = this.props.prePath.concat(['name']);
+  matchSpecificationPath = this.props.prePath.concat(['matchSpecification']);
+  labelPath = this.props.prePath.concat(['label']);
+  commentPath = this.props.prePath.concat(['comment']);
+
   render() {
     const {
-      prePath,
       onChangeIn,
       ruleForm,
       helpTexts,
@@ -48,7 +52,7 @@ export default class extends React.Component {
                 type="text"
                 id={`${id}-rule-name`}
                 value={nameField.value}
-                onChange={e => onChangeIn(prePath.concat(['name']), e.target.value)}
+                onChange={e => onChangeIn(this.namePath, e.target.value)}
               />
             </FormGroup>
           ))}
@@ -61,7 +65,7 @@ export default class extends React.Component {
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
               helpTexts={helpTexts}
               onChangeMatchOption={e =>
-                this.onChangeMatchOption(e, matchSpecificationOptions, prePath.concat(['matchSpecification']))}
+                this.onChangeMatchOption(e, matchSpecificationOptions, this.matchSpecificationPath)}
             />
           }
 
@@ -75,7 +79,7 @@ export default class extends React.Component {
 
                   <a
                     href="#"
-                    onClick={e => this.removeMatch(e, key, prePath.concat(['matchSpecification']))}
+                    onClick={e => this.removeMatch(e, key, this.matchSpecificationPath)}
                     className={`${block}__remove-match`}
                   >
                     Remove
@@ -88,7 +92,7 @@ export default class extends React.Component {
                     className={`${block}__helpfified_input`}
                     placeholder={matchSpecificationOptions[key].placeholder}
                     value={field.value}
-                    onChange={e => onChangeIn(prePath.concat(['matchSpecification', key]), e.target.value)}
+                    onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
                     hasError={!field.valid}
                   />
                   {field.valid
@@ -111,7 +115,7 @@ export default class extends React.Component {
                   className={`${block}__helpfified_input`}
                   placeholder="Shop"
                   value={labelField.value}
-                  onChange={e => onChangeIn(prePath.concat(['label']), e.target.value)}
+                  onChange={e => onChangeIn(this.labelPath, e.target.value)}
                 />
               </Helpify>
             </FormGroup>
@@ -126,7 +130,7 @@ export default class extends React.Component {
                   id={`${id}-comment`}
                   className={`${block}__helpfified_input`}
                   value={commentField.value}
-                  onChange={e => onChangeIn(prePath.concat(['comment']), e.target.value)}
+                  onChange={e => onChangeIn(this.commentPath, e.target.value)}
                 />
               </Helpify>
             </FormGroup>
