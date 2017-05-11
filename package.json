@@ -11,7 +11,7 @@
     "try-build-without-building": "export BUILD_DEV='false' && gulp try-build-without-building",
     "test": "yarn run test:unit && yarn run test:lint",
     "test:lint": "eslint --ext .es6 in-* gulpfile.js",
-    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --max-old-space-size=4096 --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
     "check:updates": "ncu",
     "check:licenses": "license-checker > licenses.txt",
     "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
