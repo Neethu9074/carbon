@@ -6,9 +6,9 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import EventDescription from 'in-components/EventDescription';
-import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
+import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
@@ -29,27 +29,27 @@ export default function RuleBindingForm({ rules, form, onChange, onChangeInRuleI
               <Label htmlFor="ruleBinding-rule" hasError={!field.valid}>
                 Rule
               </Label>
-              <ComboBox
-                name="ruleBinding-rule"
-                value={String(field.value.get(0))}
-                options={[{ value: '', label: 'Please select' }].concat(
-                  rules.toArray().map(rule => {
-                    return {
-                      value: rule.get('id'),
-                      label: rule.get('name')
-                    };
-                  })
-                )}
-                onChange={e => onChangeInRuleIds((e = e ? e.value : ''))}
-              />
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
-              <HelpBlock>
-                Select rule that will trigger this issue.
-              </HelpBlock>
+              <Helpify helpText="Select rule that will trigger this issue.">
+                <ComboBox
+                  name="ruleBinding-rule"
+                  value={String(field.value.get(0))}
+                  className={`${block}__helpfified_input`}
+                  options={[{ value: '', label: 'Please select' }].concat(
+                    rules.toArray().map(rule => {
+                      return {
+                        value: rule.get('id'),
+                        label: rule.get('name')
+                      };
+                    })
+                  )}
+                  onChange={e => onChangeInRuleIds((e = e ? e.value : ''))}
+                />
+                {field.messages.map((message, i) => (
+                  <ValidationBlock hasError key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                ))}
+              </Helpify>
 
               {field.value.get(0) ? <RuleDetails ruleId={String(field.value.get(0))} /> : null}
             </FormGroup>
@@ -61,21 +61,21 @@ export default function RuleBindingForm({ rules, form, onChange, onChangeInRuleI
             <Label htmlFor="ruleBinding-query" hasError={!field.valid}>
               Applied on filter query
             </Label>
-            <Input
-              id="ruleBinding-query"
-              type="text"
-              value={field.value}
-              onChange={e => onChange('query', e.target.value)}
-              hasError={!field.valid}
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-            <HelpBlock>
-              A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities.
-            </HelpBlock>
+            <Helpify helpText="A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities.">
+              <Input
+                id="ruleBinding-query"
+                type="text"
+                className={`${block}__helpfified_input`}
+                value={field.value}
+                onChange={e => onChange('query', e.target.value)}
+                hasError={!field.valid}
+              />
+              {field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))}
+            </Helpify>
           </FormGroup>
         ))}
         <Row>
@@ -109,26 +109,25 @@ export default function RuleBindingForm({ rules, form, onChange, onChangeInRuleI
                 <Label htmlFor="ruleBinding-expirationTime" hasError={!field.valid}>
                   Expiration time
                 </Label>
-                <ComboBox
-                  name="ruleBinding-expirationTime"
-                  value={field.value}
-                  options={[
-                    { value: '', label: 'Please select' },
-                    { value: '5000', label: '5s' },
-                    { value: '10000', label: '10s' },
-                    { value: '60000', label: '1min' },
-                    { value: '300000', label: '5min' }
-                  ]}
-                  onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
-                />
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
-                <HelpBlock>
-                  Grace time an issue stays open.
-                </HelpBlock>
+                <Helpify helpText="Grace time an issue stays open.">
+                  <ComboBox
+                    name="ruleBinding-expirationTime"
+                    value={field.value}
+                    options={[
+                      { value: '', label: 'Please select' },
+                      { value: '5000', label: '5s' },
+                      { value: '10000', label: '10s' },
+                      { value: '60000', label: '1min' },
+                      { value: '300000', label: '5min' }
+                    ]}
+                    onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
+                  />
+                  {field.messages.map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))}
+                </Helpify>
               </FormGroup>
             ))}
           </Col>

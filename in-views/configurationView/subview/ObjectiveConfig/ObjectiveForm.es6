@@ -3,8 +3,8 @@ import React from 'react';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import Helpify from 'in-components/form/Helpify';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
@@ -72,23 +72,21 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
             <Label htmlFor="objective-timePattern" hasError={!field.valid}>
               Time pattern
             </Label>
-            <Input
-              id="objective-timePattern"
-              type="text"
-              value={field.value}
-              onChange={e => onChange('timePattern', e.target.value)}
-              hasError={!field.valid}
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-            <HelpBlock>
-              {
-                'Use Cron syntax * (seconds) * (minutes) * (hours) * (days of the week) * (days of the month) * (months) * (years), e.g. * * 8-20 * * * * -> from 8am to 8 pm every day'
-              }
-            </HelpBlock>
+            <Helpify helpText="Use Cron syntax * (seconds) * (minutes) * (hours) * (days of the week) * (days of the month) * (months) * (years), e.g. * * 8-20 * * * * -> from 8am to 8 pm every day">
+              <Input
+                id="objective-timePattern"
+                type="text"
+                className={`${block}__helpfified_input`}
+                value={field.value}
+                onChange={e => onChange('timePattern', e.target.value)}
+                hasError={!field.valid}
+              />
+              {field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))}
+            </Helpify>
           </FormGroup>
         ))}
 

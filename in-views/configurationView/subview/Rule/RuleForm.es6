@@ -3,16 +3,19 @@ import React from 'react';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
-import ComboBox from 'in-components/ComboBox';
+import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
+import ComboBox from 'in-components/ComboBox';
+import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Row, Col } from 'in-components/Grid';
 import { plugins } from 'in-forge/constants';
 
+import './RuleForm.less';
+
+const block = 'in-rule-form';
 const furtherPluginsToFilter = [
   'unknownService',
   'defaultLogicalService',
@@ -34,22 +37,22 @@ export default function RuleForm({ form, onChange }) {
             <Label htmlFor="rule-name" hasError={!field.valid}>
               Name
             </Label>
-            <Input
-              id="rule-name"
-              type="text"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
-              autoFocus
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-            <HelpBlock>
-              Rules can be selected by name in the rule binding dialog.
-            </HelpBlock>
+            <Helpify helpText="Rules can be selected by name in the rule binding dialog.">
+              <Input
+                id="rule-name"
+                type="text"
+                className={`${block}__helpfified_input`}
+                value={field.value}
+                onChange={e => onChange('name', e.target.value)}
+                hasError={!field.valid}
+                autoFocus
+              />
+              {field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))}
+            </Helpify>
           </FormGroup>
         ))}
       </Section>
@@ -207,9 +210,6 @@ export default function RuleForm({ form, onChange }) {
             ))}
           </Col>
         </Row>
-        <HelpBlock>
-          Defines the condition which is applied to the metric.
-        </HelpBlock>
       </Section>
     </fieldset>
   );

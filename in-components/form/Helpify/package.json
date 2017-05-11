@@ -1,0 +1,6 @@
+{
+  "name": "Helpify",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Helpify.es6"
+}
