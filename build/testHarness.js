@@ -32,7 +32,7 @@ babelConfig.ignore = '^$';
 require('babel-core/register')(babelConfig);
 
 // Ensuring a browser environment is simulated before React is loaded to avoid
-// "Error: Invariant Violation: Markup wrapping node not initialized"
+// Error: Invariant Violation: Markup wrapping node not initialized
 // Also see:
 // https://github.com/facebook/react/issues/3840
 global.document = jsdom.jsdom('<html><head></head><body></body></html>');
@@ -41,8 +41,40 @@ global.navigator = global.window.navigator;
 global.__DEV__ = false;
 global.window.instana = {
   config: {
-    environment: 'saas'
+    environment: 'saas',
+    tenant: 'instana',
+    tenantUnit: 'test'
   }
+};
+
+global.window.instana.user = {
+  tenants: [{
+    role: {
+      id: '-1',
+      name: 'Owner',
+      implicitViewFilter: '',
+      canConfigureServiceMapping: true,
+      canConfigureEumApplications: true,
+      canConfigureUsers: true,
+      canInstallNewAgents: true,
+      canSeeUsageInformation: true,
+      canConfigureIntegrations: true,
+      canSeeOnPremLicenseInformation: true,
+      canConfigureRoles: true,
+      canConfigureCustomAlerts: true,
+      canConfigureApiTokens: true,
+      canConfigureAgentRunMode: true,
+      canViewAuditLog: true,
+      canConfigureObjectives: true
+    },
+    tenantKey: 'instana',
+    name: 'instana',
+    id: '57309f589e1d8461616a545'
+  }],
+  fullName: 'Stan stan',
+  id: '59085f81fa065b001a0f6a8b',
+  preferredName: 'Stan stan',
+  email: 'stan@instana.com'
 };
 
 global.requestAnimationFrame = fn => fn();
