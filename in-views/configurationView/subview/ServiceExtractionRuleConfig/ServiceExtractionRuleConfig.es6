@@ -78,12 +78,11 @@ export default class extends React.Component {
 
             {form
               ? <ServiceExtractionRuleConfigForm
+                  prePath={[]}
                   ruleForm={form}
-                  rule={rule}
                   helpTexts={helpTexts}
                   matchSpecificationOptionsTree={matchSpecificationOptionsTree}
                   matchSpecificationOptions={matchSpecificationOptions}
-                  onChange={this.onChange}
                   onChangeIn={this.onChangeIn}
                   addMatchSpecification={this.addMatchSpecification}
                   removeMatchSpecification={this.removeMatchSpecification}

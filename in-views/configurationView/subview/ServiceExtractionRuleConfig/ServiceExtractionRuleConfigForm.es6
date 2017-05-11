@@ -25,15 +25,14 @@ export default class extends React.Component {
 
   render() {
     const {
-      onChange,
+      prePath,
       onChangeIn,
       ruleForm,
-      rule,
       helpTexts,
       matchSpecificationOptionsTree,
       matchSpecificationOptions
     } = this.props;
-    const id = rule.get('id');
+    const id = ruleForm.get('id').value;
     return (
       <div
         className={evaluateClassNames({
@@ -49,7 +48,7 @@ export default class extends React.Component {
                 type="text"
                 id={`${id}-rule-name`}
                 value={nameField.value}
-                onChange={e => onChange('name', e.target.value)}
+                onChange={e => onChangeIn(prePath.concat(['name']), e.target.value)}
               />
             </FormGroup>
           ))}
@@ -61,7 +60,8 @@ export default class extends React.Component {
               matchSpecificationForm={ruleForm.get('matchSpecification')}
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
               helpTexts={helpTexts}
-              onChangeMatchOption={e => this.onChangeMatchOption(e, matchSpecificationOptions, ['matchSpecification'])}
+              onChangeMatchOption={e =>
+                this.onChangeMatchOption(e, matchSpecificationOptions, prePath.concat(['matchSpecification']))}
             />
           }
 
@@ -75,7 +75,7 @@ export default class extends React.Component {
 
                   <a
                     href="#"
-                    onClick={e => this.removeMatch(e, key, ['matchSpecification'])}
+                    onClick={e => this.removeMatch(e, key, prePath.concat(['matchSpecification']))}
                     className={`${block}__remove-match`}
                   >
                     Remove
@@ -86,7 +86,7 @@ export default class extends React.Component {
                   id={`${id}-${key}`}
                   placeholder={matchSpecificationOptions[key].placeholder}
                   value={field.value}
-                  onChange={e => onChangeIn(['matchSpecification', key], e.target.value)}
+                  onChange={e => onChangeIn(prePath.concat(['matchSpecification', key]), e.target.value)}
                   hasError={!field.valid}
                 />
                 {field.valid
@@ -109,7 +109,7 @@ export default class extends React.Component {
                 id={`${id}-service-name`}
                 placeholder="Shop"
                 value={labelField.value}
-                onChange={e => onChange('label', e.target.value)}
+                onChange={e => onChangeIn(prePath.concat(['label']), e.target.value)}
               />
               <HelpBlock>
                 {helpTexts.serviceNameHelp}
@@ -124,7 +124,7 @@ export default class extends React.Component {
                 rows="3"
                 id={`${id}-comment`}
                 value={commentField.value}
-                onChange={e => onChange('comment', e.target.value)}
+                onChange={e => onChangeIn(prePath.concat(['comment']), e.target.value)}
               />
               <HelpBlock>
                 {helpTexts.commentHelp}
