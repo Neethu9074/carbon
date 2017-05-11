@@ -48,7 +48,7 @@ export default class extends React.Component {
 
           <Section>
             <Button kind="success" onClick={addEndpointRule}>
-              Add
+              Add Endpoint
             </Button>
           </Section>
           {endpoints.map(key => {
