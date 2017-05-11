@@ -43,7 +43,7 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run build')
       sh "tar -czf ${archiveName} target/*"
-      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}", useDefaultExcludes: false
     }
   }
 
