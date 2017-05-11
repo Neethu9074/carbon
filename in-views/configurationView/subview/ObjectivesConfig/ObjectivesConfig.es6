@@ -35,7 +35,7 @@ const cols = [
       get(row) {
         return getObjectivesConfigLink(row.key).map(href => {
           return {
-            value: href,
+            value: row.objective.get('name'),
             content: <Link href={href} objectiveName={row.objective.get('name')} />
           };
         });

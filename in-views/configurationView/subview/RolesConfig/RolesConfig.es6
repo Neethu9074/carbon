@@ -5,21 +5,56 @@ import React from 'react';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRoles, saveRole, deleteRole } from 'in-services/api/roles';
+import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import Role from 'in-views/configurationView/subview/RolesConfig/Role';
+import { getRoles, saveRole, deleteRole } from 'in-services/api/roles';
+import { getRoleConfigLink } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { openRoleConfig } from 'in-stores/navigation/configuration';
-import Notification from 'in-components/form/Notification';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
+import Notification from 'in-components/form/Notification';
 import { emptySet } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+import { always } from 'in-services/fixedStreams';
+import { ownerRoleId } from 'in-stores/user';
 import Button from 'in-components/Button';
 
-import './RolesConfig.less';
-
 const logger = createLogger('RolesConfig');
-const block = 'in-config-roles';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        return getRoleConfigLink(row.key).map(href => {
+          return {
+            value: row.role.get('name'),
+            content: <Link href={href} roleName={row.role.get('name')} />
+          };
+        });
+      }
+    }
+  },
+  {
+    title: '',
+    type: 'custom',
+    typeArgs: {
+      comparator: () => 0,
+      get(row) {
+        return always({
+          value: 0,
+          content: row.role.get('id') !== ownerRoleId
+            ? <DeleteButton itemName={row.role.get('name')} onDelete={() => row.onDeleteRole(row.key)} />
+            : null
+        });
+      }
+    }
+  }
+];
 
 export default class extends React.Component {
   static displayName = 'RolesConfig';
@@ -82,6 +117,14 @@ export default class extends React.Component {
   render() {
     const { roles } = this.state;
 
+    const rows = roles.toArray().map(role => {
+      return {
+        key: role.get('id'),
+        role: role,
+        onDeleteRole: this.onDelete
+      };
+    });
+
     return (
       <SubViewWrapper>
         <SubViewHeader>
@@ -105,15 +148,7 @@ export default class extends React.Component {
             Existing Roles
           </SectionHeading>
 
-          <ul className={`${block}__roles`}>
-            {roles &&
-              roles
-                .toArray()
-                // do not show the fallback role
-                .filter(role => role.get('id') !== '-2')
-                .sort((a, b) => a.get('name').localeCompare(b.get('name')))
-                .map(role => <Role role={role} key={role.get('id')} onDelete={this.onDelete} />)}
-          </ul>
+          <Table cols={cols} rows={rows} />
         </Section>
       </SubViewWrapper>
     );
@@ -201,4 +236,12 @@ export default class extends React.Component {
       });
     });
   };
+}
+
+function Link({ href, roleName }) {
+  return (
+    <a href={href}>
+      {roleName}
+    </a>
+  );
 }

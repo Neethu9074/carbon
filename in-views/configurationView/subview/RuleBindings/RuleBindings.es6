@@ -2,18 +2,83 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-services/api/ruleBindings';
-import Table from 'in-views/configurationView/subview/RuleBindings/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import Section from 'in-views/configurationView/components/Section';
+import SavingToggle from 'in-views/configurationView/components/SavingToggle';
+import DeleteButton from 'in-views/configurationView/components/DeleteButton';
+import { getRuleBindingLink } from 'in-stores/navigation/configuration';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { openRuleBinding } from 'in-stores/navigation/configuration';
-import Notification from 'in-components/form/Notification';
+import Section from 'in-views/configurationView/components/Section';
+import { formatDateTime } from 'in-services/formatters/date';
 import { close } from 'in-components/DialogPresenter/store';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+import { always } from 'in-services/fixedStreams';
+import { getRule } from 'in-services/api/rules';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
+import './RuleBindings.less';
+
+const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        return getRuleBindingLink(row.key).map(href => {
+          return {
+            value: row.ruleBinding.get('text'),
+            content: <Link href={href} ruleBindingName={row.ruleBinding.get('text')} />
+          };
+        });
+      }
+    }
+  },
+  {
+    title: 'Enabled',
+    type: 'custom',
+    typeArgs: {
+      comparator: (a, b) => b.enabled - a.enabled,
+      get(row) {
+        return always({
+          value: row.ruleBinding.get('enabled', false),
+          content: (
+            <SavingToggle
+              checked={row.ruleBinding.get('enabled', false)}
+              onChange={value => row.setEnabled(row.ruleBinding, value)}
+              status={row.status}
+            />
+          )
+        });
+      }
+    }
+  },
+  {
+    title: '',
+    type: 'custom',
+    typeArgs: {
+      comparator: () => 0,
+      get(row) {
+        return always({
+          value: 0,
+          content: (
+            <DeleteButton itemName={row.ruleBinding.get('name')} onDelete={() => row.onDeleteRuleBinding(row.key)} />
+          )
+        });
+      }
+    }
+  }
+];
 
 export default class extends React.Component {
   static displayName = 'RuleBindings';
@@ -174,6 +239,16 @@ export default class extends React.Component {
     const { ruleBindings } = this.state;
     const rulesAvailable = ruleBindings && ruleBindings.size > 0;
 
+    const rows = ruleBindings.toArray().map(ruleBinding => {
+      return {
+        key: ruleBinding.get('id'),
+        ruleBinding: ruleBinding,
+        onDeleteRuleBinding: this.onDeleteRuleBinding,
+        setEnabled: this.setEnabled,
+        status: this.state.status[ruleBinding.get('id')]
+      };
+    });
+
     return (
       <SubViewWrapper>
         <SubViewHeader>
@@ -198,15 +273,73 @@ export default class extends React.Component {
                 Custom Issues
               </SectionHeading>
 
-              <Table
-                items={ruleBindings}
-                onDeleteRuleBinding={this.onDeleteRuleBinding}
-                setEnabled={this.setEnabled}
-                status={this.state.status}
-              />
+              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
             </Section>
           : null}
       </SubViewWrapper>
     );
+  }
+}
+
+function getRowDetails(row) {
+  return <Details ruleBinding={row.ruleBinding} />;
+}
+
+const Details = connectTo(
+  props => {
+    return {
+      rule: getRule(props.ruleBinding.getIn(['ruleIds', 0], ''))
+    };
+  },
+  function Details({ ruleBinding, rule }) {
+    return (
+      <div className={`${block}__details-wrapper`}>
+        <DescriptionList>
+          <DescriptionItem title="Text">
+            {ruleBinding.get('text')}
+          </DescriptionItem>
+          <DescriptionItem title="Description">
+            {ruleBinding.get('description')}
+          </DescriptionItem>
+          <DescriptionItem title="Expiration time">
+            {formatDurationAccurately(ruleBinding.get('expirationTime'), 1000)}
+          </DescriptionItem>
+          <DescriptionItem title="Severity" className={`${block}__severity`}>
+            {mapSeverityToLabel(ruleBinding.get('severity'))}
+          </DescriptionItem>
+          <DescriptionItem title="Triggering incident">
+            {ruleBinding.get('triggering') ? 'true' : 'false'}
+          </DescriptionItem>
+          <DescriptionItem title="Bound rule">
+            {rule ? rule.get('name') : ruleBinding.getIn(['ruleIds', 0], '')}
+          </DescriptionItem>
+          <DescriptionItem title="Applied on filter query">
+            {ruleBinding.get('query', '')}
+          </DescriptionItem>
+
+          <DescriptionItem title="Last update">
+            {formatDateTime(ruleBinding.get('lastUpdated'))}
+          </DescriptionItem>
+        </DescriptionList>
+      </div>
+    );
+  }
+);
+
+function Link({ href, ruleBindingName }) {
+  return (
+    <a href={href}>
+      {ruleBindingName}
+    </a>
+  );
+}
+
+function mapSeverityToLabel(severity) {
+  if (severity === 0) {
+    return 'change';
+  } else if (severity === 5) {
+    return 'warning';
+  } else {
+    return 'critical';
   }
 }

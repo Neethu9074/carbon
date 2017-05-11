@@ -3,22 +3,54 @@ import { Map } from 'immutable';
 import React from 'react';
 
 import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
-import ApiTokenLink from 'in-views/configurationView/subview/ApiTokens/ApiTokenLink';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { getApiTokenConfigLink } from 'in-stores/navigation/configuration';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { openApiTokenConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import Notification from 'in-components/form/Notification';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
+import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+import { always } from 'in-services/fixedStreams';
 import Button from 'in-components/Button';
 
-import './ApiTokens.less';
-
 const logger = createLogger('ApiTokenManagement');
-const block = 'in-config-api-tokens';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        return getApiTokenConfigLink(row.key).map(href => {
+          return {
+            value: row.apiToken.get('name'),
+            content: <Link href={href} tokenName={row.apiToken.get('name')} />
+          };
+        });
+      }
+    }
+  },
+  {
+    title: '',
+    type: 'custom',
+    typeArgs: {
+      comparator: () => 0,
+      get(row) {
+        return always({
+          value: 0,
+          content: <DeleteButton itemName={row.apiToken.get('name')} onDelete={() => row.onDeleteApiToken(row.key)} />
+        });
+      }
+    }
+  }
+];
 
 export default class extends React.Component {
   static displayName = 'ApiTokens';
@@ -86,6 +118,14 @@ export default class extends React.Component {
       sortedApiTokens = apiTokens.toArray().sort((a, b) => a.get('name').localeCompare(b.get('name')));
     }
 
+    const rows = sortedApiTokens.map(apiToken => {
+      return {
+        key: apiToken.get('id'),
+        apiToken: apiToken,
+        onDeleteApiToken: this.onDelete
+      };
+    });
+
     return (
       <SubViewWrapper>
         <SubViewHeader>
@@ -103,47 +143,7 @@ export default class extends React.Component {
               </Notification>
             : null}
         </Section>
-
-        {sortedApiTokens && sortedApiTokens.length > 0
-          ? <Section>
-              <ul className={`${block}__api-tokens`}>
-                {sortedApiTokens.map(apiToken => (
-                  <li key={apiToken.get('id')} className={`${block}__api-token`}>
-                    <div
-                      className={`${block}__api-token-headline`}
-                      onClick={() =>
-                        this.setState({
-                          selectedToken: this.state.selectedToken === apiToken.get('id') ? null : apiToken.get('id')
-                        })}
-                    >
-                      <div>
-                        <ApiTokenLink className={`${block}__name`} apiToken={apiToken}>
-                          {apiToken.get('name')}
-                        </ApiTokenLink>
-
-                      </div>
-
-                      <Button
-                        kind="danger"
-                        size="sm"
-                        className={`${block}__remove`}
-                        onClick={() => this.onDelete(apiToken)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                    {this.state.selectedToken === apiToken.get('id')
-                      ? <div>
-                          <span className={`${block}__key`}>
-                            {apiToken.get('id')}
-                          </span>
-                        </div>
-                      : null}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-          : null}
+        <Table cols={cols} rows={rows} />
       </SubViewWrapper>
     );
   }
@@ -221,4 +221,12 @@ export default class extends React.Component {
       });
     });
   };
+}
+
+function Link({ href, tokenName }) {
+  return (
+    <a href={href}>
+      {tokenName}
+    </a>
+  );
 }
