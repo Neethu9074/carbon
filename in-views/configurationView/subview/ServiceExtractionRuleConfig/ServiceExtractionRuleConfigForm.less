@@ -25,41 +25,6 @@
     margin-bottom: 0;
   }
 
-  &__actions-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    top: .063rem;
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    padding: .375rem;
-    border: 1px solid transparent;
-    border-top-left-radius: .188rem;
-    border-top-right-radius: .188rem;
-
-    &--has-error {
-      border: 1px solid #a94442;
-      border-bottom: 0;
-    }
-  }
-
-  &__down, &__toggle {
-    margin-left: .375rem;
-  }
-
-  &__up, &__down, &__toggle {
-    fill: #2D4048;
-    cursor: pointer;
-
-    &:hover {
-      fill: lighten(#2D4048, 20%);
-    }
-  }
-
   &__buttons {
     text-align: right;
   }
@@ -72,5 +37,9 @@
     &:hover, &:active {
       color: #8c969a;
     }
+  }
+
+  &__helpfified_input {
+    width: 100%;
   }
 }

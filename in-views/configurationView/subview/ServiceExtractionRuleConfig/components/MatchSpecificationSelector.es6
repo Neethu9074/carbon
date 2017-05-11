@@ -2,7 +2,7 @@ import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
-import HelpBlock from 'in-components/form/HelpBlock';
+import Helpify from 'in-components/form/Helpify';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
@@ -41,27 +41,24 @@ export default function MatchSpecificationSelector({
   return (
     <FormGroup>
       <Label htmlFor={`${id}-select-match-rule`}>Add Match Expression</Label>
-      <Select id={`${id}-select-match-rule`} onChange={onChangeMatchOption}>
-        <option value="">Please Select</option>
+      <Helpify helpText={helpTexts.matchesHelp}>
+        <Select id={`${id}-select-match-rule`} onChange={onChangeMatchOption} style={{ width: '100%' }}>
+          <option value="">Please Select</option>
 
-        {matchSpecificationOptionsTree.map((matchSpecificationOption, i) => (
-          <MatchSpecificationItem
-            matchSpecificationOption={matchSpecificationOption}
-            matchSpecificationForm={matchSpecificationForm}
-            key={i}
-          />
-        ))}
-      </Select>
-      {matchSpecificationForm.valid
-        ? null
-        : <ValidationBlock hasError>
-            {matchSpecificationForm.messages.map(e => e.message)}
-          </ValidationBlock>}
-      {helpTexts
-        ? <HelpBlock>
-            {helpTexts.matchesHelp}
-          </HelpBlock>
-        : null}
+          {matchSpecificationOptionsTree.map((matchSpecificationOption, i) => (
+            <MatchSpecificationItem
+              matchSpecificationOption={matchSpecificationOption}
+              matchSpecificationForm={matchSpecificationForm}
+              key={i}
+            />
+          ))}
+        </Select>
+        {matchSpecificationForm.valid
+          ? null
+          : <ValidationBlock hasError>
+              {matchSpecificationForm.messages.map(e => e.message)}
+            </ValidationBlock>}
+      </Helpify>
     </FormGroup>
   );
 }

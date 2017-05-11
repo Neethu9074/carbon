@@ -6,8 +6,8 @@ import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRule
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
-import HelpBlock from 'in-components/form/HelpBlock';
 import TextArea from 'in-components/form/TextArea';
+import Helpify from 'in-components/form/Helpify';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
@@ -81,22 +81,22 @@ export default class extends React.Component {
                     Remove
                   </a>
                 </Label>
-                <Input
-                  type="text"
-                  id={`${id}-${key}`}
-                  placeholder={matchSpecificationOptions[key].placeholder}
-                  value={field.value}
-                  onChange={e => onChangeIn(prePath.concat(['matchSpecification', key]), e.target.value)}
-                  hasError={!field.valid}
-                />
-                {field.valid
-                  ? null
-                  : <ValidationBlock hasError>
-                      {field.messages.map(e => e.message)}
-                    </ValidationBlock>}
-                <HelpBlock>
-                  {matchSpecificationOptions[key].help}
-                </HelpBlock>
+                <Helpify helpText={matchSpecificationOptions[key].help}>
+                  <Input
+                    type="text"
+                    id={`${id}-${key}`}
+                    className={`${block}__helpfified_input`}
+                    placeholder={matchSpecificationOptions[key].placeholder}
+                    value={field.value}
+                    onChange={e => onChangeIn(prePath.concat(['matchSpecification', key]), e.target.value)}
+                    hasError={!field.valid}
+                  />
+                  {field.valid
+                    ? null
+                    : <ValidationBlock hasError>
+                        {field.messages.map(e => e.message)}
+                      </ValidationBlock>}
+                </Helpify>
               </FormGroup>
             );
           })}
@@ -104,31 +104,31 @@ export default class extends React.Component {
           {ruleForm.get('label').map(labelField => (
             <FormGroup>
               <Label htmlFor={`${id}-service-name`}>Service Name</Label>
-              <Input
-                type="text"
-                id={`${id}-service-name`}
-                placeholder="Shop"
-                value={labelField.value}
-                onChange={e => onChangeIn(prePath.concat(['label']), e.target.value)}
-              />
-              <HelpBlock>
-                {helpTexts.serviceNameHelp}
-              </HelpBlock>
+              <Helpify helpText={helpTexts.serviceNameHelp}>
+                <Input
+                  type="text"
+                  id={`${id}-service-name`}
+                  className={`${block}__helpfified_input`}
+                  placeholder="Shop"
+                  value={labelField.value}
+                  onChange={e => onChangeIn(prePath.concat(['label']), e.target.value)}
+                />
+              </Helpify>
             </FormGroup>
           ))}
 
           {ruleForm.get('comment').map(commentField => (
             <FormGroup>
               <Label htmlFor={`${id}-comment`}>Comment</Label>
-              <TextArea
-                rows="3"
-                id={`${id}-comment`}
-                value={commentField.value}
-                onChange={e => onChangeIn(prePath.concat(['comment']), e.target.value)}
-              />
-              <HelpBlock>
-                {helpTexts.commentHelp}
-              </HelpBlock>
+              <Helpify helpText={helpTexts.commentHelp}>
+                <TextArea
+                  rows="3"
+                  id={`${id}-comment`}
+                  className={`${block}__helpfified_input`}
+                  value={commentField.value}
+                  onChange={e => onChangeIn(prePath.concat(['comment']), e.target.value)}
+                />
+              </Helpify>
             </FormGroup>
           ))}
 
