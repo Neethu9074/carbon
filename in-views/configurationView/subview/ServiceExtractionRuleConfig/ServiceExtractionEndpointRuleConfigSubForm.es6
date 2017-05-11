@@ -161,7 +161,7 @@ export default class extends React.Component {
                   {this.state.isTesting
                     ? <RuleTester
                         toggleRuleTesting={this.toggleTesting}
-                        form={endpointRuleForm}
+                        ruleForm={endpointRuleForm}
                         matchSpecificationOptions={matchSpecificationOptions}
                       />
                     : null}
@@ -173,6 +173,12 @@ export default class extends React.Component {
       </div>
     );
   }
+
+  toggleTesting = () => {
+    this.setState({
+      isTesting: !this.state.isTesting
+    });
+  };
 
   onChangeMatchOption = (e, matchSpecificationOptions, path) => {
     const newRuleName = e.target.value;
