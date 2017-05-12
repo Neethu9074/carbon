@@ -42,7 +42,7 @@ export default class Row extends React.Component {
           : null}
 
         {this.props.row.columns.map((column, i) => (
-          <td key={i} className={this.props.cellClassName}>
+          <td key={i} className={this.props.cellClassName} style={column.columnDefinition.cellStyle}>
             {column.content}
           </td>
         ))}
