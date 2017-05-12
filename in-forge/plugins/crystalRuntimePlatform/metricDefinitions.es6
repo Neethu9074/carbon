@@ -1,33 +1,12 @@
-import { kiloBytes, number, millis } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: 'memory.rss_size',
-    label: 'Resident',
+    metrics: ['gc.tb', 'gc.fb'],
+    labels: ['Total', 'Free'],
     min: 0,
-    category: ['Memory'],
-    formatter: kiloBytes
-  },
-  {
-    metrics: ['gc.heap_live', 'gc.heap_free'],
-    labels: ['Live', 'Free'],
-    min: 0,
-    category: ['Heap Slots'],
+    category: ['Heap'],
     formatter: number
-  },
-  {
-    metrics: ['gc.minorGcs', 'gc.majorGcs'],
-    labels: ['#Minor GCs', '#Major GCs'],
-    min: 0,
-    category: ['GC'],
-    formatter: number
-  },
-  {
-    metric: 'gc.totalTime',
-    label: '#GC Run Duration',
-    min: 0,
-    category: ['GC'],
-    formatter: millis
   },
   {
     metric: 'thread.count',
