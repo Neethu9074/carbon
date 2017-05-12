@@ -1,9 +1,7 @@
 import React from 'react';
 
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
-import SavingToggle from 'in-views/configurationView/components/SavingToggle';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { compare } from 'in-services/util/boolean';
 
 export function getLinkColumn(getLink, propertyName = 'name') {
   return {
@@ -30,20 +28,16 @@ export function getLinkColumn(getLink, propertyName = 'name') {
 export function getEnableToggleColumn() {
   return {
     title: 'Enabled',
-    type: 'custom',
+    type: 'boolean',
     typeArgs: {
-      comparator: compare,
-      get(row) {
-        return {
-          value: row.entity.get('enabled', false),
-          content: (
-            <SavingToggle
-              checked={row.entity.get('enabled', false)}
-              onChange={value => row.setEnabled(row.entity, value)}
-              status={row.status}
-            />
-          )
-        };
+      getValue(row) {
+        return row.entity.get('enabled', false);
+      },
+      onChange(row, newValue) {
+        row.setEnabled(row.entity, newValue);
+      },
+      getStatus(row) {
+        return row.status;
       }
     }
   };
