@@ -28,10 +28,7 @@ import './ServiceExtraction.less';
 const block = 'in-service-extraction-form';
 const logger = createLogger('ServiceExtraction');
 
-const linkColumn = getLinkColumn(getServiceRuleConfigLink);
-linkColumn.disableSorting = true;
 const cols = [
-  linkColumn,
   {
     title: 'Order',
     type: 'custom',
@@ -248,6 +245,10 @@ export default class extends React.Component {
       };
     });
 
+    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', this.props.ruleType);
+    linkColumn.disableSorting = true;
+    const ruleTypeSpecificColumns = [linkColumn].concat(cols);
+
     return (
       <SubViewWrapper>
         <SubViewHeader>
@@ -276,7 +277,7 @@ export default class extends React.Component {
                 Service Rules
               </SectionHeading>
               <Table
-                cols={cols}
+                cols={ruleTypeSpecificColumns}
                 rows={rows}
                 getRowDetails={getRowDetails}
                 initialSortColumn={1}

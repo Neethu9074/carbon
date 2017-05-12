@@ -3,14 +3,14 @@ import React from 'react';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 
-export function getLinkColumn(getLink, propertyName = 'name') {
+export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
   return {
     title: 'Name',
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
       get$(row) {
-        return getLink(row.key).map(href => {
+        return getLink(row.key, linkParams).map(href => {
           return {
             value: row.entity.get(propertyName),
             content: (
