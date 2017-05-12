@@ -1,4 +1,3 @@
-import rpt from 'prop-types';
 import React from 'react';
 
 import { helpId$ } from 'in-components/helpSystem/helpSystemStores';
@@ -9,19 +8,7 @@ export default connectTo(
   {
     helpId: helpId$
   },
-  class extends React.PureComponent {
-    static displayName = 'HelpPresenter';
-
-    static propTypes = {
-      helpId: rpt.string
-    };
-
-    render() {
-      if (this.props.helpId) {
-        return <HelpDialog id={this.props.helpId} />;
-      }
-
-      return null;
-    }
+  function HelpPresenter({ helpId }) {
+    return helpId ? <HelpDialog id={helpId} /> : null;
   }
 );
