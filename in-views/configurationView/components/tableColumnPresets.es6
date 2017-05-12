@@ -3,7 +3,6 @@ import React from 'react';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import SavingToggle from 'in-views/configurationView/components/SavingToggle';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { always } from 'in-services/fixedStreams';
 
 export function getLinkColumn(getLink, propertyName = 'name') {
   return {
@@ -11,7 +10,7 @@ export function getLinkColumn(getLink, propertyName = 'name') {
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
-      get(row) {
+      get$(row) {
         return getLink(row.key).map(href => {
           return {
             value: row.entity.get(propertyName),
@@ -35,7 +34,7 @@ export function getEnableToggleColumn() {
     typeArgs: {
       comparator: (a, b) => (a === b ? -1 : 1),
       get(row) {
-        return always({
+        return {
           value: row.entity.get('enabled', false),
           content: (
             <SavingToggle
@@ -44,7 +43,7 @@ export function getEnableToggleColumn() {
               status={row.status}
             />
           )
-        });
+        };
       }
     }
   };
@@ -58,10 +57,10 @@ export function getDeleteButtonColumn(propertyName = 'name') {
     typeArgs: {
       comparator: () => 0,
       get(row) {
-        return always({
+        return {
           value: 0,
           content: <DeleteButton itemName={row.entity.get(propertyName)} onDelete={() => row.onDelete(row.entity)} />
-        });
+        };
       }
     }
   };

@@ -62,7 +62,7 @@ export default {
       type: 'custom',
       typeArgs: {
         comparator: compareIgnoreCase,
-        get(row) {
+        get$(row) {
           return getFoundations(row.snapshotId)
             .flatMap(foundations => {
               if (foundations.size === 0) {

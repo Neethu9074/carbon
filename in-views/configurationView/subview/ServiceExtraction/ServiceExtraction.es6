@@ -19,7 +19,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 import { compare } from 'in-services/util/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
@@ -40,7 +39,7 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
-        return always({
+        return {
           value: row.entity.get('order'),
           content: (
             <div className={`${block}__order-icons`}>
@@ -61,7 +60,7 @@ const cols = [
               />
             </div>
           )
-        });
+        };
       }
     }
   },

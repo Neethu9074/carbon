@@ -6,8 +6,8 @@ export const type = 'custom';
 
 export function validate(col) {
   invariant(
-    typeof col.typeArgs.get === 'function',
-    'Columns with type=custom must have a get(row) function. This function must return a stream which emits objects of the form {value, content} or null'
+    typeof col.typeArgs.get === 'function' || typeof col.typeArgs.get$ === 'function',
+    'Columns with type=custom must have a get(row) function which returns objects of the form {value, content} or null. Alternatively, columns with type=custom must have a get$(row) function which returns observables which emit objects of the form {value, content} or null'
   );
   invariant(
     typeof col.typeArgs.comparator === 'function',
@@ -26,18 +26,25 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     refreshContent: noop
   };
 
-  const valueAndContent$ = columnDefinition.typeArgs.get(row.rowConfig);
-  col.subscription = valueAndContent$.subscribe(result => {
-    if (result == null) {
-      col.value = null;
-      col.content = null;
-    } else {
-      col.value = result.value;
-      col.content = result.content;
-    }
-    row.mutationCount++;
-    emitRawDataChange();
-  });
+  if (columnDefinition.typeArgs.get) {
+    const valueAndContent = columnDefinition.typeArgs.get(row.rowConfig);
+    setResult(valueAndContent, col, row, emitRawDataChange);
+  } else {
+    const valueAndContent$ = columnDefinition.typeArgs.get$(row.rowConfig);
+    col.subscription = valueAndContent$.subscribe(setResult, col, row, emitRawDataChange);
+  }
 
   return col;
+}
+
+function setResult(result, col, row, emitRawDataChange) {
+  if (result == null) {
+    col.value = null;
+    col.content = null;
+  } else {
+    col.value = result.value;
+    col.content = result.content;
+  }
+  row.mutationCount++;
+  emitRawDataChange();
 }
