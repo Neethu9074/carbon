@@ -2,6 +2,7 @@ import React from 'react';
 
 import { millis, number } from 'in-services/formatters/number';
 import { selectedTraces$ } from 'in-stores/traces/analytics';
+import { always } from 'in-services/fixedStreams';
 import { getLabel } from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
@@ -34,6 +35,25 @@ const cols = [
         return row.trace.get('totalErrorCount');
       },
       getContent: number.compact
+    }
+  },
+  {
+    title: '',
+    type: 'custom',
+    typeArgs: {
+      get(row) {
+        return always({
+          value: 0,
+          content: (
+            <div>
+              actions for {row.trace.get('traceId')}!
+            </div>
+          )
+        });
+      },
+      comparator() {
+        return 0;
+      }
     }
   }
 ];
