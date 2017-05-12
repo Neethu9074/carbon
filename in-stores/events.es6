@@ -1,11 +1,21 @@
+import { Map } from 'immutable';
+
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import createHealthInfoSubscription from 'in-services/subscription/healthInfo';
 import createEventObservable from 'in-services/subscription/event';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { navigationParameters$ } from 'in-stores/navigation';
+import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
+
+const noProblemsHealthInfo = Map({
+  maxSeverity: 0,
+  numberOfOpenEvents: 0,
+  eventWithMaxSeverity: null,
+  eventIds: emptyList
+});
 
 const openEventsAtServerTime = createStore({
   name: 'openEventsAtServerTime',
@@ -22,6 +32,10 @@ export function init() {
 export function getHealthInfoAtFocusedMoment(snapshotId) {
   return focusedMoment$.flatMap(_focusedMoment =>
     createHealthInfoSubscription({ focusedMoment: _focusedMoment, snapshotId })
+      // We are not transferring empty health info objects from backend => UI.
+      // Instead, we assume that the typical case is that an entity has no issue
+      // and therefore we immediately start this observable with an ok-state.
+      .startWith(noProblemsHealthInfo)
   );
 }
 
