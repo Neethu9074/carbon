@@ -130,6 +130,8 @@ export default getElementDimensions(
         });
 
         editor.on('blur', () => {
+          this.updateQuery(this.editor.getValue().trim().replace(/\s\s+/g, ' '));
+          // console.log('->'+query+'<-', '->'+query.trim().replace(/\s\s+/g, ' ')+'<-');
           isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
