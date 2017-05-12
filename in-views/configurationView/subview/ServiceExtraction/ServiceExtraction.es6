@@ -43,7 +43,6 @@ const cols = [
           value: row.entity.get('order'),
           content: (
             <div className={`${block}__order-icons`}>
-              {row.entity.get('order')}
               <SvgIcon
                 className={`${block}__order-up`}
                 type="chevron_up"
