@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Button from 'in-components/Button';
 
 export default function SavingToggle({ itemName, onDelete }) {
@@ -19,7 +19,10 @@ export default function SavingToggle({ itemName, onDelete }) {
               </span>
             }
             bButtonLabel="Remove"
-            onB={onDelete}
+            onB={() => {
+              close();
+              onDelete();
+            }}
           />
         )}
     >

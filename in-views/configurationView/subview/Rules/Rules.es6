@@ -86,7 +86,8 @@ export default class extends React.Component {
     openRule();
   };
 
-  onDeleteRule = ruleId => {
+  onDelete = rule => {
+    const ruleId = rule.get('id');
     this.setState({
       error: false,
       loading: true,
@@ -123,7 +124,7 @@ export default class extends React.Component {
       return {
         key: rule.get('id'),
         entity: rule,
-        onDelete: this.onDeleteRule
+        onDelete: this.onDelete
       };
     });
 

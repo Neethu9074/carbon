@@ -141,7 +141,8 @@ export default class extends React.Component {
     openServiceExtractionConfig(null, this.props.ruleType);
   };
 
-  onDeleteService = serviceId => {
+  onDelete = service => {
+    const serviceId = service.get('id');
     this.setState({
       error: false,
       loading: true,
@@ -238,7 +239,7 @@ export default class extends React.Component {
       return {
         key: serviceRule.get('id'),
         entity: serviceRule,
-        onDelete: this.onDeleteService,
+        onDelete: this.onDelete,
         setEnabled: this.setEnabled,
         status: this.state.status[serviceRule.get('id')],
         moveUp: this.moveUp,

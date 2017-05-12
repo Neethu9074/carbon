@@ -50,7 +50,7 @@ export function getEnableToggleColumn() {
   };
 }
 
-export function getDeleteButtonColumn() {
+export function getDeleteButtonColumn(propertyName = 'name') {
   return {
     title: '',
     type: 'custom',
@@ -60,7 +60,7 @@ export function getDeleteButtonColumn() {
       get(row) {
         return always({
           value: 0,
-          content: <DeleteButton itemName={row.entity.get('name')} onDelete={() => row.onDelete(row.key)} />
+          content: <DeleteButton itemName={row.entity.get(propertyName)} onDelete={() => row.onDelete(row.entity)} />
         });
       }
     }

@@ -29,7 +29,7 @@ import './RuleBindings.less';
 const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
-const cols = [getLinkColumn(getRuleBindingLink, 'text'), getEnableToggleColumn(), getDeleteButtonColumn()];
+const cols = [getLinkColumn(getRuleBindingLink, 'text'), getEnableToggleColumn(), getDeleteButtonColumn('text')];
 
 export default class extends React.Component {
   static displayName = 'RuleBindings';
@@ -97,7 +97,8 @@ export default class extends React.Component {
     openRuleBinding();
   };
 
-  onDeleteRuleBinding = ruleBindingId => {
+  onDelete = ruleBinding => {
+    const ruleBindingId = ruleBinding.get('id');
     this.setState({
       error: false,
       loading: true,
@@ -194,7 +195,7 @@ export default class extends React.Component {
       return {
         key: ruleBinding.get('id'),
         entity: ruleBinding,
-        onDelete: this.onDeleteRuleBinding,
+        onDelete: this.onDelete,
         setEnabled: this.setEnabled,
         status: this.state.status[ruleBinding.get('id')]
       };

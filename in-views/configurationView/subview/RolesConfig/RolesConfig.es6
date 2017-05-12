@@ -6,8 +6,6 @@ import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getRoles, saveRole, deleteRole } from 'in-services/api/roles';
 import { getRoleConfigLink } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
@@ -158,24 +156,6 @@ export default class extends React.Component {
   };
 
   onDelete = role => {
-    setActiveDialog(
-      <ConfirmationDialog
-        header="Confirm removal"
-        description={
-          <span>
-            Are you sure you want to remove the role <strong>{role.get('name')}</strong>?
-          </span>
-        }
-        bButtonLabel="Remove role"
-        onB={() => {
-          close();
-          this.onDeleteAfterConfirmation(role);
-        }}
-      />
-    );
-  };
-
-  onDeleteAfterConfirmation = role => {
     this.setState({
       error: false,
       loading: true,

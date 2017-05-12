@@ -6,9 +6,7 @@ import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView
 import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApiTokenConfigLink } from 'in-stores/navigation/configuration';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { openApiTokenConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -146,24 +144,6 @@ export default class extends React.Component {
   };
 
   onDelete = apiToken => {
-    setActiveDialog(
-      <ConfirmationDialog
-        header="Confirm removal"
-        description={
-          <span>
-            Are you sure you want to remove the API token <strong>{apiToken.get('name')}</strong>?
-          </span>
-        }
-        bButtonLabel="Remove API token"
-        onB={() => {
-          close();
-          this.onDeleteAfterConfirmation(apiToken);
-        }}
-      />
-    );
-  };
-
-  onDeleteAfterConfirmation = apiToken => {
     this.setState({
       error: false,
       loading: true,

@@ -115,7 +115,8 @@ export default class extends React.Component {
     });
   };
 
-  onDeleteObjective = objectiveId => {
+  onDelete = objective => {
+    const objectiveId = objective.get('id');
     this.setState({
       error: false,
       loading: true,
@@ -212,7 +213,7 @@ export default class extends React.Component {
       return {
         key: objective.get('id'),
         entity: objective,
-        onDelete: this.onDeleteObjective,
+        onDelete: this.onDelete,
         setEnabled: this.setEnabled,
         status: this.state.status[objective.get('id')]
       };
