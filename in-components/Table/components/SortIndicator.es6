@@ -8,7 +8,15 @@ const activeBlock = `${block} ${block}--active`;
 const iconElement = `${block}__icon`;
 const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
 
-export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort }) {
+export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort, columnDefinition }) {
+  if (columnDefinition.disableSorting) {
+    return (
+      <span className={block}>
+        {title}
+      </span>
+    );
+  }
+
   const active = index === sortIndex;
   const onClick = e => {
     e.preventDefault();

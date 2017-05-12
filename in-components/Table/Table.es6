@@ -159,6 +159,7 @@ export default class Table extends React.Component {
                     sortIndex={data.sortColumnIndex}
                     sortDirection={data.sortDirection}
                     onChangeSort={this.store.setSort}
+                    columnDefinition={col}
                   />
                 </th>
               ))}

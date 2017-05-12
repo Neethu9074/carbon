@@ -31,6 +31,7 @@ export function getEnableToggleColumn() {
   return {
     title: 'Enabled',
     type: 'custom',
+    disableSorting: true,
     typeArgs: {
       comparator: (a, b) => (a === b ? -1 : 1),
       get(row) {
@@ -53,6 +54,7 @@ export function getDeleteButtonColumn() {
   return {
     title: '',
     type: 'custom',
+    disableSorting: true,
     typeArgs: {
       comparator: () => 0,
       get(row) {

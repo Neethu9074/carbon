@@ -29,11 +29,14 @@ import './ServiceExtraction.less';
 const block = 'in-service-extraction-form';
 const logger = createLogger('ServiceExtraction');
 
+const linkColumn = getLinkColumn(getServiceRuleConfigLink);
+linkColumn.disableSorting = true;
 const cols = [
-  getLinkColumn(getServiceRuleConfigLink),
+  linkColumn,
   {
     title: 'Order',
     type: 'custom',
+    disableSorting: true,
     typeArgs: {
       comparator: compare,
       get(row) {
@@ -41,6 +44,7 @@ const cols = [
           value: row.entity.get('order'),
           content: (
             <div className={`${block}__order-icons`}>
+              {row.entity.get('order')}
               <SvgIcon
                 className={`${block}__order-up`}
                 type="chevron_up"
@@ -269,7 +273,13 @@ export default class extends React.Component {
               <SectionHeading>
                 Service Rules
               </SectionHeading>
-              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+              <Table
+                cols={cols}
+                rows={rows}
+                getRowDetails={getRowDetails}
+                initialSortColumn={1}
+                initialSortDirection="asc"
+              />
             </Section>
           : null}
       </SubViewWrapper>
