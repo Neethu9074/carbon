@@ -54,7 +54,9 @@ export const isTraceView$ = navigationParameters$.map(params => params.pathname.
 
 export const eventViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/events';
-  params.query.q = removeField(params.query.q, 'event.type');
+  if (params.query.q) {
+    params.query.q = removeField(params.query.q, 'event.type');
+  }
   params.query.q = trySetField(params.query.q || '', 'event.type', 'incident');
 });
 
