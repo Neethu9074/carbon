@@ -13,7 +13,7 @@ export default function CrystalInfo({ snapshot }) {
         {data.get('crystal_version')}
       </DescriptionItem>
       <DescriptionItem title="Runtime Arguments">
-        {data.get('exec_args', emptyArray).join(' ')}
+        {data.get('args', emptyArray).join(' ')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Process ID">
