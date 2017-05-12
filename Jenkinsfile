@@ -61,39 +61,6 @@ stage ('Container Build') {
 
 }
 
-stage('Container Build Old') {
-  node {
-
-    deleteDir()
-
-    unstash name: "ui-client-build-${gitCommitId}"
-
-    sh "tar -xzf ${archiveName}"
-
-    withEnv([
-      "INSTANA_UICLIENT_COMMIT=${gitCommitId}",
-      "INSTANA_UICLIENT_BRANCH=${env.BRANCH_NAME}",
-      "INSTANA_CONTAINER_TAG=${instanaVersion}"
-    ]) {
-      sh  'j2 deployment/Dockerfile.j2 > Dockerfile'
-      sh  'mkdir deployment/ext-discovery'
-      dir('deployment/ext-discovery') {
-        git 'git@github.com:instana/discovery.git'
-      }
-      retry(3) {
-        // wrap in retry as zfs sometimes fails when building containers
-        def containerName = "registry-internal.instana.io/instana/ui-client/${env.BRANCH_NAME}"
-        sh "docker build -t ${containerName} ."
-        sh "docker tag ${containerName} ${containerName}:${instanaVersion}"
-        sh "docker push ${containerName}:latest"
-        sh "docker push ${containerName}:${instanaVersion}"
-        sh "docker rmi ${containerName}"
-      }
-    }
-
-  }
-}
-
 stage('Deployment') {
   node {
     milestone label: "deployment"
