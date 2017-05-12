@@ -2,10 +2,6 @@ FROM registry-internal.instana.io/instana/nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
-LABEL com.instana.commit.id="{{INSTANA_UICLIENT_COMMIT}}" \
-      com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}" \
-      com.instana.image.tag="{{INSTANA_CONTAINER_TAG}}"
-
 # Using this in combination with a .dockerignore file to reduce
 # the number of copy operations (and thus layers).
 COPY . /opt/all
@@ -17,7 +13,7 @@ RUN mkdir -p /etc/service/in-server && \
     mv /opt/all/deployment/serverConfig.json.j2    /opt/www/serverConfig.json.j2 && \
     mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
     mv /opt/all/deployment/discovery               /opt/discovery && \
-    mv /opt/all/deployment/ext-discovery/*         /opt/discovery/ && \
+    mv /opt/all/ext-discovery/*                    /opt/discovery/ && \
 
     # Install dependencies inside the container. We need to do this to compile
     # native extensions against the image's operating system. This makes the
@@ -31,5 +27,17 @@ RUN mkdir -p /etc/service/in-server && \
     apt-get clean && \
     apt-get purge && \
     rm -rf /opt/all /var/lib/apt/lists/* /tmp/* /var/tmp/**
+
+ENV COM_INSTANA_COMMIT_ID="{{GIT_COMMIT}}" \
+    COM_INSTANA_BRANCH="{{GIT_BRANCH}}" \
+    COM_INSTANA_COMMIT_AUTHOR="{{COMMIT_AUTHOR}}" \
+    COM_INSTANA_IMAGE_TAG="{{INSTANA_CONTAINER_TAG}}" \
+    COM_INSTANA_BUILD_URL="{{BUILD_URL}}"
+
+LABEL com.instana.commit.id="{{GIT_COMMIT}}" \
+      com.instana.branch="{{GIT_BRANCH}}" \
+      com.instana.commit.author="{{COMMIT_AUTHOR}}" \
+      com.instana.image.tag="{{INSTANA_CONTAINER_TAG}}" \
+      com.instana.build.url="{{BUILD_URL}}"
 
 CMD ["/sbin/my_init"]

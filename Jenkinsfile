@@ -50,7 +50,18 @@ stage('Node Build') {
   parallel buildSteps
 }
 
-stage('Container Build') {
+stage ('Container Build') {
+
+  containerBuild {
+    component    = 'ui-client'
+    commitId     = gitCommitId
+    commitAuthor = gitCommitAuthor
+    version      = instanaVersion
+  }
+
+}
+
+stage('Container Build Old') {
   node {
 
     deleteDir()
@@ -61,12 +72,8 @@ stage('Container Build') {
 
     withEnv([
       "INSTANA_UICLIENT_COMMIT=${gitCommitId}",
-      "COMMIT_AUTHOR=${gitCommitAuthor}",
-      "INSTANA_CONTAINER_TAG=${instanaVersion}",
       "INSTANA_UICLIENT_BRANCH=${env.BRANCH_NAME}",
-      "JOB_NAME=${env.JOB_NAME}",
-      "BUILD_NUMBER=${env.BUILD_NUMBER}",
-      "BUILD_URL=${env.BUILD_URL}"
+      "INSTANA_CONTAINER_TAG=${instanaVersion}"
     ]) {
       sh  'j2 deployment/Dockerfile.j2 > Dockerfile'
       sh  'mkdir deployment/ext-discovery'
