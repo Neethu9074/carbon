@@ -113,6 +113,7 @@ export default function RuleBindingForm({ rules, form, onChange, onChangeInRuleI
                   <ComboBox
                     name="ruleBinding-expirationTime"
                     value={field.value}
+                    className={`${block}__helpfified_input`}
                     options={[
                       { value: '', label: 'Please select' },
                       { value: '5000', label: '5s' },
