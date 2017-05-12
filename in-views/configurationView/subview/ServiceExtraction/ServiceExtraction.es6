@@ -155,7 +155,9 @@ export default class extends React.Component {
         error: false,
         loading: false,
         message: null,
-        serviceRules: this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
+        serviceRules: sortServiceRules(
+          this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
+        )
       });
     });
 
@@ -183,12 +185,12 @@ export default class extends React.Component {
       };
 
       const index = state.serviceRules.findIndex(eachService => serviceId === eachService.get('id'));
-      const newSerbices = state.serviceRules.update(index, modifiableServices =>
+      const newServices = state.serviceRules.update(index, modifiableServices =>
         modifiableServices.set('enabled', enabled)
       );
       return {
         status: state.status,
-        serviceRules: newSerbices
+        serviceRules: sortServiceRules(newServices)
       };
     });
 
@@ -220,12 +222,12 @@ export default class extends React.Component {
 
         // roll back the role change
         const index = state.serviceRules.findIndex(eachService => serviceId === eachService.get('id'));
-        const newSerbices = state.serviceRules.update(index, modifiableServices =>
+        const newServices = state.serviceRules.update(index, modifiableServices =>
           modifiableServices.set('enabled', previousEnabled)
         );
         return {
           status: state.status,
-          serviceRules: newSerbices
+          serviceRules: sortServiceRules(newServices)
         };
       });
     });
@@ -334,13 +336,13 @@ export default class extends React.Component {
     rules = rules.setIn([matches.indexA, 'order'], matches.b.get('order'));
 
     const result$ = updateServiceRules([
-      rules.get(matches.indexB).set('order', matches.a.get('order')).toJS(),
-      rules.get(matches.indexA).set('order', matches.b.get('order')).toJS()
+      originalList.get(matches.indexB).set('order', matches.a.get('order')).toJS(),
+      originalList.get(matches.indexA).set('order', matches.b.get('order')).toJS()
     ]);
 
     // optimistic set new rules list
     this.setState({
-      serviceRules: rules
+      serviceRules: sortServiceRules(rules)
     });
     result$.errors().once(error => {
       const message = `Failed to set service rules ordering: ${error.message}`;
@@ -348,7 +350,7 @@ export default class extends React.Component {
 
       // if something failed, restore the old list
       this.setState({
-        serviceRules: originalList
+        serviceRules: sortServiceRules(originalList)
       });
     });
   }
@@ -373,4 +375,8 @@ function getRowDetails(row) {
       </DescriptionList>
     </div>
   );
+}
+
+function sortServiceRules(rules) {
+  return rules.sort((a, b) => a.get('order') - b.get('order'));
 }
