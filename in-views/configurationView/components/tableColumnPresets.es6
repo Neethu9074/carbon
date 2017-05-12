@@ -3,6 +3,7 @@ import React from 'react';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import SavingToggle from 'in-views/configurationView/components/SavingToggle';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { compare } from 'in-services/util/boolean';
 
 export function getLinkColumn(getLink, propertyName = 'name') {
   return {
@@ -30,9 +31,8 @@ export function getEnableToggleColumn() {
   return {
     title: 'Enabled',
     type: 'custom',
-    disableSorting: true,
     typeArgs: {
-      comparator: (a, b) => (a === b ? -1 : 1),
+      comparator: compare,
       get(row) {
         return {
           value: row.entity.get('enabled', false),
