@@ -2,55 +2,24 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
+import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApiTokenConfigLink } from 'in-stores/navigation/configuration';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { openApiTokenConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 import Button from 'in-components/Button';
 
 const logger = createLogger('ApiTokenManagement');
 
-const cols = [
-  {
-    title: 'Name',
-    type: 'custom',
-    typeArgs: {
-      comparator: compareIgnoreCase,
-      get(row) {
-        return getApiTokenConfigLink(row.key).map(href => {
-          return {
-            value: row.apiToken.get('name'),
-            content: <Link href={href} tokenName={row.apiToken.get('name')} />
-          };
-        });
-      }
-    }
-  },
-  {
-    title: '',
-    type: 'custom',
-    typeArgs: {
-      comparator: () => 0,
-      get(row) {
-        return always({
-          value: 0,
-          content: <DeleteButton itemName={row.apiToken.get('name')} onDelete={() => row.onDeleteApiToken(row.key)} />
-        });
-      }
-    }
-  }
-];
+const cols = [getLinkColumn(getApiTokenConfigLink), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'ApiTokens';
@@ -121,8 +90,8 @@ export default class extends React.Component {
     const rows = sortedApiTokens.map(apiToken => {
       return {
         key: apiToken.get('id'),
-        apiToken: apiToken,
-        onDeleteApiToken: this.onDelete
+        entity: apiToken,
+        onDelete: this.onDelete
       };
     });
 
@@ -221,12 +190,4 @@ export default class extends React.Component {
       });
     });
   };
-}
-
-function Link({ href, tokenName }) {
-  return (
-    <a href={href}>
-      {tokenName}
-    </a>
-  );
 }

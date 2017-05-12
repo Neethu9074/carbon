@@ -32,7 +32,7 @@ export function getEnableToggleColumn() {
     title: 'Enabled',
     type: 'custom',
     typeArgs: {
-      comparator: (a, b) => b.enabled - a.enabled,
+      comparator: (a, b) => (a === b ? -1 : 1),
       get(row) {
         return always({
           value: row.entity.get('enabled', false),

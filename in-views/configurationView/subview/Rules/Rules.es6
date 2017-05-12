@@ -1,55 +1,24 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
+import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import Section from 'in-views/configurationView/components/Section';
 import { getRuleLink } from 'in-stores/navigation/configuration';
 import { openRule } from 'in-stores/navigation/configuration';
 import { getRules, deleteRule } from 'in-services/api/rules';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 import Button from 'in-components/Button';
 
 const logger = createLogger('Rules');
 
-const cols = [
-  {
-    title: 'Name',
-    type: 'custom',
-    typeArgs: {
-      comparator: compareIgnoreCase,
-      get(row) {
-        return getRuleLink(row.key).map(href => {
-          return {
-            value: row.rule.get('name'),
-            content: <Link href={href} ruleName={row.rule.get('name')} />
-          };
-        });
-      }
-    }
-  },
-  {
-    title: '',
-    type: 'custom',
-    typeArgs: {
-      comparator: () => 0,
-      get(row) {
-        return always({
-          value: 0,
-          content: <DeleteButton itemName={row.rule.get('name')} onDelete={() => row.onDeleteRule(row.key)} />
-        });
-      }
-    }
-  }
-];
+const cols = [getLinkColumn(getRuleLink), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'Rules';
@@ -153,8 +122,8 @@ export default class extends React.Component {
     const rows = rules.toArray().map(rule => {
       return {
         key: rule.get('id'),
-        rule: rule,
-        onDeleteRule: this.onDeleteRule
+        entity: rule,
+        onDelete: this.onDeleteRule
       };
     });
 
@@ -190,14 +159,6 @@ export default class extends React.Component {
   }
 }
 
-function Link({ href, ruleName }) {
-  return (
-    <a href={href}>
-      {ruleName}
-    </a>
-  );
-}
-
 function getRowDetails(row) {
-  return <RuleDetails rule={row.rule} />;
+  return <RuleDetails rule={row.entity} />;
 }

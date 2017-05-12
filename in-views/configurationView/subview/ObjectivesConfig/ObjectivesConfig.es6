@@ -2,23 +2,24 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
+import {
+  getLinkColumn,
+  getEnableToggleColumn,
+  getDeleteButtonColumn
+} from 'in-views/configurationView/components/tableColumnPresets';
 import { createObjective, getObjectives, saveObjective, deleteObjective, setEnabled } from 'in-services/api/objectives';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import SavingToggle from 'in-views/configurationView/components/SavingToggle';
-import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { getObjectivesConfigLink } from 'in-stores/navigation/configuration';
 import { openObjectiveConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { formatDateTime } from 'in-services/formatters/date';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 import Button from 'in-components/Button';
 
 import './ObjectivesConfig.less';
@@ -26,55 +27,7 @@ import './ObjectivesConfig.less';
 const block = 'in-objective-form';
 const logger = createLogger('ObjectivesConfig');
 
-const cols = [
-  {
-    title: 'Name',
-    type: 'custom',
-    typeArgs: {
-      comparator: compareIgnoreCase,
-      get(row) {
-        return getObjectivesConfigLink(row.key).map(href => {
-          return {
-            value: row.objective.get('name'),
-            content: <Link href={href} objectiveName={row.objective.get('name')} />
-          };
-        });
-      }
-    }
-  },
-  {
-    title: 'Enabled',
-    type: 'custom',
-    typeArgs: {
-      comparator: (a, b) => b.enabled - a.enabled,
-      get(row) {
-        return always({
-          value: row.objective.get('enabled', false),
-          content: (
-            <SavingToggle
-              checked={row.objective.get('enabled', false)}
-              onChange={value => row.setEnabled(row.objective, value)}
-              status={row.status}
-            />
-          )
-        });
-      }
-    }
-  },
-  {
-    title: '',
-    type: 'custom',
-    typeArgs: {
-      comparator: () => 0,
-      get(row) {
-        return always({
-          value: 0,
-          content: <DeleteButton itemName={row.objective.get('name')} onDelete={() => row.onDeleteObjective(row.key)} />
-        });
-      }
-    }
-  }
-];
+const cols = [getLinkColumn(getObjectivesConfigLink), getEnableToggleColumn(), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'ObjectivesConfig';
@@ -258,8 +211,8 @@ export default class extends React.Component {
     const rows = objectives.toArray().map(objective => {
       return {
         key: objective.get('id'),
-        objective: objective,
-        onDeleteObjective: this.onDeleteObjective,
+        entity: objective,
+        onDelete: this.onDeleteObjective,
         setEnabled: this.setEnabled,
         status: this.state.status[objective.get('id')]
       };
@@ -298,7 +251,7 @@ export default class extends React.Component {
 }
 
 function getRowDetails(row) {
-  const objective = row.objective;
+  const objective = row.entity;
   const match = objective.get('match');
   const rule = objective.get('rule');
   let reductionOperation = rule.get('reductionOperation', '');
@@ -347,14 +300,6 @@ function getRowDetails(row) {
         </DescriptionItem>
       </DescriptionList>
     </div>
-  );
-}
-
-function Link({ href, objectiveName }) {
-  return (
-    <a href={href}>
-      {objectiveName}
-    </a>
   );
 }
 

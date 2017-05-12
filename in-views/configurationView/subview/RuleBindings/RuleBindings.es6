@@ -1,24 +1,25 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
+import {
+  getLinkColumn,
+  getEnableToggleColumn,
+  getDeleteButtonColumn
+} from 'in-views/configurationView/components/tableColumnPresets';
 import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-services/api/ruleBindings';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import SavingToggle from 'in-views/configurationView/components/SavingToggle';
-import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { getRuleBindingLink } from 'in-stores/navigation/configuration';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { openRuleBinding } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { formatDateTime } from 'in-services/formatters/date';
 import { close } from 'in-components/DialogPresenter/store';
-import { compareIgnoreCase } from 'in-services/util/string';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 import { getRule } from 'in-services/api/rules';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -28,57 +29,7 @@ import './RuleBindings.less';
 const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
-const cols = [
-  {
-    title: 'Name',
-    type: 'custom',
-    typeArgs: {
-      comparator: compareIgnoreCase,
-      get(row) {
-        return getRuleBindingLink(row.key).map(href => {
-          return {
-            value: row.ruleBinding.get('text'),
-            content: <Link href={href} ruleBindingName={row.ruleBinding.get('text')} />
-          };
-        });
-      }
-    }
-  },
-  {
-    title: 'Enabled',
-    type: 'custom',
-    typeArgs: {
-      comparator: (a, b) => b.enabled - a.enabled,
-      get(row) {
-        return always({
-          value: row.ruleBinding.get('enabled', false),
-          content: (
-            <SavingToggle
-              checked={row.ruleBinding.get('enabled', false)}
-              onChange={value => row.setEnabled(row.ruleBinding, value)}
-              status={row.status}
-            />
-          )
-        });
-      }
-    }
-  },
-  {
-    title: '',
-    type: 'custom',
-    typeArgs: {
-      comparator: () => 0,
-      get(row) {
-        return always({
-          value: 0,
-          content: (
-            <DeleteButton itemName={row.ruleBinding.get('name')} onDelete={() => row.onDeleteRuleBinding(row.key)} />
-          )
-        });
-      }
-    }
-  }
-];
+const cols = [getLinkColumn(getRuleBindingLink, 'text'), getEnableToggleColumn(), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'RuleBindings';
@@ -242,8 +193,8 @@ export default class extends React.Component {
     const rows = ruleBindings.toArray().map(ruleBinding => {
       return {
         key: ruleBinding.get('id'),
-        ruleBinding: ruleBinding,
-        onDeleteRuleBinding: this.onDeleteRuleBinding,
+        entity: ruleBinding,
+        onDelete: this.onDeleteRuleBinding,
         setEnabled: this.setEnabled,
         status: this.state.status[ruleBinding.get('id')]
       };
@@ -282,7 +233,7 @@ export default class extends React.Component {
 }
 
 function getRowDetails(row) {
-  return <Details ruleBinding={row.ruleBinding} />;
+  return <Details ruleBinding={row.entity} />;
 }
 
 const Details = connectTo(
@@ -325,14 +276,6 @@ const Details = connectTo(
     );
   }
 );
-
-function Link({ href, ruleBindingName }) {
-  return (
-    <a href={href}>
-      {ruleBindingName}
-    </a>
-  );
-}
 
 function mapSeverityToLabel(severity) {
   if (severity === 0) {
