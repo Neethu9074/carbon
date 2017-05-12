@@ -152,7 +152,7 @@ export default class Table extends React.Component {
             <tr>
               {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
               {cols.map((col, i) => (
-                <th key={i} className={headerCellElement}>
+                <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
                   <SortIndicator
                     title={col.title}
                     index={i}

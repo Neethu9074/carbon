@@ -29,6 +29,7 @@ export function getEnableToggleColumn() {
   return {
     title: 'Enabled',
     type: 'boolean',
+    width: 80,
     typeArgs: {
       getValue(row) {
         return row.entity.get('enabled', false);
@@ -47,6 +48,7 @@ export function getDeleteButtonColumn(propertyName = 'name') {
   return {
     title: '',
     type: 'custom',
+    width: 80,
     disableSorting: true,
     typeArgs: {
       comparator: () => 0,

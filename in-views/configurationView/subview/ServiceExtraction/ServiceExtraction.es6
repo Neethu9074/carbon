@@ -35,6 +35,7 @@ const cols = [
   {
     title: 'Order',
     type: 'custom',
+    width: 80,
     disableSorting: true,
     typeArgs: {
       comparator: compare,
