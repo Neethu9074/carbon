@@ -1,7 +1,8 @@
 import { Map, fromJS } from 'immutable';
 import React from 'react';
 
-import { getLabel, getCategory, getTypeLabelSingular } from 'in-sdk/tracing';
+import { getLabel, getCategory, getTypeLabelSingular, getTypeLabelPlural, getCategoryIcon } from 'in-sdk/tracing';
+import TraceGroup from 'in-views/traceAnalyticsView/components/TraceGroup';
 import { getTraceAnalytics } from 'in-services/api/traceAnalytics';
 import { selectedTraceIds$ } from 'in-stores/traces/analytics';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -20,7 +21,7 @@ export default class TraceGroupings extends React.Component {
     this.state = {
       traceIds: [],
       loading: true,
-      analyticsResult: [],
+      traceGroups: [],
       error: null
     };
   }
@@ -35,17 +36,18 @@ export default class TraceGroupings extends React.Component {
     this.setState({
       traceIds,
       isLoading: true,
-      analyticsResult: [],
+      traceGroups: [],
       error: null
     });
 
     this.traceGroupingsSubscription = getTraceAnalytics({ traceIds }).once(
-      result => {
-        this.enrichTraceGroupsWithLabelsBasedOnDataSample(result);
+      traceGroups => {
+        this.enrichGroups(traceGroups);
+        console.log(traceGroups);
         this.setState({
           traceIds,
           isLoading: false,
-          analyticsResult: result,
+          traceGroups: traceGroups,
           error: null
         });
       },
@@ -53,27 +55,36 @@ export default class TraceGroupings extends React.Component {
         this.setState({
           traceIds,
           isLoading: false,
-          analyticsResult: [],
+          traceGroups: [],
           error: error.message
         });
       }
     );
   };
 
-  enrichTraceGroupsWithLabelsBasedOnDataSample(traceGroups) {
+  enrichGroups(traceGroups) {
     for (let i = 0; i < traceGroups.length; i++) {
-      this.enrichTraceGroupWithLabelsBasedOnDataSample(traceGroups[i]);
+      this.enrichGroup(traceGroups[i]);
     }
   }
 
-  enrichTraceGroupWithLabelsBasedOnDataSample(traceGroup) {
-    traceGroup.fakeSpan = Map({
+  enrichGroup(traceGroup) {
+    const fakeSpan = Map({
       name: traceGroup.spanType,
       data: fromJS(traceGroup.dataSample)
     });
-    traceGroup.label = getLabel(traceGroup.fakeSpan);
-    traceGroup.category = getCategory(traceGroup.fakeSpan);
-    traceGroup.typeLabelSingular = getTypeLabelSingular(traceGroup.fakeSpan);
+    const category = getCategory(fakeSpan);
+    const typeLabel = traceGroup.statistics.count === 1 ? getTypeLabelSingular(fakeSpan): getTypeLabelPlural(fakeSpan);
+
+    traceGroup.enrichment = {
+      fakeSpan,
+      label: getLabel(fakeSpan),
+      category,
+      categoryIcon: getCategoryIcon(category),
+      typeLabel
+    };
+
+    this.enrichGroups(traceGroup.children);
   }
 
   componentWillUnmount() {
@@ -91,6 +102,12 @@ export default class TraceGroupings extends React.Component {
         </p>
       );
     }
-    return <span>Got some results for ya!</span>;
+    return (
+      <ol>
+        {this.state.traceGroups.map(traceGroup =>
+          <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} />
+        )}
+      </ol>
+    );
   }
 }
