@@ -3,6 +3,7 @@ import React from 'react';
 import { expandedSide$, toggleLeft, toggleRight } from 'in-views/traceAnalyticsView/stores/expandedSide';
 import ToggleViewHeader from 'in-components/TwoColumnView/components/ToggleViewHeader';
 import SelectedTraces from 'in-views/traceAnalyticsView/components/SelectedTraces';
+import TraceGroupings from 'in-views/traceAnalyticsView/components/TraceGroupings';
 import TwoColumnView from 'in-components/TwoColumnView';
 
 const leftContent = [
@@ -11,7 +12,7 @@ const leftContent = [
 ];
 const rightContent = [
   <ToggleViewHeader key="0" side="right" expandedSide$={expandedSide$} toggle={toggleRight} />,
-  <span key="1">Trace Analytics!!!1111</span>
+  <TraceGroupings key="1" />
 ];
 
 export default function TraceAnalyticsView() {

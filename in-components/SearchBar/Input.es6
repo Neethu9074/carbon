@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
-import { onDown, onMove, onLeave } from 'in-services/reactiveMouseEvents';
+import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';

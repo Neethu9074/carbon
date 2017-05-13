@@ -1,5 +1,5 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import { onWheel, onMove } from 'in-services/reactiveMouseEvents';
+import { onWheel, onMove } from 'in-services/util/reactiveMouseEvents';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { width, height } from 'in-map/stores/indexStore';
 import { eventBus } from 'in-map/services/eventBus';

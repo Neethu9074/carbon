@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
-import { onMove, onLeave } from 'in-services/reactiveMouseEvents';
+import { onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 const WIDTH_OF_BUTTONS_IN_PX = 52;
@@ -19,7 +19,7 @@ export default function createHighlightedTimeframeRenderer(container, glassPane,
   hide();
 
   const highlightedTimeframeSubscription = highlightedTimeframe$.subscribe(
-    _highlightedTimeframe => highlightedTimeframe = _highlightedTimeframe
+    _highlightedTimeframe => (highlightedTimeframe = _highlightedTimeframe)
   );
 
   const isVisibleSubscription = eventEmitter

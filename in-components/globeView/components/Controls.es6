@@ -1,6 +1,6 @@
 import Hammer from 'hammerjs';
 
-import { onWheel } from 'in-services/reactiveMouseEvents';
+import { onWheel } from 'in-services/util/reactiveMouseEvents';
 import { getDeltaTime } from 'in-map/misc/time';
 
 const RAD_2_DEG = Math.PI / 180;

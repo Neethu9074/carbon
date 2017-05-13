@@ -1,5 +1,5 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import { onDown } from 'in-services/reactiveMouseEvents';
+import { onDown } from 'in-services/util/reactiveMouseEvents';
 import { eventBus } from 'in-map/services/eventBus';
 
 export default class DragAndDropDecorator extends Decorator {

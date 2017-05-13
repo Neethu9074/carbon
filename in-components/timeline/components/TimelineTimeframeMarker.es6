@@ -3,7 +3,7 @@ import React from 'react';
 
 import { timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed } from 'in-components/timeline/timelineStore';
 import { bigBangTimestamp$, timeframeShape } from 'in-stores/timeline';
-import { onMove, onUp } from 'in-services/reactiveMouseEvents';
+import { onMove, onUp } from 'in-services/util/reactiveMouseEvents';
 import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';

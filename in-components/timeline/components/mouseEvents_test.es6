@@ -22,7 +22,7 @@ describe('mouseEvents', () => {
     'in-stores/serverTime': {
       serverTime$: serverTimeMock
     },
-    'in-services/reactiveMouseEvents': {
+    'in-services/util/reactiveMouseEvents': {
       onWheel: () => create().subscribe(),
       onMove: () => create().subscribe(),
       onDown: () => create().subscribe(),
