@@ -3,9 +3,11 @@ import React from 'react';
 
 import { getLabel, getCategory, getTypeLabelSingular, getTypeLabelPlural, getCategoryIcon } from 'in-sdk/tracing';
 import TraceGroup from 'in-views/traceAnalyticsView/components/TraceGroup';
+import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import { getTraceAnalytics } from 'in-services/api/traceAnalytics';
 import { selectedTraceIds$ } from 'in-stores/traces/analytics';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { hexToRGB } from 'in-services/formatters/color';
 import { dispose } from 'in-services/util/ro';
 
 import './TraceGroupings.less';
@@ -76,11 +78,18 @@ export default class TraceGroupings extends React.Component {
     const category = getCategory(fakeSpan);
     const typeLabel = traceGroup.statistics.count === 1 ? getTypeLabelSingular(fakeSpan): getTypeLabelPlural(fakeSpan);
 
+    const categoryColor = spanCategoryColors[category];
+    const categoryColorRgb = hexToRGB(categoryColor);
+    const categoryBackgroundOpaque = { background: categoryColor };
+    const categoryBackgroundTransparent = { background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.5)` };
+
     traceGroup.enrichment = {
       fakeSpan,
       label: getLabel(fakeSpan),
       category,
       categoryIcon: getCategoryIcon(category),
+      categoryBackgroundOpaque,
+      categoryBackgroundTransparent,
       typeLabel
     };
 
@@ -103,11 +112,13 @@ export default class TraceGroupings extends React.Component {
       );
     }
     return (
-      <ol>
-        {this.state.traceGroups.map(traceGroup =>
-          <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} />
-        )}
-      </ol>
+      <div className={block}>
+        <ol className={`${block}__groupings`}>
+          {this.state.traceGroups.map(traceGroup =>
+            <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} level={0} />
+          )}
+        </ol>
+      </div>
     );
   }
 }
