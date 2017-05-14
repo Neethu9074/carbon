@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, millis, percentage } from 'in-services/formatters/number';
+import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -13,6 +14,7 @@ const groupActiveClassName = `${groupElement}--active`;
 const groupActiveElement = `${groupElement} ${groupActiveClassName}`;
 const typeElement = `${block}__type`;
 const typeIconElement = `${block}__type-icon`;
+const expandElement = `${block}__toggle-expand`;
 const callsElement = `${block}__calls`;
 const totalTimeElement = `${block}__total-time`;
 const minElement = `${block}__min`;
@@ -24,6 +26,7 @@ const errorCountValueElement = `${block}__error-count`;
 const callElement = `${block}__call`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
+const detailsElement = `${block}__details`;
 
 const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
 
@@ -33,13 +36,14 @@ export default class TraceGrouping extends React.Component {
 
     this.state = {
       showChildren: false,
-      active: false
+      active: false,
+      showDetails: false
     };
   }
 
   render() {
     const { traceGroup, level, traceGroupsComparator } = this.props;
-    const { showChildren, active } = this.state;
+    const { showChildren, active, showDetails } = this.state;
 
     return (
       <li className={block}>
@@ -51,6 +55,14 @@ export default class TraceGrouping extends React.Component {
           tabIndex={10000}
           ref={this.setDomRef}
         >
+          <div className={expandElement}>
+            <SvgIcon
+              type={showDetails ? 'timeline_close' : 'timeline_open'}
+              width={12}
+              className={`${block}__toggle-expand-details`}
+              onClick={this.toggleDetails}
+            />
+          </div>
           <div className={callsElement}>
             {number.compact(traceGroup.statistics.count)}
           </div>
@@ -85,7 +97,7 @@ export default class TraceGrouping extends React.Component {
             <SvgIcon
               type={showChildren ? 'triangle_down' : 'triangle_right'}
               width={showChildren ? 11 : 8}
-              onClick={this.toggle}
+              onClick={this.toggleChildren}
               className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
             />
 
@@ -100,6 +112,12 @@ export default class TraceGrouping extends React.Component {
             {traceGroup.enrichment.label}
           </div>
         </div>
+
+        {showDetails
+          ? <div className={detailsElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
+              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} />
+            </div>
+          : null}
 
         <ol className={subGroupingsElement}>
           {showChildren &&
@@ -127,11 +145,18 @@ export default class TraceGrouping extends React.Component {
     }
   };
 
-  toggle = e => {
+  toggleChildren = e => {
     e.stopPropagation();
 
     this.setState({
       showChildren: !this.state.showChildren
+    });
+  };
+
+  toggleDetails = e => {
+    e.stopPropagation();
+    this.setState({
+      showDetails: !this.state.showDetails
     });
   };
 
@@ -161,6 +186,10 @@ export default class TraceGrouping extends React.Component {
       this.moveActiveState(-1);
     } else if (e.keyCode === keyCodes.arrows.down) {
       this.moveActiveState(1);
+    } else if (e.keyCode === keyCodes.space) {
+      this.setState({
+        showDetails: !this.state.showDetails
+      });
     }
   };
 

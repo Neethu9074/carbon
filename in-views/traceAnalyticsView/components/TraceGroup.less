@@ -14,7 +14,7 @@
     }
   }
 
-  &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call {
+  &__toggle-expand, &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call {
     display: inline-block;
     box-sizing: border-box;
     border-right: 1px solid #D5DFE4;
@@ -23,6 +23,21 @@
 
     &:last-child {
       border-right: 0;
+    }
+  }
+
+  &__toggle-expand {
+    width: 1.75rem;
+  }
+
+  &__toggle-expand-details {
+    fill: #2D4048;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+
+    &:hover {
+      fill: #8c969a;
     }
   }
 
@@ -65,7 +80,7 @@
   }
 
   &__call {
-    width: ~'calc(100% - 30rem)';
+    width: ~'calc(100% - 31.75rem)';
   }
 
   &__type {
@@ -91,5 +106,10 @@
     &--hidden {
       visibility: hidden;
     }
+  }
+
+  &__details {
+    border-bottom: 1px solid #D5DFE4;
+    padding: 0.5rem 0.5rem;
   }
 }

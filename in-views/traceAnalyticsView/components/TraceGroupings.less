@@ -13,14 +13,15 @@
     margin: 0;
     padding: 0;
     overflow-y: auto;
-    max-height: 100%;
+    max-height: ~'calc(100% - 26px)';
+    height: ~'calc(100% - 26px)';
   }
 
   &__header {
     width: 100%;
   }
 
-  &__calls, &__total-time, &__min, &__avg, &__max, &__errors, &__call {
+  &__toggle-expand, &__calls, &__total-time, &__min, &__avg, &__max, &__errors, &__call {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -33,10 +34,12 @@
     font-size: .688rem;
     text-decoration: none;
     box-sizing: border-box;
+    cursor: pointer;
+  }
 
-    &:last-child {
-      border-right: 0;
-    }
+  &__toggle-expand {
+    width: 1.75rem;
+    cursor: auto;
   }
 
   &__calls {
@@ -64,7 +67,8 @@
   }
 
   &__call {
-    width: ~'calc(100% - 30rem)';
+    width: ~'calc(100% - 31.75rem)';
+    border-right: 0;
   }
 
   &__header-cell {

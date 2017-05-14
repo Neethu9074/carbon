@@ -22,6 +22,7 @@ const headerElement = `${block}__header`;
 const headerCellElement = `${block}__header-cell`;
 const activeHeaderCellElement = `${headerCellElement} ${headerCellElement}--active`;
 const orderIconElement = `${block}__header-cell-order`;
+const expandElement = `${block}__toggle-expand`;
 const callsElement = `${block}__calls`;
 const totalTimeElement = `${block}__total-time`;
 const minElement = `${block}__min`;
@@ -139,6 +140,7 @@ export default class TraceGroupings extends React.PureComponent {
     return (
       <div className={block}>
         <div className={headerElement}>
+          <div className={expandElement} />
           <HeaderCell
             className={callsElement}
             activeComparator={traceGroupsComparator}
@@ -211,7 +213,7 @@ export default class TraceGroupings extends React.PureComponent {
           </HeaderCell>
         </div>
 
-        <ol className={`${block}__groupings`} tabIndex={10000}>
+        <ol className={`${block}__groupings`}>
           {this.state.traceGroups
             .sort(comparator)
             .map(traceGroup => (
