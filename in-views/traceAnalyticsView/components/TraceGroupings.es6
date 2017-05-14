@@ -210,7 +210,7 @@ export default class TraceGroupings extends React.PureComponent {
           </HeaderCell>
         </div>
 
-        <ol className={`${block}__groupings`}>
+        <ol className={`${block}__groupings`} tabIndex={10000}>
           {this.state.traceGroups
             .sort(comparator)
             .map(traceGroup => (

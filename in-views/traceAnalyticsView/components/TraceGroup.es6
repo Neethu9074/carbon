@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, millis } from 'in-services/formatters/number';
+import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceGroup.less';
@@ -8,6 +9,8 @@ import './TraceGroup.less';
 const block = 'in-trace-analytics-grouping';
 const subGroupingsElement = `${block}__sub-groupings`;
 const groupElement = `${block}__group`;
+const groupActiveClassName = `${groupElement}--active`;
+const groupActiveElement = `${groupElement} ${groupActiveClassName}`;
 const typeElement = `${block}__type`;
 const typeIconElement = `${block}__type-icon`;
 const callsElement = `${block}__calls`;
@@ -20,22 +23,32 @@ const callElement = `${block}__call`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
 
+const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
+
 export default class TraceGrouping extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      showChildren: false
+      showChildren: false,
+      active: false
     };
   }
 
   render() {
     const { traceGroup, level, traceGroupsComparator } = this.props;
-    const { showChildren } = this.state;
+    const { showChildren, active } = this.state;
 
     return (
       <li className={block}>
-        <div className={groupElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
+        <div
+          className={active ? groupActiveElement : groupElement}
+          style={traceGroup.enrichment.categoryBackgroundTransparent}
+          onClick={this.onClick}
+          onKeyDown={this.onKeyDown}
+          tabIndex={10000}
+          ref={this.setDomRef}
+        >
           <div className={callsElement}>
             {number.compact(traceGroup.statistics.count)}
           </div>
@@ -97,9 +110,75 @@ export default class TraceGrouping extends React.Component {
     );
   }
 
-  toggle = () => {
+  setDomRef = domElement => {
+    this.domElement = domElement;
+
+    // removal case
+    if (domElement) {
+      domElement.setActive = this.setActive;
+    }
+  };
+
+  toggle = e => {
+    e.stopPropagation();
+
     this.setState({
       showChildren: !this.state.showChildren
     });
   };
+
+  onClick = e => {
+    e.stopPropagation();
+    removeAllOtherActiveStates();
+    this.setActive(true);
+  };
+
+  onKeyDown = e => {
+    if (e.keyCode === keyCodes.arrows.right) {
+      e.stopPropagation();
+
+      if (this.state.showChildren) {
+        this.moveActiveState(1);
+      } else {
+        this.setState({ showChildren: true });
+      }
+    } else if (e.keyCode === keyCodes.arrows.left) {
+      e.stopPropagation();
+      if (this.state.showChildren) {
+        this.setState({ showChildren: false });
+      } else {
+        this.moveActiveState(-1);
+      }
+    } else if (e.keyCode === keyCodes.arrows.up) {
+      e.stopPropagation();
+      this.moveActiveState(-1);
+    } else if (e.keyCode === keyCodes.arrows.down) {
+      e.stopPropagation();
+      this.moveActiveState(1);
+    }
+  };
+
+  moveActiveState(modification) {
+    const selector = `.${traceAnalyticsGroupingsWrapperClassName} .${groupElement}`;
+    const elements = Array.prototype.slice.call(document.querySelectorAll(selector));
+    const newActiveElementIndex = Math.min(
+      elements.length - 1,
+      Math.max(0, elements.indexOf(this.domElement) + modification)
+    );
+    removeAllOtherActiveStates();
+    elements[newActiveElementIndex].setActive(true);
+    elements[newActiveElementIndex].focus();
+  }
+
+  setActive = active => {
+    this.setState({ active });
+  };
+}
+
+function removeAllOtherActiveStates() {
+  const selector = `.${traceAnalyticsGroupingsWrapperClassName} .${groupActiveClassName}`;
+  const activeElements = document.querySelectorAll(selector);
+  for (let i = activeElements.length - 1; i >= 0; i--) {
+    activeElements[i].setActive(false);
+  }
 }
