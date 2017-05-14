@@ -109,7 +109,8 @@ export default class TraceGroupings extends React.PureComponent {
       categoryIcon: getCategoryIcon(category),
       categoryBackgroundOpaque,
       categoryBackgroundTransparent,
-      typeLabel
+      typeLabel,
+      errorPercentage: 1 / traceGroup.statistics.count * traceGroup.statistics.errorCount
     };
 
     this.enrichGroups(traceGroup.children);
@@ -191,12 +192,12 @@ export default class TraceGroupings extends React.PureComponent {
           <HeaderCell
             className={errorsElement}
             activeComparator={traceGroupsComparator}
-            comparator={compareTraceGroupByErrorCount}
+            comparator={compareTraceGroupByErrorPercentage}
             activeOrder={order}
             setOrder={this.setOrder}
             defaultOrder="desc"
           >
-            #Errors
+            Errors
           </HeaderCell>
           <HeaderCell
             className={callElement}
@@ -278,8 +279,8 @@ function compareTraceGroupByDurationMax(a, b) {
   return compareNumber(a.statistics.durationMax, b.statistics.durationMax);
 }
 
-function compareTraceGroupByErrorCount(a, b) {
-  return compareNumber(a.statistics.errorCount, b.statistics.errorCount);
+function compareTraceGroupByErrorPercentage(a, b) {
+  return compareNumber(a.enrichment.errorPercentage, b.enrichment.errorPercentage);
 }
 
 function compareTraceGroupByLabel(a, b) {

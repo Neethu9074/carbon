@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, millis } from 'in-services/formatters/number';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -19,6 +19,8 @@ const minElement = `${block}__min`;
 const avgElement = `${block}__avg`;
 const maxElement = `${block}__max`;
 const errorsElement = `${block}__errors`;
+const errorsPercentageIndicatorElement = `${block}__errors-percentage-indicator`;
+const errorCountValueElement = `${block}__error-count`;
 const callElement = `${block}__call`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
@@ -65,7 +67,13 @@ export default class TraceGrouping extends React.Component {
             {millis.compact(traceGroup.statistics.durationMax)}
           </div>
           <div className={errorsElement}>
-            {number.compact(traceGroup.statistics.errorCount)}
+            <div
+              className={errorsPercentageIndicatorElement}
+              style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
+            />
+            <span className={errorCountValueElement}>
+              {percentage.compact(traceGroup.enrichment.errorPercentage)}
+            </span>
           </div>
           <div
             className={callElement}
