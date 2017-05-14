@@ -8,55 +8,133 @@ const selectedTraces = createStore({
   name: 'traces/analytics/selectedTraces',
   // trace id => immutable shallow root span
   initialValue: {
-    '3488288632090100657': fromJS({
-      traceId: '3488288632090100657',
-      start: 1494586672401,
-      errorCount: 0,
-      error: false,
+    '-3934138743993700831': fromJS({
+      traceId: '-3934138743993700831',
+      start: 1494739776347,
+      errorCount: 1,
+      error: true,
       data: {
         http: {
           method: 'GET',
           host: 'localhost:84',
           url: '/shop',
-          status: '200'
+          status: '500'
         }
       },
       totalErrorCount: 0,
       name: 'spring-web',
-      duration: 77,
+      duration: 14,
       kind: 'entry',
       rels: {
         destinationPhysicalEndpoint: {
           pid: '5698',
           host_id: 'ae:f6:5c:ff:fe:94:ce:ee'
         },
-        destinationServiceId: 'MvbDbfjmTKoiwgV0x92Qyesj2xw'
+        destinationServiceId: 'P9wdg-O_QgPAOgiqtk_ErPIUAzs'
       },
       batchSize: 0
     }),
-    '2070952517686851': fromJS({
-      traceId: '2070952517686851',
-      start: 1494591139726,
+    '-9203742528333768621': fromJS({
+      traceId: '-9203742528333768621',
+      start: 1494739776289,
+      errorCount: 1,
+      error: true,
+      data: {
+        http: {
+          method: 'GET',
+          host: 'localhost:84',
+          url: '/shop',
+          status: '500'
+        }
+      },
+      totalErrorCount: 0,
+      name: 'spring-web',
+      duration: 32,
+      kind: 'entry',
+      rels: {
+        destinationPhysicalEndpoint: {
+          pid: '5698',
+          host_id: 'ae:f6:5c:ff:fe:94:ce:ee'
+        },
+        destinationServiceId: 'P9wdg-O_QgPAOgiqtk_ErPIUAzs'
+      },
+      batchSize: 0
+    }),
+    '7867761613560289337': fromJS({
+      traceId: '7867761613560289337',
+      start: 1494739776280,
+      errorCount: 1,
+      error: true,
+      data: {
+        http: {
+          method: 'GET',
+          host: 'localhost:84',
+          url: '/shop',
+          status: '500'
+        }
+      },
+      totalErrorCount: 0,
+      name: 'spring-web',
+      duration: 13,
+      kind: 'entry',
+      rels: {
+        destinationPhysicalEndpoint: {
+          pid: '5698',
+          host_id: 'ae:f6:5c:ff:fe:94:ce:ee'
+        },
+        destinationServiceId: 'P9wdg-O_QgPAOgiqtk_ErPIUAzs'
+      },
+      batchSize: 0
+    }),
+    '2533176127275033': fromJS({
+      traceId: '2533176127275033',
+      start: 1494739776263,
       errorCount: 0,
       error: false,
       data: {
         http: {
-          method: 'GET',
-          host: 'localhost:86',
-          url: '/ratings',
-          status: 200
+          method: 'POST',
+          host: 'localhost:87',
+          url: '/signIn',
+          status: 403
         }
       },
       totalErrorCount: 0,
       name: 'node.http.server',
-      duration: 44,
+      duration: 5,
       kind: 'entry',
       rels: {
         destinationPhysicalEndpoint: {
-          pid: '7893',
-          host_id: '6e:1b:52:ff:fe:7f:04:c9'
+          pid: '31274',
+          host_id: 'ae:f6:5c:ff:fe:94:ce:ee'
         },
-        destinationServiceId: 'WL5m7IsPVeD-x4Sy0GeA_y2CC1o'
+        destinationServiceId: 'QiyNvOqgiOHPFsXDCspUp7_6nl4'
+      },
+      batchSize: 0
+    }),
+    '2994066428123968245': fromJS({
+      traceId: '2994066428123968245',
+      start: 1494739776281,
+      errorCount: 0,
+      error: false,
+      data: {
+        http: {
+          method: 'POST',
+          host: 'test-instana.instana.io:444',
+          url: '/traces',
+          status: '204'
+        }
+      },
+      totalErrorCount: 0,
+      name: 'jersey',
+      duration: 4,
+      kind: 'entry',
+      rels: {
+        destinationPhysicalEndpoint: {
+          pid: '11469',
+          host_id: '0a:35:2f:ff:fe:85:68:a1'
+        },
+        destinationServiceId: 'CA7Lh6KAo6Zqpi0Khr2m0KFZ02I'
       },
       batchSize: 0
     })

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {number, millis} from 'in-services/formatters/number';
+import { number, millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceGroup.less';
@@ -18,6 +18,7 @@ const maxElement = `${block}__max`;
 const errorsElement = `${block}__errors`;
 const callElement = `${block}__call`;
 const toggleChildrenElement = `${block}__toggle-children`;
+const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
 
 export default class TraceGrouping extends React.Component {
   constructor() {
@@ -34,8 +35,7 @@ export default class TraceGrouping extends React.Component {
 
     return (
       <li className={block}>
-        <div className={groupElement}
-             style={traceGroup.enrichment.categoryBackgroundTransparent}>
+        <div className={groupElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
           <div className={callsElement}>
             {number.compact(traceGroup.statistics.count)}
           </div>
@@ -54,23 +54,26 @@ export default class TraceGrouping extends React.Component {
           <div className={errorsElement}>
             {number.compact(traceGroup.statistics.errorCount)}
           </div>
-          <div className={callElement}
-              style={{
-                paddingLeft: `${level * 20}px`
-              }}>
+          <div
+            className={callElement}
+            style={{
+              textIndent: `${level * 20}px`
+            }}
+          >
 
-            {traceGroup.children.length > 0 ?
-              <SvgIcon type="triangle_right"
-                       width={16}
-                       onClick={this.toggle}
-                       className={toggleChildrenElement} />
-            : null}
+            <SvgIcon
+              type={showChildren ? 'triangle_down' : 'triangle_right'}
+              width={showChildren ? 11 : 8}
+              onClick={this.toggle}
+              className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
+            />
 
-            <div className={typeElement}
-                 style={traceGroup.enrichment.categoryBackgroundOpaque}>
-              <img src={traceGroup.enrichment.categoryIcon}
+            <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
+              <img
+                src={traceGroup.enrichment.categoryIcon}
                 alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
-                className={typeIconElement} />
+                className={typeIconElement}
+              />
             </div>
 
             {traceGroup.enrichment.label}
@@ -78,9 +81,12 @@ export default class TraceGrouping extends React.Component {
         </div>
 
         <ol className={subGroupingsElement}>
-          {showChildren && traceGroup.children.sort(traceGroupsComparator).map(childTraceGroup =>
-            <TraceGrouping key={childTraceGroup.hash} traceGroup={childTraceGroup} level={level + 1} />
-          )}
+          {showChildren &&
+            traceGroup.children
+              .sort(traceGroupsComparator)
+              .map(childTraceGroup => (
+                <TraceGrouping key={childTraceGroup.hash} traceGroup={childTraceGroup} level={level + 1} />
+              ))}
         </ol>
       </li>
     );
@@ -90,5 +96,5 @@ export default class TraceGrouping extends React.Component {
     this.setState({
       showChildren: !this.state.showChildren
     });
-  }
+  };
 }

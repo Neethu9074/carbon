@@ -6,14 +6,57 @@
   }
 
   &__group {
-    margin: 5px 0;
+    border-bottom: 1px solid #D5DFE4;
+  }
+
+  &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call {
+    display: inline-block;
+    box-sizing: border-box;
+    border-right: 1px solid #D5DFE4;
+    padding: 0 0.5rem;
+    line-height: 1.625rem;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  &__calls {
+    width: 4rem;
+  }
+
+  &__total-time {
+    width: 4rem;
+  }
+
+  &__min {
+    width: 4rem;
+  }
+
+  &__avg {
+    width: 4rem;
+  }
+
+  &__max {
+    width: 4rem;
+  }
+
+  &__errors {
+    width: 4rem;
+  }
+
+  &__call {
+    width: ~'calc(100% - 24rem)';
   }
 
   &__type {
-    display: inline-block;
-    width: 1rem;
+    display: inline-flex;
+    width: 1.2rem;
+    height: 1.2rem;
     border-radius: 100%;
-    padding: .313rem .313rem .125rem .313rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0 6px;
   }
 
   &__type-icon {
@@ -21,41 +64,13 @@
     height: 0.6rem;
   }
 
-  &__calls {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__total-time {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__min {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__avg {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__max {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__errors {
-    display: inline-block;
-    width: 4rem;
-  }
-
-  &__call {
-    display: inline-block;
-  }
-
   &__toggle-children {
     fill: #2D4048;
+    cursor: pointer;
+    min-width: 11px;
+
+    &--hidden {
+      visibility: hidden;
+    }
   }
 }
