@@ -1,5 +1,7 @@
 import React from 'react';
 
+import InspectTracesForHashButton from 'in-views/traceAnalyticsView/components/InspectTracesForHashButton';
+import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import keyCodes from 'in-components/keyCodes';
@@ -115,6 +117,16 @@ export default class TraceGrouping extends React.Component {
 
         {showDetails
           ? <div className={detailsElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
+              <div>
+                <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
+                <LabeledValue label="50th">{millis.detailed(traceGroup.statistics.duration50th)}</LabeledValue>
+                <LabeledValue label="75th">{millis.detailed(traceGroup.statistics.duration75th)}</LabeledValue>
+                <LabeledValue label="95th">{millis.detailed(traceGroup.statistics.duration95th)}</LabeledValue>
+                <LabeledValue label="98th">{millis.detailed(traceGroup.statistics.duration98th)}</LabeledValue>
+                <LabeledValue label="99th">{millis.detailed(traceGroup.statistics.duration99th)}</LabeledValue>
+
+                <InspectTracesForHashButton hash={traceGroup.hash} />
+              </div>
               <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} />
             </div>
           : null}
