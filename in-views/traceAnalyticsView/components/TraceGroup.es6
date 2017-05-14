@@ -134,26 +134,24 @@ export default class TraceGrouping extends React.Component {
   };
 
   onKeyDown = e => {
-    if (e.keyCode === keyCodes.arrows.right) {
-      e.stopPropagation();
+    e.stopPropagation();
+    e.preventDefault();
 
+    if (e.keyCode === keyCodes.arrows.right) {
       if (this.state.showChildren) {
         this.moveActiveState(1);
       } else {
         this.setState({ showChildren: true });
       }
     } else if (e.keyCode === keyCodes.arrows.left) {
-      e.stopPropagation();
       if (this.state.showChildren) {
         this.setState({ showChildren: false });
       } else {
         this.moveActiveState(-1);
       }
     } else if (e.keyCode === keyCodes.arrows.up) {
-      e.stopPropagation();
       this.moveActiveState(-1);
     } else if (e.keyCode === keyCodes.arrows.down) {
-      e.stopPropagation();
       this.moveActiveState(1);
     }
   };
@@ -168,6 +166,7 @@ export default class TraceGrouping extends React.Component {
     removeAllOtherActiveStates();
     elements[newActiveElementIndex].setActive(true);
     elements[newActiveElementIndex].focus();
+    elements[newActiveElementIndex].scrollIntoViewIfNeeded();
   }
 
   setActive = active => {
