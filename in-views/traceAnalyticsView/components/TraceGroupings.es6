@@ -5,17 +5,23 @@ import { getLabel, getCategory, getTypeLabelSingular, getTypeLabelPlural, getCat
 import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import TraceGroup from 'in-views/traceAnalyticsView/components/TraceGroup';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import { createInverseComparator } from 'in-services/util/function';
 import { getTraceAnalytics } from 'in-services/api/traceAnalytics';
 import { compare as compareNumber } from 'in-services/util/number';
 import { selectedTraceIds$ } from 'in-stores/traces/analytics';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { joinClassNames } from 'in-services/util/classnames';
 import { hexToRGB } from 'in-services/formatters/color';
 import { dispose } from 'in-services/util/ro';
+import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceGroupings.less';
 
 const block = 'in-trace-analytics-groupings';
 const headerElement = `${block}__header`;
+const headerCellElement = `${block}__header-cell`;
+const activeHeaderCellElement = `${headerCellElement} ${headerCellElement}--active`;
+const orderIconElement = `${block}__header-cell-order`;
 const callsElement = `${block}__calls`;
 const totalTimeElement = `${block}__total-time`;
 const minElement = `${block}__min`;
@@ -35,6 +41,7 @@ export default class TraceGroupings extends React.PureComponent {
       loading: true,
       traceGroups: [],
       error: null,
+      order: 'desc',
       traceGroupsComparator: compareTraceGroupByDurationTotal
     };
   }
@@ -86,12 +93,14 @@ export default class TraceGroupings extends React.PureComponent {
       data: fromJS(traceGroup.dataSample)
     });
     const category = getCategory(fakeSpan);
-    const typeLabel = traceGroup.statistics.count === 1 ? getTypeLabelSingular(fakeSpan): getTypeLabelPlural(fakeSpan);
+    const typeLabel = traceGroup.statistics.count === 1 ? getTypeLabelSingular(fakeSpan) : getTypeLabelPlural(fakeSpan);
 
     const categoryColor = spanCategoryColors[category];
     const categoryColorRgb = hexToRGB(categoryColor);
     const categoryBackgroundOpaque = { background: categoryColor };
-    const categoryBackgroundTransparent = { background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)` };
+    const categoryBackgroundTransparent = {
+      background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)`
+    };
 
     traceGroup.enrichment = {
       fakeSpan,
@@ -121,40 +130,132 @@ export default class TraceGroupings extends React.PureComponent {
         </p>
       );
     }
+
+    const { traceGroupsComparator, order } = this.state;
+
+    const comparator = order === 'desc' ? createInverseComparator(traceGroupsComparator) : traceGroupsComparator;
+
     return (
       <div className={block}>
         <div className={headerElement}>
-          <div className={callsElement}>
+          <HeaderCell
+            className={callsElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByCount}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             #Calls
-          </div>
-          <div className={totalTimeElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={totalTimeElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByDurationTotal}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             Total
-          </div>
-          <div className={minElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={minElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByDurationMin}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             Min
-          </div>
-          <div className={avgElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={avgElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByDurationAvg}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             Avg
-          </div>
-          <div className={maxElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={maxElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByDurationMax}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             Max
-          </div>
-          <div className={errorsElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={errorsElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByErrorCount}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="desc"
+          >
             #Errors
-          </div>
-          <div className={callElement}>
+          </HeaderCell>
+          <HeaderCell
+            className={callElement}
+            activeComparator={traceGroupsComparator}
+            comparator={compareTraceGroupByLabel}
+            activeOrder={order}
+            setOrder={this.setOrder}
+            defaultOrder="asc"
+          >
             Type & Call
-          </div>
+          </HeaderCell>
         </div>
 
         <ol className={`${block}__groupings`}>
-          {this.state.traceGroups.sort(this.state.traceGroupsComparator).map(traceGroup =>
-            <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} level={0} traceGroupsComparator={this.state.traceGroupsComparator} />
-          )}
+          {this.state.traceGroups
+            .sort(comparator)
+            .map(traceGroup => (
+              <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} level={0} traceGroupsComparator={comparator} />
+            ))}
         </ol>
       </div>
     );
   }
+
+  setOrder = (traceGroupsComparator, order) => {
+    this.setState({
+      traceGroupsComparator,
+      order
+    });
+  };
+}
+
+function HeaderCell({ children, activeComparator, comparator, className, activeOrder, setOrder, defaultOrder }) {
+  const active = activeComparator === comparator;
+  const onClick = () => {
+    if (active) {
+      const newOrder = activeOrder === 'asc' ? 'desc' : 'asc';
+      setOrder(comparator, newOrder);
+    } else {
+      setOrder(comparator, defaultOrder);
+    }
+  };
+
+  const baseClassName = active ? activeHeaderCellElement : headerCellElement;
+
+  return (
+    <div className={joinClassNames(baseClassName, className)} onClick={onClick}>
+      {children}
+
+      {active
+        ? <SvgIcon
+            className={orderIconElement}
+            type={activeOrder === 'asc' ? 'triangle_up' : 'triangle_down'}
+            width={5}
+            height={5}
+          />
+        : null}
+    </div>
+  );
 }
 
 function compareTraceGroupByCount(a, b) {
@@ -167,6 +268,10 @@ function compareTraceGroupByDurationTotal(a, b) {
 
 function compareTraceGroupByDurationMin(a, b) {
   return compareNumber(a.statistics.durationMin, b.statistics.durationMin);
+}
+
+function compareTraceGroupByDurationAvg(a, b) {
+  return compareNumber(a.statistics.durationAvg, b.statistics.durationAvg);
 }
 
 function compareTraceGroupByDurationMax(a, b) {

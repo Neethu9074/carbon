@@ -85,7 +85,12 @@ export default class TraceGrouping extends React.Component {
             traceGroup.children
               .sort(traceGroupsComparator)
               .map(childTraceGroup => (
-                <TraceGrouping key={childTraceGroup.hash} traceGroup={childTraceGroup} level={level + 1} />
+                <TraceGrouping
+                  key={childTraceGroup.hash}
+                  traceGroup={childTraceGroup}
+                  level={level + 1}
+                  traceGroupsComparator={traceGroupsComparator}
+                />
               ))}
         </ol>
       </li>

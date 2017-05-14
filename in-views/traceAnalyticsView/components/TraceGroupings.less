@@ -18,7 +18,9 @@
   }
 
   &__calls, &__total-time, &__min, &__avg, &__max, &__errors, &__call {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
     border-right: 1px solid #40535b;
     background: #6b8088;
     padding: 0 0.5rem;
@@ -35,30 +37,45 @@
   }
 
   &__calls {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__total-time {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__min {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__avg {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__max {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__errors {
-    width: 4rem;
+    width: 5rem;
   }
 
   &__call {
-    width: ~'calc(100% - 24rem)';
+    width: ~'calc(100% - 30rem)';
+  }
+
+  &__header-cell {
+    &--active {
+      background: #40535b;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  &__header-cell-order {
+    fill: #6b8088;
+    border-radius: .188rem;
+    padding: .23rem;
+    background: #92a5ae;
   }
 }
