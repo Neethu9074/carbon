@@ -140,7 +140,7 @@ export default class TraceGroupings extends React.PureComponent {
     return (
       <div className={block}>
         <div className={headerElement}>
-          <div className={expandElement} />
+          <div className={expandElement}>&nbsp;</div>
           <HeaderCell
             className={callsElement}
             activeComparator={traceGroupsComparator}
