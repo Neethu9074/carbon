@@ -75,7 +75,7 @@ export default class TraceGrouping extends React.Component {
             {millis.compact(traceGroup.statistics.durationMin)}
           </div>
           <div className={avgElement}>
-            {millis.compact(traceGroup.statistics.durationAvg)}
+            {millis.compact(traceGroup.statistics.durationMean)}
           </div>
           <div className={maxElement}>
             {millis.compact(traceGroup.statistics.durationMax)}
