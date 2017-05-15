@@ -118,6 +118,7 @@ def legacyDeploy(component, target) {
 }
 
 def runNodeBuild(gitCommitId, buildCommands) {
+  deleteDir()
   unstash name: "ui-client-checkout-${gitCommitId}"
   sh '''
     cp ~/.npmrc-private-registry .npmrc
