@@ -34,7 +34,7 @@ export function saveServiceRule(rule) {
 export function updateServiceRules(rules) {
   return http({
     method: 'PUT',
-    url: '/api/serviceExtractionConfigs/order',
+    url: '/api/serviceExtractionConfigs/multiple',
     data: {
       lastModificationTimestamp: Date.now(),
       rules

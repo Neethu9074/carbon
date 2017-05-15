@@ -8,6 +8,7 @@ import {
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
 import { updateServiceRules, getServiceRules, deleteServiceRule, setEnabled } from 'in-services/api/serviceExtraction';
+import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { openServiceExtractionConfig } from 'in-stores/navigation/configuration';
@@ -37,10 +38,12 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
+        const order = row.entity.get('order');
         return {
-          value: row.entity.get('order'),
+          value: order,
           content: (
             <div className={`${block}__order-icons`}>
+              {order}
               <SvgIcon
                 className={`${block}__order-up`}
                 type="chevron_up"
@@ -66,6 +69,14 @@ const cols = [
 ];
 
 export default class extends React.Component {
+  constructor(props) {
+    super(props);
+    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.ruleType);
+    linkColumn.disableSorting = true;
+    const ruleTypeSpecificColumns = [linkColumn].concat(cols);
+    this.cols = ruleTypeSpecificColumns;
+  }
+
   static displayName = 'ServiceExtraction';
 
   static propTypes = {
@@ -151,9 +162,7 @@ export default class extends React.Component {
         error: false,
         loading: false,
         message: null,
-        serviceRules: sortServiceRules(
-          this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
-        )
+        serviceRules: this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
       });
     });
 
@@ -186,7 +195,7 @@ export default class extends React.Component {
       );
       return {
         status: state.status,
-        serviceRules: sortServiceRules(newServices)
+        serviceRules: newServices
       };
     });
 
@@ -223,7 +232,7 @@ export default class extends React.Component {
         );
         return {
           status: state.status,
-          serviceRules: sortServiceRules(newServices)
+          serviceRules: newServices
         };
       });
     });
@@ -245,10 +254,6 @@ export default class extends React.Component {
       };
     });
 
-    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', this.props.ruleType);
-    linkColumn.disableSorting = true;
-    const ruleTypeSpecificColumns = [linkColumn].concat(cols);
-
     return (
       <SubViewWrapper>
         <SubViewHeader>
@@ -256,9 +261,18 @@ export default class extends React.Component {
         </SubViewHeader>
 
         <Section>
-          <Button kind="info" onClick={this.addNewService}>
+          <Button kind="info" onClick={this.addNewService} className={`${block}__button`}>
             Add Rule
           </Button>
+          {__DEV__
+            ? <Button
+                kind="info"
+                onClick={() => openEditor(this.state.serviceRules, this.saveJson)}
+                className={`${block}__button`}
+              >
+                Edit as JSON
+              </Button>
+            : null}
 
           {this.state.message
             ? <Notification failure={this.state.error} loading={this.state.loading}>
@@ -277,7 +291,7 @@ export default class extends React.Component {
                 Service Rules
               </SectionHeading>
               <Table
-                cols={ruleTypeSpecificColumns}
+                cols={this.cols}
                 rows={rows}
                 getRowDetails={getRowDetails}
                 initialSortColumn={1}
@@ -299,13 +313,14 @@ export default class extends React.Component {
 
   getRuleBefore = rule => {
     const ruleId = rule.get('id');
-    for (let i = 1, size = this.state.serviceRules.size; i < size; i++) {
-      if (this.state.serviceRules.getIn([i, 'id']) === ruleId) {
+    const rules = sortServiceRules(this.state.serviceRules);
+    for (let i = 1, size = rules.size; i < size; i++) {
+      if (rules.getIn([i, 'id']) === ruleId) {
         return {
           indexA: i,
           indexB: i - 1,
           a: rule,
-          b: this.state.serviceRules.get(i - 1)
+          b: rules.get(i - 1)
         };
       }
     }
@@ -313,13 +328,14 @@ export default class extends React.Component {
 
   getRuleAfter = rule => {
     const ruleId = rule.get('id');
-    for (let i = 0, size = this.state.serviceRules.size - 1; i < size; i++) {
-      if (this.state.serviceRules.getIn([i, 'id']) === ruleId) {
+    const rules = sortServiceRules(this.state.serviceRules);
+    for (let i = 0, size = rules.size - 1; i < size; i++) {
+      if (rules.getIn([i, 'id']) === ruleId) {
         return {
           indexA: i,
           indexB: i + 1,
           a: rule,
-          b: this.state.serviceRules.get(i + 1)
+          b: rules.get(i + 1)
         };
       }
     }
@@ -332,17 +348,19 @@ export default class extends React.Component {
 
     const originalList = this.state.serviceRules;
     let rules = this.state.serviceRules;
-    rules = rules.setIn([matches.indexB, 'order'], matches.a.get('order'));
-    rules = rules.setIn([matches.indexA, 'order'], matches.b.get('order'));
+    const orderA = originalList.getIn([matches.indexA, 'order']);
+    const orderB = originalList.getIn([matches.indexB, 'order']);
+    rules = rules.setIn([matches.indexB, 'order'], orderA);
+    rules = rules.setIn([matches.indexA, 'order'], orderB);
 
     const result$ = updateServiceRules([
-      originalList.get(matches.indexB).set('order', matches.a.get('order')).toJS(),
-      originalList.get(matches.indexA).set('order', matches.b.get('order')).toJS()
+      originalList.get(matches.indexB).set('order', orderA).toJS(),
+      originalList.get(matches.indexA).set('order', orderB).toJS()
     ]);
 
     // optimistic set new rules list
     this.setState({
-      serviceRules: sortServiceRules(rules)
+      serviceRules: rules
     });
     result$.errors().once(error => {
       const message = `Failed to set service rules ordering: ${error.message}`;
@@ -350,10 +368,20 @@ export default class extends React.Component {
 
       // if something failed, restore the old list
       this.setState({
-        serviceRules: sortServiceRules(originalList)
+        serviceRules: originalList
       });
     });
   }
+
+  saveJson = rules => {
+    const result$ = updateServiceRules(rules);
+
+    result$.once(this.refresServices);
+    result$.errors().once(error => {
+      const message = `Failed to set service rules ordering: ${error.message}`;
+      logger.warn(message, error);
+    });
+  };
 }
 
 function getRowDetails(row) {
