@@ -13,7 +13,13 @@ import './TraceTableRow.less';
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 
-export default function TraceTableRow({ selectedTraceId, trace, onClick, tracesSelectedForAnalytics }) {
+export default function TraceTableRow({
+  selectedTraceId,
+  trace,
+  onClick,
+  tracesSelectedForAnalytics,
+  canAddMoreTracesToAnalytics
+}) {
   let classes = block;
   if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
@@ -21,6 +27,7 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick, tracesS
 
   const side = getServiceSideForOverview(trace.raw);
   const serviceSnapshotId = trace[`${side}ServiceId`];
+  const checked = trace.id in tracesSelectedForAnalytics;
 
   return (
     <div className={classes} onClick={() => onClick(trace.id)}>
@@ -30,7 +37,8 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick, tracesS
           className={`${block}__include_in_analytics`}
           onChange={e => onToggleTraceAnalyticsInclusion(e, trace.raw)}
           onClick={stopPropagation}
-          checked={trace.id in tracesSelectedForAnalytics}
+          checked={checked}
+          disabled={!checked && !canAddMoreTracesToAnalytics}
         />
       </span>
       <span className={cellClassName}>
@@ -65,7 +73,8 @@ TraceTableRow.propTypes = {
   trace: rpt.object.isRequired,
   onClick: rpt.func.isRequired,
   selectedTraceId: rpt.string,
-  tracesSelectedForAnalytics: rpt.object
+  tracesSelectedForAnalytics: rpt.object,
+  canAddMoreTracesToAnalytics: rpt.bool
 };
 
 function onToggleTraceAnalyticsInclusion(event, trace) {
