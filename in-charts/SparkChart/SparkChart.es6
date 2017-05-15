@@ -223,6 +223,12 @@ export default function createSparkChart({
       return column;
     });
 
+    const noDataForHighlightedMoment = i == 0;
+
+    if (noDataForHighlightedMoment) {
+      return null;
+    }
+
     const window = dataWindow(highlightedMoment, dataColumns);
 
     const standardElement = findStandardElement(window);
