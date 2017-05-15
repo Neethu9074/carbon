@@ -21,10 +21,8 @@ export default connectTo(
     formatter,
     className,
     design,
-    optionalTimeWindowAggregation,
-    tooltipFormatter
+    optionalTimeWindowAggregation
   }) {
-    tooltipFormatter = tooltipFormatter || formatter;
     let classes = block;
     if (className) {
       classes = `${classes} ${className}`;
@@ -38,7 +36,7 @@ export default connectTo(
           snapshotId={snapshotId}
           design={design ? design : 'light'}
           metric={metric}
-          tooltipFormatter={tooltipFormatter}
+          tooltipFormatter={formatter.detailed}
         />
         <div className={block + '__description'}>
           <span className={block + '__title'}>
@@ -48,7 +46,7 @@ export default connectTo(
             snapshotId={snapshotId}
             metric={metric}
             className={block + '__value'}
-            formatter={formatter}
+            formatter={formatter.compact}
             optionalTimeWindowAggregation={optionalTimeWindowAggregation}
           />
         </div>

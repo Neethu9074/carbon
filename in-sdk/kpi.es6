@@ -3,14 +3,14 @@ import {
   zeroDecimalPlacesPerSecond,
   percentageTwoDecimalPlaces,
   msTwoDecimalPlaces,
-  zeroDecimalPlaces
+  number
 } from 'in-services/formatters/number';
 
 const defaultKpis = () => [
   {
     metric: 'count',
     label: 'calls',
-    formatter: zeroDecimalPlaces,
+    formatter: number,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond,
     timeWindowAggregation: 'adjustedCount'
   },
