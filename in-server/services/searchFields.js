@@ -10,7 +10,7 @@ setInterval(getSearchFields, 1000 * 60);
 
 function getSearchFields() {
   sendRequest({
-    url: serverConfig.uiBackendBaseUrl + '/api/searchFields',
+    url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
     timeout: 5000
   }, (error, response, body) => {
     if (error) {
