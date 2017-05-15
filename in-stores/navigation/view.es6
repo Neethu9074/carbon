@@ -54,10 +54,14 @@ export const isTraceView$ = navigationParameters$.map(params => params.pathname.
 
 export const eventViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/events';
-  if (params.query.q) {
-    params.query.q = removeField(params.query.q, 'event.type');
+  try {
+    if (params.query.q) {
+      params.query.q = removeField(params.query.q, 'event.type');
+    }
+    params.query.q = trySetField(params.query.q || '', 'event.type', 'incident');
+  } catch (e) {
+    params.query.q = (params.query.q || '') + ' event.type:incident';
   }
-  params.query.q = trySetField(params.query.q || '', 'event.type', 'incident');
 });
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
