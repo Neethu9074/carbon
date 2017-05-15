@@ -4,6 +4,7 @@ export function getTraceAnalytics({ traceIds }) {
   return http({
     method: 'POST',
     url: `/api/traces/analyze`,
+    timeout: 60000,
     data: {
       traceIds
     }
