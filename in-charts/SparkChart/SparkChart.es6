@@ -223,7 +223,7 @@ export default function createSparkChart({
       return column;
     });
 
-    const noDataForHighlightedMoment = i == 0;
+    const noDataForHighlightedMoment = i == 0 || i == dataColumns.length;
 
     if (noDataForHighlightedMoment) {
       return null;
