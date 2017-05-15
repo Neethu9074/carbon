@@ -15,6 +15,7 @@ import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-sql.min.js';
 import 'prismjs/components/prism-ruby.min.js';
 import 'prismjs/components/prism-yaml.min.js';
+import 'prismjs/components/prism-php.min.js';
 
 // prism plugins
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
@@ -103,8 +104,8 @@ export default class extends React.PureComponent {
     }
 
     return (
-      <pre ref={pre => this.pre = pre} className={preClasses}>
-        <code ref={code => this.code = code} className={classes} />
+      <pre ref={pre => (this.pre = pre)} className={preClasses}>
+        <code ref={code => (this.code = code)} className={classes} />
       </pre>
     );
   }
