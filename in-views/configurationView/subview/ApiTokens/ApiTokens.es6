@@ -110,7 +110,10 @@ export default class extends React.Component {
               </Notification>
             : null}
         </Section>
-        <Table cols={cols} rows={rows} />
+
+        <Section>
+          <Table cols={cols} rows={rows} />
+        </Section>
       </SubViewWrapper>
     );
   }
