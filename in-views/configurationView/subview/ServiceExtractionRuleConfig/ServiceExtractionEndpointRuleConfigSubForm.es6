@@ -57,7 +57,7 @@ export default class extends React.Component {
               <Section key={key}>
                 <Label htmlFor={endpointHtmlId}>
                   <a href="#" onClick={e => this.removeRule(e, key)} className={`${block}__remove-endpoint`}>
-                    Remove
+                    Remove endpoint
                   </a>
                 </Label>
 
