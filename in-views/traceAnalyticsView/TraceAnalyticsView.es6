@@ -4,10 +4,24 @@ import { expandedSide$, toggleLeft, toggleRight } from 'in-views/traceAnalyticsV
 import ToggleViewHeader from 'in-components/TwoColumnView/components/ToggleViewHeader';
 import SelectedTraces from 'in-views/traceAnalyticsView/components/SelectedTraces';
 import TraceGroupings from 'in-views/traceAnalyticsView/components/TraceGroupings';
+import { removeAllTraces } from 'in-stores/traces/analytics';
 import TwoColumnView from 'in-components/TwoColumnView';
+import Button from 'in-components/Button';
+
+const removeAllTracesButton = (
+  <Button kind="danger" size="sm" onClick={removeAllTraces}>
+    Remove all from analytics
+  </Button>
+);
 
 const leftContent = [
-  <ToggleViewHeader key="0" side="left" expandedSide$={expandedSide$} toggle={toggleLeft} />,
+  <ToggleViewHeader
+    key="0"
+    side="left"
+    expandedSide$={expandedSide$}
+    toggle={toggleLeft}
+    leftChildren={removeAllTracesButton}
+  />,
   <SelectedTraces key="1" />
 ];
 const rightContent = [

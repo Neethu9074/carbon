@@ -20,6 +20,12 @@ const cols = [
   {
     title: 'Call',
     type: 'string',
+    cellStyle: {
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      maxWidth: '210px'
+    },
     typeArgs: {
       getValue(row) {
         return getLabel(row.trace);
@@ -30,7 +36,8 @@ const cols = [
     title: 'Duration',
     type: 'number',
     cellStyle: {
-      width: '70px'
+      width: '70px',
+      minWidth: '70px'
     },
     typeArgs: {
       getValue(row) {
@@ -43,7 +50,8 @@ const cols = [
     title: '#Errors',
     type: 'number',
     cellStyle: {
-      width: '70px'
+      width: '70px',
+      minWidth: '70px'
     },
     typeArgs: {
       getValue(row) {
@@ -57,7 +65,8 @@ const cols = [
     type: 'custom',
     disableSorting: true,
     cellStyle: {
-      width: '40px'
+      width: '40px',
+      minWidth: '40px'
     },
     typeArgs: {
       get(row) {

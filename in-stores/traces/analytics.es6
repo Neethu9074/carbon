@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
+import { maximumNumberOfTracesForAnalytics } from 'in-services/featureFlags';
 import { getKeyCount, shallowCopy } from 'in-services/util/object';
 import { createStore } from 'in-stores/store';
 
@@ -140,7 +141,9 @@ const selectedTraces = createStore({
     })
   },
   reducers: {
-    toggle: toggleReducer
+    toggle: toggleReducer,
+    addTracesUntilMax: addTracesUntilMaxReducer,
+    removeAll: removeAllReducer
   }
 });
 export const selectedTraces$ = selectedTraces.observable;
@@ -164,5 +167,37 @@ export function toggleIncludeInAnalytics(trace) {
   selectedTraces.applyStateMutation({
     type: 'toggle',
     trace
+  });
+}
+
+function addTracesUntilMaxReducer(currentState, action) {
+  const newState = shallowCopy(currentState);
+
+  for (
+    let i = 0, length = action.traces.length;
+    i < length && Object.keys(newState).length < maximumNumberOfTracesForAnalytics;
+    i++
+  ) {
+    const trace = action.traces[i];
+    newState[trace.get('traceId')] = trace;
+  }
+
+  return newState;
+}
+
+export function addTracesUntilMax(traces) {
+  selectedTraces.applyStateMutation({
+    type: 'addTracesUntilMax',
+    traces
+  });
+}
+
+function removeAllReducer() {
+  return {};
+}
+
+export function removeAllTraces() {
+  selectedTraces.applyStateMutation({
+    type: 'removeAll'
   });
 }

@@ -30,3 +30,5 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
   (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu)
   ? 2.3
   : 4;
+
+export const maximumNumberOfTracesForAnalytics = 200;
