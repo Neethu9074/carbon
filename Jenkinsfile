@@ -21,11 +21,9 @@ stage('Checkout') {
 
     archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
 
-    stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}"
+    stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
   }
 }
-
-//stash includes: "${archiveName}, deployment/**/*", name: "ui-client-checkout-${gitCommitId}"
 
 stage('Node Build') {
   def buildSteps = [:]
@@ -43,7 +41,7 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run build')
       sh "tar -czf ${archiveName} target/*"
-      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}", useDefaultExcludes: false
+      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
     }
   }
 
