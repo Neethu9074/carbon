@@ -31,7 +31,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     setResult(valueAndContent, col, row, emitRawDataChange);
   } else {
     const valueAndContent$ = columnDefinition.typeArgs.get$(row.rowConfig);
-    col.subscription = valueAndContent$.subscribe(setResult, col, row, emitRawDataChange);
+    col.subscription = valueAndContent$.subscribe(setResult, null, col, row, emitRawDataChange);
   }
 
   return col;
