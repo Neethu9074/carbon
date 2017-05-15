@@ -90,6 +90,12 @@ describe('in-forge/tracing/jdbc/sql', () => {
           )
         ).to.equal('EXPLAIN SELECT … FROM users');
       });
+
+      it('must shorten activerecord sql calls', () => {
+        expect(shortenSqlStatement('SELECT  "games".* FROM "games"  WHERE "games"."id" = $? LIMIT ?')).to.equal(
+          'SELECT … FROM games'
+        );
+      });
     });
 
     describe('update statements', () => {
