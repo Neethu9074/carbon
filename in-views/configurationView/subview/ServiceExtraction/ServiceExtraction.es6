@@ -372,6 +372,13 @@ function getRowDetails(row) {
         <DescriptionItem title="extract specification label">
           {row.entity.getIn(['extractSpecification', 'label'])}
         </DescriptionItem>
+        {row.entity.get('endpointRules', emptyList).map(rule => (
+          <div key={rule.get('id')} className={`${block}__details-wrapper`}>
+            <DescriptionItem title={rule.get('name')}>
+              {getRowDetails({ entity: rule })}
+            </DescriptionItem>
+          </div>
+        ))}
       </DescriptionList>
     </div>
   );
