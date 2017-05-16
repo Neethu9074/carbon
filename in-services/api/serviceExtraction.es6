@@ -31,10 +31,21 @@ export function saveServiceRule(rule) {
   }).map(() => true);
 }
 
-export function updateServiceRules(rules) {
+export function upsertServiceRules(rules) {
   return http({
     method: 'PUT',
-    url: '/api/serviceExtractionConfigs/multiple',
+    url: '/api/serviceExtractionConfigs/type/upsert',
+    data: {
+      lastModificationTimestamp: Date.now(),
+      rules
+    }
+  }).map(() => true);
+}
+
+export function updateServiceRulesByType(rules, type) {
+  return http({
+    method: 'PUT',
+    url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`,
     data: {
       lastModificationTimestamp: Date.now(),
       rules

@@ -8,7 +8,13 @@ import {
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
-import { updateServiceRules, getServiceRules, deleteServiceRule, setEnabled } from 'in-services/api/serviceExtraction';
+import {
+  upsertServiceRules,
+  updateServiceRulesByType,
+  getServiceRules,
+  deleteServiceRule,
+  setEnabled
+} from 'in-services/api/serviceExtraction';
 import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -358,7 +364,7 @@ export default class extends React.Component {
     const newOptimisticList = getUpdatedRules(originalList, matches);
 
     // update swaped rules in the backend
-    const result$ = updateServiceRules(rulesToUpdate);
+    const result$ = upsertServiceRules(rulesToUpdate);
 
     // optimistic set new rules list
     this.setState({
@@ -377,7 +383,7 @@ export default class extends React.Component {
   }
 
   saveJson = rules => {
-    const result$ = updateServiceRules(rules);
+    const result$ = updateServiceRulesByType(rules, this.props.ruleType);
 
     result$.once(this.refresServices);
     result$.errors().once(error => {
@@ -388,25 +394,26 @@ export default class extends React.Component {
 }
 
 function getRowDetails(row) {
+  const rule = row.entity;
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
         <DescriptionItem title="comment">
-          {row.entity.get('comment')}
+          {rule.get('comment')}
         </DescriptionItem>
         <DescriptionItem title="match specification path">
-          {row.entity.getIn(['matchSpecification', 'path'])}
+          {rule.getIn(['matchSpecification', 'path'])}
         </DescriptionItem>
         <DescriptionItem title="match specification host">
-          {row.entity.getIn(['matchSpecification', 'host'])}
+          {rule.getIn(['matchSpecification', 'host'])}
         </DescriptionItem>
         <DescriptionItem title="extract specification label">
-          {row.entity.getIn(['extractSpecification', 'label'])}
+          {rule.getIn(['extractSpecification', 'label'])}
         </DescriptionItem>
-        {row.entity.get('endpointRules', emptyList).map(rule => (
-          <div key={rule.get('id')} className={`${block}__details-wrapper`}>
-            <DescriptionItem title={rule.get('name')}>
-              {getRowDetails({ entity: rule })}
+        {rule.get('endpointRules', emptyList).map(endpoint => (
+          <div key={endpoint.get('id')} className={`${block}__details-wrapper`}>
+            <DescriptionItem title={endpoint.get('name')}>
+              {getRowDetails({ entity: endpoint })}
             </DescriptionItem>
           </div>
         ))}
@@ -421,14 +428,19 @@ function sortServiceRules(rules) {
 
 function getUpdatedRules(originalList, matches) {
   const updatedList = [];
+  const aId = matches.a.get('id');
+  const bId = matches.b.get('id');
+
   originalList.forEach(rule => {
-    if (rule.get('id') === matches.a.get('id')) {
+    const ruleId = rule.get('id');
+    if (ruleId === aId) {
       updatedList.push(matches.a.set('order', matches.b.get('order')));
-    } else if (rule.get('id') === matches.b.get('id')) {
+    } else if (ruleId === bId) {
       updatedList.push(matches.b.set('order', matches.a.get('order')));
     } else {
       updatedList.push(rule);
     }
   });
+
   return List(updatedList);
 }
