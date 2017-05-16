@@ -1,4 +1,5 @@
 import { createLogger } from 'instalog';
+import { List } from 'immutable';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -267,7 +268,7 @@ export default class extends React.Component {
           {__DEV__
             ? <Button
                 kind="info"
-                onClick={() => openEditor(this.state.serviceRules, this.saveJson)}
+                onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
                 className={`${block}__button`}
               >
                 Edit as JSON
@@ -329,6 +330,7 @@ export default class extends React.Component {
   getRuleAfter = rule => {
     const ruleId = rule.get('id');
     const rules = sortServiceRules(this.state.serviceRules);
+    // console.log(ruleId, rules.toJS());
     for (let i = 0, size = rules.size - 1; i < size; i++) {
       if (rules.getIn([i, 'id']) === ruleId) {
         return {
@@ -347,21 +349,22 @@ export default class extends React.Component {
     }
 
     const originalList = this.state.serviceRules;
-    let rules = this.state.serviceRules;
-    const orderA = originalList.getIn([matches.indexA, 'order']);
-    const orderB = originalList.getIn([matches.indexB, 'order']);
-    rules = rules.setIn([matches.indexB, 'order'], orderA);
-    rules = rules.setIn([matches.indexA, 'order'], orderB);
 
-    const result$ = updateServiceRules([
-      originalList.get(matches.indexB).set('order', orderA).toJS(),
-      originalList.get(matches.indexA).set('order', orderB).toJS()
-    ]);
+    const rulesToUpdate = [
+      matches.a.set('order', matches.b.get('order')).toJS(),
+      matches.b.set('order', matches.a.get('order')).toJS()
+    ];
+
+    const newOptimisticList = getUpdatedRules(originalList, matches);
+
+    // update swaped rules in the backend
+    const result$ = updateServiceRules(rulesToUpdate);
 
     // optimistic set new rules list
     this.setState({
-      serviceRules: rules
+      serviceRules: newOptimisticList
     });
+
     result$.errors().once(error => {
       const message = `Failed to set service rules ordering: ${error.message}`;
       logger.warn(message, error);
@@ -414,4 +417,18 @@ function getRowDetails(row) {
 
 function sortServiceRules(rules) {
   return rules.sort((a, b) => a.get('order') - b.get('order'));
+}
+
+function getUpdatedRules(originalList, matches) {
+  const updatedList = [];
+  originalList.forEach(rule => {
+    if (rule.get('id') === matches.a.get('id')) {
+      updatedList.push(matches.a.set('order', matches.b.get('order')));
+    } else if (rule.get('id') === matches.b.get('id')) {
+      updatedList.push(matches.b.set('order', matches.a.get('order')));
+    } else {
+      updatedList.push(rule);
+    }
+  });
+  return List(updatedList);
 }
