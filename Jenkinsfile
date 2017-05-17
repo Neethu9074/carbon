@@ -46,6 +46,8 @@ stage('Node Build') {
   }
 
   parallel buildSteps
+
+  slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
 stage ('Container Build') {
@@ -57,6 +59,7 @@ stage ('Container Build') {
     version      = instanaVersion
   }
 
+  slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
 stage('Deployment') {
@@ -69,6 +72,7 @@ stage('Deployment') {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
         git url: 'git@github.com:instana/saas.git', branch: 'single-box-test'
         legacyDeploy('ui-client', 'test')
+        slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
     if ( env.BRANCH_NAME == 'master' ) {
@@ -76,6 +80,7 @@ stage('Deployment') {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
         git url: 'git@github.com:instana/saas.git', branch: 'single-box-test'
         legacyDeploy('ui-client', 'staging')
+        slackNotification('Deploy Staging', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
 
