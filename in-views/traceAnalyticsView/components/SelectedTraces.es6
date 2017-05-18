@@ -110,7 +110,12 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <Table maxItemsPerPage={Number.MAX_VALUE} cols={cols} rows={rows} />
+        <Table
+          maxItemsPerPage={Number.MAX_VALUE}
+          cols={cols}
+          rows={rows}
+          noDataText="Select traces to start analytics."
+        />
       </div>
     );
   }

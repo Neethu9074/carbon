@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { selectedTracesCount$, addTracesUntilMax, removeAllTraces } from 'in-stores/traces/analytics';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
-import { selectedTracesCount$, addTracesUntilMax } from 'in-stores/traces/analytics';
 import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import { maximumNumberOfTracesForAnalytics } from 'in-services/featureFlags';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
@@ -37,6 +37,9 @@ export default connectTo(
                 {remainingCount <= 0 ? `Max #traces for trace analytics reached` : `Select all traces for analytics`}
               </Button>
             : null}
+          <Button kind="danger" size="sm" onClick={removeAllTraces} className={`${block}__remove-traces`}>
+            Remove all from analytics
+          </Button>
         </div>
 
         <div className={`${block}__right-side`}>

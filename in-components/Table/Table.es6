@@ -90,7 +90,7 @@ export default class Table extends React.Component {
     if (data.rows.length === 0) {
       rows.push(
         <tr className={rowElement} key="no-data">
-          <td colSpan={colCount} className={cellElement}>No data.</td>
+          <td colSpan={colCount} className={cellElement}>{this.props.noDataText || 'No data.'}</td>
         </tr>
       );
     } else {
