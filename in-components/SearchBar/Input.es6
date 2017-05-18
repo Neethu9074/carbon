@@ -43,7 +43,7 @@ export default getElementDimensions(
         }));
 
         let autocompleteShownForCursorPosition = null;
-        let isFocused = false;
+        this.isFocused = false;
 
         editor.on('cursorActivity', () => {
           const currentCursorPosition = editor.getCursor().ch;
@@ -112,7 +112,7 @@ export default getElementDimensions(
         });
 
         editor.on('focus', () => {
-          isFocused = true;
+          this.isFocused = true;
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
         });
 
@@ -131,7 +131,7 @@ export default getElementDimensions(
 
         editor.on('blur', () => {
           this.updateQuery(this.editor.getValue().trim().replace(/\s\s+/g, ' '));
-          isFocused = false;
+          this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
 
@@ -146,7 +146,7 @@ export default getElementDimensions(
           this.updateQuery(query);
 
           if (
-            !isFocused ||
+            !this.isFocused ||
             (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
           ) {
             return;
@@ -295,7 +295,7 @@ export default getElementDimensions(
 
       openSuggestionWindowOnEmptyQuery = autocompleteShownForCursorPosition => {
         const currentQuery = this.props.query;
-        if (currentQuery === '' && this.editor) {
+        if (currentQuery === '' && this.editor && this.isFocused) {
           const { left } = this.editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           this.show({
             query: currentQuery,
