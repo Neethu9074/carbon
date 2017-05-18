@@ -12,8 +12,6 @@ import Code from 'in-components/Code';
 const stubStatusSampleConfig = `location /nginx_status {
   stub_status  on;
   access_log   off;
-  allow        127.0.0.1;
-  deny         all;
 }`;
 
 export default function NginxDashboard({ snapshot, timeframe }) {
