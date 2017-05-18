@@ -77,6 +77,8 @@ const cols = [
 export default class extends React.Component {
   constructor(props) {
     super(props);
+
+    // because each table differs by the ruleType, we need to create the column once the component is mounting
     const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.ruleType);
     linkColumn.disableSorting = true;
     const ruleTypeSpecificColumns = [linkColumn].concat(cols);
