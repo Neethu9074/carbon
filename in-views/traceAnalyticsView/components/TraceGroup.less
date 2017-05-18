@@ -42,6 +42,16 @@
     }
   }
 
+  &__batched {
+    background: rgb(146, 165, 174);
+    font-size: .563rem;
+    border-radius: .125rem;
+    padding: .125rem .3rem .188rem .3rem;
+    color: #fff;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
   &__calls {
     width: 5rem;
   }
@@ -87,7 +97,9 @@
   }
 
   &__call-content {
-    padding-left: 0.5rem;
+    // continuation indent so that text is aligned within a column
+    padding-left: 3.3rem;
+    text-indent: -2.75rem;
     padding-right: 0.5rem;
   }
 

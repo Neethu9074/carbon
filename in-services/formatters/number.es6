@@ -33,9 +33,9 @@ export const bytes = {
   detailed: bytesTwoDecimalPlaces
 };
 
-export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
-export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
-export const timeByMinutesTwoDecimalPlaces = t => formatTime(t * 1000 * 1000 * 60);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits);
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits);
+export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits);
 export const micros = {
   compact: timeByMicroTwoDecimalPlaces,
   detailed: timeByMicroTwoDecimalPlaces
@@ -217,6 +217,36 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   return (neg ? '-' : '') + num + ' ' + unit;
 }
 
+const formatTimeValue = v => ((v * 100) | 0) / 100;
+const timeMicroUnits = [
+  {
+    unit: 'µs',
+    range: 1000
+  },
+  {
+    unit: 'ms',
+    range: 1000
+  },
+  {
+    unit: 's',
+    range: 60
+  },
+  {
+    unit: 'min',
+    range: 60
+  },
+  {
+    unit: 'h',
+    range: 24
+  },
+  {
+    unit: 'd',
+    range: Number.MAX_VALUE
+  }
+];
+const timeMilliUnits = timeMicroUnits.slice(1);
+const timeMinuteUnits = timeMicroUnits.slice(3);
+
 /**
  * Format a time to improve readability for humans. Turn a raw
  * number to something like 10 ms or 30 s.
@@ -225,49 +255,20 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
  * @returns {string} Human readable amount of time
  * @throws An error when the time are NaN
  */
-function formatTime(t) {
+function formatTime(t, units) {
   if (typeof t !== 'number' || isNaN(t)) {
     return '0µs';
   }
-
-  const formatValue = v => ((v * 100) | 0) / 100;
-
-  const units = [
-    {
-      unit: 'µs',
-      range: 1000
-    },
-    {
-      unit: 'ms',
-      range: 1000
-    },
-    {
-      unit: 's',
-      range: 60
-    },
-    {
-      unit: 'min',
-      range: 60
-    },
-    {
-      unit: 'h',
-      range: 24
-    },
-    {
-      unit: 'd',
-      range: Number.MAX_VALUE
-    }
-  ];
 
   for (let i = 0; i < units.length; i++) {
     const unit = units[i];
 
     if (t < unit.range) {
-      return formatValue(t) + unit.unit;
+      return formatTimeValue(t) + unit.unit;
     }
 
     t /= unit.range;
   }
 
-  return formatValue(t) + units[units.length - 1].unit;
+  return formatTimeValue(t) + units[units.length - 1].unit;
 }

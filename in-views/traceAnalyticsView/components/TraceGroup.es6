@@ -6,6 +6,7 @@ import { number, millis, percentage } from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import './TraceGroup.less';
 
@@ -25,6 +26,7 @@ const maxElement = `${block}__max`;
 const errorsElement = `${block}__errors`;
 const errorsPercentageIndicatorElement = `${block}__errors-percentage-indicator`;
 const errorCountValueElement = `${block}__error-count`;
+const batchedElement = `${block}__batched`;
 const callElement = `${block}__call`;
 const callContentElement = `${block}__call-content`;
 const toggleChildrenElement = `${block}__toggle-children`;
@@ -32,6 +34,15 @@ const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenEl
 const detailsElement = `${block}__details`;
 
 const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
+
+const batchedTooltip = `
+Multiple calls were batched into a single span as part of the instrumentation to reduce instrumentation impact. As a result, these numbers are an approximation.
+`.trim();
+const batchedIndicator = (
+  <Tooltip content={batchedTooltip}>
+    <span className={batchedElement}>Batched</span>
+  </Tooltip>
+);
 
 export default class TraceGrouping extends React.Component {
   constructor() {
@@ -105,6 +116,8 @@ export default class TraceGrouping extends React.Component {
                   className={typeIconElement}
                 />
               </div>
+
+              {traceGroup.batched ? batchedIndicator : null}
 
               {traceGroup.enrichment.label}
             </div>
