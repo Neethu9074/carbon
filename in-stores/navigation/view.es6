@@ -113,7 +113,7 @@ export function getLinkToCurrentViewWithViewGrouping(vg) {
   return getModifiedUrlStream(params => (params.query.vg = vg));
 }
 
-export function setCurrentViewwWithViewGrouping(vg) {
+export function setCurrentViewWithViewGrouping(vg) {
   mutateUrl(params => {
     delete params.query.vg;
     params.query.vg = vg;

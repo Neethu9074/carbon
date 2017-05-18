@@ -7,7 +7,8 @@ import {
   defaultGrouping,
   humanReadableDescriptions
 } from 'in-stores/view/viewGrouping';
-import CustomGroupingDialog from 'in-components/MapOverlayControls/components/CustomGroupingDialog';
+import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/components/CustomContainerGroupingDialog';
+import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
 import { physicalViewLink$, containerViewLink$ } from 'in-stores/navigation/navigation';
 import { getLinkToCurrentViewWithViewGrouping } from 'in-stores/navigation/view';
 import Control from 'in-components/MapOverlayControls/components/Control';
@@ -98,19 +99,20 @@ const MenuContent = connectTo(
             <GroupingButton grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
           ))}
         </ButtonGroup>
-        {view === 'CONTAINER' ? <br /> : null}
-        {view === 'CONTAINER'
-          ? <ButtonGroup>
-              <Button
-                kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
-                size="sm"
-                onClick={() => setActiveDialog(<CustomGroupingDialog />)}
-                className={`${block}__custom-button`}
-              >
-                {humanReadableDescriptions['custom_container']}
-              </Button>
-            </ButtonGroup>
-          : null}
+        <br />
+        <ButtonGroup>
+          <Button
+            kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
+            size="sm"
+            onClick={() => {
+              const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
+              setActiveDialog(dialog);
+            }}
+            className={`${block}__custom-button`}
+          >
+            {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
+          </Button>
+        </ButtonGroup>
       </div>
     );
   }
