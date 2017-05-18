@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
