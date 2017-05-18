@@ -1,6 +1,24 @@
 .in-views-service-extraction-endpoint-form {
   margin: 1rem 0 0;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__order-down, &__order-up {
+    padding: .563rem .5rem;
+    &:hover {
+      cursor: pointer;
+      fill: #6B8088;
+    }
+  }
+
+  &__order-down {
+    margin-right: 1rem;
+  }
+
   &__remove-endpoint {
     float: right;
     color: #2D4048;

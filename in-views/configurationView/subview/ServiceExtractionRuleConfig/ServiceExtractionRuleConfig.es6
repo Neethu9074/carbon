@@ -1,4 +1,4 @@
-import { createMapForm, createField } from 'formalistic';
+import { createListForm, createMapForm, createField } from 'formalistic';
 import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
@@ -105,6 +105,8 @@ export default class extends React.Component {
           removeMatchSpecification={this.removeMatchSpecification}
           removeEndpointRule={this.removeEndpointRule}
           addEndpointRule={this.addEndpointRule}
+          moveUp={this.moveUp}
+          moveDown={this.moveDown}
         />
       </div>
     );
@@ -215,6 +217,18 @@ export default class extends React.Component {
     });
   };
 
+  moveUp = index => {
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], endpoints => endpoints.moveDown(index).setTouched(true))
+    });
+  };
+
+  moveDown = index => {
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], endpoints => endpoints.moveUp(index).setTouched(true))
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -227,11 +241,11 @@ export default class extends React.Component {
 
     const rule = this.state.rule;
     const form = this.state.form;
-
-    const endpointKeys = form.get('endpointRules').reduce((acc, cur, key) => acc.concat(key), []).sort();
     const endpoints = [];
-    for (let i = 0, length = endpointKeys.length; i < length; i++) {
-      const endpointForm = form.get('endpointRules').get(endpointKeys[i]);
+    const endpointForms = form.get('endpointRules').map(map => map);
+
+    for (let i = 0, length = endpointForms.length; i < length; i++) {
+      const endpointForm = endpointForms[i];
       endpoints.push(
         createEndpointRule({
           id: endpointForm.get('id').value,
@@ -295,14 +309,14 @@ function getMatchSpecifications(form) {
 }
 
 function createForm(rule) {
-  let form = createBasicRuleForm(rule);
+  let form = createBasicRuleForm(rule).put('endpointRules', createListForm());
 
   const endpointRules = rule.get('endpointRules');
-  if (endpointRules) {
-    endpointRules.forEach(endpoint => {
-      form = form.updateIn(['endpointRules'], item => item.put(endpoint.get('id'), createEndpointRuleForm(endpoint)));
-    });
-  }
+  endpointRules.forEach((endpoint, order) => {
+    let endpointRuleForm = createEndpointRuleForm(endpoint);
+    endpointRuleForm = endpointRuleForm.put('order', createField({ value: order }));
+    form = form.updateIn(['endpointRules'], item => item.push(endpointRuleForm));
+  });
   return form;
 }
 
@@ -317,7 +331,6 @@ function createBasicRuleForm(rule) {
     .put('enabled', createField({ value: rule.get('enabled', true) }))
     .put('comment', createField({ value: rule.get('comment') || '' }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
-    .put('endpointRules', createMapForm())
     .put('label', createField({ value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service') }));
 
   const matchSpecifications = rule.get('matchSpecification');

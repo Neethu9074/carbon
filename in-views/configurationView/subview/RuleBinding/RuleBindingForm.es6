@@ -10,10 +10,10 @@ import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
+import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Row, Col } from 'in-components/Grid';
 
 import './RuleBindingForm.less';
 

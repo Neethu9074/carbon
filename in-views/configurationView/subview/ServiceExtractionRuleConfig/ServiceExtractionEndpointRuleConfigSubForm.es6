@@ -6,6 +6,7 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import Label from 'in-components/form/Label';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
 import './ServiceExtractionEndpointRuleConfigSubForm.less';
@@ -29,14 +30,16 @@ export default class extends React.Component {
       helpTexts,
       addEndpointRule,
       addMatchSpecification,
-      removeMatchSpecification
+      removeMatchSpecification,
+      moveUp,
+      moveDown
     } = this.props;
     if (!serviceRule) {
       return null;
     }
 
     const serviceRuleId = serviceRule.get('id');
-    const endpoints = form.get('endpointRules').reduce((acc, cur, key) => acc.concat(key), []).sort();
+    const endpoints = form.get('endpointRules').map(map => map);
 
     return (
       <div className={`${block}__sub-section`}>
@@ -50,16 +53,37 @@ export default class extends React.Component {
               Add Endpoint
             </Button>
           </Section>
-          {endpoints.map(key => {
-            const endpointRuleForm = form.get('endpointRules').get(key);
+          {endpoints.map((endpointRuleForm, index) => {
+            const key = endpointRuleForm.get('id').value;
             const endpointHtmlId = `${serviceRuleId}-${key}`;
             return (
               <Section key={key}>
-                <Label htmlFor={endpointHtmlId}>
-                  <a href="#" onClick={e => this.removeRule(e, key)} className={`${block}__remove-endpoint`}>
-                    Remove endpoint
-                  </a>
-                </Label>
+                <div className={`${block}__header`}>
+                  {endpoints.length > 1
+                    ? <SvgIcon
+                        className={`${block}__order-up`}
+                        type="chevron_up"
+                        width={12}
+                        color="#172429"
+                        onClick={() => moveUp(index)}
+                      />
+                    : null}
+                  {endpoints.length > 1
+                    ? <SvgIcon
+                        className={`${block}__order-down`}
+                        type="chevron_down"
+                        width={12}
+                        color="#172429"
+                        onClick={() => moveDown(index)}
+                      />
+                    : null}
+
+                  <Label htmlFor={endpointHtmlId}>
+                    <a href="#" onClick={e => this.removeRule(e, key)} className={`${block}__remove-endpoint`}>
+                      Remove endpoint
+                    </a>
+                  </Label>
+                </div>
 
                 <ServiceExtractionRuleConfigForm
                   prePath={['endpointRules', key]}
