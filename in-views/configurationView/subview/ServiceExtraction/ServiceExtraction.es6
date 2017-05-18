@@ -11,7 +11,7 @@ import {
 import {
   upsertServiceRules,
   updateServiceRulesByType,
-  getServiceRules,
+  getServiceRulesByType,
   deleteServiceRule,
   setEnabled
 } from 'in-services/api/serviceExtraction';
@@ -50,7 +50,6 @@ const cols = [
           value: order,
           content: (
             <div className={`${block}__order-icons`}>
-              {order}
               <SvgIcon
                 className={`${block}__order-up`}
                 type="chevron_up"
@@ -113,7 +112,7 @@ export default class extends React.Component {
       message: 'Loading service rules…'
     });
 
-    const result$ = getServiceRules(this.props.ruleType);
+    const result$ = getServiceRulesByType(this.props.ruleType);
     this.responseSubscription = result$.once(serviceRules => {
       this.setState({
         error: false,

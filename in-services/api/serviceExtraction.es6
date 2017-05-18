@@ -3,17 +3,11 @@ import { fromJS } from 'immutable';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getServiceRules(type = null) {
+export function getServiceRulesByType(type) {
   return http({
     method: 'GET',
-    url: `/api/serviceExtractionConfigs`
-  }).map(response => {
-    const rules = response.body.rules;
-    if (type == null) {
-      return rules;
-    }
-    return fromJS(rules.filter(rule => rule.type === type));
-  });
+    url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`
+  }).map(response => fromJS(response.body));
 }
 
 export function getServiceRule(id) {
