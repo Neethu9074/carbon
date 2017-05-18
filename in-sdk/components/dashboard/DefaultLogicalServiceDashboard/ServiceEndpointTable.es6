@@ -26,27 +26,7 @@ export default function ServiceEndpointTable({ snapshot }) {
 
   return (
     <DashboardSection title="Service Endpoints">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+      <Table cols={cols} rows={rows} />
     </DashboardSection>
-  );
-}
-
-function getRowDetails(row) {
-  const rule = row.entity;
-  return (
-    <DescriptionList>
-      <DescriptionItem title="comment">
-        {rule.get('comment')}
-      </DescriptionItem>
-      <DescriptionItem title="match specification path">
-        {rule.getIn(['matchSpecification', 'path'])}
-      </DescriptionItem>
-      <DescriptionItem title="match specification host">
-        {rule.getIn(['matchSpecification', 'host'])}
-      </DescriptionItem>
-      <DescriptionItem title="extract specification label">
-        {rule.getIn(['extractSpecification', 'label'])}
-      </DescriptionItem>
-    </DescriptionList>
   );
 }
