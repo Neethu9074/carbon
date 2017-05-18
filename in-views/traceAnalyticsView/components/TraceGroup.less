@@ -8,6 +8,7 @@
   &__group {
     border-bottom: 1px solid #D5DFE4;
     outline: 0;
+    display: flex;
 
     &:focus {
       background: #ddd !important;
@@ -81,6 +82,13 @@
 
   &__call {
     width: ~'calc(100% - 31.75rem)';
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &__call-content {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   &__type {

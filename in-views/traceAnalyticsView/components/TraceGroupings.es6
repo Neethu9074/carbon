@@ -82,13 +82,13 @@ export default class TraceGroupings extends React.PureComponent {
     );
   };
 
-  enrichGroups(traceGroups) {
+  enrichGroups(traceGroups, level = 0) {
     for (let i = 0; i < traceGroups.length; i++) {
-      this.enrichGroup(traceGroups[i]);
+      this.enrichGroup(traceGroups[i], level);
     }
   }
 
-  enrichGroup(traceGroup) {
+  enrichGroup(traceGroup, level) {
     const fakeSpan = Map({
       name: traceGroup.spanType,
       data: fromJS(traceGroup.dataSample)
@@ -100,7 +100,9 @@ export default class TraceGroupings extends React.PureComponent {
     const categoryColorRgb = hexToRGB(categoryColor);
     const categoryBackgroundOpaque = { background: categoryColor };
     const categoryBackgroundTransparent = {
-      background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)`
+      background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)`,
+      margin: `0 0 0 ${level * 20}px`,
+      borderLeft: `3px solid ${categoryColor}`
     };
 
     traceGroup.enrichment = {
@@ -114,7 +116,7 @@ export default class TraceGroupings extends React.PureComponent {
       errorPercentage: 1 / traceGroup.statistics.count * traceGroup.statistics.errorCount
     };
 
-    this.enrichGroups(traceGroup.children);
+    this.enrichGroups(traceGroup.children, level + 1);
   }
 
   componentWillUnmount() {

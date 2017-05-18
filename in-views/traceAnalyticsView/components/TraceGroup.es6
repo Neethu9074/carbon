@@ -26,6 +26,7 @@ const errorsElement = `${block}__errors`;
 const errorsPercentageIndicatorElement = `${block}__errors-percentage-indicator`;
 const errorCountValueElement = `${block}__error-count`;
 const callElement = `${block}__call`;
+const callContentElement = `${block}__call-content`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
 const detailsElement = `${block}__details`;
@@ -51,7 +52,6 @@ export default class TraceGrouping extends React.Component {
       <li className={block}>
         <div
           className={active ? groupActiveElement : groupElement}
-          style={traceGroup.enrichment.categoryBackgroundTransparent}
           onClick={this.onClick}
           onKeyDown={this.onKeyDown}
           tabIndex={10000}
@@ -89,34 +89,33 @@ export default class TraceGrouping extends React.Component {
               {percentage.compact(traceGroup.enrichment.errorPercentage)}
             </span>
           </div>
-          <div
-            className={callElement}
-            style={{
-              textIndent: `${level * 20}px`
-            }}
-          >
-
-            <SvgIcon
-              type={showChildren ? 'triangle_down' : 'triangle_right'}
-              width={showChildren ? 11 : 8}
-              onClick={this.toggleChildren}
-              className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
-            />
-
-            <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
-              <img
-                src={traceGroup.enrichment.categoryIcon}
-                alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
-                className={typeIconElement}
+          <div className={callElement}>
+            <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
+              <SvgIcon
+                type={showChildren ? 'triangle_down' : 'triangle_right'}
+                width={showChildren ? 11 : 8}
+                onClick={this.toggleChildren}
+                className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
               />
-            </div>
 
-            {traceGroup.enrichment.label}
+              <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
+                <img
+                  src={traceGroup.enrichment.categoryIcon}
+                  alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
+                  className={typeIconElement}
+                />
+              </div>
+
+              {traceGroup.enrichment.label}
+            </div>
           </div>
         </div>
 
         {showDetails
-          ? <div className={detailsElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
+          ? <div
+              className={detailsElement}
+              style={{ background: traceGroup.enrichment.categoryBackgroundTransparent.background }}
+            >
               <div>
                 <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
                 <LabeledValue label="50th">{millis.detailed(traceGroup.statistics.duration50th)}</LabeledValue>
