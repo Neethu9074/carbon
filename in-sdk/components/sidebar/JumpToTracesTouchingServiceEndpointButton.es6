@@ -7,6 +7,10 @@ import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
+import './JumpToTracesTouchingServiceEndpointButton.less';
+
+const block = 'in-jump-to-service-endpoint-button';
+
 export default connectTo(
   props => {
     return {
@@ -17,7 +21,7 @@ export default connectTo(
   function JumpToTracesTouchingServiceButton({ href, count }) {
     return (
       <Tooltip content="Jump to traces touching this service endpoint">
-        <Button href={href} kind="secondary" size="sm">
+        <Button href={href} kind="secondary" size="sm" className={block}>
           Traces Touching ({zeroDecimalPlaces(count)})
         </Button>
       </Tooltip>
