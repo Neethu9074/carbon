@@ -167,21 +167,6 @@ export default class extends React.Component {
     }
   };
 
-  onChange = (fieldName, value) => {
-    let updatedForm = this.state.form;
-    if (Array.isArray(fieldName)) {
-      for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], setFieldValue.bind(null, value[i]));
-      }
-    } else {
-      updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-    }
-
-    this.setState({
-      form: updatedForm
-    });
-  };
-
   onChangeIn = (path, value) => {
     this.setState({
       form: this.state.form.updateIn(path, field => field.setValue(value).setTouched(true))
@@ -367,10 +352,6 @@ const atLeastOneMatchResult = [
     message: 'At least one match expression is required.'
   }
 ];
-
-function setFieldValue(value, field) {
-  return field.setValue(value).setTouched(true);
-}
 
 function matchSpecificationMustCompileRule(regex) {
   try {
