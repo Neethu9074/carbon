@@ -17,11 +17,25 @@ const block = 'in-views-service-extraction-endpoint-form';
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'custom',
     disableSorting: true,
     typeArgs: {
-      getValue(row) {
-        return row.form.get('name').value;
+      comparator: () => 0,
+      get(row) {
+        const value = row.form.get('name').value;
+        let content = value;
+
+        if (!row.form.hierarchyValid) {
+          content = (
+            <span className={`${block}__invalid-row`}>
+              {row.form.get('name').value}
+            </span>
+          );
+        }
+        return {
+          value,
+          content
+        };
       }
     }
   },
@@ -93,13 +107,11 @@ export default class extends React.Component {
     }
 
     const endpoints = form.get('endpointRules');
-
-    const rows = endpoints.map((endpointRuleForm, index) => {
-      const key = endpointRuleForm.get('id').value;
+    const rows = endpoints.map((form, index) => {
       return {
-        key,
+        key: form.get('id').value,
         index,
-        form: endpointRuleForm,
+        form,
         moveUp,
         moveDown,
         removeRule: this.removeRule
