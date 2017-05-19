@@ -1,4 +1,4 @@
-import { createListForm, createMapForm, createField } from 'formalistic';
+import { createListForm, createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
@@ -316,11 +316,17 @@ function createEndpointRuleForm(endpoint) {
 function createBasicRuleForm(rule) {
   let form = createMapForm()
     .put('id', createField({ value: rule.get('id') }))
-    .put('name', createField({ value: rule.get('name') || '' }))
-    .put('enabled', createField({ value: rule.get('enabled', true) }))
-    .put('comment', createField({ value: rule.get('comment') || '' }))
+    .put('name', createField({ value: rule.get('name'), validator: notBlankValidator }))
+    .put('enabled', createField({ value: rule.get('enabled') }))
+    .put('comment', createField({ value: rule.get('comment') }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
-    .put('label', createField({ value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service') }));
+    .put(
+      'label',
+      createField({
+        value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service'),
+        validator: notBlankValidator
+      })
+    );
 
   const matchSpecifications = rule.get('matchSpecification');
   if (matchSpecifications) {

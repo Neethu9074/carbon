@@ -56,6 +56,11 @@ export default class extends React.Component {
                 value={nameField.value}
                 onChange={e => onChangeIn(this.namePath, e.target.value)}
               />
+              {nameField.valid
+                ? null
+                : <ValidationBlock hasError>
+                    {nameField.messages.map(e => e.message)}
+                  </ValidationBlock>}
             </FormGroup>
           ))}
         </div>
@@ -119,6 +124,11 @@ export default class extends React.Component {
                   value={labelField.value}
                   onChange={e => onChangeIn(this.labelPath, e.target.value)}
                 />
+                {labelField.valid
+                  ? null
+                  : <ValidationBlock hasError>
+                      {labelField.messages.map(e => e.message)}
+                    </ValidationBlock>}
               </Helpify>
             </FormGroup>
           ))}
