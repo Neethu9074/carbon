@@ -39,7 +39,8 @@ export default class extends React.Component {
     }
 
     const serviceRuleId = serviceRule.get('id');
-    const endpoints = form.get('endpointRules').map(map => map);
+    const endpoints = form.get('endpointRules');
+    const numEndpoints = endpoints.items.length;
 
     return (
       <div className={`${block}__sub-section`}>
@@ -59,7 +60,7 @@ export default class extends React.Component {
             return (
               <Section key={key}>
                 <div className={`${block}__header`}>
-                  {endpoints.length > 1
+                  {numEndpoints > 1
                     ? <SvgIcon
                         className={`${block}__order-up`}
                         type="chevron_up"
@@ -68,7 +69,7 @@ export default class extends React.Component {
                         onClick={() => moveUp(index)}
                       />
                     : null}
-                  {endpoints.length > 1
+                  {numEndpoints > 1
                     ? <SvgIcon
                         className={`${block}__order-down`}
                         type="chevron_down"
@@ -86,7 +87,7 @@ export default class extends React.Component {
                 </div>
 
                 <ServiceExtractionRuleConfigForm
-                  prePath={['endpointRules', key]}
+                  prePath={['endpointRules', index]}
                   ruleForm={endpointRuleForm}
                   helpTexts={helpTexts}
                   resultingEntityNameTitle="Endpoint Name"

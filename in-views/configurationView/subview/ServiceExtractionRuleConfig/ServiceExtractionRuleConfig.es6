@@ -97,7 +97,7 @@ export default class extends React.Component {
         <ServiceExtractionEndpointRuleConfigSubForm
           serviceRule={rule}
           form={form}
-          onChangeIn={this.onChangeIn}
+          onChangeIn={this.onChangeInEndpoints}
           helpTexts={helpTexts}
           matchSpecificationOptionsTree={matchSpecificationOptionsTree}
           matchSpecificationOptions={matchSpecificationOptions}
@@ -188,6 +188,12 @@ export default class extends React.Component {
     });
   };
 
+  onChangeInEndpoints = (path, value) => {
+    this.setState({
+      form: this.state.form.updateIn(path, field => field.setValue(value).setTouched(true))
+    });
+  };
+
   addMatchSpecification = (path, matchName, initialValue) => {
     const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
     this.setState({
@@ -205,9 +211,7 @@ export default class extends React.Component {
     const endpointRule = fromJS(createEndpointRule({}));
     const ruleForm = createEndpointRuleForm(endpointRule);
     this.setState({
-      form: this.state.form.updateIn(['endpointRules'], item =>
-        item.put(endpointRule.get('id'), ruleForm).setTouched(true)
-      )
+      form: this.state.form.updateIn(['endpointRules'], item => item.push(ruleForm).setTouched(true))
     });
   };
 
