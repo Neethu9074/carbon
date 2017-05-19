@@ -5,8 +5,8 @@ import RoEmitter from 'roemitter';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
 import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
+import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
@@ -130,7 +130,9 @@ export default getElementDimensions(
         });
 
         editor.on('blur', () => {
-          this.updateQuery(this.editor.getValue().trim().replace(/\s\s+/g, ' '));
+          if (this.editor) {
+            this.updateQuery(this.editor.getValue().trim().replace(/\s\s+/g, ' '));
+          }
           this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
