@@ -40,6 +40,10 @@ export const matchSpecificationOptionsTree = [
 
 export default function EUMServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType="eum" title="EUM Service Extraction Rules" helpTexts={helpTexts} />
+    <GenericServiceExtractionConfiguration
+      ruleType="browser"
+      title="EUM Service Extraction Rules"
+      helpTexts={helpTexts}
+    />
   );
 }

@@ -14,5 +14,5 @@ export const typeDefinitions = {
   elasticsearchindex: esConfig,
   webapp: httpConfig,
   messagebroker: mbConfig,
-  eum: eumConfig
+  browser: eumConfig
 };
