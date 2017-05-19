@@ -1,9 +1,10 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
-import {messageBrokerServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
-import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
+import GenericServiceExtractionConfiguration
+  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import { messageBrokerServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
+import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 
 export const pathname = messageBrokerServiceExtractionConfigViewPath;
 

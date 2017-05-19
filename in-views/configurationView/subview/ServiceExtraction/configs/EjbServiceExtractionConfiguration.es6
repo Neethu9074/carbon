@@ -1,9 +1,10 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
-import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
-import {ejbServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
+import GenericServiceExtractionConfiguration
+  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
+import { ejbServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
 export const pathname = ejbServiceExtractionConfigViewPath;
 
@@ -81,10 +82,6 @@ export const matchSpecificationOptions = {
 
 export default function EjbServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration
-      ruleType="ejb"
-      title="EJB Service Extraction Rules"
-      helpTexts={helpTexts}
-    />
+    <GenericServiceExtractionConfiguration ruleType="ejb" title="EJB Service Extraction Rules" helpTexts={helpTexts} />
   );
 }

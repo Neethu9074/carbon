@@ -3,13 +3,15 @@
 import ServiceExtractionRuleConfiguration
   from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import ElasticServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
 import MessageBrokerServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/MessageBrokerServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
+import EumServiceExtractionConfiguration
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
 import UserManagement
   from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
@@ -136,6 +138,11 @@ export default (
         component={createAsyncFullscreenOverlayViewComponent(MessageBrokerServiceExtractionConfiguration)}
         path="messageBrokerServiceExtraction"
         windowTitle="Message Broker Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(EumServiceExtractionConfiguration)}
+        path="eumServiceExtraction"
+        windowTitle="EUM Service Extraction"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(UiConfig)}

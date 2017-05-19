@@ -1,9 +1,10 @@
 import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
-import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractionHelpTexts';
-import {httpServiceExtractionConfigViewPath} from 'in-stores/navigation/configuration';
+import GenericServiceExtractionConfiguration
+  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
+import { httpServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
 export const pathname = httpServiceExtractionConfigViewPath;
 

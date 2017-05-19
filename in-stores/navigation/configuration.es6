@@ -33,6 +33,12 @@ export const isMessageBrokerServiceExtractionConfigurationView$ = buildPathStart
   messageBrokerServiceExtractionConfigViewPath
 );
 
+export const eumServiceExtractionConfigViewPath = '/config/eumServiceExtraction';
+export const eumServiceExtractionConfigurationViewLink$ = buildUrlStream({
+  path: eumServiceExtractionConfigViewPath
+});
+export const isEumServiceExtractionConfigurationView$ = buildPathStartsWithStream(eumServiceExtractionConfigViewPath);
+
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({ path: userInterfaceConfigViewPath });
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
@@ -50,15 +56,15 @@ export const rolesConfigViewLink$ = buildUrlStream({ path: rolesConfigViewPath }
 export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
 
 export function getRoleConfigLink(roleId) {
-  return getModifiedUrlStream(params => params.pathname = getRoleConfigPath(roleId));
+  return getModifiedUrlStream(params => (params.pathname = getRoleConfigPath(roleId)));
 }
 
 export function openRoleConfig(roleId) {
-  mutateUrl(params => params.pathname = getRoleConfigPath(roleId));
+  mutateUrl(params => (params.pathname = getRoleConfigPath(roleId)));
 }
 
 export function openRoles() {
-  mutateUrl(params => params.pathname = '/config/rolesConfig');
+  mutateUrl(params => (params.pathname = '/config/rolesConfig'));
 }
 
 function getRoleConfigPath(roleId) {
@@ -70,15 +76,15 @@ export const apiTokensViewLink$ = buildUrlStream({ path: apiTokensViewPath });
 export const isApiTokensView$ = buildPathStartsWithStream(apiTokensViewPath);
 
 export function openApiTokenConfig(apiTokenId) {
-  mutateUrl(params => params.pathname = getApiTokenConfigPath(apiTokenId));
+  mutateUrl(params => (params.pathname = getApiTokenConfigPath(apiTokenId)));
 }
 
 export function openApiTokens() {
-  mutateUrl(params => params.pathname = apiTokensViewPath);
+  mutateUrl(params => (params.pathname = apiTokensViewPath));
 }
 
 export function getApiTokenConfigLink(apiTokenId) {
-  return getModifiedUrlStream(params => params.pathname = getApiTokenConfigPath(apiTokenId));
+  return getModifiedUrlStream(params => (params.pathname = getApiTokenConfigPath(apiTokenId)));
 }
 
 function getApiTokenConfigPath(apiTokenId) {
@@ -94,11 +100,11 @@ function getObjectiveConfigPath(objectiveId) {
 }
 
 export function getObjectivesConfigLink(id) {
-  return getModifiedUrlStream(params => params.pathname = getObjectiveConfigPath(id));
+  return getModifiedUrlStream(params => (params.pathname = getObjectiveConfigPath(id)));
 }
 
 export function openObjectiveConfig(objectiveId) {
-  mutateUrl(params => params.pathname = getObjectiveConfigPath(objectiveId));
+  mutateUrl(params => (params.pathname = getObjectiveConfigPath(objectiveId)));
 }
 
 function getObjectivesConfigPath() {
@@ -106,7 +112,7 @@ function getObjectivesConfigPath() {
 }
 
 export function openObjectivesConfig() {
-  mutateUrl(params => params.pathname = getObjectivesConfigPath());
+  mutateUrl(params => (params.pathname = getObjectivesConfigPath()));
 }
 
 const objectiveViewPath = '/config/objectives';
@@ -125,11 +131,11 @@ function getRulePath(id) {
 }
 
 export function getRuleLink(id) {
-  return getModifiedUrlStream(params => params.pathname = getRulePath(id));
+  return getModifiedUrlStream(params => (params.pathname = getRulePath(id)));
 }
 
 export function openRule(id) {
-  mutateUrl(params => params.pathname = getRulePath(id));
+  mutateUrl(params => (params.pathname = getRulePath(id)));
 }
 
 function getRulesPath() {
@@ -137,7 +143,7 @@ function getRulesPath() {
 }
 
 export function openRules() {
-  mutateUrl(params => params.pathname = getRulesPath());
+  mutateUrl(params => (params.pathname = getRulesPath()));
 }
 
 // binding
@@ -151,11 +157,11 @@ function getRuleBindingPath(id) {
 }
 
 export function getRuleBindingLink(id) {
-  return getModifiedUrlStream(params => params.pathname = getRuleBindingPath(id));
+  return getModifiedUrlStream(params => (params.pathname = getRuleBindingPath(id)));
 }
 
 export function openRuleBinding(id) {
-  mutateUrl(params => params.pathname = getRuleBindingPath(id));
+  mutateUrl(params => (params.pathname = getRuleBindingPath(id)));
 }
 
 function getRuleBindingsPath() {
@@ -163,11 +169,10 @@ function getRuleBindingsPath() {
 }
 
 export function openRuleBindings() {
-  mutateUrl(params => params.pathname = getRuleBindingsPath());
+  mutateUrl(params => (params.pathname = getRuleBindingsPath()));
 }
 
 // end custom alerting rules ------------------------------------
-
 
 // service extraction ----------------------------------------
 function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
@@ -177,14 +182,14 @@ function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
 }
 
 export function getServiceRuleConfigLink(id, ruleType) {
-  return getModifiedUrlStream(params => params.pathname = getServiceExtractionRuleConfigPath(id, ruleType));
+  return getModifiedUrlStream(params => (params.pathname = getServiceExtractionRuleConfigPath(id, ruleType)));
 }
 
 export function openServiceExtractionConfig(objectiveId, ruleType) {
-  mutateUrl(params => params.pathname = getServiceExtractionRuleConfigPath(objectiveId, ruleType));
+  mutateUrl(params => (params.pathname = getServiceExtractionRuleConfigPath(objectiveId, ruleType)));
 }
 
 export function openServiceExtractionConfigByDefinition(definition) {
-  mutateUrl(params => params.pathname = definition.pathname);
+  mutateUrl(params => (params.pathname = definition.pathname));
 }
 // end service extraction ------------------------------------
