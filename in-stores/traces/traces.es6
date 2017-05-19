@@ -32,10 +32,6 @@ export function getNumberOfTracesTouchingService(serviceId) {
   return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`);
 }
 
-export function getNumberOfTracesTouchingServiceEndpoint(serviceId, endpointLabel) {
-  return getTraceCount(`trace.touchedLogicalService:"${serviceId} span.endpoint:"${endpointLabel}""`);
-}
-
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
   return getTraceCount(`trace.startingAtInstance:"${serviceId}"`);
 }
