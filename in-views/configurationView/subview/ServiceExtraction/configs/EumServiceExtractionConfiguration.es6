@@ -18,26 +18,14 @@ export const helpTexts = defaultsDeep(
 );
 
 export const matchSpecificationOptions = {
-  path: {
-    titleName: 'Request Path',
+  replaceThis: {
+    titleName: 'foo',
     placeholder: '(.*)',
     testPlaceholder: '/',
-    initialValue: '(/shop($|/))',
+    initialValue: '(/bar($|/))',
     help: (
       <span>
-        text.
-      </span>
-    )
-  },
-
-  host: {
-    titleName: 'Host Header',
-    placeholder: '(.*)',
-    testPlaceholder: 'example.com',
-    initialValue: '(.*)',
-    help: (
-      <span>
-        text.
+        help text here.
       </span>
     )
   }
@@ -45,17 +33,8 @@ export const matchSpecificationOptions = {
 
 export const matchSpecificationOptionsTree = [
   {
-    label: 'Headers',
-    children: [
-      {
-        label: 'Host',
-        value: 'host'
-      }
-    ]
-  },
-  {
-    label: 'Request Path',
-    value: 'path'
+    label: 'Test',
+    value: 'replaceThis'
   }
 ];
 
