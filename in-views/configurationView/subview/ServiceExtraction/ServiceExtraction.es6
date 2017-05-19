@@ -411,13 +411,16 @@ function getRowDetails(row) {
         <DescriptionItem title="extract specification label">
           {rule.getIn(['extractSpecification', 'label'])}
         </DescriptionItem>
-        {rule.get('endpointRules', emptyList).map(endpoint => (
-          <div key={endpoint.get('id')} className={`${block}__details-wrapper`}>
-            <DescriptionItem title={endpoint.get('name')}>
-              {getRowDetails({ entity: endpoint })}
-            </DescriptionItem>
-          </div>
-        ))}
+
+        <DescriptionItem title="Endpoints">
+          <ul className={`${block}__endpoints-list`}>
+            {rule.get('endpointRules', emptyList).map(endpoint => (
+              <li key={endpoint.get('id')} className={`${block}__endpoint`}>
+                {endpoint.get('name')}
+              </li>
+            ))}
+          </ul>
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
