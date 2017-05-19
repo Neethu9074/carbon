@@ -18,8 +18,8 @@ export const helpTexts = defaultsDeep(
 );
 
 export const matchSpecificationOptions = {
-  replaceThis: {
-    titleName: 'foo',
+  appName: {
+    titleName: 'App Name',
     placeholder: '(.*)',
     testPlaceholder: '/',
     initialValue: '(/bar($|/))',
@@ -33,8 +33,8 @@ export const matchSpecificationOptions = {
 
 export const matchSpecificationOptionsTree = [
   {
-    label: 'Test',
-    value: 'replaceThis'
+    label: 'App Name',
+    value: 'appName'
   }
 ];
 
