@@ -23,7 +23,13 @@ export default connectTo(
     }
     return {};
   },
-  function EntityInformation({ snapshot, label, useSnapshotLink = false, kind = 'dark' }) {
+  function EntityInformation({
+    snapshot,
+    label,
+    useSnapshotLink = false,
+    kind = 'dark',
+    getLabelCallback = label => label
+  }) {
     if (snapshot === loadingPlaceholder) {
       // This component is used too often within the same view, e.g. trace view with lots of
       // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
@@ -53,7 +59,7 @@ export default connectTo(
           kind={kind}
           calculateHierarchy
         >
-          {getLabel(snapshot)}
+          {getLabelCallback(getLabel(snapshot), snapshot)}
         </HierarchicalLink>
       </div>
     );
