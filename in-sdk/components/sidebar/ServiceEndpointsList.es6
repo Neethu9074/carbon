@@ -15,7 +15,7 @@ export default function ServiceEndpointsList({ snapshot }) {
       <Separator />
       <Collapsible initiallyOpen>
         <Collapsible.Header className={block + '__header'}>
-          Service Endpoints
+          Endpoints
         </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
