@@ -74,22 +74,6 @@ const cols = [
     }
   },
   {
-    title: 'Errors',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `endpoint.${row.key}.error_count`;
-      },
-      getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'Name',
     type: 'custom',
     typeArgs: {
