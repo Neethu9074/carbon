@@ -5,9 +5,9 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyList } from 'in-services/fixedImmutables';
 
-import './RelatedSnapshotList.less';
+import './ServiceEndpointsList.less';
 
-const block = 'in-related-snapshot-list';
+const block = 'in-service-endpoint-list';
 
 export default function ServiceEndpointsList({ snapshot }) {
   return (
@@ -19,15 +19,11 @@ export default function ServiceEndpointsList({ snapshot }) {
         </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            {snapshot.getIn(['data', 'service_endpoints'], emptyList).map(endpointName =>
-              <DescriptionItem
-                title=""
-                id={endpointName}
-                key={endpointName}
-                >
+            {snapshot.getIn(['data', 'service_endpoints'], emptyList).map(endpointName => (
+              <DescriptionItem className={`${block}__item`} title="" id={endpointName} key={endpointName}>
                 {endpointName}
               </DescriptionItem>
-            )}
+            ))}
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
