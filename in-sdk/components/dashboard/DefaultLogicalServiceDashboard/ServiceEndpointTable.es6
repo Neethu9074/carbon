@@ -1,5 +1,7 @@
 import React from 'react';
 
+import JumpToTracesTouchingServiceEndpointButton
+  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import {
   percentageTwoDecimalPlaces,
   twoDecimalPlaces,
@@ -11,6 +13,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { always } from 'in-services/fixedStreams';
 
 const cols = [
   {
@@ -83,6 +86,19 @@ const cols = [
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: () => 0,
+      get$(row) {
+        return always({
+          value: row.key,
+          content: <JumpToTracesTouchingServiceEndpointButton snapshotId={row.snapshotId} label={row.key} />
+        });
       }
     }
   }

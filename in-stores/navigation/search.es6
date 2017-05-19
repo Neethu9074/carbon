@@ -18,6 +18,15 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
   });
 }
 
+export function getTraceViewFilteredByServiceEndpointStartingAtLink(snapshotId, endpointLabel) {
+  const query = ` trace.touching:"${snapshotId}" span.endpoint.label:"${endpointLabel}"`;
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces/search';
+    params.query.q = query;
+    params.query.ss = '1';
+  });
+}
+
 export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
   const query = ` trace.startingAtInstance:"${snapshotId}"`;
   return getModifiedUrlStream(params => {
