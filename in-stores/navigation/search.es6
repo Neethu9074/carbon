@@ -19,7 +19,7 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
 }
 
 export function getTraceViewFilteredByServiceEndpointStartingAtLink(snapshotId, endpointLabel) {
-  const query = ` trace.touching:"${snapshotId}" span.endpoint.label:"${endpointLabel}"`;
+  const query = ` trace.touching:"${snapshotId}" span.endpoint:"${endpointLabel}"`;
   return getModifiedUrlStream(params => {
     params.pathname = '/traces/search';
     params.query.q = query;
