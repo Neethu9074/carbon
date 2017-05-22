@@ -413,9 +413,9 @@ function getRowDetails(row) {
         </DescriptionItem>
 
         <DescriptionItem title="Endpoints">
-          <ul className={`${block}__endpoints-list`}>
+          <ul className={`${block}__endpoint-list`}>
             {rule.get('endpointRules', emptyList).map(endpoint => (
-              <li key={endpoint.get('id')} className={`${block}__endpoint`}>
+              <li key={endpoint.get('id')} className={`${block}__endpoint-list-item`}>
                 {endpoint.get('name')}
               </li>
             ))}
