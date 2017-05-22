@@ -4,11 +4,9 @@ import React from 'react';
 
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
 import { selectedTraceId, setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
-import { maximumNumberOfTracesForAnalytics } from 'in-services/featureFlags';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { selectedTraces$ } from 'in-stores/traces/analytics';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceTable.less';
@@ -20,8 +18,7 @@ export default getElementDimensions(
     {
       selectedTraceId,
       traces: traces$,
-      isInfiniteLoading: isLoading$,
-      tracesSelectedForAnalytics: selectedTraces$
+      isInfiniteLoading: isLoading$
     },
     class extends React.Component {
       static displayName = 'TraceTable';
@@ -30,13 +27,10 @@ export default getElementDimensions(
         isInfiniteLoading: rpt.bool.isRequired,
         traces: rpt.array.isRequired,
         selectedTraceId: rpt.string,
-        tracesSelectedForAnalytics: rpt.object,
         height: rpt.number
       };
 
       render() {
-        const canAddMoreTracesToAnalytics =
-          Object.keys(this.props.tracesSelectedForAnalytics).length < maximumNumberOfTracesForAnalytics;
         return (
           <div className={block}>
             {this.props.traces.length === 0 && !this.props.isInfiniteLoading
@@ -60,8 +54,6 @@ export default getElementDimensions(
                       trace={trace}
                       selectedTraceId={this.props.selectedTraceId}
                       onClick={this.onClick}
-                      tracesSelectedForAnalytics={this.props.tracesSelectedForAnalytics}
-                      canAddMoreTracesToAnalytics={canAddMoreTracesToAnalytics}
                     />
                   ))}
                 </Infinite>

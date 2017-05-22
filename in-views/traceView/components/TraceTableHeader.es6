@@ -23,10 +23,6 @@ export default connectTo(
 function TraceTableHeader({ sortDirection, sortBy }) {
   return (
     <div className={block}>
-      <div className={cellClassName}>
-        <div className={`${block}__cell-toggle`} />
-      </div>
-
       {renderCell('', 'ec', sortDirection, sortBy)}
       {renderCell('Timestamp', 'ts', sortDirection, sortBy)}
 

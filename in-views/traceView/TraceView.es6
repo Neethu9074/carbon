@@ -6,6 +6,7 @@ import TraceTableHeader from 'in-views/traceView/components/TraceTableHeader';
 import TraceListHeader from 'in-views/traceView/components/TraceListHeader';
 import { enable, disable } from 'in-views/traceView/stores/traceList';
 import TraceTable from 'in-views/traceView/components/TraceTable';
+import { traceAnalyticsEnabled } from 'in-services/featureFlags';
 import TraceTree from 'in-views/traceView/components/TraceTree';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import TwoColumnView from 'in-components/TwoColumnView';
@@ -22,13 +23,19 @@ const rightContent = [
 ];
 
 export default function TraceView({ children }) {
+  let style = undefined;
+  if (!traceAnalyticsEnabled) {
+    style = {
+      maxHeight: '100%'
+    };
+  }
   return (
-    <div className={block}>
+    <div className={block} style={style}>
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
       <TwoColumnView
         leftContent={leftContent}
         rightContent={rightContent}
-        leftWidth="47rem"
+        leftWidth="46rem"
         expandedSide$={expandedSide$}
       />
       {children}

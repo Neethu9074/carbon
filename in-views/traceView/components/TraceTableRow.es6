@@ -2,8 +2,6 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
-import { toggleIncludeInAnalytics } from 'in-stores/traces/analytics';
-import { stopPropagation } from 'in-services/util/function';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -13,13 +11,7 @@ import './TraceTableRow.less';
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 
-export default function TraceTableRow({
-  selectedTraceId,
-  trace,
-  onClick,
-  tracesSelectedForAnalytics,
-  canAddMoreTracesToAnalytics
-}) {
+export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
   let classes = block;
   if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
@@ -27,20 +19,9 @@ export default function TraceTableRow({
 
   const side = getServiceSideForOverview(trace.raw);
   const serviceSnapshotId = trace[`${side}ServiceId`];
-  const checked = trace.id in tracesSelectedForAnalytics;
 
   return (
     <div className={classes} onClick={() => onClick(trace.id)}>
-      <span className={cellClassName}>
-        <input
-          type="checkbox"
-          className={`${block}__include_in_analytics`}
-          onChange={e => onToggleTraceAnalyticsInclusion(e, trace.raw)}
-          onClick={stopPropagation}
-          checked={checked}
-          disabled={!checked && !canAddMoreTracesToAnalytics}
-        />
-      </span>
       <span className={cellClassName}>
         {trace.raw.get('errorCount') > 0
           ? <Tooltip content="Erroneous root span" align={'bottomLeft'}>
@@ -72,12 +53,5 @@ export default function TraceTableRow({
 TraceTableRow.propTypes = {
   trace: rpt.object.isRequired,
   onClick: rpt.func.isRequired,
-  selectedTraceId: rpt.string,
-  tracesSelectedForAnalytics: rpt.object,
-  canAddMoreTracesToAnalytics: rpt.bool
+  selectedTraceId: rpt.string
 };
-
-function onToggleTraceAnalyticsInclusion(event, trace) {
-  stopPropagation(event);
-  toggleIncludeInAnalytics(trace);
-}
