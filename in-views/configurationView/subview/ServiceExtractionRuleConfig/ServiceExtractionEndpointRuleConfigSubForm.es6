@@ -46,9 +46,11 @@ export default class extends React.Component {
               Add Endpoint
             </Button>
           </Section>
-          <Section>
-            {rows.map((row, index) => <Row key={row.key} row={row} index={index} {...this.props} />)}
-          </Section>
+          {rows.length > 0
+            ? <Section>
+                {rows.map((row, index) => <Row key={row.key} row={row} index={index} {...this.props} />)}
+              </Section>
+            : null}
         </SubViewWrapper>
       </div>
     );
