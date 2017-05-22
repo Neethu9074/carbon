@@ -92,7 +92,7 @@ export function createEndpointRule({ id, name, enabled, comment, matchSpecificat
     comment: comment || '',
     matchSpecification: matchSpecification || {},
     extractSpecification: {
-      label: label || 'Unnamed service endpoint'
+      label: label || 'Unnamed endpoint'
     }
   };
 }
