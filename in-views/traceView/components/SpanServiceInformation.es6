@@ -54,12 +54,14 @@ export default connectTo(
         </span>
 
         <Service
+          span={span}
           label={isEntry ? 'From:' : null}
           entitySnapshot={sourceEntitySnapshot}
           snapshot={sourceServiceSnapshot}
           endpointLabelPath="source_endpoint_label"
         />
         <Service
+          span={span}
           label={isEntry ? null : 'To:'}
           addEntryIcon={sourceEntitySnapshot && sourceServiceSnapshot ? true : false}
           entitySnapshot={destinationEntitySnapshot}
@@ -71,7 +73,7 @@ export default connectTo(
   }
 );
 
-function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabelPath }) {
+function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabelPath, span }) {
   if (!snapshot || !entitySnapshot) {
     return null;
   }
@@ -84,16 +86,16 @@ function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabelP
       <EntityInformation
         snapshot={snapshot}
         label={label}
-        getLabelCallback={(label, snapshot) => getServiceLabelWithEndpoint(label, snapshot, endpointLabelPath)}
+        getLabelCallback={label => getServiceLabelWithEndpoint(label, span, endpointLabelPath)}
       />
     </div>
   );
 }
 
-function getServiceLabelWithEndpoint(serviceLabel, snapshot, endpointLabelPath) {
-  const endpointLabel = snapshot.get(endpointLabelPath);
+function getServiceLabelWithEndpoint(serviceLabel, spanSnapshot, endpointLabelPath) {
+  const endpointLabel = spanSnapshot.get(endpointLabelPath);
   if (endpointLabel) {
-    return `${serviceLabel} : ${snapshot.get('id')}`;
+    return `${serviceLabel} : ${endpointLabel}`;
   }
   return serviceLabel;
 }

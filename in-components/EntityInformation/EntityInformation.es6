@@ -59,7 +59,7 @@ export default connectTo(
           kind={kind}
           calculateHierarchy
         >
-          {getLabelCallback(getLabel(snapshot), snapshot)}
+          {getLabelCallback(getLabel(snapshot))}
         </HierarchicalLink>
       </div>
     );
