@@ -58,7 +58,7 @@ export default connectTo(
           label={isEntry ? 'From:' : null}
           entitySnapshot={sourceEntitySnapshot}
           snapshot={sourceServiceSnapshot}
-          endpointLabelPath="source_endpoint_label"
+          endpointLabelPath="sourceEndpointLabel"
         />
         <Service
           span={span}
@@ -66,7 +66,7 @@ export default connectTo(
           addEntryIcon={sourceEntitySnapshot && sourceServiceSnapshot ? true : false}
           entitySnapshot={destinationEntitySnapshot}
           snapshot={destinationServiceSnapshot}
-          endpointLabelPath="destination_endpoint_label"
+          endpointLabelPath="destinationEndpointLabel"
         />
       </div>
     );
