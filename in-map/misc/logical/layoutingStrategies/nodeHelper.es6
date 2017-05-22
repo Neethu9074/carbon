@@ -7,8 +7,7 @@ const DISTANCE_OF_UNCONNECTED_NODES = 3;
 
 export function transformNodes(_nodes, _edges) {
   const LUT = {};
-  for (let iN = 0, nodesLength = _nodes.length; iN < nodesLength; iN++) {
-    const node = _nodes[iN];
+  _nodes.forEach(node => {
     const transformedNode = {
       name: node.id,
       rank: DEFAULT_NODES_RANK,
@@ -18,20 +17,19 @@ export function transformNodes(_nodes, _edges) {
       __touched: false
     };
     LUT[node.id] = transformedNode;
-  }
+  });
 
   const transformedNodesAsList = Object.keys(LUT).map(key => LUT[key]);
   transformedNodesAsList.forEach(transformedNode => {
     const nodeId = transformedNode.inNode.id;
 
-    for (let iE = 0, edgesLength = _edges.length; iE < edgesLength; iE++) {
-      const source = _edges[iE].sourceNode.id;
-      const destination = _edges[iE].destinationNode.id;
+    _edges.forEach(edge => {
+      const source = edge.sourceNode.id;
+      const destination = edge.destinationNode.id;
 
       source === nodeId && LUT[destination] ? transformedNode.outgoingConnections.push(LUT[destination]) : null;
-
       destination === nodeId && LUT[source] ? transformedNode.incomingConnections.push(LUT[source]) : null;
-    }
+    });
   });
 
   return {
@@ -40,23 +38,26 @@ export function transformNodes(_nodes, _edges) {
   };
 }
 
-export function transformEdges(edges) {
+export function transformEdges(_edges) {
   const LUT = {
     outgoing: {},
     incoming: {}
   };
 
-  return {
-    list: edges.map(edge => {
-      edge = {
-        source: edge.sourceNode.id,
-        target: edge.destinationNode.id
-      };
+  const list = [];
+  _edges.forEach(edge => {
+    edge = {
+      source: edge.sourceNode.id,
+      target: edge.destinationNode.id
+    };
 
-      LUT.outgoing[edge.source] = edge.target;
-      LUT.incoming[edge.target] = edge.source;
-      return edge;
-    }),
+    LUT.outgoing[edge.source] = edge.target;
+    LUT.incoming[edge.target] = edge.source;
+    list.push(edge);
+  });
+
+  return {
+    list,
     LUT
   };
 }

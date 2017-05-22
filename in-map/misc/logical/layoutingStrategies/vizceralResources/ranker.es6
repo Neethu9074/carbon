@@ -18,7 +18,7 @@ const minimumLength = 1;
 export function longestPathRanking(graph) {
   const visited = {};
 
-  function dfs(nodeName) {
+  function dfs(val, nodeName) {
     const node = graph.getNode(nodeName);
     if (!node) {
       return undefined;
@@ -26,7 +26,10 @@ export function longestPathRanking(graph) {
     if (!visited[nodeName]) {
       visited[nodeName] = true;
 
-      let rank = graph.outgoingEdges(nodeName).map(edge => dfs(edge.target) - minimumLength).sort((a, b) => a - b)[0];
+      let rank = graph
+        .outgoingEdges(nodeName)
+        .map(edge => dfs(null, edge.target) - minimumLength)
+        .sort((a, b) => a - b)[0];
 
       if (rank === undefined) {
         rank = 0;
@@ -53,33 +56,22 @@ export function normalizeRanks(graph) {
   }
 }
 
-export function forcePrimaryRankPromotions(graph, entryNodeName) {
+export function forcePrimaryRankPromotions(graph) {
   let entryNodes = graph.entryNodes();
-  if (entryNodeName) {
-    if (entryNodes.includes(entryNodeName)) {
-      entryNodes = [entryNodeName];
-    }
-  }
-  for (let i = 0; i < entryNodes.length; i++) {
-    const entryNode = graph.getNode(entryNodes[i]);
+  entryNodes.forEach(entryNode => {
     entryNode.rank = 0;
-  }
+  });
 }
 
-export function forceSecondaryRankPromotions(graph, entryNodeName) {
+export function forceSecondaryRankPromotions(graph) {
   let entryNodes = graph.entryNodes();
-  if (entryNodeName) {
-    if (entryNodes.includes(entryNodeName)) {
-      entryNodes = [entryNodeName];
-    }
-  }
-  for (let i = 0; i < entryNodes.length; i++) {
-    const outgoingNodes = graph.outgoingNodes(entryNodes[i]);
+  entryNodes.forEach((entryNode, key) => {
+    const outgoingNodes = graph.outgoingNodes(key);
     for (let j = 0; j < outgoingNodes.length; j++) {
       const node = graph.getNode(outgoingNodes[j]);
       if (node) {
         node.rank = 1;
       }
     }
-  }
+  });
 }

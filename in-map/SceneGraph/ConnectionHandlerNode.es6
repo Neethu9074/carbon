@@ -40,11 +40,11 @@ export default class ConnectionHandlerNode extends Node {
 
     for (let i = 0, length = outgoing.length; i < length; i++) {
       const entity = outgoing[i];
-      addConnection(entity, entities[hostId], entities[entity.otherId]);
+      addConnection(entity, entities.get(hostId), entities.get(entity.otherId));
     }
     for (let i = 0, length = incoming.length; i < length; i++) {
       const entity = incoming[i];
-      addConnection(entity, entities[entity.otherId], entities[hostId]);
+      addConnection(entity, entities.get(entity.otherId), entities.get(hostId));
     }
 
     this.updateEntities(connections);

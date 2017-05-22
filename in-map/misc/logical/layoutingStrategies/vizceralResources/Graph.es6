@@ -18,6 +18,7 @@
 /* eslint no-underscore-dangle: 0, no-restricted-syntax: 0 */
 import { remove } from 'lodash';
 
+import { emptyJsMap } from 'in-services/fixedObjects';
 import { find } from 'in-services/arrayUtils';
 
 export default class Graph {
@@ -27,10 +28,9 @@ export default class Graph {
 
     this.validateData(nodes, edges);
 
-    this._entryNodeMap = this.nodes.reduce((val, node) => {
-      val[node.name] = true;
-      return val;
-    }, {});
+    this._entryNodeMap = new Map();
+    this.nodes.forEach(node => this._entryNodeMap.set(node.name, node));
+
     this._incomingNodes = {};
     this._outgoingNodes = {};
 
@@ -51,7 +51,7 @@ export default class Graph {
       this._outgoingEdges[edge.source].push(edge);
 
       // Remove the target node from the entry node map
-      delete this._entryNodeMap[edge.target];
+      this._entryNodeMap.delete(edge.target);
     }
   }
 
@@ -94,22 +94,15 @@ export default class Graph {
     return [];
   }
 
-  incomingNodes(nodeName) {
-    if (this._incomingNodes[nodeName] !== undefined) {
-      return Object.keys(this._incomingNodes[nodeName]);
-    }
-    return [];
-  }
-
   outgoingEdges(nodeName) {
     return this._outgoingEdges[nodeName] || [];
   }
 
   entryNodes() {
     if (this._entryNodeMap !== undefined) {
-      return Object.keys(this._entryNodeMap);
+      return this._entryNodeMap;
     }
-    return [];
+    return emptyJsMap;
   }
 
   buildGraph() {

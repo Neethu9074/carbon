@@ -57,20 +57,20 @@ describe('shortcuts/C', () => {
   }
 
   function loadModules() {
+    const defaultObjects = new Map();
+    defaultObjects.set('id1', {
+      getFocusPosition: () => {
+        return {
+          x: 1,
+          y: -1,
+          z: 0
+        };
+      }
+    });
     focusEntityId = proxyquire('in-map/services/focus', {
       'in-map/stores/focusableSceneObjectsStore': {
         sceneObjects: {
-          stream: create().startWith({
-            id1: {
-              getFocusPosition: () => {
-                return {
-                  x: 1,
-                  y: -1,
-                  z: 0
-                };
-              }
-            }
-          })
+          stream: create().startWith(defaultObjects)
         }
       },
       'in-map/stores/selectedMapSceneObjectStore': {

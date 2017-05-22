@@ -20,7 +20,7 @@ export default class extends React.Component {
   };
 
   state = {
-    selectedKeys: {}
+    selectedKeys: new Map()
   };
 
   render() {
@@ -70,7 +70,7 @@ export default class extends React.Component {
   createRow = (val, index, context) => {
     const key = this.props.getKey(val, index, context);
     const rowContent = this.props.createRow(val, index, context);
-    const isSelected = key in this.state.selectedKeys;
+    const isSelected = this.state.selectedKeys.has(key);
 
     // create row this way to avoid usage of child element arrays (which would result in
     // warnings due to missing key props).
@@ -101,10 +101,10 @@ export default class extends React.Component {
 
   onClick = key => {
     this.setState(state => {
-      if (key in state.selectedKeys) {
-        delete state.selectedKeys[key];
+      if (state.selectedKeys.has(key)) {
+        state.selectedKeys.delete(key);
       } else {
-        state.selectedKeys[key] = true;
+        state.selectedKeys.set(key, true);
       }
       return {
         selectedKeys: state.selectedKeys

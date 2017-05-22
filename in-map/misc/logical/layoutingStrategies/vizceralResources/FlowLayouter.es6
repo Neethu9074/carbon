@@ -106,7 +106,7 @@ export default class LTRTreeLayouter {
     return nodePositions;
   }
 
-  layout(nodes, edges, dimensions, entryNode) {
+  layout(nodes, edges, dimensions) {
     const graph = new Graph(nodes, edges); // Build a simple graph object
     graph.removeSameEdges(); // Remove edges that have same source and target
     remove(graph); // Remove acyclic links
@@ -117,10 +117,10 @@ export default class LTRTreeLayouter {
     graph.restoreSameEdges(); // Replace edges that have same source and target
 
     normalizeRanks(graph); // Normalize node ranks to be 0++
-    forcePrimaryRankPromotions(graph, entryNode); // Force all entry nodes to be first
+    forcePrimaryRankPromotions(graph); // Force all entry nodes to be first
 
     // Force any leafs that are one level deep from specified entry node to not move all the way to the edge
-    forceSecondaryRankPromotions(graph, entryNode);
+    forceSecondaryRankPromotions(graph);
 
     const nodesSortedByDepth = this.sortNodesByDepth(graph);
     this.sortNodesWithinDepth(nodesSortedByDepth);

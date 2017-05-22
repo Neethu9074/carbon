@@ -1,21 +1,19 @@
 import { create } from 'reactive-observables';
 
-import createObjectCollection from 'in-map/stores/ObjectCollection';
-
 export default function createCollection() {
-  const collection = createObjectCollection();
+  const collection = new Map();
 
   const objects$ = create();
-  objects$.emit(collection.objects);
+  objects$.emit(collection);
 
   function add(id, object) {
-    collection.add(id, object);
-    objects$.emit(collection.objects);
+    collection.set(id, object);
+    objects$.emit(collection);
   }
 
   function remove(id) {
-    collection.remove(id);
-    objects$.emit(collection.objects);
+    collection.delete(id);
+    objects$.emit(collection);
   }
 
   function get(id) {
@@ -27,6 +25,6 @@ export default function createCollection() {
     get,
     remove,
     stream: objects$,
-    objects: collection.objects
+    objects: collection
   };
 }

@@ -10,7 +10,7 @@
 let taskIdCounter = 0;
 
 // Store all active tasks in this object.
-const tasks = {};
+const tasks = new Map();
 
 // Keep track of whether the main task runner has been initialized or not.
 let initialized = false;
@@ -32,18 +32,6 @@ function curry(args, fn) {
         fn.apply(null, args);
       };
 }
-
-var keys = typeof Object.keys === 'function'
-  ? Object.keys
-  : function(obj) {
-      var ks = [], k;
-      for (k in obj) {
-        if (obj.hasOwnProperty(k)) {
-          ks.push(k);
-        }
-      }
-      return ks;
-    };
 
 function slice(ary, n) {
   return Array.prototype.slice.call(ary, n);
@@ -104,21 +92,26 @@ function resetTimeTillNext(task) {
 // which only run once and have already been run.
 
 function taskRunner() {
-  var i = 0, tasksToRun = keys(tasks), len = tasksToRun.length;
+  var i = 0;
+  var len = tasks.size;
+  var keys = tasks.keys();
+  var values = tasks.values();
 
   // Make sure that the taskRunner's main loop doesn't block the browser's
   // UI thread by yielding with `setTimeout` if we are running for longer
   // than 50 ms.
   function loop() {
-    var start;
-    for (start = +new Date(); i < len && +new Date() - start < 50; i++) {
-      if (tasks[tasksToRun[i]] && decrementTimeTillNext(tasks[tasksToRun[i]]) < INTERVAL / 2) {
-        runTask(tasks[tasksToRun[i]]);
-        if (tasks[tasksToRun[i]]) {
-          if (taskRepeats(tasks[tasksToRun[i]])) {
-            resetTimeTillNext(tasks[tasksToRun[i]]);
+    for (let start = +new Date(); i < len && +new Date() - start < 50; i++) {
+      const key = keys.next().value;
+      const task = values.next().value;
+
+      if (task && decrementTimeTillNext(task) < INTERVAL / 2) {
+        if (task) {
+          runTask(task);
+          if (taskRepeats(task)) {
+            resetTimeTillNext(task);
           } else {
-            delete tasks[tasksToRun[i]];
+            tasks.delete(key);
           }
         }
       }
@@ -148,7 +141,7 @@ function maybeInit() {
 // public set* functions. Returns a task id.
 function registerTask(repeats, fn, ms, args) {
   var id = taskIdCounter++;
-  tasks[id] = makeTask(repeats, roundToNearestInterval(ms), curry(args, fn));
+  tasks.set(id, makeTask(repeats, roundToNearestInterval(ms), curry(args, fn)));
   maybeInit();
   return id;
 }
@@ -157,7 +150,9 @@ function registerTask(repeats, fn, ms, args) {
 // `tasks[id].repeats` we make timeouts and intervals live in seperate
 // namespaces.
 function deregisterTask(repeats, id) {
-  return tasks[id] && tasks[id].repeats === repeats && delete tasks[id];
+  const task = tasks.get(id);
+  task.repeats === repeats;
+  tasks.delete(id);
 }
 
 // ## Public API

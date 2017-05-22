@@ -16,7 +16,7 @@ export default class SceneObject extends Subscriber {
 
     this.id = params.id;
 
-    this.components = {};
+    this.components = new Map();
     this.defaultColor = params.defaultColor;
     this.eventEmitter = new RoEmitter(this.id);
   }
@@ -40,29 +40,26 @@ export default class SceneObject extends Subscriber {
   }
 
   getComponent(id) {
-    if (!this.components) {
-      return undefined;
-    }
-    return this.components[id];
+    return this.components.get(id);
   }
 
   addComponent(id, component) {
     if (__DEV__) {
-      if (this.components[id]) {
+      if (this.components.has(id)) {
         logger.warn('there is also a component defined with id:', id);
       }
     }
     component.init();
     component.initEvents();
-    this.components[id] = component;
+    this.components.set(id, component);
   }
 
   removeComponent(id) {
-    const component = this.components[id];
+    const component = this.components.get(id);
     if (component) {
       component.disposeEvents();
       component.dispose();
-      delete this.components[id];
+      this.components.delete(id);
     }
   }
 
@@ -82,10 +79,11 @@ export default class SceneObject extends Subscriber {
   dispose() {
     sceneObjects.remove(this.id);
 
-    Object.keys(this.components).forEach(key => {
-      this.removeComponent(key);
+    this.components.forEach(component => {
+      component.disposeEvents();
+      component.dispose();
     });
-    this.components = null;
+    this.components.clear();
 
     this.eventEmitter.dispose();
     this.eventEmitter = null;

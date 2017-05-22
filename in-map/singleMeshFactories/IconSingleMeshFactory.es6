@@ -51,7 +51,6 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
     const iconSizeMultiplier = isWebVRActive ? 0.2 : 1;
     const geometry = this.mesh.geometry;
-    const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
 
     const pointSizes = [];
     const uvCoords = [];
@@ -60,8 +59,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     const vertices = geometry.attributes.position.array;
 
     let index = 0;
-    for (let i = 0, lengthF = fragments.length; i < lengthF; i++) {
-      const fragment = fragments[i];
+    let i = 0;
+    this.fragments.forEach(fragment => {
       const offset = fragment.additionalParams.positionOffset;
 
       const fragmentVertices = fragment.contentProvider.getVertices();
@@ -73,14 +72,14 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         index += 3;
       }
 
-      pointSizes[i] = fragment.additionalParams.iconSize * iconSizeMultiplier;
+      pointSizes[i++] = fragment.additionalParams.iconSize * iconSizeMultiplier;
 
       const xy = config.LUT[fragment.additionalParams.type];
       xy
         ? // use right bottom UV coords to show nothing but emptiness
           uvCoords.push(xy.x / textureWidth, xy.y / textureWidth)
         : uvCoords.push(0, 0);
-    }
+    });
 
     updateAttribute(geometry, 'pointSize', pointSizes, 1);
     updateAttribute(geometry, 'uv', uvCoords, 2);

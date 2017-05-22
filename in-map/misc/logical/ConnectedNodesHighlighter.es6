@@ -24,8 +24,7 @@ export default class ConnectedNodesHighlighter {
 
         const idsToHighlight = {};
         let numIdsToHighlight = 0;
-        for (let connectionKey in connections) {
-          const connection = connections[connectionKey];
+        connections.forEach(connection => {
           if (
             connection.sourceNode.id === highlightedEntityId ||
             connection.destinationNode.id === highlightedEntityId ||
@@ -37,7 +36,7 @@ export default class ConnectedNodesHighlighter {
             idsToHighlight[connection.destinationNode.id] = true;
             numIdsToHighlight++;
           }
-        }
+        });
 
         numIdsToHighlight > 0 ? setIds(idsToHighlight) : clearIds();
       });

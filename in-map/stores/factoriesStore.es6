@@ -1,19 +1,14 @@
-import createObjectCollection from 'in-map/stores/ObjectCollection';
-
-const factories = createObjectCollection();
+const factories = new Map();
 
 export function addFactory(id, factory) {
-  factories.add(id, factory);
+  factories.set(id, factory);
   factory.init();
 }
 
 export function getFactory(id) {
-  return factories.objects[id];
+  return factories.get(id);
 }
 
 export function clear() {
-  Object.keys(factories.objects).forEach(id => {
-    factories.objects[id].dispose();
-    factories.remove(id);
-  });
+  factories.clear();
 }

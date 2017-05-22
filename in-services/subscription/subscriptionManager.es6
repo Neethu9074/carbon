@@ -13,7 +13,7 @@ import { on, off, emit } from 'in-services/persistentConnection';
 //     dataListener: 'function used to read data from socket'
 //   }
 // }
-export const activeSubscriptions = {};
+export const activeSubscriptions = new Map();
 
 // How long it takes until the subscriptions are disposed backend wise when the
 // browser tab is no longer visible.
@@ -24,10 +24,10 @@ let isSubscriptionsActive = false;
 
 export function subscribe(subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden = true) {
   if (__DEV__) {
-    invariant(!(subscriptionId in activeSubscriptions), 'Multiple subscriptions with the same id are not possible!');
+    invariant(!activeSubscriptions.has(subscriptionId), 'Multiple subscriptions with the same id are not possible!');
   }
 
-  const subscription = (activeSubscriptions[subscriptionId] = {
+  const subscription = activeSubscriptions.set(subscriptionId, {
     subscriptionId,
     event,
     payload,
@@ -54,23 +54,20 @@ export function unsubscribe(subscriptionId) {
     emit('unsubscribe', { subscriptionId });
   }
 
-  const subscription = activeSubscriptions[subscriptionId];
+  const subscription = activeSubscriptions.get(subscriptionId);
   off(getDataEvent(subscriptionId), subscription.dataListener);
-  delete activeSubscriptions[subscriptionId];
+  activeSubscriptions.delete(subscriptionId);
 }
 
 export function init() {
   on('server-initialized', () => {
     if (!isSubscriptionsActive) {
       isSubscriptionsActive = true;
-      Object.keys(activeSubscriptions).forEach(k => {
-        const activeSubscription = activeSubscriptions[k];
-        emit(activeSubscription.event, activeSubscription.payload);
-      });
+      activeSubscriptions.forEach(activeSubscription => emit(activeSubscription.event, activeSubscription.payload));
     }
   });
 
-  on('reconnect', () => isSubscriptionsActive = false);
+  on('reconnect', () => (isSubscriptionsActive = false));
 
   // We dispose all subscriptions server side when the window is hidden for a few
   // minutes. We do this to avoid buffering a large amount of data in the UI
@@ -91,16 +88,6 @@ export function init() {
   });
 }
 
-/**
- * Provides information about all currently active subscriptions.
- *
- * @returns {object} A copy of all active subscriptions
- */
-export function getActiveSubscriptions() {
-  // better safe than sorry: Protect against mutations by doing a deep copy
-  return JSON.parse(JSON.stringify(activeSubscriptions));
-}
-
 // We want to reduce the overhead of channels on the network. Example: A metric
 // subscription would need to include the hostId, plugin, steadyId, metric
 // name and possibly other pieces of information in order to route messages.
@@ -114,8 +101,7 @@ export function getNewSubscriptionId() {
 }
 
 function subscribeAllToBackendWhichCanBeAutoDisposed() {
-  Object.keys(activeSubscriptions).forEach(k => {
-    const activeSubscription = activeSubscriptions[k];
+  activeSubscriptions.forEach(activeSubscription => {
     if (activeSubscription.disposeSubscriptionOnDocumentHidden) {
       emit(activeSubscription.event, activeSubscription.payload);
     }
@@ -123,8 +109,7 @@ function subscribeAllToBackendWhichCanBeAutoDisposed() {
 }
 
 function unsubscribeAllFromBackendWhichCanBeAutoDisposed() {
-  Object.keys(activeSubscriptions).forEach(k => {
-    const activeSubscription = activeSubscriptions[k];
+  activeSubscriptions.forEach(activeSubscription => {
     if (activeSubscription.disposeSubscriptionOnDocumentHidden) {
       emit('unsubscribe', { subscriptionId: activeSubscription.subscriptionId });
     }

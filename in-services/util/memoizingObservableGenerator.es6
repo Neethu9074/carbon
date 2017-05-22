@@ -1,16 +1,16 @@
 export default function memoize(createObservable, idGenerator, tti = 10000) {
-  const cache = {};
+  const cache = new Map();
 
   return function memoizedObservableCreator() {
     const id = idGenerator.apply(this, arguments);
-    if (id in cache) {
-      return cache[id];
+    if (cache.has(id)) {
+      return cache.get(id);
     }
 
     const observable = createObservable.apply(this, arguments).delayedStop(tti, () => {
-      delete cache[id];
+      cache.delete(id);
     });
-    cache[id] = observable;
+    cache.set(id, observable);
     return observable;
   };
 }

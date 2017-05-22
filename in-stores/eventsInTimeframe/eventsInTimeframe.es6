@@ -5,7 +5,7 @@ import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';
 
-const data = {};
+const data = new Map();
 export const data$ = create().emit(data);
 export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
 
@@ -35,13 +35,11 @@ function onChange(rawEvents) {
 }
 
 function mark() {
-  for (let rowKey in data) {
-    data[rowKey].marked = true;
-  }
+  data.forEach(row => (row.marked = true));
 }
 
 function upsertEvent(event) {
-  let eventProperty = data[event.id];
+  let eventProperty = data.get(event.id);
   let mutationCount = 0;
   if (eventProperty) {
     if (eventProperty.type === event.type) {
@@ -49,7 +47,7 @@ function upsertEvent(event) {
       return;
     }
     mutationCount = eventProperty.mutationCount + 1;
-    remove(eventProperty.id);
+    remove(eventProperty.id, eventProperty);
     eventProperty = null;
   }
 
@@ -67,7 +65,7 @@ function upsertEvent(event) {
     emitRawDataChange();
   });
 
-  data[eventProperty.id] = eventProperty;
+  data.set(eventProperty.id, eventProperty);
 }
 
 function emitRawDataChange() {
@@ -75,19 +73,19 @@ function emitRawDataChange() {
 }
 
 function sweep() {
-  for (let eventId in data) {
-    if (data[eventId].marked) {
-      remove(eventId);
+  data.forEach((row, key) => {
+    if (row.marked) {
+      remove(key, row);
     }
-  }
+  });
 }
 
-function remove(eventId) {
-  data[eventId].eventSubscription.dispose();
-  delete data[eventId];
+function remove(eventId, event) {
+  event.eventSubscription.dispose();
+  data.delete(eventId);
 }
 
-function categorize(data) {
+function categorize(_data) {
   const categories = {
     issues: [],
     changes: [],
@@ -95,13 +93,12 @@ function categorize(data) {
     objectives: []
   };
 
-  for (let eventId in data) {
-    const eventProperty = data[eventId];
+  _data.forEach(eventProperty => {
     const type = `${eventProperty.rawEvent.type.toLowerCase()}s`;
     if (eventProperty.event && categories[type]) {
       categories[type].push(eventProperty.event);
     }
-  }
+  });
 
   return categories;
 }

@@ -46,7 +46,7 @@ export function createStore({
   //     }
   //   ]
   // }
-  const data = {};
+  const data = new Map();
 
   const data$ = create().emit(data);
   const sort$ = create().emit({
@@ -80,7 +80,7 @@ export function createStore({
   };
 
   function dispose() {
-    Object.keys(data).forEach(remove);
+    data.clear();
   }
 
   function setSort(column, direction) {
@@ -102,8 +102,8 @@ export function createStore({
   }
 
   function toggleExpanded(rowKey) {
-    data[rowKey].expanded = !data[rowKey].expanded;
-    data[rowKey].mutationCount++;
+    data.get(rowKey).expanded = !data.get(rowKey).expanded;
+    data.get(rowKey).mutationCount++;
     expandStateChange$.emit(true);
   }
 
@@ -134,17 +134,18 @@ export function createStore({
   }
 
   function onSelectedRowKeyChange(selectedRowKeys) {
-    for (let key in data) {
-      data[key].selected = false;
-      data[key].mutationCount++;
-    }
+    data.forEach(d => {
+      d.selected = false;
+      d.mutationCount++;
+    });
 
     if (selectedRowKeys) {
       for (let i = 0, length = selectedRowKeys.length; i < length; i++) {
         const key = selectedRowKeys[i];
-        if (data[key]) {
-          data[key].selected = true;
-          data[key].mutationCount++;
+        const dataPoint = data.get(key);
+        if (dataPoint) {
+          dataPoint.selected = true;
+          dataPoint.mutationCount++;
         }
       }
       emitRawDataChange();
@@ -152,13 +153,11 @@ export function createStore({
   }
 
   function mark() {
-    for (let rowKey in data) {
-      data[rowKey].marked = true;
-    }
+    data.forEach(d => (d.marked = true));
   }
 
   function upsertRow(rowConfig) {
-    let row = data[rowConfig.key];
+    let row = data.get(rowConfig.key);
     let mutationCount = 0;
     let expanded = false;
     if (row) {
@@ -180,7 +179,7 @@ export function createStore({
       rowConfig,
       columns: []
     };
-    data[row.key] = row;
+    data.set(row.key, row);
 
     for (let i = 0, length = columnDefinitions.length; i < length; i++) {
       row.columns[i] = initializeColumn(row, columnDefinitions[i], i);
@@ -192,23 +191,23 @@ export function createStore({
   }
 
   function sweep() {
-    for (let rowKey in data) {
-      if (data[rowKey].marked) {
-        remove(rowKey);
+    data.forEach((d, key) => {
+      if (d.marked) {
+        remove(key);
       }
-    }
+    });
   }
 
   function remove(rowKey) {
-    const row = data[rowKey];
-    delete data[rowKey];
-
+    const row = data.get(rowKey);
     for (let i = 0, length = row.columns.length; i < length; i++) {
       const column = row.columns[i];
       if (column.subscription) {
         column.subscription.dispose();
       }
     }
+
+    data.delete(rowKey);
   }
 
   function emitRawDataChange() {
@@ -217,11 +216,10 @@ export function createStore({
 
   function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }]) {
     const rows = [];
-    for (let key in data) {
-      const row = data[key];
+    data.forEach(row => {
       updateContentForAllColumns(row);
       rows.push(row);
-    }
+    });
 
     if (rows.length === 0) {
       return {

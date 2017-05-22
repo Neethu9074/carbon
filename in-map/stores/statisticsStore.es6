@@ -1,9 +1,9 @@
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import services from 'in-map/stores/logical/servicesStore';
 import { groups } from 'in-map/stores/physical/groupsStore';
-import connections from 'in-map/stores/connectionsStore';
+import services from 'in-map/stores/logical/servicesStore';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { getBigBangTime, getFPS } from 'in-map/misc/time';
+import connections from 'in-map/stores/connectionsStore';
 import { eventBus } from 'in-map/services/eventBus';
 import { scene$ } from 'in-map/stores/sceneStore';
 
@@ -25,18 +25,17 @@ if (__DEV__) {
   let updateSubscription;
   let renderSubscription;
 
-  groups.stream.subscribe(_groups => numGroups = Object.keys(_groups).length);
-  services.stream.subscribe(_services => numServices = Object.keys(_services).length);
+  groups.stream.subscribe(_groups => (numGroups = _groups.size));
+  services.stream.subscribe(_services => (numServices = _services.size));
   nodes.stream.subscribe(_nodes => {
-    numNodes = 0;
+    numNodes = _nodes.size;
     numLayer = 0;
 
-    for (let nodeKey in _nodes) {
-      numNodes++;
-      numLayer += Object.keys(_nodes[nodeKey].layer.objects).length;
-    }
+    _nodes.forEach(node => {
+      numLayer += node.layer.size;
+    });
   });
-  connections.stream.subscribe(_connections => numConnections = Object.keys(_connections).length);
+  connections.stream.subscribe(_connections => (numConnections = _connections.size));
 
   scene$.subscribe(s => {
     scene = s;
@@ -71,33 +70,33 @@ if (__DEV__) {
     const renderInfo = renderer.info.render;
     const memoryInfo = renderer.info.memory;
 
-    statistics.add('time', {
-      seconds: getBigBangTime() | 0,
-      FPS_possible: getFPS() + ' (' + minFPS + '/' + maxFPS + ')'
-    });
+    statistics.add(
+      'time',
+      new Map([['seconds', getBigBangTime() | 0], ['FPS_possible', getFPS() + ' (' + minFPS + '/' + maxFPS + ')']])
+    );
 
-    statistics.add('renderer', {
-      framesRendered,
-      geometries: memoryInfo.geometries,
-      textures: memoryInfo.textures,
-      drawCalls: renderInfo.calls,
-      faces: renderInfo.faces,
-      points: renderInfo.points,
-      vertices: renderInfo.vertices,
-      programs: renderer.info.programs
-    });
+    statistics.add(
+      'renderer',
+      new Map([
+        ['geometries', memoryInfo.geometries],
+        ['textures', memoryInfo.textures],
+        ['drawCalls', renderInfo.calls],
+        ['faces', renderInfo.faces],
+        ['points', renderInfo.points],
+        ['vertices', renderInfo.vertices],
+        ['programs', renderer.info.programs],
+        ['framesRendered', framesRendered]
+      ])
+    );
 
-    statistics.add('scene objects', {
-      numConnections,
-      physical: {
-        numGroups,
-        numNodes,
-        numLayer
-      },
-      logical: {
-        numServices
-      }
-    });
+    statistics.add(
+      'scene objects',
+      new Map([
+        ['numConnections', numConnections],
+        ['physical', new Map([['numGroups', numGroups], ['numNodes', numNodes], ['numLayer', numLayer]])],
+        ['logical', new Map([['numServices', numServices]])]
+      ])
+    );
 
     statisticsCollected = true;
   };

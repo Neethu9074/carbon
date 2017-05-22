@@ -2,35 +2,38 @@ import { createStore } from 'in-stores/store';
 
 const expandedNodesStore = createStore({
   name: 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/expandedNodes/expandedNodes',
-  initialValue: {}
+  initialValue: new Map()
 });
 export const expandedNodes$ = expandedNodesStore.observable;
 
 export function toggleExpandedNode(nodeId) {
   expandedNodesStore.applyStateMutation(expanded => {
-    if (expanded[nodeId]) {
-      delete expanded[nodeId];
+    if (expanded.has(nodeId)) {
+      expanded.delete(nodeId);
     } else {
-      expanded[nodeId] = true;
+      expanded.set(nodeId, true);
     }
     return expanded;
   });
 }
 
 export function clearExpansionState() {
-  expandedNodesStore.mutateTo({});
+  expandedNodesStore.applyStateMutation(expanded => {
+    expanded.clear();
+    return expanded;
+  });
 }
 
 export function collapseNode(nodeId) {
   expandedNodesStore.applyStateMutation(expanded => {
-    delete expanded[nodeId];
+    expanded.delete(nodeId);
     return expanded;
   });
 }
 
 export function expandNode(nodeId) {
   expandedNodesStore.applyStateMutation(expanded => {
-    expanded[nodeId] = true;
+    expanded.set(nodeId, true);
     return expanded;
   });
 }
