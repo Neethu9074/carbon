@@ -116,8 +116,9 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     if (!ruleId) {
+      const { ruleType } = typeDefinitions[this.props.params.ruleType];
       let rule = createServiceRule({});
-      rule.type = this.props.params.ruleType;
+      rule.type = ruleType;
       rule = fromJS(rule);
 
       this.setState({
@@ -247,12 +248,13 @@ export default class extends React.Component {
       );
     }
 
+    const typeDefinition = typeDefinitions[this.props.params.ruleType];
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({
           id: rule ? rule.get('id') : null,
           order: rule.get('order'),
-          type: this.props.params.ruleType,
+          type: typeDefinition.ruleType,
 
           name: form.get('name').value,
           enabled: form.get('enabled').value,
@@ -270,9 +272,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(() =>
-      openServiceExtractionConfigByDefinition(typeDefinitions[this.props.params.ruleType])
-    );
+    this.responseSubscription = result$.once(() => openServiceExtractionConfigByDefinition(typeDefinition));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save service extraction rule: ${error.message}`;

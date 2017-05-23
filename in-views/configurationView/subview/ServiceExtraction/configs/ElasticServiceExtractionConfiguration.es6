@@ -6,6 +6,8 @@ import GenericServiceExtractionConfiguration
 import { elasticsearchServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 
+export const ruleType = 'elasticsearchindex';
+
 export const pathname = elasticsearchServiceExtractionConfigViewPath;
 
 export const helpTexts = defaultsDeep(
@@ -66,6 +68,7 @@ export default function ElasticsearchServiceExtractionConfiguration() {
   return (
     <GenericServiceExtractionConfiguration
       ruleType="elasticsearchindex"
+      link="elasticsearchServiceExtraction"
       title="Elasticsearch Service Extraction Rules"
       helpTexts={helpTexts}
     />

@@ -177,8 +177,8 @@ export function openRuleBindings() {
 // service extraction ----------------------------------------
 function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
   return ruleId
-    ? `/config/serviceExtraction/${encodeURIComponent(ruleType)}/${encodeURIComponent(ruleId)}`
-    : `/config/serviceExtraction/${encodeURIComponent(ruleType)}`;
+    ? `/config/${encodeURIComponent(ruleType)}/serviceExtraction/${encodeURIComponent(ruleId)}`
+    : `/config/${encodeURIComponent(ruleType)}/serviceExtraction`;
 }
 
 export function getServiceRuleConfigLink(id, ruleType) {

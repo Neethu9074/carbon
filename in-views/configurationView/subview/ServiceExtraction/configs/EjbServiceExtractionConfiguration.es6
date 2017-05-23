@@ -6,6 +6,8 @@ import GenericServiceExtractionConfiguration
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import { ejbServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
+export const ruleType = 'ejb';
+
 export const pathname = ejbServiceExtractionConfigViewPath;
 
 export const helpTexts = defaultsDeep(
@@ -82,6 +84,11 @@ export const matchSpecificationOptions = {
 
 export default function EjbServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType="ejb" title="EJB Service Extraction Rules" helpTexts={helpTexts} />
+    <GenericServiceExtractionConfiguration
+      ruleType="ejb"
+      link="ejbServiceExtraction"
+      title="EJB Service Extraction Rules"
+      helpTexts={helpTexts}
+    />
   );
 }

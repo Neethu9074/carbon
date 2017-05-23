@@ -6,6 +6,8 @@ import GenericServiceExtractionConfiguration
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import { eumServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
+export const ruleType = 'browser';
+
 export const pathname = eumServiceExtractionConfigViewPath;
 
 export const helpTexts = defaultsDeep(
@@ -55,6 +57,7 @@ export default function EUMServiceExtractionConfiguration() {
     <GenericServiceExtractionConfiguration
       ruleType="browser"
       title="EUM Service Extraction Rules"
+      link="eumServiceExtraction"
       helpTexts={helpTexts}
     />
   );

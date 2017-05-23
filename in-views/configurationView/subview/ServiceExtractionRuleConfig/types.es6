@@ -10,9 +10,9 @@ import * as eumConfig
   from 'in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
 
 export const typeDefinitions = {
-  ejb: ejbConfig,
-  elasticsearchindex: esConfig,
-  webapp: httpConfig,
-  messagebroker: mbConfig,
-  browser: eumConfig
+  ejbServiceExtraction: ejbConfig,
+  elasticsearchServiceExtraction: esConfig,
+  httpServiceExtraction: httpConfig,
+  messageBrokerServiceExtraction: mbConfig,
+  eumServiceExtraction: eumConfig
 };

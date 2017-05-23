@@ -110,12 +110,12 @@ export default (
     >
       <Route
         component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-        path="serviceExtraction/:ruleType/:ruleId"
+        path=":ruleType/serviceExtraction/:ruleId"
         windowTitle="Service Extraction Rule"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-        path="serviceExtraction/:ruleType"
+        path=":ruleType/serviceExtraction"
         windowTitle="Service Extraction Rule"
       />
 

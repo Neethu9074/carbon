@@ -79,7 +79,7 @@ export default class extends React.Component {
     super(props);
 
     // because each table differs by the ruleType, we need to create the column once the component is mounting
-    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.ruleType);
+    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.link);
     linkColumn.disableSorting = true;
     const ruleTypeSpecificColumns = [linkColumn].concat(cols);
     this.cols = ruleTypeSpecificColumns;
@@ -90,7 +90,8 @@ export default class extends React.Component {
   static propTypes = {
     helpTexts: rpt.object.isRequired,
     ruleType: rpt.string.isRequired,
-    title: rpt.string.isRequired
+    title: rpt.string.isRequired,
+    link: rpt.string.isRequired
   };
 
   state = {
@@ -153,7 +154,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openServiceExtractionConfig(null, this.props.ruleType);
+    openServiceExtractionConfig(null, this.props.link);
   };
 
   onDelete = service => {

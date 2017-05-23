@@ -6,6 +6,8 @@ import GenericServiceExtractionConfiguration
 import { messageBrokerServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 
+export const ruleType = 'messagebroker';
+
 export const pathname = messageBrokerServiceExtractionConfigViewPath;
 
 export const helpTexts = defaultsDeep(
@@ -49,6 +51,7 @@ export default function MessageBrokerServiceExtractionConfiguration() {
     <GenericServiceExtractionConfiguration
       ruleType="messagebroker"
       title="Message Broker Service Extraction Rules"
+      link="messageBrokerServiceExtraction"
       helpTexts={helpTexts}
     />
   );

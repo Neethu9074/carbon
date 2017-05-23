@@ -6,6 +6,8 @@ import GenericServiceExtractionConfiguration
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import { httpServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
+export const ruleType = 'webapp';
+
 export const pathname = httpServiceExtractionConfigViewPath;
 
 export const helpTexts = defaultsDeep(
@@ -72,6 +74,7 @@ export default function HttpServiceExtractionConfiguration() {
   return (
     <GenericServiceExtractionConfiguration
       ruleType="webapp"
+      link="httpServiceExtraction"
       title="HTTP Service Extraction Rules"
       helpTexts={helpTexts}
     />
