@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -16,15 +17,25 @@ export default connectTo(
   {
     activeMetric: activeMetric$
   },
-  function Metrics({ activeMetric }) {
-    return (
-      <Control
-        createMenuContent={createMenuContent}
-        isActive={activeMetric ? true : false}
-        tooltipText="Show metrics"
-        type="metrics"
-      />
-    );
+  class extends React.Component {
+    static displayName = 'Metrics';
+
+    componentWillUnmount() {
+      if (this.props.activeMetric) {
+        clearActiveMetric();
+      }
+    }
+
+    render() {
+      return (
+        <Control
+          createMenuContent={createMenuContent}
+          isActive={this.props.activeMetric ? true : false}
+          tooltipText="Show metrics"
+          type="metrics"
+        />
+      );
+    }
   }
 );
 
