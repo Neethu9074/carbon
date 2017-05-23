@@ -20,7 +20,12 @@ export default class VRCamera extends Subscriber {
   }
 
   initEvents() {
-    this.addSubscription(dimensions$.subscribe(() => this.updateCameraFromSize()));
+    this.addSubscription(
+      dimensions$.subscribe(() => {
+        this.update();
+        this.updateCameraFromSize();
+      })
+    );
   }
 
   updateCameraFromSize() {

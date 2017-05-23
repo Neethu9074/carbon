@@ -33,7 +33,12 @@ export default class OrthographicCameraWrapper extends Subscriber {
   }
 
   initEvents() {
-    this.addSubscription(dimensions$.subscribe(() => this.updateCameraFromSize()));
+    this.addSubscription(
+      dimensions$.subscribe(() => {
+        this.update();
+        this.updateCameraFromSize();
+      })
+    );
   }
 
   update() {
