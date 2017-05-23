@@ -134,32 +134,30 @@ function getRowDetails(row) {
         }}
       />
 
-      <DashboardSection title="Latency Overview">
-        <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          height={200}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: msZeroDecimalPlaces,
-            metrics: [
-              `endpoint.${endpointLabel}.duration.min`,
-              `endpoint.${endpointLabel}.duration.25th`,
-              `endpoint.${endpointLabel}.duration.50th`,
-              `endpoint.${endpointLabel}.duration.75th`,
-              `endpoint.${endpointLabel}.duration.95th`,
-              `endpoint.${endpointLabel}.duration.98th`,
-              `endpoint.${endpointLabel}.duration.99th`,
-              `endpoint.${endpointLabel}.duration.max`
-            ],
-            labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
-            type: 'integral'
-          }}
-        />
-      </DashboardSection>
+      <ChartWithLegend
+        snapshotId={snapshotId}
+        timeframe={timeframe}
+        height={200}
+        margins={{
+          left: 80
+        }}
+        y1={{
+          min: 0,
+          formatter: msZeroDecimalPlaces,
+          metrics: [
+            `endpoint.${endpointLabel}.duration.min`,
+            `endpoint.${endpointLabel}.duration.25th`,
+            `endpoint.${endpointLabel}.duration.50th`,
+            `endpoint.${endpointLabel}.duration.75th`,
+            `endpoint.${endpointLabel}.duration.95th`,
+            `endpoint.${endpointLabel}.duration.98th`,
+            `endpoint.${endpointLabel}.duration.99th`,
+            `endpoint.${endpointLabel}.duration.max`
+          ],
+          labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+          type: 'integral'
+        }}
+      />
 
       <ChartWithLegend
         snapshotId={snapshotId}
