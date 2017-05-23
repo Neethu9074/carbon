@@ -58,6 +58,9 @@ stage('Node Build') {
 
   parallel buildSteps
 
+  // if the build succeeds, mark this branch/version combination as stable
+  markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
+
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
