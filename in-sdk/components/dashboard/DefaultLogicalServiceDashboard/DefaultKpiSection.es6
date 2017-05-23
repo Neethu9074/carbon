@@ -48,7 +48,7 @@ export default function DefaultKpiSection({ snapshot }) {
           timeWindowAggregation="mean"
         />
       </KpiKeyValue>
-      <KpiKeyValue label="instances">
+      <KpiKeyValue label="instance count">
         <MetricValue snapshotId={snapshotId} metric="instances" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>

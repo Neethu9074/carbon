@@ -83,7 +83,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Instances">
+      <DashboardSection title="Instance Count">
         <ChartWithLegend
           snapshotId={snapshotId}
           timeframe={timeframe}

@@ -29,7 +29,7 @@ export default function ServiceKpiSparkCharts({ snapshot }) {
           },
           {
             metric: 'instances',
-            label: 'instances',
+            label: 'instance count',
             formatter: zeroDecimalPlaces
           }
         ]}
