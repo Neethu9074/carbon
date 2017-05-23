@@ -93,7 +93,7 @@ function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabel 
 }
 
 function getServiceLabelWithEndpoint(serviceLabel, endpointLabel) {
-  if (endpointLabel && endpointLabel !== 'null') {
+  if (endpointLabel) {
     return `${serviceLabel} : ${endpointLabel}`;
   }
   return serviceLabel;
