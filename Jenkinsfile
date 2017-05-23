@@ -40,31 +40,29 @@ stage('Node Build') {
   buildSteps['build'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run build')
-      sh """
-        tar -czf ${archiveName} target/*
-        mvn deploy:deploy-file \
-          -DgroupId=com.instana \
-          -DartifactId=ui-client-${env.BRANCH_NAME} \
-          -Dversion=${instanaVersion} \
-          -Dpackaging=tar.gz \
-          -DrepositoryId=instana-releases \
-          -Dclassifier=${env.BRANCH_NAME} \
-          -Durl=https://repo-internal.instana.io/nexus/content/repositories/instana-releases \
-          -Dfile=${archiveName}
-      """
-      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+      if ( currentBuild.currentResult == 'SUCCESS' ) {
+        sh """
+          tar -czf ${archiveName} target/*
+          mvn deploy:deploy-file \
+            -DgroupId=com.instana \
+            -DartifactId=ui-client-${env.BRANCH_NAME} \
+            -Dversion=${instanaVersion} \
+            -Dpackaging=tar.gz \
+            -DrepositoryId=instana-releases \
+            -Dclassifier=${env.BRANCH_NAME} \
+            -Durl=https://repo-internal.instana.io/nexus/content/repositories/instana-releases \
+            -Dfile=${archiveName}
+        """
+        markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
+        stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+      }      
     }
   }
 
   parallel buildSteps
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
-  
-  // if the build succeeds, mark this branch/version combination as stable
-  if ( currentBuild.currentResult == 'SUCCESS' ) {
-    markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
-  }
-  
+    
 }
 
 stage ('Container Build') {
