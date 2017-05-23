@@ -14,7 +14,7 @@ export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes
 export const cockpitEnabled = false;
 export const traceAnalyticsEnabled = onlyInternally;
 
-export const blackListedSearchFieldKeywords = ['log'];
+export const blackListedSearchFieldKeywords = ['log', 'trace.eum'];
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
