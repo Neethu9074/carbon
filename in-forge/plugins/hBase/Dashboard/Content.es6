@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, msZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  msZeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -9,7 +14,7 @@ import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-const percentage = d => d + '%';
+const percentage = d => twoDecimalPlaces(d) + '%';
 
 export default function HBaseDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -28,8 +33,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 40,
-            right: 40
+            left: 40
           }}
           y1={{
             metrics: ['master_cluster_requests'],
@@ -45,8 +49,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 40,
-            right: 40
+            left: 40
           }}
           y1={{
             metrics: ['stats_active_sinks', 'stats_active_sources'],
@@ -70,7 +73,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
             labels: ['Publish operations'],
             min: 0,
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: twoDecimalPlaces
           }}
           y2={{
             metrics: ['stats_pub_avg_time'],
@@ -110,8 +113,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 40,
-            right: 40
+            left: 40
           }}
           y1={{
             metrics: ['rs_split_request_count', 'rs_split_success_count'],
