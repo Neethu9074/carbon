@@ -99,7 +99,12 @@ export default function ServiceEndpointTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title="Endpoints">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+      <Table
+        cols={cols}
+        rows={rows}
+        getRowDetails={getRowDetails}
+        noDataText="No endpoints defined for this service."
+      />
     </DashboardSection>
   );
 }
