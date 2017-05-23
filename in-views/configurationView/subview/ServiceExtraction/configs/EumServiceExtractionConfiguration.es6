@@ -16,7 +16,9 @@ export const helpTexts = defaultsDeep(
 
     serviceNameHelp: (
       <span>
-        Give this service a name. This service name will be used throughout Instana. You can reference capture groups extracted from the match expressions to dynamically build a service name. Additionally, EUM meta tags can be used.
+        Give this service a name. This service name will be used throughout Instana. You can reference capture groups extracted from the match expressions to dynamically build a service name. Additionally, user defined EUM meta tags can be used, e.g.
+        {' '}
+        <code>{'{eum.meta.userDefined}'}</code>
       </span>
     )
   },
@@ -28,12 +30,12 @@ export const matchSpecificationOptions = {
     titleName: 'App Name',
     placeholder: '(.*)',
     testPlaceholder: '/',
-    initialValue: '(/bar($|/))',
+    initialValue: '(/shop($|/))',
     help: (
       <span>
         Define a regular expression to match the App name. Capture groups from matches of this regular expression are available in the service name field via the prefix path, e.g.
         {' '}
-        <code>{'{EUM app - 1}'}</code>
+        <code>{'{appName - 1}'}</code>
         {' '}
         references the first capture group.
       </span>
