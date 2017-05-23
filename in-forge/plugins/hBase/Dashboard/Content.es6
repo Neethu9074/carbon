@@ -4,7 +4,8 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   msZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  bytesTwoDecimalPlaces,
+  percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -13,8 +14,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
-
-const percentage = d => twoDecimalPlaces(d) + '%';
 
 export default function HBaseDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -219,7 +218,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
               labels: ['Block cache hit rate'],
               min: 0,
               type: 'line',
-              formatter: percentage
+              formatter: percentageTwoDecimalPlaces
             }}
           />
         </DashboardSection>
