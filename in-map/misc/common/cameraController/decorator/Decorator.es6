@@ -48,8 +48,12 @@ export default class Decorator {
     return this.inner.getRenderableCamera();
   }
 
-  zoom(dt, centeredZoom) {
-    this.inner.zoom(dt, centeredZoom);
+  zoomIn() {
+    this.inner.zoomIn();
+  }
+
+  zoomOut() {
+    this.inner.zoomOut();
   }
 
   update(dt) {

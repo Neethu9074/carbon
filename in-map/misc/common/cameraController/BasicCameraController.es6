@@ -6,9 +6,9 @@ import { requestRendering } from 'in-map/stores/renderingStore';
 import { clearSelectedEvent } from 'in-stores/navigation/view';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
-import Camera from 'in-map/misc/OrthographicCamera';
 import { emptyArray } from 'in-services/fixedObjects';
 import { goToDashboard } from 'in-stores/navigation';
+import Camera from 'in-map/misc/OrthographicCamera';
 import { height } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
 import { ZERO } from 'in-map/misc/fixedVectors';
@@ -149,7 +149,6 @@ export default class BasicCameraController extends Subscriber {
 
     const zoomLevelToSet = this.zoomLevel * inPercent;
 
-    // this.zoom(zoomLevelToSet - this.zoomLevel);
     this.setZoomLevelAbsolute(Math.max(MIN_ZOOM_IN_FOR_FOCUS, zoomLevelToSet));
   }
 
@@ -190,12 +189,11 @@ export default class BasicCameraController extends Subscriber {
   }
 
   // default zoom implementation
-  zoom() {}
+  zoomIn() {}
+  zoomOut() {}
 
   // default update implementation
-  update(dt) {
-    this.camera.update(dt);
-  }
+  update() {}
 
   updateCamera() {
     this.camTransformObject.updateMatrixWorld();

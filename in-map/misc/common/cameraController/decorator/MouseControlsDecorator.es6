@@ -1,8 +1,20 @@
+import { ZOOM_SPEED, INIT_ZOOM_LEVEL, MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL } from 'in-map/misc/CameraConfig';
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 import { onWheel, onMove } from 'in-services/util/reactiveMouseEvents';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { width, height } from 'in-map/stores/indexStore';
 import { eventBus } from 'in-map/services/eventBus';
+
+function weightZoom(zoomLevel) {
+  const zoomLevelNormalized = (zoomLevel - MIN_ZOOM_LEVEL) / (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL);
+  const x = zoomLevelNormalized;
+  const x2 = x * x;
+  const x3 = x2 * x;
+
+  // return a weighting in interval = [0, 1]. return higher values on higher zoom levels and only smaller values if
+  // the zoomlevel gets really slow so we have small steps at the end and bigger steps on the overview
+  return 2.245543004 * x3 - 4.609673881 * x2 + 3.256126918 * x + 0.1261846352;
+}
 
 export default class MouseControlDecorator extends Decorator {
   constructor(controller, canvas) {
@@ -11,15 +23,15 @@ export default class MouseControlDecorator extends Decorator {
     this.canvas = canvas;
 
     // units / sec
-    this.zoomSpeed = 10;
+    this.zoomSpeed = ZOOM_SPEED;
 
     // if the cam is nearly at the target zoomLevel, abort calculations and with that, redraws
     this.minDistanceBetweenCurrentAndTargetZoomLevel = 0.01;
 
-    this.zoomLevel = 600;
-    this.addProperty('zoomLevel', 600);
-    this.addProperty('minZoomLevel', 20);
-    this.addProperty('maxZoomLevel', 2000);
+    this.zoomLevel = 0;
+    this.addProperty('zoomLevel', 0);
+    this.addProperty('minZoomLevel', MIN_ZOOM_LEVEL);
+    this.addProperty('maxZoomLevel', MAX_ZOOM_LEVEL);
     this.addProperty('cursorPosition', { x: 0, y: 0 });
     this.addProperty('screenSpaceCursorPosition', { x: 0, y: 0 });
     this.addProperty('setZoomLevel', this.setZoomLevel.bind(this));
@@ -29,7 +41,7 @@ export default class MouseControlDecorator extends Decorator {
   init() {
     super.init();
 
-    this.zoom(-100);
+    this.setZoomLevelAbsolute(INIT_ZOOM_LEVEL);
   }
 
   initEvents() {
@@ -69,6 +81,16 @@ export default class MouseControlDecorator extends Decorator {
     }
 
     this.zoomLevel = this.clampZoomLevel(this.zoomLevel + delta);
+  }
+
+  zoomIn() {
+    const weight = weightZoom(this.zoomLevel);
+    this.zoom(-100 * weight, true);
+  }
+
+  zoomOut() {
+    const weight = weightZoom(this.zoomLevel);
+    this.zoom(100 * weight, true);
   }
 
   setZoomLevel(zoomLevel) {
