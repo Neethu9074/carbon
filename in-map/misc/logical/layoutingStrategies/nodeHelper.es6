@@ -208,7 +208,9 @@ export function translateNodesY(nodes, offset) {
 export function applyPosition(nodes) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    node.inNode.getComponent('transform').setPositionXYZ(node.x, 0, node.y);
+    // add noise to the screen y position to avoid orthogonal lines
+    const noise = 0.1 * Math.random();
+    node.inNode.getComponent('transform').setPositionXYZ(node.x, 0, node.y + noise);
   }
 }
 

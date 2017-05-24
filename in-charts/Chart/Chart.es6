@@ -35,6 +35,10 @@ export default function createChart(config) {
       config.y2 == null || (config.margins.right != null && config.margins.right > 0),
       'Right margin must be defined when defining a second y axis!'
     );
+    invariant(
+      config.y2 != null || config.margins.right == null,
+      'Right margin must not be defined when not defining a second y axis!'
+    );
   }
 
   config.margins = {

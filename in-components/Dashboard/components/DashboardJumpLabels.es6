@@ -55,6 +55,11 @@ export default class extends React.Component {
     const sections = slice
       .call(document.querySelectorAll('.in-dashboard .in-dashboard-section'))
       .map((section, i) => {
+        // exclude sections in expandable areas
+        if (isNestedInATable(section)) {
+          return null;
+        }
+
         // unnamed sections may exist
         const heading = section.querySelector('.in-dashboard__content-heading');
         if (!heading) {
@@ -121,7 +126,7 @@ export default class extends React.Component {
                 [`${block}__item--in-view`]: isInView
               })}
               // subtract 43 to account for padding and overlays
-              onClick={() => this.scrollElement.scrollTop = section.top - 43}
+              onClick={() => (this.scrollElement.scrollTop = section.top - 43)}
             >
               {section.label}
             </li>
@@ -130,4 +135,16 @@ export default class extends React.Component {
       </ol>
     );
   }
+}
+
+function isNestedInATable(element) {
+  if (element.nodeName === 'TABLE') {
+    return true;
+  }
+
+  if (element.parentNode !== document.body) {
+    return isNestedInATable(element.parentNode);
+  }
+
+  return false;
 }

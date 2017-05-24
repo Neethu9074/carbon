@@ -24,6 +24,14 @@ export const helpTexts = defaultsDeep(
         extracted from the match expressions to dynamically build a service name. Additionally, user defined EUM {' '}
         meta tags can be used, e.g. <code>{'{eum.meta.buildRevision}'}</code>
       </span>
+    ),
+
+    serviceEndpointNameHelp: (
+      <span>
+        Give this endpoint a name. This endpoint name will be used throughout Instana. You can reference capture groups
+        {' '}
+        extracted from the match expressions to dynamically build an endpoint name.
+      </span>
     )
   },
   commonHelpTexts

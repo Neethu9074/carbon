@@ -275,6 +275,10 @@ function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
   invariant(col.type in renderers, `Unknown col.type: ${col.type}.`);
   renderers[col.type].validate(col);
+  invariant(
+    col.disableSorting === undefined || typeof col.disableSorting === 'boolean',
+    'col.disableSorting must be undefined or a boolean'
+  );
 }
 
 function buildRowComparatorForIndex(comparator, index) {

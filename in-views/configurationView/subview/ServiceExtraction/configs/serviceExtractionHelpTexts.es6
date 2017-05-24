@@ -15,7 +15,8 @@ export default Object.freeze({
     <span>
       Give this endpoint a name. This endpoint name will be used throughout Instana. You can reference capture groups
       {' '}
-      extracted from the match expressions to dynamically build a endpoint name. Additionally, Docker labels can be{' '}
+      extracted from the match expressions to dynamically build an endpoint name. Additionally, Docker labels can be
+      {' '}
       used. The following examples shows how to use the <code>foo.bar</code> Docker label:{' '}
       <code>{'{docker.label-foo.bar}'}</code>.
     </span>
