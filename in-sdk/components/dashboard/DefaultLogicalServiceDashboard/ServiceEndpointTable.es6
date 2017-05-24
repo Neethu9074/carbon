@@ -13,7 +13,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
 
 const cols = [
   {
@@ -74,15 +73,16 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: 'Traces',
     type: 'custom',
+    disableSorting: true,
     typeArgs: {
       comparator: () => 0,
-      get$(row) {
-        return always({
+      get(row) {
+        return {
           value: row.key,
           content: <JumpToTracesTouchingServiceEndpointButton snapshotId={row.snapshotId} label={row.key} />
-        });
+        };
       }
     }
   }

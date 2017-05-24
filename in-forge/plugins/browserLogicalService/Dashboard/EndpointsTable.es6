@@ -1,5 +1,7 @@
 import React from 'react';
 
+import JumpToTracesTouchingServiceEndpointButton
+  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
@@ -77,6 +79,20 @@ const cols = [
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'adjustedCount';
+      }
+    }
+  },
+  {
+    title: 'Traces',
+    type: 'custom',
+    disableSorting: true,
+    typeArgs: {
+      comparator: () => 0,
+      get(row) {
+        return {
+          value: row.name,
+          content: <JumpToTracesTouchingServiceEndpointButton snapshotId={row.snapshotId} label={row.name} />
+        };
       }
     }
   }
