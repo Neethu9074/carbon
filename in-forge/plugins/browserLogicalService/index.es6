@@ -27,8 +27,8 @@ registerSnapshotDefinition({
     xhrErrors: 'sum'
   },
   dynamicMetricAggregations: {
-    stats: /^endpoint\..*\.(fp|unl|red|apc|dns|tcp|req|rsp|pro|loa)+\.(mean|min|25th|50th|75th|95th|98th|99th|max)+$/i,
-    sum: /^endpoint\..*\.(uncaughtErrors|xhrCalls|xhrErrors)+$/i
+    stats: /^endpoint\..*\.(fp|unl|red|apc|dns|tcp|req|rsp|pro|loa)\.(mean|min|25th|50th|75th|95th|98th|99th|max)$/i,
+    sum: /^endpoint\..*\.(uncaughtErrors|xhrCalls|xhrErrors)$/i
   },
 
   pluginName: {
