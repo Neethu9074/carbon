@@ -1,6 +1,16 @@
 const statAggregationMetricSuffixes = ['.mean', '.min', '.25th', '.50th', '.75th', '.95th', '.98th', '.99th', '.max'];
 
 const defaultAggregation = 'mean';
+const dynamicAggregationDefinitions = [
+  {
+    regex: /endpoint.*.duration.mean/i,
+    aggregation: 'stats'
+  },
+  {
+    regex: /endpoint.*.count/i,
+    aggregation: 'sum'
+  }
+];
 const aggregationDefinitions = {
   // standard KPI metrics
   // 'count': 'sum',
@@ -31,5 +41,17 @@ export function setStatAggregation(metric) {
 }
 
 export function getAggregation(metric) {
-  return aggregationDefinitions[metric] || defaultAggregation;
+  const definition = aggregationDefinitions[metric];
+  if (definition) {
+    return definition;
+  }
+
+  for (let i = 0, length = dynamicAggregationDefinitions.length; i < length; i++) {
+    const dynamicDefinition = dynamicAggregationDefinitions[i];
+    if (metric.match(dynamicDefinition.regex)) {
+      return dynamicDefinition.aggregation;
+    }
+  }
+
+  return defaultAggregation;
 }
