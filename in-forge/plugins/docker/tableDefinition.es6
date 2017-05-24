@@ -1,9 +1,16 @@
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 
 export default {
   initialSortColumn: 0,
   initialSortDirection: 'asc',
+  preProcessRows(rows) {
+    rows.forEach(row => {
+      row.hasNetworkMetrics = hasNetworkMetrics(row.snapshot);
+      row.hasMemoryMetrics = hasMemoryMetrics(row.snapshot);
+    });
+  },
 
   cols: [
     {
@@ -68,7 +75,12 @@ export default {
         getMetricName() {
           return 'memory.usage';
         },
-        getContent: bytesTwoDecimalPlaces,
+        getContent(value, row) {
+          if (row.hasMemoryMetrics) {
+            return bytesTwoDecimalPlaces(value);
+          }
+          return 'N/A';
+        },
         getTimeWindowAggregation() {
           return 'mean';
         }
@@ -84,7 +96,12 @@ export default {
         getMetricName() {
           return 'network.rx.bytes';
         },
-        getContent: bytesTwoDecimalPlaces,
+        getContent(value, row) {
+          if (row.hasNetworkMetrics) {
+            return bytesTwoDecimalPlaces(value);
+          }
+          return 'N/A';
+        },
         getTimeWindowAggregation() {
           return 'mean';
         }
@@ -100,7 +117,12 @@ export default {
         getMetricName() {
           return 'network.tx.bytes';
         },
-        getContent: bytesTwoDecimalPlaces,
+        getContent(value, row) {
+          if (row.hasNetworkMetrics) {
+            return bytesTwoDecimalPlaces(value);
+          }
+          return 'N/A';
+        },
         getTimeWindowAggregation() {
           return 'mean';
         }

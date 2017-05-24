@@ -7,6 +7,7 @@ import {
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -14,15 +15,12 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function DockerDashboard({ snapshot, timeframe }) {
-  const dockerVersion = snapshot.getIn(['data', 'docker_version']);
-  const hasNetworkMetrics = snapshot.getIn(['data', 'NetworkMode'], '') === 'bridge';
-  const memoryMetricsBugged = dockerVersion === '1.11.0' || dockerVersion === '1.11.1';
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-      {memoryMetricsBugged
+      {!hasMemoryMetrics(snapshot)
         ? <DashboardNotification type="info">
             Due to a regression in Docker 1.11.0 and 1.11.1, no memory metrics can be collected.
             This has been fixed by Docker in 1.12.0 and 1.11.2.
@@ -46,8 +44,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 80,
-            right: 10
+            left: 80
           }}
           y1={{
             min: 0,
@@ -62,7 +59,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           timeframe={timeframe}
           margins={{
             left: 80,
-            right: 10
+            right: 80
           }}
           y1={{
             min: 0,
@@ -79,7 +76,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {!memoryMetricsBugged
+      {hasMemoryMetrics(snapshot)
         ? <DashboardSection
             title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}
           >
@@ -87,8 +84,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
-                left: 80,
-                right: 10
+                left: 80
               }}
               y1={{
                 min: 0,
@@ -102,8 +98,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
-                left: 80,
-                right: 10
+                left: 80
               }}
               y1={{
                 min: 0,
@@ -121,8 +116,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 80,
-            right: 10
+            left: 80
           }}
           y1={{
             min: 0,
@@ -133,7 +127,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {hasNetworkMetrics
+      {hasNetworkMetrics(snapshot)
         ? <DashboardSection title="Network">
             <ChartWithLegend
               snapshotId={snapshotId}
