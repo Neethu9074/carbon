@@ -82,13 +82,13 @@ describe('timeline/datepicker/from', () => {
       mod.setDateString('2017-02-05');
       mod.setTimeString('12:00:00');
 
-      toTimestamp$.emit(Date.parse('02-05-2017 12:00:01 GMT+0100 (CET)'));
+      toTimestamp$.emit(Date.parse('02-05-2017 12:00:01'));
 
       expect(isDateTimeValid).to.have.callCount(4);
       expect(isDateTimeValid.getCall(3).args[0].date).to.equal(true);
       expect(isDateTimeValid.getCall(3).args[0].time).to.equal(true);
 
-      toTimestamp$.emit(Date.parse('02-06-2017 11:59:00 GMT+0100 (CET)'));
+      toTimestamp$.emit(Date.parse('02-06-2017 11:59:00'));
 
       expect(isDateTimeValid).to.have.callCount(5);
       expect(isDateTimeValid.getCall(4).args[0].date).to.equal(true);
@@ -102,13 +102,13 @@ describe('timeline/datepicker/from', () => {
       mod.setDateString('2017-02-05');
       mod.setTimeString('12:00:00');
 
-      toTimestamp$.emit(Date.parse('02-05-2017 11:59:59 GMT+0100 (CET)'));
+      toTimestamp$.emit(Date.parse('02-05-2017 11:59:59'));
 
       expect(isDateTimeValid).to.have.callCount(4);
       expect(isDateTimeValid.getCall(3).args[0].date).to.equal(true);
       expect(isDateTimeValid.getCall(3).args[0].time).to.equal(false);
 
-      toTimestamp$.emit(Date.parse('02-04-2017 12:00:01 GMT+0100 (CET)'));
+      toTimestamp$.emit(Date.parse('02-04-2017 12:00:01'));
 
       expect(isDateTimeValid).to.have.callCount(5);
       expect(isDateTimeValid.getCall(4).args[0].date).to.equal(false);
@@ -116,10 +116,10 @@ describe('timeline/datepicker/from', () => {
     });
 
     function setValidBigBangAndServertime() {
-      // Sat Feb 04 2017 04:13:26 GMT+0100 (CET)
+      // Sat Feb 04 2017 04:13:26
       bigBangTimestamp$.emit(1486178006594);
 
-      // Mon Feb 06 2017 14:33:26 GMT+0100 (CET)
+      // Mon Feb 06 2017 14:33:26
       serverTime$.emit(1486388006594);
     }
   });
