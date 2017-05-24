@@ -30,23 +30,23 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
           />
         </KpiKeyValue>
         <KpiKeyValue label="time to page load (95th)">
-          <MetricValue snapshotId={snapshotId} metric="duration. (95th)" formatter={msTwoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="duration.95th" formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. time to page load in " />}>
           <MetricValue
             snapshotId={snapshotId}
-            metric="duration. (95th)"
+            metric="duration.95th"
             formatter={msTwoDecimalPlaces}
             timeWindowAggregation="mean"
           />
         </KpiKeyValue>
         <KpiKeyValue label="time to first paint (95th)">
-          <MetricValue snapshotId={snapshotId} metric="fp. (95th)" formatter={msTwoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="fp.95th" formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. time to first paint in " />}>
           <MetricValue
             snapshotId={snapshotId}
-            metric="fp. (95th)"
+            metric="fp.95th"
             formatter={msTwoDecimalPlaces}
             timeWindowAggregation="mean"
           />

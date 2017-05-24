@@ -3,11 +3,11 @@ const statAggregationMetricSuffixes = ['.mean', '.min', '.25th', '.50th', '.75th
 const defaultAggregation = 'mean';
 const dynamicAggregationDefinitions = [
   {
-    regex: /endpoint.*.duration.mean/i,
+    regex: /^endpoint\..*\.duration\.(mean|min|25th|50th|75th|95th|98th|99th|max)$/i,
     aggregation: 'stats'
   },
   {
-    regex: /endpoint.*.count/i,
+    regex: /^endpoint\..*\.count$/i,
     aggregation: 'sum'
   }
 ];
