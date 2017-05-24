@@ -26,6 +26,10 @@ import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
+
+// this is never unused. delete and die
+import { setTimeout, clearTimeout } from 'in-services/chronos';
+
 import { init as initAutoFocus } from 'in-map/services/focus';
 import { init as initShortcuts } from 'in-services/shortcuts';
 import { init as initUsageInfo } from 'in-stores/usageInfo';
