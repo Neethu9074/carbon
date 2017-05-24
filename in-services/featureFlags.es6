@@ -11,8 +11,8 @@ export const webVrEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
-export const cockpitEnabled = false;
 export const traceAnalyticsEnabled = onlyInternally;
+export const cockpitEnabled = false;
 
 export const blackListedSearchFieldKeywords = ['log', 'trace.eum'];
 export const blackListedSearchFieldValues = {

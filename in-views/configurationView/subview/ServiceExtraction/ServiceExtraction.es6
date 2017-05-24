@@ -273,15 +273,13 @@ export default class extends React.Component {
           <Button kind="info" onClick={this.addNewService} className={`${block}__button`}>
             Add Rule
           </Button>
-          {__DEV__
-            ? <Button
-                kind="info"
-                onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
-                className={`${block}__button`}
-              >
-                Edit as JSON
-              </Button>
-            : null}
+          <Button
+            kind="info"
+            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
+            className={`${block}__button`}
+          >
+            Edit as JSON
+          </Button>
 
           {this.state.message
             ? <Notification failure={this.state.error} loading={this.state.loading}>
