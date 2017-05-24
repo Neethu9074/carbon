@@ -51,23 +51,23 @@ export default function JmxMetricsTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title={`Custom JMX Metrics (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getDetails(jmxMetric, i, context) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 90
       }}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
-        metrics: ['jmx.' + jmxMetric],
-        labels: [jmxMetric],
+        metrics: ['jmx.' + row.name],
+        labels: [row.name],
         type: 'line'
       }}
     />
