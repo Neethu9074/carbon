@@ -16,11 +16,11 @@ export default connectTo(
       snapshot: getSnapshot(props.serviceSnapshotId, props.time)
     };
   },
-  function EntityColumnContent({ snapshot }) {
+  function EntityColumnContent({ snapshot, getLabelCallback = label => label }) {
     if (!snapshot) {
       return null;
     }
-    const label = getLabel(snapshot);
+    const label = getLabelCallback(getLabel(snapshot));
     return (
       <Tooltip content={label} align="rightMiddle">
         <div className={block}>

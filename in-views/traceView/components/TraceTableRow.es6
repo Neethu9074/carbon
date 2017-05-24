@@ -43,7 +43,11 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
       </span>
       <span className={cellClassName}>
         {serviceSnapshotId
-          ? <EntityColumnContent serviceSnapshotId={serviceSnapshotId} time={trace.startMillis} />
+          ? <EntityColumnContent
+              serviceSnapshotId={serviceSnapshotId}
+              time={trace.startMillis}
+              getLabelCallback={label => getServiceLabelWithEndpoint(label, trace.raw.get('destinationEndpointLabel'))}
+            />
           : null}
       </span>
     </div>
@@ -55,3 +59,10 @@ TraceTableRow.propTypes = {
   onClick: rpt.func.isRequired,
   selectedTraceId: rpt.string
 };
+
+function getServiceLabelWithEndpoint(serviceLabel, endpointLabel) {
+  if (endpointLabel) {
+    return `${serviceLabel} : ${endpointLabel}`;
+  }
+  return serviceLabel;
+}

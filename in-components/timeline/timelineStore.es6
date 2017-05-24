@@ -9,9 +9,9 @@ import {
   bigBangTimestamp$
 } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
+import { getSetting$ } from 'in-services/settings';
 import activeTheme from 'in-themes/active.json';
 import { createStore } from 'in-stores/store';
-import { getSetting$ } from 'in-services/settings';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
