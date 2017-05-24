@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, siPrefix } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -28,17 +28,17 @@ export default function CassandraClusterSidebar({ snapshot }) {
           {
             metric: 'nodeCount',
             label: 'Nodes',
-            formatter: withSiPrefixZeroDecimalPlaces
+            formatter: siPrefix
           },
           {
             metric: 'keyspaceCount',
             label: 'Keyspaces',
-            formatter: withSiPrefixZeroDecimalPlaces
+            formatter: siPrefix
           },
           {
             metric: 'overallDiskSize',
             label: 'Store Size',
-            formatter: bytesTwoDecimalPlaces
+            formatter: bytes
           }
         ]}
       />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { percentage, ms, number } from 'in-services/formatters/number';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -15,17 +15,17 @@ export default function LogicalConnectionSidebarKpiSparkCharts({ snapshot }) {
           {
             metric: 'count',
             label: 'calls/s',
-            formatter: zeroDecimalPlaces
+            formatter: number
           },
           {
             metric: 'duration.mean',
             label: 'avg. latency',
-            formatter: msTwoDecimalPlaces
+            formatter: ms
           },
           {
             metric: 'error_rate',
             label: 'error rate',
-            formatter: percentageTwoDecimalPlaces
+            formatter: percentage
           }
         ]}
       />

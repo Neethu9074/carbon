@@ -3,6 +3,8 @@ import {
   zeroDecimalPlacesPerSecond,
   percentageTwoDecimalPlaces,
   msTwoDecimalPlaces,
+  ms,
+  percentage,
   number
 } from 'in-services/formatters/number';
 
@@ -17,14 +19,14 @@ const defaultKpis = () => [
   {
     metric: 'duration.mean',
     label: 'avg. latency',
-    formatter: msTwoDecimalPlaces,
+    formatter: ms,
     valueOnlyFormatter: msTwoDecimalPlaces,
     timeWindowAggregation: 'mean'
   },
   {
     metric: 'error_rate',
     label: 'error rate',
-    formatter: percentageTwoDecimalPlaces,
+    formatter: percentage,
     valueOnlyFormatter: percentageTwoDecimalPlaces,
     timeWindowAggregation: 'mean'
   }
