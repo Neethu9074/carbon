@@ -41,18 +41,7 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        sh """
-          tar -czf ${archiveName} target/*
-          mvn deploy:deploy-file \
-            -DgroupId=com.instana \
-            -DartifactId=ui-client-${env.BRANCH_NAME} \
-            -Dversion=${instanaVersion} \
-            -Dpackaging=tar.gz \
-            -DrepositoryId=instana-releases \
-            -Dclassifier=${env.BRANCH_NAME} \
-            -Durl=https://repo-internal.instana.io/nexus/content/repositories/instana-releases \
-            -Dfile=${archiveName}
-        """
+        uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
       }      
