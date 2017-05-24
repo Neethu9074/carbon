@@ -1,7 +1,7 @@
 import { clone } from 'lodash';
 
+import { setAggregation, setStatAggregation, setDynamicAggregation } from 'in-sdk/metrics/aggregation';
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
-import { setAggregation, setStatAggregation } from 'in-sdk/metrics/aggregation';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
@@ -66,6 +66,13 @@ function registerLegacySdkHooks(snapshotDefinition) {
       } else {
         setAggregation(metric, aggregation);
       }
+    });
+  }
+
+  if (snapshotDefinition.dynamicMetricAggregations) {
+    Object.keys(snapshotDefinition.dynamicMetricAggregations).forEach(aggregation => {
+      const metricMatcher = snapshotDefinition.dynamicMetricAggregations[aggregation];
+      setDynamicAggregation(metricMatcher, aggregation);
     });
   }
 }
