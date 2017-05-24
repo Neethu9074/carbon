@@ -1,4 +1,4 @@
-import { defaultsDeep } from 'lodash';
+import { defaults } from 'lodash';
 import React from 'react';
 
 import GenericServiceExtractionConfiguration
@@ -10,7 +10,7 @@ export const ruleType = 'browser';
 
 export const pathname = eumServiceExtractionConfigViewPath;
 
-export const helpTexts = defaultsDeep(
+export const helpTexts = defaults(
   {
     viewHelp: 'Configure how Instana uses EUM attributes to extract services and endpoints. You can define multiple rules which will be executed in order.',
 
@@ -22,7 +22,13 @@ export const helpTexts = defaultsDeep(
         {' '}
         {' '}
         extracted from the match expressions to dynamically build a service name. Additionally, user defined EUM {' '}
-        meta tags can be used, e.g. <code>{'{eum.meta.buildRevision}'}</code>
+        meta tags can be used, e.g.
+        {' '}
+        <code>{'{eum.meta.buildRevision}'}</code>
+        {' '}
+        to reference the meta tag
+        {' '}
+        <code>buildRevision</code>
       </span>
     ),
 
@@ -30,7 +36,15 @@ export const helpTexts = defaultsDeep(
       <span>
         Give this endpoint a name. This endpoint name will be used throughout Instana. You can reference capture groups
         {' '}
-        extracted from the match expressions to dynamically build an endpoint name.
+        extracted from the match expressions to dynamically build an endpoint name. Additionally, user defined EUM {' '}
+        meta tags can be used, e.g.
+        {' '}
+        <code>{'{eum.meta.buildRevision}'}</code>
+        {' '}
+        to reference the meta tag
+        {' '}
+        <code>buildRevision</code>
+        .
       </span>
     )
   },

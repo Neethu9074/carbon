@@ -1,4 +1,4 @@
-import { defaultsDeep } from 'lodash';
+import { defaults } from 'lodash';
 import React from 'react';
 
 import GenericServiceExtractionConfiguration
@@ -10,7 +10,7 @@ export const ruleType = 'messagebroker';
 
 export const pathname = messageBrokerServiceExtractionConfigViewPath;
 
-export const helpTexts = defaultsDeep(
+export const helpTexts = defaults(
   {
     viewHelp: 'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
       'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
