@@ -37,7 +37,7 @@ export default connectTo(
 
     const tableDefinition = getTableDefinition(plugin);
     const cols = tableDefinition.cols;
-    const rows = snapshots.map(snapshot => {
+    let rows = snapshots.map(snapshot => {
       const snapshotId = snapshot.get('id');
       return {
         key: snapshotId,
@@ -45,6 +45,10 @@ export default connectTo(
         snapshot
       };
     });
+
+    if (tableDefinition.preProcessRows) {
+      rows = tableDefinition.preProcessRows(rows) || rows;
+    }
 
     return (
       <div className={block}>
