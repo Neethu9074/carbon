@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -92,9 +93,17 @@ export default function Endpoints({ snapshot, timeframe }) {
     };
   });
 
+  if (rows.length === 0) {
+    return null;
+  }
+
   return (
     <DashboardSection title="Endpoints">
-      <Table cols={cols} rows={rows} />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
+}
+
+function getRowDetails(row) {
+  return <PageCharts snapshotId={row.snapshotId} timeframe={row.timeframe} metricPrefix={`endpoint.${row.name}.`} />;
 }

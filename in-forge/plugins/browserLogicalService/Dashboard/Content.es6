@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { msTwoDecimalPlaces, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import EndpointsTable from 'in-forge/plugins/browserLogicalService/Dashboard/EndpointsTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
 import Connections from 'in-components/LogicalEntityTables/Connections';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -54,138 +52,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
         </KpiKeyValue>
       </KpiSection>
 
-      <TwoColumnRow>
-        <DashboardSection title="Calls/s">
-          <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
-            y1={{
-              min: 0,
-              formatter: twoDecimalPlaces,
-              metrics: ['count'],
-              labels: ['calls/s'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="XHR / AJAX">
-          <ChartWithLegend
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
-            y1={{
-              min: 0,
-              formatter: twoDecimalPlaces,
-              metrics: ['xhrCalls'],
-              labels: ['Calls'],
-              type: 'line'
-            }}
-            y2={{
-              min: 0,
-              formatter: twoDecimalPlaces,
-              metrics: ['xhrErrors'],
-              labels: ['Errors'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </TwoColumnRow>
-
-      <DashboardSection title="Uncaught Errors">
-        <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: twoDecimalPlaces,
-            metrics: ['uncaughtErrors'],
-            labels: ['Uncaught errors'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title="Page Load Time">
-        <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          height={200}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: msTwoDecimalPlaces,
-            metrics: [
-              'duration.min',
-              'duration.25th',
-              'duration.50th',
-              'duration.75th',
-              'duration.95th',
-              'duration.98th',
-              'duration.99th',
-              'duration.max'
-            ],
-            labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
-            type: 'integral'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title="Page Load Breakdown (95th)">
-        <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: msTwoDecimalPlaces,
-            metrics: [
-              'unl.95th',
-              'red.95th',
-              'apc.95th',
-              'dns.95th',
-              'tcp.i95th',
-              'req.95th',
-              'rsp.95th',
-              'pro.95th',
-              'loa.95th'
-            ],
-            labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'Request', 'Response', 'Processing', 'Load'],
-            type: 'stackedArea'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title="Time to First Paint (95th)">
-        <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: msTwoDecimalPlaces,
-            metrics: ['fp.95th'],
-            labels: ['First paint time'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-
+      <PageCharts snapshotId={snapshotId} timeframe={timeframe} />
       <EndpointsTable snapshot={snapshot} timeframe={timeframe} />
       <Connections snapshotId={snapshotId} timeframe={timeframe} />
     </div>
