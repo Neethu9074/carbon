@@ -1,12 +1,18 @@
 import React from 'react';
 
-import { twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { twoDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Code from 'in-components/Code';
+
+const stubStatusSampleConfig = `location /nginx_status {
+  stub_status  on;
+  access_log   off;
+}`;
 
 export default function NginxDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -14,7 +20,17 @@ export default function NginxDashboard({ snapshot, timeframe }) {
   if (stubStatusUrlFound === false) {
     return (
       <DashboardNotification type="info">
-        stub_status url is not found or not enabled in nginx.conf Please add it and/or enable it in nginx.conf to enable monitoring metrics
+        A
+        {' '}
+        <code>stub_status</code>
+        {' '}
+        directive could not found within the nginx configuration. Please add or enable it
+        {' '}
+        within the nginx configuration to enable monitoring metrics.
+        <br />
+        <br />
+
+        <Code code={stubStatusSampleConfig} />
       </DashboardNotification>
     );
   }

@@ -13,6 +13,13 @@ export const createAsyncFullscreenOverlayViewComponent = createAsyncComponent.bi
   </FullscreenOverlayView>
 );
 
+export const createAsyncComponentWithLoadingIndicatorPlaceholder = createAsyncComponent.bind(
+  null,
+  <div>
+    <LoadingIndicator type="dark" />
+  </div>
+);
+
 export function createAsyncComponent(loadingPlaceholder, load) {
   let ResolvedComponent;
 

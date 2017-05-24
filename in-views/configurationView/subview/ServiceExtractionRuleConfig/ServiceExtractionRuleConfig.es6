@@ -1,4 +1,4 @@
-import { createMapForm, createField } from 'formalistic';
+import { createListForm, createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
@@ -97,7 +97,7 @@ export default class extends React.Component {
         <ServiceExtractionEndpointRuleConfigSubForm
           serviceRule={rule}
           form={form}
-          onChangeIn={this.onChangeIn}
+          onChangeIn={this.onChangeInEndpoints}
           helpTexts={helpTexts}
           matchSpecificationOptionsTree={matchSpecificationOptionsTree}
           matchSpecificationOptions={matchSpecificationOptions}
@@ -105,6 +105,8 @@ export default class extends React.Component {
           removeMatchSpecification={this.removeMatchSpecification}
           removeEndpointRule={this.removeEndpointRule}
           addEndpointRule={this.addEndpointRule}
+          moveUp={this.moveUp}
+          moveDown={this.moveDown}
         />
       </div>
     );
@@ -114,8 +116,9 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     if (!ruleId) {
+      const { ruleType } = typeDefinitions[this.props.params.ruleType];
       let rule = createServiceRule({});
-      rule.type = this.props.params.ruleType;
+      rule.type = ruleType;
       rule = fromJS(rule);
 
       this.setState({
@@ -165,22 +168,13 @@ export default class extends React.Component {
     }
   };
 
-  onChange = (fieldName, value) => {
-    let updatedForm = this.state.form;
-    if (Array.isArray(fieldName)) {
-      for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], setFieldValue.bind(null, value[i]));
-      }
-    } else {
-      updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-    }
-
+  onChangeIn = (path, value) => {
     this.setState({
-      form: updatedForm
+      form: this.state.form.updateIn(path, field => field.setValue(value).setTouched(true))
     });
   };
 
-  onChangeIn = (path, value) => {
+  onChangeInEndpoints = (path, value) => {
     this.setState({
       form: this.state.form.updateIn(path, field => field.setValue(value).setTouched(true))
     });
@@ -203,15 +197,25 @@ export default class extends React.Component {
     const endpointRule = fromJS(createEndpointRule({}));
     const ruleForm = createEndpointRuleForm(endpointRule);
     this.setState({
-      form: this.state.form.updateIn(['endpointRules'], item =>
-        item.put(endpointRule.get('id'), ruleForm).setTouched(true)
-      )
+      form: this.state.form.updateIn(['endpointRules'], item => item.push(ruleForm).setTouched(true))
     });
   };
 
   removeEndpointRule = key => {
     this.setState({
       form: this.state.form.updateIn(['endpointRules'], item => item.remove(key).setTouched(true))
+    });
+  };
+
+  moveUp = index => {
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], endpoints => endpoints.moveDown(index).setTouched(true))
+    });
+  };
+
+  moveDown = index => {
+    this.setState({
+      form: this.state.form.updateIn(['endpointRules'], endpoints => endpoints.moveUp(index).setTouched(true))
     });
   };
 
@@ -227,11 +231,11 @@ export default class extends React.Component {
 
     const rule = this.state.rule;
     const form = this.state.form;
-
-    const endpointKeys = form.get('endpointRules').reduce((acc, cur, key) => acc.concat(key), []).sort();
     const endpoints = [];
-    for (let i = 0, length = endpointKeys.length; i < length; i++) {
-      const endpointForm = form.get('endpointRules').get(endpointKeys[i]);
+    const endpointForms = form.get('endpointRules').map(map => map);
+
+    for (let i = 0, length = endpointForms.length; i < length; i++) {
+      const endpointForm = endpointForms[i];
       endpoints.push(
         createEndpointRule({
           id: endpointForm.get('id').value,
@@ -244,12 +248,13 @@ export default class extends React.Component {
       );
     }
 
+    const typeDefinition = typeDefinitions[this.props.params.ruleType];
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({
           id: rule ? rule.get('id') : null,
           order: rule.get('order'),
-          type: this.props.params.ruleType,
+          type: typeDefinition.ruleType,
 
           name: form.get('name').value,
           enabled: form.get('enabled').value,
@@ -267,9 +272,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(() =>
-      openServiceExtractionConfigByDefinition(typeDefinitions[this.props.params.ruleType])
-    );
+    this.responseSubscription = result$.once(() => openServiceExtractionConfigByDefinition(typeDefinition));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save service extraction rule: ${error.message}`;
@@ -295,14 +298,14 @@ function getMatchSpecifications(form) {
 }
 
 function createForm(rule) {
-  let form = createBasicRuleForm(rule);
+  let form = createBasicRuleForm(rule).put('endpointRules', createListForm());
 
   const endpointRules = rule.get('endpointRules');
-  if (endpointRules) {
-    endpointRules.forEach(endpoint => {
-      form = form.updateIn(['endpointRules'], item => item.put(endpoint.get('id'), createEndpointRuleForm(endpoint)));
-    });
-  }
+  endpointRules.forEach((endpoint, order) => {
+    let endpointRuleForm = createEndpointRuleForm(endpoint);
+    endpointRuleForm = endpointRuleForm.put('order', createField({ value: order }));
+    form = form.updateIn(['endpointRules'], item => item.push(endpointRuleForm));
+  });
   return form;
 }
 
@@ -313,12 +316,17 @@ function createEndpointRuleForm(endpoint) {
 function createBasicRuleForm(rule) {
   let form = createMapForm()
     .put('id', createField({ value: rule.get('id') }))
-    .put('name', createField({ value: rule.get('name') || '' }))
-    .put('enabled', createField({ value: rule.get('enabled', true) }))
-    .put('comment', createField({ value: rule.get('comment') || '' }))
+    .put('name', createField({ value: rule.get('name'), validator: notBlankValidator }))
+    .put('enabled', createField({ value: rule.get('enabled') }))
+    .put('comment', createField({ value: rule.get('comment') }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
-    .put('endpointRules', createMapForm())
-    .put('label', createField({ value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service') }));
+    .put(
+      'label',
+      createField({
+        value: rule.getIn(['extractSpecification', 'label'], 'Unnamed service'),
+        validator: notBlankValidator
+      })
+    );
 
   const matchSpecifications = rule.get('matchSpecification');
   if (matchSpecifications) {
@@ -350,10 +358,6 @@ const atLeastOneMatchResult = [
     message: 'At least one match expression is required.'
   }
 ];
-
-function setFieldValue(value, field) {
-  return field.setValue(value).setTouched(true);
-}
 
 function matchSpecificationMustCompileRule(regex) {
   try {

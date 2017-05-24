@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { onMove } from 'in-services/reactiveMouseEvents';
+import { onMove } from 'in-services/util/reactiveMouseEvents';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import { applyTransform } from 'in-services/util/dom';
 import theme from 'in-services/theme';
@@ -44,7 +44,7 @@ export default function Tooltip(ComposedComponent) {
 
     render() {
       return (
-        <div ref={tooltip => this.tooltip = tooltip} style={DEFAULT_STYLE}>
+        <div ref={tooltip => (this.tooltip = tooltip)} style={DEFAULT_STYLE}>
           <TooltipFrame>
             <ComposedComponent {...this.props} {...this.state} />
           </TooltipFrame>

@@ -8,7 +8,6 @@ import connectTo from 'in-hoc/connectTo';
 import './Zoom.less';
 
 const block = 'in-controls-zoom';
-const UNITS_TO_ZOOM = 100;
 
 export default connectTo(
   {
@@ -23,14 +22,14 @@ export default connectTo(
       <div>
         <Control
           className={`${block}__in`}
-          onClick={() => CameraControllerServiceLocator.zoom(-UNITS_TO_ZOOM, true)}
+          onClick={CameraControllerServiceLocator.zoomIn}
           tooltipText="Zoom in"
           type="plus_without_frame"
         />
 
         <Control
           className={`${block}__out`}
-          onClick={() => CameraControllerServiceLocator.zoom(UNITS_TO_ZOOM, true)}
+          onClick={CameraControllerServiceLocator.zoomOut}
           tooltipText="Zoom out"
           type={'minus'}
         />

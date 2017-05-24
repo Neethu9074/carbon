@@ -1,0 +1,6 @@
+{
+  "name": "TraceViewTabs",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TraceViewTabs.es6"
+}

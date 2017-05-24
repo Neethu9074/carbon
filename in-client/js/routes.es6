@@ -3,13 +3,15 @@
 import ServiceExtractionRuleConfiguration
   from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import ElasticServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
 import MessageBrokerServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/MessageBrokerServiceExtractionConfiguration';
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
+import EumServiceExtractionConfiguration
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
 import UserManagement
   from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
@@ -27,18 +29,23 @@ import Rules from 'promise-loader?global,configView!in-views/configurationView/s
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
+import TraceAnalyticsView from 'promise-loader?global!in-views/traceAnalyticsView/TraceAnalyticsView';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
+import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 import { cockpitEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
-import { Route, IndexRedirect } from 'react-router';
 import React from 'react';
 
-import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
+import {
+  createAsyncFullscreenOverlayViewComponent,
+  createAsyncComponentWithLoadingIndicatorPlaceholder
+} from 'in-components/routing/createAsyncComponent';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
@@ -64,8 +71,24 @@ export default (
       <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)} path="traces" windowTitle="Traces">
-      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+    <Redirect from="traces" to="traces/search" />
+    <Redirect from="traces/dashboard" to="traces/search/dashboard" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="traces">
+      <Route
+        component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)}
+        path="search"
+        windowTitle="Traces"
+      >
+        <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+      </Route>
+
+      <Route
+        component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceAnalyticsView)}
+        path="analytics"
+        windowTitle="Trace Analytics"
+      >
+        <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
+      </Route>
     </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="events" windowTitle="Events">
@@ -79,6 +102,7 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="logs" windowTitle="Logs">
       <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
+
     <Route
       path="config"
       component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
@@ -86,12 +110,12 @@ export default (
     >
       <Route
         component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-        path="serviceExtraction/:ruleType/:ruleId"
+        path=":ruleType/serviceExtraction/:ruleId"
         windowTitle="Service Extraction Rule"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-        path="serviceExtraction/:ruleType"
+        path=":ruleType/serviceExtraction"
         windowTitle="Service Extraction Rule"
       />
 
@@ -114,6 +138,11 @@ export default (
         component={createAsyncFullscreenOverlayViewComponent(MessageBrokerServiceExtractionConfiguration)}
         path="messageBrokerServiceExtraction"
         windowTitle="Message Broker Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(EumServiceExtractionConfiguration)}
+        path="eumServiceExtraction"
+        windowTitle="EUM Service Extraction"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(UiConfig)}

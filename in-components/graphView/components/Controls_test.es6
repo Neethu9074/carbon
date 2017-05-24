@@ -29,7 +29,7 @@ describe('controls', () => {
       'in-map/misc/time': {
         getDeltaTime: () => 0.5
       },
-      'in-services/reactiveMouseEvents': {
+      'in-services/util/reactiveMouseEvents': {
         onWheel: (canvas, callback) => {
           onMouseWheel = create();
           return onMouseWheel.subscribe(callback);

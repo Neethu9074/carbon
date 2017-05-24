@@ -2,6 +2,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
+import { formatSql } from 'in-forge/tracing/jdbc/sql';
 
 export default function ActiveRecordSpanDetailView({ span }) {
   const sql = span.getIn(['data', 'activerecord', 'sql']);
@@ -26,7 +27,7 @@ export default function ActiveRecordSpanDetailView({ span }) {
 
       {sql
         ? <DescriptionItem title="SQL">
-            <Code code={sql} lang="sql" />
+            <Code code={formatSql(sql)} lang="sql" />
           </DescriptionItem>
         : null}
     </DescriptionList>

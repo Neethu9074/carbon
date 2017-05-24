@@ -71,14 +71,14 @@ function isInsertStatement(sql) {
 }
 
 function shortenSelectStatement(sql) {
-  const match = sql.match(/\s+from +(([a-z0-9\-\_]+)|(\`([^\`]+)\`))/i);
+  const match = sql.match(/\s+from +(([a-z0-9\-\_]+)|(\`([^\`]+)\`)|(\"([^\"]+)\"))/i);
   if (!match) {
     return sql;
   }
 
   const count = sql.match(/\s*select\s+count(\s|\()/i) ? ' COUNT' : '';
 
-  const from = match[2] || match[4];
+  const from = match[2] || match[4] || match[6];
   let result = `SELECT${count} … FROM ${from}`;
 
   const explain = sql.match(/(^|\s+)explain\s+select\s+/i);

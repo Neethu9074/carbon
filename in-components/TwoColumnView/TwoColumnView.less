@@ -1,20 +1,8 @@
 @import "~in-themes/active.less";
 
 .in-two-column-view {
-  position: absolute;
-  top: @header__height * 1px;
-  left: 0;
-  right: 0;
-  bottom: @footer__height * 1px;
-
-  overflow-x: hidden;
-  overflow-y: hidden;
-
-  background: #EEF2F4;
-  font-size: 0.75rem;
-  color: #2D4048;
-
-  transition: bottom 0.25s ease-in-out;
+  height: 100%;
+  overflow: hidden;
 
   &__left, &__right {
     float: left;
@@ -23,5 +11,6 @@
     box-sizing: border-box;
     height: 100%;
     width: 100%;
+    overflow: hidden;
   }
 }

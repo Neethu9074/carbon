@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { trySetField } from 'in-stores/search/manipulation';
+import { trySetField, removeField } from 'in-stores/search/manipulation';
 
 export const cockpitLink$ = getModifiedUrlStream(params => (params.pathname = '/cockpit'));
 
@@ -21,7 +21,23 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
   .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
-export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces'));
+export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/search'));
+export const traceAnalyticsViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/analytics'));
+
+export function getTraceViewLinkWithQuery(query) {
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces/search';
+    params.query.q = query;
+    params.query.ss = '1';
+  });
+}
+
+export function getTraceViewLinkShowingTrace(traceId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces/search';
+    params.query.traceId = traceId;
+  });
+}
 
 export const logView$ = getModifiedUrlStream(params => {
   params.pathname = '/logs';
@@ -35,24 +51,19 @@ export function getLogViewLinkWithQuery(query) {
   });
 }
 
-export function getTraceViewLinkWithQuery(query) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/traces';
-    params.query.q = query;
-    params.query.ss = '1';
-  });
-}
-
-export function getTraceViewLinkShowingTrace(traceId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/traces';
-    params.query.traceId = traceId;
-  });
-}
-
 export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
 
-export const eventViewLink$ = getModifiedUrlStream(params => (params.pathname = '/events'));
+export const eventViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/events';
+  try {
+    if (params.query.q) {
+      params.query.q = removeField(params.query.q, 'event.type');
+    }
+    params.query.q = trySetField(params.query.q || '', 'event.type', 'incident');
+  } catch (e) {
+    params.query.q = (params.query.q || '') + ' event.type:incident';
+  }
+});
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 
@@ -102,7 +113,7 @@ export function getLinkToCurrentViewWithViewGrouping(vg) {
   return getModifiedUrlStream(params => (params.query.vg = vg));
 }
 
-export function setCurrentViewwWithViewGrouping(vg) {
+export function setCurrentViewWithViewGrouping(vg) {
   mutateUrl(params => {
     delete params.query.vg;
     params.query.vg = vg;

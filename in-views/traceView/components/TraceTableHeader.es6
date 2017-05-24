@@ -24,7 +24,6 @@ function TraceTableHeader({ sortDirection, sortBy }) {
   return (
     <div className={block}>
       {renderCell('', 'ec', sortDirection, sortBy)}
-
       {renderCell('Timestamp', 'ts', sortDirection, sortBy)}
 
       <div className={cellClassName}>

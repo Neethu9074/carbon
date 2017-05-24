@@ -36,10 +36,10 @@ export const timestamp$ = fromTimestamp$;
 export let isDateTimeValid$;
 
 export function reset() {
-  isDateTimeValid$ = combineLatest([toTimestamp$, getValidation$(fromTimestamp$)]).map(([
-    toTimestamp,
-    validationObject
-  ]) => {
+  isDateTimeValid$ = combineLatest([
+    toTimestamp$,
+    getValidation$(fromTimestamp$)
+  ]).map(([toTimestamp, validationObject]) => {
     if (!validationObject.date || !validationObject.time) {
       return validationObject;
     }

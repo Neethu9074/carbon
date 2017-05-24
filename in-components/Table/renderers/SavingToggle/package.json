@@ -1,0 +1,6 @@
+{
+  "name": "SavingToggle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SavingToggle.es6"
+}

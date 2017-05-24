@@ -1,0 +1,89 @@
+.in-trace-analytics-groupings {
+  height: 100%;
+  border-left: 1px solid #40535b;
+  background: #fff;
+  overflow: hidden;
+
+  &__error {
+    color: darkred;
+    margin: 1rem;
+  }
+
+  &__groupings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    max-height: ~'calc(100% - 26px)';
+    height: ~'calc(100% - 26px)';
+  }
+
+  &__header {
+    width: 100%;
+  }
+
+  &__toggle-expand, &__calls, &__total-time, &__min, &__avg, &__max, &__errors, &__call {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    border-right: 1px solid #40535b;
+    background: #6b8088;
+    padding: 0 0.5rem;
+    line-height: 1.625rem;
+    color: #fff;
+    font-weight: normal;
+    font-size: .688rem;
+    text-decoration: none;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  &__toggle-expand {
+    width: 1.75rem;
+    cursor: auto;
+  }
+
+  &__calls {
+    width: 5rem;
+  }
+
+  &__total-time {
+    width: 5rem;
+  }
+
+  &__min {
+    width: 5rem;
+  }
+
+  &__avg {
+    width: 5rem;
+  }
+
+  &__max {
+    width: 5rem;
+  }
+
+  &__errors {
+    width: 5rem;
+  }
+
+  &__call {
+    width: ~'calc(100% - 31.75rem)';
+    border-right: 0;
+  }
+
+  &__header-cell {
+    &--active {
+      background: #40535b;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  &__header-cell-order {
+    fill: #6b8088;
+    border-radius: .188rem;
+    padding: .23rem;
+    background: #92a5ae;
+  }
+}

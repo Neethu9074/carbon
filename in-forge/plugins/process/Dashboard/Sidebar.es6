@@ -2,6 +2,7 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import ArgList from 'in-forge/plugins/process/ArgList';
@@ -10,6 +11,7 @@ import Info from '../Info';
 
 export default function ProcessSidebar({ snapshot }) {
   const args = snapshot.getIn(['data', 'args']);
+  const env = snapshot.getIn(['data', 'env']);
 
   return (
     <div>
@@ -37,6 +39,8 @@ export default function ProcessSidebar({ snapshot }) {
             </Collapsible>
           </div>
         : null}
+
+      <KeyValuePopup header="Environment Variables" data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

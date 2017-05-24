@@ -1,0 +1,135 @@
+.in-trace-analytics-grouping {
+  &__sub-groupings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__group {
+    border-bottom: 1px solid #D5DFE4;
+    outline: 0;
+    display: flex;
+
+    &:focus {
+      background: #ddd !important;
+    }
+  }
+
+  &__toggle-expand, &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call {
+    display: inline-block;
+    box-sizing: border-box;
+    border-right: 1px solid #D5DFE4;
+    padding: 0 0.5rem;
+    line-height: 1.625rem;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  &__toggle-expand {
+    width: 1.75rem;
+  }
+
+  &__toggle-expand-details {
+    fill: #2D4048;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+
+    &:hover {
+      fill: #8c969a;
+    }
+  }
+
+  &__batched {
+    background: rgb(146, 165, 174);
+    font-size: .563rem;
+    border-radius: .125rem;
+    padding: .125rem .3rem .188rem .3rem;
+    color: #fff;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  &__calls {
+    width: 5rem;
+  }
+
+  &__total-time {
+    width: 5rem;
+  }
+
+  &__min {
+    width: 5rem;
+  }
+
+  &__avg {
+    width: 5rem;
+  }
+
+  &__max {
+    width: 5rem;
+  }
+
+  &__errors {
+    width: 5rem;
+    position: relative;
+  }
+
+  &__errors-percentage-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #D5DFE4;
+  }
+
+  &__error-count {
+    // position above percentage indicator
+    position: relative;
+  }
+
+  &__call {
+    width: ~'calc(100% - 31.75rem)';
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &__call-content {
+    // continuation indent so that text is aligned within a column
+    padding-left: 3.3rem;
+    text-indent: -2.75rem;
+    padding-right: 0.5rem;
+  }
+
+  &__type {
+    display: inline-flex;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 6px;
+  }
+
+  &__type-icon {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+
+  &__toggle-children {
+    fill: #2D4048;
+    cursor: pointer;
+    min-width: 11px;
+
+    &--hidden {
+      visibility: hidden;
+    }
+  }
+
+  &__details {
+    border-bottom: 1px solid #D5DFE4;
+    padding: 0.5rem 0.5rem;
+  }
+}

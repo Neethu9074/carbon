@@ -1,8 +1,28 @@
 .in-views-service-extraction-endpoint-form {
   margin: 1rem 0 0;
 
+  &__invalid-row {
+    color: #a94442;
+  }
+
+  &__flex-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__order-down, &__order-up {
+    padding: .563rem .5rem;
+    &:hover {
+      cursor: pointer;
+      fill: #6B8088;
+    }
+  }
+
+  &__order-down {
+    margin-right: 1rem;
+  }
+
   &__remove-endpoint {
-    float: right;
     color: #2D4048;
     font-weight: normal;
 
@@ -14,5 +34,16 @@
   &__sub-section {
     margin-left: 1rem;
     max-width: 52.5rem;
+  }
+
+  &__endpoint-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__expand-icon {
+    margin-right: 1rem;
+    cursor: pointer;
   }
 }

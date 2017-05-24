@@ -7,7 +7,8 @@ const physicsNullService = {
   focusMap: noop,
   getRenderableCamera: noop,
   clampCameraPositionToVerticesDimensions: noop,
-  zoom: noop,
+  zoomOut: noop,
+  zoomIn: noop,
   update: noop,
   dispose: noop
 };

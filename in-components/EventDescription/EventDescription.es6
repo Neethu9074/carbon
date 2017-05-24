@@ -12,7 +12,7 @@ import {
 import { focusEvent } from 'in-stores/navigation/view';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/Grid/Grid';
-import { getClassName } from 'in-services/react';
+import { getClassName } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

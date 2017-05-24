@@ -49,6 +49,10 @@ describe('in-stores/search/manipulation', () => {
       expect(containsField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'type', 'blub')).to.equal(false);
       expect(containsField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'type', 'bar')).to.equal(true);
     });
+
+    it('must detect whether a certain field exists with a given value', () => {
+      expect(containsField('eventy.type:incident eventy.type:event', 'eventy.type')).to.equal(true);
+    });
   });
 
   describe('setField', () => {

@@ -9,6 +9,7 @@ import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
 import './clrRuntimePlatform';
 import './cloudFoundry';
+import './crystalRuntimePlatform';
 import './databaseServiceInstance';
 import './defaultLogicalConnection';
 import './defaultLogicalService';

@@ -9,6 +9,8 @@ import {
   isElasticsearchServiceExtractionConfigurationView$,
   messageBrokerServiceExtractionConfigurationViewLink$,
   isMessageBrokerServiceExtractionConfigurationView$,
+  eumServiceExtractionConfigurationViewLink$,
+  isEumServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
@@ -66,6 +68,12 @@ export default function Navigation() {
                 title="Message Broker Rules"
                 href$={messageBrokerServiceExtractionConfigurationViewLink$}
                 isActive$={isMessageBrokerServiceExtractionConfigurationView$}
+                borderless
+              />
+              <NavItem
+                title="EUM Rules"
+                href$={eumServiceExtractionConfigurationViewLink$}
+                isActive$={isEumServiceExtractionConfigurationView$}
                 borderless
               />
             </NavItem>

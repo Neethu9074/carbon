@@ -33,7 +33,8 @@ export default connectTo(
     destinationEntitySnapshot
   }) {
     if (
-      (!sourceServiceSnapshot || !sourceEntitySnapshot) && (!destinationServiceSnapshot || !destinationEntitySnapshot)
+      (!sourceServiceSnapshot || !sourceEntitySnapshot) &&
+      (!destinationServiceSnapshot || !destinationEntitySnapshot)
     ) {
       return null;
     }
@@ -53,22 +54,26 @@ export default connectTo(
         </span>
 
         <Service
+          span={span}
           label={isEntry ? 'From:' : null}
           entitySnapshot={sourceEntitySnapshot}
           snapshot={sourceServiceSnapshot}
+          endpointLabel={span.get('sourceEndpointLabel')}
         />
         <Service
+          span={span}
           label={isEntry ? null : 'To:'}
           addEntryIcon={sourceEntitySnapshot && sourceServiceSnapshot ? true : false}
           entitySnapshot={destinationEntitySnapshot}
           snapshot={destinationServiceSnapshot}
+          endpointLabel={span.get('destinationEndpointLabel')}
         />
       </div>
     );
   }
 );
 
-function Service({ label, snapshot, entitySnapshot, addEntryIcon }) {
+function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabel }) {
   if (!snapshot || !entitySnapshot) {
     return null;
   }
@@ -78,7 +83,18 @@ function Service({ label, snapshot, entitySnapshot, addEntryIcon }) {
       {addEntryIcon
         ? <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
         : null}
-      <EntityInformation snapshot={snapshot} label={label} />
+      <EntityInformation
+        snapshot={snapshot}
+        label={label}
+        getLabelCallback={label => getServiceLabelWithEndpoint(label, endpointLabel)}
+      />
     </div>
   );
+}
+
+function getServiceLabelWithEndpoint(serviceLabel, endpointLabel) {
+  if (endpointLabel) {
+    return `${serviceLabel} : ${endpointLabel}`;
+  }
+  return serviceLabel;
 }

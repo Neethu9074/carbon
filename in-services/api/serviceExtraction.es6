@@ -3,17 +3,11 @@ import { fromJS } from 'immutable';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getServiceRules(type = null) {
+export function getServiceRulesByType(type) {
   return http({
     method: 'GET',
-    url: `/api/serviceExtractionConfigs`
-  }).map(response => {
-    const rules = response.body.rules;
-    if (type == null) {
-      return rules;
-    }
-    return fromJS(rules.filter(rule => rule.type === type));
-  });
+    url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`
+  }).map(response => fromJS(response.body));
 }
 
 export function getServiceRule(id) {
@@ -31,10 +25,21 @@ export function saveServiceRule(rule) {
   }).map(() => true);
 }
 
-export function updateServiceRules(rules) {
+export function upsertServiceRules(rules) {
   return http({
     method: 'PUT',
-    url: '/api/serviceExtractionConfigs/order',
+    url: '/api/serviceExtractionConfigs/type/upsert',
+    data: {
+      lastModificationTimestamp: Date.now(),
+      rules
+    }
+  }).map(() => true);
+}
+
+export function updateServiceRulesByType(rules, type) {
+  return http({
+    method: 'PUT',
+    url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`,
     data: {
       lastModificationTimestamp: Date.now(),
       rules
@@ -87,7 +92,7 @@ export function createEndpointRule({ id, name, enabled, comment, matchSpecificat
     comment: comment || '',
     matchSpecification: matchSpecification || {},
     extractSpecification: {
-      label: label || 'Unnamed service endpoint'
+      label: label || 'Unnamed endpoint'
     }
   };
 }

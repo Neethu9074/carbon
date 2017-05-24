@@ -11,9 +11,10 @@ export const webVrEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
+export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
 
-export const blackListedSearchFieldKeywords = ['log'];
+export const blackListedSearchFieldKeywords = ['log', 'trace.eum'];
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
@@ -29,3 +30,5 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
   (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu)
   ? 2.3
   : 4;
+
+export const maximumNumberOfTracesForAnalytics = 200;

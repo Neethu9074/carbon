@@ -1,0 +1,6 @@
+{
+  "name": "FullscreenTwoColumnView",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FullscreenTwoColumnView.es6"
+}

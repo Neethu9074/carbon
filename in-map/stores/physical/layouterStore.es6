@@ -14,8 +14,8 @@ export const packedLayouting$ = settings$.map(settings => {
   return {
     applyLayout: PackedLayouter,
     config: {
-      packingXSpace: settings.get('map_packingXSpace'),
-      packingYSpace: settings.get('map_packingYSpace')
+      packingXSpace: settings['map_packingXSpace'],
+      packingYSpace: settings['map_packingYSpace']
     }
   };
 });

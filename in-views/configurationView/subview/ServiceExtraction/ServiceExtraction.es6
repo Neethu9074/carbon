@@ -1,4 +1,5 @@
 import { createLogger } from 'instalog';
+import { List } from 'immutable';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -7,7 +8,14 @@ import {
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
-import { updateServiceRules, getServiceRules, deleteServiceRule, setEnabled } from 'in-services/api/serviceExtraction';
+import {
+  upsertServiceRules,
+  updateServiceRulesByType,
+  getServiceRulesByType,
+  deleteServiceRule,
+  setEnabled
+} from 'in-services/api/serviceExtraction';
+import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { openServiceExtractionConfig } from 'in-stores/navigation/configuration';
@@ -28,22 +36,20 @@ import './ServiceExtraction.less';
 const block = 'in-service-extraction-form';
 const logger = createLogger('ServiceExtraction');
 
-const linkColumn = getLinkColumn(getServiceRuleConfigLink);
-linkColumn.disableSorting = true;
 const cols = [
-  linkColumn,
   {
     title: 'Order',
     type: 'custom',
+    width: 80,
     disableSorting: true,
     typeArgs: {
       comparator: compare,
       get(row) {
+        const order = row.entity.get('order');
         return {
-          value: row.entity.get('order'),
+          value: order,
           content: (
             <div className={`${block}__order-icons`}>
-              {row.entity.get('order')}
               <SvgIcon
                 className={`${block}__order-up`}
                 type="chevron_up"
@@ -69,12 +75,23 @@ const cols = [
 ];
 
 export default class extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // because each table differs by the ruleType, we need to create the column once the component is mounting
+    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.link);
+    linkColumn.disableSorting = true;
+    const ruleTypeSpecificColumns = [linkColumn].concat(cols);
+    this.cols = ruleTypeSpecificColumns;
+  }
+
   static displayName = 'ServiceExtraction';
 
   static propTypes = {
     helpTexts: rpt.object.isRequired,
     ruleType: rpt.string.isRequired,
-    title: rpt.string.isRequired
+    title: rpt.string.isRequired,
+    link: rpt.string.isRequired
   };
 
   state = {
@@ -98,7 +115,7 @@ export default class extends React.Component {
       message: 'Loading service rules…'
     });
 
-    const result$ = getServiceRules(this.props.ruleType);
+    const result$ = getServiceRulesByType(this.props.ruleType);
     this.responseSubscription = result$.once(serviceRules => {
       this.setState({
         error: false,
@@ -137,7 +154,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openServiceExtractionConfig(null, this.props.ruleType);
+    openServiceExtractionConfig(null, this.props.link);
   };
 
   onDelete = service => {
@@ -154,9 +171,7 @@ export default class extends React.Component {
         error: false,
         loading: false,
         message: null,
-        serviceRules: sortServiceRules(
-          this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
-        )
+        serviceRules: this.state.serviceRules.filter(eachService => eachService.get('id') !== serviceId)
       });
     });
 
@@ -189,7 +204,7 @@ export default class extends React.Component {
       );
       return {
         status: state.status,
-        serviceRules: sortServiceRules(newServices)
+        serviceRules: newServices
       };
     });
 
@@ -226,7 +241,7 @@ export default class extends React.Component {
         );
         return {
           status: state.status,
-          serviceRules: sortServiceRules(newServices)
+          serviceRules: newServices
         };
       });
     });
@@ -255,8 +270,15 @@ export default class extends React.Component {
         </SubViewHeader>
 
         <Section>
-          <Button kind="info" onClick={this.addNewService}>
+          <Button kind="info" onClick={this.addNewService} className={`${block}__button`}>
             Add Rule
+          </Button>
+          <Button
+            kind="info"
+            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
+            className={`${block}__button`}
+          >
+            Edit as JSON
           </Button>
 
           {this.state.message
@@ -276,7 +298,7 @@ export default class extends React.Component {
                 Service Rules
               </SectionHeading>
               <Table
-                cols={cols}
+                cols={this.cols}
                 rows={rows}
                 getRowDetails={getRowDetails}
                 initialSortColumn={1}
@@ -298,13 +320,14 @@ export default class extends React.Component {
 
   getRuleBefore = rule => {
     const ruleId = rule.get('id');
-    for (let i = 1, size = this.state.serviceRules.size; i < size; i++) {
-      if (this.state.serviceRules.getIn([i, 'id']) === ruleId) {
+    const rules = sortServiceRules(this.state.serviceRules);
+    for (let i = 1, size = rules.size; i < size; i++) {
+      if (rules.getIn([i, 'id']) === ruleId) {
         return {
           indexA: i,
           indexB: i - 1,
           a: rule,
-          b: this.state.serviceRules.get(i - 1)
+          b: rules.get(i - 1)
         };
       }
     }
@@ -312,13 +335,15 @@ export default class extends React.Component {
 
   getRuleAfter = rule => {
     const ruleId = rule.get('id');
-    for (let i = 0, size = this.state.serviceRules.size - 1; i < size; i++) {
-      if (this.state.serviceRules.getIn([i, 'id']) === ruleId) {
+    const rules = sortServiceRules(this.state.serviceRules);
+    // console.log(ruleId, rules.toJS());
+    for (let i = 0, size = rules.size - 1; i < size; i++) {
+      if (rules.getIn([i, 'id']) === ruleId) {
         return {
           indexA: i,
           indexB: i + 1,
           a: rule,
-          b: this.state.serviceRules.get(i + 1)
+          b: rules.get(i + 1)
         };
       }
     }
@@ -330,46 +355,70 @@ export default class extends React.Component {
     }
 
     const originalList = this.state.serviceRules;
-    let rules = this.state.serviceRules;
-    rules = rules.setIn([matches.indexB, 'order'], matches.a.get('order'));
-    rules = rules.setIn([matches.indexA, 'order'], matches.b.get('order'));
 
-    const result$ = updateServiceRules([
-      originalList.get(matches.indexB).set('order', matches.a.get('order')).toJS(),
-      originalList.get(matches.indexA).set('order', matches.b.get('order')).toJS()
-    ]);
+    const rulesToUpdate = [
+      matches.a.set('order', matches.b.get('order')).toJS(),
+      matches.b.set('order', matches.a.get('order')).toJS()
+    ];
+
+    const newOptimisticList = getUpdatedRules(originalList, matches);
+
+    // update swaped rules in the backend
+    const result$ = upsertServiceRules(rulesToUpdate);
 
     // optimistic set new rules list
     this.setState({
-      serviceRules: sortServiceRules(rules)
+      serviceRules: newOptimisticList
     });
+
     result$.errors().once(error => {
       const message = `Failed to set service rules ordering: ${error.message}`;
       logger.warn(message, error);
 
       // if something failed, restore the old list
       this.setState({
-        serviceRules: sortServiceRules(originalList)
+        serviceRules: originalList
       });
     });
   }
+
+  saveJson = rules => {
+    const result$ = updateServiceRulesByType(rules, this.props.ruleType);
+
+    result$.once(this.refresServices);
+    result$.errors().once(error => {
+      const message = `Failed to set service rules ordering: ${error.message}`;
+      logger.warn(message, error);
+    });
+  };
 }
 
 function getRowDetails(row) {
+  const rule = row.entity;
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
         <DescriptionItem title="comment">
-          {row.entity.get('comment')}
+          {rule.get('comment')}
         </DescriptionItem>
         <DescriptionItem title="match specification path">
-          {row.entity.getIn(['matchSpecification', 'path'])}
+          {rule.getIn(['matchSpecification', 'path'])}
         </DescriptionItem>
         <DescriptionItem title="match specification host">
-          {row.entity.getIn(['matchSpecification', 'host'])}
+          {rule.getIn(['matchSpecification', 'host'])}
         </DescriptionItem>
         <DescriptionItem title="extract specification label">
-          {row.entity.getIn(['extractSpecification', 'label'])}
+          {rule.getIn(['extractSpecification', 'label'])}
+        </DescriptionItem>
+
+        <DescriptionItem title="Endpoints">
+          <ul className={`${block}__endpoint-list`}>
+            {rule.get('endpointRules', emptyList).map(endpoint => (
+              <li key={endpoint.get('id')} className={`${block}__endpoint-list-item`}>
+                {endpoint.get('name')}
+              </li>
+            ))}
+          </ul>
         </DescriptionItem>
       </DescriptionList>
     </div>
@@ -378,4 +427,23 @@ function getRowDetails(row) {
 
 function sortServiceRules(rules) {
   return rules.sort((a, b) => a.get('order') - b.get('order'));
+}
+
+function getUpdatedRules(originalList, matches) {
+  const updatedList = [];
+  const aId = matches.a.get('id');
+  const bId = matches.b.get('id');
+
+  originalList.forEach(rule => {
+    const ruleId = rule.get('id');
+    if (ruleId === aId) {
+      updatedList.push(matches.a.set('order', matches.b.get('order')));
+    } else if (ruleId === bId) {
+      updatedList.push(matches.b.set('order', matches.a.get('order')));
+    } else {
+      updatedList.push(rule);
+    }
+  });
+
+  return List(updatedList);
 }

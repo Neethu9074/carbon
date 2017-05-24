@@ -90,7 +90,7 @@ export default class Table extends React.Component {
     if (data.rows.length === 0) {
       rows.push(
         <tr className={rowElement} key="no-data">
-          <td colSpan={colCount} className={cellElement}>No data.</td>
+          <td colSpan={colCount} className={cellElement}>{this.props.noDataText || 'No data.'}</td>
         </tr>
       );
     } else {
@@ -152,7 +152,7 @@ export default class Table extends React.Component {
             <tr>
               {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
               {cols.map((col, i) => (
-                <th key={i} className={headerCellElement}>
+                <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
                   <SortIndicator
                     title={col.title}
                     index={i}

@@ -30,7 +30,8 @@ const helpTexts = {
   'entity.gce': 'Google Compute Engine',
   trace: 'Trace and root span',
   event: 'Changes, issues and incidents',
-  span: 'Spans within traces'
+  span: 'Spans within traces',
+  'span.endpoint': 'Endpoint specific fields'
 };
 
 const filterNode = node('filter', { description: 'Saved filter' });

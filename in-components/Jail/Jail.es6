@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getClassName } from 'in-services/react';
+import { getClassName } from 'in-services/util/react';
 
 import ContextWrapper from './ContextWrapper';
 

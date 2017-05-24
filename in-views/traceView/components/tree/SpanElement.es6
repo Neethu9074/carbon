@@ -13,10 +13,10 @@ import ServiceImplementationEntityInformation
   from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import { msZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import SpanServiceInformation from 'in-views/traceView/components/SpanServiceInformation';
-import SpanForgeDetails from 'in-views/traceView/components/SpanForgeDetails';
 import { highlightedSpanId$ } from 'in-views/traceView/stores/highlightedSpan';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import { hexToRGB } from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import { getSelfTime } from 'in-views/traceView/util';

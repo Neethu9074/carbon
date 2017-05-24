@@ -1,16 +1,16 @@
 import React from 'react';
 
-import TraceListFilterToggle from 'in-views/traceView/components/TraceListFilterToggle';
+import { selectedTracesCount$, addTracesUntilMax, removeAllTraces } from 'in-stores/traces/analytics';
+import { maximumNumberOfTracesForAnalytics, traceAnalyticsEnabled } from 'in-services/featureFlags';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
-import { setTypeFilter, removeTypeFilter } from 'in-views/traceView/stores/filters';
 import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { refresh, traces$ } from 'in-views/traceView/stores/traceList';
 import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
-import { refresh } from 'in-views/traceView/stores/traceList';
-import Count from 'in-views/traceView/components/Count';
+import Count from 'in-views/traceViewTabs/components/Count';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceListHeader.less';
@@ -19,29 +19,36 @@ const block = 'in-trace-list-header';
 
 export default connectTo(
   {
-    expandedSide: expandedSide$
+    expandedSide: expandedSide$,
+    selectedTracesCount: selectedTracesCount$,
+    traces: traces$
   },
-  function TraceListHeader({ expandedSide }) {
+  function TraceListHeader({ expandedSide, selectedTracesCount, traces }) {
+    const remainingCount = Math.min(traces.length, maximumNumberOfTracesForAnalytics - selectedTracesCount);
+
     return (
       <ViewHeader className={block}>
-        <div className={`${block}__left-side`}>
-          <h1 className={`${block}__title`}>
-            Traces
-            <Count count$={totalTraceCountActiveFilter$} formatCount={formatCount} />
-          </h1>
-
-          <TraceListFilterToggle filter="all" onClick={removeTypeFilter}>
-            All Calls
-          </TraceListFilterToggle>
-
-          <TraceListFilterToggle filter="without-eum" onClick={() => setTypeFilter('server')}>
-            Server Calls
-          </TraceListFilterToggle>
-
-          <TraceListFilterToggle filter="eum" onClick={() => setTypeFilter('eum')}>
-            EUM Calls
-          </TraceListFilterToggle>
-        </div>
+        {traceAnalyticsEnabled
+          ? <div className={`${block}__left-side`}>
+              {traces.length > 0
+                ? <Button
+                    kind="info"
+                    size="sm"
+                    onClick={() => addTracesUntilMax(traces.map(t => t.raw))}
+                    disabled={remainingCount <= 0}
+                  >
+                    {remainingCount <= 0
+                      ? `Max #traces for trace analytics reached`
+                      : `Select all traces for analytics`}
+                  </Button>
+                : null}
+              <Button kind="danger" size="sm" onClick={removeAllTraces} className={`${block}__remove-traces`}>
+                Remove all from analytics
+              </Button>
+            </div>
+          : <div className={`${block}__left-side`}>
+              <strong className={`${block}__count`}>Traces <Count count$={totalTraceCountActiveFilter$} /></strong>
+            </div>}
 
         <div className={`${block}__right-side`}>
           <SvgIcon type="refresh" onClick={refresh} height={15} className={`${block}__refresh`} />
@@ -61,11 +68,3 @@ export default connectTo(
     );
   }
 );
-
-function formatCount(count) {
-  return (
-    <span>
-      &nbsp;({zeroDecimalPlaces(count)})
-    </span>
-  );
-}

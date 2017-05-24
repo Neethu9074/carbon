@@ -18,7 +18,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
 
       <ClusterNodes snapshotId={snapshotId} timeframe={timeframe} />
 
-      <ServiceEndpointTable snapshotId={snapshotId} timeframe={timeframe} />
+      <ServiceEndpointTable snapshot={snapshot} timeframe={timeframe} />
 
       <Connections snapshotId={snapshotId} timeframe={timeframe} />
     </div>

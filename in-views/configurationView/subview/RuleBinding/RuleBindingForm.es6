@@ -10,10 +10,10 @@ import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
+import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Row, Col } from 'in-components/Grid';
 
 import './RuleBindingForm.less';
 
@@ -113,6 +113,7 @@ export default function RuleBindingForm({ rules, form, onChange, onChangeInRuleI
                   <ComboBox
                     name="ruleBinding-expirationTime"
                     value={field.value}
+                    className={`${block}__helpfified_input`}
                     options={[
                       { value: '', label: 'Please select' },
                       { value: '5000', label: '5s' },

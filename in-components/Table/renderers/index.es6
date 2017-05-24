@@ -38,6 +38,11 @@ import {
   validate as validateCustomColumn,
   initialize as initializeCustomColumn
 } from 'in-components/Table/renderers/custom';
+import {
+  type as booleanType,
+  validate as validateBooleanColumn,
+  initialize as initializeBooleanColumn
+} from 'in-components/Table/renderers/boolean';
 
 export const renderers = {
   [healthColumnType]: { validate: validateHealthColumn, initialize: initializeHealthColumn },
@@ -47,5 +52,6 @@ export const renderers = {
   [dateTimeType]: { validate: validateDateTimeColumn, initialize: initializeDateTimeColumn },
   [numberType]: { validate: validateNumberColumn, initialize: initializeNumberColumn },
   [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
-  [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn }
+  [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn },
+  [booleanType]: { validate: validateBooleanColumn, initialize: initializeBooleanColumn }
 };

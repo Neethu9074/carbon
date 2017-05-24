@@ -10,9 +10,10 @@ import {
 } from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import { isDateTimeValid$ as toValid$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
-import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
+import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
+import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,40 +21,78 @@ export default connectTo(
   props => {
     if (props.live) {
       return {
-        href: windowSize$.flatMap(windowSize => getFixedTimeframeUrl({ windowSize }))
+        href: windowSize$.flatMap(windowSize => getFixedTimeframeUrl({ windowSize })),
+        windowSize: windowSize$
       };
     }
 
-    return {
-      href: combineLatest([focusedMomentValid$, fromValid$, toValid$])
-        .throttle(200)
-        .map(([focusedMomentValid, fromValid, toValid]) => {
+    const config$ = combineLatest([focusedMomentValid$, fromValid$, toValid$])
+      .throttle(200)
+      .map(([focusedMomentValid, fromValid, toValid]) => {
+        return {
+          fixedTimestampsAreValid: focusedMomentValid.date &&
+            focusedMomentValid.time &&
+            fromValid.date &&
+            fromValid.time &&
+            toValid.date &&
+            toValid.time,
+          focusedMoment: focusedMomentValid.timestamp,
+          from: fromValid.timestamp,
+          to: toValid.timestamp
+        };
+      })
+      .map(validations => {
+        const windowSize = validations.to - validations.from;
+        if (validations.fixedTimestampsAreValid) {
           return {
-            fixedTimestampsAreValid: focusedMomentValid.date &&
-              focusedMomentValid.time &&
-              fromValid.date &&
-              fromValid.time &&
-              toValid.date &&
-              toValid.time,
-            focusedMoment: focusedMomentValid.timestamp,
-            from: fromValid.timestamp,
-            to: toValid.timestamp
+            focusedMoment: validations.focusedMoment,
+            to: validations.to,
+            isValid: true,
+            windowSize
           };
-        })
-        .flatMap(
-          validations =>
-            (validations.fixedTimestampsAreValid
-              ? getFixedTimeframeUrl({
-                  windowSize: Math.max(MAX_ZOOM_LEVEL, validations.to - validations.from),
-                  focusedMoment: validations.focusedMoment,
-                  to: validations.to
-                })
-              : alwaysNull)
-        )
-        .distinct()
+        }
+        return {
+          isValid: false,
+          windowSize
+        };
+      })
+      .distinct();
+
+    return {
+      windowSize: config$.map(config => config.windowSize),
+      href: config$.flatMap(config => {
+        if (config.isValid) {
+          return getFixedTimeframeUrl({
+            focusedMoment: config.focusedMoment,
+            windowSize: Math.max(MAX_ZOOM_LEVEL, config.windowSize),
+            to: config.to
+          });
+        }
+        return alwaysNull;
+      })
     };
   },
-  function ApplyButton({ href }) {
+  function ApplyButton({ href, windowSize }) {
+    if (windowSize > MIN_ZOOM_LEVEL) {
+      return (
+        <Tooltip content="The given timewindow is to big.">
+          <Button size="sm" disabled>
+            Apply
+          </Button>
+        </Tooltip>
+      );
+    }
+
+    if (windowSize < MAX_ZOOM_LEVEL) {
+      return (
+        <Tooltip content="The given timewindow is to small (1 minute).">
+          <Button size="sm" disabled>
+            Apply
+          </Button>
+        </Tooltip>
+      );
+    }
+
     const isDisabled = href ? false : true;
     return (
       <Button onClick={e => e.stopPropagation()} href={href} size="sm" disabled={isDisabled}>

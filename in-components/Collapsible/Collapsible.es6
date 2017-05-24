@@ -3,7 +3,7 @@ import invariant from 'invariant';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getClassName } from 'in-services/react';
+import { getClassName } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Collapsible.less';

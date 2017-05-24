@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getClassName } from 'in-services/react';
+import { getClassName } from 'in-services/util/react';
 
 import './Heading.less';
 
