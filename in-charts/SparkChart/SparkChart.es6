@@ -11,7 +11,7 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
-const windowSizeFactor = 0.1;
+const windowSizeFactor = 0.04;
 const fractionOfDataCanBeFlat = 0.9;
 
 export default function createSparkChart({
@@ -260,14 +260,18 @@ export default function createSparkChart({
 
   function findClosestAnomaly(dataWindow, standardElement) {
     const index = Math.floor(dataWindow.length * 0.5);
-    const anomalyOffset = dataWindow.reduce((acc, cur, idx) => {
-      if (cur[1] != standardElement && Math.abs(index - idx) < Math.abs(acc)) {
-        return index - idx;
+    const anomalyIndex = dataWindow.reduce((acc, cur, idx) => {
+      if (cur[1] != standardElement && isCloserTo(index, idx, acc)) {
+        return idx;
       } else {
         return acc;
       }
-    }, index - 1);
+    }, 0);
 
-    return dataWindow[index + anomalyOffset];
+    return dataWindow[anomalyIndex];
+  }
+
+  function isCloserTo(to, a, b) {
+    return Math.abs(to - a) < Math.abs(to - b);
   }
 }
