@@ -111,7 +111,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               metricPrefix + 'red.95th',
               metricPrefix + 'apc.95th',
               metricPrefix + 'dns.95th',
-              metricPrefix + 'tcp.i95th',
+              metricPrefix + 'tcp.95th',
               metricPrefix + 'req.95th',
               metricPrefix + 'rsp.95th',
               metricPrefix + 'pro.95th',
