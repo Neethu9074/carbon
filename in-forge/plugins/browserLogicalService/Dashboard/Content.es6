@@ -2,6 +2,7 @@ import React from 'react';
 
 import { msTwoDecimalPlaces, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import EndpointsTable from 'in-forge/plugins/browserLogicalService/Dashboard/EndpointsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Connections from 'in-components/LogicalEntityTables/Connections';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
@@ -156,7 +157,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
               'red.95th',
               'apc.95th',
               'dns.95th',
-              'tcp.95th',
+              'tcp.i95th',
               'req.95th',
               'rsp.95th',
               'pro.95th',
@@ -185,6 +186,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
         />
       </DashboardSection>
 
+      <EndpointsTable snapshot={snapshot} timeframe={timeframe} />
       <Connections snapshotId={snapshotId} timeframe={timeframe} />
     </div>
   );

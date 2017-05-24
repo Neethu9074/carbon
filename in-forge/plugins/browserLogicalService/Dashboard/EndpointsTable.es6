@@ -1,0 +1,100 @@
+import React from 'react';
+
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Page Loads',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `endpoint.${row.name}.count`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
+  },
+  {
+    title: 'Page Load Time (95th)',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `endpoint.${row.name}.duration.95th`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'XHR / AJAX Calls',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `endpoint.${row.name}.xhrCalls`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
+  },
+  {
+    title: 'Uncaught errors',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `endpoint.${row.name}.uncaughtErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
+  }
+];
+
+export default function Endpoints({ snapshot, timeframe }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'service_endpoints'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      name,
+      snapshotId,
+      timeframe
+    };
+  });
+
+  return (
+    <DashboardSection title="Endpoints">
+      <Table cols={cols} rows={rows} />
+    </DashboardSection>
+  );
+}
