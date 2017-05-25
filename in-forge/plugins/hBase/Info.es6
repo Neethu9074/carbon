@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 
@@ -13,12 +14,7 @@ export default function HBaseInfo({ snapshot }) {
       <DescriptionItem title="Version">
         {data.get('version')}
       </DescriptionItem>
-      <DescriptionItem title="Started At">
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
-      <DescriptionItem title="Average Load">
-        {data.get('avg_load')}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Sinks">
         {data.get('sinks')}
       </DescriptionItem>
@@ -51,6 +47,9 @@ export default function HBaseInfo({ snapshot }) {
 }
 
 function formatServerName(name) {
-  const splitName = name.split(',');
-  return splitName[0] + ':' + splitName[1] + ' / ' + formatDateTime(parseInt(splitName[2]));
+  if (name) {
+    const splitName = name.split(',');
+    return splitName[0] + ':' + splitName[1] + ' / ' + formatDateTime(parseInt(splitName[2]));
+  }
+  return null;
 }

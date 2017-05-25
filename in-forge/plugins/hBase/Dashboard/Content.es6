@@ -26,6 +26,9 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="Cluster Requests">
           <MetricValue snapshotId={snapshotId} metric="master_cluster_requests" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
+        <KpiKeyValue label="Average Load">
+          <MetricValue snapshotId={snapshotId} metric="avg_load" formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Master Server">
         <ChartWithLegend
