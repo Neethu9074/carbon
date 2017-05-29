@@ -18,7 +18,7 @@ export default createTooltip(
     props => {
       return {
         snapshot: getSnapshot(props.entity.id),
-        mostImportantEvent: getMostImportantEventAtFocusedMoment(props.entity.id),
+        mostImportantEvent: getMostImportantEventAtFocusedMoment(props.entity.id).startWith(null),
         layer: props.entity.layer.stream.map(_layer => Object.keys(_layer).map(key => _layer[key]))
       };
     },
