@@ -6,6 +6,7 @@ import { LAYER_LAYOUTING } from 'in-map/misc/TimingConfig';
 import { getFactory } from 'in-map/stores/factoriesStore';
 
 const LAYER_MARGIN = 0.9; // 90%
+const LAYER_MARGIN_OF_LAST_NODE = 0.99; // 99%
 
 export default function createLayouter(node) {
   const fragments = [];
@@ -69,13 +70,17 @@ export default function createLayouter(node) {
         currentYPosition += heightOfGap;
       }
 
+      const heightOfLayer = i === _layer.length - 1
+        ? heightOfEachLayer * LAYER_MARGIN_OF_LAST_NODE
+        : heightOfEachLayer * LAYER_MARGIN;
+
       const transform = layer.getComponent('transform');
       transform.setTransformXYZ(
         nodePosition.x,
         currentYPosition,
         nodePosition.z,
         nodeScale.x * LAYER_MARGIN,
-        heightOfEachLayer * LAYER_MARGIN,
+        heightOfLayer,
         nodeScale.z * LAYER_MARGIN
       );
 
