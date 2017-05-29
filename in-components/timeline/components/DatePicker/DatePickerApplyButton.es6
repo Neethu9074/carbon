@@ -75,7 +75,7 @@ export default connectTo(
   function ApplyButton({ href, windowSize }) {
     if (windowSize > MIN_ZOOM_LEVEL) {
       return (
-        <Tooltip content="The given timewindow is to big.">
+        <Tooltip content="The maximum timewindow is too big (31 days).">
           <Button size="sm" disabled>
             Apply
           </Button>
@@ -85,7 +85,7 @@ export default connectTo(
 
     if (windowSize < MAX_ZOOM_LEVEL) {
       return (
-        <Tooltip content="The given timewindow is to small (1 minute).">
+        <Tooltip content="The given timewindow is too small (1 minute).">
           <Button size="sm" disabled>
             Apply
           </Button>
