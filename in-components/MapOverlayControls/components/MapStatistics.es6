@@ -32,25 +32,27 @@ const Statistics = connectTo(
     if (!_statistics) {
       return null;
     }
-    const keys = Object.keys(_statistics);
+    const components = [];
+    _statistics.forEach((statistic, key) => {
+      if (typeof statistic === 'string' || typeof statistic === 'number') {
+        components.push(<KeyValue key={key} name={key} value={statistic} />);
+      } else {
+        components.push(
+          <Collapsible key={key}>
+            <Collapsible.Header>
+              {key}
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <StatisticsList _statistics={statistic} />
+            </Collapsible.Content>
+          </Collapsible>
+        );
+      }
+    });
+
     return (
       <div className={block}>
-        {keys.map(key => {
-          const statistic = _statistics[key];
-          if (typeof statistic === 'string' || typeof statistic === 'number') {
-            return <KeyValue key={key} name={key} value={statistic} />;
-          }
-          return (
-            <Collapsible key={key}>
-              <Collapsible.Header>
-                {key}
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <StatisticsList _statistics={statistic} />
-              </Collapsible.Content>
-            </Collapsible>
-          );
-        })}
+        {components}
       </div>
     );
   }

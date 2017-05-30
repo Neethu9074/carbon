@@ -2,16 +2,17 @@ import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraCon
 import { selectedSnapshotIdForHighlightingInMap$ } from 'in-map/stores/selectedMapSceneObjectStore';
 import { sceneObjects } from 'in-map/stores/focusableSceneObjectsStore';
 import { AUTO_FOCUS } from 'in-map/misc/TimingConfig';
+import { emptyJsMap } from 'in-services/fixedObjects';
 import { query$ } from 'in-stores/search/query';
 
-let focusableSceneObjects = {};
-sceneObjects.stream.subscribe(objects => focusableSceneObjects = objects);
+let focusableSceneObjects = emptyJsMap;
+sceneObjects.stream.subscribe(objects => (focusableSceneObjects = objects));
 
 export function focusId(id) {
   if (!id) {
     CameraControllerServiceLocator.focusMap();
-  } else if (focusableSceneObjects[id]) {
-    CameraControllerServiceLocator.flyToPosition(focusableSceneObjects[id].getFocusPosition());
+  } else if (focusableSceneObjects.has(id)) {
+    CameraControllerServiceLocator.flyToPosition(focusableSceneObjects.get(id).getFocusPosition());
   }
 }
 

@@ -15,7 +15,7 @@
  */
 export function dfsFas(graph) {
   const fas = [];
-  const stack = {};
+  const stack = new Map();
   const visited = {};
 
   function dfs(node) {
@@ -24,14 +24,14 @@ export function dfsFas(graph) {
     }
 
     visited[node.name] = true;
-    stack[node.name] = true;
+    stack.set(node.name, true);
 
     const edges = graph.outgoingEdges(node.name);
     for (let i = 0, length = edges.length; i < length; i++) {
       const edge = edges[i];
-      stack[edge.target] ? fas.push(edge) : dfs(graph.getNode(edge.target));
+      stack.has(edge.target) ? fas.push(edge) : dfs(graph.getNode(edge.target));
     }
-    delete stack[node.name];
+    stack.delete(node.name);
   }
 
   graph.nodes.forEach(dfs);

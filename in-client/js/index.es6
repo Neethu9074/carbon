@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import './perfNowPolyfill';
+import './mapPolyfill';
 import './defaultTimeout.es6';
 
 if (!__DEV__) {

@@ -74,10 +74,10 @@ describe('in-stores/eventsInTimeframe', () => {
     query$.emit(true);
 
     expect(dataCallback).to.have.callCount(2);
-    expect(dataCallback.getCall(1).args[0]['1'].rawEvent.type).to.equal('issue');
-    expect(dataCallback.getCall(1).args[0]['2'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0]['3'].rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(1).args[0]['4'].rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('1').rawEvent.type).to.equal('issue');
+    expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(1).args[0].get('3').rawEvent.type).to.equal('change');
+    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 
   it('should remove events that were not send anymore', () => {
@@ -93,10 +93,10 @@ describe('in-stores/eventsInTimeframe', () => {
     eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }, { id: '4', type: 'objective' }]);
 
     expect(dataCallback).to.have.callCount(3);
-    expect(dataCallback.getCall(1).args[0]['1']).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0]['2'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0]['3']).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0]['4'].rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('1')).to.equal(undefined);
+    expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(1).args[0].get('3')).to.equal(undefined);
+    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 
   it('should remove events that were not send anymore and add new ones', () => {
@@ -117,12 +117,12 @@ describe('in-stores/eventsInTimeframe', () => {
     ]);
 
     expect(dataCallback).to.have.callCount(3);
-    expect(dataCallback.getCall(1).args[0]['1']).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0]['2'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0]['3']).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0]['4'].rawEvent.type).to.equal('objective');
-    expect(dataCallback.getCall(1).args[0]['5'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0]['6'].rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('1')).to.equal(undefined);
+    expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(1).args[0].get('3')).to.equal(undefined);
+    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('5').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(1).args[0].get('6').rawEvent.type).to.equal('objective');
   });
 
   it('should change events which changed', () => {
@@ -136,10 +136,10 @@ describe('in-stores/eventsInTimeframe', () => {
     timeframe$.emit(true);
     query$.emit(true);
 
-    expect(dataCallback.getCall(0).args[0]['1'].rawEvent.type).to.equal('issue');
-    expect(dataCallback.getCall(0).args[0]['2'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(0).args[0]['3'].rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(0).args[0]['4'].rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(0).args[0].get('1').rawEvent.type).to.equal('issue');
+    expect(dataCallback.getCall(0).args[0].get('2').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(0).args[0].get('3').rawEvent.type).to.equal('change');
+    expect(dataCallback.getCall(0).args[0].get('4').rawEvent.type).to.equal('objective');
 
     eventsInTimeframeFromBackend$.emit([
       { id: '1', type: 'incident' },
@@ -149,9 +149,9 @@ describe('in-stores/eventsInTimeframe', () => {
     ]);
 
     expect(dataCallback).to.have.callCount(3);
-    expect(dataCallback.getCall(1).args[0]['1'].rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0]['2'].rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(1).args[0]['3'].rawEvent.type).to.equal('objective');
-    expect(dataCallback.getCall(1).args[0]['4'].rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('1').rawEvent.type).to.equal('incident');
+    expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('change');
+    expect(dataCallback.getCall(1).args[0].get('3').rawEvent.type).to.equal('objective');
+    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 });

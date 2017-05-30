@@ -14,9 +14,8 @@ export default function applyLayout({ groups }) {
   const sortedGroups = sortGroups(groups);
 
   sortedGroups.forEach(group => {
-    const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
-    const numNodesPerRow = Math.ceil(squashFactor * Math.sqrt(_nodes.length));
-    const numNodesPerCol = Math.ceil(_nodes.length / numNodesPerRow);
+    const numNodesPerRow = Math.ceil(squashFactor * Math.sqrt(group.nodes.size));
+    const numNodesPerCol = Math.ceil(group.nodes.size / numNodesPerRow);
     const dim = {
       x: groupXCursor,
       width: nodeMargin + numNodesPerRow + (numNodesPerRow - 1) * nodeMargin,
@@ -34,7 +33,9 @@ export default function applyLayout({ groups }) {
   const yOffset = height / 4;
 
   sortedGroups.forEach(group => {
-    const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
+    const _nodes = [];
+    group.nodes.forEach(node => _nodes.push(node));
+
     const dim = groupDimensions[group.id];
 
     const transform = group.getComponent('transform');

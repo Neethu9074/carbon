@@ -37,12 +37,10 @@ export default class LogicalIconComponent extends IconComponent {
   }
 
   iconsChanged([snapshot, clusterMember]) {
-    const plugins = {};
-    clusterMember.forEach(member => plugins[member.get('plugin')] = true);
+    const plugins = new Map();
+    clusterMember.forEach(member => plugins.set(member.get('plugin'), true));
 
-    this.fragment.additionalParams.type = Object.keys(plugins).length !== 1
-      ? getIconPath(snapshot)
-      : getIconPath(clusterMember[0]);
+    this.fragment.additionalParams.type = plugins.size !== 1 ? getIconPath(snapshot) : getIconPath(clusterMember[0]);
 
     this.factory.needsUpdate();
   }

@@ -6,7 +6,8 @@ export default class Node extends Subscriber {
 
     this.id = params.id;
     this.params = params;
-    this.children = {};
+    this.children = new Map();
+    this.newNodesMap = new Map();
 
     if (InstanceType) {
       this.sceneObjectInstance = new InstanceType(params);
@@ -20,14 +21,14 @@ export default class Node extends Subscriber {
   }
 
   addChild(NodeType, params) {
-    this.children[params.id] = new NodeType(params);
+    this.children.set(params.id, new NodeType(params));
   }
 
   removeChild(id) {
-    const child = this.children[id];
+    const child = this.children.get(id);
     if (child) {
       child.dispose();
-      delete this.children[id];
+      this.children.delete(id);
     }
   }
 
@@ -40,19 +41,19 @@ export default class Node extends Subscriber {
       return;
     }
 
-    const newNodesMap = {};
+    this.newNodesMap.clear();
     for (let i = 0, length = newNodes.length; i < length; i++) {
       const entity = newNodes[i];
-      newNodesMap[entity.params.id] = entity;
+      this.newNodesMap.set(entity.params.id, entity);
     }
 
     const nodesToDelete = [];
     let indexOfDeletedNodes = 0;
-    for (let nodeId in this.children) {
-      if (!newNodesMap[nodeId]) {
+    this.children.forEach((val, nodeId) => {
+      if (!this.newNodesMap.has(nodeId)) {
         nodesToDelete[indexOfDeletedNodes++] = nodeId;
       }
-    }
+    });
     for (let i = 0, length = nodesToDelete.length; i < length; i++) {
       this.removeChild(nodesToDelete[i]);
     }
@@ -60,7 +61,7 @@ export default class Node extends Subscriber {
     // update or create nodes
     for (let i = 0, length = newNodes.length; i < length; i++) {
       const entity = newNodes[i];
-      const existingChild = this.children[entity.params.id];
+      const existingChild = this.children.get(entity.params.id);
 
       if (existingChild) {
         if (existingChild.params !== entity.params) {
@@ -74,10 +75,8 @@ export default class Node extends Subscriber {
   }
 
   disposeChildren() {
-    for (let nodeId in this.children) {
-      this.children[nodeId].dispose();
-    }
-    this.children = {};
+    this.children.forEach(node => node.dispose());
+    this.children.clear();
   }
 
   dispose() {

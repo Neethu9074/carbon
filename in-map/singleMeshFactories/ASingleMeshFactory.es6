@@ -2,7 +2,6 @@ import RoEmitter from 'roemitter';
 
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
-import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { BufferGeometry } from 'in-map/3DLibProvider';
 import { FACTORY } from 'in-map/misc/TimingConfig';
@@ -20,7 +19,7 @@ export default class ASingleMeshFactory extends Subscriber {
     super();
 
     // stores all added fragments to create the global geometry
-    this.fragments = createCollection();
+    this.fragments = new Map();
 
     this.renderOrder = options.renderOrder || 2;
     this.useSceneObjectColors = options.useSceneObjectColors === undefined ? true : options.useSceneObjectColors;
@@ -47,18 +46,15 @@ export default class ASingleMeshFactory extends Subscriber {
   }
 
   add(fragment) {
-    this.fragments.add(fragment.id, fragment);
+    this.fragments.set(fragment.id, fragment);
   }
 
   remove(id) {
-    this.fragments.remove(id);
+    this.fragments.delete(id);
   }
 
   build() {
-    // transform map to array
-    const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
-
-    if (fragments.length === 0) {
+    if (this.fragments.size === 0) {
       if (this.isAddedToScene) {
         removeSceneObject(this.mesh);
         this.isAddedToScene = false;
@@ -71,11 +67,10 @@ export default class ASingleMeshFactory extends Subscriber {
     const colors = [];
 
     let index = 0;
-    for (let i = 0, length = fragments.length; i < length; i++) {
-      const fragment = fragments[i];
+    this.fragments.forEach(fragment => {
       const transform = fragment.sceneObject.getComponent('transform');
       if (!transform) {
-        continue;
+        return;
       }
 
       // all it needs for positioning
@@ -102,7 +97,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
         index += 3;
       }
-    }
+    });
 
     updateAttribute(this.geometry, 'position', vertices);
     updateAttribute(this.geometry, 'color', colors);

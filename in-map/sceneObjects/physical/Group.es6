@@ -4,7 +4,6 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
-import createObjectCollection from 'in-map/stores/ObjectCollection';
 import { showSticky$ } from 'in-map/stores/physical/groupsStore';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { groups } from 'in-map/stores/physical/groupsStore';
@@ -18,7 +17,7 @@ export default class Group extends SceneObject {
     super(params);
 
     this._cachedLabel = this.id;
-    this.nodes = createObjectCollection();
+    this.nodes = new Map();
     eventBus.emit('layoutNeedsUpdate', true);
   }
 
@@ -79,15 +78,11 @@ export default class Group extends SceneObject {
   }
 
   addNode(id, node) {
-    this.nodes.add(id, node);
+    this.nodes.set(id, node);
   }
 
   removeNode(id) {
-    this.nodes.remove(id);
-  }
-
-  getNodes() {
-    return this.nodes.objects;
+    this.nodes.delete(id);
   }
 
   dispose() {

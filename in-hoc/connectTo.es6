@@ -16,8 +16,8 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
     state = {};
 
     componentWillMount() {
-      this.subscriptions = {};
-      this.observables = {};
+      this.subscriptions = new Map();
+      this.observables = new Map();
 
       let observables;
       if (needsToCreateObservables) {
@@ -36,21 +36,21 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
 
     subscribe = observables => {
       const newProperties = Object.keys(observables);
-      const oldProperties = Object.keys(this.observables);
+      const oldProperties = this.observables;
 
-      for (let i = 0, len = newProperties.length; i < len; i++) {
+      for (let i = 0, length = newProperties.length; i < length; i++) {
         const property = newProperties[i];
-        const prevObservable = this.observables[property];
+        const prevObservable = this.observables.get(property);
         const newObservable = observables[property];
 
         if (prevObservable === newObservable) {
           // Nothing to do, we have the same observable
-          continue;
+          return;
         }
 
-        const oldSubscription = this.subscriptions[property];
-        this.observables[property] = newObservable;
-        this.subscriptions[property] = newObservable.subscribe(this.onNewValue, null, property);
+        const oldSubscription = this.subscriptions.get(property);
+        this.observables.set(property, newObservable);
+        this.subscriptions.set(property, newObservable.subscribe(this.onNewValue, null, property));
 
         // dispose previous subscriptions only after new subscriptions were
         // established to ensure that the connection to the backend does not
@@ -64,13 +64,19 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
 
       // Remove properties / subscriptions for all properties that haven't been
       // recreated / are not found in the new observable map.
-      const removedProperties = oldProperties.filter(property => !observables[property]);
+      const removedProperties = [];
+      oldProperties.forEach((property, key) => {
+        if (!observables[key]) {
+          removedProperties.push(key);
+        }
+      });
+
       const clearStateProps = {};
       for (let i = 0, len = removedProperties.length; i < len; i++) {
         const property = removedProperties[i];
-        this.subscriptions[property].dispose();
-        delete this.subscriptions[property];
-        delete this.observables[property];
+        this.subscriptions.get(property).dispose();
+        this.subscriptions.delete(property);
+        this.observables.delete(property);
         clearStateProps[property] = null;
       }
       this.setState(clearStateProps);
@@ -83,7 +89,7 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
     };
 
     componentWillUnmount() {
-      Object.keys(this.subscriptions).forEach(key => this.subscriptions[key].dispose());
+      this.subscriptions.forEach(sub => sub.dispose());
     }
 
     render() {

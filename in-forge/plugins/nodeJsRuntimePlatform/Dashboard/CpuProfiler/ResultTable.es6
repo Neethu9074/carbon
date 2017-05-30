@@ -47,7 +47,7 @@ export default connectTo(
 );
 
 function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, snapshot) {
-  const isExpanded = expandedNodes[node.id] === true;
+  const isExpanded = expandedNodes.get(node.id) === true;
   let indentationPx = level * 10;
   if (node.c.length === 0) {
     indentationPx += 15;

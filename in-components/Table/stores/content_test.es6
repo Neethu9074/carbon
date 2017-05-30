@@ -44,10 +44,10 @@ describe('in-components/Table/stores/content', () => {
 
       expect(dataSubscriber).to.have.callCount(1);
       const data = dataSubscriber.getCall(0).args[0];
-      expect(data['127.0.0.1']).to.be.an('object');
-      expect(data['192.168.0.1']).to.be.an('object');
+      expect(data.get('127.0.0.1')).to.be.an('object');
+      expect(data.get('192.168.0.1')).to.be.an('object');
 
-      const rowA = data['127.0.0.1'];
+      const rowA = data.get('127.0.0.1');
       expect(rowA.mutationCount).to.equal(0);
       expect(rowA.key).to.equal('127.0.0.1');
       expect(rowA.columns).to.be.an('array');

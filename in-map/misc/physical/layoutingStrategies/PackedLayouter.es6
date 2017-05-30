@@ -22,7 +22,7 @@ function calculateDimensions(_groups) {
 
   // width and height of each group
   _groups.forEach(group => {
-    const nodesCount = Object.keys(group.nodes.objects).length;
+    const nodesCount = group.nodes.size;
     const numNodesPerRow = Math.floor(Math.sqrt(nodesCount));
     const numNodesPerCol = Math.ceil(nodesCount / numNodesPerRow);
     const dim = {
@@ -62,7 +62,7 @@ function calculateDimensions(_groups) {
   packer.fit(blocks);
 
   const positions = {};
-  blocks.forEach(block => positions[block.id] = block.fit);
+  blocks.forEach(block => (positions[block.id] = block.fit));
 
   _groups.forEach(group => {
     const dimension = dimensions[group.id];
@@ -97,7 +97,8 @@ function setGroupPosition(group, dimension, xOffset, yOffset) {
     dimension.height
   );
 
-  const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
+  const _nodes = [];
+  group.nodes.forEach(node => _nodes.push(node));
   setNodesPositions(_nodes, dimension, xOffset, yOffset);
 }
 

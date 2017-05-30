@@ -10,7 +10,7 @@ import {
 } from 'in-map/misc/logical/layoutingStrategies/nodeHelper';
 
 export default function applyLayout({ nodes, edges }) {
-  if (nodes.length === 0) {
+  if (nodes.size === 0) {
     return;
   }
 

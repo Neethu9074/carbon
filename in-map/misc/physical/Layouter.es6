@@ -30,8 +30,6 @@ export default function createLayouter() {
 function mapGroupsToArray(_groups) {
   const groups = [];
   let groupIndex = 0;
-  for (let key in _groups) {
-    groups[groupIndex++] = _groups[key];
-  }
+  _groups.forEach(group => (groups[groupIndex++] = group));
   return groups;
 }

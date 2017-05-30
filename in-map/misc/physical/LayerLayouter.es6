@@ -15,23 +15,25 @@ export default function createLayouter(node) {
   const layerSubscription = combineLatest([node.eventEmitter.on('transformationChanged'), node.layer.stream])
     .debounce(LAYER_LAYOUTING)
     .subscribe(([nodeTransform, _layer]) => {
-      const plugins = applyLayout(nodeTransform, Object.keys(_layer).map(key => _layer[key]));
+      const plugins = applyLayout(nodeTransform, _layer);
       setupPluginIcons(plugins);
     });
 
   function applyLayout(nodeTransform, _layer) {
     const nodePosition = nodeTransform.position;
     const nodeScale = nodeTransform.scale;
-    const numLayer = _layer.length;
-    if (numLayer === 0) {
+    if (_layer.size === 0) {
       return {};
     }
 
     const nodeFullHeight = nodeScale.y;
 
+    const layerAsArray = [];
+    _layer.forEach(l => layerAsArray.push(l));
+
     // sort layer desc by plugin because they are layouted from bottom up
     // no need to copy the array since it is created new on every call
-    _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
+    layerAsArray.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
     // - 1 : if you have only one plugin, you have zero gaps. seems legit
     const numGaps = 0.0000001 + countDifferentPluginsFromSortedArray(_layer) - 1;
@@ -41,9 +43,9 @@ export default function createLayouter(node) {
 
     // the remaining height to sliver for the layer
     const heightUsedForLayer = nodeFullHeight - numGaps * heightOfGap;
-    const heightOfEachLayer = heightUsedForLayer / numLayer;
+    const heightOfEachLayer = heightUsedForLayer / _layer.size;
 
-    let currentPlugin = _layer[0]._cachedPlugin;
+    let currentPlugin = layerAsArray[0]._cachedPlugin;
     const plugins = {};
     plugins[currentPlugin] = {
       from: 0,
@@ -52,8 +54,8 @@ export default function createLayouter(node) {
     let currentYPosition = 0;
     let lastYPositionBeforePluginChanged = 0;
 
-    for (let i = 0, length = _layer.length; i < length; i++) {
-      const layer = _layer[i];
+    for (let i = 0, length = layerAsArray.length; i < length; i++) {
+      const layer = layerAsArray[i];
       const plugin = layer._cachedPlugin;
 
       if (plugin !== currentPlugin) {
@@ -92,9 +94,7 @@ export default function createLayouter(node) {
 
   function countDifferentPluginsFromSortedArray(_layer) {
     const plugins = {};
-    for (let i = 0, length = _layer.length; i < length; i++) {
-      plugins[_layer[i]._cachedPlugin] = true;
-    }
+    _layer.forEach(layer => (plugins[layer._cachedPlugin] = true));
     return Object.keys(plugins).length;
   }
 
