@@ -14,6 +14,8 @@ registerSpanDefinition({
 
   detailView: 'PageErrorSpanDetailView',
 
+  groupingDetailView: 'PageErrorSpanGroupingDetailView',
+
   getLabel(span) {
     const message = span.getIn(['data', 'pageErr', 'error', 'message']);
     if (message) {

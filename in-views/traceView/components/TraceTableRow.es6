@@ -11,17 +11,22 @@ import './TraceTableRow.less';
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 
-export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
+export default function TraceTableRow({ selectedTraceId, markedTraces, trace, onRowClicked }) {
   let classes = block;
-  if (selectedTraceId === trace.id) {
+  const isSelected = selectedTraceId === trace.id;
+  const isMarked = markedTraces && markedTraces.has(trace.id);
+  if (isSelected) {
     classes += ' ' + block + '--selected';
+  }
+  if (isMarked) {
+    classes += ' ' + block + '--marked';
   }
 
   const side = getServiceSideForOverview(trace.raw);
   const serviceSnapshotId = trace[`${side}ServiceId`];
 
   return (
-    <div className={classes} onClick={() => onClick(trace.id)}>
+    <div className={classes} onClick={e => onRowClicked(e, trace)}>
       <span className={cellClassName}>
         {trace.raw.get('errorCount') > 0
           ? <Tooltip content="Erroneous root span" align={'bottomLeft'}>
@@ -55,9 +60,10 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
 }
 
 TraceTableRow.propTypes = {
+  onRowClicked: rpt.func.isRequired,
   trace: rpt.object.isRequired,
-  onClick: rpt.func.isRequired,
-  selectedTraceId: rpt.string
+  selectedTraceId: rpt.string,
+  markedTraces: rpt.object
 };
 
 function getServiceLabelWithEndpoint(serviceLabel, endpointLabel) {

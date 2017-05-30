@@ -1,12 +1,13 @@
 import Infinite from 'react-infinite';
-import rpt from 'prop-types';
 import React from 'react';
 
+import { markedTraces$, clear, markTrace, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
-import { selectedTraceId, setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
+import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { selectedTraceId } from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceTable.less';
@@ -18,42 +19,45 @@ export default getElementDimensions(
     {
       selectedTraceId,
       traces: traces$,
+      markedTraces: markedTraces$,
       isInfiniteLoading: isLoading$
     },
     class extends React.Component {
       static displayName = 'TraceTable';
 
-      static propTypes = {
-        isInfiniteLoading: rpt.bool.isRequired,
-        traces: rpt.array.isRequired,
-        selectedTraceId: rpt.string,
-        height: rpt.number
-      };
+      componentWillUnmount() {
+        clearTraceSelection();
+        clear();
+      }
 
       render() {
+        const traces = this.props.traces;
+        const isInfiniteLoading = this.props.isInfiniteLoading;
+        const height = this.props.height;
         return (
           <div className={block}>
-            {this.props.traces.length === 0 && !this.props.isInfiniteLoading
+            {traces.length === 0 && !isInfiniteLoading
               ? <p className={`${block}__no-traces`}>
                   There are no traces in the selected time window.
                 </p>
               : null}
-            {this.props.height && (this.props.traces.length > 0 || this.props.isInfiniteLoading)
+            {height && (traces.length > 0 || isInfiniteLoading)
               ? <Infinite
-                  containerHeight={this.props.height - 24} /* Height of the header */
+                  containerHeight={height - 24} /* Height of the header */
                   elementHeight={26}
                   loadingSpinnerDelegate={<LoadingIndicator type="dark" />}
-                  infiniteLoadBeginEdgeOffset={this.props.height * 0.5}
+                  infiniteLoadBeginEdgeOffset={height * 0.5}
                   onInfiniteLoad={loadMoreTraces}
-                  isInfiniteLoading={this.props.isInfiniteLoading}
+                  isInfiniteLoading={isInfiniteLoading}
                   className={block + '__scroll-area'}
                 >
-                  {this.props.traces.map(trace => (
+                  {traces.map(trace => (
                     <TraceTableRow
                       key={trace.id}
                       trace={trace}
                       selectedTraceId={this.props.selectedTraceId}
-                      onClick={this.onClick}
+                      markedTraces={this.props.markedTraces}
+                      onRowClicked={this.onRowClicked}
                     />
                   ))}
                 </Infinite>
@@ -62,11 +66,23 @@ export default getElementDimensions(
         );
       }
 
-      onClick = traceId => {
-        if (this.props.selectedTraceId === traceId) {
+      onRowClicked = (e, trace) => {
+        const isSelected = this.props.selectedTraceId === trace.id;
+        const markedTraces = this.props.markedTraces;
+        const isMarked = markedTraces && markedTraces.has(trace.id);
+
+        // cmd
+        if (!e.metaKey) {
+          clear();
+        }
+
+        if (!isSelected || !isMarked) {
+          setSelectedTraceId(trace.id);
+          markTrace(trace.id, trace.raw);
+        }
+        if (isSelected || isMarked) {
           clearTraceSelection();
-        } else {
-          setSelectedTraceId(traceId);
+          clearTraceId(trace.id);
         }
       };
     }

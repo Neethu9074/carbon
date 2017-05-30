@@ -12,5 +12,7 @@ registerSpanDefinition({
 
   detailView: 'NodejsHttpServerSpanDetailView',
 
+  groupingDetailView: 'NodejsHttpServerSpanGroupingDetailView',
+
   getLabel
 });

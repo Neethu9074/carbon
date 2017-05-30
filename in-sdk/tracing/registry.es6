@@ -17,6 +17,8 @@ function defaultSpanDefinition(span) {
 
     detailView: 'GenericSpanDetailView',
 
+    groupingDetailView: 'GenericSpanGroupingDetailView',
+
     getLabel() {
       return span.getIn(['data', 'label']) || 'Unknown (' + span.get('name') + ')';
     }

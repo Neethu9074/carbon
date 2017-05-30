@@ -11,6 +11,8 @@ registerSpanDefinition({
 
   detailView: 'MongoSpanDetailView',
 
+  groupingDetailView: 'MongoSpanGroupingDetailView',
+
   getLabel(span) {
     return span.getIn(['data', 'mongo', 'command']);
   }

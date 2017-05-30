@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { selectedTracesCount$, addTracesUntilMax, removeAllTraces } from 'in-stores/traces/analytics';
+import { addMarkedTracesToAnalytics, markTraces, markedTraces$ } from 'in-stores/traces/analytics/markedTraces';
 import { maximumNumberOfTracesForAnalytics, traceAnalyticsEnabled } from 'in-services/featureFlags';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
+import { totalTraceCountActiveFilter$, clearTraceSelection } from 'in-stores/traces';
 import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
+import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh, traces$ } from 'in-views/traceView/stores/traceList';
-import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import Count from 'in-views/traceViewTabs/components/Count';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
@@ -19,32 +20,43 @@ const block = 'in-trace-list-header';
 
 export default connectTo(
   {
+    analysedTraces: analysedTraces$,
+    markedTraces: markedTraces$,
     expandedSide: expandedSide$,
-    selectedTracesCount: selectedTracesCount$,
     traces: traces$
   },
-  function TraceListHeader({ expandedSide, selectedTracesCount, traces }) {
-    const remainingCount = Math.min(traces.length, maximumNumberOfTracesForAnalytics - selectedTracesCount);
+  function TraceListHeader({ analysedTraces, expandedSide, markedTraces, traces }) {
+    const remainingCount = Math.min(
+      traces.length,
+      // if the limit is 100, there are 99 already analysed and 1 marked (total = 100), allow to add the marked one, but not more (so -1)
+      maximumNumberOfTracesForAnalytics - (analysedTraces.size + markedTraces.size - 1)
+    );
 
     return (
       <ViewHeader className={block}>
         {traceAnalyticsEnabled
           ? <div className={`${block}__left-side`}>
               {traces.length > 0
+                ? <Button kind="info" size="sm" onClick={() => markTraces(traces.map(t => t.raw))}>
+                    Mark all traces
+                  </Button>
+                : null}
+              {markedTraces.size > 0
                 ? <Button
                     kind="info"
                     size="sm"
-                    onClick={() => addTracesUntilMax(traces.map(t => t.raw))}
+                    onClick={() => {
+                      addMarkedTracesToAnalytics();
+                      clearTraceSelection();
+                    }}
                     disabled={remainingCount <= 0}
+                    className={`${block}__add-marked-traces`}
                   >
                     {remainingCount <= 0
                       ? `Max #traces for trace analytics reached`
-                      : `Select all traces for analytics`}
+                      : `Add marked traces (${markedTraces.size})`}
                   </Button>
                 : null}
-              <Button kind="danger" size="sm" onClick={removeAllTraces} className={`${block}__remove-traces`}>
-                Remove all from analytics
-              </Button>
             </div>
           : <div className={`${block}__left-side`}>
               <strong className={`${block}__count`}>Traces <Count count$={totalTraceCountActiveFilter$} /></strong>
