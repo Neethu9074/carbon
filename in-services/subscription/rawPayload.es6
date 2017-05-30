@@ -5,13 +5,14 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-raw-payload',
 
-  getId: ({ snapshotId, payloadName }) => snapshotId + payloadName,
+  getId: ({ snapshotId, time, payloadName }) => snapshotId + payloadName + time,
 
-  getData: (subscriptionId, { snapshotId, payloadName }) => {
+  getData: (subscriptionId, { snapshotId, payloadName, time }) => {
     return {
       subscriptionId,
       snapshotId,
-      payloadName
+      payloadName,
+      time
     };
   },
 

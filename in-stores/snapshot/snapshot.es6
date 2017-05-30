@@ -172,7 +172,9 @@ export function getDeployedUnits(snapshotId) {
 }
 
 export function getRawPayload(snapshotId, payloadName) {
-  return createRawPayloadObservable({ snapshotId, payloadName });
+  return focusedMoment$.flatMap(focusedMoment =>
+    createRawPayloadObservable({ snapshotId, payloadName, time: focusedMoment })
+  );
 }
 
 export function getServiceInstances(snapshotId) {
