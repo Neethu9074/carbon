@@ -1,14 +1,15 @@
 /* global require:false */
-
 import irpt from 'react-immutable-proptypes';
+import { createLogger } from 'instalog';
 import React from 'react';
 
+import { getType, getSpanDetailView, getSpanGroupingDetailView } from 'in-sdk/tracing';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { getType, getSpanDetailView } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
 import './SpanForgeDetails.less';
 
+const logger = createLogger('in-components.SpanForgeDetails');
 const block = 'in-span-forge-details';
 
 export default class extends React.PureComponent {
@@ -33,7 +34,9 @@ export default class extends React.PureComponent {
 
   updateForge = props => {
     const type = getType(props.span);
-    const detailViewPath = getSpanDetailView(props.span);
+    const detailViewPath = props.showGroupingDetails
+      ? getSpanGroupingDetailView(props.span)
+      : getSpanDetailView(props.span);
 
     if (detailViewPath) {
       const self = this;
@@ -43,6 +46,12 @@ export default class extends React.PureComponent {
           Component: loadSpanDetailComponent.default(type, detailViewPath)
         });
       });
+    } else if (props.showGroupingDetails) {
+      this.setState({
+        componentType: type,
+        Component: EmptyContent
+      });
+      logger.error('There are no group details defined for span type: ', getType(props.span));
     }
   };
 
@@ -55,4 +64,8 @@ export default class extends React.PureComponent {
 
     return <Jail component={this.state.Component} props={this.props} className={block} />;
   }
+}
+
+function EmptyContent() {
+  return <div />;
 }

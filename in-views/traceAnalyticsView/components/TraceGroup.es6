@@ -37,10 +37,14 @@ const errorsPercentageIndicatorElement = `${block}__errors-percentage-indicator`
 const errorCountValueElement = `${block}__error-count`;
 const batchedElement = `${block}__batched`;
 const callElement = `${block}__call`;
+const deepCallElement = `${block}__deep-call`;
 const callContentElement = `${block}__call-content`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
 const detailsElement = `${block}__details`;
+const expandDetailsElement = `${block}__toggle-expand-details`;
+const metricValueElement = `${block}__current-metric-value`;
+const labelElement = `${block}__label`;
 
 const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
 
@@ -81,39 +85,15 @@ export default class TraceGrouping extends React.Component {
             <SvgIcon
               type={showDetails ? 'timeline_close' : 'timeline_open'}
               width={12}
-              className={`${block}__toggle-expand-details`}
+              className={expandDetailsElement}
               onClick={this.toggleDetails}
             />
           </div>
-          <div className={callsElement}>
-            {number.compact(traceGroup.statistics.count)}
-          </div>
-          <div className={totalTimeElement}>
-            {millis.compact(traceGroup.statistics.durationTotal)}
-          </div>
-          <div className={minElement}>
-            {millis.compact(traceGroup.statistics.durationMin)}
-          </div>
-          <div className={avgElement}>
-            {millis.compact(traceGroup.statistics.durationMean)}
-          </div>
-          <div className={maxElement}>
-            {millis.compact(traceGroup.statistics.durationMax)}
-          </div>
-          <div className={errorsElement}>
-            <div
-              className={errorsPercentageIndicatorElement}
-              style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
-            />
-            <span className={errorCountValueElement}>
-              {percentage.compact(traceGroup.enrichment.errorPercentage)}
-            </span>
-          </div>
-          <div className={callElement}>
+          <div className={level > 0 ? deepCallElement : callElement}>
             <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
               <SvgIcon
                 type={showChildren ? 'triangle_down' : 'triangle_right'}
-                width={showChildren ? 11 : 8}
+                width={showChildren ? 9 : 6}
                 onClick={this.toggleChildren}
                 className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
               />
@@ -126,10 +106,54 @@ export default class TraceGrouping extends React.Component {
                 />
               </div>
 
+              <div className={metricValueElement}>
+                {`${traceGroup.statistics.durationTotal}ms`}
+              </div>
+              <div className={metricValueElement}>
+                {percentage.compact(traceGroup.enrichment.errorPercentage)}
+              </div>
+              <div className={metricValueElement}>
+                {number.compact(traceGroup.statistics.count)}
+              </div>
+
               {traceGroup.batched ? batchedIndicator : null}
 
-              {traceGroup.enrichment.label}
+              <span className={labelElement}>
+                {traceGroup.enrichment.label}
+              </span>
             </div>
+          </div>
+
+          {level < 1
+            ? <div className={totalTimeElement}>
+                {millis.compact(traceGroup.statistics.durationTotal)}
+              </div>
+            : null}
+          {level < 1
+            ? <div className={errorsElement}>
+                <div
+                  className={errorsPercentageIndicatorElement}
+                  style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
+                />
+                <span className={errorCountValueElement}>
+                  {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                </span>
+              </div>
+            : null}
+
+          {level < 1
+            ? <div className={callsElement}>
+                {number.compact(traceGroup.statistics.count)}
+              </div>
+            : null}
+          <div className={minElement}>
+            {millis.compact(traceGroup.statistics.durationMin)}
+          </div>
+          <div className={avgElement}>
+            {millis.compact(traceGroup.statistics.durationMean)}
+          </div>
+          <div className={maxElement}>
+            {millis.compact(traceGroup.statistics.durationMax)}
           </div>
         </div>
 
@@ -148,7 +172,7 @@ export default class TraceGrouping extends React.Component {
 
                 <InspectTracesForHashButton hash={traceGroup.hash} />
               </div>
-              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} />
+              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} showGroupingDetails />
             </div>
           : null}
 
@@ -160,6 +184,7 @@ export default class TraceGrouping extends React.Component {
                 <TraceGrouping
                   key={childTraceGroup.hash}
                   traceGroup={childTraceGroup}
+                  currentGroupSorting={this.props.currentGroupSorting}
                   level={level + 1}
                   traceGroupsComparator={traceGroupsComparator}
                 />
@@ -168,6 +193,18 @@ export default class TraceGrouping extends React.Component {
       </li>
     );
   }
+
+  getCurrentSortedValue = () => {
+    const { traceGroup, currentGroupSorting } = this.props;
+
+    if (currentGroupSorting === 'calls') {
+      return number.compact(traceGroup.statistics.count);
+    } else if (currentGroupSorting === 'total') {
+      return `${traceGroup.statistics.durationTotal}ms`;
+    } else if (currentGroupSorting === 'errors') {
+      return percentage.compact(traceGroup.enrichment.errorPercentage);
+    }
+  };
 
   setDomRef = domElement => {
     this.domElement = domElement;

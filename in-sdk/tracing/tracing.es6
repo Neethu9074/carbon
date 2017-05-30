@@ -79,6 +79,10 @@ export function getSpanDetailView(span) {
   return getSpanDefinition(span.get('name'), span).detailView;
 }
 
+export function getSpanGroupingDetailView(span) {
+  return getSpanDefinition(span.get('name'), span).groupingDetailView;
+}
+
 export function getCategoryIcon(category) {
   return categoryIcons[category];
 }

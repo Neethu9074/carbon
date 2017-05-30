@@ -6,7 +6,6 @@
   }
 
   &__group {
-    border-bottom: 1px solid #D5DFE4;
     outline: 0;
     display: flex;
 
@@ -15,12 +14,14 @@
     }
   }
 
-  &__toggle-expand, &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call {
+  &__toggle-expand, &__calls, &__total-time, &__min, &__max, &__avg, &__errors, &__call, &__deep-call {
     display: inline-block;
     box-sizing: border-box;
     border-right: 1px solid #D5DFE4;
     padding: 0 0.5rem;
     line-height: 1.625rem;
+
+    border-bottom: 1px solid #D5DFE4;
 
     &:last-child {
       border-right: 0;
@@ -46,10 +47,12 @@
     background: rgb(146, 165, 174);
     font-size: .563rem;
     border-radius: .125rem;
-    padding: .125rem .3rem .188rem .3rem;
     color: #fff;
     text-transform: uppercase;
-    margin-right: 6px;
+    margin-right: 0.375rem;
+    height: 1rem;
+    line-height: 0.938rem;
+    padding: 0 0.313rem;
   }
 
   &__calls {
@@ -90,32 +93,19 @@
     position: relative;
   }
 
-  &__call {
+  &__call, &__deep-call {
     width: ~'calc(100% - 31.75rem)';
     padding-left: 0;
     padding-right: 0;
   }
+  &__deep-call {
+    width: ~'calc(100% - 16.75rem)';
+  }
 
   &__call-content {
-    // continuation indent so that text is aligned within a column
-    padding-left: 3.3rem;
-    text-indent: -2.75rem;
-    padding-right: 0.5rem;
-  }
-
-  &__type {
-    display: inline-flex;
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 100%;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 0 6px;
-  }
-
-  &__type-icon {
-    width: 0.6rem;
-    height: 0.6rem;
+    padding-left: .2rem;
   }
 
   &__toggle-children {
@@ -128,8 +118,46 @@
     }
   }
 
+  &__type {
+    display: inline-flex;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.375rem;
+  }
+
+  &__type-icon {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+
   &__details {
     border-bottom: 1px solid #D5DFE4;
     padding: 0.5rem 0.5rem;
+  }
+
+  &__current-metric-value {
+    margin-right: 0.375rem;
+    padding: 0 0.313rem;
+    height: 1rem;
+    line-height: 0.938rem;
+    background: #d8dce1;
+
+    font-size: 0.688rem;
+    font-weight: bold;
+    border-radius: .125rem;
+  }
+
+  &__label {
+    word-break: break-all;
+  }
+
+  &__placeholder {
+    width: 15rem;
+    border-right: 1px solid #D5DFE4;
+    display: inline-block;
+    box-sizing: border-box;
   }
 }

@@ -12,6 +12,8 @@ registerSpanDefinition({
 
   detailView: 'ActiveRecordSpanDetailView',
 
+  groupingDetailView: 'ActiveRecordSpanGroupingDetailView',
+
   getLabel(span) {
     return shortenSqlStatement(span.getIn(['data', 'activerecord', 'sql']));
   }

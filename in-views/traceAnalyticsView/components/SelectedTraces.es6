@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { selectedTraces$, toggleIncludeInAnalytics } from 'in-stores/traces/analytics';
+import { clear, markedTraces$, markTrace, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
+import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/view';
 import { millis, number } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
@@ -14,7 +15,6 @@ import './SelectedTraces.less';
 const block = 'in-trace-analytics-selected-traces';
 const viewTraceElement = `${block}__view-trace`;
 const viewTraceLinkElement = `${block}__view-trace-link`;
-const removeTraceElement = `${block}__remove-trace`;
 
 const cols = [
   {
@@ -65,26 +65,17 @@ const cols = [
     type: 'custom',
     disableSorting: true,
     cellStyle: {
-      width: '40px',
-      minWidth: '40px'
+      width: '20px',
+      minWidth: '20px'
     },
     typeArgs: {
       get(row) {
         return {
           value: 0,
           content: (
-            <div>
-              <Link href$={getTraceViewLinkShowingTrace(row.traceId)} className={viewTraceLinkElement}>
-                <SvgIcon type="arrow_right" width={14} className={viewTraceElement} />
-              </Link>
-
-              <SvgIcon
-                type="x"
-                width={10}
-                className={removeTraceElement}
-                onClick={() => toggleIncludeInAnalytics(row.trace)}
-              />
-            </div>
+            <Link href$={getTraceViewLinkShowingTrace(row.traceId)} className={viewTraceLinkElement}>
+              <SvgIcon type="arrow_right" width={14} className={viewTraceElement} />
+            </Link>
           )
         };
       },
@@ -97,15 +88,21 @@ const cols = [
 
 export default connectTo(
   {
-    selectedTraces: selectedTraces$
+    analysedTraces: analysedTraces$,
+    markedTraces: markedTraces$
   },
-  function SelectedTraces({ selectedTraces }) {
-    const rows = Object.keys(selectedTraces).map(traceId => {
-      return {
+  function SelectedTraces({ analysedTraces, markedTraces }) {
+    const rows = [];
+    const selectedSnapshotIds = [];
+    analysedTraces.forEach((trace, traceId) => {
+      if (markedTraces.has(traceId)) {
+        selectedSnapshotIds.push(traceId);
+      }
+      rows.push({
         key: traceId,
         traceId,
-        trace: selectedTraces[traceId]
-      };
+        trace
+      });
     });
 
     return (
@@ -114,9 +111,27 @@ export default connectTo(
           maxItemsPerPage={Number.MAX_VALUE}
           cols={cols}
           rows={rows}
+          selectedRowKeys={selectedSnapshotIds}
           noDataText="Select traces to start analytics."
+          onRowClick={(row, e) => onRowClick(e, row, markedTraces)}
         />
       </div>
     );
   }
 );
+
+function onRowClick(e, row, markedTraces) {
+  const traceId = row.traceId;
+  const trace = row.trace;
+  const isMarked = markedTraces.has(traceId);
+
+  if (!e.metaKey) {
+    clear();
+  }
+
+  if (!isMarked) {
+    markTrace(traceId, trace);
+  } else {
+    clearTraceId(traceId);
+  }
+}

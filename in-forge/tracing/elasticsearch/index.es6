@@ -11,6 +11,8 @@ registerSpanDefinition({
 
   detailView: 'ElasticsearchSpanDetailView',
 
+  groupingDetailView: 'ElasticsearchSpanGroupingDetailView',
+
   getLabel(span) {
     return span.getIn(['data', 'elasticsearch', 'action']);
   }

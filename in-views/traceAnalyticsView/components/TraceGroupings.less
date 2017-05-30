@@ -1,9 +1,4 @@
 .in-trace-analytics-groupings {
-  height: 100%;
-  border-left: 1px solid #40535b;
-  background: #fff;
-  overflow: hidden;
-
   &__error {
     color: darkred;
     margin: 1rem;
@@ -35,7 +30,6 @@
     font-size: .688rem;
     text-decoration: none;
     box-sizing: border-box;
-    cursor: pointer;
   }
 
   &__toggle-expand {
@@ -61,6 +55,7 @@
 
   &__max {
     width: 5rem;
+    border-right: 0;
   }
 
   &__errors {
@@ -69,7 +64,6 @@
 
   &__call {
     width: ~'calc(100% - 31.75rem)';
-    border-right: 0;
   }
 
   &__header-cell {
@@ -85,5 +79,9 @@
     border-radius: .188rem;
     padding: .23rem;
     background: #92a5ae;
+  }
+
+  &__heading {
+    padding: .5rem 1rem;
   }
 }
