@@ -11,6 +11,14 @@ import Tooltip from 'in-components/Tooltip';
 
 import './TraceGroup.less';
 
+const allowedKeyCodesForKeydown = [
+  keyCodes.arrows.up,
+  keyCodes.arrows.down,
+  keyCodes.arrows.left,
+  keyCodes.arrows.right,
+  keyCodes.space
+];
+
 const block = 'in-trace-analytics-grouping';
 const subGroupingsElement = `${block}__sub-groupings`;
 const groupElement = `${block}__group`;
@@ -192,15 +200,11 @@ export default class TraceGrouping extends React.Component {
   };
 
   onKeyDown = e => {
-    const allowedKeyCodes = [
-      keyCodes.arrows.up,
-      keyCodes.arrows.down,
-      keyCodes.arrows.left,
-      keyCodes.arrows.right,
-      keyCodes.space
-    ];
-
-    if (e.target === this.domElement && allowedKeyCodes.indexOf(e.keyCode) !== -1) {
+    if (
+      e.target === this.domElement &&
+      !keyCodes.isModifierPressed(e) &&
+      allowedKeyCodesForKeydown.indexOf(e.keyCode) !== -1
+    ) {
       e.stopPropagation();
       e.preventDefault();
     }

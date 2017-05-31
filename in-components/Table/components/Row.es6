@@ -6,6 +6,8 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import './Row.less';
 
+const allowedKeyCodesForKeydown = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
+
 const block = 'in-table-row';
 const selectedRow = `${block}--selected`;
 const clickableRow = `${block}--clickable`;
@@ -58,9 +60,11 @@ export default class Row extends React.Component {
   }
 
   onKeyDown = e => {
-    const allowedKeyCodes = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
-
-    if (e.target === this.domElement && allowedKeyCodes.indexOf(e.keyCode) !== -1) {
+    if (
+      e.target === this.domElement &&
+      !keyCodes.isModifierPressed(e) &&
+      allowedKeyCodesForKeydown.indexOf(e.keyCode) !== -1
+    ) {
       e.stopPropagation();
       e.preventDefault();
     }

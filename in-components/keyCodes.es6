@@ -16,7 +16,10 @@ export default {
   s: 83,
   d: 68,
   p: 80,
-  c: 67
+  c: 67,
+  isModifierPressed: e => {
+    return e.ctrlKey || e.shiftKey || e.altKey || e.metaKey;
+  }
 };
 /*
 Key                 Code
