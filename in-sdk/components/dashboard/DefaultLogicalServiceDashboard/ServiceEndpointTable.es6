@@ -102,7 +102,7 @@ export default function ServiceEndpointTable({ snapshot, timeframe }) {
   }
 
   return (
-    <DashboardSection title={`Endpoints ${rows.length}`}>
+    <DashboardSection title={`Endpoints (${rows.length})`}>
       <Table
         cols={cols}
         rows={rows}
