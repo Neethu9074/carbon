@@ -10,6 +10,11 @@ import './ServiceEndpointsList.less';
 const block = 'in-service-endpoint-list';
 
 export default function ServiceEndpointsList({ snapshot }) {
+  const endpoints = snapshot.getIn(['data', 'service_endpoints'], emptyList);
+  if (endpoints.size === 0) {
+    return null;
+  }
+
   return (
     <div>
       <Separator />
@@ -19,7 +24,7 @@ export default function ServiceEndpointsList({ snapshot }) {
         </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            {snapshot.getIn(['data', 'service_endpoints'], emptyList).map(endpointName => (
+            {endpoints.map(endpointName => (
               <DescriptionItem className={`${block}__item`} title="" id={endpointName} key={endpointName}>
                 {endpointName}
               </DescriptionItem>
