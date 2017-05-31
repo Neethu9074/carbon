@@ -1,7 +1,8 @@
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
+import SvgIcon from 'in-components/SvgIcon';
 
 import './Row.less';
 
@@ -16,9 +17,6 @@ export default class Row extends React.Component {
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      active: false
-    };
   }
 
   shouldComponentUpdate(nextProps) {
@@ -60,8 +58,12 @@ export default class Row extends React.Component {
   }
 
   onKeyDown = e => {
-    e.stopPropagation();
-    e.preventDefault();
+    const allowedKeyCodes = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
+
+    if (e.target === this.domElement && allowedKeyCodes.indexOf(e.keyCode) !== -1) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
 
     if (this.props.onClick) {
       //do this only if no other click listener is registered to not confuse multi select tables
@@ -83,46 +85,21 @@ export default class Row extends React.Component {
       elements.length - 1,
       Math.max(0, elements.indexOf(this.domElement) + direction)
     );
-    this.removeAllOtherActiveStates();
-    if (elements[newActiveElementIndex].setActive) {
-      elements[newActiveElementIndex].setActive(true);
-      elements[newActiveElementIndex].focus();
-    }
+    elements[newActiveElementIndex].focus();
+    scrollIntoViewIfNeeded(elements[newActiveElementIndex]);
   }
-
-  setActive = active => {
-    this.setState({ active });
-  };
 
   setDomRef = domElement => {
     this.domElement = domElement;
-
-    // removal case
-    if (domElement) {
-      domElement.setActive = this.setActive;
-    }
   };
 
   onClick(e) {
     if (!this.props.onClick) {
-      //do this only if no other click listener is registered to not confuse multi select tables
-      this.removeAllOtherActiveStates();
-      this.setActive(true);
-
       return;
     }
 
     e.preventDefault();
     e.stopPropagation();
     this.props.onClick(this.props.row);
-  }
-
-  removeAllOtherActiveStates() {
-    const children = Array.prototype.slice.call(this.domElement.parentNode.childNodes);
-    for (let i = children.length - 1; i >= 0; i--) {
-      if (children[i].setActive) {
-        children[i].setActive(false);
-      }
-    }
   }
 }

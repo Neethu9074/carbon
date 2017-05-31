@@ -4,6 +4,7 @@ import InspectTracesForHashButton from 'in-views/traceAnalyticsView/components/I
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/SpanForgeDetails';
+import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -191,8 +192,18 @@ export default class TraceGrouping extends React.Component {
   };
 
   onKeyDown = e => {
-    e.stopPropagation();
-    e.preventDefault();
+    const allowedKeyCodes = [
+      keyCodes.arrows.up,
+      keyCodes.arrows.down,
+      keyCodes.arrows.left,
+      keyCodes.arrows.right,
+      keyCodes.space
+    ];
+
+    if (e.target === this.domElement && allowedKeyCodes.indexOf(e.keyCode) !== -1) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
 
     if (e.keyCode === keyCodes.arrows.right) {
       if (this.state.showChildren) {
@@ -227,7 +238,7 @@ export default class TraceGrouping extends React.Component {
     removeAllOtherActiveStates();
     elements[newActiveElementIndex].setActive(true);
     elements[newActiveElementIndex].focus();
-    elements[newActiveElementIndex].scrollIntoViewIfNeeded();
+    scrollIntoViewIfNeeded(elements[newActiveElementIndex]);
   }
 
   setActive = active => {

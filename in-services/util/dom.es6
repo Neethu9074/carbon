@@ -8,3 +8,9 @@ export function applyTransform(ele, transform) {
     ele.style.transform = transform;
   }
 }
+
+export function scrollIntoViewIfNeeded(element) {
+  if (element.scrollIntoViewIfNeeded) {
+    element.scrollIntoViewIfNeeded();
+  }
+}
