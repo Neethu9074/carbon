@@ -84,7 +84,9 @@ export default class Row extends React.Component {
   };
 
   moveActiveState(direction) {
-    const elements = Array.prototype.slice.call(this.domElement.parentNode.childNodes);
+    const elements = Array.prototype.slice
+      .call(this.domElement.parentNode.childNodes)
+      .filter(element => element.tabIndex > 0);
     const newActiveElementIndex = Math.min(
       elements.length - 1,
       Math.max(0, elements.indexOf(this.domElement) + direction)
