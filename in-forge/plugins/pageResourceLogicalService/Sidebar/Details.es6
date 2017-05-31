@@ -1,3 +1,3 @@
-import ServiceSidebar from 'in-sdk/components/sidebar/defaultServiceSidebars/ServiceSidebar';
+import Sidebar from 'in-forge/plugins/pageResourceLogicalService/Dashboard/Sidebar';
 
-export default ServiceSidebar;
+export default Sidebar;
