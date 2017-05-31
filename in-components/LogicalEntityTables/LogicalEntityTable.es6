@@ -59,7 +59,7 @@ const cols = [
         return row.node.get('id');
       },
       getMetricName() {
-        return `msTwoDecimalPlaces`;
+        return `duration.mean`;
       },
       getContent: msTwoDecimalPlaces,
       getTimeWindowAggregation() {
