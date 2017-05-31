@@ -1,13 +1,9 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyList } from 'in-services/fixedImmutables';
-
-import './ServiceEndpointsList.less';
-
-const block = 'in-service-endpoint-list';
+import List from 'in-sdk/components/sidebar/List';
 
 export default function ServiceEndpointsList({ snapshot }) {
   const endpoints = snapshot.getIn(['data', 'service_endpoints'], emptyList);
@@ -19,17 +15,17 @@ export default function ServiceEndpointsList({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen>
-        <Collapsible.Header className={block + '__header'}>
-          Endpoints
+        <Collapsible.Header>
+          Endpoints ({endpoints.size})
         </Collapsible.Header>
         <Collapsible.Content>
-          <DescriptionList>
-            {endpoints.map(endpointName => (
-              <DescriptionItem className={`${block}__item`} title="" id={endpointName} key={endpointName}>
+          <List>
+            {endpoints.toArray().map(endpointName => (
+              <List.Item key={endpointName}>
                 {endpointName}
-              </DescriptionItem>
+              </List.Item>
             ))}
-          </DescriptionList>
+          </List>
         </Collapsible.Content>
       </Collapsible>
     </div>
