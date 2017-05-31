@@ -97,8 +97,12 @@ export default function ServiceEndpointTable({ snapshot, timeframe }) {
     };
   });
 
+  if (rows.length === 0) {
+    return null;
+  }
+
   return (
-    <DashboardSection title="Endpoints">
+    <DashboardSection title={`Endpoints ${rows.length}`}>
       <Table
         cols={cols}
         rows={rows}
