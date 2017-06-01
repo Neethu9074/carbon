@@ -10,6 +10,8 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
+import { view$, types } from 'in-stores/view/view';
+
 import 'in-components/MapOverlayControls/components/Control.less';
 
 const block = 'in-control';
@@ -33,11 +35,23 @@ export default connectTo(
     };
 
     componentWillUnmount() {
-      const menuContent = this.props.menuContent;
-      const id = this.props.id ? this.props.id : this.props.type;
-      if (menuContent && menuContent.id === id) {
-        closeCurrentMenu();
-      }
+      // menus will be closed if this component will be unmounted. There is an edge case which is handled here:
+      // if the user switches from physical to container view AND the grouping menu is open, leave it open!
+      view$.once(currentView => {
+        const menuContent = this.props.menuContent;
+        if (!menuContent) {
+          return;
+        }
+
+        if (menuContent.id === 'grouping' && (currentView === types.physical || currentView === types.container)) {
+          return;
+        } else {
+          const id = this.props.id ? this.props.id : this.props.type;
+          if (menuContent.id === id) {
+            closeCurrentMenu();
+          }
+        }
+      });
     }
 
     render() {
