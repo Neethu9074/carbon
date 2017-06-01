@@ -29,12 +29,12 @@ export default function PageAssetList({ snapshot }) {
                   {
                     metric: `endpoint.${endpoint}.count`,
                     label: 'calls',
-                    formatter: number.compact
+                    formatter: number
                   },
                   {
                     metric: `endpoint.${endpoint}.duration.mean`,
                     label: 'load time',
-                    formatter: millis.compact
+                    formatter: millis
                   }
                 ]}
               />
