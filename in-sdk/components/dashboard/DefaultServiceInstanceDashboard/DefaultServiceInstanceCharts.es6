@@ -50,6 +50,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
+            tooltipFormatter: msTwoDecimalPlaces,
             metrics: [
               'duration.min',
               'duration.25th',

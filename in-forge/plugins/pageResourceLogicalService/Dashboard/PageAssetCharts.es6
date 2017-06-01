@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -42,7 +42,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
           }}
           y1={{
             min: 0,
-            formatter: msZeroDecimalPlaces,
+            formatter: msTwoDecimalPlaces,
             metrics: [
               prefix + 'duration.min',
               prefix + 'duration.25th',
