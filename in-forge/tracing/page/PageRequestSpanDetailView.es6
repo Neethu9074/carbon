@@ -1,61 +1,75 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import NavigationTiming from 'in-forge/tracing/page/NavigationTiming';
 import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
-export default function PageRequestSpanDetailView({ span }) {
-  const timing = span.getIn(['data', 'page', 'timing']);
+export default connectTo(
+  props => {
+    return {
+      allTracesHref: getTraceViewLinkWithQuery(`span.webEum.pageLoadId:"${props.span.get('traceId')}"`)
+    };
+  },
+  function PageRequestSpanDetailView({ span, allTracesHref }) {
+    const timing = span.getIn(['data', 'page', 'timing']);
 
-  return (
-    <div>
-      <DescriptionList>
-        <DescriptionItem title="Application">
-          {span.getIn(['data', 'page', 'appName'])}
-        </DescriptionItem>
+    return (
+      <div>
+        <Button href={allTracesHref} className="pull-right" kind="secondary">
+          All traces belonging to this page load
+        </Button>
 
-        <DescriptionItem title="URL">
-          <a href={span.getIn(['data', 'page', 'url'])} target="_blank" rel="noopener noreferrer">
-            {span.getIn(['data', 'page', 'url'])}
-          </a>
-        </DescriptionItem>
+        <DescriptionList>
+          <DescriptionItem title="Application">
+            {span.getIn(['data', 'page', 'appName'])}
+          </DescriptionItem>
 
-        <DescriptionItem title="Platform">
-          {span.getIn(['data', 'page', 'platform'])}
-        </DescriptionItem>
+          <DescriptionItem title="URL">
+            <a href={span.getIn(['data', 'page', 'url'])} target="_blank" rel="noopener noreferrer">
+              {span.getIn(['data', 'page', 'url'])}
+            </a>
+          </DescriptionItem>
 
-        <DescriptionItem title="Browser">
-          {getBrowser(span)}
-        </DescriptionItem>
+          <DescriptionItem title="Platform">
+            {span.getIn(['data', 'page', 'platform'])}
+          </DescriptionItem>
 
-        <DescriptionItem title="Operating System">
-          {getOperatingSystem(span)}
-        </DescriptionItem>
+          <DescriptionItem title="Browser">
+            {getBrowser(span)}
+          </DescriptionItem>
 
-        <DescriptionItem title="Device">
-          {getDevice(span)}
-        </DescriptionItem>
+          <DescriptionItem title="Operating System">
+            {getOperatingSystem(span)}
+          </DescriptionItem>
 
-        <DescriptionItem title="IP">
-          {span.getIn(['data', 'page', 'ip'])}
-        </DescriptionItem>
+          <DescriptionItem title="Device">
+            {getDevice(span)}
+          </DescriptionItem>
 
-        <DescriptionItem title="Location">
-          <GeoLocation geo={span.getIn(['data', 'page', 'geo'])} />
-        </DescriptionItem>
+          <DescriptionItem title="IP">
+            {span.getIn(['data', 'page', 'ip'])}
+          </DescriptionItem>
 
-        {getMetaData(span)}
+          <DescriptionItem title="Location">
+            <GeoLocation geo={span.getIn(['data', 'page', 'geo'])} />
+          </DescriptionItem>
 
-        {timing
-          ? <DescriptionItem title="Navigation Timing">
-              <NavigationTiming {...timing.toJS()} />
-            </DescriptionItem>
-          : null}
-      </DescriptionList>
-    </div>
-  );
-}
+          {getMetaData(span)}
+
+          {timing
+            ? <DescriptionItem title="Navigation Timing">
+                <NavigationTiming {...timing.toJS()} />
+              </DescriptionItem>
+            : null}
+        </DescriptionList>
+      </div>
+    );
+  }
+);
 
 function getBrowser(span) {
   return getNameVersionPair(span, 'browser');
