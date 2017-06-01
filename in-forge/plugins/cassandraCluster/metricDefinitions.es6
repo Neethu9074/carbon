@@ -46,6 +46,12 @@ export default [
     formatter: number
   },
   {
+    metrics: ['nodeCount'],
+    labels: ['Cluster Nodes'],
+    min: 0,
+    formatter: number
+  },
+  {
     metric: getMetricMatch('keyspace', 'diskSize'),
     label: 'Disk Size',
     min: 0,
