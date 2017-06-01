@@ -31,6 +31,14 @@ const helpTexts = {
   trace: 'Trace and root span',
   event: 'Changes, issues and incidents',
   span: 'Spans within traces',
+  'span.webEum': 'Web end-user monitoring',
+  'span.webEum.geo': 'Geo location based on IP',
+  'span.webEum.error': 'Uncaught errors',
+  'span.webEum.timing': 'Navigation timing',
+  'span.webEum.resource': 'Resource timing',
+  'span.webEum.userAgent': 'User Agent',
+  'span.webEum.userAgent.os': 'Operating System',
+  'span.webEum.userAgent.browser': 'Web Browser',
   'span.endpoint': 'Endpoint specific fields'
 };
 
