@@ -3,28 +3,30 @@ import {
   zeroDecimalPlacesPerSecond,
   percentageTwoDecimalPlaces,
   msTwoDecimalPlaces,
-  zeroDecimalPlaces
+  ms,
+  percentage,
+  number
 } from 'in-services/formatters/number';
 
 const defaultKpis = () => [
   {
     metric: 'count',
     label: 'calls',
-    formatter: zeroDecimalPlaces,
+    formatter: number,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond,
     timeWindowAggregation: 'adjustedCount'
   },
   {
     metric: 'duration.mean',
     label: 'avg. latency',
-    formatter: msTwoDecimalPlaces,
+    formatter: ms,
     valueOnlyFormatter: msTwoDecimalPlaces,
     timeWindowAggregation: 'mean'
   },
   {
     metric: 'error_rate',
     label: 'error rate',
-    formatter: percentageTwoDecimalPlaces,
+    formatter: percentage,
     valueOnlyFormatter: percentageTwoDecimalPlaces,
     timeWindowAggregation: 'mean'
   }

@@ -36,7 +36,7 @@ export default connectTo(
           snapshotId={snapshotId}
           design={design ? design : 'light'}
           metric={metric}
-          tooltipFormatter={formatter}
+          tooltipFormatter={formatter.detailed}
         />
         <div className={block + '__description'}>
           <span className={block + '__title'}>
@@ -46,7 +46,7 @@ export default connectTo(
             snapshotId={snapshotId}
             metric={metric}
             className={block + '__value'}
-            formatter={formatter}
+            formatter={formatter.compact}
             optionalTimeWindowAggregation={optionalTimeWindowAggregation}
           />
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { siPrefix, bytes } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -28,22 +28,22 @@ export default function ElasticsearchSidebar({ snapshot }) {
           {
             metric: 'indices_count',
             label: 'Indices',
-            formatter: withSiPrefixThreeDecimalPlaces
+            formatter: siPrefix
           },
           {
             metric: 'shards.node_active_shards',
             label: 'Active Shards',
-            formatter: withSiPrefixThreeDecimalPlaces
+            formatter: siPrefix
           },
           {
             metric: 'indices.document_count',
             label: 'Documents',
-            formatter: withSiPrefixThreeDecimalPlaces
+            formatter: siPrefix
           },
           {
             metric: 'indices.store_size',
             label: 'Store Size',
-            formatter: bytesTwoDecimalPlaces
+            formatter: bytes
           }
         ]}
       />

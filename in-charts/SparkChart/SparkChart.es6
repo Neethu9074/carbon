@@ -1,5 +1,5 @@
 import { on } from 'reactive-observables';
-import { sortedIndexBy } from 'lodash';
+import { sortedIndexBy, groupBy } from 'lodash';
 
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -11,6 +11,8 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
+const windowSizeFactor = 0.04;
+const fractionOfDataCanBeFlat = 0.9;
 
 export default function createSparkChart({
   width,
@@ -220,6 +222,56 @@ export default function createSparkChart({
       // this iteratee function will be called for the search value as well
       return column;
     });
-    return dataColumns[i];
+
+    const noDataForHighlightedMoment = i == 0 || i == dataColumns.length;
+
+    if (noDataForHighlightedMoment) {
+      return null;
+    }
+
+    const window = dataWindow(highlightedMoment, dataColumns);
+
+    const standardElement = findStandardElement(window);
+    const dataIsFlat = standardElement !== undefined;
+
+    return dataIsFlat ? findClosestAnomaly(window, standardElement) : dataColumns[i];
+  }
+
+  function dataWindow(timestamp, dataColumns) {
+    const xFrom = xScale.getRangeFrom();
+    const xTo = xScale.getRangeTo();
+
+    const windowSize = (xTo - xFrom) * windowSizeFactor;
+
+    const xRangeOfHighlighted = xScale.getRange(timestamp);
+    const left = xScale.getDomain(xRangeOfHighlighted - windowSize);
+    const right = xScale.getDomain(xRangeOfHighlighted + windowSize);
+
+    return dataColumns.filter(c => c[0] >= left && c[0] <= right);
+  }
+
+  function findStandardElement(dataWindow) {
+    const toleratedLength = dataWindow.length * fractionOfDataCanBeFlat;
+
+    const groupedByValue = groupBy(dataWindow, c => c[1]);
+
+    return Object.keys(groupedByValue).find(key => groupedByValue[key].length > toleratedLength);
+  }
+
+  function findClosestAnomaly(dataWindow, standardElement) {
+    const index = Math.floor(dataWindow.length * 0.5);
+    const anomalyIndex = dataWindow.reduce((acc, cur, idx) => {
+      if (cur[1] != standardElement && isCloserTo(index, idx, acc)) {
+        return idx;
+      } else {
+        return acc;
+      }
+    }, 0);
+
+    return dataWindow[anomalyIndex];
+  }
+
+  function isCloserTo(to, a, b) {
+    return Math.abs(to - a) < Math.abs(to - b);
   }
 }

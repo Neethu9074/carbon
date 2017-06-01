@@ -2,7 +2,7 @@ import React from 'react';
 
 import JumpToTracesTouchingServiceButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceButton';
 import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
-import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, ms } from 'in-services/formatters/number';
 import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
@@ -33,22 +33,22 @@ export default function BrowserServiceSidebar({ snapshot }) {
           {
             metric: 'count',
             label: 'calls/s',
-            formatter: zeroDecimalPlaces
+            formatter: number
           },
           {
             metric: 'duration.mean',
             label: 'load time',
-            formatter: msZeroDecimalPlaces
+            formatter: ms
           },
           {
             metric: 'fp.mean',
             label: 'first paint',
-            formatter: msZeroDecimalPlaces
+            formatter: ms
           },
           {
             metric: 'error_count',
             label: 'errors/s',
-            formatter: zeroDecimalPlaces
+            formatter: number
           }
         ]}
       />
