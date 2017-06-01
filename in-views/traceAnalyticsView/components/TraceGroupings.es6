@@ -37,6 +37,8 @@ const avgElement = `${block}__avg`;
 const maxElement = `${block}__max`;
 const errorsElement = `${block}__errors`;
 const callElement = `${block}__call`;
+const kpiElement = `${block}__kpi`;
+const kpiWrapperElement = `${block}__kpi-wrapper`;
 
 export default connectTo(
   {
@@ -168,6 +170,7 @@ export default connectTo(
           <SectionHeading>
             Trace Groupings
           </SectionHeading>
+          <DescriptionText />
           <div className={heading}>
             <GroupingSorterSelectBox />
           </div>
@@ -290,4 +293,24 @@ function compareTraceGroupByErrorPercentage(a, b) {
 
 function compareTraceGroupByLabel(a, b) {
   return compareString(a.enrichment.label, b.enrichment.label);
+}
+
+function DescriptionText() {
+  return (
+    <div>
+      Add descriptions text here
+      <br />
+      <div className={kpiWrapperElement}>
+        <div className={kpiElement}>
+          Total Time
+        </div>
+        <div className={kpiElement}>
+          Error Rate
+        </div>
+        <div className={kpiElement}>
+          Calls
+        </div>
+      </div>
+    </div>
+  );
 }
