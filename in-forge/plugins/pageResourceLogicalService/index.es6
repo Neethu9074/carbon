@@ -11,8 +11,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Page Assets',
-    plural: 'Page Assets'
+    singular: 'Page Resources',
+    plural: 'Page Resources'
   },
 
   chartWiggleRoom: 20000

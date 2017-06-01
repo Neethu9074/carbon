@@ -59,10 +59,12 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
         />
       </DashboardSection>
 
-      <DashboardSection title="Asset Caching">
+      <DashboardSection title="Resource Caching">
         <p>
-          Detailed information about in-browser assets and specifically about caching is not available in all {' '}
-          web browsers. For this reason, this chart will only represent a subset of all the asset requests. More {' '}
+          Detailed information about in-browser resources and specifically about caching is not available in all {' '}
+          web browsers. For this reason, this chart will only represent a subset of all the resource requests. More
+          {' '}
+          {' '}
           information is available through the {' '}
           <a href="https://www.w3.org/TR/resource-timing-2/" target="_blank" rel="noopener noreferrer">
             resource timing level 2 specification
@@ -86,9 +88,9 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
             formatter: twoDecimalPlaces,
             metrics: [prefix + 'cachedCount', prefix + 'validatedCount', prefix + 'fullLoadCount'],
             labels: [
-              'Assets served from browser cache',
-              'Cached asset states validated via request',
-              'Full asset loads'
+              'Resourcess served from browser cache',
+              'Cached resource states validated via request',
+              'Full resource loads'
             ],
             type: 'stackedArea'
           }}

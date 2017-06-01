@@ -19,7 +19,7 @@ const cols = [
     }
   },
   {
-    title: 'Calls',
+    title: 'Requests',
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {

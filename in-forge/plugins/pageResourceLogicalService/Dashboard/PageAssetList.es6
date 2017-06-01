@@ -20,7 +20,7 @@ export default function PageAssetList({ snapshot }) {
 
           <Collapsible>
             <Collapsible.Header>
-              {endpoint} assets
+              {endpoint} resources
             </Collapsible.Header>
             <Collapsible.Content>
               <SparkChartsSection
@@ -28,7 +28,7 @@ export default function PageAssetList({ snapshot }) {
                 metrics={[
                   {
                     metric: `endpoint.${endpoint}.count`,
-                    label: 'calls',
+                    label: 'requests',
                     formatter: number
                   },
                   {

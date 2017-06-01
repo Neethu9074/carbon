@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Browser Connection',
-    plural: 'Browser Connections'
+    singular: 'Website Connection',
+    plural: 'Website Connections'
   }
 });

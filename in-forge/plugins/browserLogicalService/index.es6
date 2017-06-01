@@ -32,8 +32,8 @@ registerSnapshotDefinition({
   },
 
   pluginName: {
-    singular: 'Browser',
-    plural: 'Browsers'
+    singular: 'Website',
+    plural: 'Websites'
   },
 
   chartWiggleRoom: 20000
