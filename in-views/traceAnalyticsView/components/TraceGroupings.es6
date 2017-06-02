@@ -41,6 +41,7 @@ const errorsElement = `${block}__errors`;
 const callElement = `${block}__call`;
 const kpiElement = `${block}__kpi`;
 const kpiWrapperElement = `${block}__kpi-wrapper`;
+const descriptionElement = `${block}__description`;
 
 export default connectTo(
   {
@@ -325,8 +326,9 @@ function compareTraceGroupByLabel(a, b) {
 
 function DescriptionText() {
   return (
-    <div>
-      Add descriptions text here
+    <div className={descriptionElement}>
+      Trace groups are calculated out of the selected traces and spans on the left. Spans are compared and grouped by specific properties, depending on the spans type.
+      For a deep drill down, there are KPIs, helping you to understand and find the root cause. The KPIS are:
       <br />
       <div className={kpiWrapperElement}>
         <div className={kpiElement}>

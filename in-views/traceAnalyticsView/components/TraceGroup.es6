@@ -72,14 +72,6 @@ export default class TraceGrouping extends React.Component {
     const { showChildren, active, showDetails } = this.state;
     const isRootElement = level === 0;
 
-    let widthOfCallRow = 31;
-    if (isRootElement) {
-      widthOfCallRow = showLatencyMetrics ? 31 : 16;
-    } else {
-      widthOfCallRow = showLatencyMetrics ? 16 : 1;
-    }
-    widthOfCallRow = `calc(100% - ${widthOfCallRow}.75rem)`;
-
     return (
       <li className={block}>
         <div
@@ -97,7 +89,7 @@ export default class TraceGrouping extends React.Component {
               onClick={this.toggleDetails}
             />
           </div>
-          <div className={callElement} style={{ width: widthOfCallRow }}>
+          <div className={callElement} style={{ width: this.getWidthOfCallCell() }}>
             <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
               <SvgIcon
                 type={showChildren ? 'triangle_down' : 'triangle_right'}
@@ -116,25 +108,19 @@ export default class TraceGrouping extends React.Component {
 
               {isRootElement
                 ? null
-                : <Tooltip content="Total Time">
-                    <div className={metricValueElement}>
-                      {`${traceGroup.statistics.durationTotal}ms`}
-                    </div>
-                  </Tooltip>}
+                : <div className={metricValueElement}>
+                    {`${traceGroup.statistics.durationTotal}ms`}
+                  </div>}
               {isRootElement
                 ? null
-                : <Tooltip content="Error Count">
-                    <div className={metricValueElement}>
-                      {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                    </div>
-                  </Tooltip>}
+                : <div className={metricValueElement}>
+                    {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                  </div>}
               {isRootElement
                 ? null
-                : <Tooltip content="Calls">
-                    <div className={metricValueElement}>
-                      {number.compact(traceGroup.statistics.count)}
-                    </div>
-                  </Tooltip>}
+                : <div className={metricValueElement}>
+                    {number.compact(traceGroup.statistics.count)}
+                  </div>}
 
               {traceGroup.batched ? batchedIndicator : null}
 
@@ -223,6 +209,18 @@ export default class TraceGrouping extends React.Component {
     );
   }
 
+  getCurrentSortedValue = () => {
+    const { traceGroup, currentGroupSorting } = this.props;
+
+    if (currentGroupSorting === 'calls') {
+      return number.compact(traceGroup.statistics.count);
+    } else if (currentGroupSorting === 'total') {
+      return `${traceGroup.statistics.durationTotal}ms`;
+    } else if (currentGroupSorting === 'errors') {
+      return percentage.compact(traceGroup.enrichment.errorPercentage);
+    }
+  };
+
   setDomRef = domElement => {
     this.domElement = domElement;
 
@@ -284,6 +282,18 @@ export default class TraceGrouping extends React.Component {
         showDetails: !this.state.showDetails
       });
     }
+  };
+
+  getWidthOfCallCell = () => {
+    const isRootElement = this.props.level === 0;
+    let widthOfCallRow = 31;
+    if (isRootElement) {
+      widthOfCallRow = this.props.showLatencyMetrics ? 31 : 16;
+    } else {
+      widthOfCallRow = this.props.showLatencyMetrics ? 16 : 1;
+    }
+    widthOfCallRow = `calc(100% - ${widthOfCallRow}.75rem)`;
+    return widthOfCallRow;
   };
 
   moveActiveState(modification) {
