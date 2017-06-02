@@ -108,19 +108,25 @@ export default class TraceGrouping extends React.Component {
 
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {`${traceGroup.statistics.durationTotal}ms`}
-                  </div>}
+                : <Tooltip content="Total Time" align="topMiddle">
+                    <div className={metricValueElement}>
+                      {`${traceGroup.statistics.durationTotal}ms`}
+                    </div>
+                  </Tooltip>}
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                  </div>}
+                : <Tooltip content="Error Count" align="topMiddle">
+                    <div className={metricValueElement}>
+                      {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                    </div>
+                  </Tooltip>}
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {number.compact(traceGroup.statistics.count)}
-                  </div>}
+                : <Tooltip content="Calls" align="topMiddle">
+                    <div className={metricValueElement}>
+                      {number.compact(traceGroup.statistics.count)}
+                    </div>
+                  </Tooltip>}
 
               {traceGroup.batched ? batchedIndicator : null}
 
