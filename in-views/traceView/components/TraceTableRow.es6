@@ -44,9 +44,7 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
   };
 
   const moveActiveState = direction => {
-    const elements = Array.prototype.slice
-      .call(domElement.parentNode.childNodes)
-      .filter(element => element.tabIndex > 0);
+    const elements = Array.prototype.slice.call(domElement.parentNode.childNodes);
     const newActiveElementIndex = Math.min(elements.length - 1, Math.max(0, elements.indexOf(domElement) + direction));
     elements[newActiveElementIndex].focus();
     scrollIntoViewIfNeeded(elements[newActiveElementIndex]);
