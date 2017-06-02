@@ -45,6 +45,7 @@ const detailsElement = `${block}__details`;
 const expandDetailsElement = `${block}__toggle-expand-details`;
 const metricValueElement = `${block}__current-metric-value`;
 const labelElement = `${block}__label`;
+const detailCallElement = `${block}__call-detail`;
 
 const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
 
@@ -72,9 +73,6 @@ export default class TraceGrouping extends React.Component {
     const { traceGroup, level, traceGroupsComparator, showLatencyMetrics } = this.props;
     const { showChildren, active, showDetails } = this.state;
     const isRootElement = level === 0;
-
-    traceGroup.enrichment.label =
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
     return (
       <li className={block}>
@@ -134,18 +132,16 @@ export default class TraceGrouping extends React.Component {
                     </Tooltip>}
               </div>
 
-              <div>
+              <div className={`${block}__right`}>
                 <div className={`${block}__line`}>
                   <span className={`${block}__span-type`}>
                     {getTypeLabelPluralByType(traceGroup.spanType)}
                   </span>
                   {traceGroup.batched ? batchedIndicator : null}
                 </div>
-                <div className={`${block}__line`}>
-                  <div className={labelElement} style={{}}>
-                    {traceGroup.enrichment.label}
-                  </div>
-                </div>
+                <span className={labelElement}>
+                  {traceGroup.enrichment.label}
+                </span>
               </div>
             </div>
           </div>
@@ -205,6 +201,9 @@ export default class TraceGrouping extends React.Component {
                 <LabeledValue label="99th">{millis.detailed(traceGroup.statistics.duration99th)}</LabeledValue>
 
                 <InspectTracesForHashButton hash={traceGroup.hash} />
+              </div>
+              <div className={detailCallElement}>
+                {traceGroup.enrichment.label}
               </div>
               <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} showGroupingDetails />
             </div>
