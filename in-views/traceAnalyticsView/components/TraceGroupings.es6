@@ -177,12 +177,17 @@ export default connectTo(
           </SectionHeading>
           <DescriptionText />
           <div className={heading}>
-            <GroupingSorterSelectBox />
-
             <Tooltip
               content="En- or disables the metrics for min, max and average latency in the trace grouping overview."
               align={'topMiddle'}
             >
+              <div className={`${block}__heading`}>
+                Analyse groups by: &nbsp;
+                <GroupingSorterSelectBox />
+              </div>
+            </Tooltip>
+
+            <Tooltip content="Describes the metric where the groups are sorted by" align={'topMiddle'}>
               <div className={`${block}__checkbox`}>
                 Show latency metrics
                 &nbsp;
