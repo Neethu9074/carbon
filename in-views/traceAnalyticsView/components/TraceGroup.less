@@ -11,6 +11,13 @@
     min-height: 1.625rem;
   }
 
+  &__right {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 1rem;
+  }
+
   &__line {
     display: flex;
     align-items: center;
@@ -160,9 +167,6 @@
 
   &__label {
     line-height: 1.188rem;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   &__placeholder {
@@ -176,5 +180,9 @@
     font-size: .688rem;
     line-height: .688rem;
     font-weight: bold;
+  }
+
+  &__call-detail {
+
   }
 }
