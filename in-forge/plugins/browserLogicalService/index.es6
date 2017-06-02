@@ -12,22 +12,22 @@ registerSnapshotDefinition({
   tableDefinition,
   metricDefinitions,
   metricAggregations: {
-    fp: 'stats',
-    unl: 'stats',
-    red: 'stats',
-    apc: 'stats',
-    dns: 'stats',
-    tcp: 'stats',
-    req: 'stats',
-    rsp: 'stats',
-    pro: 'stats',
-    loa: 'stats',
+    fp: 'mean',
+    unl: 'mean',
+    red: 'mean',
+    apc: 'mean',
+    dns: 'mean',
+    tcp: 'mean',
+    req: 'mean',
+    rsp: 'mean',
+    pro: 'mean',
+    loa: 'mean',
     uncaughtErrors: 'sum',
     xhrCalls: 'sum',
     xhrErrors: 'sum'
   },
   dynamicMetricAggregations: {
-    stats: /^endpoint\..*\.(fp|unl|red|apc|dns|tcp|req|rsp|pro|loa)\.(mean|min|25th|50th|75th|95th|98th|99th|max)$/i,
+    mean: /^endpoint\..*\.(fp|unl|red|apc|dns|tcp|req|rsp|pro|loa)\.(mean|min|25th|50th|75th|95th|98th|99th|max)$/i,
     sum: /^endpoint\..*\.(uncaughtErrors|xhrCalls|xhrErrors)$/i
   },
 
