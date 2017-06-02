@@ -328,7 +328,7 @@ function DescriptionText() {
   return (
     <div className={descriptionElement}>
       Trace groups are calculated out of the selected traces and spans on the left. Spans are compared and grouped by specific properties, depending on the spans type.
-      For a deep drill down, there are KPIs, helping you to understand and find the root cause. The KPIS are:
+      For a deep drill down, there are KPIs, helping you to understand and find the root cause. The KPIs are:
       <br />
       <div className={kpiWrapperElement}>
         <div className={kpiElement}>
