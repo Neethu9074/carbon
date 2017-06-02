@@ -37,7 +37,11 @@ export default connectTo(
         {traceAnalyticsEnabled
           ? <div className={`${block}__left-side`}>
               {traces.length > 0
-                ? <Button kind="info" size="sm" onClick={() => markTraces(traces.map(t => t.raw))}>
+                ? <Button
+                    kind="info"
+                    size="sm"
+                    onClick={() => markTraces(traces.map(t => t.raw), maximumNumberOfTracesForAnalytics)}
+                  >
                     Mark all traces
                   </Button>
                 : null}

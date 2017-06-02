@@ -5,6 +5,7 @@ import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
+import { getTypeLabelPluralByType } from 'in-sdk/tracing';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -72,6 +73,9 @@ export default class TraceGrouping extends React.Component {
     const { showChildren, active, showDetails } = this.state;
     const isRootElement = level === 0;
 
+    traceGroup.enrichment.label =
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
     return (
       <li className={block}>
         <div
@@ -91,48 +95,58 @@ export default class TraceGrouping extends React.Component {
           </div>
           <div className={callElement} style={{ width: this.getWidthOfCallCell() }}>
             <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
-              <SvgIcon
-                type={showChildren ? 'triangle_down' : 'triangle_right'}
-                width={showChildren ? 9 : 6}
-                onClick={this.toggleChildren}
-                className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
-              />
-
-              <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
-                <img
-                  src={traceGroup.enrichment.categoryIcon}
-                  alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
-                  className={typeIconElement}
+              <div className={`${block}__left`}>
+                <SvgIcon
+                  type={showChildren ? 'triangle_down' : 'triangle_right'}
+                  width={showChildren ? 9 : 6}
+                  onClick={this.toggleChildren}
+                  className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
                 />
+
+                <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
+                  <img
+                    src={traceGroup.enrichment.categoryIcon}
+                    alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
+                    className={typeIconElement}
+                  />
+                </div>
+
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Total Time" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {`${traceGroup.statistics.durationTotal}ms`}
+                      </div>
+                    </Tooltip>}
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Error Count" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                      </div>
+                    </Tooltip>}
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Calls" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {number.compact(traceGroup.statistics.count)}
+                      </div>
+                    </Tooltip>}
               </div>
 
-              {isRootElement
-                ? null
-                : <Tooltip content="Total Time" align="topMiddle">
-                    <div className={metricValueElement}>
-                      {`${traceGroup.statistics.durationTotal}ms`}
-                    </div>
-                  </Tooltip>}
-              {isRootElement
-                ? null
-                : <Tooltip content="Error Count" align="topMiddle">
-                    <div className={metricValueElement}>
-                      {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                    </div>
-                  </Tooltip>}
-              {isRootElement
-                ? null
-                : <Tooltip content="Calls" align="topMiddle">
-                    <div className={metricValueElement}>
-                      {number.compact(traceGroup.statistics.count)}
-                    </div>
-                  </Tooltip>}
-
-              {traceGroup.batched ? batchedIndicator : null}
-
-              <span className={labelElement}>
-                {traceGroup.enrichment.label}
-              </span>
+              <div>
+                <div className={`${block}__line`}>
+                  <span className={`${block}__span-type`}>
+                    {getTypeLabelPluralByType(traceGroup.spanType)}
+                  </span>
+                  {traceGroup.batched ? batchedIndicator : null}
+                </div>
+                <div className={`${block}__line`}>
+                  <div className={labelElement} style={{}}>
+                    {traceGroup.enrichment.label}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
