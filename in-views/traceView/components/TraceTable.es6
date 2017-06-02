@@ -17,10 +17,10 @@ const block = 'in-trace-table';
 export default getElementDimensions(
   connectTo(
     {
-      selectedTraceId,
-      traces: traces$,
+      isInfiniteLoading: isLoading$,
       markedTraces: markedTraces$,
-      isInfiniteLoading: isLoading$
+      selectedTraceId,
+      traces: traces$
     },
     class extends React.Component {
       static displayName = 'TraceTable';
