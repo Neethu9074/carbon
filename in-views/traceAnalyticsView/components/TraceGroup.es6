@@ -37,7 +37,6 @@ const errorsPercentageIndicatorElement = `${block}__errors-percentage-indicator`
 const errorCountValueElement = `${block}__error-count`;
 const batchedElement = `${block}__batched`;
 const callElement = `${block}__call`;
-const deepCallElement = `${block}__deep-call`;
 const callContentElement = `${block}__call-content`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
@@ -69,8 +68,17 @@ export default class TraceGrouping extends React.Component {
   }
 
   render() {
-    const { traceGroup, level, traceGroupsComparator } = this.props;
+    const { traceGroup, level, traceGroupsComparator, showLatencyMetrics } = this.props;
     const { showChildren, active, showDetails } = this.state;
+    const isRootElement = level === 0;
+
+    let widthOfCallRow = 31;
+    if (isRootElement) {
+      widthOfCallRow = showLatencyMetrics ? 31 : 16;
+    } else {
+      widthOfCallRow = showLatencyMetrics ? 16 : 1;
+    }
+    widthOfCallRow = `calc(100% - ${widthOfCallRow}.75rem)`;
 
     return (
       <li className={block}>
@@ -89,7 +97,7 @@ export default class TraceGrouping extends React.Component {
               onClick={this.toggleDetails}
             />
           </div>
-          <div className={level > 0 ? deepCallElement : callElement}>
+          <div className={callElement} style={{ width: widthOfCallRow }}>
             <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
               <SvgIcon
                 type={showChildren ? 'triangle_down' : 'triangle_right'}
@@ -106,15 +114,21 @@ export default class TraceGrouping extends React.Component {
                 />
               </div>
 
-              <div className={metricValueElement}>
-                {`${traceGroup.statistics.durationTotal}ms`}
-              </div>
-              <div className={metricValueElement}>
-                {percentage.compact(traceGroup.enrichment.errorPercentage)}
-              </div>
-              <div className={metricValueElement}>
-                {number.compact(traceGroup.statistics.count)}
-              </div>
+              {isRootElement
+                ? null
+                : <div className={metricValueElement}>
+                    {`${traceGroup.statistics.durationTotal}ms`}
+                  </div>}
+              {isRootElement
+                ? null
+                : <div className={metricValueElement}>
+                    {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                  </div>}
+              {isRootElement
+                ? null
+                : <div className={metricValueElement}>
+                    {number.compact(traceGroup.statistics.count)}
+                  </div>}
 
               {traceGroup.batched ? batchedIndicator : null}
 
@@ -124,12 +138,13 @@ export default class TraceGrouping extends React.Component {
             </div>
           </div>
 
-          {level < 1
+          {isRootElement
             ? <div className={totalTimeElement}>
                 {millis.compact(traceGroup.statistics.durationTotal)}
               </div>
             : null}
-          {level < 1
+
+          {isRootElement
             ? <div className={errorsElement}>
                 <div
                   className={errorsPercentageIndicatorElement}
@@ -141,20 +156,27 @@ export default class TraceGrouping extends React.Component {
               </div>
             : null}
 
-          {level < 1
+          {isRootElement
             ? <div className={callsElement}>
                 {number.compact(traceGroup.statistics.count)}
               </div>
             : null}
-          <div className={minElement}>
-            {millis.compact(traceGroup.statistics.durationMin)}
-          </div>
-          <div className={avgElement}>
-            {millis.compact(traceGroup.statistics.durationMean)}
-          </div>
-          <div className={maxElement}>
-            {millis.compact(traceGroup.statistics.durationMax)}
-          </div>
+
+          {showLatencyMetrics
+            ? <div className={minElement}>
+                {millis.compact(traceGroup.statistics.durationMin)}
+              </div>
+            : null}
+          {showLatencyMetrics
+            ? <div className={avgElement}>
+                {millis.compact(traceGroup.statistics.durationMean)}
+              </div>
+            : null}
+          {showLatencyMetrics
+            ? <div className={maxElement}>
+                {millis.compact(traceGroup.statistics.durationMax)}
+              </div>
+            : null}
         </div>
 
         {showDetails
@@ -184,6 +206,7 @@ export default class TraceGrouping extends React.Component {
                 <TraceGrouping
                   key={childTraceGroup.hash}
                   traceGroup={childTraceGroup}
+                  showLatencyMetrics={showLatencyMetrics}
                   currentGroupSorting={this.props.currentGroupSorting}
                   level={level + 1}
                   traceGroupsComparator={traceGroupsComparator}
