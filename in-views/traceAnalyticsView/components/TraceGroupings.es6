@@ -132,7 +132,8 @@ export default connectTo(
       const categoryBackgroundTransparent = {
         background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)`,
         margin: `0 0 0 ${level * 20}px`,
-        borderLeft: `3px solid ${categoryColor}`
+        borderLeft: `3px solid ${categoryColor}`,
+        detailBorderLeft: `${28 + level * 20}px solid white`
       };
 
       traceGroup.enrichment = {
