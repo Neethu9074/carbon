@@ -116,19 +116,25 @@ export default class TraceGrouping extends React.Component {
 
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {`${traceGroup.statistics.durationTotal}ms`}
-                  </div>}
+                : <Tooltip content="Total Time">
+                    <div className={metricValueElement}>
+                      {`${traceGroup.statistics.durationTotal}ms`}
+                    </div>
+                  </Tooltip>}
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                  </div>}
+                : <Tooltip content="Error Count">
+                    <div className={metricValueElement}>
+                      {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                    </div>
+                  </Tooltip>}
               {isRootElement
                 ? null
-                : <div className={metricValueElement}>
-                    {number.compact(traceGroup.statistics.count)}
-                  </div>}
+                : <Tooltip content="Calls">
+                    <div className={metricValueElement}>
+                      {number.compact(traceGroup.statistics.count)}
+                    </div>
+                  </Tooltip>}
 
               {traceGroup.batched ? batchedIndicator : null}
 
@@ -216,18 +222,6 @@ export default class TraceGrouping extends React.Component {
       </li>
     );
   }
-
-  getCurrentSortedValue = () => {
-    const { traceGroup, currentGroupSorting } = this.props;
-
-    if (currentGroupSorting === 'calls') {
-      return number.compact(traceGroup.statistics.count);
-    } else if (currentGroupSorting === 'total') {
-      return `${traceGroup.statistics.durationTotal}ms`;
-    } else if (currentGroupSorting === 'errors') {
-      return percentage.compact(traceGroup.enrichment.errorPercentage);
-    }
-  };
 
   setDomRef = domElement => {
     this.domElement = domElement;
