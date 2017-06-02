@@ -107,15 +107,15 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: [
-              metricPrefix + 'unl.95th',
-              metricPrefix + 'red.95th',
-              metricPrefix + 'apc.95th',
-              metricPrefix + 'dns.95th',
-              metricPrefix + 'tcp.95th',
-              metricPrefix + 'req.95th',
-              metricPrefix + 'rsp.95th',
-              metricPrefix + 'pro.95th',
-              metricPrefix + 'loa.95th'
+              metricPrefix + 'unl',
+              metricPrefix + 'red',
+              metricPrefix + 'apc',
+              metricPrefix + 'dns',
+              metricPrefix + 'tcp',
+              metricPrefix + 'req',
+              metricPrefix + 'rsp',
+              metricPrefix + 'pro',
+              metricPrefix + 'loa'
             ],
             labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'Request', 'Response', 'Processing', 'Load'],
             type: 'stackedArea'
@@ -133,7 +133,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
-            metrics: [metricPrefix + 'fp.95th'],
+            metrics: [metricPrefix + 'fp'],
             labels: ['First paint time'],
             type: 'line'
           }}

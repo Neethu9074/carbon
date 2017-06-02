@@ -41,7 +41,7 @@ export default function BrowserServiceSidebar({ snapshot }) {
             formatter: ms
           },
           {
-            metric: 'fp.mean',
+            metric: 'fp',
             label: 'first paint',
             formatter: ms
           },
