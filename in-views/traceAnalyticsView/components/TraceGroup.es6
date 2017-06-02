@@ -190,7 +190,10 @@ export default class TraceGrouping extends React.Component {
         {showDetails
           ? <div
               className={detailsElement}
-              style={{ background: traceGroup.enrichment.categoryBackgroundTransparent.background }}
+              style={{
+                background: traceGroup.enrichment.categoryBackgroundTransparent.background,
+                borderLeft: traceGroup.enrichment.categoryBackgroundTransparent.detailBorderLeft
+              }}
             >
               <div>
                 <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
