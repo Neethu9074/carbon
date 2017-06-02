@@ -86,15 +86,19 @@ export function addMarkedTracesToAnalytics() {
 
 function markTracesReducer(_markedTraces, action) {
   for (let i = 0, length = action.traces.length; i < length; i++) {
+    if (i >= action.maximumNumberOfTracesForAnalytics) {
+      break;
+    }
     const trace = action.traces[i];
     _markedTraces.set(trace.get('traceId'), trace);
   }
   return _markedTraces;
 }
 
-export function markTraces(traces) {
+export function markTraces(traces, maximumNumberOfTracesForAnalytics) {
   markedTraces.applyStateMutation({
     type: 'markTraces',
-    traces
+    traces,
+    maximumNumberOfTracesForAnalytics
   });
 }

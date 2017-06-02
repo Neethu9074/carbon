@@ -63,7 +63,7 @@ export default connectTo(
         loading: true,
         traceGroups: [],
         error: null,
-        showLatencyMetrics: true
+        showLatencyMetrics: false
       };
     }
 
@@ -131,7 +131,7 @@ export default connectTo(
       const categoryBackgroundOpaque = { background: categoryColor };
       const categoryBackgroundTransparent = {
         background: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.1)`,
-        margin: `0 0 0 ${level * 30}px`,
+        margin: `0 0 0 ${level * 20}px`,
         borderLeft: `3px solid ${categoryColor}`
       };
 
