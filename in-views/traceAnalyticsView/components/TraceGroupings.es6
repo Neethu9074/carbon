@@ -18,6 +18,7 @@ import { joinClassNames } from 'in-services/util/classnames';
 import { hexToRGB } from 'in-services/formatters/color';
 import Toggle from 'in-components/form/Toggle';
 import { dispose } from 'in-services/util/ro';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -176,14 +177,20 @@ export default connectTo(
           <DescriptionText />
           <div className={heading}>
             <GroupingSorterSelectBox />
-            <div className={`${block}__checkbox`}>
-              Show latency
-              &nbsp;
-              <Toggle
-                checked={showLatencyMetrics}
-                onChange={e => this.setState({ showLatencyMetrics: e.target.checked })}
-              />
-            </div>
+
+            <Tooltip
+              content="En- or disables the metrics for min, max and average latency in the trace grouping overview."
+              align={'topMiddle'}
+            >
+              <div className={`${block}__checkbox`}>
+                Show latency metrics
+                &nbsp;
+                <Toggle
+                  checked={showLatencyMetrics}
+                  onChange={e => this.setState({ showLatencyMetrics: e.target.checked })}
+                />
+              </div>
+            </Tooltip>
           </div>
           <div className={block}>
             <div className={headerElement}>
