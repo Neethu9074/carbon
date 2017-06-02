@@ -16,6 +16,7 @@ import { compare as compareNumber } from 'in-services/util/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { joinClassNames } from 'in-services/util/classnames';
 import { hexToRGB } from 'in-services/formatters/color';
+import Toggle from 'in-components/form/Toggle';
 import { dispose } from 'in-services/util/ro';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -59,7 +60,8 @@ export default connectTo(
         traceIds: [],
         loading: true,
         traceGroups: [],
-        error: null
+        error: null,
+        showLatencyMetrics: true
       };
     }
 
@@ -151,12 +153,13 @@ export default connectTo(
     }
 
     render() {
-      if (this.state.isLoading) {
+      const { isLoading, error, traceGroups, showLatencyMetrics } = this.state;
+      if (isLoading) {
         return <LoadingIndicator type="dark" />;
-      } else if (this.state.error) {
+      } else if (error) {
         return (
           <p className={`${block}__error`}>
-            {this.state.error}
+            {error}
           </p>
         );
       }
@@ -173,12 +176,23 @@ export default connectTo(
           <DescriptionText />
           <div className={heading}>
             <GroupingSorterSelectBox />
+            <div className={`${block}__checkbox`}>
+              Show latency
+              &nbsp;
+              <Toggle
+                checked={showLatencyMetrics}
+                onChange={e => this.setState({ showLatencyMetrics: e.target.checked })}
+              />
+            </div>
           </div>
           <div className={block}>
             <div className={headerElement}>
               <div className={expandElement}>&nbsp;</div>
               <HeaderCell
                 className={callElement}
+                style={{
+                  width: `calc(100% - ${showLatencyMetrics ? '31' : '16'}.75rem)`
+                }}
                 activeComparator={traceGroupsComparator}
                 comparator={compareTraceGroupByLabel}
               >
@@ -205,35 +219,42 @@ export default connectTo(
               >
                 #Calls
               </HeaderCell>
-              <HeaderCell
-                className={minElement}
-                activeComparator={traceGroupsComparator}
-                comparator={compareTraceGroupByDurationMin}
-              >
-                Min
-              </HeaderCell>
-              <HeaderCell
-                className={avgElement}
-                activeComparator={traceGroupsComparator}
-                comparator={compareTraceGroupByDurationAvg}
-              >
-                Avg
-              </HeaderCell>
-              <HeaderCell
-                className={maxElement}
-                activeComparator={traceGroupsComparator}
-                comparator={compareTraceGroupByDurationMax}
-              >
-                Max
-              </HeaderCell>
+              {showLatencyMetrics
+                ? <HeaderCell
+                    className={minElement}
+                    activeComparator={traceGroupsComparator}
+                    comparator={compareTraceGroupByDurationMin}
+                  >
+                    Min
+                  </HeaderCell>
+                : null}
+              {showLatencyMetrics
+                ? <HeaderCell
+                    className={avgElement}
+                    activeComparator={traceGroupsComparator}
+                    comparator={compareTraceGroupByDurationAvg}
+                  >
+                    Avg
+                  </HeaderCell>
+                : null}
+              {showLatencyMetrics
+                ? <HeaderCell
+                    className={maxElement}
+                    activeComparator={traceGroupsComparator}
+                    comparator={compareTraceGroupByDurationMax}
+                  >
+                    Max
+                  </HeaderCell>
+                : null}
             </div>
 
             <ol className={groupings}>
-              {this.state.traceGroups
+              {traceGroups
                 .sort(comparator)
                 .map(traceGroup => (
                   <TraceGroup
                     key={traceGroup.hash}
+                    showLatencyMetrics={showLatencyMetrics}
                     traceGroup={traceGroup}
                     level={0}
                     traceGroupsComparator={comparator}
@@ -254,12 +275,12 @@ export default connectTo(
   }
 );
 
-function HeaderCell({ children, activeComparator, comparator, className }) {
+function HeaderCell({ children, activeComparator, comparator, className, style }) {
   const active = activeComparator === comparator;
   const baseClassName = active ? activeHeaderCellElement : headerCellElement;
 
   return (
-    <div className={joinClassNames(baseClassName, className)}>
+    <div className={joinClassNames(baseClassName, className)} style={style}>
       {children}
 
       {active ? <SvgIcon className={orderIconElement} type={'triangle_down'} width={5} height={5} /> : null}

@@ -62,10 +62,6 @@
     width: 5rem;
   }
 
-  &__call {
-    width: ~'calc(100% - 31.75rem)';
-  }
-
   &__header-cell {
     &--active {
       background: #40535b;
@@ -82,6 +78,10 @@
   }
 
   &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     padding: .5rem 1rem;
   }
 
@@ -99,5 +99,13 @@
 
   &__kpi-wrapper {
     display: flex;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    transform: scale(0.75);
   }
 }
