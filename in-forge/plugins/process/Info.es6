@@ -20,6 +20,9 @@ export default function ProcessInfo({ snapshot }) {
       <DescriptionItem title="Group">
         {data.get('group')}
       </DescriptionItem>
+      <DescriptionItem title="Job">
+        {data.get('job')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
