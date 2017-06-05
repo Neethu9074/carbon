@@ -21,6 +21,7 @@ import './g.http';
 import './g.rpc';
 import './feign';
 import './hc';
+import './hibernate';
 import './hornetq';
 import './http';
 import './ibmdb2';
