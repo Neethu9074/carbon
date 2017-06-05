@@ -8,11 +8,14 @@ import * as ejbConfig
   from 'in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
 import * as eumConfig
   from 'in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
+import * as eumResourceConfig
+  from 'in-views/configurationView/subview/ServiceExtraction/configs/EumResourceProviderServiceExtractionConfiguration';
 
 export const typeDefinitions = {
   ejbServiceExtraction: ejbConfig,
   elasticsearchServiceExtraction: esConfig,
   httpServiceExtraction: httpConfig,
   messageBrokerServiceExtraction: mbConfig,
-  eumServiceExtraction: eumConfig
+  eumServiceExtraction: eumConfig,
+  eumResourceProviderServiceExtraction: eumResourceConfig
 };

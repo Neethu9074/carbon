@@ -12,6 +12,8 @@ import MessageBrokerServiceExtractionConfiguration
   from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
 import EumServiceExtractionConfiguration
   from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
+import EumResourceProviderServiceExtractionConfiguration
+  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumResourceProviderServiceExtractionConfiguration';
 import UserManagement
   from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
@@ -143,6 +145,11 @@ export default (
         component={createAsyncFullscreenOverlayViewComponent(EumServiceExtractionConfiguration)}
         path="eumServiceExtraction"
         windowTitle="EUM Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(EumResourceProviderServiceExtractionConfiguration)}
+        path="eumResourceProvider"
+        windowTitle="EUM Resource Provider Extraction"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(UiConfig)}

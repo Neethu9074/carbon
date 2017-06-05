@@ -28,7 +28,9 @@ import {
   rulesViewLink$,
   isRulesViewLink$,
   ruleBindingsViewLink$,
-  isRuleBindingsViewLink$
+  isRuleBindingsViewLink$,
+  isEumResourceProviderExtractionConfigurationView$,
+  eumResourceProviderConfigurationViewLink$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -74,6 +76,12 @@ export default function Navigation() {
                 title="EUM Rules"
                 href$={eumServiceExtractionConfigurationViewLink$}
                 isActive$={isEumServiceExtractionConfigurationView$}
+                borderless
+              />
+              <NavItem
+                title="EUM Resource Rules"
+                href$={eumResourceProviderConfigurationViewLink$}
+                isActive$={isEumResourceProviderExtractionConfigurationView$}
                 borderless
               />
             </NavItem>

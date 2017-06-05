@@ -50,7 +50,7 @@ export default class extends React.Component {
 
   render() {
     const { form, rule } = this.state;
-    const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = typeDefinitions[
+    const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions, supportsEndpoints } = typeDefinitions[
       this.props.params.ruleType
     ];
 
@@ -94,20 +94,22 @@ export default class extends React.Component {
 
         </SubViewWrapper>
 
-        <ServiceExtractionEndpointRuleConfigSubForm
-          serviceRule={rule}
-          form={form}
-          onChangeIn={this.onChangeInEndpoints}
-          helpTexts={helpTexts}
-          matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-          matchSpecificationOptions={matchSpecificationOptions}
-          addMatchSpecification={this.addMatchSpecification}
-          removeMatchSpecification={this.removeMatchSpecification}
-          removeEndpointRule={this.removeEndpointRule}
-          addEndpointRule={this.addEndpointRule}
-          moveUp={this.moveUp}
-          moveDown={this.moveDown}
-        />
+        {supportsEndpoints !== false
+          ? <ServiceExtractionEndpointRuleConfigSubForm
+              serviceRule={rule}
+              form={form}
+              onChangeIn={this.onChangeInEndpoints}
+              helpTexts={helpTexts}
+              matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+              matchSpecificationOptions={matchSpecificationOptions}
+              addMatchSpecification={this.addMatchSpecification}
+              removeMatchSpecification={this.removeMatchSpecification}
+              removeEndpointRule={this.removeEndpointRule}
+              addEndpointRule={this.addEndpointRule}
+              moveUp={this.moveUp}
+              moveDown={this.moveDown}
+            />
+          : null}
       </div>
     );
   }

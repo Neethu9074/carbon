@@ -39,6 +39,14 @@ export const eumServiceExtractionConfigurationViewLink$ = buildUrlStream({
 });
 export const isEumServiceExtractionConfigurationView$ = buildPathStartsWithStream(eumServiceExtractionConfigViewPath);
 
+export const eumResourceProviderExtractionConfigViewPath = '/config/eumResourceProvider';
+export const eumResourceProviderConfigurationViewLink$ = buildUrlStream({
+  path: eumResourceProviderExtractionConfigViewPath
+});
+export const isEumResourceProviderExtractionConfigurationView$ = buildPathStartsWithStream(
+  eumResourceProviderExtractionConfigViewPath
+);
+
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({ path: userInterfaceConfigViewPath });
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
