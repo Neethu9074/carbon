@@ -39,3 +39,7 @@ export const viewStructure = createTrackingStore({
 export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
   createViewStructureObservable({ viewType: types.physical, time: focusedMoment })
 );
+
+export const logicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
+  createViewStructureObservable({ viewType: types.logical, time: focusedMoment })
+);

@@ -6,7 +6,7 @@ import DefaultConnectionCharts
 import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
-import { viewStructure } from 'in-stores/view';
+import { logicalViewStructure$ } from 'in-stores/view';
 
 export default function Connections({ snapshotId, timeframe }) {
   return (
@@ -14,7 +14,7 @@ export default function Connections({ snapshotId, timeframe }) {
       <LogicalConnectionEntityTable
         timeframe={timeframe}
         title={'Inbound Connections'}
-        dataStream={viewStructure.flatMap(root => {
+        dataStream={logicalViewStructure$.flatMap(root => {
           for (let i = 0, length = root.children.length; i < length; i++) {
             const item = root.children[i];
             if (item.id === snapshotId) {
@@ -28,7 +28,7 @@ export default function Connections({ snapshotId, timeframe }) {
       <LogicalConnectionEntityTable
         timeframe={timeframe}
         title={'Outbound Connections'}
-        dataStream={viewStructure.flatMap(root => {
+        dataStream={logicalViewStructure$.flatMap(root => {
           for (let i = 0, length = root.children.length; i < length; i++) {
             const item = root.children[i];
             if (item.id === snapshotId) {
