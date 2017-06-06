@@ -68,6 +68,8 @@ import './redis';
 import './render';
 import './resteasy';
 import './rpc';
+import './rpc-client';
+import './rpc-server';
 import './sdk';
 import './servlet';
 import './session';

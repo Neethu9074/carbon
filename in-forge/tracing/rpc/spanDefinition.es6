@@ -1,14 +1,12 @@
-import { config } from 'in-services/config';
-
 export function getLabel(span) {
-  const host = config.tenant === 'douglas' ? span.getIn(['data', 'rpc', 'host'], '') : '';
-  const service = span.getIn(['data', 'service'], '');
+  const flavor = span.getIn(['data', 'rpc', 'flavor']);
+  const host = span.getIn(['data', 'rpc', 'host']);
+  const method = span.getIn(['data', 'rpc', 'method']);
+  var prefix = 'rpc://';
 
-  if (service) {
-    return service;
-  } else if (host) {
-    return host;
+  if (flavor) {
+    prefix = `${flavor}://`;
   }
 
-  return null;
+  return `${prefix}${host}/${method}`;
 }
