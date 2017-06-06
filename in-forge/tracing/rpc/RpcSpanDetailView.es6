@@ -15,7 +15,7 @@ export default function RpcSpanDetailView({ span }) {
         {span.getIn(['data', 'rpc', 'port'])}
       </DescriptionItem>
       <DescriptionItem title="Procedure/Method">
-        {span.getIn(['data', 'rpc', 'method'])}
+        {span.getIn(['data', 'rpc', 'call'])}
       </DescriptionItem>
       <DescriptionItem title="Parameters">
         {span.getIn(['data', 'rpc', 'params'])}
