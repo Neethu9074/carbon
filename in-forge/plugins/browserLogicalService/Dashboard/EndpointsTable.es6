@@ -114,7 +114,7 @@ export default function Endpoints({ snapshot, timeframe }) {
   }
 
   return (
-    <DashboardSection title={`Endpoints (${rows.length})`}>
+    <DashboardSection title={`Pages (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );

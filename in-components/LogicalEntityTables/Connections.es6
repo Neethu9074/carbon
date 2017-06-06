@@ -4,9 +4,9 @@ import React from 'react';
 import DefaultConnectionCharts
   from 'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
 import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
+import { logicalViewStructure$ } from 'in-stores/view';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
-import { logicalViewStructure$ } from 'in-stores/view';
 
 export default function Connections({ snapshotId, timeframe }) {
   return (
