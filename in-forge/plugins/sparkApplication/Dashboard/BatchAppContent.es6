@@ -1,0 +1,54 @@
+import semver from 'semver';
+import React from 'react';
+
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
+import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
+import StagesTable from './StagesTable';
+import StagesTableBeforeV160 from './StagesTableBeforeV160';
+export default function BatchAppContent({ snapshot, timeframe }) {
+  const version = snapshot.getIn(['data', 'version'], false);
+
+  return (
+    <div>
+      <DashboardSection title="Jobs">
+        <ChartWithLegend
+          snapshotId={snapshot.get('id')}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            metrics: ['failedJobs', 'completedJobs', 'activeJobs'],
+            labels: ['All Failed Jobs', 'All Completed Jobs', 'All Active Jobs'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Stages">
+        <ChartWithLegend
+          snapshotId={snapshot.get('id')}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            metrics: ['pendingStages', 'failedStages', 'completedStages', 'activeStages'],
+            labels: ['All Pending Stages', 'All Failed Stages', 'All Completed Stages', 'All Active Stages'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      {semver.satisfies(version, '>=1.6.0')
+        ? <StagesTable snapshot={snapshot} timeframe={timeframe} />
+        : <StagesTableBeforeV160 snapshot={snapshot} timeframe={timeframe} />}
+      {semver.satisfies(version, '>=2.0.0')
+        ? <ExecutorsBatchAppTable snapshot={snapshot} timeframe={timeframe} />
+        : <ExecutorsBatchAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />}
+    </div>
+  );
+}
