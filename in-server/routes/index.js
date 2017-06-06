@@ -140,7 +140,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings) {
     errorPages.send403(req, res);
     return;
   } else if (getUserStatusCode < 200 || getUserStatusCode > 299) {
-    console.error('Undefined state: Server returned unknown status code ' + status);
+    console.error('Undefined state: Server returned unknown status code ' + getUserStatusCode);
     errorPages.send500(req, res);
     return;
   }
