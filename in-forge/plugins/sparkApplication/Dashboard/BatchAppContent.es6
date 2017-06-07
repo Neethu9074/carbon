@@ -9,7 +9,7 @@ import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200
 import StagesTable from './StagesTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';
 export default function BatchAppContent({ snapshot, timeframe }) {
-  const version = snapshot.getIn(['data', 'version'], false);
+  const version = snapshot.getIn(['data', 'version'], '2.0.0');
 
   return (
     <div>

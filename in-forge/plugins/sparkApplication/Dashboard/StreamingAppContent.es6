@@ -8,7 +8,7 @@ import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 
 export default function StreamingAppContent({ snapshot, timeframe }) {
-  const version = snapshot.getIn(['data', 'version'], false);
+  const version = snapshot.getIn(['data', 'version'], '2.0.0');
 
   return (
     <div>
