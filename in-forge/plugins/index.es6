@@ -24,6 +24,7 @@ import './elasticsearchCluster';
 import './elasticSearchIndexServiceInstance';
 import './elasticsearchNode';
 import './etcd';
+import './finagleApplicationContainer';
 import './ftpServiceInstance';
 import './gce';
 import './genericHardware';
