@@ -43,6 +43,11 @@ import {
   validate as validateBooleanColumn,
   initialize as initializeBooleanColumn
 } from 'in-components/Table/renderers/boolean';
+import {
+  type as linkButtonType,
+  validate as validateLinkButtonColumn,
+  initialize as initializeLinkButtonColumn
+} from 'in-components/Table/renderers/linkButton';
 
 export const renderers = {
   [healthColumnType]: { validate: validateHealthColumn, initialize: initializeHealthColumn },
@@ -53,5 +58,6 @@ export const renderers = {
   [numberType]: { validate: validateNumberColumn, initialize: initializeNumberColumn },
   [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
   [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn },
-  [booleanType]: { validate: validateBooleanColumn, initialize: initializeBooleanColumn }
+  [booleanType]: { validate: validateBooleanColumn, initialize: initializeBooleanColumn },
+  [linkButtonType]: { validate: validateLinkButtonColumn, initialize: initializeLinkButtonColumn }
 };

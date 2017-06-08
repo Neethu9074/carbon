@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
@@ -30,6 +31,23 @@ const cols = [
       },
       getContent: number.compact
     }
+  },
+  {
+    title: '',
+    type: 'linkButton',
+    disableSorting: true,
+    typeArgs: {
+      get$(row) {
+        return getTraceViewLinkWithQuery(
+          `entity.id:"${row.snapshotId}" AND span.type:page.err AND span.hash:"errorMessage=${row.hash}"`
+        ).map(href => {
+          return {
+            href,
+            label: 'Traces'
+          };
+        });
+      }
+    }
   }
 ];
 
@@ -44,7 +62,7 @@ export default connectTo(
       )
     };
   },
-  function ErrorTable({ result }) {
+  function ErrorTable({ result, snapshotId }) {
     // TODO show message when timeframe extends beyond our trace storage time
 
     if (!result) {
@@ -66,7 +84,8 @@ export default connectTo(
         key: hash,
         hash,
         message: error.get('message'),
-        count: error.get('count')
+        count: error.get('count'),
+        snapshotId
       };
     });
 
@@ -76,8 +95,22 @@ export default connectTo(
 
     return (
       <DashboardSection title={`Uncaught Error Breakdown (${rows.length})`}>
-        <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
+        <Table
+          cols={cols}
+          rows={rows}
+          initialSortColumn={1}
+          initialSortDirection="desc"
+          getRowDetails={getRowDetails}
+        />
       </DashboardSection>
     );
   }
 );
+
+function getRowDetails(row) {
+  return (
+    <div>
+      details for {row.key}
+    </div>
+  );
+}

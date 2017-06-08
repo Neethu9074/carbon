@@ -1,13 +1,15 @@
 import invariant from 'invariant';
+import React from 'react';
 
 import { noop } from 'in-services/fixedObjects';
+import Button from 'in-components/Button';
 
-export const type = 'custom';
+export const type = 'linkButton';
 
 export function validate(col) {
   invariant(
     typeof col.typeArgs.get === 'function' || typeof col.typeArgs.get$ === 'function',
-    'Columns with type=custom must have a get(row) function which returns objects of the form {value, content} or null. Alternatively, columns with type=custom must have a get$(row) function which returns observables which emit objects of the form {value, content} or null'
+    'Columns with type=custom must have a get(row) function which returns objects of the form {value, href, label} or null. Alternatively, columns with type=custom must have a get$(row) function which returns observables which emit objects of the form {value, href, label} or null'
   );
   invariant(
     col.disableSorting || typeof col.typeArgs.comparator === 'function',
@@ -27,11 +29,11 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   };
 
   if (columnDefinition.typeArgs.get) {
-    const valueAndContent = columnDefinition.typeArgs.get(row.rowConfig);
-    setResult(valueAndContent, col, row, emitRawDataChange);
+    const result = columnDefinition.typeArgs.get(row.rowConfig);
+    setResult(result, col, row, emitRawDataChange);
   } else {
-    const valueAndContent$ = columnDefinition.typeArgs.get$(row.rowConfig);
-    col.subscription = valueAndContent$.subscribe(setResult, null, col, row, emitRawDataChange);
+    const result$ = columnDefinition.typeArgs.get$(row.rowConfig);
+    col.subscription = result$.subscribe(setResult, null, col, row, emitRawDataChange);
   }
 
   return col;
@@ -43,7 +45,11 @@ function setResult(result, col, row, emitRawDataChange) {
     col.content = null;
   } else {
     col.value = result.value;
-    col.content = result.content;
+    col.content = (
+      <Button href={result.href} size="sm" kind="secondary">
+        {result.label}
+      </Button>
+    );
   }
   row.mutationCount++;
   emitRawDataChange();
