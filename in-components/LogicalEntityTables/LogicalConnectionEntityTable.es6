@@ -55,24 +55,25 @@ const cols = [
         return 'mean';
       }
     }
-  },
-  {
-    title: 'Error Rate',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.node.get('id');
-      },
-      getMetricName() {
-        return 'error_rate';
-      },
-      getContent: percentageTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
   }
 ];
+
+const colsWithErrorRate = cols.concat({
+  title: 'Error Rate',
+  type: 'sparkChart',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.node.get('id');
+    },
+    getMetricName() {
+      return 'error_rate';
+    },
+    getContent: percentageTwoDecimalPlaces,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+});
 
 export default connectTo(
   props => {
@@ -80,7 +81,7 @@ export default connectTo(
       nodes: props.dataStream
     };
   },
-  function LogicalEntityTable({ nodes, title, getRowDetails, timeframe }) {
+  function LogicalEntityTable({ nodes, title, getRowDetails, timeframe, withoutErrorRate }) {
     if (!nodes || nodes.length === 0) {
       return null;
     }
@@ -95,7 +96,7 @@ export default connectTo(
 
     return (
       <DashboardSection title={`${title} (${rows.length})`}>
-        <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+        <Table cols={withoutErrorRate ? cols : colsWithErrorRate} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
     );
   }

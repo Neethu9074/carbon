@@ -1,10 +1,10 @@
 import React from 'react';
 
+import PageResourcesAndConnections from 'in-forge/plugins/browserLogicalService/Dashboard/PageResourcesAndConnections';
 import { msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import EndpointsTable from 'in-forge/plugins/browserLogicalService/Dashboard/EndpointsTable';
 import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
-import Connections from 'in-components/LogicalEntityTables/Connections';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -54,7 +54,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
 
       <PageCharts snapshotId={snapshotId} timeframe={timeframe} />
       <EndpointsTable snapshot={snapshot} timeframe={timeframe} />
-      <Connections snapshotId={snapshotId} timeframe={timeframe} />
+      <PageResourcesAndConnections snapshotId={snapshotId} timeframe={timeframe} />
     </div>
   );
 }

@@ -34,9 +34,9 @@ admin-plugin-index@^1.1.1:
     event-loop-lag "^1.2.0"
     pretty-bytes "^4.0.2"
 
-admin-plugin-report@^1.0.0:
-  version "1.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-report/-/admin-plugin-report-1.0.0.tgz#4237e4c79c9396732c570cf0cbcaddba8ee1dab8"
+admin-plugin-report@^1.0.1:
+  version "1.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/admin-plugin-report/-/admin-plugin-report-1.0.1.tgz#04bc8e98cc198edf8ca32248195d64f856e25eea"
   dependencies:
     node-report "^2.1.1"
 
