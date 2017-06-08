@@ -73,6 +73,7 @@ export default function({
 
 function formatUrl(url, queryParams = {}) {
   const queryPart = Object.keys(queryParams)
+    .filter(k => queryParams[k] != null)
     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
     .join('&');
 
