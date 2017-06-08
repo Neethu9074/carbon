@@ -83,6 +83,7 @@ const prefetchItems = fs.readdirSync(paths.bundleDir)
 
 
 router.get('/', (req, res) => {
+  res.set('Vary', '*');
   getCurrentUser(req)
     .then(([statusCode, userStr]) => getUserSettings(req, res, statusCode, userStr))
     .then(([statusCode, userStr, userSettings]) => sendIndex(req, res, statusCode, userStr, userSettings))
