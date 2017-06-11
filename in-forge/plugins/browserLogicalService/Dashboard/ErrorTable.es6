@@ -83,7 +83,7 @@ export default connectTo(
       return {
         key: hash,
         hash,
-        message: error.get('message'),
+        message: error.get('name'),
         count: error.get('count'),
         snapshotId
       };
