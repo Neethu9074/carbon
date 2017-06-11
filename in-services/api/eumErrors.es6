@@ -13,3 +13,16 @@ export function getErrorsForWebsite({ websiteSnapshotId, timeframe }) {
     }
   }).map(response => fromJS(response.body));
 }
+
+export function getErrorBreakdownForWebsite({ websiteSnapshotId, errorHash, timeframe }) {
+  return http({
+    method: 'GET',
+    url: '/api/eum/errors',
+    queryParams: {
+      snapshotId: websiteSnapshotId,
+      errorHash,
+      to: timeframe.to,
+      windowSize: timeframe.windowSize
+    }
+  }).map(response => fromJS(response.body));
+}

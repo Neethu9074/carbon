@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorBreakdownTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
@@ -62,7 +63,7 @@ export default connectTo(
       )
     };
   },
-  function ErrorTable({ result, snapshotId }) {
+  function ErrorTable({ result, snapshotId, timeframe }) {
     // TODO show message when timeframe extends beyond our trace storage time
 
     if (!result) {
@@ -73,7 +74,8 @@ export default connectTo(
       logger.warn('Failed to retrieve EUM error overview', result.error);
       return (
         <DashboardNotification type="danger">
-          Please refresh the table or contact customer support should this issue persist.
+          <strong>Failed to retrieve EUM error overview.</strong> Please refresh the page or contact customer{' '}
+          support should this issue persist.
         </DashboardNotification>
       );
     }
@@ -85,7 +87,8 @@ export default connectTo(
         hash,
         message: error.get('name'),
         count: error.get('count'),
-        snapshotId
+        snapshotId,
+        timeframe
       };
     });
 
@@ -108,9 +111,5 @@ export default connectTo(
 );
 
 function getRowDetails(row) {
-  return (
-    <div>
-      details for {row.key}
-    </div>
-  );
+  return <ErrorBreakdownTable errorHash={row.hash} websiteSnapshotId={row.snapshotId} timeframe={row.timeframe} />;
 }
