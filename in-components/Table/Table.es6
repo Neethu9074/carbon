@@ -103,7 +103,8 @@ export default class Table extends React.Component {
             rowClassName={rowElement}
             cellClassName={cellElement}
             toggleRowDetails={toggleRowDetails}
-            onClick={this.props.onRowClick}
+            rowIndex={i}
+            onClick={(row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex)}
           />
         );
 

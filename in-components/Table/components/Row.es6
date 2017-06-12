@@ -106,6 +106,6 @@ export default class Row extends React.Component {
 
     e.preventDefault();
     e.stopPropagation();
-    this.props.onClick(this.props.row.rowConfig, e);
+    this.props.onClick(this.props.row.rowConfig, e, this.props.rowIndex);
   }
 }

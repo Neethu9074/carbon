@@ -1,7 +1,7 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import { markedTraces$, clear, markTrace, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
+import { markedTraces$, clear, markTrace, markTraces, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
@@ -30,6 +30,10 @@ export default getElementDimensions(
         clear();
       }
 
+      state = {
+        lastMarkedIndex: 0
+      };
+
       render() {
         const traces = this.props.traces;
         const isInfiniteLoading = this.props.isInfiniteLoading;
@@ -51,13 +55,13 @@ export default getElementDimensions(
                   isInfiniteLoading={isInfiniteLoading}
                   className={block + '__scroll-area'}
                 >
-                  {traces.map(trace => (
+                  {traces.map((trace, i) => (
                     <TraceTableRow
                       key={trace.id}
                       trace={trace}
                       selectedTraceId={this.props.selectedTraceId}
                       markedTraces={this.props.markedTraces}
-                      onRowClicked={this.onRowClicked}
+                      onRowClicked={(e, trace) => this.onRowClicked(e, trace, traces, i)}
                     />
                   ))}
                 </Infinite>
@@ -66,10 +70,13 @@ export default getElementDimensions(
         );
       }
 
-      onRowClicked = (e, trace) => {
-        const isSelected = this.props.selectedTraceId === trace.id;
+      onRowClicked = (e, trace, traces, indexOfClickedTrace) => {
+        const traceId = trace.id;
         const markedTraces = this.props.markedTraces;
-        const isMarked = markedTraces && markedTraces.has(trace.id);
+        const lastMarkedIndex = this.state.lastMarkedIndex;
+        const isSelected = this.props.selectedTraceId === traceId;
+        const isMarked = markedTraces && markedTraces.has(traceId);
+        let markedIndex = 0;
 
         // cmd
         if (!e.metaKey) {
@@ -77,13 +84,27 @@ export default getElementDimensions(
         }
 
         if (!isSelected || !isMarked) {
-          setSelectedTraceId(trace.id);
-          markTrace(trace.id, trace.raw);
+          setSelectedTraceId(traceId);
+          markTrace(traceId, trace.raw);
+          markedIndex = indexOfClickedTrace;
         }
         if (isSelected || isMarked) {
           clearTraceSelection();
-          clearTraceId(trace.id);
+          clearTraceId(traceId);
         }
+
+        if (e.shiftKey) {
+          if (lastMarkedIndex !== indexOfClickedTrace) {
+            const from = Math.min(lastMarkedIndex, indexOfClickedTrace);
+            const to = Math.max(lastMarkedIndex, indexOfClickedTrace);
+            const tracesToMark = traces.slice(from, to + 1).map(t => t.raw);
+            markTraces(tracesToMark, Infinity);
+          }
+        }
+
+        this.setState({
+          lastMarkedIndex: markedIndex
+        });
       };
     }
   )
