@@ -19,7 +19,6 @@ import { hexToRGB } from 'in-services/formatters/color';
 import Toggle from 'in-components/form/Toggle';
 import { dispose } from 'in-services/util/ro';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceGroupings.less';
@@ -30,7 +29,6 @@ const headerElement = `${block}__header`;
 const headerCellElement = `${block}__header-cell`;
 const activeHeaderCellElement = `${headerCellElement} ${headerCellElement}--active`;
 const heading = `${block}__heading`;
-const orderIconElement = `${block}__header-cell-order`;
 const expandElement = `${block}__toggle-expand`;
 const callsElement = `${block}__calls`;
 const totalTimeElement = `${block}__total-time`;
@@ -296,8 +294,6 @@ function HeaderCell({ children, activeComparator, comparator, className, style }
   return (
     <div className={joinClassNames(baseClassName, className)} style={style}>
       {children}
-
-      {active ? <SvgIcon className={orderIconElement} type={'triangle_down'} width={5} height={5} /> : null}
     </div>
   );
 }
