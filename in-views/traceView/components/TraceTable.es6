@@ -1,7 +1,13 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import { markedTraces$, clear, markTrace, markTraces, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
+import {
+  markedTraces$,
+  clear as clearMarkedTraces,
+  markTrace,
+  markTraces,
+  clearTraceId
+} from 'in-stores/traces/analytics/markedTraces';
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
@@ -27,7 +33,7 @@ export default getElementDimensions(
 
       componentWillUnmount() {
         clearTraceSelection();
-        clear();
+        clearMarkedTraces();
       }
 
       state = {
@@ -80,7 +86,7 @@ export default getElementDimensions(
 
         // cmd
         if (!e.metaKey) {
-          clear();
+          clearMarkedTraces();
         }
 
         if (!isSelected || !isMarked) {

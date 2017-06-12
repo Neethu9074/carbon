@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { clear, markedTraces$, markTrace, markTraces, clearTraceId } from 'in-stores/traces/analytics/markedTraces';
+import {
+  clear as clearMarkedTraces,
+  markedTraces$,
+  markTrace,
+  markTraces,
+  clearTraceId
+} from 'in-stores/traces/analytics/markedTraces';
 import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/view';
 import { millis, number } from 'in-services/formatters/number';
@@ -98,6 +104,10 @@ export default connectTo(
       lastMarkedIndex: 0
     };
 
+    componentWillUnmount() {
+      clearMarkedTraces();
+    }
+
     render() {
       const { analysedTraces, markedTraces } = this.props;
       const rows = [];
@@ -138,7 +148,7 @@ export default connectTo(
       let markedIndex = 0;
 
       if (!e.metaKey) {
-        clear();
+        clearMarkedTraces();
       }
 
       if (!isMarked) {
