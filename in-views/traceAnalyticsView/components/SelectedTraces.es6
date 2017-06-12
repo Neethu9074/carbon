@@ -103,13 +103,16 @@ export default connectTo(
       const rows = [];
       const selectedSnapshotIds = [];
       analysedTraces.forEach((trace, traceId) => {
+        let rowClassName = `${block}__row`;
         if (markedTraces.has(traceId)) {
+          rowClassName += ` ${rowClassName}--marked`;
           selectedSnapshotIds.push(traceId);
         }
         rows.push({
           key: traceId,
           traceId,
-          trace
+          trace,
+          className: rowClassName
         });
       });
 
