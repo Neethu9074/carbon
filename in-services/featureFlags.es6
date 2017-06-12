@@ -31,4 +31,4 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
   ? 2.3
   : 4;
 
-export const maximumNumberOfTracesForAnalytics = 20;
+export const maximumNumberOfTracesForAnalytics = 40;
