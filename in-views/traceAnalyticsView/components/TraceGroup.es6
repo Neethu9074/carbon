@@ -113,7 +113,7 @@ export default class TraceGrouping extends React.Component {
                   ? null
                   : <Tooltip content="Total Time" align="topMiddle">
                       <div className={metricValueElement}>
-                        {`${traceGroup.statistics.durationTotal}ms`}
+                        {getTotalDurationFromTraceGroup(traceGroup)}
                       </div>
                     </Tooltip>}
                 {isRootElement
@@ -148,7 +148,7 @@ export default class TraceGrouping extends React.Component {
 
           {isRootElement
             ? <div className={totalTimeElement}>
-                {millis.compact(traceGroup.statistics.durationTotal)}
+                {getTotalDurationFromTraceGroup(traceGroup)}
               </div>
             : null}
 
@@ -237,7 +237,7 @@ export default class TraceGrouping extends React.Component {
     if (currentGroupSorting === 'calls') {
       return number.compact(traceGroup.statistics.count);
     } else if (currentGroupSorting === 'total') {
-      return `${traceGroup.statistics.durationTotal}ms`;
+      return getTotalDurationFromTraceGroup(traceGroup);
     } else if (currentGroupSorting === 'errors') {
       return percentage.compact(traceGroup.enrichment.errorPercentage);
     }
@@ -342,4 +342,8 @@ function removeAllOtherActiveStates() {
   for (let i = activeElements.length - 1; i >= 0; i--) {
     activeElements[i].setActive(false);
   }
+}
+
+function getTotalDurationFromTraceGroup(traceGroup) {
+  return `${traceGroup.statistics.durationTotal}ms`;
 }
