@@ -7,7 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      href: getTraceViewLinkWithQuery(`span.hash:"${props.hash}"`)
+      href: getTraceViewLinkWithQuery(`span.hash:"default=${props.hash}"`)
     };
   },
   function InspectTracesForHashButton({ href }) {
