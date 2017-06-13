@@ -5,6 +5,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -62,7 +63,7 @@ export default connectTo(
       )
     };
   },
-  function ErrorBreakdownTable({ result, websiteSnapshotId, errorHash }) {
+  function ErrorBreakdownTable({ result, errorMessage, websiteLabel }) {
     if (!result) {
       return null;
     }
@@ -82,7 +83,7 @@ export default connectTo(
         key: browser.get('hash'),
         name: browser.get('name'),
         count: browser.get('count'),
-        query: `entity.id:"${websiteSnapshotId}" AND span.hash:"errorMessage=${errorHash}" AND span.hash:"browser=${browser.get('hash')}"`
+        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" AND span.webEum.error.message:"${luceneEscapeString(errorMessage)}" AND span.webEum.userAgent.browser.name:"${browser.get('name')}"`
       };
     });
 
@@ -91,7 +92,7 @@ export default connectTo(
         key: page.get('hash'),
         name: page.get('name'),
         count: page.get('count'),
-        query: `entity.id:"${websiteSnapshotId}" AND span.hash:"errorMessage=${errorHash}" AND span.hash:"page=${page.get('hash')}"`
+        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" AND span.webEum.error.message:"${luceneEscapeString(errorMessage)}" AND span.webEum.page:"${luceneEscapeString(page.get('name'))}"`
       };
     });
 
@@ -99,13 +100,13 @@ export default connectTo(
       <div>
         <TwoColumnRow>
           {browserRows.length > 0
-            ? <DashboardSection title={`Errors by Browser (${browserRows.length})`}>
+            ? <DashboardSection title={`Browsers (${browserRows.length})`}>
                 <Table cols={cols} rows={browserRows} initialSortColumn={1} initialSortDirection="desc" />
               </DashboardSection>
             : null}
 
           {pageRows.length > 0
-            ? <DashboardSection title={`Errors by Page (${pageRows.length})`}>
+            ? <DashboardSection title={`Pages (${pageRows.length})`}>
                 <Table cols={cols} rows={pageRows} initialSortColumn={1} initialSortDirection="desc" />
               </DashboardSection>
             : null}

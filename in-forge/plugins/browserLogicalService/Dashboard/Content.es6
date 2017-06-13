@@ -56,7 +56,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
       <PageCharts snapshotId={snapshotId} timeframe={timeframe} />
       <EndpointsTable snapshot={snapshot} timeframe={timeframe} />
       <PageResourcesAndConnections snapshotId={snapshotId} timeframe={timeframe} />
-      <ErrorTable snapshotId={snapshotId} timeframe={timeframe} />
+      <ErrorTable snapshotId={snapshotId} timeframe={timeframe} websiteLabel={getLabel(snapshot)} />
     </div>
   );
 }
