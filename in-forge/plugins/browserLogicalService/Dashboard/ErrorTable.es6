@@ -40,7 +40,7 @@ const cols = [
     typeArgs: {
       get$(row) {
         return getTraceViewLinkWithQuery(
-          `entity.id:"${row.snapshotId}" AND span.type:page.err AND span.hash:"errorMessage=${row.hash}"`
+          `entity.id:"${row.snapshotId}" AND AND span.hash:"errorMessage=${row.hash}"`
         ).map(href => {
           return {
             href,

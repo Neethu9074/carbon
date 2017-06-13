@@ -17,10 +17,9 @@ export function getErrorsForWebsite({ websiteSnapshotId, timeframe }) {
 export function getErrorBreakdownForWebsite({ websiteSnapshotId, errorHash, timeframe }) {
   return http({
     method: 'GET',
-    url: '/api/eum/errors',
+    url: `/api/eum/errors/${encodeURIComponent(errorHash)}`,
     queryParams: {
       snapshotId: websiteSnapshotId,
-      errorHash,
       to: timeframe.to,
       windowSize: timeframe.windowSize
     }
