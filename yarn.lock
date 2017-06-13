@@ -6760,9 +6760,9 @@ react-select@^1.0.0-rc.3:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
 
-react-toggle@^2.2.0:
-  version "2.2.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-toggle/-/react-toggle-2.2.1.tgz#ee0f3743c4c92addb2ece43ae0e6cadfb8ba5947"
+react-toggle@^4.0.1:
+  version "4.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-toggle/-/react-toggle-4.0.1.tgz#0e83e8c94d94232debfa21a938ff3d2b2106ec72"
   dependencies:
     classnames "^2.2.5"
 
