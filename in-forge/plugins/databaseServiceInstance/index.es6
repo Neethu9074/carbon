@@ -1,14 +1,14 @@
 import { registerSnapshotDefinition, getLabel } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import databaseIconPath from 'in-forge/plugins/databaseServiceInstance/iconPath';
+import iconSvgPath from 'in-forge/plugins/databaseServiceInstance/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
   plugin: plugins.databaseServiceInstance,
 
-  iconSvgPath: databaseIconPath,
+  iconSvgPath,
   metricDefinitions,
 
   pluginName: {
@@ -23,7 +23,7 @@ registerSnapshotDefinition({
     if (databaseType.match(/mysql/i)) {
       return plugins.mysql;
     } else if (databaseType.match(/postgres/i)) {
-      return plugins.postgres;
+      return plugins.postgresql;
     }
     return plugins.databaseServiceInstance;
   },

@@ -52,8 +52,8 @@ export default [
     }
   },
   {
-    metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-    labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+    metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used'],
+    labels: ['User', 'System', 'Wait', 'Nice', 'Steal', 'Used'],
     category: ['CPU'],
     min: 0,
     max: 1,
