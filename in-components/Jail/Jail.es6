@@ -59,7 +59,7 @@ class Jail extends React.Component {
       ReactDOM.render(
         <div className={block + '__error'}>
           An unexpected error occured while rendering the{' '}
-          <span className={block + '__error-component'}>{Component.displayName}</span>:{' '}
+          <span className={block + '__error-component'}>{Component.displayName || Component.name}</span> component:{' '}
           <span className={block + '__error-reason'}>{e.message}</span>
           <p>Component properties:</p>
           <pre className={block + '__error-component-props'}>
