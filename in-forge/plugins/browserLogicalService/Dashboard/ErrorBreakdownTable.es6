@@ -58,7 +58,8 @@ export default connectTo(
         getErrorBreakdownForWebsite({
           websiteSnapshotId: props.websiteSnapshotId,
           timeframe: props.timeframe,
-          errorHash: props.errorHash
+          errorHash: props.errorHash,
+          pageHash: props.pageHash
         })
       )
     };

@@ -59,12 +59,13 @@ export default connectTo(
       result: combineDataAndError(
         getErrorsForWebsite({
           websiteSnapshotId: props.snapshotId,
-          timeframe: props.timeframe
+          timeframe: props.timeframe,
+          pageHash: props.pageHash
         })
       )
     };
   },
-  function ErrorTable({ result, snapshotId, timeframe, websiteLabel }) {
+  function ErrorTable({ result, snapshotId, timeframe, websiteLabel, pageHash }) {
     // TODO show message when timeframe extends beyond our trace storage time
 
     if (!result) {
@@ -90,7 +91,8 @@ export default connectTo(
         count: error.get('count'),
         snapshotId,
         websiteLabel,
-        timeframe
+        timeframe,
+        pageHash
       };
     });
 
@@ -120,6 +122,7 @@ function getRowDetails(row) {
       timeframe={row.timeframe}
       errorMessage={row.message}
       websiteLabel={row.websiteLabel}
+      pageHash={row.pageHash}
     />
   );
 }
