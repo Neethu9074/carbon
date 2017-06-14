@@ -7,6 +7,8 @@ import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
+  const role = data.get('slave') ? 'Slave' : 'Master';
+
   return (
     <DescriptionList>
       <DescriptionItem title="Version">
@@ -21,6 +23,9 @@ export default function Info({ snapshot }) {
       </DescriptionItem>
       <DescriptionItem title="Ports">
         {data.get('ports', emptyList).sort().join(', ')}
+      </DescriptionItem>
+      <DescriptionItem title="Role">
+        {role}
       </DescriptionItem>
       <DescriptionItem title="Memory Limit">
         {bytesTwoDecimalPlaces(data.get('memoryLimit'))}
