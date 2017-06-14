@@ -39,14 +39,20 @@ export function createAsyncComponent(loadingPlaceholder, load) {
         _ResolvedComponent => {
           _ResolvedComponent = _ResolvedComponent.default;
           ResolvedComponent = _ResolvedComponent;
-          this.setState({
-            Component: _ResolvedComponent
-          });
+          if (!this.unmount) {
+            this.setState({
+              Component: _ResolvedComponent
+            });
+          }
         },
         err => {
           logger.error(`Failed to load async component`, err);
         }
       );
+    }
+
+    componentWillUnmount() {
+      this.unmount = true;
     }
 
     render() {

@@ -1,0 +1,6 @@
+{
+  "name": "RedirectWithHash",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RedirectWithHash.es6"
+}

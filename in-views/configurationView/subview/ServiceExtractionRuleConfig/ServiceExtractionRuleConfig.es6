@@ -24,6 +24,10 @@ const logger = createLogger('ServiceExtractionRuleConfig');
 export default class extends React.Component {
   static displayName = 'ServiceExtractionRuleConfig';
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     loading: true,
     error: false,
@@ -32,14 +36,28 @@ export default class extends React.Component {
     rule: null
   };
 
-  componentWillMount() {
-    this.loadServiceExtractionRule(this.props.params.ruleId);
+  getRuleId() {
+    const { router } = this.context;
+    const ruleId = router.route.match.params.ruleId;
+    if (ruleId) {
+      return ruleId;
+    } else {
+      return null;
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.params.ruleId !== nextProps.params.ruleId) {
-      this.loadServiceExtractionRule(nextProps.params.ruleId);
+  getRuleType() {
+    const { router } = this.context;
+    const ruleType = router.route.match.params.ruleType;
+    if (ruleType) {
+      return ruleType;
+    } else {
+      return null;
     }
+  }
+
+  componentWillMount() {
+    this.loadServiceExtractionRule(this.getRuleId());
   }
 
   componentWillUnmount() {
@@ -49,7 +67,7 @@ export default class extends React.Component {
   render() {
     const { form, rule } = this.state;
     const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions, supportsEndpoints } = typeDefinitions[
-      this.props.params.ruleType
+      this.getRuleType()
     ];
 
     return (
@@ -116,7 +134,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     if (!ruleId) {
-      const { ruleType } = typeDefinitions[this.props.params.ruleType];
+      const { ruleType } = typeDefinitions[this.getRuleType()];
       let rule = createServiceRule({});
       rule.type = ruleType;
       rule = fromJS(rule);
@@ -248,7 +266,7 @@ export default class extends React.Component {
       );
     }
 
-    const typeDefinition = typeDefinitions[this.props.params.ruleType];
+    const typeDefinition = typeDefinitions[this.getRuleType()];
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({

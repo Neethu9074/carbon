@@ -1,6 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { isWebVRSupported, createNoWebVRDialog } from 'in-map/services/webVR';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
@@ -70,16 +71,20 @@ export default connectTo(
       webVRIsActive(webVRMode ? true : false);
 
       return (
-        <div className={className}>
-          <canvas
-            className={`${block}__canvas`}
-            ref={canvas => {
-              this.mainCanvas = canvas;
-              this.webGlContext = getWebGLCanvasContext(canvas);
-            }}
-          />
-          <StickyNoteHoster />
-          <TooltipHoster />
+        <div>
+          <DashboardNavigationRoute />
+          <div className={className}>
+
+            <canvas
+              className={`${block}__canvas`}
+              ref={canvas => {
+                this.mainCanvas = canvas;
+                this.webGlContext = getWebGLCanvasContext(canvas);
+              }}
+            />
+            <StickyNoteHoster />
+            <TooltipHoster />
+          </div>
         </div>
       );
     }

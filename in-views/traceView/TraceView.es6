@@ -22,7 +22,7 @@ const rightContent = [
   <TraceTree key="1" />
 ];
 
-export default function TraceView({ children }) {
+export default function TraceView() {
   let style = undefined;
   if (!traceAnalyticsEnabled) {
     style = {
@@ -38,7 +38,6 @@ export default function TraceView({ children }) {
         leftWidth="46rem"
         expandedSide$={expandedSide$}
       />
-      {children}
     </div>
   );
 }

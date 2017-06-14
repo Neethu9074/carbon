@@ -1,5 +1,7 @@
-/* global process:false, require:false */
+/* global process:false */
+import qs from 'qs';
 import { isEqual } from 'lodash';
+import history from 'in-stores/navigation/history';
 
 import { createStore } from 'in-stores/store';
 
@@ -20,14 +22,14 @@ if (process.env.IS_TEST) {
     listen() {}
   };
 } else {
-  hashHistory = require('react-router').hashHistory;
+  hashHistory = history;
 }
 
 const store = createStore({
   name: 'navigation',
   initialValue: {
-    pathname: '/',
-    query: {}
+    pathname: normalizePathname(),
+    query: getInitParams()
   }
 });
 export const navigationParameters = store.observable;
@@ -36,8 +38,8 @@ export const navigationParameters$ = navigationParameters;
 hashHistory.listen(location => {
   store.applyStateMutation(() => {
     return {
-      pathname: location.pathname,
-      query: location.query
+      pathname: normalizePathname(),
+      query: qs.parse(location.search.replace('?', ''))
     };
   });
 });
@@ -48,7 +50,11 @@ export function mutateUrl(mutator) {
     mutator(newLocation);
 
     if (!isEqual(newLocation, currentLocation)) {
-      hashHistory.push(newLocation);
+      hashHistory.push(
+        Object.assign(newLocation, {
+          search: qs.stringify(newLocation.query)
+        })
+      );
     }
   });
 }
@@ -61,6 +67,15 @@ export function getModifiedUrlStream(mapParams) {
       return toUrl(params);
     })
     .distinct();
+}
+
+function normalizePathname() {
+  const hash = window.location.hash;
+  if (!hash || hash.length === 2) {
+    return '/';
+  } else {
+    return hash.substring(hash.indexOf('#/') + 1, hash.indexOf('?'));
+  }
 }
 
 // We explicitly clone this manually for the best performance we can get.
@@ -86,18 +101,12 @@ function toUrl(params) {
 
 function toBaseUrl(params) {
   let url = params.pathname;
-
-  let first = true;
-  for (const key in params.query) {
-    if (first) {
-      first = false;
-      url = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(params.query[key])}`;
-    } else {
-      url = `${url}&${encodeURIComponent(key)}=${encodeURIComponent(params.query[key])}`;
-    }
+  const queryString = qs.stringify(params.query);
+  if (queryString.length === 0) {
+    return url;
+  } else {
+    return `${url}?${queryString}`;
   }
-
-  return url;
 }
 
 export function buildUrlStream({ path }) {
@@ -110,8 +119,17 @@ export function buildPathStartsWithStream(path) {
   return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }
 
+function getInitParams() {
+  const hash = window.location.hash;
+  if (!hash || hash.indexOf('?') === -1) {
+    return {};
+  } else {
+    return qs.parse(hash.substring(hash.indexOf('?') + 1, hash.length));
+  }
+}
+
 function getActiveView(params) {
-  const match = params.pathname.match(/\/([a-z]+)\/?/i);
+  const match = params.pathname.match(/([a-z]+)/i);
   return match ? match[1] : 'physical';
 }
 
@@ -218,6 +236,10 @@ export function goToPhysicalView() {
 export const physicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/physical';
   delete params.query.vg;
+});
+
+export const eumViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/eum';
 });
 
 export const containerViewLink$ = getModifiedUrlStream(params => {

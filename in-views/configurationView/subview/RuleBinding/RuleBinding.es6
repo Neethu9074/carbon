@@ -20,6 +20,10 @@ const logger = createLogger('RuleBinding');
 export default class extends React.Component {
   static displayName = 'RuleBinding';
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     loading: true,
     error: false,
@@ -29,14 +33,18 @@ export default class extends React.Component {
     rules: null
   };
 
-  componentWillMount() {
-    this.loadRuleBinding(this.props.params.ruleBindingId);
+  getRuleBindingId() {
+    const { router } = this.context;
+    const { ruleBindingId } = router.route.match.params;
+    if (ruleBindingId) {
+      return ruleBindingId;
+    } else {
+      return null;
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.params.ruleBindingId !== nextProps.params.ruleBindingId) {
-      this.loadRuleBinding(nextProps.params.ruleBindingId);
-    }
+  componentWillMount() {
+    this.loadRuleBinding(this.getRuleBindingId());
   }
 
   componentWillUnmount() {
