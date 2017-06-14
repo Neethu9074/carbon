@@ -9,8 +9,8 @@ export default [
     formatter: number
   },
   {
-    metrics: ['appsRunning', 'appsPending'],
-    labels: ['Apps Running', 'Apps Pending'],
+    metrics: ['appsRunning', 'appsPending', 'appsFailed'],
+    labels: ['Apps Running', 'Apps Pending', 'Apps Failed'],
     min: 0,
     formatter: number
   },

@@ -36,8 +36,8 @@ export default function Dashboard({ snapshot, timeframe }) {
               left: 80
             }}
             y1={{
-              metrics: ['appsRunning', 'appsPending'],
-              labels: ['Apps Running', 'Apps Pending'],
+              metrics: ['appsRunning', 'appsPending', 'appsFailed'],
+              labels: ['Apps Running', 'Apps Pending', 'Apps Failed'],
               formatter: zeroDecimalPlaces,
               type: 'stackedArea'
             }}
