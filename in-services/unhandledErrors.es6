@@ -16,16 +16,7 @@ export function init() {
     }
   });
 
-  window.addEventListener(
-    'error',
-    e => {
-      onUnhandledError(e);
-
-      // let the default error handler run as well
-      return false;
-    },
-    false
-  );
+  window.addEventListener('error', onUnhandledError, false);
 }
 
 function onUnhandledError(e) {
