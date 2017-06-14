@@ -5,6 +5,7 @@ import { timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed } from 'i
 import { bigBangTimestamp$, timeframeShape } from 'in-stores/timeline';
 import { onMove, onUp } from 'in-services/util/reactiveMouseEvents';
 import { serverTime$ } from 'in-stores/serverTime';
+import { isInstanaEmployee } from 'in-stores/user';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -51,6 +52,8 @@ export default connectTo(
       const timeframe = this.props.timeframe;
 
       if (!timeframe || !bigBangTimestamp || !serverTime) {
+        return null;
+      } else if (!isInstanaEmployee()) {
         return null;
       }
 
