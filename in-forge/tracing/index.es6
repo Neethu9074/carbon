@@ -87,5 +87,6 @@ import './wcf';
 import './wcfclient';
 import './webapi';
 import './wicket';
+import './wmglue';
 import './x.hc';
 import './x.http';
