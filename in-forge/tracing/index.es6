@@ -11,6 +11,7 @@ import './camel';
 import './cassandra';
 import './corba';
 import './cxf.client';
+import './ehcache';
 import './ejb';
 import './elasticsearch';
 import './excon';
