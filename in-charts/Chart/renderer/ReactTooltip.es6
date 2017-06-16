@@ -20,7 +20,7 @@ function MetricBlock({ dataColumn, config, axisName }) {
 
   return (
     <div>
-      {dataColumn.map((dataRow, i) => (
+      {dataColumn.map((dataRow, i) =>
         <div className={`${block}__metric`} key={i}>
           <dt
             style={{
@@ -34,7 +34,7 @@ function MetricBlock({ dataColumn, config, axisName }) {
             {dataRow != null && dataRow[1] != null ? formatter(dataRow[1]) : ''}
           </dd>
         </div>
-      ))}
+      )}
     </div>
   );
 }

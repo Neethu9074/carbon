@@ -37,7 +37,7 @@ export default class CustomHostGroupingDialog extends React.Component {
         </p>
 
         <form onSubmit={this.onSubmit}>
-          {form.get('prefix').map(field => (
+          {form.get('prefix').map(field =>
             <FormGroup>
               <Label htmlFor="grouping-tag-prefix">
                 Tag prefix
@@ -50,13 +50,13 @@ export default class CustomHostGroupingDialog extends React.Component {
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </FormGroup>
-          ))}
+          )}
 
           <Button disabled={!form.valid} type="submit">
             Apply grouping

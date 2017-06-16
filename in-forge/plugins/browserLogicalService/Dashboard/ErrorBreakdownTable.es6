@@ -84,7 +84,11 @@ export default connectTo(
         key: browser.get('hash'),
         name: browser.get('name'),
         count: browser.get('count'),
-        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" AND span.webEum.error.message:"${luceneEscapeString(errorMessage)}" AND span.webEum.userAgent.browser.name:"${browser.get('name')}"`
+        query: `entity.website.label:"${luceneEscapeString(
+          websiteLabel
+        )}" AND span.webEum.error.message:"${luceneEscapeString(
+          errorMessage
+        )}" AND span.webEum.userAgent.browser.name:"${browser.get('name')}"`
       };
     });
 
@@ -93,7 +97,11 @@ export default connectTo(
         key: page.get('hash'),
         name: page.get('name'),
         count: page.get('count'),
-        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" AND span.webEum.error.message:"${luceneEscapeString(errorMessage)}" AND span.webEum.page:"${luceneEscapeString(page.get('name'))}"`
+        query: `entity.website.label:"${luceneEscapeString(
+          websiteLabel
+        )}" AND span.webEum.error.message:"${luceneEscapeString(
+          errorMessage
+        )}" AND span.webEum.page:"${luceneEscapeString(page.get('name'))}"`
       };
     });
 

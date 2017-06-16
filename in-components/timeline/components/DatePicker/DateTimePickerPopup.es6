@@ -7,12 +7,8 @@ import { interactableTimelineHeight$ } from 'in-components/timeline/timelineStor
 import InfoPanel from 'in-components/timeline/components/DatePicker/InfoPanel';
 import connectTo from 'in-hoc/connectTo';
 
-import {
-  reset as resetFocusedMomentDatePickerStore
-} from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
-import {
-  reset as resetFromDatePickerStore
-} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
+import { reset as resetFocusedMomentDatePickerStore } from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
+import { reset as resetFromDatePickerStore } from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import { reset as resetToDatePickerStore } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { reset as resetWindowSizeStore } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import { reset as resetLiveToggle } from 'in-components/timeline/components/DatePicker/stores/liveStore';

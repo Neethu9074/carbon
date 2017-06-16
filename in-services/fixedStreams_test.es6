@@ -45,7 +45,7 @@ function testCollectionIsFrozen(name) {
     expect(stub).to.have.callCount(1);
 
     const value = stub.getCall(0).args[0];
-    expect(() => value.foobar = 10).to.throw(/object is not extensible/);
+    expect(() => (value.foobar = 10)).to.throw(/object is not extensible/);
   });
 }
 

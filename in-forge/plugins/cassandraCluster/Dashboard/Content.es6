@@ -34,7 +34,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {['read', 'write'].map(op => (
+      {['read', 'write'].map(op =>
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies Average'} key={op}>
           <ChartWithLegend
             snapshotId={snapshot.get('id')}
@@ -56,7 +56,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      ))}
+      )}
 
       <DashboardSection title="Overall Disk Size">
         <ChartWithLegend

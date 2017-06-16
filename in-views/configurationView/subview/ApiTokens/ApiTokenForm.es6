@@ -19,16 +19,16 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           General
         </SectionHeading>
 
-        {form.get('id').map(field => (
+        {form.get('id').map(field =>
           <FormGroup>
             <Label htmlFor="api-token-id">
               API Token
             </Label>
             <Input id="api-token-id" value={field.value} disabled />
           </FormGroup>
-        ))}
+        )}
 
-        {form.get('name').map(field => (
+        {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor="api-token-name" hasError={!field.valid}>
               Name
@@ -41,13 +41,13 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
       </Section>
 
       <Section>

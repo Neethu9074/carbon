@@ -40,7 +40,8 @@ export default function Explanation() {
       <p>
         <a href="https://www.instana.com/blog/monitoring-microservice-applications-introducing-dynamic-graph/">
           Visit our blog
-        </a> for more information.
+        </a>{' '}
+        for more information.
       </p>
 
       <p>

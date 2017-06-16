@@ -118,6 +118,6 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    return <span className={this.props.className} ref={node => this.node = node} />;
+    return <span className={this.props.className} ref={node => (this.node = node)} />;
   }
 }

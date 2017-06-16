@@ -41,7 +41,7 @@ export default class TouchControlsDecorator extends Decorator {
     eventHandler.get('pinch').set({ enable: true });
     eventHandler.on('pinchin', this.onPinchIn.bind(this));
     eventHandler.on('pinchout', this.onPinchOut.bind(this));
-    eventHandler.on('pinchstart', () => this.pinchDistance = 0);
+    eventHandler.on('pinchstart', () => (this.pinchDistance = 0));
 
     eventHandler.get('tap').set({ threshold: minMovementForPan - 1 });
     eventHandler.on('tap', this.onTab.bind(this));
@@ -52,10 +52,10 @@ export default class TouchControlsDecorator extends Decorator {
     });
 
     this.addSubscriptions([
-      combineLatest([this.eventEmitter.on('onMove'), this.eventEmitter.on('isDragingObject')]).subscribe(([
-        delta,
-        isDraging
-      ]) => {
+      combineLatest([
+        this.eventEmitter.on('onMove'),
+        this.eventEmitter.on('isDragingObject')
+      ]).subscribe(([delta, isDraging]) => {
         if (!isDraging) {
           this.move(delta.dx, delta.dy);
         }

@@ -97,7 +97,7 @@ const AuditLogEntries = connectTo(
           </div>
         </div>
         <ul className={`${block}__list`}>
-          {entries.map(logEntry => (
+          {entries.map(logEntry =>
             <li className={`${block}__item`} key={logEntry.get('id')}>
               <div className={`${block}__user-side`}>
                 {logEntry.getIn(['actor', 'type']) !== 'API_TOKEN'
@@ -118,7 +118,7 @@ const AuditLogEntries = connectTo(
                 </div>
               </div>
             </li>
-          ))}
+          )}
           <div className={`${block}__footer`}>
             <SvgIcon
               className={`${block}__icon`}

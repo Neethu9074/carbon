@@ -30,7 +30,7 @@ export class SpanTabs extends React.Component {
     return (
       <div className={block}>
         <ul className={block + '__tab-list'}>
-          {children.map((child, i) => (
+          {children.map((child, i) =>
             <li
               key={i}
               onClick={() => this.setState({ selectedTab: i })}
@@ -41,7 +41,7 @@ export class SpanTabs extends React.Component {
             >
               {child.props.title}
             </li>
-          ))}
+          )}
         </ul>
 
         {selectedTab.props.children}

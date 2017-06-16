@@ -95,9 +95,9 @@ const MenuContent = connectTo(
           Grouping
         </h3>
         <ButtonGroup>
-          {availableGroupings.map(grouping => (
+          {availableGroupings.map(grouping =>
             <GroupingButton grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
-          ))}
+          )}
         </ButtonGroup>
         <br />
         <ButtonGroup>

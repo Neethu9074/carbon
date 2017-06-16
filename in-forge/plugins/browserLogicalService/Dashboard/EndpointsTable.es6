@@ -1,7 +1,6 @@
 import React from 'react';
 
-import JumpToTracesTouchingServiceEndpointButton
-  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
+import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
 import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';

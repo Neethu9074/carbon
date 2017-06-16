@@ -26,14 +26,14 @@ export default getSnapshots(
 
       return (
         <ul className={block}>
-          {Object.keys(aggregatedLayer).sort().map(key => (
+          {Object.keys(aggregatedLayer).sort().map(key =>
             <li key={key}>
               <span className={block + '__count'}>
                 {aggregatedLayer[key]}
               </span>
               {aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key)}
             </li>
-          ))}
+          )}
         </ul>
       );
     }

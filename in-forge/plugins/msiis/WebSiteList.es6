@@ -7,10 +7,10 @@ export default function WebSiteList({ snapshot }) {
   return !sites || sites.size === 0
     ? null
     : <List>
-        {sites.map(site => (
+        {sites.map(site =>
           <List.Item key={site}>
             {site}
           </List.Item>
-        ))}
+        )}
       </List>;
 }

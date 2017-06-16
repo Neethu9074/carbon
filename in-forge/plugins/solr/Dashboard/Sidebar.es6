@@ -24,7 +24,7 @@ export default function SolrSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {coreNames.map(cn => (
+      {coreNames.map(cn =>
         <div key={cn}>
           <Separator />
 
@@ -37,7 +37,7 @@ export default function SolrSidebar({ snapshot }) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      ))}
+      )}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

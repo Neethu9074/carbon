@@ -16,7 +16,7 @@ export default [
   },
   {
     metrics: [
-      'perfcounters.sqlserver:general statistics\\logins\/sec',
+      'perfcounters.sqlserver:general statistics\\logins/sec',
       'perfcounters.sqlserver:general statistics\\user connections'
     ],
     labels: ['Logins/sec.', 'Connections'],

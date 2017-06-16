@@ -30,7 +30,7 @@ export default connectTo(
 
     return (
       <div>
-        {groupPlugins.map(plugin => (
+        {groupPlugins.map(plugin =>
           <div key={plugin}>
             <Separator />
 
@@ -45,16 +45,16 @@ export default connectTo(
               </Collapsible.Header>
               <Collapsible.Content>
                 <ClickableList>
-                  {groups[plugin].sort().map(snapshot => (
+                  {groups[plugin].sort().map(snapshot =>
                     <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
                       {onRenderItem ? onRenderItem(snapshot) : getLabel(snapshot)}
                     </ClickableSnapshotListItem>
-                  ))}
+                  )}
                 </ClickableList>
               </Collapsible.Content>
             </Collapsible>
           </div>
-        ))}
+        )}
       </div>
     );
   }

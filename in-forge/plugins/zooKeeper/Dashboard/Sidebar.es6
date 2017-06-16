@@ -35,7 +35,7 @@ export default function ZooKeeperSidebar({ snapshot }) {
 
         <ModeInfo snapshot={snapshot} />
 
-        {peerNames.map(peerName => (
+        {peerNames.map(peerName =>
           <div key={peerName}>
             <Separator />
 
@@ -48,7 +48,7 @@ export default function ZooKeeperSidebar({ snapshot }) {
               </Collapsible.Content>
             </Collapsible>
           </div>
-        ))}
+        )}
       </div>
     );
   }

@@ -160,7 +160,8 @@ export default function HostDashboard({ snapshot, timeframe }) {
         <div className={`${block}__self-monitoring`}>
           <div className={`${block}__self-monitoring-description`}>
             <p>
-              The Instana Agent has management and self monitoring capabilities which assist troubleshooting and provide deeper
+              The Instana Agent has management and self monitoring capabilities which assist troubleshooting and provide
+              deeper
               insights without the need to log in and review files. This includes inspecting the agent log, running
               sensor versions and more.
             </p>

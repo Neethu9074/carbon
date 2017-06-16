@@ -1,7 +1,10 @@
 export default function Packer() {
   let root;
   function fit(blocks) {
-    let n, node, block, len = blocks.length;
+    let n,
+      node,
+      block,
+      len = blocks.length;
     const w = len > 0 ? blocks[0].w : 0;
     const h = len > 0 ? blocks[0].h : 0;
     root = { x: 0, y: 0, w, h };

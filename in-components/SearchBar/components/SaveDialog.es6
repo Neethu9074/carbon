@@ -23,7 +23,7 @@ export default connectTo(
     return (
       <Dialog header="Save filter" onClose={close}>
         <form onSubmit={onSubmit}>
-          {form.get('name').map(field => (
+          {form.get('name').map(field =>
             <FormGroup>
               <Label htmlFor="filter-name">
                 Name
@@ -36,15 +36,15 @@ export default connectTo(
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </FormGroup>
-          ))}
+          )}
 
-          {form.get('definition').map(field => (
+          {form.get('definition').map(field =>
             <FormGroup>
               <Label htmlFor="filter-definition">
                 Definition
@@ -56,13 +56,13 @@ export default connectTo(
                 onChange={e => setValue('definition', e.target.value)}
                 hasError={!field.valid}
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </FormGroup>
-          ))}
+          )}
 
           <div className={`${block}__actions`}>
             <Button disabled={!form.valid} type="submit">

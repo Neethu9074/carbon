@@ -2,12 +2,8 @@ import { combineLatest } from 'reactive-observables';
 import 'react-day-picker/lib/style.css';
 import React from 'react';
 
-import {
-  isDateTimeValid$ as focusedMomentValid$
-} from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
-import {
-  isDateTimeValid$ as fromValid$
-} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
+import { isDateTimeValid$ as focusedMomentValid$ } from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
+import { isDateTimeValid$ as fromValid$ } from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import { isDateTimeValid$ as toValid$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
@@ -30,12 +26,13 @@ export default connectTo(
       .throttle(200)
       .map(([focusedMomentValid, fromValid, toValid]) => {
         return {
-          fixedTimestampsAreValid: focusedMomentValid.date &&
-            focusedMomentValid.time &&
-            fromValid.date &&
-            fromValid.time &&
-            toValid.date &&
-            toValid.time,
+          fixedTimestampsAreValid:
+            focusedMomentValid.date &&
+              focusedMomentValid.time &&
+              fromValid.date &&
+              fromValid.time &&
+              toValid.date &&
+              toValid.time,
           focusedMoment: focusedMomentValid.timestamp,
           from: fromValid.timestamp,
           to: toValid.timestamp

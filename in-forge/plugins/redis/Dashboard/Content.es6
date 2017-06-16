@@ -22,7 +22,7 @@ import { getLabel } from 'in-sdk/snapshot';
 
 const persistenceFormater = d => (d < 0 ? 'Not in progress' : twoDecimalPlaces(d) + 's');
 const latencyFormatter = (d, threshold) =>
-  (d < threshold ? 'Less than ' + msZeroDecimalPlaces(threshold) : msZeroDecimalPlaces(d));
+  d < threshold ? 'Less than ' + msZeroDecimalPlaces(threshold) : msZeroDecimalPlaces(d);
 
 function getConnectionMetricsForRole(role) {
   return role === 'master'

@@ -4,7 +4,7 @@ const color = '#9fffff';
 
 export default function createFocusedMomentRenderer(ctx) {
   let x = null;
-  const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(_x => x = _x);
+  const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(_x => (x = _x));
 
   return {
     draw,

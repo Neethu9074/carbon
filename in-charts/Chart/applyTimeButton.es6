@@ -22,7 +22,7 @@ export default function createHighlightedTimeframeRenderer(config) {
     eventEmitter.on('isVisible').distinct().subscribe(isVisible => (isVisible ? show() : hide()))
   );
 
-  config.subscriptions.push(highlightedTimeframe$.throttle(20).subscribe(tf => highlightedTimeframe = tf));
+  config.subscriptions.push(highlightedTimeframe$.throttle(20).subscribe(tf => (highlightedTimeframe = tf)));
 
   config.subscriptions.push(
     on(config.dom.glassPane, 'mousemove').subscribe(e => {

@@ -34,14 +34,14 @@ function FlameGraphElement({ span, currentDepth, scale }) {
       {span
         .get('childSpans')
         .toArray()
-        .map(childSpan => (
+        .map(childSpan =>
           <FlameGraphElement
             key={childSpan.get('spanId')}
             span={childSpan}
             currentDepth={currentDepth + 1}
             scale={scale}
           />
-        ))}
+        )}
 
       {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1
         ? <Tooltip content="Network and Serialization" align={tooltipAlignment}>
@@ -125,7 +125,7 @@ function TimeAxis({ tickPositions, axisConfig, start, chartHeight }) {
         height: `${chartHeight + timeAxisOffset}px`
       }}
     >
-      {tickPositions.map(position => (
+      {tickPositions.map(position =>
         <div
           style={{
             left: `${position.range}%`
@@ -135,7 +135,7 @@ function TimeAxis({ tickPositions, axisConfig, start, chartHeight }) {
         >
           {axisConfig.relativeFormatter(position.domain - start)}
         </div>
-      ))}
+      )}
     </div>
   );
 }

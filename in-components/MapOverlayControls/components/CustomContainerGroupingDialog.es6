@@ -27,7 +27,7 @@ export default class CustomContainerGroupingDialog extends React.Component {
     return (
       <Dialog header="Custom Grouping" onClose={close}>
         <form onSubmit={this.onSubmit}>
-          {form.get('path').map(field => (
+          {form.get('path').map(field =>
             <FormGroup>
               <Label htmlFor="grouping-path">
                 Group by
@@ -40,13 +40,13 @@ export default class CustomContainerGroupingDialog extends React.Component {
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </FormGroup>
-          ))}
+          )}
 
           <Button disabled={!form.valid} type="submit">
             Apply grouping

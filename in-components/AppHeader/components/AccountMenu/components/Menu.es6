@@ -49,7 +49,7 @@ export default connectTo(
       this.registerListener();
 
       return (
-        <section className={block} ref={menu => this.menu = menu}>
+        <section className={block} ref={menu => (this.menu = menu)}>
           <p className={block + '__account-name'}>
             Signed in as {window.instana.user.fullName}
           </p>

@@ -11,7 +11,7 @@ export default function createCombinedEventsRenderer(ctx, scale) {
   const issueRenderer = createIssueRenderer(basicEventRenderer);
 
   let collapsed;
-  const collapsedSubscription = isCollapsed$.subscribe(_collapsed => collapsed = _collapsed);
+  const collapsedSubscription = isCollapsed$.subscribe(_collapsed => (collapsed = _collapsed));
 
   return {
     setWidth,

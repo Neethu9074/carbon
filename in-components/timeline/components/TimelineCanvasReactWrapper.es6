@@ -24,9 +24,9 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <div ref={container => this.container = container} className={block}>
-        <canvas ref={_canvas => this.timelineCanvas = _canvas} className={block + '__canvas'} />
-        <div ref={glassPane => this.glassPane = glassPane} className={block + '__glasspane'} />
+      <div ref={container => (this.container = container)} className={block}>
+        <canvas ref={_canvas => (this.timelineCanvas = _canvas)} className={block + '__canvas'} />
+        <div ref={glassPane => (this.glassPane = glassPane)} className={block + '__glasspane'} />
         <TimelineTimestamps />
       </div>
     );

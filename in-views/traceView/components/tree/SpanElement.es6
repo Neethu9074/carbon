@@ -9,8 +9,7 @@ import {
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
-import ServiceImplementationEntityInformation
-  from 'in-views/traceView/components/ServiceImplementationEntityInformation';
+import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import { msZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import SpanServiceInformation from 'in-views/traceView/components/SpanServiceInformation';
 import { highlightedSpanId$ } from 'in-views/traceView/stores/highlightedSpan';

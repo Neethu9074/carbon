@@ -20,7 +20,7 @@ export default function JettyWebApps({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Web Apps</Collapsible.Header>
         <Collapsible.Content>
-          {webApps.map((webApp, i) => (
+          {webApps.map((webApp, i) =>
             <Collapsible initiallyOpen={false} key={i}>
               <Collapsible.Header>{webApp.get('displayName') || '<unnamed>'}</Collapsible.Header>
               <Collapsible.Content>
@@ -46,7 +46,7 @@ export default function JettyWebApps({ snapshot }) {
                 </DescriptionList>
               </Collapsible.Content>
             </Collapsible>
-          ))}
+          )}
         </Collapsible.Content>
       </Collapsible>
     </div>

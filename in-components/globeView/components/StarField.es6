@@ -20,7 +20,7 @@ export default class StarField {
       this.vertices = new Float32Array(this.numStars * 3);
       this.sizes = new Float32Array(this.numStars * 1);
 
-      const texture = loadImage(starMap, loadedTexture => loadedTexture.needsUpdate = true);
+      const texture = loadImage(starMap, loadedTexture => (loadedTexture.needsUpdate = true));
       texture.minFilter = LinearFilter;
       texture.generateMipmaps = false;
       texture.flipY = false;

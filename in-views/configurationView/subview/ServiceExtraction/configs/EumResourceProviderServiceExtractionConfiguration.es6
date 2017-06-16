@@ -1,8 +1,7 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import { eumResourceProviderExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
@@ -14,7 +13,8 @@ export const supportsEndpoints = false;
 
 export const helpTexts = defaults(
   {
-    viewHelp: 'Configure how Instana uses attributes from resource requests, e.g. JS and CSS file requests, to extract resource domain entities.. You can define multiple rules which will be executed in order.',
+    viewHelp:
+      'Configure how Instana uses attributes from resource requests, e.g. JS and CSS file requests, to extract resource domain entities.. You can define multiple rules which will be executed in order.',
 
     matchesHelp: "Select the resource provider's host name the rule should be applied on.",
 

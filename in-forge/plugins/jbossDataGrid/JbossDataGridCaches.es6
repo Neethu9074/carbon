@@ -14,7 +14,7 @@ export default function JbossDataGridCaches({ snapshot }) {
   return (
     <div>
       {caches
-        .map((cache, cacheName) => (
+        .map((cache, cacheName) =>
           <Collapsible initiallyOpen={false} key={cacheName}>
             <Collapsible.Header>Cache [{cacheName}]</Collapsible.Header>
             <Collapsible.Content>
@@ -33,7 +33,7 @@ export default function JbossDataGridCaches({ snapshot }) {
               <KeyValuePopup header="Configuration" data={cache.get('configuration')} />
             </Collapsible.Content>
           </Collapsible>
-        ))
+        )
         .valueSeq()
         .toArray()}
     </div>

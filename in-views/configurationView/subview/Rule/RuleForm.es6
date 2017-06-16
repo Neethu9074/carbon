@@ -32,7 +32,7 @@ export default function RuleForm({ form, onChange }) {
   return (
     <fieldset>
       <Section>
-        {form.get('name').map(field => (
+        {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor="rule-name" hasError={!field.valid}>
               Name
@@ -47,18 +47,18 @@ export default function RuleForm({ form, onChange }) {
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </Helpify>
           </FormGroup>
-        ))}
+        )}
       </Section>
 
       <Section>
-        {form.get('entityType').map(field => (
+        {form.get('entityType').map(field =>
           <FormGroup>
             <Label htmlFor="rule-entityType" hasError={!field.valid}>
               Entity type
@@ -76,18 +76,18 @@ export default function RuleForm({ form, onChange }) {
               )}
               onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
             />
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
 
         <Row>
           <Col cols={4}>
             {form.get('entityType').value
-              ? form.get('metricName').map(field => (
+              ? form.get('metricName').map(field =>
                   <FormGroup>
                     <Label htmlFor="rule-metricName" hasError={!field.valid}>
                       Metric
@@ -99,17 +99,17 @@ export default function RuleForm({ form, onChange }) {
                       useComboBox
                       onChange={e => onChange('metricName', e ? e.value : '')}
                     />
-                    {field.messages.map((message, i) => (
+                    {field.messages.map((message, i) =>
                       <ValidationBlock hasError key={i}>
                         {message.message}
                       </ValidationBlock>
-                    ))}
+                    )}
                   </FormGroup>
-                ))
+                )
               : null}
           </Col>
           <Col cols={2}>
-            {form.get('window').map(field => (
+            {form.get('window').map(field =>
               <FormGroup>
                 <Label htmlFor="rule-window" hasError={!field.valid}>
                   Time window
@@ -128,16 +128,16 @@ export default function RuleForm({ form, onChange }) {
                   ]}
                   onChange={e => onChange('window', e ? e.value : '')}
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
           </Col>
           <Col cols={2}>
-            {form.get('aggregation').map(field => (
+            {form.get('aggregation').map(field =>
               <FormGroup>
                 <Label htmlFor="rule-aggregation" hasError={!field.valid}>
                   Aggregation
@@ -152,16 +152,16 @@ export default function RuleForm({ form, onChange }) {
                   ]}
                   onChange={e => onChange('aggregation', e ? e.value : e)}
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
           </Col>
           <Col cols={2}>
-            {form.get('conditionOperator').map(field => (
+            {form.get('conditionOperator').map(field =>
               <FormGroup>
                 <Label htmlFor="rule-conditionOperator" hasError={!field.valid}>
                   Operator
@@ -180,16 +180,16 @@ export default function RuleForm({ form, onChange }) {
                   ]}
                   onChange={e => onChange('conditionOperator', e ? e.value : e)}
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
           </Col>
           <Col cols={2}>
-            {form.get('conditionValue').map(field => (
+            {form.get('conditionValue').map(field =>
               <FormGroup>
                 <Label htmlFor="rule-conditionValue" hasError={!field.valid}>
                   Value
@@ -201,13 +201,13 @@ export default function RuleForm({ form, onChange }) {
                   onChange={e => onChange('conditionValue', e.target.value)}
                   hasError={!field.valid}
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
           </Col>
         </Row>
       </Section>

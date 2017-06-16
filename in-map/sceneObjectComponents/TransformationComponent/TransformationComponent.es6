@@ -61,7 +61,12 @@ export default class TransformationComponent extends SceneObjectComponent {
     const position = this.transform.position;
     const scale = this.transform.scale;
     if (
-      position.x === px && position.y === py && position.z === pz && scale.x === sx && scale.y === sy && scale.z === sz
+      position.x === px &&
+      position.y === py &&
+      position.z === pz &&
+      scale.x === sx &&
+      scale.y === sy &&
+      scale.z === sz
     ) {
       return;
     }

@@ -11,11 +11,11 @@ export default function ArgList({ snapshot }) {
   return (
     <List>
       {args
-        .map((arg, i) => (
+        .map((arg, i) =>
           <List.Item key={i}>
             {arg}
           </List.Item>
-        ))
+        )
         .toArray()}
     </List>
   );

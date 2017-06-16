@@ -21,11 +21,11 @@ export default function Ports({ snapshot }) {
         <Collapsible.Content>
           <DescriptionList>
             {ports
-              .map((portNumber, portName) => (
+              .map((portNumber, portName) =>
                 <DescriptionItem title={portName}>
                   {portNumber}
                 </DescriptionItem>
-              ))
+              )
               .valueSeq()}
           </DescriptionList>
         </Collapsible.Content>

@@ -76,7 +76,7 @@ export default function TraceTreeElement({
       {details}
 
       <ul className="in-trace-view-tree__element-container">
-        {element.children.map((childElement, i) => (
+        {element.children.map((childElement, i) =>
           <TraceTreeElement
             element={childElement}
             key={i}
@@ -86,7 +86,7 @@ export default function TraceTreeElement({
             parentDepth={depth}
             totalTimeIndentationDepth={totalTimeIndentationDepth}
           />
-        ))}
+        )}
       </ul>
     </li>
   );

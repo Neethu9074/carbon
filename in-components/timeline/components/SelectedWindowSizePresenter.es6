@@ -48,7 +48,7 @@ export default connectTo(
 
     return (
       <TransitionMotion willLeave={willLeave} willEnter={willEnter} styles={items}>
-        {interpolatedStyles => (
+        {interpolatedStyles =>
           <div>
             {interpolatedStyles.map(config => {
               return (
@@ -65,8 +65,7 @@ export default connectTo(
                 </div>
               );
             })}
-          </div>
-        )}
+          </div>}
       </TransitionMotion>
     );
   }

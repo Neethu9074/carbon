@@ -59,7 +59,7 @@ export default class extends React.Component {
     return (
       <div className={block} style={{ left }}>
         <ul className={`${block}__list`}>
-          {availableChildren.map((child, i) => (
+          {availableChildren.map((child, i) =>
             <li
               className={evaluateClassNames({
                 [`${block}__item`]: true,
@@ -90,7 +90,7 @@ export default class extends React.Component {
                 {child.description}
               </div>
             </li>
-          ))}
+          )}
         </ul>
       </div>
     );

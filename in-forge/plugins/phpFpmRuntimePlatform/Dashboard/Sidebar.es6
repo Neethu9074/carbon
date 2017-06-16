@@ -33,7 +33,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {pools.map(pool => (
+      {pools.map(pool =>
         <div key={pool}>
           <Separator />
 
@@ -74,7 +74,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      ))}
+      )}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

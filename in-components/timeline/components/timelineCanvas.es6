@@ -1,9 +1,7 @@
 import { on, create } from 'reactive-observables';
 
-import createCombinedEventsRenderer
-  from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
-import createHighlightedTimeframeRenderer
-  from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
+import createCombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
+import createHighlightedTimeframeRenderer from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
 import createHighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
 import createHoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import createMarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';

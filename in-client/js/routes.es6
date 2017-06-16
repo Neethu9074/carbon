@@ -1,21 +1,13 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
-import ServiceExtractionRuleConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
-import ElasticServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
-import HttpServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
-import EjbServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
-import MessageBrokerServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
-import EumServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
-import EumResourceProviderServiceExtractionConfiguration
-  from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumResourceProviderServiceExtractionConfiguration';
-import UserManagement
-  from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
+import ServiceExtractionRuleConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
+import ElasticServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
+import HttpServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
+import EjbServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
+import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
+import EumServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
+import EumResourceProviderServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumResourceProviderServiceExtractionConfiguration';
+import UserManagement from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import ObjectivesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectivesConfig';
 import RoleConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
@@ -24,8 +16,7 @@ import ApiTokens from 'promise-loader?global,configView!in-views/configurationVi
 import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 
-import RuleBindings
-  from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
+import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';

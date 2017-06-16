@@ -60,7 +60,7 @@ export function SvgIconList({ className }) {
   const iconNames = Object.keys(icons).sort();
   return (
     <ul className={className}>
-      {iconNames.map(key => (
+      {iconNames.map(key =>
         <li key={key} style={{ listStyle: 'none' }}>
           <div
             style={{
@@ -74,7 +74,7 @@ export function SvgIconList({ className }) {
             </span>
           </div>
         </li>
-      ))}
+      )}
     </ul>
   );
 }

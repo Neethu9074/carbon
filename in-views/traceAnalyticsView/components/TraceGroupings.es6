@@ -218,9 +218,9 @@ export default class TraceGroupings extends React.PureComponent {
         <ol className={`${block}__groupings`}>
           {this.state.traceGroups
             .sort(comparator)
-            .map(traceGroup => (
+            .map(traceGroup =>
               <TraceGroup key={traceGroup.hash} traceGroup={traceGroup} level={0} traceGroupsComparator={comparator} />
-            ))}
+            )}
         </ol>
       </div>
     );

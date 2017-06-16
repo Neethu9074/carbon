@@ -37,15 +37,15 @@ export default connectTo(
         Table content:
 
         <select id={id} className={`${block}__selection`} value={selectedType} onChange={setType}>
-          {Object.keys(domains).map(domain => (
+          {Object.keys(domains).map(domain =>
             <optgroup key={domain} label={domain}>
-              {Object.keys(domains[domain]).sort().map(val => (
+              {Object.keys(domains[domain]).sort().map(val =>
                 <option value={val} key={val}>
                   {domains[domain][val]}
                 </option>
-              ))}
+              )}
             </optgroup>
-          ))}
+          )}
         </select>
 
         ({matchedSnapshotCount})

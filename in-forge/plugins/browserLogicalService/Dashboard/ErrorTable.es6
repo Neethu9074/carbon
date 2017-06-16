@@ -41,7 +41,9 @@ const cols = [
     typeArgs: {
       get$(row) {
         return getTraceViewLinkWithQuery(
-          `entity.website.label:"${luceneEscapeString(row.websiteLabel)}" AND span.webEum.error.message:"${luceneEscapeString(row.message)}" `
+          `entity.website.label:"${luceneEscapeString(
+            row.websiteLabel
+          )}" AND span.webEum.error.message:"${luceneEscapeString(row.message)}" `
         ).map(href => {
           return {
             href,

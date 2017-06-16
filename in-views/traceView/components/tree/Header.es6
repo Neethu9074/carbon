@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 
-import ServiceImplementationEntityInformation
-  from 'in-views/traceView/components/ServiceImplementationEntityInformation';
+import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import { getErrorCount, getDepth, getCalls, getPerCategorySummary } from 'in-views/traceView/util';
 import ServiceEntityInformation from 'in-views/traceView/components/ServiceEntityInformation';
 import TraceDownloadView from 'in-components/DownloadButton/components/TraceDownloadView';
@@ -91,7 +90,10 @@ export default connectTo(
               {categories.map(category => {
                 let tooltip;
                 if (isShowSelfTimeForCategory(category)) {
-                  tooltip = `${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`;
+                  tooltip = `${perCategorySummary[category]
+                    .calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(
+                    perCategorySummary[category].durationSelf
+                  )}`;
                 } else {
                   tooltip = `${perCategorySummary[category].calls} ${category} spans`;
                 }

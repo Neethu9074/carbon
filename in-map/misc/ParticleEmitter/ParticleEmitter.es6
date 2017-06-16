@@ -53,7 +53,7 @@ export default class ParticleEmitter {
     this.geometry.addAttribute('progress', new BufferAttribute(this.progresses, 1));
     this.geometry.addAttribute('severity', new BufferAttribute(this.severities, 1));
 
-    const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
+    const texture = loadImage(pointShape, loadedTexture => (loadedTexture.needsUpdate = true));
     texture.minFilter = LinearFilter;
     texture.generateMipmaps = false;
     texture.flipY = false;
@@ -79,10 +79,10 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.startSubscription = combineLatest([particlesAreActive$, focusedMoment$]).subscribe(([
-      particlesAreActive,
-      focusedMoment
-    ]) => {
+    this.startSubscription = combineLatest([
+      particlesAreActive$,
+      focusedMoment$
+    ]).subscribe(([particlesAreActive, focusedMoment]) => {
       this.stop();
 
       if (particlesAreActive) {

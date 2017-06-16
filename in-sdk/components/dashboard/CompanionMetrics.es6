@@ -30,7 +30,7 @@ export default connectTo(
 
     return (
       <div>
-        {companions.map(companion => (
+        {companions.map(companion =>
           <div key={companion.get('id')}>
             <GaugesTable snapshot={companion} timeframe={timeframe} />
             <CountersTable snapshot={companion} timeframe={timeframe} />
@@ -38,7 +38,7 @@ export default connectTo(
             <TimersTable snapshot={companion} timeframe={timeframe} />
             <HistogramsTable snapshot={companion} timeframe={timeframe} />
           </div>
-        ))}
+        )}
       </div>
     );
   }

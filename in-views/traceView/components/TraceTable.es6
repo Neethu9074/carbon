@@ -48,14 +48,14 @@ export default getElementDimensions(
                   isInfiniteLoading={this.props.isInfiniteLoading}
                   className={block + '__scroll-area'}
                 >
-                  {this.props.traces.map(trace => (
+                  {this.props.traces.map(trace =>
                     <TraceTableRow
                       key={trace.id}
                       trace={trace}
                       selectedTraceId={this.props.selectedTraceId}
                       onClick={this.onClick}
                     />
-                  ))}
+                  )}
                 </Infinite>
               : null}
           </div>

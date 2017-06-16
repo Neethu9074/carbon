@@ -11,11 +11,11 @@ export default function AppPoolList({ snapshot }) {
 
   return (
     <List>
-      {pools.map((pool, i) => (
+      {pools.map((pool, i) =>
         <List.Item key={i}>
           {pool}
         </List.Item>
-      ))}
+      )}
     </List>
   );
 }
