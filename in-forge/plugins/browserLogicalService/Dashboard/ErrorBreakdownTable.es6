@@ -25,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Occurences in selected time window',
+    title: 'Occurences',
     type: 'number',
     typeArgs: {
       getValue(row) {
