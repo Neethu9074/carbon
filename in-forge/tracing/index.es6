@@ -71,6 +71,7 @@ import './resteasy';
 import './rpc';
 import './rpc-client';
 import './rpc-server';
+import './s3';
 import './sdk';
 import './servlet';
 import './session';

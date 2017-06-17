@@ -12,6 +12,6 @@ registerSpanDefinition({
   detailView: 'EhcacheSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'action']) + span.getIn(['data', 'name']);
+    return span.getIn(['data', 'action']) + ' ' + span.getIn(['data', 'name']);
   }
 });
