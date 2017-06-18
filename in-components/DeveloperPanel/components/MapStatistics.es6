@@ -1,30 +1,14 @@
 import React from 'react';
 
-import Control from 'in-components/MapOverlayControls/components/Control';
 import statistics from 'in-map/stores/statisticsStore';
 import Collapsible from 'in-components/Collapsible';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/MapOverlayControls/components/MapStatistics.less';
+import './MapStatistics.less';
 
-export default function MapStatistics() {
-  return (
-    <Control
-      createMenuContent={createMenuContent}
-      tooltipText="Map statistics. DEV ONLY FEATURE."
-      type="dot"
-      id="mapstatistics"
-    />
-  );
-}
+const block = 'in-dev-panel-map-stats';
 
-function createMenuContent() {
-  return <Statistics />;
-}
-
-const block = 'in-sidebar-map-stats';
-
-const Statistics = connectTo(
+export default connectTo(
   {
     _statistics: statistics.stream.throttle(1000)
   },
@@ -38,7 +22,7 @@ const Statistics = connectTo(
         components.push(<KeyValue key={key} name={key} value={statistic} />);
       } else {
         components.push(
-          <Collapsible key={key}>
+          <Collapsible key={key} initiallyOpen>
             <Collapsible.Header>
               {key}
             </Collapsible.Header>

@@ -14,9 +14,7 @@ export default function AccountMenu() {
   return (
     <div className={block}>
       <Menu />
-
       <Button className={`${block}__avatar-wrapper`} kind="secondary" size="sm" onClick={toggleMenu}>
-
         <Gravatar className={`${block}__avatar`} email={user.email} />
       </Button>
     </div>
