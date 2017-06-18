@@ -32,7 +32,7 @@ if (__DEV__) {
     numLayer = 0;
 
     _nodes.forEach(node => {
-      numLayer += node.layer.size;
+      numLayer += node.layer.objects.size;
     });
   });
   connections.stream.subscribe(_connections => (numConnections = _connections.size));
@@ -84,7 +84,6 @@ if (__DEV__) {
         ['faces', renderInfo.faces],
         ['points', renderInfo.points],
         ['vertices', renderInfo.vertices],
-        ['programs', renderer.info.programs],
         ['framesRendered', framesRendered]
       ])
     );

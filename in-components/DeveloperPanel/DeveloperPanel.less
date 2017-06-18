@@ -1,0 +1,52 @@
+@import "~in-themes/active.less";
+
+.in-dev-panel {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+
+  height: 80%;
+  max-height: 80%;
+  background: #172429;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  z-index: @z-index__header;
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5rem;
+  }
+
+  &__icon {
+    fill: #fff;
+    cursor: pointer;
+
+    &:hover {
+      fill: #bbb;
+    }
+  }
+
+  &__content {
+    margin: 1rem;
+    max-height: ~'calc(100% - 103px)';
+    overflow-y: scroll;
+  }
+
+  &__tabs {
+    display: flex;
+  }
+
+  &__tab {
+    padding: .5rem 1rem;
+    background: #2d4048;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover, &--active {
+      background: #43565e;
+      color: #bbb;
+    }
+  }
+}
