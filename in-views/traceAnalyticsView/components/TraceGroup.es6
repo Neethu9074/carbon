@@ -5,6 +5,7 @@ import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/SpanForgeDetails';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
+import { getTypeLabelPluralByType } from 'in-sdk/tracing';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -41,6 +42,10 @@ const callContentElement = `${block}__call-content`;
 const toggleChildrenElement = `${block}__toggle-children`;
 const hiddenToggleChildrenElement = `${toggleChildrenElement} ${toggleChildrenElement}--hidden`;
 const detailsElement = `${block}__details`;
+const expandDetailsElement = `${block}__toggle-expand-details`;
+const metricValueElement = `${block}__current-metric-value`;
+const labelElement = `${block}__label`;
+const detailCallElement = `${block}__call-detail`;
 
 const traceAnalyticsGroupingsWrapperClassName = 'in-trace-analytics-groupings';
 
@@ -65,8 +70,9 @@ export default class TraceGrouping extends React.Component {
   }
 
   render() {
-    const { traceGroup, level, traceGroupsComparator } = this.props;
+    const { traceGroup, level, traceGroupsComparator, showLatencyMetrics } = this.props;
     const { showChildren, active, showDetails } = this.state;
+    const isRootElement = level === 0;
 
     return (
       <li className={block}>
@@ -81,62 +87,113 @@ export default class TraceGrouping extends React.Component {
             <SvgIcon
               type={showDetails ? 'timeline_close' : 'timeline_open'}
               width={12}
-              className={`${block}__toggle-expand-details`}
+              className={expandDetailsElement}
               onClick={this.toggleDetails}
             />
           </div>
-          <div className={callsElement}>
-            {number.compact(traceGroup.statistics.count)}
-          </div>
-          <div className={totalTimeElement}>
-            {millis.compact(traceGroup.statistics.durationTotal)}
-          </div>
-          <div className={minElement}>
-            {millis.compact(traceGroup.statistics.durationMin)}
-          </div>
-          <div className={avgElement}>
-            {millis.compact(traceGroup.statistics.durationMean)}
-          </div>
-          <div className={maxElement}>
-            {millis.compact(traceGroup.statistics.durationMax)}
-          </div>
-          <div className={errorsElement}>
-            <div
-              className={errorsPercentageIndicatorElement}
-              style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
-            />
-            <span className={errorCountValueElement}>
-              {percentage.compact(traceGroup.enrichment.errorPercentage)}
-            </span>
-          </div>
-          <div className={callElement}>
+          <div className={callElement} style={{ width: this.getWidthOfCallCell() }}>
             <div className={callContentElement} style={traceGroup.enrichment.categoryBackgroundTransparent}>
-              <SvgIcon
-                type={showChildren ? 'triangle_down' : 'triangle_right'}
-                width={showChildren ? 11 : 8}
-                onClick={this.toggleChildren}
-                className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
-              />
-
-              <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
-                <img
-                  src={traceGroup.enrichment.categoryIcon}
-                  alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
-                  className={typeIconElement}
+              <div className={`${block}__left`}>
+                <SvgIcon
+                  type={showChildren ? 'triangle_down' : 'triangle_right'}
+                  width={showChildren ? 9 : 6}
+                  onClick={this.toggleChildren}
+                  className={traceGroup.children.length > 0 ? toggleChildrenElement : hiddenToggleChildrenElement}
                 />
+
+                <div className={typeElement} style={traceGroup.enrichment.categoryBackgroundOpaque}>
+                  <img
+                    src={traceGroup.enrichment.categoryIcon}
+                    alt={`Icon for spans belonging to the ${traceGroup.enrichment.category} category.`}
+                    className={typeIconElement}
+                  />
+                </div>
+
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Total Time" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {getTotalDurationFromTraceGroup(traceGroup)}
+                      </div>
+                    </Tooltip>}
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Error Count" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                      </div>
+                    </Tooltip>}
+                {isRootElement
+                  ? null
+                  : <Tooltip content="Calls" align="topMiddle">
+                      <div className={metricValueElement}>
+                        {number.compact(traceGroup.statistics.count)}
+                      </div>
+                    </Tooltip>}
               </div>
 
-              {traceGroup.batched ? batchedIndicator : null}
-
-              {traceGroup.enrichment.label}
+              <div className={`${block}__right`}>
+                <div className={`${block}__line`}>
+                  <span className={`${block}__span-type`}>
+                    {getTypeLabelPluralByType(traceGroup.spanType)}
+                  </span>
+                  {traceGroup.batched ? batchedIndicator : null}
+                </div>
+                <span className={labelElement}>
+                  {traceGroup.enrichment.label}
+                </span>
+              </div>
             </div>
           </div>
+
+          {isRootElement
+            ? <div className={totalTimeElement}>
+                {getTotalDurationFromTraceGroup(traceGroup)}
+              </div>
+            : null}
+
+          {isRootElement
+            ? <div className={errorsElement}>
+                <div
+                  className={errorsPercentageIndicatorElement}
+                  style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
+                />
+                <span className={errorCountValueElement}>
+                  {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                </span>
+              </div>
+            : null}
+
+          {isRootElement
+            ? <div className={callsElement}>
+                {number.compact(traceGroup.statistics.count)}
+              </div>
+            : null}
+
+          {showLatencyMetrics
+            ? <div className={minElement}>
+                {millis.compact(traceGroup.statistics.durationMin)}
+              </div>
+            : null}
+          {showLatencyMetrics
+            ? <div className={avgElement}>
+                {millis.compact(traceGroup.statistics.durationMean)}
+              </div>
+            : null}
+          {showLatencyMetrics
+            ? <div className={maxElement}>
+                {millis.compact(traceGroup.statistics.durationMax)}
+              </div>
+            : null}
         </div>
 
         {showDetails
           ? <div
               className={detailsElement}
-              style={{ background: traceGroup.enrichment.categoryBackgroundTransparent.background }}
+              style={{
+                background: traceGroup.enrichment.categoryBackgroundTransparent.background,
+                borderLeft: traceGroup.enrichment.categoryBackgroundTransparent.detailBorderLeft
+              }}
             >
               <div>
                 <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
@@ -148,7 +205,10 @@ export default class TraceGrouping extends React.Component {
 
                 <InspectTracesForHashButton hash={traceGroup.hash} />
               </div>
-              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} />
+              <div className={detailCallElement}>
+                {traceGroup.enrichment.label}
+              </div>
+              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} showGroupingDetails />
             </div>
           : null}
 
@@ -160,6 +220,8 @@ export default class TraceGrouping extends React.Component {
                 <TraceGrouping
                   key={childTraceGroup.hash}
                   traceGroup={childTraceGroup}
+                  showLatencyMetrics={showLatencyMetrics}
+                  currentGroupSorting={this.props.currentGroupSorting}
                   level={level + 1}
                   traceGroupsComparator={traceGroupsComparator}
                 />
@@ -168,6 +230,18 @@ export default class TraceGrouping extends React.Component {
       </li>
     );
   }
+
+  getCurrentSortedValue = () => {
+    const { traceGroup, currentGroupSorting } = this.props;
+
+    if (currentGroupSorting === 'calls') {
+      return number.compact(traceGroup.statistics.count);
+    } else if (currentGroupSorting === 'total') {
+      return getTotalDurationFromTraceGroup(traceGroup);
+    } else if (currentGroupSorting === 'errors') {
+      return percentage.compact(traceGroup.enrichment.errorPercentage);
+    }
+  };
 
   setDomRef = domElement => {
     this.domElement = domElement;
@@ -232,6 +306,18 @@ export default class TraceGrouping extends React.Component {
     }
   };
 
+  getWidthOfCallCell = () => {
+    const isRootElement = this.props.level === 0;
+    let widthOfCallRow = 31;
+    if (isRootElement) {
+      widthOfCallRow = this.props.showLatencyMetrics ? 31 : 16;
+    } else {
+      widthOfCallRow = this.props.showLatencyMetrics ? 16 : 1;
+    }
+    widthOfCallRow = `calc(100% - ${widthOfCallRow}.75rem)`;
+    return widthOfCallRow;
+  };
+
   moveActiveState(modification) {
     const selector = `.${traceAnalyticsGroupingsWrapperClassName} .${groupElement}`;
     const elements = Array.prototype.slice.call(document.querySelectorAll(selector));
@@ -256,4 +342,8 @@ function removeAllOtherActiveStates() {
   for (let i = activeElements.length - 1; i >= 0; i--) {
     activeElements[i].setActive(false);
   }
+}
+
+function getTotalDurationFromTraceGroup(traceGroup) {
+  return `${traceGroup.statistics.durationTotal}ms`;
 }

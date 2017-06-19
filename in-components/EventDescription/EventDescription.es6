@@ -9,10 +9,10 @@ import {
   getEventType,
   EVENT_TYPES
 } from 'in-stores/events';
-import { focusEvent } from 'in-stores/navigation/view';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Row, Col } from 'in-components/Grid/Grid';
+import { focusEvent } from 'in-stores/navigation/view';
 import { getClassName } from 'in-services/util/react';
+import { Row, Col } from 'in-components/Grid/Grid';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

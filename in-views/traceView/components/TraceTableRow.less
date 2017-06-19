@@ -8,15 +8,12 @@
   color: #2D4048;
   cursor: pointer;
 
-  outline: 0;
+  &:hover {
+    background: #ccc;
+  }
 
-  &:hover, &:focus, &--selected.in-trace-table-row {
-    background: #2d4048;
-    color: white;
-
-    .in-trace-table-row__error-icon {
-      fill: white;
-    }
+  &--selected, &--marked {
+    background: #ddd;
   }
 
   &__error-icon {

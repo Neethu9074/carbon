@@ -75,8 +75,16 @@ export function getTypeLabelPlural(span) {
   return getSpanDefinition(span.get('name'), span).typeName.plural;
 }
 
+export function getTypeLabelPluralByType(spanType) {
+  return getSpanDefinition(spanType).typeName.plural;
+}
+
 export function getSpanDetailView(span) {
   return getSpanDefinition(span.get('name'), span).detailView;
+}
+
+export function getSpanGroupingDetailView(span) {
+  return getSpanDefinition(span.get('name'), span).groupingDetailView;
 }
 
 export function getCategoryIcon(category) {

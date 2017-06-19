@@ -1,9 +1,4 @@
 .in-trace-analytics-groupings {
-  height: 100%;
-  border-left: 1px solid #40535b;
-  background: #fff;
-  overflow: hidden;
-
   &__error {
     color: darkred;
     margin: 1rem;
@@ -35,7 +30,6 @@
     font-size: .688rem;
     text-decoration: none;
     box-sizing: border-box;
-    cursor: pointer;
   }
 
   &__toggle-expand {
@@ -61,15 +55,11 @@
 
   &__max {
     width: 5rem;
+    border-right: 0;
   }
 
   &__errors {
     width: 5rem;
-  }
-
-  &__call {
-    width: ~'calc(100% - 31.75rem)';
-    border-right: 0;
   }
 
   &__header-cell {
@@ -80,10 +70,40 @@
     }
   }
 
-  &__header-cell-order {
-    fill: #6b8088;
-    border-radius: .188rem;
-    padding: .23rem;
-    background: #92a5ae;
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: .5rem 0;
+  }
+
+  &__kpi {
+    margin-right: 0.375rem;
+    padding: 0 0.313rem;
+    height: 1rem;
+    line-height: 0.938rem;
+    background: #d8dce1;
+
+    font-size: 0.688rem;
+    font-weight: bold;
+    border-radius: .125rem;
+  }
+
+  &__kpi-wrapper {
+    display: flex;
+    margin-top: .25rem
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    transform: scale(0.75);
+  }
+
+  &__description {
+    margin-bottom: .5rem;
   }
 }

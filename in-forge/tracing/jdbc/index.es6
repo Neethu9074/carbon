@@ -12,6 +12,8 @@ registerSpanDefinition({
 
   detailView: 'JdbcSpanDetailView',
 
+  groupingDetailView: 'JdbcSpanGroupingDetailView',
+
   getLabel(span) {
     const statement = span.getIn(['data', 'jdbc', 'statement']);
     if (statement == null) {

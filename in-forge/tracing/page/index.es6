@@ -14,6 +14,8 @@ registerSpanDefinition({
 
   detailView: 'PageRequestSpanDetailView',
 
+  groupingDetailView: 'PageRequestSpanGroupingDetailView',
+
   getLabel(span) {
     return span.getIn(['data', 'page', 'url']);
   }

@@ -16,9 +16,7 @@ const block = 'in-trace-analytics-view';
 
 const rightContent = [
   <ToggleViewHeader key="0" side="right" expandedSide$={expandedSide$} toggle={toggleRight} />,
-  <div key="1" className={`${block}__right-content`}>
-    <TraceGroupings />
-  </div>
+  <TraceGroupings key="1" />
 ];
 
 export default connectTo(

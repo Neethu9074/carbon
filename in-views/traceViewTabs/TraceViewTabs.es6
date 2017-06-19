@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { traceViewLink$, traceAnalyticsViewLink$ } from 'in-stores/navigation/view';
+import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import { selectedTracesCount$ } from 'in-stores/traces/analytics';
-import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { traceAnalyticsEnabled } from 'in-services/featureFlags';
+import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import Count from 'in-views/traceViewTabs/components/Count';
 import connectTo from 'in-hoc/connectTo';
 
@@ -45,7 +45,7 @@ export default connectTo(
                 })}
               >
                 <a href={traceAnalyticsViewLink} className={linkElement}>
-                  <em>Analytics</em> <Count count$={selectedTracesCount$} />
+                  <em>Analytics</em> <Count count$={analysedTraces$.map(map => map.size)} />
                 </a>
               </li>
             </ul>
