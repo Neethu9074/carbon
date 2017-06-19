@@ -27,6 +27,9 @@ const cols = [
   {
     title: 'Occurences',
     type: 'number',
+    cellStyle: {
+      width: '120px'
+    },
     typeArgs: {
       getValue(row) {
         return row.count;
@@ -38,6 +41,9 @@ const cols = [
     title: '',
     type: 'linkButton',
     disableSorting: true,
+    cellStyle: {
+      width: '120px'
+    },
     typeArgs: {
       get$(row) {
         return getTraceViewLinkWithQuery(row.query).map(href => {
@@ -64,7 +70,7 @@ export default connectTo(
       )
     };
   },
-  function ErrorBreakdownTable({ result, errorMessage, websiteLabel }) {
+  function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageLabel }) {
     if (!result) {
       return null;
     }
@@ -80,15 +86,17 @@ export default connectTo(
     }
 
     const browserRows = result.data.get('browsers').toArray().map(browser => {
+      let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
+      if (pageLabel) {
+        query += ` span.webEum.page:"${luceneEscapeString(pageLabel)}"`;
+      }
+      query += ` span.webEum.error.message:"${luceneEscapeString(errorMessage)}"`;
+      query += ` span.webEum.userAgent.browser.name:"${browser.get('name')}"`;
       return {
         key: browser.get('hash'),
         name: browser.get('name'),
         count: browser.get('count'),
-        query: `entity.website.label:"${luceneEscapeString(
-          websiteLabel
-        )}" AND span.webEum.error.message:"${luceneEscapeString(
-          errorMessage
-        )}" AND span.webEum.userAgent.browser.name:"${browser.get('name')}"`
+        query
       };
     });
 
@@ -99,9 +107,9 @@ export default connectTo(
         count: page.get('count'),
         query: `entity.website.label:"${luceneEscapeString(
           websiteLabel
-        )}" AND span.webEum.error.message:"${luceneEscapeString(
-          errorMessage
-        )}" AND span.webEum.page:"${luceneEscapeString(page.get('name'))}"`
+        )}" span.webEum.error.message:"${luceneEscapeString(errorMessage)}" span.webEum.page:"${luceneEscapeString(
+          page.get('name')
+        )}"`
       };
     });
 

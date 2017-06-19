@@ -27,6 +27,9 @@ const cols = [
   {
     title: 'Occurences',
     type: 'number',
+    cellStyle: {
+      width: '120px'
+    },
     typeArgs: {
       getValue(row) {
         return row.count;
@@ -38,13 +41,18 @@ const cols = [
     title: '',
     type: 'linkButton',
     disableSorting: true,
+    cellStyle: {
+      width: '120px'
+    },
     typeArgs: {
       get$(row) {
-        return getTraceViewLinkWithQuery(
-          `entity.website.label:"${luceneEscapeString(
-            row.websiteLabel
-          )}" AND span.webEum.error.message:"${luceneEscapeString(row.message)}" `
-        ).map(href => {
+        let query = `entity.website.label:"${luceneEscapeString(row.websiteLabel)}"`;
+        if (row.pageLabel) {
+          query += ` span.webEum.page:"${luceneEscapeString(row.pageLabel)}"`;
+        }
+        query += ` span.webEum.error.message:"${luceneEscapeString(row.message)}"`;
+
+        return getTraceViewLinkWithQuery(query).map(href => {
           return {
             href,
             label: 'Traces'
@@ -67,7 +75,7 @@ export default connectTo(
       )
     };
   },
-  function ErrorTable({ result, snapshotId, timeframe, websiteLabel, pageHash }) {
+  function ErrorTable({ result, snapshotId, timeframe, websiteLabel, pageHash, pageLabel }) {
     // TODO show message when timeframe extends beyond our trace storage time
 
     if (!result) {
@@ -94,7 +102,8 @@ export default connectTo(
         snapshotId,
         websiteLabel,
         timeframe,
-        pageHash
+        pageHash,
+        pageLabel: pageLabel
       };
     });
 
@@ -125,6 +134,7 @@ function getRowDetails(row) {
       errorMessage={row.message}
       websiteLabel={row.websiteLabel}
       pageHash={row.pageHash}
+      pageLabel={row.pageLabel}
     />
   );
 }

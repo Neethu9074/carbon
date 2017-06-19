@@ -134,6 +134,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         websiteLabel={row.websiteLabel}
+        pageLabel={row.name}
         pageHash={row.hash}
       />
     </div>
