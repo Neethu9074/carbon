@@ -59,9 +59,9 @@ export default function SvgIcon({ type, width, height, className, color, onClick
 export function SvgIconList({ className }) {
   const iconNames = Object.keys(icons).sort();
   return (
-    <ul className={className}>
+    <div className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
       {iconNames.map(key =>
-        <li key={key} style={{ listStyle: 'none' }}>
+        <div key={key} style={{ listStyle: 'none', margin: '0 2rem 1rem 0' }}>
           <div
             style={{
               display: 'flex',
@@ -69,12 +69,12 @@ export function SvgIconList({ className }) {
             }}
           >
             <SvgIcon type={key} width={16} height={16} color="#fff" spinning={key === 'spinner'} />
-            <span style={{ marginLeft: '10px' }}>
+            <span style={{ marginLeft: '5px' }}>
               {key}
             </span>
           </div>
-        </li>
+        </div>
       )}
-    </ul>
+    </div>
   );
 }
