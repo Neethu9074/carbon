@@ -7,6 +7,7 @@ import { isDateTimeValid$ as fromValid$ } from 'in-components/timeline/component
 import { isDateTimeValid$ as toValid$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
+import { closeTimeSelector } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Tooltip from 'in-components/Tooltip';
@@ -92,9 +93,14 @@ export default connectTo(
 
     const isDisabled = href ? false : true;
     return (
-      <Button onClick={e => e.stopPropagation()} href={href} size="sm" disabled={isDisabled}>
+      <Button onClick={stopAndCloseDialog} href={href} size="sm" disabled={isDisabled}>
         Apply
       </Button>
     );
   }
 );
+
+function stopAndCloseDialog(e) {
+  e.stopPropagation();
+  closeTimeSelector();
+}

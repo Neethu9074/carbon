@@ -78,6 +78,10 @@ export function openTimeSelector(view = true) {
   }
 }
 
+export function closeTimeSelector() {
+  showTimeSelector.mutateTo(false);
+}
+
 /*
   we need to seperate the global timeline.timeframe store from this timeframeStore because
   we want to update the timelines timeframe in realtime. If the user drags in time, this store gets updated.
