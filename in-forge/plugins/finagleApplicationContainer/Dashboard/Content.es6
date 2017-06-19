@@ -8,7 +8,7 @@ export default function FinagleDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <GaugesTable snapshot={snapshot} timeframe={timeframe} />
-      <CountersTable snapshot={snapshot} timeframe={timeframe} />      
+      <CountersTable snapshot={snapshot} timeframe={timeframe} />
       <HistogramsTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );

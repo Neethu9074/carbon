@@ -61,7 +61,7 @@ export default getElementDimensions(
                   isInfiniteLoading={isInfiniteLoading}
                   className={block + '__scroll-area'}
                 >
-                  {traces.map((trace, i) => (
+                  {traces.map((trace, i) =>
                     <TraceTableRow
                       key={trace.id}
                       trace={trace}
@@ -69,7 +69,7 @@ export default getElementDimensions(
                       markedTraces={this.props.markedTraces}
                       onRowClicked={(e, trace) => this.onRowClicked(e, trace, traces, i)}
                     />
-                  ))}
+                  )}
                 </Infinite>
               : null}
           </div>

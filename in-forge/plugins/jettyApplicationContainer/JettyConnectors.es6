@@ -19,7 +19,7 @@ export default function JettyConnectors({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Connectors</Collapsible.Header>
         <Collapsible.Content>
-          {connectors.map((connector, i) => (
+          {connectors.map((connector, i) =>
             <Collapsible initiallyOpen={false} key={i}>
               <Collapsible.Header>{connector.get('port') || '<unknown port>'}</Collapsible.Header>
               <Collapsible.Content>
@@ -36,7 +36,7 @@ export default function JettyConnectors({ snapshot }) {
                 </DescriptionList>
               </Collapsible.Content>
             </Collapsible>
-          ))}
+          )}
         </Collapsible.Content>
       </Collapsible>
     </div>

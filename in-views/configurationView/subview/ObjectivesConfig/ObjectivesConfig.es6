@@ -280,7 +280,7 @@ function getRowDetails(row) {
         </DescriptionItem>
         <DescriptionItem title="Thresholds">
           <ul className={`${block}__thresholds`}>
-            {rule.get('thresholds').map((threshold, i) => (
+            {rule.get('thresholds').map((threshold, i) =>
               <li key={i} className={`${block}__flex-wrapper`}>
                 <DescriptionItem title="Value" className={`${block}__value`}>
                   {threshold.get('value')}
@@ -292,7 +292,7 @@ function getRowDetails(row) {
                   {threshold.get('message')}
                 </DescriptionItem>
               </li>
-            ))}
+            )}
           </ul>
         </DescriptionItem>
 

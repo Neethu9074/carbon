@@ -11,7 +11,7 @@ export default function KPIList({ formatters, classname, metrics, labels, snapsh
 
   return (
     <div className={className}>
-      {metrics.map((metric, index) => (
+      {metrics.map((metric, index) =>
         <span key={labels[index]} className={block + '__kpi'}>
           <MetricValue
             snapshotId={snapshot.get('id')}
@@ -20,7 +20,7 @@ export default function KPIList({ formatters, classname, metrics, labels, snapsh
             optionalTimeWindowAggregation={timeWindowAggregations[index]}
           />
         </span>
-      ))}
+      )}
     </div>
   );
 }

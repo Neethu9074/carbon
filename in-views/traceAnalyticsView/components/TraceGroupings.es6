@@ -263,7 +263,7 @@ export default connectTo(
             <ol className={groupings}>
               {traceGroups
                 .sort(comparator)
-                .map(traceGroup => (
+                .map(traceGroup =>
                   <TraceGroup
                     key={traceGroup.hash}
                     showLatencyMetrics={showLatencyMetrics}
@@ -271,7 +271,7 @@ export default connectTo(
                     level={0}
                     traceGroupsComparator={comparator}
                   />
-                ))}
+                )}
             </ol>
           </div>
         </Section>
@@ -329,7 +329,8 @@ function compareTraceGroupByLabel(a, b) {
 function DescriptionText() {
   return (
     <div className={descriptionElement}>
-      Trace groups are calculated out of the selected traces and spans on the left. Spans are compared and grouped by specific properties, depending on the spans type.
+      Trace groups are calculated out of the selected traces and spans on the left. Spans are compared and grouped by
+      specific properties, depending on the spans type.
       For a deep drill down, there are KPIs, helping you to understand and find the root cause. The KPIs are:
       <br />
       <div className={kpiWrapperElement}>

@@ -84,6 +84,8 @@ const prefetchItems = fs.readdirSync(paths.bundleDir)
 
 router.get('/', (req, res) => {
   res.vary('*');
+  res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0";');
+
   getCurrentUser(req)
     .then(([statusCode, userStr]) => getUserSettings(req, res, statusCode, userStr))
     .then(([statusCode, userStr, userSettings]) => sendIndex(req, res, statusCode, userStr, userSettings))

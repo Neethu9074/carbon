@@ -71,7 +71,7 @@ export default getPhysicalHierarchy(function DashboardBreadcrumb({ physicalHiera
 
   return (
     <ul className={block}>
-      {physicalHierarchy.map((id, i) => (
+      {physicalHierarchy.map((id, i) =>
         <div key={id} className={`${block}__crumb-wrapper`}>
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
 
@@ -87,7 +87,7 @@ export default getPhysicalHierarchy(function DashboardBreadcrumb({ physicalHiera
               </div>
             : null}
         </div>
-      ))}
+      )}
     </ul>
   );
 });

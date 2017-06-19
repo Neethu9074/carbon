@@ -1,7 +1,6 @@
 import React from 'react';
 
-import LogicalConnectionKpiSparkCharts
-  from 'in-sdk/components/sidebar/defaultLogicalConnectionSidebars/LogicalConnectionKpiSparkCharts';
+import LogicalConnectionKpiSparkCharts from 'in-sdk/components/sidebar/defaultLogicalConnectionSidebars/LogicalConnectionKpiSparkCharts';
 import ConnectedEntitiesList from 'in-sdk/components/sidebar/ConnectedEntitiesList';
 
 export default function LogicalConnectionSidebar({ snapshot }) {

@@ -80,7 +80,7 @@ export default connectTo(
 
             <div className={`${block}__kpi-wrapper`}>
               {isExpanded
-                ? kpis.map(kpi => (
+                ? kpis.map(kpi =>
                     <LabeledSparkChart
                       className={block + '__spark-chart'}
                       key={kpi.label}
@@ -91,7 +91,7 @@ export default connectTo(
                       formatter={kpi.formatter}
                       optionalTimeWindowAggregation={kpi.timeWindowAggregation}
                     />
-                  ))
+                  )
                 : <KPIList
                     snapshot={snapshot}
                     metrics={kpis.map(kpi => kpi.metric)}

@@ -3,10 +3,10 @@ import { activeDialog$, close } from 'in-components/DialogPresenter/store';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
 
 let navigationParameters;
-navigationParameters$.subscribe(_navigationParameters => navigationParameters = _navigationParameters);
+navigationParameters$.subscribe(_navigationParameters => (navigationParameters = _navigationParameters));
 
 let activeDialog;
-activeDialog$.subscribe(_activeDialog => activeDialog = _activeDialog);
+activeDialog$.subscribe(_activeDialog => (activeDialog = _activeDialog));
 
 export default function onPressed() {
   if (!navigationParameters) {

@@ -1,8 +1,7 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import { messageBrokerServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 
@@ -12,13 +11,15 @@ export const pathname = messageBrokerServiceExtractionConfigViewPath;
 
 export const helpTexts = defaults(
   {
-    viewHelp: 'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
-      'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
-      'a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ.',
-    matchesHelp: 'Select here which message broker attributes should be used to match and extract a service. At least one match ' +
-      'expression is required. The message broker destination / queue / topic can be matched ' +
-      "to extract services. When all of the configured match expressions match a message broker span's attributes, a " +
-      'service will be extracted.'
+    viewHelp:
+      'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
+        'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
+        'a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ.',
+    matchesHelp:
+      'Select here which message broker attributes should be used to match and extract a service. At least one match ' +
+        'expression is required. The message broker destination / queue / topic can be matched ' +
+        "to extract services. When all of the configured match expressions match a message broker span's attributes, a " +
+        'service will be extracted.'
   },
   commonHelpTexts
 );

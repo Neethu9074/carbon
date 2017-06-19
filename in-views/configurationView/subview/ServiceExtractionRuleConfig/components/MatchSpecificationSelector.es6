@@ -20,13 +20,13 @@ function MatchSpecificationItem({ matchSpecificationOption, matchSpecificationFo
 
   return (
     <optgroup label={matchSpecificationOption.label}>
-      {matchSpecificationOption.children.map((childMatchSpecificationOption, i) => (
+      {matchSpecificationOption.children.map((childMatchSpecificationOption, i) =>
         <MatchSpecificationItem
           matchSpecificationOption={childMatchSpecificationOption}
           matchSpecificationForm={matchSpecificationForm}
           key={i}
         />
-      ))}
+      )}
     </optgroup>
   );
 }
@@ -45,13 +45,13 @@ export default function MatchSpecificationSelector({
         <Select id={`${id}-select-match-rule`} onChange={onChangeMatchOption} style={{ width: '100%' }}>
           <option value="">Please Select</option>
 
-          {matchSpecificationOptionsTree.map((matchSpecificationOption, i) => (
+          {matchSpecificationOptionsTree.map((matchSpecificationOption, i) =>
             <MatchSpecificationItem
               matchSpecificationOption={matchSpecificationOption}
               matchSpecificationForm={matchSpecificationForm}
               key={i}
             />
-          ))}
+          )}
         </Select>
         {matchSpecificationForm.valid
           ? null

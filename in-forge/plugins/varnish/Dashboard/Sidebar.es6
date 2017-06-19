@@ -23,7 +23,7 @@ export default function VarnishSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {backendNames.map(bEnd => (
+      {backendNames.map(bEnd =>
         <div key={bEnd}>
           <Separator />
 
@@ -36,7 +36,7 @@ export default function VarnishSidebar({ snapshot }) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      ))}
+      )}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

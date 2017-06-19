@@ -23,9 +23,11 @@ export default connectTo(
     // hide temporary unavailability due to loading lag
     snapshot: selectedSnapshot$,
     timeframe: timeframe$,
-    showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$, selectedSnapshot$]).flatMap(([
-      snapshotId
-    ]) => {
+    showVersionSelector: combineLatest([
+      selectedSnapshotId$,
+      focusedMoment$,
+      selectedSnapshot$
+    ]).flatMap(([snapshotId]) => {
       if (snapshotId == null) {
         return alwaysFalse;
       }

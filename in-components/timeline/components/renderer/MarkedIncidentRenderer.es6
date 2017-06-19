@@ -5,7 +5,7 @@ const white = '#ffffff';
 export default function createMarkedIncidentRenderer(ctx, scale) {
   let selectedIncidentId = null;
   const selectedIncidentSubscription = selectedIncident$.subscribe(
-    incident => selectedIncidentId = incident ? incident.get('id') : null
+    incident => (selectedIncidentId = incident ? incident.get('id') : null)
   );
 
   return {

@@ -17,11 +17,11 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
   if (sensorConnectionProblems.size > 0) {
     return (
       <DashboardNotification type="info">
-        {sensorConnectionProblems.map(problem => (
+        {sensorConnectionProblems.map(problem =>
           <div>
             {problem}
           </div>
-        ))}
+        )}
       </DashboardNotification>
     );
   }

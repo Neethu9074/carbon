@@ -27,10 +27,10 @@ export function createEventBus() {
     showNodesSticky(zoomLevel < 250);
   });
 
-  combineLatest([currentLayoutingStrategy$, eventBus.on('zoomLevelChanged')]).subscribe(([
-    currentLayoutingStrategy,
-    zoomLevel
-  ]) => {
+  combineLatest([
+    currentLayoutingStrategy$,
+    eventBus.on('zoomLevelChanged')
+  ]).subscribe(([currentLayoutingStrategy, zoomLevel]) => {
     showGroupLabelSticky(
       (currentLayoutingStrategy === packedLayouting$ && zoomLevel < 550) ||
         currentLayoutingStrategy !== packedLayouting$

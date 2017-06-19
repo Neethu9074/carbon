@@ -67,6 +67,8 @@ unvalidatedQuery$
   .flatMap(previousResult => {
     if (previousResult.error) {
       return always(previousResult);
+    } else if (previousResult.query.length === 0) {
+      return always(previousResult);
     }
 
     return validate(previousResult.query).map(validationResult => {

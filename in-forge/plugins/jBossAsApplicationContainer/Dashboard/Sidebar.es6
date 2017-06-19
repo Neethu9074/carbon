@@ -33,11 +33,11 @@ export default function JBossAsSidebar({ snapshot }) {
               <Collapsible.Content>
                 <DescriptionList>
                   {deployments
-                    .map((data, name) => (
+                    .map((data, name) =>
                       <DescriptionItem title={name} key={name}>
                         {data.get('contextRoot')}
                       </DescriptionItem>
-                    ))
+                    )
                     .valueSeq()
                     .toArray()}
                 </DescriptionList>
@@ -55,11 +55,11 @@ export default function JBossAsSidebar({ snapshot }) {
               <Collapsible.Content>
                 <DescriptionList>
                   {sockets
-                    .map((data, name) => (
+                    .map((data, name) =>
                       <DescriptionItem key={name} title={name}>
                         {data.get('port')}
                       </DescriptionItem>
-                    ))
+                    )
                     .valueSeq()
                     .toArray()}
                 </DescriptionList>

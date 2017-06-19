@@ -115,8 +115,8 @@ export default class extends React.PureComponent {
   render() {
     return (
       <div className={block}>
-        <div className={`${block}__level`} ref={node => this.level = node} />
-        <span className={`${block}__value`} ref={node => this.value = node} />
+        <div className={`${block}__level`} ref={node => (this.level = node)} />
+        <span className={`${block}__value`} ref={node => (this.value = node)} />
       </div>
     );
   }

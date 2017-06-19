@@ -17,7 +17,11 @@ export function init() {
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (
-      targetType === 'input' || targetType === 'textarea' || keyEvent.ctrlKey || keyEvent.altKey || keyEvent.metaKey
+      targetType === 'input' ||
+      targetType === 'textarea' ||
+      keyEvent.ctrlKey ||
+      keyEvent.altKey ||
+      keyEvent.metaKey
     ) {
       return;
     }

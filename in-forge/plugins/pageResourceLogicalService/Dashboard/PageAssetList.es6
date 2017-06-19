@@ -14,7 +14,7 @@ export default function PageAssetList({ snapshot }) {
 
   return (
     <div>
-      {endpoints.map(endpoint => (
+      {endpoints.map(endpoint =>
         <div key={endpoint}>
           <Separator />
 
@@ -41,7 +41,7 @@ export default function PageAssetList({ snapshot }) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      ))}
+      )}
     </div>
   );
 }

@@ -9,11 +9,11 @@ export default function ConnectorsInfo({ snapshot }) {
   return (
     <DescriptionList>
       {transportConnectors
-        .map((connectorURI, connectorName) => (
+        .map((connectorURI, connectorName) =>
           <DescriptionItem key={connectorName} title={connectorName}>
             {connectorURI}
           </DescriptionItem>
-        ))
+        )
         .valueSeq()
         .toArray()}
     </DescriptionList>

@@ -377,7 +377,9 @@ LOADER.OBJLoader.prototype = {
     }
 
     var lines = text.split('\n');
-    var line = '', lineFirstChar = '', lineSecondChar = '';
+    var line = '',
+      lineFirstChar = '',
+      lineSecondChar = '';
     var lineLength = 0;
     var result = [];
 
@@ -475,7 +477,8 @@ LOADER.OBJLoader.prototype = {
         }
       } else if (lineFirstChar === 'l') {
         var lineParts = line.substring(1).trim().split(' ');
-        var lineVertices = [], lineUVs = [];
+        var lineVertices = [],
+          lineUVs = [];
 
         if (line.indexOf('/') === -1) {
           lineVertices = lineParts;

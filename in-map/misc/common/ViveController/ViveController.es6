@@ -31,7 +31,7 @@ export default function createViveController(wrapper, controls, id) {
       controller.material.dispose();
       controller.material = new MeshBasicMaterial({
         color: 0xffffff,
-        map: loadImage(controllerDiffuseMapPath, tex => tex.needsUpdate = true)
+        map: loadImage(controllerDiffuseMapPath, tex => (tex.needsUpdate = true))
       });
 
       rightHandController.add(object.clone());

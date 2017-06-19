@@ -117,12 +117,6 @@ ansi-styles@^2.2.1:
   version "2.2.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-styles/-/ansi-styles-2.2.1.tgz#b432dd3358b634cf75e1e4664368240533c1ddbe"
 
-ansi-styles@^3.0.0:
-  version "3.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-styles/-/ansi-styles-3.0.0.tgz#5404e93a544c4fec7f048262977bebfe3155e0c1"
-  dependencies:
-    color-convert "^1.0.0"
-
 ansi-to-html@^0.6.2:
   version "0.6.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ansi-to-html/-/ansi-to-html-0.6.2.tgz#df8baacf201d87eff1b1a4b69cb4473d34b190e6"
@@ -275,10 +269,6 @@ ast-types@0.9.6:
   version "0.9.6"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ast-types/-/ast-types-0.9.6.tgz#102c9e9e9005d3e7e3829bf0c4fa24ee862ee9b9"
 
-ast-types@0.9.8:
-  version "0.9.8"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ast-types/-/ast-types-0.9.8.tgz#6cb6a40beba31f49f20928e28439fc14a3dab078"
-
 async-each-series@^1.1.0:
   version "1.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async-each-series/-/async-each-series-1.1.0.tgz#f42fd8155d38f21a5b8ea07c28e063ed1700b138"
@@ -362,7 +352,7 @@ babel-cli@^6.0.0:
   optionalDependencies:
     chokidar "^1.6.1"
 
-babel-code-frame@6.22.0, babel-code-frame@^6.11.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
+babel-code-frame@^6.11.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
   version "6.22.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel-code-frame/-/babel-code-frame-6.22.0.tgz#027620bee567a88c32561574e7fd0801d33118e4"
   dependencies:
@@ -997,10 +987,6 @@ babel@^6.0.0:
   version "6.23.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel/-/babel-6.23.0.tgz#d0d1e7d803e974765beea3232d4e153c0efb90f4"
 
-babylon@7.0.0-beta.8:
-  version "7.0.0-beta.8"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babylon/-/babylon-7.0.0-beta.8.tgz#2bdc5ae366041442c27e068cce6f0d7c06ea9949"
-
 babylon@^6.11.0, babylon@^6.15.0, babylon@^6.17.0:
   version "6.17.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babylon/-/babylon-6.17.0.tgz#37da948878488b9c4e3c4038893fa3314b3fc932"
@@ -1614,7 +1600,7 @@ codemirror@5.20.2, codemirror@^5.13.4:
   version "5.20.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/codemirror/-/codemirror-5.20.2.tgz#918e0ece96d57a99030b2f8b33011284bed5217a"
 
-color-convert@^1.0.0, color-convert@^1.3.0:
+color-convert@^1.3.0:
   version "1.9.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
   dependencies:
@@ -1886,6 +1872,14 @@ create-react-class@^15.5.2:
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-react-class/-/create-react-class-15.5.2.tgz#6a8758348df660b88326a0e764d569f274aad681"
   dependencies:
     fbjs "^0.8.9"
+    object-assign "^4.1.1"
+
+create-react-class@^15.6.0:
+  version "15.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
 cross-spawn@^4.0.0:
@@ -2687,7 +2681,7 @@ estraverse@~4.1.0:
   version "4.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/estraverse/-/estraverse-4.1.1.tgz#f6caca728933a850ef90661d0e17982ba47111a2"
 
-esutils@2.0.2, esutils@^2.0.0, esutils@^2.0.2:
+esutils@^2.0.0, esutils@^2.0.2:
   version "2.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 
@@ -3077,10 +3071,6 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-parser@0.45.0:
-  version "0.45.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/flow-parser/-/flow-parser-0.45.0.tgz#aa29d4ae27f06aa02817772bba0fcbefef7e62f0"
-
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -3262,13 +3252,13 @@ get-proxy@^1.0.1:
   dependencies:
     rc "^1.1.2"
 
-get-stdin@5.0.1, get-stdin@^5.0.1:
-  version "5.0.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
-
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
+
+get-stdin@^5.0.1:
+  version "5.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
 
 get-stream@^2.2.0:
   version "2.3.1"
@@ -4420,22 +4410,6 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jest-matcher-utils@^19.0.0:
-  version "19.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jest-matcher-utils/-/jest-matcher-utils-19.0.0.tgz#5ecd9b63565d2b001f61fbf7ec4c7f537964564d"
-  dependencies:
-    chalk "^1.1.3"
-    pretty-format "^19.0.0"
-
-jest-validate@19.0.0:
-  version "19.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jest-validate/-/jest-validate-19.0.0.tgz#8c6318a20ecfeaba0ba5378bfbb8277abded4173"
-  dependencies:
-    chalk "^1.1.1"
-    jest-matcher-utils "^19.0.0"
-    leven "^2.0.0"
-    pretty-format "^19.0.0"
-
 jju@^1.1.0:
   version "1.3.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jju/-/jju-1.3.0.tgz#dadd9ef01924bc728b03f2f7979bdbd62f7a2aaa"
@@ -4628,10 +4602,6 @@ less@^2.3.1:
     promise "^7.1.1"
     request "^2.72.0"
     source-map "^0.5.3"
-
-leven@^2.0.0:
-  version "2.1.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/leven/-/leven-2.1.0.tgz#c2e7a9f772094dee9d34202ae8acce4687875580"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -5010,7 +4980,7 @@ longest@^1.0.0, longest@^1.0.1:
   version "1.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
   version "1.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -5233,7 +5203,7 @@ minimist@0.0.8:
   version "0.0.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-minimist@1.2.0, minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0:
+minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
@@ -6448,32 +6418,15 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.3.1.tgz#fa0ea84b45ac0ba6de6a1e4cecdcff900d563151"
-  dependencies:
-    ast-types "0.9.8"
-    babel-code-frame "6.22.0"
-    babylon "7.0.0-beta.8"
-    chalk "1.1.3"
-    esutils "2.0.2"
-    flow-parser "0.45.0"
-    get-stdin "5.0.1"
-    glob "7.1.1"
-    jest-validate "19.0.0"
-    minimist "1.2.0"
+prettier@^1.4.4:
+  version "1.4.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prettier/-/prettier-1.4.4.tgz#a8d1447b14c9bf67e6d420dcadd10fb9a4fad65a"
 
 pretty-bytes@^3.0.1:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pretty-bytes/-/pretty-bytes-3.0.1.tgz#27d0008d778063a0b4811bb35c79f1bd5d5fbccf"
   dependencies:
     number-is-nan "^1.0.0"
-
-pretty-format@^19.0.0:
-  version "19.0.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/pretty-format/-/pretty-format-19.0.0.tgz#56530d32acb98a3fa4851c4e2b9d37b420684c84"
-  dependencies:
-    ansi-styles "^3.0.0"
 
 pretty-hrtime@^1.0.0:
   version "1.0.3"
@@ -6521,7 +6474,14 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
+prop-types@^15.5.10:
+  version "15.5.10"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+
+prop-types@^15.5.8:
   version "15.5.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
   dependencies:
@@ -6669,9 +6629,9 @@ react-addons-perf@^15.4.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-addons-shallow-compare@^15.5.0:
-  version "15.5.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-shallow-compare/-/react-addons-shallow-compare-15.5.2.tgz#7cb0ee7acc8d7c93fcc202df0bf47ba916a7bdad"
+react-addons-shallow-compare@^15.6.0:
+  version "15.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-shallow-compare/-/react-addons-shallow-compare-15.6.0.tgz#b7a4e5ff9f2704c20cf686dd8a05dd08b26de252"
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
@@ -6705,22 +6665,22 @@ react-dev-utils@^0.5.2:
     sockjs-client "1.0.1"
     strip-ansi "3.0.1"
 
-react-dom@^15.0.0, react-dom@^15.5.0:
-  version "15.5.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.5.4.tgz#ba0c28786fd52ed7e4f2135fe0288d462aef93da"
+react-dom@^15.0.0, react-dom@^15.6.1:
+  version "15.6.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "~15.5.7"
+    prop-types "^15.5.10"
 
 react-immutable-proptypes@^2.1.0:
   version "2.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
 
-react-infinite@^0.9.2:
-  version "0.9.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-infinite/-/react-infinite-0.9.2.tgz#c407d8f18b465f4ff70ecb6d16f6a5513f59a43b"
+react-infinite@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-infinite/-/react-infinite-0.11.0.tgz#de7af4bce898a13c45b9c1a3fb5caf448618d522"
   dependencies:
     lodash.isarray "3.0.4"
     lodash.isfinite "3.2.0"
@@ -6760,20 +6720,21 @@ react-select@^1.0.0-rc.3:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
 
-react-toggle@^2.2.0:
-  version "2.2.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-toggle/-/react-toggle-2.2.1.tgz#ee0f3743c4c92addb2ece43ae0e6cadfb8ba5947"
+react-toggle@^4.0.1:
+  version "4.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-toggle/-/react-toggle-4.0.1.tgz#0e83e8c94d94232debfa21a938ff3d2b2106ec72"
   dependencies:
     classnames "^2.2.5"
 
-react@^15.0.0, react@^15.5.0:
-  version "15.5.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
+react@^15.0.0, react@^15.6.1:
+  version "15.6.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
+    create-react-class "^15.6.0"
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.7"
+    prop-types "^15.5.10"
 
 reactive-observables@^1.1.0, reactive-observables@^1.37.0:
   version "1.37.0"

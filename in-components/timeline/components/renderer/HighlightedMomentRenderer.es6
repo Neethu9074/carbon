@@ -6,7 +6,7 @@ const width = 120;
 
 export default function createHighlightedMomentRenderer(ctx, scale) {
   let highlightedMoment = null;
-  const subscription = highlightedMoment$.subscribe(_hm => highlightedMoment = _hm);
+  const subscription = highlightedMoment$.subscribe(_hm => (highlightedMoment = _hm));
 
   return {
     draw,

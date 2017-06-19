@@ -28,7 +28,7 @@ export default class extends React.Component {
 
     return (
       <div>
-        <a ref={link => this.downloadLink = link} onClick={stopPropagation} />
+        <a ref={link => (this.downloadLink = link)} onClick={stopPropagation} />
         <div className={block}>
           {this.props.getCsvData
             ? <DownloadButtonCsv onClick={fileType => this.downloadFile(this.props.getCsvData, fileType)} />

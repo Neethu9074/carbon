@@ -33,11 +33,11 @@ export function init() {
     retrieveLatestMessage();
     setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 
-    combineLatest([message$, messageRead$, getSetting$('showMaintenanceNotes')]).subscribe(([
-      message,
-      messageRead,
-      showMaintenanceNotes
-    ]) => {
+    combineLatest([
+      message$,
+      messageRead$,
+      getSetting$('showMaintenanceNotes')
+    ]).subscribe(([message, messageRead, showMaintenanceNotes]) => {
       const hasContent = message != null && message.trim().length > 0;
       if (!hasContent || messageRead || !showMaintenanceNotes) {
         removeMessage(messageId);

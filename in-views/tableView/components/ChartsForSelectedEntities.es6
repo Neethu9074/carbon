@@ -40,13 +40,13 @@ function SelectedChart({ metric, snapshots }) {
   return (
     <div className={`${block}__chart`}>
       <h2 className={`${block}__chart-title`}>
-        {definition.category.map((part, i) => (
+        {definition.category.map((part, i) =>
           <span key={i}>
             {part}
 
             <SvgIcon height={9} type="chevron_right" className={`${block}__breadcrumb-separator`} />
           </span>
-        ))}
+        )}
         {definition.label}
 
         <div className={`${block}__button-panel`}>

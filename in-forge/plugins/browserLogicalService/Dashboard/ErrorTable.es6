@@ -1,8 +1,10 @@
 import React from 'react';
 
+import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorBreakdownTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
+import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
@@ -23,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Occurences in selected time window',
+    title: 'Occurences',
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -39,7 +41,9 @@ const cols = [
     typeArgs: {
       get$(row) {
         return getTraceViewLinkWithQuery(
-          `entity.id:"${row.snapshotId}" AND span.type:page.err AND span.hash:"errorMessage=${row.hash}"`
+          `entity.website.label:"${luceneEscapeString(
+            row.websiteLabel
+          )}" AND span.webEum.error.message:"${luceneEscapeString(row.message)}" `
         ).map(href => {
           return {
             href,
@@ -57,12 +61,13 @@ export default connectTo(
       result: combineDataAndError(
         getErrorsForWebsite({
           websiteSnapshotId: props.snapshotId,
-          timeframe: props.timeframe
+          timeframe: props.timeframe,
+          pageHash: props.pageHash
         })
       )
     };
   },
-  function ErrorTable({ result, snapshotId }) {
+  function ErrorTable({ result, snapshotId, timeframe, websiteLabel, pageHash }) {
     // TODO show message when timeframe extends beyond our trace storage time
 
     if (!result) {
@@ -73,7 +78,8 @@ export default connectTo(
       logger.warn('Failed to retrieve EUM error overview', result.error);
       return (
         <DashboardNotification type="danger">
-          Please refresh the table or contact customer support should this issue persist.
+          <strong>Failed to retrieve EUM error overview.</strong> Please refresh the page or contact customer{' '}
+          support should this issue persist.
         </DashboardNotification>
       );
     }
@@ -83,9 +89,12 @@ export default connectTo(
       return {
         key: hash,
         hash,
-        message: error.get('message'),
+        message: error.get('name'),
         count: error.get('count'),
-        snapshotId
+        snapshotId,
+        websiteLabel,
+        timeframe,
+        pageHash
       };
     });
 
@@ -109,8 +118,13 @@ export default connectTo(
 
 function getRowDetails(row) {
   return (
-    <div>
-      details for {row.key}
-    </div>
+    <ErrorBreakdownTable
+      errorHash={row.hash}
+      websiteSnapshotId={row.snapshotId}
+      timeframe={row.timeframe}
+      errorMessage={row.message}
+      websiteLabel={row.websiteLabel}
+      pageHash={row.pageHash}
+    />
   );
 }

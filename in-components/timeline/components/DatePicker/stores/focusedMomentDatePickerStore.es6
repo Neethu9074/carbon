@@ -37,11 +37,11 @@ export const timestamp$ = focusedMomentTimestamp$;
 export let isDateTimeValid$;
 
 export function reset() {
-  isDateTimeValid$ = combineLatest([fromTimestamp$, toTimestamp$, getValidation$(focusedMomentTimestamp$)]).map(([
-    fromTimestamp,
-    toTimestamp,
-    validationObject
-  ]) => {
+  isDateTimeValid$ = combineLatest([
+    fromTimestamp$,
+    toTimestamp$,
+    getValidation$(focusedMomentTimestamp$)
+  ]).map(([fromTimestamp, toTimestamp, validationObject]) => {
     if (!validationObject.date || !validationObject.time) {
       return validationObject;
     }
@@ -62,7 +62,9 @@ export function reset() {
     const time = !date ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
 
     if (!date || !time) {
-      validationObject.hint = `The selected moment is not between ${formatDateTime(fromTimestamp)} and ${formatDateTime(toTimestamp)}.`;
+      validationObject.hint = `The selected moment is not between ${formatDateTime(fromTimestamp)} and ${formatDateTime(
+        toTimestamp
+      )}.`;
     }
 
     return {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/view';
 import convertHexToLong from 'in-services/subscription/hexToLong';
@@ -47,6 +48,8 @@ export default connectTo(
           <DescriptionItem title="Error">
             {span.getIn(['data', 'http', 'error'])}
           </DescriptionItem>
+
+          {getCommonDescriptionItems(span)}
         </DescriptionList>
       </div>
     );

@@ -3,6 +3,7 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import { toggleDevPanel } from 'in-components/DeveloperPanel/stores/visibilityStore';
 import { configurationViewLink$ } from 'in-stores/navigation/configuration';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
@@ -49,7 +50,7 @@ export default connectTo(
       this.registerListener();
 
       return (
-        <section className={block} ref={menu => this.menu = menu}>
+        <section className={block} ref={menu => (this.menu = menu)}>
           <p className={block + '__account-name'}>
             Signed in as {window.instana.user.fullName}
           </p>
@@ -87,6 +88,12 @@ export default connectTo(
           {webVrEnabled
             ? <a className={block + '__link'} href="#/webVR/physical" target="_blank" rel="noopener noreferrer">
                 WebVR Showcase
+              </a>
+            : null}
+
+          {__DEV__
+            ? <a className={block + '__link'} onClick={toggleDevPanel}>
+                Developer Panel
               </a>
             : null}
 

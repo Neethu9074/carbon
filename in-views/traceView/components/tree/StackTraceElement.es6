@@ -82,7 +82,7 @@ export default connectTo(
             : null}
 
           <ol className={`${block}__list`}>
-            {stackTrace.map((st, i) => (
+            {stackTrace.map((st, i) =>
               <li key={i} className={`${block}__item`}>
                 <span className={`${block}__method`}> {stripQuotes(st.get('m'))} </span>
                 <span className={`${block}__in`}>in</span>
@@ -93,7 +93,7 @@ export default connectTo(
                   ? <ShowCodeButton snapshot={this.props.snapshot} file={st.get('f', st.get('c'))} line={st.get('n')} />
                   : null}
               </li>
-            ))}
+            )}
           </ol>
         </div>
       );

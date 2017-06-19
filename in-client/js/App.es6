@@ -8,6 +8,7 @@ import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import ConnectionStatus from 'in-components/ConnectionStatus';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { setWindowTitleFromRoute } from 'in-services/title';
+import DeveloperPanel from 'in-components/DeveloperPanel';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
@@ -37,6 +38,7 @@ export default function App(props) {
       <MessageFlyout />
       <TemporaryNotificationPresenter />
       <DialogPresenter />
+      {__DEV__ ? <DeveloperPanel /> : null}
 
       {props.children}
     </div>

@@ -1,4 +1,4 @@
-import { siPrefixPerSecond, siPrefix } from 'in-services/formatters/number';
+import { siPrefix } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 const metricDefinitions = [

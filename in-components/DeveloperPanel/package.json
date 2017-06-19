@@ -1,0 +1,6 @@
+{
+  "name": "DeveloperPanel",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DeveloperPanel.es6"
+}

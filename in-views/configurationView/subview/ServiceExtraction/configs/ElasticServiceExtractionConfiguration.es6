@@ -1,8 +1,7 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import { elasticsearchServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 
@@ -12,13 +11,15 @@ export const pathname = elasticsearchServiceExtractionConfigViewPath;
 
 export const helpTexts = defaults(
   {
-    viewHelp: 'Configure how Instana uses Elasticsearch attributes to extract services. You can define multiple rules ' +
-      'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
-      'a service name.',
-    matchesHelp: "Select here which Elasticsearch query's attributes should be used to match and extract a service. " +
-      'At least one match expression is required. Query attributes such as index and cluster name can be matched ' +
-      "to extract services. When all of the configured match expressions match a query's attributes, a " +
-      'service will be extracted.'
+    viewHelp:
+      'Configure how Instana uses Elasticsearch attributes to extract services. You can define multiple rules ' +
+        'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
+        'a service name.',
+    matchesHelp:
+      "Select here which Elasticsearch query's attributes should be used to match and extract a service. " +
+        'At least one match expression is required. Query attributes such as index and cluster name can be matched ' +
+        "to extract services. When all of the configured match expressions match a query's attributes, a " +
+        'service will be extracted.'
   },
   commonHelpTexts
 );

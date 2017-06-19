@@ -12,7 +12,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Ticks">
-        {localPeerNames.map(peer => (
+        {localPeerNames.map(peer =>
           <ChartWithLegend
             key={peer}
             snapshotId={snapshotId}
@@ -28,7 +28,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
               formatter: zeroDecimalPlaces
             }}
           />
-        ))}
+        )}
       </DashboardSection>
     </div>
   );

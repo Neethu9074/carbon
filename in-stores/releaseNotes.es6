@@ -27,10 +27,10 @@ const currentReleaseNotesStore = createStore({
 
 const currentReleaseNotes$ = currentReleaseNotesStore.observable.distinct();
 
-export const releaseNotes$ = combineLatest([readReleaseNotesStore.observable, currentReleaseNotes$]).map(([
-  readState,
-  currentReleaseNotes
-]) => {
+export const releaseNotes$ = combineLatest([
+  readReleaseNotesStore.observable,
+  currentReleaseNotes$
+]).map(([readState, currentReleaseNotes]) => {
   if (readState === hashCode(currentReleaseNotes)) {
     return null;
   }

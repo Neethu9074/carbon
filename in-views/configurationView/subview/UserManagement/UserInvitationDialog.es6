@@ -59,7 +59,7 @@ export default connectTo(
       return (
         <Dialog header={`Invite user to ${config.tenant}`} onClose={close}>
           <form onSubmit={this.onSubmit}>
-            {form.get('email').map(field => (
+            {form.get('email').map(field =>
               <FormGroup>
                 <Label htmlFor="invitation-email" hasError={!field.valid}>
                   Email Address
@@ -72,15 +72,15 @@ export default connectTo(
                   hasError={!field.valid}
                   autoFocus
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
 
-            {form.get('roleId').map(field => (
+            {form.get('roleId').map(field =>
               <FormGroup>
                 <Label htmlFor="invitation-role-id" hasError={!field.valid}>
                   Role
@@ -92,19 +92,19 @@ export default connectTo(
                   hasError={!field.valid}
                 >
                   {sortedRoles &&
-                    sortedRoles.map(role => (
+                    sortedRoles.map(role =>
                       <option value={role.get('id')} key={role.get('id')}>
                         {role.get('name')}
                       </option>
-                    ))}
+                    )}
                 </Select>
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </FormGroup>
-            ))}
+            )}
 
             <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
               Invite User

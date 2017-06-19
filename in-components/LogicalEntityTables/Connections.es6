@@ -1,8 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import DefaultConnectionCharts
-  from 'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
+import DefaultConnectionCharts from 'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
 import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
 import { logicalViewStructure$ } from 'in-stores/view';
 import { alwaysNull } from 'in-services/fixedStreams';

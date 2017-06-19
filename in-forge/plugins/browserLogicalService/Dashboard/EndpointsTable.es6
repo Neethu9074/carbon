@@ -1,12 +1,13 @@
 import React from 'react';
 
-import JumpToTracesTouchingServiceEndpointButton
-  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
+import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
+import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getLabel } from 'in-sdk/snapshot';
 
 const cols = [
   {
@@ -99,11 +100,17 @@ const cols = [
 
 export default function Endpoints({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'service_endpoints'], emptyList).toArray().map(name => {
+  const websiteLabel = getLabel(snapshot);
+
+  const hashes = snapshot.getIn(['data', 'service_endpoint_hashes'], emptyList);
+  const rows = snapshot.getIn(['data', 'service_endpoints'], emptyList).toArray().map((name, i) => {
+    const hash = hashes.get(i);
     return {
-      key: name,
+      key: hash,
       name,
+      hash,
       snapshotId,
+      websiteLabel,
       timeframe
     };
   });
@@ -120,5 +127,15 @@ export default function Endpoints({ snapshot, timeframe }) {
 }
 
 function getRowDetails(row) {
-  return <PageCharts snapshotId={row.snapshotId} timeframe={row.timeframe} metricPrefix={`endpoint.${row.name}.`} />;
+  return (
+    <div>
+      <PageCharts snapshotId={row.snapshotId} timeframe={row.timeframe} metricPrefix={`endpoint.${row.name}.`} />
+      <ErrorTable
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
+        websiteLabel={row.websiteLabel}
+        pageHash={row.hash}
+      />
+    </div>
+  );
 }

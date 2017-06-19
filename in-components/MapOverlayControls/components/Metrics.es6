@@ -121,9 +121,9 @@ function Topic({ label, list }) {
         {label}
       </h4>
       <ul className={`${block}__list`}>
-        {Object.keys(topic).map(metricKey => (
+        {Object.keys(topic).map(metricKey =>
           <Metric key={metricKey} topic={label} metricKey={metricKey} metric={topic} />
-        ))}
+        )}
       </ul>
     </div>
   );

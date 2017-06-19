@@ -18,13 +18,13 @@ export default createTooltip(
           <Heading>
             {connections.length + ' connection' + (connections.length === 1 ? '' : 's')}
           </Heading>
-          {connections.map(connection => (
+          {connections.map(connection =>
             <ConnectionLine
               key={connection.id}
               connection={connection}
               nodeIdWhereConnectionsBelongTo={selectedSnapshotId}
             />
-          ))}
+          )}
         </div>
       );
     }

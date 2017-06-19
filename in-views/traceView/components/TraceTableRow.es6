@@ -2,12 +2,15 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
+import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
+import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceTableRow.less';
 
+const allowedKeyCodesForKeydown = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 
@@ -24,9 +27,46 @@ export default function TraceTableRow({ selectedTraceId, markedTraces, trace, on
 
   const side = getServiceSideForOverview(trace.raw);
   const serviceSnapshotId = trace[`${side}ServiceId`];
+  let domElement;
+
+  const onKeyDown = e => {
+    if (
+      e.target === domElement &&
+      !keyCodes.isModifierPressed(e) &&
+      allowedKeyCodesForKeydown.indexOf(e.keyCode) !== -1
+    ) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    if (e.keyCode === keyCodes.arrows.up) {
+      moveActiveState(-1);
+    } else if (e.keyCode === keyCodes.arrows.down) {
+      moveActiveState(1);
+    } else if (e.keyCode === keyCodes.space) {
+      onRowClicked(e, trace);
+    }
+  };
+
+  const moveActiveState = direction => {
+    const elements = Array.prototype.slice.call(domElement.parentNode.childNodes);
+    const newActiveElementIndex = Math.min(elements.length - 1, Math.max(0, elements.indexOf(domElement) + direction));
+    elements[newActiveElementIndex].focus();
+    scrollIntoViewIfNeeded(elements[newActiveElementIndex]);
+  };
+
+  const setDomRef = _domElement => {
+    domElement = _domElement;
+  };
 
   return (
-    <div className={classes} onClick={e => onRowClicked(e, trace)}>
+    <div
+      className={classes}
+      tabIndex={10000}
+      ref={setDomRef}
+      onKeyDown={onKeyDown}
+      onClick={e => onRowClicked(e, trace)}
+    >
       <span className={cellClassName}>
         {trace.raw.get('errorCount') > 0
           ? <Tooltip content="Erroneous root span" align={'bottomLeft'}>

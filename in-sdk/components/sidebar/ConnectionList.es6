@@ -78,11 +78,11 @@ const SnapshotList = connectTo(
 
     return (
       <ClickableList>
-        {snapshots.map(snapshot => (
+        {snapshots.map(snapshot =>
           <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
             {getLabel(snapshot)}
           </ClickableSnapshotListItem>
-        ))}
+        )}
       </ClickableList>
     );
   }

@@ -47,7 +47,7 @@ describe('layoutingStorage', () => {
         return JSON.stringify(testData);
       }
     };
-    nodePositions$.subscribe(data => nodePositions = data);
+    nodePositions$.subscribe(data => (nodePositions = data));
 
     mod.init();
   });

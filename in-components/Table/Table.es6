@@ -156,7 +156,7 @@ export default class Table extends React.Component {
           <thead>
             <tr>
               {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
-              {cols.map((col, i) => (
+              {cols.map((col, i) =>
                 <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
                   <SortIndicator
                     title={col.title}
@@ -167,7 +167,7 @@ export default class Table extends React.Component {
                     columnDefinition={col}
                   />
                 </th>
-              ))}
+              )}
             </tr>
           </thead>
           <tbody>

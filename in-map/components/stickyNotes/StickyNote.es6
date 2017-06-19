@@ -39,11 +39,11 @@ export default function StickyNote(ComposedComponent) {
 
     render() {
       if (!this.state.isVisible) {
-        return <div className={invisibleClass} ref={stickyNote => this.stickyNote = stickyNote} />;
+        return <div className={invisibleClass} ref={stickyNote => (this.stickyNote = stickyNote)} />;
       }
 
       return (
-        <div className={block} ref={stickyNote => this.stickyNote = stickyNote}>
+        <div className={block} ref={stickyNote => (this.stickyNote = stickyNote)}>
           <ComposedComponent {...this.props} wrapper={this.stickyNote} />
         </div>
       );

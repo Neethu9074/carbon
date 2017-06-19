@@ -1,8 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
-import ServiceExtractionRuleConfigForm
-  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
+import ServiceExtractionRuleConfigForm from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';

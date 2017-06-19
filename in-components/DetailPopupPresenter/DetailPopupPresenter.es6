@@ -51,7 +51,7 @@ function createKeyValueHtmlContent(data, contentFilter) {
   const children = data
     .filter(getMapFilterPredicate(contentFilter))
     .sortBy((v, k) => k)
-    .map((v, k) => (
+    .map((v, k) =>
       <div key={k} className={block + '__item'}>
         <dt className={block + '__title'}>
           {k}
@@ -60,7 +60,7 @@ function createKeyValueHtmlContent(data, contentFilter) {
           {v}
         </dd>
       </div>
-    ))
+    )
     .valueSeq()
     .toArray();
 
@@ -88,11 +88,11 @@ function getMapFilterPredicate(filter) {
 }
 
 function createSeqHtmlContent(data, contentFilter) {
-  const children = data.toArray().filter(getSeqFilterPredicate(contentFilter)).sort().map((v, i) => (
+  const children = data.toArray().filter(getSeqFilterPredicate(contentFilter)).sort().map((v, i) =>
     <li key={i} className={`${block}__list-item`}>
       {v}
     </li>
-  ));
+  );
 
   return (
     <ul className={`${block}__list`}>

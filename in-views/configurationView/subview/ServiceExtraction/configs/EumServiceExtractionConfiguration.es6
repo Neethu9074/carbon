@@ -1,8 +1,7 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration
-  from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import { eumServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
@@ -12,7 +11,8 @@ export const pathname = eumServiceExtractionConfigViewPath;
 
 export const helpTexts = defaults(
   {
-    viewHelp: 'Configure how Instana uses EUM attributes to extract services and endpoints. You can define multiple rules which will be executed in order.',
+    viewHelp:
+      'Configure how Instana uses EUM attributes to extract services and endpoints. You can define multiple rules which will be executed in order.',
 
     matchesHelp: 'Select the App name the rule should be applied on. You can review and set it in End User Monitoring.',
 

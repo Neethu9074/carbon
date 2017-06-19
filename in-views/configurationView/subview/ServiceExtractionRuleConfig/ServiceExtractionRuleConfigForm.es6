@@ -1,7 +1,6 @@
 import React from 'react';
 
-import MatchSpecificationSelector
-  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
+import MatchSpecificationSelector from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/RuleTester';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -47,7 +46,7 @@ export default class extends React.Component {
         })}
       >
         <div className={`${block}__header`}>
-          {ruleForm.get('name').map(nameField => (
+          {ruleForm.get('name').map(nameField =>
             <FormGroup className={`${block}__name-group`}>
               <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
               <Input
@@ -62,7 +61,7 @@ export default class extends React.Component {
                     {nameField.messages.map(e => e.message)}
                   </ValidationBlock>}
             </FormGroup>
-          ))}
+          )}
         </div>
         <div>
           {
@@ -112,7 +111,7 @@ export default class extends React.Component {
             );
           })}
 
-          {ruleForm.get('label').map(labelField => (
+          {ruleForm.get('label').map(labelField =>
             <FormGroup>
               <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
               <Helpify helpText={resultingEntityTooltipText}>
@@ -131,9 +130,9 @@ export default class extends React.Component {
                     </ValidationBlock>}
               </Helpify>
             </FormGroup>
-          ))}
+          )}
 
-          {ruleForm.get('comment').map(commentField => (
+          {ruleForm.get('comment').map(commentField =>
             <FormGroup>
               <Label htmlFor={`${id}-comment`}>Comment</Label>
               <Helpify helpText={helpTexts.commentHelp}>
@@ -146,7 +145,7 @@ export default class extends React.Component {
                 />
               </Helpify>
             </FormGroup>
-          ))}
+          )}
 
           <div className={`${block}__buttons`}>
             {!this.state.isTesting

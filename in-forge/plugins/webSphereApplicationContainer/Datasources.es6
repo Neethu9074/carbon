@@ -18,7 +18,7 @@ export default function Datasources({ snapshot }) {
   return (
     <div>
       <Separator />
-      {datasources.map((datasource, i) => (
+      {datasources.map((datasource, i) =>
         <Collapsible initiallyOpen={false} key={i}>
           <Collapsible.Header>Datasource [{datasource}]</Collapsible.Header>
           <Collapsible.Content>
@@ -35,7 +35,7 @@ export default function Datasources({ snapshot }) {
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
-      ))}
+      )}
     </div>
   );
 }

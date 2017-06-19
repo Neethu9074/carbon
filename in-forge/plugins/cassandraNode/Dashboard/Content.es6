@@ -71,7 +71,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {['read', 'write'].map(op => (
+      {['read', 'write'].map(op =>
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'} key={op}>
           <ChartWithLegend
             snapshotId={snapshotId}
@@ -93,9 +93,9 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      ))}
+      )}
 
-      {['pending', 'blocked'].map(stage => (
+      {['pending', 'blocked'].map(stage =>
         <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'} key={stage}>
           <ChartWithLegend
             snapshotId={snapshotId}
@@ -126,7 +126,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      ))}
+      )}
 
       <DashboardSection title="Dropped Messages">
         <ChartWithLegend

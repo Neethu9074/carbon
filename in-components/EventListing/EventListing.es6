@@ -16,9 +16,9 @@ export default getEvents(function EventListing({ snapshotId, events }) {
 
   return (
     <div>
-      {events.map(event => (
+      {events.map(event =>
         <EventDescription className={block + '__item'} key={event.get('id')} event={event} snapshotId={snapshotId} />
-      ))}
+      )}
     </div>
   );
 });

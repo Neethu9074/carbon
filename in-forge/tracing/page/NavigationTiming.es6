@@ -28,6 +28,10 @@ const timings = [
     label: 'TCP'
   },
   {
+    prop: 'ssl',
+    label: 'SSL'
+  },
+  {
     prop: 'req',
     label: 'Request'
   },

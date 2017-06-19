@@ -53,14 +53,14 @@ export default connectTo(
           </span>
 
           <ul className={block + '__tenants'}>
-            {tenantUnitStructure.map(tenant => (
+            {tenantUnitStructure.map(tenant =>
               <Tenant
                 key={tenant.name}
                 tenant={tenant}
                 expandedTenant={this.state.expandedTenant}
                 toggleTenant={this.toggleTenant}
               />
-            ))}
+            )}
           </ul>
         </div>
       );

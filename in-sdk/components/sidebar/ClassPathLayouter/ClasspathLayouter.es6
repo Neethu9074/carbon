@@ -60,24 +60,20 @@ export default class extends React.Component {
               return (
                 // Classpaths may very well contain duplicate entries.
                 // Using the index here deliberately to cater for this.
-                (
-                  <div key={i} className={block + '__item'}>
-                    {parentPath}
-                    <div className={block + '__children'}>
-                      {children.map((child, j) => {
-                        return (
-                          // Classpaths may very well contain duplicate entries.
-                          // Using the index here deliberately to cater for this.
-                          (
-                            <div key={j}>
-                              {child.slice(parentPath.length, child.length)}
-                            </div>
-                          )
-                        );
-                      })}
-                    </div>
+                <div key={i} className={block + '__item'}>
+                  {parentPath}
+                  <div className={block + '__children'}>
+                    {children.map((child, j) => {
+                      return (
+                        // Classpaths may very well contain duplicate entries.
+                        // Using the index here deliberately to cater for this.
+                        <div key={j}>
+                          {child.slice(parentPath.length, child.length)}
+                        </div>
+                      );
+                    })}
                   </div>
-                )
+                </div>
               );
             })
           : null}

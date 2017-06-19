@@ -2,7 +2,7 @@ import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 
 export default function createHighlightedTimeframeRenderer(ctx, scale, height) {
   let highlightedTimeframe = null;
-  const subscription = highlightedTimeframe$.subscribe(_tf => highlightedTimeframe = _tf);
+  const subscription = highlightedTimeframe$.subscribe(_tf => (highlightedTimeframe = _tf));
 
   return {
     draw,

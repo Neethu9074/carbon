@@ -128,7 +128,7 @@ export default connectTo(
                 </SectionHeading>
 
                 <ul className={`${block}__users`}>
-                  {users.toArray().sort((a, b) => a.get('fullName').localeCompare(b.get('fullName'))).map(user => (
+                  {users.toArray().sort((a, b) => a.get('fullName').localeCompare(b.get('fullName'))).map(user =>
                     <li key={user.get('id')} className={`${block}__user`}>
                       <div className={`${block}__user-side`}>
                         <Gravatar email={user.get('email')} className={`${block}__avatar`} />
@@ -152,11 +152,11 @@ export default connectTo(
                                 value={user.get('roleId')}
                                 onChange={e => this.setRole(user, e.target.value)}
                               >
-                                {sortedRoles.map(role => (
+                                {sortedRoles.map(role =>
                                   <option value={role.get('id')} key={role.get('id')}>
                                     {role.get('name')}
                                   </option>
-                                ))}
+                                )}
                               </select>
 
                               <ModificationSaveStatus
@@ -177,7 +177,7 @@ export default connectTo(
                         </Button>
                       </div>
                     </li>
-                  ))}
+                  )}
                 </ul>
               </Section>
             : null}
@@ -192,7 +192,7 @@ export default connectTo(
                   {invitations
                     .toArray()
                     .sort((a, b) => a.get('email').localeCompare(b.get('email')))
-                    .map((invitation, i) => (
+                    .map((invitation, i) =>
                       <li key={i} className={`${block}__user`}>
                         <div className={`${block}__user-side`}>
                           <Gravatar email={invitation.get('email')} className={`${block}__avatar`} />
@@ -211,7 +211,7 @@ export default connectTo(
                           Revoke Invitation
                         </Button>
                       </li>
-                    ))}
+                    )}
                 </ul>
               </Section>
             : null}

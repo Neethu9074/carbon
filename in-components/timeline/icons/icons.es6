@@ -14,11 +14,12 @@ icons.incidentImage = loadImage(incidentIcon, loadedImage => {
 
 icons.issueWarningImage = loadImage(
   issueWarningIcon,
-  loadedImage => icons.issueWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(getColorBySeverity(5)))
+  loadedImage => (icons.issueWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(getColorBySeverity(5))))
 );
 icons.issueCriticalImage = loadImage(
   issueCriticalIcon,
-  loadedImage => icons.issueCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(getColorBySeverity(10)))
+  loadedImage =>
+    (icons.issueCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(getColorBySeverity(10))))
 );
 
 function loadImage(src, callback) {

@@ -31,7 +31,7 @@ export default function SpringbootSidebar({ snapshot }) {
               <Collapsible.Content>
                 <ClickableList>
                   {applicationConfig
-                    .map((applicationConfigData, applicationConfigPath) => (
+                    .map((applicationConfigData, applicationConfigPath) =>
                       <ClickableKeyValuePopupListItem
                         title={applicationConfigPath}
                         key={applicationConfigPath}
@@ -39,7 +39,7 @@ export default function SpringbootSidebar({ snapshot }) {
                       >
                         {applicationConfigPath}
                       </ClickableKeyValuePopupListItem>
-                    ))
+                    )
                     .valueSeq()
                     .toArray()}
                 </ClickableList>

@@ -24,7 +24,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           General
         </SectionHeading>
 
-        {form.get('name').map(field => (
+        {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor="role-name" hasError={!field.valid}>
               Name
@@ -37,16 +37,16 @@ export default function RoleForm({ form, onChange, disabled }) {
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
 
         {roleViewFilterEnabled &&
-          form.get('implicitViewFilter').map(field => (
+          form.get('implicitViewFilter').map(field =>
             <FormGroup>
               <Label htmlFor="role-implicit-view-filter" hasError={!field.valid}>
                 View Filter
@@ -60,14 +60,14 @@ export default function RoleForm({ form, onChange, disabled }) {
                   hasError={!field.valid}
                   disabled={disabled}
                 />
-                {field.messages.map((message, i) => (
+                {field.messages.map((message, i) =>
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                ))}
+                )}
               </Helpify>
             </FormGroup>
-          ))}
+          )}
       </Section>
 
       <Section>

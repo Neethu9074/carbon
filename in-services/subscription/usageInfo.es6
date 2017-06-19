@@ -14,10 +14,10 @@ export default createSubscription({
   },
 
   transformData: usageInfo =>
-    (usageInfo
+    usageInfo
       ? Map({
           type: usageInfo.type.toLowerCase(),
           note: usageInfo.note
         })
-      : null)
+      : null
 });

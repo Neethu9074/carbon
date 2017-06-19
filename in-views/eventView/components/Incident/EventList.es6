@@ -34,9 +34,9 @@ export default connectTo(
 function List({ events, triggeringProblemId }) {
   return (
     <div className={`${block}__timeline`}>
-      {events.map(_event => (
+      {events.map(_event =>
         <EventListItem key={_event.get('id')} triggeringProblemId={triggeringProblemId} event={_event} />
-      ))}
+      )}
     </div>
   );
 }

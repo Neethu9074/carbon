@@ -16,7 +16,7 @@ export default function PluginUsage({ pluginIdFilter }) {
 
   return (
     <div>
-      {pluginIds.map(pluginId => (
+      {pluginIds.map(pluginId =>
         <Metric label={getPlural(pluginId)} key={pluginId} pluginId={pluginId}>
           <MetricValue
             snapshotId={ID_OF_PROCESSING_STATISTICS}
@@ -24,7 +24,7 @@ export default function PluginUsage({ pluginIdFilter }) {
             formatter={zeroDecimalPlaces}
           />
         </Metric>
-      ))}
+      )}
     </div>
   );
 }

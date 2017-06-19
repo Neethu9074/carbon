@@ -1,10 +1,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import ExtractedServiceNamePresenter
-  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/ExtractedServiceNamePresenter';
-import MatchPresenter
-  from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchPresenter';
+import ExtractedServiceNamePresenter from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/ExtractedServiceNamePresenter';
+import MatchPresenter from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchPresenter';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -55,7 +53,7 @@ export default class extends React.Component {
         {this.getHeader()}
 
         <Row>
-          {matchKeys.map(key => (
+          {matchKeys.map(key =>
             <Col cols={6} key={key}>
               <FormGroup>
                 <Label htmlFor={`${id}-test-${key}`}>{this.props.matchSpecificationOptions[key].titleName}</Label>
@@ -70,7 +68,7 @@ export default class extends React.Component {
 
               <MatchPresenter match={matches[key]} prefix={`${key}-`} />
             </Col>
-          ))}
+          )}
         </Row>
 
         <ExtractedServiceNamePresenter ruleForm={ruleForm} matches={matches} />

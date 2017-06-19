@@ -1,7 +1,6 @@
 import React from 'react';
 
-import JumpToTracesTouchingServiceEndpointButton
-  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
+import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import { msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import PageAssetCharts from 'in-forge/plugins/pageResourceLogicalService/Dashboard/PageAssetCharts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';

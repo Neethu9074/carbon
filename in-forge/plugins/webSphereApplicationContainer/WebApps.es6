@@ -16,7 +16,7 @@ export default function WebApps({ snapshot }) {
     <div>
       <Separator />
 
-      {webApps.map((info, webAppName) => (
+      {webApps.map((info, webAppName) =>
         <Collapsible initiallyOpen={false} key={webAppName}>
           <Collapsible.Header>
             App [{webAppName}]
@@ -27,7 +27,7 @@ export default function WebApps({ snapshot }) {
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
-      ))}
+      )}
     </div>
   );
 }

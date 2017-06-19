@@ -15,11 +15,11 @@ export default function JbossDataGridPorts({ snapshot }) {
         <Collapsible.Content>
           <DescriptionList>
             {ports
-              .map((port, portName) => (
+              .map((port, portName) =>
                 <DescriptionItem title={portName} key={portName}>
                   {port}
                 </DescriptionItem>
-              ))
+              )
               .valueSeq()
               .toArray()}
           </DescriptionList>

@@ -91,7 +91,7 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   function withLatestMessages(fn) {
     let _messages;
     // hack to clean up stacktraces and correct error reporting
-    mod.messages$.once(messages => _messages = messages);
+    mod.messages$.once(messages => (_messages = messages));
     fn(_messages);
   }
 });

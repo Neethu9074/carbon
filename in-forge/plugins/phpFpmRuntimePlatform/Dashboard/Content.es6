@@ -20,12 +20,12 @@ export default function PhpFpmDashboard({ snapshot, timeframe }) {
     <div>
       {pools.map(
         pool =>
-          (isStatusPathEnabled(snapshot, pool)
+          isStatusPathEnabled(snapshot, pool)
             ? <WorkerPoolMetrics key={pool} snapshot={snapshot} timeframe={timeframe} pool={pool} />
             : <DashboardNotification key={pool} type="info">
                 In order to monitor the worker pool {pool}, you need to
                 enable <code>pm.status_path</code> in your PHP-FPM config.
-              </DashboardNotification>)
+              </DashboardNotification>
       )}
     </div>
   );

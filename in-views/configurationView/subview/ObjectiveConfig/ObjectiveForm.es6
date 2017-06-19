@@ -26,7 +26,7 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
           Basic Information
         </SectionHeading>
 
-        {form.get('name').map(field => (
+        {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor="objective-name" hasError={!field.valid}>
               Name
@@ -39,15 +39,15 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
               hasError={!field.valid}
               autoFocus
             />
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
 
-        {form.get('filteringQuery').map(field => (
+        {form.get('filteringQuery').map(field =>
           <FormGroup>
             <Label htmlFor="objective-filteringQuery" hasError={!field.valid}>
               Applied on filter query
@@ -59,15 +59,15 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
               onChange={e => onChange('filteringQuery', e.target.value)}
               hasError={!field.valid}
             />
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
 
-        {form.get('timePattern').map(field => (
+        {form.get('timePattern').map(field =>
           <FormGroup>
             <Label htmlFor="objective-timePattern" hasError={!field.valid}>
               Time pattern
@@ -81,16 +81,16 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                 onChange={e => onChange('timePattern', e.target.value)}
                 hasError={!field.valid}
               />
-              {field.messages.map((message, i) => (
+              {field.messages.map((message, i) =>
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              ))}
+              )}
             </Helpify>
           </FormGroup>
-        ))}
+        )}
 
-        {form.get('timeZoneId').map(field => (
+        {form.get('timeZoneId').map(field =>
           <FormGroup>
             <Label htmlFor="objective-timeZoneId" hasError={!field.valid}>
               Time zone
@@ -144,21 +144,21 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                 'UTC+12:45',
                 'UTC+13:00',
                 'UTC+14:00'
-              ].map(timezone => (
+              ].map(timezone =>
                 <option key={timezone} value={timezone}>
                   {timezone}
                 </option>
-              ))}
+              )}
             </select>
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
 
-        {form.get('reductionOperation').map(field => (
+        {form.get('reductionOperation').map(field =>
           <FormGroup>
             <Label htmlFor="objective-reductionOperation" hasError={!field.valid}>
               Reduction operation
@@ -178,13 +178,13 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                 Total events duration
               </option>
             </select>
-            {field.messages.map((message, i) => (
+            {field.messages.map((message, i) =>
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            ))}
+            )}
           </FormGroup>
-        ))}
+        )}
       </Section>
 
       {form.get('thresholds').value.size > 0
@@ -193,7 +193,7 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
               Thresholds
             </SectionHeading>
             {form.get('thresholds').map(field =>
-              field.value.map((threshold, i) => (
+              field.value.map((threshold, i) =>
                 <div key={`threshold_${i}`}>
                   <div className={`${block}__remove-button-wrapper`}>
                     <Button kind="danger" size="sm" onClick={() => onRemoveThreshold(i)}>
@@ -213,11 +213,11 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                       onChange={e => onChangeInThresholds(i, 'value', e.target.value)}
                     />
                     {valueMessages[i]
-                      ? valueMessages[i].map((message, i) => (
+                      ? valueMessages[i].map((message, i) =>
                           <ValidationBlock hasError key={i}>
                             {message}
                           </ValidationBlock>
-                        ))
+                        )
                       : null}
                   </FormGroup>
 
@@ -244,11 +244,11 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                       </option>
                     </select>
                     {severityMessages[i]
-                      ? severityMessages[i].map((message, i) => (
+                      ? severityMessages[i].map((message, i) =>
                           <ValidationBlock hasError key={i}>
                             {message}
                           </ValidationBlock>
-                        ))
+                        )
                       : null}
                   </FormGroup>
 
@@ -263,15 +263,15 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                       onChange={e => onChangeInThresholds(i, 'message', e.target.value)}
                     />
                     {messageMessages[i]
-                      ? messageMessages[i].map((message, i) => (
+                      ? messageMessages[i].map((message, i) =>
                           <ValidationBlock hasError key={i}>
                             {message}
                           </ValidationBlock>
-                        ))
+                        )
                       : null}
                   </FormGroup>
                 </div>
-              ))
+              )
             )}
           </Section>
         : null}

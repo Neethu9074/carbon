@@ -1,7 +1,6 @@
 import React from 'react';
 
-import JumpToTracesTouchingServiceEndpointButton
-  from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
+import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import {
   percentageTwoDecimalPlaces,
   twoDecimalPlaces,

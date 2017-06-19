@@ -21,11 +21,11 @@ export default function Apps({ snapshot }) {
         <Collapsible.Content>
           <DescriptionList>
             {apps
-              .map((appData, appName) => (
+              .map((appData, appName) =>
                 <DescriptionItem title={appName}>
                   {appData.get('state')}
                 </DescriptionItem>
-              ))
+              )
               .valueSeq()}
           </DescriptionList>
         </Collapsible.Content>

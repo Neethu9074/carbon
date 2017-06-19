@@ -16,7 +16,7 @@ export default function JbossDataGridClusters({ snapshot }) {
   return (
     <div>
       {clusters
-        .map((clusterInfo, clusterName) => (
+        .map((clusterInfo, clusterName) =>
           <Collapsible initiallyOpen={false} key={clusterName}>
             <Collapsible.Header>JGroups Cluster [{clusterName}]</Collapsible.Header>
             <Collapsible.Content>
@@ -96,7 +96,7 @@ export default function JbossDataGridClusters({ snapshot }) {
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
-        ))
+        )
         .valueSeq()
         .toArray()}
     </div>
