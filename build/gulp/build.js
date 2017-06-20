@@ -98,6 +98,9 @@ gulp.task('webpack:build', (callback) => {
 
   // Report the first error as a hard error instead of tolerating it.
   config.bail = true;
+  config.stats = Object.create(config.stats || {});
+  // Display scope hoisting fallback triggers (since webpack 3.0.0)
+  config.stats.optimizationBailout = true;
 
   config.plugins = config.plugins.concat(
     new webpack.DefinePlugin({
@@ -106,6 +109,7 @@ gulp.task('webpack:build', (callback) => {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       comments: /\/DONOTKEEPANYCOMMENTS/

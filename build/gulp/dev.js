@@ -289,6 +289,7 @@ gulp.task('webpack:dev', () => {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }));
+  config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
