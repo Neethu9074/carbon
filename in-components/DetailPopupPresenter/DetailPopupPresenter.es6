@@ -2,7 +2,6 @@ import { Iterable, Map } from 'immutable';
 import React from 'react';
 
 import { content$, contentFilter$ } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
-import { position$ } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import Header from 'in-components/DetailPopupPresenter/components/Header';
 import { isDashboardOpen$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
@@ -15,10 +14,9 @@ export default connectTo(
   {
     content: content$,
     contentFilter: contentFilter$,
-    position: position$.distinct(),
     isDashboardOpen: isDashboardOpen$
   },
-  function DetailPopupPresenter({ content, contentFilter, position, isDashboardOpen }) {
+  function DetailPopupPresenter({ content, contentFilter, isDashboardOpen }) {
     if (!content) {
       return null;
     }
@@ -29,7 +27,7 @@ export default connectTo(
     }
 
     return (
-      <div className={classes} style={{ top: position ? position + 'px' : null }}>
+      <div className={classes}>
         <Header title={content.title} />
         {createHtmlContent(content.data, contentFilter)}
       </div>
