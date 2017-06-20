@@ -100,6 +100,12 @@ export default class Table extends React.Component {
         if (rowData.rowConfig.className) {
           rowClassName += ` ${rowData.rowConfig.className}`;
         }
+
+        let onClick;
+        if (this.props.onRowClick) {
+          onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
+        }
+
         rows.push(
           <Row
             key={rowData.key}
@@ -108,11 +114,7 @@ export default class Table extends React.Component {
             cellClassName={cellElement}
             toggleRowDetails={toggleRowDetails}
             rowIndex={i}
-            onClick={(row, e, rowIndex) => {
-              if (this.props.onRowClick) {
-                this.props.onRowClick(row, e, data.rows, rowIndex);
-              }
-            }}
+            onClick={onClick}
           />
         );
 
