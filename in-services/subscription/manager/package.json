@@ -1,0 +1,6 @@
+{
+  "name": "manager",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./manager.es6"
+}
