@@ -8,7 +8,6 @@ export default function createPhysicsService() {
   octrees[OCTREE_LAYER.NODES] = createOctree();
   octrees[OCTREE_LAYER.LAYER] = createOctree();
 
-  let updateSubscription;
   let zoomLevelSubscription;
 
   function init() {
@@ -56,9 +55,6 @@ export default function createPhysicsService() {
 
   function dispose() {
     clearInterval(updateOctrees, 200);
-
-    updateSubscription.dispose();
-    updateSubscription = null;
 
     zoomLevelSubscription.dispose();
     zoomLevelSubscription = null;
