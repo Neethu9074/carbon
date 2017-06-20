@@ -16,17 +16,55 @@ export default function createLayouter(node) {
     .debounce(LAYER_LAYOUTING)
     .subscribe(([nodeTransform, _layer]) => {
       const plugins = applyLayout(nodeTransform, _layer);
-      setupPluginIcons(plugins);
+      if (plugins) {
+        setupPluginIcons(plugins);
+      }
     });
 
   function applyLayout(nodeTransform, _layer) {
-    const nodePosition = nodeTransform.position;
-    const nodeScale = nodeTransform.scale;
+    // if there are no layer, just return null
     if (_layer.size === 0) {
-      return {};
+      return null;
     }
 
+    // special case, there is only one layer
+    if (_layer.size === 1) {
+      return layoutSingle(nodeTransform, _layer);
+    }
+
+    return layoutMultiple(nodeTransform, _layer);
+  }
+
+  function layoutSingle(nodeTransform, _layer) {
+    const nodePosition = nodeTransform.position;
+    const nodeScale = nodeTransform.scale;
+    const theLayer = _layer.values().next().value;
     const nodeFullHeight = nodeScale.y;
+
+    theLayer
+      .getComponent('transform')
+      .setTransformXYZ(
+        nodePosition.x,
+        0,
+        nodePosition.z,
+        nodeScale.x * LAYER_MARGIN,
+        nodeFullHeight * LAYER_MARGIN_OF_LAST_NODE,
+        nodeScale.z * LAYER_MARGIN
+      );
+
+    const plugins = {};
+    plugins[theLayer._cachedPlugin] = {
+      from: 0,
+      to: nodeTransform.scale.y
+    };
+    return plugins;
+  }
+
+  function layoutMultiple(nodeTransform, _layer) {
+    const nodePosition = nodeTransform.position;
+    const nodeScale = nodeTransform.scale;
+    const nodeFullHeight = nodeScale.y;
+    const plugins = {};
 
     const layerAsArray = [];
     _layer.forEach(l => layerAsArray.push(l));
@@ -46,7 +84,6 @@ export default function createLayouter(node) {
     const heightOfEachLayer = heightUsedForLayer / _layer.size;
 
     let currentPlugin = layerAsArray[0]._cachedPlugin;
-    const plugins = {};
     plugins[currentPlugin] = {
       from: 0,
       to: nodeFullHeight
