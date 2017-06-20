@@ -25,24 +25,23 @@ export default connectTo(
     };
 
     render() {
-      let className;
-      if (this.props.isDark) {
-        className = this.props.active
-          ? block + ' ' + block + '__dark ' + block + '__active ' + block + '__dark__active'
-          : block + '__dark ' + block;
-      } else {
-        className = this.props.active ? block + ' ' + block + '__active' : block;
+      const { isDark, active, tag } = this.props;
+      const color = getColorPool('tags').getColorHex(tag);
+
+      let className = block;
+      if (active) {
+        className += ` ${block}__active`;
+      }
+      if (isDark) {
+        className += ` ${block}__dark`;
+        if (active) {
+          className += ` ${block}__dark__active`;
+        }
       }
 
       return (
-        <div className={className} onClick={this.onClick}>
-          <div
-            className={block + '__point'}
-            style={{ background: String(getColorPool('tags').getColorHex(this.props.tag)) }}
-          />
-          <span className={block + '__label'}>
-            {this.props.tag}
-          </span>
+        <div className={className} style={{ borderLeft: `3px solid ${color}` }} onClick={this.onClick}>
+          {tag}
         </div>
       );
     }

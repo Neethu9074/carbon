@@ -1,0 +1,49 @@
+@import "~in-themes/active.less";
+
+.in-tag {
+  @light: #aaa;
+  @dark: #2D4048;
+
+  display: inline-block;
+  border-radius: 3px;
+
+  padding: 4px 9px 4px 9px;
+  margin: 0 4px 4px 0;
+
+  text-align: center;
+  font-size: 12px;
+  background: #EEF2F4;
+  color: @dark;
+
+  cursor: pointer;
+  transition: color 0.25s ease-in-out;
+
+  &:hover {
+    color: @light;
+  }
+
+  &__active {
+    color: @light;
+
+    &:hover {
+      color: @dark;
+    }
+  }
+
+  &__dark {
+    background: #435b65;
+    color: #EEF2F4;
+
+    &:hover {
+      color: @light;
+    }
+
+    &__active {
+      color: @light;
+
+      &:hover {
+        color: #EEF2F4;
+      }
+    }
+  }
+}

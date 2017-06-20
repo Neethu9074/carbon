@@ -1,6 +1,0 @@
-{
-  "name": "TagFilter",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./TagFilter.es6"
-}

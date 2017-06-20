@@ -2,7 +2,7 @@ import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import Tag from 'in-components/Tag';
+import Tag from 'in-components/Tags/Tag';
 
 export default function TagList({ snapshot }) {
   const tags = snapshot.get('processorTags');

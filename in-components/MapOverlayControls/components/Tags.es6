@@ -2,8 +2,7 @@ import React from 'react';
 
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { filteredTags$ } from 'in-stores/search/keywords/tags';
-import TagListAll from 'in-components/TagListAll';
-import TagFilter from 'in-components/TagFilter';
+import TagList from 'in-components/Tags/TagList';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -23,10 +22,5 @@ export default connectTo(
 );
 
 function createMenuContent() {
-  return (
-    <div>
-      <TagListAll />
-      <TagFilter />
-    </div>
-  );
+  return <TagList />;
 }
