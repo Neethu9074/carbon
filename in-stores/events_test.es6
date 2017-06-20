@@ -151,8 +151,10 @@ describe('in-stores/events', () => {
         })
       );
 
-      expect(subscriber.callCount).to.equal(2);
-      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo2');
+      expect(subscriber.callCount).to.equal(3);
+      expect(subscriber.getCall(0).args[0]).to.equal(null);
+      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo');
+      expect(subscriber.getCall(2).args[0].get('id')).to.equal('foo2');
 
       getEventsResult.emit(
         fromJS([
@@ -167,8 +169,8 @@ describe('in-stores/events', () => {
         ])
       );
 
-      expect(subscriber.callCount).to.equal(2);
-      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo2');
+      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo');
+      expect(subscriber.getCall(2).args[0].get('id')).to.equal('foo2');
     });
   });
 

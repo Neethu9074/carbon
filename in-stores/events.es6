@@ -51,9 +51,10 @@ export function getEvent(eventId) {
  * @returns {Observable<Event>} The event with the highest severity
  */
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
-  return getHealthInfoAtFocusedMoment(snapshotId).flatMap(healthInfo =>
-    getEvent(healthInfo.get('eventWithMaxSeverity'))
-  );
+  return getHealthInfoAtFocusedMoment(snapshotId).flatMap(healthInfo => {
+    const eventWithMaxSeverity = healthInfo.get('eventWithMaxSeverity');
+    return eventWithMaxSeverity ? getEvent(healthInfo.get('eventWithMaxSeverity')) : alwaysNull;
+  });
 }
 
 export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
