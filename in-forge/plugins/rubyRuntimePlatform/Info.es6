@@ -12,6 +12,9 @@ export default function RubyInfo({ snapshot }) {
       <DescriptionItem title="Ruby Version">
         {data.get('ruby_version')}
       </DescriptionItem>
+      <DescriptionItem title="Ruby Patch Level">
+        {data.get('rpl')}
+      </DescriptionItem>
       <DescriptionItem title="Runtime Arguments">
         {data.get('exec_args', emptyArray).join(' ')}
       </DescriptionItem>
