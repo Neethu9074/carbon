@@ -9,9 +9,6 @@ export default function CassandraSpanDetailView({ span }) {
         <DescriptionItem title="Keyspace">
           {span.getIn(['data', 'cassandra', 'keyspace'])}
         </DescriptionItem>
-        <DescriptionItem title="Batch Size">
-          {span.getIn(['data', 'cassandra', 'batchSize'])}
-        </DescriptionItem>
         <DescriptionItem title="Fetch Size">
           {span.getIn(['data', 'cassandra', 'fetchSize'])}
         </DescriptionItem>
