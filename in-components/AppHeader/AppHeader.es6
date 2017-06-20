@@ -1,14 +1,12 @@
 import React from 'react';
 
+import SearchButton from 'in-components/AppHeader/components/SearchButton';
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
-import { toggle, expanded$ } from 'in-stores/search/searchBarExpanded';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { filtered$ } from 'in-stores/search/filtered';
-import Lettering from 'in-components/Lettering';
+import { expanded$ } from 'in-stores/search/searchBarExpanded';
 import { homeLink$ } from 'in-stores/navigation';
-import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-components/Button';
+import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
 
 import './AppHeader.less';
@@ -18,10 +16,9 @@ const block = 'in-app-header';
 export default connectTo(
   {
     homeLink: homeLink$,
-    expanded: expanded$,
-    filtered: filtered$
+    expanded: expanded$
   },
-  function AppHeader({ homeLink, expanded, filtered }) {
+  function AppHeader({ homeLink, expanded }) {
     return (
       <div
         className={evaluateClassNames({
@@ -36,19 +33,7 @@ export default connectTo(
         <ViewSwitcher />
 
         <div className={`${block}__right`}>
-          <Button
-            className={evaluateClassNames({
-              [`${block}__toggle-search`]: true,
-              [`${block}__toggle-search--active`]: expanded,
-              [`${block}__toggle-search--filtered`]: filtered
-            })}
-            kind="secondary"
-            size="sm"
-            onClick={toggle}
-          >
-            <SvgIcon type="search" height={13} className={`${block}__toggle-search-icon`} />
-          </Button>
-
+          <SearchButton />
           <AccountMenu />
         </div>
       </div>
