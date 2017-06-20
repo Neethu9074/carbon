@@ -1,7 +1,3 @@
-import { create } from 'reactive-observables';
-
-let millisWatingForComponentUpdate = 200;
-let timeCounterForComponentUpdate = 0;
 let timeOfLastFrameUpdate = 0;
 let timeSinceFirstFrame = 0;
 let secondCounter = 0;
@@ -9,12 +5,6 @@ let fpsCounter = 0;
 let deltaTime = 0;
 let timeNow = 0;
 let fps = 0;
-
-const listenerObservable = create({ emitLatestOnSubscribe: false });
-
-export function addTimeEventListener(timeEventCallback) {
-  return listenerObservable.subscribe(() => timeEventCallback());
-}
 
 export function update(highResTimestamp) {
   timeNow = highResTimestamp;
@@ -35,18 +25,12 @@ export function update(highResTimestamp) {
   timeSinceFirstFrame += deltaTime;
   secondCounter += deltaTime;
 
-  timeCounterForComponentUpdate += deltaTimeInMs;
   fpsCounter++;
 
   if (secondCounter >= 1) {
     secondCounter = 0;
     fps = fpsCounter;
     fpsCounter = 0;
-  }
-
-  if (timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
-    timeCounterForComponentUpdate = 0;
-    listenerObservable.emit();
   }
 }
 
@@ -66,12 +50,7 @@ export function getBigBangTime() {
   return timeSinceFirstFrame;
 }
 
-export function setFramesWaitingForComponentUpdate(numFrames) {
-  millisWatingForComponentUpdate = Math.max(1, numFrames); // [1, #]
-}
-
 export function reset() {
-  timeCounterForComponentUpdate = 0;
   timeOfLastFrameUpdate = 0;
   timeSinceFirstFrame = 0;
   secondCounter = 0;

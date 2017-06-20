@@ -1,8 +1,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import { addTimeEventListener, getBigBangTime, getDeltaTime, getFPS, getNow, reset, update } from 'in-map/misc/time';
+import { getBigBangTime, getDeltaTime, getFPS, getNow, reset, update } from 'in-map/misc/time';
 
 describe('in-map', () => {
   describe('misc/time', () => {
@@ -54,24 +53,6 @@ describe('in-map', () => {
 
       update(1243);
       expect(getNow()).to.equal(1243);
-    });
-
-    it('should call listener when a given time window has passed', () => {
-      const callback = sinon.stub();
-      const subscription = addTimeEventListener(callback);
-
-      expect(callback).to.have.callCount(0);
-
-      update(10);
-      expect(callback).to.have.callCount(0);
-
-      update(199);
-      expect(callback).to.have.callCount(0);
-
-      update(200);
-      expect(callback).to.have.callCount(1);
-
-      subscription.dispose();
     });
 
     it('should return the number of current frames per second', () => {
