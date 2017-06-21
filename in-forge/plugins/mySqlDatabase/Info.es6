@@ -23,6 +23,9 @@ export default function MySqlInfo({ snapshot }) {
       <DescriptionItem title="Replication Group Name">
         {data.get('replicationGroup')}
       </DescriptionItem>
+      <DescriptionItem title="Max connections">
+        {data.get('variables.MAX_CONNECTIONS')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
