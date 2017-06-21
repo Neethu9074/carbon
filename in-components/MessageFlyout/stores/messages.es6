@@ -38,6 +38,10 @@ export function addMessage(messageParam, id = null) {
     return messages;
   });
 
+  if (messageParam.timeout) {
+    setTimeout(() => removeMessage(id), messageParam.timeout);
+  }
+
   return id;
 }
 

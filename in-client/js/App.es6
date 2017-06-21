@@ -1,6 +1,5 @@
 import React from 'react';
 
-import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
@@ -39,8 +38,9 @@ export default function App(props) {
 
       <TooltipPresenter />
 
+      {/* the flyouts on the top right corner */}
       <MessageFlyout />
-      <TemporaryNotificationPresenter />
+
       <DialogPresenter />
 
       {__DEV__ ? <DeveloperPanel /> : null}

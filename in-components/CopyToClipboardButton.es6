@@ -1,10 +1,9 @@
 /* global require:false */
-
 import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { setTemporaryNotification } from 'in-stores/temporaryNotification';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import RefWrapper from 'in-components/RefWrapper';
 import Button from 'in-components/Button';
 
@@ -27,12 +26,22 @@ export default class extends React.Component {
     });
 
     this.clipboard.on('success', e => {
-      setTemporaryNotification('Copied!');
+      addMessage({
+        type: 'info',
+        icon: 'info',
+        timeout: 2000,
+        content: <p> Copied! </p>
+      });
       e.clearSelection();
     });
 
     this.clipboard.on('error', () => {
-      setTemporaryNotification('Press CTRL+C / CMD+C to copy!');
+      addMessage({
+        type: 'info',
+        icon: 'info',
+        timeout: 2000,
+        content: <p> Press CTRL+C / CMD+C to copy! </p>
+      });
     });
   }
 
