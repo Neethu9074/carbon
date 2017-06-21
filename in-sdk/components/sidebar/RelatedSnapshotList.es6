@@ -45,11 +45,15 @@ export default connectTo(
               </Collapsible.Header>
               <Collapsible.Content>
                 <ClickableList>
-                  {groups[plugin].sort().map(snapshot =>
-                    <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
-                      {onRenderItem ? onRenderItem(snapshot) : getLabel(snapshot)}
-                    </ClickableSnapshotListItem>
-                  )}
+                  {groups[plugin]
+                    .sort((snapshotA, snapshotB) => {
+                      return getLabel(snapshotA).localeCompare(getLabel(snapshotB));
+                    })
+                    .map(snapshot =>
+                      <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
+                        {onRenderItem ? onRenderItem(snapshot) : getLabel(snapshot)}
+                      </ClickableSnapshotListItem>
+                    )}
                 </ClickableList>
               </Collapsible.Content>
             </Collapsible>
