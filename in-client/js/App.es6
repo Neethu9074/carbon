@@ -41,6 +41,7 @@ export default function App(props) {
       {/* the flyouts on the top right corner */}
       <MessageFlyout />
 
+      {/* all the different dialogs e.g. in the settings */}
       <DialogPresenter />
 
       {__DEV__ ? <DeveloperPanel /> : null}
