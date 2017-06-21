@@ -4,7 +4,6 @@ import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationP
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import ConnectionStatus from 'in-components/ConnectionStatus';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { setWindowTitleFromRoute } from 'in-services/title';
 import DeveloperPanel from 'in-components/DeveloperPanel';
@@ -28,14 +27,22 @@ export default function App(props) {
       <AppHeader />
       <SearchBar />
       <Timeline />
+
+      {/* for release notes */}
       <ReleaseNotesDialog />
+
+      {/* for backend send messages */}
       <MessageDialog />
+
+      {/* help articles */}
       <HelpPresenter />
+
       <TooltipPresenter />
-      <ConnectionStatus />
+
       <MessageFlyout />
       <TemporaryNotificationPresenter />
       <DialogPresenter />
+
       {__DEV__ ? <DeveloperPanel /> : null}
 
       {props.children}

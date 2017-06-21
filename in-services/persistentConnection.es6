@@ -1,5 +1,7 @@
 import io from 'socket.io-client';
+import React from 'react';
 
+import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isSafari } from 'in-services/browser';
 
 let transports = ['polling', 'websocket'];
@@ -25,6 +27,14 @@ export function init() {
     transports,
     requestTimeout: 60000
   });
+
+  on('connect', onConnect);
+  on('connect_error', onConnectError);
+  on('connect_timeout', onConnectTimeout);
+  on('error', onConnectError);
+  on('reconnect_error', onConnectError);
+  on('disconnect', onConnectError);
+  on('reconnect_failed', onConnectError);
 }
 
 export function emit(event, payload) {
@@ -44,4 +54,42 @@ export function on(event, callback) {
 
 export function off(event, callback) {
   socket.off(event, callback);
+}
+
+function onConnect() {
+  removeMessage('connection_status');
+}
+
+function onConnectTimeout() {
+  addMessage(
+    {
+      type: 'warning',
+      icon: 'danger_sign',
+      content: (
+        <p>
+          <strong>Connection timed out</strong>
+          <br />
+          The connection to the backend has timed out.
+        </p>
+      )
+    },
+    'connection_status'
+  );
+}
+
+function onConnectError() {
+  addMessage(
+    {
+      type: 'warning',
+      icon: 'danger_sign',
+      content: (
+        <p>
+          <strong>Connection lost</strong>
+          <br />
+          The backend is not reachable at the moment.
+        </p>
+      )
+    },
+    'connection_status'
+  );
 }
