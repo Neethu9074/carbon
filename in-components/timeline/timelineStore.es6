@@ -1,4 +1,5 @@
 import { create, combineLatest } from 'reactive-observables';
+import React from 'react';
 
 import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
@@ -8,6 +9,8 @@ import {
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import activeTheme from 'in-themes/active.json';
@@ -26,6 +29,39 @@ export function init() {
     currentServerTime = props[1];
 
     maxAvailableWindowSize = currentServerTime - currentBigBangTimestamp;
+  });
+
+  // automatically show a message when the focused moment is changed
+  focusedMoment$.skipFirst().subscribe(focusedMoment => {
+    if (!focusedMoment) {
+      addMessage(
+        {
+          type: 'info',
+          icon: 'info',
+          timeout: 2000,
+          content: (
+            <p>
+              Map is now live!
+            </p>
+          )
+        },
+        'timeline_state'
+      );
+    } else {
+      addMessage(
+        {
+          type: 'info',
+          icon: 'info',
+          timeout: 2000,
+          content: (
+            <p>
+              {`Map is showing the state as of ${formatDateTime(focusedMoment)}.`}
+            </p>
+          )
+        },
+        'timeline_state'
+      );
+    }
   });
 }
 
