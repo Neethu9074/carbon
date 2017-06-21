@@ -2,6 +2,7 @@ import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
+import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
@@ -70,6 +71,7 @@ export default connectTo(
 
     return (
       <div className={block}>
+        <DetailPopupPresenter />
         <DashboardHeader snapshotId={snapshotId} />
         <DashboardJumpLabels snapshotId={snapshotId} />
 

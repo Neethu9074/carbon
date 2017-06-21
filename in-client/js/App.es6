@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
@@ -29,7 +28,6 @@ export default function App(props) {
       <AppHeader />
       <SearchBar />
       <Timeline />
-      <DetailPopupPresenter />
       <ReleaseNotesDialog />
       <MessageDialog />
       <HelpPresenter />

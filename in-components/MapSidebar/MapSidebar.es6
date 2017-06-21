@@ -1,6 +1,7 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
+import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import SidebarBreadcrumb from 'in-components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -30,6 +31,7 @@ export default connectTo(
 
     return (
       <div className={block}>
+        <DetailPopupPresenter />
         <MapSidebarHeader snapshot={snapshot} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
 

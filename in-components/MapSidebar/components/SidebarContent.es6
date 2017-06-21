@@ -11,7 +11,6 @@ export default function SidebarContent({ snapshot, ForgeDetailsComponent }) {
   return (
     <div className={block}>
       <SidebarHeader snapshot={snapshot} />
-
       <Jail component={ForgeDetailsComponent} props={{ snapshot }} />
     </div>
   );
