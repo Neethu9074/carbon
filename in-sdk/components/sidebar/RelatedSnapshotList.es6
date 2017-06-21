@@ -3,6 +3,7 @@ import React from 'react';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getPlural } from 'in-sdk/pluginName';
@@ -26,7 +27,7 @@ export default connectTo(
       return null;
     }
     const groups = getSnapshotsGroupedByPlugin(snapshots);
-    const groupPlugins = Object.keys(groups).sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+    const groupPlugins = Object.keys(groups).sort((a, b) => compareIgnoreCase(getPlural(a), getPlural(b)));
 
     return (
       <div>
@@ -46,9 +47,7 @@ export default connectTo(
               <Collapsible.Content>
                 <ClickableList>
                   {groups[plugin]
-                    .sort((snapshotA, snapshotB) => {
-                      return getLabel(snapshotA).localeCompare(getLabel(snapshotB));
-                    })
+                    .sort((snapshotA, snapshotB) => compareIgnoreCase(getLabel(snapshotA), getLabel(snapshotB)))
                     .map(snapshot =>
                       <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
                         {onRenderItem ? onRenderItem(snapshot) : getLabel(snapshot)}
