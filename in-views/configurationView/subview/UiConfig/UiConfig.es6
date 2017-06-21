@@ -5,26 +5,67 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import { settings$, setIn } from 'in-services/settings/settings';
+import { settings$, set } from 'in-services/settings/settings';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
+import Button from 'in-components/Button';
 
 import './UiConfig.less';
 
 const block = 'in-ui-config';
 
-export default connectTo(
-  {
-    settings: settings$
-  },
-  function UiConfig({ settings }) {
+export default class extends React.Component {
+  static displayName = 'UiConfig';
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      settings: null,
+      wasManipulated: false
+    };
+  }
+
+  componentWillMount() {
+    this.settingsSubscription = settings$.subscribe(_settings =>
+      this.setState({
+        settings: _settings,
+        wasManipulated: false
+      })
+    );
+  }
+
+  componentWillUnMount() {
+    this.settingsSubscription.dispose();
+    this.settingsSubscription = null;
+  }
+
+  saveSetting = (k, v) => {
+    const newSettings = this.state.settings;
+    newSettings[k] = v;
+    this.setState({
+      settings: newSettings,
+      wasManipulated: true
+    });
+  };
+
+  saveSettings = () => {
+    set(this.state.settings);
+  };
+
+  render() {
+    const { settings, wasManipulated } = this.state;
     return (
       <SubViewWrapper>
         <SubViewHeader>
           User Interface
+        </SubViewHeader>
+
+        <SubViewHeader>
+          <Button kind="success" disabled={!wasManipulated} onClick={this.saveSettings}>
+            Save
+          </Button>
         </SubViewHeader>
 
         <Section>
@@ -36,7 +77,7 @@ export default connectTo(
             <Toggle
               id="toggle-timeline-expand"
               checked={settings['autoCollapseTimeline']}
-              onChange={e => setIn('autoCollapseTimeline', e.target.checked)}
+              onChange={e => this.saveSetting('autoCollapseTimeline', e.target.checked)}
             />
             <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
           </Group>
@@ -45,7 +86,7 @@ export default connectTo(
             <Toggle
               id="maintenance-notes"
               checked={settings['showMaintenanceNotes']}
-              onChange={e => setIn('showMaintenanceNotes', e.target.checked)}
+              onChange={e => this.saveSetting('showMaintenanceNotes', e.target.checked)}
             />
             <Heading text="Show maintenance notes" htmlFor="maintenance-notes" />
           </Group>
@@ -54,7 +95,7 @@ export default connectTo(
             <Toggle
               id="chart-quality"
               checked={settings['charts_adaptToDevicePixelRatio']}
-              onChange={e => setIn('charts_adaptToDevicePixelRatio', e.target.checked)}
+              onChange={e => this.saveSetting('charts_adaptToDevicePixelRatio', e.target.checked)}
             />
             <Heading text="High quality chart rendering" htmlFor="chart-quality" />
           </Group>
@@ -86,7 +127,7 @@ export default connectTo(
               max={10000}
               step={1000}
               value={settings['tables_refreshRate']}
-              onChange={e => setIn('tables_refreshRate', e.target.value)}
+              onChange={e => this.saveSetting('tables_refreshRate', e.target.value)}
             />
           </Group>
 
@@ -101,7 +142,7 @@ export default connectTo(
             <Toggle
               id="format-time"
               checked={settings['formatTimestampsAsUtc']}
-              onChange={e => setIn('formatTimestampsAsUtc', e.target.checked)}
+              onChange={e => this.saveSetting('formatTimestampsAsUtc', e.target.checked)}
             />
             <Heading text="Format time according to UTC" htmlFor="format-time" />
           </Group>
@@ -116,7 +157,7 @@ export default connectTo(
             <Toggle
               id="scroll-direction"
               checked={settings['map_scrollDirection'] === -1}
-              onChange={e => setIn('map_scrollDirection', e.target.checked ? -1 : 1)}
+              onChange={e => this.saveSetting('map_scrollDirection', e.target.checked ? -1 : 1)}
             />
             <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
           </Group>
@@ -125,7 +166,7 @@ export default connectTo(
             <Toggle
               id="zoom-panel"
               checked={settings['zoomPanelIsActive']}
-              onChange={e => setIn('zoomPanelIsActive', e.target.checked)}
+              onChange={e => this.saveSetting('zoomPanelIsActive', e.target.checked)}
             />
             <Heading text="Show zoom panel" htmlFor="zoom-panel" />
           </Group>
@@ -134,7 +175,7 @@ export default connectTo(
             <Toggle
               id="unmonitored-hosts"
               checked={!settings['map_excludeUnmonitoredHosts']}
-              onChange={e => setIn('map_excludeUnmonitoredHosts', !e.target.checked)}
+              onChange={e => this.saveSetting('map_excludeUnmonitoredHosts', !e.target.checked)}
             />
             <Heading text="Show unmonitored hosts" htmlFor="unmonitored-hosts" />
           </Group>
@@ -143,7 +184,7 @@ export default connectTo(
             <Toggle
               id="host-labels"
               checked={settings['map_showHostLabels']}
-              onChange={e => setIn('map_showHostLabels', e.target.checked)}
+              onChange={e => this.saveSetting('map_showHostLabels', e.target.checked)}
             />
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />
           </Group>
@@ -158,7 +199,7 @@ export default connectTo(
               step={0.1}
               className={`${block}__zoom-speed`}
               value={settings['map_scrollSpeed']}
-              onChange={e => setIn('map_scrollSpeed', e.target.value)}
+              onChange={e => this.saveSetting('map_scrollSpeed', e.target.value)}
             />
           </Group>
 
@@ -175,7 +216,7 @@ export default connectTo(
               step={1}
               className={`${block}__slider`}
               value={settings['map_packingXSpace']}
-              onChange={e => setIn('map_packingXSpace', Number(e.target.value))}
+              onChange={e => this.saveSetting('map_packingXSpace', Number(e.target.value))}
             />
           </Group>
 
@@ -192,7 +233,7 @@ export default connectTo(
               step={1}
               className={`${block}__slider`}
               value={settings['map_packingYSpace']}
-              onChange={e => setIn('map_packingYSpace', Number(e.target.value))}
+              onChange={e => this.saveSetting('map_packingYSpace', Number(e.target.value))}
             />
           </Group>
 
@@ -200,7 +241,7 @@ export default connectTo(
             <Toggle
               id="antialiasing"
               checked={settings['map_antialias'] === 'browserAA'}
-              onChange={e => setIn('map_antialias', e.target.checked ? 'browserAA' : 'off')}
+              onChange={e => this.saveSetting('map_antialias', e.target.checked ? 'browserAA' : 'off')}
             />
             <Heading text="Anti-aliasing" htmlFor="antialiasing" />
           </Group>
@@ -221,7 +262,7 @@ export default connectTo(
               step={1}
               className={`${block}__slider`}
               value={settings['map_packingXSpace']}
-              onChange={e => setIn('map_packingXSpace', Number(e.target.value))}
+              onChange={e => this.saveSetting('map_packingXSpace', Number(e.target.value))}
             />
           </Group>
           <Group>
@@ -237,7 +278,7 @@ export default connectTo(
               step={1}
               className={`${block}__slider`}
               value={settings['map_packingYSpace']}
-              onChange={e => setIn('map_packingYSpace', Number(e.target.value))}
+              onChange={e => this.saveSetting('map_packingYSpace', Number(e.target.value))}
             />
           </Group>
 
@@ -257,7 +298,7 @@ export default connectTo(
               step={1}
               className={`${block}__slider`}
               value={settings['map_logical_numServiceHops']}
-              onChange={e => setIn('map_logical_numServiceHops', Number(e.target.value))}
+              onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
             />
           </Group>
 
@@ -265,7 +306,7 @@ export default connectTo(
       </SubViewWrapper>
     );
   }
-);
+}
 
 function Group({ children, helpText, isWarning }) {
   return (
