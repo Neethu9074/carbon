@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isSafari } from 'in-services/browser';
@@ -64,14 +63,8 @@ function onConnectTimeout() {
   addMessage(
     {
       type: 'warning',
-      icon: 'danger_sign',
-      content: (
-        <p>
-          <strong>Connection timed out</strong>
-          <br />
-          The connection to the backend has timed out.
-        </p>
-      )
+      title: 'Connection timed out',
+      content: 'The connection to the backend has timed out.'
     },
     'connection_status'
   );
@@ -82,13 +75,8 @@ function onConnectError() {
     {
       type: 'warning',
       icon: 'danger_sign',
-      content: (
-        <p>
-          <strong>Connection lost</strong>
-          <br />
-          The backend is not reachable at the moment.
-        </p>
-      )
+      title: 'Connection lost',
+      content: 'The backend is not reachable at the moment.'
     },
     'connection_status'
   );

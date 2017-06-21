@@ -8,7 +8,9 @@ let idCounter = 0;
 //   id: <id>,
 //   type: <info|warning|danger>
 //   icon: <string name of SvgIcon>
-//   content: <react element>
+//   timeout: <number ms till the message will be disposed again>
+//   title: <string title>
+//   content: <string longer message for description>
 //   onClick?: <fn>
 // }
 const messagesStore = createStore({
@@ -22,7 +24,7 @@ export function addMessage(messageParam, id = null) {
   const message = {
     id,
     type: messageParam.type,
-    icon: messageParam.icon,
+    icon: messageParam.icon ? messageParam.icon : getIconByTyme(messageParam.type),
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id)
   };
@@ -63,4 +65,13 @@ function getIndexOfMessage(messages, id) {
     }
   }
   return -1;
+}
+
+function getIconByTyme(type) {
+  if (type === 'warning') {
+    return 'danger_sign';
+  } else if (type === 'danger') {
+    return 'danger_sign';
+  }
+  return 'info';
 }

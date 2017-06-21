@@ -1,5 +1,4 @@
 import { create, combineLatest } from 'reactive-observables';
-import React from 'react';
 
 import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
@@ -37,13 +36,8 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          icon: 'info',
           timeout: 2000,
-          content: (
-            <p>
-              Map is now live!
-            </p>
-          )
+          content: 'Map is now live!'
         },
         'timeline_state'
       );
@@ -51,13 +45,8 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          icon: 'info',
           timeout: 2000,
-          content: (
-            <p>
-              {`Map is showing the state as of ${formatDateTime(focusedMoment)}.`}
-            </p>
-          )
+          content: `Map is showing the state as of ${formatDateTime(focusedMoment)}.`
         },
         'timeline_state'
       );

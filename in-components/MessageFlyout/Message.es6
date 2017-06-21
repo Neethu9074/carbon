@@ -30,7 +30,14 @@ export default function Message({ message }) {
           >
             <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
             <div className={`${block}__content`}>
-              {message.content}
+              {message.title ? <strong>message.title</strong> : null}
+              {message.title ? <br /> : null}
+
+              {typeof message.content === 'string'
+                ? <p>
+                    {message.content}
+                  </p>
+                : message.content}
             </div>
           </div>
         );

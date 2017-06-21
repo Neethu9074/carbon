@@ -28,9 +28,8 @@ export default class extends React.Component {
     this.clipboard.on('success', e => {
       addMessage({
         type: 'info',
-        icon: 'info',
         timeout: 2000,
-        content: <p> Copied! </p>
+        content: 'Copied!'
       });
       e.clearSelection();
     });
@@ -38,9 +37,8 @@ export default class extends React.Component {
     this.clipboard.on('error', () => {
       addMessage({
         type: 'info',
-        icon: 'info',
         timeout: 2000,
-        content: <p> Press CTRL+C / CMD+C to copy! </p>
+        content: 'Press CTRL+C / CMD+C to copy!'
       });
     });
   }
