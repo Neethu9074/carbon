@@ -6,8 +6,8 @@ import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import { query$, setInputString } from 'in-stores/search/query';
 import { expanded$ } from 'in-stores/search/searchBarExpanded';
-import { setInputString } from 'in-stores/search/query';
 import { emitResizeEvent } from 'in-services/browser';
 import Input from 'in-components/SearchBar/Input';
 import { showHelp } from 'in-stores/navigation';
@@ -20,10 +20,11 @@ const block = 'in-searchbar';
 
 export default connectTo(
   {
+    hasContent: query$.map(query => query.length > 0).distinct(),
     presetsVisible: presetsVisible$,
     expanded: expanded$
   },
-  function SearchBar({ expanded, presetsVisible, keywordsVisible }) {
+  function SearchBar({ expanded, presetsVisible, keywordsVisible, hasContent }) {
     if (!expanded) {
       return <LifecycleObserver onDidMount={onDidMount} />;
     }
@@ -50,9 +51,11 @@ export default connectTo(
             <Input />
           </div>
 
-          <div className={`${collapseClass}`} onClick={() => setInputString('')}>
-            <SvgIcon type="x" height={10} className={`${block}__icon`} />
-          </div>
+          {hasContent
+            ? <div className={`${collapseClass}`} onClick={() => setInputString('')}>
+                <SvgIcon type="x" height={10} className={`${block}__icon`} />
+              </div>
+            : null}
 
           <div
             className={evaluateClassNames({

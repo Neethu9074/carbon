@@ -5,8 +5,8 @@ import UseFilterLink from 'in-components/SearchBar/components/UseFilterLink';
 import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import { query$ } from 'in-stores/search/query';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -47,7 +47,7 @@ export default connectTo(
         </MenuHeading>
 
         <ul className={`${block}__preset-list`}>
-          {filters.toArray().map(filter =>
+          {filters.toArray().map(filter => (
             <li key={filter.get('id')} className={`${block}__preset-item`}>
               <UseFilterLink filter={filter} />
 
@@ -74,7 +74,7 @@ export default connectTo(
                 </a>
               </div>
             </li>
-          )}
+          ))}
         </ul>
       </section>
     );
