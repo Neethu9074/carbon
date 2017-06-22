@@ -18,10 +18,6 @@ const logger = createLogger('ObjectiveConfig');
 export default class extends React.Component {
   static displayName = 'ObjectiveConfig';
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   state = {
     loading: true,
     error: false,
@@ -30,14 +26,14 @@ export default class extends React.Component {
     objective: null
   };
 
-  getObjectiveId() {
-    const { router } = this.context;
-    const { objectiveId } = router.route.match.params;
-    return objectiveId;
+  componentWillMount() {
+    this.loadObjective(this.props.match.params.objectiveId);
   }
 
-  componentWillMount() {
-    this.loadObjective(this.getObjectiveId());
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.objectiveId !== nextProps.match.params.objectiveId) {
+      this.loadObjective(nextProps.match.params.objectiveId);
+    }
   }
 
   componentWillUnmount() {

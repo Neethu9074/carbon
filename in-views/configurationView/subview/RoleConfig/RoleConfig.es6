@@ -19,10 +19,6 @@ const logger = createLogger('roleConfig');
 export default class extends React.Component {
   static displayName = 'RoleConfig';
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   state = {
     loading: true,
     error: false,
@@ -31,14 +27,14 @@ export default class extends React.Component {
     role: null
   };
 
-  getRoleId() {
-    const { router } = this.context;
-    const { roleId } = router.route.match.params;
-    return roleId;
+  componentWillMount() {
+    this.loadRole(this.props.match.params.roleId);
   }
 
-  componentWillMount() {
-    this.loadRole(this.getRoleId());
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.roleId !== nextProps.match.params.roleId) {
+      this.loadRole(nextProps.match.params.roleId);
+    }
   }
 
   loadRole = roleId => {

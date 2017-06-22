@@ -10,12 +10,12 @@ import './ConfigurationView.less';
 
 const block = 'in-configuration-view';
 
-export default function ConfigurationView(context) {
+export default function ConfigurationView(props) {
   return (
     <FullscreenOverlayView className={block}>
 
       <Navigation />
-      {!context.match.isExact
+      {!props.match.isExact
         ? <ActiveSubView>
             {routes}
           </ActiveSubView>

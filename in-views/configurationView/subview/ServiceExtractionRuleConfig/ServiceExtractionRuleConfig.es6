@@ -24,10 +24,6 @@ const logger = createLogger('ServiceExtractionRuleConfig');
 export default class extends React.Component {
   static displayName = 'ServiceExtractionRuleConfig';
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   state = {
     loading: true,
     error: false,
@@ -36,20 +32,14 @@ export default class extends React.Component {
     rule: null
   };
 
-  getRuleId() {
-    const { router } = this.context;
-    const ruleId = router.route.match.params.ruleId;
-    return ruleId;
-  }
-
-  getRuleType() {
-    const { router } = this.context;
-    const ruleType = router.route.match.params.ruleType;
-    return ruleType;
-  }
-
   componentWillMount() {
-    this.loadServiceExtractionRule(this.getRuleId());
+    this.loadServiceExtractionRule(this.props.match.params.ruleId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.ruleId !== nextProps.match.params.ruleId) {
+      this.loadServiceExtractionRule(nextProps.match.params.ruleId);
+    }
   }
 
   componentWillUnmount() {
@@ -59,7 +49,7 @@ export default class extends React.Component {
   render() {
     const { form, rule } = this.state;
     const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions, supportsEndpoints } = typeDefinitions[
-      this.getRuleType()
+      this.props.match.params.ruleType
     ];
 
     return (
@@ -126,7 +116,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     if (!ruleId) {
-      const { ruleType } = typeDefinitions[this.getRuleType()];
+      const { ruleType } = typeDefinitions[this.props.match.params.ruleType];
       let rule = createServiceRule({});
       rule.type = ruleType;
       rule = fromJS(rule);
@@ -258,7 +248,7 @@ export default class extends React.Component {
       );
     }
 
-    const typeDefinition = typeDefinitions[this.getRuleType()];
+    const typeDefinition = typeDefinitions[this.props.match.params.ruleType];
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({

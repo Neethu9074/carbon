@@ -17,10 +17,6 @@ const logger = createLogger('Rule');
 export default class extends React.Component {
   static displayName = 'Rule';
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   state = {
     loading: true,
     error: false,
@@ -29,14 +25,14 @@ export default class extends React.Component {
     rule: null
   };
 
-  getRuleId() {
-    const { router } = this.context;
-    const { ruleId } = router.route.match.params;
-    return ruleId;
+  componentWillMount() {
+    this.loadRule(this.props.match.params.ruleId);
   }
 
-  componentWillMount() {
-    this.loadRule(this.getRuleId());
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.ruleId !== nextProps.match.params.ruleId) {
+      this.loadRule(nextProps.match.params.ruleId);
+    }
   }
 
   componentWillUnmount() {

@@ -17,10 +17,6 @@ const logger = createLogger('apiTokenConfig');
 export default class extends React.Component {
   static displayName = 'ApiToken';
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   state = {
     loading: true,
     error: false,
@@ -29,14 +25,14 @@ export default class extends React.Component {
     form: null
   };
 
-  getApiTokenId() {
-    const { router } = this.context;
-    const { apiTokenId } = router.route.match.params;
-    return apiTokenId;
+  componentWillMount() {
+    this.loadApiToken(this.props.match.params.apiTokenId);
   }
 
-  componentWillMount() {
-    this.loadApiToken(this.getApiTokenId());
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.apiTokenId !== nextProps.match.params.apiTokenId) {
+      this.loadApiToken(nextProps.match.params.apiTokenId);
+    }
   }
 
   loadApiToken = apiTokenId => {
