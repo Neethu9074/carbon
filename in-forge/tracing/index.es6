@@ -81,6 +81,7 @@ import './spray.server';
 import './spring-batch';
 import './spring-rest';
 import './spring-web';
+import './tabex';
 import './url';
 import './vaadin';
 import './vertx.client';
