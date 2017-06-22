@@ -22,7 +22,7 @@ export default connectTo(
       snapshots: getSnapshots(props.snapshotIds).debounce(1000)
     };
   },
-  function RelatedSnapshotList({ initiallyOpen, onRenderItem, snapshots }) {
+  function RelatedSnapshotList({ initiallyOpen, snapshots }) {
     if (!snapshots || snapshots.size === 0) {
       return null;
     }
@@ -50,7 +50,7 @@ export default connectTo(
                     .sort((snapshotA, snapshotB) => compareIgnoreCase(getLabel(snapshotA), getLabel(snapshotB)))
                     .map(snapshot =>
                       <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
-                        {onRenderItem ? onRenderItem(snapshot) : getLabel(snapshot)}
+                        {getLabel(snapshot)}
                       </ClickableSnapshotListItem>
                     )}
                 </ClickableList>
