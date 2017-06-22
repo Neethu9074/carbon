@@ -14,7 +14,7 @@ import Timeline from 'in-components/timeline/Timeline';
 import SearchBar from 'in-components/SearchBar';
 import AppHeader from 'in-components/AppHeader';
 
-import routes from './routes/mainRoutes';
+import routes from 'in-client/js/routes/mainRoutes';
 
 import './App.less';
 
