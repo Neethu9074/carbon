@@ -25,6 +25,7 @@ export function addMessage(messageParam, id = null) {
     id,
     type: messageParam.type,
     icon: messageParam.icon ? messageParam.icon : getIconByTyme(messageParam.type),
+    title: messageParam.title,
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id)
   };

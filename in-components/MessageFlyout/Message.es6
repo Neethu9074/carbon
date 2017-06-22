@@ -29,19 +29,32 @@ export default function Message({ message }) {
             }}
           >
             <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
-            <div className={`${block}__content`}>
-              {message.title ? <strong>message.title</strong> : null}
-              {message.title ? <br /> : null}
-
-              {typeof message.content === 'string'
-                ? <p>
-                    {message.content}
-                  </p>
-                : message.content}
+            <div className={`${block}__msg`}>
+              <Title title={message.title} />
+              {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}
             </div>
           </div>
         );
       }}
     </Motion>
+  );
+}
+
+function Title({ title }) {
+  if (!title) {
+    return null;
+  }
+  return (
+    <div className={`${block}__title`}>
+      <strong>{title}</strong>
+    </div>
+  );
+}
+
+function Content(content) {
+  return (
+    <div className={`${block}__content`}>
+      {content}
+    </div>
   );
 }
