@@ -16,6 +16,8 @@ import './ejb';
 import './elasticsearch';
 import './excon';
 import './file';
+import './finagle.client';
+import './finagle.server';
 import './ftp';
 import './g.hc';
 import './g.http';
