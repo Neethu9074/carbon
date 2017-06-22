@@ -32,11 +32,7 @@ export default class extends React.Component {
   getApiTokenId() {
     const { router } = this.context;
     const { apiTokenId } = router.route.match.params;
-    if (apiTokenId) {
-      return apiTokenId;
-    } else {
-      return null;
-    }
+    return apiTokenId;
   }
 
   componentWillMount() {

@@ -36,11 +36,7 @@ export default class extends React.Component {
   getRuleBindingId() {
     const { router } = this.context;
     const { ruleBindingId } = router.route.match.params;
-    if (ruleBindingId) {
-      return ruleBindingId;
-    } else {
-      return null;
-    }
+    return ruleBindingId;
   }
 
   componentWillMount() {

@@ -33,11 +33,7 @@ export default class extends React.Component {
   getObjectiveId() {
     const { router } = this.context;
     const { objectiveId } = router.route.match.params;
-    if (objectiveId) {
-      return objectiveId;
-    } else {
-      return null;
-    }
+    return objectiveId;
   }
 
   componentWillMount() {

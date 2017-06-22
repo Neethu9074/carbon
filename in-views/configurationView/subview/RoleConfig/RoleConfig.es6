@@ -34,11 +34,7 @@ export default class extends React.Component {
   getRoleId() {
     const { router } = this.context;
     const { roleId } = router.route.match.params;
-    if (roleId) {
-      return roleId;
-    } else {
-      return null;
-    }
+    return roleId;
   }
 
   componentWillMount() {
