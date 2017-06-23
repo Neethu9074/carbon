@@ -44,7 +44,7 @@ const cols = [
       getMetricName(row) {
         return `metrics.timers.${row.name}.mean`;
       },
-      getContent: rateFormatter,
+      getContent: timeByMillisTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
