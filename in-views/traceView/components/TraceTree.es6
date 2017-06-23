@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import { longSelectedTrace$ } from 'in-views/traceView/stores/longSelectedTrace';
 import TraceFlameGraph from 'in-views/traceView/components/TraceFlameGraph';
 import TreeElement from 'in-views/traceView/components/tree/Element';
@@ -32,7 +31,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <DashboardNavigationRoute />
+
         <TraceHeader trace={trace} />
 
         <TraceFlameGraph trace={trace} />

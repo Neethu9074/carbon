@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import ToggleViewHeader from 'in-components/TwoColumnView/components/ToggleViewHeader';
 import { expandedSide$, toggleRight } from 'in-views/traceView/stores/expandedSide';
 import TraceTableHeader from 'in-views/traceView/components/TraceTableHeader';
@@ -31,6 +32,7 @@ export default function TraceView() {
   }
   return (
     <div className={block} style={style}>
+      <DashboardNavigationRoute />
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
       <TwoColumnView
         leftContent={leftContent}
