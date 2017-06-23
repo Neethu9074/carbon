@@ -88,13 +88,14 @@ export default (
     />
 
     <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
-      path="/config/rolesConfig"
-      windowTitle="Role Config"
-    />
-    <RouteWithTitle
       component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
       path="/config/rolesConfig/:roleId"
+      windowTitle="Role Config"
+    />
+
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
+      path="/config/rolesConfig"
       windowTitle="Role Config"
     />
     <RouteWithTitle
