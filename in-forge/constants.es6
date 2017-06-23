@@ -6,6 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
   cassandra: 'cassandraNode',
@@ -54,6 +55,7 @@ export const plugins = {
   ldapLogicalConnection: 'ldapLogicalConnection',
   ldapLogicalService: 'ldapLogicalService',
   ldapServiceInstance: 'ldapServiceInstance',
+  logicalBatchService: 'logicalBatchService',
   logicalCassandraConnection: 'logicalCassandraConnection',
   logicalCassandraKeyspace: 'logicalCassandraKeyspace',
   logicalDatabase: 'logicalDatabase',
@@ -129,6 +131,7 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
   browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
@@ -142,15 +145,13 @@ export const fullyQualifiedPlugins = {
   defaultLogicalService: 'com.instana.forge.connection.fallback.DefaultLogicalService',
   defaultServiceInstance: 'com.instana.forge.connection.fallback.DefaultServiceInstance',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
-  dropwizardApplicationContainer:
-    'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
+  dropwizardApplicationContainer: 'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
   ejbLogicalConnection: 'com.instana.forge.connection.ejb.EjbLogicalConnection',
   ejbLogicalService: 'com.instana.forge.connection.ejb.EjbLogicalService',
   ejbServiceInstance: 'com.instana.forge.connection.ejb.EjbServiceInstance',
   elasticsearchCluster: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchCluster',
-  elasticSearchIndexServiceInstance:
-    'com.instana.forge.connection.database.elasticsearch.ElasticSearchIndexServiceInstance',
+  elasticSearchIndexServiceInstance: 'com.instana.forge.connection.database.elasticsearch.ElasticSearchIndexServiceInstance',
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
   etcd: 'com.instana.forge.infrastructure.cache.etcd.Etcd',
   finagleApplicationContainer: 'com.instana.forge.infrastructure.application.finagle.FinagleApplicationContainer',
@@ -179,6 +180,7 @@ export const fullyQualifiedPlugins = {
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
   ldapLogicalService: 'com.instana.forge.connection.ldap.LdapLogicalService',
   ldapServiceInstance: 'com.instana.forge.connection.ldap.LdapServiceInstance',
+  logicalBatchService: 'com.instana.forge.connection.batch.LogicalBatch',
   logicalCassandraConnection: 'com.instana.forge.connection.database.cassandra.LogicalCassandraConnection',
   logicalCassandraKeyspace: 'com.instana.forge.connection.database.cassandra.LogicalCassandraKeyspace',
   logicalDatabase: 'com.instana.forge.connection.database.LogicalDatabase',
@@ -199,10 +201,8 @@ export const fullyQualifiedPlugins = {
   logicalMongoDbConnection: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbConnection',
   logicalMongoDbDatabase: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbDatabase',
   logicalPdoConnection: 'com.instana.forge.connection.database.pdo.LogicalPdoConnection',
-  logicalRabbitMqConsumerConnection:
-    'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqConsumerConnection',
-  logicalRabbitMqPublisherConnection:
-    'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqPublisherConnection',
+  logicalRabbitMqConsumerConnection: 'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqConsumerConnection',
+  logicalRabbitMqPublisherConnection: 'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqPublisherConnection',
   logicalRedisConnection: 'com.instana.forge.connection.database.redis.LogicalRedisConnection',
   logicalRedisDatabase: 'com.instana.forge.connection.database.redis.LogicalRedisDatabase',
   logicalRpcConnection: 'com.instana.forge.connection.rpc.logical.LogicalRpcConnection',
@@ -239,8 +239,7 @@ export const fullyQualifiedPlugins = {
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
-  springbootApplicationContainer:
-    'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
+  springbootApplicationContainer: 'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
   sparkApplication: 'com.instana.forge.infrastructure.dataanalytics.sparkapplication.SparkApplication',
   statsd: 'com.instana.forge.common.Statsd',
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
@@ -250,7 +249,6 @@ export const fullyQualifiedPlugins = {
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
-  webSphereLibertyApplicationContainer:
-    'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
+  webSphereLibertyApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
