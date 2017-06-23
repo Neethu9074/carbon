@@ -31,7 +31,7 @@ export default class RouteWithTitle extends React.Component {
   /**
    * as dashboard routes are rendered into the parent components (means afterwards), we need to check
    * whether we really should change the title
-   * 
+   *
    * @returns {boolean}
    */
   proceedToSetWindowTitle() {

@@ -6,7 +6,7 @@ import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import createSearchObservable from 'in-services/subscription/search';
 
 const queryStore = createStore({
-  name: 'search/websiteQuery',
+  name: ' eumView/search/query',
   initialValue: ''
 });
 export const query$ = queryStore.observable.distinct();
@@ -16,7 +16,7 @@ export const snapshotIds$ = query$.flatMap(query => {
 
   return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
     return createSearchObservable({
-      query: query,
+      query,
       time: focusedMoment,
       view: 'TABLE',
       timeframe
@@ -24,7 +24,6 @@ export const snapshotIds$ = query$.flatMap(query => {
   });
 });
 
-//getSnapshots
 export const snapshots$ = snapshotIds$
   .flatMap(snapshotIds => combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId).startWith(null))))
   .throttle(200, { leading: false })
