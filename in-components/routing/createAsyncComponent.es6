@@ -36,12 +36,11 @@ export function createAsyncComponent(loadingPlaceholder, load) {
       }
 
       load().then(
-        _ResolvedComponent => {
-          _ResolvedComponent = _ResolvedComponent.default;
-          ResolvedComponent = _ResolvedComponent;
-          if (!this.unmount) {
+        resolvedModule => {
+          ResolvedComponent = resolvedModule.default;
+          if (!this.unmounted) {
             this.setState({
-              Component: _ResolvedComponent
+              Component: ResolvedComponent
             });
           }
         },
@@ -52,7 +51,7 @@ export function createAsyncComponent(loadingPlaceholder, load) {
     }
 
     componentWillUnmount() {
-      this.unmount = true;
+      this.unmounted = true;
     }
 
     render() {
