@@ -27,7 +27,7 @@ export function createFsm(opts) {
   const publicInterface = {};
   opts.publicApiMethods.forEach(methodName => {
     publicInterface[methodName] = (...args) => {
-      activeState.apply(null, args);
+      activeState[methodName].apply(activeState, args);
     };
   });
 

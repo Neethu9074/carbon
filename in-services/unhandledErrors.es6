@@ -1,6 +1,5 @@
 import { setUnhandledErrorHandler } from 'reactive-observables';
 import logging from 'instalog';
-import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEmployee } from 'in-stores/user';
@@ -39,13 +38,8 @@ function showUnhandledErrorMessage(e) {
     addMessage(
       {
         type: 'error',
-        icon: 'error',
-        content: (
-          <p>
-            <strong>This message is only visible for Instana employees!</strong>{' '}
-            An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
-          </p>
-        )
+        title: 'This message is only visible for Instana employees!',
+        content: `An unhandled error occured. Please report this error and how you produced it. Error message: ${e.message}`
       },
       'unhandled-error'
     );

@@ -8,6 +8,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 
 import Info from 'in-forge/plugins/docker/Info';
+import Ports from 'in-forge/plugins/docker/Ports';
 
 export default function DockerSidebar({ snapshot }) {
   const labels = snapshot.getIn(['data', 'Labels']);
@@ -24,6 +25,20 @@ export default function DockerSidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      {snapshot.getIn(['data', 'PortBindings']) || snapshot.getIn(['data', 'Ports'])
+        ? <div>
+            <Separator />
+            <Collapsible>
+              <Collapsible.Header>
+                Ports
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <Ports snapshot={snapshot} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        : null}
 
       <KeyValuePopup header="Container Labels" data={labels} />
 

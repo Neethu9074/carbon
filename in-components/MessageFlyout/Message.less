@@ -10,6 +10,18 @@
   align-items: center;
   justify-content: flex-start;
 
+  &--info {
+    border-left: 3px solid #9fffff;
+  }
+
+  &--warning {
+    border-left: 3px solid rgb(255, 222, 0);
+  }
+
+  &--danger {
+    border-left: 3px solid rgb(255, 66, 41);
+  }
+
   &--clickable {
     cursor: pointer;
   }
@@ -20,12 +32,20 @@
     min-width: 18px;
   }
 
-  &__content {
+  &__msg {
     color: #92A5AE;
 
     em {
       color: #fff;
       font-style: normal;
     }
+  }
+
+  &__title {
+    margin: .5rem 0;
+  }
+
+  &__content {
+    margin: .5rem 0;
   }
 }

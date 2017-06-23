@@ -1,11 +1,8 @@
 import React from 'react';
 
-import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
-import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import ConnectionStatus from 'in-components/ConnectionStatus';
 import DialogPresenter from 'in-components/DialogPresenter';
 import DeveloperPanel from 'in-components/DeveloperPanel';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -24,15 +21,24 @@ export default function App() {
       <AppHeader />
       <SearchBar />
       <Timeline />
-      <DetailPopupPresenter />
+
+      {/* for release notes */}
       <ReleaseNotesDialog />
+
+      {/* for backend send messages */}
       <MessageDialog />
+
+      {/* help articles */}
       <HelpPresenter />
+
       <TooltipPresenter />
-      <ConnectionStatus />
+
+      {/* the flyouts on the top right corner */}
       <MessageFlyout />
-      <TemporaryNotificationPresenter />
+
+      {/* all the different dialogs e.g. in the settings */}
       <DialogPresenter />
+
       {__DEV__ ? <DeveloperPanel /> : null}
 
       {routes}

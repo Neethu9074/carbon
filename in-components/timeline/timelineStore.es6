@@ -8,6 +8,8 @@ import {
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import activeTheme from 'in-themes/active.json';
@@ -26,6 +28,29 @@ export function init() {
     currentServerTime = props[1];
 
     maxAvailableWindowSize = currentServerTime - currentBigBangTimestamp;
+  });
+
+  // automatically show a message when the focused moment is changed
+  focusedMoment$.skipFirst().subscribe(focusedMoment => {
+    if (!focusedMoment) {
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: 'Map is now live!'
+        },
+        'timeline_state'
+      );
+    } else {
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: `Map is showing the state as of ${formatDateTime(focusedMoment)}.`
+        },
+        'timeline_state'
+      );
+    }
   });
 }
 

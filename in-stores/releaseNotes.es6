@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { hashCode } from 'in-services/formatters/string';
+import { trySet, get } from 'in-services/localStorage';
 import { isOnPremise } from 'in-services/config';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
@@ -11,12 +12,12 @@ const localStorageKey = 'in-read-release-notes';
 // the "mark-as-read" functionality.
 const readReleaseNotesStore = createStore({
   name: 'readReleaseNotes',
-  initialValue: Number(localStorage.getItem(localStorageKey) || 0)
+  initialValue: Number(get(localStorageKey) || 0)
 });
 
 // ensure that the read state is persisted in localStorage
 readReleaseNotesStore.observable.skipFirst().distinct().subscribe(readReleaseNotes => {
-  localStorage.setItem(localStorageKey, readReleaseNotes);
+  trySet(localStorageKey, readReleaseNotes);
 });
 
 // stores the latest release notes, but does not account for the users read state

@@ -32,7 +32,6 @@ module.exports = {
     maintenanceNote: zIndex++,
     messageFlyout: zIndex++,
     backdrop: zIndex++,
-    dialog: zIndex++,
-    temporaryNotification: zIndex++
+    dialog: zIndex++
   }
 };

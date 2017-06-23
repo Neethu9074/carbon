@@ -12,6 +12,9 @@ export default function KafkaSpanDetailView({ span }) {
         <DescriptionItem title="Topic">
           {span.getIn(['data', 'kafka', 'service'])}
         </DescriptionItem>
+        <DescriptionItem title="Error">
+          {span.getIn(['data', 'kafka', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );

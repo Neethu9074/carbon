@@ -38,15 +38,15 @@ describe('layoutingStorage', () => {
         nodePositions$,
         changePosition,
         removeId
+      },
+      'in-services/localStorage': {
+        trySet: () => {},
+        get: () => {
+          return JSON.stringify(testData);
+        }
       }
     });
 
-    global.localStorage = {
-      setItem() {},
-      getItem() {
-        return JSON.stringify(testData);
-      }
-    };
     nodePositions$.subscribe(data => (nodePositions = data));
 
     mod.init();

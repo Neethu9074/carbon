@@ -13,6 +13,17 @@ export function setIn(key, value) {
   saveProperty(key, value);
 }
 
+export function set(settings) {
+  const result$ = saveSettings(settings);
+  result$.errors().once(error => {
+    logger.error(`failed to save settings: ${settings} ${error.message}`, error);
+  });
+  result$.once(savedBackendSettings => {
+    window.instana.settings = savedBackendSettings;
+    settingsStore.emit(window.instana.settings);
+  });
+}
+
 export function toggleIn(key) {
   saveProperty(key, !window.instana.settings[key]);
 }
