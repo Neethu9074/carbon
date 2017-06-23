@@ -19,11 +19,33 @@ export default class RouteWithTitle extends React.Component {
 
   setWindowTitle() {
     if (this.props && this.props.windowTitle) {
-      const title = `${this.props.windowTitle} – Instana (${config.tenantUnit}-${config.tenant})`;
-
-      setWindowTitleFromRoute(title);
+      if (this.proceedToSetWindowTitle()) {
+        const title = `${this.props.windowTitle} – Instana (${config.tenantUnit}-${config.tenant})`;
+        setWindowTitleFromRoute(title);
+      }
     } else {
       setWindowTitleFromRoute('Welcome');
     }
+  }
+
+  /**
+   * as dashboard routes are rendered into the parent components (means afterwards), we need to check
+   * whether we really should change the title
+   * 
+   * @returns {boolean}
+   */
+  proceedToSetWindowTitle() {
+    const hash = window.location.hash;
+    if (hash.indexOf('dashboard') !== -1) {
+      if (this.props.path.indexOf('dashboard') !== -1) {
+        return true;
+      }
+    } else {
+      if (this.props.path.indexOf('dashboard') === -1) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
