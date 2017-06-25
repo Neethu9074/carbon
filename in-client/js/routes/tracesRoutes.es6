@@ -10,7 +10,7 @@ import { Switch } from 'react-router-dom';
 
 export default (
   <Switch>
-    <RedirectWithHash from="/traces/dashboard" to="/traces/search/dashboard" />
+    <RedirectWithHash push={false} from="/traces/dashboard" to="/traces/search/dashboard" />
 
     <RouteWithTitle
       path="/traces/search"

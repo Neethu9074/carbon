@@ -59,7 +59,11 @@ export default (
       windowTitle="Settings"
     />
 
-    <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="/traces" />
+    <RouteWithTitle
+      windowTitle="Traces"
+      component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)}
+      path="/traces"
+    />
 
     <RedirectWithHash from="/" to="/physical" />
   </Switch>
