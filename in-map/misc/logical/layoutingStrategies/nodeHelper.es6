@@ -7,6 +7,8 @@ const DISTANCE_OF_UNCONNECTED_NODES = 3;
 
 export function transformNodes(_nodes, _edges) {
   const LUT = {};
+  const LUTAsArray = [];
+  let index = 0;
   _nodes.forEach(node => {
     const transformedNode = {
       name: node.id,
@@ -17,23 +19,34 @@ export function transformNodes(_nodes, _edges) {
       __touched: false
     };
     LUT[node.id] = transformedNode;
+    LUTAsArray[index++] = transformedNode;
   });
 
-  const transformedNodesAsList = Object.keys(LUT).map(key => LUT[key]);
-  transformedNodesAsList.forEach(transformedNode => {
+  for (let i = 0, length = LUTAsArray.length; i < length; i++) {
+    const transformedNode = LUTAsArray[i];
     const nodeId = transformedNode.inNode.id;
+    if (!nodeId) {
+      continue;
+    }
 
-    _edges.forEach(edge => {
+    const mapIter = _edges.values();
+    let edge = mapIter.next();
+    while (!edge.done) {
+      edge = edge.value;
       const source = edge.sourceNode.id;
       const destination = edge.destinationNode.id;
-
-      source === nodeId && LUT[destination] ? transformedNode.outgoingConnections.push(LUT[destination]) : null;
-      destination === nodeId && LUT[source] ? transformedNode.incomingConnections.push(LUT[source]) : null;
-    });
-  });
+      if (LUT[destination]) {
+        transformedNode.outgoingConnections.push(LUT[destination]);
+      }
+      if (LUT[source]) {
+        transformedNode.outgoingConnections.push(LUT[source]);
+      }
+      edge = mapIter.next();
+    }
+  }
 
   return {
-    list: transformedNodesAsList,
+    list: LUTAsArray,
     LUT
   };
 }
@@ -45,6 +58,7 @@ export function transformEdges(_edges) {
   };
 
   const list = [];
+  let index = 0;
   _edges.forEach(edge => {
     edge = {
       source: edge.sourceNode.id,
@@ -53,7 +67,7 @@ export function transformEdges(_edges) {
 
     LUT.outgoing[edge.source] = edge.target;
     LUT.incoming[edge.target] = edge.source;
-    list.push(edge);
+    list[index++] = edge;
   });
 
   return {
