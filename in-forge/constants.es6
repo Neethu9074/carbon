@@ -6,6 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
   cassandra: 'cassandraNode',
@@ -54,6 +55,7 @@ export const plugins = {
   ldapLogicalConnection: 'ldapLogicalConnection',
   ldapLogicalService: 'ldapLogicalService',
   ldapServiceInstance: 'ldapServiceInstance',
+  logicalBatchService: 'logicalBatchService',
   logicalCassandraConnection: 'logicalCassandraConnection',
   logicalCassandraKeyspace: 'logicalCassandraKeyspace',
   logicalDatabase: 'logicalDatabase',
@@ -129,6 +131,7 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
   browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
@@ -179,6 +182,7 @@ export const fullyQualifiedPlugins = {
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
   ldapLogicalService: 'com.instana.forge.connection.ldap.LdapLogicalService',
   ldapServiceInstance: 'com.instana.forge.connection.ldap.LdapServiceInstance',
+  logicalBatchService: 'com.instana.forge.connection.batch.LogicalBatch',
   logicalCassandraConnection: 'com.instana.forge.connection.database.cassandra.LogicalCassandraConnection',
   logicalCassandraKeyspace: 'com.instana.forge.connection.database.cassandra.LogicalCassandraKeyspace',
   logicalDatabase: 'com.instana.forge.connection.database.LogicalDatabase',

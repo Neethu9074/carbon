@@ -2,6 +2,7 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './availabilityZone';
+import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
 import './cassandraCluster';
@@ -50,6 +51,7 @@ import './kafkaCluster';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
+import './logicalBatchService';
 import './logicalCassandraConnection';
 import './logicalCassandraKeyspace';
 import './logicalDatabase';
