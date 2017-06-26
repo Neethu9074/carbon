@@ -1,3 +1,4 @@
+/* global require:false */
 import React from 'react';
 
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -5,7 +6,6 @@ import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { setWindowTitleFromRoute } from 'in-services/title';
-import DeveloperPanel from 'in-components/DeveloperPanel';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
@@ -44,9 +44,14 @@ export default function App(props) {
       {/* all the different dialogs e.g. in the settings */}
       <DialogPresenter />
 
-      {__DEV__ ? <DeveloperPanel /> : null}
+      {__DEV__ ? getDevPanel() : null}
 
       {props.children}
     </div>
   );
+}
+
+function getDevPanel() {
+  const DeveloperPanel = require('in-components/DeveloperPanel/DeveloperPanel.es6').default;
+  return <DeveloperPanel />;
 }
