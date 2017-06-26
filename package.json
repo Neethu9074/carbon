@@ -16,7 +16,7 @@
     "check:licenses": "license-checker > licenses.txt",
     "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
+    "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=2048 node_modules/gulp/bin/gulp.js dev",
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
