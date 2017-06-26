@@ -78,6 +78,10 @@ export const tableViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
 });
 
+export const eumViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/eum';
+});
+
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
   params.query.q = trySetField(params.query.q || '', 'entity.selfType', 'service');

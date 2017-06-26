@@ -5,22 +5,17 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
-import { setWindowTitleFromRoute } from 'in-services/title';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import SearchBar from 'in-components/SearchBar';
 import AppHeader from 'in-components/AppHeader';
 
+import routes from 'in-client/js/routes/mainRoutes';
+
 import './App.less';
 
-export default function App(props) {
-  if (props.routes && props.routes.length > 0) {
-    setWindowTitleFromRoute(props.routes[props.routes.length - 1].windowTitle);
-  } else {
-    setWindowTitleFromRoute('Welcome');
-  }
-
+export default function App() {
   return (
     <div>
       <AppHeader />
@@ -46,7 +41,8 @@ export default function App(props) {
 
       {__DEV__ ? getDevPanel() : null}
 
-      {props.children}
+      {routes}
+
     </div>
   );
 }

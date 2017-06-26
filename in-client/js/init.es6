@@ -5,7 +5,7 @@
 /* eslint-disable instana-import-order/instana-import-order */
 import 'in-forge';
 
-import { Router, hashHistory } from 'react-router';
+import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
@@ -26,6 +26,7 @@ import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
+import history from 'in-stores/navigation/history';
 
 // this is never unused. delete and die
 import { setTimeout, clearTimeout } from 'in-services/chronos';
@@ -36,7 +37,7 @@ import { init as initUsageInfo } from 'in-stores/usageInfo';
 import { init as initEvents } from 'in-stores/events';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
-import routes from './routes';
+import App from 'in-client/js/App';
 
 import './devtools/storeStates';
 import './devtools/subscriptions';
@@ -87,8 +88,8 @@ initFaviconHandling();
 initSearchbar();
 
 ReactDOM.render(
-  <Router history={hashHistory}>
-    {routes}
+  <Router history={history}>
+    <App />
   </Router>,
   document.getElementById('main')
 );

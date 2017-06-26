@@ -33,12 +33,12 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    this.loadServiceExtractionRule(this.props.params.ruleId);
+    this.loadServiceExtractionRule(this.props.match.params.ruleId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.ruleId !== nextProps.params.ruleId) {
-      this.loadServiceExtractionRule(nextProps.params.ruleId);
+    if (this.props.match.params.ruleId !== nextProps.match.params.ruleId) {
+      this.loadServiceExtractionRule(nextProps.match.params.ruleId);
     }
   }
 
@@ -49,7 +49,7 @@ export default class extends React.Component {
   render() {
     const { form, rule } = this.state;
     const { helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions, supportsEndpoints } = typeDefinitions[
-      this.props.params.ruleType
+      this.props.match.params.ruleType
     ];
 
     return (
@@ -116,7 +116,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     if (!ruleId) {
-      const { ruleType } = typeDefinitions[this.props.params.ruleType];
+      const { ruleType } = typeDefinitions[this.props.match.params.ruleType];
       let rule = createServiceRule({});
       rule.type = ruleType;
       rule = fromJS(rule);
@@ -248,7 +248,7 @@ export default class extends React.Component {
       );
     }
 
-    const typeDefinition = typeDefinitions[this.props.params.ruleType];
+    const typeDefinition = typeDefinitions[this.props.match.params.ruleType];
     const result$ = saveServiceRule(
       fromJS(
         createServiceRule({

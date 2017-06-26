@@ -26,12 +26,12 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    this.loadRule(this.props.params.ruleId);
+    this.loadRule(this.props.match.params.ruleId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.ruleId !== nextProps.params.ruleId) {
-      this.loadRule(nextProps.params.ruleId);
+    if (this.props.match.params.ruleId !== nextProps.match.params.ruleId) {
+      this.loadRule(nextProps.match.params.ruleId);
     }
   }
 

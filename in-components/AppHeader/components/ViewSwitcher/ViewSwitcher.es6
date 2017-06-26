@@ -5,13 +5,14 @@ import {
   eventViewLink$,
   traceViewLink$,
   tableViewLink$,
+  eumViewLink$,
   tableViewFilteredForServicesLink$,
   logView$,
   cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import { logViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
+import { logViewEnabled, eumViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
@@ -33,13 +34,14 @@ export default connectTo(
 
       const isTableView = pathname.indexOf('/table') === 0;
       const isLogicalTable = isTableView && containsServiceKeywords;
-      const isTraceView = pathname.indexOf('/traces') === 0;
+      const isTraceView = pathname.indexOf('/traces/search') === 0;
       const isLogicalView = pathname.indexOf('/logical') === 0;
       const isPhysicalTable = isTableView && !isLogicalTable;
       const isPhysicalView = pathname.indexOf('/physical') === 0;
       const isContainerView = pathname.indexOf('/container') === 0;
       const isEventView = pathname.indexOf('/events') === 0;
       const isLogsView = pathname.indexOf('/logs') === 0;
+      const isEumView = pathname.indexOf('/eum') === 0;
 
       return {
         isLogicalTable,
@@ -49,7 +51,8 @@ export default connectTo(
         isPhysicalView,
         isContainerView,
         isEventView,
-        isLogsView
+        isLogsView,
+        isEumView
       };
     })
   },
@@ -67,7 +70,8 @@ export default connectTo(
         viewActiveState.isPhysicalView !== nextViewActiveState.isPhysicalView ||
         viewActiveState.isContainerView !== nextViewActiveState.isContainerView ||
         viewActiveState.isEventView !== nextViewActiveState.isEventView ||
-        viewActiveState.isLogsView !== nextViewActiveState.isLogsView
+        viewActiveState.isLogsView !== nextViewActiveState.isLogsView ||
+        viewActiveState.isEumView !== nextViewActiveState.isEumView
       );
     }
 
@@ -82,7 +86,8 @@ export default connectTo(
         isPhysicalView,
         isContainerView,
         isEventView,
-        isLogsView
+        isLogsView,
+        isEumView
       } = viewActiveState;
 
       return (
@@ -104,6 +109,9 @@ export default connectTo(
             <View label="application" icon="application" isActive={isLogicalView || isTraceView || isLogicalTable}>
               <SubMenuItem label="Map" href$={logicalViewLink$} isActive={isLogicalView} />
               <SubMenuItem label="Trace" href$={traceViewLink$} isActive={isTraceView} />
+              {eumViewEnabled
+                ? <SubMenuItem label="End User Monitoring" href$={eumViewLink$} isActive={isEumView} />
+                : null}
               <SubMenuItem
                 label="Comparison Table"
                 href$={tableViewFilteredForServicesLink$}

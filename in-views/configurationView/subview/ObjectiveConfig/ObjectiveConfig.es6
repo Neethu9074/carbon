@@ -27,12 +27,12 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    this.loadObjective(this.props.params.objectiveId);
+    this.loadObjective(this.props.match.params.objectiveId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.objectiveId !== nextProps.params.objectiveId) {
-      this.loadObjective(nextProps.params.objectiveId);
+    if (this.props.match.params.objectiveId !== nextProps.match.params.objectiveId) {
+      this.loadObjective(nextProps.match.params.objectiveId);
     }
   }
 

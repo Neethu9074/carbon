@@ -26,12 +26,12 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    this.loadApiToken(this.props.params.apiTokenId);
+    this.loadApiToken(this.props.match.params.apiTokenId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.apiTokenId !== nextProps.params.apiTokenId) {
-      this.loadApiToken(nextProps.params.apiTokenId);
+    if (this.props.match.params.apiTokenId !== nextProps.match.params.apiTokenId) {
+      this.loadApiToken(nextProps.match.params.apiTokenId);
     }
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import FullscreenTwoColumnView from 'in-components/FullscreenTwoColumnView/FullscreenTwoColumnView';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetailHeader from 'in-views/eventView/components/EventDetailHeader';
@@ -11,7 +12,7 @@ import { expandedSide$ } from 'in-views/eventView/stores/expandedSide';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
-export default function EventView({ children }) {
+export default function EventView() {
   return (
     <div>
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
@@ -23,7 +24,7 @@ export default function EventView({ children }) {
         expandedSide$={expandedSide$}
       />
 
-      {children}
+      <DashboardNavigationRoute />
     </div>
   );
 }

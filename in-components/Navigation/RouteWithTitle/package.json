@@ -1,0 +1,6 @@
+{
+  "name": "RouteWithTitle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RouteWithTitle.es6"
+}

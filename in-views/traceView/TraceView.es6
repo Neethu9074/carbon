@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import ToggleViewHeader from 'in-components/TwoColumnView/components/ToggleViewHeader';
 import { expandedSide$, toggleRight } from 'in-views/traceView/stores/expandedSide';
 import TraceTableHeader from 'in-views/traceView/components/TraceTableHeader';
@@ -22,7 +23,7 @@ const rightContent = [
   <TraceTree key="1" />
 ];
 
-export default function TraceView({ children }) {
+export default function TraceView() {
   let style = undefined;
   if (!traceAnalyticsEnabled) {
     style = {
@@ -31,6 +32,7 @@ export default function TraceView({ children }) {
   }
   return (
     <div className={block} style={style}>
+      <DashboardNavigationRoute />
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
       <TwoColumnView
         leftContent={leftContent}
@@ -38,7 +40,6 @@ export default function TraceView({ children }) {
         leftWidth="46rem"
         expandedSide$={expandedSide$}
       />
-      {children}
     </div>
   );
 }

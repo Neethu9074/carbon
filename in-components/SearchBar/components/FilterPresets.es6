@@ -47,7 +47,7 @@ export default connectTo(
         </MenuHeading>
 
         <ul className={`${block}__preset-list`}>
-          {filters.toArray().map(filter => (
+          {filters.toArray().map(filter =>
             <li key={filter.get('id')} className={`${block}__preset-item`}>
               <UseFilterLink filter={filter} />
 
@@ -74,7 +74,7 @@ export default connectTo(
                 </a>
               </div>
             </li>
-          ))}
+          )}
         </ul>
       </section>
     );

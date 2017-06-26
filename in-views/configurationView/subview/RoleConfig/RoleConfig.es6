@@ -28,12 +28,12 @@ export default class extends React.Component {
   };
 
   componentWillMount() {
-    this.loadRole(this.props.params.roleId);
+    this.loadRole(this.props.match.params.roleId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.roleId !== nextProps.params.roleId) {
-      this.loadRole(nextProps.params.roleId);
+    if (this.props.match.params.roleId !== nextProps.match.params.roleId) {
+      this.loadRole(nextProps.match.params.roleId);
     }
   }
 
