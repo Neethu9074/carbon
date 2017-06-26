@@ -3,6 +3,7 @@ import React from 'react';
 import { toggleDevPanel, devPanelVisible$ } from 'in-components/DeveloperPanel/stores/visibilityStore';
 import MapStatistics from 'in-components/DeveloperPanel/components/MapStatistics';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import Misc from 'in-components/DeveloperPanel/components/Misc';
 import { SvgIconList } from 'in-components/SvgIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -45,6 +46,12 @@ export default connectTo(
               activeMenu={this.state.activeMenu}
               onClick={activeMenu => this.setState({ activeMenu })}
               menu={MapStatistics}
+            />
+            <Tab
+              title="Misc"
+              activeMenu={this.state.activeMenu}
+              onClick={activeMenu => this.setState({ activeMenu })}
+              menu={Misc}
             />
           </div>
           <div className={`${block}__content`}>
