@@ -1,0 +1,33 @@
+.in-navigation-tabs {
+  border-bottom: 1px solid #ccc;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__nav-elements {
+    display: flex;
+    padding: 0.188rem 1.5rem 0.188rem 0;
+    list-style: none;
+  }
+
+  &__link {
+    outline: 0;
+    display: block;
+    text-decoration: none;
+    color: #99abb3;
+    padding-bottom: 1rem;
+
+    &:hover, &:focus {
+      color: inherit;
+    }
+
+    &__active {
+      border-bottom: 3px solid rgb(34, 216, 216);
+      color: #000;
+      font-weight: bold;
+    }
+  }
+
+}

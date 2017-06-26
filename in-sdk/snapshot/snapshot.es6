@@ -11,6 +11,14 @@ export function getChartWiggleRoom(plugin) {
   return chartWiggleRoom;
 }
 
+export function isNewDashboard(plugin) {
+  const isNewDashboard = getSnapshotDefinition(plugin).isNewDashboard;
+  if (isNewDashboard == null) {
+    return false;
+  }
+  return isNewDashboard;
+}
+
 export function getPower(snapshot) {
   const get = getSnapshotDefinition(snapshot.get('plugin')).getPower;
   if (get) {

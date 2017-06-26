@@ -29,7 +29,7 @@ if (process.env.IS_TEST) {
 const store = createStore({
   name: 'navigation',
   initialValue: {
-    pathname: normalizePathname(),
+    pathname: getCurrentPath(),
     query: getInitParams()
   }
 });
@@ -40,7 +40,7 @@ hashHistory.listen(location => {
   ineum('startSpaPageTransition');
   store.applyStateMutation(() => {
     return {
-      pathname: normalizePathname(),
+      pathname: getCurrentPath(),
       query: qs.parse(location.search.replace('?', ''))
     };
   });
@@ -75,7 +75,7 @@ export function getModifiedUrlStream(mapParams) {
     .distinct();
 }
 
-function normalizePathname() {
+function getCurrentPath() {
   const hash = window.location.hash;
   if (!hash || hash.length === 2) {
     return '/';

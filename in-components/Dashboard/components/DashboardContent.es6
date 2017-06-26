@@ -11,6 +11,7 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { isNewDashboard } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 
@@ -65,7 +66,13 @@ export default connectTo(
     // the selectedSnapshot store is not.
     snapshotId = snapshot.get('id');
 
+    //check if new dashboard implementation is needed
     const plugin = snapshot.get('plugin');
+    if (isNewDashboard(plugin)) {
+      const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
+      return <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />;
+    }
+
     const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
