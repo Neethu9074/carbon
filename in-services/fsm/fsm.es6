@@ -1,60 +1,74 @@
 import invariant from 'invariant';
 
 export class AbstractState {
-  setTransitionManager(transitionManager) {
+  _setTransitionManager(transitionManager) {
     this._transitionManager = transitionManager;
   }
+
+  transitionTo(stateName) {
+    this._transitionManager.transitionTo(stateName);
+  }
+
+  getActiveState() {
+    return this._transitionManager.getActiveState();
+  }
+
   onEnter() {}
   onLeave() {}
 }
 
 export function createFsm(opts) {
   if (__DEV__) {
-    validateStateApi(opts.publicApiMethods, states);
+    validateStateApi(opts.publicApiMethods, opts.states);
   }
 
   const transitionManager = {
-    transitionTo
+    transitionTo,
+    getActiveState
   };
 
   const states = opts.states;
-  let activeState;
+  let activeStateName;
   Object.keys(states).forEach(stateName => {
-    states[stateName].setTransitionManager(transitionManager);
+    states[stateName]._setTransitionManager(transitionManager);
   });
   transitionTo(opts.initialState);
 
   const publicInterface = {};
   opts.publicApiMethods.forEach(methodName => {
-    publicInterface[methodName] = (...args) => {
-      activeState[methodName].apply(activeState, args);
+    publicInterface[methodName] = function() {
+      states[activeStateName][methodName].apply(states[activeStateName], arguments);
     };
   });
 
   return publicInterface;
 
   function transitionTo(name) {
-    if (activeState) {
-      activeState.onLeave();
+    if (activeStateName) {
+      states[activeStateName].onLeave();
     }
 
-    activeState = states[name];
-    activeState.onEnter();
+    activeStateName = name;
+    states[activeStateName].onEnter();
+  }
+
+  function getActiveState() {
+    return activeStateName;
   }
 }
 
 function validateStateApi(publicApiMethods, states) {
   invariant(
-    publicApiMethods.indexOf('setTransitionManager') === -1,
-    'A public API method setTransitionManager is not supported'
+    publicApiMethods.indexOf('_setTransitionManager') === -1,
+    'A public API method _setTransitionManager is not supported'
   );
   invariant(publicApiMethods.indexOf('onEnter') === -1, 'A public API method onEnter is not supported');
   invariant(publicApiMethods.indexOf('onLeave') === -1, 'A public API method onLeave is not supported');
 
   Object.keys(states).forEach(stateName => {
     invariant(
-      typeof states[stateName].setTransitionManager === 'function',
-      `State ${stateName} must define a method setTransitionManager`
+      typeof states[stateName]._setTransitionManager === 'function',
+      `State ${stateName} must define a method _setTransitionManager`
     );
     invariant(typeof states[stateName].onEnter === 'function', `State ${stateName} must define a method onEnter`);
     invariant(typeof states[stateName].onLeave === 'function', `State ${stateName} must define a method onLeave`);
