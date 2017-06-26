@@ -32,7 +32,6 @@ export default getElementDimensions(
       static displayName = 'TraceTable';
 
       componentWillUnmount() {
-        clearTraceSelection();
         clearMarkedTraces();
       }
 
