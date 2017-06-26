@@ -27,7 +27,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             formatter: twoDecimalPlaces,
             metrics: ['count'],
             labels: ['calls/s'],
-            type: 'line'
+            type: 'bar'
           }}
           y2={{
             min: 0,

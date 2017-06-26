@@ -5,6 +5,7 @@ import { getDefaultMetricRollupDuration, getMetricsForTimeframe } from 'in-store
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
+import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
@@ -21,7 +22,8 @@ const contentRendererCreators = {
   line: createLineContentRenderer,
   point: createPointContentRenderer,
   integral: createIntegralContentRenderer,
-  area: createAreaContentRenderer
+  area: createAreaContentRenderer,
+  bar: createBarContentRenderer
 };
 
 export default function createAxisController(config) {
