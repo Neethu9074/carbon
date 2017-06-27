@@ -31,6 +31,7 @@ const sharedState = window.instana.dev.ws = {
   //     event: 'event to send to establish subscription'
   //     payload: 'payload to be send to establish subscription'
   //     isSubscribedToBackend: true|false
+  //     disposeSubscriptionOnDocumentHidden: true|false
   //     listener
   //   }
   // }
