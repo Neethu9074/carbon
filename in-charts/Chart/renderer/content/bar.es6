@@ -23,18 +23,22 @@ export default function createBarContentRenderer({ axisName, config }) {
     const barWidth = chartWidth / (numberOfBars + 0);
 
     dataColumns.forEach((element, n) => {
-      const yDomain = element[1] * rollup;
+      const { xOrigin, yOrigin, xWidth, yHeight } = createRectangle(element, n, barWidth, rollup);
 
-      const yOrigin = y.getRangeFrom();
-      const yHeight = y.getRange(yDomain) - yOrigin;
-
-      const xOrigin = n * barWidth + x.getRangeFrom();
-      const xWidth = barWidth - pixelsBetweenBars;
-
-      //effectfull code
       ctx.fillStyle = colors[0];
-
       ctx.fillRect(xOrigin, yOrigin, xWidth, yHeight);
     });
+  }
+
+  function createRectangle(element, index, barWidth, rollup) {
+    const yDomain = element[0][1] * rollup;
+
+    const yOrigin = y.getRangeFrom();
+    const yHeight = y.getRange(yDomain) - yOrigin;
+
+    const xOrigin = index * barWidth + x.getRangeFrom();
+    const xWidth = barWidth - pixelsBetweenBars;
+
+    return { xOrigin, yOrigin, xWidth, yHeight };
   }
 }
