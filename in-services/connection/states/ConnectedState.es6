@@ -6,11 +6,11 @@ export default class ConnectedState extends AbstractState {
     this.sharedState.subscriptions.forEach(this.sendSubscribeWhenNecessary, this);
   }
 
-  onleave() {
+  onLeave() {
     this.off('close', this.onClose);
   }
 
   onClose = () => {
     this.transitionTo('connectionLost');
-  }
+  };
 }

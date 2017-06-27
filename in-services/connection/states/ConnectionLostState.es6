@@ -49,34 +49,53 @@ export default class ConnectionLostState extends AbstractState {
   attemptConnection = () => {
     this.connectionAttempts++;
 
-    if (this.connectionAttempts > 1) {
-      addMessage({
-        type: 'warning',
-        title: 'Connecting…',
-        content: `Connection attempt ${this.connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
-      }, 'connectionStatus');
-    } else {
-      addMessage({
-        type: 'info',
-        title: 'Connecting…',
-        content: 'Establishing persistent backend connection.'
-      }, 'connectionStatus');
+    if (this.sharedState.socket) {
+      try {
+        // ensure that no reconnect attempts are happening
+        this.sharedState.socket.onopen = null;
+        this.sharedState.socket.onclose = null;
+        this.sharedState.socket.close();
+        this.sharedState.socket = null;
+      } catch (e) {
+        // ignore
+      }
     }
 
-    this.sharedState.socket = new SockJS('/api/data', null, {transports});
+    if (this.connectionAttempts > 1) {
+      addMessage(
+        {
+          type: 'warning',
+          title: 'Connecting…',
+          content: `Connection attempt ${this
+            .connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
+        },
+        'connectionStatus'
+      );
+    } else {
+      addMessage(
+        {
+          type: 'info',
+          title: 'Connecting…',
+          content: 'Establishing persistent backend connection.'
+        },
+        'connectionStatus'
+      );
+    }
+
+    this.sharedState.socket = new SockJS('/api/data', null, { transports });
     this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
     this.sharedState.socket.onclose = () => this.sharedState.events.emit('close');
     this.sharedState.socket.onmessage = this.forwardMessageToEventHandlers;
-  }
+  };
 
   onOpen = () => {
     removeMessage('connectionStatus');
     this.transitionTo('connected');
-  }
+  };
 
   onClose = () => {
-    // setTimeout(this.attemptConnection, Math.pow(2, this.connectionAttempts));
-  }
+    setTimeout(this.attemptConnection, Math.min(30, Math.pow(2, this.connectionAttempts)) * 1000);
+  };
 
   forwardMessageToEventHandlers = e => {
     this.sharedState.metrics.received++;
@@ -96,7 +115,6 @@ export default class ConnectionLostState extends AbstractState {
       return;
     }
 
-    console.log('publish', event, data);
     this.sharedState.events.emit(event, data);
-  }
+  };
 }

@@ -41,7 +41,6 @@ function createObservable(event, getData, transformData, disposeSubscriptionOnDo
   return observable;
 
   function onData(data) {
-    console.log('Got', event, data);
     observable.emit(transformData(data));
   }
 }
