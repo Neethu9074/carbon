@@ -8,7 +8,7 @@ import ConnectedState from 'in-services/connection/states/ConnectedState';
 import { createFsm } from 'in-services/fsm';
 
 window.instana.dev = window.instana.dev || {};
-const sharedState = window.instana.dev.ws = {
+const sharedState = (window.instana.dev.ws = {
   socket: null,
   events: new EventEmitter(),
 
@@ -39,8 +39,8 @@ const sharedState = window.instana.dev.ws = {
 
   // How long it takes until the subscriptions are disposed backend wise when the
   // browser tab is no longer visible.
-  timeUntilDisposingSubscriptionsForHiddenUi: 1000 * 60
-};
+  timeUntilDisposingSubscriptionsForHiddenUi: 1000 * 30
+});
 
 export const connection = createFsm({
   publicApiMethods: ['init', 'subscribe', 'unsubscribe', 'getNewSubscriptionId'],

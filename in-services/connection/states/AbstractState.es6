@@ -22,7 +22,7 @@ export default class AbstractConnectionState extends AbstractState {
     logger.debug(`init() not supported in state: ${this.getActiveState()}`);
   }
 
-  subscribe({subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden, listener}) {
+  subscribe({ subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden, listener }) {
     payload.subscriptionId = subscriptionId;
     const subscriptionDescription = {
       subscriptionId,
@@ -58,7 +58,8 @@ export default class AbstractConnectionState extends AbstractState {
 
   sendUnsubscribeWhenNecessary(subscriptionDescription) {
     if (subscriptionDescription.isSubscribedToBackend) {
-      this.send('unsubscribe', {subscriptionId: subscriptionDescription.subscriptionId});
+      this.send('unsubscribe', { subscriptionId: subscriptionDescription.subscriptionId });
+      subscriptionDescription.isSubscribedToBackend = false;
     }
   }
 
