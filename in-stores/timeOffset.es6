@@ -1,5 +1,5 @@
 import createTimestampObservable from 'in-services/subscription/timestamp';
-import { on } from 'in-services/persistentConnection';
+import { connection } from 'in-services/connection';
 import { createStore } from 'in-stores/store';
 
 // This is an attempt to "synchronize" the time between client (browser) and
@@ -45,9 +45,8 @@ export const offset = offsetStore.observable;
 export const offset$ = offset;
 
 export function init() {
-  on('connect', start);
-  on('reconnect', start);
-  on('disconnect', stop);
+  connection.on('open', start);
+  connection.on('close', stop);
 }
 
 /**
