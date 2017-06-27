@@ -8,7 +8,7 @@ export default createSubscription({
   getData: (subscriptionId, { timeframe, focusedMoment, query }) => {
     return {
       subscriptionId,
-      focusedMoment,
+      time: focusedMoment,
       timeframe,
       query
     };
