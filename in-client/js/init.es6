@@ -39,7 +39,6 @@ import UiTrackerLogAppender from './UiTrackerLogAppender';
 import App from 'in-client/js/App';
 
 import './devtools/storeStates';
-import './devtools/subscriptions';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.

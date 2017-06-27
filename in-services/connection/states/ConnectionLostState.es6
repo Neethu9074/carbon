@@ -23,6 +23,7 @@ export default class ConnectionLostState extends AbstractState {
   onEnter() {
     this.on('open', this.onOpen);
     this.on('close', this.onClose);
+    this.sharedState.subscriptions.forEach(this.markSubscriptionDescriptionAsUnsubscribed, this);
 
     this.connectionAttempts = 0;
     this.attemptConnection();
@@ -33,6 +34,18 @@ export default class ConnectionLostState extends AbstractState {
     this.off('close', this.onClose);
   }
 
+  markSubscriptionDescriptionAsUnsubscribed(subscriptionDescription) {
+    subscriptionDescription.isSubscribedToBackend = false;
+  }
+
+  sendSubscribeWhenNecessary() {
+    // not possible in this state
+  }
+
+  sendUnsubscribeWhenNecessary() {
+    // not possible in this state
+  }
+
   attemptConnection = () => {
     this.connectionAttempts++;
 
@@ -40,7 +53,7 @@ export default class ConnectionLostState extends AbstractState {
       addMessage({
         type: 'warning',
         title: 'Connecting…',
-        content: 'Initial connection attempt failed. Continuing to retry to establish persistent backend connection.'
+        content: `Connection attempt ${this.connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
       }, 'connectionStatus');
     } else {
       addMessage({
@@ -62,7 +75,7 @@ export default class ConnectionLostState extends AbstractState {
   }
 
   onClose = () => {
-    setTimeout(this.attemptConnection, Math.pow(2, this.connectionAttempts));
+    // setTimeout(this.attemptConnection, Math.pow(2, this.connectionAttempts));
   }
 
   forwardMessageToEventHandlers = e => {
@@ -83,6 +96,7 @@ export default class ConnectionLostState extends AbstractState {
       return;
     }
 
+    console.log('publish', event, data);
     this.sharedState.events.emit(event, data);
   }
 }

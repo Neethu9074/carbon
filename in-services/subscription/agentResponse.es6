@@ -1,8 +1,8 @@
 import { create } from 'reactive-observables';
 
-import { getNewSubscriptionId } from 'in-services/subscription/subscriptionManager';
 import { getDataEvent } from 'in-services/subscription/dataEvent';
 import { on, off, emit } from 'in-services/persistentConnection';
+import { connection } from 'in-services/connection';
 
 /*
  * WARNING:
@@ -11,7 +11,7 @@ import { on, off, emit } from 'in-services/persistentConnection';
  */
 
 export default function createAgentResponseObservable({ action, target, args }) {
-  const subscriptionId = getNewSubscriptionId();
+  const subscriptionId = connection.getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   on(dataEvent, onData);

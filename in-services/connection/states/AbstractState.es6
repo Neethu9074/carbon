@@ -22,20 +22,44 @@ export default class AbstractConnectionState extends AbstractState {
     logger.debug(`init() not supported in state: ${this.getActiveState()}`);
   }
 
-  subscribe() {
-    logger.debug(`subscribe() not supported in current state: ${this.getActiveState()}`);
+  subscribe({subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden, listener}) {
+    payload.subscriptionId = subscriptionId;
+    const subscriptionDescription = {
+      subscriptionId,
+      event,
+      payload,
+      disposeSubscriptionOnDocumentHidden,
+      isSubscribedToBackend: false,
+      listener
+    };
+
+    this.sharedState.subscriptions.set(subscriptionId, subscriptionDescription);
+    this.on(`d${subscriptionId}`, listener);
+    this.sendSubscribeWhenNecessary(subscriptionDescription);
   }
 
-  sendSubscribeWhenNecessary() {
-    logger.debug(`sendSubscribeWhenNecessary() not supported in state: ${this.getActiveState()}`);
+  sendSubscribeWhenNecessary(subscriptionDescription) {
+    if (!subscriptionDescription.isSubscribedToBackend) {
+      this.send(subscriptionDescription.event, subscriptionDescription.payload);
+      subscriptionDescription.isSubscribedToBackend = true;
+    }
   }
 
-  unsubscribe() {
-    logger.debug(`unsubscribe() not supported in state: ${this.getActiveState()}`);
+  unsubscribe(subscriptionId) {
+    const subscriptionDescription = this.sharedState.subscriptions.get(subscriptionId);
+    if (!subscriptionDescription) {
+      return;
+    }
+
+    this.sharedState.subscriptions.delete(subscriptionId);
+    this.off(`d${subscriptionId}`, subscriptionDescription.listener);
+    this.sendUnsubscribeWhenNecessary(subscriptionDescription);
   }
 
-  sendUnsubscribeWhenNecessary() {
-    logger.debug(`sendUnsubscribeWhenNecessary() not supported in state: ${this.getActiveState()}`);
+  sendUnsubscribeWhenNecessary(subscriptionDescription) {
+    if (subscriptionDescription.isSubscribedToBackend) {
+      this.send('unsubscribe', {subscriptionId: subscriptionDescription.subscriptionId});
+    }
   }
 
   getNewSubscriptionId() {

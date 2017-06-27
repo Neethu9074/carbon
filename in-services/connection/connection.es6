@@ -30,12 +30,11 @@ const sharedState = window.instana.dev.ws = {
   //     subscriptionId
   //     event: 'event to send to establish subscription'
   //     payload: 'payload to be send to establish subscription'
-  //     isSubscribed: true|false
-  //     lastData: 'last retrieved data point used for development purposes',
-  //     dataListener: 'function used to read data from socket'
+  //     isSubscribedToBackend: true|false
+  //     listener
   //   }
   // }
-  activeSubscriptions: new Map(),
+  subscriptions: new Map(),
 
   // How long it takes until the subscriptions are disposed backend wise when the
   // browser tab is no longer visible.

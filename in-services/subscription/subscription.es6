@@ -1,9 +1,7 @@
 import { create } from 'reactive-observables';
 
-import { getNewSubscriptionId, subscribe, unsubscribe } from 'in-services/subscription/subscriptionManager';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { getDataEvent } from 'in-services/subscription/dataEvent';
-import { on, off } from 'in-services/persistentConnection';
+import { connection } from 'in-services/connection';
 
 export default function({
   eventId,
@@ -14,31 +12,36 @@ export default function({
   disposeSubscriptionOnDocumentHidden = true
 }) {
   return memoize(
-    createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden),
+    createObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden),
     getId,
     memoizeFor
   );
 }
 
-function createPhysicalHierarchyObservable(eventId, getData, transformData, disposeSubscriptionOnDocumentHidden, opts) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+function createObservable(event, getData, transformData, disposeSubscriptionOnDocumentHidden, opts) {
+  const subscriptionId = connection.getNewSubscriptionId();
+  const subscriptionDescription = {
+    subscriptionId,
+    event,
+    payload: getData(subscriptionId, opts),
+    disposeSubscriptionOnDocumentHidden,
+    listener: onData
+  };
 
   const observable = create({
     start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, eventId, getData(subscriptionId, opts), disposeSubscriptionOnDocumentHidden);
+      connection.subscribe(subscriptionDescription);
     },
 
     stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
+      connection.unsubscribe(subscriptionId);
     }
   });
 
   return observable;
 
   function onData(data) {
+    console.log('Got', event, data);
     observable.emit(transformData(data));
   }
 }
