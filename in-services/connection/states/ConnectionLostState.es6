@@ -71,15 +71,6 @@ export default class ConnectionLostState extends AbstractState {
         },
         'connectionStatus'
       );
-    } else {
-      addMessage(
-        {
-          type: 'info',
-          title: 'Connecting…',
-          content: 'Establishing persistent backend connection.'
-        },
-        'connectionStatus'
-      );
     }
 
     this.sharedState.socket = new SockJS('/api/data', null, { transports });
