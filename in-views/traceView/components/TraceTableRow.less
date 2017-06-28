@@ -8,12 +8,19 @@
   color: #2D4048;
   cursor: pointer;
 
+  outline: 0;
+
   &:hover {
     background: #ccc;
   }
 
-  &--selected, &--marked {
+  &:focus {
     background: #ddd;
+  }
+
+  &--selected, &--marked {
+    background: #ccc;
+    font-weight: bold;
   }
 
   &__error-icon {
