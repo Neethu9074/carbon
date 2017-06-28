@@ -4,9 +4,6 @@ import { timeframe$, setWindowSize } from 'in-components/timeline/timelineStore'
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { slices } from 'in-components/timeline/timelineConfig';
 import { timeframeShape } from 'in-stores/timeline';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
-import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 
 import './TimelineNavigation.less';
@@ -38,30 +35,35 @@ export default connectTo(
       if (!timeframe) {
         return null;
       }
-      const value = slices.length - getIndexOfSlice(timeframe.windowSize) - 1;
+
+      let isValueInSlices = false;
+      for (let i = 0, length = slices.length; i < length; i++) {
+        if (slices[i] === timeframe.windowSize) {
+          isValueInSlices = true;
+          break;
+        }
+      }
+
+      let slicesToShow = slices;
+      if (!isValueInSlices) {
+        slicesToShow = slices.slice(); // copy array
+        slicesToShow.push(timeframe.windowSize);
+        slicesToShow.sort((a, b) => a - b);
+      }
+
       return (
         <div className={block}>
-          <SvgIcon className={block + '__icon-zoom'} type="search" width={12} color="#6b8088" onClick={this.zoomOut} />
-          <Slider
-            onChange={this.onZoomChanged}
-            min={0}
-            max={slices.length - 1}
-            step={1}
-            value={value}
-            className={block + '__slider'}
-          />
-          <SvgIcon className={block + '__icon-zoom'} type="search" width={16} color="#6b8088" onClick={this.zoomIn} />
-          <Tooltip content="Selected time window size">
-            <div className={`${block}__window-size`}>
-              {formatDurationAccurately(timeframe.windowSize)}
-            </div>
-          </Tooltip>
+          <select className={`${block}__selection`} value={timeframe.windowSize} onChange={this.onZoomChanged}>
+            {slicesToShow.map(timeWindow =>
+              <option key={timeWindow} value={timeWindow}>{formatDurationAccurately(timeWindow, 60000, false)}</option>
+            )}
+          </select>
         </div>
       );
     }
 
     onZoomChanged = e => {
-      setWindowSize(slices[slices.length - e.target.value - 1]);
+      setWindowSize(e.target.value);
     };
 
     zoomOut = () => {
