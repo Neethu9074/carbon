@@ -7,7 +7,7 @@ import { isSafari } from 'in-services/browser';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 
-let transports = ['xhr-polling', 'xhr-streaming', 'websocket', 'eventsource'];
+let transports;
 // We only want to use the WebSocket transport during local dev mode as this
 // makes the development life easier: Only one connection needs to be inspected!
 if (__DEV__) {
@@ -16,6 +16,12 @@ if (__DEV__) {
     transports = ['xhr-polling'];
   } else {
     transports = ['websocket'];
+  }
+} else {
+  if (isSafari()) {
+    transports = ['xhr-polling', 'xhr-streaming', 'eventsource'];
+  } else {
+    transports = ['xhr-polling', 'xhr-streaming', 'websocket', 'eventsource'];
   }
 }
 
