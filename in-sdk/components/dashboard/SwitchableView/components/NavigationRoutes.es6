@@ -3,7 +3,7 @@ import React from 'react';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Switch } from 'react-router-dom';
 
-export default function({ navigationStructure }) {
+export default function NavigationRoutes({ navigationStructure }) {
   return (
     <Switch>
       {createNavigationRoutes(navigationStructure)}
@@ -15,6 +15,7 @@ const createNavigationRoutes = navigation => {
   //it is important to not have a route like '/' on top as this would match in any case
   //therefor sort the routes
   return navigation
+    .slice(0)
     .sort((nav1, nav2) => {
       if (nav1.path.length > nav2.path.length) {
         return -1;

@@ -6,10 +6,10 @@ import './SwitchableViewHeader.less';
 
 const block = 'in-switchable-view-header';
 
-export default function(){
-
-
-  return (<header className={`${block}`}>
-    <DashboardCloseButton/>
-  </header>);
+export default function SwitchableViewHeader() {
+  return (
+    <header className={`${block}`}>
+      <DashboardCloseButton />
+    </header>
+  );
 }
