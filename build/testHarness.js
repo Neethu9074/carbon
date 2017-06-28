@@ -83,5 +83,5 @@ global.requestAnimationFrame = fn => fn();
 setupThemeGlobals();
 
 // many tests import a whole bunch of modules and at some point this always
-// ends up in in-services/persistentConnection (which requirs WebSocket globals).
+// ends up in in-services/connection (which requirs WebSocket globals).
 setupWebSocketGlobals();

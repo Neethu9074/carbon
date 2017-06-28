@@ -1,37 +1,26 @@
-import { create } from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 
-import { getNewSubscriptionId } from 'in-services/subscription/subscriptionManager';
-import { getDataEvent } from 'in-services/subscription/dataEvent';
-import { on, off, emit } from 'in-services/persistentConnection';
+export default createSubscription({
+  eventId: 'subscribe-agent-response',
 
-/*
- * WARNING:
- * This deliberately does not use the automatic subscription mechanism as the invoked
- * subscription has side effect. We cannot automatically restart these subscriptions.
- */
+  getId,
+  getData,
+  transformData
+});
 
-export default function createAgentResponseObservable({ action, target, args }) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+function getId({ target, action, args }) {
+  return target + action + JSON.stringify(args);
+}
 
-  on(dataEvent, onData);
-  emit('subscribe-agent-response', {
+function getData(subscriptionId, { target, action, args }) {
+  return {
     subscriptionId,
-    target: target.toJS(),
     action,
+    target,
     args
-  });
+  };
+}
 
-  const observable = create({
-    stop() {
-      off(dataEvent, onData);
-      emit('unsubscribe', { subscriptionId });
-    }
-  });
-
-  return observable.delayedStop(10000);
-
-  function onData(data) {
-    observable.emit(data);
-  }
+function transformData(data) {
+  return data;
 }
