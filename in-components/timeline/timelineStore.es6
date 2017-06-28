@@ -251,7 +251,7 @@ timeframe$.skipFirst().map(timeframe => timeframe.windowSize).distinct().subscri
     {
       type: 'info',
       title: 'Time window has changed',
-      content: `The current timewindow is ${formatDurationAccurately(windowSize, 60000, false)} big.`,
+      content: `The current timewindow is ${formatDurationAccurately(windowSize, 60000, false)}.`,
       timeout: 4000
     },
     'timewindow_changed'
