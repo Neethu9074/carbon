@@ -1,6 +1,5 @@
 import React from 'react';
 
-import SelectedWindowSizePresenter from 'in-components/timeline/components/SelectedWindowSizePresenter';
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
 import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import { isCollapsed$, showTimeSelector$ } from 'in-components/timeline/timelineStore';
@@ -45,8 +44,6 @@ export default connectTo(
             <TimelineTimeframeMarker />
           </div>
         </div>
-
-        <SelectedWindowSizePresenter />
       </div>
     );
   }

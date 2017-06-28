@@ -1,6 +1,7 @@
 import { create, combineLatest } from 'reactive-observables';
 
 import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
@@ -36,7 +37,7 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          timeout: 2000,
+          timeout: 4000,
           content: 'Map is now live!'
         },
         'timeline_state'
@@ -45,7 +46,7 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          timeout: 2000,
+          timeout: 4000,
           content: `Map is showing the state as of ${formatDateTime(focusedMoment)}.`
         },
         'timeline_state'
@@ -242,4 +243,17 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).s
   }
 
   focusedMomentXPosition.applyStateMutation(() => x);
+});
+
+// automatically show a message when the focused moment is changed
+timeframe$.skipFirst().map(timeframe => timeframe.windowSize).distinct().subscribe(windowSize => {
+  addMessage(
+    {
+      type: 'info',
+      title: 'Time window has changed',
+      content: `The current timewindow is ${formatDurationAccurately(windowSize, 60000, false)} big.`,
+      timeout: 4000
+    },
+    'timewindow_changed'
+  );
 });
