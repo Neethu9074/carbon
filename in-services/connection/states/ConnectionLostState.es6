@@ -31,6 +31,7 @@ export default class ConnectionLostState extends AbstractState {
     this.on('close', this.onClose);
     this.sharedState.subscriptions.forEach(this.markSubscriptionDescriptionAsUnsubscribed, this);
 
+    this.isFirstEverConnectionAttempt = true;
     this.connectionAttempts = 0;
     this.attemptConnection();
   }
@@ -77,7 +78,17 @@ export default class ConnectionLostState extends AbstractState {
         },
         'connectionStatus'
       );
+    } else if (!this.isFirstEverConnectionAttempt) {
+      addMessage(
+        {
+          type: 'warning',
+          title: 'Connecting…',
+          content: `Connection lost. Attempting reconnect…`
+        },
+        'connectionStatus'
+      );
     }
+    this.isFirstEverConnectionAttempt = false;
 
     this.sharedState.socket = new SockJS('/api/data', null, { transports });
     this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
