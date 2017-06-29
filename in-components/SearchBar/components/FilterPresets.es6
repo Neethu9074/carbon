@@ -2,7 +2,7 @@ import React from 'react';
 
 import { filters$, refresh, remove } from 'in-components/SearchBar/stores/filters';
 import { togglePresets } from 'in-components/SearchBar/stores/presetsVisibility';
-import UseFilterLink from 'in-components/SearchBar/components/UseFilterLink';
+import UserFilterLink from 'in-components/SearchBar/components/UserFilterLink';
 import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -50,7 +50,7 @@ export default connectTo(
         <ul className={`${block}__preset-list`}>
           {filters.toArray().map(filter =>
             <li key={filter.get('id')} className={`${block}__preset-item`}>
-              <UseFilterLink onClick={togglePresets} filter={filter} />
+              <UserFilterLink onClick={togglePresets} filter={filter} />
 
               <div className={`${block}__item-actions`}>
                 <a
