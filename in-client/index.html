@@ -13,8 +13,8 @@
   <title>Instana</title>
 
   <script>
-    window.instana = {};
-  </script>
+window.instana = {};
+</script>
   <script>
     window.instana.user = <!--#include virtual="/api/checkUserAccessPermitted" -->;
   </script>
@@ -28,20 +28,33 @@
   </script>
 
   <script>
-    if (!window.instana.user || window.instana.user.error) {
-      window.instana.user = null;
-    }
-    if (!window.instana.user) {
-      window.location.href = '/auth/signIn?returnUrl=' +
-        encodeURIComponent(window.location.href);
-    }
-  </script>
+  if (!window.instana.user || window.instana.user.error) {
+  window.instana.user = null;
+}
+if (!window.instana.user) {
+  window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
+}
+</script>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,greek,vietnamese,latin-ext,cyrillic,cyrillic-ext">
   <link rel="stylesheet" href="bundle/index.css">
 </head>
 <body>
-  <div id="main"></div>
+  <div id="main">
+  </div>
+
+  <noscript>
+    <div class="no_js_content">
+      <div class="left-side">
+        <h1 class="title">
+          JavaScript disabled
+        </h1>
+        <p class="message">
+          The Instana interface requires JavaScript. Please enable JavaScript in your browser to continue.
+        </p>
+      </div>
+    </div>
+  </noscript>
   <script src="bundle/index.js"></script>
 </body>
 </html>
