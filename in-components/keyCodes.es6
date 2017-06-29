@@ -8,6 +8,7 @@ export default {
   space: 32,
   escape: 27,
   return: 13,
+  questionMark: 191,
   f: 70,
   n: 78,
   v: 86,
