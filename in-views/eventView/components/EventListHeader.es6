@@ -29,8 +29,11 @@ export default connectTo(
           <EventFilter filter="incident">
             Incidents
           </EventFilter>
-          <EventFilter filter="event">
-            Events
+          <EventFilter filter="issue">
+            Issues
+          </EventFilter>
+          <EventFilter filter="change">
+            Changes
           </EventFilter>
           {objectivesEnabled
             ? <EventFilter filter="objectiveViolation">
