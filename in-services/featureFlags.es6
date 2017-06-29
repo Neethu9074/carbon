@@ -19,7 +19,7 @@ export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
-  'event.type': ['objectiveViolation'],
+  'event.type': ['objectiveViolation', 'event'],
   'entity.type': ['agent']
 };
 
