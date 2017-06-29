@@ -22,7 +22,6 @@ export default connectTo(
     return (
       <ViewHeader className={block}>
         <div className={`${block}__left-side`}>
-          <SvgIcon className={`${block}__icon`} type="danger_sign" width={20} height={20} color="#33d8d7" />
           <EventFilter>
             All
           </EventFilter>
