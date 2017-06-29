@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEventsViewFilteredByEntity } from 'in-stores/navigation/navigation';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import EventListing from 'in-components/EventListing';
@@ -8,13 +9,16 @@ import connectTo from 'in-hoc/connectTo';
 
 import './HealthIconListing.less';
 
+const block = 'in-health-icon-listing';
+
 export default connectTo(
   props => {
     return {
-      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
+      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId),
+      href: getEventsViewFilteredByEntity(props.snapshotId)
     };
   },
-  function HealthCounter({ healthInfo, snapshotId, className }) {
+  function HealthCounter({ href, healthInfo, snapshotId, className }) {
     if (!healthInfo) {
       return null;
     }
@@ -23,12 +27,12 @@ export default connectTo(
     const color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#92A5AE';
     const numberOfOpenIssues = healthInfo ? healthInfo.get('numberOfOpenEvents') : 0;
 
-    let classes = 'in-health-icon-listing';
+    let classes = block;
     if (className) {
       classes += ' ' + className;
     }
 
-    const counter = (
+    let counter = (
       <span
         className={classes}
         style={{
@@ -39,6 +43,14 @@ export default connectTo(
         {numberOfOpenIssues}
       </span>
     );
+
+    if (href) {
+      counter = (
+        <a href={href} className={`${block}__link`}>
+          {counter}
+        </a>
+      );
+    }
 
     if (numberOfOpenIssues > 0) {
       return (

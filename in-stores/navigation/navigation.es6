@@ -267,17 +267,10 @@ export function goToGraph() {
   });
 }
 
-export function goToTraceView() {
-  mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.TRACES;
-    return navParams;
-  });
-}
-
-export function goToEventsView() {
-  mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.EVENTS;
-    return navParams;
+export function getEventsViewFilteredByEntity(entityId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = '/events';
+    params.query.q += ` entity.id:${entityId}`;
   });
 }
 
