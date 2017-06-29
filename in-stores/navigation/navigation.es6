@@ -1,9 +1,10 @@
 /* global process:false */
 import qs from 'qs';
 import { isEqual } from 'lodash';
-import history from 'in-stores/navigation/history';
 
+import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
+import { ineum } from 'in-services/eum';
 
 export const PATH_NAMES = {
   DASHBOARD: '/dashboard',
@@ -36,11 +37,16 @@ export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
 hashHistory.listen(location => {
+  ineum('startSpaPageTransition');
   store.applyStateMutation(() => {
     return {
       pathname: normalizePathname(),
       query: qs.parse(location.search.replace('?', ''))
     };
+  });
+  ineum('endSpaPageTransition', {
+    url: window.location.href,
+    status: 'completed'
   });
 });
 
