@@ -6,6 +6,7 @@ import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -72,7 +73,7 @@ export default connectTo(
   },
   function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageLabel }) {
     if (!result) {
-      return null;
+      return <LoadingIndicator type="dark" />;
     }
 
     if (result.error) {

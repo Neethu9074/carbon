@@ -76,6 +76,11 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
             browser support matrix
           </a>.
         </p>
+        <p>
+          Access to caching statistics is restricted by the browser for security reasons using the same-origin {' '}
+          principle. In order to allow gathering of this information from a variety of domains, ensure that {' '}
+          resources are served with a <code>Timing-Allow-Origin: *</code> header.
+        </p>
 
         <ChartWithLegend
           snapshotId={snapshotId}
