@@ -3,6 +3,8 @@ import SockJS from 'sockjs-client';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-services/connection/states/AbstractState';
+import { combineDataAndError } from 'in-services/util/ro';
+import { isSignedIn } from 'in-services/api/account';
 import { isSafari } from 'in-services/browser';
 
 const logger = createLogger('connection/states/ConnectionLostState');
@@ -90,10 +92,25 @@ export default class ConnectionLostState extends AbstractState {
     }
     this.isFirstEverConnectionAttempt = false;
 
-    this.sharedState.socket = new SockJS('/api/data', null, { transports });
-    this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
-    this.sharedState.socket.onclose = () => this.sharedState.events.emit('close');
-    this.sharedState.socket.onmessage = this.forwardMessageToEventHandlers;
+    combineDataAndError(isSignedIn()).once(({ data: isSignedIn, error }) => {
+      if (error) {
+        this.onClose();
+      } else if (!isSignedIn) {
+        addMessage(
+          {
+            type: 'danger',
+            title: 'Unauthorized…',
+            content: `Cannot establish persistent backend connection as you are unauthorized. Please refresh the page to continue.`
+          },
+          'connectionStatus'
+        );
+      } else {
+        this.sharedState.socket = new SockJS('/api/data', null, { transports });
+        this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
+        this.sharedState.socket.onclose = () => this.sharedState.events.emit('close');
+        this.sharedState.socket.onmessage = this.forwardMessageToEventHandlers;
+      }
+    });
   };
 
   onOpen = () => {
