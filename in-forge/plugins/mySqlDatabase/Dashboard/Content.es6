@@ -49,8 +49,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 60
+            left: 60
           }}
           y1={{
             min: 0,
