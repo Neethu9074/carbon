@@ -36,30 +36,26 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 
   const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);
 
+  const getSnapshotLink = snapshot => {
+    column.value = getLabel(snapshot);
+    column.content = (
+      <HierarchicalLink
+        snapshot={snapshot}
+        calculateHierarchy={withHierarchy}
+        kind="dark"
+        useSnapshot={columnDefinition.typeArgs.useSnapshot}
+      />
+    );
+    row.mutationCount++;
+    emitRawDataChange();
+  };
+
   if (columnDefinition.typeArgs.getSnapshotId) {
     const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
-    column.subscription = getSnapshot(snapshotId).subscribe(snapshot => {
-      column.value = getLabel(snapshot);
-      column.content = (
-        <HierarchicalLink snapshotId={snapshotId} calculateHierarchy={withHierarchy} kind="dark">
-          {column.value}
-        </HierarchicalLink>
-      );
-      row.mutationCount++;
-      emitRawDataChange();
-    });
+    column.subscription = getSnapshot(snapshotId).subscribe(getSnapshotLink);
   } else {
     const snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
-    column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(snapshot => {
-      column.value = getLabel(snapshot);
-      column.content = (
-        <HierarchicalLink snapshotId={snapshot.get('id')} calculateHierarchy={withHierarchy} kind="dark">
-          {column.value}
-        </HierarchicalLink>
-      );
-      row.mutationCount++;
-      emitRawDataChange();
-    });
+    column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(getSnapshotLink);
   }
 
   return column;

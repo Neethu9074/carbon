@@ -1,10 +1,14 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { getDashboardLink, getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
+import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { joinClassNames } from 'in-services/util/classnames';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
+import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,11 +18,17 @@ const block = 'in-hierarchical-link';
 
 export default connectTo(
   props => {
-    const snapshotId = props.snapshotId;
-    return {
+    const snapshotId = props.snapshot.get('id');
+    const observables = {
       href: props.useSnapshotLink ? getLinkToSnapshotInCurrentView(snapshotId) : getDashboardLink(snapshotId),
       hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId, false) : alwaysNull
     };
+    if (props.useSnapshot) {
+      observables.hierarchySnapshots = observables.hierarchy.flatMap(hierarchy =>
+        combineLatest(hierarchy.toArray().map(id => getSnapshot(id)))
+      );
+    }
+    return observables;
   },
   class extends React.Component {
     static displayName = 'HierarchicalLink';
@@ -28,20 +38,30 @@ export default connectTo(
     };
 
     render() {
+      const { useSnapshot, getLabel, hierarchySnapshots, hierarchy, className, href, kind } = this.props;
       const isExpanded = this.state.isExpanded;
-      const hierarchy = this.props.hierarchy;
-      const className = this.props.className;
-      const children = this.props.children;
-      const href = this.props.href;
-      const kind = this.props.kind;
-      const linkClassName = `${block}${kind === 'dark' ? '__dark' : '__light'}`;
+      const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
+      let { snapshot } = this.props;
+      if (useSnapshot) {
+        snapshot = useSnapshot(snapshot, hierarchySnapshots);
+      }
+      const label = getSnapshotLabel(snapshot);
+
+      getLabel;
+      const link = (
+        <a href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
+          <HealthyPluginIcon
+            className={`${block}__plugin-icon`}
+            snapshot={snapshot}
+            fallbackColor={kind === 'dark' ? '#000' : '#fff'}
+            dimension={12}
+          />
+          {getLabel ? getLabel(label) : label}
+        </a>
+      );
 
       if (!hierarchy || hierarchy.size === 0) {
-        return (
-          <a href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
-            {children}
-          </a>
-        );
+        return link;
       }
 
       return (
@@ -54,10 +74,13 @@ export default connectTo(
             height={12}
           />
           {isExpanded
-            ? <Hierarchy hierarchy={hierarchy} kind={kind} useSnapshotLink={this.props.useSnapshotLink} />
-            : <a href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
-                {children}
-              </a>}
+            ? <Hierarchy
+                hierarchy={hierarchy}
+                kind={kind}
+                hierarchySnapshots={hierarchySnapshots}
+                useSnapshotLink={this.props.useSnapshotLink}
+              />
+            : link}
         </div>
       );
     }
