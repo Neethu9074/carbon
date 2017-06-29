@@ -6,9 +6,10 @@ import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { isWebVRSupported, createNoWebVRDialog } from 'in-map/services/webVR';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
-import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
+import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
+import MapNoContentMessage from 'in-components/MapNoContentMessage';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { webVRIsActive } from 'in-map/stores/webVRStore';
 import { getSetting$ } from 'in-services/settings';
@@ -74,7 +75,6 @@ export default connectTo(
         <div>
           <DashboardNavigationRoute />
           <div className={className}>
-
             <canvas
               className={`${block}__canvas`}
               ref={canvas => {
@@ -84,6 +84,7 @@ export default connectTo(
             />
             <StickyNoteHoster />
             <TooltipHoster />
+            <MapNoContentMessage />
           </div>
         </div>
       );

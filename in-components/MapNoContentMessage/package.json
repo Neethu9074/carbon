@@ -1,0 +1,6 @@
+{
+  "name": "MapNoContentMessage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MapNoContentMessage.es6"
+}
