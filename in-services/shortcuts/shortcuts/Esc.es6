@@ -1,4 +1,5 @@
 import { goToRootOfView, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen } from 'in-stores/navigation';
+import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { activeDialog$, close } from 'in-components/DialogPresenter/store';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
 
@@ -7,6 +8,9 @@ navigationParameters$.subscribe(_navigationParameters => (navigationParameters =
 
 let activeDialog;
 activeDialog$.subscribe(_activeDialog => (activeDialog = _activeDialog));
+
+let activeFilterDialog;
+presetsVisible$.subscribe(_isVisible => (activeFilterDialog = _isVisible));
 
 export default function onPressed() {
   if (!navigationParameters) {
@@ -21,6 +25,8 @@ export default function onPressed() {
     goToRootOfView();
   } else if (checkIfSidebarInMapisOpen()) {
     clearSelectedSnapshotId();
+  } else if (activeFilterDialog) {
+    togglePresets();
   }
 }
 

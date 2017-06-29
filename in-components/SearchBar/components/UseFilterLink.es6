@@ -13,9 +13,9 @@ export default connectTo(
       link: getCurrentViewWithFilter(props.filter.get('definition'))
     };
   },
-  function UseFilterLink({ link, filter }) {
+  function UseFilterLink({ link, filter, onClick }) {
     return (
-      <a href={link} className={block}>
+      <a href={link} onClick={onClick} className={block}>
         {filter.get('name')}
       </a>
     );
