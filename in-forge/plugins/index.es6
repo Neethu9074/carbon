@@ -51,6 +51,7 @@ import './kafkaCluster';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
+import './liferayApplicationContainer';
 import './logicalBatchService';
 import './logicalCassandraConnection';
 import './logicalCassandraKeyspace';
