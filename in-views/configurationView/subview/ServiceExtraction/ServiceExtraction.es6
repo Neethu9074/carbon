@@ -1,19 +1,22 @@
+import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
-import { List } from 'immutable';
 import rpt from 'prop-types';
 import React from 'react';
 
 import {
   getLinkColumn,
   getEnableToggleColumn,
-  getDeleteButtonColumn
+  getDeleteButtonColumn,
+  getCloneButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
 import {
   upsertServiceRules,
   updateServiceRulesByType,
   getServiceRulesByType,
+  saveServiceRule,
   deleteServiceRule,
-  setEnabled
+  setEnabled,
+  createServiceRule
 } from 'in-services/api/serviceExtraction';
 import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
@@ -71,7 +74,8 @@ const cols = [
     }
   },
   getEnableToggleColumn(),
-  getDeleteButtonColumn()
+  getDeleteButtonColumn(),
+  getCloneButtonColumn()
 ];
 
 export default class extends React.Component {
@@ -187,6 +191,29 @@ export default class extends React.Component {
     close();
   };
 
+  onClone = service => {
+    const clonedService = fromJS(
+      createServiceRule({
+        id: '',
+        name: service.get('name') + '_CLONE',
+        enabled: false,
+        type: service.get('type'),
+        comment: '',
+        matchSpecification: service.get('matchSpecification'),
+        label: service.get('label'),
+        order: service.get('order'),
+        endpointRules: service.get('endpointRules')
+      })
+    );
+
+    const result$ = saveServiceRule(clonedService);
+    result$.once(this.refresServices);
+    result$.errors().once(error => {
+      const message = `Failed to clone and save service : ${error.message}`;
+      logger.warn(message, error);
+    });
+  };
+
   setEnabled = (service, enabled) => {
     const previousEnabled = service.get('enabled');
     const serviceId = service.get('id');
@@ -256,6 +283,7 @@ export default class extends React.Component {
         key: serviceRule.get('id'),
         entity: serviceRule,
         onDelete: this.onDelete,
+        onClone: this.onClone,
         setEnabled: this.setEnabled,
         status: this.state.status[serviceRule.get('id')],
         moveUp: this.moveUp,
