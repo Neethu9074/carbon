@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
-import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import { isCollapsed$, showTimeSelector$ } from 'in-components/timeline/timelineStore';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
 import DateTimePickerPopup from 'in-components/timeline/components/DatePicker';
@@ -41,7 +40,6 @@ export default connectTo(
           </div>
           <div className={block + '__bottom'}>
             <TimelineNavigation />
-            <TimelineTimeframeMarker />
           </div>
         </div>
       </div>
