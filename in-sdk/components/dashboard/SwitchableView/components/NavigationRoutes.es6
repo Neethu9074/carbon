@@ -10,15 +10,7 @@ export default function NavigationRoutes({ navigationStructure }) {
       //therefor sort the routes
       navigationStructure
         .slice(0)
-        .sort((nav1, nav2) => {
-          if (nav1.path.length > nav2.path.length) {
-            return -1;
-          } else if (nav1.path.length < nav2.path.length) {
-            return 1;
-          } else {
-            return 0;
-          }
-        })
+        .sort(sortStructure)
         .map(nav =>
           <RouteWithTitle
             key={`route_${nav.path}`}
@@ -29,4 +21,14 @@ export default function NavigationRoutes({ navigationStructure }) {
         )}
     </Switch>
   );
+}
+
+function sortStructure(nav1, nav2) {
+  if (nav1.path.length > nav2.path.length) {
+    return -1;
+  } else if (nav1.path.length < nav2.path.length) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
