@@ -5,6 +5,7 @@ import createAgentResponseObservable from 'in-services/subscription/agentRespons
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DialogNotification from 'in-components/DialogNotification';
+import Toggle from 'in-components/form/Toggle';
 
 import './LogStreamer.less';
 
@@ -21,7 +22,8 @@ export default class extends React.PureComponent {
 
   state = {
     error: null,
-    log: ''
+    log: '',
+    scrollToBottomOnChange: true
   };
 
   componentDidMount() {
@@ -31,8 +33,9 @@ export default class extends React.PureComponent {
   componentDidUpdate() {
     this.subscribe();
 
-    if (this.refs.code) {
-      this.refs.code.scrollTop = Number.MAX_VALUE;
+    if (this.state.scrollToBottomOnChange && this.code) {
+      // Number.MAX_VALUE doesn't work in Chrome…
+      this.code.scrollTop = 1000000;
     }
   }
 
@@ -127,10 +130,18 @@ export default class extends React.PureComponent {
             </DialogNotification>
           : null}
 
-        <CopyToClipboardButton getText={() => this.refs.code.textContent} />
+        <CopyToClipboardButton getText={() => this.code.textContent} />
+
+        <label htmlFor="set-auto-scroll" className={`${block}__auto-scroll`}>
+          Automatically scroll to bottom on log change:
+          <Toggle onChange={e => this.setState({scrollToBottomOnChange: e.target.checked})}
+                  checked={this.state.scrollToBottomOnChange}
+                  id="set-auto-scroll"
+                   className={`${block}__auto-scroll-toggle`} />
+        </label>
 
         <pre>
-          <code className={`${block}__log`} dangerouslySetInnerHTML={{ __html: this.state.log }} ref="code" />
+          <code className={`${block}__log`} dangerouslySetInnerHTML={{ __html: this.state.log }} ref={ele => this.code = ele} />
         </pre>
       </div>
     );
