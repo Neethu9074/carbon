@@ -17,6 +17,12 @@ describe('shortcuts/dashboard', () => {
   let selectedSnapshotSubscription;
   let navigationParametersStore;
   let navigationParametersStub;
+
+  let filerDialogStore;
+  let filterDialogSubscription;
+  let filerDialogStub;
+  let filerDialogMock;
+
   let selectedSnapshotIdStub;
   let selectedSnapshotStore;
   let navigationMock;
@@ -28,6 +34,9 @@ describe('shortcuts/dashboard', () => {
     selectedSnapshotIdStub = sinon.stub();
     selectedSnapshotSubscription = selectedSnapshotStore.observable.subscribe(selectedSnapshotIdStub);
 
+    filerDialogStub = sinon.stub();
+    filterDialogSubscription = filerDialogStore.observable.subscribe(filerDialogStub);
+
     navigationParametersStub = sinon.stub();
     navigationParametersSubscription = navigationParametersStore.observable.subscribe(navigationParametersStub);
   });
@@ -35,6 +44,7 @@ describe('shortcuts/dashboard', () => {
   afterEach(() => {
     selectedSnapshotSubscription.dispose();
     navigationParametersSubscription.dispose();
+    filterDialogSubscription.dispose();
   });
 
   it('should remove snapshotId from URL', () => {
@@ -49,6 +59,16 @@ describe('shortcuts/dashboard', () => {
     // snapshot was deleted
     expect(selectedSnapshotIdStub).to.have.callCount(2);
     expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
+  });
+
+  it('should close the filter dialog if visible', () => {
+    // initial call
+    expect(filerDialogStub).to.have.callCount(1);
+
+    pressEscape();
+
+    expect(filerDialogStub).to.have.callCount(2);
+    expect(filerDialogStub.getCall(1).args[0]).to.equal(false);
   });
 
   it('should close dashboard first and then sidebar', () => {
@@ -95,6 +115,11 @@ describe('shortcuts/dashboard', () => {
       initialValue: null
     });
 
+    filerDialogStore = createStore({
+      name: 'filterTestStore',
+      initialValue: true
+    });
+
     navigationMock = {
       goToDashboard: () =>
         navigationParametersStore.applyStateMutation(oldParams => {
@@ -115,8 +140,16 @@ describe('shortcuts/dashboard', () => {
       PATH_NAMES
     };
 
+    filerDialogMock = {
+      togglePresets: () => {
+        filerDialogStore.applyStateMutation(() => false);
+      },
+      presetsVisible$: filerDialogStore.observable
+    };
+
     const mod = proxyquire('in-services/shortcuts/shortcuts/Esc', {
       'in-stores/navigation': navigationMock,
+      'in-components/SearchBar/stores/presetsVisibility': filerDialogMock,
       'in-stores/snapshot': {
         clearSelectedSnapshotId: () => selectedSnapshotStore.applyStateMutation(() => null)
       }

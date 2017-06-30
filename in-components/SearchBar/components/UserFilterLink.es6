@@ -3,7 +3,7 @@ import React from 'react';
 import { getCurrentViewWithFilter } from 'in-stores/navigation/search';
 import connectTo from 'in-hoc/connectTo';
 
-import './UseFilterLink.less';
+import './UserFilterLink.less';
 
 const block = 'in-search-use-filter-link';
 
@@ -13,9 +13,9 @@ export default connectTo(
       link: getCurrentViewWithFilter(props.filter.get('definition'))
     };
   },
-  function UseFilterLink({ link, filter }) {
+  function UserFilterLink({ link, filter, onClick }) {
     return (
-      <a href={link} className={block}>
+      <a href={link} onClick={onClick} className={block}>
         {filter.get('name')}
       </a>
     );
