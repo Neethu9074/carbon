@@ -100,7 +100,11 @@ export default getElementDimensions(
             this.state.eventEmitter.emit('keyDown', event.keyCode);
           }
 
-          if (event.keyCode === keyCodes.arrows.left || event.keyCode === keyCodes.arrows.right) {
+          if (
+            event.keyCode === keyCodes.arrows.left ||
+            event.keyCode === keyCodes.arrows.right ||
+            event.keyCode === keyCodes.escape
+          ) {
             this.hide();
           }
         });
