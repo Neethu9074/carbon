@@ -44,6 +44,7 @@ export default getElementDimensions(
 
         let autocompleteShownForCursorPosition = null;
         this.isFocused = false;
+        this.focusByUserClick = false;
 
         editor.on('cursorActivity', () => {
           const currentCursorPosition = editor.getCursor().ch;
@@ -111,9 +112,13 @@ export default getElementDimensions(
           }
         });
 
-        editor.on('focus', () => {
+        editor.on('focus', editor => {
           this.isFocused = true;
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
+          if (this.focusByUserClick) {
+            onChange(editor);
+          }
+          this.focusByUserClick = false;
         });
 
         editor.on('mousedown', (editor, event) => {
@@ -138,10 +143,11 @@ export default getElementDimensions(
         });
 
         // TODO: make this better
-        this.blurSubscription = this.state.eventEmitter
-          .on('blur')
-          .throttle(200, { leading: false })
-          .subscribe(this.hide);
+        this.blurSubscription = this.state.eventEmitter.on('blur').throttle(200, { leading: false }).subscribe(() => {
+          if (!this.isFocused) {
+            this.hide();
+          }
+        });
 
         editor.on('change', (editor, change) => {
           const query = editor.getValue();
@@ -154,6 +160,11 @@ export default getElementDimensions(
             return;
           }
 
+          onChange(editor);
+        });
+
+        const onChange = () => {
+          const query = editor.getValue();
           const { ch } = editor.doc.getCursor();
           const cursor = ch - 1;
           const tokens = lex(query);
@@ -186,7 +197,7 @@ export default getElementDimensions(
             cursor: autocompleteShownForCursorPosition,
             left
           });
-        });
+        };
 
         const code = ReactDOM.findDOMNode(this).querySelector('.CodeMirror-code');
         this.clickSubscription = onDown(code, e => {
@@ -272,6 +283,7 @@ export default getElementDimensions(
 
         // set cursor to the end of the line
         this.editor.setCursor({ line: 0, ch: cursorAfterInsertion });
+        this.focus();
       };
 
       updateQuery = newQuery => {
@@ -296,7 +308,7 @@ export default getElementDimensions(
       };
 
       openSuggestionWindowOnEmptyQuery = autocompleteShownForCursorPosition => {
-        const currentQuery = this.props.query;
+        const currentQuery = this.editor && this.editor.getValue();
         if (currentQuery === '' && this.editor && this.isFocused) {
           const { left } = this.editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           this.show({
@@ -329,6 +341,15 @@ export default getElementDimensions(
           };
         }
         return {};
+      };
+
+      focus = () => {
+        // In cases were the field is already visible, we want to force refocus of the field.
+        const searchField = document.querySelector('.in-searchbar .CodeMirror');
+        if (searchField) {
+          this.focusByUserClick = true;
+          searchField.CodeMirror.focus();
+        }
       };
 
       hide = () => {
