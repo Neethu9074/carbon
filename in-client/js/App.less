@@ -62,7 +62,9 @@ input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
 
-.centered_content {
+// this style belongs to the items shown in the index.html when loading isntana or showing that JS is loading
+// therefore there is no component with this class
+.in-index-centered-content {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -78,19 +80,19 @@ input[type="search"]::-webkit-search-cancel-button {
   background: #43565E;
 
   background: radial-gradient(#5d7883 0%, #43565E 70%);
-}
 
-.loading_spinner {
-  width: 64px;
-  height: 64px;
-  animation: loading_spinner 2s infinite linear;
-}
-
-@keyframes loading_spinner {
-  0% {
-    transform: rotate(359deg);
+  &__loading-spinner {
+    width: 64px;
+    height: 64px;
+    animation: loading_spinner 2s infinite linear;
   }
-  100% {
-    transform: rotate(0deg);
+
+  @keyframes loading_spinner {
+    0% {
+      transform: rotate(359deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
   }
 }
