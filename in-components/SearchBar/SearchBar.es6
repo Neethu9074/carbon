@@ -48,7 +48,7 @@ export default connectTo(
           </div>
 
           <div className={`${block}__input-wrapper`}>
-            <Input />
+            <Input autoFocus={expanded.expandedByUser} />
           </div>
 
           {hasContent

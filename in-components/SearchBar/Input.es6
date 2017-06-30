@@ -1,5 +1,4 @@
 /* eslint-disable react/no-find-dom-node */
-
 import CodeMirror from 'codemirror/lib/codemirror.js';
 import RoEmitter from 'roemitter';
 import ReactDOM from 'react-dom';
@@ -9,6 +8,7 @@ import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
+import { tryFocusSearch } from 'in-components/SearchBar/stores/focus';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { applyTransform } from 'in-services/util/dom';
@@ -38,7 +38,7 @@ export default getElementDimensions(
         const editor = (this.editor = CodeMirror(this.input, {
           mode: 'instanaSearch',
           value: this.props.query,
-          autofocus: true,
+          autofocus: this.props.autoFocus,
           scrollbarStyle: null
         }));
 
@@ -287,7 +287,8 @@ export default getElementDimensions(
 
         // set cursor to the end of the line
         this.editor.setCursor({ line: 0, ch: cursorAfterInsertion });
-        this.focus();
+
+        tryFocusSearch(() => (this.focusByUserClick = true));
       };
 
       updateQuery = newQuery => {
@@ -345,15 +346,6 @@ export default getElementDimensions(
           };
         }
         return {};
-      };
-
-      focus = () => {
-        // In cases were the field is already visible, we want to force refocus of the field.
-        const searchField = document.querySelector('.in-searchbar .CodeMirror');
-        if (searchField) {
-          this.focusByUserClick = true;
-          searchField.CodeMirror.focus();
-        }
       };
 
       hide = () => {

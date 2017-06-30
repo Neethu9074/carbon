@@ -1,31 +1,44 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
-import { createTrackingStore } from 'in-stores/store';
 import { query$ } from 'in-stores/search/query';
+import { createStore } from 'in-stores/store';
 
-export const expanded$ = createTrackingStore({
+const expandedStore = createStore({
   name: 'search/searchBarExpanded',
-  observable: navigationParameters$
-    // ss === show search
-    .map(params => params.query.ss === '1')
-    .distinct()
-}).observable;
+  initialVlaue: false
+});
+export const expanded$ = expandedStore.observable;
 
 export function toggle() {
   mutateUrl(params => {
     if (params.query.ss === '1') {
       delete params.query.ss;
+      expandedStore.mutateTo(false);
     } else {
       params.query.ss = '1';
+      expandedStore.mutateTo({
+        expandedByUser: true
+      });
     }
   });
 }
 
-export function open() {
+// if the searchbar was expanded by a user action and not the url,
+// the input field will autofocus
+export function open(expandedByUser = true) {
   mutateUrl(params => {
     params.query.ss = '1';
+    expandedStore.mutateTo({
+      expandedByUser
+    });
   });
 }
 
 export function init() {
-  query$.skipFirst().subscribe(open);
+  query$.skipFirst().subscribe(() => open(false));
+
+  navigationParameters$.once(params => {
+    if (params.query.ss === '1') {
+      open(false);
+    }
+  });
 }

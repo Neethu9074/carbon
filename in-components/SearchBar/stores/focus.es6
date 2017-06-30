@@ -10,3 +10,12 @@ export const isFocused$ = focusStore.observable.distinct().nextFrame();
 export function setFocused(focused) {
   focusStore.applyStateMutation(() => focused);
 }
+
+export function tryFocusSearch(onSuccess) {
+  // In cases were the field is already visible, we want to force refocus of the field.
+  const searchField = document.querySelector('.in-searchbar .CodeMirror');
+  if (searchField) {
+    onSuccess ? onSuccess() : null;
+    searchField.CodeMirror.focus();
+  }
+}
