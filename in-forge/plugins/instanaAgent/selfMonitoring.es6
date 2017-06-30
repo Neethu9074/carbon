@@ -41,6 +41,18 @@ export function setMode(snapshot, mode) {
   });
 }
 
+export function setLogLevel(snapshot, logLevel) {
+  createAgentResponseObservable({
+    action: 'agent.log.level',
+    target: snapshot.get('volatileId'),
+    args: {
+      level: logLevel
+    }
+  }).once(response => {
+    logger.info('Agent set log level response', response);
+  });
+}
+
 export function resetAgent(snapshot) {
   createAgentResponseObservable({
     action: 'agent.restart',

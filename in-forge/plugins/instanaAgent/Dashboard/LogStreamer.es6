@@ -10,7 +10,7 @@ import './LogStreamer.less';
 
 const block = 'in-agent-log-streamer';
 
-const maxDisplayedChars = 20000;
+const maxDisplayedChars = 100000;
 
 export default class extends React.PureComponent {
   static displayName = 'LogStreamer';
@@ -68,7 +68,7 @@ export default class extends React.PureComponent {
         { log: '', error: null }
       )
       .nextFrame()
-      .throttle(500)
+      .throttle(2000)
       .map(aggregated => {
         return {
           log: replaceHtmlChars(aggregated.log),

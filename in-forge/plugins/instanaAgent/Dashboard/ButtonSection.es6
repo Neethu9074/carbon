@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { start, stop, resetAgent, resetSensors } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import SvgIcon from 'in-components/SvgIcon';
@@ -21,6 +22,10 @@ export default function ButtonSection({ snapshot }) {
             Change Agent Mode
           </ImageButton>
         : null}
+
+      <ImageButton iconType="gear" onClick={() => changeLogLevel(snapshot)}>
+        Change Log Level
+      </ImageButton>
 
       <ImageButton iconType="refresh" onClick={() => resetSensors(snapshot)}>
         Reset Sensors
@@ -51,4 +56,8 @@ function ImageButton({ className, children, iconType, onClick }) {
 
 function changeMode(snapshot) {
   setActiveDialog(<Mode snapshot={snapshot} />);
+}
+
+function changeLogLevel(snapshot) {
+  setActiveDialog(<LogLevel snapshot={snapshot} />);
 }
