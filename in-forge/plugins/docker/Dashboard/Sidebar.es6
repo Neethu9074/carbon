@@ -12,6 +12,7 @@ import Ports from 'in-forge/plugins/docker/Ports';
 
 export default function DockerSidebar({ snapshot }) {
   const labels = snapshot.getIn(['data', 'Labels']);
+  const ports = snapshot.getIn(['data', 'PortBindings']) || snapshot.getIn(['data', 'Ports']);
 
   return (
     <div>
@@ -26,7 +27,7 @@ export default function DockerSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {snapshot.getIn(['data', 'PortBindings']) || snapshot.getIn(['data', 'Ports'])
+      {ports && ports.size > 0
         ? <div>
             <Separator />
             <Collapsible>
