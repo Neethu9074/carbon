@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
-import { headerHeight$ } from 'in-stores/header/height';
 import { alwaysTrue } from 'in-services/fixedStreams';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -14,18 +13,10 @@ export default connectTo(
   props => {
     return {
       isOpen: props.isOpen$ || alwaysTrue,
-      timelineHeight: timelineHeight$,
-      headerHeight: headerHeight$
+      timelineHeight: timelineHeight$
     };
   },
-  function FullscreenOverlayView({
-    isOpen,
-    timelineHeight,
-    headerHeight,
-    children,
-    className,
-    overlayTimeline = false
-  }) {
+  function FullscreenOverlayView({ isOpen, timelineHeight, children, className, overlayTimeline = false }) {
     if (!isOpen) {
       return null;
     }
@@ -45,7 +36,7 @@ export default connectTo(
         className={classes}
         style={{
           bottom: toPx(timelineHeight),
-          top: toPx(headerHeight)
+          top: toPx(80)
         }}
       >
         {children}

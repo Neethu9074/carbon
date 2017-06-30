@@ -38,7 +38,7 @@ export default getElementDimensions(
         const editor = (this.editor = CodeMirror(this.input, {
           mode: 'instanaSearch',
           value: this.props.query,
-          autofocus: this.props.autoFocus,
+          autofocus: false,
           scrollbarStyle: null
         }));
 
