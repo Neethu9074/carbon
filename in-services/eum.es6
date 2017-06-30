@@ -1,3 +1,5 @@
-import { noop } from 'in-services/util/function';
-
-export const ineum = typeof window !== 'undefined' && window.ineum ? window.ineum : noop;
+export function ineum() {
+  if (typeof window !== 'undefined' && window.ineum) {
+    ineum.apply(window, arguments);
+  }
+}
