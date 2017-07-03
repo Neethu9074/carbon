@@ -84,15 +84,44 @@ input[type="search"]::-webkit-search-cancel-button {
   &__loading-spinner {
     width: 64px;
     height: 64px;
-    animation: loading_spinner 2s infinite linear;
+    animation: loading_spinner .75s infinite linear;
   }
 
   @keyframes loading_spinner {
-    0% {
-      transform: rotate(359deg);
+    0%, 12.49999% {
+      transform: rotate(-0deg);
     }
+
+    12.5%, 24.9999% {
+      transform: rotate(-45deg);
+    }
+
+    25%, 37.4999% {
+      transform: rotate(-90deg);
+    }
+
+    37.5%, 49.9999% {
+      transform: rotate(-135deg);
+    }
+
+    50%, 62.49999% {
+      transform: rotate(-180deg);
+    }
+
+    62.5%, 74.9999% {
+      transform: rotate(-225deg);
+    }
+
+    75%, 87.4999% {
+      transform: rotate(-270deg);
+    }
+
+    99.9999%, 87.5% {
+      transform: rotate(-315deg);
+    }
+
     100% {
-      transform: rotate(0deg);
+      transform: rotate(-359deg);
     }
   }
 }

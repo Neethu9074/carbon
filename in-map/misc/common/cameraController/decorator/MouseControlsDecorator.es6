@@ -67,10 +67,8 @@ export default class MouseControlDecorator extends Decorator {
 
         // Touchy devices tend to send more frequent smaller scrolls, while "old"
         // mice send stable large ticks.
-
-        // scale down
-        const delta = Math.max(-50, Math.min(50, Math.abs(deltaY | 0) / 4));
-        this.zoom(delta * event.scrollSpeed * event.scrollDirection);
+        const delta = Math.max(-50, Math.min(50, (deltaY | 0) / 4));
+        this.zoom(delta);
       })
     ]);
   }
