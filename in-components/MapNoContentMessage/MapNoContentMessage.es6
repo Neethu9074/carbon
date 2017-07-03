@@ -19,7 +19,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        No data
+        no data found for the filter/selected moment
       </div>
     );
   }
