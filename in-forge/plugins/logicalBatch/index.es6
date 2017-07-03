@@ -5,7 +5,7 @@ import iconSvgPath from 'in-sdk/unknownIconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.logicalBatchService,
+  plugin: plugins.logicalBatch,
 
   iconSvgPath,
   tableDefinition,
