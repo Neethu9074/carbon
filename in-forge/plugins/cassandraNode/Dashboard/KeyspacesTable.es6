@@ -30,7 +30,7 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'adjustedCount';
       }
     }
   },
@@ -62,7 +62,7 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'adjustedCount';
       }
     }
   },
@@ -99,7 +99,7 @@ const cols = [
     }
   },
   {
-    title: 'Reads',
+    title: 'Disk Size',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
