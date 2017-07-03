@@ -179,7 +179,8 @@ gulp.task('askForDevOptions', cb => {
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
         environment: selectedOptions.environment,
-        butlerDomain: selectedOptions.environment.butlerDomain
+        butlerDomain: selectedOptions.environment.butlerDomain,
+        buildMode: selectedOptions.buildMode
       };
     }
     devModeOptions = selectedOptions;
@@ -289,7 +290,12 @@ gulp.task('webpack:dev', () => {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }));
-  config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+
+  //TODO: Reactivate for dev mode if the problem with OOM has been fixed
+  //see https://github.com/webpack/webpack/issues/5089
+ if(devModeOptions.buildMode !== 'development') {
+   config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+ }
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
