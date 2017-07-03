@@ -14,7 +14,7 @@ export default function Sidebar({ snapshot }) {
 
       <Collapsible initiallyOpen>
         <Collapsible.Header>
-          WebLogic Server Info
+          Hadoop YARN Resource Manager Info
         </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

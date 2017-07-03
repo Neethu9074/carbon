@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 
@@ -79,6 +80,22 @@ const cols = [
       },
       getContent: formatDateTime
     }
+  },
+  {
+    title: 'Tracking URL',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.app.get('trackingUrl');
+      },
+      getContent: function(value) {
+        return (
+          <a target="_blank" rel="noopener noreferrer" href={value}>
+            Tracking URL
+          </a>
+        );
+      }
+    }
   }
 ];
 
@@ -102,7 +119,20 @@ export default function AppsTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title="Most Recent Apps">
-      <Table cols={cols} rows={rows} initialSortColumn={7} initialSortDirection={'asc'} />
+      <Table cols={cols} rows={rows} initialSortColumn={7} initialSortDirection={'asc'} getRowDetails={getDetails} />
     </DashboardSection>
   );
+}
+
+function getDetails(row) {
+  const diagnostics = row.app.get('diagnostics');
+  if (diagnostics) {
+    return (
+      <DashboardNotification type="danger">
+        <b>Diagnostics:</b> {diagnostics}
+      </DashboardNotification>
+    );
+  } else {
+    return null;
+  }
 }
