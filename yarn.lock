@@ -5034,9 +5034,9 @@ lru-cache@^4.0.0, lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-lucene@^1.1.1:
-  version "1.1.1"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lucene/-/lucene-1.1.1.tgz#c17aa326e9a1e205d4d3cd4e543201417efdf27c"
+lucene@^1.1.2:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lucene/-/lucene-1.1.2.tgz#849fa12a042fb03f3f4669def317ca07d64658bb"
 
 macaddress@^0.2.8:
   version "0.2.8"
