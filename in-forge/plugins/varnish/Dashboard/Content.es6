@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -11,14 +10,7 @@ import { getLabel } from 'in-sdk/snapshot';
 export default function VarnishDashboard({ snapshot, timeframe }) {
   const data = snapshot.get('data');
   const snapshotId = snapshot.get('id');
-  const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
-  if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
-  }
+  const hasMse = data.get('mse');
   return (
     <div>
       <KpiSection>
@@ -139,6 +131,32 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+      {hasMse
+        ? <DashboardSection title="MSE">
+            <ChartWithLegend
+              snapshotId={snapshotId}
+              timeframe={timeframe}
+              margins={{
+                left: 80,
+                right: 80
+              }}
+              y1={{
+                min: 0,
+                metrics: ['mse_space'],
+                labels: ['Free Space'],
+                type: 'line',
+                formatter: bytesZeroDecimalPlaces
+              }}
+              y2={{
+                min: 0,
+                metrics: ['mse_sparenode'],
+                labels: ['Spare Nodes'],
+                type: 'line',
+                formatter: zeroDecimalPlaces
+              }}
+            />
+          </DashboardSection>
+        : null}
     </div>
   );
 }
