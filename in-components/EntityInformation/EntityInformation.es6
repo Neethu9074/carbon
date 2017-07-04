@@ -1,10 +1,8 @@
 import React from 'react';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import PluginIcon from 'in-components/PluginIcon';
 import { always } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './EntityInformation.less';
@@ -41,26 +39,17 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <div className={`${block}__flex-wrapper`}>
-          <span className={`${block}__label`}>
-            {label != undefined ? label : 'On:'}
-          </span>
-
-          <PluginIcon
-            className={`${block}__entity-icon`}
-            color={kind === 'dark' ? '#000' : '#fff'}
-            snapshot={snapshot}
-          />
-        </div>
+        <span className={`${block}__label`}>
+          {label != undefined ? label : 'On:'}
+        </span>
         <HierarchicalLink
-          snapshotId={snapshot.get('id')}
+          snapshot={snapshot}
           className={`${block}__link`}
           useSnapshotLink={useSnapshotLink}
           kind={kind}
           calculateHierarchy
-        >
-          {getLabelCallback(getLabel(snapshot))}
-        </HierarchicalLink>
+          getLabel={snapshotLabel => getLabelCallback(snapshotLabel)}
+        />
       </div>
     );
   }

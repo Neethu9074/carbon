@@ -33,6 +33,12 @@ const cols = [
       withHierarchy: true,
       getFallbackContent(row) {
         return row.process.get('name');
+      },
+      useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
+        if (hierarchy && hierarchy.length > 0) {
+          return hierarchy[0];
+        }
+        return snapshot;
       }
     }
   },
