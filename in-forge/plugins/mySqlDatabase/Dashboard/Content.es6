@@ -3,7 +3,6 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
-import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -15,7 +14,15 @@ const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
 export default function MySqlDashboard({ snapshot, timeframe }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
-  const waitEvents = snapshot.getIn(['data', 'wait_event_names'], emptyList).toArray().sort();
+  const waitEvents = [
+    'wait/io/file',
+    'wait/io/socket',
+    'wait/io/table',
+    'wait/lock/table',
+    'wait/synch/cond',
+    'wait/synch/mutex',
+    'wait/synch/rwlock'
+  ];
   if (sensorConnectionStatus !== 'OK') {
     return (
       <DashboardNotification type="info">
@@ -127,7 +134,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
               }}
               y1={{
                 min: 0,
-                metrics: waitEvents.map(wEv => 'wait.' + wEv),
+                metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
                 labels: waitEvents,
                 type: 'line',
                 formatter: msFormatter
