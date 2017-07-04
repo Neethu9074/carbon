@@ -89,7 +89,8 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 80
+            left: 80,
+            right: 80
           }}
           y1={{
             min: 0,
@@ -102,6 +103,13 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
               'sess_queued'
             ],
             labels: ['Threads', 'Created', 'Failed', 'Limited', 'Queue', 'Queued requests'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+          y2={{
+            min: 0,
+            metrics: ['threads'],
+            labels: ['Threads'],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
