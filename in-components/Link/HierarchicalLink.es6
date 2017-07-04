@@ -3,8 +3,8 @@ import React from 'react';
 import { getDashboardLink, getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
 import { joinClassNames } from 'in-services/util/classnames';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import Hierarchy from 'in-components/Link/Hierarchy';
 import { alwaysNull } from 'in-services/fixedStreams';
+import Hierarchy from 'in-components/Link/Hierarchy';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,7 +17,7 @@ export default connectTo(
     const snapshotId = props.snapshotId;
     return {
       href: props.useSnapshotLink ? getLinkToSnapshotInCurrentView(snapshotId) : getDashboardLink(snapshotId),
-      hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId) : alwaysNull
+      hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId, false) : alwaysNull
     };
   },
   class extends React.Component {

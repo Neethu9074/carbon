@@ -145,9 +145,9 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   3000
 );
 
-export function getPhysicalHierarchy(snapshotId) {
+export function getPhysicalHierarchy(snapshotId, includeCluster = true) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment })
+    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment, includeCluster })
   );
 }
 
