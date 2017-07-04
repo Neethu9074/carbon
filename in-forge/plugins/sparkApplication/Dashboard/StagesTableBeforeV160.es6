@@ -4,7 +4,8 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
-import { emptyMap } from 'in-services/fixedImmutables';
+import { getRawPayload } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
@@ -102,27 +103,31 @@ const cols = [
   }
 ];
 
-export default function StagesTable({ snapshot, timeframe }) {
-  const data = snapshot.get('data');
-  const stages = data.get('stages', emptyMap);
-  if (stages.size === 0) {
-    return null;
+export default connectTo(
+  props => {
+    return {
+      stages: getRawPayload(props.snapshot.get('id'), 'stages')
+    };
+  },
+  function StagesTable({ snapshot, stages }) {
+    if (!stages || stages.size === 0) {
+      return null;
+    }
+
+    const rows = stages
+      .map(stage => {
+        return {
+          key: String(stage.get('id')),
+          stage,
+          snapshotId: snapshot.get('id')
+        };
+      })
+      .toArray();
+
+    return (
+      <DashboardSection title={`Top Longest Completed Stages`}>
+        <Table cols={cols} rows={rows} initialSortColumn={3} initialSortDirection={'desc'} />
+      </DashboardSection>
+    );
   }
-
-  const rows = stages
-    .map(stage => {
-      return {
-        key: String(stage.get('id')),
-        stage,
-        snapshotId: snapshot.get('id'),
-        timeframe
-      };
-    })
-    .toArray();
-
-  return (
-    <DashboardSection title={`Top Longest Completed Stages`}>
-      <Table cols={cols} rows={rows} initialSortColumn={3} initialSortDirection={'desc'} />
-    </DashboardSection>
-  );
-}
+);
