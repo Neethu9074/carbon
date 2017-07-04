@@ -8,7 +8,6 @@ import { joinClassNames } from 'in-services/util/classnames';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
-import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
