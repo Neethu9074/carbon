@@ -17,7 +17,26 @@ const stubStatusSampleConfig = `location /nginx_status {
 export default function NginxDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
-  if (stubStatusUrlFound === false) {
+  const errorCode = snapshot.getIn(['data', 'error_code']);
+  const statusUrl = snapshot.getIn(['data', 'status_url']);
+
+  if (errorCode === 'CONFIG_FILE_NOT_ACCESSIBLE') {
+    return (
+      <DashboardNotification type="info">
+        Default nginx configuration file not found or cannot be opened.
+        {' '}
+        Make sure you keep configuration files on default locations and that they have read permissions.
+      </DashboardNotification>
+    );
+  } else if (errorCode === 'STATUS_LOCATION_NOT_ACCESSIBLE') {
+    return (
+      <DashboardNotification type="info">
+        Url {statusUrl} is not accessible.
+        {' '}
+        Make sure there is proper use of <code>allow</code>/<code>deny</code> directives within the nginx configuration.
+      </DashboardNotification>
+    );
+  } else if (stubStatusUrlFound === false) {
     return (
       <DashboardNotification type="info">
         A
