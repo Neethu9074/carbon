@@ -34,7 +34,7 @@ const cols = [
       getFallbackContent(row) {
         return row.process.get('name');
       },
-      useSnapshot(snapshot, hierarchy) {
+      useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
           return hierarchy[0];
         }

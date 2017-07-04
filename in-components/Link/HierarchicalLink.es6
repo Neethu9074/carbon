@@ -23,7 +23,7 @@ export default connectTo(
       href: props.useSnapshotLink ? getLinkToSnapshotInCurrentView(snapshotId) : getDashboardLink(snapshotId),
       hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId, false) : alwaysNull
     };
-    if (props.useSnapshot) {
+    if (props.useSnapshotFromHierarchyCallback) {
       observables.hierarchySnapshots = observables.hierarchy.flatMap(hierarchy =>
         combineLatest(hierarchy.toArray().map(id => getSnapshot(id)))
       );
@@ -38,12 +38,20 @@ export default connectTo(
     };
 
     render() {
-      const { useSnapshot, getLabel, hierarchySnapshots, hierarchy, className, href, kind } = this.props;
+      const {
+        useSnapshotFromHierarchyCallback,
+        getLabel,
+        hierarchySnapshots,
+        hierarchy,
+        className,
+        href,
+        kind
+      } = this.props;
       const isExpanded = this.state.isExpanded;
       const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
       let { snapshot } = this.props;
-      if (useSnapshot) {
-        snapshot = useSnapshot(snapshot, hierarchySnapshots);
+      if (useSnapshotFromHierarchyCallback) {
+        snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
       }
       const label = getSnapshotLabel(snapshot);
 

@@ -43,7 +43,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
         snapshot={snapshot}
         calculateHierarchy={withHierarchy}
         kind="dark"
-        useSnapshot={columnDefinition.typeArgs.useSnapshot}
+        useSnapshotFromHierarchyCallback={columnDefinition.typeArgs.useSnapshotFromHierarchyCallback}
       />
     );
     row.mutationCount++;
