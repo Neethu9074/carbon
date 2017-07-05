@@ -1,9 +1,14 @@
 import React from 'react';
 
-import ComboBox from 'in-components/ComboBox';
+import EditableTextInput from 'in-components/EditableTextInput/EditableTextInput';
 import { getCategories } from 'in-sdk/metrics';
+import ComboBox from 'in-components/ComboBox';
 
 export default function MetricSelector({ id, plugin, onChange, value }) {
+  if (plugin === 'custom') {
+    return <EditableTextInput text={value} onSave={text => onChange({ value: text })} />;
+  }
+
   const categoryTree = getCategories(plugin);
   if (categoryTree.length === 0) {
     return null;
@@ -14,7 +19,6 @@ export default function MetricSelector({ id, plugin, onChange, value }) {
     getMetrics(metrics, categoryTree[i]);
   }
   const select = <ComboBox name={id} value={value} options={metrics} onChange={onChange} />;
-
   return select;
 }
 

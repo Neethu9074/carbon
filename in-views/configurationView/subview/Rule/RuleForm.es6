@@ -4,6 +4,7 @@ import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelect
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import { isInstanaEmployee } from 'in-stores/user';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
@@ -29,6 +30,22 @@ const pluginsWithMetricDefinitions = Object.keys(plugins)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
 export default function RuleForm({ form, onChange }) {
+  const entityOptions = [{ value: '', label: 'Please select' }].concat(
+    pluginsWithMetricDefinitions.map(plugin => {
+      return {
+        value: plugin,
+        label: getSingular(plugin)
+      };
+    })
+  );
+
+  if (isInstanaEmployee) {
+    entityOptions.push({
+      value: 'custom',
+      label: 'Custom'
+    });
+  }
+
   return (
     <fieldset>
       <Section>
@@ -66,14 +83,7 @@ export default function RuleForm({ form, onChange }) {
             <ComboBox
               name="rule-entityType"
               value={field.value}
-              options={[{ value: '', label: 'Please select' }].concat(
-                pluginsWithMetricDefinitions.map(plugin => {
-                  return {
-                    value: plugin,
-                    label: getSingular(plugin)
-                  };
-                })
-              )}
+              options={entityOptions}
               onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
             />
             {field.messages.map((message, i) =>
