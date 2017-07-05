@@ -40,8 +40,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 60
+            left: 60
           }}
           y1={{
             min: 0,
@@ -57,8 +56,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 60
+            left: 60
           }}
           y1={{
             min: 0,
@@ -112,8 +110,7 @@ function ThreadMetrics({ snapshot, timeframe }) {
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
-        left: 60,
-        right: 60
+        left: 60
       }}
       y1={{
         min: 0,
