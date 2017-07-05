@@ -14,6 +14,12 @@ const stubStatusSampleConfig = `location /nginx_status {
   access_log   off;
 }`;
 
+const stubStatusAccessSampleConfig = `location /nginx_status {
+  ...
+  allow 127.0.0.1;
+  deny all;
+}`;
+
 export default function NginxDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
@@ -24,16 +30,20 @@ export default function NginxDashboard({ snapshot, timeframe }) {
     return (
       <DashboardNotification type="info">
         Default nginx configuration file not found or cannot be opened.
-        {' '}
-        Make sure you keep configuration files on default locations and that they have read permissions.
+        <br />
+        Instana agent tries to find configuration file location, either from command line arguments or
+        on default location such as <code>/etc/nginx/nginx.conf</code>.
       </DashboardNotification>
     );
   } else if (errorCode === 'STATUS_LOCATION_NOT_ACCESSIBLE') {
     return (
       <DashboardNotification type="info">
-        Url {statusUrl} is not accessible.
-        {' '}
-        Make sure there is proper use of <code>allow</code>/<code>deny</code> directives within the nginx configuration.
+        Url <code>{statusUrl}</code> is not accessible.
+        <br />
+        Different combinations of <code>allow</code>/<code>deny</code> directives within the nginx configuration,
+        can block access to <code>{statusUrl}</code>.
+        <br />
+        eg. <Code code={stubStatusAccessSampleConfig} />
       </DashboardNotification>
     );
   } else if (stubStatusUrlFound === false) {
