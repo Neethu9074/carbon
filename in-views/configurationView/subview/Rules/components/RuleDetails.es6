@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
-import { isInstanaEmployee } from 'in-stores/user';
 import PluginIcon from 'in-components/PluginIcon';
 import { getRule } from 'in-services/api/rules';
 import { getSingular } from 'in-sdk/pluginName';
@@ -62,7 +62,7 @@ export default connectTo(
             {formatDateTime(rule.get('lastUpdated'))}
           </DescriptionItem>
 
-          {isInstanaEmployee()
+          {instanaInternalFeaturesEnabled
             ? <DescriptionItem title="technical metric name">
                 {rule.get('metricName')}
               </DescriptionItem>

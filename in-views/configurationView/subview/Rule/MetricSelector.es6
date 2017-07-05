@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EditableTextInput from 'in-components/EditableTextInput/EditableTextInput';
-import { isInstanaEmployee } from 'in-stores/user';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { getCategories } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
@@ -15,7 +15,7 @@ export default function MetricSelector({ id, plugin, onChange, value }) {
   for (let i = 0, length = categoryTree.length; i < length; i++) {
     getMetrics(metrics, categoryTree[i]);
   }
-  if (isInstanaEmployee()) {
+  if (instanaInternalFeaturesEnabled) {
     metrics.push({
       value: 'custom',
       label: 'custom'
