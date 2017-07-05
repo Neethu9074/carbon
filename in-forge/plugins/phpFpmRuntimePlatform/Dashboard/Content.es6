@@ -102,8 +102,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 90,
-            right: 60
+            left: 90
           }}
           y1={{
             min: 0,
