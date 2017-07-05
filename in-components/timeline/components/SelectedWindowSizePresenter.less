@@ -1,0 +1,28 @@
+@import "~in-themes/active.less";
+
+.in-selected-window-size-presenter {
+  @width: 20rem;
+
+  position: absolute;
+  bottom: 4.95rem;
+  left: 50%;
+  width: @width;
+  margin-left: @width / -2;
+  text-align: center;
+
+  z-index: @z-index__footer-selected-time-notification;
+
+  &--timeline-expanded {
+    bottom: 9.35rem;
+  }
+
+  &__time {
+    font-size: 0.9rem;
+    color: #fff;
+    background: hsla(197, 28%, 13%, 0.8);
+    border-radius: 100px;
+    display: inline-block;
+    line-height: 2.5rem;
+    padding: 0 1rem;
+  }
+}

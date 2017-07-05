@@ -4,7 +4,7 @@
   @width: 234px;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   width: @width;
   min-width: @width;
@@ -45,7 +45,7 @@
       }
     }
 
-    &::-moz-range-thumb {
+    &::-moz-range-thumb{
       height: 14px;
       width: 2px;
       border-radius: 2px;
@@ -103,13 +103,5 @@
 
     white-space: nowrap;
     text-align: right;
-  }
-
-  &__selection {
-    min-width: 8rem;
-    background: #435b64;
-    color: white;
-    border: 1px solid #435b64;
-    cursor: pointer;
   }
 }
