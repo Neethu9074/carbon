@@ -93,7 +93,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </TwoColumnRow>
       <NodesTable snapshot={snapshot} timeframe={timeframe} />
-      <AppsTable snapshot={snapshot} timeframe={timeframe} />
+      {timeframe.to == null ? <AppsTable snapshot={snapshot} /> : null}
     </div>
   );
 }
