@@ -61,26 +61,32 @@ export function formatDuration(millis) {
 
 const times = [
   {
+    long: 'year',
     short: 'y',
     millis: 12 * 31 * 24 * 60 * 60 * 1000
   },
   {
+    long: 'month',
     short: 'mo',
     millis: 31 * 24 * 60 * 60 * 1000
   },
   {
+    long: 'day',
     short: 'd',
     millis: 24 * 60 * 60 * 1000
   },
   {
+    long: 'hour',
     short: 'h',
     millis: 60 * 60 * 1000
   },
   {
+    long: 'minute',
     short: 'm',
     millis: 60 * 1000
   },
   {
+    long: 'second',
     short: 's',
     millis: 1000
   }
@@ -90,7 +96,7 @@ export function fromNowAccurately(millis) {
   return formatDurationAccurately(Math.abs(Date.now() - millis));
 }
 
-export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000) {
+export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000, useShort = true) {
   let result = '';
 
   for (let i = 0; i < times.length; i++) {
@@ -103,7 +109,13 @@ export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000)
     millis = millis - count * time.millis;
 
     if (count > 0) {
-      result = `${result} ${count}${time.short}`;
+      // 1day, 2days, 1year, 10 years, ...
+      if (useShort) {
+        result = `${result} ${count}${time.short}`;
+      } else {
+        const append = count === 1 ? '' : 's';
+        result = `${result} ${count} ${time.long}${append}`;
+      }
     }
   }
 
