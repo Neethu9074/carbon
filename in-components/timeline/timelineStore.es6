@@ -9,6 +9,7 @@ import {
   bigBangTimestamp$
 } from 'in-stores/timeline';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
@@ -36,7 +37,7 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          timeout: 2000,
+          timeout: 4000,
           content: 'Map is now live!'
         },
         'timeline_state'
@@ -45,7 +46,7 @@ export function init() {
       addMessage(
         {
           type: 'info',
-          timeout: 2000,
+          timeout: 4000,
           content: `Map is showing the state as of ${formatDateTime(focusedMoment)}.`
         },
         'timeline_state'
@@ -242,4 +243,17 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).s
   }
 
   focusedMomentXPosition.applyStateMutation(() => x);
+});
+
+// automatically show a message when the focused moment is changed
+timeframe$.skipFirst().map(timeframe => timeframe.windowSize).distinct().subscribe(windowSize => {
+  addMessage(
+    {
+      type: 'info',
+      title: 'Time window has changed',
+      content: `The current timewindow is ${formatDurationAccurately(windowSize, 60000, false)}.`,
+      timeout: 4000
+    },
+    'timewindow_changed'
+  );
 });
