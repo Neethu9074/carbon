@@ -17,9 +17,56 @@ const stubStatusSampleConfig = `location /nginx_status {
 export default function NginxDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
-  if (stubStatusUrlFound === false) {
+  const errorCode = snapshot.getIn(['data', 'error_code']);
+  const statusUrl = snapshot.getIn(['data', 'status_url']);
+
+  if (errorCode === 'CONFIG_FILE_NOT_ACCESSIBLE') {
     return (
-      <DashboardNotification type="info">
+      <DashboardNotification type="warning">
+        <strong>Nginx configuration file not accessible.</strong>
+
+        <p>
+          The config file could either not be located or could not be accessed. The agent tries to automatically{' '}
+          identify the location of the configuration file. It does so by analyzing the command line of the nginx{' '}
+          master process. Additionally, it also tries common locations for nginx config files such as{' '}
+          <code>/etc/nginx/nginx.conf</code>.
+        </p>
+        <p>
+          This file needs to be accessible in order to identify the URL under which nginx is exposing status{' '}
+          information.
+        </p>
+      </DashboardNotification>
+    );
+  } else if (errorCode === 'STATUS_LOCATION_NOT_FOUND') {
+    return (
+      <DashboardNotification type="warning">
+        <strong>Status URL not found.</strong>
+
+        <p>
+          The nginx config file was parsed and no <code>stub_status</code> direction could be found. This directive{' '}
+          needs to be configured in order to gather nginx metrics. The following snippet shows how to configure{' '}
+          <code>stub_status</code> within an nginx config file.
+        </p>
+
+        <Code code={stubStatusSampleConfig} />
+      </DashboardNotification>
+    );
+  } else if (errorCode === 'STATUS_LOCATION_NOT_ACCESSIBLE') {
+    return (
+      <DashboardNotification type="warning">
+        <strong>Status URL not accessible.</strong>
+
+        <p>
+          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified. Unfortunately, it was{' '}
+          not possible to access this URL. This is commonly the case due to nginx <code>allow</code> and{' '}
+          <code>deny</code> directives, but can also happen for various other reasons, e.g. port bindings and{' '}
+          iptable configurations.
+        </p>
+      </DashboardNotification>
+    );
+  } else if (stubStatusUrlFound === false) {
+    return (
+      <DashboardNotification type="warning">
         A
         {' '}
         <code>stub_status</code>

@@ -10,7 +10,9 @@ import StagesTable from './StagesTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';
 export default function BatchAppContent({ snapshot, timeframe }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
-
+  const stagesTable = semver.satisfies(version, '>=1.6.0')
+    ? <StagesTable snapshot={snapshot} />
+    : <StagesTableBeforeV160 snapshot={snapshot} />;
   return (
     <div>
       <DashboardSection title="Jobs">
@@ -43,9 +45,7 @@ export default function BatchAppContent({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {semver.satisfies(version, '>=1.6.0')
-        ? <StagesTable snapshot={snapshot} timeframe={timeframe} />
-        : <StagesTableBeforeV160 snapshot={snapshot} timeframe={timeframe} />}
+      {timeframe.to == null ? stagesTable : null}
       {semver.satisfies(version, '>=2.0.0')
         ? <ExecutorsBatchAppTable snapshot={snapshot} timeframe={timeframe} />
         : <ExecutorsBatchAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />}
