@@ -7,6 +7,8 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { noop } from 'in-services/fixedObjects';
 import { getLabel } from 'in-sdk/snapshot';
 
+import './snapshotLink.less';
+
 export const type = 'snapshotLink';
 
 export function validate(col) {
@@ -44,6 +46,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
         calculateHierarchy={withHierarchy}
         kind="dark"
         useSnapshotFromHierarchyCallback={columnDefinition.typeArgs.useSnapshotFromHierarchyCallback}
+        className="in-table-snapshot-link"
       />
     );
     row.mutationCount++;
