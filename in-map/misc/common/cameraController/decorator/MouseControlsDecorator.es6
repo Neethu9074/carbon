@@ -56,8 +56,6 @@ export default class MouseControlDecorator extends Decorator {
         this.setCursorPosition(e.offsetX, e.offsetY);
       }),
       onWheel(domElement, event => {
-        const deltaY = event.rawEvent.deltaY;
-
         // Because we listen to onwheel, the e.deltaY "should be" in a range of
         // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
         // events. Our map prefers values in the range of
@@ -67,8 +65,11 @@ export default class MouseControlDecorator extends Decorator {
 
         // Touchy devices tend to send more frequent smaller scrolls, while "old"
         // mice send stable large ticks.
-        const delta = Math.max(-50, Math.min(50, (deltaY | 0) / 4));
-        this.zoom(delta * event.scrollSpeed * event.scrollDirection);
+
+        // we erased the browsers deltaY completely, because it is to dynamic across all browsers / OS.
+        // the only thing we extract is the scroll direction. To get the same feeling as before, a factor
+        // is multiplied (15 here) which was found heuristically.
+        this.zoom(15 * event.scrollSpeed * event.scrollDirection);
       })
     ]);
   }
