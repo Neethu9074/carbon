@@ -9,26 +9,24 @@ import { isSafari } from 'in-services/browser';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 
-let transports;
-// We only want to use the WebSocket transport during local dev mode as this
-// makes the development life easier: Only one connection needs to be inspected!
-if (__DEV__) {
-  // Safari does not support websocket connections with invalid SSL certs
-  if (isSafari()) {
-    transports = ['xhr-polling'];
-  } else {
-    transports = ['websocket'];
-  }
-} else {
-  if (isSafari()) {
-    transports = ['xhr-polling', 'xhr-streaming', 'eventsource'];
-  } else {
-    transports = ['xhr-polling', 'xhr-streaming', 'websocket', 'eventsource'];
-  }
-}
+const transports = {
+  efficient: ['websocket'],
+  widelySupported: ['xhr-polling', 'xhr-streaming']
+};
+// Safari does not support WebSocket connections with invalid SSL certs
+const bestAvailableTransport = __DEV__ && isSafari() ? transports.widelySupported : transports.efficient;
 
 export default class ConnectionLostState extends AbstractState {
   onEnter() {
+    // Assume that WS connection is not possible when quickly reentering
+    // the connection lost step.
+    if (this.lastEnterTime >= Date.now() - 10000) {
+      this.transport = transports.widelySupported;
+    } else {
+      this.transport = bestAvailableTransport;
+    }
+    this.lastEnterTime = Date.now();
+
     this.on('open', this.onOpen);
     this.on('close', this.onClose);
     this.sharedState.subscriptions.forEach(this.markSubscriptionDescriptionAsUnsubscribed, this);
@@ -105,7 +103,7 @@ export default class ConnectionLostState extends AbstractState {
           'connectionStatus'
         );
       } else {
-        this.sharedState.socket = new SockJS('/api/data', null, { transports });
+        this.sharedState.socket = new SockJS('/api/data', null, { transports: this.transport });
         this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
         this.sharedState.socket.onclose = e => {
           logger.debug('Persistent connection closed', e);
@@ -122,6 +120,7 @@ export default class ConnectionLostState extends AbstractState {
   };
 
   onClose = () => {
+    this.transport = transports.widelySupported;
     setTimeout(this.attemptConnection, Math.min(30, Math.pow(2, this.connectionAttempts)) * 1000);
   };
 

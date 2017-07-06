@@ -40,8 +40,8 @@ export default class AbstractConnectionState extends AbstractState {
 
   sendSubscribeWhenNecessary(subscriptionDescription) {
     if (!subscriptionDescription.isSubscribedToBackend) {
-      this.send(subscriptionDescription.event, subscriptionDescription.payload);
       subscriptionDescription.isSubscribedToBackend = true;
+      this.send(subscriptionDescription.event, subscriptionDescription.payload);
     }
   }
 
