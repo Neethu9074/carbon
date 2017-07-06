@@ -12,6 +12,7 @@ import './camel';
 import './cassandra';
 import './corba';
 import './cxf.client';
+import './django';
 import './ehcache';
 import './ejb';
 import './elasticsearch';
