@@ -35,6 +35,7 @@ export default class extends React.PureComponent {
   static propTypes = {
     code: rpt.string.isRequired,
     lang: rpt.string,
+    id: rpt.string,
     line: rpt.number,
     className: rpt.string,
     wrapperClassName: rpt.string,
@@ -105,7 +106,7 @@ export default class extends React.PureComponent {
 
     return (
       <pre ref={pre => (this.pre = pre)} className={preClasses}>
-        <code ref={code => (this.code = code)} className={classes} />
+        <code ref={code => (this.code = code)} className={classes} id={this.props.id || null} />
       </pre>
     );
   }

@@ -23,6 +23,9 @@ export default connectTo(
   },
   function CodeDialog({ response }) {
     let header;
+
+    const codeTargetId = 'codeThreadDump';
+
     if (!response) {
       header = `Retrieving thread dump for JVM…`;
     } else if (response.error) {
@@ -32,7 +35,7 @@ export default connectTo(
         <CenterAlignment>
           Thread dump
 
-          <CopyToClipboardButton getText={() => response.data} />
+          <CopyToClipboardButton targetId={codeTargetId} />
         </CenterAlignment>
       );
     }
@@ -48,7 +51,7 @@ export default connectTo(
             </DialogNotification>
           : null}
 
-        {response && response.data ? <Code code={response.data} /> : null}
+        {response && response.data ? <Code code={response.data} id={codeTargetId} /> : null}
       </Dialog>
     );
   }
