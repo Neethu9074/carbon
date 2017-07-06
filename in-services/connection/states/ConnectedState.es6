@@ -17,13 +17,11 @@ export default class ConnectedState extends AbstractState {
     window.document.removeEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
-  onClose = () => {
-    this.transitionTo('connectionLost');
-  }
+  onClose = () => this.transitionTo('connectionLost');
 
   onVisibilityChange = () => {
     if (window.document.hidden) {
       this.transitionTo('windowHidden');
     }
-  }
+  };
 }

@@ -107,7 +107,10 @@ export default class ConnectionLostState extends AbstractState {
       } else {
         this.sharedState.socket = new SockJS('/api/data', null, { transports });
         this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
-        this.sharedState.socket.onclose = () => this.sharedState.events.emit('close');
+        this.sharedState.socket.onclose = e => {
+          logger.debug('Persistent connection closed', e);
+          this.sharedState.events.emit('close');
+        };
         this.sharedState.socket.onmessage = this.forwardMessageToEventHandlers;
       }
     });
