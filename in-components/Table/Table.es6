@@ -21,6 +21,7 @@ const rowElement = `${block}__row`;
 const expandedRowElement = `${rowElement} ${rowElement}--expanded`;
 const headerCellElement = `${block}__header-cell`;
 const headerToggleCellElement = `${block}__header-toggle-cell`;
+const columnHeader = `${block}__column-header`;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -159,7 +160,7 @@ export default class Table extends React.Component {
         {this.props.contentBetweenHeaderAndTable}
 
         <table className={tableElement}>
-          <thead>
+          <thead className={columnHeader}>
             <tr>
               {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
               {cols.map((col, i) =>
