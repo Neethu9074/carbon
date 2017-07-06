@@ -7,8 +7,10 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 
 import './ServiceExtractionRuleConfigForm.less';
@@ -25,6 +27,7 @@ export default class extends React.Component {
   namePath = this.props.prePath.concat(['name']);
   matchSpecificationPath = this.props.prePath.concat(['matchSpecification']);
   labelPath = this.props.prePath.concat(['label']);
+  ignoreServicePath = this.props.prePath.concat(['ignoreService']);
   commentPath = this.props.prePath.concat(['comment']);
 
   render() {
@@ -129,6 +132,25 @@ export default class extends React.Component {
                       {labelField.messages.map(e => e.message)}
                     </ValidationBlock>}
               </Helpify>
+            </FormGroup>
+          )}
+
+          {ruleForm.get('ignoreService').map(ignoreField =>
+            <FormGroup>
+              <Tooltip
+                content="When enabled, potential services created by this rule will be ignored"
+                align={'topLeft'}
+              >
+                <div className={`${block}__checkbox`}>
+                  Ignore
+                  &nbsp;
+                  <Toggle
+                    className={`${block}__toggle`}
+                    checked={ignoreField.value}
+                    onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
+                  />
+                </div>
+              </Tooltip>
             </FormGroup>
           )}
 

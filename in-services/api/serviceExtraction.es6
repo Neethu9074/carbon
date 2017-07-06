@@ -67,12 +67,14 @@ export function createServiceRule({
   matchSpecification,
   label,
   order,
-  endpointRules
+  endpointRules,
+  ignoreService
 }) {
   return {
     id: id || generateUniqueShortId(),
     name: name || 'New Service Rule',
     enabled: enabled === undefined ? true : enabled,
+    ignoreService: ignoreService === undefined ? false : ignoreService,
     type: type || '',
     order: order || 0,
     comment: comment || '',
