@@ -1512,13 +1512,21 @@ cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
 
-clipboard@^1.5.16, clipboard@^1.5.5:
+clipboard@^1.5.5:
   version "1.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clipboard/-/clipboard-1.6.1.tgz#65c5b654812466b0faab82dc6ba0f1d2f8e4be53"
   dependencies:
     good-listener "^1.2.0"
     select "^1.1.2"
     tiny-emitter "^1.0.0"
+
+clipboard@^1.7.1:
+  version "1.7.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
+  dependencies:
+    good-listener "^1.2.2"
+    select "^1.1.2"
+    tiny-emitter "^2.0.0"
 
 clite@^0.3.0:
   version "0.3.0"
@@ -3445,7 +3453,7 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-good-listener@^1.2.0:
+good-listener@^1.2.0, good-listener@^1.2.2:
   version "1.2.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
   dependencies:
@@ -8138,6 +8146,10 @@ timers-browserify@^2.0.2:
 tiny-emitter@^1.0.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tiny-emitter/-/tiny-emitter-1.2.0.tgz#6dc845052cb08ebefc1874723b58f24a648c3b6f"
+
+tiny-emitter@^2.0.0:
+  version "2.0.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tiny-emitter/-/tiny-emitter-2.0.1.tgz#e65919d91e488e2a78f7ebe827a56c6b188d51af"
 
 to-absolute-glob@^0.1.1:
   version "0.1.1"

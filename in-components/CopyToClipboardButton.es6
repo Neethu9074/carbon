@@ -1,4 +1,5 @@
 /* global require:false */
+import invariant from 'invariant';
 import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
@@ -13,17 +14,34 @@ export default class extends React.Component {
   static displayName = 'CopyToClipboardButton';
 
   static propTypes = {
-    getText: rpt.func.isRequired,
+    getText: rpt.func,
+    targetId: rpt.string,
     children: rpt.any
   };
+
+  constructor(props) {
+    super(props);
+
+    if (__DEV__) {
+      const { getText, targetId } = this.props;
+      invariant(getText != null || targetId != null, 'Either getText or targetId must be set.');
+    }
+  }
 
   componentDidMount() {
     if (!Clipboard) {
       Clipboard = require('clipboard');
     }
-    this.clipboard = new Clipboard(ReactDOM.findDOMNode(this.refs.button), {
-      text: () => this.props.getText()
-    });
+
+    if (this.props.getText == null) {
+      this.clipboard = new Clipboard(ReactDOM.findDOMNode(this.refs.button), {
+        target: () => document.getElementById(this.props.targetId)
+      });
+    } else {
+      this.clipboard = new Clipboard(ReactDOM.findDOMNode(this.refs.button), {
+        text: () => this.props.getText()
+      });
+    }
 
     this.clipboard.on('success', e => {
       addMessage({
