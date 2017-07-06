@@ -114,27 +114,6 @@ export default class extends React.Component {
             );
           })}
 
-          {ruleForm.get('label').map(labelField =>
-            <FormGroup>
-              <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
-              <Helpify helpText={resultingEntityTooltipText}>
-                <Input
-                  type="text"
-                  id={`${id}-service-name`}
-                  className={`${block}__helpfified_input`}
-                  placeholder="Shop"
-                  value={labelField.value}
-                  onChange={e => onChangeIn(this.labelPath, e.target.value)}
-                />
-                {labelField.valid
-                  ? null
-                  : <ValidationBlock hasError>
-                      {labelField.messages.map(e => e.message)}
-                    </ValidationBlock>}
-              </Helpify>
-            </FormGroup>
-          )}
-
           {ruleForm.get('ignoreService').map(ignoreField =>
             <FormGroup>
               <Tooltip
@@ -152,6 +131,32 @@ export default class extends React.Component {
                 </div>
               </Tooltip>
             </FormGroup>
+          )}
+
+          {ruleForm.get('ignoreService').map(
+            ignoreField =>
+              ignoreField.value === true
+                ? null
+                : ruleForm.get('label').map(labelField =>
+                    <FormGroup>
+                      <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
+                      <Helpify helpText={resultingEntityTooltipText}>
+                        <Input
+                          type="text"
+                          id={`${id}-service-name`}
+                          className={`${block}__helpfified_input`}
+                          placeholder="Shop"
+                          value={labelField.value}
+                          onChange={e => onChangeIn(this.labelPath, e.target.value)}
+                        />
+                        {labelField.valid
+                          ? null
+                          : <ValidationBlock hasError>
+                              {labelField.messages.map(e => e.message)}
+                            </ValidationBlock>}
+                      </Helpify>
+                    </FormGroup>
+                  )
           )}
 
           {ruleForm.get('comment').map(commentField =>
