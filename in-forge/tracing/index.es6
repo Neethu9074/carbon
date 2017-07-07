@@ -78,6 +78,7 @@ import './s3';
 import './sdk';
 import './servlet';
 import './session';
+import './shell';
 import './spa';
 import './spray.client';
 import './spray.server';
