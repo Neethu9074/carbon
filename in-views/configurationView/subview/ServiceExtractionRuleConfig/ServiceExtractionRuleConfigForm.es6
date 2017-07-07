@@ -117,8 +117,8 @@ export default class extends React.Component {
           {instanaInternalFeaturesEnabled
             ? ruleForm.get('ignoreService').map(ignoreField =>
                 <FormGroup>
-                  <Label htmlFor={`${id}-ingore-service-label`}>Ignore service and traces</Label>
-                  <Helpify helpText="When enabled, the service will not be created. Also all corresponding traces will not be stored.">
+                  <Label htmlFor={`${id}-ingore-service-label`}>Mark as ignored service</Label>
+                  <Helpify helpText="When enabled, the traces matching this service definition will be ignored and also not persisted.">
                     <Toggle
                       className={`${block}__toggle`}
                       checked={ignoreField.value}
