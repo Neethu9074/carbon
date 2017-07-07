@@ -140,13 +140,12 @@ export default getElementDimensions(
 
         editor.on('blur', () => {
           if (this.editor) {
-            this.updateQuery(this.editor.getValue().trim().replace(/\s\s+/g, ' '));
+            this.updateQuery(trim(this.editor.getValue()));
           }
           this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
 
-        // TODO: make this better
         this.blurSubscription = this.state.eventEmitter.on('blur').throttle(200, { leading: false }).subscribe(() => {
           if (!this.isFocused) {
             this.hide();
@@ -275,13 +274,14 @@ export default getElementDimensions(
           return;
         }
 
-        const { string, cursorAfterInsertion } = replaceWith(
+        let { string, cursorAfterInsertion } = replaceWith(
           this.props.query, // complete query
           e.replaceFrom, // position of the starting character of the current token
           e.replaceTo, // position of the ending character of the current token
           e.replaceWith // sequence which should be replaced with
         );
 
+        string = trim(string);
         this.editor.setValue(string);
         this.updateQuery(string);
 
@@ -389,4 +389,8 @@ function removeAllHighlightedClasses() {
   for (let i = 0, length = allHighlightedBlocks.length; i < length; i++) {
     allHighlightedBlocks[i].className = allHighlightedBlocks[i].className.replace(blockHighlightedClass, '');
   }
+}
+
+function trim(str) {
+  return str.trim().replace(/\s\s+/g, ' ');
 }

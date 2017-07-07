@@ -10,7 +10,6 @@ import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 
 import './ServiceExtractionRuleConfigForm.less';
@@ -116,20 +115,14 @@ export default class extends React.Component {
 
           {ruleForm.get('ignoreService').map(ignoreField =>
             <FormGroup>
-              <Tooltip
-                content="When enabled, potential services created by this rule will be ignored"
-                align={'topLeft'}
-              >
-                <div className={`${block}__checkbox`}>
-                  Ignore
-                  &nbsp;
-                  <Toggle
-                    className={`${block}__toggle`}
-                    checked={ignoreField.value}
-                    onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
-                  />
-                </div>
-              </Tooltip>
+              <Label htmlFor={`${id}-ingore-service-label`}>Ignore service and traces</Label>
+              <Helpify helpText="When enabled, the service will not be created. Also all corresponding traces will not be stored.">
+                <Toggle
+                  className={`${block}__toggle`}
+                  checked={ignoreField.value}
+                  onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
+                />
+              </Helpify>
             </FormGroup>
           )}
 
