@@ -11,8 +11,8 @@ import {
   cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
-import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { logViewEnabled, eumViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
+import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';

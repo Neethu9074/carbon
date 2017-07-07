@@ -44,20 +44,26 @@ export default class extends React.Component {
     }
 
     this.clipboard.on('success', e => {
-      addMessage({
-        type: 'info',
-        timeout: 2000,
-        content: 'Copied!'
-      });
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: 'Copied!'
+        },
+        'copyToClipboard'
+      );
       e.clearSelection();
     });
 
     this.clipboard.on('error', () => {
-      addMessage({
-        type: 'info',
-        timeout: 2000,
-        content: 'Press CTRL+C / CMD+C to copy!'
-      });
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: 'Press CTRL+C / CMD+C to copy!'
+        },
+        'copyToClipboard'
+      );
     });
   }
 
