@@ -63,12 +63,14 @@ const times = [
   {
     long: 'year',
     short: 'y',
-    millis: 12 * 31 * 24 * 60 * 60 * 1000
+    // 30.38 days per average per month
+    millis: 12 * 30.38 * 24 * 60 * 60 * 1000
   },
   {
     long: 'month',
     short: 'mo',
-    millis: 31 * 24 * 60 * 60 * 1000
+    // 30.38 days per average per month
+    millis: 30.38 * 24 * 60 * 60 * 1000
   },
   {
     long: 'day',

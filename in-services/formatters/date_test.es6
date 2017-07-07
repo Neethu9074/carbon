@@ -44,11 +44,11 @@ describe('in-services/formatters/date', () => {
     });
 
     it('must format larger dates', () => {
-      expect(formatDurationAccurately(6179465599, 1000)).to.equal('2mo 9d 12h 31m 5s');
+      expect(formatDurationAccurately(6179465599, 1000)).to.equal('2mo 10d 18h 16m 41s');
     });
 
     it('must ignore small times', () => {
-      expect(formatDurationAccurately(6179465599, 60000)).to.equal('2mo 9d 12h 31m');
+      expect(formatDurationAccurately(6179465599, 60000)).to.equal('2mo 10d 18h 16m');
     });
   });
 });
