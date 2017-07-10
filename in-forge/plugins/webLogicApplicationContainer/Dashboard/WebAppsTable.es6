@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import ServletsInWebAppTable from './ServletsInWebAppTable';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -83,7 +83,7 @@ function getRowDetails(row) {
     <div>
       <ServletsInWebAppTable contextRootPath={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
 
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshot.get('id')}
         timeframe={row.timeframe}
         margins={{

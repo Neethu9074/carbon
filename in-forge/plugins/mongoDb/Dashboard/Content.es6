@@ -4,7 +4,7 @@ import { bytesZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatter
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -42,7 +42,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       <DatabaseSizesTable snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardSection title="Document Counter">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -57,7 +57,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Clients">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

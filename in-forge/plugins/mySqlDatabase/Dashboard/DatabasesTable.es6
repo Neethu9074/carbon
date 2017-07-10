@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -78,7 +78,7 @@ export default function DatabasesTable({ snapshot, timeframe }) {
 function getDetails(row) {
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{
@@ -93,7 +93,7 @@ function getDetails(row) {
         }}
       />
       <TwoColumnRow>
-        <ChartWithLegend
+        <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -107,7 +107,7 @@ function getDetails(row) {
             type: 'line'
           }}
         />
-        <ChartWithLegend
+        <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{

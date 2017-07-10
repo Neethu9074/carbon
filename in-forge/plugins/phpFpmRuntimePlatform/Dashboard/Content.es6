@@ -3,7 +3,7 @@ import React from 'react';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function PhpFpmDashboard({ snapshot, timeframe }) {
@@ -38,7 +38,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
   return (
     <div key={pool}>
       <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -70,7 +70,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -98,7 +98,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

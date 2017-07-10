@@ -83,7 +83,7 @@ export default function createAxisController(config) {
   }
 
   function addDataSeriesTogglingSupport() {
-    config.subscriptions.push(config.activeFilters$.subscribe(onActiveFiltersChange));
+    config.subscriptions.push(config.filterStore.activeFilters$.subscribe(onActiveFiltersChange));
   }
 
   function onActiveFiltersChange(hiddenSeries) {

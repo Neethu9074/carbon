@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 import DatasourcesTable from './DatasourcesTable';
@@ -28,7 +28,7 @@ export default function Dashboard({ snapshot, timeframe }) {
     <div>
       <WebAppsTable snapshot={snapshot} timeframe={timeframe} />
       <DashboardSection title="Thread Pool">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -44,7 +44,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {serverLogRuntimeMBeanAvailable
         ? <DashboardSection title="Server Log Messages by Severity">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{

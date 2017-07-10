@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
@@ -23,7 +23,7 @@ export default function JbossDataGridDashboard({ snapshot, timeframe }) {
       <JgroupsOOBThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
       <JgroupsTimerThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
       <DashboardSection title="Hot Rod Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

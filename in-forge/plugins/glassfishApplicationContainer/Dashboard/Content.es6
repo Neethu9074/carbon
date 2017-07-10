@@ -5,7 +5,7 @@ import { zeroDecimalPlaces, hitRateZeroDecimalPlaces, msZeroDecimalPlaces } from
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -36,7 +36,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Web Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -60,7 +60,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -75,7 +75,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -98,7 +98,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Keep Alive">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -120,7 +120,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="File cache">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -145,7 +145,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="JDBC Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

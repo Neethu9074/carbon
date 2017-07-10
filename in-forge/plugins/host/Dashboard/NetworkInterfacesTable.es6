@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import {
   percentageZeroDecimalPlaces,
@@ -130,7 +130,7 @@ export default function NetworkInterfacesTable({ snapshot, timeframe }) {
 
 function getDetails(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{

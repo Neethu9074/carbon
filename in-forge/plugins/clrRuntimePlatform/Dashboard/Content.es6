@@ -8,7 +8,7 @@ import {
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -36,7 +36,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Garbage Collections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -61,7 +61,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Sizes of Heaps">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -77,7 +77,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Thread-Locks and Contention">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

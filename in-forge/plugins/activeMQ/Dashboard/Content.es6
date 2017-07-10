@@ -3,9 +3,9 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 const percentage = d => d + '%';
 
@@ -42,7 +42,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Broker wide queues message stats">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -56,7 +56,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Broker wide topics message stats">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -70,7 +70,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Broker wide connections, consumers and producers">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -84,7 +84,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Memory and store usage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

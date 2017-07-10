@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -159,7 +159,7 @@ function getRowDetails(row) {
   return (
     <div>
       <DashboardSection title="Resources">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -175,7 +175,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
       <DashboardSection title="Registry">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{

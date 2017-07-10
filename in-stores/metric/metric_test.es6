@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { getDefaultMetricRollupDuration, findNearestRollup } from 'in-stores/metric';
 
 const oneMinute = 1000 * 60;
 
@@ -71,5 +71,15 @@ describe('in-stores/metric', () => {
         expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10))).to.equal(5000);
       }
     );
+
+    it('should find the nearest rollup', () => {
+      expect(findNearestRollup(-Number.MAX_VALUE).rollup).to.equal(null); // 1s
+      expect(findNearestRollup(1).rollup).to.equal(null); // 1s
+      expect(findNearestRollup(1000).rollup).to.equal(null); // 1s
+      expect(findNearestRollup(1001).rollup).to.equal(5000);
+      expect(findNearestRollup(5000).rollup).to.equal(5000);
+      expect(findNearestRollup(1000 * 60).rollup).to.equal(1000 * 60);
+      expect(findNearestRollup(Number.MAX_VALUE).rollup).to.equal(1000 * 60 * 60);
+    });
   });
 });

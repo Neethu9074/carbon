@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import createDataSeriesFilterStore from './dataseriesFilterStore';
 
-describe('in-components/ChartWithLegend/dataseriesFilterStore', () => {
+describe('in-charts/dataseriesFilterStore', () => {
   let store;
   let subscriber;
 

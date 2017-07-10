@@ -2,7 +2,7 @@ import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { number, minutes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -86,7 +86,7 @@ function getRowDetails(row) {
     <div>
       <ServletsInWebAppTable webAppContext={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
 
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

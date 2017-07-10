@@ -2,13 +2,13 @@ import React from 'react';
 
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) {
   return (
     <div>
       <DashboardSection title="Requests/s vs. Average Latency">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -33,7 +33,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
       </DashboardSection>
 
       <DashboardSection title="Latency Overview">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
@@ -82,7 +82,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
           resources are served with a <code>Timing-Allow-Origin: *</code> header.
         </p>
 
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

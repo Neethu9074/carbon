@@ -3,7 +3,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
 import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
 import StagesTable from './StagesTable';
@@ -14,7 +14,7 @@ export default function BatchAppContent({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Jobs">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -29,7 +29,7 @@ export default function BatchAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Stages">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
