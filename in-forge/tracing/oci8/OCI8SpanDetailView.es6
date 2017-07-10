@@ -4,7 +4,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
-export default function MySQLiSpanDetailView({ span }) {
+export default function OCI8SpanDetailView({ span }) {
   const statement = span.getIn(['data', 'oci8', 'stmt']);
 
   return (
