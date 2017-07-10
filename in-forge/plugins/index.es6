@@ -111,6 +111,8 @@ import './sapHana';
 import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
+import './shellLogicalConnection';
+import './shellLogicalService';
 import './solr';
 import './sparkApplication';
 import './springbootApplicationContainer';
