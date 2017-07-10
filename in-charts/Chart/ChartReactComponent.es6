@@ -78,6 +78,7 @@ export default class extends React.Component {
 
   dispose = () => {
     if (this.chart) {
+      this.filterStore = createDataSeriesFilterStore();
       this.chart.dispose();
       this.chart = null;
     }

@@ -266,12 +266,15 @@ export function findNearestRollup(minSizeInMs) {
   return rollupDurationThresholds[rollupDurationThresholds.length - 1];
 }
 
-export function getDynamicDefinedRollup(width, currentRollup, timeframe) {
-  const minWidthPerDataPointInPx = 3;
+export function getDynamicDefinedRollup(width, timeframe, minWidthPerDataPointInPx) {
   const windowSize = timeframe.windowSize;
-  currentRollup = currentRollup.rollup || 1000;
+
+  const minRollupSize = 1000;
+  let minAvailableRollup = getDefaultMetricRollupDuration(timeframe);
+  minAvailableRollup = minAvailableRollup ? minAvailableRollup.rollup || minRollupSize : minRollupSize;
 
   const maxBars = Math.floor(width / minWidthPerDataPointInPx);
-  let minRollup = Math.max(currentRollup, windowSize / maxBars);
-  return findNearestRollup(minRollup);
+  let minRollup = Math.max(minAvailableRollup, windowSize / maxBars);
+
+  return findNearestRollup(minRollup).rollup || minRollupSize;
 }
