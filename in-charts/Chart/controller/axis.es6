@@ -1,12 +1,14 @@
+import { combineLatest } from 'reactive-observables';
+import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
-import { getDefaultMetricRollupDuration, getMetricsForTimeframe } from 'in-stores/metric';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
+import { getDynamicDefinedRollup, getMetricsForTimeframe } from 'in-stores/metric';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
-import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
+import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { timeframe$, to$ } from 'in-stores/timeline';
@@ -28,6 +30,7 @@ const contentRendererCreators = {
 
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
+  const resize$ = create();
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
   determineSeriesColors();
@@ -60,6 +63,8 @@ export default function createAxisController(config) {
       scales.y2.setRangeFrom(config.bounds.bottom - 0.5);
       scales.y2.setRangeTo(config.bounds.top);
     }
+
+    resize$.emit(config.bounds);
   }
 
   function dispose() {
@@ -144,13 +149,19 @@ export default function createAxisController(config) {
 
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(
-      actualTimeframe$.subscribe(timeframe => {
+      combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe, bounds]) => {
         clearData();
-        config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
+
+        config.dynamicDefinedRollup = calculateDynamicRollup(timeframe, bounds);
+        config.rollup = config.dynamicDefinedRollup;
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
+
         disposeTimeframeSpecificSubscriptions();
+
+        // the subscription is cached if the rollup hasen't changed and automatically refired, if the dynamic rollup changes
         subscribeToDataSources();
+
         config.signals.restartRendering$.emit(true);
       })
     );
@@ -175,7 +186,8 @@ export default function createAxisController(config) {
         getMetricsForTimeframe({
           snapshotId: snapshotId,
           metric: metrics[i],
-          timeframe: config.timeframe
+          timeframe: config.timeframe,
+          rollup: config.rollup
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
@@ -250,5 +262,11 @@ export default function createAxisController(config) {
       config.dataHolders.y2.clear();
       config.queues.y2.clear();
     }
+  }
+
+  function calculateDynamicRollup(timeframe, bounds) {
+    const chartWidth = bounds.right - bounds.left;
+    const minWidthPerDataPointInPx = 6;
+    return getDynamicDefinedRollup(chartWidth, timeframe, minWidthPerDataPointInPx);
   }
 }

@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDefaultMetricRollupDuration, findNearestRollup } from 'in-stores/metric';
+import { getDefaultMetricRollupDuration, findNearestRollup, getDynamicDefinedRollup } from 'in-stores/metric';
 
 const oneMinute = 1000 * 60;
 
@@ -80,6 +80,18 @@ describe('in-stores/metric', () => {
       expect(findNearestRollup(5000).rollup).to.equal(5000);
       expect(findNearestRollup(1000 * 60).rollup).to.equal(1000 * 60);
       expect(findNearestRollup(Number.MAX_VALUE).rollup).to.equal(1000 * 60 * 60);
+    });
+
+    it('should get the minimum rollup if screen is able to show all datapoints', () => {
+      expect(getDynamicDefinedRollup(1000, { windowSize: 60 * 1000 }, 10)).to.equal(1000);
+    });
+
+    it('should increase the rollup from 1sec to 1m', () => {
+      expect(getDynamicDefinedRollup(100, { windowSize: 10 * 60 * 1000 }, 10)).to.equal(1000 * 60);
+    });
+
+    it('should take at least the available rollup, even if it could render more', () => {
+      expect(getDynamicDefinedRollup(Number.MAX_VALUE, { windowSize: 60 * 1000 }, 10)).to.equal(1000);
     });
   });
 });

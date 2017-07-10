@@ -89,13 +89,9 @@ export default function createChart(config) {
 
   function addTooltipSupport() {
     config.subscriptions.push(highlightedMoment$.throttle(20).subscribe(onHighlightedMomentChange));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mousemove').subscribe(onMouseMove));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mouseleave').subscribe(onMouseLeave));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mousedown').subscribe(onMouseDown));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mouseup').subscribe(onMouseUp));
   }
 
@@ -148,7 +144,9 @@ export default function createChart(config) {
     applyTimeButtonRenderer.dispose();
     domController.dispose();
     axisController.dispose();
+
     stopRendering();
+
     config.subscriptions.forEach(s => s.dispose());
   }
 
@@ -159,6 +157,7 @@ export default function createChart(config) {
   function onResize() {
     domController.resize();
     axisController.resize();
+
     restartRendering();
   }
 
