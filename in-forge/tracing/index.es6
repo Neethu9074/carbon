@@ -55,6 +55,7 @@ import './nanohttpd';
 import './net-http';
 import './node.http.client';
 import './node.http.server';
+import './oci8';
 import './okhttp';
 import './page.err';
 import './page.res';
