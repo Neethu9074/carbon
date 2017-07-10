@@ -8,7 +8,7 @@ import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-services/theme';
 
-import './ChartLegend.less';
+import './Legend.less';
 
 const block = 'in-chart-legend';
 
@@ -26,7 +26,7 @@ export default connectTo(
     };
   },
   class extends React.Component {
-    static displayName = 'ChartLegend';
+    static displayName = 'Legend';
 
     static propTypes = {
       snapshotIds: rpt.arrayOf(rpt.string),

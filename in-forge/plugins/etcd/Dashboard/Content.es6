@@ -5,7 +5,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function EtcdDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -20,7 +20,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -35,7 +35,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Traffic">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -51,7 +51,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       <DashboardSection title="Storage">
         <TwoColumnRow>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -64,7 +64,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
               type: 'line'
             }}
           />
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{

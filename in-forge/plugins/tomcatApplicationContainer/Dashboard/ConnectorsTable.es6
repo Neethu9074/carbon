@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
@@ -127,7 +127,7 @@ export default function ConnectorsTable({ snapshot, timeframe }) {
 
 function createDetailsWithConnections(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{
@@ -148,7 +148,7 @@ function createDetailsWithConnections(row) {
 
 function createDetailsWithoutConnections(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{

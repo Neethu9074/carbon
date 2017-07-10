@@ -3,7 +3,7 @@ import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 
@@ -13,7 +13,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Batches">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -28,7 +28,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Scheduling Delay">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -43,7 +43,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Total Delay">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -58,7 +58,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Processing Time">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -74,7 +74,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       </DashboardSection>
       {semver.satisfies(version, '>=1.6.0')
         ? <DashboardSection title="Output Operations">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{
@@ -90,7 +90,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
           </DashboardSection>
         : null}
       <DashboardSection title="Input Records">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -105,7 +105,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Receivers">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

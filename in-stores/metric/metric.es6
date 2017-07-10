@@ -181,7 +181,7 @@ export function getRollupForTimeframe(timeframe) {
 
   for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
     if (rollupDurationThresholds[i].rollup === rollup) {
-      return rollupDurationThresholds[i].label;
+      return rollupDurationThresholds[i];
     }
   }
 
@@ -249,4 +249,29 @@ function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metri
     rollup,
     timeWindowAggregation
   });
+}
+
+export function findNearestRollup(minSizeInMs) {
+  // edge case, the rollup is <= 1s, return 1s rollup. can't be checked in the loop, because
+  if (minSizeInMs <= 1000) {
+    return rollupDurationThresholds[0];
+  }
+
+  for (let i = 0, length = rollupDurationThresholds.length; i < length; i++) {
+    const rollupDefinition = rollupDurationThresholds[i];
+    if (minSizeInMs <= rollupDefinition.rollup) {
+      return rollupDefinition;
+    }
+  }
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1];
+}
+
+export function getDynamicDefinedRollup(width, currentRollup, timeframe) {
+  const minWidthPerDataPointInPx = 3;
+  const windowSize = timeframe.windowSize;
+  currentRollup = currentRollup.rollup || 1000;
+
+  const maxBars = Math.floor(width / minWidthPerDataPointInPx);
+  let minRollup = Math.max(currentRollup, windowSize / maxBars);
+  return findNearestRollup(minRollup);
 }

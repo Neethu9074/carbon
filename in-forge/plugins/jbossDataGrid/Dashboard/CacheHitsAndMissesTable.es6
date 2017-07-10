@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyMap } from 'in-services/fixedImmutables';
 
 const cols = [
@@ -130,7 +130,7 @@ export default function CacheStatisticsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{
@@ -144,7 +144,7 @@ function getRowDetails(row) {
           type: 'line'
         }}
       />
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

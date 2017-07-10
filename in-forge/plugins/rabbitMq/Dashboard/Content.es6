@@ -7,7 +7,7 @@ import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -39,7 +39,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Messages">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -55,7 +55,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       <DashboardSection title="Message Status">
         <TwoColumnRow>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -68,7 +68,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
               formatter: zeroDecimalPlaces
             }}
           />
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -89,7 +89,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Overview">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

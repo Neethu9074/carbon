@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function JiraDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -9,7 +9,7 @@ export default function JiraDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Traffic">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -28,7 +28,7 @@ export default function JiraDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="DB Pool">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

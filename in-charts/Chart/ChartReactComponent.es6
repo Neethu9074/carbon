@@ -1,21 +1,14 @@
-import ReactDOM from 'react-dom';
 import { isEqual } from 'lodash';
-import rpt from 'prop-types';
 import React from 'react';
 
+import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
+import ChartLegend from 'in-components/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
 
 export default class extends React.Component {
   static displayName = 'ChartReactComponent';
 
-  static propTypes = {
-    timeframe$: rpt.object,
-
-    snapshotId: rpt.string,
-    snapshotIds: rpt.arrayOf(rpt.string),
-    y1: rpt.object.isRequired,
-    y2: rpt.object
-  };
+  filterStore = createDataSeriesFilterStore();
 
   static defaultProps = {
     height: 150
@@ -39,7 +32,8 @@ export default class extends React.Component {
       activeFilters$: props.activeFilters$,
       eventEmitter: this.eventEmitter
     };
-    config.container = ReactDOM.findDOMNode(this);
+    config.container = this.container;
+    config.filterStore = this.filterStore;
     this.chart = createChart(config);
   };
 
@@ -90,6 +84,10 @@ export default class extends React.Component {
   };
 
   render() {
-    return <div />;
+    return (
+      <div ref={container => (this.container = container)}>
+        <ChartLegend {...this.props} filterStore={this.filterStore} />
+      </div>
+    );
   }
 }

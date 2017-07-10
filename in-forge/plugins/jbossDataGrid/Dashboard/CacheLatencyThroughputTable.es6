@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ms, number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import Table from 'in-sdk/components/dashboard/Table';
 import { emptyMap } from 'in-services/fixedImmutables';
 
@@ -114,7 +114,7 @@ export default function CacheStatisticsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{
@@ -131,7 +131,7 @@ function getRowDetails(row) {
           type: 'line'
         }}
       />
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

@@ -7,7 +7,7 @@ import { bytesTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/forma
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
 import Button from 'in-components/Button';
@@ -38,7 +38,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Threads">
         <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
 
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -62,7 +62,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -84,7 +84,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
 
       {collectors
         ? <DashboardSection title="Garbage Collection">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{

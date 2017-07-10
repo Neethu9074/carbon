@@ -2,7 +2,7 @@ import React from 'react';
 
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import DashboardNotification from 'in-components/DashboardNotification';
 
 export default function MsSqlDashboard({ snapshot, timeframe }) {
@@ -19,7 +19,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Wait-Times (ms) on server">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -39,7 +39,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections &amp; Users">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
