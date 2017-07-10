@@ -49,7 +49,7 @@ export default connectTo(
                 dangerouslySetInnerHTML={{
                   __html: toHtml(
                     `No data found for the given query "*${nextProps.query}*" at the time from: *${formatDateTime(
-                      nextProps.timeframe.to - nextProps.timeframe.windowSize
+                      (nextProps.timeframe.to || Date.now()) - nextProps.timeframe.windowSize
                     )}* to: *${nextProps.timeframe.to ? formatDateTime(nextProps.timeframe.to) : 'now'}*.`
                   )
                 }}
