@@ -1,4 +1,5 @@
 export default Object.freeze({
+  cache: '#f3a771',
   database: '#f3a771',
   remote: '#c2aefd',
   io: '#97faec',

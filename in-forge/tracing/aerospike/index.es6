@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'aerospike',
-  category: 'database',
+  category: 'cache',
 
   typeName: {
     singular: 'Aerospike Call',

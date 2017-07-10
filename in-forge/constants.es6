@@ -112,6 +112,8 @@ export const plugins = {
   rpcEndpointServiceInstance: 'rpcEndpointServiceInstance',
   ruby: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
+  shellLogicalService: 'shellLogicalService',
+  shellLogicalConnection: 'shellLogicalConnection',
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
@@ -246,6 +248,8 @@ export const fullyQualifiedPlugins = {
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
+  shellLogicalService: 'com.instana.forge.connection.shell.ShellLogicalService',
+  shellLogicalConnection: 'com.instana.forge.connection.shell.ShellLogicalConnection',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
   springbootApplicationContainer:
     'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',

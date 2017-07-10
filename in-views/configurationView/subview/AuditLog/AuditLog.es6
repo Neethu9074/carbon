@@ -1,13 +1,13 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
-import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
 import { query$, setQuery } from 'in-views/configurationView/subview/AuditLog/stores/queryStore';
+import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import Section from 'in-views/configurationView/components/Section';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
+import Section from 'in-views/configurationView/components/Section';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getAuditLog } from 'in-services/auditLog';

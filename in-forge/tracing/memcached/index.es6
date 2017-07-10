@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'memcached',
-  category: 'database',
+  category: 'cache',
 
   typeName: {
     singular: 'Memcached Call',

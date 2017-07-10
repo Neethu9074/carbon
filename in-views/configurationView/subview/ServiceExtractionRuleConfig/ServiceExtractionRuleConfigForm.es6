@@ -2,11 +2,13 @@ import React from 'react';
 
 import MatchSpecificationSelector from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/RuleTester';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
@@ -25,6 +27,7 @@ export default class extends React.Component {
   namePath = this.props.prePath.concat(['name']);
   matchSpecificationPath = this.props.prePath.concat(['matchSpecification']);
   labelPath = this.props.prePath.concat(['label']);
+  ignoreServicePath = this.props.prePath.concat(['ignoreService']);
   commentPath = this.props.prePath.concat(['comment']);
 
   render() {
@@ -111,25 +114,45 @@ export default class extends React.Component {
             );
           })}
 
-          {ruleForm.get('label').map(labelField =>
-            <FormGroup>
-              <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
-              <Helpify helpText={resultingEntityTooltipText}>
-                <Input
-                  type="text"
-                  id={`${id}-service-name`}
-                  className={`${block}__helpfified_input`}
-                  placeholder="Shop"
-                  value={labelField.value}
-                  onChange={e => onChangeIn(this.labelPath, e.target.value)}
-                />
-                {labelField.valid
-                  ? null
-                  : <ValidationBlock hasError>
-                      {labelField.messages.map(e => e.message)}
-                    </ValidationBlock>}
-              </Helpify>
-            </FormGroup>
+          {instanaInternalFeaturesEnabled
+            ? ruleForm.get('ignoreService').map(ignoreField =>
+                <FormGroup>
+                  <Label htmlFor={`${id}-ingore-service-label`}>Mark as ignored service</Label>
+                  <Helpify helpText="When enabled, the traces matching this service definition will be ignored and also not persisted.">
+                    <Toggle
+                      className={`${block}__toggle`}
+                      checked={ignoreField.value}
+                      onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
+                    />
+                  </Helpify>
+                </FormGroup>
+              )
+            : true}
+
+          {ruleForm.get('ignoreService').map(
+            ignoreField =>
+              ignoreField.value === true
+                ? null
+                : ruleForm.get('label').map(labelField =>
+                    <FormGroup>
+                      <Label htmlFor={`${id}-service-name`}>{resultingEntityNameTitle}</Label>
+                      <Helpify helpText={resultingEntityTooltipText}>
+                        <Input
+                          type="text"
+                          id={`${id}-service-name`}
+                          className={`${block}__helpfified_input`}
+                          placeholder="Shop"
+                          value={labelField.value}
+                          onChange={e => onChangeIn(this.labelPath, e.target.value)}
+                        />
+                        {labelField.valid
+                          ? null
+                          : <ValidationBlock hasError>
+                              {labelField.messages.map(e => e.message)}
+                            </ValidationBlock>}
+                      </Helpify>
+                    </FormGroup>
+                  )
           )}
 
           {ruleForm.get('comment').map(commentField =>

@@ -122,6 +122,7 @@ export default class extends React.PureComponent {
   };
 
   render() {
+    const logStreamTargetId = 'logStreamId';
     return (
       <div className={block}>
         {this.state.error != null
@@ -130,18 +131,25 @@ export default class extends React.PureComponent {
             </DialogNotification>
           : null}
 
-        <CopyToClipboardButton getText={() => this.code.textContent} />
+        <CopyToClipboardButton targetId={logStreamTargetId} />
 
         <label htmlFor="set-auto-scroll" className={`${block}__auto-scroll`}>
           Automatically scroll to bottom on log change:
-          <Toggle onChange={e => this.setState({scrollToBottomOnChange: e.target.checked})}
-                  checked={this.state.scrollToBottomOnChange}
-                  id="set-auto-scroll"
-                   className={`${block}__auto-scroll-toggle`} />
+          <Toggle
+            onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
+            checked={this.state.scrollToBottomOnChange}
+            id="set-auto-scroll"
+            className={`${block}__auto-scroll-toggle`}
+          />
         </label>
 
         <pre>
-          <code className={`${block}__log`} dangerouslySetInnerHTML={{ __html: this.state.log }} ref={ele => this.code = ele} />
+          <code
+            className={`${block}__log`}
+            id={logStreamTargetId}
+            dangerouslySetInnerHTML={{ __html: this.state.log }}
+            ref={ele => (this.code = ele)}
+          />
         </pre>
       </div>
     );

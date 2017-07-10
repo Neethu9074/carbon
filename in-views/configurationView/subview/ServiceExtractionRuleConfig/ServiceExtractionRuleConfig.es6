@@ -258,6 +258,7 @@ export default class extends React.Component {
 
           name: form.get('name').value,
           enabled: form.get('enabled').value,
+          ignoreService: form.get('ignoreService').value,
           comment: form.get('comment').value,
           matchSpecification: getMatchSpecifications(form),
           endpointRules: endpoints,
@@ -318,6 +319,7 @@ function createBasicRuleForm(rule) {
     .put('id', createField({ value: rule.get('id') }))
     .put('name', createField({ value: rule.get('name'), validator: notBlankValidator }))
     .put('enabled', createField({ value: rule.get('enabled') }))
+    .put('ignoreService', createField({ value: rule.get('ignoreService', false) }))
     .put('comment', createField({ value: rule.get('comment') }))
     .put('matchSpecification', createMapForm({ validator: atLeastOneMatchSpecificationRule }))
     .put(

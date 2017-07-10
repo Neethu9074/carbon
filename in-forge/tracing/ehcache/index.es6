@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'ehcache',
-  category: 'database',
+  category: 'cache',
 
   typeName: {
     singular: 'Ehcache call',
