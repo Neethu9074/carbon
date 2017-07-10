@@ -14,9 +14,10 @@ import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -60,7 +61,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        {!isWindows(snapshot)
+        {!(isWindows(snapshot) || isZos(snapshot))
           ? <DashboardSection title="CPU Load">
               <ChartWithLegend
                 snapshotId={snapshot.get('id')}
@@ -174,8 +175,4 @@ export default function HostDashboard({ snapshot, timeframe }) {
       </DashboardSection>
     </div>
   );
-}
-
-function isWindows(snapshot) {
-  return !!snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
 }
