@@ -48,7 +48,7 @@ export default connectTo(
               <div
                 dangerouslySetInnerHTML={{
                   __html: toHtml(
-                    `Actually, there is no data found for the given query "*${nextProps.query}*" at the time from: *${formatDateTime(
+                    `No data found for the given query "*${nextProps.query}*" at the time from: *${formatDateTime(
                       nextProps.timeframe.to - nextProps.timeframe.windowSize
                     )}* to: *${nextProps.timeframe.to ? formatDateTime(nextProps.timeframe.to) : 'now'}*.`
                   )
