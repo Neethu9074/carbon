@@ -51,8 +51,9 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
+    const rollupInMillis = config.rollup.rollup || 1000;
     // it makes no sense to show a tooltip for a time that is too far off the desired time.
-    if (Math.abs(dataPointsExistingAtMoment - highlightedMoment) > config.rollup * 2.3) {
+    if (Math.abs(dataPointsExistingAtMoment - highlightedMoment) > rollupInMillis * 2.3) {
       hideTooltip();
       return;
     }

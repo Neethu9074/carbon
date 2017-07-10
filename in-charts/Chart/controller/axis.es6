@@ -152,8 +152,7 @@ export default function createAxisController(config) {
       combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe, bounds]) => {
         clearData();
 
-        config.dynamicDefinedRollup = calculateDynamicRollup(timeframe, bounds);
-        config.rollup = config.dynamicDefinedRollup;
+        config.rollup = calculateDynamicRollup(timeframe, bounds);
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
 
@@ -187,7 +186,7 @@ export default function createAxisController(config) {
           snapshotId: snapshotId,
           metric: metrics[i],
           timeframe: config.timeframe,
-          rollup: config.rollup
+          rollup: config.rollup.rollup
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }

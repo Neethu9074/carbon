@@ -31,12 +31,14 @@ export default function createDomController(config) {
       animationBuffer: document.createElement('canvas'),
       staticScreen: document.createElement('canvas'),
       tooltipContainer: document.createElement('div'),
+      rollupIndicator: document.createElement('div'),
       applyButtonContainer: document.createElement('div'),
       tooltipLine: document.createElement('div'),
       glassPane: document.createElement('div')
     };
 
     config.container.appendChild(result.wrapper);
+    config.container.appendChild(result.rollupIndicator);
     result.wrapper.appendChild(result.staticScreen);
     result.wrapper.appendChild(result.animationScreen);
     result.wrapper.appendChild(result.tooltipContainer);
@@ -47,6 +49,7 @@ export default function createDomController(config) {
     result.wrapper.classList.add(block);
     result.animationScreen.classList.add(`${block}__animation-screen`);
     result.staticScreen.classList.add(`${block}__static-screen`);
+    result.rollupIndicator.classList.add(`${block}__rollup-indicator`);
     result.tooltipContainer.classList.add(`${block}__tooltip-container`);
     result.applyButtonContainer.classList.add(`${block}__tooltip-container`);
     result.tooltipLine.classList.add(`${block}__tooltip-line`);

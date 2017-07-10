@@ -26,7 +26,7 @@ export default function createBarContentRenderer({ axisName, config }) {
   }
 
   function getRollup(config) {
-    const rollupInMillis = config.rollup;
+    const rollupInMillis = config.rollup.rollup || 1000;
     return rollupInMillis / 1000;
   }
 
