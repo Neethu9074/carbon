@@ -23,43 +23,43 @@ describe('in-stores/metric', () => {
     });
 
     it('should not use any rollup when the timeframe is undefined', () => {
-      expect(getDefaultMetricRollupDuration(null)).to.equal(null);
-      expect(getDefaultMetricRollupDuration()).to.equal(null);
+      expect(getDefaultMetricRollupDuration(null).rollup).to.equal(null);
+      expect(getDefaultMetricRollupDuration().rollup).to.equal(null);
     });
 
     it('should define no rollup size for 5 minutes', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 5))).to.equal(null);
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 5)).rollup).to.equal(null);
     });
 
     it('should define no rollup size for 10 minutes', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10))).to.equal(null);
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10)).rollup).to.equal(null);
     });
 
     it('should define no rollup size for 10 minutes and a small room for error', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10 + 50))).to.equal(null);
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10 + 50)).rollup).to.equal(null);
     });
 
     it('should use five second rollups for 15  minutes', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 15))).to.equal(5000);
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 15)).rollup).to.equal(5000);
     });
 
     it('should use five second rollups for one hour timeframes', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 60))).to.equal(5000);
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 60)).rollup).to.equal(5000);
     });
 
     it('should use hourly rollups for any larger timeframe', () => {
-      expect(getDefaultMetricRollupDuration(timeframe(null, Number.MAX_VALUE))).to.equal(1000 * 60 * 60);
+      expect(getDefaultMetricRollupDuration(timeframe(null, Number.MAX_VALUE)).rollup).to.equal(oneMinute * 60);
     });
 
     it('should not use any rollup when the timeframe is undefined', () => {
-      expect(getDefaultMetricRollupDuration(null)).to.equal(null);
-      expect(getDefaultMetricRollupDuration()).to.equal(null);
+      expect(getDefaultMetricRollupDuration(null).rollup).to.equal(null);
+      expect(getDefaultMetricRollupDuration().rollup).to.equal(null);
     });
 
     it('should define no rollup size for 5 minutes', () => {
       clock.tick(oneMinute * 10);
 
-      expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 5, oneMinute * 5))).to.equal(null);
+      expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 5, oneMinute * 5)).rollup).to.equal(null);
     });
 
     it(
@@ -68,7 +68,7 @@ describe('in-stores/metric', () => {
       () => {
         clock.tick(oneMinute * 20);
 
-        expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10))).to.equal(5000);
+        expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10)).rollup).to.equal(5000);
       }
     );
 
@@ -78,20 +78,30 @@ describe('in-stores/metric', () => {
       expect(findNearestRollup(1000).rollup).to.equal(null); // 1s
       expect(findNearestRollup(1001).rollup).to.equal(5000);
       expect(findNearestRollup(5000).rollup).to.equal(5000);
-      expect(findNearestRollup(1000 * 60).rollup).to.equal(1000 * 60);
-      expect(findNearestRollup(Number.MAX_VALUE).rollup).to.equal(1000 * 60 * 60);
+      expect(findNearestRollup(oneMinute).rollup).to.equal(oneMinute);
+      expect(findNearestRollup(Number.MAX_VALUE).rollup).to.equal(oneMinute * 60);
     });
 
     it('should get the minimum rollup if screen is able to show all datapoints', () => {
-      expect(getDynamicDefinedRollup(1000, { windowSize: 60 * 1000 }, 10).rollup).to.equal(null);
+      const { dynamicRollup, minAvailableRollup } = getDynamicDefinedRollup(1000, timeframe(null, 60 * 1000), 10);
+      expect(minAvailableRollup.rollup).to.equal(null);
+      expect(dynamicRollup.rollup).to.equal(null);
     });
 
     it('should increase the rollup from 1sec to 1m', () => {
-      expect(getDynamicDefinedRollup(100, { windowSize: 10 * 60 * 1000 }, 10).rollup).to.equal(1000 * 60);
+      const { dynamicRollup, minAvailableRollup } = getDynamicDefinedRollup(100, timeframe(null, 60 * 1000), 10);
+      expect(minAvailableRollup.rollup).to.equal(null);
+      expect(dynamicRollup.rollup).to.equal(oneMinute);
     });
 
     it('should take at least the available rollup, even if it could render more', () => {
-      expect(getDynamicDefinedRollup(Number.MAX_VALUE, { windowSize: 60 * 1000 }, 10).rollup).to.equal(null);
+      const { dynamicRollup, minAvailableRollup } = getDynamicDefinedRollup(
+        Number.MAX_VALUE,
+        timeframe(null, oneMinute * 60),
+        10
+      );
+      expect(minAvailableRollup.rollup).to.equal(1000 * 5);
+      expect(dynamicRollup.rollup).to.equal(1000 * 5);
     });
   });
 });
