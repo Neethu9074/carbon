@@ -276,5 +276,5 @@ export function getDynamicDefinedRollup(width, timeframe, minWidthPerDataPointIn
   const maxBars = Math.floor(width / minWidthPerDataPointInPx);
   let minRollup = Math.max(minAvailableRollup, windowSize / maxBars);
 
-  return findNearestRollup(minRollup).rollup || minRollupSize;
+  return findNearestRollup(minRollup);
 }

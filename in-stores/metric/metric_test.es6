@@ -83,15 +83,15 @@ describe('in-stores/metric', () => {
     });
 
     it('should get the minimum rollup if screen is able to show all datapoints', () => {
-      expect(getDynamicDefinedRollup(1000, { windowSize: 60 * 1000 }, 10)).to.equal(1000);
+      expect(getDynamicDefinedRollup(1000, { windowSize: 60 * 1000 }, 10).rollup).to.equal(null);
     });
 
     it('should increase the rollup from 1sec to 1m', () => {
-      expect(getDynamicDefinedRollup(100, { windowSize: 10 * 60 * 1000 }, 10)).to.equal(1000 * 60);
+      expect(getDynamicDefinedRollup(100, { windowSize: 10 * 60 * 1000 }, 10).rollup).to.equal(1000 * 60);
     });
 
     it('should take at least the available rollup, even if it could render more', () => {
-      expect(getDynamicDefinedRollup(Number.MAX_VALUE, { windowSize: 60 * 1000 }, 10)).to.equal(1000);
+      expect(getDynamicDefinedRollup(Number.MAX_VALUE, { windowSize: 60 * 1000 }, 10).rollup).to.equal(null);
     });
   });
 });
