@@ -4,7 +4,6 @@ import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
 import { loadImage } from 'in-map/services/imageLoader';
-import theme from 'in-services/theme';
 
 import groundTexturePath from 'in-map/misc/physical/ground.png';
 
@@ -40,7 +39,7 @@ export default class GroundPlane extends BaseGroundPlane {
       map: texture
     });
 
-    const color = hexToRGBNormalized(theme.map.colors.groundDots);
+    const color = hexToRGBNormalized('#809199');
     ground.material.color.r = color.r;
     ground.material.color.g = color.g;
     ground.material.color.b = color.b;

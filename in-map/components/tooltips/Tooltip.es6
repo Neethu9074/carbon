@@ -4,7 +4,6 @@ import React from 'react';
 import { onMove } from 'in-services/util/reactiveMouseEvents';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import { applyTransform } from 'in-services/util/dom';
-import theme from 'in-services/theme';
 
 const OFFSET = 15;
 const DEFAULT_STYLE = {
@@ -26,7 +25,7 @@ export default function Tooltip(ComposedComponent) {
         const tooltip = this.tooltip;
         if (tooltip) {
           const x = event.clientX + OFFSET;
-          const y = event.clientY - theme.header.height - OFFSET;
+          const y = event.clientY - 40 - OFFSET;
           applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
         }
       });

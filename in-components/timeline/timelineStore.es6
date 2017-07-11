@@ -13,7 +13,6 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
-import activeTheme from 'in-themes/active.json';
 import { createStore } from 'in-stores/store';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
@@ -64,11 +63,11 @@ export const isCollapsed$ = isCollapsedStore.observable;
 export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
   .map(([isCollapsed, autoCollapseTimeline]) => {
     if (autoCollapseTimeline) {
-      return activeTheme.footer.height;
+      return 36;
     } else if (!isCollapsed) {
-      return activeTheme.footer.heightOpen;
+      return 171;
     }
-    return activeTheme.footer.heightExpanded;
+    return 97;
   })
   .distinct();
 
@@ -76,9 +75,9 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
 export const interactableTimelineHeight$ = isCollapsed$
   .map(isCollapsed => {
     if (!isCollapsed) {
-      return activeTheme.footer.heightOpen;
+      return 171;
     }
-    return activeTheme.footer.heightExpanded;
+    return 97;
   })
   .distinct();
 

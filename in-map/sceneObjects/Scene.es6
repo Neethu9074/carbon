@@ -15,7 +15,6 @@ import { loadVREffectWrapper } from 'in-map/services/webVR';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { setDimensions } from 'in-map/stores/indexStore';
-import theme from 'in-services/theme';
 
 export default class MainScene extends SceneObject {
   constructor(params) {
@@ -144,7 +143,7 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const offset = isWebVRActive ? 0 : theme.header.height + theme.footer.height;
+    const offset = isWebVRActive ? 0 : 76;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 
