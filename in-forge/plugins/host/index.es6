@@ -6,11 +6,13 @@ import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
 import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
+import zosIconSvgPath from 'in-forge/plugins/host/icons/zosIconPath';
 import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 
 const linuxPlugin = plugins.host + '_linux';
+const zosPlugin = plugins.host + '_zos';
 const applePlugin = plugins.host + '_apple';
 const windowsPlugin = plugins.host + '_windows';
 const aixPlugin = plugins.host + '_aix';
@@ -32,7 +34,8 @@ registerSnapshotDefinition({
     [applePlugin]: appleIconSvgPath,
     [windowsPlugin]: windowsIconSvgPath,
     [aixPlugin]: aixIconPath,
-    [solarisPlugin]: solarisIconPath
+    [solarisPlugin]: solarisIconPath,
+    [zosPlugin]: zosIconSvgPath
   },
 
   getIconPath(snapshot) {
@@ -47,6 +50,8 @@ registerSnapshotDefinition({
       return windowsPlugin;
     } else if (os.match(/mac/i)) {
       return applePlugin;
+    } else if (os.match(/z\/os/i)) {
+      return zosPlugin;
     }
     return linuxPlugin;
   },
