@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import Link from 'in-components/Link';
 
 export default function PageErrorSpanGroupingDetailView({ span }) {
   const error = span.getIn(['data', 'pageErr', 'error']);
@@ -8,9 +9,9 @@ export default function PageErrorSpanGroupingDetailView({ span }) {
   return (
     <DescriptionList>
       <DescriptionItem title="URL">
-        <a href={span.getIn(['data', 'pageErr', 'url'])} target="_blank" rel="noopener noreferrer">
+        <Link href={span.getIn(['data', 'pageErr', 'url'])} external>
           {span.getIn(['data', 'pageErr', 'url'])}
-        </a>
+        </Link>
       </DescriptionItem>
 
       {error

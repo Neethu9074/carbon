@@ -11,6 +11,7 @@ import Hierarchy from 'in-components/Link/Hierarchy';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './HierarchicalLink.less';
 
@@ -57,7 +58,7 @@ export default connectTo(
 
       getLabel;
       const link = (
-        <a href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
+        <Link href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
           <HealthyPluginIcon
             className={`${block}__plugin-icon`}
             snapshot={snapshot}
@@ -65,7 +66,7 @@ export default connectTo(
             dimension={12}
           />
           {getLabel ? getLabel(label) : label}
-        </a>
+        </Link>
       );
 
       if (!hierarchy || hierarchy.size === 0) {

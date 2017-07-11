@@ -1,6 +1,8 @@
 import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
+
 import './SortIndicator.less';
 
 const block = 'in-table-sort-indicator';
@@ -24,7 +26,7 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
   };
 
   return (
-    <a href="" onClick={onClick} className={active ? activeBlock : block}>
+    <Link href="" onClick={onClick} className={active ? activeBlock : block}>
       {title}
 
       <SvgIcon
@@ -33,7 +35,7 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
         width={5}
         height={5}
       />
-    </a>
+    </Link>
   );
 }
 

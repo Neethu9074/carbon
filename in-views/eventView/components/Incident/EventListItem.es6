@@ -18,6 +18,7 @@ import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import 'in-views/eventView/components/Incident/EventListItem.less';
 
@@ -108,30 +109,23 @@ export default connectTo(
   }
 );
 
-const TimeIndicator = connectTo(
-  props => {
-    return {
-      href: getFixedTimeframeUrl({ focusedMoment: props.event.get('start') })
-    };
-  },
-  function TimeIndicator({ event, href, isTriggeringEvent }) {
-    let timeClass = `${block}__time`;
-    if (isTriggeringEvent) {
-      timeClass += ` ${timeClass}--triggering`;
-    }
-    return (
-      <div className={`${block}__time-indicator`}>
-        <a href={href}>
-          <span className={timeClass}>
-            {formatTime(event.get('start'))}
-          </span>
-        </a>
-        <div className={`${block}__line`} />
-        <div className={`${block}__dot`} />
-      </div>
-    );
+function TimeIndicator({ event, isTriggeringEvent }) {
+  let timeClass = `${block}__time`;
+  if (isTriggeringEvent) {
+    timeClass += ` ${timeClass}--triggering`;
   }
-);
+  return (
+    <div className={`${block}__time-indicator`}>
+      <Link href$={getFixedTimeframeUrl({ focusedMoment: event.get('start') })}>
+        <span className={timeClass}>
+          {formatTime(event.get('start'))}
+        </span>
+      </Link>
+      <div className={`${block}__line`} />
+      <div className={`${block}__dot`} />
+    </div>
+  );
+}
 
 function DetailsHeader({ event, onClick, iconType, background }) {
   const className = `${block}__heading`;

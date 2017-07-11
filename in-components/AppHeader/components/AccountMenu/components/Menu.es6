@@ -14,6 +14,7 @@ import { webVrEnabled } from 'in-services/featureFlags';
 import { goToGraph } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './Menu.less';
 
@@ -22,14 +23,12 @@ const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.te
 
 export default connectTo(
   {
-    isOpen: isOpen$,
-    configurationViewLink: configurationViewLink$
+    isOpen: isOpen$
   },
   class extends React.Component {
     static displayName = 'Menu';
 
     static propTypes = {
-      configurationViewLink: rpt.string,
       isOpen: rpt.bool
     };
 
@@ -55,59 +54,52 @@ export default connectTo(
             Signed in as {window.instana.user.fullName}
           </p>
 
-          <a
-            href={umpLink}
-            target="_blank"
-            className={block + '__account-menu-link'}
-            onClick={closeMenu}
-            rel="noopener noreferrer"
-          >
+          <Link href={umpLink} className={block + '__account-menu-link'} onClick={closeMenu} external>
             Management Portal
-
             <SvgIcon type="chevron_right" height={10} color="#92a5ae" />
-          </a>
+          </Link>
 
           <Separator />
 
           {!isOnPremise() ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
 
-          <a className={block + '__link'} href={this.props.configurationViewLink} onClick={closeMenu}>
+          <Link className={block + '__link'} href$={configurationViewLink$} onClick={closeMenu}>
             Settings
-          </a>
+          </Link>
 
           {!isOnPremise()
-            ? <a className={block + '__link'} href="#" onClick={closeAndCall(showReleaseNotes)}>
+            ? <Link className={block + '__link'} href="#" onClick={closeAndCall(showReleaseNotes)}>
                 Release Notes
-              </a>
+              </Link>
             : null}
 
-          <a className={block + '__link'} href="#" onClick={closeAndCall(goToGraph)}>
+          <Link className={block + '__link'} href="#" onClick={closeAndCall(goToGraph)}>
             Graph Showcase
-          </a>
+          </Link>
 
           {webVrEnabled
-            ? <a className={block + '__link'} href="#/webVR/physical" target="_blank" rel="noopener noreferrer">
+            ? <Link className={block + '__link'} href="#/webVR/physical" external>
                 WebVR Showcase
-              </a>
+              </Link>
             : null}
 
           {__DEV__
-            ? <a className={block + '__link'} onClick={toggleDevPanel}>
+            ? <Link className={block + '__link'} onClick={toggleDevPanel}>
                 Developer Panel
-              </a>
+              </Link>
             : null}
 
-          <a className={block + '__link'} href="https://docs.instana.com" onClick={closeMenu} target="_block">
+          <Link className={block + '__link'} href="https://docs.instana.com" onClick={closeMenu} target="_block">
             Documentation
-          </a>
+          </Link>
 
-          <a className={block + '__link'} href="https://support.instana.com" onClick={closeMenu} target="_block">
+          <Link className={block + '__link'} href="https://support.instana.com" onClick={closeMenu} target="_block">
             Support
-          </a>
+          </Link>
 
-          <a className={block + '__link'} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
+          <Link className={block + '__link'} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
             About Instana
-          </a>
+          </Link>
 
           <Separator />
 

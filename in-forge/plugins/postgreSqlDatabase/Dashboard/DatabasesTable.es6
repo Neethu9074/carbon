@@ -269,11 +269,7 @@ function displayQueries(snapshot, timeframe, db) {
       <DashboardNotification type="info">
         To display detail query count, <strong>pg_stat_statements</strong>
         &nbsp;extension must be loaded via&nbsp;
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.postgresql.org/docs/current/static/pgstatstatements.html"
-        >
+        <a href="https://www.postgresql.org/docs/current/static/pgstatstatements.html" external>
           shared_preload_libraries
         </a>&nbsp;in postgresql.conf
       </DashboardNotification>
