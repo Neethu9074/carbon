@@ -6,36 +6,29 @@ import {
   clearContent
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
-import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './ClickableList.less';
 
 const block = 'in-clickable-list';
 
-export const ClickableSnapshotListItem = connectTo(
-  props => {
-    return {
-      href: getLinkToSnapshotInCurrentView(props.snapshotId)
-    };
-  },
-  function ClickableSnapshotListItem({ href, children }) {
-    return <ClickableListItem href={href}>{children}</ClickableListItem>;
-  }
-);
+export function ClickableSnapshotListItem({ snapshotId, children }) {
+  return (
+    <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>
+      {children}
+    </ClickableListItem>
+  );
+}
 
-export function ClickableListItem({ onClick, href, children }) {
-  if (__DEV__ && !onClick && !href) {
-    throw new Error('Usage of clickable items without onClick and href. This is not the intended usage!');
-  }
-
+function ClickableListItem({ onClick, href$, children }) {
   onClick = onClick || stopPropagation;
 
-  if (href) {
+  if (href$) {
     return (
       <li className={`${block}__item`}>
-        <a href={href} onClick={onClick} className={`${block}__link`}>
+        <Link href$={href$} onClick={onClick} className={`${block}__link`}>
           {children}
-        </a>
+        </Link>
       </li>
     );
   }

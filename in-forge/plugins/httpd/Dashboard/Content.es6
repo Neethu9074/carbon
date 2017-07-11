@@ -6,6 +6,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import Link from 'in-components/Link';
 
 import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 
@@ -187,9 +188,9 @@ function extendedStatusInfo(status, ver) {
       Traffic, Traffic per Request and CPU,
       &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
       <strong>enabled</strong> in apache httpd configuration.&nbsp;
-      <a target="_blank" href={getModStatusDoc(ver)} rel="noopener noreferrer">
+      <Link href={getModStatusDoc(ver)} external>
         Apache ExtendedStatus Directive
-      </a>.
+      </Link>.
     </DashboardNotification>
   );
 }

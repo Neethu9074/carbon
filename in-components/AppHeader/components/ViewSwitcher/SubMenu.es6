@@ -1,6 +1,6 @@
 import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './SubMenu.less';
 
@@ -14,24 +14,17 @@ export function SubMenu({ children }) {
   );
 }
 
-export const SubMenuItem = connectTo(
-  props => {
-    return {
-      href: props.href$
-    };
-  },
-  function SubMenuItem({ isActive, label, href }) {
-    let classes = `${block}__link`;
-    if (isActive) {
-      classes += ` ${classes}--active`;
-    }
-
-    return (
-      <li>
-        <a className={classes} onClick={e => e.stopPropagation()} href={href}>
-          {label}
-        </a>
-      </li>
-    );
+export function SubMenuItem({ isActive, label, href$ }) {
+  let classes = `${block}__link`;
+  if (isActive) {
+    classes += ` ${classes}--active`;
   }
-);
+
+  return (
+    <li>
+      <Link className={classes} onClick={e => e.stopPropagation()} href$={href$}>
+        {label}
+      </Link>
+    </li>
+  );
+}

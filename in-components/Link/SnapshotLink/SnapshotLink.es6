@@ -1,23 +1,16 @@
 import React from 'react';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
-import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './SnapshotLink.less';
 
 const block = 'in-snapshot-link';
 
-export default connectTo(
-  props => {
-    return {
-      href: getLinkToSnapshotInCurrentView(props.snapshotId)
-    };
-  },
-  function SnapshotLink({ href, children }) {
-    return (
-      <a href={href} className={block}>
-        {children}
-      </a>
-    );
-  }
-);
+export default function SnapshotLink({ snapshotId, children }) {
+  return (
+    <Link href$={getLinkToSnapshotInCurrentView(snapshotId)} className={block}>
+      {children}
+    </Link>
+  );
+}

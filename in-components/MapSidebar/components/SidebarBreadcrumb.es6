@@ -8,6 +8,7 @@ import { getSingular } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './SidebarBreadcrumb.less';
 
@@ -17,11 +18,10 @@ const crumbElement = `${block}__crumb`;
 const Crumb = connectTo(
   props => {
     return {
-      snapshot: getSnapshot(props.snapshotId),
-      snapshotLink: getLinkToSnapshotInCurrentView(props.snapshotId)
+      snapshot: getSnapshot(props.snapshotId)
     };
   },
-  function Crumb({ snapshot, selectedSnapshotId, snapshotLink }) {
+  function Crumb({ snapshot, selectedSnapshotId, snapshotId }) {
     if (!snapshot) {
       return null;
     }
@@ -37,9 +37,13 @@ const Crumb = connectTo(
     return (
       <Tooltip content={tooltip} align="rightMiddle">
         <li className={crumbElement}>
-          <a href={snapshotLink} title="Select this entity." className={`${crumbElement}-link`}>
+          <Link
+            href$={getLinkToSnapshotInCurrentView(snapshotId)}
+            title="Select this entity."
+            className={`${crumbElement}-link`}
+          >
             <HealthyPluginIcon className={imgClasses} snapshot={snapshot} />
-          </a>
+          </Link>
         </li>
       </Tooltip>
     );

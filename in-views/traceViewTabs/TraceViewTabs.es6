@@ -10,6 +10,7 @@ import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import Count from 'in-views/traceViewTabs/components/Count';
 import traceRoutes from 'in-client/js/routes/tracesRoutes';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './TraceViewTabs.less';
 
@@ -20,11 +21,9 @@ const linkElement = `${block}__link`;
 
 export default connectTo(
   {
-    navigationParameters: navigationParameters$,
-    traceViewLink: traceViewLink$,
-    traceAnalyticsViewLink: traceAnalyticsViewLink$
+    navigationParameters: navigationParameters$
   },
-  function TraceViewTabs({ navigationParameters, traceViewLink, traceAnalyticsViewLink }) {
+  function TraceViewTabs({ navigationParameters }) {
     return (
       <FullscreenOverlayView className={block}>
         {traceAnalyticsEnabled
@@ -36,9 +35,9 @@ export default connectTo(
                 })}
               >
 
-                <a href={traceViewLink} className={linkElement}>
+                <Link href$={traceViewLink$} className={linkElement}>
                   <em>Traces</em> <Count count$={totalTraceCountActiveFilter$} />
-                </a>
+                </Link>
               </li>
               <li
                 className={evaluateClassNames({
@@ -46,9 +45,9 @@ export default connectTo(
                   [activeTabElement]: navigationParameters.pathname.indexOf('/traces/analytics') === 0
                 })}
               >
-                <a href={traceAnalyticsViewLink} className={linkElement}>
+                <Link href$={traceAnalyticsViewLink$} className={linkElement}>
                   <em>Analytics</em> <Count count$={analysedTraces$.map(map => map.size)} />
-                </a>
+                </Link>
               </li>
             </ul>
           : null}

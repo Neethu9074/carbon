@@ -1,11 +1,12 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { formatDateTime } from 'in-services/formatters/date';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 const cols = [
   {
@@ -91,9 +92,9 @@ const cols = [
       },
       getContent: function(value) {
         return (
-          <a target="_blank" rel="noopener noreferrer" href={value}>
+          <Link href={value} external>
             Tracking URL
-          </a>
+          </Link>
         );
       }
     }

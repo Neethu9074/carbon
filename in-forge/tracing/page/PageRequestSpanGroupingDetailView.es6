@@ -1,14 +1,15 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import Link from 'in-components/Link';
 
 export default function PageRequestSpanGroupingDetailView({ span }) {
   return (
     <DescriptionList>
       <DescriptionItem title="URL">
-        <a href={span.getIn(['data', 'page', 'url'])} target="_blank" rel="noopener noreferrer">
+        <Link href={span.getIn(['data', 'page', 'url'])} external>
           {span.getIn(['data', 'page', 'url'])}
-        </a>
+        </Link>
       </DescriptionItem>
 
       <DescriptionItem title="City">
