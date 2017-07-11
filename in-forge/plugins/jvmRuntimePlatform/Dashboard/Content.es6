@@ -7,7 +7,7 @@ import { bytesTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/forma
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
 import Button from 'in-components/Button';

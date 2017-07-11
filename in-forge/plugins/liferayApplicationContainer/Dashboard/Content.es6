@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 export default function LiferayDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

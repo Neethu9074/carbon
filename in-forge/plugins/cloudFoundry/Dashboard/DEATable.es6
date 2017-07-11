@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [

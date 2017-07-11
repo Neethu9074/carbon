@@ -3,7 +3,7 @@ import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 

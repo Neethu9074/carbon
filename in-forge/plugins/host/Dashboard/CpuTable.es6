@@ -2,7 +2,7 @@ import { Range } from 'immutable';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 

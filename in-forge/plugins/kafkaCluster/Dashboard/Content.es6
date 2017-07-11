@@ -10,7 +10,7 @@ import {
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.es6';
 

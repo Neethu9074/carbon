@@ -5,7 +5,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 export default function EtcdDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');

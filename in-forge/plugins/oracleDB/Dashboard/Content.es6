@@ -9,7 +9,7 @@ import {
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 import TablespaceUsagesTable from './TablespaceUsagesTable.es6';
 

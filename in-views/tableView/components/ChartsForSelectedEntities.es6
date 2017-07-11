@@ -4,7 +4,7 @@ import MetricChartDownloadView from 'in-components/DownloadButton/components/Met
 import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots';
 import { metrics$, removeMetric } from 'in-views/tableView/stores/metrics';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import DownloadButton from 'in-components/DownloadButton';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import SvgIcon from 'in-components/SvgIcon';

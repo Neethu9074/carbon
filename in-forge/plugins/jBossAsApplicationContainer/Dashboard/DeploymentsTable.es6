@@ -3,7 +3,7 @@ import React from 'react';
 import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServletsInDeploymentsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

@@ -5,7 +5,7 @@ import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-se
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 

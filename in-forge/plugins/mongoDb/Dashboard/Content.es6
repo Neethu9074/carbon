@@ -4,7 +4,7 @@ import { bytesZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatter
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';

@@ -3,7 +3,7 @@ import React from 'react';
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' }) {
   return (

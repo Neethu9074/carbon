@@ -2,7 +2,7 @@ import React from 'react';
 
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,

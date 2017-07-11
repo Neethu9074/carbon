@@ -2,10 +2,10 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart'
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Table from 'in-sdk/components/dashboard/Table';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 import {
   withSiMultiplyPrefixZeroDecimalPlaces,

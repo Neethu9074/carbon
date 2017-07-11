@@ -7,7 +7,7 @@ import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 

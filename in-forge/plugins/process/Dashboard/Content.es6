@@ -4,7 +4,7 @@ import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/
 
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 export default function ProcessDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');

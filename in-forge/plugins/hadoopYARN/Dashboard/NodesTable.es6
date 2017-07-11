@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';

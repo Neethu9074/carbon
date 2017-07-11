@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 

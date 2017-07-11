@@ -15,7 +15,7 @@ import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitors
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 

@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Code from 'in-components/Code';

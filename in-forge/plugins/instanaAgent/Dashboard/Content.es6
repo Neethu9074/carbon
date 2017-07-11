@@ -6,7 +6,7 @@ import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 
 export default function InstanaAgentDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');

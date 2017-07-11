@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [

@@ -9,7 +9,7 @@ import {
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 

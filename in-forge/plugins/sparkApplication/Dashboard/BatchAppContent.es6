@@ -3,7 +3,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
 import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
 import StagesTable from './StagesTable';

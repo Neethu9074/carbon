@@ -10,7 +10,7 @@ import {
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
 import { capitalize } from 'in-services/formatters/string';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
