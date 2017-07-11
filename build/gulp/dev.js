@@ -67,11 +67,11 @@ gulp.task('askForDevOptions', cb => {
           name: 'Test',
           value: {
             uiBackendUrl: 'https://test-instana.instana.io',
-            groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
+            groundskeeperUrl: 'https://test-fullstack-0-us-west-2.instana.io',
             tenant: 'instana',
             tenantUnit: 'test',
             environment: 'internal',
-            butlerDomain: 'internal-groundskeeper-instana.instana.io'
+            butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
           }
         },
         {
