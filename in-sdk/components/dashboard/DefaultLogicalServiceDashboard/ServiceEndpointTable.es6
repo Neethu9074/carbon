@@ -9,7 +9,7 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -119,7 +119,7 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
         margins={{
@@ -142,7 +142,7 @@ function getRowDetails(row) {
         }}
       />
 
-      <ChartWithLegend
+      <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
         height={200}
@@ -167,7 +167,7 @@ function getRowDetails(row) {
         }}
       />
 
-      <ChartWithLegend
+      <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
         margins={{

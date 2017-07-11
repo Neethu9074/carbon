@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -153,7 +153,7 @@ function getDetails(row) {
   return (
     <div>
       {row.windows || !row.filesystem.get('icapacity')
-        ? <ChartWithLegend
+        ? <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -170,7 +170,7 @@ function getDetails(row) {
               type: 'line'
             }}
           />
-        : <ChartWithLegend
+        : <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -197,7 +197,7 @@ function getDetails(row) {
             }}
           />}
 
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

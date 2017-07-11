@@ -4,7 +4,7 @@ import { timeByMillisTwoDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function PythonDashboard({ snapshot, timeframe }) {
@@ -60,7 +60,7 @@ export default function PythonDashboard({ snapshot, timeframe }) {
 
 function renderTimeMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -80,7 +80,7 @@ function renderTimeMetrics(snapshot, timeframe) {
 
 function renderMemoryMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -100,7 +100,7 @@ function renderMemoryMetrics(snapshot, timeframe) {
 
 function renderGcMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -127,7 +127,7 @@ function renderGcMetrics(snapshot, timeframe) {
 
 function renderPagingMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -147,7 +147,7 @@ function renderPagingMetrics(snapshot, timeframe) {
 
 function renderThreadsMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -167,7 +167,7 @@ function renderThreadsMetrics(snapshot, timeframe) {
 
 function renderIoMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -187,7 +187,7 @@ function renderIoMetrics(snapshot, timeframe) {
 
 function renderEventsMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -207,7 +207,7 @@ function renderEventsMetrics(snapshot, timeframe) {
 
 function renderContextMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{

@@ -7,7 +7,7 @@ import {
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function DefaultCharts({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -15,7 +15,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Calls/s vs. Average Latency">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -27,7 +27,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             formatter: twoDecimalPlaces,
             metrics: ['count'],
             labels: ['calls/s'],
-            type: 'line'
+            type: 'bar'
           }}
           y2={{
             min: 0,
@@ -40,7 +40,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Latency Overview">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
@@ -68,7 +68,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Errors/s">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -85,7 +85,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Instance Count">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

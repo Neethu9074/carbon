@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -30,7 +30,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Operations">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -45,7 +45,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -60,7 +60,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Bytes">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -75,7 +75,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Statistics">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -90,7 +90,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Waiters">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -105,7 +105,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

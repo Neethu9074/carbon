@@ -7,7 +7,7 @@ import WebAppsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -23,7 +23,7 @@ export default function TomcatDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Total session count">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

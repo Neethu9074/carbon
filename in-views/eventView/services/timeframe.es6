@@ -16,7 +16,7 @@ export function getChartTimeframeByEvent({
     timeframe.windowSize += chartOffset;
   }
 
-  const rollupDuration = getDefaultMetricRollupDuration(timeframe);
+  const rollupDuration = getDefaultMetricRollupDuration(timeframe).rollup;
   timeframe.windowSize = Math.max(rollupDuration * 10, timeframe.windowSize);
 
   return timeframe;

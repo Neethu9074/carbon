@@ -9,7 +9,7 @@ import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
 import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.es6';
 import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { capitalize } from 'in-services/formatters/string';
 
 export default function CassandraClusterDashboard({ snapshot, timeframe }) {
@@ -18,7 +18,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
       <ClusterSummary snapshot={snapshot} />
 
       <DashboardSection title="Overall Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -36,7 +36,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
 
       {['read', 'write'].map(op =>
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies Average'} key={op}>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -59,7 +59,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
       )}
 
       <DashboardSection title="Overall Disk Size">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

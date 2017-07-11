@@ -10,7 +10,7 @@ import {
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import { capitalize } from 'in-services/formatters/string';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -47,7 +47,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -73,7 +73,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
 
       {['read', 'write'].map(op =>
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'} key={op}>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -97,7 +97,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
 
       {['pending', 'blocked'].map(stage =>
         <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'} key={stage}>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -129,7 +129,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       )}
 
       <DashboardSection title="Dropped Messages">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -154,7 +154,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardSection title="Pending Compactions">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -171,7 +171,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Cache Hits">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -189,7 +189,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Bloom Filter">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

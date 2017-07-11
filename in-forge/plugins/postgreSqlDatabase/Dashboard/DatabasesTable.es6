@@ -4,9 +4,9 @@ import { activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -162,7 +162,7 @@ function getRowDetails(row) {
     <div>
       <DashboardSection title="Queries">
         <TwoColumnRow>
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -182,7 +182,7 @@ function getRowDetails(row) {
       </DashboardSection>
 
       <DashboardSection title="Transactions">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -206,7 +206,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
       <DashboardSection title="Cache">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -223,7 +223,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
       <DashboardSection title="Conflicts">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -240,7 +240,7 @@ function getRowDetails(row) {
 
       </DashboardSection>
       <DashboardSection title="Tuples">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -276,7 +276,7 @@ function displayQueries(snapshot, timeframe, db) {
     );
   }
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshotId}
       timeframe={timeframe}
       margins={{

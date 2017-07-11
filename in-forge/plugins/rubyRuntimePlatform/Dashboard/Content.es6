@@ -3,7 +3,7 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -36,7 +36,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </TwoColumnRow>
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -52,7 +52,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Heap Slots">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -78,7 +78,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
 
 function GcTime({ snapshot, timeframe }) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -106,7 +106,7 @@ function GcTime({ snapshot, timeframe }) {
 
 function ThreadMetrics({ snapshot, timeframe }) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{

@@ -3,7 +3,7 @@ import React from 'react';
 import { percentageTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
 
@@ -68,7 +68,7 @@ function getRowDetails(row) {
   return (
     <TwoColumnRow>
       <DashboardSection title="CPU">
-        <ChartWithLegend
+        <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -84,7 +84,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{

@@ -11,7 +11,7 @@ import {
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -36,7 +36,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Broker Traffic">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -52,7 +52,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Request Latency vs Throughput">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -76,7 +76,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Broker Failures">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -92,7 +92,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Broker state metrics">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -124,7 +124,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Average Idle Time Percentage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -140,7 +140,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Partitions">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -156,7 +156,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Broker Messages In">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -172,7 +172,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Log Flushing">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

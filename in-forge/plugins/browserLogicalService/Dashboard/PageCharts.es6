@@ -3,14 +3,14 @@ import React from 'react';
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' }) {
   return (
     <div>
       <TwoColumnRow>
         <DashboardSection title="Calls/s">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -27,7 +27,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
         </DashboardSection>
 
         <DashboardSection title="XHR / AJAX">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -53,7 +53,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </TwoColumnRow>
 
       <DashboardSection title="Uncaught Errors">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -70,7 +70,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </DashboardSection>
 
       <DashboardSection title="Page Load Time">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
@@ -97,7 +97,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </DashboardSection>
 
       <DashboardSection title="Page Load Breakdown (95th)">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -136,7 +136,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </DashboardSection>
 
       <DashboardSection title="Time to First Paint (95th)">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

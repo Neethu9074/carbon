@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
@@ -10,7 +10,7 @@ export default function CrystalDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Heap">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -37,7 +37,7 @@ export default function CrystalDashboard({ snapshot, timeframe }) {
 
 function ThreadMetrics({ snapshot, timeframe }) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{

@@ -90,7 +90,7 @@ const cols = [
       getValue(row) {
         return row.app.get('trackingUrl');
       },
-      getContent: function(value) {
+      getContent(value) {
         return (
           <Link href={value} external>
             Tracking URL

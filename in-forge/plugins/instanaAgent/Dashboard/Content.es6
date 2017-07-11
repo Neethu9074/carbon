@@ -6,7 +6,7 @@ import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart'
 
 export default function InstanaAgentDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -23,7 +23,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
       <TwoColumnRow>
         {snapshot.getIn(['data', 'hasCpuLoad'])
           ? <DashboardSection title="CPU Load">
-              <ChartWithLegend
+              <Chart
                 snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
                 margins={{
@@ -39,7 +39,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
             </DashboardSection>
           : null}
         <DashboardSection title="Memory">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -69,7 +69,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
       <TwoColumnRow>
         <DashboardSection title="Network">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -86,7 +86,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Sensors">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{

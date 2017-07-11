@@ -38,9 +38,9 @@ const rollupDurationThresholds = [
   }
 ];
 
-export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup }) {
+export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup, dynamicRollup }) {
   if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
+    rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
   let aggregation = null;
@@ -52,13 +52,14 @@ export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup })
     snapshotId,
     metric,
     aggregation,
-    rollup
+    rollup,
+    dynamicRollup
   });
 }
 
-function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
+function getHistoricMetrics({ snapshotId, metric, timeframe, rollup, dynamicRollup }) {
   if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
+    rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
   let aggregation = null;
@@ -71,7 +72,8 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
     metric,
     timeframe,
     aggregation,
-    rollup
+    rollup,
+    dynamicRollup
   });
 }
 
@@ -148,7 +150,7 @@ export function getMetricsForTimeframe(opts) {
 
 export function getDefaultMetricRollupDuration(timeframe) {
   if (!timeframe) {
-    return null;
+    return rollupDurationThresholds[0];
   }
 
   // Ignoring time differences for now since small time differences
@@ -167,21 +169,21 @@ export function getDefaultMetricRollupDuration(timeframe) {
     const rollupDefinition = availableRollupDefinitions[i];
     const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
-      return rollupDefinition.rollup;
+      return rollupDefinition;
     }
   }
 
-  return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1];
 }
 
 export const currentRollup$ = timeframe$.map(getRollupForTimeframe);
 
 export function getRollupForTimeframe(timeframe) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
+  const rollup = getDefaultMetricRollupDuration(timeframe).rollup;
 
   for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
     if (rollupDurationThresholds[i].rollup === rollup) {
-      return rollupDurationThresholds[i].label;
+      return rollupDurationThresholds[i];
     }
   }
 
@@ -234,7 +236,7 @@ export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWi
 }
 
 function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
+  const rollup = getDefaultMetricRollupDuration(timeframe).rollup;
 
   let aggregation;
   if (rollup) {
@@ -249,4 +251,35 @@ function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metri
     rollup,
     timeWindowAggregation
   });
+}
+
+export function findNearestRollup(minSizeInMs) {
+  // edge case, the rollup is <= 1s, return 1s rollup. can't be checked in the loop, because
+  if (minSizeInMs <= 1000) {
+    return rollupDurationThresholds[0];
+  }
+
+  for (let i = 0, length = rollupDurationThresholds.length; i < length; i++) {
+    const rollupDefinition = rollupDurationThresholds[i];
+    if (minSizeInMs <= rollupDefinition.rollup) {
+      return rollupDefinition;
+    }
+  }
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1];
+}
+
+export function getDynamicDefinedRollup(width, timeframe, minWidthPerDataPointInPx) {
+  const windowSize = timeframe.windowSize;
+
+  const minRollupSize = 1000;
+  const minAvailableRollup = getDefaultMetricRollupDuration(timeframe);
+  const minAvailableRollupSize = minAvailableRollup.rollup || minRollupSize;
+
+  const maxBars = Math.floor(width / minWidthPerDataPointInPx);
+  let minRollup = Math.max(minAvailableRollupSize, windowSize / maxBars);
+
+  return {
+    dynamicRollup: findNearestRollup(minRollup),
+    minAvailableRollup
+  };
 }
