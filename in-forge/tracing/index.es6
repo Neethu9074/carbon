@@ -21,6 +21,7 @@ import './file';
 import './finagle.client';
 import './finagle.server';
 import './ftp';
+import './gcs';
 import './g.hc';
 import './g.http';
 import './g.rpc';
