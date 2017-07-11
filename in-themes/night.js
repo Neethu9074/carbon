@@ -36,6 +36,14 @@ module.exports = defaultsDeep(
         '#965742'
       ]
     },
+    footer: {
+      height: 36,
+      heightExpanded: 97,
+      heightOpen: 171
+    },
+    header: {
+      height: 40
+    },
     map: {
       colors: {
         cubeColorFalloffValues: {

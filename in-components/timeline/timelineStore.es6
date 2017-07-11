@@ -14,6 +14,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
+import theme from 'in-services/theme';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
@@ -63,11 +64,11 @@ export const isCollapsed$ = isCollapsedStore.observable;
 export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
   .map(([isCollapsed, autoCollapseTimeline]) => {
     if (autoCollapseTimeline) {
-      return 36;
+      return theme.footer.height;
     } else if (!isCollapsed) {
-      return 171;
+      return theme.footer.heightOpen;
     }
-    return 97;
+    return theme.footer.heightExpanded;
   })
   .distinct();
 
@@ -75,9 +76,9 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
 export const interactableTimelineHeight$ = isCollapsed$
   .map(isCollapsed => {
     if (!isCollapsed) {
-      return 171;
+      return theme.footer.heightOpen;
     }
-    return 97;
+    return theme.footer.heightExpanded;
   })
   .distinct();
 
