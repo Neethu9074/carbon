@@ -7,6 +7,7 @@ import classnames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import config from 'in-services/config';
+import Link from 'in-components/Link';
 
 import './TenantUnitSwitcher.less';
 
@@ -119,9 +120,9 @@ function Unit({ tenant, unit }) {
   const link = `https://${unit}-${tenant.name}.${config.tenantUnitDomainSuffix}`;
   return (
     <li>
-      <a href={link} className={block + '__unit'}>
+      <Link href={link} className={block + '__unit'}>
         {unit}
-      </a>
+      </Link>
     </li>
   );
 }

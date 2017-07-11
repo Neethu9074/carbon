@@ -11,11 +11,12 @@ import {
   setSelectedNode
 } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode';
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
-import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './ResultTable.less';
 
@@ -100,10 +101,10 @@ function NodeLabel({ node, snapshot }) {
         {node.f || '<anonymous>'}
 
         {node.u
-          ? <a className={`${block}__file`} href="" onClick={e => showCodeView(e, snapshot, node.u)}>
+          ? <Link className={`${block}__file`} href="" onClick={e => showCodeView(e, snapshot, node.u)}>
               {node.u}
               {node.l != null ? `:${node.l}` : null}
-            </a>
+            </Link>
           : null}
       </span>
     );

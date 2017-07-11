@@ -4,6 +4,7 @@ import { getDashboardLink } from 'in-stores/navigation';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './Host.less';
 
@@ -13,18 +14,17 @@ export default connectTo(
   props => {
     return {
       // ignore sub-second differences in snapshot subscriptions
-      snapshot: getSnapshot(props.hostSnapshotId, Math.round(props.time / 1000) * 1000),
-      href: getDashboardLink(props.hostSnapshotId)
+      snapshot: getSnapshot(props.hostSnapshotId, Math.round(props.time / 1000) * 1000)
     };
   },
-  function Host({ snapshot, href }) {
+  function Host({ snapshot }) {
     if (!snapshot) {
       return null;
     }
     return (
-      <a className={block} href={href}>
+      <Link className={block} href$={getDashboardLink(snapshot.get('id'))}>
         {' ' + getLabel(snapshot)}
-      </a>
+      </Link>
     );
   }
 );

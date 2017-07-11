@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Lettering from 'in-components/Lettering';
 import { goToPhysicalView } from 'in-stores/navigation';
+import Lettering from 'in-components/Lettering';
 import Button from 'in-components/Button';
+import Link from 'in-components/Link';
 
 import './Explanation.less';
 
@@ -38,9 +39,9 @@ export default function Explanation() {
       </p>
 
       <p>
-        <a href="https://www.instana.com/blog/monitoring-microservice-applications-introducing-dynamic-graph/">
+        <Link href="https://www.instana.com/blog/monitoring-microservice-applications-introducing-dynamic-graph/">
           Visit our blog
-        </a>{' '}
+        </Link>{' '}
         for more information.
       </p>
 

@@ -7,6 +7,7 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
+import Link from 'in-components/Link';
 
 import './ServiceExtractionEndpointRuleConfigSubForm.less';
 
@@ -116,9 +117,9 @@ const Row = class extends React.Component {
               color="#172429"
               onClick={() => moveDown(index)}
             />
-            <a href="#" onClick={e => row.removeRule(e, row.index)} className={`${block}__remove-endpoint`}>
+            <Link href="#" onClick={e => row.removeRule(e, row.index)} className={`${block}__remove-endpoint`}>
               Remove endpoint
-            </a>
+            </Link>
           </div>
         </div>
         {this.state.isExpanded

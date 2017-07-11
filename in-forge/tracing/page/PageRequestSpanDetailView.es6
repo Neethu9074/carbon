@@ -6,6 +6,7 @@ import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import NavigationTiming from 'in-forge/tracing/page/NavigationTiming';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 export default connectTo(
   props => {
@@ -24,9 +25,9 @@ export default connectTo(
 
         <DescriptionList>
           <DescriptionItem title="URL">
-            <a href={span.getIn(['data', 'page', 'url'])} target="_blank" rel="noopener noreferrer">
+            <Link href={span.getIn(['data', 'page', 'url'])} external>
               {span.getIn(['data', 'page', 'url'])}
-            </a>
+            </Link>
           </DescriptionItem>
 
           {getCommonDescriptionItems(span)}

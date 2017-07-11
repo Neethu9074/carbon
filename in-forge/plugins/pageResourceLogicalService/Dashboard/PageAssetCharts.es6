@@ -2,7 +2,8 @@ import React from 'react';
 
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart'
+import Chart from 'in-components/Chart';
+import Link from 'in-components/Link';
 
 export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) {
   return (
@@ -66,15 +67,15 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
           {' '}
           {' '}
           information is available through the {' '}
-          <a href="https://www.w3.org/TR/resource-timing-2/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://www.w3.org/TR/resource-timing-2/" external>
             resource timing level 2 specification
-          </a>
+          </Link>
           {' '}
           and the
           {' '}
-          <a href="https://www.w3.org/TR/resource-timing-2/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://www.w3.org/TR/resource-timing-2/" external>
             browser support matrix
-          </a>.
+          </Link>.
         </p>
         <p>
           Access to caching statistics is restricted by the browser for security reasons using the same-origin {' '}

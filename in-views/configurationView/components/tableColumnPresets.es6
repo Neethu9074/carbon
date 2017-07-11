@@ -3,6 +3,7 @@ import React from 'react';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Button from 'in-components/Button';
+import Link from 'in-components/Link';
 
 export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
   return {
@@ -15,9 +16,9 @@ export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
           return {
             value: row.entity.get(propertyName),
             content: (
-              <a href={href}>
+              <Link href={href}>
                 {row.entity.get(propertyName)}
-              </a>
+              </Link>
             )
           };
         });

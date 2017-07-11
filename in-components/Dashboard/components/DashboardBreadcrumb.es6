@@ -10,6 +10,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import './DashboardBreadcrumb.less';
 
@@ -19,11 +20,10 @@ const crumbElement = `${block}__crumb`;
 const Crumb = connectTo(
   props => {
     return {
-      snapshot: getSnapshot(props.snapshotId),
-      snapshotLink: getDashboardLink(props.snapshotId)
+      snapshot: getSnapshot(props.snapshotId)
     };
   },
-  function Crumb({ snapshot, selectedSnapshotId, snapshotLink }) {
+  function Crumb({ snapshot, snapshotId, selectedSnapshotId }) {
     if (!snapshot) {
       return (
         <li className={crumbElement}>
@@ -50,10 +50,14 @@ const Crumb = connectTo(
     return (
       <Tooltip content={tooltip} align={'bottomMiddle'}>
         <li className={classes}>
-          <a href={snapshotLink} title="Open dashboard for this entity." className={`${crumbElement}-link`}>
+          <Link
+            href$={getDashboardLink(snapshotId)}
+            title="Open dashboard for this entity."
+            className={`${crumbElement}-link`}
+          >
             <HealthyPluginIcon className={`${crumbElement}-icon`} dimension={14} snapshot={snapshot} />
             {label}
-          </a>
+          </Link>
         </li>
       </Tooltip>
     );

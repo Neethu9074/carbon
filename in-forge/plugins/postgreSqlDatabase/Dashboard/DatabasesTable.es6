@@ -4,9 +4,9 @@ import { activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import Chart from 'in-components/Chart'
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -269,11 +269,7 @@ function displayQueries(snapshot, timeframe, db) {
       <DashboardNotification type="info">
         To display detail query count, <strong>pg_stat_statements</strong>
         &nbsp;extension must be loaded via&nbsp;
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.postgresql.org/docs/current/static/pgstatstatements.html"
-        >
+        <a href="https://www.postgresql.org/docs/current/static/pgstatstatements.html" external>
           shared_preload_libraries
         </a>&nbsp;in postgresql.conf
       </DashboardNotification>
