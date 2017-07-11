@@ -42,7 +42,7 @@ module.exports = defaultsDeep(
       heightOpen: 171
     },
     header: {
-      height: 40
+      height: 80
     },
     map: {
       colors: {
