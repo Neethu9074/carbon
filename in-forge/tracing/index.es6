@@ -15,6 +15,7 @@ import './cxf.client';
 import './django';
 import './ehcache';
 import './ejb';
+import './ejb-schedule';
 import './elasticsearch';
 import './excon';
 import './file';
