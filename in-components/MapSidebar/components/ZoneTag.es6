@@ -18,7 +18,7 @@ export default getZone(function ZoneTag({ zoneSnapshot }) {
   const background = groupsColorPool.getColorHex(zoneSnapshot.get('id'));
 
   return (
-    <Link className={block} href={getLinkToSnapshotInCurrentView(zoneSnapshot.get('id'))} style={{ background }}>
+    <Link className={block} href$={getLinkToSnapshotInCurrentView(zoneSnapshot.get('id'))} style={{ background }}>
       {getLabel(zoneSnapshot)}
     </Link>
   );
