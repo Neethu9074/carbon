@@ -25,8 +25,7 @@ export default function({
   return create({
     start(observable) {
       const shouldRetry = method.toLowerCase() !== 'post' && maxRetries > 0;
-      let retryTime = 1000;
-      let currentRetries = 0;
+      let numberOfRetries = 0;
 
       if (__DEV__ && method.toLowerCase() !== 'post' && maxRetries === -1) {
         logger.warn(
@@ -34,20 +33,20 @@ export default function({
         );
       }
 
-      function xhrFunc() {
+      function sendXhr() {
         xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
         xhr.timeout = timeout;
         xhr.responseType = responseType === 'json' ? 'text' : responseType;
 
         xhr.addEventListener('timeout', () => {
-          if (!xhrRetry()) {
+          if (!attemptRetry()) {
             observable.emitError(new HttpRequestTimeoutError(method, url));
           }
         });
 
         xhr.addEventListener('error', () => {
-          if (!xhrRetry()) {
+          if (!attemptRetry()) {
             observable.emitError(new HttpResponseError(method, url));
           }
         });
@@ -77,7 +76,7 @@ export default function({
               }
               observable.emit(response);
             } else {
-              if (!xhrRetry()) {
+              if (!attemptRetry()) {
                 observable.emitError(new HttpResponseStatusCodeError(response, method, url));
               }
             }
@@ -88,14 +87,14 @@ export default function({
         xhr.send(JSON.stringify(data));
       }
 
-      function xhrRetry() {
-        if (currentRetries < maxRetries && shouldRetry) {
-          currentRetries++;
+      function attemptRetry() {
+        if (numberOfRetries < maxRetries && shouldRetry) {
+          numberOfRetries++;
           if (xhr) {
             xhr.abort();
             xhr = null;
           }
-          setTimeout(xhrFunc, Math.pow(2, currentRetries) * retryTime);
+          setTimeout(sendXhr, Math.pow(2, numberOfRetries) * 1000);
 
           return true;
         } else {
@@ -103,7 +102,7 @@ export default function({
         }
       }
 
-      xhrFunc();
+      sendXhr();
     },
 
     stop() {
