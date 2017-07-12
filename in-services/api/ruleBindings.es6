@@ -38,7 +38,7 @@ export function deleteRuleBinding(ruleBindingId) {
 
 export function createRuleBinding(
   id,
-  enabled = false,
+  enabled = true,
   triggering = false,
   severity = 0,
   text = 'Event Title',
