@@ -3,8 +3,8 @@ export default function createBarContentRenderer({ axisName, config }) {
   const y = config.scales[axisName];
   const x = config.scales.x;
   const colors = config[axisName].colors;
-
   const pixelsBetweenBars = 2;
+  const pixelsBetweenBarsHalf = pixelsBetweenBars / 2;
 
   return {
     requireExistenceInAllSeries: true,
@@ -14,38 +14,37 @@ export default function createBarContentRenderer({ axisName, config }) {
 
   /** In order for this to work, the first series must be the average calls per second. */
   function render(dataColumns) {
-    const rollup = getRollup(config);
-    const barWidth = calculateBarWidth(dataColumns);
+    const width = calculateBarWidth(dataColumns);
+    const activeSeries = config.activeSeries[axisName];
 
-    dataColumns.forEach((element, n) => {
-      const { xOrigin, yOrigin, xWidth, yHeight } = createRectangle(element, n, barWidth, rollup);
+    for (let iColumn = 0, length = dataColumns.length; iColumn < length; iColumn++) {
+      const dataColumn = dataColumns[iColumn];
 
-      ctx.fillStyle = colors[0];
-      ctx.fillRect(xOrigin, yOrigin, xWidth, yHeight);
-    });
-  }
+      const time = dataColumn.time;
+      const chartHeight = y.getRangeFrom();
+      const xPos = x.getRange(time) + pixelsBetweenBarsHalf;
 
-  function getRollup(config) {
-    const rollupInMillis = config.rollup.rollup || 1000;
-    return rollupInMillis / 1000;
+      let yPos = y.getRangeFrom();
+      for (let iRows = 0, length = dataColumn.length; iRows < length; iRows++) {
+        if (!activeSeries[iRows]) {
+          continue;
+        }
+        const dataRow = dataColumn[iRows];
+        const metricValue = dataRow[1];
+        const yPosMetric = y.getRange(metricValue);
+        const height = chartHeight - yPosMetric;
+
+        ctx.fillStyle = colors[iRows];
+        ctx.fillRect(xPos, yPos - height, width, height);
+
+        yPos -= height;
+      }
+    }
   }
 
   function calculateBarWidth(dataColumns) {
     const numberOfBars = dataColumns.length;
-
     const chartWidth = x.getRangeTo() - x.getRangeFrom();
-    return chartWidth / numberOfBars;
-  }
-
-  function createRectangle(element, index, barWidth, rollup) {
-    const yDomain = element[0][1] * rollup;
-
-    const yOrigin = y.getRangeFrom();
-    const yHeight = y.getRange(yDomain) - yOrigin;
-
-    const xOrigin = index * barWidth + x.getRangeFrom();
-    const xWidth = barWidth - pixelsBetweenBars;
-
-    return { xOrigin, yOrigin, xWidth, yHeight };
+    return chartWidth / numberOfBars - pixelsBetweenBars;
   }
 }
