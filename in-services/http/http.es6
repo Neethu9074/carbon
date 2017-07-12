@@ -20,46 +20,80 @@ export default function({
 
   return create({
     start(observable) {
-      xhr = new XMLHttpRequest();
-      xhr.open(method, url, true);
-      xhr.timeout = timeout;
-      xhr.responseType = responseType === 'json' ? 'text' : responseType;
+      const shouldRetry = method.toLowerCase() !== 'post';
+      const maxRetries = 3;
+      let current_retries = 0;
 
-      xhr.addEventListener('timeout', () => observable.emitError(new HttpRequestTimeoutError(method, url)));
-      xhr.addEventListener('error', () => observable.emitError(new HttpResponseError(method, url)));
+      function xhrFunc() {
+        xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.timeout = timeout;
+        xhr.responseType = responseType === 'json' ? 'text' : responseType;
 
-      if (!ignoreAbortErrors) {
-        xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
-      }
-
-      if (data) {
-        xhr.setRequestHeader('Content-Type', 'application/json');
-      }
-
-      xhr.addEventListener('readystatechange', () => {
-        if (xhr.readyState === 4 && xhr.status !== 0) {
-          const response = {
-            status: xhr.status,
-            statusText: xhr.statusText,
-            body: xhr.response,
-            getHeader: name => xhr.getResponseHeader(name)
-          };
-          if (
-            (199 < response.status && response.status < 300) ||
-            (!treat400AsError && 399 < response.status && response.status < 500)
-          ) {
-            if (responseType === 'json' && response.body && response.body.length > 0) {
-              response.body = JSON.parse(response.body);
-            }
-            observable.emit(response);
-          } else {
-            observable.emitError(new HttpResponseStatusCodeError(response, method, url));
+        xhr.addEventListener('timeout', () => {
+          if (!xhrRetry()) {
+            observable.emitError(new HttpRequestTimeoutError(method, url));
           }
-          xhr = null;
-        }
-      });
+        });
 
-      xhr.send(JSON.stringify(data));
+        xhr.addEventListener('error', () => {
+          if (!xhrRetry()) {
+            observable.emitError(new HttpResponseError(method, url));
+          }
+        });
+
+        if (!ignoreAbortErrors) {
+          xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
+        }
+
+        if (data) {
+          xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+
+        xhr.addEventListener('readystatechange', () => {
+          if (xhr.readyState === 4 && xhr.status !== 0) {
+            const response = {
+              status: xhr.status,
+              statusText: xhr.statusText,
+              body: xhr.response,
+              getHeader: name => xhr.getResponseHeader(name)
+            };
+            if (
+              (199 < response.status && response.status < 300) ||
+              (!treat400AsError && 399 < response.status && response.status < 500)
+            ) {
+              if (responseType === 'json' && response.body && response.body.length > 0) {
+                response.body = JSON.parse(response.body);
+              }
+              observable.emit(response);
+            } else {
+              if (!xhrRetry()) {
+                observable.emitError(new HttpResponseStatusCodeError(response, method, url));
+              }
+            }
+            xhr = null;
+          }
+        });
+
+        xhr.send(JSON.stringify(data));
+      }
+
+      function xhrRetry() {
+        if (current_retries < maxRetries && shouldRetry) {
+          current_retries++;
+          if (xhr) {
+            xhr.abort();
+            xhr = null;
+          }
+          setTimeout(xhrFunc, 100);
+
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      xhrFunc();
     },
 
     stop() {
