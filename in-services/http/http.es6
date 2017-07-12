@@ -25,9 +25,8 @@ export default function({
   return create({
     start(observable) {
       const shouldRetry = method.toLowerCase() !== 'post' && maxRetries > 0;
-      const exponent = 500;
-      let retry_time = 1000;
-      let current_retries = 0;
+      let retryTime = 1000;
+      let currentRetries = 0;
 
       if (__DEV__ && method.toLowerCase() !== 'post' && maxRetries === -1) {
         logger.warn(
@@ -90,13 +89,13 @@ export default function({
       }
 
       function xhrRetry() {
-        if (current_retries < maxRetries && shouldRetry) {
-          current_retries++;
+        if (currentRetries < maxRetries && shouldRetry) {
+          currentRetries++;
           if (xhr) {
             xhr.abort();
             xhr = null;
           }
-          setTimeout(xhrFunc, current_retries === 0 ? retry_time : (retry_time += exponent));
+          setTimeout(xhrFunc, Math.pow(2, currentRetries) * retryTime);
 
           return true;
         } else {
