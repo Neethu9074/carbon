@@ -3,6 +3,7 @@ import http from 'in-services/http';
 export function getAllEumKeys() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/eumApps`
   }).map(response => {
     const keys = response.body || [];
@@ -14,6 +15,7 @@ export function getAllEumKeys() {
 export function removeKey(keyId) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/eumApps/${encodeURIComponent(keyId)}`
   }).map(response => response.body);
 }
@@ -31,6 +33,7 @@ export function addKey(appName) {
 export function renameKey(apiKey, newAppName) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/eumApps/${encodeURIComponent(apiKey)}`,
     queryParams: {
       name: newAppName

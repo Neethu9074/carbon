@@ -46,6 +46,7 @@ if (!isOnPremise()) {
 function retrieveLatestReleaseNotes() {
   const observable = http({
     method: 'GET',
+    maxRetries: 3,
     url: '/notifications/release-notes.md?cacheBust=' + Date.now(),
     responseType: 'text'
   });

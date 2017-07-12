@@ -6,6 +6,7 @@ import http from 'in-services/http';
 export function getRuleBindings() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/ruleBindings`
   }).map(response => fromJS(response.body));
 }
@@ -13,6 +14,7 @@ export function getRuleBindings() {
 export function getRuleBinding(ruleBindingId) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/ruleBindings/${encodeURIComponent(ruleBindingId)}`
   }).map(response => fromJS(response.body));
 }
@@ -24,6 +26,7 @@ export function setEnabled(ruleBinding, enabled) {
 export function saveRuleBinding(ruleBinding) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/ruleBindings/${encodeURIComponent(ruleBinding.get('id'))}`,
     data: ruleBinding.toJS()
   }).map(response => fromJS(response.body));
@@ -32,6 +35,7 @@ export function saveRuleBinding(ruleBinding) {
 export function deleteRuleBinding(ruleBindingId) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/ruleBindings/${encodeURIComponent(ruleBindingId)}`
   }).map(response => fromJS(response.body));
 }

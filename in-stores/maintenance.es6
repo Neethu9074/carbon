@@ -59,6 +59,7 @@ export function init() {
 function retrieveLatestMessage() {
   const observable = http({
     method: 'GET',
+    maxRetries: 3,
     url: '/notifications/maintenance.md?cacheBust=' + Date.now(),
     responseType: 'text'
   });

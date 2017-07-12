@@ -6,6 +6,7 @@ import http from 'in-services/http';
 export function getAllFilters() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters`
   }).map(response => {
     response.body.sort((a, b) => a.name.localeCompare(b.name));
@@ -27,6 +28,7 @@ export function saveNewFilter(name, definition) {
 export function saveFilter(id, name, definition) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters/${encodeURIComponent(id)}`,
     data: {
       id,
@@ -39,6 +41,7 @@ export function saveFilter(id, name, definition) {
 export function removeFilter(id) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters/${encodeURIComponent(id)}`
   }).map(response => response.body);
 }

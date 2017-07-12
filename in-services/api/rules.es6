@@ -6,6 +6,7 @@ import http from 'in-services/http';
 export function getRules() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/rules`
   }).map(response => fromJS(response.body));
 }
@@ -13,6 +14,7 @@ export function getRules() {
 export function getRule(id) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/rules/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
@@ -20,6 +22,7 @@ export function getRule(id) {
 export function saveRule(rule) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/rules/${encodeURIComponent(rule.get('id'))}`,
     data: rule.toJS()
   }).map(response => fromJS(response.body));
@@ -28,6 +31,7 @@ export function saveRule(rule) {
 export function deleteRule(id) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/rules/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }

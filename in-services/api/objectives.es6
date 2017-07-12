@@ -6,6 +6,7 @@ import http from 'in-services/http';
 export function getObjectives() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/objectives`
   }).map(response => fromJS(response.body));
 }
@@ -13,6 +14,7 @@ export function getObjectives() {
 export function getObjective(id) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/objectives/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
@@ -24,6 +26,7 @@ export function setEnabled(objective, enabled) {
 export function saveObjective(objective) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/objectives/${encodeURIComponent(objective.get('id'))}`,
     data: objective.toJS()
   }).map(response => fromJS(response.body));
@@ -32,6 +35,7 @@ export function saveObjective(objective) {
 export function deleteObjective(id) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/objectives/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }

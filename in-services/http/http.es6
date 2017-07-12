@@ -4,6 +4,9 @@ import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCode
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import HttpResponseError from 'in-services/http/HttpResponseError';
+import { createLogger } from 'instalog';
+
+const logger = createLogger('xhrService');
 
 export default function({
   method,
@@ -13,16 +16,24 @@ export default function({
   timeout = 30000,
   responseType = 'json',
   ignoreAbortErrors = true,
-  treat400AsError = true
+  treat400AsError = true,
+  maxRetries = -1
 }) {
   url = formatUrl(url, queryParams);
   let xhr;
 
   return create({
     start(observable) {
-      const shouldRetry = method.toLowerCase() !== 'post';
-      const maxRetries = 3;
+      const shouldRetry = method.toLowerCase() !== 'post' && maxRetries > 0;
+      const exponent = 500;
+      let retry_time = 1000;
       let current_retries = 0;
+
+      if (__DEV__ && method.toLowerCase() !== 'post' && maxRetries === -1) {
+        logger.warn(
+          `Method is ${method}, but no retries have been set. Consider setting a number of retries for this xhr call.`
+        );
+      }
 
       function xhrFunc() {
         xhr = new XMLHttpRequest();
@@ -85,7 +96,7 @@ export default function({
             xhr.abort();
             xhr = null;
           }
-          setTimeout(xhrFunc, 100);
+          setTimeout(xhrFunc, current_retries === 0 ? retry_time : (retry_time += exponent));
 
           return true;
         } else {

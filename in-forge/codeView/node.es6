@@ -32,7 +32,8 @@ function getCode(snapshot, file) {
   const base = http({
     method: 'GET',
     url: `https://raw.githubusercontent.com/nodejs/node/v${version}/lib/${file}`,
-    responseType: 'text'
+    responseType: 'text',
+    maxRetries: 3
   });
 
   return create()

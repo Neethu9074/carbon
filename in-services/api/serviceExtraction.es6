@@ -6,6 +6,7 @@ import http from 'in-services/http';
 export function getServiceRulesByType(type) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`
   }).map(response => fromJS(response.body));
 }
@@ -13,6 +14,7 @@ export function getServiceRulesByType(type) {
 export function getServiceRule(id) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/serviceExtractionConfigs/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
@@ -20,6 +22,7 @@ export function getServiceRule(id) {
 export function saveServiceRule(rule) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/serviceExtractionConfigs/${encodeURIComponent(rule.get('id'))}`,
     data: rule.toJS()
   }).map(() => true);
@@ -28,6 +31,7 @@ export function saveServiceRule(rule) {
 export function upsertServiceRules(rules) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: '/api/serviceExtractionConfigs/type/upsert',
     data: {
       lastModificationTimestamp: Date.now(),
@@ -39,6 +43,7 @@ export function upsertServiceRules(rules) {
 export function updateServiceRulesByType(rules, type) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`,
     data: {
       lastModificationTimestamp: Date.now(),
@@ -54,6 +59,7 @@ export function setEnabled(rule, enabled) {
 export function deleteServiceRule(id) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/serviceExtractionConfigs/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }

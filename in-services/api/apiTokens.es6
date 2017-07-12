@@ -5,6 +5,7 @@ import http from 'in-services/http';
 export function getApiTokens() {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/apiTokens`
   }).map(response => fromJS(response.body));
 }
@@ -12,6 +13,7 @@ export function getApiTokens() {
 export function getApiToken(apiTokenId) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/apiTokens/${encodeURIComponent(apiTokenId)}`
   }).map(response => fromJS(response.body));
 }
@@ -19,6 +21,7 @@ export function getApiToken(apiTokenId) {
 export function saveApiToken(apiToken) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/apiTokens/${encodeURIComponent(apiToken.get('id'))}`,
     data: apiToken.toJS()
   });
@@ -27,6 +30,7 @@ export function saveApiToken(apiToken) {
 export function deleteApiToken(apiTokenId) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/apiTokens/${encodeURIComponent(apiTokenId)}`
   });
 }
