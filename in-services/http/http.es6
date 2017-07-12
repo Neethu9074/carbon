@@ -75,12 +75,9 @@ export default function({
                 response.body = JSON.parse(response.body);
               }
               observable.emit(response);
-            } else {
-              if (!attemptRetry()) {
-                observable.emitError(new HttpResponseStatusCodeError(response, method, url));
-              }
+            } else if (!attemptRetry()) {
+              observable.emitError(new HttpResponseStatusCodeError(response, method, url));
             }
-            xhr = null;
           }
         });
 
@@ -90,12 +87,8 @@ export default function({
       function attemptRetry() {
         if (numberOfRetries < maxRetries && shouldRetry) {
           numberOfRetries++;
-          if (xhr) {
-            xhr.abort();
-            xhr = null;
-          }
+          xhr = null;
           setTimeout(sendXhr, Math.pow(2, numberOfRetries) * 1000);
-
           return true;
         } else {
           return false;
