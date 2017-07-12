@@ -1,7 +1,7 @@
+import incidentCriticalOpenData from 'in-components/timeline/icons/incidentCriticalOpen';
+import incidenWarningOpenData from 'in-components/timeline/icons/incidentWarningOpen';
 import issueCriticalOpenData from 'in-components/timeline/icons/issueCriticalOpen';
 import issueWarningOpenData from 'in-components/timeline/icons/issueWarningOpen';
-import incidentCriticalOpenData from 'in-components/timeline/icons/incident';
-import incidenWarningOpentData from 'in-components/timeline/icons/incident';
 import issueCriticalData from 'in-components/timeline/icons/issueCritical';
 import issueWarningData from 'in-components/timeline/icons/issueWarning';
 import incidentData from 'in-components/timeline/icons/incident';
@@ -10,7 +10,7 @@ export const incident = document.createElement('img');
 incident.src = incidentData;
 
 export const incidentWarningOpen = document.createElement('img');
-incidentWarningOpen.src = incidenWarningOpentData;
+incidentWarningOpen.src = incidenWarningOpenData;
 
 export const incidentCriticalOpen = document.createElement('img');
 incidentCriticalOpen.src = incidentCriticalOpenData;
