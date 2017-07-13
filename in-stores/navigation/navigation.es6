@@ -270,7 +270,11 @@ export function goToGraph() {
 export function getEventsViewFilteredByEntity(entityId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/events';
-    params.query.q += ` entity.id:${entityId}`;
+    if (params.query.q) {
+      params.query.q += `entity.id:${entityId}`;
+    } else {
+      params.query.q = `entity.id:${entityId}`;
+    }
   });
 }
 
