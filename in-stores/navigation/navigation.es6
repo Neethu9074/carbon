@@ -271,7 +271,7 @@ export function getEventsViewFilteredByEntity(entityId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/events';
     if (params.query.q) {
-      params.query.q += `entity.id:${entityId}`;
+      params.query.q += ` entity.id:${entityId}`;
     } else {
       params.query.q = `entity.id:${entityId}`;
     }
