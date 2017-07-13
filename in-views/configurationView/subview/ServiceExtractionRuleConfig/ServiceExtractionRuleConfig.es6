@@ -135,7 +135,8 @@ export default class extends React.Component {
       loading: true,
       error: false,
       message: 'Loading service extraction rule…',
-      form: null
+      form: null,
+      rule: null
     });
 
     const result$ = getServiceRule(ruleId);
