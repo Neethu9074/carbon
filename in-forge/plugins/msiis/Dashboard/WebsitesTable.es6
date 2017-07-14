@@ -120,6 +120,7 @@ export default function WebsitesTable({ snapshot, timeframe }) {
 }
 
 function getDetails(row) {
+  const name = row.key;
   return (
     <div>
       <Chart
