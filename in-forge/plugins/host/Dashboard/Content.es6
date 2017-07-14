@@ -17,7 +17,6 @@ import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
