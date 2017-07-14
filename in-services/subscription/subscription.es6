@@ -6,6 +6,7 @@ import { connection } from 'in-services/connection';
 let loadTestEnabled = false;
 export function setLoadTestEnabled(enabled = false) {
   loadTestEnabled = enabled;
+  return loadTestEnabled;
 }
 
 export default function({
