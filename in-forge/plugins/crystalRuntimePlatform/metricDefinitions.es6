@@ -1,18 +1,18 @@
-import { number } from 'in-services/formatters/number';
+import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: ['gc.tb', 'gc.fb'],
-    labels: ['Total', 'Free'],
+    metrics: ['gc.hs', 'gc.fb', 'gc.ub'],
+    labels: ['Size', 'Free', 'Unused'],
     min: 0,
     category: ['Heap'],
-    formatter: number
+    formatter: bytesZeroDecimalPlaces
   },
   {
-    metric: 'thread.count',
-    label: '#Thread Count',
+    metrics: ['gc.bsgc'],
+    labels: ['Bytes Since GC'],
     min: 0,
-    category: ['Threads'],
-    formatter: number
+    category: ['GC'],
+    formatter: bytesZeroDecimalPlaces
   }
 ];
