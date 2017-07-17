@@ -4,7 +4,7 @@ import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
-import { getDynamicDefinedRollup, getMetricsForTimeframe } from 'in-stores/metric';
+import { getDynamicRollupMultiplier, getMetricsForTimeframe } from 'in-stores/metric';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
@@ -152,9 +152,9 @@ export default function createAxisController(config) {
       combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe, bounds]) => {
         clearData();
 
-        const { minAvailableRollup, dynamicRollup } = calculateDynamicRollup(timeframe, bounds);
+        const { minAvailableRollup, dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(timeframe, bounds);
+        config.dynamicRollupMultiplier = dynamicRollupMultiplier;
         config.rollup = minAvailableRollup;
-        config.dynamicRollup = dynamicRollup;
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
 
@@ -189,7 +189,7 @@ export default function createAxisController(config) {
           metric: metrics[i],
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
-          dynamicRollup: config.dynamicRollup.rollup
+          dynamicRollupMultiplier: config.dynamicRollupMultiplier
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
@@ -266,9 +266,9 @@ export default function createAxisController(config) {
     }
   }
 
-  function calculateDynamicRollup(timeframe, bounds) {
+  function calculateDynamicRollupMultiplier(timeframe, bounds) {
     const chartWidth = bounds.right - bounds.left;
     const minWidthPerDataPointInPx = 6;
-    return getDynamicDefinedRollup(chartWidth, timeframe, minWidthPerDataPointInPx);
+    return getDynamicRollupMultiplier(chartWidth, timeframe, minWidthPerDataPointInPx);
   }
 }
