@@ -30,7 +30,10 @@ export default function WebsiteRow({ snapshot, onClick }) {
           </span>
         </div>
         <div>
-          CHART
+          <img
+            height="60px"
+            src="http://c.finanzen.net/chart.gfx?chartType=1&time=10000&height=500&width=960&symbol=DE000LEG1110&exchangeId=2&volumeUnit=1&gridGlobalOff=0"
+          />
         </div>
       </div>
     </div>
