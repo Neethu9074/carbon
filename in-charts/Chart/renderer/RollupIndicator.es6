@@ -17,6 +17,14 @@ export default connectTo(
       return null;
     }
 
+    if (config.useDynamicRollup) {
+      return (
+        <div className={block}>
+          Rollup {config.dynamicRollupMultiplier} x {config.rollup.label}
+        </div>
+      );
+    }
+
     return (
       <div className={block}>
         Rollup {config.rollup.label}
