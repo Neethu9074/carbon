@@ -1,10 +1,9 @@
 import React from 'react';
-import connectTo from 'in-hoc/connectTo';
+
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import { snapshots$ } from 'in-views/eumView/stores/snapshots';
+
 //import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import './WebsiteTable.less';
 
@@ -121,17 +120,8 @@ const header = {
   ]
 };
 
-export default connectTo(
-  () => {
-    return {
-      snapshots: snapshots$
-    };
-  },
-  function WebsiteTable({ snapshots }) {
-    if (!snapshots) {
-      return <LoadingIndicator type="dark" />;
-    }
-    /*let rows = snapshots.map(snapshot => {
+export default function WebsiteTable({ snapshots }) {
+  /*let rows = snapshots.map(snapshot => {
       const snapshotId = snapshot.get('id');
       const label = getLabel(snapshot);
       return {
@@ -142,21 +132,20 @@ export default connectTo(
       };
     });*/
 
-    return (
-      <div>
-        <WebsiteHeader data={header} />
-        {snapshots.map(snapshot => {
-          return (
-            <WebsiteRow
-              snapshot={snapshot}
-              onClick={e => {
-                e.preventDefault();
-                goToDashboard(snapshot.get('id'));
-              }}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-);
+  return (
+    <div>
+      <WebsiteHeader data={header} />
+      {snapshots.map(snapshot => {
+        return (
+          <WebsiteRow
+            snapshot={snapshot}
+            onClick={e => {
+              e.preventDefault();
+              goToDashboard(snapshot.get('id'));
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
