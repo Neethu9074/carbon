@@ -3,17 +3,17 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-live-metric',
 
-  getId({ snapshotId, metric, aggregation, rollup }) {
-    return snapshotId + metric + aggregation + rollup;
+  getId({ snapshotId, metric, rollup, dynamicRollupMultiplier }) {
+    return snapshotId + metric + rollup + dynamicRollupMultiplier;
   },
 
-  getData(subscriptionId, { snapshotId, metric, aggregation, rollup }) {
+  getData(subscriptionId, { snapshotId, metric, rollup, dynamicRollupMultiplier }) {
     return {
       subscriptionId,
-      aggregation,
       snapshotId,
       metric,
-      rollup
+      rollup,
+      dynamicRollupMultiplier
     };
   },
 

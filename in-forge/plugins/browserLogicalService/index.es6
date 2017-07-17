@@ -12,25 +12,6 @@ registerSnapshotDefinition({
   iconSvgPath,
   tableDefinition,
   metricDefinitions,
-  metricAggregations: {
-    fp: 'mean',
-    unl: 'mean',
-    red: 'mean',
-    apc: 'mean',
-    dns: 'mean',
-    tcp: 'mean',
-    req: 'mean',
-    rsp: 'mean',
-    pro: 'mean',
-    loa: 'mean',
-    uncaughtErrors: 'sum',
-    xhrCalls: 'sum',
-    xhrErrors: 'sum'
-  },
-  dynamicMetricAggregations: {
-    mean: /^endpoint\..*\.(fp|unl|red|apc|dns|tcp|req|rsp|pro|loa)$/i,
-    sum: /^endpoint\..*\.(uncaughtErrors|xhrCalls|xhrErrors)$/i
-  },
   isNewDashboard: eumViewEnabled,
 
   pluginName: {

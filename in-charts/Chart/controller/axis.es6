@@ -153,7 +153,9 @@ export default function createAxisController(config) {
         clearData();
 
         const { minAvailableRollup, dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(timeframe, bounds);
-        config.dynamicRollupMultiplier = dynamicRollupMultiplier;
+        if (config.useDynamicRollup) {
+          config.dynamicRollupMultiplier = dynamicRollupMultiplier;
+        }
         config.rollup = minAvailableRollup;
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
