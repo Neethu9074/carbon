@@ -1,0 +1,24 @@
+.in-website-table-header {
+  color: #b9b9b9;
+  display: flex;
+  height: 60px;
+
+  &__id {
+    width: 30%;
+  }
+
+  &__kpis {
+    display: flex;
+    width: 70%;
+
+    &__kpi {
+      width: 7rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .in-website-table-header {
+    display: block;
+  }
+}

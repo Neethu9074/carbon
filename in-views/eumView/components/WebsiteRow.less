@@ -1,0 +1,31 @@
+.in-website-table-row {
+  border: 1px solid #D5DFE4;
+  border-radius: 5px;
+  height: 110px;
+  display: flex;
+  cursor: pointer;
+
+  &__name {
+    width: 30%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+
+  &__kpis {
+    width: 70%;
+    margin-top: 1rem;
+
+    &__kpi {
+      width: 7rem;
+      display: inline-block;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .in-website-table-row {
+    display: block;
+  }
+}

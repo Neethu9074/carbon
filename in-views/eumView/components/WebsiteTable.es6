@@ -1,15 +1,14 @@
 import React from 'react';
 import connectTo from 'in-hoc/connectTo';
-import Table from 'in-components/Table';
+import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
+import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { snapshots$ } from 'in-views/eumView/stores/snapshots';
-import { getLabel } from 'in-sdk/snapshot';
-import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+//import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import './WebsiteTable.less';
 
-//todo: use own renderer
-const cols = [
+/*const cols = [
   {
     title: 'Name',
     type: 'string',
@@ -100,6 +99,27 @@ const cols = [
     }
   }
 ];
+*/
+const header = {
+  websiteName: {
+    name: 'Name',
+    sortDirection: 0
+  },
+  websiteKpis: [
+    {
+      name: 'Page Load',
+      sortDirection: 0
+    },
+    {
+      name: 'Load Time',
+      sortDirection: 0
+    },
+    {
+      name: 'Errors',
+      sortDirection: 0
+    }
+  ]
+};
 
 export default connectTo(
   () => {
@@ -108,12 +128,10 @@ export default connectTo(
     };
   },
   function WebsiteTable({ snapshots }) {
-    const block = 'in-eum-table';
-
     if (!snapshots) {
       return <LoadingIndicator type="dark" />;
     }
-    let rows = snapshots.map(snapshot => {
+    /*let rows = snapshots.map(snapshot => {
       const snapshotId = snapshot.get('id');
       const label = getLabel(snapshot);
       return {
@@ -122,17 +140,23 @@ export default connectTo(
         snapshotId: snapshotId,
         snapshot
       };
-    });
+    });*/
 
     return (
-      <Table
-        cols={cols}
-        rows={rows}
-        onRowClick={row => goToDashboard(row.key)}
-        initialSortDirection="asc"
-        className={block}
-        maxItemsPerPage={Number.MAX_VALUE}
-      />
+      <div>
+        <WebsiteHeader data={header} />
+        {snapshots.map(snapshot => {
+          return (
+            <WebsiteRow
+              snapshot={snapshot}
+              onClick={e => {
+                e.preventDefault();
+                goToDashboard(snapshot.get('id'));
+              }}
+            />
+          );
+        })}
+      </div>
     );
   }
 );
