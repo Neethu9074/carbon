@@ -1,22 +1,15 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import DashboardNotification from 'in-components/DashboardNotification';
+import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
 
 export default function Dashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const healthReport = snapshot.getIn(['data', 'healthReport']);
   return (
     <div>
-      {healthReport
-        ? <DashboardNotification type="danger">
-            <b>Hadoop Health Check Report: </b>{healthReport}
-          </DashboardNotification>
-        : null}
       <DashboardSection title="Containers">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -31,7 +24,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -47,7 +40,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Virtual Cores">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
