@@ -8,8 +8,9 @@ export default function WebsiteRow({ snapshot, onClick }) {
   const block = 'in-website-table-row';
   const nameElement = `${block}__name`;
   const detailsElement = `${nameElement}__details`;
-  const kpiContainer = `${block}__kpis`;
-  const kpiElement = `${kpiContainer}__kpi`;
+  const kpis = `${block}__kpis`;
+  const kpiContainer = `${kpis}__container`;
+  const kpiElement = `${kpis}__kpi`;
 
   const snapshotId = snapshot.get('id');
   const websiteName = getLabel(snapshot);
@@ -19,8 +20,8 @@ export default function WebsiteRow({ snapshot, onClick }) {
         <div>{websiteName}</div>
         <div className={detailsElement}>Details</div>
       </div>
-      <div className={kpiContainer}>
-        <div>
+      <div className={kpis}>
+        <div className={kpiContainer}>
           <span className={kpiElement}>
             3.1K
           </span>
