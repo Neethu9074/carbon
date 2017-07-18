@@ -7,6 +7,7 @@ import './WebsiteRow.less';
 export default function WebsiteRow({ snapshot, onClick }) {
   const block = 'in-website-table-row';
   const nameElement = `${block}__name`;
+  const detailsElement = `${nameElement}__details`;
   const kpiContainer = `${block}__kpis`;
   const kpiElement = `${kpiContainer}__kpi`;
 
@@ -15,7 +16,8 @@ export default function WebsiteRow({ snapshot, onClick }) {
   return (
     <div key={snapshotId} className={block} onClick={onClick}>
       <div className={nameElement}>
-        {websiteName}
+        <div>{websiteName}</div>
+        <div className={detailsElement}>Details</div>
       </div>
       <div className={kpiContainer}>
         <div>
@@ -32,6 +34,7 @@ export default function WebsiteRow({ snapshot, onClick }) {
         <div>
           <img
             height="60px"
+            width="99%"
             src="http://c.finanzen.net/chart.gfx?chartType=1&time=10000&height=500&width=960&symbol=DE000LEG1110&exchangeId=2&volumeUnit=1&gridGlobalOff=0"
           />
         </div>

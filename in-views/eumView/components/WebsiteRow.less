@@ -8,10 +8,18 @@
 
   &__name {
     width: 30%;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
-    align-items: center;
-    margin-left: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 1rem;
+
+    &__details {
+      color: #06B7BA;
+      transition: opacity .2s ease-in-out;
+      opacity:0;
+    }
   }
 
   &__kpis {
@@ -25,8 +33,14 @@
   }
 }
 
+.in-website-table-row:hover {
+  .in-website-table-row__name__details {
+    opacity:1;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .in-website-table-row {
-    display: block;
+    overflow-y: scroll;
   }
 }
