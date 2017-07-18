@@ -13,7 +13,8 @@ export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
 export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
-export const eumViewEnabled = true;
+//TODO: Change this back to onlyInternally if done with testing
+export const eumViewEnabled = isInstanaEmployee();
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
