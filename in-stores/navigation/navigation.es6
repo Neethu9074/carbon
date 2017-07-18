@@ -37,10 +37,12 @@ export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
 hashHistory.listen(location => {
+  const pathname = getCurrentPath();
+  ineum('page', pathname);
   ineum('startSpaPageTransition');
   store.applyStateMutation(() => {
     return {
-      pathname: getCurrentPath(),
+      pathname,
       query: qs.parse(location.search.replace('?', ''))
     };
   });
