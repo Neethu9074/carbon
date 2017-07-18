@@ -44,7 +44,6 @@ export default connectTo(
                 Configure
               </Link>
             </div>
-
           </div>
           <WebsiteTable snapshots={snapshots} />
           <DashboardNavigationRoute />

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SortIndicator from 'in-components/Table/components/SortIndicator';
+
 import './WebsiteHeader.less';
 
 export default function WebsiteHeader({ data }) {
@@ -10,7 +12,14 @@ export default function WebsiteHeader({ data }) {
 
   const name = (
     <div id={data.websiteName.name} className={idHeader}>
-      {data.websiteName.name}
+      <SortIndicator
+        title={data.websiteName.name}
+        index={data.websiteName.name}
+        sortIndex={data.websiteName.name}
+        sortDirection={'asc'}
+        onChangeSort={() => {}}
+        columnDefinition={{ disableSorting: false }}
+      />
     </div>
   );
 
