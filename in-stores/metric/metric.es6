@@ -5,7 +5,6 @@ import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
-import { getAggregation } from 'in-sdk/metrics';
 import { createStore } from 'in-stores/store';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
@@ -43,15 +42,9 @@ export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup, d
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
-
   return createLiveMetricObservable({
     snapshotId,
     metric,
-    aggregation,
     rollup,
     dynamicRollupMultiplier
   });
@@ -62,16 +55,10 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup, dynamicRoll
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
-
   return createHistoricMetricsObservable({
     snapshotId,
     metric,
     timeframe,
-    aggregation,
     rollup,
     dynamicRollupMultiplier
   });
@@ -122,15 +109,9 @@ export function getHistoricMetric({ snapshotId, metric, time }) {
   );
   const rollup = availableRollupDefinitions[0].rollup;
 
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
-
   return createHistoricMetricObservable({
     snapshotId,
     metric,
-    aggregation,
     rollup,
     time
   });
@@ -238,16 +219,10 @@ export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWi
 function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation) {
   const rollup = getDefaultMetricRollupDuration(timeframe).rollup;
 
-  let aggregation;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
-
   return createTimeWindowMetricAggregation({
     snapshotId,
     metric,
     timeframe,
-    aggregation,
     rollup,
     timeWindowAggregation
   });
