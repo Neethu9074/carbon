@@ -24,7 +24,18 @@ export default function WebsiteHeader({ data, sortColumnIndex, sortDirection, on
   );
 
   const kpis = data.websiteKpis.map(kpi => {
-    return <div key={kpi.name} className={kpiElement}>{kpi.name}</div>;
+    return (
+      <div key={kpi.name} className={kpiElement}>
+        <SortIndicator
+          title={kpi.name}
+          index={kpi.index}
+          sortIndex={sortColumnIndex}
+          sortDirection={sortDirection}
+          onChangeSort={onChangeSort}
+          columnDefinition={{ disableSorting: false }}
+        />
+      </div>
+    );
   });
 
   return (

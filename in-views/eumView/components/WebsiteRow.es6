@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { getLabel } from 'in-sdk/snapshot';
-
 import './WebsiteRow.less';
 
-export default function WebsiteRow({ snapshot, onClick }) {
+export default function WebsiteRow({ data, onClick }) {
   const block = 'in-website-table-row';
   const nameElement = `${block}__name`;
   const detailsElement = `${nameElement}__details`;
@@ -12,24 +10,22 @@ export default function WebsiteRow({ snapshot, onClick }) {
   const kpiContainer = `${kpis}__container`;
   const kpiElement = `${kpis}__kpi`;
 
-  const snapshotId = snapshot.get('id');
-  const websiteName = getLabel(snapshot);
   return (
-    <div key={snapshotId} className={block} onClick={onClick}>
+    <div key={data.name} className={block} onClick={onClick}>
       <div className={nameElement}>
-        <div>{websiteName}</div>
+        <div>{data.name}</div>
         <div className={detailsElement}>Details</div>
       </div>
       <div className={kpis}>
         <div className={kpiContainer}>
           <span className={kpiElement}>
-            3.1K
+            {data.pageLoad ? data.pageLoad : '--'}
           </span>
           <span className={kpiElement}>
-            4.2s
+            {data.loadTime ? data.loadTime : '--'}
           </span>
           <span className={kpiElement}>
-            4%
+            {data.errors ? data.errors : '--'}
           </span>
         </div>
         <div>

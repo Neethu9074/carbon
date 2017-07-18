@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { msTwoDecimalPlaces, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
-//import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import './WebsiteTable.less';
 
 /*const cols = [
@@ -108,6 +108,54 @@ const columnDefinitions = [
         return row.label;
       }
     }
+  },
+  {
+    title: 'Load Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return 'duration.mean';
+      },
+      getContent: msTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Views',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return 'count';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
+  },
+  {
+    title: 'Uncaught Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return 'uncaughtErrors';
+      },
+      getContent: twoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
   }
 ];
 
@@ -120,7 +168,7 @@ const header = {
   websiteKpis: [
     {
       index: 1,
-      name: 'Page Load',
+      name: 'Views',
       sortDirection: 0
     },
     {
@@ -130,7 +178,7 @@ const header = {
     },
     {
       index: 3,
-      name: 'Errors',
+      name: 'Uncaught Errors',
       sortDirection: 0
     }
   ]
@@ -208,10 +256,17 @@ export default class WebsiteTable extends React.Component {
           onChangeSort={this.store.setSort}
         />
         {data.rows.map(row => {
+          const columns = row.columns;
           return (
             <WebsiteRow
               key={row.key}
-              snapshot={row.rowConfig.snapshot}
+              columns={row.columns}
+              data={{
+                name: columns[0].value,
+                loadTime: columns[1].content,
+                pageLoad: columns[2].content,
+                errors: columns[3].content
+              }}
               onClick={e => {
                 e.preventDefault();
                 goToDashboard(row.key);
