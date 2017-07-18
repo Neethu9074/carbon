@@ -4,7 +4,7 @@ import SortIndicator from 'in-components/Table/components/SortIndicator';
 
 import './WebsiteHeader.less';
 
-export default function WebsiteHeader({ data }) {
+export default function WebsiteHeader({ data, sortColumnIndex, sortDirection, onChangeSort }) {
   const block = 'in-website-table-header';
   const idHeader = `${block}__id`;
   const kpiHeader = `${block}__kpis`;
@@ -14,10 +14,10 @@ export default function WebsiteHeader({ data }) {
     <div id={data.websiteName.name} className={idHeader}>
       <SortIndicator
         title={data.websiteName.name}
-        index={data.websiteName.name}
-        sortIndex={data.websiteName.name}
-        sortDirection={'asc'}
-        onChangeSort={() => {}}
+        index={data.websiteName.index}
+        sortIndex={sortColumnIndex}
+        sortDirection={sortDirection}
+        onChangeSort={onChangeSort}
         columnDefinition={{ disableSorting: false }}
       />
     </div>
