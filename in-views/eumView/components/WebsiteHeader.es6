@@ -1,6 +1,5 @@
 import React from 'react';
-
-import SortIndicator from 'in-components/Table/components/SortIndicator';
+import SortIndicator from 'in-views/eumView/components/SortIndicator';
 
 import './WebsiteHeader.less';
 
@@ -18,7 +17,6 @@ export default function WebsiteHeader({ data, sortColumnIndex, sortDirection, on
         sortIndex={sortColumnIndex}
         sortDirection={sortDirection}
         onChangeSort={onChangeSort}
-        columnDefinition={{ disableSorting: false }}
       />
     </div>
   );
@@ -32,7 +30,6 @@ export default function WebsiteHeader({ data, sortColumnIndex, sortDirection, on
           sortIndex={sortColumnIndex}
           sortDirection={sortDirection}
           onChangeSort={onChangeSort}
-          columnDefinition={{ disableSorting: false }}
         />
       </div>
     );

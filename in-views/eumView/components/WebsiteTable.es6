@@ -7,98 +7,6 @@ import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
 import './WebsiteTable.less';
 
-/*const cols = [
- {
- title: 'Name',
- type: 'string',
- typeArgs: {
- getValue(row) {
- return row.label;
- }
- }
- },
- {
- title: 'Page Views',
- type: 'sparkChart',
- typeArgs: {
- getSnapshotId(row) {
- return row.snapshotId;
- },
- getMetricName() {
- return 'count';
- },
- getContent: twoDecimalPlaces,
- getTimeWindowAggregation() {
- return 'adjustedCount';
- }
- }
- },
- {
- title: 'Page Load',
- type: 'sparkChart',
- typeArgs: {
- getSnapshotId(row) {
- return row.snapshotId;
- },
- getMetricName() {
- return 'duration.95th';
- },
- getContent: msTwoDecimalPlaces,
- getTimeWindowAggregation() {
- return 'mean';
- }
- }
- },
- {
- title: 'Front End Time',
- type: 'sparkChart',
- typeArgs: {
- getSnapshotId(row) {
- return row.snapshotId;
- },
- getMetricName() {
- return 'fro';
- },
- getContent: msTwoDecimalPlaces,
- getTimeWindowAggregation() {
- return 'mean';
- }
- }
- },
- {
- title: 'Back End Time',
- type: 'sparkChart',
- typeArgs: {
- getSnapshotId(row) {
- return row.snapshotId;
- },
- getMetricName() {
- return 'bac';
- },
- getContent: msTwoDecimalPlaces,
- getTimeWindowAggregation() {
- return 'mean';
- }
- }
- },
- {
- title: 'First Paint Time',
- type: 'sparkChart',
- typeArgs: {
- getSnapshotId(row) {
- return row.snapshotId;
- },
- getMetricName() {
- return 'fp';
- },
- getContent: msTwoDecimalPlaces,
- getTimeWindowAggregation() {
- return 'mean';
- }
- }
- }
- ];
- */
 const columnDefinitions = [
   {
     title: 'Name',
@@ -153,7 +61,7 @@ const columnDefinitions = [
       },
       getContent: twoDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'adjustedCount';
+        return 'mean';
       }
     }
   }
