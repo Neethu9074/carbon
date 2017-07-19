@@ -25,6 +25,23 @@ const columnDefinitions = [
     }
   },
   {
+    title: 'Views',
+    type: 'metric',
+    index: 1,
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return 'count';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'adjustedCount';
+      }
+    }
+  },
+  {
     title: 'Load Time',
     type: 'metric',
     index: 2,
@@ -38,23 +55,6 @@ const columnDefinitions = [
       getContent: milliSecondsToSecondsTwoDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Views',
-    type: 'metric',
-    index: 2,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshot.get('id');
-      },
-      getMetricName() {
-        return 'count';
-      },
-      getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'adjustedCount';
       }
     }
   },
@@ -101,8 +101,8 @@ export default class WebsiteTable extends React.Component {
     this.store = createStore({
       columnDefinitions,
       maxItemsPerPage: Number.MAX_VALUE,
-      initialSortColumn: 0,
-      initialSortDirection: 'asc'
+      initialSortColumn: 2,
+      initialSortDirection: 'desc'
     });
     this.store.onRowChange(this.getRows(props.snapshots));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
@@ -154,8 +154,8 @@ export default class WebsiteTable extends React.Component {
               columns={row.columns}
               data={{
                 name: columns[0].value,
-                loadTime: columns[1].content,
-                pageLoad: columns[2].content,
+                pageLoad: columns[1].content,
+                loadTime: columns[2].content,
                 errors: columns[3].content
               }}
               onClick={e => {
