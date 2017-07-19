@@ -11,29 +11,27 @@ export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sort
 
   const name = columnDefinitions.filter(def => def.index === 0).map(def => {
     return (
-      <div key={def.title} className={idHeader}>
         <SortIndicator
+          className={idHeader}
           title={def.title}
           index={def.index}
           sortIndex={sortColumnIndex}
           sortDirection={sortDirection}
           onChangeSort={onChangeSort}
         />
-      </div>
     );
   });
 
   const kpis = columnDefinitions.filter(def => def.index > 0).map(def => {
     return (
-      <div key={def.title} className={kpiElement}>
         <SortIndicator
+          className={kpiElement}
           title={def.title}
           index={def.index}
           sortIndex={sortColumnIndex}
           sortDirection={sortDirection}
           onChangeSort={onChangeSort}
         />
-      </div>
     );
   });
 

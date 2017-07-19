@@ -5,17 +5,23 @@ import Link from 'in-components/Link';
 
 import './SortIndicator.less';
 
-const block = 'in-website-table-sort-indicator';
-const activeBlock = `${block} ${block}--active`;
-const iconElement = `${block}__icon`;
-const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
-
-export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort }) {
+export default function SortIndicator({ title, index, className, sortIndex, sortDirection, onChangeSort }) {
   const active = index === sortIndex;
+
+  let block = 'in-website-table-sort-indicator';
+  let activeBlock = `${block} ${block}--active`;
+  const iconElement = `${block}__icon`;
+  const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
+
   const onClick = e => {
     e.preventDefault();
     onChangeSort(index, active ? inverseDirection(sortDirection) : 'asc');
   };
+
+  if(className){
+    block += ` ${className}`;
+    activeBlock += ` ${className}`;
+  }
 
   return (
     <Link href="" onClick={onClick} className={active ? activeBlock : block}>

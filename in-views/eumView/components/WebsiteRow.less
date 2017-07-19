@@ -27,16 +27,23 @@
   }
 
   &__kpis {
-    width: 70%;
     margin-top: 1rem;
+    display:flex;
+    justify-content: space-between;
+    padding: 0 0.6rem;
 
     &__container {
       margin-bottom: 0.6rem;
     }
 
     &__kpi {
+      font-size: 18px;
       width: 8.5rem;
       display: inline-block;
+
+      &__bold {
+        font-weight: bold;
+      }
     }
   }
 }
@@ -44,11 +51,5 @@
 .in-website-table-row:hover {
   .in-website-table-row__name__details {
     opacity:1;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .in-website-table-row {
-    overflow-y: scroll;
   }
 }
