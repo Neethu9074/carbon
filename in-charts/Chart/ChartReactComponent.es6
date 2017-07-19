@@ -31,7 +31,7 @@ export default class extends React.Component {
       y2: props.y2,
       activeFilters$: props.activeFilters$,
       eventEmitter: this.eventEmitter,
-      useDynamicRollup: props.useDynamicRollup
+      dynamicRollupAggregation: props.dynamicRollupAggregation
     };
     config.container = this.container;
     config.filterStore = this.filterStore;

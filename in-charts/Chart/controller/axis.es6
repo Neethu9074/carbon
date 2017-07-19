@@ -153,7 +153,7 @@ export default function createAxisController(config) {
         clearData();
 
         const { minAvailableRollup, dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(timeframe, bounds);
-        if (config.useDynamicRollup) {
+        if (config.dynamicRollupAggregation) {
           config.dynamicRollupMultiplier = dynamicRollupMultiplier;
         }
         config.rollup = minAvailableRollup;
@@ -191,7 +191,8 @@ export default function createAxisController(config) {
           metric: metrics[i],
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
-          dynamicRollupMultiplier: config.dynamicRollupMultiplier
+          dynamicRollupMultiplier: config.dynamicRollupMultiplier,
+          dynamicRollupAggregation: config.dynamicRollupAggregation
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }

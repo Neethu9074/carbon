@@ -3,17 +3,27 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-historic-metric',
 
-  getId: ({ snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier }) =>
-    snapshotId + metric + timeframe.windowSize + timeframe.to + rollup + dynamicRollupMultiplier,
+  getId: ({ snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier, dynamicRollupAggregation }) =>
+    snapshotId +
+    metric +
+    timeframe.windowSize +
+    timeframe.to +
+    rollup +
+    dynamicRollupAggregation +
+    dynamicRollupMultiplier,
 
-  getData: (subscriptionId, { snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier }) => {
+  getData: (
+    subscriptionId,
+    { snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier, dynamicRollupAggregation }
+  ) => {
     return {
       subscriptionId,
       snapshotId,
       timeframe,
       metric,
       rollup,
-      dynamicRollupMultiplier
+      dynamicRollupMultiplier,
+      dynamicRollupAggregation
     };
   },
 

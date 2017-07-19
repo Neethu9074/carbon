@@ -37,7 +37,14 @@ const rollupDurationThresholds = [
   }
 ];
 
-export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup, dynamicRollupMultiplier }) {
+export function getLiveMetrics({
+  snapshotId,
+  metric,
+  timeframe = null,
+  rollup,
+  dynamicRollupMultiplier,
+  dynamicRollupAggregation
+}) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
@@ -46,11 +53,19 @@ export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup, d
     snapshotId,
     metric,
     rollup,
-    dynamicRollupMultiplier
+    dynamicRollupMultiplier,
+    dynamicRollupAggregation
   });
 }
 
-function getHistoricMetrics({ snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier }) {
+function getHistoricMetrics({
+  snapshotId,
+  metric,
+  timeframe,
+  rollup,
+  dynamicRollupMultiplier,
+  dynamicRollupAggregation
+}) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
@@ -60,7 +75,8 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup, dynamicRoll
     metric,
     timeframe,
     rollup,
-    dynamicRollupMultiplier
+    dynamicRollupMultiplier,
+    dynamicRollupAggregation
   });
 }
 
