@@ -1,16 +1,23 @@
 import React from 'react';
 
-import { msTwoDecimalPlaces, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  milliSecondsToSecondsOneDecimalPlace
+} from 'in-services/formatters/number';
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
 import './WebsiteTable.less';
 
+const block = 'in-website-table';
+
 const columnDefinitions = [
   {
     title: 'Name',
     type: 'string',
+    index: 0,
     typeArgs: {
       getValue(row) {
         return row.label;
@@ -20,6 +27,7 @@ const columnDefinitions = [
   {
     title: 'Load Time',
     type: 'metric',
+    index: 2,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -27,7 +35,7 @@ const columnDefinitions = [
       getMetricName() {
         return 'duration.mean';
       },
-      getContent: msTwoDecimalPlaces,
+      getContent: milliSecondsToSecondsOneDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -36,6 +44,7 @@ const columnDefinitions = [
   {
     title: 'Views',
     type: 'metric',
+    index: 2,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -52,6 +61,7 @@ const columnDefinitions = [
   {
     title: 'Uncaught Errors',
     type: 'metric',
+    index: 3,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -66,33 +76,6 @@ const columnDefinitions = [
     }
   }
 ];
-
-const header = {
-  websiteName: {
-    name: 'Name',
-    index: 0,
-    sortDirection: 0
-  },
-  websiteKpis: [
-    {
-      index: 1,
-      name: 'Views',
-      sortDirection: 0
-    },
-    {
-      index: 2,
-      name: 'Load Time',
-      sortDirection: 0
-    },
-    {
-      index: 3,
-      name: 'Uncaught Errors',
-      sortDirection: 0
-    }
-  ]
-};
-
-const block = 'in-website-table';
 
 export default class WebsiteTable extends React.Component {
   displayName = 'WebsiteTable';
@@ -158,7 +141,7 @@ export default class WebsiteTable extends React.Component {
     return (
       <div className={block}>
         <WebsiteHeader
-          data={header}
+          columnDefinitions={columnDefinitions}
           sortColumnIndex={data.sortColumnIndex}
           sortDirection={data.sortDirection}
           onChangeSort={this.store.setSort}

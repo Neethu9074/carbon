@@ -3,30 +3,32 @@ import SortIndicator from 'in-views/eumView/components/SortIndicator';
 
 import './WebsiteHeader.less';
 
-export default function WebsiteHeader({ data, sortColumnIndex, sortDirection, onChangeSort }) {
+export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sortDirection, onChangeSort }) {
   const block = 'in-website-table-header';
   const idHeader = `${block}__id`;
   const kpiHeader = `${block}__kpis`;
   const kpiElement = `${kpiHeader}__kpi`;
 
-  const name = (
-    <div id={data.websiteName.name} className={idHeader}>
-      <SortIndicator
-        title={data.websiteName.name}
-        index={data.websiteName.index}
-        sortIndex={sortColumnIndex}
-        sortDirection={sortDirection}
-        onChangeSort={onChangeSort}
-      />
-    </div>
-  );
-
-  const kpis = data.websiteKpis.map(kpi => {
+  const name = columnDefinitions.filter(def => def.index === 0).map(def => {
     return (
-      <div key={kpi.name} className={kpiElement}>
+      <div key={def.title} className={idHeader}>
         <SortIndicator
-          title={kpi.name}
-          index={kpi.index}
+          title={def.title}
+          index={def.index}
+          sortIndex={sortColumnIndex}
+          sortDirection={sortDirection}
+          onChangeSort={onChangeSort}
+        />
+      </div>
+    );
+  });
+
+  const kpis = columnDefinitions.filter(def => def.index > 0).map(def => {
+    return (
+      <div key={def.title} className={kpiElement}>
+        <SortIndicator
+          title={def.title}
+          index={def.index}
           sortIndex={sortColumnIndex}
           sortDirection={sortDirection}
           onChangeSort={onChangeSort}
