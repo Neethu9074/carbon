@@ -26,9 +26,6 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
         <KpiHeading>
           {getLabel(snapshot)}
         </KpiHeading>
-        <KpiKeyValue label="Queries">
-          <MetricValue snapshotId={snapshotId} metric="totalQueries" formatter={activityZeroDecimalPlaces} />
-        </KpiKeyValue>
         <KpiKeyValue label="Committed Transactions">
           <MetricValue
             snapshotId={snapshotId}

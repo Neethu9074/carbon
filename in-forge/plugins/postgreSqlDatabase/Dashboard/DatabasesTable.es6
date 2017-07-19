@@ -2,8 +2,6 @@ import React from 'react';
 
 import { activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
@@ -160,27 +158,6 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <DashboardSection title="Queries">
-        <TwoColumnRow>
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
-            y1={{
-              min: 0,
-              formatter: activityZeroDecimalPlaces,
-              metrics: ['databases.' + row.key + '.queries'],
-              labels: ['Queries'],
-              type: 'line'
-            }}
-          />
-
-          {displayQueries(row.snapshot, timeframe, row.key)}
-        </TwoColumnRow>
-      </DashboardSection>
-
       <DashboardSection title="Transactions">
         <Chart
           snapshotId={snapshotId}
@@ -256,44 +233,5 @@ function getRowDetails(row) {
         />
       </DashboardSection>
     </div>
-  );
-}
-
-function displayQueries(snapshot, timeframe, db) {
-  const snapshotId = snapshot.get('id');
-  snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-  const pgStatStatementsEnabled = snapshot.getIn(['data', 'pg_stat_statements_enabled'], true);
-
-  if (!pgStatStatementsEnabled) {
-    return (
-      <DashboardNotification type="info">
-        To display detail query count, <strong>pg_stat_statements</strong>
-        &nbsp;extension must be loaded via&nbsp;
-        <a href="https://www.postgresql.org/docs/current/static/pgstatstatements.html" external>
-          shared_preload_libraries
-        </a>&nbsp;in postgresql.conf
-      </DashboardNotification>
-    );
-  }
-  return (
-    <Chart
-      snapshotId={snapshotId}
-      timeframe={timeframe}
-      margins={{
-        left: 80
-      }}
-      y1={{
-        min: 0,
-        formatter: activityZeroDecimalPlaces,
-        metrics: [
-          'databases.' + db + '.queries_select',
-          'databases.' + db + '.queries_update',
-          'databases.' + db + '.queries_insert',
-          'databases.' + db + '.queries_delete'
-        ],
-        labels: ['SELECT Queries', 'UPDATE Queries', 'INSERT Queries', 'DELETE Queries'],
-        type: 'line'
-      }}
-    />
   );
 }
