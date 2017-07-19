@@ -3,7 +3,8 @@ import React from 'react';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Switch } from 'react-router-dom';
 
-export default function NavigationRoutes({ navigationStructure }) {
+export default function NavigationRoutes(props) {
+  const { navigationStructure } = props;
   return (
     <Switch>
       {//it is important to not have a route like '/' on top as this would match in any case
@@ -17,6 +18,7 @@ export default function NavigationRoutes({ navigationStructure }) {
             path={`*/dashboard${nav.path}`}
             component={nav.component}
             windowTitle={nav.label}
+            {...props}
           />
         )}
     </Switch>
