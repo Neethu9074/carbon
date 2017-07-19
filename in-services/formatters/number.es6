@@ -4,7 +4,6 @@ import { repeat } from 'lodash';
 const byteBase = 1024;
 
 export const zeroDecimalPlaces = format(',.0f');
-export const oneDecimalPlace = format(',.1f');
 export const twoDecimalPlaces = format(',.2f');
 export const number = {
   compact: zeroDecimalPlaces,
@@ -124,7 +123,7 @@ export const siMultiplyPrefix = {
   detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
 
-export const milliSecondsToSecondsOneDecimalPlace = d => oneDecimalPlace(d / 1000) + 's';
+export const milliSecondsToSecondsTwoDecimalPlace = d => twoDecimalPlaces(d / 1000) + 's';
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';

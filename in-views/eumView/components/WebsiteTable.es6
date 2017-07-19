@@ -3,7 +3,7 @@ import React from 'react';
 import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
-  milliSecondsToSecondsOneDecimalPlace
+  milliSecondsToSecondsTwoDecimalPlace
 } from 'in-services/formatters/number';
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
@@ -35,7 +35,7 @@ const columnDefinitions = [
       getMetricName() {
         return 'duration.mean';
       },
-      getContent: milliSecondsToSecondsOneDecimalPlace,
+      getContent: milliSecondsToSecondsTwoDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
       }
