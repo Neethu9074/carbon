@@ -1,12 +1,8 @@
-import { combineLatest } from 'reactive-observables';
-
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
-import createSearchObservable from 'in-services/subscription/search';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
+import { getSnapshotsByQuery } from 'in-stores/snapshot/snapshot';
 import { setKeyword, getValues } from 'in-stores/search/keywords';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { getSnapshot } from 'in-stores/snapshot';
 import { query$ } from 'in-stores/search/query';
 
 // TODO: Read this mapping from backend
@@ -50,28 +46,8 @@ export const plugin$ = selectedType$
     clearSelectedSnapshots();
   });
 
-export const snapshotIds$ = query$.flatMap(query => {
-  query = query || '';
-  if (!getSelectedType(query)) {
-    query += ` entity.selfType:host`;
-  }
-
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
-    return createSearchObservable({
-      query: query,
-      time: focusedMoment,
-      view: 'TABLE',
-      timeframe
-    }).map(list => list.toArray());
-  });
-});
-
-export const snapshots$ = snapshotIds$
-  .flatMap(snapshotIds => combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId).startWith(null))))
-  .throttle(200, { leading: false })
-  .map(snapshots => snapshots.filter(snapshot => snapshot));
-
-export const matchedSnapshotCount$ = snapshotIds$.map(snapshotIds => snapshotIds.length);
+export const snapshots$ = getSnapshotsByQuery('entity.selfType:website');
+export const matchedSnapshotCount$ = snapshots$.map(snapshots => snapshots.length);
 
 function getSelectedType(query) {
   return getValues(query, 'entity.selfType')[0];
