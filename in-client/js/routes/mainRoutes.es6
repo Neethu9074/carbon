@@ -45,7 +45,11 @@ export default (
     <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" windowTitle="Logs" />
 
     {eumViewEnabled
-      ? <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/eum" windowTitle="Eum" />
+      ? <RouteWithTitle
+          component={createAsyncFullscreenOverlayViewComponent(EumView)}
+          path="/eum"
+          windowTitle="Websites"
+        />
       : null}
 
     <RouteWithTitle component={GraphView} path="/graph" windowTitle="Graph" />
