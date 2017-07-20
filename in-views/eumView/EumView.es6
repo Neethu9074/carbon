@@ -17,10 +17,8 @@ const headerElement = `${block}__header`;
 const configureElement = `${headerElement}__configure`;
 
 export default connectTo(
-  () => {
-    return {
-      snapshots: snapshots$
-    };
+  {
+    snapshots: snapshots$
   },
   function EumView({ snapshots }) {
     if (!snapshots) {
