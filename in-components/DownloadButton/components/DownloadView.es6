@@ -55,11 +55,15 @@ export default class extends React.Component {
 }
 
 function formatUrl(url, queryParams = {}) {
-  const queryPart = Object.keys(queryParams)
+  let query = Object.keys(queryParams)
     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
     .join('&');
 
-  return url + '?' + queryPart;
+  if (query.length > 0) {
+    query = '?' + query;
+  }
+
+  return url + query;
 }
 
 function stopPropagation(e) {
