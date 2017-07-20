@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getColorBySeverity, getHealthInfoAtFocusedMoment} from 'in-stores/events';
+import { getColorBySeverity, getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,19 +12,13 @@ export default connectTo(
       healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
-  function WebsiteRow({data, healthInfo, snapshotId, onClick}) {
-
+  function WebsiteRow({ data, healthInfo, snapshotId, onClick }) {
     const maxSeverity = healthInfo.get('maxSeverity');
-    // const color = getColorBySeverity(maxSeverity);
-    // const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
-    //the default color for no issues is #ffffff which does not match the design requirements
-    // const borderColor = numberOfOpenIssues > 0 ? {borderColor: color} : null;
-
-    const color = '#ff4229';
-    const numberOfOpenIssues = 12;
-    const borderColor = {borderColor: color};
+    const color = getColorBySeverity(maxSeverity);
+    const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
 
     const block = 'in-website-table-row';
+    const metrics = `${block}__metrics`;
     const nameElement = `${block}__name`;
     const detailsElement = `${nameElement}__details`;
     const kpis = `${block}__kpis`;
@@ -33,16 +27,13 @@ export default connectTo(
     const kpiElementBold = `${kpiElement} ${kpiElement}__bold`;
 
     return (
-      <div key={data.name}
-           className={block}
-           onClick={onClick}
-           style={borderColor}
-      >
+      <div key={data.name} className={block} onClick={onClick}>
         <div className={nameElement}>
           <div>{data.name}</div>
           <div className={detailsElement}>Details</div>
         </div>
-        <div>
+
+        <div className={metrics}>
           <div className={kpis}>
             <div className={kpiContainer}>
               <span className={kpiElementBold}>
@@ -56,11 +47,8 @@ export default connectTo(
               </span>
             </div>
             <div>
-              {numberOfOpenIssues > 0 ?
-                <WebsiteIssueButton
-                color={color}
-                openIssues={numberOfOpenIssues}
-                snapshotId={snapshotId} />
+              {numberOfOpenIssues > 0
+                ? <WebsiteIssueButton color={color} openIssues={numberOfOpenIssues} snapshotId={snapshotId} />
                 : null}
             </div>
           </div>
@@ -74,4 +62,5 @@ export default connectTo(
         </div>
       </div>
     );
-  });
+  }
+);
