@@ -109,15 +109,14 @@ export default connectTo(
             <View label="application" icon="application" isActive={isLogicalView || isTraceView || isLogicalTable}>
               <SubMenuItem label="Map" href$={logicalViewLink$} isActive={isLogicalView} />
               <SubMenuItem label="Trace" href$={traceViewLink$} isActive={isTraceView} />
-              {eumViewEnabled
-                ? <SubMenuItem label="End User Monitoring" href$={eumViewLink$} isActive={isEumView} />
-                : null}
               <SubMenuItem
                 label="Comparison Table"
                 href$={tableViewFilteredForServicesLink$}
                 isActive={isLogicalTable}
               />
             </View>
+
+            {eumViewEnabled ? <View label="Website" icon="globe" href$={eumViewLink$} isActive={isEumView} /> : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 
