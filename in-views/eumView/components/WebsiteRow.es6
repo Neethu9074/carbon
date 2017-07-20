@@ -54,16 +54,18 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
-              metrics: ['count', 'xhrCalls'],
-              labels: ['Calls/s', 'Calls'],
-              type: 'bar'
+              metrics: ['count', 'xhrErrors'],
+              labels: ['Calls/s', 'Errors'],
+              type: 'bar',
+              colors: ['#eaeff2', '#f6cfc6']
             }}
             y2={{
               min: 0,
               formatter: twoDecimalPlaces,
-              metrics: ['xhrErrors'],
-              labels: ['Errors'],
-              type: 'line'
+              metrics: ['xhrCalls'],
+              labels: ['Calls'],
+              type: 'discreteLine',
+              colors: ['#4b626b']
             }}
           />
         </div>
