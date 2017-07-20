@@ -1,49 +1,47 @@
 import React from 'react';
 
-import { /*getColorBySeverity,*/ getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
+import { twoDecimalPlaces } from 'in-services/formatters/number';
+import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import Chart from 'in-components/EumChart';
 import connectTo from 'in-hoc/connectTo';
 
 import './WebsiteRow.less';
 
+const block = 'in-website-table-row';
+
 export default connectTo(
   props => {
     return {
-      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
+      healthInfo: getHealthInfoAtFocusedMoment(props.snapshot.get('id'))
     };
   },
-  function WebsiteRow({ data, healthInfo, onClick }) {
-    // const maxSeverity = healthInfo.get('maxSeverity');
-    //we probably need this soonish
-    // const color = getColorBySeverity(maxSeverity);
-    const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
-
-    const block = 'in-website-table-row';
+  function WebsiteRow({ snapshot, data, healthInfo, onClick }) {
     const metrics = `${block}__metrics`;
     const nameElement = `${block}__name`;
     const detailsElement = `${nameElement}__details`;
     const kpis = `${block}__kpis`;
     const kpiContainer = `${kpis}__container`;
-    const kpiElement = `${kpis}__kpi`;
-    const kpiElementBold = `${kpiElement} ${kpiElement}__bold`;
+    const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
+    const kpi = `${block}__kpi ${block}__kpi`;
 
     return (
       <div key={data.name} className={block} onClick={onClick}>
         <div className={nameElement}>
-          <div>{data.name}</div>
-          <div className={detailsElement}>Details</div>
+          {data.name}
+          <span className={detailsElement}>Details</span>
         </div>
 
         <div className={metrics}>
           <div className={kpis}>
             <div className={kpiContainer}>
-              <span className={kpiElementBold}>
+              <span className={`${kpi}__load`}>
                 {data.pageLoad ? data.pageLoad : '--'}
               </span>
-              <span className={kpiElement}>
+              <span className={`${kpi}__time`}>
                 {data.loadTime ? data.loadTime : '--'}
               </span>
-              <span className={kpiElement}>
+              <span className={`${kpi}__errors`}>
                 {data.errors ? data.errors : '--'}
               </span>
             </div>
@@ -51,13 +49,24 @@ export default connectTo(
               {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
             </div>
           </div>
-          <div>
-            <img
-              height="60px"
-              width="99%"
-              src="http://c.finanzen.net/chart.gfx?chartType=1&time=10000&height=500&width=960&symbol=DE000LEG1110&exchangeId=2&volumeUnit=1&gridGlobalOff=0"
-            />
-          </div>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            dynamicRollupAggregation="sum"
+            y1={{
+              min: 0,
+              formatter: twoDecimalPlaces,
+              metrics: ['count', 'xhrCalls'],
+              labels: ['calls/s', 'Calls'],
+              type: 'bar'
+            }}
+            y2={{
+              min: 0,
+              formatter: twoDecimalPlaces,
+              metrics: ['xhrErrors'],
+              labels: ['Errors'],
+              type: 'line'
+            }}
+          />
         </div>
       </div>
     );

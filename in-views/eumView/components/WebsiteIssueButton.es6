@@ -11,15 +11,15 @@ const block = 'in-website-issue-button';
 export default connectTo(
   () => {
     return {
-      eventViewLink: eventViewLink$
+      href: eventViewLink$
     };
   },
-  function({ openIssues, eventViewLink }) {
+  function({ openIssues, href }) {
     return (
       <Button
         className={block}
         kind="default"
-        href={eventViewLink}
+        href={href}
         onClick={e => {
           e.stopPropagation();
         }}
