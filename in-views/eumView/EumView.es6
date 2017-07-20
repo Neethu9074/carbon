@@ -44,22 +44,24 @@ export default connectTo(
     }
 
     return (
-      <FullscreenOverlayView>
-        <div className={block}>
-          <div className={headerElement}>
-            <div>
-              <WebsiteHeading numWebsites={snapshots.length} />
+      <div>
+        <FullscreenOverlayView>
+          <div className={block}>
+            <div className={headerElement}>
+              <div>
+                <WebsiteHeading numWebsites={snapshots.length} />
+              </div>
+              <div className={configureElement}>
+                <Link href={eumKeysViewLink} className={configureElement}>
+                  Configure
+                </Link>
+              </div>
             </div>
-            <div className={configureElement}>
-              <Link href={eumKeysViewLink} className={configureElement}>
-                Configure
-              </Link>
-            </div>
+            <WebsiteTable snapshots={snapshots} />
           </div>
-          <WebsiteTable snapshots={snapshots} />
-          <DashboardNavigationRoute />
-        </div>
-      </FullscreenOverlayView>
+        </FullscreenOverlayView>
+        <DashboardNavigationRoute />
+      </div>
     );
   }
 );
