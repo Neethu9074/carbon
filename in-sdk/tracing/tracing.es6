@@ -15,6 +15,7 @@ import rpcIcon from 'in-sdk/tracing/categoryIcons/rpc.svg';
 import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
 
 const categoryIcons = {
+  cache: databaseIcon,
   batch: messagingIcon,
   database: databaseIcon,
   eum: eumIcon,
