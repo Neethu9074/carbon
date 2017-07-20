@@ -12,9 +12,10 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
+import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
-import { focusedMoment$ } from 'in-stores/timeline';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -114,6 +115,17 @@ export function getSnapshots(snapshotIds, time) {
       // We will have lots of incremental updates. One update every few
       // milliseconds is enough.
       .throttle(100)
+  );
+}
+
+export function getSnapshotsByQuery(query) {
+  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) =>
+    createSearchObservable({
+      query,
+      time: focusedMoment,
+      view: 'TABLE',
+      timeframe
+    }).flatMap(ids => getSnapshots(ids.toArray(), focusedMoment))
   );
 }
 

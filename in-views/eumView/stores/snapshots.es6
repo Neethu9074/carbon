@@ -1,30 +1,3 @@
-import { combineLatest } from 'reactive-observables';
+import { getSnapshotsByQuery } from 'in-stores/snapshot/snapshot';
 
-import createSearchObservable from 'in-services/subscription/search';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { getSnapshot } from 'in-stores/snapshot';
-import { createStore } from 'in-stores/store';
-
-const queryStore = createStore({
-  name: ' eumView/search/query',
-  initialValue: ''
-});
-export const query$ = queryStore.observable.distinct();
-
-export const snapshotIds$ = query$.flatMap(query => {
-  query = 'entity.selfType:website';
-
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
-    return createSearchObservable({
-      query,
-      time: focusedMoment,
-      view: 'TABLE',
-      timeframe
-    }).map(list => list.toArray());
-  });
-});
-
-export const snapshots$ = snapshotIds$
-  .flatMap(snapshotIds => combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId).startWith(null))))
-  .debounce(200, { leading: false })
-  .map(snapshots => snapshots.filter(snapshot => snapshot));
+export const snapshots$ = getSnapshotsByQuery('entity.selfType:website');
