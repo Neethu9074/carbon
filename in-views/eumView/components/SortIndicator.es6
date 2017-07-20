@@ -1,39 +1,35 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import './SortIndicator.less';
 
+const block = 'in-website-table-sort-indicator';
+
 export default function SortIndicator({ title, index, className, sortIndex, sortDirection, onChangeSort }) {
-  const active = index === sortIndex;
-
-  let block = 'in-website-table-sort-indicator';
-  let activeBlock = `${block} ${block}--active`;
-  const iconElement = `${block}__icon`;
-  const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
-
-  const onClick = e => {
-    e.preventDefault();
-    onChangeSort(index, active ? inverseDirection(sortDirection) : 'asc');
-  };
-
-  if(className){
-    block += ` ${className}`;
-    activeBlock += ` ${className}`;
-  }
+  const isActive = index === sortIndex;
 
   return (
-    <Link href="" onClick={onClick} className={active ? activeBlock : block}>
+    <div
+      onClick={() => onChangeSort(index, isActive ? inverseDirection(sortDirection) : 'asc')}
+      className={evaluateClassNames({
+        [block]: true,
+        [`${block}--active`]: isActive,
+        [`${className}`]: true
+      })}
+    >
       {title}
-
       <SvgIcon
-        className={active ? iconElement : invisibleIconElement}
+        className={evaluateClassNames({
+          [`${block}__icon`]: isActive,
+          [`${block}__icon--hidden`]: !isActive
+        })}
         type={sortDirection === 'asc' ? 'arrow_up_straight' : 'arrow_down_straight'}
         width={12}
         height={12}
       />
-    </Link>
+    </div>
   );
 }
 
