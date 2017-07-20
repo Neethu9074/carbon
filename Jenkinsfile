@@ -87,8 +87,7 @@ stage('Deployment') {
       deployments['deploy-staging'] = {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
         
-        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'staging'), 
+        build job: '/deployment/staging/deploy-ui-client', parameters: [
           string(name: 'VERSION', value: instanaVersion)
         ]
 

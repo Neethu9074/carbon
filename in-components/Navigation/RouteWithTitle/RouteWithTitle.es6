@@ -6,7 +6,13 @@ import config from 'in-services/config';
 
 export default class RouteWithTitle extends React.Component {
   render() {
-    return <Route {...this.props} />;
+    return (
+      <Route
+        path={this.props.path}
+        windowTitle={this.props.windowTitle}
+        render={routeProps => <this.props.component {...routeProps} {...this.props} />}
+      />
+    );
   }
 
   componentDidMount() {

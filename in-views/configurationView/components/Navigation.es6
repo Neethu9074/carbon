@@ -9,8 +9,6 @@ import {
   isElasticsearchServiceExtractionConfigurationView$,
   messageBrokerServiceExtractionConfigurationViewLink$,
   isMessageBrokerServiceExtractionConfigurationView$,
-  eumServiceExtractionConfigurationViewLink$,
-  isEumServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
@@ -28,9 +26,7 @@ import {
   rulesViewLink$,
   isRulesViewLink$,
   ruleBindingsViewLink$,
-  isRuleBindingsViewLink$,
-  isEumResourceProviderExtractionConfigurationView$,
-  eumResourceProviderConfigurationViewLink$
+  isRuleBindingsViewLink$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -70,18 +66,6 @@ export default function Navigation() {
                 title="Message Broker Rules"
                 href$={messageBrokerServiceExtractionConfigurationViewLink$}
                 isActive$={isMessageBrokerServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="EUM Rules"
-                href$={eumServiceExtractionConfigurationViewLink$}
-                isActive$={isEumServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="EUM Resource Rules"
-                href$={eumResourceProviderConfigurationViewLink$}
-                isActive$={isEumResourceProviderExtractionConfigurationView$}
                 borderless
               />
             </NavItem>

@@ -3,8 +3,6 @@ import ElasticServiceExtractionConfiguration from 'promise-loader?global,configV
 import HttpServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
 import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
-import EumServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumServiceExtractionConfiguration';
-import EumResourceProviderServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EumResourceProviderServiceExtractionConfiguration';
 import UserManagement from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import ObjectivesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectivesConfig';
@@ -65,16 +63,6 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(MessageBrokerServiceExtractionConfiguration)}
       path="/config/messageBrokerServiceExtraction"
       windowTitle="Message Broker Service Extraction"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(EumServiceExtractionConfiguration)}
-      path="/config/eumServiceExtraction"
-      windowTitle="EUM Service Extraction"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(EumResourceProviderServiceExtractionConfiguration)}
-      path="/config/eumResourceProvider"
-      windowTitle="EUM Resource Provider Extraction"
     />
     <RouteWithTitle
       component={createAsyncFullscreenOverlayViewComponent(UiConfig)}

@@ -44,5 +44,5 @@ const navigation = [
 ];
 
 export default function DefaultLogicalServiceDashboard(props) {
-  return <SwitchableView props={props} navigation={navigation} />;
+  return <SwitchableView {...props} navigation={navigation} />;
 }

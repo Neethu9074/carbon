@@ -1,10 +1,10 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest, create } from 'reactive-observables';
 
 import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import createTracesObservable from 'in-services/subscription/traces';
-import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
+import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
 import { formatDateTime } from 'in-services/formatters/date';
 import { sortBy$ } from 'in-views/traceView/stores/sortBy';
@@ -40,29 +40,34 @@ const isLoadingStore = createStore({
 });
 export const isLoading$ = isLoadingStore.observable;
 
+// this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
+// it is capsuled within a stream to be able to throttle refreshes.
+const refreshStream = create();
+refreshStream.nextFrame().subscribe(refresh);
+
 export function enable() {
   initPhase = true;
   subscriptions = [];
   clearInterval(autoUpdateHandle);
 
-  subscriptions.push(timeframe$.subscribe(refresh));
-  subscriptions.push(focusedMoment$.subscribe(refresh));
+  subscriptions.push(timeframe$.subscribe(() => refreshStream.emit(true)));
+  subscriptions.push(focusedMoment$.subscribe(() => refreshStream.emit(true)));
   subscriptions.push(
     sortBy$.subscribe(_sortBy => {
       sortByField = _sortBy;
-      refresh();
+      refreshStream.emit(true);
     })
   );
   subscriptions.push(
     sortDirection$.subscribe(_sortDirection => {
       sortDirection = _sortDirection;
-      refresh();
+      refreshStream.emit(true);
     })
   );
   subscriptions.push(
     query$.subscribe(_query => {
       query = _query;
-      refresh();
+      refreshStream.emit(true);
     })
   );
   subscriptions.push(
@@ -70,15 +75,15 @@ export function enable() {
       clearInterval(autoUpdateHandle);
 
       if (autoUpdate) {
-        refresh();
-        autoUpdateHandle = setInterval(refresh, 10000);
+        refreshStream.emit(true);
+        autoUpdateHandle = setInterval(() => refreshStream.emit(true), 10000);
       }
     })
   );
 
   initPhase = false;
   enabled = true;
-  refresh();
+  refreshStream.emit(true);
 }
 
 export function disable() {

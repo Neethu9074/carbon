@@ -82,6 +82,9 @@ function getEumSnippet(apiKey) {
   ineum('apiKey', '${apiKey}');
   ineum('reportingUrl', '<trackingBaseUrl>');
 
+  // set the name of a page on which this load/errors/calls happened
+  // ineum('page', 'product-details');
+
   // Backend trace ID to facilitate correlation of frontend/backend traces.
   // Trace ID is available in backend to user code.
   // User is himself responsible for embedding this trace ID in this snippet.
@@ -100,6 +103,9 @@ function getEumSnippet(apiKey) {
   })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
 
   ineum('apiKey', '${apiKey}');
+
+  // set the name of a page on which this load/errors/calls happened
+  // ineum('page', 'product-details');
 
   // Backend trace ID to facilitate correlation of frontend/backend traces.
   // Trace ID is available in backend to user code.
