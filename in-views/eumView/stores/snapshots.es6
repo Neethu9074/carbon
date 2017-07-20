@@ -1,9 +1,9 @@
 import { combineLatest } from 'reactive-observables';
 
-import { createStore } from 'in-stores/store';
-import { getSnapshot } from 'in-stores/snapshot';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import createSearchObservable from 'in-services/subscription/search';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
+import { getSnapshot } from 'in-stores/snapshot';
+import { createStore } from 'in-stores/store';
 
 const queryStore = createStore({
   name: ' eumView/search/query',
