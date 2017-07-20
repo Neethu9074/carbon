@@ -21,7 +21,6 @@ export default connectTo(
     const nameElement = `${block}__name`;
     const detailsElement = `${nameElement}__details`;
     const kpis = `${block}__kpis`;
-    const kpiContainer = `${kpis}__container`;
     const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
     const kpi = `${block}__kpi ${block}__kpi`;
 
@@ -34,7 +33,7 @@ export default connectTo(
 
         <div className={metrics}>
           <div className={kpis}>
-            <div className={kpiContainer}>
+            <div>
               <span className={`${kpi}__load`}>
                 {data.pageLoad ? data.pageLoad : '--'}
               </span>
@@ -56,7 +55,7 @@ export default connectTo(
               min: 0,
               formatter: twoDecimalPlaces,
               metrics: ['count', 'xhrCalls'],
-              labels: ['calls/s', 'Calls'],
+              labels: ['Calls/s', 'Calls'],
               type: 'bar'
             }}
             y2={{
