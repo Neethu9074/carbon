@@ -1,4 +1,5 @@
 import React from 'react';
+
 import SortIndicator from 'in-views/eumView/components/SortIndicator';
 
 import './WebsiteHeader.less';
@@ -9,22 +10,21 @@ export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sort
   const kpiHeader = `${block}__kpis`;
   const kpiElement = `${kpiHeader}__kpi`;
 
-  const name = columnDefinitions.filter(def => def.index === 0).map(def => {
-    return (
-      <SortIndicator
-        key={def.index}
-        className={idHeader}
-        title={def.title}
-        index={def.index}
-        sortIndex={sortColumnIndex}
-        sortDirection={sortDirection}
-        onChangeSort={onChangeSort}
-      />
-    );
-  });
+  const name = (
+    <SortIndicator
+      key={columnDefinitions[0].index}
+      className={idHeader}
+      title={columnDefinitions[0].title}
+      index={columnDefinitions[0].index}
+      sortIndex={sortColumnIndex}
+      sortDirection={sortDirection}
+      onChangeSort={onChangeSort}
+    />
+  );
 
-  const kpis = columnDefinitions.filter(def => def.index > 0).map(def => {
-    return (
+  const kpis = columnDefinitions
+    .slice(1)
+    .map(def =>
       <SortIndicator
         key={def.index}
         className={kpiElement}
@@ -35,7 +35,6 @@ export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sort
         onChangeSort={onChangeSort}
       />
     );
-  });
 
   return (
     <div className={block}>

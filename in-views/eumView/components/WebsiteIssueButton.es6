@@ -1,18 +1,16 @@
 import React from 'react';
 
+import { eventViewLink$ } from 'in-stores/navigation/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import { eventViewLink$ } from 'in-stores/navigation/view';
 
 import './WebsiteIssueButton.less';
 
 const block = 'in-website-issue-button';
 
 export default connectTo(
-  () => {
-    return {
-      href: eventViewLink$
-    };
+  {
+    href: eventViewLink$
   },
   function({ openIssues, href }) {
     return (
