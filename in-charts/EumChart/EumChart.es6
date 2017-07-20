@@ -22,10 +22,10 @@ export default function createChart(config) {
   };
 
   config.margins = {
-    top: 1,
-    bottom: 22,
-    left: 1,
-    right: 1
+    top: 20,
+    bottom: 0,
+    left: 0,
+    right: 0
   };
 
   addLowDetailModeSupport();
@@ -150,14 +150,9 @@ export default function createChart(config) {
       scales.bufferX.setDomainTo(to);
       scales.bufferX.setRangeTo(scales.x.getRange(to));
 
-      config.ctx.animationScreen.fillStyle = '#FFFFFF';
       config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
-      config.ctx.animationScreen.rect(0, 0, config.width, config.height);
       animatableContentRenderer.render();
-
       tooltipRenderer.repositionTooltip();
-
-      config.ctx.animationScreen.fill();
     };
 
     render();

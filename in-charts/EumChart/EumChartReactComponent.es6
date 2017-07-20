@@ -9,7 +9,7 @@ export default class extends React.Component {
   filterStore = createDataSeriesFilterStore();
 
   static defaultProps = {
-    height: 60
+    height: 80
   };
 
   componentDidMount() {
