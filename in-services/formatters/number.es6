@@ -123,6 +123,8 @@ export const siMultiplyPrefix = {
   detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
 
+export const milliSecondsToSecondsTwoDecimalPlace = d => twoDecimalPlaces(d / 1000) + 's';
+
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const ms = {

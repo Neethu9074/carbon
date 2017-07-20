@@ -26,5 +26,5 @@ export const snapshotIds$ = query$.flatMap(query => {
 
 export const snapshots$ = snapshotIds$
   .flatMap(snapshotIds => combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId).startWith(null))))
-  .throttle(200, { leading: false })
+  .debounce(200, { leading: false })
   .map(snapshots => snapshots.filter(snapshot => snapshot));

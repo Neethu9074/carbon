@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
 import './Misc.less';
@@ -53,7 +54,25 @@ export default function Misc() {
           Create Error
         </Button>
       </Section>
-      <Section title="Furter stuff" />
+      <Section title="Furter stuff">
+        <Button
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            borderLeft: '4px solid #ff4229'
+          }}
+        >
+          <SvgIcon
+            style={{
+              marginRight: '10px'
+            }}
+            type="critical"
+            width={14}
+            color="#ff4229"
+          />
+          Style me hard!
+        </Button>
+      </Section>
     </div>
   );
 }

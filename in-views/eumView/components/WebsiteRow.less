@@ -1,0 +1,86 @@
+@import "~in-themes/mixins.less";
+
+.in-website-table-row {
+  display: flex;
+  margin-top: 0.6rem;
+  border: 1px solid #D5DFE4;
+  border-radius: 0.313rem;
+  cursor: pointer;
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    width: 30%;
+    font-size: 0.875rem;
+    padding-left: 1rem;
+    .breakWord();
+
+    &__details {
+      color: #06B7BA;
+      transition: opacity .2s ease-in-out;
+      opacity: 0;
+      font-size: 0.75rem;
+    }
+  }
+
+  &__metrics {
+    width: 70%;
+  }
+
+  &__kpis {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 1rem;
+    padding: 0 0.6rem;
+  }
+
+  &__kpi {
+    display: inline-block;
+
+    font-size: 18px;
+    padding-right: 4.2rem;
+
+    &::before {
+      position: absolute;
+
+      content: '';
+      padding: 0;
+      width: .5rem;
+      height: .5rem;
+      background: red;
+      margin: .438rem 0 0 -1rem;
+    }
+
+    &__load {
+      &::before {
+        background: #eaeff2;
+      }
+    }
+
+    &__time {
+      &::before {
+        background: #4b626b;
+        margin-top: 0.625rem;
+        width: 0.25rem;
+        height: 0.25rem;
+        border-radius: 50%;
+      }
+    }
+
+    &__errors {
+      &::before {
+        background: #f6cfc6;
+      }
+    }
+  }
+}
+
+.in-website-table-row:hover {
+  .in-website-table-row__name__details {
+    opacity: 1;
+  }
+}

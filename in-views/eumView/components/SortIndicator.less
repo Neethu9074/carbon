@@ -1,0 +1,34 @@
+.in-website-table-sort-indicator {
+  color: #92A5AE;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+
+  &--active {
+    color: #000;
+    font-weight: bold;
+  }
+
+  &__icon {
+    fill: black;
+    border-radius: .188rem;
+    padding: .23rem;
+
+    &--hidden {
+      // do not use display: none as we want it to continue to occupy the
+      // space so that the columns do not change their widths when resorting.
+      visibility: hidden;
+    }
+  }
+
+  &:hover &__icon {
+    background: white;
+  }
+}

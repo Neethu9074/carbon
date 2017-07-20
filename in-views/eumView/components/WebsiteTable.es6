@@ -1,18 +1,23 @@
 import React from 'react';
-import connectTo from 'in-hoc/connectTo';
-import Table from 'in-components/Table';
+
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  milliSecondsToSecondsTwoDecimalPlace
+} from 'in-services/formatters/number';
+import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
+import { createStore } from 'in-components/Table/stores/content';
+import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import { snapshots$ } from 'in-views/eumView/stores/snapshots';
-import { getLabel } from 'in-sdk/snapshot';
-import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import './WebsiteTable.less';
 
-//todo: use own renderer
-const cols = [
+const block = 'in-website-table';
+
+const columnDefinitions = [
   {
     title: 'Name',
     type: 'string',
+    index: 0,
     typeArgs: {
       getValue(row) {
         return row.label;
@@ -20,80 +25,51 @@ const cols = [
     }
   },
   {
-    title: 'Page Views',
-    type: 'sparkChart',
+    title: 'Views',
+    type: 'metric',
+    index: 1,
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.snapshot.get('id');
       },
       getMetricName() {
         return 'count';
       },
-      getContent: twoDecimalPlaces,
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'adjustedCount';
       }
     }
   },
   {
-    title: 'Page Load',
-    type: 'sparkChart',
+    title: 'Load Time',
+    type: 'metric',
+    index: 2,
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.snapshot.get('id');
       },
       getMetricName() {
-        return 'duration.95th';
+        return 'duration.mean';
       },
-      getContent: msTwoDecimalPlaces,
+      getContent: milliSecondsToSecondsTwoDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: 'Front End Time',
-    type: 'sparkChart',
+    title: 'Uncaught Errors',
+    type: 'metric',
+    index: 3,
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.snapshot.get('id');
       },
       getMetricName() {
-        return 'fro';
+        return 'uncaughtErrors';
       },
-      getContent: msTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Back End Time',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName() {
-        return 'bac';
-      },
-      getContent: msTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'First Paint Time',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName() {
-        return 'fp';
-      },
-      getContent: msTwoDecimalPlaces,
+      getContent: twoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -101,38 +77,96 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  () => {
-    return {
-      snapshots: snapshots$
-    };
-  },
-  function WebsiteTable({ snapshots }) {
-    const block = 'in-eum-table';
+export default class WebsiteTable extends React.Component {
+  displayName = 'WebsiteTable';
 
-    if (!snapshots) {
-      return <LoadingIndicator type="dark" />;
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null
+    };
+  }
+
+  componentDidMount() {
+    this.newStore(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.snapshots !== nextProps.snapshots) {
+      this.store.onRowChange(this.getRows(nextProps.snapshots));
     }
-    let rows = snapshots.map(snapshot => {
-      const snapshotId = snapshot.get('id');
-      const label = getLabel(snapshot);
+  }
+
+  newStore(props) {
+    this.store = createStore({
+      columnDefinitions,
+      maxItemsPerPage: Number.MAX_VALUE,
+      initialSortColumn: 2,
+      initialSortDirection: 'desc'
+    });
+    this.store.onRowChange(this.getRows(props.snapshots));
+    this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
+  }
+
+  dispose() {
+    if (this.dataSubscription) {
+      this.dataSubscription.dispose();
+    }
+    if (this.store) {
+      this.store.dispose();
+      this.store = null;
+    }
+  }
+
+  componentWillUnmount() {
+    this.dispose();
+  }
+
+  getRows = snapshots => {
+    return snapshots.map(snapshot => {
       return {
-        key: snapshotId,
-        label: label,
-        snapshotId: snapshotId,
+        key: snapshot.get('id'),
+        label: snapshot.get('label'),
         snapshot
       };
     });
+  };
+
+  render() {
+    const { data } = this.state;
+    if (!data) {
+      return null;
+    }
 
     return (
-      <Table
-        cols={cols}
-        rows={rows}
-        onRowClick={row => goToDashboard(row.key)}
-        initialSortDirection="asc"
-        className={block}
-        maxItemsPerPage={Number.MAX_VALUE}
-      />
+      <div className={block}>
+        <WebsiteHeader
+          columnDefinitions={columnDefinitions}
+          sortColumnIndex={data.sortColumnIndex}
+          sortDirection={data.sortDirection}
+          onChangeSort={this.store.setSort}
+        />
+        {data.rows.map(row => {
+          const columns = row.columns;
+          return (
+            <WebsiteRow
+              key={row.key}
+              columns={row.columns}
+              snapshot={row.rowConfig.snapshot}
+              data={{
+                name: columns[0].value,
+                pageLoad: columns[1].content,
+                loadTime: columns[2].content,
+                errors: columns[3].content
+              }}
+              onClick={e => {
+                e.preventDefault();
+                goToDashboard(row.key);
+              }}
+            />
+          );
+        })}
+      </div>
     );
   }
-);
+}

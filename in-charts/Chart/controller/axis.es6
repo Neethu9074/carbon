@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
+import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import { getDynamicRollupMultiplier, getMetricsForTimeframe } from 'in-stores/metric';
@@ -20,10 +21,11 @@ import createScale from 'in-charts/scale';
 import theme from 'in-services/theme';
 
 const contentRendererCreators = {
+  discreteLine: createDiscreteLineContentRenderer,
   stackedArea: createStackedAreaContentRenderer,
-  line: createLineContentRenderer,
-  point: createPointContentRenderer,
   integral: createIntegralContentRenderer,
+  point: createPointContentRenderer,
+  line: createLineContentRenderer,
   area: createAreaContentRenderer,
   bar: createBarContentRenderer
 };
@@ -115,9 +117,12 @@ export default function createAxisController(config) {
 
   function determineSeriesColors() {
     const colors = theme.chart.strokeColors;
-    config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
 
-    if (config.y2) {
+    if (!config.y1.colors) {
+      config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
+    }
+
+    if (config.y2 && !config.y2.colors) {
       config.y2.colors = config.y2.labels.map((label, i) => colors[(i + config.y1.numberOfSeries) % colors.length]);
     }
   }
