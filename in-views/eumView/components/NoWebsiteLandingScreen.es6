@@ -15,8 +15,8 @@ export default connectTo({ eumKeysViewLink: eumKeysViewLink$ }, function NoWebsi
       <div className={`${block}__image`} />
       <WebsiteHeading />
       <p className={`${block}__description`}>
-        {`You are not currently monitoring a website. Website monitoring is useful in order to understand end-user
-          impact! Configuration and usage of website monitoring only takes a few minutes. You should try it!`}
+        {`Get started with website monitoring to better understand how your website performance impacts user experience.
+          Configuration is simple – give it a try!`}
       </p>
       <Button href={eumKeysViewLink}>
         CONFIGURE
