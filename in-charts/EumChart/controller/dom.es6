@@ -1,6 +1,6 @@
 import { updateCanvasDimensions } from 'in-charts/canvas';
 
-const block = 'in-eum-chart';
+const block = 'in-chart';
 
 export default function createDomController(config) {
   const height = config.height;
@@ -35,7 +35,7 @@ export default function createDomController(config) {
     result.wrapper.appendChild(result.glassPane);
 
     result.wrapper.classList.add(block);
-    result.animationScreen.classList.add(`${block}__canvas`);
+    result.animationScreen.classList.add(`${block}__animation-screen`);
     result.tooltipContainer.classList.add(`${block}__tooltip-container`);
     result.tooltipLine.classList.add(`${block}__tooltip-line`);
     result.glassPane.classList.add(`${block}__glass-pane`);

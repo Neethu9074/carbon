@@ -8,7 +8,7 @@ import createAxisController from 'in-charts/Chart/controller/axis';
 import { toServerTime } from 'in-stores/timeOffset';
 import { getSetting$ } from 'in-services/settings';
 
-import './EumChart.less';
+import 'in-charts/Chart/Chart.less';
 
 const signalRoSpec = { emitLatestOnSubscribe: false };
 

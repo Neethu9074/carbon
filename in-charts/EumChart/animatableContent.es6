@@ -4,33 +4,10 @@ export default function createAnimatableContentRenderer(config) {
   };
 
   function render() {
-    const shouldRenderY1 = doesAxisNeedToBeRendered('y1');
-    const shouldRenderY2 = doesAxisNeedToBeRendered('y2');
-
-    if (shouldRenderY1) {
-      renderAxisContent('y1');
-    }
-    if (shouldRenderY2) {
+    renderAxisContent('y1');
+    if (config['y2']) {
       renderAxisContent('y2');
     }
-  }
-
-  function doesAxisNeedToBeRendered(axisName) {
-    if (!config[axisName]) {
-      return false;
-    } else if (!config.hasActiveFilters) {
-      return true;
-    }
-
-    const activeSeries = config.activeSeries[axisName];
-    const keys = Object.keys(activeSeries);
-    for (let i = 0, len = keys.length; i < len; i++) {
-      if (activeSeries[keys[i]] === true) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   function renderAxisContent(axisName) {
