@@ -152,7 +152,6 @@ export default class WebsiteTable extends React.Component {
             <WebsiteRow
               key={row.key}
               columns={row.columns}
-              snapshotId={row.key}
               data={{
                 name: columns[0].value,
                 pageLoad: columns[1].content,

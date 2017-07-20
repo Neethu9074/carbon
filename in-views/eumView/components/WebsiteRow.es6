@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getColorBySeverity, getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { /*getColorBySeverity,*/ getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,9 +12,10 @@ export default connectTo(
       healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
-  function WebsiteRow({ data, healthInfo, snapshotId, onClick }) {
-    const maxSeverity = healthInfo.get('maxSeverity');
-    const color = getColorBySeverity(maxSeverity);
+  function WebsiteRow({ data, healthInfo, onClick }) {
+    // const maxSeverity = healthInfo.get('maxSeverity');
+    //we probably need this soonish
+    // const color = getColorBySeverity(maxSeverity);
     const numberOfOpenIssues = healthInfo.get('numberOfOpenEvents');
 
     const block = 'in-website-table-row';
@@ -47,9 +48,7 @@ export default connectTo(
               </span>
             </div>
             <div>
-              {numberOfOpenIssues > 0
-                ? <WebsiteIssueButton color={color} openIssues={numberOfOpenIssues} snapshotId={snapshotId} />
-                : null}
+              {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
             </div>
           </div>
           <div>
