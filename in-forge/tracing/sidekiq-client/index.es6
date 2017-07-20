@@ -1,7 +1,7 @@
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
-  type: 'sidekiqclient',
+  type: 'sidekiq-client',
   category: 'messaging',
   direction: 'local',
 
@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'SidekiqClientSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'sidekiqclient', 'job']);
+    return span.getIn(['data', 'sidekiq-client', 'job']);
   }
 });

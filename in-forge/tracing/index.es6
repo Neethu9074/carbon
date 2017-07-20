@@ -84,7 +84,7 @@ import './servlet';
 import './session';
 import './shell';
 import './spa';
-import './sidekiqclient';
+import './sidekiq-client';
 import './spray.client';
 import './spray.server';
 import './spring-batch';
