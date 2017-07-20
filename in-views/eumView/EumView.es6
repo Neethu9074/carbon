@@ -3,6 +3,7 @@ import React from 'react';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import NoWebsiteLandingScreen from 'in-views/eumView/components/NoWebsiteLandingScreen';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
+import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { snapshots$ } from 'in-views/eumView/stores/snapshots';
@@ -18,9 +19,10 @@ const configureElement = `${headerElement}__configure`;
 
 export default connectTo(
   {
-    snapshots: snapshots$
+    snapshots: snapshots$,
+    eumKeysViewLink: eumKeysViewLink$
   },
-  function EumView({ snapshots }) {
+  function EumView({ snapshots, eumKeysViewLink }) {
     if (!snapshots) {
       return (
         <FullscreenOverlayView>
@@ -49,7 +51,7 @@ export default connectTo(
               <WebsiteHeading numWebsites={snapshots.length} />
             </div>
             <div className={configureElement}>
-              <Link href={'#'} external className={configureElement}>
+              <Link href={eumKeysViewLink} className={configureElement}>
                 Configure
               </Link>
             </div>
