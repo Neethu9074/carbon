@@ -21,7 +21,8 @@ export function init() {
 function onUnhandledError(e) {
   // violation of SOP - we cannot read the error…
   if (e.message === 'Script error.') {
-    unhandledLogger.error('Unhandled error which we cannot read due to SOP');
+    // Nothing we can do with this information in the ui-tracker logs
+    return;
   } else {
     unhandledLogger.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`, e.error);
   }
