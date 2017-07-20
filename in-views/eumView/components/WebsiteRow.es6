@@ -44,9 +44,7 @@ export default connectTo(
                 {data.errors ? data.errors : '--'}
               </span>
             </div>
-            <div>
-              {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
-            </div>
+            {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
           </div>
           <Chart
             snapshotId={snapshot.get('id')}
