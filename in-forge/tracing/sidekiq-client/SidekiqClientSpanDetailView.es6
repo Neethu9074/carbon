@@ -15,7 +15,7 @@ export default function SidekiqClientSpanDetailView({ span }) {
         {span.getIn(['data', 'sidekiq-client', 'retry'])}
       </DescriptionItem>
       <DescriptionItem title="Job ID">
-        {span.getIn(['data', 'sidekiq-client', 'jobid'])}
+        {span.getIn(['data', 'sidekiq-client', 'job_id'])}
       </DescriptionItem>
     </DescriptionList>
   );
