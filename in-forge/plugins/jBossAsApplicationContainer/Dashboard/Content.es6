@@ -8,7 +8,7 @@ import UndertowStatsEnabledNotification from 'in-forge/plugins/jBossAsApplicatio
 export default function JBossAsDashboard({ snapshot, timeframe }) {
   return (
     <div>
-      <UndertowStatsEnabledNotification snapshot={snapshot} timeframe={timeframe} />
+      <UndertowStatsEnabledNotification snapshot={snapshot} />
       <DeploymentsTable snapshot={snapshot} timeframe={timeframe} />
       <ConnectorsTable snapshot={snapshot} timeframe={timeframe} />
       <DatasourcesTable snapshot={snapshot} timeframe={timeframe} />
