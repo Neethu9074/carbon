@@ -276,7 +276,7 @@ export default function createAxisController(config) {
 
   function calculateDynamicRollupMultiplier(timeframe, bounds) {
     const chartWidth = bounds.right - bounds.left;
-    const minWidthPerDataPointInPx = 16;
+    const minWidthPerDataPointInPx = 6;
     return getDynamicRollupMultiplier(chartWidth, timeframe, minWidthPerDataPointInPx);
   }
 }

@@ -8,6 +8,16 @@ export default function createAnimatableContentRenderer(config) {
     if (config['y2']) {
       renderAxisContent('y2');
     }
+    clearOverflowingAxisContent();
+  }
+
+  function clearOverflowingAxisContent() {
+    config.ctx.animationScreen.clearRect(
+      config.margins.left,
+      config.height - config.margins.bottom,
+      config.width,
+      config.margins.bottom
+    );
   }
 
   function renderAxisContent(axisName) {

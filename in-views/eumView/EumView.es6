@@ -24,7 +24,7 @@ export default connectTo(
     snapshots: snapshots$
   },
   function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
-    if (!snapshots) {
+    if (!snapshotIds || !snapshots) {
       return (
         <FullscreenOverlayView>
           <div className={block}>

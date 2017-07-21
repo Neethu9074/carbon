@@ -47,7 +47,6 @@ export default connectTo(
             {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
           </div>
           <Chart
-            dynamicRollupMultiplier="sum"
             snapshotId={snapshot.get('id')}
             dynamicRollupAggregation="sum"
             y1={{
