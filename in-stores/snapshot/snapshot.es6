@@ -16,6 +16,7 @@ import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
+import { query$ } from 'in-stores/search/query';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -118,15 +119,17 @@ export function getSnapshots(snapshotIds, time) {
   );
 }
 
-export function getSnapshotIdsByQuery(query) {
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) =>
-    createSearchObservable({
+export function getSnapshotIdsByQuery(_query) {
+  return combineLatest([query$, timeframe$, focusedMoment$]).flatMap(([query, timeframe, focusedMoment]) => {
+    query = query || '';
+    query += ` ${_query}`;
+    return createSearchObservable({
       query,
       time: focusedMoment,
       view: 'TABLE',
       timeframe
-    })
-  );
+    });
+  });
 }
 
 export function getSnapshotsByQuery(query) {
