@@ -39,11 +39,11 @@ export default connectTo(
     }
 
     componentWillUpdate(nextProps, nextState) {
-      let message = `No data found for the given query "*${nextProps.query}*"`;
+      let message = `No data found for the query "*${nextProps.query}*"`;
       if (nextProps.focusedMoment) {
         message += ` at the selected moment: *${formatDateTime(nextProps.focusedMoment)}*.`;
       } else {
-        message += ` for *now*.`;
+        message += `.`;
       }
 
       if (!nextState.isContentAvailable) {
