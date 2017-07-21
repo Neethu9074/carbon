@@ -14,7 +14,7 @@ export default createSubscription({
 
   getData: (
     subscriptionId,
-    { snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier, dynamicRollupAggregation }
+    { snapshotId, metric, timeframe, rollup, dynamicRollupMultiplier, dynamicRollupAggregation, metricBaseUnit }
   ) => {
     return {
       subscriptionId,
@@ -23,7 +23,8 @@ export default createSubscription({
       metric,
       rollup,
       dynamicRollupMultiplier,
-      dynamicRollupAggregation
+      dynamicRollupAggregation,
+      metricBaseUnit
     };
   },
 

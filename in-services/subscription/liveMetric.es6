@@ -7,14 +7,18 @@ export default createSubscription({
     return snapshotId + metric + rollup + dynamicRollupAggregation + dynamicRollupMultiplier;
   },
 
-  getData(subscriptionId, { snapshotId, metric, rollup, dynamicRollupMultiplier, dynamicRollupAggregation }) {
+  getData(
+    subscriptionId,
+    { snapshotId, metric, rollup, dynamicRollupMultiplier, dynamicRollupAggregation, metricBaseUnit }
+  ) {
     return {
       subscriptionId,
       snapshotId,
       metric,
       rollup,
       dynamicRollupMultiplier,
-      dynamicRollupAggregation
+      dynamicRollupAggregation,
+      metricBaseUnit
     };
   },
 

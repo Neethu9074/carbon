@@ -55,7 +55,8 @@ export default connectTo(
               labels: ['Calls/s'],
               type: 'bar',
               colors: ['#eaeff2'],
-              dynamicRollupAggregation: 'sum'
+              dynamicRollupAggregation: 'sum',
+              metricBaseUnit: 5000
             }}
             y2={{
               min: 0,

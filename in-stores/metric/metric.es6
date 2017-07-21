@@ -43,7 +43,8 @@ export function getLiveMetrics({
   timeframe = null,
   rollup,
   dynamicRollupMultiplier,
-  dynamicRollupAggregation
+  dynamicRollupAggregation,
+  metricBaseUnit
 }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
@@ -54,7 +55,8 @@ export function getLiveMetrics({
     metric,
     rollup,
     dynamicRollupMultiplier,
-    dynamicRollupAggregation
+    dynamicRollupAggregation,
+    metricBaseUnit
   });
 }
 
@@ -64,7 +66,8 @@ function getHistoricMetrics({
   timeframe,
   rollup,
   dynamicRollupMultiplier,
-  dynamicRollupAggregation
+  dynamicRollupAggregation,
+  metricBaseUnit
 }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
@@ -76,7 +79,8 @@ function getHistoricMetrics({
     timeframe,
     rollup,
     dynamicRollupMultiplier,
-    dynamicRollupAggregation
+    dynamicRollupAggregation,
+    metricBaseUnit
   });
 }
 

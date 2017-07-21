@@ -201,7 +201,8 @@ export default function createAxisController(config) {
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
           dynamicRollupMultiplier: _dynamicRollupMultiplier,
-          dynamicRollupAggregation
+          dynamicRollupAggregation,
+          metricBaseUnit: axis.metricBaseUnit
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
