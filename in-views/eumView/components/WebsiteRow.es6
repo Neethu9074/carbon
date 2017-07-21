@@ -47,15 +47,16 @@ export default connectTo(
             {numberOfOpenIssues > 0 ? <WebsiteIssueButton openIssues={numberOfOpenIssues} /> : null}
           </div>
           <Chart
+            dynamicRollupMultiplier="sum"
             snapshotId={snapshot.get('id')}
             dynamicRollupAggregation="sum"
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
-              metrics: ['count', 'xhrErrors'],
-              labels: ['Calls/s', 'Errors'],
+              metrics: ['count'],
+              labels: ['Calls/s'],
               type: 'bar',
-              colors: ['#eaeff2', '#f6cfc6']
+              colors: ['#eaeff2']
             }}
             y2={{
               min: 0,
