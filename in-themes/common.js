@@ -30,9 +30,9 @@ module.exports = {
     toast: zIndex++,
     tooltips: zIndex++,
     maintenanceNote: zIndex++,
-    messageFlyout: zIndex++,
     backdrop: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,
+    messageFlyout: zIndex++
   }
 };
