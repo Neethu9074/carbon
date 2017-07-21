@@ -2,11 +2,11 @@ import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import NoWebsiteLandingScreen from 'in-views/eumView/components/NoWebsiteLandingScreen';
+import { snapshotIds$, snapshots$ } from 'in-views/eumView/stores/snapshots';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { snapshots$ } from 'in-views/eumView/stores/snapshots';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -19,10 +19,11 @@ const configureElement = `${headerElement}__configure`;
 
 export default connectTo(
   {
-    snapshots: snapshots$,
-    eumKeysViewLink: eumKeysViewLink$
+    eumKeysViewLink: eumKeysViewLink$,
+    snapshotIds: snapshotIds$,
+    snapshots: snapshots$
   },
-  function EumView({ snapshots, eumKeysViewLink }) {
+  function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
     if (!snapshots) {
       return (
         <FullscreenOverlayView>
@@ -35,7 +36,7 @@ export default connectTo(
     }
 
     // data was loaded but there is no defined website
-    if (snapshots.length === 0) {
+    if (snapshotIds.length === 0 && snapshots.length === 0) {
       return (
         <FullscreenOverlayView>
           <NoWebsiteLandingScreen />

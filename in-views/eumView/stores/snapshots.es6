@@ -1,3 +1,4 @@
-import { getSnapshotsByQuery } from 'in-stores/snapshot/snapshot';
+import { getSnapshotIdsByQuery, getSnapshots } from 'in-stores/snapshot/snapshot';
 
-export const snapshots$ = getSnapshotsByQuery('entity.selfType:website');
+export const snapshotIds$ = getSnapshotIdsByQuery('entity.selfType:website');
+export const snapshots$ = snapshotIds$.flatMap(getSnapshots);

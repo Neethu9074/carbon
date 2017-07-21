@@ -118,14 +118,20 @@ export function getSnapshots(snapshotIds, time) {
   );
 }
 
-export function getSnapshotsByQuery(query) {
+export function getSnapshotIdsByQuery(query) {
   return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) =>
     createSearchObservable({
       query,
       time: focusedMoment,
       view: 'TABLE',
       timeframe
-    }).flatMap(ids => getSnapshots(ids.toArray(), focusedMoment))
+    })
+  );
+}
+
+export function getSnapshotsByQuery(query) {
+  return combineLatest([getSnapshotIdsByQuery(query), focusedMoment$]).flatMap(([ids, focusedMoment]) =>
+    getSnapshots(ids, focusedMoment)
   );
 }
 
