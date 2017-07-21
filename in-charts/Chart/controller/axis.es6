@@ -2,10 +2,10 @@ import { combineLatest } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
+import { getDynamicRollupMultiplier, getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
-import { getDynamicRollupMultiplier, getMetricsForTimeframe } from 'in-stores/metric';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
@@ -154,14 +154,10 @@ export default function createAxisController(config) {
 
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(
-      combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe, bounds]) => {
+      combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe]) => {
         clearData();
 
-        const { minAvailableRollup, dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(timeframe, bounds);
-        if (config.dynamicRollupAggregation) {
-          config.dynamicRollupMultiplier = dynamicRollupMultiplier;
-        }
-        config.rollup = minAvailableRollup;
+        config.rollup = getDefaultMetricRollupDuration(timeframe);
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
 
@@ -185,9 +181,17 @@ export default function createAxisController(config) {
   }
 
   function subscribeToDataSourcesForAxis(axisName) {
-    const metrics = config[axisName].metrics;
-    const queue = config.queues[axisName];
+    const axis = config[axisName];
+    const metrics = axis.metrics;
+    const dynamicRollupAggregation = axis.dynamicRollupAggregation;
+    let _dynamicRollupMultiplier = undefined;
 
+    if (dynamicRollupAggregation) {
+      const { dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(config.timeframe, config.bounds);
+      _dynamicRollupMultiplier = dynamicRollupMultiplier;
+    }
+
+    const queue = config.queues[axisName];
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(
@@ -196,8 +200,8 @@ export default function createAxisController(config) {
           metric: metrics[i],
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
-          dynamicRollupMultiplier: config.dynamicRollupMultiplier,
-          dynamicRollupAggregation: config.dynamicRollupAggregation
+          dynamicRollupMultiplier: _dynamicRollupMultiplier,
+          dynamicRollupAggregation
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }

@@ -24,8 +24,7 @@ export default class extends React.Component {
       y1: props.y1,
       y2: props.y2,
       timeframe$: props.timeframe$,
-      snapshotId: props.snapshotId,
-      dynamicRollupAggregation: props.dynamicRollupAggregation
+      snapshotId: props.snapshotId
     };
     config.container = this.container;
     config.filterStore = this.filterStore;

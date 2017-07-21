@@ -48,14 +48,14 @@ export default connectTo(
           </div>
           <Chart
             snapshotId={snapshot.get('id')}
-            dynamicRollupAggregation="sum"
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
               metrics: ['count'],
               labels: ['Calls/s'],
               type: 'bar',
-              colors: ['#eaeff2']
+              colors: ['#eaeff2'],
+              dynamicRollupAggregation: 'sum'
             }}
             y2={{
               min: 0,
