@@ -1,5 +1,3 @@
-import irpt from 'react-immutable-proptypes';
-import rpt from 'prop-types';
 import React from 'react';
 
 import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
@@ -16,19 +14,11 @@ export default connectTo(
         .startWith(emptySet)
     };
   },
-  class extends React.PureComponent {
-    static displayName = 'RunningComponentsList';
-
-    static propTypes = {
-      snapshotIds: irpt.setOf(rpt.string)
-    };
-
-    render() {
-      if (this.props.snapshotIds == null) {
-        return null;
-      }
-
-      return <RelatedSnapshotList snapshotIds={this.props.snapshotIds} />;
+  function RunningComponentsList({ snapshotIds }) {
+    if (!snapshotIds) {
+      return null;
     }
+
+    return <RelatedSnapshotList snapshotIds={snapshotIds} />;
   }
 );

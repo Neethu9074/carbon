@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getClassName } from 'in-services/util/react';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import ContextWrapper from './ContextWrapper';
 
@@ -33,13 +33,13 @@ class Jail extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.component !== prevProps.component) {
-      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
+      ReactDOM.unmountComponentAtNode(this.container);
     }
     this.renderInprisonedComponent();
   }
 
   renderInprisonedComponent = () => {
-    const domNode = ReactDOM.findDOMNode(this);
+    const domNode = this.container;
     const Component = this.props.component;
     const props = this.props.props || {};
 
@@ -72,11 +72,19 @@ class Jail extends React.Component {
   };
 
   componentWillUnmount() {
-    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
+    ReactDOM.unmountComponentAtNode(this.container);
   }
 
   render() {
-    return <div className={getClassName(this, block)} />;
+    return (
+      <div
+        ref={container => (this.container = container)}
+        className={evaluateClassNames({
+          [block]: true,
+          [this.props.className]: this.props.className
+        })}
+      />
+    );
   }
 }
 

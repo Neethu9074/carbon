@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Overview from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/Overview';
 import Geography from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/Geography';
+import Overview from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/Overview';
 
 import SwitchableView from 'in-sdk/components/dashboard/SwitchableView';
 
@@ -19,30 +19,38 @@ const navigation = [
   {
     label: 'Resources',
     path: '/resources',
-    component: () => <div>Resources</div>
+    component: NotYetImplementedPage
   },
   {
     label: 'Errors',
     path: '/errors',
-    component: () => <div>Errors</div>
+    component: NotYetImplementedPage
   },
   {
     label: 'Clients',
     path: '/clients',
-    component: () => <div>Clients</div>
+    component: NotYetImplementedPage
   },
   {
     label: 'TreeMap',
     path: '/treemap',
-    component: () => <div>TreeMap</div>
+    component: NotYetImplementedPage
   },
   {
     label: 'Pages',
     path: '/pages',
-    component: () => <div>Pages</div>
+    component: NotYetImplementedPage
   }
 ];
 
 export default function DefaultLogicalServiceDashboard(props) {
   return <SwitchableView {...props} navigation={navigation} />;
+}
+
+function NotYetImplementedPage() {
+  return (
+    <div>
+      not yet implemented
+    </div>
+  );
 }

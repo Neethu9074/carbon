@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { getClassName } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -29,7 +30,12 @@ class Collapsible extends React.PureComponent {
     const header = children[0].props;
     const contentProps = children[1].props;
     return (
-      <div className={getClassName(this, block)}>
+      <div
+        className={evaluateClassNames({
+          [block]: true,
+          [this.props.className]: this.props.className
+        })}
+      >
         <Header className={header.className} style={header.style} toggle={this.toggle} isOpen={isOpen}>
           {header.children}
         </Header>
@@ -83,30 +89,21 @@ class Header extends React.Component {
 
 Collapsible.Header = Header;
 
-class Content extends React.Component {
-  static propTypes = {
-    children: rpt.any.isRequired,
-    isOpen: rpt.bool,
-    className: rpt.string
-  };
-
-  render() {
-    if (!this.props.isOpen) {
-      return null;
-    }
-
-    let classes = `${block}__content`;
-
-    if (this.props.className) {
-      classes = `${classes} ${this.props.className}`;
-    }
-
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
+function Content({ isOpen, className, children }) {
+  if (!isOpen) {
+    return null;
   }
+
+  return (
+    <div
+      className={evaluateClassNames({
+        [`${block}__content`]: true,
+        [className]: className
+      })}
+    >
+      {children}
+    </div>
+  );
 }
 
 Collapsible.Content = Content;

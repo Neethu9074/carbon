@@ -1,5 +1,3 @@
-import irpt from 'react-immutable-proptypes';
-import rpt from 'prop-types';
 import React from 'react';
 
 import { highlightedEventScreenPosition$ } from 'in-components/timeline/timelineStore';
@@ -19,49 +17,34 @@ export default connectTo(
     highlightedEventScreenPosition: highlightedEventScreenPosition$,
     highlightedEvent: highlightedEvent$
   },
-  class extends React.PureComponent {
-    static displayName = 'EventTooltip';
+  function EventTooltip({ highlightedEventScreenPosition, highlightedEvent }) {
+    if (!highlightedEvent || !highlightedEventScreenPosition) {
+      return null;
+    }
 
-    static propTypes = {
-      highlightedEventScreenPosition: rpt.shape({
-        x: rpt.number.isRequired,
-        y: rpt.number.isRequired
-      }),
-      highlightedEvent: irpt.map
+    const style = {
+      bottom: yOffset - highlightedEventScreenPosition.y
     };
 
-    render() {
-      const highlightedEventScreenPosition = this.props.highlightedEventScreenPosition;
-      const highlightedEvent = this.props.highlightedEvent;
-
-      if (!highlightedEvent || !highlightedEventScreenPosition) {
-        return null;
-      }
-
-      const style = {
-        bottom: yOffset - highlightedEventScreenPosition.y
-      };
-
-      let anchor;
-      if (highlightedEventScreenPosition.x > window.innerWidth / 2) {
-        style.right = window.innerWidth - highlightedEventScreenPosition.x + xOffset;
-        anchor = 'bottom__right';
-      } else {
-        style.left = highlightedEventScreenPosition.x + xOffset;
-        anchor = 'bottom__left';
-      }
-
-      return (
-        <div className={block} style={style}>
-          <TooltipFrame anchor={anchor}>
-            <EventDescription
-              event={highlightedEvent}
-              showFullTextIfToLong={false}
-              snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}
-            />
-          </TooltipFrame>
-        </div>
-      );
+    let anchor;
+    if (highlightedEventScreenPosition.x > window.innerWidth / 2) {
+      style.right = window.innerWidth - highlightedEventScreenPosition.x + xOffset;
+      anchor = 'bottom__right';
+    } else {
+      style.left = highlightedEventScreenPosition.x + xOffset;
+      anchor = 'bottom__left';
     }
+
+    return (
+      <div className={block} style={style}>
+        <TooltipFrame anchor={anchor}>
+          <EventDescription
+            event={highlightedEvent}
+            showFullTextIfToLong={false}
+            snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}
+          />
+        </TooltipFrame>
+      </div>
+    );
   }
 );

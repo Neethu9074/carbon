@@ -1,6 +1,4 @@
 /* eslint-disable max-len */
-
-import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -55,8 +53,8 @@ export default class extends React.PureComponent {
   }
 
   updateCode = () => {
-    const codeElement = ReactDOM.findDOMNode(this.code);
-    const preElement = ReactDOM.findDOMNode(this.pre);
+    const codeElement = this.code;
+    const preElement = this.pre;
     const code = this.props.code;
     let line = this.props.line;
     const lang = this.props.lang;

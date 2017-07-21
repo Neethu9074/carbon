@@ -19,10 +19,10 @@ export default class extends React.PureComponent {
 
   componentDidMount() {
     markAsLoading();
-    if (isWebGLSupported(this.refs.canvas)) {
+    if (isWebGLSupported(this.canvas)) {
       this.renderer = createUniverseRenderer({
-        container: this.refs.container,
-        canvas: this.refs.canvas
+        container: this.container,
+        canvas: this.canvas
       });
     }
   }
@@ -36,8 +36,8 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <div className={getClassName(this, block)} ref="container">
-        <canvas ref="canvas" className={block + '__canvas'} />
+      <div className={getClassName(this, block)} ref={container => (this.container = container)}>
+        <canvas ref={canvas => (this.canvas = canvas)} className={block + '__canvas'} />
       </div>
     );
   }
