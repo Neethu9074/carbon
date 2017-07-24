@@ -7,7 +7,7 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import { createStore } from 'in-stores/store';
 
-const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 2500;
+const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 const rollupDurationThresholds = [
   {
