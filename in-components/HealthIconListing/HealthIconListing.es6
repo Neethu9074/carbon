@@ -14,6 +14,9 @@ const block = 'in-health-icon-listing';
 
 export default connectTo(
   props => {
+    if (props.healthInfo) {
+      return {};
+    }
     return {
       healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };

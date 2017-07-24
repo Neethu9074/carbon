@@ -32,7 +32,7 @@ export default connectTo(
           <div className={`${block}__bar-shadow`} />
         </div>
 
-        <HealthIconListing snapshotId={snapshotId} />
+        <HealthIconListing snapshotId={snapshotId} healthInfo={healthInfo} />
       </div>
     );
   }
