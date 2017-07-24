@@ -6,6 +6,10 @@ import { emptyMap } from 'in-services/fixedImmutables';
 
 export function getCommonDescriptionItems(span) {
   return [
+    <DescriptionItem title="Page" key="page">
+      {span.getIn(['data', 'page', 'page'])}
+    </DescriptionItem>,
+
     <DescriptionItem title="Platform" key="platform">
       {span.getIn(['data', 'page', 'platform'])}
     </DescriptionItem>,
