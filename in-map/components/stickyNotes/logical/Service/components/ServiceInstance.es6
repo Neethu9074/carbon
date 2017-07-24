@@ -1,7 +1,7 @@
 import React from 'react';
 
-import EntityInformation from 'in-components/EntityInformation';
 import { getSnapshot, setSelectedSnapshotId, selectedSnapshotId } from 'in-stores/snapshot';
+import EntityInformation from 'in-components/EntityInformation';
 import HealthIconListing from 'in-components/HealthIconListing';
 import KPIList from 'in-components/KPIList';
 import connectTo from 'in-hoc/connectTo';

@@ -5,9 +5,9 @@ import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
-import './SidebarHealthInfo.less';
+import './EntityHealthBar.less';
 
-const block = 'in-sidebar-health-info';
+const block = 'in-entity-health-bar';
 
 export default connectTo(
   props => {
@@ -15,14 +15,12 @@ export default connectTo(
       healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
-  function SidebarHealthInfo({ healthInfo, snapshotId }) {
+  function EntityHealthBar({ healthInfo, snapshotId }) {
     const maxSeverity = healthInfo ? healthInfo.get('maxSeverity') : 0;
     const color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#92A5AE';
 
     return (
       <div className={block}>
-        Health
-
         <div className={`${block}__bar`}>
           <div
             className={`${block}__bar-inner`}
