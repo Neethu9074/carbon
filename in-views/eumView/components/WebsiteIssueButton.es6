@@ -12,7 +12,11 @@ export default connectTo(
   {
     href: eventViewLink$
   },
-  function({ openIssues, href }) {
+  function({ numberOfOpenIssues, href }) {
+    if (numberOfOpenIssues === 1) {
+      return null;
+    }
+
     return (
       <Button
         className={block}
@@ -22,7 +26,7 @@ export default connectTo(
           e.stopPropagation();
         }}
       >
-        {`${openIssues} open issues`}
+        {`${numberOfOpenIssues} open issues`}
       </Button>
     );
   }
