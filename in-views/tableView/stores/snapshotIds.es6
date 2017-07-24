@@ -46,7 +46,13 @@ export const plugin$ = selectedType$
     clearSelectedSnapshots();
   });
 
-export const snapshots$ = getSnapshotsByQuery('entity.selfType:website');
+export const snapshots$ = query$.flatMap(query => {
+  const type = getSelectedType(query);
+  if (type) {
+    return getSnapshotsByQuery(`entity.selfType:${type}`);
+  }
+  return getSnapshotsByQuery(`entity.selfType:host`);
+});
 export const matchedSnapshotCount$ = snapshots$.map(snapshots => snapshots.length);
 
 function getSelectedType(query) {
