@@ -4,18 +4,19 @@ import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigati
 import NoWebsiteLandingScreen from 'in-views/eumView/components/NoWebsiteLandingScreen';
 import { snapshotIds$, snapshots$ } from 'in-views/eumView/stores/snapshots';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
+import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import './EumView.less';
 
 const block = 'in-eum';
 const headerElement = `${block}__header`;
 const configureElement = `${headerElement}__configure`;
+const fullscreenOverviewElement = `${block}__fullscreen-overview`;
 
 export default connectTo(
   {
@@ -26,7 +27,7 @@ export default connectTo(
   function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
     if (!snapshotIds || !snapshots) {
       return (
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={fullscreenOverviewElement}>
           <div className={block}>
             <WebsiteHeading />
             <LoadingIndicator type="dark" />
@@ -38,7 +39,7 @@ export default connectTo(
     // data was loaded but there is no defined website
     if (snapshotIds.length === 0 && snapshots.length === 0) {
       return (
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={fullscreenOverviewElement}>
           <NoWebsiteLandingScreen />
         </FullscreenOverlayView>
       );
@@ -46,7 +47,7 @@ export default connectTo(
 
     return (
       <div>
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={fullscreenOverviewElement}>
           <div className={block}>
             <div className={headerElement}>
               <div>
