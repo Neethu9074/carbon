@@ -1,7 +1,7 @@
 import React from 'react';
 
-import EventListItem from 'in-views/eventView/components/Incident/EventListItem';
 import { sortedRecentEvents$ } from 'in-views/eventView/stores/recentEventsStore';
+import EventListItem from 'in-views/eventView/components/Incident/EventListItem';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 

@@ -26,7 +26,10 @@ export default addSection(
       };
     },
     function EventChart({ to, event }) {
-      const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyList);
+      const triggeringMetrics = event
+        .getIn(['metadata', 'metrics'], emptyList)
+        .toArray()
+        .sort((a, b) => a.get('metricName').localeCompare(b.get('metricName')));
       return (
         <div className={block}>
           {triggeringMetrics.map(metric => {
