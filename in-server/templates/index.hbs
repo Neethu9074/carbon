@@ -57,6 +57,7 @@
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/]);
+    ineum('page', (window.location.hash || '#').replace(/^#([^\?]*).*/, "$1"));
     ineum('meta', 'build-tag', window.instana.build.tag);
     ineum('meta', 'build-revision', window.instana.build.revision);
     ineum('meta', 'build-date', window.instana.build.date);
