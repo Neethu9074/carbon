@@ -46,6 +46,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             labels: ['Views'],
             colors: ['#eaeff2'],
             type: 'bar',
+            aggregation: 'sum',
             minPixelPerBlock: 5,
             maxDataPoints: 100,
             metricBaseMillis: 5000
@@ -57,7 +58,6 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             labels: ['Load time'],
             colors: ['#6B8088'],
             type: 'discreteLine',
-            aggregation: 'mean',
             minPixelPerBlock: 5,
             maxDataPoints: 100
           }}
