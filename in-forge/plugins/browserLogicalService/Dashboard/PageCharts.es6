@@ -145,8 +145,8 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
-            metrics: [metricPrefix + 'fp', metricPrefix + 'fcp'],
-            labels: ['First paint', 'First contentful paint'],
+            metrics: [metricPrefix + 'fp'],
+            labels: ['First paint'],
             type: 'line'
           }}
         />
