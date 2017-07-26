@@ -22,10 +22,10 @@ export default function createChart(config) {
   };
 
   config.margins = {
-    top: 20,
+    top: 0,
     bottom: 0,
     left: 0,
-    right: 15
+    right: 25
   };
 
   addLowDetailModeSupport();

@@ -120,9 +120,13 @@ export default function createTooltipRenderer(config) {
     });
 
     const prev = data[i - 1];
-    if (prev && prev.time === searchFor) {
-      return prev;
+    const current = data[i];
+    if (!prev) {
+      return current;
     }
-    return data[i];
+    if (Math.abs(current.time - searchFor) < Math.abs(prev.time - searchFor)) {
+      return current;
+    }
+    return prev;
   }
 }
