@@ -135,7 +135,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
         />
       </DashboardSection>
 
-      <DashboardSection title="Time to First Paint (95th)">
+      <DashboardSection title="Paint Timing (95th)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -145,8 +145,8 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
-            metrics: [metricPrefix + 'fp'],
-            labels: ['First paint time'],
+            metrics: [metricPrefix + 'fp', metricPrefix + 'fcp'],
+            labels: ['First paint', 'First contentful paint'],
             type: 'line'
           }}
         />
