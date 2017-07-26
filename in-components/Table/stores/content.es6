@@ -265,7 +265,12 @@ export function createStore({
 
 function updateContentForAllColumns(row) {
   for (let i = 0, length = row.columns.length; i < length; i++) {
-    row.columns[i].refreshContent();
+    const column = row.columns[i];
+    if (column.requiresContentRefresh) {
+      column.requiresContentRefresh = false;
+      column.refreshContent();
+      row.mutationCount++;
+    }
   }
 }
 

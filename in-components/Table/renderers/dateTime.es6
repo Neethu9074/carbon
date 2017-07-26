@@ -38,6 +38,7 @@ export function initialize(row, columnDefinition, columnIndex) {
     content,
     subscription: null,
     comparator: compare,
-    refreshContent: noop
+    refreshContent: noop,
+    requiresContentRefresh: false
   };
 }

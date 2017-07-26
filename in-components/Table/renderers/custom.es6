@@ -23,7 +23,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     content: null,
     subscription: null,
     comparator: columnDefinition.typeArgs.comparator,
-    refreshContent: noop
+    refreshContent: noop,
+    requiresContentRefresh: false
   };
 
   if (columnDefinition.typeArgs.get) {

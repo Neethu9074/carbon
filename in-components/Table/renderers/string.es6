@@ -35,6 +35,7 @@ export function initialize(row, columnDefinition, columnIndex) {
     content,
     subscription: null,
     comparator: compareIgnoreCase,
-    refreshContent: noop
+    refreshContent: noop,
+    requiresContentRefresh: false
   };
 }

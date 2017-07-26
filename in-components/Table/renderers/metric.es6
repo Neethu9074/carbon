@@ -37,7 +37,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     columnIndex,
     value: null,
     subscription: null,
-    comparator: compare
+    comparator: compare,
+    requiresContentRefresh: true
   };
   column.refreshContent = refreshContent.bind(null, row, column);
 
@@ -47,6 +48,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
   }).subscribe(v => {
     column.value = v;
+    column.requiresContentRefresh = true;
     row.mutationCount++;
     emitRawDataChange();
   });
