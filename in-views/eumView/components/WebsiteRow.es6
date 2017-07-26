@@ -43,7 +43,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             min: 0,
             formatter: twoDecimalPlaces,
             metrics: ['count'],
-            labels: ['Calls/s'],
+            labels: ['Views'],
             colors: ['#eaeff2'],
             type: 'bar',
             minPixelPerBlock: 5,
@@ -53,10 +53,11 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
           y2={{
             min: 0,
             formatter: twoDecimalPlaces,
-            metrics: ['xhrCalls'],
-            labels: ['Calls'],
+            metrics: ['duration.mean'],
+            labels: ['Load time'],
             colors: ['#4b626b'],
             type: 'discreteLine',
+            aggregation: 'mean',
             minPixelPerBlock: 5,
             maxDataPoints: 200
           }}

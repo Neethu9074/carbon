@@ -124,6 +124,9 @@ export default function createTooltipRenderer(config) {
     if (!prev) {
       return current;
     }
+    if (!current) {
+      return null;
+    }
     if (Math.abs(current.time - searchFor) < Math.abs(prev.time - searchFor)) {
       return current;
     }
