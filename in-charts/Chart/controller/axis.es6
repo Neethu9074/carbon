@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
+import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
@@ -10,7 +11,6 @@ import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
-import { getBlockSize } from 'in-services/util/dynamicAggregation';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { timeframe$, to$ } from 'in-stores/timeline';
@@ -299,13 +299,15 @@ export default function createAxisController(config) {
       if (!axis || !axis.isDynamicAggregated) {
         return null;
       }
-      axis.dynamicCalculatedBlockSizeMillis = getBlockSize({
-        windowSize: config.timeframe.windowSize,
-        maxDataPoints: axis.maxDataPoints,
-        minPixelPerBlock: axis.minPixelPerBlock,
-        width: chartWidthInPx,
-        rollup
-      });
+      axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+        getBlockSizeMillis({
+          windowSize: config.timeframe.windowSize,
+          maxDataPoints: axis.maxDataPoints,
+          minPixelPerBlock: axis.minPixelPerBlock,
+          width: chartWidthInPx,
+          rollup
+        })
+      );
     }
 
     calculateBlockSizeMillisForAxis(config.y1);

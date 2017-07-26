@@ -10,6 +10,26 @@ import { createStore } from 'in-stores/store';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
+export const dynamicRollupPredefinitions = [
+  1000,
+  1000 * 5,
+  1000 * 10,
+  1000 * 20,
+  1000 * 30,
+  1000 * 60,
+  1000 * 60 * 5,
+  1000 * 60 * 10,
+  1000 * 60 * 20,
+  1000 * 60 * 30,
+  1000 * 60 * 60,
+  1000 * 60 * 90,
+  1000 * 60 * 60 * 2,
+  1000 * 60 * 60 * 6,
+  1000 * 60 * 60 * 12,
+  1000 * 60 * 60 * 24,
+  1000 * 60 * 60 * 24 * 7
+];
+
 const rollupDurationThresholds = [
   {
     availableFor: 1000 * 60 * 10 + 3000, // 10m + 3s (to give it some slack when deactivating live mode)
