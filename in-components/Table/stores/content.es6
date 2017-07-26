@@ -215,11 +215,8 @@ export function createStore({
   }
 
   function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }]) {
-    const rows = [];
-    data.forEach(row => {
-      updateContentForAllColumns(row);
-      rows.push(row);
-    });
+    let rows = [];
+    data.forEach(row => rows.push(row));
 
     if (rows.length === 0) {
       return {
@@ -252,9 +249,12 @@ export function createStore({
       shownPage = page;
     }
 
+    rows = rows.slice(start, end);
+    rows.forEach(updateContentForAllColumns);
+
     return {
       totalRowCount: rows.length,
-      rows: rows.slice(start, end),
+      rows,
       page: shownPage,
       pageCount,
       sortColumnIndex,

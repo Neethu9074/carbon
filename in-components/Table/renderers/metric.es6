@@ -55,9 +55,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 }
 
 function refreshContent(row, column) {
-  const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
-  const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
   if (column.value == null) {
+    const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
+    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
     column.content = fallback;
     return;
   }
