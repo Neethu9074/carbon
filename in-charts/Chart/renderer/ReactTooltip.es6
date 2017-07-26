@@ -78,9 +78,7 @@ function DynamicAggregationMarker({ config, axis }) {
 
   return (
     <div className={`${block}__aggregation-marker`}>
-      <span>
-        {`${formatDurationAccurately(axis.blockSizeMillis, 0, false)} ${axis.aggregation || 'sum'} `}
-      </span>
+      {`${formatDurationAccurately(axis.blockSizeMillis, 0, false)} ${axis.aggregation || 'sum'} `}
       <span className={`${block}__time-marker`}>
         from:
       </span>

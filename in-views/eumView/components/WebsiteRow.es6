@@ -46,8 +46,8 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             labels: ['Calls/s'],
             colors: ['#eaeff2'],
             type: 'bar',
-            aggregation: 'sum',
-            blockSizeMillis: 1000 * 60, // 1 min blocks
+            minPixelPerBlock: 10,
+            maxDataPoints: 100,
             metricBaseMillis: 5000
           }}
           y2={{

@@ -36,6 +36,7 @@ export default function createAxisController(config) {
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
   determineSeriesColors();
+  determineDynamicAggregation();
   // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
   // of availability of metrics. We are removing x millis from the right border in order to
   // hide this fact from the user.
@@ -44,13 +45,6 @@ export default function createAxisController(config) {
   config.axisContentRenderers = createAxisContentRenderers();
   config.queues = createQueues();
   config.dataHolders = createDataHolders();
-
-  if (config['y1'].blockSizeMillis) {
-    config['y1'].isDynamicAggregated = true;
-  }
-  if (config['y2'] && config['y2'].blockSizeMillis) {
-    config['y2'].isDynamicAggregated = true;
-  }
 
   establishSubscriptions();
 
@@ -89,6 +83,21 @@ export default function createAxisController(config) {
     config.y1.numberOfSeries = getNumberOfDataSeries('y1');
     if (config.y2) {
       config.y2.numberOfSeries = getNumberOfDataSeries('y2');
+    }
+  }
+
+  function determineDynamicAggregation() {
+    const y1 = config.y1;
+    const y2 = config.y2;
+    if (y1 && (y1.maxDataPoints || y1.minPixelPerBlock)) {
+      y1.isDynamicAggregated = true;
+      y1.aggregation = y1.aggregation || 'sum';
+      y1.metricBaseMillis = y1.metricBaseMillis || 1000;
+    }
+    if (y2 && (y2.maxDataPoints || y2.minPixelPerBlock)) {
+      y2.isDynamicAggregated = true;
+      y2.aggregation = y2.aggregation || 'sum';
+      y2.metricBaseMillis = y2.metricBaseMillis || 1000;
     }
   }
 
@@ -168,6 +177,8 @@ export default function createAxisController(config) {
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
 
+        calculateBlockSizeMillis(config);
+
         disposeTimeframeSpecificSubscriptions();
 
         subscribeToDataSources();
@@ -200,7 +211,7 @@ export default function createAxisController(config) {
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
           aggregation: axis.aggregation,
-          blockSizeMillis: axis.blockSizeMillis,
+          blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
           metricBaseMillis: axis.metricBaseMillis,
           isDynamicAggregated: axis.isDynamicAggregated
         }).subscribe(onNewDataPoints, null, i, queue)
@@ -277,5 +288,30 @@ export default function createAxisController(config) {
       config.dataHolders.y2.clear();
       config.queues.y2.clear();
     }
+  }
+
+  function calculateBlockSizeMillis(config) {
+    const chartWidthInPx = config.bounds.right - config.bounds.left;
+    const rollup = config.rollup.rollup || 1000;
+
+    function calculateBlockSizeMillisForAxis(axis) {
+      if (!axis || !axis.isDynamicAggregated) {
+        return null;
+      }
+      const userDefinedMaxDataPoints = axis.maxDataPoints || config.timeframe.windowSize / rollup;
+      const userDefinedMinPixelPerBlock = axis.minPixelPerBlock || 10;
+
+      const numDataPointsBasedOnPx = Math.floor(chartWidthInPx / userDefinedMinPixelPerBlock);
+      const numDataPoints = Math.min(userDefinedMaxDataPoints, numDataPointsBasedOnPx);
+
+      const rawBlockSize = config.timeframe.windowSize / numDataPoints;
+
+      const dynamicCalculatedBlockSizeMillis = rollup * Math.ceil(rawBlockSize / rollup);
+
+      axis.dynamicCalculatedBlockSizeMillis = dynamicCalculatedBlockSizeMillis;
+    }
+
+    calculateBlockSizeMillisForAxis(config.y1);
+    calculateBlockSizeMillisForAxis(config.y2);
   }
 }
