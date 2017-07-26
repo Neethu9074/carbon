@@ -9,7 +9,6 @@ import { toServerTime } from 'in-stores/timeOffset';
 import { getSetting$ } from 'in-services/settings';
 
 import 'in-charts/Chart/Chart.less';
-import 'in-charts/EumChart/EumChart.less';
 
 const signalRoSpec = { emitLatestOnSubscribe: false };
 

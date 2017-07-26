@@ -35,7 +35,6 @@ export default function createDomController(config) {
     result.wrapper.appendChild(result.glassPane);
 
     result.wrapper.classList.add(block);
-    result.wrapper.classList.add('in-eum-chart');
     result.animationScreen.classList.add(`${block}__animation-screen`);
     result.tooltipContainer.classList.add(`${block}__tooltip-container`);
     result.tooltipLine.classList.add(`${block}__tooltip-line`);
