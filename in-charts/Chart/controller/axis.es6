@@ -45,6 +45,13 @@ export default function createAxisController(config) {
   config.queues = createQueues();
   config.dataHolders = createDataHolders();
 
+  if (config['y1'].blockSizeMillis) {
+    config['y1'].isDynamicAggregated = true;
+  }
+  if (config['y2'] && config['y2'].blockSizeMillis) {
+    config['y2'].isDynamicAggregated = true;
+  }
+
   establishSubscriptions();
 
   return {
@@ -194,7 +201,8 @@ export default function createAxisController(config) {
           rollup: config.rollup.rollup,
           aggregation: axis.aggregation,
           blockSizeMillis: axis.blockSizeMillis,
-          metricBaseMillis: axis.metricBaseMillis
+          metricBaseMillis: axis.metricBaseMillis,
+          isDynamicAggregated: axis.isDynamicAggregated
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }

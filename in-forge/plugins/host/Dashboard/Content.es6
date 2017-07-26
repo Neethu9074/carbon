@@ -71,11 +71,11 @@ export default function HostDashboard({ snapshot, timeframe }) {
                 }}
                 y1={{
                   min: 0,
-                  type: 'stackedArea',
                   formatter: twoDecimalPlaces,
                   tooltipFormatter: twoDecimalPlaces,
                   metrics: ['load.1min'],
-                  labels: ['Load']
+                  labels: ['Load'],
+                  type: 'stackedArea'
                 }}
               />
             </DashboardSection>

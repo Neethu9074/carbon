@@ -125,7 +125,7 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
 }
 
 export function getMetricsForTimeframe(opts) {
-  if (opts.blockSizeMillis) {
+  if (opts.isDynamicAggregated) {
     // live or not is done in the backend
     return getDynamicAggregatedMetricsForTimeframe(opts);
   }

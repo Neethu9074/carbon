@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { formatDateTime } from 'in-services/formatters/date';
+import { formatTime, formatDateTime } from 'in-services/formatters/date';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 
 import './ReactTooltip.less';
 
@@ -20,6 +21,7 @@ function MetricBlock({ dataColumn, config, axisName }) {
 
   return (
     <div>
+      <DynamicAggregationMarker config={config} axis={axisConfig} />
       {dataColumn.map((dataRow, i) =>
         <div className={`${block}__metric`} key={i}>
           <dt
@@ -62,4 +64,31 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
 
 function identity(a) {
   return a;
+}
+
+function DynamicAggregationMarker({ config, axis }) {
+  if (!axis.isDynamicAggregated) {
+    return null;
+  }
+
+  const from = config.timeframe.to - axis.blockSizeMillis;
+  const to = config.timeframe.to;
+  const oneDay = 1000 * 60 * 60 * 24;
+  const formatter = to - from >= oneDay ? formatDateTime : formatTime;
+
+  return (
+    <div className={`${block}__aggregation-marker`}>
+      <span>
+        {`${formatDurationAccurately(axis.blockSizeMillis, 0, false)} ${axis.aggregation || 'sum'} `}
+      </span>
+      <span className={`${block}__time-marker`}>
+        from:
+      </span>
+      {` ${formatter(from)} `}
+      <span className={`${block}__time-marker`}>
+        to:
+      </span>
+      {` ${formatter(to)}`}
+    </div>
+  );
 }
