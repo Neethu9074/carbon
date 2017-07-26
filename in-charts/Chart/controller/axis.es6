@@ -10,6 +10,7 @@ import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
+import { getBlockSize } from 'in-services/util/dynamicAggregation';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { timeframe$, to$ } from 'in-stores/timeline';
@@ -298,17 +299,13 @@ export default function createAxisController(config) {
       if (!axis || !axis.isDynamicAggregated) {
         return null;
       }
-      const userDefinedMaxDataPoints = axis.maxDataPoints || config.timeframe.windowSize / rollup;
-      const userDefinedMinPixelPerBlock = axis.minPixelPerBlock || 10;
-
-      const numDataPointsBasedOnPx = Math.floor(chartWidthInPx / userDefinedMinPixelPerBlock);
-      const numDataPoints = Math.min(userDefinedMaxDataPoints, numDataPointsBasedOnPx);
-
-      const rawBlockSize = config.timeframe.windowSize / numDataPoints;
-
-      const dynamicCalculatedBlockSizeMillis = rollup * Math.ceil(rawBlockSize / rollup);
-
-      axis.dynamicCalculatedBlockSizeMillis = dynamicCalculatedBlockSizeMillis;
+      axis.dynamicCalculatedBlockSizeMillis = getBlockSize({
+        windowSize: config.timeframe.windowSize,
+        maxDataPoints: axis.maxDataPoints,
+        minPixelPerBlock: axis.minPixelPerBlock,
+        width: chartWidthInPx,
+        rollup
+      });
     }
 
     calculateBlockSizeMillisForAxis(config.y1);
