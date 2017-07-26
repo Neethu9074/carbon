@@ -47,7 +47,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             colors: ['#eaeff2'],
             type: 'bar',
             minPixelPerBlock: 5,
-            maxDataPoints: 200,
+            maxDataPoints: 100,
             metricBaseMillis: 5000
           }}
           y2={{
@@ -55,11 +55,11 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             formatter: twoDecimalPlaces,
             metrics: ['duration.mean'],
             labels: ['Load time'],
-            colors: ['#4b626b'],
+            colors: ['#6B8088'],
             type: 'discreteLine',
             aggregation: 'mean',
             minPixelPerBlock: 5,
-            maxDataPoints: 200
+            maxDataPoints: 100
           }}
         />
       </div>

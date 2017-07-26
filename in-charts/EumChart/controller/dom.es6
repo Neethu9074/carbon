@@ -44,13 +44,14 @@ export default function createDomController(config) {
   }
 
   function resize() {
-    const width = (config.width = dom.wrapper.clientWidth | 0);
+    let width = (config.width = dom.wrapper.clientWidth | 0);
     config.bounds = {
       top: config.margins.top,
       bottom: height - config.margins.bottom,
       left: config.margins.left,
       right: width - config.margins.right
     };
+    width -= config.margins.right;
     dom.wrapper.style.height = `${height}px`;
     dom.tooltipLine.style.top = `${config.margins.top}px`;
     dom.tooltipLine.style.bottom = `${config.margins.bottom}px`;
