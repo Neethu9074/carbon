@@ -46,17 +46,32 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
     return null;
   }
 
+  let bothAggregationsAreEqual =
+    config.y1 && config.y2 && config.y1.dynamicCalculatedBlockSizeMillis === config.y2.dynamicCalculatedBlockSizeMillis;
+  const timeToUseForDynamicAggregationTooltip = bothAggregationsAreEqual ? null : time;
+
   return (
     <div className={block}>
-
       <p className={`${block}__time`}>
         {formatDateTime(time)}
       </p>
+      {bothAggregationsAreEqual ? <DynamicAggregationMarker time={time} axis={config.y1} /> : null}
 
       <dl className={`${block}__metrics`}>
-        <MetricBlock time={time} dataColumn={y1DataColumn} config={config} axisName="y1" />
-
-        {config.y2 ? <MetricBlock dataColumn={y2DataColumn} config={config} axisName="y2" /> : null}
+        <MetricBlock
+          time={timeToUseForDynamicAggregationTooltip}
+          dataColumn={y1DataColumn}
+          config={config}
+          axisName="y1"
+        />
+        {config.y2
+          ? <MetricBlock
+              time={timeToUseForDynamicAggregationTooltip}
+              dataColumn={y2DataColumn}
+              config={config}
+              axisName="y2"
+            />
+          : null}
       </dl>
     </div>
   );
@@ -67,6 +82,9 @@ function identity(a) {
 }
 
 function DynamicAggregationMarker({ time, axis }) {
+  if (!time) {
+    return null;
+  }
   if (!axis.isDynamicAggregated) {
     return <div className={`${block}__line`} />;
   }

@@ -46,8 +46,8 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             labels: ['Calls/s'],
             colors: ['#eaeff2'],
             type: 'bar',
-            minPixelPerBlock: 10,
-            maxDataPoints: 100,
+            minPixelPerBlock: 5,
+            maxDataPoints: 200,
             metricBaseMillis: 5000
           }}
           y2={{
@@ -56,7 +56,9 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             metrics: ['xhrCalls'],
             labels: ['Calls'],
             colors: ['#4b626b'],
-            type: 'discreteLine'
+            type: 'discreteLine',
+            minPixelPerBlock: 5,
+            maxDataPoints: 200
           }}
         />
       </div>
