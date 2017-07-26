@@ -44,8 +44,8 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             formatter: twoDecimalPlaces,
             metrics: ['count'],
             labels: ['Calls/s'],
-            type: 'bar',
             colors: ['#eaeff2'],
+            type: 'bar',
             aggregation: 'sum',
             blockSizeMillis: 1000 * 60, // 1 min blocks
             metricBaseMillis: 5000
@@ -55,8 +55,8 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             formatter: twoDecimalPlaces,
             metrics: ['xhrCalls'],
             labels: ['Calls'],
-            type: 'discreteLine',
-            colors: ['#4b626b']
+            colors: ['#4b626b'],
+            type: 'discreteLine'
           }}
         />
       </div>
