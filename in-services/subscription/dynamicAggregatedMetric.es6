@@ -3,18 +3,18 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-dynamic-aggregated-metric',
 
-  getId: ({ snapshotId, metric, timeframe, aggregation, blockWindowSize }) =>
-    snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + blockWindowSize,
+  getId: ({ snapshotId, metric, timeframe, aggregation, blockSizeMillis }) =>
+    snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + blockSizeMillis,
 
-  getData: (subscriptionId, { snapshotId, metric, timeframe, aggregation, blockWindowSize, metricBaseUnit }) => {
+  getData: (subscriptionId, { snapshotId, metric, timeframe, aggregation, blockSizeMillis, metricBaseMillis }) => {
     return {
       subscriptionId,
       snapshotId,
       timeframe,
       metric,
       aggregation,
-      blockSizeMillis: blockWindowSize,
-      metricBaseMillis: metricBaseUnit
+      blockSizeMillis,
+      metricBaseMillis
     };
   },
 

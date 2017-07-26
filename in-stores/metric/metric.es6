@@ -1,3 +1,4 @@
+import createDynamicAggregatedMetricObservable from 'in-services/subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-services/subscription/timeWindowMetricAggregation';
 import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
@@ -37,15 +38,7 @@ const rollupDurationThresholds = [
   }
 ];
 
-export function getLiveMetrics({
-  snapshotId,
-  metric,
-  timeframe = null,
-  rollup,
-  dynamicRollupMultiplier,
-  dynamicRollupAggregation,
-  metricBaseUnit
-}) {
+export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
@@ -53,22 +46,11 @@ export function getLiveMetrics({
   return createLiveMetricObservable({
     snapshotId,
     metric,
-    rollup,
-    dynamicRollupMultiplier,
-    dynamicRollupAggregation,
-    metricBaseUnit
+    rollup
   });
 }
 
-function getHistoricMetrics({
-  snapshotId,
-  metric,
-  timeframe,
-  rollup,
-  dynamicRollupMultiplier,
-  dynamicRollupAggregation,
-  metricBaseUnit
-}) {
+function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
@@ -77,10 +59,7 @@ function getHistoricMetrics({
     snapshotId,
     metric,
     timeframe,
-    rollup,
-    dynamicRollupMultiplier,
-    dynamicRollupAggregation,
-    metricBaseUnit
+    rollup
   });
 }
 
@@ -146,7 +125,18 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
 }
 
 export function getMetricsForTimeframe(opts) {
-  return opts.timeframe.to ? getHistoricMetrics(opts) : getHistoricMetricsWithLiveUpdates(opts);
+  if (opts.blockSizeMillis) {
+    // live or not is done in the backend
+    return getDynamicAggregatedMetricsForTimeframe(opts);
+  }
+  if (opts.timeframe.to) {
+    return getHistoricMetrics(opts);
+  }
+  return getHistoricMetricsWithLiveUpdates(opts);
+}
+
+export function getDynamicAggregatedMetricsForTimeframe(opts) {
+  return createDynamicAggregatedMetricObservable(opts);
 }
 
 export function getDefaultMetricRollupDuration(timeframe) {
@@ -246,21 +236,4 @@ function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metri
     rollup,
     timeWindowAggregation
   });
-}
-
-export function getDynamicRollupMultiplier(width, timeframe, minWidthPerDataPointInPx) {
-  const windowSize = timeframe.windowSize;
-
-  const minRollupSize = 1000;
-  const minAvailableRollup = getDefaultMetricRollupDuration(timeframe);
-  const minAvailableRollupSize = minAvailableRollup.rollup || minRollupSize;
-
-  const maxBars = Math.floor(width / minWidthPerDataPointInPx);
-  let minRollup = Math.max(minAvailableRollupSize, windowSize / maxBars);
-  const dynamicRollupMultiplier = Math.ceil(minRollup / minAvailableRollupSize);
-
-  return {
-    dynamicRollupMultiplier,
-    minAvailableRollup
-  };
 }

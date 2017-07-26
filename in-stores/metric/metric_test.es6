@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDefaultMetricRollupDuration, getDynamicRollupMultiplier } from 'in-stores/metric';
+import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 
 const oneMinute = 1000 * 60;
 
@@ -71,55 +71,5 @@ describe('in-stores/metric', () => {
         expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10)).rollup).to.equal(5000);
       }
     );
-
-    it('should get the minimum rollup if screen is able to show all datapoints', () => {
-      const { dynamicRollupMultiplier, minAvailableRollup } = getDynamicRollupMultiplier(
-        1000,
-        timeframe(null, 60 * 1000),
-        10
-      );
-      expect(minAvailableRollup.rollup).to.equal(null);
-      expect(dynamicRollupMultiplier).to.equal(1);
-    });
-
-    it('should increase the rollup from 1sec to 3sec', () => {
-      const { dynamicRollupMultiplier, minAvailableRollup } = getDynamicRollupMultiplier(
-        1000,
-        timeframe(null, 6 * 60 * 1000),
-        10
-      );
-      expect(minAvailableRollup.rollup).to.equal(null);
-      expect(dynamicRollupMultiplier).to.equal(4); // max 100 metrics, 360 are shown so you have to multiply by 4 (=400) to have enough space
-    });
-
-    it('should increase the rollup from 1sec to 1m', () => {
-      const { dynamicRollupMultiplier, minAvailableRollup } = getDynamicRollupMultiplier(
-        100,
-        timeframe(null, 60 * 1000),
-        10
-      );
-      expect(minAvailableRollup.rollup).to.equal(null);
-      expect(dynamicRollupMultiplier).to.equal(6);
-    });
-
-    it('should increase the rollup from 1sec to 2m', () => {
-      const { dynamicRollupMultiplier, minAvailableRollup } = getDynamicRollupMultiplier(
-        100,
-        timeframe(null, 2 * 60 * 1000),
-        10
-      );
-      expect(minAvailableRollup.rollup).to.equal(null);
-      expect(dynamicRollupMultiplier).to.equal(12);
-    });
-
-    it('should take at least the available rollup, even if it could render more', () => {
-      const { dynamicRollupMultiplier, minAvailableRollup } = getDynamicRollupMultiplier(
-        Number.MAX_VALUE,
-        timeframe(null, oneMinute * 60),
-        10
-      );
-      expect(minAvailableRollup.rollup).to.equal(1000 * 5);
-      expect(dynamicRollupMultiplier).to.equal(1);
-    });
   });
 });

@@ -46,8 +46,9 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             labels: ['Calls/s'],
             type: 'bar',
             colors: ['#eaeff2'],
-            dynamicRollupAggregation: 'sum',
-            metricBaseUnit: 5000
+            aggregation: 'sum',
+            blockSizeMillis: 1000 * 60, // 1 min blocks
+            metricBaseMillis: 5000
           }}
           y2={{
             min: 0,

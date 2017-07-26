@@ -2,9 +2,9 @@ import { combineLatest } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
-import { getDynamicRollupMultiplier, getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
+import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
@@ -163,7 +163,6 @@ export default function createAxisController(config) {
 
         disposeTimeframeSpecificSubscriptions();
 
-        // the subscription is cached if the rollup hasen't changed and automatically refired, if the dynamic rollup changes
         subscribeToDataSources();
 
         config.signals.restartRendering$.emit(true);
@@ -183,13 +182,6 @@ export default function createAxisController(config) {
   function subscribeToDataSourcesForAxis(axisName) {
     const axis = config[axisName];
     const metrics = axis.metrics;
-    const dynamicRollupAggregation = axis.dynamicRollupAggregation;
-    let _dynamicRollupMultiplier = undefined;
-
-    if (dynamicRollupAggregation) {
-      const { dynamicRollupMultiplier } = calculateDynamicRollupMultiplier(config.timeframe, config.bounds);
-      _dynamicRollupMultiplier = dynamicRollupMultiplier;
-    }
 
     const queue = config.queues[axisName];
     for (let i = 0, len = metrics.length; i < len; i++) {
@@ -200,9 +192,9 @@ export default function createAxisController(config) {
           metric: metrics[i],
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
-          dynamicRollupMultiplier: _dynamicRollupMultiplier,
-          dynamicRollupAggregation,
-          metricBaseUnit: axis.metricBaseUnit
+          aggregation: axis.aggregation,
+          blockSizeMillis: axis.blockSizeMillis,
+          metricBaseMillis: axis.metricBaseMillis
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
@@ -277,11 +269,5 @@ export default function createAxisController(config) {
       config.dataHolders.y2.clear();
       config.queues.y2.clear();
     }
-  }
-
-  function calculateDynamicRollupMultiplier(timeframe, bounds) {
-    const chartWidth = bounds.right - bounds.left;
-    const minWidthPerDataPointInPx = 6;
-    return getDynamicRollupMultiplier(chartWidth, timeframe, minWidthPerDataPointInPx);
   }
 }
