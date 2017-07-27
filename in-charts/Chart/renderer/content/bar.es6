@@ -3,8 +3,7 @@ export default function createBarContentRenderer({ axisName, config }) {
   const y = config.scales[axisName];
   const x = config.scales.x;
   const colors = config[axisName].colors;
-  const pixelsBetweenBars = 2;
-  const pixelsBetweenBarsHalf = pixelsBetweenBars / 2;
+  const margin = 1;
 
   return {
     requireExistenceInAllSeries: true,
@@ -22,9 +21,9 @@ export default function createBarContentRenderer({ axisName, config }) {
 
       const time = dataColumn.time;
       const chartHeight = y.getRangeFrom();
-      const xPos = x.getRange(time) + pixelsBetweenBarsHalf;
-
+      const xPos = x.getRange(time) - width / 2 + margin;
       let yPos = y.getRangeFrom();
+
       for (let iRows = 0, length = dataColumn.length; iRows < length; iRows++) {
         if (!activeSeries[iRows]) {
           continue;
@@ -35,7 +34,7 @@ export default function createBarContentRenderer({ axisName, config }) {
         const height = chartHeight - yPosMetric;
 
         ctx.fillStyle = colors[iRows];
-        ctx.fillRect(xPos - width / 2, yPos - height, width, height);
+        ctx.fillRect(xPos, yPos - height, width - margin * 2, height);
 
         yPos -= height;
       }
@@ -45,6 +44,6 @@ export default function createBarContentRenderer({ axisName, config }) {
   function calculateBarWidth(dataColumns) {
     const numberOfBars = dataColumns.length;
     const chartWidth = x.getRangeTo() - x.getRangeFrom();
-    return chartWidth / numberOfBars - pixelsBetweenBars;
+    return chartWidth / numberOfBars;
   }
 }
