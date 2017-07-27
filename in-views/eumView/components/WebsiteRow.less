@@ -10,7 +10,6 @@
   background: white;
   border: 1px solid #D5DFE4;
   border-radius: 0.313rem;
-  cursor: pointer;
 
   box-shadow: 0 rgba(0, 0, 0, 0);
   transition: box-shadow .25s ease-in-out;
@@ -29,17 +28,23 @@
     padding-left: 1.875rem;
     font-weight: 600;
     .breakWord();
+  }
 
-    &__details {
-      margin-top: 1rem;
-      padding: .375rem .688rem;
-      color: #06B7BA;
-      font-size: .75rem;
-      font-weight: 400;
-      border: 1px solid #06B7BA;
-      border-radius: 4px;
-      opacity: 0;
-      transition: opacity .2s ease-in-out;
+  &__details {
+    margin-top: 1rem;
+    padding: .375rem .688rem;
+    color: #06B7BA;
+    font-size: .75rem;
+    font-weight: 400;
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+    transition: color .2s ease-in-out;
+
+    &:hover {
+      color: #1b7071;
     }
   }
 
@@ -121,7 +126,7 @@
 }
 
 .in-website-table-row:hover {
-  .in-website-table-row__name__details {
+  .in-website-table-row__details {
     opacity: 1;
   }
 }

@@ -29,6 +29,10 @@ export default function createTooltipRenderer(config) {
     dataPointsExistingAtMoment = null;
     dataPointsAvailable = true;
     highlightedMoment = _highlightedMoment;
+
+    if (!config.rollup) {
+      return;
+    }
     const rollupInMillis = config.rollup.rollup || 1000;
 
     y1DataColumn = getDataPointIfInRange(lookForDataPoint('y1', highlightedMoment), highlightedMoment, rollupInMillis);
@@ -55,8 +59,6 @@ export default function createTooltipRenderer(config) {
     } else if (!y1DataColumn && y2DataColumn) {
       dataPointsExistingAtMoment = y2DataColumn.time;
     }
-
-    // console.log(new Date(dataPointsExistingAtMoment), new Date(highlightedMoment));
 
     repositionTooltip();
 

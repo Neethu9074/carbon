@@ -11,14 +11,14 @@ const block = 'in-website-table-row';
 export default function WebsiteRow({ snapshot, data, onClick }) {
   const metrics = `${block}__metrics`;
   const nameElement = `${block}__name`;
-  const detailsElement = `${nameElement}__details`;
+  const detailsElement = `${block}__details`;
   const kpis = `${block}__kpis`;
 
   return (
-    <div key={data.name} className={block} onClick={onClick}>
+    <div key={data.name} className={block}>
       <div className={nameElement}>
         {data.name}
-        <div className={detailsElement}>
+        <div className={detailsElement} onClick={onClick}>
           View Details
         </div>
       </div>
