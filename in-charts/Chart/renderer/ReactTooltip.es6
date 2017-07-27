@@ -95,11 +95,7 @@ function DynamicAggregationMarker({ time, axis }) {
 
   return (
     <div className={`${block}__time`}>
-      {` ${formatter(from)} `}
-      <span className={`${block}__time-marker`}>
-        with a size of:
-      </span>
-      {` ${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}`}
+      {`${formatter(from)} - ${formatter(to)} (${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)})`}
     </div>
   );
 }
