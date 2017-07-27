@@ -1,6 +1,7 @@
-import { OCTREE } from 'in-map/lib/Octree';
+import { OCTREE } from 'in-map/misc/Octree';
 
 import { OCTREE_LAYER } from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { emptyArray } from 'in-services/fixedObjects';
 import { eventBus } from 'in-map/services/eventBus';
 
 export default function createPhysicsService() {
@@ -83,13 +84,15 @@ export default function createPhysicsService() {
       }
 
       const octree2Objects = octree
-        .search(
-          ray.origin,
-          ray.far,
-          true, // true -> organized by objects
-          ray.direction
-        )
-        .filter(object => object.object.isEnabled);
+        .search(ray.origin, ray.far, ray.direction)
+        .filter(object => object.object.isEnabled)
+        .map(object => {
+          return {
+            object: object.object,
+            faces: emptyArray,
+            vertices: emptyArray
+          };
+        });
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {

@@ -10,7 +10,6 @@ export const OCTREE = {};
  * based on Dynamic Octree by Piko3D @ http://www.piko3d.com/ and Octree by Marek Pawlowski @ pawlowski.it
  */
 (function(OCTREE) {
-  'use strict';
   /*===================================================
   utility
   =====================================================*/
@@ -130,7 +129,7 @@ export const OCTREE = {};
     },
 
     addDeferred: function(object, options) {
-      var i, l, geometry, faces, useFaces, vertices, useVertices, objectData;
+      var i, l, geometry, faces, useFaces, vertices, useVertices;
 
       // ensure object is not object data
 
@@ -248,7 +247,6 @@ export const OCTREE = {};
       var i,
         l,
         node,
-        object,
         objectData,
         indexOctant,
         indexOctantLast,
@@ -317,76 +315,21 @@ export const OCTREE = {};
       }
     },
 
-    search: function(position, radius, organizeByObject, direction) {
-      var i,
-        l,
-        node,
-        objects,
-        objectData,
-        object,
-        results,
-        resultData,
-        resultsObjectsIndices,
-        resultObjectIndex,
-        directionPct;
-
+    search: function(position, radius, direction) {
       // add root objects
-      objects = this.root.objects;
+      let objects = this.root.objects;
 
-      // ensure radius (i.e. distance of ray) is a number
-      if (!(radius > 0)) {
-        radius = Number.MAX_VALUE;
-      }
-
-      // if direction passed, normalize and find pct
-      if (direction instanceof Vector3) {
-        direction = this.utilVec31Search.copy(direction).normalize();
-        directionPct = this.utilVec32Search.set(1, 1, 1).divide(direction);
-      }
+      // normalize and find pct
+      direction = this.utilVec31Search.copy(direction).normalize();
+      const directionPct = this.utilVec32Search.set(1, 1, 1).divide(direction);
 
       // search each node of root
-      for (i = 0, l = this.root.nodesIndices.length; i < l; i++) {
-        node = this.root.nodesByIndex.get(this.root.nodesIndices[i]);
+      for (let i = 0, l = this.root.nodesIndices.length; i < l; i++) {
+        const node = this.root.nodesByIndex.get(this.root.nodesIndices[i]);
         objects = node.search(position, radius, objects, direction, directionPct);
       }
 
-      // if should organize results by object
-      if (organizeByObject === true) {
-        results = [];
-        resultsObjectsIndices = [];
-
-        // for each object data found
-        for (i = 0, l = objects.length; i < l; i++) {
-          objectData = objects[i];
-          object = objectData.object;
-
-          resultObjectIndex = indexOfValue(resultsObjectsIndices, object);
-
-          // if needed, create new result data
-          if (resultObjectIndex === -1) {
-            resultData = {
-              object: object,
-              faces: [],
-              vertices: []
-            };
-
-            results.push(resultData);
-            resultsObjectsIndices.push(object);
-          } else {
-            resultData = results[resultObjectIndex];
-          }
-
-          // object data has faces or vertices, add to list
-          if (objectData.faces) {
-            resultData.faces.push(objectData.faces);
-          } else if (objectData.vertices) {
-            resultData.vertices.push(objectData.vertices);
-          }
-        }
-      } else {
-        results = objects;
-      }
-      return results;
+      return objects;
     },
 
     setRoot: function(root) {
@@ -409,10 +352,6 @@ export const OCTREE = {};
 
     getObjectCountEnd: function() {
       return this.root.getObjectCountEnd();
-    },
-
-    toConsole: function() {
-      this.root.toConsole();
     }
   };
 
@@ -836,7 +775,6 @@ export const OCTREE = {};
         objectsExpand,
         indexOctant,
         flagsOutside,
-        indexOutside,
         indexOctantInverse,
         iom = this.tree.INDEX_OUTSIDE_MAP,
         indexOutsideCounts,
@@ -1038,12 +976,10 @@ export const OCTREE = {};
     },
 
     merge: function(nodes) {
-      var i, l, j, k, node;
-
       // handle nodes
       nodes = toArray(nodes);
-      for (i = 0, l = nodes.length; i < l; i++) {
-        node = nodes[i];
+      for (let i = 0, l = nodes.length; i < l; i++) {
+        const node = nodes[i];
 
         // gather node + all subtree objects
         this.addObjectWithoutCheck(node.getObjectsEnd());
@@ -1119,9 +1055,7 @@ export const OCTREE = {};
     },
 
     getOctantIndex: function(objectData) {
-      var i,
-        l,
-        positionObj,
+      var positionObj,
         radiusObj,
         position = this.position,
         radiusOverlap = this.radiusOverlap,
@@ -1225,61 +1159,22 @@ export const OCTREE = {};
     },
 
     search: function(position, radius, objects, direction, directionPct) {
-      var i, l, node, intersects;
+      const intersects = this.intersectRay(position, direction, radius, directionPct);
 
-      // test intersects by parameters
-      if (direction) {
-        intersects = this.intersectRay(position, direction, radius, directionPct);
-      } else {
-        intersects = this.intersectSphere(position, radius);
-      }
-
-      // if intersects
       if (intersects === true) {
         // gather objects
         objects = objects.concat(this.objects);
 
         // search subtree
-        for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-          node = this.nodesByIndex.get(this.nodesIndices[i]);
-          objects = node.search(position, radius, objects, direction);
+        for (let i = 0, l = this.nodesIndices.length; i < l; i++) {
+          const node = this.nodesByIndex.get(this.nodesIndices[i]);
+          objects = node.search(position, radius, objects, direction, directionPct);
         }
       }
       return objects;
     },
 
-    intersectSphere: function(position, radius) {
-      var distance = radius * radius,
-        px = position.x,
-        py = position.y,
-        pz = position.z;
-
-      if (px < this.left) {
-        distance -= Math.pow(px - this.left, 2);
-      } else if (px > this.right) {
-        distance -= Math.pow(px - this.right, 2);
-      }
-
-      if (py < this.bottom) {
-        distance -= Math.pow(py - this.bottom, 2);
-      } else if (py > this.top) {
-        distance -= Math.pow(py - this.top, 2);
-      }
-
-      if (pz < this.back) {
-        distance -= Math.pow(pz - this.back, 2);
-      } else if (pz > this.front) {
-        distance -= Math.pow(pz - this.front, 2);
-      }
-
-      return distance >= 0;
-    },
-
     intersectRay: function(origin, direction, distance, directionPct) {
-      if (typeof directionPct === 'undefined') {
-        directionPct = this.utilVec31Ray.set(1, 1, 1).divide(direction);
-      }
-
       var t1 = (this.left - origin.x) * directionPct.x,
         t2 = (this.right - origin.x) * directionPct.x,
         t3 = (this.bottom - origin.y) * directionPct.y,
@@ -1324,10 +1219,8 @@ export const OCTREE = {};
     },
 
     getNodeCountRecursive: function() {
-      var i,
-        l,
-        count = this.nodesIndices.length;
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+      let count = this.nodesIndices.length;
+      for (let i = 0, l = this.nodesIndices.length; i < l; i++) {
         count += this.nodesByIndex.get(this.nodesIndices[i]).getNodeCountRecursive();
       }
       return count;
@@ -1363,46 +1256,6 @@ export const OCTREE = {};
         parent = parent.parent;
       }
       return count;
-    },
-
-    toConsole: function(space) {
-      var i,
-        l,
-        node,
-        spaceAddition = '   ';
-
-      space = typeof space === 'string' ? space : spaceAddition;
-
-      console.log(
-        this.parent ? space + ' octree NODE > ' : ' octree ROOT > ',
-        this,
-        ' // id: ',
-        this.id,
-        ' // indexOctant: ',
-        this.indexOctant,
-        ' // position: ',
-        this.position.x,
-        this.position.y,
-        this.position.z,
-        ' // radius: ',
-        this.radius,
-        ' // depth: ',
-        this.depth
-      );
-      console.log(this.parent ? space + ' ' : ' ', '+ objects (', this.objects.length, ') ', this.objects);
-      console.log(
-        this.parent ? space + ' ' : ' ',
-        '+ children (',
-        this.nodesIndices.length,
-        ')',
-        this.nodesIndices,
-        this.nodesByIndex
-      );
-
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-        node = this.nodesByIndex.get(this.nodesIndices[i]);
-        node.toConsole(space + spaceAddition);
-      }
     }
   };
 
