@@ -25,9 +25,9 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
 
       <div className={metrics}>
         <div className={kpis}>
-          <Kpi metricName="Views" metricData={data.pageLoad} />
-          <Kpi metricName="Load Time" metricData={data.loadTime} />
-          <Kpi metricName="Uncaught Errors" metricData={data.errors} />
+          <Kpi metricName="Views" classNameAppendix="__load" metricData={data.pageLoad} />
+          <Kpi metricName="Load Time" classNameAppendix="__time" metricData={data.loadTime} />
+          <Kpi metricName="Uncaught Errors" classNameAppendix="__errors" metricData={data.errors} />
           <div className={`${block}__kpi-block`}>
             Health
             <div className={`${block}__health`}>
@@ -47,8 +47,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             type: 'bar',
             aggregation: 'sum',
             minPixelPerBlock: 5,
-            maxDataPoints: 100,
-            metricBaseMillis: 5000
+            maxDataPoints: 100
           }}
           y2={{
             min: 0,
@@ -66,14 +65,14 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
   );
 }
 
-function Kpi({ metricName, metricData }) {
+function Kpi({ metricName, metricData, classNameAppendix }) {
   const kpi = `${block}__kpi ${block}__kpi`;
   return (
     <div className={`${block}__kpi-block`}>
       <span className={`${block}__metric-name`}>
         {metricName}
       </span>
-      <span className={`${kpi}__load`}>
+      <span className={`${kpi}${classNameAppendix}`}>
         {metricData ? metricData : '--'}
       </span>
     </div>

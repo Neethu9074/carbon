@@ -2,12 +2,43 @@ import React from 'react';
 
 import { formatTime, formatDateTime } from 'in-services/formatters/date';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import './ReactTooltip.less';
 
 const block = 'in-chart-tooltip';
 
+export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn, dataPointsAvailable }) {
+  if (!dataPointsAvailable) {
+    return null;
+  }
+
+  let bothAggregationsAreEqual =
+    config.y1 && config.y2 && config.y1.dynamicCalculatedBlockSizeMillis === config.y2.dynamicCalculatedBlockSizeMillis;
+  const timeToUseForDynamicAggregationTooltip = bothAggregationsAreEqual ? null : time;
+
+  return (
+    <div className={block}>
+      <dl className={`${block}__metrics`}>
+        <MetricBlock time={time} dataColumn={y1DataColumn} config={config} axisName="y1" />
+        {config.y2
+          ? <MetricBlock
+              time={timeToUseForDynamicAggregationTooltip}
+              dataColumn={y2DataColumn}
+              config={config}
+              axisName="y2"
+            />
+          : null}
+      </dl>
+    </div>
+  );
+}
+
 function MetricBlock({ time, dataColumn, config, axisName }) {
+  const classes = evaluateClassNames({
+    [`${block}__metric-block`]: time
+  });
+
   if (!dataColumn) {
     return (
       <div>
@@ -20,7 +51,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
   const formatter = axisConfig.tooltipFormatter || axisConfig.formatter || identity;
 
   return (
-    <div className={time ? `${block}__metric-block` : null}>
+    <div className={classes}>
       <DynamicAggregationMarker time={time} axis={axisConfig} />
       {dataColumn.map((dataRow, i) =>
         <div className={`${block}__metric`} key={i}>
@@ -37,32 +68,6 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
           </dd>
         </div>
       )}
-    </div>
-  );
-}
-
-export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn, dataPointsAvailable }) {
-  if (!dataPointsAvailable) {
-    return null;
-  }
-
-  let bothAggregationsAreEqual =
-    config.y1 && config.y2 && config.y1.dynamicCalculatedBlockSizeMillis === config.y2.dynamicCalculatedBlockSizeMillis;
-  const timeToUseForDynamicAggregationTooltip = bothAggregationsAreEqual ? null : time;
-
-  return (
-    <div className={block}>
-      {bothAggregationsAreEqual ? <DynamicAggregationMarker time={time} axis={config.y1} /> : null}
-
-      <dl className={`${block}__metrics`}>
-        <MetricBlock
-          time={timeToUseForDynamicAggregationTooltip}
-          dataColumn={y1DataColumn}
-          config={config}
-          axisName="y1"
-        />
-        {config.y2 ? <MetricBlock time={null} dataColumn={y2DataColumn} config={config} axisName="y2" /> : null}
-      </dl>
     </div>
   );
 }
@@ -90,15 +95,11 @@ function DynamicAggregationMarker({ time, axis }) {
 
   return (
     <div className={`${block}__time`}>
-      {`${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)} ${axis.aggregation || 'sum'} `}
-      <span className={`${block}__time-marker`}>
-        from:
-      </span>
       {` ${formatter(from)} `}
       <span className={`${block}__time-marker`}>
-        to:
+        with a size of:
       </span>
-      {` ${formatter(to)}`}
+      {` ${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}`}
     </div>
   );
 }
