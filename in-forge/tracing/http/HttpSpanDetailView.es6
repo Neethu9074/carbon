@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function HttpSpanDetailView({ span }) {
   const url = span.getIn(['data', 'http', 'url']);
@@ -48,10 +49,25 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Remote Port">
           {span.getIn(['data', 'peer', 'port'])}
         </DescriptionItem>
+        {getCustomHeaders(span)}
         <DescriptionItem title="Error">
           {span.getIn(['data', 'http', 'error'])}
         </DescriptionItem>
       </DescriptionList>
     </div>
   );
+}
+
+function getCustomHeaders(span) {
+  return span
+    .getIn(['data', 'http', 'header'], emptyMap)
+    .map((v, k) => {
+      return (
+        <DescriptionItem title={`Header: ${k}`} key={`header-${k}`}>
+          {v}
+        </DescriptionItem>
+      );
+    })
+    .valueSeq()
+    .toArray();
 }
