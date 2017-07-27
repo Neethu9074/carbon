@@ -20,7 +20,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
   const formatter = axisConfig.tooltipFormatter || axisConfig.formatter || identity;
 
   return (
-    <div className={`${block}__metric-block`}>
+    <div className={time ? `${block}__metric-block` : null}>
       <DynamicAggregationMarker time={time} axis={axisConfig} />
       {dataColumn.map((dataRow, i) =>
         <div className={`${block}__metric`} key={i}>
@@ -61,14 +61,7 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
           config={config}
           axisName="y1"
         />
-        {config.y2
-          ? <MetricBlock
-              time={timeToUseForDynamicAggregationTooltip}
-              dataColumn={y2DataColumn}
-              config={config}
-              axisName="y2"
-            />
-          : null}
+        {config.y2 ? <MetricBlock time={null} dataColumn={y2DataColumn} config={config} axisName="y2" /> : null}
       </dl>
     </div>
   );
