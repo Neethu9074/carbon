@@ -90,12 +90,12 @@ export default function createAxisController(config) {
   function determineDynamicAggregation() {
     const y1 = config.y1;
     const y2 = config.y2;
-    if (y1 && (y1.maxDataPoints || y1.minPixelPerBlock)) {
+    if (y1 && (y1.maxDataPoints || y1.minPixelPerBlock || y1.aggregation)) {
       y1.isDynamicAggregated = true;
       y1.aggregation = y1.aggregation || 'sum';
       y1.metricBaseMillis = y1.metricBaseMillis || 1000;
     }
-    if (y2 && (y2.maxDataPoints || y2.minPixelPerBlock)) {
+    if (y2 && (y2.maxDataPoints || y2.minPixelPerBlock || y2.aggregation)) {
       y2.isDynamicAggregated = true;
       y2.aggregation = y2.aggregation || 'sum';
       y2.metricBaseMillis = y2.metricBaseMillis || 1000;
