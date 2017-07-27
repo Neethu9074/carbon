@@ -13,28 +13,21 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
   const nameElement = `${block}__name`;
   const detailsElement = `${nameElement}__details`;
   const kpis = `${block}__kpis`;
-  const kpi = `${block}__kpi ${block}__kpi`;
 
   return (
     <div key={data.name} className={block} onClick={onClick}>
       <div className={nameElement}>
         {data.name}
-        <span className={detailsElement}>Details</span>
+        <div className={detailsElement}>
+          View Details
+        </div>
       </div>
 
       <div className={metrics}>
         <div className={kpis}>
-          <div>
-            <span className={`${kpi}__load`}>
-              {data.pageLoad ? data.pageLoad : '--'}
-            </span>
-            <span className={`${kpi}__time`}>
-              {data.loadTime ? data.loadTime : '--'}
-            </span>
-            <span className={`${kpi}__errors`}>
-              {data.errors ? data.errors : '--'}
-            </span>
-          </div>
+          <Kpi metricName="Views" metricData={data.pageLoad} />
+          <Kpi metricName="Load Time" metricData={data.loadTime} />
+          <Kpi metricName="Uncaught Errors" metricData={data.errors} />
           <WebsiteIssueButton snapshotId={snapshot.get('id')} />
         </div>
         <Chart
@@ -63,6 +56,20 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
           }}
         />
       </div>
+    </div>
+  );
+}
+
+function Kpi({ metricName, metricData }) {
+  const kpi = `${block}__kpi ${block}__kpi`;
+  return (
+    <div className={`${block}__kpi-block`}>
+      <span className={`${block}__metric-name`}>
+        {metricName}
+      </span>
+      <span className={`${kpi}__load`}>
+        {metricData ? metricData : '--'}
+      </span>
     </div>
   );
 }

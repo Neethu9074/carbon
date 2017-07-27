@@ -2,7 +2,12 @@
 
 .in-website-table-row {
   display: flex;
+  height: 8.125rem;
+
   margin-top: 0.6rem;
+  padding: .5rem;
+
+  background: white;
   border: 1px solid #D5DFE4;
   border-radius: 0.313rem;
   cursor: pointer;
@@ -20,18 +25,21 @@
     align-items: flex-start;
 
     width: 30%;
-    font-size: 0.875rem;
+    font-size: 1.125rem;
     padding-left: 1.875rem;
     font-weight: 600;
     .breakWord();
 
     &__details {
+      margin-top: 1rem;
+      padding: .375rem .688rem;
       color: #06B7BA;
-      transition: opacity .1s ease-in-out;
-      opacity: 0;
       font-size: .75rem;
-      padding: .188rem 0 0;
       font-weight: 400;
+      border: 1px solid #06B7BA;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity .2s ease-in-out;
     }
   }
 
@@ -41,10 +49,20 @@
 
   &__kpis {
     display: flex;
-    justify-content: space-between;
 
-    margin: 1rem 0 .313rem 0;
+    margin: .25rem 0 1.25rem 0;
     padding: 0 0.6rem;
+  }
+
+  &__kpi-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__metric-name {
+    // get aligned with the pseudo element
+    margin-left: -.313rem;
+    margin-bottom: .5rem;
   }
 
   &__kpi {
@@ -57,10 +75,10 @@
 
       content: '';
       padding: 0;
-      width: .5rem;
-      height: .5rem;
+      width: .188rem;
+      height: 1.125rem;
       background: red;
-      margin: .438rem 0 0 -1rem;
+      margin: .063rem 0 0 -.625rem;
     }
 
     &__load {
@@ -86,7 +104,7 @@
 
     &__errors {
       &::before {
-        background: #f6cfc6;
+        background: #f49785;
       }
     }
   }

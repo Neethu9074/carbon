@@ -16,7 +16,6 @@ import './EumView.less';
 const block = 'in-eum';
 const headerElement = `${block}__header`;
 const configureElement = `${headerElement}__configure`;
-const fullscreenOverviewElement = `${block}__fullscreen-overview`;
 
 export default connectTo(
   {
@@ -27,7 +26,7 @@ export default connectTo(
   function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
     if (!snapshotIds || !snapshots) {
       return (
-        <FullscreenOverlayView className={fullscreenOverviewElement}>
+        <FullscreenOverlayView>
           <div className={block}>
             <WebsiteHeading />
             <LoadingIndicator type="dark" />
@@ -39,7 +38,7 @@ export default connectTo(
     // data was loaded but there is no defined website
     if (snapshotIds.length === 0 && snapshots.length === 0) {
       return (
-        <FullscreenOverlayView className={fullscreenOverviewElement}>
+        <FullscreenOverlayView>
           <NoWebsiteLandingScreen />
         </FullscreenOverlayView>
       );
@@ -47,7 +46,7 @@ export default connectTo(
 
     return (
       <div>
-        <FullscreenOverlayView className={fullscreenOverviewElement}>
+        <FullscreenOverlayView>
           <div className={block}>
             <div className={headerElement}>
               <div>
