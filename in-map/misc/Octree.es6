@@ -113,26 +113,17 @@ export const OCTREE = {};
           this.addDeferred(deferred.object, deferred.options);
         }
 
+        // clears the array
         this.objectsDeferred.length = 0;
       }
     },
 
     add: function(object, options) {
-      // add immediately
-      if (this.undeferred) {
-        this.updateObject(object);
-        this.addDeferred(object, options);
-      } else {
-        // defer add until update called
-        this.objectsDeferred.push({ object: object, options: options });
-      }
+      this.objectsDeferred.push({ object, options });
     },
 
-    addDeferred: function(object, options) {
-      var i, l, geometry, faces, useFaces, vertices, useVertices;
-
+    addDeferred: function(object) {
       // ensure object is not object data
-
       if (object instanceof OCTREE.ROctreeObjectData) {
         object = object.object;
       }
@@ -147,29 +138,7 @@ export const OCTREE = {};
         this.objects.push(object);
         this.objectsMap[object.uuid] = object;
 
-        // check options
-        if (options) {
-          useFaces = options.useFaces;
-          useVertices = options.useVertices;
-        }
-
-        if (useVertices === true) {
-          geometry = object.geometry;
-          vertices = geometry.vertices;
-
-          for (i = 0, l = vertices.length; i < l; i++) {
-            this.addObjectData(object, vertices[i]);
-          }
-        } else if (useFaces === true) {
-          geometry = object.geometry;
-          faces = geometry.faces;
-
-          for (i = 0, l = faces.length; i < l; i++) {
-            this.addObjectData(object, faces[i]);
-          }
-        } else {
-          this.addObjectData(object);
-        }
+        this.addObjectData(object);
       }
     },
 

@@ -46,7 +46,7 @@ export default function createPhysicsService() {
 
   function addCollisionObject(obj, layer = 0) {
     if (obj) {
-      octrees[layer].add(obj, { useFaces: false });
+      octrees[layer].add(obj);
     }
   }
 
