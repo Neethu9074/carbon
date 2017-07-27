@@ -118,21 +118,10 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               metricPrefix + 'ssl',
               metricPrefix + 'req',
               metricPrefix + 'rsp',
-              metricPrefix + 'pro',
-              metricPrefix + 'loa'
+              metricPrefix + 'dom',
+              metricPrefix + 'chi'
             ],
-            labels: [
-              'Unload',
-              'Redirect',
-              'AppCache',
-              'DNS',
-              'TCP',
-              'SSL',
-              'Request',
-              'Response',
-              'Processing',
-              'Load'
-            ],
+            labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'],
             type: 'stackedArea'
           }}
         />
