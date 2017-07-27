@@ -18,10 +18,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
         <KpiHeading>
           {getLabel(snapshot)}
         </KpiHeading>
-        <KpiKeyValue label="calls/s">
-          <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
-        </KpiKeyValue>
-        <KpiKeyValue label={<TimeWindowSizeLabel prefix="calls in " />}>
+        <KpiKeyValue label={<TimeWindowSizeLabel prefix="Views in " />}>
           <MetricValue
             snapshotId={snapshotId}
             formatter={zeroDecimalPlaces}

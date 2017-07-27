@@ -9,7 +9,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
   return (
     <div>
       <TwoColumnRow>
-        <DashboardSection title="Calls">
+        <DashboardSection title="Views">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -20,7 +20,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               min: 0,
               formatter: twoDecimalPlaces,
               metrics: [metricPrefix + 'count'],
-              labels: ['calls'],
+              labels: ['views'],
               type: 'bar',
               aggregation: 'sum',
               minPixelPerBlock: 10,
