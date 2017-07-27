@@ -3,6 +3,7 @@ import logging from 'instalog';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEmployee } from 'in-stores/user';
+import { config } from 'in-services/config';
 
 const unhandledLogger = logging.createLogger('in-services/unhandledErrors');
 
@@ -10,7 +11,7 @@ export function init() {
   setUnhandledErrorHandler(e => {
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
 
-    if (isInstanaEmployee()) {
+    if (isInstanaEmployee() && !(config.tenant === 'instana' && config.tenantUnit === 'current')) {
       showUnhandledErrorMessage(e);
     }
   });
