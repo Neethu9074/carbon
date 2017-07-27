@@ -26,7 +26,7 @@ export default connectTo(
   function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
     if (!snapshotIds || !snapshots) {
       return (
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
           <div className={block}>
             <WebsiteHeading />
             <LoadingIndicator type="dark" />
@@ -38,7 +38,7 @@ export default connectTo(
     // data was loaded but there is no defined website
     if (snapshotIds.length === 0 && snapshots.length === 0) {
       return (
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
           <NoWebsiteLandingScreen />
         </FullscreenOverlayView>
       );
@@ -46,7 +46,7 @@ export default connectTo(
 
     return (
       <div>
-        <FullscreenOverlayView>
+        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
           <div className={block}>
             <div className={headerElement}>
               <div>
