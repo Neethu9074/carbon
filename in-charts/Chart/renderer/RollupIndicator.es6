@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 
 import './RollupIndicator.less';
@@ -17,10 +18,38 @@ export default connectTo(
       return null;
     }
 
+    let left = config.y1.isDynamicAggregated ? 'dynamic' : 'rollup';
+    let right = config.y2 ? (config.y2.isDynamicAggregated ? 'dynamic' : 'rollup') : null;
+
+    if (left === right) {
+      right = null;
+    }
+
+    return (
+      <div className={block}>
+        <Aggregation type={left} config={config} axis={config.y1} />
+        <Aggregation type={right} config={config} axis={config.y2} />
+      </div>
+    );
+  }
+);
+
+function Aggregation({ type, config, axis }) {
+  if (!type) {
+    return null;
+  }
+  if (type === 'dynamic') {
+    return (
+      <div className={block}>
+        Block Size {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
+      </div>
+    );
+  }
+  if (type === 'rollup') {
     return (
       <div className={block}>
         Rollup {config.rollup.label}
       </div>
     );
   }
-);
+}
