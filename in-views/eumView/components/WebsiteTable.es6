@@ -74,6 +74,16 @@ const columnDefinitions = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    index: 4,
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      }
+    }
   }
 ];
 
@@ -157,7 +167,8 @@ export default class WebsiteTable extends React.Component {
                 name: columns[0].value,
                 pageLoad: columns[1].content,
                 loadTime: columns[2].content,
-                errors: columns[3].content
+                errors: columns[3].content,
+                health: columns[4].content
               }}
               onClick={e => {
                 e.preventDefault();

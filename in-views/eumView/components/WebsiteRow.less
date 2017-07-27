@@ -43,6 +43,11 @@
     }
   }
 
+  &__health {
+    width: 8rem;
+    margin-top: .563rem;
+  }
+
   &__metrics {
     width: 70%;
   }
@@ -57,6 +62,11 @@
   &__kpi-block {
     display: flex;
     flex-direction: column;
+
+    // health
+    &:nth-child(4) {
+      margin-left: 2.313rem;
+    }
   }
 
   &__metric-name {

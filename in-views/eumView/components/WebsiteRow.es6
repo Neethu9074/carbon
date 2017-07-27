@@ -28,6 +28,12 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
           <Kpi metricName="Views" metricData={data.pageLoad} />
           <Kpi metricName="Load Time" metricData={data.loadTime} />
           <Kpi metricName="Uncaught Errors" metricData={data.errors} />
+          <div className={`${block}__kpi-block`}>
+            Health
+            <div className={`${block}__health`}>
+              {data.health}
+            </div>
+          </div>
           <WebsiteIssueButton snapshotId={snapshot.get('id')} />
         </div>
         <Chart
