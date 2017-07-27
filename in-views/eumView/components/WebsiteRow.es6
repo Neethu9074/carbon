@@ -47,7 +47,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             type: 'bar',
             aggregation: 'sum',
             minPixelPerBlock: 5,
-            maxDataPoints: 100
+            maxDataPoints: 10
           }}
           y2={{
             min: 0,
