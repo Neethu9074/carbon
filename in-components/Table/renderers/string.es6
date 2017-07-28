@@ -1,6 +1,8 @@
 import invariant from 'invariant';
+import React from 'react';
 
 import { compareIgnoreCase } from 'in-services/util/string';
+import BreakAll from 'in-components/typo/BreakAll';
 import { noop } from 'in-services/fixedObjects';
 
 export const type = 'string';
@@ -28,6 +30,15 @@ export function initialize(row, columnDefinition, columnIndex) {
   if (columnDefinition.typeArgs.getContent) {
     content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
   }
+
+  if (typeof content === 'string') {
+    content = (
+      <BreakAll>
+        {content}
+      </BreakAll>
+    );
+  }
+
   return {
     columnDefinition,
     columnIndex,
