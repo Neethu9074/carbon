@@ -41,7 +41,7 @@ function Aggregation({ type, config, axis }) {
   if (type === 'dynamic') {
     return (
       <div className={block}>
-        Block Size {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
+        Rollup {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
       </div>
     );
   }
