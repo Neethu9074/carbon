@@ -96,7 +96,7 @@ const MenuContent = connectTo(
         </h3>
         <ButtonGroup>
           {availableGroupings.map(grouping =>
-            <GroupingButton grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
+            <GroupingButton view={view} grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
           )}
         </ButtonGroup>
         <br />
@@ -121,7 +121,7 @@ const MenuContent = connectTo(
 const GroupingButton = connectTo(
   props => {
     return {
-      href: getLinkToCurrentViewWithViewGrouping(props.grouping)
+      href: getLinkToCurrentViewWithViewGrouping(props.view === types.container ? 'vg-c' : 'vg-i', props.grouping)
     };
   },
   function GroupingButton({ href, grouping, activeGrouping }) {
