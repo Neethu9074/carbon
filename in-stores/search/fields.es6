@@ -125,10 +125,10 @@ function mapChildrenObjectsToArrays(node) {
 
 export function findNode(query) {
   const root = getTree();
-
   if (!query || query.length === 0) {
     return root;
   }
+
   return findInNode(root, query);
 }
 
@@ -151,7 +151,7 @@ function findInNode(node, query) {
   // if the user presses dot (.) but the previous string hasn't matched anything, return only directly matching results
   const children = path.length > 1
     ? node.children.filter(child => child.name === currentPart)
-    : node.children.filter(child => child.name.indexOf(currentPart) === 0);
+    : node.children.filter(child => child.name.indexOf(currentPart) >= 0);
   return children.length === 0 ? null : node;
 }
 
