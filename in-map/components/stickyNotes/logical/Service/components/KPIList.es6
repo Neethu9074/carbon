@@ -85,11 +85,8 @@ export default connectTo(
                       className={block + '__spark-chart'}
                       key={kpi.label}
                       snapshotId={this.props.snapshotId}
-                      label={kpi.label}
                       design="dark"
-                      metric={kpi.metric}
-                      formatter={kpi.formatter}
-                      optionalTimeWindowAggregation={kpi.timeWindowAggregation}
+                      metric={kpi}
                     />
                   )
                 : <KPIList

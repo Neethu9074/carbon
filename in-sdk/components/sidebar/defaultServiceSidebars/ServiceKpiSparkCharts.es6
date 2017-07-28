@@ -14,8 +14,9 @@ export default function ServiceKpiSparkCharts({ snapshot }) {
         metrics={[
           {
             metric: 'count',
-            label: 'calls/s',
-            formatter: number
+            label: 'calls',
+            formatter: number,
+            aggregation: 'sum'
           },
           {
             metric: 'duration.mean',

@@ -10,13 +10,7 @@ export default function SparkChartsSection({ snapshot, metrics }) {
   return (
     <div className={block}>
       {metrics.map(metric =>
-        <LabeledSparkChart
-          key={metric.metric}
-          snapshotId={snapshot.get('id')}
-          metric={metric.metric}
-          label={metric.label}
-          formatter={metric.formatter}
-        />
+        <LabeledSparkChart key={metric.metric + metric.aggregation} snapshotId={snapshot.get('id')} metric={metric} />
       )}
     </div>
   );
