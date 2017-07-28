@@ -113,14 +113,14 @@ export function clearSelectedEvent() {
   });
 }
 
-export function getLinkToCurrentViewWithViewGrouping(vg) {
-  return getModifiedUrlStream(params => (params.query.vg = vg));
+export function getLinkToCurrentViewWithViewGrouping(view, vg) {
+  return getModifiedUrlStream(params => (params.query[view] = vg));
 }
 
-export function setCurrentViewWithViewGrouping(vg) {
+export function setCurrentViewWithViewGrouping(view, vg) {
   mutateUrl(params => {
-    delete params.query.vg;
-    params.query.vg = vg;
+    delete params.query[view];
+    params.query[view] = vg;
     return params;
   });
 }

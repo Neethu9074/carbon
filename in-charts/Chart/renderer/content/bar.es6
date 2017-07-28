@@ -11,9 +11,12 @@ export default function createBarContentRenderer({ axisName, config }) {
     render
   };
 
-  /** In order for this to work, the first series must be the average calls per second. */
+  // In order for this to work, the first series must be the average calls per second.
   function render(dataColumns) {
-    const width = calculateBarWidth(dataColumns);
+    const blockSizeMillis = config[axisName].dynamicCalculatedBlockSizeMillis || 1000;
+    // translates blockSizeMillis to pixelwidth
+    const width = x.getRange(x.getDomainTo()) - x.getRange(x.getDomainTo() - blockSizeMillis);
+
     const activeSeries = config.activeSeries[axisName];
     ctx.globalAlpha = 0.3;
 
@@ -29,6 +32,7 @@ export default function createBarContentRenderer({ axisName, config }) {
         if (!activeSeries[iRows]) {
           continue;
         }
+
         const dataRow = dataColumn[iRows];
         const metricValue = dataRow[1];
         const yPosMetric = y.getRange(metricValue);
@@ -42,11 +46,5 @@ export default function createBarContentRenderer({ axisName, config }) {
     }
 
     ctx.globalAlpha = 1;
-  }
-
-  function calculateBarWidth(dataColumns) {
-    const numberOfBars = dataColumns.length;
-    const chartWidth = x.getRangeTo() - x.getRangeFrom();
-    return chartWidth / numberOfBars;
   }
 }
