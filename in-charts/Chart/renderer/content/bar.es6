@@ -32,7 +32,8 @@ export default function createBarContentRenderer({ axisName, config }) {
         const dataRow = dataColumn[iRows];
         const metricValue = dataRow[1];
         const yPosMetric = y.getRange(metricValue);
-        const height = chartHeight - yPosMetric;
+        // 2px minimum bar height
+        const height = Math.max(chartHeight - yPosMetric, 2);
 
         ctx.fillStyle = colors[iRows];
         ctx.fillRect(xPos, yPos - height, width - margin * 2, height);
