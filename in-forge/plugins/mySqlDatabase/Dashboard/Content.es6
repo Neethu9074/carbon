@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
+import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
 
 const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));

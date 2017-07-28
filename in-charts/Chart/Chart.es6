@@ -231,7 +231,7 @@ export default function createChart(config) {
     const expectedNextPoint =
       config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
     const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
-    config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
+    config.maxDistanceBetweenPoints = config.y1.dynamicCalculatedBlockSizeMillis || maxDistanceBetweenPoints;
   }
 
   function copyBackBufferToScreenBuffer() {
