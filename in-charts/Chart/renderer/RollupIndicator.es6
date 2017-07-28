@@ -23,6 +23,10 @@ export default connectTo(
 
     if (left === right) {
       right = null;
+    } else if (__DEV__) {
+      throw new Error(
+        'One axis is aggregated while the other is not. This is likely to confuse the user. Please use an aggregation for both axis.'
+      );
     }
 
     return (
