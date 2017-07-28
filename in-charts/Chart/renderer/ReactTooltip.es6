@@ -49,6 +49,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
 
   const axisConfig = config[axisName];
   const formatter = axisConfig.tooltipFormatter || axisConfig.formatter || identity;
+  const colors = axisConfig.tooltipColors || axisConfig.colors;
 
   return (
     <div className={classes}>
@@ -57,7 +58,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
         <div className={`${block}__metric`} key={i}>
           <dt
             style={{
-              color: axisConfig.colors[i]
+              color: colors[i]
             }}
             className={`${block}__metric-name`}
           >

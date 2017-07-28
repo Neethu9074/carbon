@@ -43,7 +43,8 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             formatter: zeroDecimalPlaces,
             metrics: ['count'],
             labels: ['views'],
-            colors: ['#eaeff2'],
+            colors: ['#c8cdd8'],
+            tooltipColors: ['#ffffff'],
             type: 'bar',
             aggregation: 'sum',
             minPixelPerBlock: 5,
@@ -55,6 +56,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
             metrics: ['duration.mean'],
             labels: ['load time'],
             colors: ['#6B8088'],
+            tooltipColors: ['#ffffff'],
             type: 'discreteLine',
             minPixelPerBlock: 5,
             maxDataPoints: 100
