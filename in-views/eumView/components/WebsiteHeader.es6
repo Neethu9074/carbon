@@ -1,10 +1,19 @@
 import React from 'react';
 
 import SortIndicator from 'in-views/eumView/components/SortIndicator';
+import Pagination from 'in-components/Pagination';
 
 import './WebsiteHeader.less';
 
-export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sortDirection, onChangeSort }) {
+export default function WebsiteHeader({
+  columnDefinitions,
+  sortColumnIndex,
+  sortDirection,
+  onChangeSort,
+  data,
+  onPrevPage,
+  onNextPage
+}) {
   const block = 'in-website-table-header';
   const idHeader = `${block}__id`;
   const kpiHeader = `${block}__kpis`;
@@ -36,12 +45,23 @@ export default function WebsiteHeader({ columnDefinitions, sortColumnIndex, sort
       />
     );
 
+  const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
+
   return (
     <div className={block}>
       {name}
       <div className={kpiHeader}>
         {kpis}
       </div>
+      {showPagination
+        ? <Pagination
+            onPrevPage={onPrevPage}
+            onNextPage={onNextPage}
+            currentPage={data.page}
+            pageCount={data.pageCount}
+            ariaLabel="Pagination for previous table"
+          />
+        : null}
     </div>
   );
 }
