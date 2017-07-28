@@ -78,8 +78,8 @@ export const tableViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
 });
 
-export const eumViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/eum';
+export const websiteViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/website';
 });
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {

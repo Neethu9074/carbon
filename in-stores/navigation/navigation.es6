@@ -264,8 +264,8 @@ export const physicalViewLink$ = getModifiedUrlStream(params => {
   delete params.query.vg;
 });
 
-export const eumViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/eum';
+export const websiteViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/website';
 });
 
 export const containerViewLink$ = getModifiedUrlStream(params => {
