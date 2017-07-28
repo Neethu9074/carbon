@@ -41,7 +41,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
 
   if (!dataColumn) {
     return (
-      <div>
+      <div className={`${block}__no-data-points`}>
         No data points for {axisName.toUpperCase()} axis.
       </div>
     );
@@ -83,7 +83,7 @@ function DynamicAggregationMarker({ time, axis }) {
   }
   if (!axis.isDynamicAggregated) {
     return (
-      <div>
+      <div className={`${block}__time`}>
         {formatDateTime(time)}
       </div>
     );
@@ -96,7 +96,10 @@ function DynamicAggregationMarker({ time, axis }) {
 
   return (
     <div className={`${block}__time`}>
-      {`${formatter(from)} - ${formatter(to)} (${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)})`}
+      {`${formatter(from)} - ${formatter(to)} (${formatDurationAccurately(
+        axis.dynamicCalculatedBlockSizeMillis,
+        0
+      )} ${axis.aggregation})`}
     </div>
   );
 }
