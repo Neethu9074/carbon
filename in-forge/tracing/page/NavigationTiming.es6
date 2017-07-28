@@ -40,12 +40,12 @@ const timings = [
     label: 'Response'
   },
   {
-    prop: 'pro',
-    label: 'Processing'
+    prop: 'dom',
+    label: 'DOM'
   },
   {
-    prop: 'loa',
-    label: 'Load'
+    prop: 'chi',
+    label: 'Children'
   }
 ];
 
