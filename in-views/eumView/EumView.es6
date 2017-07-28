@@ -36,7 +36,8 @@ export default connectTo(
     }
 
     // data was loaded but there is no defined website
-    if (snapshotIds.length === 0 && snapshots.length === 0) {
+    // console.log({snapshotIds, snapshots});
+    if (snapshotIds.size === 0 && snapshots.length === 0) {
       return (
         <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
           <NoWebsiteLandingScreen />
