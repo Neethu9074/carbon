@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
-  milliSecondsToSecondsTwoDecimalPlace
-} from 'in-services/formatters/number';
+import { zeroDecimalPlaces, milliSecondsToSecondsTwoDecimalPlace } from 'in-services/formatters/number';
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
@@ -59,26 +55,9 @@ const columnDefinitions = [
     }
   },
   {
-    title: 'Uncaught Errors',
-    type: 'metric',
-    index: 3,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshot.get('id');
-      },
-      getMetricName() {
-        return 'uncaughtErrors';
-      },
-      getContent: twoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'Health',
     type: 'health',
-    index: 4,
+    index: 3,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -167,8 +146,7 @@ export default class WebsiteTable extends React.Component {
                 name: columns[0].value,
                 pageLoad: columns[1].content,
                 loadTime: columns[2].content,
-                errors: columns[3].content,
-                health: columns[4].content
+                health: columns[3].content
               }}
               onClick={e => {
                 e.preventDefault();

@@ -27,7 +27,6 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
         <div className={kpis}>
           <Kpi metricName="Views" classNameAppendix="__load" metricData={data.pageLoad} />
           <Kpi metricName="Load Time" classNameAppendix="__time" metricData={data.loadTime} />
-          <Kpi metricName="Uncaught Errors" classNameAppendix="__errors" metricData={data.errors} />
           <div className={`${block}__kpi-block`}>
             Health
             <div className={`${block}__health`}>
