@@ -3,7 +3,7 @@ import React from 'react';
 import {
   msZeroDecimalPlaces,
   msTwoDecimalPlaces,
-  twoDecimalPlaces,
+  number,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -24,7 +24,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           }}
           y1={{
             min: 0,
-            formatter: twoDecimalPlaces,
+            formatter: number.compact,
             metrics: ['count'],
             labels: ['calls'],
             type: 'bar',

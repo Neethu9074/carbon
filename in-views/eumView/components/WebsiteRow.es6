@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
+import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import Chart from 'in-components/EumChart';
 
 import './WebsiteRow.less';
@@ -39,7 +39,7 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
           snapshotId={snapshot.get('id')}
           y1={{
             min: 0,
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: ['count'],
             labels: ['views'],
             colors: ['#c8cdd8'],
