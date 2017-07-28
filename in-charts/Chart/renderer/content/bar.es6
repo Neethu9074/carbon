@@ -15,6 +15,7 @@ export default function createBarContentRenderer({ axisName, config }) {
   function render(dataColumns) {
     const width = calculateBarWidth(dataColumns);
     const activeSeries = config.activeSeries[axisName];
+    ctx.globalAlpha = 0.3;
 
     for (let iColumn = 0, length = dataColumns.length; iColumn < length; iColumn++) {
       const dataColumn = dataColumns[iColumn];
@@ -39,6 +40,8 @@ export default function createBarContentRenderer({ axisName, config }) {
         yPos -= height;
       }
     }
+
+    ctx.globalAlpha = 1;
   }
 
   function calculateBarWidth(dataColumns) {
