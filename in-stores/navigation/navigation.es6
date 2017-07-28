@@ -1,6 +1,5 @@
 /* global process:false */
 import qs from 'qs';
-import { isEqual } from 'lodash';
 
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
@@ -40,11 +39,9 @@ hashHistory.listen(location => {
   const pathname = getCurrentPath();
   ineum('page', pathname);
   ineum('startSpaPageTransition');
-  store.applyStateMutation(() => {
-    return {
-      pathname,
-      query: qs.parse(location.search.replace('?', ''))
-    };
+  store.mutateTo({
+    pathname,
+    query: qs.parse(location.search.replace('?', ''))
   });
   ineum('endSpaPageTransition', {
     url: window.location.href,
@@ -57,14 +54,34 @@ export function mutateUrl(mutator) {
     const newLocation = cloneNavigationParameters(currentLocation);
     mutator(newLocation);
 
-    if (!isEqual(newLocation, currentLocation)) {
-      hashHistory.push(
-        Object.assign(newLocation, {
-          search: qs.stringify(newLocation.query)
-        })
-      );
+    Object.assign(newLocation, {
+      search: qs.stringify(newLocation.query)
+    });
+
+    if (!isEqualLocation(newLocation, currentLocation)) {
+      hashHistory.push(newLocation);
     }
   });
+}
+
+function isEqualLocation(a, b) {
+  if (a.pathname !== b.pathname) {
+    return false;
+  }
+
+  const aKeys = Object.keys(a.query);
+  const bKeys = Object.keys(b.query);
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+
+  for (let i = 0, length = aKeys.length; i < length; i++) {
+    if (String(a.query[i]) !== String(b.query[i])) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function getModifiedUrlStream(mapParams) {
