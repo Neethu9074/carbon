@@ -13,7 +13,6 @@ const block = 'in-table';
 const headerElement = `${block}__header`;
 const headerLeftSideElement = `${block}__header-left`;
 const headerRightSideElement = `${block}__header-right`;
-const paginationElement = `${block}__element`;
 const tableElement = `${block}__table`;
 const cellElement = `${block}__cell`;
 const expandedCellElement = `${cellElement} ${cellElement}--expanded`;
@@ -150,7 +149,6 @@ export default class Table extends React.Component {
                       currentPage={data.page}
                       pageCount={data.pageCount}
                       ariaLabel="Pagination for previous table"
-                      className={paginationElement}
                     />
                   : null}
               </div>

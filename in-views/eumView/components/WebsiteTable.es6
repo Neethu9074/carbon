@@ -5,6 +5,7 @@ import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
 import { goToDashboard } from 'in-stores/navigation';
+
 import './WebsiteTable.less';
 
 const block = 'in-website-table';
@@ -89,7 +90,7 @@ export default class WebsiteTable extends React.Component {
   newStore(props) {
     this.store = createStore({
       columnDefinitions,
-      maxItemsPerPage: Number.MAX_VALUE,
+      maxItemsPerPage: 10,
       initialSortColumn: 0,
       initialSortDirection: 'asc'
     });
@@ -134,6 +135,9 @@ export default class WebsiteTable extends React.Component {
           sortColumnIndex={data.sortColumnIndex}
           sortDirection={data.sortDirection}
           onChangeSort={this.store.setSort}
+          data={data}
+          onPrevPage={this.store.onPrevPage}
+          onNextPage={this.store.onNextPage}
         />
         {data.rows.map(row => {
           const columns = row.columns;
