@@ -50,7 +50,7 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
         previousX = xToRender;
       }
 
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 2;
       ctx.strokeStyle = colors[seriesIndex];
       ctx.stroke();
 
@@ -63,6 +63,6 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
   }
 
   function drawPoint(point) {
-    ctx.rect(point.x - 1, point.y - 1, 2, 2);
+    ctx.rect(point.x - 2, point.y - 2, 3, 3);
   }
 }
