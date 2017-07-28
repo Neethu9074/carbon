@@ -56,7 +56,7 @@ export default connectTo(
                       to: new Date(serverTime)
                     })
                 }}
-                onDayClick={(e, day) => currentDateStore.setDateString(formatDate(day))}
+                onDayClick={day => currentDateStore.setDateString(formatDate(day))}
               />
             : null}
         </div>
