@@ -76,7 +76,8 @@ function isEqualLocation(a, b) {
   }
 
   for (let i = 0, length = aKeys.length; i < length; i++) {
-    if (String(a.query[i]) !== String(b.query[i])) {
+    const key = aKeys[i];
+    if (String(a.query[key]) !== String(b.query[key])) {
       return false;
     }
   }
