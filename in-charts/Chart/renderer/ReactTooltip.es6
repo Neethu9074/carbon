@@ -2,7 +2,6 @@ import React from 'react';
 
 import { formatTime, formatDateTime } from 'in-services/formatters/date';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { evaluateClassNames } from 'in-services/util/classnames';
 
 import './ReactTooltip.less';
 
@@ -90,15 +89,10 @@ function TimeMarker({ time, axis }) {
   return (
     <div className={`${block}__aggregated`}>
       <div className={`${block}__aggregated-time`}>
-        {time ?
-          `${formatter(from)} - ${formatter(to)}`
-        : null}
+        {time ? `${formatter(from)} - ${formatter(to)}` : null}
       </div>
       <div className={`${block}__aggregation`}>
-        {`${formatDurationAccurately(
-          axis.dynamicCalculatedBlockSizeMillis,
-          0
-        )} ${axis.aggregation}`}
+        {`${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)} ${axis.aggregation}`}
       </div>
     </div>
   );
