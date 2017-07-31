@@ -85,16 +85,6 @@
 
     font-size: 1.125rem;
 
-    &::before {
-      position: absolute;
-
-      content: '';
-      padding: 0;
-      width: .188rem;
-      height: 1.125rem;
-      margin: .063rem 0 0 -.625rem;
-    }
-
     &__load {
       margin-left: 0.375rem;
       width: 5.688rem;
@@ -106,21 +96,10 @@
 
     &__time {
       width: 5.688rem;
-
-      &::before {
-        background: #4b626b;
-        margin-top: 0.625rem;
-        width: 0.25rem;
-        height: 0.25rem;
-        border-radius: 50%;
-      }
     }
 
     &__errors {
       width: 5.688rem;
-      &::before {
-        background: #f49785;
-      }
     }
   }
 }
