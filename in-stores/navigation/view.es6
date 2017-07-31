@@ -75,6 +75,11 @@ export function getEventViewWithEvent(eventId) {
 }
 
 export const tableViewLink$ = getModifiedUrlStream(params => {
+    try{
+    if (params.query.q) {
+      params.query.q = removeField(params.query.q, 'entity.selfType');
+    }
+  }catch(Exception){}
   params.pathname = '/table';
 });
 
