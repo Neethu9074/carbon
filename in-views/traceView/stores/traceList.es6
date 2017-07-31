@@ -115,13 +115,14 @@ export function loadMoreTraces() {
     return;
   }
 
-  disposeExistingLoad();
   isLoadingStore.mutateTo(true);
 
   traces$.once(traces => {
     const offset = traces.length;
     const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
     const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
+
+    disposeExistingLoad();
     loadSubscription = createTracesObservable({
       time: focusedMoment,
       maxTimestamp: maxTimestampForQuery,
