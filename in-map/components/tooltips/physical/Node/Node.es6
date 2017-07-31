@@ -19,7 +19,7 @@ export default createTooltip(
       return {
         snapshot: getSnapshot(props.entity.id),
         mostImportantEvent: getMostImportantEventAtFocusedMoment(props.entity.id).startWith(null),
-        layer: props.entity.layer.stream.map(_layer => Object.keys(_layer).map(key => _layer[key]))
+        layer: props.entity.layer.stream
       };
     },
     function Node({ snapshot, layer, mostImportantEvent }) {
@@ -31,7 +31,7 @@ export default createTooltip(
         ? <EventDescription event={mostImportantEvent} showFullTextIfToLong={false} snapshotId={snapshot.get('id')} />
         : <Content className={`${block}__content`}>
             {getLabel(snapshot)}
-            {layer && layer.length > 0 ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)} /> : null}
+            <LayerListing layer={layer} />
           </Content>;
     }
   )
