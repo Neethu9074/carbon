@@ -75,7 +75,7 @@
     "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.3",
     "react-toggle": "^4.0.1",
-    "reactive-observables": "^1.37.0",
+    "reactive-observables": "^1.38.0",
     "roemitter": "^2.0.0",
     "semver": "^5.3.0",
     "sockjs-client": "^1.1.4",

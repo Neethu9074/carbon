@@ -110,7 +110,8 @@ export function getSnapshots(snapshotIds, time) {
   }
 
   return (
-    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time).startWith(null)))
+    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time)), false)
+      .nextFrame()
       // Do not show snapshots which are still loading
       .map(snapshots => snapshots.filter(s => s))
       // We will have lots of incremental updates. One update every few
@@ -146,7 +147,7 @@ export function getSnapshotsByQuery(query) {
 export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
     return getPhysicalHierarchy(snapshotId)
-      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id).startWith(null))))
+      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id)), false))
       .debounce(300)
       .map(snapshots => {
         for (let i = 0, len = snapshots.length; i < len; i++) {

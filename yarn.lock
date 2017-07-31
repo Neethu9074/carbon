@@ -6771,9 +6771,15 @@ react@^15.0.0, react@^15.6.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-reactive-observables@^1.1.0, reactive-observables@^1.37.0:
+reactive-observables@^1.1.0:
   version "1.37.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.37.0.tgz#3dceceee36adcd6789d39439975fd79c5bbb4575"
+  dependencies:
+    lodash "^4.0.0"
+
+reactive-observables@^1.38.0:
+  version "1.38.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.38.0.tgz#0962e8ebc2ba7361dd7df66f9fa54b24adc1131a"
   dependencies:
     lodash "^4.0.0"
 

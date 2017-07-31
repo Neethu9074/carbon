@@ -15,10 +15,8 @@ export default connectTo(
     return {
       companions: props.companions$
         .flatMap(companionIds => {
-          const companions$ = companionIds.toArray().map(snapshotId => {
-            return getSnapshot(snapshotId).startWith(null);
-          });
-          return combineLatest(companions$);
+          const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
+          return combineLatest(companions$, false);
         })
         .map(companions => companions.filter(m => !!m))
     };
