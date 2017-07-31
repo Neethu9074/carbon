@@ -1,9 +1,10 @@
 import React from 'react';
 
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
-import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getDashboardLink } from 'in-stores/navigation';
+import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
@@ -64,34 +65,44 @@ const Crumb = connectTo(
   }
 );
 
-export default getPhysicalHierarchy(function DashboardBreadcrumb({ physicalHierarchy, snapshotId }) {
-  physicalHierarchy = physicalHierarchy.toArray();
+export default connectTo(
+  props => {
+    return {
+      physicalHierarchy: getPhysicalHierarchy(props.snapshotId).startWith(emptyList)
+    };
+  },
+  function DashboardBreadcrumb({ physicalHierarchy, snapshotId }) {
+    if (!physicalHierarchy) {
+      return null;
+    }
 
-  if (physicalHierarchy.length === 0) {
-    physicalHierarchy.push(snapshotId);
+    physicalHierarchy = physicalHierarchy.toArray();
+    if (physicalHierarchy.length === 0) {
+      physicalHierarchy.push(snapshotId);
+    }
+
+    physicalHierarchy.reverse();
+
+    return (
+      <ul className={block}>
+        {physicalHierarchy.map((id, i) =>
+          <div key={id} className={`${block}__crumb-wrapper`}>
+            <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
+
+            {i !== physicalHierarchy.length - 1
+              ? <div>
+                  <SvgIcon
+                    className={`${block}__crumb-separator`}
+                    type="chevron_right"
+                    width={8}
+                    height={8}
+                    color="#D5DFE4"
+                  />
+                </div>
+              : null}
+          </div>
+        )}
+      </ul>
+    );
   }
-
-  physicalHierarchy.reverse();
-
-  return (
-    <ul className={block}>
-      {physicalHierarchy.map((id, i) =>
-        <div key={id} className={`${block}__crumb-wrapper`}>
-          <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
-
-          {i !== physicalHierarchy.length - 1
-            ? <div>
-                <SvgIcon
-                  className={`${block}__crumb-separator`}
-                  type="chevron_right"
-                  width={8}
-                  height={8}
-                  color="#D5DFE4"
-                />
-              </div>
-            : null}
-        </div>
-      )}
-    </ul>
-  );
-});
+);

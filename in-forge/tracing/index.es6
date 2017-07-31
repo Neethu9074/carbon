@@ -27,6 +27,7 @@ import './ftp';
 import './g.hc';
 import './g.http';
 import './g.rpc';
+import './gcd';
 import './gcs';
 import './hc';
 import './hibernate';

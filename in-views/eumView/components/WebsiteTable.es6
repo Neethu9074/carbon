@@ -4,7 +4,6 @@ import { zeroDecimalPlaces, milliSecondsToSecondsTwoDecimalPlace } from 'in-serv
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
-import { goToDashboard } from 'in-stores/navigation';
 
 import './WebsiteTable.less';
 
@@ -35,7 +34,8 @@ const columnDefinitions = [
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'adjustedCount';
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -52,7 +52,8 @@ const columnDefinitions = [
       getContent: milliSecondsToSecondsTwoDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -151,10 +152,6 @@ export default class WebsiteTable extends React.Component {
                 pageLoad: columns[1].content,
                 loadTime: columns[2].content,
                 health: columns[3].content
-              }}
-              onClick={e => {
-                e.preventDefault();
-                goToDashboard(row.key);
               }}
             />
           );

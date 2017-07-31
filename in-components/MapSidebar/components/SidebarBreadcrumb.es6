@@ -2,7 +2,8 @@ import React from 'react';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
-import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
+import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
@@ -50,16 +51,23 @@ const Crumb = connectTo(
   }
 );
 
-export default getPhysicalHierarchy(function SidebarBreadcrumb({ physicalHierarchy, snapshotId }) {
-  if (physicalHierarchy.size <= 1) {
-    return null;
+export default connectTo(
+  props => {
+    return {
+      physicalHierarchy: getPhysicalHierarchy(props.snapshotId).startWith(emptyList)
+    };
+  },
+  function SidebarBreadcrumb({ physicalHierarchy, snapshotId }) {
+    if (!physicalHierarchy || physicalHierarchy.size <= 1) {
+      return null;
+    }
+
+    physicalHierarchy = physicalHierarchy.toArray();
+
+    return (
+      <ul className={block}>
+        {physicalHierarchy.map(id => <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />)}
+      </ul>
+    );
   }
-
-  physicalHierarchy = physicalHierarchy.toArray();
-
-  return (
-    <ul className={block}>
-      {physicalHierarchy.map(id => <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />)}
-    </ul>
-  );
-});
+);

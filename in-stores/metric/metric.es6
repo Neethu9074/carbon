@@ -84,14 +84,14 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
 }
 
 export const getMetric = memoize(
-  ({ snapshotId, metric, timeWindowAggregation }) => {
+  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation }) => {
     if (!timeWindowAggregation) {
       return getMetricForFocusedMoment({ snapshotId, metric });
     }
 
     return showAggregations$
       .flatMap(showAggregations => {
-        if (showAggregations) {
+        if (showAggregations || forceTimeWindowAggregation) {
           return getTimeWindowBasedMetricAggregation({
             snapshotId: snapshotId,
             metric: metric,

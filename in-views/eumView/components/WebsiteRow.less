@@ -31,12 +31,10 @@
     .breakWord();
   }
 
-  &__details {
+  &__details-button {
+    background: transparent;
     margin-top: 1rem;
-    padding: .375rem .688rem;
     color: #06B7BA;
-    font-size: .75rem;
-    font-weight: 400;
     border: 1px solid;
     border-radius: 4px;
     cursor: pointer;
@@ -45,6 +43,7 @@
     transition: color .2s ease-in-out;
 
     &:hover {
+      background: transparent;
       color: #1b7071;
     }
   }
@@ -56,6 +55,7 @@
 
   &__metrics {
     width: 70%;
+    margin-left: .75rem;
   }
 
   &__kpis {
@@ -127,7 +127,7 @@
 }
 
 .in-website-table-row:hover {
-  .in-website-table-row__details {
+  .in-website-table-row__details-button {
     opacity: 1;
   }
 }

@@ -105,7 +105,6 @@ export function loadMoreRawEvents() {
     return;
   }
 
-  disposeExistingLoad();
   setIsLoading(true);
 
   rawEventList$.once(events => {
@@ -115,6 +114,7 @@ export function loadMoreRawEvents() {
       ? maxTimestamp
       : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
+    disposeExistingLoad();
     loadSubscription = createRawEventsObservable({
       time: focusedMoment,
       maxTimestamp: maxTimestampForQuery,

@@ -22,9 +22,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               metrics: [metricPrefix + 'count'],
               labels: ['views'],
               type: 'bar',
-              aggregation: 'sum',
-              minPixelPerBlock: 10,
-              maxDataPoints: 100
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>

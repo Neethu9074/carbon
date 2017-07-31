@@ -37,7 +37,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             metrics: ['duration.mean'],
             labels: ['average latency'],
             type: 'discreteLine',
-            aggregation: 'sum'
+            aggregation: 'mean'
           }}
         />
       </DashboardSection>
