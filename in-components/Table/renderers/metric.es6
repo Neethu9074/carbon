@@ -45,7 +45,10 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   column.subscription = getMetric({
     snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
     metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
+    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+
+    // this flag enforces the metric subscription to always use the time window aggregated metric values
+    forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {
     column.value = v;
     column.requiresContentRefresh = true;

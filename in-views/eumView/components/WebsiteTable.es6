@@ -35,7 +35,8 @@ const columnDefinitions = [
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'adjustedCount';
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -52,7 +53,8 @@ const columnDefinitions = [
       getContent: milliSecondsToSecondsTwoDecimalPlace,
       getTimeWindowAggregation() {
         return 'mean';
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
