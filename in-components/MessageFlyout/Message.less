@@ -1,3 +1,5 @@
+@import "~in-themes/mixins.less";
+
 .in-message-flyout-message {
   background: hsla(198, 23%, 23%, 0.9);
   font-size: 0.8rem;
@@ -34,6 +36,7 @@
 
   &__msg {
     color: #92A5AE;
+    .breakWord();
 
     em {
       color: #fff;
