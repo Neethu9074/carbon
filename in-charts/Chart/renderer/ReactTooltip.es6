@@ -35,10 +35,6 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
 }
 
 function MetricBlock({ time, dataColumn, config, axisName }) {
-  const classes = evaluateClassNames({
-    [`${block}__metric-block`]: time
-  });
-
   if (!dataColumn) {
     return (
       <div className={`${block}__no-data-points`}>
@@ -52,8 +48,8 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
   const colors = axisConfig.tooltipColors || axisConfig.colors;
 
   return (
-    <div className={classes}>
-      <DynamicAggregationMarker time={time} axis={axisConfig} />
+    <div className={`${block}__metric-block`}>
+      <TimeMarker time={time} axis={axisConfig} />
       {dataColumn.map((dataRow, i) =>
         <div className={`${block}__metric`} key={i}>
           <dt
@@ -77,10 +73,7 @@ function identity(a) {
   return a;
 }
 
-function DynamicAggregationMarker({ time, axis }) {
-  if (!time) {
-    return null;
-  }
+function TimeMarker({ time, axis }) {
   if (!axis.isDynamicAggregated) {
     return (
       <div className={`${block}__time`}>
@@ -95,11 +88,18 @@ function DynamicAggregationMarker({ time, axis }) {
   const formatter = to - from >= oneDay ? formatDateTime : formatTime;
 
   return (
-    <div className={`${block}__time`}>
-      {`${formatter(from)} - ${formatter(to)} (${formatDurationAccurately(
-        axis.dynamicCalculatedBlockSizeMillis,
-        0
-      )} ${axis.aggregation})`}
+    <div className={`${block}__aggregated`}>
+      <div className={`${block}__aggregated-time`}>
+        {time ?
+          `${formatter(from)} - ${formatter(to)}`
+        : null}
+      </div>
+      <div className={`${block}__aggregation`}>
+        {`${formatDurationAccurately(
+          axis.dynamicCalculatedBlockSizeMillis,
+          0
+        )} ${axis.aggregation}`}
+      </div>
     </div>
   );
 }

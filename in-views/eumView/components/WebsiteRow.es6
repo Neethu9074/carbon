@@ -57,6 +57,7 @@ export default function WebsiteRow({ snapshot, data }) {
             colors: ['#6B8088'],
             tooltipColors: ['#ffffff'],
             type: 'discreteLine',
+            aggregation: 'mean',
             minPixelPerBlock: 5,
             maxDataPoints: 100
           }}
