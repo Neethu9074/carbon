@@ -2,25 +2,25 @@ import React from 'react';
 
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getDashboardLink } from 'in-stores/navigation';
 import Chart from 'in-components/EumChart';
+import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import './WebsiteRow.less';
 
 const block = 'in-website-table-row';
 
-export default function WebsiteRow({ snapshot, data, onClick }) {
+export default function WebsiteRow({ snapshot, data }) {
   const metrics = `${block}__metrics`;
   const nameElement = `${block}__name`;
-  const detailsElement = `${block}__details`;
   const kpis = `${block}__kpis`;
 
   return (
     <div key={data.name} className={block}>
       <div className={nameElement}>
         {data.name}
-        <div className={detailsElement} onClick={onClick}>
-          View Details
-        </div>
+        <ViewDetailsButton snapshotId={snapshot.get('id')} />
       </div>
 
       <div className={metrics}>
@@ -65,6 +65,19 @@ export default function WebsiteRow({ snapshot, data, onClick }) {
     </div>
   );
 }
+
+const ViewDetailsButton = connectTo(
+  props => {
+    return { href: getDashboardLink(props.snapshotId) };
+  },
+  function ViewDetailsButton({ href }) {
+    return (
+      <Button size="sm" href={href} className={`${block}__details-button`}>
+        View Details
+      </Button>
+    );
+  }
+);
 
 function Kpi({ metricName, metricData, classNameAppendix }) {
   const kpi = `${block}__kpi ${block}__kpi`;
