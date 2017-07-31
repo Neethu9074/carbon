@@ -33,9 +33,8 @@ export default function createTooltipRenderer(config) {
     if (!config.rollup) {
       return;
     }
-    const rollupInMillis = config.rollup.rollup || 1000;
 
-    y1DataColumn = getDataPointIfInRange(lookForDataPoint('y1', highlightedMoment), highlightedMoment, rollupInMillis);
+    y1DataColumn = getDataPointIfInRange(lookForDataPoint('y1', highlightedMoment), highlightedMoment, config, 'y1');
     if (y1DataColumn) {
       dataPointsExistingAtMoment = y1DataColumn.time;
     }
@@ -44,7 +43,8 @@ export default function createTooltipRenderer(config) {
       ? getDataPointIfInRange(
           lookForDataPoint('y2', dataPointsExistingAtMoment || highlightedMoment),
           highlightedMoment,
-          rollupInMillis
+          config,
+          'y2'
         )
       : null;
 
@@ -111,11 +111,16 @@ export default function createTooltipRenderer(config) {
     }
   }
 
-  function getDataPointIfInRange(dataPoint, highlightedMoment, rollupInMillis) {
+  function getDataPointIfInRange(dataPoint, highlightedMoment, config, axis) {
     if (!dataPoint) {
       return null;
     }
-    return Math.abs(dataPoint.time - highlightedMoment) <= rollupInMillis * 2.3 ? dataPoint : null;
+
+    let maxDistanceBetweenDataPoints = 2.3 * (config.rollup.rollup || 1000);
+    if (config[axis] && config[axis].dynamicCalculatedBlockSizeMillis) {
+      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis / 2;
+    }
+    return Math.abs(dataPoint.time - highlightedMoment) <= maxDistanceBetweenDataPoints ? dataPoint : null;
   }
 
   function lookForDataPoint(axisName, searchFor) {
