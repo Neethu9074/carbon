@@ -1,8 +1,10 @@
-import { OCTREE } from 'in-map/misc/Octree';
+import { create } from 'reactive-observables';
 
 import { OCTREE_LAYER } from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { OCTREE_UPDATES } from 'in-map/misc/TimingConfig';
 import { emptyArray } from 'in-services/fixedObjects';
 import { eventBus } from 'in-map/services/eventBus';
+import { OCTREE } from 'in-map/misc/Octree';
 
 export default function createPhysicsService() {
   const octrees = [];
@@ -11,9 +13,24 @@ export default function createPhysicsService() {
 
   let zoomLevelSubscription;
 
-  function init() {
-    setInterval(updateOctrees, 200);
+  const signal = {};
+  signal[OCTREE_LAYER.NODES] = false;
+  signal[OCTREE_LAYER.LAYER] = false;
 
+  const updateSignal = create();
+  let updateSignalSubscription;
+
+  function init() {
+    updateSignalSubscription = updateSignal.debounce(OCTREE_UPDATES).subscribe(_signal => {
+      if (_signal[OCTREE_LAYER.NODES]) {
+        octrees[OCTREE_LAYER.NODES].update();
+        _signal[OCTREE_LAYER.NODES] = false;
+      }
+      if (_signal[OCTREE_LAYER.LAYER]) {
+        octrees[OCTREE_LAYER.LAYER].update();
+        _signal[OCTREE_LAYER.LAYER] = false;
+      }
+    });
     zoomLevelSubscription = eventBus.on('zoomLevelChanged').subscribe(zoomLevel => {
       if (zoomLevel > 250) {
         octrees[OCTREE_LAYER.LAYER].isEnabled = false;
@@ -44,30 +61,28 @@ export default function createPhysicsService() {
     return octree;
   }
 
-  function addCollisionObject(obj, layer = 0) {
+  function addCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
     if (obj) {
       octrees[layer].add(obj);
+
+      signal[layer] = true;
+      updateSignal.emit(signal);
     }
   }
 
-  function removeCollisionObject(obj, layer = 0) {
+  function removeCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
     octrees[layer].remove(obj);
+
+    signal[layer] = true;
+    updateSignal.emit(signal);
   }
 
   function dispose() {
-    clearInterval(updateOctrees, 200);
+    updateSignalSubscription.dispose();
+    updateSignalSubscription = null;
 
     zoomLevelSubscription.dispose();
     zoomLevelSubscription = null;
-  }
-
-  function updateOctrees() {
-    for (let i = octrees.length - 1; i >= 0; i--) {
-      const octree = octrees[i];
-      if (octree) {
-        octree.update();
-      }
-    }
   }
 
   function checkRaycaster(raycaster) {
