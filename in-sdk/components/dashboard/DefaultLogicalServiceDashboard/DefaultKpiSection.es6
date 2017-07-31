@@ -19,12 +19,7 @@ export default function DefaultKpiSection({ snapshot }) {
         <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
       <KpiKeyValue label={<TimeWindowSizeLabel prefix="calls in " />}>
-        <MetricValue
-          snapshotId={snapshotId}
-          formatter={zeroDecimalPlaces}
-          metric="count"
-          timeWindowAggregation="adjustedCount"
-        />
+        <MetricValue snapshotId={snapshotId} formatter={zeroDecimalPlaces} metric="count" timeWindowAggregation="sum" />
       </KpiKeyValue>
       <KpiKeyValue label="avg. latency">
         <MetricValue snapshotId={snapshotId} metric="duration.mean" formatter={msTwoDecimalPlaces} />

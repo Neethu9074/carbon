@@ -14,7 +14,7 @@ const defaultKpis = () => [
     label: 'calls',
     formatter: number,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond,
-    timeWindowAggregation: 'adjustedCount'
+    timeWindowAggregation: 'sum'
   },
   {
     metric: 'duration.mean',

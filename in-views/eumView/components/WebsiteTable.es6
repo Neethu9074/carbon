@@ -33,7 +33,7 @@ const columnDefinitions = [
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'adjustedCount';
+        return 'sum';
       },
       forceTimeWindowAggregation: true
     }

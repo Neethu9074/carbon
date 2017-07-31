@@ -23,7 +23,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
             snapshotId={snapshotId}
             formatter={zeroDecimalPlaces}
             metric="count"
-            timeWindowAggregation="adjustedCount"
+            timeWindowAggregation="sum"
           />
         </KpiKeyValue>
         <KpiKeyValue label="time to page load (95th)">

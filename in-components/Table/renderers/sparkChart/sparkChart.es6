@@ -22,7 +22,7 @@ export function validate(col) {
   );
   invariant(
     typeof col.typeArgs.getTimeWindowAggregation === 'function',
-    'Columns with type=sparkChart must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
+    'Columns with type=sparkChart must have a getTimeWindowAggregation(row) => mean|sum|max function'
   );
 }
 

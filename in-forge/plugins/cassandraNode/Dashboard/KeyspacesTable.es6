@@ -30,7 +30,7 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'adjustedCount';
+        return 'sum';
       }
     }
   },
@@ -62,7 +62,7 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'adjustedCount';
+        return 'sum';
       }
     }
   },
