@@ -37,7 +37,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
   if (!dataColumn) {
     return (
       <div className={`${block}__no-data-points`}>
-        No data points for {axisName.toUpperCase()} axis.
+        No data points for {axisName === 'y1' ? 'left' : 'right'} axis.
       </div>
     );
   }
