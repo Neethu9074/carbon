@@ -2,6 +2,7 @@ import React from 'react';
 
 import HealthIconListing from 'in-components/HealthIconListing';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { joinClassNames } from 'in-services/util/classnames';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -15,12 +16,12 @@ export default connectTo(
       healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
-  function EntityHealthBar({ healthInfo, snapshotId }) {
+  function EntityHealthBar({ healthInfo, snapshotId, className }) {
     const maxSeverity = healthInfo ? healthInfo.get('maxSeverity') : 0;
     const color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#92A5AE';
 
     return (
-      <div className={block}>
+      <div className={joinClassNames(block, className)}>
         <div className={`${block}__bar`}>
           <div
             className={`${block}__bar-inner`}

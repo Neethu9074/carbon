@@ -1,8 +1,8 @@
 import React from 'react';
 
+import EntityHealthInfo from 'in-components/MapSidebar/components/EntityHealthInfo';
 import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
-import EntityHealthInfo from 'in-components/EntityHealthInfo';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSingular } from 'in-sdk/pluginName';
