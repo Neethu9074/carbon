@@ -17,7 +17,7 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
       if (activeSeries[seriesIndex] === false) {
         continue;
       }
-      ctx.globalAlpha = 0.2;
+      ctx.globalAlpha = 0.3;
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;
