@@ -1,5 +1,8 @@
 .in-navigation-tabs {
-  border-bottom: 1px solid #ccc;
+  display:flex;
+  justify-content: center;
+  background-color: #fff;
+  height: 2.3rem;
 
   &__container {
     display: flex;
@@ -8,25 +11,26 @@
 
   &__nav-elements {
     display: flex;
-    padding: 0.188rem 1.5rem 0.188rem 0;
+    padding: 0 1.5rem 0 0;
+    margin-top: 0.06rem;
     list-style: none;
   }
 
   &__link {
     outline: 0;
+    font-size: 0.75rem;
     display: block;
     text-decoration: none;
-    color: #99abb3;
-    padding-bottom: 1rem;
+    color: #6B8088;
+    padding-bottom: 1.5rem;
 
     &:hover, &:focus {
       color: inherit;
     }
 
     &__active {
-      border-bottom: 3px solid rgb(34, 216, 216);
+      border-bottom: 2px solid rgb(34, 216, 216);
       color: #000;
-      font-weight: bold;
     }
   }
 
