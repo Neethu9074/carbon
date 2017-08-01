@@ -3,6 +3,7 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
   const x = config.scales.x;
   const y = config.scales[axisName];
   const colors = config[axisName].colors;
+  const margin = 2;
 
   return {
     requireExistenceInAllSeries: false,
@@ -57,12 +58,19 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
       ctx.beginPath();
       ctx.fillStyle = colors[seriesIndex];
       ctx.globalAlpha = 1.0;
-      pointsToRender.forEach(drawPoint);
+
+      const toY = y.getRangeTo() + margin;
+      const draw = drawPoint.bind(null, toY);
+      pointsToRender.forEach(draw);
+
       ctx.fill();
     }
   }
 
-  function drawPoint(point) {
+  function drawPoint(toY, point) {
+    if (point.y < toY) {
+      point.y += margin;
+    }
     ctx.rect(point.x - 2, point.y - 2, 3, 3);
   }
 }
