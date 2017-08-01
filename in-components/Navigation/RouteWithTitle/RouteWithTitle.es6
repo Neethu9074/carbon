@@ -18,15 +18,21 @@ export default class RouteWithTitle extends React.Component {
 
   componentDidMount() {
     this.setWindowTitle();
-    addRoute(this);
+    addRoute(this.props.path, this.props.windowTitle);
   }
 
   componentDidUpdate() {
     this.setWindowTitle();
   }
+  componentWillUpdate(nextProps) {
+    if (this.props.path !== nextProps.path) {
+      removeRoute(this.props.windowTitle);
+      addRoute(nextProps.path, nextProps.windowTitle);
+    }
+  }
 
   componentWillUnmount() {
-    removeRoute(this);
+    removeRoute(this.props.windowTitle);
   }
 
   setWindowTitle() {

@@ -7,16 +7,16 @@ const store = createStore({
   initialValue: routes
 });
 
-export function addRoute(route) {
+export function addRoute(path, windowTitle) {
   routes.push({
-    link: route.props.path,
-    title: route.props.windowTitle
+    link: path,
+    title: windowTitle
   });
   store.mutateTo(routes);
 }
 
-export function removeRoute(route) {
-  const title = route.props.windowTitle;
+export function removeRoute(windowTitle) {
+  const title = windowTitle;
   routes = routes.filter(route => route.title !== title);
   store.mutateTo(routes);
 }
