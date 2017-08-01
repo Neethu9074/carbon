@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import ClusterStatusLabel from 'in-forge/plugins/elasticsearchCluster/ClusterStatusLabel';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
+import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
@@ -10,7 +11,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      zoneSnapshot: getZone(props.snapshot.get('id'))
+      zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
   function ElasticsearchInfo({ snapshot, zoneSnapshot }) {
