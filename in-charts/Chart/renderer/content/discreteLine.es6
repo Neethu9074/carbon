@@ -37,15 +37,15 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
         const xToRender = x.getRange(dataRow[0]);
         const yToRender = y.getRange(dataRow[1]);
 
+        pointsToRender.push({
+          x: xToRender,
+          y: yToRender
+        });
+
         if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
           ctx.moveTo(xToRender, yToRender);
         } else {
           ctx.lineTo(xToRender, yToRender);
-
-          pointsToRender.push({
-            x: xToRender,
-            y: yToRender
-          });
         }
 
         previousX = xToRender;
