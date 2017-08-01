@@ -28,10 +28,6 @@ stage('Checkout') {
 stage('Node Build') {
   def buildSteps = [:]
 
-  environment {
-    COM_INSTANA_IMAGE_TAG = instanaVersion
-  }
-
   buildSteps['test'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
@@ -44,7 +40,7 @@ stage('Node Build') {
   }
   buildSteps['build'] = {
     node {
-      runNodeBuild(gitCommitId, 'yarn && yarn run build')
+      runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
         uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
