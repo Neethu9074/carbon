@@ -27,6 +27,11 @@ stage('Checkout') {
 
 stage('Node Build') {
   def buildSteps = [:]
+
+  environment {
+    COM_INSTANA_IMAGE_TAG = instanaVersion
+  }
+
   buildSteps['test'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
@@ -44,14 +49,14 @@ stage('Node Build') {
         uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
-      }      
+      }
     }
   }
 
   parallel buildSteps
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
-    
+
 }
 
 stage ('Container Build') {
@@ -74,9 +79,9 @@ stage('Deployment') {
     if ( env.BRANCH_NAME == 'develop' ) {
       node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
-        
+
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'test'), 
+          string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion)
         ]
 
@@ -88,7 +93,7 @@ stage('Deployment') {
     if ( env.BRANCH_NAME == 'master' ) {
       node {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
-        
+
         build job: '/deployment/staging/deploy-ui-client', parameters: [
           string(name: 'VERSION', value: instanaVersion)
         ]
@@ -101,9 +106,9 @@ stage('Deployment') {
     if ( env.BRANCH_NAME == 'release' ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
-        
+
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'release'), 
+          string(name: 'ENVIRONMENT', value: 'release'),
           string(name: 'VERSION', value: instanaVersion)
         ]
 
