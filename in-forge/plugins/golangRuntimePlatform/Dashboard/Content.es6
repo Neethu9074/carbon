@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import { timeNs, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -38,7 +38,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
 
       <DashboardSection title="GC Activity">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -55,7 +55,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Goroutines">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -75,7 +75,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
 
 function renderHeapMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -101,7 +101,7 @@ function renderHeapMetrics(snapshot, timeframe) {
 
 function renderMemoryMetrics(snapshot, timeframe) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{

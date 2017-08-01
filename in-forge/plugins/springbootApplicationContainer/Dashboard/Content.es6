@@ -3,9 +3,10 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
+import Link from 'in-components/Link';
 
 export default function SpringbootDashboard({ snapshot, timeframe }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
@@ -17,9 +18,9 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
         Metric collections was stopped because there are too many registered metrics
         in this Spring Boot application.{' '}
         This can be due to a bug in{' '}
-        <a href="https://github.com/spring-projects/spring-boot/issues/5875" target="_blank" rel="noopener noreferrer">
+        <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external>
           Spring Boot
-        </a>.
+        </Link>.
       </DashboardNotification>
     );
   }
@@ -39,7 +40,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Request Count">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -68,7 +69,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {httpSessionsMax
         ? <DashboardSection title="HTTP Sessions Active">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{

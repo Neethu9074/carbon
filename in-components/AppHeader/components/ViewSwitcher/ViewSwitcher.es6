@@ -5,7 +5,7 @@ import {
   eventViewLink$,
   traceViewLink$,
   tableViewLink$,
-  eumViewLink$,
+  websiteViewLink$,
   tableViewFilteredForServicesLink$,
   logView$,
   cockpitLink$
@@ -41,7 +41,7 @@ export default connectTo(
       const isContainerView = pathname.indexOf('/container') === 0;
       const isEventView = pathname.indexOf('/events') === 0;
       const isLogsView = pathname.indexOf('/logs') === 0;
-      const isEumView = pathname.indexOf('/eum') === 0;
+      const isWebsiteView = pathname.indexOf('/website') === 0;
 
       return {
         isLogicalTable,
@@ -52,7 +52,7 @@ export default connectTo(
         isContainerView,
         isEventView,
         isLogsView,
-        isEumView
+        isWebsiteView
       };
     })
   },
@@ -71,7 +71,7 @@ export default connectTo(
         viewActiveState.isContainerView !== nextViewActiveState.isContainerView ||
         viewActiveState.isEventView !== nextViewActiveState.isEventView ||
         viewActiveState.isLogsView !== nextViewActiveState.isLogsView ||
-        viewActiveState.isEumView !== nextViewActiveState.isEumView
+        viewActiveState.isWebsiteView !== nextViewActiveState.isWebsiteView
       );
     }
 
@@ -87,7 +87,7 @@ export default connectTo(
         isContainerView,
         isEventView,
         isLogsView,
-        isEumView
+        isWebsiteView
       } = viewActiveState;
 
       return (
@@ -109,15 +109,16 @@ export default connectTo(
             <View label="application" icon="application" isActive={isLogicalView || isTraceView || isLogicalTable}>
               <SubMenuItem label="Map" href$={logicalViewLink$} isActive={isLogicalView} />
               <SubMenuItem label="Trace" href$={traceViewLink$} isActive={isTraceView} />
-              {eumViewEnabled
-                ? <SubMenuItem label="End User Monitoring" href$={eumViewLink$} isActive={isEumView} />
-                : null}
               <SubMenuItem
                 label="Comparison Table"
                 href$={tableViewFilteredForServicesLink$}
                 isActive={isLogicalTable}
               />
             </View>
+
+            {eumViewEnabled
+              ? <View label="Website" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
+              : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 

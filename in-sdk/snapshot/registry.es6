@@ -1,6 +1,5 @@
 import { clone } from 'lodash';
 
-import { setAggregation, setStatAggregation, setDynamicAggregation } from 'in-sdk/metrics/aggregation';
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
@@ -36,6 +35,7 @@ function enrichTableDefinition(snapshotDefinition) {
   snapshotDefinition.tableDefinition.cols.push({
     title: 'Health',
     type: 'health',
+    width: 180,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -55,25 +55,6 @@ function registerLegacySdkHooks(snapshotDefinition) {
 
   if (snapshotDefinition.getLabel) {
     addLabelFinder(snapshotDefinition.plugin, snapshotDefinition.getLabel);
-  }
-
-  if (snapshotDefinition.metricAggregations) {
-    Object.keys(snapshotDefinition.metricAggregations).forEach(metric => {
-      const aggregation = snapshotDefinition.metricAggregations[metric];
-
-      if (aggregation === 'stats') {
-        setStatAggregation(metric);
-      } else {
-        setAggregation(metric, aggregation);
-      }
-    });
-  }
-
-  if (snapshotDefinition.dynamicMetricAggregations) {
-    Object.keys(snapshotDefinition.dynamicMetricAggregations).forEach(aggregation => {
-      const metricMatcher = snapshotDefinition.dynamicMetricAggregations[aggregation];
-      setDynamicAggregation(metricMatcher, aggregation);
-    });
   }
 }
 

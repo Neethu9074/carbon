@@ -10,7 +10,7 @@ import {
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.es6';
 
@@ -20,7 +20,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <ClusterSummary snapshot={snapshot} />
 
       <DashboardSection title="Average Request Latency vs Throughput">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -44,7 +44,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="All Brokers Traffic">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -60,7 +60,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="All Brokers Messages In">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -76,7 +76,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="All Brokers Failures">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -92,7 +92,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="All Brokers state metrics">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -124,7 +124,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Average Idle Time Percentage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -140,7 +140,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Log Flushing">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

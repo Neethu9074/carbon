@@ -46,7 +46,7 @@ export default {
         },
         getContent: zeroDecimalPlaces,
         getTimeWindowAggregation() {
-          return 'adjustedCount';
+          return 'sum';
         }
       }
     },

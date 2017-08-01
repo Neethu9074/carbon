@@ -1,3 +1,5 @@
+@import "~in-themes/active.less";
+
 .in-view-switcher-view {
   padding: 0.25rem 0;
 
@@ -47,7 +49,13 @@
 
   &__menu {
     position: absolute;
-    top: 100%;
+    z-index: @z-index__sub-menu;
+    /*
+    * this pixel is used to make appearing of submenu in firefox work. seems like there's a 5 px gap that causes
+    * the hover state to disappear
+    */
+    border-top: 5px solid transparent;
+    top: ~'calc(100% - 5px)';
 
     display: none;
   }

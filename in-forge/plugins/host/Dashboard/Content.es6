@@ -6,9 +6,9 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
-import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
+import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -17,9 +17,9 @@ import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 import './Content.less';
 
@@ -44,7 +44,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
 
       <TwoColumnRow>
         <DashboardSection title="CPU Usage">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -63,7 +63,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
 
         {!(isWindows(snapshot) || isZos(snapshot))
           ? <DashboardSection title="CPU Load">
-              <ChartWithLegend
+              <Chart
                 snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
                 margins={{
@@ -71,11 +71,11 @@ export default function HostDashboard({ snapshot, timeframe }) {
                 }}
                 y1={{
                   min: 0,
-                  type: 'stackedArea',
                   formatter: twoDecimalPlaces,
                   tooltipFormatter: twoDecimalPlaces,
                   metrics: ['load.1min'],
-                  labels: ['Load']
+                  labels: ['Load'],
+                  type: 'stackedArea'
                 }}
               />
             </DashboardSection>
@@ -85,7 +85,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
       <CpuTable snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardSection title="Memory Used">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -105,7 +105,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
 
       {swapTotal > 0
         ? <DashboardSection title="Swap Activity">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{
@@ -127,7 +127,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
       <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardSection title="TCP Activity">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}

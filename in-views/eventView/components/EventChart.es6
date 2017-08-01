@@ -5,11 +5,11 @@ import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import addSection from 'in-views/eventView/hocs/addSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Chart from 'in-components/Chart';
 
 import 'in-views/eventView/components/EventChart.less';
 
@@ -26,7 +26,10 @@ export default addSection(
       };
     },
     function EventChart({ to, event }) {
-      const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyList);
+      const triggeringMetrics = event
+        .getIn(['metadata', 'metrics'], emptyList)
+        .toArray()
+        .sort((a, b) => a.get('metricName').localeCompare(b.get('metricName')));
       return (
         <div className={block}>
           {triggeringMetrics.map(metric => {
@@ -35,13 +38,13 @@ export default addSection(
             const rollup = getRollupForTimeframe(timeframe);
 
             return (
-              <Chart
+              <ChartWrapper
                 key={metricName}
                 metric={metricName}
                 snapshotId={metric.get('snapshotId')}
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
-                rollup={rollup}
+                rollup={rollup.label}
               />
             );
           })}
@@ -52,13 +55,13 @@ export default addSection(
   isVisible
 );
 
-const Chart = connectTo(
+const ChartWrapper = connectTo(
   props => {
     return {
       snapshot: getSnapshot(props.snapshotId, props.start)
     };
   },
-  function Chart({ timeframe$, snapshot, snapshotId, metric, rollup }) {
+  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup }) {
     if (!snapshot) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
@@ -66,7 +69,7 @@ const Chart = connectTo(
     const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
     return (
       <div className={`${block}__chart`}>
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe$={timeframe$}
           currentRollup={rollup}

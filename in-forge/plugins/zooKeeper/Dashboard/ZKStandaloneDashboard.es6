@@ -2,13 +2,13 @@ import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Latency">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -32,7 +32,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -48,7 +48,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -64,7 +64,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Packets">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

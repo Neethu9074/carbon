@@ -3,6 +3,12 @@ import { create } from 'reactive-observables';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { connection } from 'in-services/connection';
 
+let loadTestEnabled = false;
+export function setLoadTestEnabled(enabled = false) {
+  loadTestEnabled = enabled;
+  return loadTestEnabled;
+}
+
 export default function({
   eventId,
   getId,
@@ -19,6 +25,10 @@ export default function({
 }
 
 function createObservable(event, getData, transformData, disposeSubscriptionOnDocumentHidden, opts) {
+  if (loadTestEnabled) {
+    event += '-load-test';
+  }
+
   const subscriptionId = connection.getNewSubscriptionId();
   const subscriptionDescription = {
     subscriptionId,

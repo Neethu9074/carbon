@@ -11,7 +11,7 @@ import {
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -134,7 +134,7 @@ function getRowDetails(row) {
     <div>
       <TwoColumnRow>
         <DashboardSection title="Requests">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -150,7 +150,7 @@ function getRowDetails(row) {
           />
         </DashboardSection>
         <DashboardSection title="Request Time">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -169,7 +169,7 @@ function getRowDetails(row) {
 
       <TwoColumnRow>
         <DashboardSection title="Cache Lookups">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -185,7 +185,7 @@ function getRowDetails(row) {
           />
         </DashboardSection>
         <DashboardSection title="Cache Hit Rate">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -204,7 +204,7 @@ function getRowDetails(row) {
 
       <TwoColumnRow>
         <DashboardSection title="Insertions">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -220,7 +220,7 @@ function getRowDetails(row) {
           />
         </DashboardSection>
         <DashboardSection title="Evictions">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -239,7 +239,7 @@ function getRowDetails(row) {
 
       <TwoColumnRow>
         <DashboardSection title="Errors">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -255,7 +255,7 @@ function getRowDetails(row) {
           />
         </DashboardSection>
         <DashboardSection title="Timeouts">
-          <ChartWithLegend
+          <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -273,7 +273,7 @@ function getRowDetails(row) {
       </TwoColumnRow>
 
       <DashboardSection title="Documents">
-        <ChartWithLegend
+        <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           margins={{

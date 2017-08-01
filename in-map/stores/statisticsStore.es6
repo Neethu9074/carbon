@@ -25,9 +25,9 @@ if (__DEV__) {
   let updateSubscription;
   let renderSubscription;
 
-  groups.stream.subscribe(_groups => (numGroups = _groups.size));
-  services.stream.subscribe(_services => (numServices = _services.size));
-  nodes.stream.subscribe(_nodes => {
+  groups.stream.debounce(1000).subscribe(_groups => (numGroups = _groups.size));
+  services.stream.debounce(1000).subscribe(_services => (numServices = _services.size));
+  nodes.stream.debounce(1000).subscribe(_nodes => {
     numNodes = _nodes.size;
     numLayer = 0;
 
@@ -35,7 +35,7 @@ if (__DEV__) {
       numLayer += node.layer.objects.size;
     });
   });
-  connections.stream.subscribe(_connections => (numConnections = _connections.size));
+  connections.stream.debounce(1000).subscribe(_connections => (numConnections = _connections.size));
 
   scene$.subscribe(s => {
     scene = s;

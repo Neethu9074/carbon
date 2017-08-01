@@ -4,7 +4,7 @@ import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/
 
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function ProcessDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -12,7 +12,7 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -29,7 +29,7 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="CPU Usage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

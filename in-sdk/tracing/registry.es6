@@ -20,7 +20,7 @@ function defaultSpanDefinition(span) {
     groupingDetailView: 'GenericSpanGroupingDetailView',
 
     getLabel() {
-      return span.getIn(['data', 'label']) || 'Unknown (' + span.get('name') + ')';
+      return 'Unknown (' + span.get('name') + ')';
     }
   };
   return spanDefinition;

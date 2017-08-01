@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 import DatasourcesTable from './DatasourcesTable';
 import WebModulesTable from './WebModulesTable';
@@ -11,7 +11,7 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Web Container Thread Pool">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

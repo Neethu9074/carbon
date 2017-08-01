@@ -5,6 +5,7 @@ import http from 'in-services/http';
 export function getErrorsForWebsite({ websiteSnapshotId, timeframe, pageHash }) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: '/api/eum/errors',
     queryParams: {
       snapshotId: websiteSnapshotId,
@@ -18,6 +19,7 @@ export function getErrorsForWebsite({ websiteSnapshotId, timeframe, pageHash }) 
 export function getErrorBreakdownForWebsite({ websiteSnapshotId, errorHash, timeframe, pageHash }) {
   return http({
     method: 'GET',
+    maxRetries: 3,
     url: `/api/eum/errors/${encodeURIComponent(errorHash)}`,
     queryParams: {
       snapshotId: websiteSnapshotId,

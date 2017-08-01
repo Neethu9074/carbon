@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function LiferayDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -23,7 +23,7 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Portal Latency Overview">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -51,7 +51,7 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

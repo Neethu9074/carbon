@@ -1,8 +1,7 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
 
-import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import { activeTooltip, TooltipShape } from 'in-services/stores/tooltip';
+import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -28,7 +27,7 @@ export default connectTo(
         return;
       }
 
-      const tooltipElement = ReactDOM.findDOMNode(this);
+      const tooltipElement = this.tooltipElement;
       const align = this.props._activeTooltip.align;
 
       // add the CSS classes for arrow alignment
@@ -91,7 +90,7 @@ export default connectTo(
       }
 
       return (
-        <div>
+        <div ref={tooltipElement => (this.tooltipElement = tooltipElement)}>
           {tooltip.content}
         </div>
       );

@@ -10,7 +10,7 @@ import {
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -31,7 +31,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Master Server">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -47,7 +47,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Statistics">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -63,7 +63,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Publish">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -87,7 +87,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Snapshot">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -111,7 +111,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Region Server - Split">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -128,7 +128,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       <TwoColumnRow>
         <DashboardSection title="Region Server - Compaction">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -152,7 +152,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Region Server - Flush">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -178,7 +178,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
       <TwoColumnRow>
         <DashboardSection title="Region Server - Store File">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -202,7 +202,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Region Server - Block cache">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{

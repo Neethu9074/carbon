@@ -4,7 +4,7 @@ import { bytesZeroDecimalPlaces, zeroDecimalPlaces, hitRateZeroDecimalPlaces } f
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -38,7 +38,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Commands">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -53,7 +53,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Reads/Writes">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -68,7 +68,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Get Hits/Misses">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -92,7 +92,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Delete Hits/Misses">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -116,7 +116,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Flush command">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -131,7 +131,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Evictions">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -146,7 +146,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Used bytes">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -162,7 +162,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

@@ -7,8 +7,9 @@ import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlig
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
+import createApplyTimeButton from 'in-charts/Chart/renderer/applyTimeButtonRenderer';
+import createRollupIndicator from 'in-charts/Chart/renderer/rollupIndicatorRenderer';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
-import createApplyTimeButton from 'in-charts/Chart/applyTimeButton';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
@@ -52,11 +53,13 @@ export default function createChart(config) {
 
   const domController = createDomController(config);
   const axisController = createAxisController(config);
-  const animatableContentRenderer = createAnimatableContentRenderer(config);
-  const borderRenderer = createBorderRenderer(config);
-  const tooltipRenderer = createTooltipRenderer(config);
+
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
+  const animatableContentRenderer = createAnimatableContentRenderer(config);
+  const rollupIndicatorRenderer = createRollupIndicator(config);
   const applyTimeButtonRenderer = createApplyTimeButton(config);
+  const tooltipRenderer = createTooltipRenderer(config);
+  const borderRenderer = createBorderRenderer(config);
 
   let isRendering = false;
   let restartRenderingSubscription;
@@ -89,13 +92,9 @@ export default function createChart(config) {
 
   function addTooltipSupport() {
     config.subscriptions.push(highlightedMoment$.throttle(20).subscribe(onHighlightedMomentChange));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mousemove').subscribe(onMouseMove));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mouseleave').subscribe(onMouseLeave));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mousedown').subscribe(onMouseDown));
-
     config.subscriptions.push(on(config.dom.glassPane, 'mouseup').subscribe(onMouseUp));
   }
 
@@ -146,9 +145,12 @@ export default function createChart(config) {
   function dispose() {
     tooltipRenderer.dispose();
     applyTimeButtonRenderer.dispose();
+    rollupIndicatorRenderer.dispose();
     domController.dispose();
     axisController.dispose();
+
     stopRendering();
+
     config.subscriptions.forEach(s => s.dispose());
   }
 
@@ -159,6 +161,7 @@ export default function createChart(config) {
   function onResize() {
     domController.resize();
     axisController.resize();
+
     restartRendering();
   }
 
@@ -221,13 +224,14 @@ export default function createChart(config) {
     const now = Date.now();
     config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
     config.scales.x.setDomainTo(now);
+    const rollupSize = config.rollup.rollup || 1000;
 
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
     const expectedNextPoint =
-      config.scales.x.getDomainFrom() + config.rollup * allowedMultiplesOfRollupSizeMissingInCharts;
+      config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
     const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
-    config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
+    config.maxDistanceBetweenPoints = config.y1.dynamicCalculatedBlockSizeMillis || maxDistanceBetweenPoints;
   }
 
   function copyBackBufferToScreenBuffer() {

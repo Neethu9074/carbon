@@ -4,18 +4,19 @@ import {
   msZeroDecimalPlaces,
   msTwoDecimalPlaces,
   twoDecimalPlaces,
-  percentageTwoDecimalPlaces
+  percentageTwoDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function DefaultCharts({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-      <DashboardSection title="Calls/s vs. Average Latency">
-        <ChartWithLegend
+      <DashboardSection title="Calls vs. Average Latency">
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -24,23 +25,25 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           }}
           y1={{
             min: 0,
-            formatter: twoDecimalPlaces,
+            formatter: number.compact,
             metrics: ['count'],
-            labels: ['calls/s'],
-            type: 'line'
+            labels: ['calls'],
+            type: 'bar',
+            aggregation: 'sum'
           }}
           y2={{
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: ['duration.mean'],
             labels: ['average latency'],
-            type: 'line'
+            type: 'discreteLine',
+            aggregation: 'mean'
           }}
         />
       </DashboardSection>
 
       <DashboardSection title="Latency Overview">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
@@ -68,7 +71,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Errors/s">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -85,7 +88,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Instance Count">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

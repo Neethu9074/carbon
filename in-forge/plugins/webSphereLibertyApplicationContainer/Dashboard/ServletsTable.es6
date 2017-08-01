@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -92,7 +92,7 @@ export default function ServletsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{
@@ -106,7 +106,7 @@ function getRowDetails(row) {
           type: 'line'
         }}
       />
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

@@ -20,8 +20,7 @@ export default connectTo(
     return {
       sourceServiceSnapshot: sourceId ? getSnapshot(sourceId) : alwaysNull,
       sourceEntitySnapshot: getEntitySnapshot$BySpan(props.span, 'source'),
-      destinationServiceSnapshot: destinationId ? getSnapshot(destinationId) : alwaysNull,
-      destinationEntitySnapshot: getEntitySnapshot$BySpan(props.span, 'destination')
+      destinationServiceSnapshot: destinationId ? getSnapshot(destinationId) : alwaysNull
     };
   },
   function SpanServiceInformation({
@@ -29,13 +28,9 @@ export default connectTo(
     borderColor,
     sourceServiceSnapshot,
     sourceEntitySnapshot,
-    destinationServiceSnapshot,
-    destinationEntitySnapshot
+    destinationServiceSnapshot
   }) {
-    if (
-      (!sourceServiceSnapshot || !sourceEntitySnapshot) &&
-      (!destinationServiceSnapshot || !destinationEntitySnapshot)
-    ) {
+    if ((!sourceServiceSnapshot || !sourceEntitySnapshot) && !destinationServiceSnapshot) {
       return null;
     }
 
@@ -56,7 +51,6 @@ export default connectTo(
         <Service
           span={span}
           label={isEntry ? 'From:' : null}
-          entitySnapshot={sourceEntitySnapshot}
           snapshot={sourceServiceSnapshot}
           endpointLabel={span.get('sourceEndpointLabel')}
         />
@@ -64,7 +58,6 @@ export default connectTo(
           span={span}
           label={isEntry ? null : 'To:'}
           addEntryIcon={sourceEntitySnapshot && sourceServiceSnapshot ? true : false}
-          entitySnapshot={destinationEntitySnapshot}
           snapshot={destinationServiceSnapshot}
           endpointLabel={span.get('destinationEndpointLabel')}
         />
@@ -73,8 +66,8 @@ export default connectTo(
   }
 );
 
-function Service({ label, snapshot, entitySnapshot, addEntryIcon, endpointLabel }) {
-  if (!snapshot || !entitySnapshot) {
+function Service({ label, snapshot, addEntryIcon, endpointLabel }) {
+  if (!snapshot) {
     return null;
   }
 

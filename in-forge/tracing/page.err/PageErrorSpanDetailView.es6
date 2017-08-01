@@ -8,6 +8,7 @@ import convertHexToLong from 'in-services/subscription/hexToLong';
 import Code from 'in-sdk/components/traceDetails/Code';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 export default connectTo(
   props => {
@@ -37,9 +38,9 @@ export default connectTo(
 
         <DescriptionList>
           <DescriptionItem title="URL">
-            <a href={span.getIn(['data', 'pageErr', 'url'])} target="_blank" rel="noopener noreferrer">
+            <Link href={span.getIn(['data', 'pageErr', 'url'])} external>
               {span.getIn(['data', 'pageErr', 'url'])}
-            </a>
+            </Link>
           </DescriptionItem>
 
           {getCommonDescriptionItems(span)}

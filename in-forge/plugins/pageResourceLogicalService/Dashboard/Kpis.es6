@@ -14,19 +14,8 @@ export default function PageResourceLogicalServiceKpis({ snapshot }) {
       <KpiHeading>
         {getLabel(snapshot)}
       </KpiHeading>
-      <KpiKeyValue label="requests/s">
-        <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
-      </KpiKeyValue>
       <KpiKeyValue label={<TimeWindowSizeLabel prefix="requests in " />}>
-        <MetricValue
-          snapshotId={snapshotId}
-          formatter={zeroDecimalPlaces}
-          metric="count"
-          timeWindowAggregation="adjustedCount"
-        />
-      </KpiKeyValue>
-      <KpiKeyValue label="avg. latency">
-        <MetricValue snapshotId={snapshotId} metric="duration.mean" formatter={msTwoDecimalPlaces} />
+        <MetricValue snapshotId={snapshotId} formatter={zeroDecimalPlaces} metric="count" timeWindowAggregation="sum" />
       </KpiKeyValue>
       <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. latency in " />}>
         <MetricValue

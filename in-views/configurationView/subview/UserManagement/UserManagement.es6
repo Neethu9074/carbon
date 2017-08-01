@@ -1,4 +1,3 @@
-import createReactClass from 'create-react-class';
 import { createLogger } from 'instalog';
 import React from 'react';
 
@@ -29,22 +28,20 @@ export default connectTo(
   {
     roles: getRoles()
   },
-  createReactClass({
-    displayName: 'UserManagement',
+  class extends React.Component {
+    static displayName = 'UserManagement';
 
-    getInitialState() {
-      return {
-        loading: true,
-        error: false,
-        message: null,
-        userOverview: emptyMap,
-        status: {}
-      };
-    },
+    state = {
+      loading: true,
+      error: false,
+      message: null,
+      userOverview: emptyMap,
+      status: {}
+    };
 
     componentWillMount() {
       this.refreshUsers();
-    },
+    }
 
     refreshUsers() {
       this.disposeAsyncAction();
@@ -73,11 +70,11 @@ export default connectTo(
           message: 'Failed to retrieve users.'
         });
       });
-    },
+    }
 
     componentWillUnmount() {
       this.disposeAsyncAction();
-    },
+    }
 
     disposeAsyncAction() {
       if (this.responseSubscription) {
@@ -87,7 +84,7 @@ export default connectTo(
       if (this.errorSubscription) {
         this.errorSubscription.dispose();
       }
-    },
+    }
 
     render() {
       const { userOverview } = this.state;
@@ -217,7 +214,7 @@ export default connectTo(
             : null}
         </SubViewWrapper>
       );
-    },
+    }
 
     setRole(user, newRoleId) {
       const previousRoleId = user.get('roleId');
@@ -276,7 +273,7 @@ export default connectTo(
           };
         });
       });
-    },
+    }
 
     onRemove(user) {
       setActiveDialog(
@@ -298,7 +295,7 @@ export default connectTo(
           }}
         />
       );
-    },
+    }
 
     onRemoveAfterConfirmation(user) {
       close();
@@ -332,7 +329,7 @@ export default connectTo(
           message
         });
       });
-    },
+    }
 
     onRevoke(invitation) {
       setActiveDialog(
@@ -351,7 +348,7 @@ export default connectTo(
           }}
         />
       );
-    },
+    }
 
     onRevokeAfterConfirmation(invitation) {
       close();
@@ -385,11 +382,11 @@ export default connectTo(
           message
         });
       });
-    },
+    }
 
     inviteUser() {
       setActiveDialog(<UserInvitationDialog onSubmit={this.onDoInviteUser} />);
-    },
+    }
 
     onDoInviteUser(email, roleId) {
       close();
@@ -421,5 +418,5 @@ export default connectTo(
         });
       });
     }
-  })
+  }
 );

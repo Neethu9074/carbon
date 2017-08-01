@@ -69,5 +69,24 @@ export default [
     category: [],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'pro', 'loa', 'fp'],
+    labels: [
+      'Unload Time',
+      'Redirect Time',
+      'AppCache Time',
+      'DNS Time',
+      'TCP Time',
+      'SSL Time',
+      'Request Time',
+      'Response Time',
+      'Processing Time',
+      'Load Time',
+      'First Paint Time'
+    ],
+    category: ['Page Load Breakdown'],
+    min: 0,
+    formatter: ms
   }
 ];

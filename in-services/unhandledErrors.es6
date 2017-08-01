@@ -3,6 +3,7 @@ import logging from 'instalog';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEmployee } from 'in-stores/user';
+import { config } from 'in-services/config';
 
 const unhandledLogger = logging.createLogger('in-services/unhandledErrors');
 
@@ -10,7 +11,7 @@ export function init() {
   setUnhandledErrorHandler(e => {
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
 
-    if (isInstanaEmployee()) {
+    if (isInstanaEmployee() && !(config.tenant === 'instana' && config.tenantUnit === 'current')) {
       showUnhandledErrorMessage(e);
     }
   });
@@ -21,7 +22,8 @@ export function init() {
 function onUnhandledError(e) {
   // violation of SOP - we cannot read the error…
   if (e.message === 'Script error.') {
-    unhandledLogger.error('Unhandled error which we cannot read due to SOP');
+    // Nothing we can do with this information in the ui-tracker logs
+    return;
   } else {
     unhandledLogger.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`, e.error);
   }

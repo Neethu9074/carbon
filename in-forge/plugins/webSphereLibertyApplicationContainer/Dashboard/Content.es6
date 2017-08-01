@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';
@@ -25,7 +25,7 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
     <div>
       {threadPoolStatsPresent
         ? <DashboardSection title="Thread Pool">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{

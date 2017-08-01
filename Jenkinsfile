@@ -27,6 +27,7 @@ stage('Checkout') {
 
 stage('Node Build') {
   def buildSteps = [:]
+
   buildSteps['test'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
@@ -39,19 +40,19 @@ stage('Node Build') {
   }
   buildSteps['build'] = {
     node {
-      runNodeBuild(gitCommitId, 'yarn && yarn run build')
+      runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
         uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
-      }      
+      }
     }
   }
 
   parallel buildSteps
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
-    
+
 }
 
 stage ('Container Build') {
@@ -67,26 +68,28 @@ stage ('Container Build') {
 }
 
 stage('Deployment') {
-  node {
-    milestone label: "deployment"
+  milestone label: "deployment"
 
-    def deployments = [:]
+  def deployments = [:]
+  deployments['deploy-test'] = {
     if ( env.BRANCH_NAME == 'develop' ) {
-      deployments['deploy-test'] = {
+      node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
-        
+
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'test'), 
+          string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion)
         ]
 
         slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
+  }
+  deployments['deploy-staging'] = {
     if ( env.BRANCH_NAME == 'master' ) {
-      deployments['deploy-staging'] = {
+      node {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
-        
+
         build job: '/deployment/staging/deploy-ui-client', parameters: [
           string(name: 'VERSION', value: instanaVersion)
         ]
@@ -94,9 +97,23 @@ stage('Deployment') {
         slackNotification('Deploy Staging', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
-
-    parallel deployments
   }
+  deployments['deploy-release'] = {
+    if ( env.BRANCH_NAME == 'release' ) {
+      node {
+        echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
+
+        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
+          string(name: 'ENVIRONMENT', value: 'release'),
+          string(name: 'VERSION', value: instanaVersion)
+        ]
+
+        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult)
+      }
+    }
+  }
+
+  parallel deployments
 }
 
 def runNodeBuild(gitCommitId, buildCommands) {

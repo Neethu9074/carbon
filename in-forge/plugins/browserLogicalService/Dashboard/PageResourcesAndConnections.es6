@@ -27,7 +27,7 @@ export default connectTo(
           }
 
           return (
-            combineLatest(viewStructureItem.outgoingConnections.map(c => getSnapshot(c.id).startWith(null)))
+            combineLatest(viewStructureItem.outgoingConnections.map(c => getSnapshot(c.id)), false)
               // remove null snapshots
               .map(snapshots => snapshots.filter(s => s))
           );

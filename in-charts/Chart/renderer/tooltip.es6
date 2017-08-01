@@ -30,31 +30,34 @@ export default function createTooltipRenderer(config) {
     dataPointsAvailable = true;
     highlightedMoment = _highlightedMoment;
 
-    y1DataColumn = lookForDataPoint('y1', highlightedMoment);
+    if (!config.rollup) {
+      return;
+    }
 
+    y1DataColumn = getDataPointIfInRange(lookForDataPoint('y1', highlightedMoment), highlightedMoment, config, 'y1');
     if (y1DataColumn) {
       dataPointsExistingAtMoment = y1DataColumn.time;
     }
 
-    y2DataColumn = config.y2 ? lookForDataPoint('y2', dataPointsExistingAtMoment || highlightedMoment) : null;
+    y2DataColumn = config.y2
+      ? getDataPointIfInRange(
+          lookForDataPoint('y2', dataPointsExistingAtMoment || highlightedMoment),
+          highlightedMoment,
+          config,
+          'y2'
+        )
+      : null;
 
     if (!y1DataColumn && !y2DataColumn) {
       dataPointsAvailable = false;
+      hideTooltip();
+      return;
     }
 
     if (y1DataColumn && y2DataColumn && y2DataColumn.time !== dataPointsExistingAtMoment) {
       y2DataColumn = null;
     } else if (!y1DataColumn && y2DataColumn) {
       dataPointsExistingAtMoment = y2DataColumn.time;
-    } else if (!y1DataColumn && !y2DataColumn) {
-      hideTooltip();
-      return;
-    }
-
-    // it makes no sense to show a tooltip for a time that is too far off the desired time.
-    if (Math.abs(dataPointsExistingAtMoment - highlightedMoment) > config.rollup * 2.3) {
-      hideTooltip();
-      return;
     }
 
     repositionTooltip();
@@ -108,6 +111,18 @@ export default function createTooltipRenderer(config) {
     }
   }
 
+  function getDataPointIfInRange(dataPoint, highlightedMoment, config, axis) {
+    if (!dataPoint) {
+      return null;
+    }
+
+    let maxDistanceBetweenDataPoints = 2.3 * (config.rollup.rollup || 1000);
+    if (config[axis] && config[axis].dynamicCalculatedBlockSizeMillis) {
+      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis / 2;
+    }
+    return Math.abs(dataPoint.time - highlightedMoment) <= maxDistanceBetweenDataPoints ? dataPoint : null;
+  }
+
   function lookForDataPoint(axisName, searchFor) {
     const data = config.dataHolders[axisName].getDataColumns();
     const i = sortedIndexBy(data, searchFor, column => {
@@ -119,9 +134,16 @@ export default function createTooltipRenderer(config) {
     });
 
     const prev = data[i - 1];
-    if (prev && prev.time === searchFor) {
-      return prev;
+    const current = data[i];
+    if (!prev) {
+      return current;
     }
-    return data[i];
+    if (!current) {
+      return null;
+    }
+    if (Math.abs(current.time - searchFor) < Math.abs(prev.time - searchFor)) {
+      return current;
+    }
+    return prev;
   }
 }

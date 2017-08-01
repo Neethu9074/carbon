@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -92,7 +92,7 @@ export default function DataSourcesTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{

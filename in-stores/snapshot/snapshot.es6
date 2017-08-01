@@ -12,9 +12,11 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
+import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { query$ } from 'in-stores/search/query';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -108,12 +110,32 @@ export function getSnapshots(snapshotIds, time) {
   }
 
   return (
-    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time).startWith(null)))
+    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time)), false)
+      .nextFrame()
       // Do not show snapshots which are still loading
       .map(snapshots => snapshots.filter(s => s))
       // We will have lots of incremental updates. One update every few
       // milliseconds is enough.
       .throttle(100)
+  );
+}
+
+export function getSnapshotIdsByQuery(_query) {
+  return combineLatest([query$, timeframe$, focusedMoment$]).flatMap(([query, timeframe, focusedMoment]) => {
+    query = query || '';
+    query += ` ${_query}`;
+    return createSearchObservable({
+      query,
+      time: focusedMoment,
+      view: 'TABLE',
+      timeframe
+    });
+  });
+}
+
+export function getSnapshotsByQuery(query) {
+  return combineLatest([getSnapshotIdsByQuery(query), focusedMoment$]).flatMap(([ids, focusedMoment]) =>
+    getSnapshots(ids, focusedMoment)
   );
 }
 
@@ -125,7 +147,7 @@ export function getSnapshots(snapshotIds, time) {
 export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
     return getPhysicalHierarchy(snapshotId)
-      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id).startWith(null))))
+      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id)), false))
       .debounce(300)
       .map(snapshots => {
         for (let i = 0, len = snapshots.length; i < len; i++) {

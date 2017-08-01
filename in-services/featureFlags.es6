@@ -4,7 +4,7 @@ import { config } from 'in-services/config';
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
 const trainingTu = config.tenant === 'training';
-const onlyInternally = config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu;
+const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const webVrEnabled = onlyInternally;
@@ -13,7 +13,7 @@ export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
 export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
-export const eumViewEnabled = onlyInternally;
+export const eumViewEnabled = onlyInternally || stagingTu || config.tenant === 'edmunds';
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {

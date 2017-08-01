@@ -1,5 +1,3 @@
-@import "~in-themes/active.less";
-
 .in-timeline-date-picker {
   overflow: hidden;
   margin-left: 1rem;
@@ -9,15 +7,15 @@
 
 .DayPicker-Day {
   font-size: 0.75rem;
-  border: 1px solid @datepicker__matte;
+  border: 1px solid #435b64;
 
   &:hover {
-    color: @datepicker__matte;
-    background: @datepicker__highlight;
+    color: #435b64;
+    background: white;
   }
 }
 
-.DayPicker {
+.DayPicker-wrapper {
   padding: 0 0 1px;
 }
 
@@ -60,5 +58,5 @@
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   background-color: #9fffff;
   background: #9fffff;
-  color: #435b64
+  color: #435b64;
 }

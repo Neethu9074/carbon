@@ -2,7 +2,7 @@ import React from 'react';
 
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,
@@ -20,7 +20,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <NodeSummary snapshot={snapshot} />
 
       <DashboardSection title="Search Performance vs. Throughput">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -47,7 +47,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
 
       <TwoColumnRow>
         <DashboardSection title="Indices Count">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -64,7 +64,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Shards">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -83,7 +83,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
 
       <DashboardSection title="Documents">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -112,7 +112,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <IndicesTable snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardSection title="Refresh and Flush">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -136,7 +136,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Lucene Segments">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -153,7 +153,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Active Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -178,7 +178,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Rejected Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -199,7 +199,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Queued Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

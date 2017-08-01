@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
 
 const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
@@ -52,7 +52,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Queries">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -75,7 +75,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Slow Queries">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -92,7 +92,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {performanceDataAvailable
         ? <DashboardSection title="Latency">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -109,7 +109,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           </DashboardSection>
         : null}
       <DashboardSection title="Clients">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -126,7 +126,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {performanceDataAvailable
         ? <DashboardSection title="Wait Events">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -143,7 +143,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           </DashboardSection>
         : null}
       <DashboardSection title="Key Access">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

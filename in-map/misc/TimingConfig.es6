@@ -7,5 +7,6 @@ export const PHYSICAL_LAYOUTING = 50;
 export const LOGICAL_LAYOUTING = 50;
 export const LAYER_LAYOUTING = 50;
 export const POWER_CHECKING = 200;
+export const OCTREE_UPDATES = 250;
 export const AUTO_FOCUS = 500;
 export const FACTORY = 100;

@@ -6,9 +6,6 @@ export default function RedisSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Driver">
-          {span.getIn(['data', 'redis', 'driver'])}
-        </DescriptionItem>
         <DescriptionItem title="Connection">
           {span.getIn(['data', 'redis', 'connection'])}
         </DescriptionItem>

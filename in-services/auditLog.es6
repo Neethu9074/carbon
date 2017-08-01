@@ -6,6 +6,7 @@ export function getAuditLog(offset, query) {
   return http({
     method: 'GET',
     url: `/api/auditlog`,
+    maxRetries: 3,
     queryParams: {
       offset,
       query

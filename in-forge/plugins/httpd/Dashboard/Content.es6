@@ -4,8 +4,9 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import Chart from 'in-components/Chart';
+import Link from 'in-components/Link';
 
 import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 
@@ -51,7 +52,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
 
       {status !== 'EXTENDED_INFO_DISABLED'
         ? <DashboardSection title="Traffic">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{
@@ -74,7 +75,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
 
       {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0')
         ? <DashboardSection title="Connections">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               margins={{
@@ -98,7 +99,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
         : null}
 
       <DashboardSection title="Worker">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -138,7 +139,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
       {status !== 'EXTENDED_INFO_DISABLED'
         ? <div>
             <DashboardSection title="CPU">
-              <ChartWithLegend
+              <Chart
                 snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
                 margins={{
@@ -154,7 +155,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
               />
             </DashboardSection>
             <DashboardSection title="Traffic per Request">
-              <ChartWithLegend
+              <Chart
                 snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
                 margins={{
@@ -187,9 +188,9 @@ function extendedStatusInfo(status, ver) {
       Traffic, Traffic per Request and CPU,
       &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
       <strong>enabled</strong> in apache httpd configuration.&nbsp;
-      <a target="_blank" href={getModStatusDoc(ver)} rel="noopener noreferrer">
+      <Link href={getModStatusDoc(ver)} external>
         Apache ExtendedStatus Directive
-      </a>.
+      </Link>.
     </DashboardNotification>
   );
 }

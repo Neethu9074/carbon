@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -51,7 +51,7 @@ function auctioneerCharts(row) {
   return (
     <TwoColumnRow>
       <DashboardSection title="Routines">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -68,7 +68,7 @@ function auctioneerCharts(row) {
       </DashboardSection>
 
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -97,7 +97,7 @@ function stagerCharts(row) {
     <div>
       <TwoColumnRow>
         <DashboardSection title="Routines">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -114,7 +114,7 @@ function stagerCharts(row) {
         </DashboardSection>
 
         <DashboardSection title="Memory">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -135,7 +135,7 @@ function stagerCharts(row) {
         </DashboardSection>
       </TwoColumnRow>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -159,7 +159,7 @@ function fileserverCharts(row) {
   return (
     <TwoColumnRow>
       <DashboardSection title="Routines">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -176,7 +176,7 @@ function fileserverCharts(row) {
       </DashboardSection>
 
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{

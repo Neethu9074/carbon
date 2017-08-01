@@ -15,7 +15,7 @@ import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitors
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -93,7 +93,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
 
       {latencyThreshold > 0
         ? <DashboardSection title="Latency">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -111,7 +111,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         : null}
 
       <DashboardSection title="Throughput">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -127,7 +127,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Key Hits/Misses">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -151,7 +151,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Key Expired/Evicted">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -167,7 +167,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {dbNames && dbNames.length > 0
         ? <DashboardSection title="Database">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -182,7 +182,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           </DashboardSection>
         : null}
       <DashboardSection title="Memory">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -199,7 +199,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Connections">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -215,7 +215,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {channelNames && channelNames.length > 0
         ? <DashboardSection title="Pub/Sub">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -236,7 +236,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           </DashboardSection>
         : null}
       <DashboardSection title="Persistence">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -256,7 +256,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
 
       {role === 'slave'
         ? <DashboardSection title="Bytes left before syncing is complete">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{

@@ -5,6 +5,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import 'in-components/Dashboard/components/NotFoundDialog.less';
 
@@ -96,36 +97,30 @@ const VersionList = connectTo(
   }
 );
 
-const ListItem = connectTo(
-  props => {
-    let time = null;
-    let windowSize = 1000 * 60 * 10;
-    if (props.to != null) {
-      windowSize = props.to - props.from;
-      time = props.to - windowSize / 2;
-    }
-    return {
-      link: getCurrentViewWithTimelineCenteredAt(time, windowSize)
-    };
-  },
-  function ListItem({ from, to, link }) {
-    return (
-      <li className={`${block}__list-item`}>
-        <a href={link} className={`${block}__set-time`}>
-          <span className={`${block}__key`}>
-            from:
-          </span>
-          <span className={`${block}__value`}>
-            {formatDateTime(from)}
-          </span>
-          <span className={`${block}__key`}>
-            to:
-          </span>
-          <span className={`${block}__value`}>
-            {to ? formatDateTime(to) : 'now'}
-          </span>
-        </a>
-      </li>
-    );
+function ListItem({ from, to }) {
+  let time = null;
+  let windowSize = 1000 * 60 * 10;
+  if (to != null) {
+    windowSize = to - from;
+    time = to - windowSize / 2;
   }
-);
+
+  return (
+    <li className={`${block}__list-item`}>
+      <Link href$={getCurrentViewWithTimelineCenteredAt(time, windowSize)} className={`${block}__set-time`}>
+        <span className={`${block}__key`}>
+          from:
+        </span>
+        <span className={`${block}__value`}>
+          {formatDateTime(from)}
+        </span>
+        <span className={`${block}__key`}>
+          to:
+        </span>
+        <span className={`${block}__value`}>
+          {to ? formatDateTime(to) : 'now'}
+        </span>
+      </Link>
+    </li>
+  );
+}

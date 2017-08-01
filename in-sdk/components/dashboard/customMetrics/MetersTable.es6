@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 import { emptyList } from 'in-services/fixedImmutables';
 import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -60,7 +60,7 @@ export default function MetersTable({ snapshot, timeframe }) {
 
 function getDetails(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{

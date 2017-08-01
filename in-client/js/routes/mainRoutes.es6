@@ -1,22 +1,20 @@
-import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-
-import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
-import { eumViewEnabled } from 'in-services/featureFlags';
-import EventView from 'promise-loader?global!in-views/eventView/EventView';
-import TableView from 'promise-loader?global!in-views/tableView/TableView';
-import LogView from 'promise-loader?global!in-views/logView/LogView';
-import EumView from 'promise-loader?global!in-views/eumView/EumView';
 import { Switch } from 'react-router-dom';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
-
-import TableTest from 'in-views/tableTest/TableTest';
 import React from 'react';
 
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
+import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
+import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
+import EventView from 'promise-loader?global!in-views/eventView/EventView';
+import TableView from 'promise-loader?global!in-views/tableView/TableView';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
+import LogView from 'promise-loader?global!in-views/logView/LogView';
+import EumView from 'promise-loader?global!in-views/eumView/EumView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
+import { eumViewEnabled } from 'in-services/featureFlags';
+import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import Map from 'in-map/index';
 
@@ -45,7 +43,11 @@ export default (
     <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" windowTitle="Logs" />
 
     {eumViewEnabled
-      ? <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/eum" windowTitle="Eum" />
+      ? <RouteWithTitle
+          component={createAsyncFullscreenOverlayViewComponent(EumView)}
+          path="/website"
+          windowTitle="Websites"
+        />
       : null}
 
     <RouteWithTitle component={GraphView} path="/graph" windowTitle="Graph" />

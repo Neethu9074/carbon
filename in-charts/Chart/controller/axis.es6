@@ -1,11 +1,16 @@
+import { combineLatest } from 'reactive-observables';
+import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
+import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
-import { getDefaultMetricRollupDuration, getMetricsForTimeframe } from 'in-stores/metric';
+import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
+import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { timeframe$, to$ } from 'in-stores/timeline';
@@ -17,18 +22,22 @@ import createScale from 'in-charts/scale';
 import theme from 'in-services/theme';
 
 const contentRendererCreators = {
+  discreteLine: createDiscreteLineContentRenderer,
   stackedArea: createStackedAreaContentRenderer,
-  line: createLineContentRenderer,
-  point: createPointContentRenderer,
   integral: createIntegralContentRenderer,
-  area: createAreaContentRenderer
+  point: createPointContentRenderer,
+  line: createLineContentRenderer,
+  area: createAreaContentRenderer,
+  bar: createBarContentRenderer
 };
 
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
+  const resize$ = create();
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
   determineSeriesColors();
+  determineDynamicAggregation();
   // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
   // of availability of metrics. We are removing x millis from the right border in order to
   // hide this fact from the user.
@@ -58,6 +67,8 @@ export default function createAxisController(config) {
       scales.y2.setRangeFrom(config.bounds.bottom - 0.5);
       scales.y2.setRangeTo(config.bounds.top);
     }
+
+    resize$.emit(config.bounds);
   }
 
   function dispose() {
@@ -76,12 +87,27 @@ export default function createAxisController(config) {
     }
   }
 
+  function determineDynamicAggregation() {
+    const y1 = config.y1;
+    const y2 = config.y2;
+    if (y1 && (y1.maxDataPoints || y1.minPixelPerBlock || y1.aggregation)) {
+      y1.isDynamicAggregated = true;
+      y1.aggregation = y1.aggregation || 'sum';
+      y1.metricBaseMillis = y1.metricBaseMillis || 1000;
+    }
+    if (y2 && (y2.maxDataPoints || y2.minPixelPerBlock || y2.aggregation)) {
+      y2.isDynamicAggregated = true;
+      y2.aggregation = y2.aggregation || 'sum';
+      y2.metricBaseMillis = y2.metricBaseMillis || 1000;
+    }
+  }
+
   function getNumberOfDataSeries(axisName) {
     return config[axisName].labels.length;
   }
 
   function addDataSeriesTogglingSupport() {
-    config.subscriptions.push(config.activeFilters$.subscribe(onActiveFiltersChange));
+    config.subscriptions.push(config.filterStore.activeFilters$.subscribe(onActiveFiltersChange));
   }
 
   function onActiveFiltersChange(hiddenSeries) {
@@ -108,9 +134,12 @@ export default function createAxisController(config) {
 
   function determineSeriesColors() {
     const colors = theme.chart.strokeColors;
-    config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
 
-    if (config.y2) {
+    if (!config.y1.colors) {
+      config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
+    }
+
+    if (config.y2 && !config.y2.colors) {
       config.y2.colors = config.y2.labels.map((label, i) => colors[(i + config.y1.numberOfSeries) % colors.length]);
     }
   }
@@ -142,13 +171,19 @@ export default function createAxisController(config) {
 
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(
-      actualTimeframe$.subscribe(timeframe => {
+      combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe]) => {
         clearData();
-        config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
+
+        config.rollup = getDefaultMetricRollupDuration(timeframe);
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
+
+        calculateBlockSizeMillis(config);
+
         disposeTimeframeSpecificSubscriptions();
+
         subscribeToDataSources();
+
         config.signals.restartRendering$.emit(true);
       })
     );
@@ -164,16 +199,22 @@ export default function createAxisController(config) {
   }
 
   function subscribeToDataSourcesForAxis(axisName) {
-    const metrics = config[axisName].metrics;
-    const queue = config.queues[axisName];
+    const axis = config[axisName];
+    const metrics = axis.metrics;
 
+    const queue = config.queues[axisName];
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(
         getMetricsForTimeframe({
           snapshotId: snapshotId,
           metric: metrics[i],
-          timeframe: config.timeframe
+          timeframe: config.timeframe,
+          rollup: config.rollup.rollup,
+          aggregation: axis.aggregation,
+          blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
+          metricBaseMillis: axis.metricBaseMillis,
+          isDynamicAggregated: axis.isDynamicAggregated
         }).subscribe(onNewDataPoints, null, i, queue)
       );
     }
@@ -248,5 +289,28 @@ export default function createAxisController(config) {
       config.dataHolders.y2.clear();
       config.queues.y2.clear();
     }
+  }
+
+  function calculateBlockSizeMillis(config) {
+    const chartWidthInPx = config.bounds.right - config.bounds.left;
+    const rollup = config.rollup.rollup || 1000;
+
+    function calculateBlockSizeMillisForAxis(axis) {
+      if (!axis || !axis.isDynamicAggregated) {
+        return null;
+      }
+      axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+        getBlockSizeMillis({
+          windowSize: config.timeframe.windowSize,
+          maxDataPoints: axis.maxDataPoints,
+          minPixelPerBlock: axis.minPixelPerBlock,
+          width: chartWidthInPx,
+          rollup
+        })
+      );
+    }
+
+    calculateBlockSizeMillisForAxis(config.y1);
+    calculateBlockSizeMillisForAxis(config.y2);
   }
 }

@@ -23,7 +23,7 @@ export function validate(col) {
   );
   invariant(
     typeof col.typeArgs.getTimeWindowAggregation === 'function',
-    'Columns with type=metric must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
+    'Columns with type=metric must have a getTimeWindowAggregation(row) => mean|sum|max function'
   );
   invariant(
     col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
@@ -37,16 +37,21 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     columnIndex,
     value: null,
     subscription: null,
-    comparator: compare
+    comparator: compare,
+    requiresContentRefresh: true
   };
   column.refreshContent = refreshContent.bind(null, row, column);
 
   column.subscription = getMetric({
     snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
     metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
+    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+
+    // this flag enforces the metric subscription to always use the time window aggregated metric values
+    forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {
     column.value = v;
+    column.requiresContentRefresh = true;
     row.mutationCount++;
     emitRawDataChange();
   });
@@ -55,9 +60,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 }
 
 function refreshContent(row, column) {
-  const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
-  const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
   if (column.value == null) {
+    const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
+    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
     column.content = fallback;
     return;
   }

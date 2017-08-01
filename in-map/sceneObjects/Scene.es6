@@ -144,7 +144,7 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const offset = isWebVRActive ? 0 : theme.header.height + theme.footer.height;
+    const offset = isWebVRActive ? 0 : theme.footer.height + theme.header.height;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 

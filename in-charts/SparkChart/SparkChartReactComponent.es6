@@ -1,5 +1,4 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -37,7 +36,7 @@ export default class extends React.Component {
       width: props.width,
       height: props.height,
       datasource: props.datasource,
-      container: ReactDOM.findDOMNode(this),
+      container: this.container,
       timeframe: props.timeframe,
       tooltipFormatter: props.tooltipFormatter,
       design: this.props.design,
@@ -50,7 +49,7 @@ export default class extends React.Component {
     if (this.props.className) {
       classes += ' ' + this.props.className;
     }
-    return <div className={classes} />;
+    return <div ref={container => (this.container = container)} className={classes} />;
   }
 
   disposeSparkChart = () => {

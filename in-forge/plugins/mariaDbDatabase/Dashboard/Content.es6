@@ -4,7 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import twoDecimalPlaces from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -33,7 +33,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="Clients">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -49,7 +49,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Slow Queries">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -63,7 +63,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Key Access">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -82,7 +82,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Aria Engine Properties">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{

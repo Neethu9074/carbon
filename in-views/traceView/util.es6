@@ -1,6 +1,11 @@
 import { getCategory, SPAN_KINDS } from 'in-sdk/tracing';
 
 export function getSelfTime(span) {
+  const batchSelfTime = span.get('batchSelfTime');
+  if (batchSelfTime != null) {
+    return batchSelfTime;
+  }
+
   let selfTime = span.get('duration');
   span.get('childSpans').forEach(childSpan => {
     if (!childSpan.get('async')) {

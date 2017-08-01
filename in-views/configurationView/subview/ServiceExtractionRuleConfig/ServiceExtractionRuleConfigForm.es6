@@ -2,7 +2,6 @@ import React from 'react';
 
 import MatchSpecificationSelector from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/RuleTester';
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
@@ -114,20 +113,18 @@ export default class extends React.Component {
             );
           })}
 
-          {instanaInternalFeaturesEnabled
-            ? ruleForm.get('ignoreService').map(ignoreField =>
-                <FormGroup>
-                  <Label htmlFor={`${id}-ingore-service-label`}>Mark as ignored service</Label>
-                  <Helpify helpText="When enabled, the traces matching this service definition will be ignored and also not persisted.">
-                    <Toggle
-                      className={`${block}__toggle`}
-                      checked={ignoreField.value}
-                      onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
-                    />
-                  </Helpify>
-                </FormGroup>
-              )
-            : true}
+          {ruleForm.get('ignoreService').map(ignoreField =>
+            <FormGroup>
+              <Label htmlFor={`${id}-ingore-service-label`}>Mark as ignored service</Label>
+              <Helpify helpText="When enabled, the traces matching this service definition will be ignored and also not persisted.">
+                <Toggle
+                  className={`${block}__toggle`}
+                  checked={ignoreField.value}
+                  onChange={e => onChangeIn(this.ignoreServicePath, e.target.checked)}
+                />
+              </Helpify>
+            </FormGroup>
+          )}
 
           {ruleForm.get('ignoreService').map(
             ignoreField =>

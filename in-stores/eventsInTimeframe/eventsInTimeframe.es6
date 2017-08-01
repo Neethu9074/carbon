@@ -59,6 +59,7 @@ function upsertEvent(event) {
   };
   eventProperty.eventSubscription = getEvent(event.id).subscribe(_event => {
     eventProperty.event = _event;
+
     // store this property explicity for faster getNearestEvent checking
     eventProperty.event.time = _event.get('triggeringTime', _event.get('start'));
 

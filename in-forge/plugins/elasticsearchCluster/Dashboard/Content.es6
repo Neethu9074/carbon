@@ -14,7 +14,7 @@ import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/Indice
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
   return (
@@ -22,7 +22,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       <ClusterSummary snapshot={snapshot} />
 
       <DashboardSection title="Search Performance vs. Throughput">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -50,7 +50,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
 
       <TwoColumnRow>
         <DashboardSection title="Indices">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -67,7 +67,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Shards">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
             margins={{
@@ -92,7 +92,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
 
       <DashboardSection title="Documents">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -119,7 +119,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Cluster State Size">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{

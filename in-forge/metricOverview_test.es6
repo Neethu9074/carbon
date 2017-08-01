@@ -2,7 +2,6 @@
 /* eslint-disable no-console, mocha/no-exclusive-tests */
 
 import { metricDefinitions } from 'in-sdk/metrics/metricDefinitions';
-import { getAggregation } from 'in-sdk/metrics';
 import { getPlural } from 'in-sdk/pluginName';
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
@@ -25,10 +24,6 @@ function doGenerate() {
       }
 
       str += `**${getPlural(plugin)}** *(${plugin})*\n\n`;
-
-      metrics.forEach(metric => {
-        str += ` - **${metric.label}:** \`${metric.metric}\` (aggregation: \`${getAggregation(metric.metric)}\`)\n`;
-      });
 
       str += '\n\n';
     });

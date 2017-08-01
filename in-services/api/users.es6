@@ -12,6 +12,7 @@ export function getUsers() {
 export function setRole(userId, roleId) {
   return http({
     method: 'PUT',
+    maxRetries: 3,
     url: `/api/tenant/users/${encodeURIComponent(userId)}/role`,
     queryParams: {
       roleId
@@ -22,6 +23,7 @@ export function setRole(userId, roleId) {
 export function removeUserFromTenant(userId) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/tenant/users/${encodeURIComponent(userId)}`
   });
 }
@@ -40,6 +42,7 @@ export function sendInvitation(email, roleId) {
 export function revokeInvitation(email) {
   return http({
     method: 'DELETE',
+    maxRetries: 3,
     url: `/api/tenant/users/invitations`,
     queryParams: {
       email

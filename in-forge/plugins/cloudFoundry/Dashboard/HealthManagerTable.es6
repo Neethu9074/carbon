@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -161,7 +161,7 @@ function getRowDetails(row) {
     <div>
       <TwoColumnRow>
         <DashboardSection title="Routines">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -178,7 +178,7 @@ function getRowDetails(row) {
         </DashboardSection>
 
         <DashboardSection title="Memory">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
             margins={{
@@ -199,7 +199,7 @@ function getRowDetails(row) {
         </DashboardSection>
       </TwoColumnRow>
       <DashboardSection title="Health Manager Analyzer">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{

@@ -1,6 +1,8 @@
 import React from 'react';
 import qs from 'qs';
 
+import Link from 'in-components/Link';
+
 import './NavigationTabs.less';
 
 const block = 'in-navigation-tabs';
@@ -13,9 +15,12 @@ export default function NavigationTabs({ navigationStructure, navigationParams }
           const activeClassName = isActive(navigationParams, nav.path) ? `${block}__link__active` : '';
           return (
             <li className={`${block}__nav-elements`} key={`link_${nav.path}`}>
-              <a href={getNavigationPath(nav.path, navigationParams)} className={`${block}__link ${activeClassName}`}>
+              <Link
+                href={getNavigationPath(nav.path, navigationParams)}
+                className={`${block}__link ${activeClassName}`}
+              >
                 {nav.label}
-              </a>
+              </Link>
             </li>
           );
         })}

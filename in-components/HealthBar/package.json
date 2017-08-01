@@ -1,6 +1,0 @@
-{
-  "name": "HealthBar",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./HealthBar.es6"
-}

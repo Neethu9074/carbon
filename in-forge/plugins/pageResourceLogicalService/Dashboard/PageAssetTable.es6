@@ -29,7 +29,7 @@ const cols = [
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'adjustedCount';
+        return 'sum';
       }
     }
   },

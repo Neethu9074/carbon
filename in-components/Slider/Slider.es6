@@ -1,35 +1,24 @@
-import rpt from 'prop-types';
 import React from 'react';
 
-import { getClassName } from 'in-services/util/react';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import './Slider.less';
 
 const block = 'in-slider';
 
-class Slider extends React.Component {
-  static propTypes = {
-    onChange: rpt.func.isRequired,
-    value: rpt.any,
-    className: rpt.string,
-    step: rpt.number,
-    min: rpt.number,
-    max: rpt.number
-  };
-
-  render() {
-    return (
-      <input
-        type="range"
-        className={getClassName(this, block)}
-        min={this.props.min != null ? this.props.min : 0}
-        max={this.props.max != null ? this.props.max : 100}
-        step={this.props.step != null ? this.props.step : 0.1}
-        value={this.props.value != null ? this.props.value : null}
-        onChange={this.props.onChange}
-      />
-    );
-  }
+export default function Slider({ onChange, value, className, step, min, max }) {
+  return (
+    <input
+      type="range"
+      className={evaluateClassNames({
+        [block]: true,
+        [className]: className
+      })}
+      min={min != null ? min : 0}
+      max={max != null ? max : 100}
+      step={step != null ? step : 0.1}
+      value={value != null ? value : null}
+      onChange={onChange}
+    />
+  );
 }
-
-export default Slider;

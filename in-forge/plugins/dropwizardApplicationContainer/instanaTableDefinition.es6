@@ -45,7 +45,7 @@ export default {
       title: 'Environment',
       type: 'string',
       typeArgs: {
-        getContent(row) {
+        getValue(row) {
           return getTenantUnitCoordinates(row.snapshot).environment;
         }
       }
@@ -54,7 +54,7 @@ export default {
       title: 'Tenant',
       type: 'string',
       typeArgs: {
-        getContent(row) {
+        getValue(row) {
           return getTenantUnitCoordinates(row.snapshot).tenant;
         }
       }

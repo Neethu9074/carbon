@@ -76,7 +76,7 @@ export default class CustomHostGroupingDialog extends React.Component {
     e.preventDefault();
 
     if (this.state.form.hierarchyValid) {
-      setCurrentViewWithViewGrouping(`custom-${this.state.form.get('prefix').value}`);
+      setCurrentViewWithViewGrouping('vg-i', `custom-${this.state.form.get('prefix').value}`);
       close();
     }
   };

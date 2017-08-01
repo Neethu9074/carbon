@@ -1,3 +1,4 @@
+import createDynamicAggregatedMetricObservable from 'in-services/subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-services/subscription/timeWindowMetricAggregation';
 import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
@@ -5,10 +6,29 @@ import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
-import { getAggregation } from 'in-sdk/metrics';
 import { createStore } from 'in-stores/store';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
+
+export const dynamicRollupPredefinitions = [
+  1000,
+  1000 * 5,
+  1000 * 10,
+  1000 * 20,
+  1000 * 30,
+  1000 * 60,
+  1000 * 60 * 5,
+  1000 * 60 * 10,
+  1000 * 60 * 20,
+  1000 * 60 * 30,
+  1000 * 60 * 60,
+  1000 * 60 * 90,
+  1000 * 60 * 60 * 2,
+  1000 * 60 * 60 * 6,
+  1000 * 60 * 60 * 12,
+  1000 * 60 * 60 * 24,
+  1000 * 60 * 60 * 24 * 7
+];
 
 const rollupDurationThresholds = [
   {
@@ -40,50 +60,38 @@ const rollupDurationThresholds = [
 
 export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup }) {
   if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
-  }
-
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
+    rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
   return createLiveMetricObservable({
     snapshotId,
     metric,
-    aggregation,
     rollup
   });
 }
 
 function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
   if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
-  }
-
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
+    rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
   return createHistoricMetricsObservable({
     snapshotId,
     metric,
     timeframe,
-    aggregation,
     rollup
   });
 }
 
 export const getMetric = memoize(
-  ({ snapshotId, metric, timeWindowAggregation }) => {
+  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation }) => {
     if (!timeWindowAggregation) {
       return getMetricForFocusedMoment({ snapshotId, metric });
     }
 
     return showAggregations$
       .flatMap(showAggregations => {
-        if (showAggregations) {
+        if (showAggregations || forceTimeWindowAggregation) {
           return getTimeWindowBasedMetricAggregation({
             snapshotId: snapshotId,
             metric: metric,
@@ -120,15 +128,9 @@ export function getHistoricMetric({ snapshotId, metric, time }) {
   );
   const rollup = availableRollupDefinitions[0].rollup;
 
-  let aggregation = null;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
-
   return createHistoricMetricObservable({
     snapshotId,
     metric,
-    aggregation,
     rollup,
     time
   });
@@ -143,12 +145,23 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
 }
 
 export function getMetricsForTimeframe(opts) {
-  return opts.timeframe.to ? getHistoricMetrics(opts) : getHistoricMetricsWithLiveUpdates(opts);
+  if (opts.isDynamicAggregated) {
+    // live or not is done in the backend
+    return getDynamicAggregatedMetricsForTimeframe(opts);
+  }
+  if (opts.timeframe.to) {
+    return getHistoricMetrics(opts);
+  }
+  return getHistoricMetricsWithLiveUpdates(opts);
+}
+
+export function getDynamicAggregatedMetricsForTimeframe(opts) {
+  return createDynamicAggregatedMetricObservable(opts);
 }
 
 export function getDefaultMetricRollupDuration(timeframe) {
   if (!timeframe) {
-    return null;
+    return rollupDurationThresholds[0];
   }
 
   // Ignoring time differences for now since small time differences
@@ -167,21 +180,21 @@ export function getDefaultMetricRollupDuration(timeframe) {
     const rollupDefinition = availableRollupDefinitions[i];
     const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
-      return rollupDefinition.rollup;
+      return rollupDefinition;
     }
   }
 
-  return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1];
 }
 
 export const currentRollup$ = timeframe$.map(getRollupForTimeframe);
 
 export function getRollupForTimeframe(timeframe) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
+  const rollup = getDefaultMetricRollupDuration(timeframe).rollup;
 
   for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
     if (rollupDurationThresholds[i].rollup === rollup) {
-      return rollupDurationThresholds[i].label;
+      return rollupDurationThresholds[i];
     }
   }
 
@@ -234,18 +247,12 @@ export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWi
 }
 
 function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
-
-  let aggregation;
-  if (rollup) {
-    aggregation = getAggregation(metric);
-  }
+  const rollup = getDefaultMetricRollupDuration(timeframe).rollup;
 
   return createTimeWindowMetricAggregation({
     snapshotId,
     metric,
     timeframe,
-    aggregation,
     rollup,
     timeWindowAggregation
   });

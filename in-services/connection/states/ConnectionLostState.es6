@@ -20,7 +20,7 @@ export default class ConnectionLostState extends AbstractState {
   onEnter() {
     // Assume that WS connection is not possible when quickly reentering
     // the connection lost step.
-    if (this.lastEnterTime >= Date.now() - 10000) {
+    if (this.lastEnterTime >= Date.now() - 3000) {
       this.transport = transports.widelySupported;
     } else {
       this.transport = bestAvailableTransport;

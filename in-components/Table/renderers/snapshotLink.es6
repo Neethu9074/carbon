@@ -33,7 +33,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     content: fallbackContent,
     subscription: null,
     comparator: compareIgnoreCase,
-    refreshContent: noop
+    refreshContent: noop,
+    requiresContentRefresh: false
   };
 
   const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);

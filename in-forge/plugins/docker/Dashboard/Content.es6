@@ -10,7 +10,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -40,7 +40,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <DashboardSection title="CPU">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -54,7 +54,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
             type: 'line'
           }}
         />
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -80,7 +80,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         ? <DashboardSection
             title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}
           >
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -94,7 +94,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
                 type: 'line'
               }}
             />
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -112,7 +112,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         : null}
 
       <DashboardSection title="Block IO">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -129,7 +129,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {hasNetworkMetrics(snapshot)
         ? <DashboardSection title="Network">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{

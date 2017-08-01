@@ -78,7 +78,6 @@ const Header = connectTo(
 IncidentContent.propTypes = {
   incident: irpt.map.isRequired,
   snapshot: irpt.map,
-  color: rpt.string,
   events: rpt.array
 };
 

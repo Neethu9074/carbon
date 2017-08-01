@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -112,7 +112,7 @@ function getRowDetails(row) {
   return (
     <div>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{
@@ -128,7 +128,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
       <DashboardSection title="Statistics">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
           margins={{

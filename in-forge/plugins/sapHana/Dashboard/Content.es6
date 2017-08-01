@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 import AlertsTable from './AlertsTable.es6';
 
@@ -20,7 +20,7 @@ export default function Dashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="SAP HANA System Cpu Usage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -35,7 +35,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="SAP HANA System Memory Usage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -50,7 +50,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Disk Usage">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -66,7 +66,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Sessions">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -88,7 +88,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Currently Connected Users and Applications">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -104,7 +104,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -120,7 +120,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Job Worker Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -140,7 +140,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="SQL Executor Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -160,7 +160,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Workload">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
@@ -182,7 +182,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}

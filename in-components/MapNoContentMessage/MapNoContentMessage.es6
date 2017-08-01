@@ -4,13 +4,13 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
-import { timeframe$ } from 'in-stores/timeline';
+import { focusedMoment$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    timeframe: timeframe$,
+    focusedMoment: focusedMoment$,
     query: query$
   },
   class extends React.Component {
@@ -39,6 +39,13 @@ export default connectTo(
     }
 
     componentWillUpdate(nextProps, nextState) {
+      let message = `No data found for the query "*${nextProps.query}*"`;
+      if (nextProps.focusedMoment) {
+        message += ` at the selected moment: *${formatDateTime(nextProps.focusedMoment)}*.`;
+      } else {
+        message += `.`;
+      }
+
       if (!nextState.isContentAvailable) {
         addMessage(
           {
@@ -47,11 +54,7 @@ export default connectTo(
             content: (
               <div
                 dangerouslySetInnerHTML={{
-                  __html: toHtml(
-                    `No data found for the given query "*${nextProps.query}*" at the time from: *${formatDateTime(
-                      (nextProps.timeframe.to || Date.now()) - nextProps.timeframe.windowSize
-                    )}* to: *${nextProps.timeframe.to ? formatDateTime(nextProps.timeframe.to) : 'now'}*.`
-                  )
+                  __html: toHtml(message)
                 }}
               />
             )

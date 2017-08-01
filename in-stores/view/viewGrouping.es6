@@ -55,10 +55,17 @@ export const viewGroupingShort$ = createTrackingStore({
   name: 'view/viewGroupingShort',
   observable: navigationParameters$
     .map(params => {
-      if (params.query.vg in viewGroupings) {
-        return params.query.vg;
-      } else if (params.query.vg && params.query.vg.indexOf('custom-') === 0) {
-        return params.query.vg;
+      const pathname = params.pathname;
+      let grouping = 'vg-i';
+      if (pathname.indexOf('/container') === 0) {
+        grouping = 'vg-c';
+      }
+      const queryGrouping = params.query[grouping];
+
+      if (queryGrouping in viewGroupings) {
+        return queryGrouping;
+      } else if (queryGrouping && queryGrouping.indexOf('custom-') === 0) {
+        return queryGrouping;
       }
       return null;
     })

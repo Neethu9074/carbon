@@ -10,6 +10,7 @@ import {
   kiloBytesTwoDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   msZeroDecimalPlaces,
+  milliSecondsToSecondsTwoDecimalPlace,
   muSecondsToMillisZeroDecimalPlaces,
   muSecondsZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
@@ -173,6 +174,13 @@ describe('in-services.formatter.number', () => {
       expect(time(60345)).to.equal('60,345ms');
     });
 
+    it('should format millis to seconds with two decimal places', () => {
+      expect(milliSecondsToSecondsTwoDecimalPlace(1000)).to.equal('1.00s');
+      expect(milliSecondsToSecondsTwoDecimalPlace(1100)).to.equal('1.10s');
+      expect(milliSecondsToSecondsTwoDecimalPlace(60000)).to.equal('60.00s');
+      expect(milliSecondsToSecondsTwoDecimalPlace(60001)).to.equal('60.00s');
+    });
+
     it('should format millis', () => {
       expect(msZeroDecimalPlaces(1000.34)).to.equal('1,000ms');
     });
@@ -205,6 +213,7 @@ describe('in-services.formatter.number', () => {
     expect(bytesZeroDecimalPlaces(null)).to.equal('0 B');
     expect(kiloBytesTwoDecimalPlaces(null)).to.equal('0 B');
     expect(kiloBytesZeroDecimalPlaces(null)).to.equal('0 B');
+    expect(milliSecondsToSecondsTwoDecimalPlace(null)).to.equal('0.00s');
     expect(msZeroDecimalPlaces(null)).to.equal('0ms');
     expect(muSecondsToMillisZeroDecimalPlaces(null)).to.equal('0ms');
     expect(muSecondsZeroDecimalPlaces(null)).to.equal('0µs');

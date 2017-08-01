@@ -1,8 +1,6 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import createReactClass from 'create-react-class';
-
 import ToggleChangesButton from 'in-views/eventView/components/Incident/PopulationChart/ToggleChangesButton';
 import ExpandChangesButton from 'in-views/eventView/components/Incident/PopulationChart/ExpandChangesButton';
 import { restoreInitialExpandedState } from 'in-views/eventView/stores/populationChartExpandedStore';
@@ -19,40 +17,38 @@ import 'in-views/eventView/components/Incident/PopulationChart/Chart.less';
 const block = 'in-event-view-detail-chart';
 
 export default getElementDimensions(
-  createReactClass({
-    displayName: 'IncidentPopulationChart',
+  class extends React.Component {
+    static displayName = 'IncidentPopulationChart';
 
-    scale: createScale(),
+    scale = createScale();
 
-    propTypes: {
+    static propTypes = {
       incidentId: rpt.string.isRequired,
       width: rpt.number
-    },
+    };
 
-    getInitialState() {
-      return {
-        from: null,
-        to: null
-      };
-    },
+    state = {
+      from: null,
+      to: null
+    };
 
     componentDidMount() {
       this.setupIncidentSubscription();
 
       restoreInitialVisibilityState();
       restoreInitialExpandedState();
-    },
+    }
 
     componentWillUnmount() {
       this.disposeIncidentSubscription();
       this.disposeServertimeSubscription();
-    },
+    }
 
     componentDidUpdate(prevProps) {
       if (prevProps.incidentId !== this.props.incidentId) {
         this.setupIncidentSubscription();
       }
-    },
+    }
 
     render() {
       const scale = this.scale;
@@ -73,7 +69,7 @@ export default getElementDimensions(
           <ExpandChangesButton />
         </div>
       );
-    },
+    }
 
     setupIncidentSubscription() {
       // dispose the old subscription because it's null or uses an old incidentId
@@ -91,20 +87,20 @@ export default getElementDimensions(
           }
         }
       });
-    },
+    }
 
     setupServertimeSubscription() {
       this.disposeServertimeSubscription();
 
       this.servertimeSubscription = serverTime$.subscribe(to => this.setState({ to }));
-    },
+    }
 
     disposeIncidentSubscription() {
       if (this.incidentSubscription) {
         this.incidentSubscription.dispose();
         this.incidentSubscription = null;
       }
-    },
+    }
 
     disposeServertimeSubscription() {
       if (this.servertimeSubscription) {
@@ -112,5 +108,5 @@ export default getElementDimensions(
         this.servertimeSubscription = null;
       }
     }
-  })
+  }
 );

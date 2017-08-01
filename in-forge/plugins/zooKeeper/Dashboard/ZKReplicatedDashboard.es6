@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
@@ -13,7 +13,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
     <div>
       <DashboardSection title="Ticks">
         {localPeerNames.map(peer =>
-          <ChartWithLegend
+          <Chart
             key={peer}
             snapshotId={snapshotId}
             timeframe={timeframe}

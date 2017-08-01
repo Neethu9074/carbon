@@ -3,7 +3,7 @@ import React from 'react';
 import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 const cols = [
@@ -98,7 +98,7 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ChartWithLegend
+      <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         margins={{

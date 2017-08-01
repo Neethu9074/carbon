@@ -1,5 +1,5 @@
+import { issueWarning, issueCritical, issueWarningOpen, issueCriticalOpen } from 'in-components/timeline/icons/icons';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
-import icons from 'in-components/timeline/icons/icons';
 
 const y = 74;
 
@@ -14,9 +14,9 @@ export default function createIssueRenderer(basicEventRenderer) {
       let imageToDraw;
 
       if (basicEventRenderer.eventIsOpen(issue)) {
-        imageToDraw = getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
+        imageToDraw = getImageByIssueType(issue, issueWarningOpen, issueCriticalOpen);
       } else {
-        imageToDraw = getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
+        imageToDraw = getImageByIssueType(issue, issueWarning, issueCritical);
       }
 
       basicEventRenderer.drawImage(imageToDraw, drawConfig.x, y, 14);

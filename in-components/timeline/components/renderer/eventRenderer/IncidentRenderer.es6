@@ -1,4 +1,8 @@
-import icons from 'in-components/timeline/icons/icons';
+import {
+  incident as incidentImage,
+  incidentWarningOpen,
+  incidentCriticalOpen
+} from 'in-components/timeline/icons/icons';
 
 const y = 37;
 
@@ -11,14 +15,14 @@ export default function createIncidentRenderer(basicEventRenderer) {
     const drawConfig = basicEventRenderer.draw(incident, isHighlighted, y);
     if (drawConfig) {
       const severity = incident.getIn(['problem', 'severity'], 0);
-      let imageToDraw = icons.incidentImage;
+      let imageToDraw = incidentImage;
 
       if (basicEventRenderer.eventIsOpen(incident)) {
         if (severity > 0) {
-          imageToDraw = icons.incidentWarningImageColored;
+          imageToDraw = incidentWarningOpen;
         }
         if (severity > 5) {
-          imageToDraw = icons.incidentCriticalImageColored;
+          imageToDraw = incidentCriticalOpen;
         }
       }
 

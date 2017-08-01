@@ -66,7 +66,7 @@ export default class CustomContainerGroupingDialog extends React.Component {
     e.preventDefault();
 
     if (this.state.form.hierarchyValid) {
-      setCurrentViewWithViewGrouping(`custom-${this.state.form.get('path').value}`);
+      setCurrentViewWithViewGrouping('vg-c', `custom-${this.state.form.get('path').value}`);
       close();
     }
   };

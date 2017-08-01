@@ -1,7 +1,7 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
-import { getHistoricMetricsWithLiveUpdates, getPixelAwareRollupSize } from 'in-stores/metric';
+import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -39,7 +39,7 @@ export default connectTo(
         props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
       }
       this.setState({
-        datasource: getHistoricMetricsWithLiveUpdates(props)
+        datasource: getMetricsForTimeframe(props)
       });
     };
 

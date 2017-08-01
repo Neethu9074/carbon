@@ -3,14 +3,14 @@ import React from 'react';
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 
 export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' }) {
   return (
     <div>
       <TwoColumnRow>
-        <DashboardSection title="Calls/s">
-          <ChartWithLegend
+        <DashboardSection title="Views">
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -20,14 +20,15 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               min: 0,
               formatter: twoDecimalPlaces,
               metrics: [metricPrefix + 'count'],
-              labels: ['calls/s'],
-              type: 'line'
+              labels: ['views'],
+              type: 'bar',
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
 
         <DashboardSection title="XHR / AJAX">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -53,7 +54,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </TwoColumnRow>
 
       <DashboardSection title="Uncaught Errors">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -70,7 +71,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </DashboardSection>
 
       <DashboardSection title="Page Load Time">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
@@ -97,7 +98,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       </DashboardSection>
 
       <DashboardSection title="Page Load Breakdown (95th)">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -115,28 +116,17 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
               metricPrefix + 'ssl',
               metricPrefix + 'req',
               metricPrefix + 'rsp',
-              metricPrefix + 'pro',
-              metricPrefix + 'loa'
+              metricPrefix + 'dom',
+              metricPrefix + 'chi'
             ],
-            labels: [
-              'Unload',
-              'Redirect',
-              'AppCache',
-              'DNS',
-              'TCP',
-              'SSL',
-              'Request',
-              'Response',
-              'Processing',
-              'Load'
-            ],
+            labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Time to First Paint (95th)">
-        <ChartWithLegend
+      <DashboardSection title="Paint Timing (95th)">
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -146,7 +136,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: [metricPrefix + 'fp'],
-            labels: ['First paint time'],
+            labels: ['First paint'],
             type: 'line'
           }}
         />

@@ -1,6 +1,5 @@
 /* global process:false */
 import qs from 'qs';
-import { isEqual } from 'lodash';
 
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
@@ -37,12 +36,12 @@ export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
 hashHistory.listen(location => {
+  const pathname = getCurrentPath();
+  ineum('page', pathname);
   ineum('startSpaPageTransition');
-  store.applyStateMutation(() => {
-    return {
-      pathname: getCurrentPath(),
-      query: qs.parse(location.search.replace('?', ''))
-    };
+  store.mutateTo({
+    pathname,
+    query: qs.parse(location.search.replace('?', ''))
   });
   ineum('endSpaPageTransition', {
     url: window.location.href,
@@ -55,14 +54,35 @@ export function mutateUrl(mutator) {
     const newLocation = cloneNavigationParameters(currentLocation);
     mutator(newLocation);
 
-    if (!isEqual(newLocation, currentLocation)) {
-      hashHistory.push(
-        Object.assign(newLocation, {
-          search: qs.stringify(newLocation.query)
-        })
-      );
+    Object.assign(newLocation, {
+      search: qs.stringify(newLocation.query)
+    });
+
+    if (!isEqualLocation(newLocation, currentLocation)) {
+      hashHistory.push(newLocation);
     }
   });
+}
+
+function isEqualLocation(a, b) {
+  if (a.pathname !== b.pathname) {
+    return false;
+  }
+
+  const aKeys = Object.keys(a.query);
+  const bKeys = Object.keys(b.query);
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+
+  for (let i = 0, length = aKeys.length; i < length; i++) {
+    const key = aKeys[i];
+    if (String(a.query[key]) !== String(b.query[key])) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function getModifiedUrlStream(mapParams) {
@@ -229,7 +249,6 @@ export function goToLogicalView() {
 
 export const logicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/logical';
-  delete params.query.vg;
 });
 
 export function goToPhysicalView() {
@@ -241,16 +260,14 @@ export function goToPhysicalView() {
 
 export const physicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/physical';
-  delete params.query.vg;
 });
 
-export const eumViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/eum';
+export const websiteViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/website';
 });
 
 export const containerViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/container';
-  delete params.query.vg;
 });
 
 export function goToRootOfView() {
@@ -270,7 +287,11 @@ export function goToGraph() {
 export function getEventsViewFilteredByEntity(entityId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/events';
-    params.query.q += ` entity.id:${entityId}`;
+    if (params.query.q) {
+      params.query.q += ` entity.id:${entityId}`;
+    } else {
+      params.query.q = `entity.id:${entityId}`;
+    }
   });
 }
 

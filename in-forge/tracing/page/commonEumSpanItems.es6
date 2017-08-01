@@ -5,7 +5,12 @@ import { DescriptionItem } from 'in-components/DescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export function getCommonDescriptionItems(span) {
+  const geo = span.getIn(['data', 'page', 'geo']);
   return [
+    <DescriptionItem title="Page" key="page">
+      {span.getIn(['data', 'page', 'page'])}
+    </DescriptionItem>,
+
     <DescriptionItem title="Platform" key="platform">
       {span.getIn(['data', 'page', 'platform'])}
     </DescriptionItem>,
@@ -26,9 +31,11 @@ export function getCommonDescriptionItems(span) {
       {span.getIn(['data', 'page', 'ip'])}
     </DescriptionItem>,
 
-    <DescriptionItem title="Location" key="location">
-      <GeoLocation geo={span.getIn(['data', 'page', 'geo'])} />
-    </DescriptionItem>,
+    geo
+      ? <DescriptionItem title="Location" key="location">
+          <GeoLocation geo={geo} />
+        </DescriptionItem>
+      : null,
 
     getMetaData(span)
   ];

@@ -2,10 +2,10 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -89,7 +89,7 @@ function formatMax(bytes) {
 
 function getDetails(row) {
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
       margins={{

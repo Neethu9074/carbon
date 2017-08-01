@@ -22,7 +22,7 @@ export function validate(col) {
   );
   invariant(
     typeof col.typeArgs.getTimeWindowAggregation === 'function',
-    'Columns with type=sparkChart must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
+    'Columns with type=sparkChart must have a getTimeWindowAggregation(row) => mean|sum|max function'
   );
 }
 
@@ -51,6 +51,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
   }).subscribe(v => {
     column.value = v;
+    column.requiresContentRefresh = true;
     row.mutationCount++;
     emitRawDataChange();
   });

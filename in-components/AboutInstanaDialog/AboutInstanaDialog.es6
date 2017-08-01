@@ -15,7 +15,7 @@ export default function AboutInstanaDialog() {
       <div className={block}>
         <Lettering className={`${block}__lettering`} />
         <span>
-          {build.tag ? build.tag : '67357182903'}
+          {build.tag}
         </span>
         <span className={`${block}__revision`}>
           {build.revision}

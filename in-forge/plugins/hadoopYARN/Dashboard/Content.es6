@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 import NodesTable from './NodesTable';
@@ -13,7 +13,7 @@ export default function Dashboard({ snapshot, timeframe }) {
   return (
     <div>
       <DashboardSection title="Cluster Nodes">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -29,7 +29,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       </DashboardSection>
       <TwoColumnRow>
         <DashboardSection title="Apps">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -44,7 +44,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Cluster Containers">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -61,7 +61,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       </TwoColumnRow>
       <TwoColumnRow>
         <DashboardSection title="Cluster Memory">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
@@ -77,7 +77,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <DashboardSection title="Cluster Virtual Cores">
-          <ChartWithLegend
+          <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{

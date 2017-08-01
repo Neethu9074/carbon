@@ -1,0 +1,6 @@
+{
+  "name": "EumChart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EumChart.es6"
+}

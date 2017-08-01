@@ -11,7 +11,7 @@
   word-break: normal;
 
   z-index: @z-index__tooltips;
-  background: @map__tooltips__background;
+  background: #203036;
 
   &::before {
     position: absolute;
@@ -26,11 +26,7 @@
       margin-top: 5px;
       margin-left: -17px;
 
-      border-color:
-        @map__tooltips__background
-        @map__tooltips__background
-        transparent
-        transparent;
+      border-color: #203036 #203036 transparent transparent;
     }
   }
 
@@ -39,11 +35,7 @@
       &::before {
         bottom: -8px;
 
-        border-color:
-        @map__tooltips__background
-        transparent
-        transparent
-        @map__tooltips__background;
+        border-color: #203036 transparent transparent #203036;
       }
     }
 
@@ -52,11 +44,7 @@
         bottom: -8px;
         margin-left: ~'calc(100% - 34px)';
 
-        border-color:
-        @map__tooltips__background
-        @map__tooltips__background
-        transparent
-        transparent;
+        border-color: #203036 #203036 transparent transparent;
       }
     }
   }

@@ -118,7 +118,7 @@ export default connectTo(
             <div className={`${block}__content-wrapper`}>
               <div className={`${block}__header`} onClick={this.toggleDetails}>
                 <CategoryIcon category={category} className={`${block}__category-icon`} />
-                {kind !== SPAN_KINDS.EXIT && shouldShowSelfTime(span)
+                {(kind !== SPAN_KINDS.EXIT || (batchSize > 1 && selfTime !== totalTime)) && shouldShowSelfTime(span)
                   ? [
                       <div key="0">
                         <span className={`${block}__self-time-label`}>Self: </span>

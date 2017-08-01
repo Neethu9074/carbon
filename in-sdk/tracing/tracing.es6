@@ -42,6 +42,10 @@ export function getType(span) {
 }
 
 export function getLabel(span) {
+  const label = span.get('label');
+  if (label) {
+    return label;
+  }
   return getSpanDefinition(span.get('name'), span).getLabel(span) || 'Unknown';
 }
 

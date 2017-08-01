@@ -3,7 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -25,7 +25,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Client">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -44,7 +44,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Cache">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -69,7 +69,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Cached objects">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -85,7 +85,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Threads">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -116,7 +116,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Backend">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
@@ -141,7 +141,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       {hasMse
         ? <DashboardSection title="MSE">
-            <ChartWithLegend
+            <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{

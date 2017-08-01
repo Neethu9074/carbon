@@ -33,6 +33,7 @@ import './genericZone';
 import './glassfishApplicationContainer';
 import './golangRuntimePlatform';
 import './hadoopYARN';
+import './hadoopYARNNode';
 import './hAProxy';
 import './hBase';
 import './host';

@@ -8,7 +8,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -49,7 +49,7 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="GC Activity">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -72,7 +72,7 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DashboardSection title="Handles &amp; Requests">
-        <ChartWithLegend
+        <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
@@ -100,7 +100,7 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
 function renderGcMetrics(snapshot, timeframe) {
   if (snapshot.getIn(['data', 'gc.statsSupported'])) {
     return (
-      <ChartWithLegend
+      <Chart
         snapshotId={snapshot.get('id')}
         timeframe={timeframe}
         margins={{
@@ -126,7 +126,7 @@ function renderGcMetrics(snapshot, timeframe) {
   }
 
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
@@ -147,7 +147,7 @@ function renderGcMetrics(snapshot, timeframe) {
 function renderEventLoopMetrics(snapshot, timeframe) {
   if (snapshot.getIn(['data', 'libuv.statsSupported'])) {
     return (
-      <ChartWithLegend
+      <Chart
         snapshotId={snapshot.get('id')}
         timeframe={timeframe}
         margins={{
@@ -173,7 +173,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
   }
 
   return (
-    <ChartWithLegend
+    <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
       margins={{
