@@ -82,7 +82,7 @@ export default connectTo(
                     metric={metric}
                     time={props.time}
                     formatter={axis.formatter}
-                    initialValue="–"
+                    initialValue="––"
                     timeWindowAggregation={axis.aggregation ? axis.aggregation : null}
                   />
                 </dd>
