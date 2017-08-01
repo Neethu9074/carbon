@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { setWindowTitleFromRoute } from 'in-services/title';
+import { addRoute, removeRoute } from 'in-stores/navigation/routes';
 import { Route } from 'react-router-dom';
 import config from 'in-services/config';
 
@@ -17,10 +18,15 @@ export default class RouteWithTitle extends React.Component {
 
   componentDidMount() {
     this.setWindowTitle();
+    addRoute(this);
   }
 
   componentDidUpdate() {
     this.setWindowTitle();
+  }
+
+  componentWillUnmount() {
+    removeRoute(this);
   }
 
   setWindowTitle() {
