@@ -35,29 +35,31 @@ export default function WebsiteRow({ snapshot, data }) {
           </div>
           <WebsiteIssueButton snapshotId={snapshot.get('id')} />
         </div>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: ['count'],
-            labels: ['views'],
-            type: 'bar',
-            aggregation: 'sum',
-            minPixelPerBlock: 5,
-            maxDataPoints: 100
-          }}
-          y2={{
-            min: 0,
-            formatter: twoDecimalPlaces,
-            metrics: ['duration.mean'],
-            labels: ['load time'],
-            type: 'discreteLine',
-            aggregation: 'mean',
-            minPixelPerBlock: 5,
-            maxDataPoints: 100
-          }}
-        />
+        {data.pageLoad
+          ? <Chart
+              snapshotId={snapshot.get('id')}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['count'],
+                labels: ['views'],
+                type: 'bar',
+                aggregation: 'sum',
+                minPixelPerBlock: 5,
+                maxDataPoints: 100
+              }}
+              y2={{
+                min: 0,
+                formatter: twoDecimalPlaces,
+                metrics: ['duration.mean'],
+                labels: ['load time'],
+                type: 'discreteLine',
+                aggregation: 'mean',
+                minPixelPerBlock: 5,
+                maxDataPoints: 100
+              }}
+            />
+          : <NoDataMessage />}
       </div>
     </div>
   );
@@ -87,5 +89,13 @@ function Kpi({ metricName, metricData, classNameAppendix }) {
         {metricData ? metricData : '--'}
       </span>
     </div>
+  );
+}
+
+function NoDataMessage() {
+  return (
+    <h2 className={`${block}__no-data-message`}>
+      No data points whithin timeframe
+    </h2>
   );
 }
