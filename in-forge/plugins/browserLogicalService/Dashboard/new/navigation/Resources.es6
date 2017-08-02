@@ -35,7 +35,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function PageResourcesAndConnections({ outgoingConnections, timeframe }) {
+  function Resources({ outgoingConnections, timeframe }) {
     if (!outgoingConnections || outgoingConnections.length === 0) {
       return null;
     }

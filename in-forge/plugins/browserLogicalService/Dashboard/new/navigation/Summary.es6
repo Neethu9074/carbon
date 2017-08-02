@@ -1,16 +1,13 @@
 import React from 'react';
 
-import PageResourcesAndConnections from 'in-forge/plugins/browserLogicalService/Dashboard/PageResourcesAndConnections';
+import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageCharts';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import EndpointsTable from 'in-forge/plugins/browserLogicalService/Dashboard/EndpointsTable';
 import { msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorTable';
-import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) {
+export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -49,11 +46,7 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
           />
         </KpiKeyValue>
       </KpiSection>
-
       <PageCharts snapshotId={snapshotId} timeframe={timeframe} />
-      <EndpointsTable snapshot={snapshot} timeframe={timeframe} />
-      <ErrorTable snapshotId={snapshotId} timeframe={timeframe} websiteLabel={getLabel(snapshot)} />
-      <PageResourcesAndConnections snapshotId={snapshotId} timeframe={timeframe} />
     </div>
   );
 }

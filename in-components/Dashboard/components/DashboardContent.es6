@@ -70,7 +70,7 @@ export default connectTo(
     const plugin = snapshot.get('plugin');
     if (isNewDashboard(plugin)) {
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
-      return <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />;
+      return <Jail component={DashboardImpl} props={{ snapshot, snapshotId, timeframe }} />;
     }
 
     const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorBreakdownTable';
+import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorBreakdownTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
@@ -9,6 +9,7 @@ import { getErrorsForWebsite } from 'in-services/api/eumErrors';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { createLogger } from 'instalog';
 
@@ -75,12 +76,13 @@ export default connectTo(
       )
     };
   },
-  function ErrorTable({ result, snapshotId, timeframe, websiteLabel, pageHash, pageLabel }) {
-    // TODO show message when timeframe extends beyond our trace storage time
-
+  function Errors({ result, snapshot, snapshotId, timeframe, pageHash, pageLabel }) {
     if (!result) {
       return null;
     }
+    const websiteLabel = getLabel(snapshot);
+
+    // TODO show message when timeframe extends beyond our trace storage time
 
     if (result.error) {
       logger.warn('Failed to retrieve EUM error overview', result.error);
