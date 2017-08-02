@@ -77,8 +77,8 @@ function TimeMarker({ time, axis }) {
     );
   }
 
-  const from = time - axis.dynamicCalculatedBlockSizeMillis / 2;
-  const to = time + axis.dynamicCalculatedBlockSizeMillis / 2;
+  const from = time - axis.dynamicCalculatedBlockSizeMillis;
+  const to = time;
   const oneDay = 1000 * 60 * 60 * 24;
   const formatter = to - from >= oneDay ? formatDateTime : formatTime;
 
