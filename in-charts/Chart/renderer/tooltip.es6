@@ -118,7 +118,7 @@ export default function createTooltipRenderer(config) {
 
     let maxDistanceBetweenDataPoints = 2.3 * (config.rollup.rollup || 1000);
     if (config[axis] && config[axis].dynamicCalculatedBlockSizeMillis) {
-      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis / 2;
+      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis;
     }
     return Math.abs(dataPoint.time - highlightedMoment) <= maxDistanceBetweenDataPoints ? dataPoint : null;
   }
