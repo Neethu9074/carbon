@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { setWindowTitleFromRoute } from 'in-services/title';
 import { addRoute, removeRoute } from 'in-stores/navigation/routes';
+import { setWindowTitleFromRoute } from 'in-services/title';
 import { Route } from 'react-router-dom';
 import config from 'in-services/config';
 

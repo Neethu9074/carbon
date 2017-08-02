@@ -1,6 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Link from 'in-components/Link';
 
 import './NavigationTabs.less';
@@ -12,12 +13,15 @@ export default function NavigationTabs({ navigationStructure, navigationParams }
     <div className={block}>
       <ul className={`${block}__container`}>
         {navigationStructure.map(nav => {
-          const activeClassName = isActive(navigationParams, nav.path) ? `${block}__link__active` : '';
+          const linkElement = `${block}__link`;
           return (
             <li className={`${block}__nav-elements`} key={`link_${nav.path}`}>
               <Link
                 href={getNavigationPath(nav.path, navigationParams)}
-                className={`${block}__link ${activeClassName}`}
+                className={evaluateClassNames({
+                  [linkElement]: true,
+                  [`${linkElement}--active`]: isActive(navigationParams, nav.path)
+                })}
               >
                 {nav.label}
               </Link>
