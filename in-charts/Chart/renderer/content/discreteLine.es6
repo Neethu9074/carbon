@@ -13,6 +13,10 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
 
   function render(dataColumns) {
     const activeSeries = config.activeSeries[axisName];
+    const blockSizeMillis = config[axisName].dynamicCalculatedBlockSizeMillis || 1000;
+    // translates blockSizeMillis to pixelwidth
+    const width = x.getRange(x.getDomainTo()) - x.getRange(x.getDomainTo() - blockSizeMillis);
+
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
       if (activeSeries[seriesIndex] === false) {
         continue;
@@ -34,7 +38,7 @@ export default function createDiscreteLineContentRenderer({ axisName, config }) 
           continue;
         }
 
-        const xToRender = x.getRange(dataRow[0]);
+        const xToRender = x.getRange(dataRow[0]) - width / 2;
         const yToRender = y.getRange(dataRow[1]);
 
         pointsToRender.push({
