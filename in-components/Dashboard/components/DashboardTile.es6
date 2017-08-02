@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Button from 'in-components/Button';
 
 import './DashboardTile.less';
@@ -8,7 +9,12 @@ const block = 'in-dashboard-tile';
 
 export default function DashboardTile({ children, title, detailsLink }) {
   return (
-    <div className={block}>
+    <div
+      className={evaluateClassNames({
+        [block]: true,
+        [`${block}--with-details`]: detailsLink
+      })}
+    >
       <div className={`${block}__header`}>
         {title}
         <ViewDetailsButton href={detailsLink} />
