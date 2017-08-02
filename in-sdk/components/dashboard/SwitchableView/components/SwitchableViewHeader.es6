@@ -1,8 +1,6 @@
 import React from 'react';
-import invariant from 'invariant';
 
 import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
-import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { translateContext } from 'in-services/breadcrumbs';
 import SvgIcon from 'in-components/SvgIcon';
@@ -12,7 +10,7 @@ const block = 'in-switchable-view-header';
 const container = `${block}__container`;
 const chevron = `${block}__chevron`;
 
-export default function SwitchableViewHeader({ snapshot, navigationParams }) {
+export default function SwitchableViewHeader({ snapshot, navigationParams, navigation }) {
   if (!snapshot) {
     return (
       <header className={block}>
@@ -27,12 +25,9 @@ export default function SwitchableViewHeader({ snapshot, navigationParams }) {
     );
   }
 
-  const context = getSnapshotDefinition(snapshot.get('plugin')).context;
-  if (__DEV__) {
-    invariant(Array.isArray(context), 'context must be defined in plugin index and it must be an array');
-    invariant(context.length > 0, 'context array must contain at least one element');
-  }
-  const translatedContext = translateContext(context, snapshot);
+  const currentPathName = navigationParams.pathname;
+
+  const translatedContext = translateContext(navigation, currentPathName, snapshot);
 
   const breadcrumbs = translatedContext
     .map(ctx => {

@@ -3,7 +3,6 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
-import { getLabel } from 'in-sdk/snapshot';
 import { addMapping } from 'in-sdk/kpi';
 import iconSvgPath from './iconPath';
 
@@ -18,17 +17,6 @@ registerSnapshotDefinition({
     singular: 'Website',
     plural: 'Websites'
   },
-
-  context: [
-    {
-      label: 'Websites',
-      path: '/website'
-    },
-    {
-      label: getLabel,
-      path: '/website/dashboard'
-    }
-  ],
 
   chartWiggleRoom: 20000
 });

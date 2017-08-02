@@ -9,7 +9,7 @@ export default function NavigationRoutes(props) {
     <Switch>
       {//it is important to not have a route like '/' on top as this would match in any case
       //therefor sort the routes
-      navigationStructure
+      navigationStructure.tabs
         .slice(0)
         .sort(sortStructure)
         .map(nav =>

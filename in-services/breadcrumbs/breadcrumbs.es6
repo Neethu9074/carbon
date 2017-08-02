@@ -2,21 +2,31 @@ import React from 'react';
 
 import PluginIcon from 'in-components/PluginIcon';
 
-export function translateContext(context, snapshot) {
-  return context.map(ctx => {
-    const path = ctx.path;
-    let label = ctx.label;
+export function translateContext(navigation, currentPathname, snapshot) {
+  const result = [];
+
+  for (const key of Object.keys(navigation)) {
+    const nav = navigation[key];
+
+    let label = nav.label;
     let icon = null;
 
-    if (typeof ctx.label === 'function') {
-      label = ctx.label(snapshot);
+    if (typeof nav.label === 'function') {
+      label = nav.label(snapshot);
       icon = <PluginIcon snapshot={snapshot} />;
     }
 
-    return {
-      label: label,
-      path: path,
-      icon: icon
-    };
-  });
+    result.push({
+      path: key,
+      label,
+      icon
+    });
+
+    //only take those into account until we are at the current navigation point
+    if (key === currentPathname) {
+      break;
+    }
+  }
+
+  return result;
 }

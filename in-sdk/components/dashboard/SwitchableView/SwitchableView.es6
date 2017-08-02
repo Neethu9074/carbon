@@ -20,28 +20,50 @@ export default connectTo(
       return null;
     }
 
+    const currentNavigation = navigation[navigationParams.pathname];
+
     if (__DEV__) {
-      invariant(Array.isArray(navigation), 'navigation structure must be an array');
-      invariant(navigation.length > 0, 'navigation structure may not be empty');
-      navigation.forEach(nav => {
+      invariant(typeof navigation === 'object', 'navigation structure must be an object');
+      invariant(Object.keys(navigation).length > 0, 'navigation structure may not be empty');
+      Object.keys(navigation).forEach(key => {
+        const nav = navigation[key];
         invariant(typeof nav === 'object', 'navigation content must be of type object');
         invariant(nav.label != null, 'label must be set');
-        invariant(nav.path != null, 'path must be set');
-        invariant(nav.component != null, 'component must be set');
+        invariant(
+          typeof nav.label === 'string' || typeof nav.label === 'function',
+          'label must be either a string or a function'
+        );
 
-        invariant(typeof nav.label === 'string', 'label must be a string');
-        invariant(typeof nav.path === 'string', 'path must be a string');
-        invariant(typeof nav.component === 'function', 'component must be a react component');
+        if (nav.tabs != null) {
+          invariant(Array.isArray(nav.tabs), 'navigation tab structure must be an array');
+          nav.tabs.forEach(tab => {
+            invariant(tab.path != null, 'path must be set');
+            invariant(tab.component != null, 'component must be set');
+
+            invariant(typeof tab.path === 'string', 'path must be a string');
+            invariant(typeof tab.component === 'function', 'component must be a react component');
+          });
+        }
+
+        invariant(
+          currentNavigation != null,
+          `The current path ${navigationParams.pathname} does not match to any given tab configuration.`
+        );
       });
+    }
+
+    //we didn't find any matches for the current path
+    if (currentNavigation == null) {
+      return null;
     }
 
     return (
       <div className={block}>
-        <SwitchableViewHeader snapshot={snapshot} navigationParams={navigationParams} />
+        <SwitchableViewHeader snapshot={snapshot} navigationParams={navigationParams} navigation={navigation} />
 
-        <NavigationTabs navigationParams={navigationParams} navigationStructure={navigation} />
+        <NavigationTabs navigationParams={navigationParams} navigation={currentNavigation} />
         <div className={`${block}__content`}>
-          <NavigationRoutes navigationStructure={navigation} {...props} />
+          <NavigationRoutes navigationStructure={currentNavigation} {...props} />
         </div>
       </div>
     );
