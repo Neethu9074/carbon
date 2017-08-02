@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getFullNavigationPath } from 'in-stores/navigation';
+import { getPartialNavigationPath } from 'in-stores/navigation';
 import Link from 'in-components/Link';
 
 import './Breadcrumb.less';
@@ -14,7 +14,7 @@ export default function Breadcrumb({ config, isActive, navigationParams }) {
 
   return (
     <Link
-      href={getFullNavigationPath(path, navigationParams)}
+      href={getPartialNavigationPath(path, navigationParams)}
       className={evaluateClassNames({
         [block]: true,
         [`${block}__active`]: isActive

@@ -168,6 +168,10 @@ export function getFullNavigationPath(subPath, navigationParams) {
   return path;
 }
 
+export function getPartialNavigationPath(subPath, navigationParams) {
+  return `#${subPath}?${qs.stringify(navigationParams.query)}`;
+}
+
 export function goHome() {
   mutateUrl(navParams => {
     navParams.pathname = PATH_NAMES.HOME;
