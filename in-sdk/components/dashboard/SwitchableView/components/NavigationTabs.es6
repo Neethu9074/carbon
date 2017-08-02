@@ -1,7 +1,7 @@
 import React from 'react';
-import qs from 'qs';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { getFullNavigationPath } from 'in-stores/navigation';
 import Link from 'in-components/Link';
 
 import './NavigationTabs.less';
@@ -17,7 +17,7 @@ export default function NavigationTabs({ navigationStructure, navigationParams }
           return (
             <li className={`${block}__nav-elements`} key={`link_${nav.path}`}>
               <Link
-                href={getNavigationPath(nav.path, navigationParams)}
+                href={getFullNavigationPath(nav.path, navigationParams)}
                 className={evaluateClassNames({
                   [linkElement]: true,
                   [`${linkElement}--active`]: isActive(navigationParams, nav.path)
@@ -41,13 +41,4 @@ function isActive(navigationParams, path) {
     currentPath = '/';
   }
   return currentPath === path;
-}
-
-function getNavigationPath(subPath, navigationParams) {
-  let path = '#';
-  const dashboard = 'dashboard';
-  path += navigationParams.pathname.substring(0, navigationParams.pathname.indexOf(dashboard) + dashboard.length);
-  path += subPath;
-  path += `?${qs.stringify(navigationParams.query)}`;
-  return path;
 }

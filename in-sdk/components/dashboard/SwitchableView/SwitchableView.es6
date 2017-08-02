@@ -37,7 +37,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <SwitchableViewHeader snapshot={snapshot} />
+        <SwitchableViewHeader snapshot={snapshot} navigationParams={navigationParams} />
 
         <NavigationTabs navigationParams={navigationParams} navigationStructure={navigation} />
         <div className={`${block}__content`}>

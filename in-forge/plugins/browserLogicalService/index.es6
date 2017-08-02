@@ -19,7 +19,16 @@ registerSnapshotDefinition({
     plural: 'Websites'
   },
 
-  context: ['Websites', getLabel],
+  context: [
+    {
+      label: 'Websites',
+      path: '/website'
+    },
+    {
+      label: getLabel,
+      path: '/website/dashboard'
+    }
+  ],
 
   chartWiggleRoom: 20000
 });
