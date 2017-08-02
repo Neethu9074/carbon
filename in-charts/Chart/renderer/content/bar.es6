@@ -25,7 +25,10 @@ export default function createBarContentRenderer({ axisName, config }) {
 
       const time = dataColumn.time;
       const chartHeight = y.getRangeFrom();
-      const xPos = x.getRange(time) - width / 2 + margin;
+
+      // the timestamp of each block is placed at the end
+      const xPos = x.getRange(time) - width + margin;
+
       let yPos = y.getRangeFrom();
 
       for (let iRows = 0, length = dataColumn.length; iRows < length; iRows++) {
