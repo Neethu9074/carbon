@@ -15,7 +15,7 @@ export default connectTo(
     navigationParams: navigationParameters$
   },
   function SwitchableView(props) {
-    const { navigation, navigationParams } = props;
+    const { navigation, navigationParams, snapshot } = props;
     if (navigationParams == null) {
       return null;
     }
@@ -37,7 +37,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <SwitchableViewHeader navigationParams={navigationParams} />
+        <SwitchableViewHeader snapshot={snapshot} />
 
         <NavigationTabs navigationParams={navigationParams} navigationStructure={navigation} />
         <div className={`${block}__content`}>
