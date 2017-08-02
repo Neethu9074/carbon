@@ -9,6 +9,10 @@ import './NavigationTabs.less';
 const block = 'in-navigation-tabs';
 
 export default function NavigationTabs({ navigation, navigationParams }) {
+  if (navigation.tabs == null) {
+    return null;
+  }
+
   return (
     <div className={block}>
       <ul className={`${block}__container`}>
