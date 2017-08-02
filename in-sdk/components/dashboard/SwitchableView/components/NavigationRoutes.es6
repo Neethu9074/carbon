@@ -17,11 +17,20 @@ export default function NavigationRoutes(props) {
             key={`route_${nav.path}`}
             path={`*/dashboard${nav.path}`}
             component={nav.component}
+            wrapper={View}
             windowTitle={nav.label}
             {...props}
           />
         )}
     </Switch>
+  );
+}
+
+function View({ children }) {
+  return (
+    <div style={{ padding: '1rem' }}>
+      {children}
+    </div>
   );
 }
 

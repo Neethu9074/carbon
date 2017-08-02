@@ -10,7 +10,16 @@ export default class RouteWithTitle extends React.Component {
       <Route
         path={this.props.path}
         windowTitle={this.props.windowTitle}
-        render={routeProps => <this.props.component {...routeProps} {...this.props} />}
+        render={routeProps => {
+          if (this.props.wrapper) {
+            return (
+              <this.props.wrapper>
+                <this.props.component {...routeProps} {...this.props} />
+              </this.props.wrapper>
+            );
+          }
+          return <this.props.component {...routeProps} {...this.props} />;
+        }}
       />
     );
   }
