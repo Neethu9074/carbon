@@ -2,7 +2,7 @@ import React from 'react';
 
 import PluginIcon from 'in-components/PluginIcon';
 
-export function translateContext(navigation, currentPathname, snapshot) {
+export function translateBreadcrumbStructure(navigation, currentPathname, snapshot) {
   const result = [];
 
   for (const key of Object.keys(navigation)) {

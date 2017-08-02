@@ -2,7 +2,7 @@ import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { translateContext } from 'in-services/breadcrumbs';
+import { translateBreadcrumbStructure } from 'in-services/breadcrumbs';
 import SvgIcon from 'in-components/SvgIcon';
 import './SwitchableViewHeader.less';
 
@@ -27,11 +27,18 @@ export default function SwitchableViewHeader({ snapshot, navigationParams, navig
 
   const currentPathName = navigationParams.pathname;
 
-  const translatedContext = translateContext(navigation, currentPathName, snapshot);
+  const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
 
-  const breadcrumbs = translatedContext
-    .map(ctx => {
-      return <Breadcrumb key={ctx.path} context={ctx} navigationParams={navigationParams} />;
+  const breadcrumbs = translatedBreadcrumbStructure
+    .map(config => {
+      return (
+        <Breadcrumb
+          key={config.path}
+          config={config}
+          isActive={currentPathName === config.path}
+          navigationParams={navigationParams}
+        />
+      );
     })
     .reduce((prev, curr) => [
       prev,
