@@ -19,15 +19,13 @@ export default connectTo(
       return null;
     }
 
-    const pathName = navigationParams.pathname;
-
     const crumbs = breadcrumbs
-      .map(config => {
+      .map((config, index) => {
         return (
           <Breadcrumb
             key={config.path}
             config={config}
-            isActive={pathName === config.path}
+            isActive={index === breadcrumbs.length - 1}
             navigationParams={navigationParams}
           />
         );
