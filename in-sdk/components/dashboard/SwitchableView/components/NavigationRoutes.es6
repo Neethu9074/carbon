@@ -6,15 +6,11 @@ import { Switch } from 'react-router-dom';
 export default function NavigationRoutes(props) {
   const { navigationStructure } = props;
 
-  if (navigationStructure.tabs == null) {
-    return null;
-  }
-
   return (
     <Switch>
       {//it is important to not have a route like '/' on top as this would match in any case
       //therefor sort the routes
-      navigationStructure.tabs
+      navigationStructure
         .slice(0)
         .sort(sortStructure)
         .map(nav =>

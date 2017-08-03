@@ -1,16 +1,16 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
+// import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { translateBreadcrumbStructure } from 'in-services/breadcrumbs';
-import SvgIcon from 'in-components/SvgIcon';
+// import { translateBreadcrumbStructure } from 'in-services/breadcrumbs';
+// import SvgIcon from 'in-components/SvgIcon';
 import './SwitchableViewHeader.less';
 
 const block = 'in-switchable-view-header';
 const container = `${block}__container`;
-const chevron = `${block}__chevron`;
+//const chevron = `${block}__chevron`;
 
-export default function SwitchableViewHeader({ snapshot, navigationParams, navigation }) {
+export default function SwitchableViewHeader({ snapshot /*, navigationParams, navigation*/ }) {
   if (!snapshot) {
     return (
       <header className={block}>
@@ -25,10 +25,10 @@ export default function SwitchableViewHeader({ snapshot, navigationParams, navig
     );
   }
 
-  const currentPathName = navigationParams.pathname;
+  // const currentPathName = navigationParams.pathname;
 
-  const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
-
+  // const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
+  /*
   const breadcrumbs = translatedBreadcrumbStructure
     .map(config => {
       return (
@@ -45,11 +45,11 @@ export default function SwitchableViewHeader({ snapshot, navigationParams, navig
       <span className={chevron}><SvgIcon type="chevron_right" height={9} color="#E2E9EC" /></span>,
       curr
     ]);
-
+*/
   return (
     <header className={block}>
       <div className={container}>
-        {breadcrumbs}
+        NONE
       </div>
     </header>
   );
