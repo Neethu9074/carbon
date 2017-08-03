@@ -29,6 +29,7 @@ import './g.http';
 import './g.rpc';
 import './gcd';
 import './gcs';
+import './grizzly';
 import './hc';
 import './hibernate';
 import './hornetq';
