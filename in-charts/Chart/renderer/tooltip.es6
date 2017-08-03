@@ -89,7 +89,13 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
-    const x = config.scales.x.getRange(time);
+    let x;
+    if (config.y1.isDynamicAggregated) {
+      x = config.scales.x.getRange(time - config.y1.dynamicCalculatedBlockSizeMillis / 2);
+    } else {
+      x = config.scales.x.getRange(time);
+    }
+
     if (x < config.scales.x.getRangeFrom()) {
       config.dom.tooltipLine.style.display = 'none';
       config.dom.tooltipContainer.style.display = 'none';
@@ -118,7 +124,7 @@ export default function createTooltipRenderer(config) {
 
     let maxDistanceBetweenDataPoints = 2.3 * (config.rollup.rollup || 1000);
     if (config[axis] && config[axis].dynamicCalculatedBlockSizeMillis) {
-      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis / 2;
+      maxDistanceBetweenDataPoints = config[axis].dynamicCalculatedBlockSizeMillis;
     }
     return Math.abs(dataPoint.time - highlightedMoment) <= maxDistanceBetweenDataPoints ? dataPoint : null;
   }
@@ -133,6 +139,7 @@ export default function createTooltipRenderer(config) {
       return column;
     });
 
+    const offset = config[axisName].isDynamicAggregated ? config[axisName].dynamicCalculatedBlockSizeMillis / 2 : 0;
     const prev = data[i - 1];
     const current = data[i];
     if (!prev) {
@@ -141,7 +148,7 @@ export default function createTooltipRenderer(config) {
     if (!current) {
       return null;
     }
-    if (Math.abs(current.time - searchFor) < Math.abs(prev.time - searchFor)) {
+    if (Math.abs(current.time - offset - searchFor) < Math.abs(prev.time - offset - searchFor)) {
       return current;
     }
     return prev;
