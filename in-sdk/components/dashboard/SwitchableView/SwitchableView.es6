@@ -2,7 +2,9 @@ import React from 'react';
 
 import SwitchableViewHeader from 'in-sdk/components/dashboard/SwitchableView/components/SwitchableViewHeader';
 import NavigationRoutes from 'in-sdk/components/dashboard/SwitchableView/components/NavigationRoutes';
+import BreadcrumbHelmet from 'in-sdk/components/dashboard/SwitchableView/components/BreadcrumbHelmet';
 import NavigationTabs from 'in-sdk/components/dashboard/SwitchableView/components/NavigationTabs';
+import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { navigationParameters$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import invariant from 'invariant';
@@ -22,6 +24,7 @@ export default connectTo(
 
     if (__DEV__) {
       invariant(Array.isArray(navigation), 'navigation structure must be an array');
+      invariant(typeof snapshot === 'object', 'snapshot must be defined');
       invariant(navigation.length > 0, 'navigation structure may not be empty');
       navigation.forEach(nav => {
         invariant(typeof nav === 'object', 'navigation content must be of type object');
@@ -35,10 +38,28 @@ export default connectTo(
       });
     }
 
+    const snapshotDefinition = getSnapshotDefinition(snapshot.get('plugin'));
+    const pluginContext = snapshotDefinition.pluginContext;
+    if (__DEV__) {
+      const pluginContextError =
+        'a plugincontext must be defined in the index of the dashboard. it must be an object containing a label and the path as attributes';
+      invariant(pluginContext != null, `plugin context is null, ${pluginContextError}`);
+      invariant(typeof pluginContext === 'object', `plugin context is not an object, ${pluginContextError}`);
+      invariant(
+        pluginContext.label != null || typeof pluginContext.label === 'string',
+        `label is null or not a string, ${pluginContextError}`
+      );
+      invariant(
+        pluginContext.path != null || typeof pluginContext.path === 'string',
+        `path is null or not a string, ${pluginContextError}`
+      );
+    }
+
     return (
       <div className={block}>
         <SwitchableViewHeader snapshot={snapshot} navigationParams={navigationParams} navigation={navigation} />
 
+        <BreadcrumbHelmet context={pluginContext} />
         <NavigationTabs navigationParams={navigationParams} navigation={navigation} />
         <div className={`${block}__content`}>
           <NavigationRoutes navigationStructure={navigation} {...props} />

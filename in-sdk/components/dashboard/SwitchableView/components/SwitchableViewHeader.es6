@@ -2,6 +2,8 @@ import React from 'react';
 
 // import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { breadcrumbs$ } from 'in-stores/breadcrumb';
+import connectTo from 'in-hoc/connectTo';
 // import { translateBreadcrumbStructure } from 'in-services/breadcrumbs';
 // import SvgIcon from 'in-components/SvgIcon';
 import './SwitchableViewHeader.less';
@@ -10,25 +12,30 @@ const block = 'in-switchable-view-header';
 const container = `${block}__container`;
 //const chevron = `${block}__chevron`;
 
-export default function SwitchableViewHeader({ snapshot /*, navigationParams, navigation*/ }) {
-  if (!snapshot) {
-    return (
-      <header className={block}>
-        <LoadingIndicator
-          type="light"
-          inline
-          style={{
-            height: '13px'
-          }}
-        />
-      </header>
-    );
-  }
+export default connectTo(
+  {
+    breadcrumbs: breadcrumbs$
+  },
+  function SwitchableViewHeader({ snapshot /*breadcrumbs, navigationParams, navigation*/ }) {
+    // console.log(breadcrumbs);
+    if (!snapshot) {
+      return (
+        <header className={block}>
+          <LoadingIndicator
+            type="light"
+            inline
+            style={{
+              height: '13px'
+            }}
+          />
+        </header>
+      );
+    }
 
-  // const currentPathName = navigationParams.pathname;
+    // const currentPathName = navigationParams.pathname;
 
-  // const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
-  /*
+    // const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
+    /*
   const breadcrumbs = translatedBreadcrumbStructure
     .map(config => {
       return (
@@ -46,11 +53,12 @@ export default function SwitchableViewHeader({ snapshot /*, navigationParams, na
       curr
     ]);
 */
-  return (
-    <header className={block}>
-      <div className={container}>
-        NONE
-      </div>
-    </header>
-  );
-}
+    return (
+      <header className={block}>
+        <div className={container}>
+          NONE
+        </div>
+      </header>
+    );
+  }
+);
