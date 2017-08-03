@@ -2,6 +2,8 @@ import React from 'react';
 import withSideEffect from 'react-side-effect';
 
 import { replaceBreadcrumbs } from 'in-stores/breadcrumb';
+import PluginIcon from 'in-components/PluginIcon';
+import { getLabel } from 'in-sdk/snapshot';
 
 class BreadcrumbHelmet extends React.Component {
   constructor(props) {
@@ -16,7 +18,13 @@ class BreadcrumbHelmet extends React.Component {
 function reduceProps(propsList) {
   const contexts = [];
   propsList.forEach(function(props) {
-    contexts.push(props.context);
+    const { context } = props;
+
+    contexts.push({
+      ...context,
+      label: context.snapshot ? getLabel(context.snapshot) : context.label,
+      icon: context.snapshot ? <PluginIcon dimension={14} color="#fff" snapshot={context.snapshot} /> : null
+    });
   });
   return contexts;
 }

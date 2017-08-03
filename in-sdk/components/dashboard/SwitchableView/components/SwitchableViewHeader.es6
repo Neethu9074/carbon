@@ -21,8 +21,6 @@ export default connectTo(
 
     const pathName = navigationParams.pathname;
 
-    // const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
-
     const crumbs = breadcrumbs
       .map(config => {
         return (
@@ -34,9 +32,11 @@ export default connectTo(
           />
         );
       })
-      .reduce((prev, curr) => [
+      .reduce((prev, curr, index) => [
         prev,
-        <span className={chevron}><SvgIcon type="chevron_right" height={9} color="#E2E9EC" /></span>,
+        <span key={`chevron_${index}`} className={chevron}>
+          <SvgIcon type="chevron_right" height={9} color="#E2E9EC" />
+        </span>,
         curr
       ]);
 

@@ -64,6 +64,8 @@ export default connectTo(
         <div className={`${block}__content`}>
           <NavigationRoutes navigationStructure={navigation} {...props} />
         </div>
+
+        {props.children}
       </div>
     );
   }
