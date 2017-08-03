@@ -95,7 +95,7 @@ function Kpi({ metricName, metricData, classNameAppendix }) {
 function NoDataMessage() {
   return (
     <h2 className={`${block}__no-data-message`}>
-      No data points whithin timeframe
+      No views happened whithin the timeframe
     </h2>
   );
 }
