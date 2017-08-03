@@ -35,6 +35,7 @@ function enrichTableDefinition(snapshotDefinition) {
   snapshotDefinition.tableDefinition.cols.push({
     title: 'Health',
     type: 'health',
+    width: 180,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;

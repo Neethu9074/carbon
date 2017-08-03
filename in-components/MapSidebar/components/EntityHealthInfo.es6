@@ -12,7 +12,7 @@ export default function EntityHealthInfo({ snapshotId }) {
       <span className={`${block}__title`}>
         Health
       </span>
-      <EntityHealthBar snapshotId={snapshotId} />
+      <EntityHealthBar snapshotId={snapshotId} className={`${block}__health-bar`} />
     </div>
   );
 }
