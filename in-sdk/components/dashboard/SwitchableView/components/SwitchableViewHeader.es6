@@ -1,62 +1,49 @@
 import React from 'react';
 
-// import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import Breadcrumb from 'in-sdk/components/dashboard/SwitchableView/components/Breadcrumb';
 import { breadcrumbs$ } from 'in-stores/breadcrumb';
 import connectTo from 'in-hoc/connectTo';
-// import { translateBreadcrumbStructure } from 'in-services/breadcrumbs';
-// import SvgIcon from 'in-components/SvgIcon';
+import SvgIcon from 'in-components/SvgIcon';
 import './SwitchableViewHeader.less';
 
 const block = 'in-switchable-view-header';
 const container = `${block}__container`;
-//const chevron = `${block}__chevron`;
+const chevron = `${block}__chevron`;
 
 export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function SwitchableViewHeader({ snapshot /*breadcrumbs, navigationParams, navigation*/ }) {
-    // console.log(breadcrumbs);
-    if (!snapshot) {
-      return (
-        <header className={block}>
-          <LoadingIndicator
-            type="light"
-            inline
-            style={{
-              height: '13px'
-            }}
-          />
-        </header>
-      );
+  function SwitchableViewHeader({ breadcrumbs, navigationParams }) {
+    if (breadcrumbs.length === 0) {
+      return null;
     }
 
-    // const currentPathName = navigationParams.pathname;
+    const pathName = navigationParams.pathname;
 
     // const translatedBreadcrumbStructure = translateBreadcrumbStructure(navigation, currentPathName, snapshot);
-    /*
-  const breadcrumbs = translatedBreadcrumbStructure
-    .map(config => {
-      return (
-        <Breadcrumb
-          key={config.path}
-          config={config}
-          isActive={currentPathName === config.path}
-          navigationParams={navigationParams}
-        />
-      );
-    })
-    .reduce((prev, curr) => [
-      prev,
-      <span className={chevron}><SvgIcon type="chevron_right" height={9} color="#E2E9EC" /></span>,
-      curr
-    ]);
-*/
+
+    const crumbs = breadcrumbs
+      .map(config => {
+        return (
+          <Breadcrumb
+            key={config.path}
+            config={config}
+            isActive={pathName === config.path}
+            navigationParams={navigationParams}
+          />
+        );
+      })
+      .reduce((prev, curr) => [
+        prev,
+        <span className={chevron}><SvgIcon type="chevron_right" height={9} color="#E2E9EC" /></span>,
+        curr
+      ]);
+
     return (
       <header className={block}>
         <div className={container}>
-          NONE
+          {crumbs}
         </div>
       </header>
     );

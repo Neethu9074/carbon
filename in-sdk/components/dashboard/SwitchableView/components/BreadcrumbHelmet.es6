@@ -1,18 +1,28 @@
 import React from 'react';
+import withSideEffect from 'react-side-effect';
 
 import { replaceBreadcrumbs } from 'in-stores/breadcrumb';
 
-export default class BreadcrumbHelmet extends React.Component {
+class BreadcrumbHelmet extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    const { context } = this.props;
-    replaceBreadcrumbs(context);
   }
 
   render() {
     return null;
   }
 }
+
+function reduceProps(propsList) {
+  const contexts = [];
+  propsList.forEach(function(props) {
+    contexts.push(props.context);
+  });
+  return contexts;
+}
+
+function handleStateChange(contexts) {
+  replaceBreadcrumbs(contexts);
+}
+
+export default withSideEffect(reduceProps, handleStateChange)(BreadcrumbHelmet);

@@ -57,7 +57,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <SwitchableViewHeader snapshot={snapshot} navigationParams={navigationParams} navigation={navigation} />
+        <SwitchableViewHeader navigationParams={navigationParams} />
 
         <BreadcrumbHelmet context={pluginContext} />
         <NavigationTabs navigationParams={navigationParams} navigation={navigation} />
