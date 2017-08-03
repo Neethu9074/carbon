@@ -34,14 +34,6 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
 }
 
 function MetricBlock({ time, dataColumn, config, axisName }) {
-  if (!dataColumn) {
-    return (
-      <div className={`${block}__no-data-points`}>
-        No data points for {axisName === 'y1' ? 'left' : 'right'} axis.
-      </div>
-    );
-  }
-
   const axisConfig = config[axisName];
   const formatter = axisConfig.tooltipFormatter || axisConfig.formatter || identity;
   const colors = axisConfig.tooltipColors || axisConfig.colors;
@@ -49,21 +41,25 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
   return (
     <div className={`${block}__metric-block`}>
       <TimeMarker time={time} axis={axisConfig} />
-      {dataColumn.map((dataRow, i) =>
-        <div className={`${block}__metric`} key={i}>
-          <dt
-            style={{
-              color: colors[i]
-            }}
-            className={`${block}__metric-name`}
-          >
-            {axisConfig.labels[i]}
-          </dt>
-          <dd className={`${block}__metric-value`}>
-            {dataRow != null && dataRow[1] != null ? formatter(dataRow[1]) : ''}
-          </dd>
-        </div>
-      )}
+      {axisConfig.labels.map((axis, i) => {
+        const dataPoint = dataColumn && dataColumn[i];
+        return (
+          <div className={`${block}__metric`} key={i}>
+            <dt
+              style={{
+                color: colors[i]
+              }}
+              className={`${block}__metric-name`}
+            >
+              {axisConfig.labels[i]}
+            </dt>
+            <dd className={`${block}__metric-value`}>
+              {dataPoint ? formatter(dataPoint[1]) : '--'}
+            </dd>
+          </div>
+        );
+      })}
+
     </div>
   );
 }

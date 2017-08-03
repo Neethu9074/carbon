@@ -86,7 +86,7 @@ function Kpi({ metricName, metricData, classNameAppendix }) {
         {metricName}
       </span>
       <span className={`${kpi}${classNameAppendix}`}>
-        {metricData ? metricData : '--'}
+        {metricData ? metricData : '––'}
       </span>
     </div>
   );
