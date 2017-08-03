@@ -9,14 +9,10 @@ import './NavigationTabs.less';
 const block = 'in-navigation-tabs';
 
 export default function NavigationTabs({ navigation, navigationParams }) {
-  if (navigation.tabs == null) {
-    return null;
-  }
-
   return (
     <div className={block}>
       <ul className={`${block}__container`}>
-        {navigation.tabs.map(nav => {
+        {navigation.map(nav => {
           const linkElement = `${block}__link`;
           return (
             <li className={`${block}__nav-elements`} key={`link_${nav.path}`}>
