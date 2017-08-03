@@ -1,7 +1,7 @@
 import { createStore } from 'in-stores/store';
 
 const breadcrumbStore = createStore({
-  name: 'breradcrumbs',
+  name: 'breadcrumbs',
   initialValue: []
 });
 
