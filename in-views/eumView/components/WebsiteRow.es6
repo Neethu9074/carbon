@@ -2,6 +2,7 @@ import React from 'react';
 
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
 import Chart from 'in-components/EumChart';
 import Button from 'in-components/Button';
@@ -35,7 +36,12 @@ export default function WebsiteRow({ snapshot, data }) {
           </div>
           <WebsiteIssueButton snapshotId={snapshot.get('id')} />
         </div>
-        {data.pageLoad
+
+        {data.pageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
+
+        {data.pageLoad < 1 ? <NoDataMessage /> : null}
+
+        {data.pageLoad >= 1
           ? <Chart
               snapshotId={snapshot.get('id')}
               y1={{
@@ -59,7 +65,7 @@ export default function WebsiteRow({ snapshot, data }) {
                 maxDataPoints: 100
               }}
             />
-          : <NoDataMessage />}
+          : null}
       </div>
     </div>
   );
@@ -95,7 +101,7 @@ function Kpi({ metricName, metricData, classNameAppendix }) {
 function NoDataMessage() {
   return (
     <h2 className={`${block}__no-data-message`}>
-      No data for the given time window
+      No views in the given time window
     </h2>
   );
 }
