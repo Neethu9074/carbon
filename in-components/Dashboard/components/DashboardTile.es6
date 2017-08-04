@@ -17,7 +17,9 @@ export default function DashboardTile({ children, title, href, href$ }) {
       })}
     >
       <div className={`${block}__header`}>
-        {title}
+        <span className={`${block}__title`}>
+          {title}
+        </span>
         {href$ ? <ConnectedViewDetailsButton href$={href$} /> : <ViewDetailsButton href={href} />}
       </div>
 
