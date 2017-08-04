@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
 import { twoDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import Chart from 'in-components/Chart';
@@ -8,6 +9,10 @@ export default function Speed({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
+      <DashboardTile title="Page Load Breakdown">
+        <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} />
+      </DashboardTile>
+
       <DashboardTile title="Views vs Page Load">
         <Chart
           snapshotId={snapshotId}
