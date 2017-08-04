@@ -6,6 +6,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
+import { getSubDashboardLink } from 'in-stores/navigation';
 import MetricValue from 'in-components/MetricValue';
 import { Row, Col } from 'in-components/Grid/Grid';
 import { getLabel } from 'in-sdk/snapshot';
@@ -48,10 +49,10 @@ export default function Summary({ snapshot, timeframe }) {
 
       <Row>
         <Col cols={6}>
-          <DashboardTile title="Page Load Breakdown" detailsLink="gotoSpeedTab" />
+          <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('speed')} />
         </Col>
         <Col cols={6}>
-          <DashboardTile title="Top Errors" detailsLink="gotoErrorsTab" />
+          <DashboardTile title="Top Errors" href$={getSubDashboardLink('errors')} />
         </Col>
       </Row>
 

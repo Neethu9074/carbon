@@ -202,6 +202,13 @@ export function getDashboardLink(snapshotId) {
   });
 }
 
+export function getSubDashboardLink(subViewPath) {
+  return getModifiedUrlStream(params => {
+    const view = getActiveView(params);
+    params.pathname = `/${view}/dashboard/${subViewPath}`;
+  });
+}
+
 export const isDashboardOpen$ = navigationParameters$
   .map(params => {
     return /\/[a-z]+\/dashboard/i.test(params.pathname);
