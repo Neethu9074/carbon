@@ -44,24 +44,13 @@ export default connectTo(
       connectedSnapshot => connectedSnapshot.get('plugin') === plugins.pageResourceLogicalConnection
     );
 
-    const otherConnections = outgoingConnections.filter(
-      connectedSnapshot => connectedSnapshot.get('plugin') !== plugins.pageResourceLogicalConnection
-    );
-
     return (
-      <div>
-        <LogicalConnectionEntityTable
-          timeframe={timeframe}
-          title={'Resources'}
-          dataStream={always(resourceConnections)}
-          withoutErrorRate
-        />
-        <LogicalConnectionEntityTable
-          timeframe={timeframe}
-          title={'Outgoing Connections'}
-          dataStream={always(otherConnections)}
-        />
-      </div>
+      <LogicalConnectionEntityTable
+        timeframe={timeframe}
+        title={'Resources'}
+        dataStream={always(resourceConnections)}
+        withoutErrorRate
+      />
     );
   }
 );
