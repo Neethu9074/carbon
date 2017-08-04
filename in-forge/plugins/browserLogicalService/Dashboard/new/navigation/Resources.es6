@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
+import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { alwaysEmptyArray, always } from 'in-services/fixedStreams';
 import { logicalViewStructure$ } from 'in-stores/view';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -36,7 +37,7 @@ export default connectTo(
     };
   },
   function Resources({ outgoingConnections, timeframe }) {
-    if (!outgoingConnections || outgoingConnections.length === 0) {
+    if (!outgoingConnections) {
       return null;
     }
 
@@ -44,13 +45,23 @@ export default connectTo(
       connectedSnapshot => connectedSnapshot.get('plugin') === plugins.pageResourceLogicalConnection
     );
 
+    if (resourceConnections.length === 0) {
+      return (
+        <DashboardTile title={`Resources`}>
+          No resources in the given time window
+        </DashboardTile>
+      );
+    }
+
     return (
-      <LogicalConnectionEntityTable
-        timeframe={timeframe}
-        title={'Resources'}
-        dataStream={always(resourceConnections)}
-        withoutErrorRate
-      />
+      <DashboardTile title={`Resources (${resourceConnections.length})`}>
+        <LogicalConnectionEntityTable
+          timeframe={timeframe}
+          title={'Resources'}
+          dataStream={always(resourceConnections)}
+          withoutErrorRate
+        />
+      </DashboardTile>
     );
   }
 );

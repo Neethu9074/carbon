@@ -112,7 +112,7 @@ export default connectTo(
     if (rows.length === 0) {
       return (
         <DashboardTile title={`Uncaught Errors`}>
-          there are no errors within timeframe
+          No errors in the given time window
         </DashboardTile>
       );
     }
