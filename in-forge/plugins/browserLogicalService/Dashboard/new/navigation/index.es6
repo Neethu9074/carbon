@@ -18,11 +18,6 @@ export default [
     component: Speed
   },
   {
-    label: 'Users',
-    path: '/users',
-    component: Users
-  },
-  {
     label: 'Resources',
     path: '/resources',
     component: Resources
