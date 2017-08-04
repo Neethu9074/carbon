@@ -8,6 +8,7 @@ import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { debouncedQuery$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -21,9 +22,10 @@ export default connectTo(
   {
     eumKeysViewLink: eumKeysViewLink$,
     snapshotIds: snapshotIds$,
-    snapshots: snapshots$
+    snapshots: snapshots$,
+    query: debouncedQuery$
   },
-  function EumView({ snapshotIds, snapshots, eumKeysViewLink }) {
+  function EumView({ snapshotIds, snapshots, eumKeysViewLink, query }) {
     if (!snapshotIds || !snapshots) {
       return (
         <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
@@ -36,7 +38,7 @@ export default connectTo(
     }
 
     // data was loaded but there is no defined website
-    if (snapshotIds.size === 0 && snapshots.length === 0) {
+    if ((query == null || query.trim().length === 0) && snapshotIds.size === 0 && snapshots.length === 0) {
       return (
         <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
           <NoWebsiteLandingScreen />

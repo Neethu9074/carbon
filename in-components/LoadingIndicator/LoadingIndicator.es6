@@ -6,13 +6,14 @@ import './LoadingIndicator.less';
 const block = 'in-loading-indicator';
 const rectClass = block + '__rect';
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
   static displayName = 'LoadingIndicator';
 
   static propTypes = {
     type: rpt.string,
     inline: rpt.bool,
-    style: rpt.object
+    style: rpt.object,
+    className: rpt.string
   };
 
   static defaultProps = {
@@ -34,6 +35,10 @@ export default class extends React.Component {
     let classes = block;
     if (this.props.inline !== true) {
       classes = `${classes} ${block}--block`;
+    }
+
+    if (this.props.className) {
+      classes = `${classes} ${this.props.className}`;
     }
 
     return (

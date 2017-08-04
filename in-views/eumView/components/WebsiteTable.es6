@@ -130,6 +130,13 @@ export default class WebsiteTable extends React.Component {
           onPrevPage={this.store.onPrevPage}
           onNextPage={this.store.onNextPage}
         />
+
+        {data.rows.length === 0
+          ? <div className={`${block}__no-websites-matching-query`}>
+              No websites found for your current query.
+            </div>
+          : null}
+
         {data.rows.map(row => {
           const columns = row.columns;
           return (
