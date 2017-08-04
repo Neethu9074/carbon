@@ -384,11 +384,11 @@ export default connectTo(
       });
     }
 
-    inviteUser() {
+    inviteUser = () => {
       setActiveDialog(<UserInvitationDialog onSubmit={this.onDoInviteUser} />);
-    }
+    };
 
-    onDoInviteUser(email, roleId) {
+    onDoInviteUser = (email, roleId) => {
       close();
 
       this.setState({
@@ -417,6 +417,6 @@ export default connectTo(
           message
         });
       });
-    }
+    };
   }
 );
