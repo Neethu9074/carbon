@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorBreakdownTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
@@ -110,11 +110,15 @@ export default connectTo(
     });
 
     if (rows.length === 0) {
-      return null;
+      return (
+        <DashboardTile title={`Uncaught Errors`}>
+          there are no errors within timeframe
+        </DashboardTile>
+      );
     }
 
     return (
-      <DashboardSection title={`Uncaught Error Breakdown (${rows.length})`}>
+      <DashboardTile title={`Uncaught Error Breakdown (${rows.length})`}>
         <Table
           cols={cols}
           rows={rows}
@@ -122,7 +126,7 @@ export default connectTo(
           initialSortDirection="desc"
           getRowDetails={getRowDetails}
         />
-      </DashboardSection>
+      </DashboardTile>
     );
   }
 );

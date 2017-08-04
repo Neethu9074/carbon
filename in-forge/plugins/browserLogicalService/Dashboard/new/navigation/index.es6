@@ -2,7 +2,6 @@ import Resources from './Resources';
 import Summary from './Summary';
 import Errors from './Errors';
 import Pages from './Pages';
-import Users from './Users';
 import Speed from './Speed';
 import AJAX from './AJAX';
 
