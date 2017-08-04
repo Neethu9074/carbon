@@ -25,6 +25,8 @@ export default connectTo(
     return result;
   },
   function CountBasedJumpToButton({ href, count, title, tooltip }) {
+    // Count may be -1 when the span keyword is used as calculation of counts
+    // may be too expensive.
     if (count == null || count === 0) {
       return null;
     }
@@ -35,7 +37,9 @@ export default connectTo(
 
         <Tooltip content={tooltip}>
           <Button href={href} className={block} kind="secondary" size="sm">
-            {title} <br /> ({zeroDecimalPlaces(count)})
+            {title}
+            {count > 0 ? <br /> : null}
+            {count > 0 ? `(${zeroDecimalPlaces(count)})` : null}
           </Button>
         </Tooltip>
       </div>
