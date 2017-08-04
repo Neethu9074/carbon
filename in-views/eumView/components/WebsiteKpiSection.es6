@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EntityHealthBar from 'in-components/EntityHealthBar';
 import { getMetric } from 'in-stores/metric/metric';
 import connectTo from 'in-hoc/connectTo';
 
@@ -25,17 +24,11 @@ export default connectTo(
       })
     };
   },
-  function WebsiteKpiSection({ pageLoad, loadTime, snapshotId }) {
+  function WebsiteKpiSection({ pageLoad, loadTime }) {
     return (
       <div className={block}>
         <Kpi metricName="Views" classNameAppendix="__load" metricData={pageLoad} />
         <Kpi metricName="Load Time" classNameAppendix="__time" metricData={loadTime} />
-        <div className={`${block}__kpi-block`}>
-          Health
-          <div className={`${block}__health`}>
-            <EntityHealthBar snapshotId={snapshotId} />
-          </div>
-        </div>
       </div>
     );
   }

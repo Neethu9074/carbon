@@ -1,7 +1,6 @@
 import Resources from './Resources';
 import Summary from './Summary';
 import Errors from './Errors';
-import Health from './Health';
 import Pages from './Pages';
 import Users from './Users';
 import Speed from './Speed';
@@ -17,11 +16,6 @@ export default [
     label: 'Speed',
     path: '/speed',
     component: Speed
-  },
-  {
-    label: 'Health',
-    path: '/health',
-    component: Health
   },
   {
     label: 'Users',

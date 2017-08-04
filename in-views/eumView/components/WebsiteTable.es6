@@ -55,16 +55,6 @@ const columnDefinitions = [
       },
       forceTimeWindowAggregation: true
     }
-  },
-  {
-    title: 'Health',
-    type: 'health',
-    index: 3,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshot.get('id');
-      }
-    }
   }
 ];
 
@@ -150,8 +140,7 @@ export default class WebsiteTable extends React.Component {
               data={{
                 name: columns[0].value,
                 pageLoad: columns[1].content,
-                loadTime: columns[2].content,
-                health: columns[3].content
+                loadTime: columns[2].content
               }}
             />
           );
