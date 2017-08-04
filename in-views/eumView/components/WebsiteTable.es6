@@ -91,7 +91,7 @@ export default class WebsiteTable extends React.Component {
   newStore(props) {
     this.store = createStore({
       columnDefinitions,
-      maxItemsPerPage: 1,
+      maxItemsPerPage: 10,
       initialSortColumn: 0,
       initialSortDirection: 'asc'
     });
