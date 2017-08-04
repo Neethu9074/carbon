@@ -53,9 +53,6 @@ export default function Summary({ snapshot, timeframe }) {
           <DashboardTile title="Top Errors" href$={getSubDashboardLink('errors')} />
         </Col>
       </Row>
-      <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('speed')}>
-        <PageLoadBreakdownChart snapshotId={snapshotId} />
-      </DashboardTile>
     </div>
   );
 }
