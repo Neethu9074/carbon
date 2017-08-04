@@ -43,7 +43,7 @@ export default connectTo(
       this.refreshUsers();
     }
 
-    refreshUsers() {
+    refreshUsers = () => {
       this.disposeAsyncAction();
 
       this.setState({
@@ -70,13 +70,13 @@ export default connectTo(
           message: 'Failed to retrieve users.'
         });
       });
-    }
+    };
 
     componentWillUnmount() {
       this.disposeAsyncAction();
     }
 
-    disposeAsyncAction() {
+    disposeAsyncAction = () => {
       if (this.responseSubscription) {
         this.responseSubscription.dispose();
       }
@@ -84,7 +84,7 @@ export default connectTo(
       if (this.errorSubscription) {
         this.errorSubscription.dispose();
       }
-    }
+    };
 
     render() {
       const { userOverview } = this.state;
@@ -216,7 +216,7 @@ export default connectTo(
       );
     }
 
-    setRole(user, newRoleId) {
+    setRole = (user, newRoleId) => {
       const previousRoleId = user.get('roleId');
 
       this.setState(state => {
@@ -273,9 +273,9 @@ export default connectTo(
           };
         });
       });
-    }
+    };
 
-    onRemove(user) {
+    onRemove = user => {
       setActiveDialog(
         <ConfirmationDialog
           header="Confirm removal"
@@ -295,9 +295,9 @@ export default connectTo(
           }}
         />
       );
-    }
+    };
 
-    onRemoveAfterConfirmation(user) {
+    onRemoveAfterConfirmation = user => {
       close();
 
       this.setState({
@@ -329,9 +329,9 @@ export default connectTo(
           message
         });
       });
-    }
+    };
 
-    onRevoke(invitation) {
+    onRevoke = invitation => {
       setActiveDialog(
         <ConfirmationDialog
           header="Confirm removal"
@@ -348,9 +348,9 @@ export default connectTo(
           }}
         />
       );
-    }
+    };
 
-    onRevokeAfterConfirmation(invitation) {
+    onRevokeAfterConfirmation = invitation => {
       close();
 
       this.setState({
@@ -382,7 +382,7 @@ export default connectTo(
           message
         });
       });
-    }
+    };
 
     inviteUser = () => {
       setActiveDialog(<UserInvitationDialog onSubmit={this.onDoInviteUser} />);
