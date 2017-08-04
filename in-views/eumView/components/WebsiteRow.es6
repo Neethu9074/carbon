@@ -77,7 +77,7 @@ const ViewDetailsButton = connectTo(
 function NoDataMessage() {
   return (
     <h2 className={`${block}__no-data-message`}>
-      No views happened whithin the timeframe
+      No data for the given time window
     </h2>
   );
 }

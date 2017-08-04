@@ -11,7 +11,7 @@ const switchElement = `${block}__switch`;
 const switchIconElement = `${block}__switch-icon`;
 const disabledSwitchElement = `${switchElement} ${switchElement}--disabled`;
 
-export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPage, onPrevPage }) {
+export default function Pagination({ className, ariaLabel, currentPage, pageCount, onNextPage, onPrevPage }) {
   const prevDisabled = currentPage === 0;
   const prev = prevDisabled
     ? preventDefault
@@ -29,7 +29,7 @@ export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPa
       };
 
   return (
-    <nav aria-label={ariaLabel}>
+    <nav aria-label={ariaLabel} className={className}>
       <ul className={block}>
         <li className={element}>
           <a

@@ -1,5 +1,7 @@
 .in-website-table-header {
+  position: relative;
   display: flex;
+
   margin-bottom: .813rem;
   color: #b9b9b9;
   font-size: 10px;
@@ -12,9 +14,6 @@
   &__kpis {
     display: flex;
 
-    // give the pagination controller a bit space to render
-    width: ~'calc(70% - 120px)';
-
     &__kpi {
       width: 6.063rem;
 
@@ -22,5 +21,10 @@
         width: 8.313rem;
       }
     }
+  }
+
+  &__pagination {
+    position: absolute;
+    right: 0;
   }
 }
