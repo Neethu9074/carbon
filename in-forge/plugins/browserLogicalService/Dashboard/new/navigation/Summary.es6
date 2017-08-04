@@ -1,22 +1,17 @@
 import React from 'react';
 
-import { twoDecimalPlaces, number, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageCharts';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
-import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
+import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import { getSubDashboardLink } from 'in-stores/navigation';
-import MetricValue from 'in-components/MetricValue';
 import { Row, Col } from 'in-components/Grid/Grid';
-import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe }) {
+export default function Summary({ snapshot }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <DashboardTile title="">
+      <DashboardTile title="Views vs Page Load">
         <WebsiteKpiSection snapshotId={snapshotId} />
         <Chart
           snapshotId={snapshotId}
@@ -55,48 +50,6 @@ export default function Summary({ snapshot, timeframe }) {
           <DashboardTile title="Top Errors" href$={getSubDashboardLink('errors')} />
         </Col>
       </Row>
-
-      <DashboardTile title="Quick overview">
-        <KpiSection>
-          <KpiHeading>
-            {getLabel(snapshot)}
-          </KpiHeading>
-          <KpiKeyValue label={<TimeWindowSizeLabel prefix="Views in " />}>
-            <MetricValue
-              snapshotId={snapshotId}
-              formatter={zeroDecimalPlaces}
-              metric="count"
-              timeWindowAggregation="sum"
-            />
-          </KpiKeyValue>
-          <KpiKeyValue label="time to page load (95th)">
-            <MetricValue snapshotId={snapshotId} metric="duration.95th" formatter={msTwoDecimalPlaces} />
-          </KpiKeyValue>
-          <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. time to page load in " />}>
-            <MetricValue
-              snapshotId={snapshotId}
-              metric="duration.95th"
-              formatter={msTwoDecimalPlaces}
-              timeWindowAggregation="mean"
-            />
-          </KpiKeyValue>
-          <KpiKeyValue label="time to first paint (95th)">
-            <MetricValue snapshotId={snapshotId} metric="fp" formatter={msTwoDecimalPlaces} />
-          </KpiKeyValue>
-          <KpiKeyValue label={<TimeWindowSizeLabel prefix="avg. time to first paint in " />}>
-            <MetricValue
-              snapshotId={snapshotId}
-              metric="fp"
-              formatter={msTwoDecimalPlaces}
-              timeWindowAggregation="mean"
-            />
-          </KpiKeyValue>
-        </KpiSection>
-      </DashboardTile>
-
-      <DashboardTile title="Detailed Charts">
-        <PageCharts snapshotId={snapshotId} timeframe={timeframe} />
-      </DashboardTile>
     </div>
   );
 }
