@@ -18,11 +18,6 @@ registerSnapshotDefinition({
     plural: 'Websites'
   },
 
-  pluginContext: {
-    label: 'Websites',
-    path: '/website'
-  },
-
   chartWiggleRoom: 20000
 });
 

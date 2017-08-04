@@ -168,8 +168,9 @@ export function getFullNavigationPath(subPath, navigationParams) {
   return path;
 }
 
-export function getPartialNavigationPath(subPath, navigationParams) {
-  return `#${subPath}?${qs.stringify(navigationParams.query)}`;
+export function getPartialNavigationPath(subPath) {
+  const hash = window.location.hash;
+  return `#${subPath}?${hash.substring(hash.indexOf('?') + 1, hash.length)}`;
 }
 
 export function goHome() {
