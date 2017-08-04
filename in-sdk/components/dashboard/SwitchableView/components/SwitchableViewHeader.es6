@@ -29,7 +29,7 @@ export default connectTo(
     return (
       <header className={block}>
         <div className={container}>
-          {crumbs}
+          {crumbs.map((crumb, index) => <span key={`Breadcrumb_${index}`}>{crumb}</span>)}
         </div>
       </header>
     );

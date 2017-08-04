@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { getPartialNavigationPath } from 'in-stores/navigation';
+import { buildUrlStream } from 'in-stores/navigation';
+import PluginIcon from 'in-components/PluginIcon';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import './Crumb.less';
@@ -8,10 +10,27 @@ import './Crumb.less';
 const block = 'in-breadcrumb';
 const iconElement = `${block}__icon`;
 
-export default function Crumb({ label, icon, path }) {
-  return (
-    <Link href={getPartialNavigationPath(path)} className={block}>
-      {icon ? <span className={iconElement}>{icon}</span> : null}   {label}
-    </Link>
-  );
-}
+export default connectTo(
+  props => {
+    if (props.path) {
+      return {
+        path: buildUrlStream({ path: [props.path] })
+      };
+    }
+    return {
+      path: props.path$
+    };
+  },
+  function Crumb({ label, path, snapshot }) {
+    return (
+      <Link href={path} className={block}>
+        {snapshot
+          ? <span className={iconElement}>
+              <PluginIcon dimension={14} color="#fff" snapshot={snapshot} />
+            </span>
+          : null}{' '}
+        {label}
+      </Link>
+    );
+  }
+);
