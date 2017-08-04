@@ -55,6 +55,7 @@ export default function WebsiteHeader({
       </div>
       {showPagination
         ? <Pagination
+            className={`${block}__pagination`}
             onPrevPage={onPrevPage}
             onNextPage={onNextPage}
             currentPage={data.page}
