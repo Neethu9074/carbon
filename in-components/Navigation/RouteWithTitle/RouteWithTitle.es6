@@ -14,11 +14,11 @@ export default class RouteWithTitle extends React.Component {
           if (this.props.wrapper) {
             return (
               <this.props.wrapper>
-                <this.props.component {...routeProps} {...this.props} />
+                <this.props.component {...routeProps} {...this.props.props} />
               </this.props.wrapper>
             );
           }
-          return <this.props.component {...routeProps} {...this.props} />;
+          return <this.props.component {...routeProps} {...this.props.props} />;
         }}
       />
     );

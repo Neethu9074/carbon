@@ -8,22 +8,22 @@ import './NavigationTabs.less';
 
 const block = 'in-navigation-tabs';
 
-export default function NavigationTabs({ navigation, navigationParams }) {
+export default function NavigationTabs({ tabs, navigationParams }) {
   return (
     <div className={block}>
       <ul className={`${block}__container`}>
-        {navigation.map(nav => {
+        {tabs.map(tab => {
           const linkElement = `${block}__link`;
           return (
-            <li className={`${block}__nav-elements`} key={`link_${nav.path}`}>
+            <li className={`${block}__nav-elements`} key={`link_${tab.path}`}>
               <Link
-                href={getFullNavigationPath(nav.path, navigationParams)}
+                href={getFullNavigationPath(tab.path, navigationParams)}
                 className={evaluateClassNames({
                   [linkElement]: true,
-                  [`${linkElement}--active`]: isActive(navigationParams, nav.path)
+                  [`${linkElement}--active`]: isActive(navigationParams, tab.path)
                 })}
               >
-                {nav.label}
+                {tab.label}
               </Link>
             </li>
           );
