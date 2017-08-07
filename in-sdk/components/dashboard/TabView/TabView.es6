@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TabViewHeader from 'in-sdk/components/dashboard/TabView/components/TabViewHeader';
 import NavigationRoutes from 'in-sdk/components/dashboard/TabView/components/NavigationRoutes';
+import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import NavigationTabs from 'in-sdk/components/dashboard/TabView/components/NavigationTabs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { navigationParameters$ } from 'in-stores/navigation';
@@ -39,7 +39,7 @@ export default connectTo(
       <div className={block}>
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
 
-        <TabViewHeader />
+        <BreadcrumbHeader />
 
         <NavigationTabs navigationParams={navigationParams} tabs={tabs} />
         <div className={`${block}__content`}>

@@ -4,9 +4,9 @@ import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import './TabViewHeader.less';
+import './BreadcrumbHeader.less';
 
-const block = 'in-dashboard-tab-view-header';
+const block = 'in-dashboard-tab-view-breadcrumb-header';
 const container = `${block}__container`;
 const chevron = `${block}__chevron`;
 
