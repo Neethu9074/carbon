@@ -3,6 +3,7 @@ import React from 'react';
 import TabViewHeader from 'in-sdk/components/dashboard/TabView/components/TabViewHeader';
 import NavigationRoutes from 'in-sdk/components/dashboard/TabView/components/NavigationRoutes';
 import NavigationTabs from 'in-sdk/components/dashboard/TabView/components/NavigationTabs';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { navigationParameters$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import invariant from 'invariant';
@@ -14,7 +15,7 @@ export default connectTo(
   {
     navigationParams: navigationParameters$
   },
-  function TabView({ tabs, navigationParams, props, children }) {
+  function TabView({ tabs, navigationParams, props, breadcrumbs }) {
     if (navigationParams == null) {
       return null;
     }
@@ -36,14 +37,14 @@ export default connectTo(
 
     return (
       <div className={block}>
+        {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+
         <TabViewHeader />
 
         <NavigationTabs navigationParams={navigationParams} tabs={tabs} />
         <div className={`${block}__content`}>
           <NavigationRoutes tabs={tabs} props={props} />
         </div>
-
-        {children}
       </div>
     );
   }
