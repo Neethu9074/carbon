@@ -19,6 +19,7 @@ import './ejb-schedule';
 import './ejb';
 import './elasticsearch';
 import './excon';
+import './faunadb';
 import './feign';
 import './file';
 import './finagle.client';
