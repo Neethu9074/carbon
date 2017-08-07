@@ -5,7 +5,7 @@ import PluginIcon from 'in-components/PluginIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import './Crumb.less';
+import './Breadcrumb.less';
 
 const block = 'in-breadcrumb';
 const iconElement = `${block}__icon`;
@@ -21,7 +21,7 @@ export default connectTo(
       path: props.path$
     };
   },
-  function Crumb({ label, path, snapshot }) {
+  function Breadcrumb({ label, path, snapshot }) {
     return (
       <Link href={path} className={block}>
         {snapshot

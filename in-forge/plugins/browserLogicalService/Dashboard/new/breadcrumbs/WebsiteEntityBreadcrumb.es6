@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Crumb from 'in-sdk/components/dashboard/Breadcrumbs/Crumb';
+import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function WebsiteBreadcrumb({ snapshot }) {
-  return <Crumb label={getLabel(snapshot)} path={'/website/dashboard'} snapshot={snapshot} />;
+  return <Breadcrumb label={getLabel(snapshot)} path={'/website/dashboard'} snapshot={snapshot} />;
 }

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Crumb from 'in-sdk/components/dashboard/Breadcrumbs/Crumb';
+import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
-export default function() {
-  return <Crumb label={'Websites'} path={'/website'} />;
-}
+export default () => <Breadcrumb label={'Websites'} path={'/website'} />;

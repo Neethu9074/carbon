@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { breadcrumbs$ } from 'in-stores/breadcrumb';
-import connectTo from 'in-hoc/connectTo';
+import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
+
 import './SwitchableViewHeader.less';
 
 const block = 'in-switchable-view-header';
