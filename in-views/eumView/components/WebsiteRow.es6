@@ -1,7 +1,6 @@
 import React from 'react';
 
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
-import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
