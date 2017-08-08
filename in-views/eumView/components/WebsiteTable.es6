@@ -82,8 +82,8 @@ export default class WebsiteTable extends React.Component {
     this.store = createStore({
       columnDefinitions,
       maxItemsPerPage: 10,
-      initialSortColumn: 0,
-      initialSortDirection: 'asc'
+      initialSortColumn: 1,
+      initialSortDirection: 'desc'
     });
     this.store.onRowChange(this.getRows(props.snapshots));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
