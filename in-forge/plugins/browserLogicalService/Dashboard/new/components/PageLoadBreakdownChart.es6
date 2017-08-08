@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { msTwoDecimalPlaces } from 'in-services/formatters/number';
+import { joinClassNames } from 'in-services/util/classnames';
 import { getMetric } from 'in-stores/metric/metric';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
@@ -11,11 +12,14 @@ import './PageLoadBreakdownChart.less';
 
 const block = 'in-website-page-load-breakdown-chart';
 
+const metricNames = ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'];
+const labels = ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
+
 export default connectTo(
   props => {
     return {
       metrics: combineLatest(
-        ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'].map(metric =>
+        metricNames.map(metric =>
           getMetric({
             snapshotId: props.snapshotId,
             metric,
@@ -23,10 +27,10 @@ export default connectTo(
             forceTimeWindowAggregation: true
           })
         )
-      )
+      ).throttle(1000)
     };
   },
-  function PageLoadBreakdownChart({ metrics }) {
+  function PageLoadBreakdownChart({ metrics, className }) {
     if (!metrics) {
       // TODO: at least show the chart but without the bars
       return null;
@@ -43,7 +47,6 @@ export default connectTo(
       return null;
     }
 
-    const labels = ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
     const colors = theme.chart.strokeColors;
     const totalTime = metrics.reduce((a, b) => a + b, 0);
     scale.setDomainTo(totalTime);
@@ -51,7 +54,7 @@ export default connectTo(
     let prevWidth = 0;
 
     return (
-      <div className={block}>
+      <div className={joinClassNames(block, className)}>
         <div className={`${block}__chart-background`} />
         {metrics.map((metricValue, i) => {
           const label = labels[i];
@@ -61,21 +64,24 @@ export default connectTo(
 
           return (
             <div key={label} className={`${block}__row`}>
-              <span className={`${block}__label`}>
-                {label}
-              </span>
-              <span className={`${block}__value`}>
-                {msTwoDecimalPlaces(metricValue)}
-              </span>
-              <div className={`${block}__lane-wrapper`}>
-                <div
-                  className={`${block}__lane`}
-                  style={{
-                    background: colors[i],
-                    left: `${left}%`,
-                    width: `${width}%`
-                  }}
-                />
+              <div className={`${block}__hover-bg`} style={{ background: colors[i] }} />
+              <div className={`${block}__content`}>
+                <span className={`${block}__label`}>
+                  {label}
+                </span>
+                <span className={`${block}__value`}>
+                  {msTwoDecimalPlaces(metricValue)}
+                </span>
+                <div className={`${block}__lane-wrapper`}>
+                  <div
+                    className={`${block}__lane`}
+                    style={{
+                      background: colors[i],
+                      left: `${left}%`,
+                      width: `${width}%`
+                    }}
+                  />
+                </div>
               </div>
             </div>
           );

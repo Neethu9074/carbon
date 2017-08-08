@@ -2,12 +2,31 @@
   position: relative;
 
   &__row {
-    display: flex;
-    align-items: center;
+    position: relative;
 
     &:hover {
-      background: #fcfaea;
+      background: attr(data-background);
+
+      .in-website-page-load-breakdown-chart__hover-bg {
+        opacity: 0.1;
+      }
     }
+  }
+
+  &__hover-bg {
+    position: absolute;
+    left: -0.5rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+
+  &__content {
+    // increase zIndex
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
   &__label {
@@ -17,13 +36,15 @@
   &__value {
     width: 5rem;
     text-align: end;
+    font-weight: bold;
   }
 
   &__lane-wrapper {
     position: relative;
-    width: ~'calc(100% - 11.5rem)';
-    margin-left: .5rem;
+    width: ~'calc(100% - 12rem)';
     height: 1.313rem;
+    margin: 0 0 0 1rem;
+    flex-shrink: 0;
   }
 
   &__lane {
@@ -37,7 +58,7 @@
 
   &__chart-background {
     position: absolute;
-    left: 11.5rem;
+    left: 12rem;
     right: 0;
     top: 0;
     bottom: 0;
