@@ -16,18 +16,25 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
-
       <DashboardSection title="Overall Requests">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           margins={{
-            left: 80
+            left: 80,
+            right: 80
           }}
           y1={{
             min: 0,
-            metrics: ['clientrequests.read.count', 'clientrequests.write.count'],
-            labels: ['Read', 'Write'],
+            metrics: ['clientrequests.read.count'],
+            labels: ['Reads'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+          y2={{
+            min: 0,
+            metrics: ['clientrequests.write.count'],
+            labels: ['Writes'],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
