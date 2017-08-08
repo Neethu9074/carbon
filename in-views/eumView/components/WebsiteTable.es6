@@ -55,16 +55,6 @@ const columnDefinitions = [
       },
       forceTimeWindowAggregation: true
     }
-  },
-  {
-    title: 'Health',
-    type: 'health',
-    index: 3,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshot.get('id');
-      }
-    }
   }
 ];
 
@@ -92,8 +82,8 @@ export default class WebsiteTable extends React.Component {
     this.store = createStore({
       columnDefinitions,
       maxItemsPerPage: 10,
-      initialSortColumn: 0,
-      initialSortDirection: 'asc'
+      initialSortColumn: 1,
+      initialSortDirection: 'desc'
     });
     this.store.onRowChange(this.getRows(props.snapshots));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
@@ -157,8 +147,7 @@ export default class WebsiteTable extends React.Component {
               data={{
                 name: columns[0].value,
                 pageLoad: columns[1].content,
-                loadTime: columns[2].content,
-                health: columns[3].content
+                loadTime: columns[2].content
               }}
             />
           );
