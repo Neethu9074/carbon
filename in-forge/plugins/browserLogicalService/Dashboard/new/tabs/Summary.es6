@@ -1,10 +1,10 @@
 import React from 'react';
 
 import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
-import { getSubDashboardLink } from 'in-stores/navigation';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Chart from 'in-components/Chart';
 
@@ -45,12 +45,12 @@ export default function Summary({ snapshot, timeframe }) {
 
       <Row>
         <Col cols={6}>
-          <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('speed')}>
+          <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
             <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} />
           </DashboardTile>
         </Col>
         <Col cols={6}>
-          <DashboardTile title="Top Errors" href$={getSubDashboardLink('errors')} />
+          <DashboardTile title="Top Errors" href$={getSubDashboardLink('/errors')} />
         </Col>
       </Row>
     </div>

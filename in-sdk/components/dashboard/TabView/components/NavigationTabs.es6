@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getFullNavigationPath } from 'in-stores/navigation';
 import Link from 'in-components/Link';
 
 import './NavigationTabs.less';
@@ -17,7 +17,7 @@ export default function NavigationTabs({ tabs, navigationParams }) {
           return (
             <li className={`${block}__nav-elements`} key={`link_${tab.path}`}>
               <Link
-                href={getFullNavigationPath(tab.path, navigationParams)}
+                href$={getSubDashboardLink(tab.path)}
                 className={evaluateClassNames({
                   [linkElement]: true,
                   [`${linkElement}--active`]: isActive(navigationParams, tab.path)
