@@ -20,7 +20,31 @@ export const helpTexts = defaults(
       'Select here which HTTP request attributes should be used to match and extract a service. At least one match ' +
         'expression is required. HTTP request attributes such as HTTP host headers and request paths can be matched ' +
         "to extract services. When all of the configured match expressions match an HTTP request's attributes, a " +
-        'service will be extracted.'
+        'service will be extracted.',
+
+    serviceNameHelp: (
+      <span>
+        Give this service a name. This service name will be used throughout Instana. You can reference capture groups{' '}
+        extracted from the match expressions to dynamically build a service name. Additionally, Docker labels and {' '}
+        headers that were captured due to manual configuration can be used. {' '}
+        The following example shows how to use the <code>foo.bar</code> Docker label:{' '}
+        <code>{'{docker.label-foo.bar}'}</code>.
+        The following example shows how to use the <code>x-region</code> custom header:{' '}
+        <code>{'{header-x-region}'}</code>.
+      </span>
+    ),
+    serviceEndpointNameHelp: (
+      <span>
+        Give this endpoint a name. This endpoint name will be used throughout Instana. You can reference capture groups{' '}
+        extracted from the match expressions to dynamically build an endpoint name. Additionally, Docker labels and{' '}
+        {' '}
+        headers that were captured due to manual configuration can be used. {' '}
+        The following example shows how to use the <code>foo.bar</code> Docker label:{' '}
+        <code>{'{docker.label-foo.bar}'}</code>.
+        The following example shows how to use the <code>x-region</code> custom header:{' '}
+        <code>{'{header-x-region}'}</code>.
+      </span>
+    )
   },
   commonHelpTexts
 );
@@ -41,7 +65,7 @@ export const matchSpecificationOptions = {
   },
 
   host: {
-    titleName: 'Host Header',
+    titleName: 'Host',
     placeholder: '(.*)',
     testPlaceholder: 'example.com',
     initialValue: '(.*)',
@@ -86,25 +110,20 @@ export const matchSpecificationOptions = {
 
 export const matchSpecificationOptionsTree = [
   {
-    label: 'Headers',
-    children: [
-      {
-        label: 'Host',
-        value: 'host'
-      }
-    ]
+    label: 'Request Path',
+    value: 'path'
   },
   {
     label: 'Query Parameters',
     value: 'params'
   },
   {
-    label: 'Request Method',
-    value: 'method'
+    label: 'Host',
+    value: 'host'
   },
   {
-    label: 'Request Path',
-    value: 'path'
+    label: 'Request Method',
+    value: 'method'
   }
 ];
 
