@@ -33,19 +33,19 @@ export const bytes = {
   detailed: bytesTwoDecimalPlaces
 };
 
-export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits);
-export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits);
-export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits, number.detailed);
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits, number.detailed);
+export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
 export const micros = {
-  compact: timeByMicroTwoDecimalPlaces,
+  compact: t => formatTime(t, timeMicroUnits, number.compact),
   detailed: timeByMicroTwoDecimalPlaces
 };
 export const millis = {
-  compact: timeByMillisTwoDecimalPlaces,
+  compact: t => formatTime(t, timeMilliUnits, number.compact),
   detailed: timeByMillisTwoDecimalPlaces
 };
 export const minutes = {
-  compact: timeByMinutesTwoDecimalPlaces,
+  compact: t => formatTime(t, timeMinuteUnits, number.compact),
   detailed: timeByMinutesTwoDecimalPlaces
 };
 
@@ -219,7 +219,6 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   return (neg ? '-' : '') + num + ' ' + unit;
 }
 
-const formatTimeValue = v => ((v * 100) | 0) / 100;
 const timeMicroUnits = [
   {
     unit: 'µs',
@@ -257,7 +256,7 @@ const timeMinuteUnits = timeMicroUnits.slice(3);
  * @returns {string} Human readable amount of time
  * @throws An error when the time are NaN
  */
-function formatTime(t, units) {
+function formatTime(t, units, formatNumber) {
   if (typeof t !== 'number' || isNaN(t)) {
     return '0µs';
   }
@@ -266,11 +265,11 @@ function formatTime(t, units) {
     const unit = units[i];
 
     if (t < unit.range) {
-      return formatTimeValue(t) + unit.unit;
+      return formatNumber(t) + unit.unit;
     }
 
     t /= unit.range;
   }
 
-  return formatTimeValue(t) + units[units.length - 1].unit;
+  return formatNumber(t) + units[units.length - 1].unit;
 }

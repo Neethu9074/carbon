@@ -194,13 +194,13 @@ describe('in-services.formatter.number', () => {
     });
 
     it('should format times by micro dynamically', () => {
-      expect(timeByMicroTwoDecimalPlaces(10)).to.equal('10µs');
+      expect(timeByMicroTwoDecimalPlaces(10)).to.equal('10.00µs');
       expect(timeByMicroTwoDecimalPlaces(1234)).to.equal('1.23ms');
-      expect(timeByMicroTwoDecimalPlaces(1 * 1000 * 1000)).to.equal('1s');
-      expect(timeByMicroTwoDecimalPlaces(60 * 1000 * 1000)).to.equal('1min');
-      expect(timeByMicroTwoDecimalPlaces(60 * 60 * 1000 * 1000)).to.equal('1h');
-      expect(timeByMicroTwoDecimalPlaces(24 * 60 * 60 * 1000 * 1000)).to.equal('1d');
-      expect(timeByMicroTwoDecimalPlaces(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1234d');
+      expect(timeByMicroTwoDecimalPlaces(1 * 1000 * 1000)).to.equal('1.00s');
+      expect(timeByMicroTwoDecimalPlaces(60 * 1000 * 1000)).to.equal('1.00min');
+      expect(timeByMicroTwoDecimalPlaces(60 * 60 * 1000 * 1000)).to.equal('1.00h');
+      expect(timeByMicroTwoDecimalPlaces(24 * 60 * 60 * 1000 * 1000)).to.equal('1.00d');
+      expect(timeByMicroTwoDecimalPlaces(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1,234.00d');
     });
   });
 

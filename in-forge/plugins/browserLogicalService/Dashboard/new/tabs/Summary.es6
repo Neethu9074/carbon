@@ -29,7 +29,7 @@ export default function Summary({ snapshot, timeframe }) {
           }}
           y2={{
             min: 0,
-            formatter: millis.compact,
+            formatter: millis.detailed,
             metrics: ['duration.mean'],
             labels: ['load time'],
             type: 'discreteLine',

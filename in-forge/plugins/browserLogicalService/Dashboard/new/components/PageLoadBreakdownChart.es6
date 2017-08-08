@@ -1,8 +1,8 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { msTwoDecimalPlaces } from 'in-services/formatters/number';
 import { joinClassNames } from 'in-services/util/classnames';
+import { millis } from 'in-services/formatters/number';
 import { getMetric } from 'in-stores/metric/metric';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
@@ -70,7 +70,7 @@ export default connectTo(
                   {label}
                 </span>
                 <span className={`${block}__value`}>
-                  {msTwoDecimalPlaces(metricValue)}
+                  {millis.compact(metricValue)}
                 </span>
                 <div className={`${block}__lane-wrapper`}>
                   <div
