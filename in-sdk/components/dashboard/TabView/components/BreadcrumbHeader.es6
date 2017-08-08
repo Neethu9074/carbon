@@ -27,11 +27,15 @@ export default connectTo(
       curr
     ]);
 
+    // we do not want to require crumb elements to define keys. Therefore we work around React's key check
+    // by explicitly stating that these items can only be verified using their index. This also cleans
+    // up the HTML structure so that crumb elements can check for :last-child to identify the active
+    // crumb element.
+    const crumbsElement = React.createElement.apply(React, ['div', { className: container }, ...crumbs]);
+
     return (
       <header className={block}>
-        <div className={container}>
-          {crumbs.map((crumb, index) => <span key={`Breadcrumb_${index}`}>{crumb}</span>)}
-        </div>
+        {crumbsElement}
       </header>
     );
   }
