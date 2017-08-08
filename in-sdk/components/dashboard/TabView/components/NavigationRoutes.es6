@@ -15,20 +15,18 @@ export default function NavigationRoutes({ tabs, props }) {
           <RouteWithTitle
             key={`route_${nav.path}`}
             path={`*/dashboard${nav.path}`}
-            component={nav.component}
-            wrapper={View}
+            render={() => <View ChildComponent={nav.component} props={props} />}
             windowTitle={nav.label}
-            props={props}
           />
         )}
     </Switch>
   );
 }
 
-function View({ children }) {
+function View({ ChildComponent, props }) {
   return (
     <div style={{ padding: '1rem' }}>
-      {children}
+      <ChildComponent {...props} />
     </div>
   );
 }
