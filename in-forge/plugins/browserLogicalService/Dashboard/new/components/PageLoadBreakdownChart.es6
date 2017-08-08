@@ -26,72 +26,61 @@ export default connectTo(
       )
     };
   },
-  class extends React.Component {
-    static displayName = 'PageLoadBreakdownChart';
-
-    scale = null;
-
-    constructor(props) {
-      super(props);
-      this.scale = createScale();
-      this.scale.setRangeFrom(0);
-      this.scale.setRangeTo(100);
-      this.scale.setDomainFrom(0);
+  function PageLoadBreakdownChart({ metrics }) {
+    if (!metrics) {
+      // TODO: at least show the chart but without the bars
+      return null;
     }
 
-    render() {
-      const metrics = this.props.metrics;
-      if (!metrics) {
-        // TODO: at least show the chart but without the bars
-        return null;
-      }
+    const scale = createScale();
+    scale.setRangeFrom(0);
+    scale.setRangeTo(100);
+    scale.setDomainFrom(0);
 
-      const containsNullValues = metrics.indexOf(null) >= 0;
-      if (containsNullValues) {
-        // TODO: at least show the chart but without the bars
-        return null;
-      }
+    const containsNullValues = metrics.indexOf(null) >= 0;
+    if (containsNullValues) {
+      // TODO: at least show the chart but without the bars
+      return null;
+    }
 
-      const labels = ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
-      const colors = theme.chart.strokeColors;
-      const totalTime = metrics.reduce((a, b) => a + b, 0);
-      const scale = this.scale;
-      scale.setDomainTo(totalTime);
+    const labels = ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
+    const colors = theme.chart.strokeColors;
+    const totalTime = metrics.reduce((a, b) => a + b, 0);
+    scale.setDomainTo(totalTime);
 
-      let prevWidth = 0;
+    let prevWidth = 0;
 
-      return (
-        <div className={block}>
-          <div className={`${block}__chart-background`} />
-          {metrics.map((metricValue, i) => {
-            const label = labels[i];
-            const left = prevWidth;
-            const width = scale.getRange(metricValue);
-            prevWidth += width;
+    return (
+      <div className={block}>
+        <div className={`${block}__chart-background`} />
+        {metrics.map((metricValue, i) => {
+          const label = labels[i];
+          const left = prevWidth;
+          const width = scale.getRange(metricValue);
+          prevWidth += width;
 
-            return (
-              <div key={label} className={`${block}__row`}>
-                <span className={`${block}__label`}>
-                  {label}
-                </span>
-                <span className={`${block}__value`}>
-                  {msTwoDecimalPlaces(metricValue)}
-                </span>
-                <div className={`${block}__lane-wrapper`}>
-                  <div
-                    className={`${block}__lane`}
-                    style={{
-                      background: colors[i],
-                      left: `${left}%`,
-                      width: `${width}%`
-                    }}
-                  />
-                </div>
+          return (
+            <div key={label} className={`${block}__row`}>
+              <span className={`${block}__label`}>
+                {label}
+              </span>
+              <span className={`${block}__value`}>
+                {msTwoDecimalPlaces(metricValue)}
+              </span>
+              <div className={`${block}__lane-wrapper`}>
+                <div
+                  className={`${block}__lane`}
+                  style={{
+                    background: colors[i],
+                    left: `${left}%`,
+                    width: `${width}%`
+                  }}
+                />
               </div>
-            );
-          })}
-        </div>
-      );
-    }
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 );
