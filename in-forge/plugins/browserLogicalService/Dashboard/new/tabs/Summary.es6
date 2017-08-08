@@ -1,24 +1,23 @@
 import React from 'react';
 
 import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
-import { twoDecimalPlaces, number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/Grid/Grid';
+import { number, millis } from 'in-services/formatters/number';
+import { Row, Col } from 'in-components/Grid';
 import Chart from 'in-components/Chart';
 
 export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
-    <div>
-      <DashboardTile title="Views vs Page Load">
-        <WebsiteKpiSection snapshotId={snapshotId} />
+    <MaxWidthFullscreenContainer>
+      <DashboardTile title="Overview">
         <Chart
           snapshotId={snapshotId}
           margins={{
-            left: 40,
-            right: 40
+            left: 60,
+            right: 60
           }}
           y1={{
             min: 0,
@@ -26,19 +25,15 @@ export default function Summary({ snapshot, timeframe }) {
             metrics: ['count'],
             labels: ['views'],
             type: 'bar',
-            aggregation: 'sum',
-            minPixelPerBlock: 5,
-            maxDataPoints: 100
+            aggregation: 'sum'
           }}
           y2={{
             min: 0,
-            formatter: twoDecimalPlaces,
+            formatter: millis.compact,
             metrics: ['duration.mean'],
             labels: ['load time'],
             type: 'discreteLine',
-            aggregation: 'mean',
-            minPixelPerBlock: 5,
-            maxDataPoints: 100
+            aggregation: 'mean'
           }}
         />
       </DashboardTile>
@@ -50,9 +45,24 @@ export default function Summary({ snapshot, timeframe }) {
           </DashboardTile>
         </Col>
         <Col cols={6}>
-          <DashboardTile title="Top Errors" href$={getSubDashboardLink('/errors')} />
+          <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
+            <Chart
+              snapshotId={snapshotId}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['uncaughtErrors'],
+                labels: ['Uncaught errors'],
+                type: 'bar',
+                aggregation: 'sum'
+              }}
+            />
+          </DashboardTile>
         </Col>
       </Row>
-    </div>
+    </MaxWidthFullscreenContainer>
   );
 }
