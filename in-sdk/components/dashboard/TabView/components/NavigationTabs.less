@@ -1,0 +1,43 @@
+.in-navigation-tabs {
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  height: 2.3rem;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__nav-elements {
+    display: flex;
+    padding: 0 1.5rem 0 0;
+    list-style: none;
+  }
+
+  &__link {
+    outline: 0;
+    font-size: 0.75rem;
+    display: block;
+    text-decoration: none;
+    color: #6B8088;
+    padding-bottom: 1.438rem;
+
+    &:hover, &:focus {
+      color: inherit;
+    }
+
+    &:hover {
+      border-bottom: 2px solid rgba(34, 216, 216, 0.4);
+    }
+
+    &--active {
+      border-bottom: 2px solid rgb(34, 216, 216);
+      color: #000;
+
+      &:hover {
+        border-bottom: 2px solid rgb(34, 216, 216);
+      }
+    }
+  }
+}

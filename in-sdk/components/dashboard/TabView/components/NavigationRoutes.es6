@@ -3,25 +3,31 @@ import React from 'react';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Switch } from 'react-router-dom';
 
-export default function NavigationRoutes(props) {
-  const { navigationStructure } = props;
+export default function NavigationRoutes({ tabs, props }) {
   return (
     <Switch>
       {//it is important to not have a route like '/' on top as this would match in any case
       //therefor sort the routes
-      navigationStructure
+      tabs
         .slice(0)
         .sort(sortStructure)
         .map(nav =>
           <RouteWithTitle
             key={`route_${nav.path}`}
             path={`*/dashboard${nav.path}`}
-            component={nav.component}
+            render={() => <View ChildComponent={nav.component} props={props} />}
             windowTitle={nav.label}
-            {...props}
           />
         )}
     </Switch>
+  );
+}
+
+function View({ ChildComponent, props }) {
+  return (
+    <div style={{ padding: '1rem' }}>
+      <ChildComponent {...props} />
+    </div>
   );
 }
 

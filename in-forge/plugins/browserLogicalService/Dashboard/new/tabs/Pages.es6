@@ -1,8 +1,8 @@
 import React from 'react';
 
 import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
-import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/PageCharts';
-import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorTable';
+import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageCharts';
+import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -98,7 +98,7 @@ const cols = [
   }
 ];
 
-export default function Endpoints({ snapshot, timeframe }) {
+export default function Pages({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const websiteLabel = getLabel(snapshot);
 

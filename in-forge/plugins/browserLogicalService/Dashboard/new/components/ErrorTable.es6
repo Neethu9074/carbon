@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/ErrorBreakdownTable';
+import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorBreakdownTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';

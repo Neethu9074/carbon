@@ -28,21 +28,27 @@ export default connectTo(
   function EumView({ snapshotIds, snapshots, eumKeysViewLink, query }) {
     if (!snapshotIds || !snapshots) {
       return (
-        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-          <div className={block}>
-            <WebsiteHeading />
-            <LoadingIndicator type="dark" />
-          </div>
-        </FullscreenOverlayView>
+        <div>
+          <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+            <div className={block}>
+              <WebsiteHeading />
+              <LoadingIndicator type="dark" />
+            </div>
+          </FullscreenOverlayView>
+          <DashboardNavigationRoute />
+        </div>
       );
     }
 
     // data was loaded but there is no defined website
     if ((query == null || query.trim().length === 0) && snapshotIds.size === 0 && snapshots.length === 0) {
       return (
-        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-          <NoWebsiteLandingScreen />
-        </FullscreenOverlayView>
+        <div>
+          <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+            <NoWebsiteLandingScreen />
+          </FullscreenOverlayView>
+          <DashboardNavigationRoute />
+        </div>
       );
     }
 

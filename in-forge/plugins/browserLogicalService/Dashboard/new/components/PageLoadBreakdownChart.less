@@ -1,0 +1,48 @@
+.in-website-page-load-breakdown-chart {
+  position: relative;
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: #fcfaea;
+    }
+  }
+
+  &__label {
+    width: 6rem;
+  }
+
+  &__value {
+    width: 5rem;
+    text-align: end;
+  }
+
+  &__lane-wrapper {
+    position: relative;
+    width: ~'calc(100% - 11.5rem)';
+    margin-left: .5rem;
+    height: 1.313rem;
+  }
+
+  &__lane {
+    position: absolute;
+
+    height: .438rem;
+    margin-top: .438rem;
+    border-radius: .125rem;
+    min-width: .125rem;
+  }
+
+  &__chart-background {
+    position: absolute;
+    left: 11.5rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    border-left: 1px dashed #D5DFE4;
+    border-right: 1px dashed #D5DFE4;
+  }
+}

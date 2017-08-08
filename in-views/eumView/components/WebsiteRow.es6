@@ -1,6 +1,7 @@
 import React from 'react';
 
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
+import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
@@ -13,6 +14,8 @@ import './WebsiteRow.less';
 const block = 'in-website-table-row';
 
 export default function WebsiteRow({ snapshot, data }) {
+  const snapshotId = snapshot.get('id');
+
   const metrics = `${block}__metrics`;
   const nameElement = `${block}__name`;
   const kpis = `${block}__kpis`;
@@ -21,14 +24,13 @@ export default function WebsiteRow({ snapshot, data }) {
     <div key={data.name} className={block}>
       <div className={nameElement}>
         {data.name}
-        <ViewDetailsButton snapshotId={snapshot.get('id')} />
+        <ViewDetailsButton snapshotId={snapshotId} />
       </div>
 
       <div className={metrics}>
         <div className={kpis}>
-          <Kpi metricName="Views" classNameAppendix="__load" metricData={data.pageLoad} />
-          <Kpi metricName="Load Time" classNameAppendix="__time" metricData={data.loadTime} />
-          <WebsiteIssueButton snapshotId={snapshot.get('id')} />
+          <WebsiteKpiSection snapshotId={snapshotId} />
+          <WebsiteIssueButton snapshotId={snapshotId} />
         </div>
 
         {data.pageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
@@ -37,7 +39,7 @@ export default function WebsiteRow({ snapshot, data }) {
 
         {data.pageLoad >= 1
           ? <Chart
-              snapshotId={snapshot.get('id')}
+              snapshotId={snapshotId}
               y1={{
                 min: 0,
                 formatter: number.compact,
@@ -77,20 +79,6 @@ const ViewDetailsButton = connectTo(
     );
   }
 );
-
-function Kpi({ metricName, metricData, classNameAppendix }) {
-  const kpi = `${block}__kpi ${block}__kpi`;
-  return (
-    <div className={`${block}__kpi-block`}>
-      <span className={`${block}__metric-name ${block}__metric-name${classNameAppendix}`}>
-        {metricName}
-      </span>
-      <span className={`${kpi}${classNameAppendix}`}>
-        {metricData ? metricData : '––'}
-      </span>
-    </div>
-  );
-}
 
 function NoDataMessage() {
   return (

@@ -2,12 +2,12 @@ import React from 'react';
 
 import JumpToTracesTouchingServiceButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceButton';
 import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
-import { number, ms } from 'in-services/formatters/number';
 import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import { number, ms } from 'in-services/formatters/number';
 import { getTraceCount } from 'in-stores/traces';
 
 export default function BrowserServiceSidebar({ snapshot }) {

@@ -159,6 +159,15 @@ function getActiveView(params) {
   return match ? match[1] : 'physical';
 }
 
+export function getFullNavigationPath(subPath, navigationParams) {
+  let path = '#';
+  const dashboard = 'dashboard';
+  path += navigationParams.pathname.substring(0, navigationParams.pathname.indexOf(dashboard) + dashboard.length);
+  path += subPath;
+  path += `?${qs.stringify(navigationParams.query)}`;
+  return path;
+}
+
 export function goHome() {
   mutateUrl(navParams => {
     navParams.pathname = PATH_NAMES.HOME;
@@ -186,6 +195,13 @@ export function getDashboardLink(snapshotId) {
     const view = getActiveView(params);
     params.pathname = `/${view}/dashboard`;
     params.query.snapshotId = snapshotId;
+  });
+}
+
+export function getSubDashboardLink(subViewPath) {
+  return getModifiedUrlStream(params => {
+    const view = getActiveView(params);
+    params.pathname = `/${view}/dashboard/${subViewPath}`;
   });
 }
 

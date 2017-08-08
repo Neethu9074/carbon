@@ -11,7 +11,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   tableDefinition,
   metricDefinitions,
-  isNewDashboard: false,
+  isNewDashboard: true,
 
   pluginName: {
     singular: 'Website',

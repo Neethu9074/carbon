@@ -1,0 +1,49 @@
+.in-dashboard-tile {
+  margin-bottom: 1rem;
+  padding: .75rem 1.5rem;
+
+  background: white;
+  border: 1px solid #D5DFE4;
+  border-radius: 0.313rem;
+
+  &--with-details {
+    box-shadow: 0 rgba(0, 0, 0, 0);
+    transition: box-shadow .25s ease-in-out;
+
+    &:hover {
+      box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.125);
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__details-button {
+    background: transparent;
+    color: #06B7BA;
+    height: .75rem;
+    border: 1px solid;
+    border-radius: .25rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+    transition: color .2s ease-in-out;
+
+    &:hover {
+      background: transparent;
+      color: #1b7071;
+    }
+  }
+}
+
+.in-dashboard-tile:hover {
+  .in-dashboard-tile__details-button {
+    opacity: 1;
+  }
+}
