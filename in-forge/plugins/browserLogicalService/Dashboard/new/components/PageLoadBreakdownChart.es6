@@ -70,7 +70,7 @@ export default connectTo(
                   {label}
                 </span>
                 <span className={`${block}__value`}>
-                  {millis.compact(metricValue)}
+                  {millis.fixedCompact(metricValue)}
                 </span>
                 <div className={`${block}__lane-wrapper`}>
                   <div

@@ -29,7 +29,7 @@ export default function Summary({ snapshot, timeframe }) {
           }}
           y2={{
             min: 0,
-            formatter: millis.detailed,
+            formatter: millis.fixedCompact,
             metrics: ['duration.mean'],
             labels: ['load time'],
             type: 'discreteLine',
@@ -53,7 +53,7 @@ export default function Summary({ snapshot, timeframe }) {
               }}
               y1={{
                 min: 0,
-                formatter: number.compact,
+                formatter: number.fixedCompact,
                 metrics: ['uncaughtErrors'],
                 labels: ['Uncaught errors'],
                 type: 'bar',

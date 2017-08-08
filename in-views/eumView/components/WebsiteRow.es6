@@ -29,15 +29,15 @@ export default function WebsiteRow({ snapshot, data }) {
 
       <div className={metrics}>
         <div className={kpis}>
-          <WebsiteKpiSection snapshotId={snapshotId} />
+          <WebsiteKpiSection snapshotId={snapshotId} data={data} />
           <WebsiteIssueButton snapshotId={snapshotId} />
         </div>
 
-        {data.pageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
+        {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.pageLoad < 1 ? <NoDataMessage /> : null}
+        {data.rawPageLoad != null && data.rawPageLoad < 1 ? <NoDataMessage /> : null}
 
-        {data.pageLoad >= 1
+        {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <Chart
               snapshotId={snapshotId}
               y1={{

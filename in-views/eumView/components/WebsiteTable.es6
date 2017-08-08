@@ -147,6 +147,7 @@ export default class WebsiteTable extends React.Component {
               data={{
                 name: columns[0].value,
                 pageLoad: columns[1].content,
+                rawPageLoad: columns[1].value,
                 loadTime: columns[2].content
               }}
             />
