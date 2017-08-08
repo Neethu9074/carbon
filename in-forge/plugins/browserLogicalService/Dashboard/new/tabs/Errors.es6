@@ -69,7 +69,7 @@ export default connectTo(
     return {
       result: combineDataAndError(
         getErrorsForWebsite({
-          websiteSnapshotId: props.snapshotId,
+          websiteSnapshotId: props.snapshot.get('id'),
           timeframe: props.timeframe,
           pageHash: props.pageHash
         })
