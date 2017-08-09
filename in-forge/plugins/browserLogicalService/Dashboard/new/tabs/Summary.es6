@@ -53,7 +53,7 @@ export default function Summary({ snapshot, timeframe }) {
               }}
               y1={{
                 min: 0,
-                formatter: number.fixedCompact,
+                formatter: number.compact,
                 metrics: ['uncaughtErrors'],
                 labels: ['Uncaught errors'],
                 type: 'bar',
