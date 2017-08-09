@@ -76,7 +76,7 @@ export default connectTo(
       )
     };
   },
-  function Errors({ result, snapshot, snapshotId, timeframe, pageHash, pageLabel }) {
+  function Errors({ result, snapshot, timeframe, pageHash, pageLabel }) {
     if (!result) {
       return null;
     }
@@ -94,6 +94,7 @@ export default connectTo(
       );
     }
 
+    const snapshotId = snapshot.get('id');
     const rows = result.data.toArray().map(error => {
       const hash = error.get('hash');
       return {
