@@ -15,16 +15,17 @@ export default function({
   getData,
   transformData = identity,
   memoizeFor = 10000,
-  disposeSubscriptionOnDocumentHidden = true
+  disposeSubscriptionOnDocumentHidden = true,
+  getScanner = null
 }) {
   return memoize(
-    createObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden),
+    createObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden, getScanner),
     getId,
     memoizeFor
   );
 }
 
-function createObservable(event, getData, transformData, disposeSubscriptionOnDocumentHidden, opts) {
+function createObservable(event, getData, transformData, disposeSubscriptionOnDocumentHidden, getScanner, opts) {
   if (loadTestEnabled) {
     event += '-load-test';
   }
@@ -38,12 +39,15 @@ function createObservable(event, getData, transformData, disposeSubscriptionOnDo
     listener: onData
   };
 
+  const scan = getScanner != null ? getScanner(opts) : null;
+  let scannedValue = null;
   const observable = create({
     start() {
       connection.subscribe(subscriptionDescription);
     },
 
     stop() {
+      scannedValue = null;
       connection.unsubscribe(subscriptionId);
     }
   });
@@ -51,6 +55,9 @@ function createObservable(event, getData, transformData, disposeSubscriptionOnDo
   return observable;
 
   function onData(data) {
+    if (scan) {
+      data = scannedValue = scan(scannedValue, data);
+    }
     observable.emit(transformData(data));
   }
 }
