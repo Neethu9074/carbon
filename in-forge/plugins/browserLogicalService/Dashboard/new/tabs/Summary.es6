@@ -97,7 +97,7 @@ export default function Summary({ snapshot, timeframe }) {
       <Row>
         <Col cols={6}>
           <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
-            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequestMetrics />
+            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequest />
           </DashboardTile>
         </Col>
         <Col cols={6}>
