@@ -12,14 +12,17 @@ import './PageLoadBreakdownChart.less';
 
 const block = 'in-website-page-load-breakdown-chart';
 
-const metricNames = ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'];
-const labels = ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
+const onlyRequestMetrics = ['dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'];
+const allMetrics = ['unl', 'red', 'apc'].concat(onlyRequestMetrics);
+const onlyRequestLabels = ['DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'];
+const allLabels = ['Unload', 'Redirect', 'AppCache'].concat(onlyRequestLabels);
 
 export default connectTo(
   props => {
+    const metrics = props.onlyRequest ? onlyRequestMetrics : allMetrics;
     return {
       metrics: combineLatest(
-        metricNames.map(metric =>
+        metrics.map(metric =>
           getMetric({
             snapshotId: props.snapshotId,
             metric,
@@ -30,11 +33,13 @@ export default connectTo(
       ).throttle(1000)
     };
   },
-  function PageLoadBreakdownChart({ metrics, className }) {
+  function PageLoadBreakdownChart({ metrics, className, onlyRequest }) {
     if (!metrics) {
       // TODO: at least show the chart but without the bars
       return null;
     }
+
+    const labels = onlyRequest ? onlyRequestLabels : allLabels;
 
     const scale = createScale();
     scale.setRangeFrom(0);

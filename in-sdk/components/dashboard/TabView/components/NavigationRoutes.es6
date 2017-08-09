@@ -3,6 +3,10 @@ import React from 'react';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Switch } from 'react-router-dom';
 
+import './NavigationRoutes.less';
+
+const block = 'in-dashboard-nav-routes';
+
 export default function NavigationRoutes({ tabs, props }) {
   return (
     <Switch>
@@ -25,7 +29,7 @@ export default function NavigationRoutes({ tabs, props }) {
 
 function View({ ChildComponent, props }) {
   return (
-    <div style={{ padding: '1rem' }}>
+    <div className={block}>
       <ChildComponent {...props} />
     </div>
   );

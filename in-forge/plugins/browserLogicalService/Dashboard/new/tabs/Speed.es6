@@ -13,7 +13,7 @@ export default function Speed({ snapshot, timeframe }) {
         <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} />
       </DashboardTile>
 
-      <DashboardTile title="Views vs Page Load">
+      <DashboardTile title="Views vs Load Time">
         <Chart
           snapshotId={snapshotId}
           margins={{
