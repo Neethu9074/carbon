@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, milliSecondsToSecondsTwoDecimalPlace } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import WebsiteHeader from 'in-views/eumView/components/WebsiteHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import WebsiteRow from 'in-views/eumView/components/WebsiteRow';
@@ -49,7 +49,7 @@ const columnDefinitions = [
       getMetricName() {
         return 'duration.mean';
       },
-      getContent: milliSecondsToSecondsTwoDecimalPlace,
+      getContent: seconds.fromMillisFixedDetailed,
       getTimeWindowAggregation() {
         return 'mean';
       },

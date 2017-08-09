@@ -45,6 +45,9 @@ export const millis = {
   fixedCompact: t => number.compact(t) + 'ms',
   detailed: timeByMillisTwoDecimalPlaces
 };
+export const seconds = {
+  fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's'
+};
 export const minutes = {
   compact: t => formatTime(t, timeMinuteUnits, number.compact),
   detailed: timeByMinutesTwoDecimalPlaces
@@ -123,8 +126,6 @@ export const siMultiplyPrefix = {
   compact: withSiMultiplyPrefixZeroDecimalPlaces,
   detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
-
-export const milliSecondsToSecondsTwoDecimalPlace = d => twoDecimalPlaces(d / 1000) + 's';
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';

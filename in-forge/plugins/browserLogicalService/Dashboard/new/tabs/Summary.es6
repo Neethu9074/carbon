@@ -3,8 +3,11 @@ import React from 'react';
 import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
+import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
-import { number, millis } from 'in-services/formatters/number';
+import { number, seconds, percentage } from 'in-services/formatters/number';
+import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
+import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { Row, Col } from 'in-components/Grid';
 import Chart from 'in-components/Chart';
 
@@ -12,6 +15,59 @@ export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
     <MaxWidthFullscreenContainer>
+      <SnapshotLabel snapshot={snapshot} />
+
+      <Kpis>
+        <Kpi
+          label="Views"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="count"
+          timeWindowAggregation="sum"
+          formatter={number.compact}
+        />
+        <Kpi
+          label="Load Time (mean)"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="duration.mean"
+          timeWindowAggregation="mean"
+          formatter={seconds.fromMillisFixedDetailed}
+        />
+        <Kpi
+          label="Load Time (90th)"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="duration.90th"
+          timeWindowAggregation="mean"
+          formatter={seconds.fromMillisFixedDetailed}
+        />
+        <Kpi
+          label="Load Time (95th)"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="duration.95th"
+          timeWindowAggregation="mean"
+          formatter={seconds.fromMillisFixedDetailed}
+        />
+        <Kpi
+          label="Server"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="bac"
+          timeWindowAggregation="mean"
+          formatter={percentage.compact}
+        />
+        <Kpi
+          label="Browser"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric="fro"
+          timeWindowAggregation="mean"
+          formatter={percentage.compact}
+        />
+      </Kpis>
+
       <DashboardTile title="Overview">
         <Chart
           snapshotId={snapshotId}
@@ -29,7 +85,7 @@ export default function Summary({ snapshot, timeframe }) {
           }}
           y2={{
             min: 0,
-            formatter: millis.fixedCompact,
+            formatter: seconds.fromMillisFixedDetailed,
             metrics: ['duration.mean'],
             labels: ['load time'],
             type: 'discreteLine',
@@ -41,7 +97,7 @@ export default function Summary({ snapshot, timeframe }) {
       <Row>
         <Col cols={6}>
           <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
-            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequest />
+            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequestMetrics />
           </DashboardTile>
         </Col>
         <Col cols={6}>
