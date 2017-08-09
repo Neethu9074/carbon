@@ -82,22 +82,20 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: [
-              metricPrefix + 'duration.min',
-              metricPrefix + 'duration.25th',
               metricPrefix + 'duration.50th',
               metricPrefix + 'duration.75th',
+              metricPrefix + 'duration.90th',
               metricPrefix + 'duration.95th',
               metricPrefix + 'duration.98th',
-              metricPrefix + 'duration.99th',
-              metricPrefix + 'duration.max'
+              metricPrefix + 'duration.99th'
             ],
-            labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+            labels: ['50th', '75th', '90th', '95th', '98th', '99th'],
             type: 'integral'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Page Load Breakdown (95th)">
+      <DashboardSection title="Page Load Breakdown">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -125,7 +123,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
         />
       </DashboardSection>
 
-      <DashboardSection title="Paint Timing (95th)">
+      <DashboardSection title="Paint Timing">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}

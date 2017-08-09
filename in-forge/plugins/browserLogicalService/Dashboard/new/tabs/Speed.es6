@@ -55,21 +55,19 @@ export default function Speed({ snapshot, timeframe }) {
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: [
-              'duration.min',
-              'duration.25th',
               'duration.50th',
               'duration.75th',
+              'duration.90th',
               'duration.95th',
               'duration.98th',
-              'duration.99th',
-              'duration.max'
+              'duration.99th'
             ],
-            labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+            labels: ['50th', '75th', '90th', '95th', '98th', '99th'],
             type: 'integral'
           }}
         />
       </DashboardTile>
-      <DashboardTile title="Page Load Breakdown (95th)">
+      <DashboardTile title="Page Load Breakdown">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -86,7 +84,7 @@ export default function Speed({ snapshot, timeframe }) {
         />
       </DashboardTile>
 
-      <DashboardTile title="Paint Timing (95th)">
+      <DashboardTile title="Paint Timing">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
