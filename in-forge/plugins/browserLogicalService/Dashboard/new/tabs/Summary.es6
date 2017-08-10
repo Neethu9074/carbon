@@ -11,6 +11,21 @@ import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { Row, Col } from 'in-components/Grid';
 import Chart from 'in-components/Chart';
 
+const loadTimePercentages = [
+  {
+    label: 'Server',
+    metric: 'bac',
+    timeWindowAggregation: 'mean',
+    formatter: percentage.compact
+  },
+  {
+    label: 'Browser',
+    metric: 'fro',
+    timeWindowAggregation: 'mean',
+    formatter: percentage.compact
+  }
+];
+
 export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
@@ -33,6 +48,7 @@ export default function Summary({ snapshot, timeframe }) {
           metric="duration.mean"
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
+          percentages={loadTimePercentages}
         />
         <Kpi
           label="Load Time (90th)"
@@ -49,22 +65,6 @@ export default function Summary({ snapshot, timeframe }) {
           metric="duration.95th"
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
-        />
-        <Kpi
-          label="Server"
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          metric="bac"
-          timeWindowAggregation="mean"
-          formatter={percentage.compact}
-        />
-        <Kpi
-          label="Browser"
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          metric="fro"
-          timeWindowAggregation="mean"
-          formatter={percentage.compact}
         />
       </Kpis>
 
