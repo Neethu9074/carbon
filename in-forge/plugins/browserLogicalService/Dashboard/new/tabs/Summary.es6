@@ -88,7 +88,7 @@ export default function Summary({ snapshot, timeframe }) {
             formatter: seconds.fromMillisFixedDetailed,
             metrics: ['duration.mean'],
             labels: ['load time'],
-            type: 'discreteLine',
+            type: 'line',
             aggregation: 'mean'
           }}
         />

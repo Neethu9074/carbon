@@ -35,7 +35,7 @@ export default function Speed({ snapshot, timeframe }) {
             formatter: twoDecimalPlaces,
             metrics: ['duration.mean'],
             labels: ['load time'],
-            type: 'discreteLine',
+            type: 'line',
             aggregation: 'mean',
             minPixelPerBlock: 5,
             maxDataPoints: 100

@@ -55,7 +55,7 @@ export default function WebsiteRow({ snapshot, data }) {
                 formatter: twoDecimalPlaces,
                 metrics: ['duration.mean'],
                 labels: ['load time'],
-                type: 'discreteLine',
+                type: 'line',
                 aggregation: 'mean',
                 minPixelPerBlock: 5,
                 maxDataPoints: 100

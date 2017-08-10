@@ -3,7 +3,6 @@ import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
-import createDiscreteLineContentRenderer from 'in-charts/Chart/renderer/content/discreteLine';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
@@ -22,7 +21,6 @@ import createScale from 'in-charts/scale';
 import theme from 'in-services/theme';
 
 const contentRendererCreators = {
-  discreteLine: createDiscreteLineContentRenderer,
   stackedArea: createStackedAreaContentRenderer,
   integral: createIntegralContentRenderer,
   point: createPointContentRenderer,
