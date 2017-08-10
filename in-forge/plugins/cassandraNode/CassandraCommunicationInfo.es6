@@ -7,7 +7,7 @@ export default function CassandraCommunicationInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Node Status">
+      <DescriptionItem title="Node State">
         {data.get('mode')}
       </DescriptionItem>
 

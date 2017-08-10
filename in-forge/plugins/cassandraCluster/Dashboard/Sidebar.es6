@@ -9,6 +9,7 @@ import Info from '../Info';
 
 export default function CassandraClusterSidebar({ snapshot }) {
   const data = snapshot.get('data');
+  const liveNodesCount = data.get('nodeCount');
 
   return (
     <div>
@@ -26,8 +27,11 @@ export default function CassandraClusterSidebar({ snapshot }) {
         <Collapsible.Header>Nodes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Nodes">
-              {data.get('nodeCount')}
+            <DescriptionItem title="Available Nodes">
+              {liveNodesCount}
+            </DescriptionItem>
+            <DescriptionItem title="Unreachable Nodes">
+              {unreachableNodesCount(data)}
             </DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
@@ -36,4 +40,13 @@ export default function CassandraClusterSidebar({ snapshot }) {
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
+}
+
+function unreachableNodesCount(data) {
+  const unreachableNodes = data.get('unreachableNodes');
+  if (unreachableNodes) {
+    return unreachableNodes.size;
+  } else {
+    return null;
+  }
 }

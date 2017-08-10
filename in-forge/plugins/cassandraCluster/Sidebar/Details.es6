@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytes, siPrefix } from 'in-services/formatters/number';
+import { bytes, number, siPrefix } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -27,8 +27,13 @@ export default function CassandraClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'nodeCount',
-            label: 'Nodes',
-            formatter: siPrefix
+            label: 'Available Nodes',
+            formatter: number.compact
+          },
+          {
+            metric: 'unreachableNodeCount',
+            label: 'Unreachable Nodes',
+            formatter: number.compact
           },
           {
             metric: 'keyspaceCount',

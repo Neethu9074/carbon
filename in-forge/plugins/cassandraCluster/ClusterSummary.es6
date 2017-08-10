@@ -2,6 +2,7 @@ import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
+import { number } from 'in-services/formatters/number';
 
 import { withSiPrefixZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
@@ -11,8 +12,11 @@ export default function ClusterSummary({ snapshot }) {
   return (
     <KpiSection>
       <KpiHeading>{data.get('groupId')}</KpiHeading>
-      <KpiKeyValue label="Nodes">
-        <MetricValue snapshotId={snapshotId} metric="nodeCount" formatter={withSiPrefixZeroDecimalPlaces} />
+      <KpiKeyValue label="Available Nodes">
+        <MetricValue snapshotId={snapshotId} metric="nodeCount" formatter={number.compact} />
+      </KpiKeyValue>
+      <KpiKeyValue label="Unreachable Nodes">
+        <MetricValue snapshotId={snapshotId} metric="unreachableNodeCount" formatter={number.compact} />
       </KpiKeyValue>
       <KpiKeyValue label="Keyspaces">
         <MetricValue snapshotId={snapshotId} metric="keyspaceCount" formatter={withSiPrefixZeroDecimalPlaces} />
