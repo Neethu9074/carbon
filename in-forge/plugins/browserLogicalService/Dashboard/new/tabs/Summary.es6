@@ -7,11 +7,15 @@ import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
 import NoErrorsMessage from 'in-sdk/components/dashboard/NoErrorsMessage';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
+import { luceneEscapeString } from 'in-stores/search/manipulation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import RenderWithMetric from 'in-components/RenderWithMetric';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { Row, Col } from 'in-components/Grid';
+import { getLabel } from 'in-sdk/snapshot';
+import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
 const loadTimePercentages = [
@@ -31,9 +35,17 @@ const loadTimePercentages = [
 
 export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
+
+  const viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
+  const viewTracesButton = (
+    <Button kind="primaryv2" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
+      View Traces
+    </Button>
+  );
+
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel snapshot={snapshot} />
+      <SnapshotLabel snapshot={snapshot} actions={[viewTracesButton]} />
 
       <Kpis>
         <Kpi
