@@ -40,7 +40,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
 
   return (
     <div className={`${block}__metric-block`}>
-      <TimeMarker time={time} axis={axisConfig} />
+      <TimeMarker time={time} axis={axisConfig} config={config} />
       {axisConfig.labels.map((axis, i) => {
         const dataPoint = dataColumn && dataColumn[i];
         return (
@@ -68,11 +68,16 @@ function identity(a) {
   return a;
 }
 
-function TimeMarker({ time, axis }) {
+function TimeMarker({ time, axis, config }) {
   if (!axis.isDynamicAggregated) {
     return (
-      <div className={`${block}__time`}>
-        {formatDateTime(time)}
+      <div className={`${block}__aggregated`}>
+        <div className={`${block}__aggregated-time`}>
+          {formatDateTime(time)}
+        </div>
+        <div className={`${block}__aggregation`}>
+          {config.rollup.label} rollup
+        </div>
       </div>
     );
   }

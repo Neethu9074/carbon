@@ -8,7 +8,6 @@ import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatable
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
 import createApplyTimeButton from 'in-charts/Chart/renderer/applyTimeButtonRenderer';
-import createRollupIndicator from 'in-charts/Chart/renderer/rollupIndicatorRenderer';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
@@ -56,7 +55,6 @@ export default function createChart(config) {
 
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
   const animatableContentRenderer = createAnimatableContentRenderer(config);
-  const rollupIndicatorRenderer = createRollupIndicator(config);
   const applyTimeButtonRenderer = createApplyTimeButton(config);
   const tooltipRenderer = createTooltipRenderer(config);
   const borderRenderer = createBorderRenderer(config);
@@ -145,7 +143,6 @@ export default function createChart(config) {
   function dispose() {
     tooltipRenderer.dispose();
     applyTimeButtonRenderer.dispose();
-    rollupIndicatorRenderer.dispose();
     domController.dispose();
     axisController.dispose();
 
