@@ -67,13 +67,31 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.getIn(['data', 'mode']);
+      }
+    }
+  },
+  {
+    title: 'Status',
+    type: 'string',
+    typeArgs: {
+      getValue() {
+        return 'UP';
+      }
+    }
   }
 ];
 
 export default connectTo(
   props => {
     return {
-      clusterNodes: getClusterMembers(props.clusterSnapshotId)
+      clusterNodes: getClusterMembers(props.snapshot.get('id'))
         // Always start with an empty set to avoid inconsistent view,
         // displaying running components for a previously selected snapshot.
         .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
@@ -94,7 +112,7 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title={`Cluster Nodes (${rows.length})`}>
+      <DashboardSection title={`Live Nodes (${rows.length})`}>
         <Table cols={cols} rows={rows} />
       </DashboardSection>
     );

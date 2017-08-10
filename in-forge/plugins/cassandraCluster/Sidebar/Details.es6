@@ -27,7 +27,12 @@ export default function CassandraClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'nodeCount',
-            label: 'Nodes',
+            label: 'Live Nodes',
+            formatter: siPrefix
+          },
+          {
+            metric: 'unreachableNodeCount',
+            label: 'Down Nodes',
             formatter: siPrefix
           },
           {

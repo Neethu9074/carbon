@@ -11,8 +11,11 @@ export default function ClusterSummary({ snapshot }) {
   return (
     <KpiSection>
       <KpiHeading>{data.get('groupId')}</KpiHeading>
-      <KpiKeyValue label="Nodes">
+      <KpiKeyValue label="Live Nodes">
         <MetricValue snapshotId={snapshotId} metric="nodeCount" formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
+      <KpiKeyValue label="Down Nodes">
+        <MetricValue snapshotId={snapshotId} metric="unreachableNodeCount" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
       <KpiKeyValue label="Keyspaces">
         <MetricValue snapshotId={snapshotId} metric="keyspaceCount" formatter={withSiPrefixZeroDecimalPlaces} />
