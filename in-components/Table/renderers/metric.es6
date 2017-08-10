@@ -50,10 +50,12 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     // this flag enforces the metric subscription to always use the time window aggregated metric values
     forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {
-    column.value = v;
-    column.requiresContentRefresh = true;
-    row.mutationCount++;
-    emitRawDataChange();
+    if (column.value !== v) {
+      column.value = v;
+      column.requiresContentRefresh = true;
+      row.mutationCount++;
+      emitRawDataChange();
+    }
   });
 
   return column;

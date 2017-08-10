@@ -50,10 +50,12 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     metric,
     timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
   }).subscribe(v => {
-    column.value = v;
-    column.requiresContentRefresh = true;
-    row.mutationCount++;
-    emitRawDataChange();
+    if (column.value !== v) {
+      column.value = v;
+      column.requiresContentRefresh = true;
+      row.mutationCount++;
+      emitRawDataChange();
+    }
   });
 
   return column;
