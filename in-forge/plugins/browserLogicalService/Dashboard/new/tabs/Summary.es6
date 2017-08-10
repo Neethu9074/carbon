@@ -6,6 +6,9 @@ import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
+import NoErrorsMessage from 'in-sdk/components/dashboard/NoErrorsMessage';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import RenderWithMetric from 'in-components/RenderWithMetric';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { Row, Col } from 'in-components/Grid';
@@ -102,23 +105,42 @@ export default function Summary({ snapshot, timeframe }) {
         </Col>
         <Col cols={6}>
           <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
-            <Chart
+            <RenderWithMetric
               snapshotId={snapshotId}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: number.compact,
-                metrics: ['uncaughtErrors'],
-                labels: ['Uncaught errors'],
-                type: 'bar',
-                aggregation: 'sum'
-              }}
+              metric="uncaughtErrors"
+              timeframe={timeframe}
+              timeWindowAggregation="sum"
+              component={UncaughtErrors}
             />
+
           </DashboardTile>
         </Col>
       </Row>
     </MaxWidthFullscreenContainer>
+  );
+}
+
+function UncaughtErrors({ snapshotId, metricValue }) {
+  if (metricValue === null) {
+    return <LoadingIndicator type="dark" />;
+  } else if (metricValue <= 0) {
+    return <NoErrorsMessage />;
+  }
+
+  return (
+    <Chart
+      snapshotId={snapshotId}
+      margins={{
+        left: 60
+      }}
+      y1={{
+        min: 0,
+        formatter: number.compact,
+        metrics: ['uncaughtErrors'],
+        labels: ['Uncaught errors'],
+        type: 'bar',
+        aggregation: 'sum'
+      }}
+    />
   );
 }
