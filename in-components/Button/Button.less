@@ -11,7 +11,7 @@
   border-radius: .188rem;
   cursor: pointer;
 
-  transition: background 0.25s ease-in-out;
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
     color: black;
@@ -26,6 +26,17 @@
   &--secondary:hover {
     background: #6B8088;
     color: #fff;
+  }
+
+  &--secondaryv2, &--secondaryv2.in-button--disabled:hover {
+    background: transparent;
+    color: #06B7BA;
+    border: 1px solid;
+  }
+
+  &--secondaryv2:hover {
+    background: transparent;
+    color: #1b7071;
   }
 
   &--danger, &--danger.in-button--disabled:hover {

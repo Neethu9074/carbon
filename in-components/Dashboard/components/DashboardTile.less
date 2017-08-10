@@ -18,6 +18,7 @@
   &__header {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
   }
 
   &__title {
@@ -26,20 +27,8 @@
   }
 
   &__details-button {
-    background: transparent;
-    color: #06B7BA;
-    height: .75rem;
-    border: 1px solid;
-    border-radius: .25rem;
-    cursor: pointer;
     opacity: 0;
     transition: opacity .2s ease-in-out;
-    transition: color .2s ease-in-out;
-
-    &:hover {
-      background: transparent;
-      color: #1b7071;
-    }
   }
 }
 
