@@ -2,7 +2,8 @@ export default function createLineContentRenderer({ axisName, config }) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
-  const colors = config[axisName].colors;
+  const axisConfig = config[axisName];
+  const colors = axisConfig.colors;
 
   return {
     requireExistenceInAllSeries: false,
@@ -11,6 +12,11 @@ export default function createLineContentRenderer({ axisName, config }) {
   };
 
   function render(dataColumns) {
+    let xDomainOffset = 0;
+    if (axisConfig.aggregation) {
+      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
+    }
+
     const activeSeries = config.activeSeries[axisName];
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
       if (activeSeries[seriesIndex] === false) {
@@ -32,7 +38,7 @@ export default function createLineContentRenderer({ axisName, config }) {
           continue;
         }
 
-        const xToRender = x.getRange(dataRow[0]);
+        const xToRender = x.getRange(dataRow[0] + xDomainOffset);
         const yToRender = y.getRange(dataRow[1]);
 
         // draw these points later on as otherwise we would fill the line chart.
