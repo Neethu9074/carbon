@@ -2,7 +2,9 @@ import React from 'react';
 
 import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorBreakdownTable';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import Notification from 'in-sdk/components/dashboard/Notification';
@@ -54,6 +56,8 @@ export default connectTo(
 
     return (
       <div>
+        <BackButton label="Back to error list" href$={getSubDashboardLink(`/errors`)} />
+
         <DashboardTile title="Details">
           <DescriptionList>
             <DescriptionItem title="Message">
