@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorTable';
+import ErrorOverviewTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorOverviewTable';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
@@ -27,7 +27,7 @@ export default function ErrorOverview(props) {
           }}
         />
       </DashboardTile>
-      <ErrorTable {...props} />
+      <ErrorOverviewTable {...props} />
     </div>
   );
 }
