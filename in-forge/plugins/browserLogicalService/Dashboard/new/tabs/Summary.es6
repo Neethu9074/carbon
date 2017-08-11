@@ -38,7 +38,7 @@ export default function Summary({ snapshot, timeframe }) {
 
   const viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
   const viewTracesButton = (
-    <Button kind="primary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
+    <Button kind="default" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
       View Traces
     </Button>
   );
