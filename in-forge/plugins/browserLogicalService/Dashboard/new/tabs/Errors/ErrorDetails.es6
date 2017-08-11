@@ -4,6 +4,7 @@ import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboar
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -84,6 +85,15 @@ export default connectTo(
               : null}
           </DescriptionList>
         </DashboardTile>
+
+        {instanaInternalFeaturesEnabled
+          ? <DashboardTile title="Occurences over time">
+              <strong style={{ color: 'darkred' }}>
+                Show a chart how often this error occurred over time. This is currently not possible and will
+                require backend work.
+              </strong>
+            </DashboardTile>
+          : null}
 
         <ErrorBreakdownTable
           result={result}

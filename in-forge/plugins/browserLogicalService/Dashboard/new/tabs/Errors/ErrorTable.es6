@@ -3,6 +3,7 @@ import React from 'react';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import DashboardNotification from 'in-components/DashboardNotification';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { combineDataAndError } from 'in-services/util/ro';
@@ -46,18 +47,24 @@ const cols = [
   }
 ];
 
+// ensure that react repaints do not result in frequent backend calls
+const getBreakdown = memoize(
+  ({ snapshot, timeframe, pageHash }) =>
+    combineDataAndError(
+      getErrorsForWebsite({
+        websiteSnapshotId: snapshot.get('id'),
+        timeframe: timeframe,
+        pageHash: pageHash
+      })
+    ).delayedStop(35000),
+  ({ snapshot, timeframe, pageHash }) => snapshot.get('id') + timeframe.to + timeframe.windowSize + pageHash,
+  30000
+);
+
 export default connectTo(
   props => {
     return {
-      // TODO this request is executed waaaaayyyy too often. This likely to result in problems on the backend side.
-      // We probably need to memoize this call for some to avoid issues
-      result: combineDataAndError(
-        getErrorsForWebsite({
-          websiteSnapshotId: props.snapshot.get('id'),
-          timeframe: props.timeframe,
-          pageHash: props.pageHash
-        })
-      )
+      result: getBreakdown(props)
     };
   },
   function Errors({ result, snapshot, timeframe, pageHash, pageLabel }) {
@@ -72,7 +79,7 @@ export default connectTo(
       logger.warn('Failed to retrieve EUM error overview', result.error);
       return (
         <DashboardNotification type="danger">
-          <strong>Failed to retrieve EUM error overview.</strong> Please refresh the page or contact customer{' '}
+          <strong>Failed to retrieve error list.</strong> Please refresh the page or contact customer{' '}
           support should this issue persist.
         </DashboardNotification>
       );
@@ -103,7 +110,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title={`Uncaught Error Breakdown (${rows.length})`}>
+      <DashboardTile title={`Uncaught Errors (${rows.length})`}>
         <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardTile>
     );
