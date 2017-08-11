@@ -1,12 +1,12 @@
 import React from 'react';
 
-import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/Grid';
 import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
+import Link from 'in-components/Link';
 
 export default function Speed({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -84,44 +84,32 @@ export default function Speed({ snapshot, timeframe }) {
           </DashboardTile>
         : null}
 
-      <Row>
-        <Col cols={4}>
-          <DashboardTile title="Page Load Breakdown Summary">
-            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} />
-          </DashboardTile>
-        </Col>
-        <Col cols={8}>
-          <DashboardTile title="Page Load Breakdown Over Time">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              height={215}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: millis.compact,
-                metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'],
-                labels: [
-                  'Unload',
-                  'Redirect',
-                  'AppCache',
-                  'DNS',
-                  'TCP',
-                  'SSL',
-                  'Request',
-                  'Response',
-                  'DOM',
-                  'Children'
-                ],
-                type: 'stackedArea',
-                aggregation: 'mean'
-              }}
-            />
-          </DashboardTile>
-        </Col>
-      </Row>
+      <DashboardTile title="Page Load Breakdown Over Time">
+        <p>
+          With the exception of the DOM and children metrics, all the names come directly from the{' '}
+          <Link href="https://www.w3.org/TR/navigation-timing-2/#h-processing-model" external>
+            navigation timining
+          </Link>{' '}
+          specification. DOM is defined as <code>domContentLoadedEventStart - domLoading</code> and children is defined
+          as <code>loadEventEnd - domContentLoadedEventStart</code>.
+        </p>
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          height={215}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            min: 0,
+            formatter: millis.compact,
+            metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'],
+            labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'],
+            type: 'stackedArea',
+            aggregation: 'mean'
+          }}
+        />
+      </DashboardTile>
 
       <DashboardTile title="Paint Timing">
         <Chart
