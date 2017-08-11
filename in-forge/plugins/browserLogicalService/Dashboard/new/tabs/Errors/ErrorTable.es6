@@ -1,11 +1,10 @@
 import React from 'react';
 
-import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorBreakdownTable';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { combineDataAndError } from 'in-services/util/ro';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -18,10 +17,17 @@ const logger = createLogger('browserLogicalService/ErrorTable');
 const cols = [
   {
     title: 'Message',
-    type: 'string',
+    type: 'link',
     typeArgs: {
-      getValue(row) {
-        return row.message;
+      comparator: compareIgnoreCase,
+      get$(row) {
+        return getSubDashboardLink(`/errors/${encodeURIComponent(row.hash)}`).map(href => {
+          return {
+            label: row.message,
+            value: row.message,
+            href
+          };
+        });
       }
     }
   },
@@ -37,36 +43,14 @@ const cols = [
       },
       getContent: number.compact
     }
-  },
-  {
-    title: '',
-    type: 'linkButton',
-    disableSorting: true,
-    cellStyle: {
-      width: '120px'
-    },
-    typeArgs: {
-      get$(row) {
-        let query = `entity.website.label:"${luceneEscapeString(row.websiteLabel)}"`;
-        if (row.pageLabel) {
-          query += ` span.webEum.page:"${luceneEscapeString(row.pageLabel)}"`;
-        }
-        query += ` span.webEum.error.message:"${luceneEscapeString(row.message)}"`;
-
-        return getTraceViewLinkWithQuery(query).map(href => {
-          return {
-            href,
-            label: 'Traces'
-          };
-        });
-      }
-    }
   }
 ];
 
 export default connectTo(
   props => {
     return {
+      // TODO this request is executed waaaaayyyy too often. This likely to result in problems on the backend side.
+      // We probably need to memoize this call for some to avoid issues
       result: combineDataAndError(
         getErrorsForWebsite({
           websiteSnapshotId: props.snapshot.get('id'),
@@ -120,28 +104,8 @@ export default connectTo(
 
     return (
       <DashboardTile title={`Uncaught Error Breakdown (${rows.length})`}>
-        <Table
-          cols={cols}
-          rows={rows}
-          initialSortColumn={1}
-          initialSortDirection="desc"
-          getRowDetails={getRowDetails}
-        />
+        <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardTile>
     );
   }
 );
-
-function getRowDetails(row) {
-  return (
-    <ErrorBreakdownTable
-      errorHash={row.hash}
-      websiteSnapshotId={row.snapshotId}
-      timeframe={row.timeframe}
-      errorMessage={row.message}
-      websiteLabel={row.websiteLabel}
-      pageHash={row.pageHash}
-      pageLabel={row.pageLabel}
-    />
-  );
-}

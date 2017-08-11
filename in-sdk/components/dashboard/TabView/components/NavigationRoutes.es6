@@ -1,7 +1,8 @@
+import { Switch } from 'react-router-dom';
 import React from 'react';
 
+import { compareTabsForRoutingPreference } from 'in-sdk/components/dashboard/TabView/components/paths';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
-import { Switch } from 'react-router-dom';
 
 import './NavigationRoutes.less';
 
@@ -14,7 +15,7 @@ export default function NavigationRoutes({ tabs, props }) {
       //therefor sort the routes
       tabs
         .slice(0)
-        .sort(sortStructure)
+        .sort(compareTabsForRoutingPreference)
         .map(nav =>
           <RouteWithTitle
             key={`route_${nav.path}`}
@@ -33,14 +34,4 @@ function View({ ChildComponent, props }) {
       <ChildComponent {...props} />
     </div>
   );
-}
-
-function sortStructure(nav1, nav2) {
-  if (nav1.path.length > nav2.path.length) {
-    return -1;
-  } else if (nav1.path.length < nav2.path.length) {
-    return 1;
-  } else {
-    return 0;
-  }
 }

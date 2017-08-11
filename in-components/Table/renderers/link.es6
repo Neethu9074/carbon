@@ -2,18 +2,18 @@ import invariant from 'invariant';
 import React from 'react';
 
 import { noop } from 'in-services/fixedObjects';
-import Button from 'in-components/Button';
+import Link from 'in-components/Link';
 
-export const type = 'linkButton';
+export const type = 'link';
 
 export function validate(col) {
   invariant(
     typeof col.typeArgs.get === 'function' || typeof col.typeArgs.get$ === 'function',
-    'Columns with type=linkButton must have a get(row) function which returns objects of the form {value, href, label} or null. Alternatively, columns with type=linkButton must have a get$(row) function which returns observables which emit objects of the form {value, href, label} or null'
+    'Columns with type=link must have a get(row) function which returns objects of the form {value, href, label} or null. Alternatively, columns with type=link must have a get$(row) function which returns observables which emit objects of the form {value, href, label} or null'
   );
   invariant(
     col.disableSorting || typeof col.typeArgs.comparator === 'function',
-    'Columns with type=linkButton must have a comparator(contentA, contentB) function'
+    'Columns with type=link must have a comparator(contentA, contentB) function'
   );
 }
 
@@ -47,9 +47,9 @@ function setResult(result, col, row, emitRawDataChange) {
   } else {
     col.value = result.value;
     col.content = (
-      <Button href={result.href} size="sm" kind="secondary">
+      <Link href={result.href}>
         {result.label}
-      </Button>
+      </Link>
     );
   }
   row.mutationCount++;
