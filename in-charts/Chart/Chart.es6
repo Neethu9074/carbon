@@ -221,14 +221,13 @@ export default function createChart(config) {
     const now = Date.now();
     config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
     config.scales.x.setDomainTo(now);
-    const rollupSize = config.rollup.rollup || 1000;
+    const rollupSize = config.y1.dynamicCalculatedBlockSizeMillis || config.rollup.rollup || 1000;
 
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
     const expectedNextPoint =
       config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
-    const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
-    config.maxDistanceBetweenPoints = config.y1.dynamicCalculatedBlockSizeMillis || maxDistanceBetweenPoints;
+    config.maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
   }
 
   function copyBackBufferToScreenBuffer() {
