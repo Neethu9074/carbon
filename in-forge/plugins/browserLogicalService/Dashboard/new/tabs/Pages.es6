@@ -2,7 +2,6 @@ import React from 'react';
 
 import JumpToTracesTouchingServiceEndpointButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceEndpointButton';
 import PageCharts from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageCharts';
-import ErrorTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/ErrorTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -130,13 +129,6 @@ function getRowDetails(row) {
   return (
     <div>
       <PageCharts snapshotId={row.snapshotId} timeframe={row.timeframe} metricPrefix={`endpoint.${row.name}.`} />
-      <ErrorTable
-        snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
-        websiteLabel={row.websiteLabel}
-        pageLabel={row.name}
-        pageHash={row.hash}
-      />
     </div>
   );
 }
