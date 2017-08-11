@@ -2,8 +2,9 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
-  const colors = config[axisName].colors;
-  const numberOfSeries = config[axisName].numberOfSeries;
+  const axisConfig = config[axisName];
+  const colors = axisConfig.colors;
+  const numberOfSeries = axisConfig.numberOfSeries;
 
   return {
     requireExistenceInAllSeries: true,
@@ -46,6 +47,11 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
   }
 
   function render(dataColumns) {
+    let xDomainOffset = 0;
+    if (axisConfig.aggregation) {
+      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
+    }
+
     const activeSeries = config.activeSeries[axisName];
     let currentRenderIndex = 0;
     const end = dataColumns.length - 1;
@@ -74,7 +80,7 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
         ) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
-          const xToRender = x.getRange(dataRow[0]);
+          const xToRender = x.getRange(dataRow[0] + xDomainOffset);
 
           if (columnIndex === startingPoint) {
             // subtract one to ensure that the line is always visible
@@ -98,7 +104,7 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
 
-          ctx.lineTo(x.getRange(dataRow[0]), y.getRange(dataRow.y0));
+          ctx.lineTo(x.getRange(dataRow[0] + xDomainOffset), y.getRange(dataRow.y0));
         }
 
         ctx.closePath();
