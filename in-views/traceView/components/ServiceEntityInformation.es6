@@ -1,21 +1,14 @@
-import { loadingPlaceholder } from 'in-components/EntityInformation';
+import React from 'react';
+
 import EntityInformation from 'in-components/EntityInformation';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
-import { alwaysNull } from 'in-services/fixedStreams';
-import { getSnapshot } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(props => {
-  const side = getServiceSideForOverview(props.span);
-  const serviceSnapshotId = props.span.getIn(['rels', `${side}ServiceId`]);
-
-  let snapshot$ = alwaysNull;
+export default function ServiceEntityInformation(props) {
+  const { span } = props;
+  const side = getServiceSideForOverview(span);
+  const serviceSnapshotId = span.getIn(['rels', `${side}ServiceId`]);
   if (serviceSnapshotId) {
-    const time = props.span.get('start');
-    snapshot$ = getSnapshot(serviceSnapshotId, time).startWith(loadingPlaceholder);
+    return <EntityInformation {...props} snapshotId={serviceSnapshotId} time={span.get('start')} />;
   }
-
-  return {
-    snapshot: snapshot$
-  };
-}, EntityInformation);
+  return null;
+}

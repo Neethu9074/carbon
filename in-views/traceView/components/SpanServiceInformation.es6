@@ -16,11 +16,12 @@ export default connectTo(
   props => {
     const sourceId = props.span.getIn(['rels', 'sourceServiceId']);
     const destinationId = props.span.getIn(['rels', 'destinationServiceId']);
+    const start = props.span.get('start');
 
     return {
-      sourceServiceSnapshot: sourceId ? getSnapshot(sourceId) : alwaysNull,
+      sourceServiceSnapshot: sourceId ? getSnapshot(sourceId, start) : alwaysNull,
       sourceEntitySnapshot: getEntitySnapshot$BySpan(props.span, 'source'),
-      destinationServiceSnapshot: destinationId ? getSnapshot(destinationId) : alwaysNull
+      destinationServiceSnapshot: destinationId ? getSnapshot(destinationId, start) : alwaysNull
     };
   },
   function SpanServiceInformation({
@@ -66,7 +67,7 @@ export default connectTo(
   }
 );
 
-function Service({ label, snapshot, addEntryIcon, endpointLabel }) {
+function Service({ span, label, snapshot, addEntryIcon, endpointLabel }) {
   if (!snapshot) {
     return null;
   }
@@ -77,7 +78,8 @@ function Service({ label, snapshot, addEntryIcon, endpointLabel }) {
         ? <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
         : null}
       <EntityInformation
-        snapshot={snapshot}
+        snapshotId={snapshot.get('id')}
+        time={span.get('start')}
         label={label}
         getLabelCallback={label => getServiceLabelWithEndpoint(label, endpointLabel)}
       />
