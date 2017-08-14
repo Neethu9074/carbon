@@ -37,11 +37,11 @@ export default function WebsiteRow({ snapshot, data }) {
           <WebsiteIssueButton snapshotId={snapshot.get('id')} />
         </div>
 
-        {data.pageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
+        {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.pageLoad < 1 ? <NoDataMessage /> : null}
+        {data.rawPageLoad != null && data.rawPageLoad < 1 ? <NoDataMessage /> : null}
 
-        {data.pageLoad >= 1
+        {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <Chart
               snapshotId={snapshot.get('id')}
               y1={{
