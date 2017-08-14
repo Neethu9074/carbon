@@ -1,6 +1,8 @@
 import React from 'react';
 
 import {
+  generalServiceExtractionConfigurationViewLink$,
+  isGeneralServiceExtractionConfigurationView$,
   httpServiceExtractionConfigurationViewLink$,
   isHttpServiceExtractionConfigurationView$,
   ejbServiceExtractionConfigurationViewLink$,
@@ -44,6 +46,12 @@ export default function Navigation() {
       <NavItems>
         {role.canConfigureServiceMapping
           ? <NavItem title="Service Mapper">
+              <NavItem
+                title="General Rules"
+                href$={generalServiceExtractionConfigurationViewLink$}
+                isActive$={isGeneralServiceExtractionConfigurationView$}
+                borderless
+              />
               <NavItem
                 title="HTTP Rules"
                 href$={httpServiceExtractionConfigurationViewLink$}

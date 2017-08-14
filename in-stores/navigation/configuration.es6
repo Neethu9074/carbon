@@ -7,6 +7,14 @@ import {
 
 export const configurationViewLink$ = buildUrlStream({ path: '/config' });
 
+export const generalServiceExtractionConfigViewPath = '/config/generalServiceExtraction';
+export const generalServiceExtractionConfigurationViewLink$ = buildUrlStream({
+  path: generalServiceExtractionConfigViewPath
+});
+export const isGeneralServiceExtractionConfigurationView$ = buildPathStartsWithStream(
+  generalServiceExtractionConfigViewPath
+);
+
 export const httpServiceExtractionConfigViewPath = '/config/httpServiceExtraction';
 export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({
   path: httpServiceExtractionConfigViewPath
