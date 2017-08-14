@@ -72,3 +72,13 @@ export function resetSensors(snapshot) {
     logger.info('Sensor reset response', response);
   });
 }
+
+export function updateAgent(snapshot) {
+  createAgentResponseObservable({
+    action: 'agent.update',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('Agent update response', response);
+  });
+}
