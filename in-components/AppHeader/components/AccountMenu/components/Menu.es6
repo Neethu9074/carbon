@@ -10,7 +10,6 @@ import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { config, isOnPremise } from 'in-services/config';
-import { goToGraph } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -71,10 +70,6 @@ export default connectTo(
                 Release Notes
               </Link>
             : null}
-
-          <Link className={block + '__link'} href="#" onClick={closeAndCall(goToGraph)}>
-            Graph Showcase
-          </Link>
 
           {__DEV__
             ? <Link className={block + '__link'} onClick={toggleDevPanel}>
