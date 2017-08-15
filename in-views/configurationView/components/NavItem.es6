@@ -12,8 +12,8 @@ const block = 'in-config-view-nav-item';
 export default connectTo(
   props => {
     return {
-      href: props.href$,
-      isActive: props.isActive$
+      isActive: props.isActive$,
+      href: props.href$
     };
   },
   function NavItem({ href, isActive, children, borderless, title }) {
@@ -22,7 +22,7 @@ export default connectTo(
     if (childCount > 0) {
       return (
         <li className={block}>
-          <Collapsible>
+          <Collapsible initiallyOpen={isActive}>
             <Collapsible.Header>
               {title}
             </Collapsible.Header>

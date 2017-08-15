@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -50,7 +51,16 @@ export default function Navigation() {
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
         {role.canConfigureServiceMapping
-          ? <NavItem title="Service Mapper">
+          ? <NavItem
+              title="Service Mapper"
+              isActive$={combine(
+                isGeneralServiceExtractionConfigurationView$,
+                isHttpServiceExtractionConfigurationView$,
+                isEjbServiceExtractionConfigurationView$,
+                isElasticsearchServiceExtractionConfigurationView$,
+                isMessageBrokerServiceExtractionConfigurationView$
+              )}
+            >
               <NavItem
                 title="General Rules"
                 href$={generalServiceExtractionConfigurationViewLink$}
@@ -89,7 +99,10 @@ export default function Navigation() {
           : null}
 
         {role.canConfigureUsers || role.canConfigureRoles
-          ? <NavItem title="Access Control">
+          ? <NavItem
+              title="Access Control"
+              isActive$={combine(isUserManagementView$, isRolesConfigView$, isApiTokensView$)}
+            >
               {role.canConfigureUsers
                 ? <NavItem title="Users" href$={userManagementViewLink$} isActive$={isUserManagementView$} borderless />
                 : null}
@@ -105,7 +118,7 @@ export default function Navigation() {
           : null}
 
         {role.canConfigureCustomAlerts
-          ? <NavItem title="Knowledge Management">
+          ? <NavItem title="Knowledge Management" isActive$={combine(isRulesViewLink$, isRuleBindingsViewLink$)}>
               <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
               <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
             </NavItem>
@@ -121,4 +134,10 @@ export default function Navigation() {
       </NavItems>
     </nav>
   );
+}
+
+function combine() {
+  var args = Array.from(arguments);
+  // the observable should return true, if any of the given streams returns true
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a | b, false)));
 }
