@@ -24,7 +24,9 @@ export default (
     <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
     <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
 
-    <RouteWithTitle path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map ASCII Style" />
+    <RouteWithTitle path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map" />
+    <RouteWithTitle path="/ascii/logical" component={AsciiMap} windowTitle="Application Map" />
+    <RouteWithTitle path="/ascii/container" component={AsciiMap} windowTitle="Infrastructure Container Map" />
 
     <RouteWithTitle path="/physical" component={Map} windowTitle="Infrastructure Host Map" />
     <RouteWithTitle path="/logical" component={Map} windowTitle="Application Map" />

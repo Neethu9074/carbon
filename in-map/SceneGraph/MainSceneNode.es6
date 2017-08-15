@@ -2,12 +2,11 @@ import ContainerMapNode from 'in-map/SceneGraph/container/MapNode';
 import PhysicalMapNode from 'in-map/SceneGraph/physical/MapNode';
 import LogicalMapNode from 'in-map/SceneGraph/logical/MapNode';
 import { view$, types as views } from 'in-stores/view';
-import Scene from 'in-map/sceneObjects/Scene';
 import Node from 'in-map/SceneGraph/Node';
 
 export default class SceneNode extends Node {
   constructor(params) {
-    super({ InstanceType: Scene, params });
+    super({ InstanceType: params.InstanceType, params });
 
     this.addSubscription(
       view$.subscribe(view => {

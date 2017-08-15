@@ -17,9 +17,9 @@ const store = createTrackingStore({
   observable: navigationParameters$
     .map(params => {
       const pathname = params.pathname;
-      if (pathname.indexOf('/logical') === 0) {
+      if (pathname.indexOf('/logical') >= 0) {
         return types.logical;
-      } else if (pathname.indexOf('/container') === 0) {
+      } else if (pathname.indexOf('/container') >= 0) {
         return types.container;
       }
       return types.physical;

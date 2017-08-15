@@ -1,5 +1,6 @@
 import EmptySceneNode from 'in-map/SceneGraph/EmptySceneNode';
 import MainSceneNode from 'in-map/SceneGraph/MainSceneNode';
+import Scene from 'in-map/sceneObjects/Scene';
 
 export default class SceneGraph {
   constructor(canvas, antialias, webGlContext) {
@@ -8,7 +9,8 @@ export default class SceneGraph {
           id: 'mainScene',
           canvas,
           antialias,
-          webGlContext
+          webGlContext,
+          InstanceType: Scene
         })
       : // if there is no webgl context, gracefully setup an empty scene
         new EmptySceneNode({ id: 'emptyMainScene' });
