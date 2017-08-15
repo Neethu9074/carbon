@@ -113,9 +113,11 @@ export default class AsciiScene extends SceneObject {
     });
     renderer.autoClearColor = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000);
+    renderer.setClearColor(0x010101);
 
-    const effect = (this.asciiEffect = new AsciiEffect(renderer));
+    const effect = (this.asciiEffect = new AsciiEffect(renderer, undefined, {
+      invert: true
+    }));
     effect.setSize(window.innerWidth, window.innerHeight);
 
     const parent = document.getElementById('in-map');
