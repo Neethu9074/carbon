@@ -21,6 +21,14 @@ export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({
 });
 export const isHttpServiceExtractionConfigurationView$ = buildPathStartsWithStream(httpServiceExtractionConfigViewPath);
 
+export const batchServiceExtractionConfigViewPath = '/config/batchServiceExtraction';
+export const batchServiceExtractionConfigurationViewLink$ = buildUrlStream({
+  path: batchServiceExtractionConfigViewPath
+});
+export const isBatchServiceExtractionConfigurationView$ = buildPathStartsWithStream(
+  batchServiceExtractionConfigViewPath
+);
+
 export const ejbServiceExtractionConfigViewPath = '/config/ejbServiceExtraction';
 export const ejbServiceExtractionConfigurationViewLink$ = buildUrlStream({ path: ejbServiceExtractionConfigViewPath });
 export const isEjbServiceExtractionConfigurationView$ = buildPathStartsWithStream(ejbServiceExtractionConfigViewPath);

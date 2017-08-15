@@ -6,6 +6,8 @@ import {
   isGeneralServiceExtractionConfigurationView$,
   httpServiceExtractionConfigurationViewLink$,
   isHttpServiceExtractionConfigurationView$,
+  batchServiceExtractionConfigurationViewLink$,
+  isBatchServiceExtractionConfigurationView$,
   ejbServiceExtractionConfigurationViewLink$,
   isEjbServiceExtractionConfigurationView$,
   elasticsearchServiceExtractionConfigurationViewLink$,
@@ -71,6 +73,12 @@ export default function Navigation() {
                 title="HTTP Rules"
                 href$={httpServiceExtractionConfigurationViewLink$}
                 isActive$={isHttpServiceExtractionConfigurationView$}
+                borderless
+              />
+              <NavItem
+                title="Batch Rules"
+                href$={batchServiceExtractionConfigurationViewLink$}
+                isActive$={isBatchServiceExtractionConfigurationView$}
                 borderless
               />
               <NavItem
