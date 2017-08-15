@@ -10,7 +10,6 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-components/Button';
 
 import './UiConfig.less';
 
@@ -22,50 +21,39 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      settings: null,
-      wasManipulated: false
+      settings: null
     };
   }
 
   componentWillMount() {
     this.settingsSubscription = settings$.subscribe(_settings =>
       this.setState({
-        settings: _settings,
-        wasManipulated: false
+        settings: _settings
       })
     );
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.settingsSubscription.dispose();
     this.settingsSubscription = null;
+
+    set(this.state.settings);
   }
 
   saveSetting = (k, v) => {
     const newSettings = this.state.settings;
     newSettings[k] = v;
     this.setState({
-      settings: newSettings,
-      wasManipulated: true
+      settings: newSettings
     });
   };
 
-  saveSettings = () => {
-    set(this.state.settings);
-  };
-
   render() {
-    const { settings, wasManipulated } = this.state;
+    const { settings } = this.state;
     return (
       <SubViewWrapper>
         <SubViewHeader>
           User Interface
-        </SubViewHeader>
-
-        <SubViewHeader>
-          <Button kind="success" disabled={!wasManipulated} onClick={this.saveSettings}>
-            Save
-          </Button>
         </SubViewHeader>
 
         <Section>
