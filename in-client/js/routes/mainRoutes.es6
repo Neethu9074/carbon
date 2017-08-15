@@ -12,7 +12,6 @@ import LogView from 'promise-loader?global!in-views/logView/LogView';
 import EumView from 'promise-loader?global!in-views/eumView/EumView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
-import WebVRView from 'in-components/webVRView/WebVRView';
 import { eumViewEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
@@ -52,8 +51,6 @@ export default (
 
     <RouteWithTitle component={GraphView} path="/graph" windowTitle="Graph" />
     <RouteWithTitle component={GlobeView} path="/globe" windowTitle="World Globe" />
-    <RouteWithTitle component={WebVRView} path="/webVR/physical" windowTitle="Physical WebVR View" />
-    <RouteWithTitle component={WebVRView} path="/webVR/logical" windowTitle="Logical WebVR View" />
 
     <RouteWithTitle
       path="/config"

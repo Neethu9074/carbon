@@ -11,9 +11,7 @@ import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
 import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
-import { loadVREffectWrapper } from 'in-map/services/webVR';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { setDimensions } from 'in-map/stores/indexStore';
 import theme from 'in-services/theme';
 
@@ -61,17 +59,6 @@ export default class MainScene extends SceneObject {
       frame$.subscribe(shouldRenderSceneCallback),
       on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
-
-    if (isWebVRActive) {
-      this.addSubscription(
-        eventBus.on('enterFullscreen').subscribe(shouldEnter => {
-          if (shouldEnter) {
-            this.renderTarget.isPresenting ? this.renderTarget.exitPresent() : this.renderTarget.requestPresent();
-            eventBus.emit('enterFullscreen', false);
-          }
-        })
-      );
-    }
 
     this.handleLostContext();
     this.handleAnimationFrames(0);
@@ -130,13 +117,7 @@ export default class MainScene extends SceneObject {
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
-
-    if (isWebVRActive) {
-      const VREffectClass = loadVREffectWrapper();
-      this.renderTarget = new VREffectClass(renderer);
-    } else {
-      this.renderTarget = renderer;
-    }
+    this.renderTarget = renderer;
   }
 
   setupScene() {
@@ -144,12 +125,12 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const offset = isWebVRActive ? 0 : theme.footer.height + theme.header.height;
+    const offset = theme.footer.height + theme.header.height;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 
     const canvas = this.canvas;
-    const ratio = isWebVRActive ? window.devicePixelRatio || 1 : 1;
+    const ratio = 1;
 
     this.renderer.setSize(width * ratio, height * ratio);
     setDimensions(width * ratio, height * ratio);

@@ -8,7 +8,6 @@ import { showSticky$ } from 'in-map/stores/physical/groupsStore';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { groups } from 'in-map/stores/physical/groupsStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { eventBus } from 'in-map/services/eventBus';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -24,16 +23,14 @@ export default class Group extends SceneObject {
   init() {
     super.init();
 
-    if (!isWebVRActive) {
-      stickyNotes.add(this.id, {
-        type: GroundStickyNote,
-        props: {
-          id: this.id,
-          eventEmitter: this.eventEmitter,
-          showSticky$
-        }
-      });
-    }
+    stickyNotes.add(this.id, {
+      type: GroundStickyNote,
+      props: {
+        id: this.id,
+        eventEmitter: this.eventEmitter,
+        showSticky$
+      }
+    });
   }
 
   initComponents() {
@@ -41,18 +38,16 @@ export default class Group extends SceneObject {
 
     this.addComponent('mesh', new MeshComponent(this, FCP, 'lines'));
 
-    if (!isWebVRActive) {
-      this.addComponent(
-        'screenPosition',
-        new ScreenPositionComponent(this, (pos, scale) => {
-          return {
-            x: pos.x,
-            y: pos.y,
-            z: pos.z + scale.z / 2
-          };
-        })
-      );
-    }
+    this.addComponent(
+      'screenPosition',
+      new ScreenPositionComponent(this, (pos, scale) => {
+        return {
+          x: pos.x,
+          y: pos.y,
+          z: pos.z + scale.z / 2
+        };
+      })
+    );
 
     this.getComponent('color').setHex(getColorPool('groups').getColorHex(this.id));
 

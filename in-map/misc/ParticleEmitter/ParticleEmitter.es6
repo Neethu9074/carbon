@@ -19,7 +19,6 @@ import { particlesAreActive$ } from 'in-map/stores/logical/particlesStore';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { requestRendering } from 'in-map/stores/renderingStore';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { loadImage } from 'in-map/services/imageLoader';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { eventBus } from 'in-map/services/eventBus';
@@ -65,8 +64,7 @@ export default class ParticleEmitter {
       depthWrite: false,
       side: DoubleSide,
       uniforms: {
-        texture: { type: 't', value: texture },
-        distance: { type: 'f', value: isWebVRActive ? 200 : 1500 }
+        texture: { type: 't', value: texture }
       }
     }));
 
