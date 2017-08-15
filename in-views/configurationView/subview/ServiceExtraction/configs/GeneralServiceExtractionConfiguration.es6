@@ -11,15 +11,19 @@ export const pathname = generalServiceExtractionConfigViewPath;
 
 export const helpTexts = defaults(
   {
-    viewHelp:
-      'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
-        'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
-        'a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ.',
+    viewHelp: (
+      <span>
+        Configure how Instana uses attributes of underlying components to extract services. You can define multiple
+        rules{' '}
+        which will be executed in order, i.e. the first rule of which all match expression match, will be used to
+        extract{' '}
+        a service name. More specific rules like HTTP or MessageBrokers are evaluated first.
+        TODO: link http and MB
+      </span>
+    ),
     matchesHelp:
-      'Select here which message broker attributes should be used to match and extract a service. At least one match ' +
-        'expression is required. The message broker destination / queue / topic can be matched ' +
-        "to extract services. When all of the configured match expressions match a message broker span's attributes, a " +
-        'service will be extracted.'
+      'Select here which attributes should be used to match and extract a service. At least one match ' +
+        'expression is required.'
   },
   commonHelpTexts
 );
@@ -39,9 +43,7 @@ export const matchSpecificationOptions = {
     initialValue: '',
     help: (
       <span>
-        Define a regular expression to match destinations / queues. Capture groups from matches of this regular{' '}
-        expression are available in the service name field via the prefix <code>destination</code>, e.g. {' '}
-        <code>{'{destination-1}'}</code> references the first capture group.
+        Key value match
       </span>
     )
   }
