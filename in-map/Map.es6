@@ -12,6 +12,7 @@ import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
+
 import 'in-map/Map.less';
 
 const block = 'in-map';

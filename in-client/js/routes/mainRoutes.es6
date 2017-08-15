@@ -1,8 +1,8 @@
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
-import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
+import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -15,6 +15,7 @@ import GlobeView from 'in-components/globeView/GlobeView';
 import { eumViewEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
+import AsciiMap from 'in-map/AsciiMap';
 import Map from 'in-map/index';
 
 export default (
@@ -22,6 +23,8 @@ export default (
 
     <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
     <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
+
+    <RouteWithTitle path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map ASCII Style" />
 
     <RouteWithTitle path="/physical" component={Map} windowTitle="Infrastructure Host Map" />
     <RouteWithTitle path="/logical" component={Map} windowTitle="Application Map" />
