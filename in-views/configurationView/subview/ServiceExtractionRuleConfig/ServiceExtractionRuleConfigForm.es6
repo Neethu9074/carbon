@@ -93,22 +93,57 @@ export default class extends React.Component {
                     Remove
                   </a>
                 </Label>
-                <Helpify helpText={matchSpecificationOptions[key].help}>
-                  <Input
-                    type="text"
-                    id={`${id}-${key}`}
-                    className={`${block}__helpfified_input`}
-                    placeholder={matchSpecificationOptions[key].placeholder}
-                    value={field.value}
-                    onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
-                    hasError={!field.valid}
-                  />
-                  {field.valid
-                    ? null
-                    : <ValidationBlock hasError>
-                        {field.messages.map(e => e.message)}
-                      </ValidationBlock>}
-                </Helpify>
+                {key === 'tag'
+                  ? <div className={`${block}__double-input`}>
+                      <Helpify helpText={matchSpecificationOptions[key].key.help}>
+                        <Input
+                          type="text"
+                          id={`${id}-${key}`}
+                          className={`${block}__helpfified_input`}
+                          placeholder={matchSpecificationOptions[key].key.placeholder}
+                          value={field.value}
+                          onChange={e => onChangeIn(this.matchSpecificationPath.concat([key, 'key']), e.target.value)}
+                          hasError={!field.valid}
+                        />
+                        {field.valid
+                          ? null
+                          : <ValidationBlock hasError>
+                              {field.messages.map(e => e.message)}
+                            </ValidationBlock>}
+                      </Helpify>
+                      <Helpify helpText={matchSpecificationOptions[key].value.help}>
+                        <Input
+                          type="text"
+                          id={`${id}-${key}`}
+                          className={`${block}__helpfified_input`}
+                          placeholder={matchSpecificationOptions[key].value.placeholder}
+                          value={field.value}
+                          onChange={e => onChangeIn(this.matchSpecificationPath.concat([key, 'value']), e.target.value)}
+                          hasError={!field.valid}
+                        />
+                        {field.valid
+                          ? null
+                          : <ValidationBlock hasError>
+                              {field.messages.map(e => e.message)}
+                            </ValidationBlock>}
+                      </Helpify>
+                    </div>
+                  : <Helpify helpText={matchSpecificationOptions[key].help}>
+                      <Input
+                        type="text"
+                        id={`${id}-${key}`}
+                        className={`${block}__helpfified_input`}
+                        placeholder={matchSpecificationOptions[key].placeholder}
+                        value={field.value}
+                        onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
+                        hasError={!field.valid}
+                      />
+                      {field.valid
+                        ? null
+                        : <ValidationBlock hasError>
+                            {field.messages.map(e => e.message)}
+                          </ValidationBlock>}
+                    </Helpify>}
               </FormGroup>
             );
           })}

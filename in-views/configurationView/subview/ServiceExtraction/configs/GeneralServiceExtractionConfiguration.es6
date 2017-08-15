@@ -2,8 +2,8 @@ import { defaults } from 'lodash';
 import React from 'react';
 
 import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
-import { generalServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
+import { generalServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 
 export const ruleType = 'general';
 
@@ -38,14 +38,26 @@ export const matchSpecificationOptionsTree = [
 export const matchSpecificationOptions = {
   tag: {
     titleName: 'Host Tag',
-    placeholder: '',
-    testPlaceholder: '',
-    initialValue: '',
-    help: (
-      <span>
-        Key value match
-      </span>
-    )
+    key: {
+      placeholder: 'key placeholder',
+      testPlaceholder: '',
+      initialValue: '',
+      help: (
+        <span>
+          Key value match
+        </span>
+      )
+    },
+    value: {
+      placeholder: 'value placeholder',
+      testPlaceholder: '',
+      initialValue: '',
+      help: (
+        <span>
+          Key value match
+        </span>
+      )
+    }
   }
 };
 
