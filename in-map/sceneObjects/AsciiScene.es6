@@ -113,7 +113,7 @@ export default class AsciiScene extends SceneObject {
     });
     renderer.autoClearColor = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0xf0f0f0);
+    renderer.setClearColor(0x000000);
 
     const effect = (this.asciiEffect = new AsciiEffect(renderer));
     effect.setSize(window.innerWidth, window.innerHeight);
