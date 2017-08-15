@@ -168,7 +168,6 @@ export default class AsciiScene extends SceneObject {
     clearFactories();
 
     PhysicsServiceLocator.provide(createNullService());
-    contextIsAvailable();
 
     this.shouldRenderScene = null;
     this.renderTarget = null;
