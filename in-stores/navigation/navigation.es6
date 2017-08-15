@@ -100,7 +100,11 @@ function getCurrentPath() {
   if (!hash || hash.length === 2) {
     return '/';
   } else {
-    return hash.substring(hash.indexOf('#/') + 1, hash.indexOf('?'));
+    if (hash.indexOf('?') !== -1) {
+      return hash.substring(hash.indexOf('#/') + 1, hash.indexOf('?'));
+    } else {
+      return hash.substring(hash.indexOf('#/') + 1, hash.length);
+    }
   }
 }
 
