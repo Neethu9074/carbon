@@ -26,7 +26,7 @@ export default connectTo(
     systemRules: getSystemRules()
   },
   function RuleBindingForm({ systemRules, rules, form, onChange, onChangeInRuleIds }) {
-    systemRules = systemRules ? systemRules.toArray() : [];
+    systemRules = systemRules || [];
 
     return (
       <fieldset>
@@ -34,7 +34,7 @@ export default connectTo(
           <div>
             {form.get('ruleIds').map(field => {
               const selectedRule = field.value.get(0);
-              const isSystemRule = selectedRule && systemRules.map(r => r.get('id')).indexOf(selectedRule) >= 0;
+              const isSystemRule = selectedRule && systemRules.indexOf(selectedRule) >= 0;
 
               return (
                 <FormGroup>
@@ -224,8 +224,8 @@ function RulesDropDown({ value, rules, systemRules, onChangeInRuleIds }) {
         .concat(
           systemRules.map(rule => {
             return {
-              value: rule.get('id'),
-              label: rule.get('name')
+              value: rule.id,
+              label: rule.name
             };
           })
         )}
