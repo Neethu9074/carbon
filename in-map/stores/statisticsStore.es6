@@ -75,18 +75,20 @@ if (__DEV__) {
       new Map([['seconds', getBigBangTime() | 0], ['FPS_possible', getFPS() + ' (' + minFPS + '/' + maxFPS + ')']])
     );
 
-    statistics.add(
-      'renderer',
-      new Map([
-        ['geometries', memoryInfo.geometries],
-        ['textures', memoryInfo.textures],
-        ['drawCalls', renderInfo.calls],
-        ['faces', renderInfo.faces],
-        ['points', renderInfo.points],
-        ['vertices', renderInfo.vertices],
-        ['framesRendered', framesRendered]
-      ])
-    );
+    if (memoryInfo) {
+      statistics.add(
+        'renderer',
+        new Map([
+          ['geometries', memoryInfo.geometries],
+          ['textures', memoryInfo.textures],
+          ['drawCalls', renderInfo.calls],
+          ['faces', renderInfo.faces],
+          ['points', renderInfo.points],
+          ['vertices', renderInfo.vertices],
+          ['framesRendered', framesRendered]
+        ])
+      );
+    }
 
     statistics.add(
       'scene objects',

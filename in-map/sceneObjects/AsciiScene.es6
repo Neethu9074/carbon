@@ -7,13 +7,12 @@ import { update as updateTime, getDeltaTime, reset as resetTime } from 'in-map/m
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
-import createCameraController from 'in-map/misc/physical/CameraController';
-import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
 import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
-import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
+import { setCanvas } from 'in-map/stores/indexStore';
+import { Scene } from 'in-map/3DLibProvider';
 import theme from 'in-services/theme';
 
 import CanvasRenderer from 'in-map/lib/CanvasRenderer.js';
@@ -25,8 +24,6 @@ export default class AsciiScene extends SceneObject {
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
-
-    contextIsAvailable();
 
     // init service locator
     PhysicsServiceLocator.provide(createPhysicsService());
@@ -44,7 +41,6 @@ export default class AsciiScene extends SceneObject {
     this.antialias = params.antialias;
     this.webGlContext = params.webGlContext;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
-    this.isAsciiMap = params.isAsciiMap;
   }
 
   init() {
@@ -65,7 +61,6 @@ export default class AsciiScene extends SceneObject {
       on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
 
-    this.handleLostContext();
     this.handleAnimationFrames(0);
 
     // send initial resize
@@ -113,39 +108,25 @@ export default class AsciiScene extends SceneObject {
   setupRenderer() {
     let renderer;
 
-    if (this.isAsciiMap) {
-      renderer = this.renderer = new CanvasRenderer({
-        canvas: this.canvas
-      });
-      renderer.autoClearColor = true;
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0xf0f0f0);
+    renderer = this.renderer = new CanvasRenderer({
+      canvas: this.canvas
+    });
+    renderer.autoClearColor = true;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xf0f0f0);
 
-      const effect = (this.asciiEffect = new AsciiEffect(renderer));
-      effect.setSize(window.innerWidth, window.innerHeight);
+    const effect = (this.asciiEffect = new AsciiEffect(renderer));
+    effect.setSize(window.innerWidth, window.innerHeight);
 
-      const parent = document.getElementById('in-map');
-      parent.removeChild(this.canvas);
-      parent.appendChild(effect.domElement);
+    const parent = document.getElementById('in-map');
+    parent.removeChild(this.canvas);
+    parent.appendChild(effect.domElement);
 
-      this.renderTarget = effect;
+    setCanvas(effect.domElement);
 
-      CameraControllerServiceLocator.provide(createCameraController(effect.domElement, this));
-      this.addSubscriptions([eventBus.on('update').subscribe(CameraControllerServiceLocator.update)]);
-      requestRendering();
-    } else {
-      renderer = this.renderer = new WebGLRenderer({
-        canvas: this.canvas,
-        context: this.webGlContext,
-        antialias: this.antialias === 'browserAA' ? true : false
-      });
-      renderer.setSize(0, 0);
-      renderer.setClearColor(0x445b63, 1.0);
-    }
+    this.renderTarget = effect;
 
-    // objects organize matrix updates by themselves
-    renderer.autoUpdateObjects = false;
-    this.renderTarget = renderer;
+    requestRendering();
   }
 
   setupScene() {
@@ -156,44 +137,19 @@ export default class AsciiScene extends SceneObject {
     const offset = theme.footer.height + theme.header.height;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
-
     const canvas = this.canvas;
-    const ratio = 1;
 
-    this.renderer.setSize(width * ratio, height * ratio);
-    setDimensions(width * ratio, height * ratio);
-    canvas.setAttribute('width', width * ratio);
-    canvas.setAttribute('height', height * ratio);
+    this.renderer.setSize(width, height);
+    setDimensions(width, height);
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height', height);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    if (this.isAsciiMap) {
-      this.renderTarget.setSize(width * ratio, height * ratio);
-    }
+    this.renderTarget.setSize(width, height);
 
     // refresh to show the current state
     requestRendering();
-  }
-
-  // the GPU is a shared resource and as such there are times when it might be taken away from the app.
-  // examples: another page does something that takes the GPU too long and the browser
-  // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
-  handleLostContext() {
-    this.addSubscriptions([
-      on(this.canvas, 'webglcontextlost').subscribe(event => {
-        event.preventDefault();
-        contextIsLost();
-      }),
-      on(this.canvas, 'webglcontextrestored').subscribe(() => {
-        // at the point that this method is called the browser has reset all state
-        // to the default WebGL state and all previously allocated resources are invalid.
-        // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
-        // and setup your state (clearColor, blendFunc, depthFunc, etc...)
-        // to make it short... reload the page
-        contextIsAvailable();
-        window.location.reload();
-      })
-    ]);
   }
 
   getChromeVersion() {

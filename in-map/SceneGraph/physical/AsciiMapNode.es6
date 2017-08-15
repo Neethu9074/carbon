@@ -1,11 +1,11 @@
 import { getViewStructure } from 'in-map/stores/physical/viewStructureStore';
 import GroupNode from 'in-map/SceneGraph/physical/GroupNode';
-import Map from 'in-map/sceneObjects/physical/Map';
+import AsciiMap from 'in-map/sceneObjects/physical/AsciiMap';
 import Node from 'in-map/SceneGraph/Node';
 
 export default class MapNode extends Node {
   constructor(params) {
-    super({ InstanceType: Map, params });
+    super({ InstanceType: AsciiMap, params });
 
     this.addSubscription(
       getViewStructure().subscribe(structure => {
