@@ -42,7 +42,12 @@ const block = 'in-config-view-nav';
 export default function Navigation() {
   return (
     <nav className={block}>
-      <h2 className={`${block}__heading`}>Settings</h2>
+      <h2 className={`${block}__heading`}>User Settings</h2>
+      <NavItems>
+        <NavItem title="User Interface" href$={userInterfaceConfigViewLink$} isActive$={isUserInterfaceConfigView$} />
+      </NavItems>
+
+      <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
         {role.canConfigureServiceMapping
           ? <NavItem title="Service Mapper">
@@ -82,8 +87,6 @@ export default function Navigation() {
         {role.canConfigureEumApplications
           ? <NavItem title="End-User Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
           : null}
-
-        <NavItem title="User Interface" href$={userInterfaceConfigViewLink$} isActive$={isUserInterfaceConfigView$} />
 
         {role.canConfigureUsers || role.canConfigureRoles
           ? <NavItem title="Access Control">

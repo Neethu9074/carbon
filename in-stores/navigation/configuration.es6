@@ -5,7 +5,7 @@ import {
   mutateUrl
 } from 'in-stores/navigation/navigation';
 
-export const configurationViewLink$ = buildUrlStream({ path: '/config' });
+export const configurationViewLink$ = buildUrlStream({ path: '/config/userInterface' });
 
 export const generalServiceExtractionConfigViewPath = '/config/generalServiceExtraction';
 export const generalServiceExtractionConfigurationViewLink$ = buildUrlStream({
