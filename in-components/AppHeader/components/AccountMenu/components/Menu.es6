@@ -10,8 +10,6 @@ import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { config, isOnPremise } from 'in-services/config';
-import { webVrEnabled } from 'in-services/featureFlags';
-import { goToGraph } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -70,16 +68,6 @@ export default connectTo(
           {!isOnPremise()
             ? <Link className={block + '__link'} href="#" onClick={closeAndCall(showReleaseNotes)}>
                 Release Notes
-              </Link>
-            : null}
-
-          <Link className={block + '__link'} href="#" onClick={closeAndCall(goToGraph)}>
-            Graph Showcase
-          </Link>
-
-          {webVrEnabled
-            ? <Link className={block + '__link'} href="#/webVR/physical" external>
-                WebVR Showcase
               </Link>
             : null}
 

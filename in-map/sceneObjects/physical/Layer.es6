@@ -1,6 +1,5 @@
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
-import FCCP from 'in-map/singleMeshFactories/ContentProvider/FullCubeContentProvider';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -11,7 +10,6 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { getColorBySeverity } from 'in-stores/events';
 
 export default class Layer extends SceneObject {
@@ -25,22 +23,15 @@ export default class Layer extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    if (isWebVRActive) {
-      this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
-    } else {
-      this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
+    this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 
-      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
+    this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
 
-      this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
+    this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
 
-      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
+    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
-      this.addComponent(
-        'collision',
-        new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.LAYER)
-      );
-    }
+    this.addComponent('collision', new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.LAYER));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 

@@ -1,12 +1,9 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
-import { always, alwaysEmptyArray } from 'in-services/fixedStreams';
+import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import { logicalViewStructure$ } from 'in-stores/view';
-import { getSnapshot } from 'in-stores/snapshot';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
@@ -48,46 +45,34 @@ export default function AJAX({ snapshot, timeframe }) {
 const OutgoingConnections = connectTo(
   props => {
     return {
-      outgoingConnections: logicalViewStructure$
-        .map(viewStructure => {
-          for (let i = 0, length = viewStructure.children.length; i < length; i++) {
-            const item = viewStructure.children[i];
-            if (item.id === props.snapshotId) {
-              return item;
-            }
-          }
-          return null;
-        })
-        .flatMap(viewStructureItem => {
-          if (!viewStructureItem) {
-            return alwaysEmptyArray;
-          }
-
-          return (
-            combineLatest(viewStructureItem.outgoingConnections.map(c => getSnapshot(c.id)), false)
-              // remove null snapshots
-              .map(snapshots => snapshots.filter(s => s))
-          );
-        })
-        .throttle(1000)
+      connections: getLogicalConnections({ snapshotId: props.snapshotId })
     };
   },
-  function OutgoingConnections({ outgoingConnections, timeframe }) {
-    if (!outgoingConnections || outgoingConnections.length === 0) {
-      return null;
+  function OutgoingConnections({ connections }) {
+    if (connections == null) {
+      return (
+        <DashboardTile title="Call Targets">
+          <LoadingIndicator type="dark" />
+        </DashboardTile>
+      );
     }
 
-    const otherConnections = outgoingConnections.filter(
-      connectedSnapshot => connectedSnapshot.get('plugin') !== plugins.pageResourceLogicalConnection
+    const onlyAjaxConnections = connections.filter(
+      connection => connection.connectionPlugin === plugins.logicalHttpConnection
     );
+    if (onlyAjaxConnections.length === 0) {
+      // TODO MAKE THIS LOOK NICE!
+      return (
+        <DashboardTile title="Call Targets">
+          No AJAX endpoints found.
+        </DashboardTile>
+      );
+    }
 
+    // TODO TAKE CARE OF RENDERING THIS
     return (
-      <DashboardTile title="">
-        <LogicalConnectionEntityTable
-          title={'Outgoing Connections'}
-          timeframe={timeframe}
-          dataStream={always(otherConnections)}
-        />
+      <DashboardTile title="Call Targets">
+        TODO Render da connections
       </DashboardTile>
     );
   }

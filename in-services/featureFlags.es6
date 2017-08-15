@@ -7,7 +7,6 @@ const trainingTu = config.tenant === 'training';
 const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
-export const webVrEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';

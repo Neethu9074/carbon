@@ -1,9 +1,11 @@
 import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { goToGraph } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
 import Dialog from 'in-components/Dialog';
+import Button from 'in-components/Button';
 
 import './AboutInstanaDialog.less';
 
@@ -20,6 +22,16 @@ export default function AboutInstanaDialog() {
         <span className={`${block}__revision`}>
           {build.revision}
         </span>
+
+        <Button
+          className={`${block}__button`}
+          onClick={() => {
+            goToGraph();
+            setActiveDialog(null);
+          }}
+        >
+          Graph Showcase
+        </Button>
       </div>
     </Dialog>
   );

@@ -20,10 +20,9 @@ import { changePosition } from 'in-map/stores/logical/layouterStore';
 import { showSticky$ } from 'in-map/stores/logical/servicesStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 import DragGhost from 'in-map/misc/logical/DragGhost';
-import { eventBus } from 'in-map/services/eventBus';
 import { getColorBySeverity } from 'in-stores/events';
+import { eventBus } from 'in-map/services/eventBus';
 
 export default class Service extends SceneObject {
   constructor(params) {
@@ -54,61 +53,54 @@ export default class Service extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    if (isWebVRActive) {
-      this.addComponent('mesh', new MeshComponent(this, this.isExternal ? CloudCP : CylinderCP, 'nodes'));
-    } else {
-      if (this.isExternal && !this.isEum) {
-        this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
+    if (this.isExternal && !this.isEum) {
+      this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
 
-        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
 
-        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
-
-        this.addComponent(
-          'highlighting_mesh_secondary_solid',
-          new HighlightingMeshComponent(this, CloudHCP, 'secondary_solid', 'isSecondaryHighlighted')
-        );
-      } else if (this.isEum) {
-        this.addComponent('mesh', new MeshComponent(this, EumCP, 'nodes'));
-
-        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, EumHCP));
-
-        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, EumCP, 'solid'));
-
-        this.addComponent(
-          'highlighting_mesh_secondary_solid',
-          new HighlightingMeshComponent(this, EumHCP, 'secondary_solid', 'isSecondaryHighlighted')
-        );
-      } else {
-        this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
-
-        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
-
-        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CylinderCP, 'solid'));
-
-        this.addComponent(
-          'highlighting_mesh_secondary_solid',
-          new HighlightingMeshComponent(this, CylinderHCP, 'secondary_solid', 'isSecondaryHighlighted')
-        );
-      }
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
 
       this.addComponent(
-        'collision',
-        new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES)
+        'highlighting_mesh_secondary_solid',
+        new HighlightingMeshComponent(this, CloudHCP, 'secondary_solid', 'isSecondaryHighlighted')
       );
+    } else if (this.isEum) {
+      this.addComponent('mesh', new MeshComponent(this, EumCP, 'nodes'));
 
-      if (!this.isUnknown) {
-        this.addComponent(
-          'screenPosition',
-          new ScreenPositionComponent(this, (pos, scale) => {
-            return {
-              x: pos.x + scale.x,
-              y: pos.y + scale.y,
-              z: pos.z - scale.z / 2
-            };
-          })
-        );
-      }
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, EumHCP));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, EumCP, 'solid'));
+
+      this.addComponent(
+        'highlighting_mesh_secondary_solid',
+        new HighlightingMeshComponent(this, EumHCP, 'secondary_solid', 'isSecondaryHighlighted')
+      );
+    } else {
+      this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
+
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CylinderCP, 'solid'));
+
+      this.addComponent(
+        'highlighting_mesh_secondary_solid',
+        new HighlightingMeshComponent(this, CylinderHCP, 'secondary_solid', 'isSecondaryHighlighted')
+      );
+    }
+
+    this.addComponent('collision', new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES));
+
+    if (!this.isUnknown) {
+      this.addComponent(
+        'screenPosition',
+        new ScreenPositionComponent(this, (pos, scale) => {
+          return {
+            x: pos.x + scale.x,
+            y: pos.y + scale.y,
+            z: pos.z - scale.z / 2
+          };
+        })
+      );
     }
 
     this.addComponent(

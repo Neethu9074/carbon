@@ -5,7 +5,6 @@ import { glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyp
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { Points, RawShaderMaterial } from 'in-map/3DLibProvider';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
   constructor(options) {
@@ -24,10 +23,6 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         numColumns: {
           type: 'f',
           value: config.numElementsPerColumn
-        },
-        distance: {
-          type: 'f',
-          value: isWebVRActive ? 200 : 1000
         }
       }
     });
@@ -49,7 +44,6 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
       return;
     }
 
-    const iconSizeMultiplier = isWebVRActive ? 0.2 : 1;
     const geometry = this.mesh.geometry;
 
     const pointSizes = [];
@@ -72,7 +66,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         index += 3;
       }
 
-      pointSizes[i++] = fragment.additionalParams.iconSize * iconSizeMultiplier;
+      pointSizes[i++] = fragment.additionalParams.iconSize;
 
       const xy = config.LUT[fragment.additionalParams.type];
       xy

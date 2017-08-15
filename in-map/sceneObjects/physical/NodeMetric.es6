@@ -11,11 +11,6 @@ import {
   getSlicedGeometry,
   INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
-import {
-  NUM_POINTS_PER_SLICE as NUM_FULL_POINTS_PER_SLICE,
-  getSlicedGeometry as getSlicedFullGeometry,
-  INDEX_MASK as FULL_INDEX_MASK
-} from 'in-map/singleMeshFactories/ContentProvider/PredefinedFullSlicedCubes';
 import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
@@ -24,7 +19,6 @@ import { updateAttribute } from 'in-map/services/geometryAttributes';
 import AnimationController from 'in-map/misc/AnimationController';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import { isWebVRActive } from 'in-map/stores/webVRStore';
 
 const METRIC_MARGIN = 0.9;
 
@@ -36,9 +30,9 @@ export default class NodeMetric extends SceneObject {
     this.parentNode = params.node;
     this.numSlices = 1;
 
-    this.getGeometry = isWebVRActive ? getSlicedFullGeometry : getSlicedGeometry;
-    this.numPointsPerSlice = isWebVRActive ? NUM_FULL_POINTS_PER_SLICE : NUM_POINTS_PER_SLICE;
-    this.indexMask = isWebVRActive ? FULL_INDEX_MASK : INDEX_MASK;
+    this.getGeometry = getSlicedGeometry;
+    this.numPointsPerSlice = NUM_POINTS_PER_SLICE;
+    this.indexMask = INDEX_MASK;
   }
 
   init() {

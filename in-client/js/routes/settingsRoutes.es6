@@ -1,5 +1,6 @@
 import ServiceExtractionRuleConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import ElasticServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
+import GeneralServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/GeneralServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
 import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
@@ -41,6 +42,12 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction"
       windowTitle="Service Extraction Rule"
+    />
+
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(GeneralServiceExtractionConfiguration)}
+      path="/config/generalServiceExtraction"
+      windowTitle="General Service Extraction"
     />
 
     <RouteWithTitle

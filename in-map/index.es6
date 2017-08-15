@@ -10,7 +10,7 @@ export default function MapHandler(props) {
   return (
     <div>
       <section>
-        <Map webVRMode={props.webVRMode} />
+        <Map />
         <Controls />
         <EventSidebar />
         <MapSidebar />

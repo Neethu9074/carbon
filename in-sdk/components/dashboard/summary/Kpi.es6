@@ -9,6 +9,13 @@ import './Kpi.less';
 const block = 'in-dash-sum-kpi';
 
 export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregation, formatter, label, percentages }) {
+  let renderedPercentages = null;
+  if (percentages != null && percentages.length === 2) {
+    renderedPercentages = <DualPercentage percentages={percentages} snapshotId={snapshotId} timeframe={timeframe} />;
+  } else if (percentages != null && percentages.length === 1 && __DEV__) {
+    throw new Error('Single percentage rendering not yet supported.');
+  }
+
   return (
     <div className={block}>
       <span className={`${block}__label`}>
@@ -24,35 +31,37 @@ export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregati
           className={`${block}__value`}
         />
 
-        {percentages &&
-          percentages.map(percentage =>
-            <Percentage key={percentage.metric} snapshotId={snapshotId} timeframe={timeframe} {...percentage} />
-          )}
+        {renderedPercentages}
       </div>
     </div>
   );
 }
 
-const Percentage = connectTo(
+const DualPercentage = connectTo(
   props => {
     return {
-      value: getTimeWindowBasedMetricAggregation({
+      aValue: getTimeWindowBasedMetricAggregation({
         snapshotId: props.snapshotId,
-        metric: props.metric,
-        timeWindowAggregation: props.timeWindowAggregation,
+        metric: props.percentages[0].metric,
+        timeWindowAggregation: props.percentages[0].timeWindowAggregation,
         timeframe: props.timeframe
       })
     };
   },
-  function Percentage({ formatter, label, value }) {
-    const width = value == null ? '0%' : `${(value * 100) | 0}%`;
+  function DualPercentage({ aValue, percentages }) {
+    const width = aValue == null ? '0%' : `${(aValue * 100) | 0}%`;
 
     return (
-      <div className={`${block}__percentage`}>
-        <div className={`${block}__percentage-fill`} style={{ width }} />
-        <span className={`${block}__percentage-value`}>{value != null ? formatter(value) : '––'}</span>
-        <span className={`${block}__percentage-label`}>
-          {label}
+      <div className={`${block}__percentage2`}>
+        <div className={`${block}__percentage2-bar`}>
+          <div className={`${block}__percentage2-fill`} style={{ width }} />
+        </div>
+
+        <span className={`${block}__percentage2-a`}>
+          {aValue != null ? percentages[0].formatter(aValue) : '––'} {percentages[0].label}
+        </span>
+        <span className={`${block}__percentage2-b`}>
+          {percentages[1].label} {aValue != null ? percentages[1].formatter(1 - aValue) : '––'}
         </span>
       </div>
     );
