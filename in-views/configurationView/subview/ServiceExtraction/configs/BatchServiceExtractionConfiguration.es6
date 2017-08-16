@@ -31,7 +31,7 @@ export const matchSpecificationOptionsTree = [
 ];
 
 export const matchSpecificationOptions = {
-  module: {
+  job: {
     titleName: 'Job',
     placeholder: '',
     testPlaceholder: '',
