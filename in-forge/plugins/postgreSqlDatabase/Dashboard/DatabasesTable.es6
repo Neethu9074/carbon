@@ -17,22 +17,6 @@ const cols = [
     }
   },
   {
-    title: 'Queries',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return 'databases.' + row.key + '.queries';
-      },
-      getContent: activityZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'Committed transactions',
     type: 'metric',
     typeArgs: {
