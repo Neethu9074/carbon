@@ -1,4 +1,5 @@
 import { twoDecimalPlaces } from 'in-services/formatters/number';
+import { find } from 'in-services/arrayUtils';
 
 const textHeightInPx = 13;
 const textMarginInPx = 5;
@@ -177,7 +178,25 @@ export default function createAnimatableContentRenderer(config) {
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
     const formatter = config[axisName].formatter || twoDecimalPlaces;
-    const ticks = getYTickPositions(scale);
+    let ticks = getYTickPositions(scale).map(e => {
+      e.domain = formatter(e.domain);
+      return e;
+    });
+    const clearedTicks = ticks.reduce((a, b) => {
+      if (find(a, each => each.domain === b.domain)) {
+        return a;
+      }
+      a.push(b);
+      return a;
+    }, []);
+    if (clearedTicks.length !== ticks.length) {
+      console.log('---------------------------------');
+      // ticks = getYTickPositions(scale, clearedTicks.length).map(e => {
+      //   e.domain = formatter(e.domain);
+      //   return e;
+      // });
+      console.log(ticks);
+    }
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
     const textX = isLeftAxis ? config.bounds.left - 10 : config.bounds.right + 10;
@@ -185,7 +204,7 @@ export default function createAnimatableContentRenderer(config) {
     staticCtx.beginPath();
     staticCtx.font = axisFont;
     staticCtx.fillStyle = axisFontColor;
-    staticCtx.textBaseline = 'middle';
+    staticCtx.textBaseline = 'top';
 
     if (isLeftAxis) {
       staticCtx.textAlign = 'right';
@@ -195,24 +214,35 @@ export default function createAnimatableContentRenderer(config) {
 
     for (let i = 0, len = ticks.length; i < len; i++) {
       const tick = ticks[i];
-      staticCtx.rect(tickX, tick.range, 5, 1);
+      staticCtx.rect(tickX, tick.range - 1, 5, 2);
       staticCtx.fillStyle = axisFontColor;
-      staticCtx.fillText(formatter(tick.domain), textX, tick.range);
+      staticCtx.fillText(tick.domain, textX, tick.range - 4);
     }
 
     staticCtx.fillStyle = axisTickColor;
     staticCtx.fill();
   }
 
-  function getYTickPositions(scale) {
+  function getYTickPositions(scale, maxElements) {
     const ticks = [];
     const domainRange = scale.getDomainTo() - scale.getDomainFrom();
+    if (!domainRange) {
+      return ticks;
+    }
+
+    let d = maxElements ? true : false;
 
     const fullAxisHeightInPx = config.height - config.margins.top - config.margins.bottom;
-    const maxElements = Math.floor(fullAxisHeightInPx / (textHeightInPx + textMarginInPx));
+    maxElements = maxElements || Math.floor(fullAxisHeightInPx / (textHeightInPx + textMarginInPx));
 
     let step = Math.pow(10, Math.floor(Math.log(domainRange / desiredNumberOfTicks) / Math.LN10));
+    step = Math.min(maxElements, desiredNumberOfTicks);
+    step = domainRange / (step - 1) - 0.00001;
     let numElements = domainRange / step;
+
+    if (d) {
+      console.log(maxElements, numElements, step);
+    }
 
     while (numElements > maxElements) {
       numElements /= 2;
@@ -223,11 +253,6 @@ export default function createAnimatableContentRenderer(config) {
     let lastTickRange = scale.getRange(lastTickDomain);
 
     for (let i = 0; i < numElements; i++) {
-      // Do not add y axis labels when there ain't any more room for them.
-      if (lastTickRange < 10) {
-        continue;
-      }
-
       ticks.push({
         range: lastTickRange,
         domain: lastTickDomain

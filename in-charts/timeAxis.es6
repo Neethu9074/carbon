@@ -10,7 +10,7 @@ export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAli
   }
 
   const ticks = [];
-  const width = scale.getRangeTo();
+  const width = Math.abs(scale.getRangeTo() - scale.getRangeFrom());
   const start = leftAligned ? scale.getDomainFrom() : ceilToNearestStep(scale.getDomainFrom());
 
   let lastTickDomain = 0;
