@@ -45,6 +45,7 @@ export default connectTo(
       }
 
       this.registerListener();
+      const linkElement = `${block}__link`;
 
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
@@ -52,40 +53,42 @@ export default connectTo(
             Signed in as {window.instana.user.fullName}
           </p>
 
-          <Link href={umpLink} className={block + '__account-menu-link'} onClick={closeMenu} external>
+          <Link href={umpLink} className={`${linkElement} ${block}__account-menu-link`} onClick={closeMenu} external>
             Management Portal
-            <SvgIcon type="chevron_right" height={10} color="#92a5ae" />
+            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
           </Link>
 
           <Separator />
 
           {!isOnPremise() ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
 
-          <Link className={block + '__link'} href$={configurationViewLink$} onClick={closeMenu}>
+          <Link className={linkElement} href$={configurationViewLink$} onClick={closeMenu}>
             Settings
           </Link>
 
           {!isOnPremise()
-            ? <Link className={block + '__link'} href="#" onClick={closeAndCall(showReleaseNotes)}>
+            ? <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
                 Release Notes
               </Link>
             : null}
 
           {__DEV__
-            ? <Link className={block + '__link'} onClick={toggleDevPanel}>
+            ? <Link className={linkElement} onClick={toggleDevPanel}>
                 Developer Panel
               </Link>
             : null}
 
-          <Link className={block + '__link'} href="https://docs.instana.com" onClick={closeMenu} target="_block">
+          <Link className={linkElement} href="https://docs.instana.com" onClick={closeMenu} target="_block">
             Documentation
+            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
           </Link>
 
-          <Link className={block + '__link'} href="https://support.instana.com" onClick={closeMenu} target="_block">
+          <Link className={linkElement} href="https://support.instana.com" onClick={closeMenu} target="_block">
             Support
+            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
           </Link>
 
-          <Link className={block + '__link'} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
+          <Link className={linkElement} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
             About Instana
           </Link>
 
