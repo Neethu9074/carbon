@@ -22,7 +22,7 @@ export function SubMenuItem({ isActive, label, href$ }) {
 
   return (
     <li>
-      <Link className={classes} onClick={e => e.stopPropagation()} href$={href$}>
+      <Link className={classes} href$={href$}>
         {label}
       </Link>
     </li>

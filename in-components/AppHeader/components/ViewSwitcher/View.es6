@@ -19,8 +19,7 @@ export default function View({ label, href$, icon, iconSize, color, children, is
 
   return (
     <li className={classes}>
-      <Link className={`${block}__link`} onClick={e => e.stopPropagation()} href$={href$}>
-
+      <Link className={`${block}__link`} href$={href$}>
         <SvgIcon
           className={`${block}__icon`}
           type={icon}
