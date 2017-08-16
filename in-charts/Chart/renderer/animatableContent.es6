@@ -1,5 +1,4 @@
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import { find } from 'in-services/arrayUtils';
 
 const textHeightInPx = 13;
 const textMarginInPx = 5;
@@ -178,25 +177,22 @@ export default function createAnimatableContentRenderer(config) {
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
     const formatter = config[axisName].formatter || twoDecimalPlaces;
-    let ticks = getYTickPositions(scale).map(e => {
-      e.domain = formatter(e.domain);
-      return e;
-    });
-    const clearedTicks = ticks.reduce((a, b) => {
-      if (find(a, each => each.domain === b.domain)) {
-        return a;
-      }
-      a.push(b);
+
+    let ticks = getYTickPositions(scale);
+
+    // we need to format the domains to be able to calculate unique values (0 -> 0, 0.2 -> 0, 0.8 -> 1, etc.)
+    ticks.forEach(e => (e.domain = formatter(e.domain)));
+
+    const uniqueTicks = ticks.reduce((a, b) => {
+      a.set(b.domain, b);
       return a;
-    }, []);
-    if (clearedTicks.length !== ticks.length) {
-      console.log('---------------------------------');
-      // ticks = getYTickPositions(scale, clearedTicks.length).map(e => {
-      //   e.domain = formatter(e.domain);
-      //   return e;
-      // });
-      console.log(ticks);
+    }, new Map());
+    if (uniqueTicks.size !== ticks.length) {
+      // if the array contains multiple same values, recalculate but now we know the max size for ticks
+      ticks = getYTickPositions(scale, uniqueTicks.size);
+      ticks.forEach(e => (e.domain = formatter(e.domain)));
     }
+
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
     const textX = isLeftAxis ? config.bounds.left - 10 : config.bounds.right + 10;
@@ -214,7 +210,7 @@ export default function createAnimatableContentRenderer(config) {
 
     for (let i = 0, len = ticks.length; i < len; i++) {
       const tick = ticks[i];
-      staticCtx.rect(tickX, tick.range - 1, 5, 2);
+      staticCtx.rect(tickX, tick.range, 5, 1);
       staticCtx.fillStyle = axisFontColor;
       staticCtx.fillText(tick.domain, textX, tick.range - 4);
     }
@@ -230,8 +226,6 @@ export default function createAnimatableContentRenderer(config) {
       return ticks;
     }
 
-    let d = maxElements ? true : false;
-
     const fullAxisHeightInPx = config.height - config.margins.top - config.margins.bottom;
     maxElements = maxElements || Math.floor(fullAxisHeightInPx / (textHeightInPx + textMarginInPx));
 
@@ -239,10 +233,6 @@ export default function createAnimatableContentRenderer(config) {
     step = Math.min(maxElements, desiredNumberOfTicks);
     step = domainRange / (step - 1) - 0.00001;
     let numElements = domainRange / step;
-
-    if (d) {
-      console.log(maxElements, numElements, step);
-    }
 
     while (numElements > maxElements) {
       numElements /= 2;
