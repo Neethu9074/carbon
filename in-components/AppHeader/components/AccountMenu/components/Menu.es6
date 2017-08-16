@@ -130,7 +130,7 @@ export default connectTo(
 
       const rect = this.menu.getBoundingClientRect();
       if (e.clientX > rect.right || e.clientX < rect.left || e.clientY < rect.top || e.clientY > rect.bottom) {
-        // the click was donw outside this component so close it
+        // the click was done outside this component so close it
         closeMenu();
       }
     };
