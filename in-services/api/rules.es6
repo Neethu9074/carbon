@@ -11,6 +11,16 @@ export function getRules() {
   }).map(response => fromJS(response.body));
 }
 
+export function getSystemRules() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/rules/systemRules`
+
+    // no need to make it immutable since it would be converted directly
+  }).map(response => response.body);
+}
+
 export function getRule(id) {
   return http({
     method: 'GET',
