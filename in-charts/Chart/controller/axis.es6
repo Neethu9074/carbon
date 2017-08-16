@@ -1,5 +1,4 @@
-import { combineLatest } from 'reactive-observables';
-import { create } from 'reactive-observables';
+import { combineLatest, create } from 'reactive-observables';
 import invariant from 'invariant';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
