@@ -7,12 +7,11 @@ import {
   DoubleSide,
   Face3,
   FrontSide,
-  Geometry,
+  Geometry as ThreeGeometry,
   Group,
   ImageLoader,
   Line,
   Loader,
-  Math,
   Matrix4,
   Mesh,
   MeshBasicMaterial,
@@ -670,7 +669,7 @@ export default function () {
 		var bones = [];
 		setupSkeleton( skeleton, bones, -1 );
 		setupSkinningMatrices( bones, skinController.skin );
-		v = new Vector3();
+		var v = new Vector3();
 		var skinned = [];
 
 		for (var i = 0; i < geometry.vertices.length; i ++) {
@@ -683,14 +682,14 @@ export default function () {
 
 			if ( bones[ i ].type != 'JOINT' ) continue;
 
-			for ( j = 0; j < bones[ i ].weights.length; j ++ ) {
+			for ( var j = 0; j < bones[ i ].weights.length; j ++ ) {
 
-				w = bones[ i ].weights[ j ];
-				vidx = w.index;
-				weight = w.weight;
+				var w = bones[ i ].weights[ j ];
+				var vidx = w.index;
+				var weight = w.weight;
 
-				o = geometry.vertices[vidx];
-				s = skinned[vidx];
+				var o = geometry.vertices[vidx];
+				var s = skinned[vidx];
 
 				v.x = o.x;
 				v.y = o.y;
@@ -2849,7 +2848,7 @@ export default function () {
 
 		}
 
-		this.geometry3js = new Geometry();
+		this.geometry3js = new ThreeGeometry();
 
 		if ( this.vertices === null ) {
 
@@ -3157,7 +3156,7 @@ export default function () {
 		this.inputs = [];
 		this.vcount = null;
 		this.p = [];
-		this.geometry = new Geometry();
+		this.geometry = new ThreeGeometry();
 
 	};
 

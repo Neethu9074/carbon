@@ -1,6 +1,7 @@
 import {
   AmbientLight as ThreeAmbientLight,
-  Animation as ThreeAnimation,
+  AnimationClip as ThreeAnimationClip,
+  AnimationMixer as ThreeAnimationMixer,
   BoxBufferGeometry as ThreeBoxBufferGeometry,
   BoxGeometry as ThreeBoxGeometry,
   BufferAttribute as ThreeBufferAttribute,
@@ -69,7 +70,9 @@ export const MixOperation = ThreeMixOperation;
 export const SpotLight = ThreeSpotLight;
 export const Vector4 = ThreeVector4;
 
-export const Animation = ThreeAnimation;
+export const AnimationClip = ThreeAnimationClip;
+export const AnimationMixer = ThreeAnimationMixer;
+
 export const LoadingManager = ThreeLoadingManager;
 export const ColladaLoader = ThreeColladaLoader;
 export const SkinnedMesh = ThreeSkinnedMesh;

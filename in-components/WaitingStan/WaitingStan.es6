@@ -12,8 +12,8 @@ export default class WaitingStan extends React.Component {
   static displayName = 'Map';
 
   componentDidMount() {
-    if (isWebGLSupported() && this.webGlContext) {
-      this.scene = createScene(this.canvas, this.webGlContext);
+    if (isWebGLSupported() && this.webGlContext && this.mainCanvas) {
+      this.scene = createScene(this.mainCanvas, this.webGlContext);
     }
   }
 

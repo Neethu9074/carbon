@@ -1,18 +1,17 @@
 import {
-  Animation,
   DirectionalLight,
-  LoadingManager,
   PerspectiveCamera,
   Scene,
   SkinnedMesh,
-  Texture,
   Vector3,
-  WebGLRenderer
+  WebGLRenderer,
+  AnimationClip,
+  AnimationMixer
 } from 'in-map/3DLibProvider';
 import stanTexturePath from 'in-components/WaitingStan/components/assets/stanColorMap.jpg';
 import stanModelPath from 'in-components/WaitingStan/components/assets/stanMesh.dae';
 import { loadImage } from 'in-map/services/imageLoader';
-import ColladaLoader from 'in-map/lib/ColladaLoader';
+import ColladaLoader from 'in-map/lib/ColladaLoader.js';
 
 export default function createScene(canvas, webGlContext) {
   let camera,
@@ -24,14 +23,16 @@ export default function createScene(canvas, webGlContext) {
   initScene();
   loadStan();
   update();
-  console.log(scene);
 
   return {
     dispose
   };
 
   function initScene() {
-    camera = new PerspectiveCamera(27, window.innerWidth / window.innerHeight, 1, 100);
+    const width = 400;
+    const height = 300;
+
+    camera = new PerspectiveCamera(27, width / height, 1, 100);
     camera.position.set(0, 0, 9);
     camera.lookAt(new Vector3(0, 0, 0));
 
@@ -42,7 +43,7 @@ export default function createScene(canvas, webGlContext) {
       context: webGlContext,
       antialias: true
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     renderer.setClearColor(0x555555);
 
     const directionalLight = new DirectionalLight(0xffffff, 0.75);
@@ -52,55 +53,35 @@ export default function createScene(canvas, webGlContext) {
 
   function loadStan() {
     const texture = loadImage(stanTexturePath, stanTexture => {
-      texture.image = stanTexture;
-      texture.needsUpdate = true;
+      stanTexture.needsUpdate = true;
     });
 
     // Prepare ColladaLoader
     var daeLoader = new ColladaLoader();
     daeLoader.options.convertUpAxis = true;
     daeLoader.load(stanModelPath, function(collada) {
-      var modelMesh = collada.scene;
-
-      // Prepare and play animation
-      modelMesh.traverse(function(child) {
+      var object = collada.scene;
+      const mixer = new AnimationMixer(object);
+      object.traverse(function(child) {
         if (child.material) {
           child.material.map = texture;
           child.material.color.set(0xffffff);
           child.material.emissive.set(0x111111);
         }
         if (child instanceof SkinnedMesh) {
-          setupAnimations(child);
+          var clip = AnimationClip.parseAnimation(child.geometry.animation, child.geometry.bones);
+          mixer.clipAction(clip, child).play();
         }
       });
 
       // Set position and scale
-      modelMesh.position.set(0, -1.5, 0);
+      object.position.set(0, -1.5, 0);
       var scale = 1;
-      modelMesh.scale.set(scale, scale, scale);
+      object.scale.set(scale, scale, scale);
 
-      // Add the mesh into scene
-      scene.add(modelMesh);
-
-      stan.mesh = modelMesh;
+      scene.add(object);
+      stan.mesh = object;
     });
-  }
-
-  function setupAnimations(skinnedMesh) {
-    var allAnimations = new Animation(skinnedMesh, skinnedMesh.geometry.animation);
-    allAnimations.loop = true;
-    allAnimations.data.fps = 25;
-
-    stan.animations.fly = {
-      from: 0,
-      length: 3.33333333,
-      animation: allAnimations
-    };
-    stan.animations.no = {
-      from: 3.33333333,
-      length: 0.833333333,
-      animation: allAnimations
-    };
   }
 
   function update() {

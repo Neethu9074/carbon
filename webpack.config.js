@@ -67,7 +67,7 @@ module.exports = {
         test: /\.dae$/i,
         use: [
           {
-            loader: 'raw-loader'
+            loader: 'url-loader?limit=30000'
           }
         ]
       },
