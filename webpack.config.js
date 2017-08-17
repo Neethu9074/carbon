@@ -24,11 +24,10 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-
     rules: [
       {
         test: /\.(ttf|eot|obj)$/i,
-        use: [{loader: 'url-loader?limit=3000'}]
+        use: [{ loader: 'url-loader?limit=3000' }]
       },
       {
         test: /\.(css|less)$/i,
@@ -40,19 +39,18 @@ module.exports = {
               loader: 'css-loader'
             },
             {
-              loader: 'postcss-loader', options: {
-              sourceMap: true,
-              ident: 'postcss',
-              plugins: () => {
-                return [
-                  require('autoprefixer')({
-                    browsers: [
-                      'last 2 versions'
-                    ]
-                  })
-                ];
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                ident: 'postcss',
+                plugins: () => {
+                  return [
+                    require('autoprefixer')({
+                      browsers: ['last 2 versions']
+                    })
+                  ];
+                }
               }
-            }
             },
             {
               loader: 'less-loader'
@@ -63,30 +61,47 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [{loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'}]
+        use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
+      },
+      {
+        test: /\.dae$/i,
+        use: [
+          {
+            loader: 'url-loader?limit=30000'
+          }
+        ]
       },
       {
         test: /\.glsl$/i,
-        use: [{
-          loader: 'raw-loader'
-        }]
-      }, {
+        use: [
+          {
+            loader: 'raw-loader'
+          }
+        ]
+      },
+      {
         test: /\.es6$/i,
-        use: [{
-          loader: 'babel-loader'
-        }]
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
       },
       {
         test: /\.yaml$/i,
-        use: [{
-          loader: 'raw-loader'
-        }]
+        use: [
+          {
+            loader: 'raw-loader'
+          }
+        ]
       },
       {
         test: /\.json$/i,
-        use: [{
-          loader: 'json-loader'
-        }]
+        use: [
+          {
+            loader: 'json-loader'
+          }
+        ]
       },
       {
         test: /\.mmd$/,
@@ -101,15 +116,19 @@ module.exports = {
       },
       {
         test: /\.md$/,
-        use: [{
-          loader: 'html-loader!markdown-loader'
-        }]
+        use: [
+          {
+            loader: 'html-loader!markdown-loader'
+          }
+        ]
       },
       {
         test: /\.woff?$/,
-        use: [{
-          loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-        }]
+        use: [
+          {
+            loader: 'url-loader?limit=3000&mimetype=application/font-woff'
+          }
+        ]
       }
     ]
   },
@@ -126,5 +145,4 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.es6', '.ts']
   }
-}
-;
+};

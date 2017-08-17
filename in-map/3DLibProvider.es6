@@ -1,18 +1,38 @@
 import {
   AmbientLight as ThreeAmbientLight,
+  AnimationClip as ThreeAnimationClip,
+  AnimationMixer as ThreeAnimationMixer,
+  BoxBufferGeometry as ThreeBoxBufferGeometry,
   BoxGeometry as ThreeBoxGeometry,
   BufferAttribute as ThreeBufferAttribute,
   BufferGeometry as ThreeBufferGeometry,
+  ClampToEdgeWrapping as ThreeClampToEdgeWrapping,
+  ColladaLoader as ThreeColladaLoader,
   Color as ThreeColor,
-  BoxBufferGeometry as ThreeBoxBufferGeometry,
+  DefaultLoadingManager as ThreeDefaultLoadingManager,
+  DirectionalLight as ThreeDirectionalLight,
   DoubleSide as ThreeDoubleSide,
+  Face3 as ThreeFace3,
+  FlatShading as ThreeFlatShading,
+  FrontSide as ThreeFrontSide,
+  Geometry as ThreeGeometry,
+  Group as ThreeGroup,
   ImageLoader as ThreeImageLoader,
   Line as ThreeLine,
   LinearFilter as ThreeLinearFilter,
+  LineBasicMaterial as ThreeLineBasicMaterial,
   LineSegments as ThreeLineSegments,
+  Loader as ThreeLoader,
+  LoadingManager as ThreeLoadingManager,
+  Math as ThreeMath,
   Matrix4 as ThreeMatrix4,
   Mesh as ThreeMesh,
   MeshBasicMaterial as ThreeMeshBasicMaterial,
+  MeshFaceMaterial as ThreeMeshFaceMaterial,
+  MeshLambertMaterial as ThreeMeshLambertMaterial,
+  MeshPhongMaterial as ThreeMeshPhongMaterial,
+  MixOperation as ThreeMixOperation,
+  MultiMaterial as ThreeMultiMaterial,
   Object3D as ThreeObject3D,
   ObjectLoader as ThreeObjectLoader,
   OrthographicCamera as ThreeOrthographicCamera,
@@ -25,28 +45,44 @@ import {
   Raycaster as ThreeRaycaster,
   RepeatWrapping as ThreeRepeatWrapping,
   Scene as ThreeScene,
+  SkinnedMesh as ThreeSkinnedMesh,
+  SmoothShading as ThreeSmoothShading,
   SphereBufferGeometry as ThreeSphereBufferGeometry,
+  SpotLight as ThreeSpotLight,
   Texture as ThreeTexture,
-  Vector3 as ThreeVector3,
   Vector2 as ThreeVector2,
+  Vector3 as ThreeVector3,
+  Vector4 as ThreeVector4,
   VertexColors as ThreeVertexColors,
   WebGLRenderer as ThreeWebGLRenderer,
-  DefaultLoadingManager as ThreeDefaultLoadingManager,
-  XHRLoader as ThreeXHRLoader,
-  Group as ThreeGroup,
-  LineBasicMaterial as ThreeLineBasicMaterial,
-  MeshPhongMaterial as ThreeMeshPhongMaterial,
-  SmoothShading as ThreeSmoothShading,
-  FlatShading as ThreeFlatShading,
-  MultiMaterial as ThreeMultiMaterial
+  XHRLoader as ThreeXHRLoader
 } from 'three';
 
+export const ClampToEdgeWrapping = ThreeClampToEdgeWrapping;
+export const Face3 = ThreeFace3;
+export const FrontSide = ThreeFrontSide;
+export const Geometry = ThreeGeometry;
+export const Loader = ThreeLoader;
+export const Math = ThreeMath;
+export const MeshFaceMaterial = ThreeMeshFaceMaterial;
+export const MeshLambertMaterial = ThreeMeshLambertMaterial;
+export const MixOperation = ThreeMixOperation;
+export const SpotLight = ThreeSpotLight;
+export const Vector4 = ThreeVector4;
+
+export const AnimationClip = ThreeAnimationClip;
+export const AnimationMixer = ThreeAnimationMixer;
+
+export const LoadingManager = ThreeLoadingManager;
+export const ColladaLoader = ThreeColladaLoader;
+export const SkinnedMesh = ThreeSkinnedMesh;
 export const AmbientLight = ThreeAmbientLight;
 export const BoxGeometry = ThreeBoxGeometry;
 export const BufferAttribute = ThreeBufferAttribute;
 export const BufferGeometry = ThreeBufferGeometry;
 export const Color = ThreeColor;
 export const BoxBufferGeometry = ThreeBoxBufferGeometry;
+export const DirectionalLight = ThreeDirectionalLight;
 export const DoubleSide = ThreeDoubleSide;
 export const ImageLoader = ThreeImageLoader;
 export const Line = ThreeLine;
