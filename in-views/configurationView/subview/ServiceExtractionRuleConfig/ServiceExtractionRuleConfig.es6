@@ -182,10 +182,22 @@ export default class extends React.Component {
   };
 
   addMatchSpecification = (path, matchName, initialValue) => {
-    const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
-    this.setState({
-      form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true))
-    });
+    const typeDefinition = typeDefinitions[this.props.match.params.ruleType];
+    const fieldType = typeDefinition.matchSpecificationOptions[matchName].type;
+    if (fieldType === 'kv') {
+      // TODO initial value and validators
+      const field = createMapForm()
+        .put('key', createField({value: ''}))
+        .put('value', createField({value: ''}));
+      this.setState({
+        form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true, {recurse: true}))
+      });
+    } else {
+      const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
+      this.setState({
+        form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true))
+      });
+    }
   };
 
   removeMatchSpecification = (key, path) => {
@@ -292,9 +304,14 @@ function getMatchSpecifications(form) {
   const matchSpecificationKeys = form.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort();
   const matchSpecifications = {};
   for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
-    matchSpecifications[matchSpecificationKeys[i]] = form
-      .get('matchSpecification')
-      .get(matchSpecificationKeys[i]).value;
+    const field = form.get('matchSpecification').get(matchSpecificationKeys[i]);
+    let value = field.toJS();
+    if (value.key != null && value.value != null) {
+      value = {
+        [value.key]: value.value
+      };
+    }
+    matchSpecifications[matchSpecificationKeys[i]] = value;
   }
   return matchSpecifications;
 }
