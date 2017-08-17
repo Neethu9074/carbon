@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ResourceCaching from 'in-forge/plugins/pageResourceLogicalService/Dashboard/ResourceCaching';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
@@ -78,14 +79,6 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
         </DescriptionList>
       </DashboardTile>
 
-      <DashboardTile title="Resource Loads">
-        <DescriptionList>
-          <DescriptionItem title="Resource Host">
-            {getLabel(connectedSnapshot)}
-          </DescriptionItem>
-        </DescriptionList>
-      </DashboardTile>
-
       <Row>
         <Col cols={6}>
           <DashboardTile title="Views vs Page Load Time">
@@ -117,7 +110,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
           </DashboardTile>
         </Col>
         <Col cols={6}>
-          <DashboardTile title="Page Load Time">
+          <DashboardTile title="Load Time Breakdown">
             <Chart
               snapshotId={connection.connectionSnapshotId}
               timeframe={timeframe}
@@ -137,6 +130,10 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
           </DashboardTile>
         </Col>
       </Row>
+
+      <DashboardTile title="Caching">
+        <ResourceCaching snapshotId={connection.connectionSnapshotId} timeframe={timeframe} />
+      </DashboardTile>
     </div>
   );
 }
