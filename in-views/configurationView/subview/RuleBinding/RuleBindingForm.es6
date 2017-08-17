@@ -11,6 +11,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
+import { find } from 'in-services/arrayUtils';
 import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
@@ -34,7 +35,7 @@ export default connectTo(
           <div>
             {form.get('ruleIds').map(field => {
               const selectedRule = field.value.get(0);
-              const isSystemRule = selectedRule && systemRules.indexOf(selectedRule) >= 0;
+              const isSystemRule = selectedRule && find(systemRules, each => each.id == selectedRule) ? true : false;
 
               return (
                 <FormGroup>
