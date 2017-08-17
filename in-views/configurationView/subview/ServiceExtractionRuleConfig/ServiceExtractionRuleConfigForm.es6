@@ -96,7 +96,7 @@ export default class extends React.Component {
                 </Label>
                 {fieldConfig.type === 'kv'
                   ? <div className={`${block}__double-input`}>
-                      {field.get('key').map(keyField =>
+                      {field.get(0).get('key').map(keyField =>
                         <Helpify helpText={fieldConfig.typeArgs.key.help}>
                           <Input
                             type="text"
@@ -104,7 +104,7 @@ export default class extends React.Component {
                             className={`${block}__helpfified_input`}
                             placeholder={fieldConfig.typeArgs.key.placeholder}
                             value={keyField.value}
-                            onChange={e => onChangeIn(path.concat(['key']), e.target.value)}
+                            onChange={e => onChangeIn(path.concat([0, 'key']), e.target.value)}
                             hasError={!keyField.valid}
                           />
                           {keyField.valid
@@ -114,7 +114,7 @@ export default class extends React.Component {
                               </ValidationBlock>}
                         </Helpify>
                       )}
-                      {field.get('value').map(valueField =>
+                      {field.get(0).get('value').map(valueField =>
                         <Helpify helpText={fieldConfig.typeArgs.value.help}>
                           <Input
                             type="text"
@@ -122,7 +122,7 @@ export default class extends React.Component {
                             className={`${block}__helpfified_input`}
                             placeholder={fieldConfig.typeArgs.value.placeholder}
                             value={valueField.value}
-                            onChange={e => onChangeIn(path.concat(['value']), e.target.value)}
+                            onChange={e => onChangeIn(path.concat([0, 'value']), e.target.value)}
                             hasError={!valueField.valid}
                           />
                           {valueField.valid

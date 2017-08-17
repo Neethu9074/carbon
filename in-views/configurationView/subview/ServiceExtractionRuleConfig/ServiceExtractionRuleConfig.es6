@@ -186,11 +186,11 @@ export default class extends React.Component {
     const fieldType = typeDefinition.matchSpecificationOptions[matchName].type;
     if (fieldType === 'kv') {
       // TODO initial value and validators
-      const field = createMapForm()
-        .put('key', createField({value: ''}))
-        .put('value', createField({value: ''}));
+      const field = createListForm().push(
+        createMapForm().put('key', createField({ value: '' })).put('value', createField({ value: '' }))
+      );
       this.setState({
-        form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true, {recurse: true}))
+        form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true, { recurse: true }))
       });
     } else {
       const field = createField({ value: initialValue, validator: matchSpecificationMustCompileRule });
@@ -305,13 +305,7 @@ function getMatchSpecifications(form) {
   const matchSpecifications = {};
   for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
     const field = form.get('matchSpecification').get(matchSpecificationKeys[i]);
-    let value = field.toJS();
-    if (value.key != null && value.value != null) {
-      value = {
-        [value.key]: value.value
-      };
-    }
-    matchSpecifications[matchSpecificationKeys[i]] = value;
+    matchSpecifications[matchSpecificationKeys[i]] = field.toJS();
   }
   return matchSpecifications;
 }
