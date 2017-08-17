@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import WaitingStan from 'in-components/WaitingStan/WaitingStan';
 import { goToGraph } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
@@ -22,6 +23,8 @@ export default function AboutInstanaDialog() {
         <span className={`${block}__revision`}>
           {build.revision}
         </span>
+
+        <WaitingStan />
 
         <Button
           className={`${block}__button`}

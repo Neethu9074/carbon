@@ -1,0 +1,6 @@
+{
+  "name": "WaitingStan",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WaitingStan.es6"
+}

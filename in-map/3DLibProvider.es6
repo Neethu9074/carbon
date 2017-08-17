@@ -1,4 +1,5 @@
 import {
+  DirectionalLight as ThreeDirectionalLight,
   AmbientLight as ThreeAmbientLight,
   BoxGeometry as ThreeBoxGeometry,
   BufferAttribute as ThreeBufferAttribute,
@@ -47,6 +48,7 @@ export const BufferAttribute = ThreeBufferAttribute;
 export const BufferGeometry = ThreeBufferGeometry;
 export const Color = ThreeColor;
 export const BoxBufferGeometry = ThreeBoxBufferGeometry;
+export const DirectionalLight = ThreeDirectionalLight;
 export const DoubleSide = ThreeDoubleSide;
 export const ImageLoader = ThreeImageLoader;
 export const Line = ThreeLine;
