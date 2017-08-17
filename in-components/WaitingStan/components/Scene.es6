@@ -9,7 +9,7 @@ import {
   AnimationMixer
 } from 'in-map/3DLibProvider';
 import stanTexturePath from 'in-components/WaitingStan/components/assets/stanColorMap.jpg';
-import stanModelPath from 'in-components/WaitingStan/components/assets/stanMesh.dae';
+import stanModelPath from 'in-components/WaitingStan/components/assets/stan.dae';
 import { loadImage } from 'in-map/services/imageLoader';
 import ColladaLoader from 'in-map/lib/ColladaLoader.js';
 
@@ -17,24 +17,26 @@ export default function createScene(canvas, webGlContext) {
   let camera,
     scene,
     renderer,
+    mixer,
     stan = {},
-    isDisposed = false;
+    isDisposed = false,
+    lastTimestamp = 0;
 
   initScene();
   loadStan();
-  update();
+  update(0);
 
   return {
     dispose
   };
 
   function initScene() {
-    const width = 400;
-    const height = 300;
+    const width = 300;
+    const height = 200;
 
     camera = new PerspectiveCamera(27, width / height, 1, 100);
-    camera.position.set(0, 0, 9);
-    camera.lookAt(new Vector3(0, 0, 0));
+    camera.position.set(0, 0.1, 7);
+    camera.lookAt(new Vector3(0, 0.1, 0));
 
     scene = new Scene();
 
@@ -44,10 +46,10 @@ export default function createScene(canvas, webGlContext) {
       antialias: true
     });
     renderer.setSize(width, height);
-    renderer.setClearColor(0x555555);
+    renderer.setClearColor(0xffffff);
 
     const directionalLight = new DirectionalLight(0xffffff, 0.75);
-    directionalLight.position.set(0.2, 0.2, 1);
+    directionalLight.position.set(-1, 0.2, 1);
     scene.add(directionalLight);
   }
 
@@ -61,7 +63,7 @@ export default function createScene(canvas, webGlContext) {
     daeLoader.options.convertUpAxis = true;
     daeLoader.load(stanModelPath, function(collada) {
       var object = collada.scene;
-      const mixer = new AnimationMixer(object);
+      mixer = new AnimationMixer(object);
       object.traverse(function(child) {
         if (child.material) {
           child.material.map = texture;
@@ -76,29 +78,28 @@ export default function createScene(canvas, webGlContext) {
 
       // Set position and scale
       object.position.set(0, -1.5, 0);
-      var scale = 1;
-      object.scale.set(scale, scale, scale);
+      object.scale.set(1, 1, 1);
+      object.rotateY(-40 * Math.PI / 180);
 
       scene.add(object);
       stan.mesh = object;
     });
   }
 
-  function update() {
+  function update(highResTimestamp) {
     // break the update loop
     if (isDisposed) {
       return;
     }
-
     requestAnimationFrame(update);
 
-    // animation stuff
+    const dt = lastTimestamp - highResTimestamp;
+    if (mixer !== undefined) {
+      mixer.update(dt / 1000);
+    }
 
-    render();
-  }
-
-  function render() {
     renderer.render(scene, camera);
+    lastTimestamp = highResTimestamp;
   }
 
   function dispose() {
