@@ -54,15 +54,8 @@ export default function Speed({ snapshot, timeframe }) {
               y1={{
                 min: 0,
                 formatter: seconds.fromMillisFixedDetailed,
-                metrics: [
-                  'duration.50th',
-                  'duration.75th',
-                  'duration.90th',
-                  'duration.95th',
-                  'duration.98th',
-                  'duration.99th'
-                ],
-                labels: ['50th', '75th', '90th', '95th', '98th', '99th'],
+                metrics: ['duration.50th', 'duration.90th', 'duration.95th', 'duration.98th', 'duration.99th'],
+                labels: ['50th', '90th', '95th', '98th', '99th'],
                 type: 'line',
                 aggregation: 'mean'
               }}

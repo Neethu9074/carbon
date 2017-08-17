@@ -42,7 +42,7 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     } else if (result.error) {
       return (
-        <Notification type="danger">
+        <Notification type="warning">
           <strong>Failed to retrieve error details.</strong> Please refresh the page or contact customer{' '}
           support should this issue persist.
         </Notification>
