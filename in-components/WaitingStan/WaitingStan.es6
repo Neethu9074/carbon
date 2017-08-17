@@ -13,7 +13,6 @@ export default class WaitingStan extends React.Component {
 
   componentDidMount() {
     if (isWebGLSupported() && this.webGlContext) {
-      console.log('setup');
       this.scene = createScene(this.canvas, this.webGlContext);
     }
   }

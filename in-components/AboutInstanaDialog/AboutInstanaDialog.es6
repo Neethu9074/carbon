@@ -1,7 +1,7 @@
+/* global require:false */
 import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import WaitingStan from 'in-components/WaitingStan/WaitingStan';
 import { goToGraph } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
@@ -13,6 +13,8 @@ import './AboutInstanaDialog.less';
 const block = 'about-instana-dialog';
 
 export default function AboutInstanaDialog() {
+  const WaitingStan = require('in-components/WaitingStan/WaitingStan').default;
+
   return (
     <Dialog header="About" onClose={() => setActiveDialog(null)}>
       <div className={block}>
