@@ -1,4 +1,3 @@
-/* global require:false */
 import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -13,8 +12,6 @@ import './AboutInstanaDialog.less';
 const block = 'about-instana-dialog';
 
 export default function AboutInstanaDialog() {
-  const WaitingStan = require('in-components/WaitingStan/WaitingStan').default;
-
   return (
     <Dialog header="About" onClose={() => setActiveDialog(null)}>
       <div className={block}>
@@ -25,8 +22,6 @@ export default function AboutInstanaDialog() {
         <span className={`${block}__revision`}>
           {build.revision}
         </span>
-
-        <WaitingStan />
 
         <Button
           className={`${block}__button`}
