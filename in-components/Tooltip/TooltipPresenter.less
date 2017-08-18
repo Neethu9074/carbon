@@ -16,6 +16,13 @@
   max-width: 40vw;
   .breakWord();
 
+  @media only screen and (min-width: 0px) {
+    max-width: 40vw;
+  }
+  @media only screen and (min-width: 1001px) {
+    max-width: 400px;
+  }
+
   @size: 6px;
   &::after {
     content: "";
