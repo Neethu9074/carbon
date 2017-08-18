@@ -27,6 +27,7 @@ let focusedMoment;
 let sortByField;
 let sortDirection;
 let query;
+let tracesSubscription;
 
 const tracesStore = createStore({
   name: 'traceView/stores/traceList/traces',
@@ -100,7 +101,11 @@ export function refresh() {
     return;
   }
 
-  combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
+  if (tracesSubscription) {
+    tracesSubscription.dispose();
+  }
+
+  tracesSubscription = combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
     focusedMoment = _focusedMoment;
     maxTimestamp = to;
     minTimestamp = from;
