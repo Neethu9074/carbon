@@ -1,5 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
+import createSnapshotsInTimeframeObservable from 'in-services/subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
@@ -232,4 +233,12 @@ export function getSnapshotVersions(snapshotId, time) {
     return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({ snapshotId, time: _time }));
   }
   return createSnapshotVersionsObservable({ snapshotId, time });
+}
+
+export function getSnapshotsInTimeframe(customQuery) {
+  return combineLatest([timeframe$, focusedMoment$, query$])
+    .nextFrame()
+    .flatMap(([timeframe, focusedMoment, query]) =>
+      createSnapshotsInTimeframeObservable({ timeframe, query: `${query} ${customQuery}`, focusedMoment })
+    );
 }
