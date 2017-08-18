@@ -21,6 +21,9 @@ export default function CamelSpanDetailView({ span }) {
         <DescriptionItem title="Size">
           {span.getIn(['data', 'camel', 'size'])}
         </DescriptionItem>
+        <DescriptionItem title="Error">
+          {span.getIn(['data', 'camel', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
