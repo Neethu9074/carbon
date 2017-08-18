@@ -156,7 +156,7 @@ export default class extends React.Component {
           {ruleForm.get('ignoreService').map(ignoreField =>
             <FormGroup>
               <Label htmlFor={`${id}-ingore-service-label`}>Mark as ignored service</Label>
-              <Helpify helpText="When enabled, the traces matching this service definition will be ignored and also not persisted.">
+              <Helpify helpText="When enabled, no services will be extracted. Also any traces matching this service definition will be discarded.">
                 <Toggle
                   className={`${block}__toggle`}
                   checked={ignoreField.value}
