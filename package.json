@@ -80,7 +80,7 @@
     "roemitter": "^2.0.0",
     "semver": "^5.3.0",
     "sockjs-client": "^1.1.4",
-    "three": "^0.86.0",
+    "three": "^0.87.0",
     "webpack-dev-middleware": "^1.10.2"
   },
   "devDependencies": {

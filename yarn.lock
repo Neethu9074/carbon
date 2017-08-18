@@ -8077,9 +8077,9 @@ then-fs@^2.0.0:
   dependencies:
     promise ">=3.2 <8"
 
-three@^0.86.0:
-  version "0.86.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.86.0.tgz#1c33e476a1537e9a8a18f5792d024b1046cd2000"
+three@^0.87.0:
+  version "0.87.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.87.0.tgz#e38570daccafac86e7cf55718d00588a1a70b9a4"
 
 through2-filter@^2.0.0:
   version "2.0.0"
