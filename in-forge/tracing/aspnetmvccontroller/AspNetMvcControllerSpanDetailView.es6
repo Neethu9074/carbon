@@ -3,7 +3,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function WebApiSpanDetailView({ span }) {
-  const controller = span.getIn(['data', 'webapi', 'controller']);
+  const controller = span.getIn(['data', 'aspnetmvccontroller', 'controller']);
   return (
     <div>
       <DescriptionList>
@@ -11,10 +11,10 @@ export default function WebApiSpanDetailView({ span }) {
           {controller ? controller : 'unknown'}
         </DescriptionItem>
         <DescriptionItem title="Action">
-          {span.getIn(['data', 'webapi', 'action'])}
+          {span.getIn(['data', 'aspnetmvccontroller', 'action'])}
         </DescriptionItem>
         <DescriptionItem title="Url">
-          {span.getIn(['data', 'webapi', 'url'])}
+          {span.getIn(['data', 'aspnetmvccontroller', 'url'])}
         </DescriptionItem>
       </DescriptionList>
     </div>
