@@ -345,15 +345,25 @@ function createBasicRuleForm(rule) {
   const matchSpecifications = rule.get('matchSpecification');
   if (matchSpecifications) {
     Object.keys(matchSpecifications.toJS()).forEach(key => {
-      form = form.updateIn(['matchSpecification'], item =>
-        item.put(
-          key,
-          createField({
-            value: matchSpecifications.get(key),
-            validator: matchSpecificationMustCompileRule
-          })
-        )
-      );
+      const value = matchSpecifications.get(key);
+      let subForm;
+      if (value.size != null) {
+        // is it an immutable sequence?
+        subForm = createListForm();
+        value.forEach(eachValue => {
+          subForm = subForm.push(
+            createMapForm()
+              .put('key', createField({ value: eachValue.get('key') }))
+              .put('value', createField({ value: eachValue.get('value') }))
+          );
+        });
+      } else {
+        createField({
+          value,
+          validator: matchSpecificationMustCompileRule
+        });
+      }
+      form = form.updateIn(['matchSpecification'], item => item.put(key, subForm));
     });
   }
   return form;
