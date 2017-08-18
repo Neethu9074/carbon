@@ -1,81 +1,89 @@
 import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import './Misc.less';
 
 const block = 'in-dev-panel-misc';
 
-export default function Misc() {
-  return (
-    <div className={block}>
-      <Section title="Messages">
-        <Button
-          onClick={() =>
-            addMessage(
-              {
-                type: 'info',
-                title: 'Test Info Title',
-                content: 'This is the content.'
-              },
-              'test_info_msg'
-            )}
-        >
-          Create Info
-        </Button>
-        &nbsp;
-        <Button
-          onClick={() =>
-            addMessage(
-              {
-                type: 'warning',
-                title: 'Test Warning Title',
-                content: 'This is the content.'
-              },
-              'test_warning_msg'
-            )}
-        >
-          Create Warning
-        </Button>
-        &nbsp;
-        <Button
-          onClick={() =>
-            addMessage(
-              {
-                type: 'danger',
-                title: 'Test Error Title',
-                content: 'This is the content.'
-              },
-              'test_error_msg'
-            )}
-        >
-          Create Error
-        </Button>
-      </Section>
-      <Section title="Furter stuff">
-        <Button
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            borderLeft: '4px solid #ff4229'
-          }}
-        >
-          <SvgIcon
+export default connectTo(
+  {
+    agents: getSnapshotsInTimeframe('entity.selfType:agent')
+  },
+  function Misc({ agents }) {
+    console.log(agents);
+    return (
+      <div className={block}>
+        <Section title="Messages">
+          <Button
+            onClick={() =>
+              addMessage(
+                {
+                  type: 'info',
+                  title: 'Test Info Title',
+                  content: 'This is the content.'
+                },
+                'test_info_msg'
+              )}
+          >
+            Create Info
+          </Button>
+          &nbsp;
+          <Button
+            onClick={() =>
+              addMessage(
+                {
+                  type: 'warning',
+                  title: 'Test Warning Title',
+                  content: 'This is the content.'
+                },
+                'test_warning_msg'
+              )}
+          >
+            Create Warning
+          </Button>
+          &nbsp;
+          <Button
+            onClick={() =>
+              addMessage(
+                {
+                  type: 'danger',
+                  title: 'Test Error Title',
+                  content: 'This is the content.'
+                },
+                'test_error_msg'
+              )}
+          >
+            Create Error
+          </Button>
+        </Section>
+        <Section title="Furter stuff">
+          <Button
             style={{
-              marginRight: '10px'
+              display: 'flex',
+              alignItems: 'center',
+              borderLeft: '4px solid #ff4229'
             }}
-            type="critical"
-            width={14}
-            color="#ff4229"
-          />
-          Style me hard!
-        </Button>
-      </Section>
-    </div>
-  );
-}
+          >
+            <SvgIcon
+              style={{
+                marginRight: '10px'
+              }}
+              type="critical"
+              width={14}
+              color="#ff4229"
+            />
+            Style me hard!
+          </Button>
+        </Section>
+      </div>
+    );
+  }
+);
 
 function Section({ title, children }) {
   return (
