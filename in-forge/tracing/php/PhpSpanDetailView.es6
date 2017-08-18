@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function HttpSpanDetailView({ span }) {
   return (
@@ -27,7 +28,21 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="HTTP Status Code">
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
         </DescriptionItem>
+        {getCustomHeaders(span)}
       </DescriptionList>
     </div>
   );
+}
+function getCustomHeaders(span) {
+  return span
+    .getIn(['data', 'http', 'header'], emptyMap)
+    .map((v, k) => {
+      return (
+        <DescriptionItem title={`Header: ${k}`} key={`header-${k}`}>
+          {v}
+        </DescriptionItem>
+      );
+    })
+    .valueSeq()
+    .toArray();
 }
