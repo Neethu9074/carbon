@@ -53,6 +53,7 @@ import './memcache';
 import './memcached';
 import './missing';
 import './mongo';
+import './msmq';
 import './mule.client';
 import './mule.server';
 import './mysql';
