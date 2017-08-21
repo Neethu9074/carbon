@@ -22,6 +22,11 @@ export default function createLineContentRenderer({ axisName, config }) {
       if (activeSeries[seriesIndex] === false) {
         continue;
       }
+      const metricName = config[axisName].metrics[seriesIndex];
+      const isForecastMetric = config.forecastMetrics && config.forecastMetrics[metricName] ? true : false;
+      const maxDistanceBetweenPoints = isForecastMetric ? 1000 * 60 * 60 : config.maxDistanceBetweenPoints;
+      const color = isForecastMetric ? '#ff00ff' : colors[seriesIndex];
+
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;
@@ -47,7 +52,7 @@ export default function createLineContentRenderer({ axisName, config }) {
           y: yToRender
         });
 
-        if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
+        if (xToRender - previousX > maxDistanceBetweenPoints || columnIndex === 0) {
           ctx.moveTo(xToRender, yToRender);
         } else {
           ctx.lineTo(xToRender, yToRender);
@@ -57,10 +62,10 @@ export default function createLineContentRenderer({ axisName, config }) {
       }
 
       ctx.lineWidth = 2;
-      ctx.strokeStyle = colors[seriesIndex];
+      ctx.strokeStyle = color;
       ctx.stroke();
 
-      ctx.fillStyle = colors[seriesIndex];
+      ctx.fillStyle = color;
       singlePointsToRender.forEach(drawPoint);
     }
   }

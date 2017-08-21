@@ -28,8 +28,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             formatter: number.compact,
             metrics: ['count'],
             labels: ['calls'],
-            type: 'bar',
-            aggregation: 'sum'
+            type: 'line'
           }}
           y2={{
             min: 0,

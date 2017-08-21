@@ -75,12 +75,15 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
-  return createHistoricMetricsObservable({
-    snapshotId,
-    metric,
-    timeframe,
-    rollup
-  });
+  return focusedMoment$.flatMap(focusedMoment =>
+    createHistoricMetricsObservable({
+      snapshotId,
+      metric,
+      timeframe,
+      focusedMoment,
+      rollup
+    })
+  );
 }
 
 export const getMetric = memoize(
@@ -128,12 +131,15 @@ export function getHistoricMetric({ snapshotId, metric, time }) {
   );
   const rollup = availableRollupDefinitions[0].rollup;
 
-  return createHistoricMetricObservable({
-    snapshotId,
-    metric,
-    rollup,
-    time
-  });
+  return focusedMoment$.flatMap(focusedMoment =>
+    createHistoricMetricObservable({
+      snapshotId,
+      focusedMoment,
+      metric,
+      rollup,
+      time
+    })
+  );
 }
 
 export function getHistoricMetricsWithLiveUpdates(opts) {

@@ -11,6 +11,7 @@ import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
+import forecastConfig from 'in-services/forecastConfig';
 import { timeframe$, to$ } from 'in-stores/timeline';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -31,10 +32,12 @@ const contentRendererCreators = {
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
   const resize$ = create();
+  determineForecasts();
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
   determineSeriesColors();
   determineDynamicAggregation();
+
   // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
   // of availability of metrics. We are removing x millis from the right border in order to
   // hide this fact from the user.
@@ -97,6 +100,43 @@ export default function createAxisController(config) {
       y2.aggregation = y2.aggregation || 'sum';
       y2.metricBaseMillis = y2.metricBaseMillis || 1000;
     }
+  }
+
+  function determineForecasts() {
+    const forecastedMetricConfiguration = forecastConfig[config.snapshotId];
+    if (!forecastedMetricConfiguration) {
+      return;
+    }
+
+    config.forecastMetrics = {};
+
+    function checkAxis(axisName) {
+      const axis = config[axisName];
+      if (!axis) {
+        return;
+      }
+
+      let forecastMetrics = [];
+      let forecastLabels = [];
+      for (let i = 0, length = axis.metrics.length; i < length; i++) {
+        const metric = axis.metrics[i];
+        if (metric === forecastedMetricConfiguration.metric) {
+          const lowMetric = metric + '.forecast.low.99';
+          const highMetric = metric + '.forecast.high.99';
+          forecastMetrics.push(lowMetric);
+          forecastMetrics.push(highMetric);
+          forecastLabels.push(metric + '_low');
+          forecastLabels.push(metric + '_high');
+          config.forecastMetrics[lowMetric] = true;
+          config.forecastMetrics[highMetric] = true;
+        }
+      }
+      axis.metrics = axis.metrics.concat(forecastMetrics);
+      axis.labels = axis.labels.concat(forecastLabels);
+    }
+
+    checkAxis('y1');
+    checkAxis('y2');
   }
 
   function getNumberOfDataSeries(axisName) {
