@@ -18,21 +18,6 @@ import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-const loadTimePercentages = [
-  {
-    label: 'Server',
-    metric: 'bac',
-    timeWindowAggregation: 'mean',
-    formatter: percentage.compact
-  },
-  {
-    label: 'Browser',
-    metric: 'fro',
-    timeWindowAggregation: 'mean',
-    formatter: percentage.compact
-  }
-];
-
 export default function Summary({ snapshot, timeframe, pageName }) {
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
@@ -69,7 +54,20 @@ export default function Summary({ snapshot, timeframe, pageName }) {
           metric={`${metricPrefix}duration.mean`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
-          percentages={loadTimePercentages}
+          percentages={[
+            {
+              label: 'Server',
+              metric: `${metricPrefix}bac`,
+              timeWindowAggregation: 'mean',
+              formatter: percentage.compact
+            },
+            {
+              label: 'Browser',
+              metric: `${metricPrefix}fro`,
+              timeWindowAggregation: 'mean',
+              formatter: percentage.compact
+            }
+          ]}
         />
         <Kpi
           label="Load Time (90th)"
@@ -118,7 +116,12 @@ export default function Summary({ snapshot, timeframe, pageName }) {
       <Row>
         <Col cols={6}>
           <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
-            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequest />
+            <PageLoadBreakdownChart
+              snapshotId={snapshotId}
+              timeframe={timeframe}
+              onlyRequest
+              metricPrefix={metricPrefix}
+            />
           </DashboardTile>
         </Col>
         <Col cols={6}>

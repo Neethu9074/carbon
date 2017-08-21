@@ -25,7 +25,7 @@ export default connectTo(
         metrics.map(metric =>
           getMetric({
             snapshotId: props.snapshotId,
-            metric,
+            metric: props.metricPrefix + metric,
             timeWindowAggregation: 'mean',
             forceTimeWindowAggregation: true
           })
