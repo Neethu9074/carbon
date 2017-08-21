@@ -23,7 +23,11 @@ const cols = [
     typeArgs: {
       comparator: compareIgnoreCase,
       get$(row) {
-        return getSubDashboardLink(`/errors/${encodeURIComponent(row.hash)}`).map(href => {
+        let path = `/errors/${encodeURIComponent(row.hash)}`;
+        if (row.pageHash) {
+          path = `/pages/${encodeURIComponent(row.pageHash)}${path}`;
+        }
+        return getSubDashboardLink(path).map(href => {
           return {
             label: row.message,
             value: row.message,
@@ -68,7 +72,7 @@ export default connectTo(
       result: getBreakdown(props)
     };
   },
-  function Errors({ result, snapshot, timeframe, pageHash, pageLabel }) {
+  function Errors({ result, snapshot, timeframe, pageHash, pageName }) {
     if (!result) {
       return <LoadingIndicator type="dark" />;
     }
@@ -98,7 +102,7 @@ export default connectTo(
         websiteLabel,
         timeframe,
         pageHash,
-        pageLabel: pageLabel
+        pageName: pageName
       };
     });
 

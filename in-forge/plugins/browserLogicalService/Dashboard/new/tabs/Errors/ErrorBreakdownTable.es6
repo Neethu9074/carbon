@@ -50,11 +50,11 @@ const cols = [
   }
 ];
 
-export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageLabel }) {
+export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName }) {
   const browserRows = result.data.get('browsers').toArray().map(browser => {
     let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
-    if (pageLabel) {
-      query += ` span.webEum.page:"${luceneEscapeString(pageLabel)}"`;
+    if (pageName) {
+      query += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
     }
     query += ` span.webEum.error.message:"${luceneEscapeString(errorMessage)}"`;
     query += ` span.webEum.userAgent.browser.name:"${browser.get('name')}"`;

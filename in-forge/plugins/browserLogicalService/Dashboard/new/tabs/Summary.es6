@@ -18,19 +18,17 @@ import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe, pageName }) {
+export default function Summary({ snapshot, timeframe, pageName, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
   if (pageName) {
-    viewTracesQuery = `${viewTracesQuery} span.endpoint.label:"${luceneEscapeString(pageName)}"`;
+    viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
   }
   const viewTracesButton = (
     <Button kind="default" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
       View Traces
     </Button>
   );
-
-  const metricPrefix = pageName == null ? '' : `endpoint.${pageName}.`;
 
   return (
     <MaxWidthFullscreenContainer>

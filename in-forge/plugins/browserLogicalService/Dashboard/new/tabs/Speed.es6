@@ -8,7 +8,7 @@ import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
-export default function Speed({ snapshot, timeframe }) {
+export default function Speed({ snapshot, timeframe, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -26,7 +26,7 @@ export default function Speed({ snapshot, timeframe }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['count'],
+                metrics: [metricPrefix + 'count'],
                 labels: ['views'],
                 type: 'bar',
                 aggregation: 'sum'
@@ -34,7 +34,7 @@ export default function Speed({ snapshot, timeframe }) {
               y2={{
                 min: 0,
                 formatter: seconds.fromMillisFixedDetailed,
-                metrics: ['duration.mean'],
+                metrics: [metricPrefix + 'duration.mean'],
                 labels: ['load time'],
                 type: 'line',
                 aggregation: 'mean'
@@ -54,7 +54,13 @@ export default function Speed({ snapshot, timeframe }) {
               y1={{
                 min: 0,
                 formatter: seconds.fromMillisFixedDetailed,
-                metrics: ['duration.50th', 'duration.90th', 'duration.95th', 'duration.98th', 'duration.99th'],
+                metrics: [
+                  metricPrefix + 'duration.50th',
+                  metricPrefix + 'duration.90th',
+                  metricPrefix + 'duration.95th',
+                  metricPrefix + 'duration.98th',
+                  metricPrefix + 'duration.99th'
+                ],
                 labels: ['50th', '90th', '95th', '98th', '99th'],
                 type: 'line',
                 aggregation: 'mean'
@@ -96,7 +102,18 @@ export default function Speed({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: millis.compact,
-            metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'],
+            metrics: [
+              metricPrefix + 'unl',
+              metricPrefix + 'red',
+              metricPrefix + 'apc',
+              metricPrefix + 'dns',
+              metricPrefix + 'tcp',
+              metricPrefix + 'ssl',
+              metricPrefix + 'req',
+              metricPrefix + 'rsp',
+              metricPrefix + 'dom',
+              metricPrefix + 'chi'
+            ],
             labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'],
             type: 'stackedArea',
             aggregation: 'mean'
@@ -114,7 +131,7 @@ export default function Speed({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: seconds.fromMillisFixedDetailed,
-            metrics: ['fp'],
+            metrics: [metricPrefix + 'fp'],
             labels: ['First paint'],
             type: 'line',
             aggregation: 'mean'

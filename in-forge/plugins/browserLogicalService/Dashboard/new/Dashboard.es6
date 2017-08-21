@@ -25,10 +25,11 @@ export default function BrowserLogicalServiceDashboard(props) {
           }
           const pageName = props.snapshot.getIn(['data', 'service_endpoints']).get(index);
           const pageBreadcrumb = <Breadcrumb href$={getSubDashboardLink(`/pages/${pageHash}`)}>{pageName}</Breadcrumb>;
+          const metricPrefix = pageName == null ? '' : `endpoint.${pageName}.`;
           return (
             <TabView
               tabs={getTabs(pageHash)}
-              props={{ pageHash: match.params.pageHash, pageName, ...props }}
+              props={{ pageHash: match.params.pageHash, pageName, ...props, metricPrefix }}
               breadcrumbs={breadcrumbs.concat([pageBreadcrumb])}
             />
           );
@@ -36,7 +37,7 @@ export default function BrowserLogicalServiceDashboard(props) {
       />
       <Route
         path={`*/dashboard*`}
-        render={() => <TabView tabs={websiteTabs} props={props} breadcrumbs={breadcrumbs} />}
+        render={() => <TabView tabs={websiteTabs} props={{ ...props, metricPrefix: '' }} breadcrumbs={breadcrumbs} />}
       />
     </Switch>
   );

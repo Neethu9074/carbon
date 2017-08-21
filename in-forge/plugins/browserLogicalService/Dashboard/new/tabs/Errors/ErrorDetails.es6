@@ -37,7 +37,7 @@ export default connectTo(
       result: getBreakdown(props)
     };
   },
-  function ErrorDetails({ match, snapshot, result }) {
+  function ErrorDetails({ match, snapshot, result, pageHash, pageName }) {
     if (result == null) {
       return <LoadingIndicator type="dark" />;
     } else if (result.error) {
@@ -54,10 +54,11 @@ export default connectTo(
     const stack = result.data.get('stack');
 
     const isErrorNotReadableDueToSameOriginPolicy = /^Script Error\.?/i.test(message);
+    const backButtonPath = pageHash ? `/pages/${encodeURIComponent(pageHash)}/errors` : `/errors`;
 
     return (
       <div>
-        <BackButton label="Back to error list" href$={getSubDashboardLink(`/errors`)} />
+        <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
 
         <DashboardTile title="Details">
           <DescriptionList>
@@ -100,6 +101,8 @@ export default connectTo(
           errorHash={errorHash}
           websiteLabel={getLabel(snapshot)}
           errorMessage={message}
+          pageName={pageName}
+          pageHash={pageHash}
         />
       </div>
     );
