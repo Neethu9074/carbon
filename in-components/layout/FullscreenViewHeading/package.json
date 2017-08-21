@@ -1,0 +1,6 @@
+{
+  "name": "FullscreenViewHeading",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FullscreenViewHeading.es6"
+}

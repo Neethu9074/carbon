@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
-import { twoDecimalPlaces, number } from 'in-services/formatters/number';
+import { number, seconds } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
 import Chart from 'in-components/EumChart';
@@ -13,7 +14,7 @@ import './WebsiteRow.less';
 
 const block = 'in-website-table-row';
 
-export default function WebsiteRow({ snapshot, data }) {
+export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageHash }) {
   const snapshotId = snapshot.get('id');
 
   const metrics = `${block}__metrics`;
@@ -24,13 +25,13 @@ export default function WebsiteRow({ snapshot, data }) {
     <div key={data.name} className={block}>
       <div className={nameElement}>
         {data.name}
-        <ViewDetailsButton snapshotId={snapshotId} />
+        <ViewDetailsButton snapshotId={snapshotId} pageHash={pageHash} />
       </div>
 
       <div className={metrics}>
         <div className={kpis}>
           <WebsiteKpiSection snapshotId={snapshotId} data={data} />
-          <WebsiteIssueButton snapshotId={snapshotId} />
+          {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
         </div>
 
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
@@ -43,7 +44,7 @@ export default function WebsiteRow({ snapshot, data }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['count'],
+                metrics: [`${metricPrefix}count`],
                 labels: ['views'],
                 type: 'bar',
                 aggregation: 'sum',
@@ -52,8 +53,8 @@ export default function WebsiteRow({ snapshot, data }) {
               }}
               y2={{
                 min: 0,
-                formatter: twoDecimalPlaces,
-                metrics: ['duration.mean'],
+                formatter: seconds.fromMillisFixedDetailed,
+                metrics: [`${metricPrefix}duration.mean`],
                 labels: ['load time'],
                 type: 'line',
                 aggregation: 'mean',
@@ -69,7 +70,14 @@ export default function WebsiteRow({ snapshot, data }) {
 
 const ViewDetailsButton = connectTo(
   props => {
-    return { href: getDashboardLink(props.snapshotId) };
+    if (props.pageHash) {
+      return {
+        href: getSubDashboardLink(`/pages/${props.pageHash}`)
+      };
+    }
+    return {
+      href: getDashboardLink(props.snapshotId)
+    };
   },
   function ViewDetailsButton({ href }) {
     return (

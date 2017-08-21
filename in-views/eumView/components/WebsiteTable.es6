@@ -28,8 +28,8 @@ const columnDefinitions = [
       getSnapshotId(row) {
         return row.snapshot.get('id');
       },
-      getMetricName() {
-        return 'count';
+      getMetricName(row) {
+        return (row.isPage ? `endpoint.${row.label}.` : '') + 'count';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -46,8 +46,8 @@ const columnDefinitions = [
       getSnapshotId(row) {
         return row.snapshot.get('id');
       },
-      getMetricName() {
-        return 'duration.mean';
+      getMetricName(row) {
+        return (row.isPage ? `endpoint.${row.label}.` : '') + 'duration.mean';
       },
       getContent: seconds.fromMillisFixedDetailed,
       getTimeWindowAggregation() {
@@ -73,8 +73,8 @@ export default class WebsiteTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.snapshots !== nextProps.snapshots) {
-      this.store.onRowChange(this.getRows(nextProps.snapshots));
+    if (this.props.snapshots !== nextProps.snapshots || this.props.snapshot !== nextProps.snapshot) {
+      this.store.onRowChange(this.getRows(nextProps.snapshots, nextProps.snapshot));
     }
   }
 
@@ -85,7 +85,7 @@ export default class WebsiteTable extends React.Component {
       initialSortColumn: 1,
       initialSortDirection: 'desc'
     });
-    this.store.onRowChange(this.getRows(props.snapshots));
+    this.store.onRowChange(this.getRows(props.snapshots, props.snapshot));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
   }
 
@@ -103,12 +103,26 @@ export default class WebsiteTable extends React.Component {
     this.dispose();
   }
 
-  getRows = snapshots => {
-    return snapshots.map(snapshot => {
+  getRows = (snapshots, snapshot) => {
+    if (snapshots) {
+      return snapshots.map(snapshot => {
+        return {
+          key: snapshot.get('id'),
+          label: snapshot.get('label'),
+          snapshot
+        };
+      });
+    }
+
+    const hashes = snapshot.getIn(['data', 'service_endpoint_hashes']);
+    return snapshot.getIn(['data', 'service_endpoints']).toArray().map((pageName, i) => {
+      const pageHash = hashes.get(i);
       return {
-        key: snapshot.get('id'),
-        label: snapshot.get('label'),
-        snapshot
+        key: pageHash,
+        label: pageName,
+        snapshot,
+        isPage: true,
+        pageHash
       };
     });
   };
@@ -144,6 +158,9 @@ export default class WebsiteTable extends React.Component {
               key={row.key}
               columns={row.columns}
               snapshot={row.rowConfig.snapshot}
+              isPage={row.rowConfig.isPage}
+              metricPrefix={row.rowConfig.isPage ? `endpoint.${row.rowConfig.label}.` : ''}
+              pageHash={row.rowConfig.pageHash}
               data={{
                 name: columns[0].value,
                 pageLoad: columns[1].content,
