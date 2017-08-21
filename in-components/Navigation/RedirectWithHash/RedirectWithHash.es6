@@ -1,13 +1,23 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-export default function RedirectWithHash(props) {
-  const prepareProps = () => {
-    return {
-      ...props,
-      to: `${props.to + props.location.search}`
-    };
-  };
+import { getModifiedUrlStream } from 'in-stores/navigation';
+import connectTo from 'in-hoc/connectTo';
 
-  return <Redirect {...prepareProps()} />;
-}
+export default connectTo(
+  props => {
+    return {
+      resolvedTo: getModifiedUrlStream(params => {
+        params.pathname = props.to;
+      })
+    };
+  },
+  function RedirectWithHash(props) {
+    if (props.resolvedTo) {
+      // Remove the leading /# from the URL. React router is expecting the path irrespect of the
+      // used routing mechanism.
+      return <Redirect push={props.push} from={props.from} to={props.resolvedTo.substring(2)} />;
+    }
+    return null;
+  }
+);

@@ -33,26 +33,32 @@ const loadTimePercentages = [
   }
 ];
 
-export default function Summary({ snapshot, timeframe }) {
+export default function Summary({ snapshot, timeframe, pageName }) {
   const snapshotId = snapshot.get('id');
-
-  const viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
+  let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
+  if (pageName) {
+    viewTracesQuery = `${viewTracesQuery} span.endpoint.label:"${luceneEscapeString(pageName)}"`;
+  }
   const viewTracesButton = (
     <Button kind="default" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
       View Traces
     </Button>
   );
 
+  const metricPrefix = pageName == null ? '' : `endpoint.${pageName}.`;
+
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel snapshot={snapshot} actions={[viewTracesButton]} />
+      <SnapshotLabel actions={[viewTracesButton]}>
+        {pageName ? pageName : getLabel(snapshot)}
+      </SnapshotLabel>
 
       <Kpis>
         <Kpi
           label="Views"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="count"
+          metric={`${metricPrefix}count`}
           timeWindowAggregation="sum"
           formatter={number.compact}
         />
@@ -60,7 +66,7 @@ export default function Summary({ snapshot, timeframe }) {
           label="Load Time (mean)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.mean"
+          metric={`${metricPrefix}duration.mean`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
           percentages={loadTimePercentages}
@@ -69,7 +75,7 @@ export default function Summary({ snapshot, timeframe }) {
           label="Load Time (90th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.90th"
+          metric={`${metricPrefix}duration.90th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
@@ -77,7 +83,7 @@ export default function Summary({ snapshot, timeframe }) {
           label="Load Time (95th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.95th"
+          metric={`${metricPrefix}duration.95th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
@@ -93,7 +99,7 @@ export default function Summary({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: number.compact,
-            metrics: ['count'],
+            metrics: [`${metricPrefix}count`],
             labels: ['views'],
             type: 'bar',
             aggregation: 'sum'
@@ -101,7 +107,7 @@ export default function Summary({ snapshot, timeframe }) {
           y2={{
             min: 0,
             formatter: seconds.fromMillisFixedDetailed,
-            metrics: ['duration.mean'],
+            metrics: [`${metricPrefix}duration.mean`],
             labels: ['load time'],
             type: 'line',
             aggregation: 'mean'
@@ -119,10 +125,11 @@ export default function Summary({ snapshot, timeframe }) {
           <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
             <RenderWithMetric
               snapshotId={snapshotId}
-              metric="uncaughtErrors"
+              metric={`${metricPrefix}uncaughtErrors`}
               timeframe={timeframe}
               timeWindowAggregation="sum"
               component={UncaughtErrors}
+              metricPrefix={metricPrefix}
             />
 
           </DashboardTile>
@@ -132,7 +139,7 @@ export default function Summary({ snapshot, timeframe }) {
   );
 }
 
-function UncaughtErrors({ snapshotId, metricValue }) {
+function UncaughtErrors({ snapshotId, metricValue, metricPrefix }) {
   if (metricValue === null) {
     return <LoadingIndicator type="dark" />;
   } else if (metricValue <= 0) {
@@ -148,7 +155,7 @@ function UncaughtErrors({ snapshotId, metricValue }) {
       y1={{
         min: 0,
         formatter: number.compact,
-        metrics: ['uncaughtErrors'],
+        metrics: [`${metricPrefix}uncaughtErrors`],
         labels: ['Uncaught errors'],
         type: 'bar',
         aggregation: 'sum'

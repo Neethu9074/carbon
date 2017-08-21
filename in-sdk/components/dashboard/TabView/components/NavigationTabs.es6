@@ -16,7 +16,7 @@ export default function NavigationTabs({ tabs, navigationParams }) {
   let activeTab;
   for (let i = 0; i < tabsInRoutingOrder.length && activeTab == null; i++) {
     const tab = tabsInRoutingOrder[i];
-    if (path.indexOf(tab.path) === 0) {
+    if (path.indexOf(tab.path) === 0 || `${path}/`.indexOf(tab.path) === 0) {
       activeTab = tab;
     }
   }
