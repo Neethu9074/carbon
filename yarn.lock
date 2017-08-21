@@ -3095,9 +3095,9 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-formalistic@^1.5.0:
-  version "1.5.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formalistic/-/formalistic-1.5.0.tgz#f1c4048ebb69e55a54dd5a227f261b226562fce7"
+formalistic@^1.6.0:
+  version "1.6.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formalistic/-/formalistic-1.6.0.tgz#0146680b776f14036146d981f8e255176b6be122"
 
 formatio@1.2.0:
   version "1.2.0"

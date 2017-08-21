@@ -1,4 +1,4 @@
-import { createListForm, createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createListForm, createMapForm, createField, notBlankValidator, composeValidators } from 'formalistic';
 import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
@@ -20,6 +20,22 @@ import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
 
 const logger = createLogger('ServiceExtractionRuleConfig');
+
+const matchSpecificationMustCompileRule = composeValidators(notBlankValidator, regex => {
+  try {
+    /* eslint-disable no-new */
+    new RegExp(regex);
+    /* eslint-enable no-new */
+    return null;
+  } catch (e) {
+    return [
+      {
+        severity: 'error',
+        message: e.message
+      }
+    ];
+  }
+});
 
 export default class extends React.Component {
   static displayName = 'ServiceExtractionRuleConfig';
@@ -183,11 +199,19 @@ export default class extends React.Component {
 
   addMatchSpecification = (path, matchName, initialValue) => {
     const typeDefinition = typeDefinitions[this.props.match.params.ruleType];
-    const fieldType = typeDefinition.matchSpecificationOptions[matchName].type;
+    const fieldConfig = typeDefinition.matchSpecificationOptions[matchName];
+    const fieldType = fieldConfig.type;
     if (fieldType === 'kv') {
-      // TODO initial value and validators
       const field = createListForm().push(
-        createMapForm().put('key', createField({ value: '' })).put('value', createField({ value: '' }))
+        createMapForm()
+          .put('key', createField({ value: fieldConfig.typeArgs.key.initialValue, validator: notBlankValidator }))
+          .put(
+            'value',
+            createField({
+              value: fieldConfig.typeArgs.value.initialValue,
+              validator: matchSpecificationMustCompileRule
+            })
+          )
       );
       this.setState({
         form: this.state.form.updateIn(path, item => item.put(matchName, field).setTouched(true, { recurse: true }))
@@ -353,12 +377,15 @@ function createBasicRuleForm(rule) {
         value.forEach(eachValue => {
           subForm = subForm.push(
             createMapForm()
-              .put('key', createField({ value: eachValue.get('key') }))
-              .put('value', createField({ value: eachValue.get('value') }))
+              .put('key', createField({ value: eachValue.get('key'), validator: notBlankValidator }))
+              .put(
+                'value',
+                createField({ value: eachValue.get('value'), validator: matchSpecificationMustCompileRule })
+              )
           );
         });
       } else {
-        createField({
+        subForm = createField({
           value,
           validator: matchSpecificationMustCompileRule
         });
@@ -382,19 +409,3 @@ const atLeastOneMatchResult = [
     message: 'At least one match expression is required.'
   }
 ];
-
-function matchSpecificationMustCompileRule(regex) {
-  try {
-    /* eslint-disable no-new */
-    new RegExp(regex);
-    /* eslint-enable no-new */
-    return null;
-  } catch (e) {
-    return [
-      {
-        severity: 'error',
-        message: e.message
-      }
-    ];
-  }
-}
