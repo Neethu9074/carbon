@@ -4,10 +4,14 @@ import React from 'react';
 import WebsiteViewBreadcrumb from 'in-forge/plugins/browserLogicalService/Dashboard/new/breadcrumbs/WebsiteViewBreadcrumb';
 import { websiteTabs, getTabs } from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/index';
 import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/BreadcrumbForSnapshot';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import TabView from 'in-sdk/components/dashboard/TabView';
 
 export default function BrowserLogicalServiceDashboard(props) {
+  const breadcrumbs = [<WebsiteViewBreadcrumb />, <BreadcrumbForSnapshot snapshot={props.snapshot} />];
+
   return (
     <Switch>
       <Route
@@ -20,25 +24,19 @@ export default function BrowserLogicalServiceDashboard(props) {
             return <RedirectWithHash to={'/website/dashboard'} />;
           }
           const pageName = props.snapshot.getIn(['data', 'service_endpoints']).get(index);
-
-          // TODO breadcrumb for page
+          const pageBreadcrumb = <Breadcrumb href$={getSubDashboardLink(`/pages/${pageHash}`)}>{pageName}</Breadcrumb>;
           return (
             <TabView
               tabs={getTabs(pageHash)}
               props={{ pageHash: match.params.pageHash, pageName, ...props }}
-              breadcrumbs={[<WebsiteViewBreadcrumb />, <BreadcrumbForSnapshot snapshot={props.snapshot} />]}
+              breadcrumbs={breadcrumbs.concat([pageBreadcrumb])}
             />
           );
         }}
       />
       <Route
         path={`*/dashboard*`}
-        render={() =>
-          <TabView
-            tabs={websiteTabs}
-            props={props}
-            breadcrumbs={[<WebsiteViewBreadcrumb />, <BreadcrumbForSnapshot snapshot={props.snapshot} />]}
-          />}
+        render={() => <TabView tabs={websiteTabs} props={props} breadcrumbs={breadcrumbs} />}
       />
     </Switch>
   );
