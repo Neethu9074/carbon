@@ -131,15 +131,12 @@ export function getHistoricMetric({ snapshotId, metric, time }) {
   );
   const rollup = availableRollupDefinitions[0].rollup;
 
-  return focusedMoment$.flatMap(focusedMoment =>
-    createHistoricMetricObservable({
-      snapshotId,
-      focusedMoment,
-      metric,
-      rollup,
-      time
-    })
-  );
+  return createHistoricMetricObservable({
+    snapshotId,
+    metric,
+    rollup,
+    time
+  });
 }
 
 export function getHistoricMetricsWithLiveUpdates(opts) {
