@@ -29,6 +29,7 @@ export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregati
           timeWindowAggregation={timeWindowAggregation}
           formatter={formatter}
           className={`${block}__value`}
+          initialValue="––"
         />
 
         {renderedPercentages}
