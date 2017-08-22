@@ -61,7 +61,7 @@ export const matchSpecificationOptions = {
     type: 'kv',
     typeArgs: {
       key: {
-        placeholder: 'Tag key, e.g. zone for a tag zone=us-east',
+        placeholder: 'zone for a tag zone=us-east',
         testPlaceholder: '',
         initialValue: '',
         help: (
@@ -73,7 +73,7 @@ export const matchSpecificationOptions = {
         )
       },
       value: {
-        placeholder: 'Tag value, e.g. ^([^-]+) for a tag zone=us-east to extract the first segment',
+        placeholder: '^([^-]+).*$ for a tag zone=us-east to extract us',
         testPlaceholder: '',
         initialValue: '',
         help: (

@@ -8,6 +8,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
+import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
@@ -81,6 +82,78 @@ export default class extends React.Component {
             const field = ruleForm.get('matchSpecification').get(key);
             const path = this.matchSpecificationPath.concat([key]);
             const fieldConfig = matchSpecificationOptions[key];
+
+            if (fieldConfig.type === 'kv') {
+              return (
+                <div className={`${block}__double-input`}>
+                  <em className={`${block}__double-input-title`}>
+                    Match Expression: {matchSpecificationOptions[key].titleName}
+
+                    <a
+                      href="#"
+                      onClick={e => this.removeMatch(e, key, this.matchSpecificationPath)}
+                      className={`${block}__remove-match`}
+                    >
+                      Remove
+                    </a>
+                  </em>
+
+                  <Row key={key}>
+                    <Col cols={6}>
+                      {field.get(0).get('key').map(keyField =>
+                        <FormGroup>
+                          <Label htmlFor={`${id}-${key}-key`} hasError={!keyField.valid}>
+                            Key
+                          </Label>
+                          <Helpify helpText={fieldConfig.typeArgs.key.help}>
+                            <Input
+                              type="text"
+                              id={`${id}-${key}-key`}
+                              className={`${block}__helpfified_input`}
+                              placeholder={fieldConfig.typeArgs.key.placeholder}
+                              value={keyField.value}
+                              onChange={e => onChangeIn(path.concat([0, 'key']), e.target.value)}
+                              hasError={!keyField.valid}
+                            />
+                            {keyField.valid
+                              ? null
+                              : <ValidationBlock hasError>
+                                  {keyField.messages.map(e => e.message)}
+                                </ValidationBlock>}
+                          </Helpify>
+                        </FormGroup>
+                      )}
+                    </Col>
+                    <Col cols={6}>
+                      {field.get(0).get('value').map(valueField =>
+                        <FormGroup>
+                          <Label htmlFor={`${id}-${key}-value`} hasError={!valueField.valid}>
+                            Value
+                          </Label>
+                          <Helpify helpText={fieldConfig.typeArgs.value.help}>
+                            <Input
+                              type="text"
+                              id={`${id}-${key}-value`}
+                              className={`${block}__helpfified_input`}
+                              placeholder={fieldConfig.typeArgs.value.placeholder}
+                              value={valueField.value}
+                              onChange={e => onChangeIn(path.concat([0, 'value']), e.target.value)}
+                              hasError={!valueField.valid}
+                            />
+                            {valueField.valid
+                              ? null
+                              : <ValidationBlock hasError>
+                                  {valueField.messages.map(e => e.message)}
+                                </ValidationBlock>}
+                          </Helpify>
+                        </FormGroup>
+                      )}
+                    </Col>
+                  </Row>
+                </div>
+              );
+            }
+
             return (
               <FormGroup key={key}>
                 <Label htmlFor={`${id}-${key}`} hasError={!field.valid}>
@@ -94,61 +167,22 @@ export default class extends React.Component {
                     Remove
                   </a>
                 </Label>
-                {fieldConfig.type === 'kv'
-                  ? <div className={`${block}__double-input`}>
-                      {field.get(0).get('key').map(keyField =>
-                        <Helpify helpText={fieldConfig.typeArgs.key.help}>
-                          <Input
-                            type="text"
-                            id={`${id}-${key}-key`}
-                            className={`${block}__helpfified_input`}
-                            placeholder={fieldConfig.typeArgs.key.placeholder}
-                            value={keyField.value}
-                            onChange={e => onChangeIn(path.concat([0, 'key']), e.target.value)}
-                            hasError={!keyField.valid}
-                          />
-                          {keyField.valid
-                            ? null
-                            : <ValidationBlock hasError>
-                                {keyField.messages.map(e => e.message)}
-                              </ValidationBlock>}
-                        </Helpify>
-                      )}
-                      {field.get(0).get('value').map(valueField =>
-                        <Helpify helpText={fieldConfig.typeArgs.value.help}>
-                          <Input
-                            type="text"
-                            id={`${id}-${key}-value`}
-                            className={`${block}__helpfified_input`}
-                            placeholder={fieldConfig.typeArgs.value.placeholder}
-                            value={valueField.value}
-                            onChange={e => onChangeIn(path.concat([0, 'value']), e.target.value)}
-                            hasError={!valueField.valid}
-                          />
-                          {valueField.valid
-                            ? null
-                            : <ValidationBlock hasError>
-                                {valueField.messages.map(e => e.message)}
-                              </ValidationBlock>}
-                        </Helpify>
-                      )}
-                    </div>
-                  : <Helpify helpText={matchSpecificationOptions[key].help}>
-                      <Input
-                        type="text"
-                        id={`${id}-${key}`}
-                        className={`${block}__helpfified_input`}
-                        placeholder={matchSpecificationOptions[key].placeholder}
-                        value={field.value}
-                        onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
-                        hasError={!field.valid}
-                      />
-                      {field.valid
-                        ? null
-                        : <ValidationBlock hasError>
-                            {field.messages.map(e => e.message)}
-                          </ValidationBlock>}
-                    </Helpify>}
+                <Helpify helpText={matchSpecificationOptions[key].help}>
+                  <Input
+                    type="text"
+                    id={`${id}-${key}`}
+                    className={`${block}__helpfified_input`}
+                    placeholder={matchSpecificationOptions[key].placeholder}
+                    value={field.value}
+                    onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
+                    hasError={!field.valid}
+                  />
+                  {field.valid
+                    ? null
+                    : <ValidationBlock hasError>
+                        {field.messages.map(e => e.message)}
+                      </ValidationBlock>}
+                </Helpify>
               </FormGroup>
             );
           })}
