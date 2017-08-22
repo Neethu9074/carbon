@@ -64,8 +64,6 @@ export default function createAnimatableContentRenderer(config) {
     let rollupSize;
     let newDataColumns;
 
-    console.log('..........................................');
-
     if (axis.forecastConfig) {
       rollupSize = 1000 * 60 * 60;
       newDataColumns = axis.forecastConfig.queue.get();
@@ -78,9 +76,7 @@ export default function createAnimatableContentRenderer(config) {
       if (config.processDataColumnsAgain) {
         axisContentRenderer.processNewDataColumns(dataColumnsForecasts, axisName);
       }
-      console.log('forecast', dataColumnsForecasts);
-      updateScale(dataColumnsForecasts, axisName);
-      console.log();
+      updateScale(dataColumnsForecasts, axisName, false);
     }
 
     rollupSize = config.rollup.rollup || 1000;
@@ -193,7 +189,7 @@ export default function createAnimatableContentRenderer(config) {
     return ticks;
   }
 
-  function updateScale(dataColumns, axisName) {
+  function updateScale(dataColumns, axisName, checkSeries = true) {
     const axisConfig = config[axisName];
     const scale = config.scales[axisName];
     let max = Number.NEGATIVE_INFINITY;
@@ -207,7 +203,7 @@ export default function createAnimatableContentRenderer(config) {
 
       for (let i = 0, len = dataColumns.length; i < len; i++) {
         const column = dataColumns[i];
-        const bounds = getBounds(column, axisName);
+        const bounds = getBounds(column, axisName, checkSeries);
         max = Math.max(max, bounds[1]);
         min = Math.min(min, bounds[0]);
       }
@@ -230,8 +226,6 @@ export default function createAnimatableContentRenderer(config) {
     if (min >= max) {
       max = min + 1;
     }
-
-    console.log(min, max, scale.getDomainFrom(), scale.getDomainTo());
 
     scale.setDomainFrom(Math.min(min, scale.getDomainFrom()));
     scale.setDomainTo(Math.max(max, scale.getDomainTo()));
@@ -318,7 +312,7 @@ export default function createAnimatableContentRenderer(config) {
     return ticks;
   }
 
-  function getBoundsForRow(column, axisName) {
+  function getBoundsForRow(column, axisName, checkSeries = true) {
     const activeSeries = config.activeSeries[axisName];
     let max = Number.NEGATIVE_INFINITY;
     let min = Number.POSITIVE_INFINITY;
@@ -326,7 +320,7 @@ export default function createAnimatableContentRenderer(config) {
     for (let i = 0, len = column.length; i < len; i++) {
       const point = column[i];
 
-      if (point && activeSeries[i] === true) {
+      if (point && ((checkSeries && activeSeries[i] === true) || !checkSeries)) {
         max = Math.max(max, point[1]);
         min = Math.min(min, point[1]);
       }
