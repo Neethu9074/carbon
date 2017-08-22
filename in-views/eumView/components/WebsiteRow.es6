@@ -6,6 +6,7 @@ import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import { number, seconds } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
@@ -96,7 +97,8 @@ const ViewDetailsButton = connectTo(
 function NoDataMessage() {
   return (
     <h2 className={`${block}__no-data-message`}>
-      ⓧ No views in the given time window
+      <SvgIcon type="crossed_circle" width={16} className={`${block}__no-data-message-icon`} /> No views in the given
+      time window
     </h2>
   );
 }
