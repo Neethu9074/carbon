@@ -5,7 +5,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
@@ -14,7 +14,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
     <MaxWidthFullscreenContainer>
-      <TwoColumnRow>
+      <Columize>
         <DashboardTile title="Views vs Page Load Time">
           <Chart
             snapshotId={snapshotId}
@@ -66,7 +66,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
             }}
           />
         </DashboardTile>
-      </TwoColumnRow>
+      </Columize>
 
       {instanaInternalFeaturesEnabled
         ? <DashboardTile title="Load Time Distribution">

@@ -5,7 +5,7 @@ import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
 export default function InstanaAgentDashboard({ snapshot, timeframe }) {
@@ -20,7 +20,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
         <ButtonSection snapshot={snapshot} />
       </DashboardSection>
 
-      <TwoColumnRow>
+      <Columize>
         {snapshot.getIn(['data', 'hasCpuLoad'])
           ? <DashboardSection title="CPU Load">
               <Chart
@@ -66,8 +66,8 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
-      <TwoColumnRow>
+      </Columize>
+      <Columize>
         <DashboardSection title="Network">
           <Chart
             snapshotId={snapshotId}
@@ -107,7 +107,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
       <DashboardSection title="Log Output">
         <LogStreamer snapshot={snapshot} />

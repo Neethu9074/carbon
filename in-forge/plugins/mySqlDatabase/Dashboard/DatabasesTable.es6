@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -92,7 +92,7 @@ function getDetails(row) {
           formatter: msZeroDecimalPlaces
         }}
       />
-      <TwoColumnRow>
+      <Columize>
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
@@ -127,7 +127,7 @@ function getDetails(row) {
             type: 'stackedArea'
           }}
         />
-      </TwoColumnRow>
+      </Columize>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -159,7 +159,7 @@ function getRowDetails(row) {
   const snapshotId = row.snapshotId;
   return (
     <div>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Routines">
           <Chart
             snapshotId={snapshotId}
@@ -197,7 +197,7 @@ function getRowDetails(row) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
       <DashboardSection title="Health Manager Analyzer">
         <Chart
           snapshotId={snapshotId}

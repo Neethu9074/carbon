@@ -3,7 +3,7 @@ import React from 'react';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,
   timeByMillisTwoDecimalPlaces,
@@ -45,7 +45,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Indices Count">
           <Chart
             snapshotId={snapshot.get('id')}
@@ -80,7 +80,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
       <DashboardSection title="Documents">
         <Chart

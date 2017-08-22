@@ -7,7 +7,7 @@ import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
@@ -108,7 +108,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         />
       </DashboardTile>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
           <PageLoadBreakdownChart
             snapshotId={snapshotId}
@@ -133,7 +133,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
             }}
           />
         </DashboardTile>
-      </TwoColumnRow>
+      </Columize>
     </MaxWidthFullscreenContainer>
   );
 }

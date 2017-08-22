@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -73,7 +73,7 @@ function getRowDetails(row) {
   const timeframe = row.timeframe;
 
   return (
-    <TwoColumnRow>
+    <Columize>
       <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
@@ -101,6 +101,6 @@ function getRowDetails(row) {
           type: 'line'
         }}
       />
-    </TwoColumnRow>
+    </Columize>
   );
 }

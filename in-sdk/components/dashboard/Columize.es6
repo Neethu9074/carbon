@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './TwoColumnRow.less';
+import './Columize.less';
 
 const block = 'in-dashboard-columize';
 
-export default function TwoColumnRow({ children }) {
+export default function Columize({ children }) {
   return (
     <div className={block}>
       {children}

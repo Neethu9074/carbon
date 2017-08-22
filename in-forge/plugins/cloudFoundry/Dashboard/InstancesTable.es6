@@ -2,7 +2,7 @@ import React from 'react';
 
 import { percentageTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
@@ -66,7 +66,7 @@ export default function InstancesTable({ snapshot, timeframe, instances }) {
 
 function getRowDetails(row) {
   return (
-    <TwoColumnRow>
+    <Columize>
       <DashboardSection title="CPU">
         <Chart
           snapshotId={row.snapshotId}
@@ -99,6 +99,6 @@ function getRowDetails(row) {
           }}
         />
       </DashboardSection>
-    </TwoColumnRow>
+    </Columize>
   );
 }

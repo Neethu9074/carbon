@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
@@ -50,7 +50,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Storage">
-        <TwoColumnRow>
+        <Columize>
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -77,7 +77,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
               type: 'line'
             }}
           />
-        </TwoColumnRow>
+        </Columize>
 
         <OperationsTable snapshot={snapshot} timeframe={timeframe} />
       </DashboardSection>
