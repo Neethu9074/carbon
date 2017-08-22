@@ -48,7 +48,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   column.subscription = getMetric({
     snapshotId,
     metric,
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
+    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+    // this flag enforces the metric subscription to always use the time window aggregated metric values
+    forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {
     if (column.value !== v) {
       column.value = v;

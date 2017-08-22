@@ -38,6 +38,7 @@ const cols = [
     title: 'Calls',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -54,6 +55,7 @@ const cols = [
     title: 'Load Time',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
