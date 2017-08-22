@@ -8,10 +8,10 @@ export default function WebsiteKpiSection({ data }) {
   return (
     <div className={block}>
       <Kpi metricName="Views" classNameAppendix="__load">
-        {data.pageLoad}
+        {data.pageLoad != null ? data.pageLoad : '––'}
       </Kpi>
       <Kpi metricName="Load Time" classNameAppendix="__time">
-        {data.loadTime}
+        {data.loadTime != null ? data.loadTime : '––'}
       </Kpi>
     </div>
   );
