@@ -78,8 +78,6 @@ export default connectTo(
     }
     const websiteLabel = getLabel(snapshot);
 
-    // TODO show message when timeframe extends beyond our trace storage time
-
     if (result.error) {
       logger.warn('Failed to retrieve EUM error overview', result.error);
       return (

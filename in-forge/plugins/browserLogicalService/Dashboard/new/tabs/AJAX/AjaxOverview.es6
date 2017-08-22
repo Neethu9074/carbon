@@ -20,6 +20,7 @@ const cols = [
     type: 'link',
     typeArgs: {
       comparator: compareIgnoreCase,
+      showLoadingIndicator: true,
       get$(row) {
         const snapshot$ = getSnapshot(row.otherSideSnapshotId);
         const href$ = getSubDashboardLink(`/ajax/${encodeURIComponent(row.connectionSnapshotId)}`);
@@ -109,7 +110,7 @@ export default connectTo(
       return (
         <MaxWidthFullscreenContainer>
           <DashboardTile title="Call Targets">
-            No call targets in the given time window
+            No call targets at the focused moment.
           </DashboardTile>
         </MaxWidthFullscreenContainer>
       );

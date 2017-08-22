@@ -1,6 +1,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
+import { cellLoadingIndicatorInstance } from 'in-components/Table/components/CellLoadingIndicator';
 import { noop } from 'in-services/fixedObjects';
 import Link from 'in-components/Link';
 
@@ -33,6 +34,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     const result = columnDefinition.typeArgs.get(row.rowConfig);
     setResult(result, col, row, emitRawDataChange);
   } else {
+    if (columnDefinition.typeArgs.showLoadingIndicator) {
+      col.content = cellLoadingIndicatorInstance;
+    }
     const result$ = columnDefinition.typeArgs.get$(row.rowConfig);
     col.subscription = result$.subscribe(setResult, null, col, row, emitRawDataChange);
   }
@@ -43,7 +47,12 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 function setResult(result, col, row, emitRawDataChange) {
   if (result == null) {
     col.value = null;
-    col.content = null;
+
+    if (col.columnDefinition.typeArgs.showLoadingIndicator) {
+      col.content = cellLoadingIndicatorInstance;
+    } else {
+      col.content = null;
+    }
   } else {
     col.value = result.value;
     col.content = (

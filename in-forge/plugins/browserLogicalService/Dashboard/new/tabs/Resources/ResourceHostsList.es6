@@ -20,6 +20,7 @@ const cols = [
     type: 'link',
     typeArgs: {
       comparator: compareIgnoreCase,
+      showLoadingIndicator: true,
       get$(row) {
         const snapshot$ = getSnapshot(row.otherSideSnapshotId);
         const href$ = getSubDashboardLink(`/resources/${encodeURIComponent(row.connectionSnapshotId)}`);
@@ -93,7 +94,7 @@ export default connectTo(
       return (
         <MaxWidthFullscreenContainer>
           <DashboardTile title="Resource Hosts">
-            No resources in the given time window
+            No resources at the focused moment.
           </DashboardTile>
         </MaxWidthFullscreenContainer>
       );
