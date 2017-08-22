@@ -1,5 +1,6 @@
 import React from 'react';
 
+import timeDistributionUrl from 'in-forge/plugins/browserLogicalService/Dashboard/navigation-timing.svg';
 import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
@@ -89,8 +90,10 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
           <Link href="https://www.w3.org/TR/navigation-timing-2/#h-processing-model" external>
             navigation timining
           </Link>{' '}
-          specification. DOM is defined as <code>domContentLoadedEventStart - domLoading</code> and children is defined
-          as <code>loadEventEnd - domContentLoadedEventStart</code>.
+          specification. To learn more about DOM and children timing, check out our variation of the{' '}
+          <Link href={timeDistributionUrl} external>
+            navigation timing stages
+          </Link>.
         </p>
         <Chart
           snapshotId={snapshotId}
