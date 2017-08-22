@@ -108,31 +108,38 @@ export default function createAxisController(config) {
       return;
     }
 
-    config.forecastMetrics = {};
-
     function checkAxis(axisName) {
       const axis = config[axisName];
       if (!axis) {
         return;
       }
 
-      let forecastMetrics = [];
-      let forecastLabels = [];
+      axis.forecastConfig = {
+        metrics: []
+      };
+
       for (let i = 0, length = axis.metrics.length; i < length; i++) {
         const metric = axis.metrics[i];
         if (forecastedMetrics.indexOf(metric) >= 0) {
           const lowMetric = metric + '.forecast.low.99';
           const highMetric = metric + '.forecast.high.99';
-          forecastMetrics.push(highMetric);
-          forecastMetrics.push(lowMetric);
-          forecastLabels.push(metric + '_high');
-          forecastLabels.push(metric + '_low');
-          config.forecastMetrics[highMetric] = 'high';
-          config.forecastMetrics[lowMetric] = 'low';
+          axis.forecastConfig.metrics.push({
+            metric,
+            lowMetric,
+            highMetric
+          });
         }
       }
-      axis.metrics = forecastMetrics.concat(axis.metrics);
-      axis.labels = forecastLabels.concat(axis.labels);
+
+      const numberOfSeries = axis.forecastConfig.metrics.length * 2;
+      axis.forecastConfig.queue = createQueue({
+        numberOfSeries,
+        requireExistenceInAllSeries: true
+      });
+
+      axis.forecastConfig.dataHolder = createDataHolder({
+        numberOfSeries
+      });
     }
 
     checkAxis('y1');
@@ -238,8 +245,8 @@ export default function createAxisController(config) {
   function subscribeToDataSourcesForAxis(axisName) {
     const axis = config[axisName];
     const metrics = axis.metrics;
-
     const queue = config.queues[axisName];
+
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(
@@ -254,6 +261,34 @@ export default function createAxisController(config) {
           isDynamicAggregated: axis.isDynamicAggregated
         }).subscribe(onNewDataPoints, null, i, queue)
       );
+    }
+
+    const forecastConfig = axis.forecastConfig;
+    if (!forecastConfig) {
+      return;
+    }
+    const snapshotId = config.snapshotId;
+
+    let queueIndex = 0;
+    function subscribeToForecastMetric(metricName) {
+      timeframeSpecificSubscriptions.push(
+        getMetricsForTimeframe({
+          snapshotId: snapshotId,
+          metric: metricName,
+          timeframe: config.timeframe,
+          rollup: config.rollup.rollup,
+          aggregation: axis.aggregation,
+          blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
+          metricBaseMillis: axis.metricBaseMillis,
+          isDynamicAggregated: axis.isDynamicAggregated
+        }).subscribe(onNewDataPoints, null, queueIndex++, forecastConfig.queue)
+      );
+    }
+
+    for (let i = 0, length = forecastConfig.metrics.length; i < length; i++) {
+      const forecastMetric = forecastConfig.metrics[i];
+      subscribeToForecastMetric(forecastMetric.lowMetric);
+      subscribeToForecastMetric(forecastMetric.highMetric);
     }
   }
 
@@ -325,6 +360,15 @@ export default function createAxisController(config) {
     if (config.queues.y2) {
       config.dataHolders.y2.clear();
       config.queues.y2.clear();
+    }
+
+    if (config.y1.forecastConfig) {
+      config.y1.forecastConfig.queue.clear();
+      config.y1.forecastConfig.dataHolder.clear();
+    }
+    if (config.y2 && config.y2.forecastConfig) {
+      config.y2.forecastConfig.queue.clear();
+      config.y2.forecastConfig.dataHolder.clear();
     }
   }
 

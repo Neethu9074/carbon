@@ -18,65 +18,45 @@ export default function createLineContentRenderer({ axisName, config }) {
       xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
     }
 
-    const activeSeries = config.activeSeries[axisName];
-    for (
-      let seriesIndex = 0;
-      seriesIndex < config[axisName].numberOfSeries;
-      seriesIndex++
-    ) {
-      const metricName = config[axisName].metrics[seriesIndex];
-      const isForecastMetric = config.forecastMetrics &&
-        config.forecastMetrics[metricName]
-        ? true
-        : false;
-
-      if (activeSeries[seriesIndex] === false) {
-        continue;
-      }
-      if (!isForecastMetric) {
-        continue;
-      }
-      const isForecastMetricLow = config.forecastMetrics[metricName] === 'low';
-      let color = '#e5e5e5';
-      if (isForecastMetricLow) {
-        color = '#ffffff';
-      }
-
-      ctx.beginPath();
-      let lastX = 0;
-      let firstX = null;
-      for (
-        let columnIndex = 0, len = dataColumns.length;
-        columnIndex < len;
-        columnIndex++
-      ) {
-        const dataColumn = dataColumns[columnIndex];
-        const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
-
-        // existense of data points in all rows is not guaranteed - skip column for this series
-        if (!dataRow) {
-          continue;
-        }
-
-        const xToRender = x.getRange(dataRow[0] + xDomainOffset);
-        const yToRender = y.getRange(dataRow[1]);
-        lastX = xToRender;
-        if (firstX === null) {
-          firstX = xToRender;
-        }
-        ctx.lineTo(xToRender, yToRender);
-      }
-
-      ctx.lineTo(lastX, y.getRangeFrom());
-      ctx.lineTo(firstX, y.getRangeFrom());
-
-      //ctx.lineWidth = 2;
-      //ctx.strokeStyle = colors[seriesIndex];
-      //ctx.stroke();
-      ctx.closePath();
-      ctx.fillStyle = color;
-      ctx.fill();
+    const forecastConfig = config[axisName].forecastConfig;
+    const numberofForecasts = forecastConfig.metrics.length;
+    for (let forecastIndex = 0; forecastIndex < numberofForecasts; forecastIndex++) {
+      renderLine('#e5e5e5', dataColumns, forecastIndex * 2 + 1, xDomainOffset);
+      renderLine('#fff', dataColumns, forecastIndex * 2, xDomainOffset);
     }
+  }
+
+  function renderLine(color, dataColumns, seriesIndex, xDomainOffset) {
+    ctx.beginPath();
+    let lastX = 0;
+    let firstX = null;
+    for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
+      const dataColumn = dataColumns[columnIndex];
+      const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
+
+      // existense of data points in all rows is not guaranteed - skip column for this series
+      if (!dataRow) {
+        continue;
+      }
+
+      const xToRender = x.getRange(dataRow[0] + xDomainOffset);
+      const yToRender = y.getRange(dataRow[1]);
+      lastX = xToRender;
+      if (firstX === null) {
+        firstX = xToRender;
+      }
+      ctx.lineTo(xToRender, yToRender);
+    }
+
+    ctx.lineTo(lastX, y.getRangeFrom());
+    ctx.lineTo(firstX, y.getRangeFrom());
+
+    //ctx.lineWidth = 2;
+    //ctx.strokeStyle = colors[seriesIndex];
+    //ctx.stroke();
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
   }
 
   function render(dataColumns) {
@@ -86,24 +66,10 @@ export default function createLineContentRenderer({ axisName, config }) {
     }
 
     const activeSeries = config.activeSeries[axisName];
-    for (
-      let seriesIndex = 0;
-      seriesIndex < config[axisName].numberOfSeries;
-      seriesIndex++
-    ) {
+    for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
       if (activeSeries[seriesIndex] === false) {
         continue;
       }
-      const metricName = config[axisName].metrics[seriesIndex];
-      const isForecastMetric = config.forecastMetrics &&
-        config.forecastMetrics[metricName]
-        ? true
-        : false;
-
-      if (isForecastMetric) {
-        continue;
-      }
-
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;
@@ -111,11 +77,7 @@ export default function createLineContentRenderer({ axisName, config }) {
       const singlePointsToRender = [];
 
       // going left to right
-      for (
-        let columnIndex = 0, len = dataColumns.length;
-        columnIndex < len;
-        columnIndex++
-      ) {
+      for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
 
@@ -133,10 +95,7 @@ export default function createLineContentRenderer({ axisName, config }) {
           y: yToRender
         });
 
-        if (
-          xToRender - previousX > config.maxDistanceBetweenPoints ||
-          columnIndex === 0
-        ) {
+        if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
           ctx.moveTo(xToRender, yToRender);
         } else {
           ctx.lineTo(xToRender, yToRender);

@@ -21,12 +21,21 @@ export default function createAnimatableContentRenderer(config) {
     const shouldRenderY1 = doesAxisNeedToBeRendered('y1');
     const shouldRenderY2 = doesAxisNeedToBeRendered('y2');
 
+    prepareAxis('y1');
+    prepareAxis('y2');
+
+    renderForecasts('y1');
+    renderForecasts('y2');
+
     if (shouldRenderY1) {
       renderAxisContent('y1');
     }
     if (shouldRenderY2) {
       renderAxisContent('y2');
     }
+
+    renderAnomalies('y1');
+    renderAnomalies('y2');
 
     clearOverflowingAxisContent();
 
@@ -40,6 +49,76 @@ export default function createAnimatableContentRenderer(config) {
 
     renderXAxis();
   }
+
+  function prepareAxis(axisName) {
+    const axis = config[axisName];
+    if (!axis) {
+      return;
+    }
+
+    const axisContentRenderer = config.axisContentRenderers[axisName];
+    const scale = config.scales[axisName];
+    scale.setDomainTo(Number.MIN_VALUE);
+    scale.setDomainFrom(Number.MAX_VALUE);
+
+    let rollupSize;
+    let newDataColumns;
+
+    console.log('..........................................');
+
+    if (axis.forecastConfig) {
+      rollupSize = 1000 * 60 * 60;
+      newDataColumns = axis.forecastConfig.queue.get();
+      axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
+      axis.forecastConfig.dataHolder.insertSorted(newDataColumns);
+      // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
+      // when the content is animating.
+      axis.forecastConfig.dataHolder.expireDataPointsOlderThan(config.scales.x.getDomainFrom() - rollupSize);
+      const dataColumnsForecasts = axis.forecastConfig.dataHolder.getDataColumns();
+      if (config.processDataColumnsAgain) {
+        axisContentRenderer.processNewDataColumns(dataColumnsForecasts, axisName);
+      }
+      console.log('forecast', dataColumnsForecasts);
+      updateScale(dataColumnsForecasts, axisName);
+      console.log();
+    }
+
+    rollupSize = config.rollup.rollup || 1000;
+    newDataColumns = config.queues[axisName].get();
+    axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
+    config.dataHolders[axisName].insertSorted(newDataColumns);
+    // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
+    // when the content is animating.
+    config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom() - rollupSize);
+    const dataColumnsMetrics = config.dataHolders[axisName].getDataColumns();
+    if (config.processDataColumnsAgain) {
+      axisContentRenderer.processNewDataColumns(dataColumnsMetrics, axisName);
+    }
+
+    config.processDataColumnsAgain = false;
+    updateScale(dataColumnsMetrics, axisName);
+  }
+
+  function renderForecasts(axisName) {
+    const axis = config[axisName];
+    if (!axis || !axis.forecastConfig) {
+      return;
+    }
+
+    const axisContentRenderer = config.axisContentRenderers[axisName];
+    const dataColumns = axis.forecastConfig.dataHolder.getDataColumns();
+    if (axisContentRenderer.renderForecasts) {
+      axisContentRenderer.renderForecasts(dataColumns);
+    }
+  }
+
+  function renderAxisContent(axisName) {
+    const axisContentRenderer = config.axisContentRenderers[axisName];
+    const dataColumns = config.dataHolders[axisName].getDataColumns();
+    axisContentRenderer.render(dataColumns);
+  }
+
+  function renderAnomalies(axisName) {}
 
   function doesAxisNeedToBeRendered(axisName) {
     if (!config[axisName]) {
@@ -114,27 +193,6 @@ export default function createAnimatableContentRenderer(config) {
     return ticks;
   }
 
-  function renderAxisContent(axisName) {
-    const rollupSize = config.rollup.rollup || 1000;
-    const newDataColumns = config.queues[axisName].get();
-    const axisContentRenderer = config.axisContentRenderers[axisName];
-    axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
-    config.dataHolders[axisName].insertSorted(newDataColumns);
-    // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
-    // when the content is animating.
-    config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom() - rollupSize);
-    const dataColumns = config.dataHolders[axisName].getDataColumns();
-    if (config.processDataColumnsAgain) {
-      axisContentRenderer.processNewDataColumns(dataColumns, axisName);
-    }
-    config.processDataColumnsAgain = false;
-    updateScale(dataColumns, axisName);
-    if(axisContentRenderer.renderForecasts){
-      axisContentRenderer.renderForecasts(dataColumns);
-    }
-    axisContentRenderer.render(dataColumns);
-  }
-
   function updateScale(dataColumns, axisName) {
     const axisConfig = config[axisName];
     const scale = config.scales[axisName];
@@ -173,8 +231,10 @@ export default function createAnimatableContentRenderer(config) {
       max = min + 1;
     }
 
-    scale.setDomainFrom(min);
-    scale.setDomainTo(max);
+    console.log(min, max, scale.getDomainFrom(), scale.getDomainTo());
+
+    scale.setDomainFrom(Math.min(min, scale.getDomainFrom()));
+    scale.setDomainTo(Math.max(max, scale.getDomainTo()));
   }
 
   function renderYAxis(axisName) {
