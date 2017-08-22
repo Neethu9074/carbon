@@ -2,6 +2,7 @@ import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
+import FullscreenOverlayView from 'in-components/FullscreenOverlayView/FullscreenOverlayView';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
@@ -70,27 +71,34 @@ export default connectTo(
     const plugin = snapshot.get('plugin');
     if (isNewDashboard(plugin)) {
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
-      return <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />;
+
+      return (
+        <FullscreenOverlayView className="in-dashboard in-dashboard--without-custom-scrolling">
+          <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+        </FullscreenOverlayView>
+      );
     }
 
     const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
     return (
-      <div className={block}>
-        <DetailPopupPresenter />
-        <DashboardHeader snapshotId={snapshotId} />
-        <DashboardJumpLabels snapshotId={snapshotId} />
+      <FullscreenOverlayView className="in-dashboard">
+        <div className={block}>
+          <DetailPopupPresenter />
+          <DashboardHeader snapshotId={snapshotId} />
+          <DashboardJumpLabels snapshotId={snapshotId} />
 
-        <div className={`${block}__wrapper`}>
-          <div className={`${block}__sidebar`}>
-            <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
-          </div>
-          <div className={`${block}__content`}>
-            <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+          <div className={`${block}__wrapper`}>
+            <div className={`${block}__sidebar`}>
+              <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+            </div>
+            <div className={`${block}__content`}>
+              <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+            </div>
           </div>
         </div>
-      </div>
+      </FullscreenOverlayView>
     );
   }
 );
