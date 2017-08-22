@@ -56,7 +56,7 @@ export default function createChart(config) {
   if (!config.withoutAxis) {
     config.margins = {
       top: 1,
-      bottom: 22,
+      bottom: 31,
       left: config.margins.left || 1,
       right: config.margins.right || 1
     };

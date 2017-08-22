@@ -2,6 +2,8 @@ import moment from 'moment';
 
 import { getSetting$ } from 'in-services/settings';
 
+const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 export const timeFormat = 'HH:mm:ss';
 export const dateFormat = 'YYYY-MM-DD';
 export const dateTimeFormat = dateFormat + ' ' + timeFormat;
@@ -9,6 +11,7 @@ export const dateTimeFormat = dateFormat + ' ' + timeFormat;
 let formatTimeInternal = formatTimeInternalAccordingToLocalTime;
 let formatTimeWithoutSecondsInternal = formatTimeWithoutSecondsInternalAccordingToLocalTime;
 let formatDateInternal = formatDateInternalAccordingToLocalTime;
+let formatDateShortInternal = formatDateShortInternalAccordingToLocalTime;
 let parseDateInternal = parseDateAccordingToLocalTime;
 let parseDateTimeInternal = parseDateTimeAccordingToLocalTime;
 let parseTimeInternal = parseTimeAccordingToLocalTime;
@@ -18,6 +21,7 @@ getSetting$('formatTimestampsAsUtc').subscribe(asUtc => {
     formatTimeInternal = formatTimeInternalAccordingToUTC;
     formatTimeWithoutSecondsInternal = formatTimeWithoutSecondsInternalAccordingToUTC;
     formatDateInternal = formatDateInternalAccordingToUTC;
+    formatDateShortInternal = formatDateShortInternalAccordingToUtc;
     parseDateInternal = parseDateAsUtc;
     parseDateTimeInternal = parseDateTimeAsUtc;
     parseTimeInternal = parseTimeAsUtc;
@@ -25,6 +29,7 @@ getSetting$('formatTimestampsAsUtc').subscribe(asUtc => {
     formatTimeInternal = formatTimeInternalAccordingToLocalTime;
     formatTimeWithoutSecondsInternal = formatTimeWithoutSecondsInternalAccordingToLocalTime;
     formatDateInternal = formatDateInternalAccordingToLocalTime;
+    formatDateShortInternal = formatDateShortInternalAccordingToLocalTime;
     parseDateInternal = parseDateAccordingToLocalTime;
     parseDateTimeInternal = parseDateTimeAccordingToLocalTime;
     parseTimeInternal = parseTimeAccordingToLocalTime;
@@ -41,6 +46,10 @@ export function formatTimeWithoutSeconds(millis) {
 
 export function formatDate(millis) {
   return millis ? formatDateInternal(new Date(millis)) : null;
+}
+
+export function formatDateShort(millis) {
+  return millis ? formatDateShortInternal(new Date(millis)) : null;
 }
 
 export function formatDateTime(millis) {
@@ -157,6 +166,12 @@ function formatDateInternalAccordingToLocalTime(date) {
   return `${year}-${month}-${day}`;
 }
 
+function formatDateShortInternalAccordingToLocalTime(date) {
+  const month = monthsShort[date.getMonth()];
+  const day = ensureTwoChars(date.getDate());
+  return `${month} ${day}`;
+}
+
 function formatTimeInternalAccordingToUTC(date) {
   const hours = ensureTwoChars(date.getUTCHours());
   const minutes = ensureTwoChars(date.getUTCMinutes());
@@ -175,6 +190,12 @@ function formatDateInternalAccordingToUTC(date) {
   const month = ensureTwoChars(date.getUTCMonth() + 1);
   const day = ensureTwoChars(date.getUTCDate());
   return `${year}-${month}-${day}`;
+}
+
+function formatDateShortInternalAccordingToUtc(date) {
+  const month = monthsShort[date.getUTCMonth()];
+  const day = ensureTwoChars(date.getUTCDate());
+  return `${month} ${day}`;
 }
 
 function ensureTwoChars(s) {
