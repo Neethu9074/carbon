@@ -6,12 +6,9 @@ import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
-import NoErrorsMessage from 'in-sdk/components/dashboard/NoErrorsMessage';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import RenderWithMetric from 'in-components/RenderWithMetric';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { getLabel } from 'in-sdk/snapshot';
@@ -121,41 +118,22 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
           />
         </DashboardTile>
         <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
-          <RenderWithMetric
+          <Chart
             snapshotId={snapshotId}
-            metric={`${metricPrefix}uncaughtErrors`}
-            timeframe={timeframe}
-            timeWindowAggregation="sum"
-            component={UncaughtErrors}
-            metricPrefix={metricPrefix}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`${metricPrefix}uncaughtErrors`],
+              labels: ['Uncaught errors'],
+              type: 'bar',
+              aggregation: 'sum'
+            }}
           />
         </DashboardTile>
       </TwoColumnRow>
     </MaxWidthFullscreenContainer>
-  );
-}
-
-function UncaughtErrors({ snapshotId, metricValue, metricPrefix }) {
-  if (metricValue === null) {
-    return <LoadingIndicator type="dark" />;
-  } else if (metricValue <= 0) {
-    return <NoErrorsMessage />;
-  }
-
-  return (
-    <Chart
-      snapshotId={snapshotId}
-      margins={{
-        left: 60
-      }}
-      y1={{
-        min: 0,
-        formatter: number.compact,
-        metrics: [`${metricPrefix}uncaughtErrors`],
-        labels: ['Uncaught errors'],
-        type: 'bar',
-        aggregation: 'sum'
-      }}
-    />
   );
 }
