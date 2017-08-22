@@ -38,6 +38,7 @@ const cols = [
       width: '120px'
     },
     typeArgs: {
+      kind: 'default',
       get$(row) {
         return getTraceViewLinkWithQuery(row.query).map(href => {
           return {
