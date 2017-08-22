@@ -50,6 +50,9 @@ const DualPercentage = connectTo(
     };
   },
   function DualPercentage({ aValue, percentages }) {
+    if (aValue == null) {
+      return null;
+    }
     const width = aValue == null ? '0%' : `${(aValue * 100) | 0}%`;
 
     return (
