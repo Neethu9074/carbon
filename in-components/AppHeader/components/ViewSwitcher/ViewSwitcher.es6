@@ -117,7 +117,7 @@ export default connectTo(
             </View>
 
             {eumViewEnabled
-              ? <View label="Website" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
+              ? <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
               : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
