@@ -1,8 +1,13 @@
-export default {
+const configuredForecasts = {
   'P9wdg-O_QgPAOgiqtk_ErPIUAzs': {
-    metric: 'count'
+    metrics: ['count']
   },
   '0J6HRMZ4S94oAsBBy9bIVAOppeI': {
-    metric: 'duration.mean'
+    metrics: ['duration.mean']
   }
 };
+
+export function getConfiguredMetrics(snapshotId) {
+  const config = configuredForecasts[snapshotId];
+  return config ? config.metrics : config;
+}

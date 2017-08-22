@@ -36,7 +36,7 @@ export default function createLineContentRenderer({ axisName, config }) {
       // going left to right
       for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
-        const dataRow = dataColumn[seriesIndex];
+        const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
 
         // existense of data points in all rows is not guaranteed - skip column for this series
         if (!dataRow) {

@@ -9,9 +9,9 @@ import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
+import { getConfiguredMetrics } from 'in-services/forecastConfig';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import forecastConfig from 'in-services/forecastConfig';
 import { timeframe$, to$ } from 'in-stores/timeline';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -103,8 +103,8 @@ export default function createAxisController(config) {
   }
 
   function determineForecasts() {
-    const forecastedMetricConfiguration = forecastConfig[config.snapshotId];
-    if (!forecastedMetricConfiguration) {
+    const forecastedMetrics = getConfiguredMetrics(config.snapshotId);
+    if (!forecastedMetrics) {
       return;
     }
 
@@ -120,19 +120,19 @@ export default function createAxisController(config) {
       let forecastLabels = [];
       for (let i = 0, length = axis.metrics.length; i < length; i++) {
         const metric = axis.metrics[i];
-        if (metric === forecastedMetricConfiguration.metric) {
+        if (forecastedMetrics.indexOf(metric) >= 0) {
           const lowMetric = metric + '.forecast.low.99';
           const highMetric = metric + '.forecast.high.99';
           forecastMetrics.push(lowMetric);
           forecastMetrics.push(highMetric);
           forecastLabels.push(metric + '_low');
           forecastLabels.push(metric + '_high');
-          config.forecastMetrics[lowMetric] = true;
-          config.forecastMetrics[highMetric] = true;
+          config.forecastMetrics[lowMetric] = 'low';
+          config.forecastMetrics[highMetric] = 'high';
         }
       }
-      axis.metrics = axis.metrics.concat(forecastMetrics);
-      axis.labels = axis.labels.concat(forecastLabels);
+      axis.metrics = forecastMetrics.concat(axis.metrics);
+      axis.labels = forecastLabels.concat(axis.labels);
     }
 
     checkAxis('y1');
