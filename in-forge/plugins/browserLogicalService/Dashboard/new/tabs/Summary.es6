@@ -22,7 +22,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
     viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
   }
   const viewTracesButton = (
-    <Button kind="default" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
+    <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
       View Traces
     </Button>
   );
