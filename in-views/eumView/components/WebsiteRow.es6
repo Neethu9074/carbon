@@ -29,14 +29,16 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
       </div>
 
       <div className={metrics}>
-        <div className={kpis}>
-          <WebsiteKpiSection snapshotId={snapshotId} data={data} />
-          {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
-        </div>
-
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
         {data.rawPageLoad != null && data.rawPageLoad < 1 ? <NoDataMessage /> : null}
+
+        {data.rawPageLoad != null && data.rawPageLoad >= 1
+          ? <div className={kpis}>
+              <WebsiteKpiSection snapshotId={snapshotId} data={data} />
+              {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
+            </div>
+          : null}
 
         {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <Chart
@@ -94,7 +96,7 @@ const ViewDetailsButton = connectTo(
 function NoDataMessage() {
   return (
     <h2 className={`${block}__no-data-message`}>
-      No views in the given time window
+      ⓧ No views in the given time window
     </h2>
   );
 }
