@@ -51,9 +51,6 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx.lineTo(lastX, y.getRangeFrom());
     ctx.lineTo(firstX, y.getRangeFrom());
 
-    //ctx.lineWidth = 2;
-    //ctx.strokeStyle = colors[seriesIndex];
-    //ctx.stroke();
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
