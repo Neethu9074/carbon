@@ -35,8 +35,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             formatter: msTwoDecimalPlaces,
             metrics: ['duration.mean'],
             labels: ['average latency'],
-            type: 'line',
-            aggregation: 'mean'
+            type: 'line'
           }}
         />
       </DashboardSection>

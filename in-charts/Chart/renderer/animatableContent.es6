@@ -129,6 +129,9 @@ export default function createAnimatableContentRenderer(config) {
     }
     config.processDataColumnsAgain = false;
     updateScale(dataColumns, axisName);
+    if(axisContentRenderer.renderForecasts){
+      axisContentRenderer.renderForecasts(dataColumns);
+    }
     axisContentRenderer.render(dataColumns);
   }
 

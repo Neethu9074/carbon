@@ -123,12 +123,12 @@ export default function createAxisController(config) {
         if (forecastedMetrics.indexOf(metric) >= 0) {
           const lowMetric = metric + '.forecast.low.99';
           const highMetric = metric + '.forecast.high.99';
-          forecastMetrics.push(lowMetric);
           forecastMetrics.push(highMetric);
-          forecastLabels.push(metric + '_low');
+          forecastMetrics.push(lowMetric);
           forecastLabels.push(metric + '_high');
-          config.forecastMetrics[lowMetric] = 'low';
+          forecastLabels.push(metric + '_low');
           config.forecastMetrics[highMetric] = 'high';
+          config.forecastMetrics[lowMetric] = 'low';
         }
       }
       axis.metrics = forecastMetrics.concat(axis.metrics);
