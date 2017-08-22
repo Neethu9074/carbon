@@ -14,13 +14,13 @@ import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import { eumViewEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
+import AgentView from 'in-views/agentView/AgentView';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import AsciiMap from 'in-map/AsciiMap';
 import Map from 'in-map/index';
 
 export default (
   <Switch>
-
     <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
     <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
 
@@ -68,6 +68,8 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)}
       path="/traces"
     />
+
+    <RouteWithTitle path="/agents" component={AgentView} windowTitle="Instana Agents" />
 
     <RedirectWithHash from="/" to="/physical" />
   </Switch>

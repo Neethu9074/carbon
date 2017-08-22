@@ -1,6 +1,11 @@
 import { combineLatest } from 'reactive-observables';
 
-import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import {
+  buildUrlStream,
+  mutateUrl,
+  navigationParameters$,
+  getModifiedUrlStream
+} from 'in-stores/navigation/navigation';
 import { trySetField, removeField } from 'in-stores/search/manipulation';
 
 export const cockpitLink$ = getModifiedUrlStream(params => (params.pathname = '/cockpit'));
@@ -131,3 +136,5 @@ export function setCurrentViewWithViewGrouping(view, vg) {
     return params;
   });
 }
+
+export const agentsViewLink$ = buildUrlStream({ path: '/agents' });
