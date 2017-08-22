@@ -60,7 +60,7 @@ export default function AlertsTable({ snapshot }) {
 function getRowDetails(row) {
   return (
     <DescriptionList>
-      <DescriptionItem title="Details">
+      <DescriptionItem>
         {row.alert.get('details')}
       </DescriptionItem>
       <DescriptionItem title="User Action">

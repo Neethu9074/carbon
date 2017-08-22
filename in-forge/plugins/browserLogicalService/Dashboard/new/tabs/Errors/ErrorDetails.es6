@@ -60,7 +60,7 @@ export default connectTo(
       <div>
         <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
 
-        <DashboardTile title="Details">
+        <DashboardTile>
           <DescriptionList>
             <DescriptionItem title="Message">
               {message}

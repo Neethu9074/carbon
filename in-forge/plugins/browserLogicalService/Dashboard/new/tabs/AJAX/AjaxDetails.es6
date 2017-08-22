@@ -70,7 +70,7 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
     <div>
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
 
-      <DashboardTile title="Details">
+      <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Call Target">
             {getLabel(connectedSnapshot)}

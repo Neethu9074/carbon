@@ -71,7 +71,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
     <div>
       <BackButton label="Back to resource list" href$={getSubDashboardLink(`/resources`)} />
 
-      <DashboardTile title="Details">
+      <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Resource Host">
             {getLabel(connectedSnapshot)}

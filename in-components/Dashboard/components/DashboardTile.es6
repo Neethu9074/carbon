@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { isBlank } from 'in-services/util/string';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,9 +18,7 @@ export default function DashboardTile({ children, title, href, href$ }) {
       })}
     >
       <div className={`${block}__header`}>
-        <span className={`${block}__title`}>
-          {title}
-        </span>
+        {!isBlank(title) && <span className={`${block}__title`}>{title}</span>}
         {href$ ? <ConnectedViewDetailsButton href$={href$} /> : <ViewDetailsButton href={href} />}
       </div>
 
