@@ -1,4 +1,5 @@
 import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
+import { compareIgnoreCase } from 'in-services/util/string';
 
 const MAX_VALUE = Number.MAX_VALUE;
 const squashFactor = 0.5;
@@ -67,7 +68,7 @@ function sortGroups(_groups) {
     if (b.id === ID_OF_UNMONITORED_ZONE) {
       return -1 * MAX_VALUE;
     }
-    return a._cachedLabel.localeCompare(b._cachedLabel);
+    return compareIgnoreCase(a._cachedLabel, b._cachedLabel);
   });
 
   return _groups;
