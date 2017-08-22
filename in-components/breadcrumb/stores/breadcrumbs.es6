@@ -1,11 +1,7 @@
-import { createStore } from 'in-stores/store';
+import { create } from 'reactive-observables';
 
-const breadcrumbStore = createStore({
-  name: 'in-components/breadcrumb/breadcrumbs',
-  initialValue: []
-});
-export const breadcrumbs$ = breadcrumbStore.observable;
+export const breadcrumbs$ = create();
 
 export function replaceBreadcrumbs(newBreadcrumbs) {
-  breadcrumbStore.mutateTo(newBreadcrumbs);
+  breadcrumbs$.emit(newBreadcrumbs);
 }
