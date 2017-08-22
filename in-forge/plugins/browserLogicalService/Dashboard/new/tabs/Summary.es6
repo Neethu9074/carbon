@@ -82,7 +82,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         />
       </Kpis>
 
-      <DashboardTile title="Overview">
+      <DashboardTile title="Views vs Page Load Time">
         <Chart
           snapshotId={snapshotId}
           margins={{
