@@ -9,6 +9,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { agentsViewLink$ } from 'in-stores/navigation/view';
 import { config, isOnPremise } from 'in-services/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -64,6 +65,10 @@ export default connectTo(
 
           <Link className={linkElement} href$={configurationViewLink$} onClick={closeMenu}>
             Settings
+          </Link>
+
+          <Link className={linkElement} href$={agentsViewLink$} onClick={closeMenu}>
+            Agents
           </Link>
 
           {!isOnPremise()
