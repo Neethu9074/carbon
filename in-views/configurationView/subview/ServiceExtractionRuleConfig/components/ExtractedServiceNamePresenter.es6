@@ -7,20 +7,19 @@ import './ExtractedServiceNamePresenter.less';
 const block = 'in-config-generic-ex-rule-service-name-presenter';
 
 export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
-  const ruleKeys = ruleForm.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []);
-  const mismatches = ruleKeys.filter(key => !matches[key]);
+  const isMatching = Object.keys(matches).reduce((agg, matchKey) => agg && matches[matchKey] != null, true);
 
   let content;
-  if (mismatches.length > 0) {
+  if (!isMatching) {
     content = (
       <div className={`${block}__content ${block}__content--failed-extraction`}>
         All expressions must match in order for a service to be defined.
       </div>
     );
   } else {
-    const formatter = ruleKeys.reduce((parentFormatter, key) => {
+    const formatter = Object.keys(matches).reduce((parentFormatter, key) => {
       const keyMatches = matches[key];
-      const keyFormatter = createFormatter(`${key}-`);
+      const keyFormatter = createFormatter(key);
       return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
     }, s => s);
 

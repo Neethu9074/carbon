@@ -42,10 +42,26 @@ export default class extends React.Component {
     const matchSpecificationForm = ruleForm.get('matchSpecification');
     const matchKeys = matchSpecificationForm.reduce((acc, cur, key) => acc.concat(key), []).sort();
     const matches = {};
-    matchKeys.forEach(key => {
-      // require a full match in order to have the same matching behavior on client and server side
-      const regex = new RegExp(`^${matchSpecificationForm.get(key).value}$`);
-      matches[key] = (this.state[key] || '').match(regex);
+    const matchesWithResolvedKeys = {};
+    let isMatching = true;
+    matchKeys.forEach(matchKey => {
+      const fieldType = this.props.matchSpecificationOptions[matchKey].type;
+      if (fieldType === 'kv') {
+        const key = matchSpecificationForm.get(matchKey).get(0).get('key').value;
+        const value = matchSpecificationForm.get(matchKey).get(0).get('value').value;
+
+        const [givenKey, givenValue] = (this.state[matchKey] || '').split(/\:|\=/, 2);
+        if (givenKey === key) {
+          const regex = new RegExp(`^${value}$`);
+          matchesWithResolvedKeys[`${matchKey}-${key}-`] = matches[matchKey] = (givenValue || '').match(regex);
+        } else {
+          matchesWithResolvedKeys[`${matchKey}-${key}-`] = matches[matchKey] = null;
+        }
+      } else {
+        // require a full match in order to have the same matching behavior on client and server side
+        const regex = new RegExp(`^${matchSpecificationForm.get(matchKey).value}$`);
+        matchesWithResolvedKeys[`${matchKey}-`] = matches[matchKey] = (this.state[matchKey] || '').match(regex);
+      }
     });
 
     return (
@@ -53,25 +69,34 @@ export default class extends React.Component {
         {this.getHeader()}
 
         <Row>
-          {matchKeys.map(key =>
-            <Col cols={6} key={key}>
-              <FormGroup>
-                <Label htmlFor={`${id}-test-${key}`}>{this.props.matchSpecificationOptions[key].titleName}</Label>
-                <Input
-                  type="text"
-                  id={`${id}-test-${key}`}
-                  placeholder={this.props.matchSpecificationOptions[key].testPlaceholder}
-                  value={this.state[key] || ''}
-                  onChange={e => this.setState({ [key]: e.target.value })}
-                />
-              </FormGroup>
+          {matchSpecificationForm.reduce((acc, item, matchKey) => {
+            const matchOpts = this.props.matchSpecificationOptions[matchKey];
+            const matchPrefix = matchOpts.type === 'kv'
+              ? `${matchKey}-${item.get(0).get('key').value}-`
+              : `${matchKey}-`;
+            acc.push(
+              <Col cols={6} key={matchKey}>
+                <FormGroup>
+                  <Label htmlFor={`${id}-test-${matchKey}`}>
+                    {this.props.matchSpecificationOptions[matchKey].titleName}
+                  </Label>
+                  <Input
+                    type="text"
+                    id={`${id}-test-${matchKey}`}
+                    placeholder={this.props.matchSpecificationOptions[matchKey].testPlaceholder}
+                    value={this.state[matchKey] || ''}
+                    onChange={e => this.setState({ [matchKey]: e.target.value })}
+                  />
+                </FormGroup>
 
-              <MatchPresenter match={matches[key]} prefix={`${key}-`} />
-            </Col>
-          )}
+                <MatchPresenter match={matches[matchKey]} prefix={matchPrefix} />
+              </Col>
+            );
+            return acc;
+          }, [])}
         </Row>
 
-        <ExtractedServiceNamePresenter ruleForm={ruleForm} matches={matches} />
+        <ExtractedServiceNamePresenter ruleForm={ruleForm} matches={matchesWithResolvedKeys} isMatching={isMatching} />
       </div>
     );
   }
