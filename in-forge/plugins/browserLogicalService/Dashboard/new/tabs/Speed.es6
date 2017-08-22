@@ -1,6 +1,7 @@
 import React from 'react';
 
 import timeDistributionUrl from 'in-forge/plugins/browserLogicalService/Dashboard/navigation-timing.svg';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
@@ -12,7 +13,7 @@ import Link from 'in-components/Link';
 export default function Speed({ snapshot, timeframe, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
-    <div>
+    <MaxWidthFullscreenContainer>
       <TwoColumnRow>
         <DashboardTile title="Views vs Page Load Time">
           <Chart
@@ -137,6 +138,6 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
           }}
         />
       </DashboardTile>
-    </div>
+    </MaxWidthFullscreenContainer>
   );
 }
