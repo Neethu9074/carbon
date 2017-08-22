@@ -6,9 +6,9 @@ import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
 import { number, seconds } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
-import Chart from 'in-components/EumChart';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Chart from 'in-components/Chart';
 
 import './WebsiteRow.less';
 
@@ -41,6 +41,9 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
         {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <Chart
               snapshotId={snapshotId}
+              withoutAxis
+              withoutLegend
+              height={60}
               y1={{
                 min: 0,
                 formatter: number.compact,

@@ -31,14 +31,16 @@ export default function createAnimatableContentRenderer(config) {
     clearOverflowingAxisContent();
 
     // render after content since the content is updating the y scales
-    if (shouldRenderY1) {
-      renderYAxis('y1');
-    }
-    if (shouldRenderY2) {
-      renderYAxis('y2');
-    }
+    if (!config.withoutAxis) {
+      if (shouldRenderY1) {
+        renderYAxis('y1');
+      }
+      if (shouldRenderY2) {
+        renderYAxis('y2');
+      }
 
-    renderXAxis();
+      renderXAxis();
+    }
   }
 
   function doesAxisNeedToBeRendered(axisName) {

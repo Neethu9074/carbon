@@ -27,6 +27,8 @@ export default class extends React.Component {
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
       snapshotIds: props.snapshotIds,
+      withoutAxis: props.withoutAxis,
+      withoutLegend: props.withoutLegend,
       y1: props.y1,
       y2: props.y2,
       activeFilters$: props.activeFilters$,
@@ -42,6 +44,8 @@ export default class extends React.Component {
       this.props.snapshotId !== nextProps.snapshotId ||
       !isEqual(this.props.snapshotIds, nextProps.snapshotIds) ||
       this.props.timeframe$ !== nextProps.timeframe$ ||
+      this.props.withoutAxis !== nextProps.withoutAxis ||
+      this.props.withoutLegend !== nextProps.withoutLegend ||
       !this.isAxisEqual(this.props.y1, nextProps.y1) ||
       !this.isAxisEqual(this.props.y2, nextProps.y2)
     );
@@ -87,7 +91,7 @@ export default class extends React.Component {
   render() {
     return (
       <div ref={container => (this.container = container)}>
-        <ChartLegend {...this.props} filterStore={this.filterStore} />
+        {!this.props.withoutLegend && <ChartLegend {...this.props} filterStore={this.filterStore} />}
       </div>
     );
   }

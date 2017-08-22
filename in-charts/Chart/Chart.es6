@@ -29,24 +29,38 @@ export default function createChart(config) {
     restartRendering$: create(signalRoSpec)
   };
 
+  if (config.withoutAxis) {
+    config.margins = {
+      top: 1,
+      bottom: 1,
+      left: 1,
+      right: 1
+    };
+  }
+
   if (__DEV__) {
-    invariant(config.margins.left != null && config.margins.left, 'Left margin must always be defined!');
     invariant(
-      config.y2 == null || (config.margins.right != null && config.margins.right > 0),
+      config.withoutAxis || (config.margins.left != null && config.margins.left),
+      'Left margin must always be defined!'
+    );
+    invariant(
+      config.y2 == null || config.withoutAxis || (config.margins.right != null && config.margins.right > 0),
       'Right margin must be defined when defining a second y axis!'
     );
     invariant(
-      config.y2 != null || config.margins.right == null,
+      config.y2 != null || config.withoutAxis || config.margins.right == null,
       'Right margin must not be defined when not defining a second y axis!'
     );
   }
 
-  config.margins = {
-    top: 1,
-    bottom: 22,
-    left: config.margins.left || 1,
-    right: config.margins.right || 1
-  };
+  if (!config.withoutAxis) {
+    config.margins = {
+      top: 1,
+      bottom: 22,
+      left: config.margins.left || 1,
+      right: config.margins.right || 1
+    };
+  }
 
   addLowDetailModeSupport();
 
@@ -183,7 +197,9 @@ export default function createChart(config) {
     restartRenderingSubscription = config.signals.restartRendering$.subscribe(restartRendering);
 
     calculateMaxDistanceBetweenPoints();
-    borderRenderer.render();
+    if (!config.withoutAxis) {
+      borderRenderer.render();
+    }
 
     let prev = 0;
     const animate = () => {
@@ -203,7 +219,9 @@ export default function createChart(config) {
 
         config.ctx.staticScreen.clearRect(0, 0, config.width, config.height);
         config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
-        borderRenderer.render();
+        if (!config.withoutAxis) {
+          borderRenderer.render();
+        }
         animatableContentRenderer.render();
         prev = now;
       }
