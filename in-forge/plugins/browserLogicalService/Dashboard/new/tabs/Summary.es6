@@ -4,16 +4,16 @@ import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashb
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
 import NoErrorsMessage from 'in-sdk/components/dashboard/NoErrorsMessage';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import RenderWithMetric from 'in-components/RenderWithMetric';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
-import { Row, Col } from 'in-components/Grid';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
@@ -111,31 +111,26 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         />
       </DashboardTile>
 
-      <Row>
-        <Col cols={6}>
-          <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
-            <PageLoadBreakdownChart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              onlyRequest
-              metricPrefix={metricPrefix}
-            />
-          </DashboardTile>
-        </Col>
-        <Col cols={6}>
-          <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
-            <RenderWithMetric
-              snapshotId={snapshotId}
-              metric={`${metricPrefix}uncaughtErrors`}
-              timeframe={timeframe}
-              timeWindowAggregation="sum"
-              component={UncaughtErrors}
-              metricPrefix={metricPrefix}
-            />
-
-          </DashboardTile>
-        </Col>
-      </Row>
+      <TwoColumnRow>
+        <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
+          <PageLoadBreakdownChart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            onlyRequest
+            metricPrefix={metricPrefix}
+          />
+        </DashboardTile>
+        <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
+          <RenderWithMetric
+            snapshotId={snapshotId}
+            metric={`${metricPrefix}uncaughtErrors`}
+            timeframe={timeframe}
+            timeWindowAggregation="sum"
+            component={UncaughtErrors}
+            metricPrefix={metricPrefix}
+          />
+        </DashboardTile>
+      </TwoColumnRow>
     </MaxWidthFullscreenContainer>
   );
 }

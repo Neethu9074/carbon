@@ -1,10 +1,10 @@
 import React from 'react';
 
 import timeDistributionUrl from 'in-forge/plugins/browserLogicalService/Dashboard/navigation-timing.svg';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/Grid';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
@@ -13,63 +13,59 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <Row>
-        <Col cols={6}>
-          <DashboardTile title="Views vs Page Load Time">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              height={200}
-              margins={{
-                left: 60,
-                right: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: number.compact,
-                metrics: [metricPrefix + 'count'],
-                labels: ['views'],
-                type: 'bar',
-                aggregation: 'sum'
-              }}
-              y2={{
-                min: 0,
-                formatter: seconds.fromMillisFixedDetailed,
-                metrics: [metricPrefix + 'duration.mean'],
-                labels: ['load time'],
-                type: 'line',
-                aggregation: 'mean'
-              }}
-            />
-          </DashboardTile>
-        </Col>
-        <Col cols={6}>
-          <DashboardTile title="Page Load Time">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              height={200}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: seconds.fromMillisFixedDetailed,
-                metrics: [
-                  metricPrefix + 'duration.50th',
-                  metricPrefix + 'duration.90th',
-                  metricPrefix + 'duration.95th',
-                  metricPrefix + 'duration.98th',
-                  metricPrefix + 'duration.99th'
-                ],
-                labels: ['50th', '90th', '95th', '98th', '99th'],
-                type: 'line',
-                aggregation: 'mean'
-              }}
-            />
-          </DashboardTile>
-        </Col>
-      </Row>
+      <TwoColumnRow>
+        <DashboardTile title="Views vs Page Load Time">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            height={200}
+            margins={{
+              left: 60,
+              right: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [metricPrefix + 'count'],
+              labels: ['views'],
+              type: 'bar',
+              aggregation: 'sum'
+            }}
+            y2={{
+              min: 0,
+              formatter: seconds.fromMillisFixedDetailed,
+              metrics: [metricPrefix + 'duration.mean'],
+              labels: ['load time'],
+              type: 'line',
+              aggregation: 'mean'
+            }}
+          />
+        </DashboardTile>
+        <DashboardTile title="Page Load Time">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            height={200}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: seconds.fromMillisFixedDetailed,
+              metrics: [
+                metricPrefix + 'duration.50th',
+                metricPrefix + 'duration.90th',
+                metricPrefix + 'duration.95th',
+                metricPrefix + 'duration.98th',
+                metricPrefix + 'duration.99th'
+              ],
+              labels: ['50th', '90th', '95th', '98th', '99th'],
+              type: 'line',
+              aggregation: 'mean'
+            }}
+          />
+        </DashboardTile>
+      </TwoColumnRow>
 
       {instanaInternalFeaturesEnabled
         ? <DashboardTile title="Load Time Distribution">

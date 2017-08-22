@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';

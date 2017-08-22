@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorBreakdownTable';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';

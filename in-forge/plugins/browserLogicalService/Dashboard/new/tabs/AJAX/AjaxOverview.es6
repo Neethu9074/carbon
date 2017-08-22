@@ -3,7 +3,7 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import LoadingIndicator from 'in-components/LoadingIndicator';

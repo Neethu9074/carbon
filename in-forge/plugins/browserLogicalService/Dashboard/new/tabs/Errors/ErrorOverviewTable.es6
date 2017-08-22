@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import DashboardNotification from 'in-components/DashboardNotification';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
