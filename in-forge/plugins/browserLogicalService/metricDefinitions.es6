@@ -3,7 +3,7 @@ import { ms, number, percentage } from 'in-services/formatters/number';
 export default [
   {
     metric: 'count',
-    label: 'Calls/s',
+    label: 'Views',
     category: [],
     min: 0,
     formatter: number

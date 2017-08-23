@@ -70,7 +70,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Errors/s">
+      <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
