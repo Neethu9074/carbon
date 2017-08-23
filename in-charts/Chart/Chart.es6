@@ -7,6 +7,7 @@ import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlig
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
+import createForecastController from 'in-charts/Chart/controller/foreCastController';
 import createApplyTimeButton from 'in-charts/Chart/renderer/applyTimeButtonRenderer';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
 import createAxisController from 'in-charts/Chart/controller/axis';
@@ -26,7 +27,8 @@ export default function createChart(config) {
   config.subscriptions = [];
   config.devicePixelRatio = window.devicePixelRatio;
   config.signals = {
-    restartRendering$: create(signalRoSpec)
+    restartRendering$: create(signalRoSpec),
+    refreshDataSources$: create(signalRoSpec)
   };
 
   if (__DEV__) {
@@ -50,6 +52,7 @@ export default function createChart(config) {
 
   addLowDetailModeSupport();
 
+  const forecastController = createForecastController(config);
   const domController = createDomController(config);
   const axisController = createAxisController(config);
 
@@ -143,6 +146,7 @@ export default function createChart(config) {
   function dispose() {
     tooltipRenderer.dispose();
     applyTimeButtonRenderer.dispose();
+    forecastController.dispose();
     domController.dispose();
     axisController.dispose();
 
@@ -156,6 +160,7 @@ export default function createChart(config) {
   }
 
   function onResize() {
+    forecastController.resize();
     domController.resize();
     axisController.resize();
 
@@ -180,7 +185,7 @@ export default function createChart(config) {
     }
     isRendering = true;
 
-    restartRenderingSubscription = config.signals.restartRendering$.subscribe(restartRendering);
+    restartRenderingSubscription = config.signals.restartRendering$.nextFrame().subscribe(restartRendering);
 
     calculateMaxDistanceBetweenPoints();
     borderRenderer.render();
