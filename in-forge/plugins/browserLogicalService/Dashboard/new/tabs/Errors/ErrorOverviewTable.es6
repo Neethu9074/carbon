@@ -105,11 +105,7 @@ export default connectTo(
     });
 
     if (rows.length === 0) {
-      return (
-        <DashboardTile title={`Uncaught Errors`}>
-          No errors in the given time window
-        </DashboardTile>
-      );
+      return null;
     }
 
     return (

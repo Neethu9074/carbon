@@ -32,7 +32,7 @@ export default function BrowserServiceSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'count',
-            label: 'calls/s',
+            label: 'views/s',
             formatter: number
           },
           {

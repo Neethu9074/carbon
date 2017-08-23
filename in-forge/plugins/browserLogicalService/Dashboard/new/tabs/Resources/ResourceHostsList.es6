@@ -5,6 +5,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
+import NoXMessage from 'in-sdk/components/dashboard/NoXMessage';
 import { number, millis } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -92,13 +93,10 @@ export default connectTo(
     );
 
     if (onlyResourceConnections.length === 0) {
-      // TODO MAKE THIS LOOK NICE!
       return (
-        <MaxWidthFullscreenContainer>
-          <DashboardTile title="Resource Hosts">
-            No resources at the focused moment.
-          </DashboardTile>
-        </MaxWidthFullscreenContainer>
+        <NoXMessage centered>
+          No resources at the focused moment.
+        </NoXMessage>
       );
     }
 

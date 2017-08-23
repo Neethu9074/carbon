@@ -69,14 +69,16 @@ export default connectTo(
                   {metricValue}
                 </span>
                 <div className={`${block}__lane-wrapper`}>
-                  <div
-                    className={`${block}__lane`}
-                    style={{
-                      background: colors[i],
-                      left: `${left}%`,
-                      width: `${width}%`
-                    }}
-                  />
+                  {metrics[i] != null
+                    ? <div
+                        className={`${block}__lane`}
+                        style={{
+                          background: colors[i],
+                          left: `${left}%`,
+                          width: `${width}%`
+                        }}
+                      />
+                    : null}
                 </div>
               </div>
             </div>

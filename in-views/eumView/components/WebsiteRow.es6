@@ -3,10 +3,10 @@ import React from 'react';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
+import NoXMessage from 'in-sdk/components/dashboard/NoXMessage';
 import { number, seconds } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
-import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
@@ -32,7 +32,9 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
       <div className={metrics}>
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad < 1 ? <NoDataMessage /> : null}
+        {data.rawPageLoad != null && data.rawPageLoad < 1
+          ? <NoXMessage className={`${block}__no-data`}>No views in the given time window</NoXMessage>
+          : null}
 
         {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <div className={kpis}>
@@ -93,12 +95,3 @@ const ViewDetailsButton = connectTo(
     );
   }
 );
-
-function NoDataMessage() {
-  return (
-    <h2 className={`${block}__no-data-message`}>
-      <SvgIcon type="crossed_circle" width={16} className={`${block}__no-data-message-icon`} /> No views in the given
-      time window
-    </h2>
-  );
-}
