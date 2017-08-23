@@ -21,15 +21,18 @@ export default function createLineContentRenderer({ axisName, config }) {
     const forecastConfig = config[axisName].forecastConfig;
     const numberofForecasts = forecastConfig.metrics.length;
     for (let forecastIndex = 0; forecastIndex < numberofForecasts; forecastIndex++) {
-      renderLine('#e5e5e5', dataColumns, forecastIndex * 2 + 1, xDomainOffset);
-      renderLine('#fff', dataColumns, forecastIndex * 2, xDomainOffset);
+      renderLine(false, dataColumns, forecastIndex * 2 + 1, xDomainOffset);
+      renderLine(true, dataColumns, forecastIndex * 2, xDomainOffset);
     }
   }
 
-  function renderLine(color, dataColumns, seriesIndex, xDomainOffset) {
+  function renderLine(isForecastLow, dataColumns, seriesIndex, xDomainOffset) {
+    const color = isForecastLow ? '#fff' : '#e5e5e5';
     ctx.beginPath();
     let lastX = 0;
+    let lastY = 0;
     let firstX = null;
+    let firstY = null;
     for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
       const dataColumn = dataColumns[columnIndex];
       const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
@@ -41,15 +44,26 @@ export default function createLineContentRenderer({ axisName, config }) {
 
       const xToRender = x.getRange(dataRow[0] + xDomainOffset);
       const yToRender = y.getRange(dataRow[1]);
+      ctx.lineTo(xToRender, yToRender);
+
       lastX = xToRender;
+      lastY = yToRender;
       if (firstX === null) {
         firstX = xToRender;
+        firstY = yToRender;
       }
-      ctx.lineTo(xToRender, yToRender);
     }
 
-    ctx.lineTo(lastX, y.getRangeFrom());
-    ctx.lineTo(firstX, y.getRangeFrom());
+    // to erase subpixel lines, we have to strech the white area by 1px in width to overdraw it.
+    if (isForecastLow) {
+      ctx.lineTo(lastX + 1, lastY);
+      ctx.lineTo(lastX + 1, y.getRangeFrom());
+      ctx.lineTo(firstX - 1, y.getRangeFrom());
+      ctx.lineTo(firstX - 1, firstY);
+    } else {
+      ctx.lineTo(lastX, y.getRangeFrom());
+      ctx.lineTo(firstX, y.getRangeFrom());
+    }
 
     ctx.closePath();
     ctx.fillStyle = color;
@@ -76,7 +90,7 @@ export default function createLineContentRenderer({ axisName, config }) {
       // going left to right
       for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
-        const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
+        const dataRow = dataColumn[seriesIndex];
 
         // existense of data points in all rows is not guaranteed - skip column for this series
         if (!dataRow) {
@@ -114,6 +128,5 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx.beginPath();
     ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
     ctx.fill();
-    // ctx.rect(point.x - 1.5, point.y - 1.5, 3, 3);
   }
 }
