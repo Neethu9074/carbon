@@ -3,6 +3,7 @@ import { sortedIndexBy } from 'lodash';
 
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import createDataHolder from 'in-charts/data/dataHolder';
+import icons from 'in-components/SvgIcon/registry.json';
 import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
@@ -41,6 +42,15 @@ export default function createSparkChart({
   canvas.classList.add(`${block}__canvas`);
   wrapper.appendChild(canvas);
   updateCanvasDimensions(canvas, ctx, width, height);
+
+  const noDataIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  noDataIcon.classList.add(`${block}__no-data`);
+  noDataIcon.setAttribute('viewBox', `0 0 ${icons.crossed_circle.width} ${icons.crossed_circle.height}`);
+  const noDataIconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  noDataIconPath.setAttribute('d', icons.crossed_circle.path);
+  noDataIconPath.style.fill = '#bec7cb';
+  noDataIcon.appendChild(noDataIconPath);
+  wrapper.appendChild(noDataIcon);
 
   const tooltipLine = document.createElement('div');
   tooltipLine.classList.add(`${block}__tooltip-line`);
@@ -109,8 +119,10 @@ export default function createSparkChart({
   function render() {
     const dataColumns = dataHolder.getDataColumns();
     if (dataColumns.length === 0) {
+      noDataIcon.style.display = 'block';
       return;
     }
+    noDataIcon.style.display = 'none';
 
     ctx.clearRect(0, 0, width, height);
     const singlePointsToRender = [];
