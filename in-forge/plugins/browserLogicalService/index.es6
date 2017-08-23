@@ -24,7 +24,7 @@ registerSnapshotDefinition({
 addMapping(plugins.browserLogicalService, () => [
   {
     metric: 'count',
-    label: 'views/s',
+    label: 'views',
     formatter: zeroDecimalPlaces,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond
   },
