@@ -19,10 +19,12 @@ export default function createLineContentRenderer({ axisName, config }) {
     }
 
     const forecastConfig = config[axisName].forecastConfig;
-    const numberofForecasts = forecastConfig.metrics.length;
-    for (let forecastIndex = 0; forecastIndex < numberofForecasts; forecastIndex++) {
-      renderLine(false, dataColumns, forecastIndex * 2 + 1, xDomainOffset);
-      renderLine(true, dataColumns, forecastIndex * 2, xDomainOffset);
+    const numberOfForecasts = forecastConfig.metrics.length;
+    for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
+      // the series is garuanteed twice the size as the forecast metrics (low, high)
+      const seriesIndex = forecastIndex * 2;
+      renderLine(false, dataColumns, seriesIndex + 1, xDomainOffset);
+      renderLine(true, dataColumns, seriesIndex, xDomainOffset);
     }
   }
 
@@ -44,7 +46,6 @@ export default function createLineContentRenderer({ axisName, config }) {
 
       const xToRender = x.getRange(dataRow[0] + xDomainOffset);
       const yToRender = y.getRange(dataRow[1]);
-      ctx.lineTo(xToRender, yToRender);
 
       lastX = xToRender;
       lastY = yToRender;
@@ -52,6 +53,7 @@ export default function createLineContentRenderer({ axisName, config }) {
         firstX = xToRender;
         firstY = yToRender;
       }
+      ctx.lineTo(xToRender, yToRender);
     }
 
     // to erase subpixel lines, we have to strech the white area by 1px in width to overdraw it.
