@@ -13,6 +13,7 @@ import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
+import { copyCanvasInto } from 'in-charts/Chart/buffer';
 import { toServerTime } from 'in-stores/timeOffset';
 import { getSetting$ } from 'in-services/settings';
 
@@ -52,9 +53,9 @@ export default function createChart(config) {
 
   addLowDetailModeSupport();
 
-  const forecastController = createForecastController(config);
   const domController = createDomController(config);
   const axisController = createAxisController(config);
+  const forecastController = createForecastController(config);
 
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
   const animatableContentRenderer = createAnimatableContentRenderer(config);
@@ -146,9 +147,9 @@ export default function createChart(config) {
   function dispose() {
     tooltipRenderer.dispose();
     applyTimeButtonRenderer.dispose();
-    forecastController.dispose();
     domController.dispose();
     axisController.dispose();
+    forecastController.dispose();
 
     stopRendering();
 
@@ -160,9 +161,9 @@ export default function createChart(config) {
   }
 
   function onResize() {
-    forecastController.resize();
     domController.resize();
     axisController.resize();
+    forecastController.resize();
 
     restartRendering();
   }
@@ -214,7 +215,10 @@ export default function createChart(config) {
       }
 
       tooltipRenderer.repositionTooltip();
-      copyBackBufferToScreenBuffer();
+
+      // copyBackBufferToScreenBuffer
+      copyCanvasInto(config.dom.animationBuffer, config.ctx.animationScreen, config);
+
       highlightedTimeframeRenderer.render();
       applyTimeButtonRenderer.update();
     };
@@ -233,24 +237,6 @@ export default function createChart(config) {
     const expectedNextPoint =
       config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
     config.maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
-  }
-
-  function copyBackBufferToScreenBuffer() {
-    const dpr = config.devicePixelRatio;
-    const x = config.scales.bufferX.getRange(config.scales.x.getDomainFrom()) - config.scales.bufferX.getRangeFrom();
-
-    config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
-    config.ctx.animationScreen.drawImage(
-      config.dom.animationBuffer,
-      config.margins.left * dpr + x * dpr,
-      config.margins.top * dpr,
-      config.width * dpr - config.margins.right * dpr - config.margins.left * dpr,
-      config.height * dpr - config.margins.top * dpr,
-      config.margins.left,
-      config.margins.top,
-      config.width - config.margins.right - config.margins.left,
-      config.height - config.margins.top
-    );
   }
 
   function stopRendering() {

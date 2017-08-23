@@ -1,5 +1,7 @@
+import { copyCanvasInto } from 'in-charts/Chart/buffer';
+
 export default function createLineContentRenderer({ axisName, config }) {
-  const ctx = config.ctx.animationBuffer;
+  let ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
   const axisConfig = config[axisName];
@@ -9,7 +11,8 @@ export default function createLineContentRenderer({ axisName, config }) {
     requireExistenceInAllSeries: false,
     processNewDataColumns() {},
     render,
-    renderForecasts
+    renderForecasts,
+    renderAnomalies
   };
 
   function renderForecasts(dataColumns) {
@@ -18,17 +21,25 @@ export default function createLineContentRenderer({ axisName, config }) {
       xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
     }
 
-    const forecastConfig = config[axisName].forecastConfig;
+    const axis = config[axisName];
+    const forecastConfig = axis.forecastConfig;
     const numberOfForecasts = forecastConfig.metrics.length;
+    const activeSeries = config.activeSeries[axisName];
     for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
+      const metricConfig = forecastConfig.metrics[forecastIndex];
+      const metricSeriesIndex = metricConfig.indexInMetrics;
+      if (activeSeries[metricSeriesIndex] === false) {
+        continue;
+      }
+
       // the series is garuanteed twice the size as the forecast metrics (low, high)
       const seriesIndex = forecastIndex * 2;
-      renderLine(false, dataColumns, seriesIndex + 1, xDomainOffset);
-      renderLine(true, dataColumns, seriesIndex, xDomainOffset);
+      renderArea(false, dataColumns, seriesIndex + 1, xDomainOffset);
+      renderArea(true, dataColumns, seriesIndex, xDomainOffset);
     }
   }
 
-  function renderLine(isForecastLow, dataColumns, seriesIndex, xDomainOffset) {
+  function renderArea(isForecastLow, dataColumns, seriesIndex, xDomainOffset) {
     const color = isForecastLow ? '#fff' : '#e5e5e5';
     ctx.beginPath();
     let lastX = 0;
@@ -72,6 +83,101 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx.fill();
   }
 
+  function renderAnomalies(metricDataColumns, forecastDataColumns) {
+    ctx = config.forecastConfig.anomaliesMaskCanvasContext;
+    ctx.clearRect(0, 0, config.width, config.height);
+
+    let xDomainOffset = 0;
+    if (axisConfig.aggregation) {
+      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
+    }
+
+    const axis = config[axisName];
+    const forecastConfig = axis.forecastConfig;
+    const numberOfForecasts = forecastConfig.metrics.length;
+    const activeSeries = config.activeSeries[axisName];
+
+    for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
+      const metricConfig = forecastConfig.metrics[forecastIndex];
+      const metricSeriesIndex = metricConfig.indexInMetrics;
+      if (activeSeries[metricSeriesIndex] === false) {
+        continue;
+      }
+
+      // the series is garuanteed twice the size as the forecast metrics (low, high)
+      const seriesIndex = forecastIndex * 2;
+
+      ctx.globalCompositeOperation = 'source-over';
+      renderArea(false, forecastDataColumns, seriesIndex + 1, xDomainOffset);
+
+      ctx.globalCompositeOperation = 'xor';
+      renderArea(true, forecastDataColumns, seriesIndex, xDomainOffset);
+
+      ctx.globalCompositeOperation = 'source-out';
+      renderLine(metricDataColumns, metricSeriesIndex, {
+        xDomainOffset,
+        color: '#ff4229',
+        renderDots: false,
+        lineWidth: 4
+      });
+
+      // restore default operation
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    copyCanvasInto(config.forecastConfig.anomaliesMaskCanvas, config.ctx.animationBuffer, config, false);
+
+    // restore the original context for other renderers
+    ctx = config.ctx.animationBuffer;
+  }
+
+  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color, renderDots = true, lineWidth = 2 }) {
+    ctx.beginPath();
+
+    let previousX = Number.MAX_VALUE * -1;
+
+    const singlePointsToRender = [];
+
+    // going left to right
+    for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
+      const dataColumn = dataColumns[columnIndex];
+      const dataRow = dataColumn[seriesIndex];
+
+      // existense of data points in all rows is not guaranteed - skip column for this series
+      if (!dataRow) {
+        continue;
+      }
+
+      const xToRender = x.getRange(dataRow[0] + xDomainOffset);
+      const yToRender = y.getRange(dataRow[1]);
+
+      // draw these points later on as otherwise we would fill the line chart.
+      singlePointsToRender.push({
+        x: xToRender,
+        y: yToRender
+      });
+
+      if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
+        ctx.moveTo(xToRender, yToRender);
+      } else {
+        ctx.lineTo(xToRender, yToRender);
+      }
+
+      previousX = xToRender;
+    }
+
+    color = color || colors[seriesIndex];
+
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+
+    ctx.fillStyle = color;
+    if (renderDots) {
+      singlePointsToRender.forEach(drawPoint);
+    }
+  }
+
   function render(dataColumns) {
     let xDomainOffset = 0;
     if (axisConfig.aggregation) {
@@ -83,46 +189,8 @@ export default function createLineContentRenderer({ axisName, config }) {
       if (activeSeries[seriesIndex] === false) {
         continue;
       }
-      ctx.beginPath();
 
-      let previousX = Number.MAX_VALUE * -1;
-
-      const singlePointsToRender = [];
-
-      // going left to right
-      for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
-        const dataColumn = dataColumns[columnIndex];
-        const dataRow = dataColumn[seriesIndex];
-
-        // existense of data points in all rows is not guaranteed - skip column for this series
-        if (!dataRow) {
-          continue;
-        }
-
-        const xToRender = x.getRange(dataRow[0] + xDomainOffset);
-        const yToRender = y.getRange(dataRow[1]);
-
-        // draw these points later on as otherwise we would fill the line chart.
-        singlePointsToRender.push({
-          x: xToRender,
-          y: yToRender
-        });
-
-        if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
-          ctx.moveTo(xToRender, yToRender);
-        } else {
-          ctx.lineTo(xToRender, yToRender);
-        }
-
-        previousX = xToRender;
-      }
-
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = colors[seriesIndex];
-      ctx.stroke();
-
-      ctx.fillStyle = colors[seriesIndex];
-      singlePointsToRender.forEach(drawPoint);
+      renderLine(dataColumns, seriesIndex, { xDomainOffset });
     }
   }
 

@@ -1,14 +1,32 @@
 import { getConfiguredMetrics } from 'in-services/forecastConfig';
+import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 
 export default function createForecastController(config) {
   let timeframeSpecificSubscriptions = [];
+  let isForecastsDefined = false;
 
   determineForecasts();
-  establishSubscriptions();
 
+  // if there are no forecasts defined for this chart
+  if (!isForecastsDefined) {
+    return {
+      dispose: () => {},
+      resize: () => {}
+    };
+  }
+
+  const anomaliesMaskCanvas = document.createElement('canvas');
+  const anomaliesMaskCanvasContext = anomaliesMaskCanvas.getContext('2d');
+
+  config.forecastConfig = {
+    anomaliesMaskCanvas: anomaliesMaskCanvas,
+    anomaliesMaskCanvasContext: anomaliesMaskCanvasContext
+  };
+
+  establishSubscriptions();
   return {
     dispose,
     resize
@@ -26,21 +44,29 @@ export default function createForecastController(config) {
         return;
       }
 
-      axis.forecastConfig = {
-        metrics: []
-      };
-
       for (let i = 0, length = axis.metrics.length; i < length; i++) {
         const metric = axis.metrics[i];
         if (forecastedMetrics.indexOf(metric) >= 0) {
+          isForecastsDefined = true;
+          if (!axis.forecastConfig) {
+            axis.forecastConfig = {
+              metrics: []
+            };
+          }
+
           const lowMetric = metric + '.forecast.low.99';
           const highMetric = metric + '.forecast.high.99';
           axis.forecastConfig.metrics.push({
+            indexInMetrics: i,
             metric,
             lowMetric,
             highMetric
           });
         }
+      }
+
+      if (!axis.forecastConfig) {
+        return;
       }
 
       const numberOfSeries = axis.forecastConfig.metrics.length * 2;
@@ -148,5 +174,14 @@ export default function createForecastController(config) {
     disposeTimeframeSpecificSubscriptions();
   }
 
-  function resize() {}
+  function resize() {
+    const width = (config.width = config.dom.wrapper.clientWidth | 0);
+    updateCanvasDimensions(
+      anomaliesMaskCanvas,
+      anomaliesMaskCanvasContext,
+      width,
+      config.height,
+      config.devicePixelRatio
+    );
+  }
 }

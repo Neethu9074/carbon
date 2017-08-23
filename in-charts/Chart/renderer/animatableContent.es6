@@ -114,7 +114,20 @@ export default function createAnimatableContentRenderer(config) {
     axisContentRenderer.render(dataColumns);
   }
 
-  function renderAnomalies(axisName) {}
+  function renderAnomalies(axisName) {
+    const axis = config[axisName];
+    if (!axis || !axis.forecastConfig) {
+      return;
+    }
+
+    const metricDataColumns = config.dataHolders[axisName].getDataColumns();
+    const forecastDataColumns = axis.forecastConfig.dataHolder.getDataColumns();
+
+    const axisContentRenderer = config.axisContentRenderers[axisName];
+    if (axisContentRenderer.renderAnomalies) {
+      axisContentRenderer.renderAnomalies(metricDataColumns, forecastDataColumns);
+    }
+  }
 
   function doesAxisNeedToBeRendered(axisName) {
     if (!config[axisName]) {
