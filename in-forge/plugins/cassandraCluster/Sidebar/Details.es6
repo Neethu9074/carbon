@@ -11,7 +11,6 @@ import Info from '../Info';
 
 export default function CassandraClusterSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
-
   return (
     <div>
       <Separator />
@@ -28,13 +27,13 @@ export default function CassandraClusterSidebar({ snapshot }) {
           {
             metric: 'nodeCount',
             label: 'Available Nodes',
-            formatter: number.compact,
+            formatter: number,
             aggregation: 'mean'
           },
           {
             metric: 'unreachableNodeCount',
             label: 'Unreachable Nodes',
-            formatter: number.compact,
+            formatter: number,
             aggregation: 'mean'
           },
           {

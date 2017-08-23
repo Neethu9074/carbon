@@ -1,6 +1,11 @@
 .in-spark-chart {
   &__wrapper {
     position: relative;
+
+    &--no-data {
+      background: #EEF2F4;
+      border-radius: 2px;
+    }
   }
 
   &__canvas {
@@ -21,6 +26,7 @@
     bottom: 0;
     display: none;
     z-index: 2;
+    white-space: nowrap;
 
     background: #21282E;
     border-radius: 3px;

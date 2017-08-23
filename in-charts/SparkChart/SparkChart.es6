@@ -12,6 +12,8 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
+const wrapperClassName = `${block}__wrapper`;
+const wrapperNoDataClassName = `${wrapperClassName}--no-data`;
 
 export default function createSparkChart({
   width,
@@ -34,7 +36,7 @@ export default function createSparkChart({
   const wrapper = document.createElement('div');
   wrapper.style.width = `${width}px`;
   wrapper.style.height = `${height}px`;
-  wrapper.classList.add(`${block}__wrapper`);
+  wrapper.classList.add(wrapperClassName);
   container.appendChild(wrapper);
 
   const canvas = document.createElement('canvas');
@@ -93,9 +95,6 @@ export default function createSparkChart({
 
   const highlightedMomentSubscription = highlightedMoment$.subscribe(highlightedMoment => {
     if (highlightedMoment) {
-      tooltipContainer.style.display = 'block';
-      tooltipLine.style.display = 'block';
-      tooltipLine.style.left = `${xScale.getRange(highlightedMoment)}px`;
       fillTooltip(highlightedMoment);
     } else {
       tooltipContainer.style.display = 'none';
@@ -120,9 +119,11 @@ export default function createSparkChart({
     const dataColumns = dataHolder.getDataColumns();
     if (dataColumns.length === 0) {
       noDataIcon.style.display = 'block';
+      wrapper.classList.add(wrapperNoDataClassName);
       return;
     }
     noDataIcon.style.display = 'none';
+    wrapper.classList.remove(wrapperNoDataClassName);
 
     ctx.clearRect(0, 0, width, height);
     const singlePointsToRender = [];
@@ -183,6 +184,7 @@ export default function createSparkChart({
     const dataPoint = lookForDataPoint(highlightedMoment);
     if (!dataPoint || dataPoint[1] == null) {
       tooltipContainer.style.display = 'none';
+      tooltipLine.style.display = 'none';
       return;
     }
 
@@ -202,6 +204,10 @@ export default function createSparkChart({
       tooltipContainer.style.left = `${position}px`;
       tooltipContainer.style.right = null;
     }
+
+    tooltipContainer.style.display = 'block';
+    tooltipLine.style.display = 'block';
+    tooltipLine.style.left = `${xScale.getRange(dataPoint[0])}px`;
   }
 
   function lookForDataPoint(highlightedMoment) {

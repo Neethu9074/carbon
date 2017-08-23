@@ -39,7 +39,10 @@ export default class extends React.Component {
       height: props.height,
       datasource: props.datasource,
       container: this.container,
-      timeframe: props.timeframe,
+      timeframe: {
+        windowSize: props.timeframe.windowSize + props.wiggleRoom,
+        to: props.timeframe.to
+      },
       tooltipFormatter: props.tooltipFormatter,
       wiggleRoom: props.wiggleRoom,
       metric: props.metric
