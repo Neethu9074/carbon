@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
+import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,7 +14,8 @@ export default connectTo({ timeframe: timeframe$ }, function SparkChartWithValue
   value,
   formatter,
   snapshotId,
-  metric
+  metric,
+  aggregation
 }) {
   if (!timeframe) {
     return null;
@@ -29,6 +30,7 @@ export default connectTo({ timeframe: timeframe$ }, function SparkChartWithValue
         snapshotId={snapshotId}
         metric={metric}
         tooltipFormatter={formatter}
+        aggregation={aggregation}
       />
 
       <span className={valueElement}>{value != null ? formatter(value) : null}</span>

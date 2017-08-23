@@ -39,16 +39,25 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     comparator: compare,
     content: null
   };
+
+  const timeWindowAggregation = columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig);
+
   column.refreshContent = () => {
     column.content = (
-      <SparkChartWithValue snapshotId={snapshotId} metric={metric} formatter={formatter} value={column.value} />
+      <SparkChartWithValue
+        snapshotId={snapshotId}
+        metric={metric}
+        formatter={formatter}
+        value={column.value}
+        aggregation={timeWindowAggregation}
+      />
     );
   };
 
   column.subscription = getMetric({
     snapshotId,
     metric,
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+    timeWindowAggregation,
     // this flag enforces the metric subscription to always use the time window aggregated metric values
     forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {

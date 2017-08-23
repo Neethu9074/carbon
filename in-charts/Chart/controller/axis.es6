@@ -288,26 +288,25 @@ export default function createAxisController(config) {
     }
   }
 
-  function calculateBlockSizeMillis(config) {
+  function calculateBlockSizeMillis() {
     const chartWidthInPx = config.bounds.right - config.bounds.left;
     const rollup = config.rollup.rollup || 1000;
+    calculateBlockSizeMillisForAxis(config.y1, chartWidthInPx, rollup);
+    calculateBlockSizeMillisForAxis(config.y2, chartWidthInPx, rollup);
+  }
 
-    function calculateBlockSizeMillisForAxis(axis) {
-      if (!axis || !axis.isDynamicAggregated) {
-        return null;
-      }
-      axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: config.timeframe.windowSize,
-          maxDataPoints: axis.maxDataPoints,
-          minPixelPerBlock: axis.minPixelPerBlock,
-          width: chartWidthInPx,
-          rollup
-        })
-      );
+  function calculateBlockSizeMillisForAxis(axis, chartWidthInPx, rollup) {
+    if (!axis || !axis.isDynamicAggregated) {
+      return null;
     }
-
-    calculateBlockSizeMillisForAxis(config.y1);
-    calculateBlockSizeMillisForAxis(config.y2);
+    axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+      getBlockSizeMillis({
+        windowSize: config.timeframe.windowSize,
+        maxDataPoints: axis.maxDataPoints,
+        minPixelPerBlock: axis.minPixelPerBlock,
+        width: chartWidthInPx,
+        rollup
+      })
+    );
   }
 }

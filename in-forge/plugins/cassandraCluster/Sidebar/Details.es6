@@ -28,22 +28,26 @@ export default function CassandraClusterSidebar({ snapshot }) {
           {
             metric: 'nodeCount',
             label: 'Available Nodes',
-            formatter: number.compact
+            formatter: number.compact,
+            aggregation: 'mean'
           },
           {
             metric: 'unreachableNodeCount',
             label: 'Unreachable Nodes',
-            formatter: number.compact
+            formatter: number.compact,
+            aggregation: 'mean'
           },
           {
             metric: 'keyspaceCount',
             label: 'Keyspaces',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'overallDiskSize',
             label: 'Store Size',
-            formatter: bytes
+            formatter: bytes,
+            aggregation: 'mean'
           }
         ]}
       />

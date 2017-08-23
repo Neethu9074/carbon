@@ -29,12 +29,14 @@ export default function PageAssetList({ snapshot }) {
                   {
                     metric: `endpoint.${endpoint}.count`,
                     label: 'requests',
-                    formatter: number
+                    formatter: number,
+                    aggregation: 'sum'
                   },
                   {
                     metric: `endpoint.${endpoint}.duration.mean`,
                     label: 'load time',
-                    formatter: millis
+                    formatter: millis,
+                    aggregation: 'mean'
                   }
                 ]}
               />

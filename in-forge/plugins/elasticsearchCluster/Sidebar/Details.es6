@@ -29,27 +29,32 @@ export default function ElasticsearchClusterSidebar({ snapshot }) {
           {
             metric: 'node_count',
             label: 'Nodes',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'indices_count',
             label: 'Indices',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'active_shards_count',
             label: 'Active Shards',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'document_count',
             label: 'Documents',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'store_size',
             label: 'Store Size',
-            formatter: bytes
+            formatter: bytes,
+            aggregation: 'mean'
           }
         ]}
       />

@@ -69,6 +69,5 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx.beginPath();
     ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
     ctx.fill();
-    // ctx.rect(point.x - 1.5, point.y - 1.5, 3, 3);
   }
 }
