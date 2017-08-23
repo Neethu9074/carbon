@@ -19,3 +19,9 @@ export function copyCanvasInto(from, to, config, clearTarget = true) {
     config.height - config.margins.top
   );
 }
+
+export function drawPoint(ctx, point) {
+  ctx.beginPath();
+  ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
+  ctx.fill();
+}

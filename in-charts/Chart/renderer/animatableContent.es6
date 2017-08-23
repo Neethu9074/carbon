@@ -93,6 +93,10 @@ export default function createAnimatableContentRenderer(config) {
 
     config.processDataColumnsAgain = false;
     updateScale(dataColumnsMetrics, axisName);
+
+    if (axisContentRenderer.prepareRendering) {
+      axisContentRenderer.prepareRendering();
+    }
   }
 
   function renderForecasts(axisName) {

@@ -1,30 +1,34 @@
-import { copyCanvasInto } from 'in-charts/Chart/buffer';
+import { copyCanvasInto, drawPoint } from 'in-charts/Chart/buffer';
 
 export default function createLineContentRenderer({ axisName, config }) {
   let ctx = config.ctx.animationBuffer;
+  let xDomainOffset = 0;
+
   const x = config.scales.x;
   const y = config.scales[axisName];
-  const axisConfig = config[axisName];
-  const colors = axisConfig.colors;
+  const axis = config[axisName];
+  const colors = axis.colors;
+  const activeSeries = config.activeSeries[axisName];
 
   return {
     requireExistenceInAllSeries: false,
     processNewDataColumns() {},
+    prepareRendering,
     render,
     renderForecasts,
     renderAnomalies
   };
 
-  function renderForecasts(dataColumns) {
-    let xDomainOffset = 0;
-    if (axisConfig.aggregation) {
-      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
+  function prepareRendering() {
+    xDomainOffset = 0;
+    if (axis.aggregation) {
+      xDomainOffset -= axis.dynamicCalculatedBlockSizeMillis / 2;
     }
+  }
 
-    const axis = config[axisName];
+  function renderForecasts(dataColumns) {
     const forecastConfig = axis.forecastConfig;
     const numberOfForecasts = forecastConfig.metrics.length;
-    const activeSeries = config.activeSeries[axisName];
     for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
       const metricConfig = forecastConfig.metrics[forecastIndex];
       const metricSeriesIndex = metricConfig.indexInMetrics;
@@ -87,15 +91,8 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx = config.forecastConfig.anomaliesMaskCanvasContext;
     ctx.clearRect(0, 0, config.width, config.height);
 
-    let xDomainOffset = 0;
-    if (axisConfig.aggregation) {
-      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
-    }
-
-    const axis = config[axisName];
     const forecastConfig = axis.forecastConfig;
     const numberOfForecasts = forecastConfig.metrics.length;
-    const activeSeries = config.activeSeries[axisName];
 
     for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
       const metricConfig = forecastConfig.metrics[forecastIndex];
@@ -174,17 +171,12 @@ export default function createLineContentRenderer({ axisName, config }) {
 
     ctx.fillStyle = color;
     if (renderDots) {
-      singlePointsToRender.forEach(drawPoint);
+      const draw = drawPoint.bind(this, ctx);
+      singlePointsToRender.forEach(draw);
     }
   }
 
   function render(dataColumns) {
-    let xDomainOffset = 0;
-    if (axisConfig.aggregation) {
-      xDomainOffset -= axisConfig.dynamicCalculatedBlockSizeMillis / 2;
-    }
-
-    const activeSeries = config.activeSeries[axisName];
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
       if (activeSeries[seriesIndex] === false) {
         continue;
@@ -192,11 +184,5 @@ export default function createLineContentRenderer({ axisName, config }) {
 
       renderLine(dataColumns, seriesIndex, { xDomainOffset });
     }
-  }
-
-  function drawPoint(point) {
-    ctx.beginPath();
-    ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
-    ctx.fill();
   }
 }
