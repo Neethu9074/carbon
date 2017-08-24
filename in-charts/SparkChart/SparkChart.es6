@@ -156,9 +156,12 @@ export default function createSparkChart({
   }
 
   function renderPoint(point) {
-    ctx.beginPath();
-    ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
-    ctx.fill();
+    // avoid rendering arcs that are cut off
+    if (point.x > 3 && point.x < width - 3) {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
+      ctx.fill();
+    }
   }
 
   function updateYScale(dataColumns) {
