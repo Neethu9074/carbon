@@ -109,7 +109,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title={`Uncaught Errors (${rows.length})`}>
+      <DashboardTile title="Uncaught Errors">
         <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardTile>
     );

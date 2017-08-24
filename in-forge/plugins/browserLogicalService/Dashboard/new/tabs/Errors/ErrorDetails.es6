@@ -65,16 +65,16 @@ export default connectTo(
 
     let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
     if (pageName) {
-      viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
+      viewTracesQuery += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
     }
-    viewTracesQuery = `${viewTracesQuery} trace.type:eumError`;
+    viewTracesQuery += ` span.webEum.error.message:"${luceneEscapeString(message)}"`;
 
     return (
       <div>
         <div className={`${block}__actions`}>
           <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
           <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-            View Uncaught Error Traces
+            Traces
           </Button>
         </div>
 

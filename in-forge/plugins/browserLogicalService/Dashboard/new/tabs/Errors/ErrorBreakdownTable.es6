@@ -1,19 +1,28 @@
 import React from 'react';
 
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { always } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/Grid';
 
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'link',
     typeArgs: {
-      getValue(row) {
-        return row.name;
+      comparator: compareIgnoreCase,
+      get$(row) {
+        if (row.href$) {
+          return row.href$.map(href => {
+            return { value: row.name, label: row.name, href };
+          });
+        }
+        return always({ value: row.name, label: row.name });
       }
     }
   },
@@ -75,7 +84,8 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
         websiteLabel
       )}" span.webEum.error.message:"${luceneEscapeString(errorMessage)}" span.webEum.page:"${luceneEscapeString(
         page.get('name')
-      )}"`
+      )}"`,
+      href$: getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`)
     };
   });
 

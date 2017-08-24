@@ -55,11 +55,15 @@ function setResult(result, col, row, emitRawDataChange) {
     }
   } else {
     col.value = result.value;
-    col.content = (
-      <Link href={result.href}>
-        {result.label}
-      </Link>
-    );
+    if (result.href) {
+      col.content = (
+        <Link href={result.href}>
+          {result.label}
+        </Link>
+      );
+    } else {
+      col.content = result.label;
+    }
   }
   row.mutationCount++;
   emitRawDataChange();
