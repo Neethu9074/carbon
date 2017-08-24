@@ -50,7 +50,7 @@ export default connectTo(
         message += `.`;
       }
 
-      if (!nextState.isContentAvailable) {
+      if (!nextState.isContentAvailable && nextProps.query.length > 0) {
         addMessage(
           {
             type: 'info',
