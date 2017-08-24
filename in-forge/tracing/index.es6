@@ -75,6 +75,7 @@ import './play2.ws';
 import './play2';
 import './py.hc';
 import './py.http';
+import './quartz';
 import './rabbitmq';
 import './rack';
 import './redis';
