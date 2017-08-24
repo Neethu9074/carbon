@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp, react/prop-types */
 import { createLogger } from 'instalog';
 import React from 'react';
 
@@ -16,11 +17,15 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { always } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
+import Slider from 'in-components/Slider';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
+import 'in-views/configurationView/subview/Forecasts/Forecasts.less';
+
 const logger = createLogger('Forecasts');
+const block = 'in-forecast-rule-config';
 
 const cols = [
   getLinkColumn(getForecastRuleLink),
@@ -195,34 +200,57 @@ const RowDetails = connectTo(
       snapshot: getSnapshot(props.snapshotId)
     };
   },
-  function getRowDetails({ snapshot, row }) {
-    if (!snapshot) {
-      return null;
-    }
+  class extends React.Component {
+    static displayName = 'getRowDetails';
 
-    const metricDefinition = getMetricDefinition(snapshot.get('plugin'), row.metricName);
-    const timeframe = {
-      windowSize: 1000 * 60 * 60 * 24 * 14,
-      to: Date.now() + 1000 * 60 * 60 * 24
+    state = {
+      sensitivity: 99
     };
-    return (
-      <div>
-        <Chart
-          snapshotId={row.snapshotId}
-          timeframe={timeframe}
-          timeframe$={always(timeframe)}
-          margins={{
-            left: 80
-          }}
-          y1={{
-            min: 0,
-            metrics: [row.metricName],
-            labels: [metricDefinition.label],
-            type: 'line',
-            formatter: metricDefinition.formatter.compact
-          }}
-        />
-      </div>
-    );
+
+    render() {
+      const { snapshot, row } = this.props;
+      if (!snapshot) {
+        return null;
+      }
+
+      const sensitivity = this.state.sensitivity;
+      const metricDefinition = getMetricDefinition(snapshot.get('plugin'), row.metricName);
+      const timeframe = {
+        windowSize: 1000 * 60 * 60 * 24 * 14,
+        to: Date.now() + 1000 * 60 * 60 * 24
+      };
+      return (
+        <div>
+          <Slider
+            onChange={e => {
+              this.setState({
+                sensitivity: e.target.value
+              });
+            }}
+            min={0}
+            max={100}
+            step={1}
+            value={sensitivity}
+            className={block + '__slider'}
+          />
+          <Chart
+            snapshotId={row.snapshotId}
+            timeframe={timeframe}
+            timeframe$={always(timeframe)}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: 0,
+              metrics: [row.metricName],
+              labels: [metricDefinition.label],
+              type: 'line',
+              formatter: metricDefinition.formatter.compact,
+              forecastSensitivity: sensitivity
+            }}
+          />
+        </div>
+      );
+    }
   }
 );

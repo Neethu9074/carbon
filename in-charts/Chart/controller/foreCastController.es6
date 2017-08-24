@@ -54,8 +54,9 @@ export default function createForecastController(config) {
             };
           }
 
-          const lowMetric = metric + '.forecast.low.99';
-          const highMetric = metric + '.forecast.high.99';
+          const sensitivity = axis.forecastSensitivity || '99';
+          const lowMetric = metric + '.forecast.low.' + sensitivity;
+          const highMetric = metric + '.forecast.high.' + sensitivity;
           axis.forecastConfig.metrics.push({
             indexInMetrics: i,
             metric,
