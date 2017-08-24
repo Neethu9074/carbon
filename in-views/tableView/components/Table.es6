@@ -4,7 +4,7 @@ import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-views/tableView/store
 import ChartsForSelectedEntities from 'in-views/tableView/components/ChartsForSelectedEntities';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import RightHeader from 'in-views/tableView/components/RightHeader';
-import { snapshots$ } from 'in-views/tableView/stores/snapshotIds';
+import { data$ } from 'in-views/tableView/stores/snapshotIds';
 import LeftHeader from 'in-views/tableView/components/LeftHeader';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -18,11 +18,11 @@ const block = 'in-table-view-table';
 
 export default connectTo(
   {
-    snapshots: snapshots$,
+    data: data$,
     selectedSnapshotIds: selectedSnapshotIds$,
     plugin: plugin$
   },
-  function TableViewTable({ snapshots, plugin, selectedSnapshotIds }) {
+  function TableViewTable({ data, plugin, selectedSnapshotIds }) {
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>
@@ -31,13 +31,13 @@ export default connectTo(
       );
     }
 
-    if (!snapshots) {
+    if (!data || !data.snapshots || data.plugin !== plugin) {
       return <LoadingIndicator type="dark" />;
     }
 
     const tableDefinition = getTableDefinition(plugin);
     const cols = tableDefinition.cols;
-    let rows = snapshots.map(snapshot => {
+    let rows = data.snapshots.map(snapshot => {
       const snapshotId = snapshot.get('id');
       return {
         key: snapshotId,

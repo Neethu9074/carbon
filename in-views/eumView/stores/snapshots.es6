@@ -1,4 +1,3 @@
-import { getSnapshotIdsByQuery, getSnapshots } from 'in-stores/snapshot/snapshot';
+import { search } from 'in-stores/snapshot/snapshot';
 
-export const snapshotIds$ = getSnapshotIdsByQuery('entity.selfType:website');
-export const snapshots$ = snapshotIds$.flatMap(getSnapshots);
+export const data$ = search({ queryExtension: 'entity.selfType:website' });

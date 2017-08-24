@@ -120,23 +120,43 @@ export function getSnapshots(snapshotIds, time) {
   );
 }
 
-export function getSnapshotIdsByQuery(_query) {
+// Search and return the user provided query, the search result and the current
+// state of the snapshot resolve:
+// {
+//   query,
+//   snapshots,
+//   snapshotIds
+// }
+// This is useful when automatically responding to search results. Example: In
+// the website list, we want to automatically redirect users when no websites
+// are configured. In order to implement this based on search, we need to
+// differentiate between:
+// 1. No search query and no results
+// 2. No search query and temporarily no results because snapshots are still
+//    being loaded.
+// 3. Search query which yields no results
+// 4. and the search query which yielded results but which may be loading
+export function search({ queryExtension = '' }) {
   return combineLatest([query$, timeframe$, focusedMoment$]).flatMap(([query, timeframe, focusedMoment]) => {
-    query = query || '';
-    query += ` ${_query}`;
     return createSearchObservable({
-      query,
+      query: `${query || ''} ${queryExtension}`,
       time: focusedMoment,
       view: 'TABLE',
       timeframe
-    });
+    })
+      .flatMap(snapshotIds => {
+        return getSnapshots(snapshotIds, focusedMoment).map(snapshots => {
+          return {
+            snapshots,
+            snapshotIds,
+            query
+          };
+        });
+      })
+      .startWith({
+        query
+      });
   });
-}
-
-export function getSnapshotsByQuery(query) {
-  return combineLatest([getSnapshotIdsByQuery(query), focusedMoment$]).flatMap(([ids, focusedMoment]) =>
-    getSnapshots(ids, focusedMoment)
-  );
 }
 
 // This is useful to retrieve a process or host snapshot for another snapshot, e.g. JVM, that is

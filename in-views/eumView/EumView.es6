@@ -1,14 +1,14 @@
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import { snapshotIds$, snapshots$ } from 'in-views/eumView/stores/snapshots';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { debouncedQuery$ } from 'in-stores/search/query';
+import { data$ } from 'in-views/eumView/stores/snapshots';
+import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -21,11 +21,11 @@ const configureElement = `${headerElement}__configure`;
 export default connectTo(
   {
     eumKeysViewLink: eumKeysViewLink$,
-    snapshotIds: snapshotIds$,
-    snapshots: snapshots$,
-    query: debouncedQuery$
+    data: data$
   },
-  function EumView({ snapshotIds, snapshots, eumKeysViewLink, query }) {
+  function EumView({ eumKeysViewLink, data }) {
+    const { snapshotIds, snapshots, query } = data;
+
     if (!snapshotIds || !snapshots) {
       return (
         <div>
@@ -40,8 +40,8 @@ export default connectTo(
       );
     }
 
-    // data was loaded but there is no defined website
-    if ((query == null || query.trim().length === 0) && snapshotIds.size === 0 && snapshots.length === 0) {
+    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0) {
+      // data was loaded but there is no defined website
       return <RedirectWithHash to="/website/new" />;
     }
 
