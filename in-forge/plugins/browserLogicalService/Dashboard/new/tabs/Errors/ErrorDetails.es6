@@ -121,6 +121,7 @@ export default connectTo(
           errorMessage={message}
           pageName={pageName}
           pageHash={pageHash}
+          snapshot={snapshot}
         />
       </div>
     );

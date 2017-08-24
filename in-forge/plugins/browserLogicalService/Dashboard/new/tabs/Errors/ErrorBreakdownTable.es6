@@ -59,7 +59,7 @@ const cols = [
   }
 ];
 
-export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName }) {
+export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName, snapshot }) {
   const browserRows = result.data.get('browsers').toArray().map(browser => {
     let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
     if (pageName) {
@@ -75,17 +75,21 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
     };
   });
 
+  const existingPages = snapshot.getIn(['data', 'service_endpoints']);
   const pageRows = result.data.get('pages').toArray().map(page => {
+    const name = page.get('name');
+    const isMonitoredRightNow = existingPages.contains(name);
     return {
       key: page.get('hash'),
-      name: page.get('name'),
+      name,
       count: page.get('count'),
+      isMonitoredRightNow: existingPages.contains(page.get('name')),
       query: `entity.website.label:"${luceneEscapeString(
         websiteLabel
       )}" span.webEum.error.message:"${luceneEscapeString(errorMessage)}" span.webEum.page:"${luceneEscapeString(
         page.get('name')
       )}"`,
-      href$: getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`)
+      href$: isMonitoredRightNow ? getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`) : null
     };
   });
 
