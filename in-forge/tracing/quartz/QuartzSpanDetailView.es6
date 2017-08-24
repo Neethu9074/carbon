@@ -6,13 +6,13 @@ export default function QuartzSpanDetailView({ span }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Group">
-        {span.getIn(['data', 'group'])}
+        {span.getIn(['data', 'quartz', 'group'])}
       </DescriptionItem>
       <DescriptionItem title="Name">
-        {span.getIn(['data', 'name'])}
+        {span.getIn(['data', 'quartz', 'name'])}
       </DescriptionItem>
       <DescriptionItem title="Type">
-        {span.getIn(['data', 'type'])}
+        {span.getIn(['data', 'quartz', 'type'])}
       </DescriptionItem>
     </DescriptionList>
   );

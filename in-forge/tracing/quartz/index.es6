@@ -12,6 +12,6 @@ registerSpanDefinition({
   detailView: 'QuartzSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'name']);
+    return span.getIn(['data', 'quartz', 'name']);
   }
 });
