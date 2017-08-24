@@ -8,7 +8,6 @@ export default function createLineContentRenderer({ axisName, config }) {
   const y = config.scales[axisName];
   const axis = config[axisName];
   const colors = axis.colors;
-  const activeSeries = config.activeSeries[axisName];
 
   return {
     requireExistenceInAllSeries: false,
@@ -27,6 +26,7 @@ export default function createLineContentRenderer({ axisName, config }) {
   }
 
   function renderForecasts(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     const forecastConfig = axis.forecastConfig;
     const numberOfForecasts = forecastConfig.metrics.length;
     for (let forecastIndex = 0; forecastIndex < numberOfForecasts; forecastIndex++) {
@@ -80,6 +80,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx = config.forecastConfig.anomaliesMaskCanvasContext;
     ctx.clearRect(0, 0, config.width, config.height);
 
+    const activeSeries = config.activeSeries[axisName];
     const forecastConfig = axis.forecastConfig;
     const numberOfForecasts = forecastConfig.metrics.length;
 
@@ -96,7 +97,8 @@ export default function createLineContentRenderer({ axisName, config }) {
       ctx.globalCompositeOperation = 'source-over';
       renderLine(metricDataColumns, metricSeriesIndex, {
         xDomainOffset,
-        color: '#ff4229'
+        color: '#ff4229',
+        lineWidth: 3
       });
 
       ctx.globalCompositeOperation = 'destination-out';
@@ -112,7 +114,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx = config.ctx.animationBuffer;
   }
 
-  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color }) {
+  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color, lineWidth = 2 }) {
     ctx.beginPath();
 
     const singlePointsToRender = [];
@@ -150,7 +152,7 @@ export default function createLineContentRenderer({ axisName, config }) {
 
     color = color || colors[seriesIndex];
 
-    ctx.lineWidth = 2;
+    ctx.lineWidth = lineWidth;
     ctx.strokeStyle = color;
     ctx.stroke();
 
@@ -160,6 +162,7 @@ export default function createLineContentRenderer({ axisName, config }) {
   }
 
   function render(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
       if (activeSeries[seriesIndex] === false) {
         continue;
