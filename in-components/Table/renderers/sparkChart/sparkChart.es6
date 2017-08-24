@@ -30,6 +30,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
   const metric = columnDefinition.typeArgs.getMetricName(row.rowConfig);
   const formatter = columnDefinition.typeArgs.getContent;
+  const timeWindowAggregation = columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig);
 
   const column = {
     columnDefinition,
@@ -39,8 +40,6 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     comparator: compare,
     content: null
   };
-
-  const timeWindowAggregation = columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig);
 
   column.refreshContent = () => {
     column.content = (

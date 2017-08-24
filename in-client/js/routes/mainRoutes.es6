@@ -4,12 +4,13 @@ import React from 'react';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
+import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
-import EumView from 'promise-loader?global!in-views/eumView/EumView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import { eumViewEnabled } from 'in-services/featureFlags';
@@ -46,6 +47,13 @@ export default (
 
     <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" windowTitle="Logs" />
 
+    {eumViewEnabled
+      ? <RouteWithTitle
+          component={createAsyncFullscreenOverlayViewComponent(NewWebsite)}
+          path="/website/new"
+          windowTitle="New Website"
+        />
+      : null}
     {eumViewEnabled
       ? <RouteWithTitle
           component={createAsyncFullscreenOverlayViewComponent(EumView)}

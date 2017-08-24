@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import NoWebsiteLandingScreen from 'in-views/eumView/components/NoWebsiteLandingScreen';
 import { snapshotIds$, snapshots$ } from 'in-views/eumView/stores/snapshots';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
@@ -42,14 +42,7 @@ export default connectTo(
 
     // data was loaded but there is no defined website
     if ((query == null || query.trim().length === 0) && snapshotIds.size === 0 && snapshots.length === 0) {
-      return (
-        <div>
-          <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-            <NoWebsiteLandingScreen />
-          </FullscreenOverlayView>
-          <DashboardNavigationRoute />
-        </div>
-      );
+      return <RedirectWithHash to="/website/new" />;
     }
 
     return (

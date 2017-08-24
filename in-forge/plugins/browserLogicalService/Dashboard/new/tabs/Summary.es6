@@ -23,7 +23,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
   }
   const viewTracesButton = (
     <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-      View Traces
+      Traces
     </Button>
   );
 

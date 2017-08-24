@@ -9,12 +9,13 @@ import './DashboardTile.less';
 
 const block = 'in-dashboard-tile';
 
-export default function DashboardTile({ children, title, href, href$ }) {
+export default function DashboardTile({ children, title, href, href$, interactable, className }) {
   return (
     <div
       className={evaluateClassNames({
         [block]: true,
-        [`${block}--with-details`]: href || href$
+        [`${block}--interactable`]: href || href$ || interactable,
+        [className]: className
       })}
     >
       <div className={`${block}__header`}>

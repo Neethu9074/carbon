@@ -5,10 +5,10 @@ import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { always } from 'in-services/fixedStreams';
-import { Row, Col } from 'in-components/Grid';
 
 const cols = [
   {
@@ -90,21 +90,17 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
   });
 
   return (
-    <Row>
-      <Col cols={6}>
-        {browserRows.length > 0
-          ? <DashboardTile title={`Browsers (${browserRows.length})`}>
-              <Table cols={cols} rows={browserRows} initialSortColumn={1} initialSortDirection="desc" />
-            </DashboardTile>
-          : null}
-      </Col>
-      <Col cols={6}>
-        {pageRows.length > 0
-          ? <DashboardTile title={`Pages (${pageRows.length})`}>
-              <Table cols={cols} rows={pageRows} initialSortColumn={1} initialSortDirection="desc" />
-            </DashboardTile>
-          : null}
-      </Col>
-    </Row>
+    <Columize>
+      {browserRows.length > 0
+        ? <DashboardTile title={`Browsers (${browserRows.length})`}>
+            <Table cols={cols} rows={browserRows} initialSortColumn={1} initialSortDirection="desc" />
+          </DashboardTile>
+        : null}
+      {pageRows.length > 0
+        ? <DashboardTile title={`Pages (${pageRows.length})`}>
+            <Table cols={cols} rows={pageRows} initialSortColumn={1} initialSortDirection="desc" />
+          </DashboardTile>
+        : null}
+    </Columize>
   );
 }

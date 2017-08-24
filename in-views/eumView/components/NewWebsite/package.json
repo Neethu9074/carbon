@@ -1,0 +1,6 @@
+{
+  "name": "NewWebsite",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./NewWebsite.es6"
+}
