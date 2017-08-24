@@ -8,6 +8,10 @@ import { focusedMoment$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
+import 'in-components/MapNoContentMessage/MapNoContentMessage.less';
+
+const block = 'in-map-no-content-msg';
+
 export default connectTo(
   {
     focusedMoment: focusedMoment$,
@@ -39,7 +43,7 @@ export default connectTo(
     }
 
     componentWillUpdate(nextProps, nextState) {
-      let message = `No data found for the query "*${nextProps.query}*"`;
+      let message = `No data found for the query \`${nextProps.query}\``;
       if (nextProps.focusedMoment) {
         message += ` at the selected moment: *${formatDateTime(nextProps.focusedMoment)}*.`;
       } else {
@@ -53,6 +57,7 @@ export default connectTo(
             title: 'No data found',
             content: (
               <div
+                className={block}
                 dangerouslySetInnerHTML={{
                   __html: toHtml(message)
                 }}
