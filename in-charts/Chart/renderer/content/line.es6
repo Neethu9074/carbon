@@ -38,52 +38,41 @@ export default function createLineContentRenderer({ axisName, config }) {
 
       // the series is garuanteed twice the size as the forecast metrics (low, high)
       const seriesIndex = forecastIndex * 2;
-      renderArea(false, dataColumns, seriesIndex + 1, xDomainOffset);
-      renderArea(true, dataColumns, seriesIndex, xDomainOffset);
+      renderArea(dataColumns, seriesIndex, xDomainOffset);
     }
   }
 
-  function renderArea(isForecastLow, dataColumns, seriesIndex, xDomainOffset) {
-    const color = isForecastLow ? '#fff' : '#e5e5e5';
+  function renderArea(dataColumns, seriesIndex, xDomainOffset) {
+    const seriesHighIndex = seriesIndex + 1;
+    const seriesLowIndex = seriesIndex;
+
     ctx.beginPath();
-    let lastX = 0;
-    let lastY = 0;
-    let firstX = null;
-    let firstY = null;
-    for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
+
+    function renderAreaLine(columnIndex, index) {
       const dataColumn = dataColumns[columnIndex];
-      const dataRow = dataColumn[seriesIndex]; //[0: time, 1: value, time:time]
+      const dataRow = dataColumn[index];
 
       // existense of data points in all rows is not guaranteed - skip column for this series
       if (!dataRow) {
-        continue;
+        return;
       }
 
       const xToRender = x.getRange(dataRow[0] + xDomainOffset);
       const yToRender = y.getRange(dataRow[1]);
 
-      lastX = xToRender;
-      lastY = yToRender;
-      if (firstX === null) {
-        firstX = xToRender;
-        firstY = yToRender;
-      }
       ctx.lineTo(xToRender, yToRender);
     }
 
-    // to erase subpixel lines, we have to strech the white area by 1px in width to overdraw it.
-    if (isForecastLow) {
-      ctx.lineTo(lastX + 1, lastY);
-      ctx.lineTo(lastX + 1, y.getRangeFrom());
-      ctx.lineTo(firstX - 1, y.getRangeFrom());
-      ctx.lineTo(firstX - 1, firstY);
-    } else {
-      ctx.lineTo(lastX, y.getRangeFrom());
-      ctx.lineTo(firstX, y.getRangeFrom());
+    for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
+      renderAreaLine(columnIndex, seriesHighIndex);
+    }
+
+    for (let columnIndex = dataColumns.length - 1; columnIndex > 0; columnIndex--) {
+      renderAreaLine(columnIndex, seriesLowIndex);
     }
 
     ctx.closePath();
-    ctx.fillStyle = color;
+    ctx.fillStyle = '#e5e5e5';
     ctx.fill();
   }
 
@@ -105,18 +94,13 @@ export default function createLineContentRenderer({ axisName, config }) {
       const seriesIndex = forecastIndex * 2;
 
       ctx.globalCompositeOperation = 'source-over';
-      renderArea(false, forecastDataColumns, seriesIndex + 1, xDomainOffset);
-
-      ctx.globalCompositeOperation = 'xor';
-      renderArea(true, forecastDataColumns, seriesIndex, xDomainOffset);
-
-      ctx.globalCompositeOperation = 'source-out';
       renderLine(metricDataColumns, metricSeriesIndex, {
         xDomainOffset,
-        color: '#ff4229',
-        renderDots: false,
-        lineWidth: 4
+        color: '#ff4229'
       });
+
+      ctx.globalCompositeOperation = 'destination-out';
+      renderArea(forecastDataColumns, seriesIndex, xDomainOffset);
 
       // restore default operation
       ctx.globalCompositeOperation = 'source-over';
@@ -128,7 +112,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx = config.ctx.animationBuffer;
   }
 
-  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color, renderDots = true, lineWidth = 2 }) {
+  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color }) {
     ctx.beginPath();
 
     let previousX = Number.MAX_VALUE * -1;
@@ -165,15 +149,13 @@ export default function createLineContentRenderer({ axisName, config }) {
 
     color = color || colors[seriesIndex];
 
-    ctx.lineWidth = lineWidth;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = color;
     ctx.stroke();
 
     ctx.fillStyle = color;
-    if (renderDots) {
-      const draw = drawPoint.bind(this, ctx);
-      singlePointsToRender.forEach(draw);
-    }
+    const draw = drawPoint.bind(this, ctx);
+    singlePointsToRender.forEach(draw);
   }
 
   function render(dataColumns) {
