@@ -203,3 +203,22 @@ export function openServiceExtractionConfigByDefinition(definition) {
   mutateUrl(params => (params.pathname = definition.pathname));
 }
 // end service extraction ------------------------------------
+
+// forecasts ---------------------------------------------
+const forecastsViewPath = '/config/forecasts';
+const forecastViewPath = '/config/forecast';
+export const forecastsViewLink$ = buildUrlStream({ path: forecastsViewPath });
+export const isForecastsView$ = buildPathStartsWithStream(forecastsViewPath);
+
+function getForecastRulePath(id) {
+  return id ? `${forecastViewPath}/${encodeURIComponent(id)}` : forecastViewPath;
+}
+
+export function openForecastRule(id) {
+  mutateUrl(params => (params.pathname = getForecastRulePath(id)));
+}
+
+export function getForecastRuleLink(id) {
+  return getModifiedUrlStream(params => (params.pathname = getForecastRulePath(id)));
+}
+//  end forecasts ---------------------------------------------

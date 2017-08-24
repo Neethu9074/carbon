@@ -17,6 +17,7 @@ import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
+import Forecasts from 'promise-loader?global,configView!in-views/configurationView/subview/Forecasts/Forecasts';
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
@@ -130,6 +131,17 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(Rule)}
       path="/config/rule"
       windowTitle="Custom Rule"
+    />
+
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(Forecasts)}
+      path="/config/forecasts"
+      windowTitle="Custom Forecast Rules"
+    />
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(Forecasts)}
+      path="/config/forecast"
+      windowTitle="Custom Forecast Rule"
     />
 
     <RouteWithTitle

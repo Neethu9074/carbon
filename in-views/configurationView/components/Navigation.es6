@@ -27,15 +27,17 @@ import {
   auditLogViewLink$,
   isAuditLogView$,
   objectiveViewLink$,
+  forecastsViewLink$,
+  isForecastsView$,
   isObjectivesView$,
   rulesViewLink$,
   isRulesViewLink$,
   ruleBindingsViewLink$,
   isRuleBindingsViewLink$
 } from 'in-stores/navigation/configuration';
+import { objectivesEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import { objectivesEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -129,6 +131,9 @@ export default function Navigation() {
           ? <NavItem title="Knowledge Management" isActive$={combine(isRulesViewLink$, isRuleBindingsViewLink$)}>
               <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
               <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
+              {instanaInternalFeaturesEnabled
+                ? <NavItem title="Custom Forecast Rules" href$={forecastsViewLink$} isActive$={isForecastsView$} />
+                : null}
             </NavItem>
           : null}
 
