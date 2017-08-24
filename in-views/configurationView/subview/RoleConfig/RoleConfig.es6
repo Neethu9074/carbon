@@ -190,5 +190,6 @@ function createForm(role) {
     .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureObjectives', createField({ value: role.get('canConfigureObjectives') }));
+    .put('canConfigureObjectives', createField({ value: role.get('canConfigureObjectives') }))
+    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }));
 }

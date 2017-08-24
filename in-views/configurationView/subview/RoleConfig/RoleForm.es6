@@ -173,6 +173,14 @@ export default function RoleForm({ form, onChange, disabled }) {
           label="Access to audit log"
         />
 
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureAgents"
+          label="Configure of agents"
+        />
+
         {objectivesEnabled
           ? <Permission
               form={form}

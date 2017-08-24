@@ -26,7 +26,7 @@ chai.use(require('sinon-chai'));
 });
 
 // support ES6
-const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.babelrc'), {encoding: 'utf8'}));
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.babelrc'), { encoding: 'utf8' }));
 babelConfig.only = /es6/;
 babelConfig.ignore = '^$';
 require('babel-core/register')(babelConfig);
@@ -48,29 +48,32 @@ global.window.instana = {
 };
 
 global.window.instana.user = {
-  tenants: [{
-    role: {
-      id: '-1',
-      name: 'Owner',
-      implicitViewFilter: '',
-      canConfigureServiceMapping: true,
-      canConfigureEumApplications: true,
-      canConfigureUsers: true,
-      canInstallNewAgents: true,
-      canSeeUsageInformation: true,
-      canConfigureIntegrations: true,
-      canSeeOnPremLicenseInformation: true,
-      canConfigureRoles: true,
-      canConfigureCustomAlerts: true,
-      canConfigureApiTokens: true,
-      canConfigureAgentRunMode: true,
-      canViewAuditLog: true,
-      canConfigureObjectives: true
-    },
-    tenantKey: 'instana',
-    name: 'instana',
-    id: '57309f589e1d8461616a545'
-  }],
+  tenants: [
+    {
+      role: {
+        id: '-1',
+        name: 'Owner',
+        implicitViewFilter: '',
+        canConfigureServiceMapping: true,
+        canConfigureEumApplications: true,
+        canConfigureUsers: true,
+        canInstallNewAgents: true,
+        canSeeUsageInformation: true,
+        canConfigureIntegrations: true,
+        canSeeOnPremLicenseInformation: true,
+        canConfigureRoles: true,
+        canConfigureCustomAlerts: true,
+        canConfigureApiTokens: true,
+        canConfigureAgentRunMode: true,
+        canViewAuditLog: true,
+        canConfigureObjectives: true,
+        canConfigureAgents: true
+      },
+      tenantKey: 'instana',
+      name: 'instana',
+      id: '57309f589e1d8461616a545'
+    }
+  ],
   fullName: 'Stan stan',
   id: '59085f81fa065b001a0f6a8b',
   preferredName: 'Stan stan',
