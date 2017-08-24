@@ -36,7 +36,18 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot ? String(row.snapshot.getIn(['data', 'mode'])) : '';
+        if (!row.snapshot) {
+          return '';
+        }
+
+        switch (row.snapshot.getIn(['data', 'mode'])) {
+          case 1:
+            return 'Infrastructure';
+          case 2:
+            return 'Full APM';
+          default:
+            return 'Off';
+        }
       }
     }
   },
