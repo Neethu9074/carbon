@@ -120,6 +120,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     const singlePointsToRender = [];
 
     // going left to right
+    let lastX = -Number.MAX_VALUE;
     for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
       const dataColumn = dataColumns[columnIndex];
       const dataRow = dataColumn[seriesIndex];
@@ -132,11 +133,14 @@ export default function createLineContentRenderer({ axisName, config }) {
       const xToRender = x.getRange(dataRow[0] + xDomainOffset);
       const yToRender = y.getRange(dataRow[1]);
 
-      // draw these points later on as otherwise we would fill the line chart.
-      singlePointsToRender.push({
-        x: xToRender,
-        y: yToRender
-      });
+      if (xToRender - lastX > 3) {
+        // draw these points later on as otherwise we would fill the line chart.
+        singlePointsToRender.push({
+          x: xToRender,
+          y: yToRender
+        });
+      }
+      lastX = xToRender;
 
       if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
         ctx.moveTo(xToRender, yToRender);
