@@ -1,3 +1,4 @@
+import { role } from 'in-stores/user';
 import Resources from './Resources';
 import Summary from './Summary';
 import Config from './Config';
@@ -46,7 +47,7 @@ export function getTabs(snapshot, pageHash) {
           component: Pages
         }
       : null,
-    pageHash == null && isNonServiceMappedWebsite
+    pageHash == null && isNonServiceMappedWebsite && role.canConfigureEumApplications
       ? {
           label: 'Configuration',
           path: `${pathPrefix}/config`,
