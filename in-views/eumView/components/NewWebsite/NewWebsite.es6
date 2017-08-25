@@ -7,6 +7,8 @@ import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
 import From from 'in-views/eumView/components/NewWebsite/Form';
 import { combineDataAndError } from 'in-services/util/ro';
+import { getDashboardLink } from 'in-stores/navigation';
+import { getSnapshot } from 'in-stores/snapshot';
 import { addKey } from 'in-services/api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,10 +24,7 @@ export default connectTo(
       this.state = {
         field: createField({ value: '', validator: notBlankValidator }),
         saveError: null,
-        saveResult: {
-          appName: 'spiegel.de',
-          id: '12345678987654323456'
-        },
+        saveResult: null,
         loading: false
       };
     }
@@ -33,6 +32,9 @@ export default connectTo(
     componentWillUnmount() {
       if (this.saveSubscription) {
         this.saveSubscription.dispose();
+      }
+      if (this.snapshotSubscription) {
+        this.snapshotSubscription.dispose();
       }
     }
 
@@ -50,7 +52,12 @@ export default connectTo(
                 />
               : null}
             {this.state.saveResult != null
-              ? <Waiting websiteName={this.state.saveResult.appName} eumKey={this.state.saveResult.id} />
+              ? <Waiting
+                  websiteName={this.state.saveResult.appName}
+                  eumKey={this.state.saveResult.id}
+                  isWaiting={this.state.snapshot == null}
+                  href$={getDashboardLink(this.state.saveResult.websiteSnapshotId)}
+                />
               : null}
           </div>
         </FullscreenOverlayView>
@@ -89,8 +96,13 @@ export default connectTo(
           this.setState({
             loading: false,
             saveError: null,
-            saveResult: data
+            saveResult: data,
+            snapshot: null
           });
+
+          this.snapshotSubscription = getSnapshot(data.websiteSnapshotId, null).subscribe(snapshot =>
+            this.setState({ snapshot })
+          );
         }
       });
     };

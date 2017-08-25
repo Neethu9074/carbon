@@ -4,10 +4,10 @@ import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigati
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/eumView/stores/snapshots';
+import { getLinkToPath } from 'in-stores/navigation';
 import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -20,10 +20,9 @@ const configureElement = `${headerElement}__configure`;
 
 export default connectTo(
   {
-    eumKeysViewLink: eumKeysViewLink$,
     data: data$
   },
-  function EumView({ eumKeysViewLink, data }) {
+  function EumView({ data }) {
     const { snapshotIds, snapshots, query } = data;
 
     if (!snapshotIds || !snapshots) {
@@ -54,8 +53,8 @@ export default connectTo(
                 <WebsiteHeading numWebsites={snapshots.length} />
               </div>
               <div className={configureElement}>
-                <Link href={eumKeysViewLink} className={configureElement}>
-                  Configure
+                <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                  Add Website
                 </Link>
               </div>
             </div>
