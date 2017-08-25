@@ -37,7 +37,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot ? row.snapshot.getIn(['data', 'boot']) : '';
+        return row.snapshot.getIn(['data', 'boot']);
       }
     }
   },
@@ -46,10 +46,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        if (!row.snapshot) {
-          return '';
-        }
-
         switch (row.snapshot.getIn(['data', 'mode'])) {
           case 1:
             return 'Infrastructure';
@@ -66,9 +62,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot
-          ? `${row.snapshot.getIn(['data', 'java', 'vmname'])} ${row.snapshot.getIn(['data', 'java', 'version'])}`
-          : '';
+        return `${row.snapshot.getIn(['data', 'java', 'vmname'])} ${row.snapshot.getIn(['data', 'java', 'version'])}`;
       }
     }
   },
@@ -78,7 +72,7 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
-        const isReporting = row.snapshot ? true : false;
+        const isReporting = row.snapshot.get('to', null) == null ? true : false;
         return {
           value: isReporting,
           content: <Reporting isReporting={isReporting} />
@@ -91,7 +85,9 @@ const cols = [
 export default connectTo(
   {
     agents: getSnapshotsInTimeframe('entity.selfType:agent')
-      .flatMap(agentIds => combineLatest(agentIds.map(agentId => getSnapshot(agentId).startWith(agentId)), false))
+      .flatMap(snapshots =>
+        combineLatest(snapshots.map(snapshot => getSnapshot(snapshot.snapshotId, snapshot.timestamp)), false)
+      )
       .throttle(200)
   },
   function AgentViewTable({ agents }) {
@@ -99,13 +95,7 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = agents.map(snapshot => {
-      if (typeof snapshot === 'string') {
-        return {
-          key: snapshot,
-          snapshotId: snapshot
-        };
-      }
+    const rows = agents.filter(snapshot => snapshot != null).map(snapshot => {
       return {
         key: snapshot.get('id'),
         snapshotId: snapshot.get('id'),
