@@ -36,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'Calls',
+    title: 'Calls (sum)',
     type: 'sparkChart',
     typeArgs: {
       forceTimeWindowAggregation: true,
@@ -53,7 +53,7 @@ const cols = [
     }
   },
   {
-    title: 'Load Time',
+    title: 'Load Time (avg)',
     type: 'sparkChart',
     typeArgs: {
       forceTimeWindowAggregation: true,
