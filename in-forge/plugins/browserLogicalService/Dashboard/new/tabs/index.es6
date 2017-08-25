@@ -1,13 +1,13 @@
 import Resources from './Resources';
 import Summary from './Summary';
+import Config from './Config';
 import Errors from './Errors';
 import Pages from './Pages';
 import Speed from './Speed';
 import AJAX from './AJAX';
 
-export const websiteTabs = getTabs();
-
-export function getTabs(pageHash) {
+export function getTabs(snapshot, pageHash) {
+  const isNonServiceMappedWebsite = snapshot.getIn(['data', 'eumKey']) === snapshot.getIn(['data', 'steady_id']);
   const pathPrefix = pageHash ? `/pages/${pageHash}` : '';
   return [
     {
@@ -44,6 +44,13 @@ export function getTabs(pageHash) {
           label: 'Pages',
           path: `${pathPrefix}/pages`,
           component: Pages
+        }
+      : null,
+    pageHash == null && isNonServiceMappedWebsite
+      ? {
+          label: 'Configuration',
+          path: `${pathPrefix}/config`,
+          component: Config
         }
       : null
   ].filter(tab => tab != null);
