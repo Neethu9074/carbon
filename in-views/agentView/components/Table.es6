@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import { getSnapshot, getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -19,6 +20,15 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
+      }
+    }
+  },
+  {
+    title: 'Host',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId$(row) {
+        return getSnapshot(row.snapshotId).flatMap(snapshot => getHostSnapshotId(snapshot));
       }
     }
   },
@@ -81,7 +91,7 @@ const cols = [
 export default connectTo(
   {
     agents: getSnapshotsInTimeframe('entity.selfType:agent')
-      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id).startWith(id)), false))
+      .flatMap(agentIds => combineLatest(agentIds.map(agentId => getSnapshot(agentId).startWith(agentId)), false))
       .throttle(200)
   },
   function AgentViewTable({ agents }) {
@@ -105,19 +115,11 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <Table maxItemsPerPage={20} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+        <Table maxItemsPerPage={20} cols={cols} rows={rows} />
       </div>
     );
   }
 );
-
-function getRowDetails() {
-  return (
-    <div>
-      hallo
-    </div>
-  );
-}
 
 function Reporting({ isReporting }) {
   return (
