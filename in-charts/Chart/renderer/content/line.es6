@@ -41,11 +41,14 @@ export default function createLineContentRenderer({ axisName, config }) {
         const xToRender = x.getRange(dataRow[0] + xDomainOffset);
         const yToRender = y.getRange(dataRow[1]);
 
-        // draw these points later on as otherwise we would fill the line chart.
-        singlePointsToRender.push({
-          x: xToRender,
-          y: yToRender
-        });
+        // do not draw points in high density line charts
+        if (previousX + 10 <= xToRender) {
+          // draw these points later on as otherwise we would fill the line chart.
+          singlePointsToRender.push({
+            x: xToRender,
+            y: yToRender
+          });
+        }
 
         if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
           ctx.moveTo(xToRender, yToRender);
