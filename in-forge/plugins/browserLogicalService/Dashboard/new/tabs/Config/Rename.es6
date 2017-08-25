@@ -33,7 +33,6 @@ export default class Rename extends React.PureComponent {
     const { snapshot } = this.props;
 
     const activeName = snapshot.getIn(['data', 'eumKeyName']);
-
     return (
       <DashboardTile>
         <form onSubmit={this.onSubmit}>
