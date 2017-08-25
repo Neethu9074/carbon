@@ -53,7 +53,7 @@ class AsciiMap extends React.Component {
 
     return (
       <div>
-        <DashboardNavigationRoute />
+        {DashboardNavigationRoute}
         <div id="in-map" className={className}>
           <canvas
             className={`${block}__canvas`}

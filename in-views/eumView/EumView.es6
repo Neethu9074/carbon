@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
@@ -35,7 +36,7 @@ export default connectTo(
               <LoadingIndicator type="dark" />
             </div>
           </FullscreenOverlayView>
-          <DashboardNavigationRoute />
+          {DashboardNavigationRoute}
         </div>
       );
     }
@@ -46,26 +47,31 @@ export default connectTo(
     }
 
     return (
-      <div>
-        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-          <div className={block}>
-            <div className={headerElement}>
-              <div>
-                <WebsiteHeading numWebsites={snapshots.length} />
+      <Switch>
+        {DashboardNavigationRoute}
+
+        <Route
+          path="/website"
+          render={() =>
+            <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+              <div className={block}>
+                <div className={headerElement}>
+                  <div>
+                    <WebsiteHeading numWebsites={snapshots.length} />
+                  </div>
+                  <div className={configureElement}>
+                    {role.canConfigureEumApplications
+                      ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                          Add Website
+                        </Link>
+                      : null}
+                  </div>
+                </div>
+                <WebsiteTable snapshots={snapshots} />
               </div>
-              <div className={configureElement}>
-                {role.canConfigureEumApplications
-                  ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
-                      Add Website
-                    </Link>
-                  : null}
-              </div>
-            </div>
-            <WebsiteTable snapshots={snapshots} />
-          </div>
-        </FullscreenOverlayView>
-        <DashboardNavigationRoute />
-      </div>
+            </FullscreenOverlayView>}
+        />
+      </Switch>
     );
   }
 );

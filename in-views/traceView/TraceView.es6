@@ -32,7 +32,7 @@ export default function TraceView() {
   }
   return (
     <div className={block} style={style}>
-      <DashboardNavigationRoute />
+      {DashboardNavigationRoute}
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
       <TwoColumnView
         leftContent={leftContent}
