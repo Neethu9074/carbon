@@ -89,7 +89,6 @@ function TimeMarker({ time, axis, config }) {
   const to = time;
   const oneDay = 1000 * 60 * 60 * 24;
   const formatter = to - from >= oneDay ? formatDateTime : formatTime;
-
   return (
     <div className={`${block}__aggregated`}>
       <div className={`${block}__aggregated-time`}>
@@ -97,7 +96,7 @@ function TimeMarker({ time, axis, config }) {
       </div>
       <div className={`${block}__aggregation`}>
         {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
-        {axis.isHomogeneousAggregation ? ` ${axis.aggregation}` : ''}
+        {axis.isHomogeneousAggregation ? ` ${axis.aggregation[0]}` : ''}
       </div>
     </div>
   );

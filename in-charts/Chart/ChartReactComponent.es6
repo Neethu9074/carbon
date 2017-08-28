@@ -141,9 +141,9 @@ function processAxis(axis) {
 
   if (axis.aggregation instanceof Array) {
     let isHomogeneousAggregation = true;
-    let prevAggregation = axis.aggregation[0];
+    const firstAggregation = axis.aggregation[0];
     for (let i = 1; i < axis.aggregation.length && isHomogeneousAggregation; i++) {
-      isHomogeneousAggregation = axis.aggregation[i] === prevAggregation;
+      isHomogeneousAggregation = axis.aggregation[i] === firstAggregation;
     }
     axis.isHomogeneousAggregation = isHomogeneousAggregation;
   }
