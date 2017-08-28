@@ -176,10 +176,19 @@ export function goToDashboard(snapshotId) {
   });
 }
 
-export function getDashboardLink(snapshotId) {
+export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment } = {}) {
   return getModifiedUrlStream(params => {
     const view = getActiveView(params);
     params.pathname = `/${view}/dashboard`;
+    if (windowSize != null) {
+      params.query['timeline.ws'] = windowSize;
+    }
+    if (to !== undefined) {
+      params.query['timeline.to'] = to == null ? '' : to;
+    }
+    if (focusedMoment !== undefined) {
+      params.query['timeline.fm'] = focusedMoment == null ? '' : focusedMoment;
+    }
     params.query.snapshotId = snapshotId;
   });
 }
