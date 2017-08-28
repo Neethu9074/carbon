@@ -51,14 +51,20 @@ export default connectTo(
     versionsForLive
   }) {
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
-      return <LoadingIndicator type="dark" />;
+      return (
+        <FullscreenOverlayView className="in-dashboard">
+          <LoadingIndicator type="dark" />
+        </FullscreenOverlayView>
+      );
     } else if (!snapshot && showVersionSelector) {
       return (
-        <NotFoundDialog
-          snapshotId={snapshotId}
-          versionsForFocusedMoment={versionsForFocusedMoment}
-          versionsForLive={versionsForLive}
-        />
+        <FullscreenOverlayView className="in-dashboard">
+          <NotFoundDialog
+            snapshotId={snapshotId}
+            versionsForFocusedMoment={versionsForFocusedMoment}
+            versionsForLive={versionsForLive}
+          />
+        </FullscreenOverlayView>
       );
     }
 

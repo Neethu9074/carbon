@@ -11,7 +11,7 @@ import {
   cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
-import { logViewEnabled, eumViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
+import { logViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
@@ -116,9 +116,7 @@ export default connectTo(
               />
             </View>
 
-            {eumViewEnabled
-              ? <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
-              : null}
+            <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 

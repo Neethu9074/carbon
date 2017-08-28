@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
@@ -10,6 +11,7 @@ import { data$ } from 'in-views/eumView/stores/snapshots';
 import { getLinkToPath } from 'in-stores/navigation';
 import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import './EumView.less';
@@ -34,35 +36,42 @@ export default connectTo(
               <LoadingIndicator type="dark" />
             </div>
           </FullscreenOverlayView>
-          <DashboardNavigationRoute />
+          {DashboardNavigationRoute}
         </div>
       );
     }
 
-    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0) {
+    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
       // data was loaded but there is no defined website
       return <RedirectWithHash to="/website/new" />;
     }
 
     return (
-      <div>
-        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-          <div className={block}>
-            <div className={headerElement}>
-              <div>
-                <WebsiteHeading numWebsites={snapshots.length} />
+      <Switch>
+        {DashboardNavigationRoute}
+
+        <Route
+          path="/website"
+          render={() =>
+            <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+              <div className={block}>
+                <div className={headerElement}>
+                  <div>
+                    <WebsiteHeading numWebsites={snapshots.length} />
+                  </div>
+                  <div className={configureElement}>
+                    {role.canConfigureEumApplications
+                      ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                          Add Website
+                        </Link>
+                      : null}
+                  </div>
+                </div>
+                <WebsiteTable snapshots={snapshots} />
               </div>
-              <div className={configureElement}>
-                <Link href$={getLinkToPath('/website/new')} className={configureElement}>
-                  Add Website
-                </Link>
-              </div>
-            </div>
-            <WebsiteTable snapshots={snapshots} />
-          </div>
-        </FullscreenOverlayView>
-        <DashboardNavigationRoute />
-      </div>
+            </FullscreenOverlayView>}
+        />
+      </Switch>
     );
   }
 );

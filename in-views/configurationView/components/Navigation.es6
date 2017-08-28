@@ -36,6 +36,7 @@ import {
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 import { objectivesEnabled } from 'in-services/featureFlags';
+import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -102,7 +103,7 @@ export default function Navigation() {
             </NavItem>
           : null}
 
-        {role.canConfigureEumApplications
+        {role.canConfigureEumApplications && config.tenant === 'edmunds'
           ? <NavItem title="End-User Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
           : null}
 

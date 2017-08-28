@@ -14,12 +14,7 @@ export default connectTo(
   },
   function EnableSelfMonitoringButton({ snapshot, isOnline }) {
     const button = (
-      <Button
-        onClick={onClick}
-        style={{
-          background: '#e2e9ec'
-        }}
-      >
+      <Button onClick={() => start(snapshot, true)} kind="default" disabled={!isOnline}>
         Open Agent Management
       </Button>
     );
@@ -33,11 +28,5 @@ export default connectTo(
         {button}
       </Tooltip>
     );
-
-    function onClick() {
-      if (isOnline) {
-        start(snapshot, true);
-      }
-    }
   }
 );

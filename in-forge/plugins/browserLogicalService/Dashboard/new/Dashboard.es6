@@ -2,8 +2,8 @@ import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import WebsiteViewBreadcrumb from 'in-forge/plugins/browserLogicalService/Dashboard/new/breadcrumbs/WebsiteViewBreadcrumb';
-import { websiteTabs, getTabs } from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/index';
 import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/BreadcrumbForSnapshot';
+import { getTabs } from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/index';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
@@ -28,7 +28,7 @@ export default function BrowserLogicalServiceDashboard(props) {
           const metricPrefix = pageName == null ? '' : `endpoint.${pageName}.`;
           return (
             <TabView
-              tabs={getTabs(pageHash)}
+              tabs={getTabs(props.snapshot, pageHash)}
               props={{ pageHash: match.params.pageHash, pageName, ...props, metricPrefix }}
               breadcrumbs={breadcrumbs.concat([pageBreadcrumb])}
             />
@@ -37,7 +37,8 @@ export default function BrowserLogicalServiceDashboard(props) {
       />
       <Route
         path={`*/dashboard*`}
-        render={() => <TabView tabs={websiteTabs} props={{ ...props, metricPrefix: '' }} breadcrumbs={breadcrumbs} />}
+        render={() =>
+          <TabView tabs={getTabs(props.snapshot)} props={{ ...props, metricPrefix: '' }} breadcrumbs={breadcrumbs} />}
       />
     </Switch>
   );
