@@ -11,7 +11,7 @@ const block = 'in-agent-view';
 export default function AgentView() {
   return (
     <FullscreenOverlayView className={block}>
-      <DashboardNavigationRoute />
+      {DashboardNavigationRoute}
       <Table />
     </FullscreenOverlayView>
   );
