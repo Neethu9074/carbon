@@ -18,13 +18,13 @@ export default function ServiceInstanceKpiSparkCharts({ snapshot }) {
           metric: 'duration.mean',
           label: 'avg. latency',
           formatter: ms,
-          aggregation: 'sum'
+          aggregation: 'mean'
         },
         {
           metric: 'error_rate',
           label: 'error rate',
           formatter: percentage,
-          aggregation: 'sum'
+          aggregation: 'mean'
         }
       ]}
     />
