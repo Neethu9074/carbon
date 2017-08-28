@@ -1,10 +1,9 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
-import { getSnapshot, getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
 import connectTo from 'in-hoc/connectTo';
@@ -86,11 +85,7 @@ const cols = [
 
 export default connectTo(
   {
-    agents: getSnapshotsInTimeframe('entity.selfType:agent')
-      .flatMap(snapshots =>
-        combineLatest(snapshots.map(snapshot => getSnapshot(snapshot.snapshotId, snapshot.timestamp)), false)
-      )
-      .throttle(200),
+    agents: getSnapshotsInTimeframe('entity.selfType:agent').throttle(200),
     focusedMoment: focusedMoment$
   },
   function AgentViewTable({ agents, focusedMoment }) {
@@ -98,7 +93,7 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = agents.filter(snapshot => snapshot).map(snapshot => {
+    const rows = agents.toArray().map(snapshot => {
       return {
         key: snapshot.get('id'),
         snapshotId: snapshot.get('id'),
