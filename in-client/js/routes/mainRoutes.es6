@@ -3,8 +3,9 @@ import React from 'react';
 
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
-import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
+import AgentView from 'promise-loader?global,eumView!in-views/agentView/AgentView';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -16,11 +17,11 @@ import GlobeView from 'in-components/globeView/GlobeView';
 import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import AsciiMap from 'in-map/AsciiMap';
+import { role } from 'in-stores/user';
 import Map from 'in-map/index';
 
 export default (
   <Switch>
-
     <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
     <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
 
@@ -71,6 +72,14 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)}
       path="/traces"
     />
+
+    {role.canConfigureAgents
+      ? <RouteWithTitle
+          path="/agents"
+          component={createAsyncFullscreenOverlayViewComponent(AgentView)}
+          windowTitle="Instana Agents"
+        />
+      : null}
 
     <RedirectWithHash from="/" to="/physical" />
   </Switch>

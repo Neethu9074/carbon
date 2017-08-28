@@ -173,5 +173,6 @@ function createForm(apiToken) {
     .put('canConfigureApiTokens', createField({ value: apiToken.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: apiToken.get('canViewAuditLog') }))
-    .put('canConfigureObjectives', createField({ value: apiToken.get('canConfigureObjectives') }));
+    .put('canConfigureObjectives', createField({ value: apiToken.get('canConfigureObjectives') }))
+    .put('canConfigureAgents', createField({ value: apiToken.get('canConfigureAgents') }));
 }

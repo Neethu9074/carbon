@@ -1,0 +1,22 @@
+.in-agent-view-table {
+  &__reporting {
+    position: relative;
+    padding-left: 10px;
+
+    &::before {
+      position: absolute;
+
+      content: '';
+      margin: 9px 0px 0px -13px;
+      border: 4px solid;
+      color: #fd4333;
+      border-radius: 50%;
+    }
+  }
+
+  &__is-reporting {
+    &::before {
+      color: #46d87a;
+    }
+  }
+}

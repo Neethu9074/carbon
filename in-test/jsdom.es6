@@ -35,7 +35,8 @@ export default function jsdomReact() {
             canConfigureApiTokens: true,
             canConfigureAgentRunMode: true,
             canViewAuditLog: true,
-            canConfigureObjectives: true
+            canConfigureObjectives: true,
+            canConfigureAgents: true
           },
           tenantKey: 'instana',
           name: 'instana',

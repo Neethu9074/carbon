@@ -9,10 +9,12 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { agentsViewLink$ } from 'in-stores/navigation/view';
 import { config, isOnPremise } from 'in-services/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { role } from 'in-stores/user';
 
 import './Menu.less';
 
@@ -65,6 +67,12 @@ export default connectTo(
           <Link className={linkElement} href$={configurationViewLink$} onClick={closeMenu}>
             Settings
           </Link>
+
+          {role.canConfigureAgents
+            ? <Link className={linkElement} href$={agentsViewLink$} onClick={closeMenu}>
+                Agents
+              </Link>
+            : null}
 
           {!isOnPremise()
             ? <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
