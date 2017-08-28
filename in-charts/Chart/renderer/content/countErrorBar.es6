@@ -6,7 +6,7 @@ export default function createBarContentRenderer({ axisName, config }) {
   const margin = 1;
 
   return {
-    requireExistenceInAllSeries: true,
+    requireExistenceInAllSeries: false,
     processNewDataColumns() {},
     render
   };
@@ -31,21 +31,25 @@ export default function createBarContentRenderer({ axisName, config }) {
         throw new Error('barPercentage charts can only be used with two data series: total count,percentage');
       }
 
+      if (count == dataColumn[0] == null) {
+        continue;
+      }
+
       const time = dataColumn.time;
       const count = dataColumn[0][1];
-      const errorPercentage = dataColumn[1][1];
       const chartHeight = y.getRangeFrom();
 
       // the timestamp of each block is placed at the end
       const xPos = x.getRange(time) - width + margin;
       const yPos = y.getRangeFrom();
       const countHeight = Math.max(chartHeight - y.getRange(count), 2); // 2px minimum bar height
-      const errorHeight = countHeight * errorPercentage;
 
       ctx.fillStyle = colors[0];
       ctx.fillRect(xPos, yPos - countHeight, width - margin * 2, countHeight);
 
-      if (activeSeries[1]) {
+      if (activeSeries[1] && dataColumn[1] != null) {
+        const errorPercentage = dataColumn[1][1];
+        const errorHeight = countHeight * errorPercentage;
         ctx.fillStyle = colors[1];
         ctx.fillRect(xPos, yPos - errorHeight, width - margin * 2, errorHeight);
       }
