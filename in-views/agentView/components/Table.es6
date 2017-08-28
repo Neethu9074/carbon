@@ -72,11 +72,14 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
-        const snapshotTimestamp = row.snapshot.get('to');
-        const isReporting = !snapshotTimestamp || snapshotTimestamp >= row.focusedMoment ? true : false;
+        const from = row.snapshot.get('from');
+        const to = row.snapshot.get('to');
+        const focusedMoment = row.focusedMoment;
+        const isReportingAtFocusedMoment = from <= focusedMoment && (!to || to >= focusedMoment) ? true : false;
+
         return {
-          value: isReporting,
-          content: <Reporting isReporting={isReporting} />
+          value: isReportingAtFocusedMoment,
+          content: <Reporting isReporting={isReportingAtFocusedMoment} />
         };
       }
     }
