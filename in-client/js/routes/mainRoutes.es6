@@ -17,6 +17,7 @@ import TableTest from 'in-views/tableTest/TableTest';
 import AgentView from 'in-views/agentView/AgentView';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import AsciiMap from 'in-map/AsciiMap';
+import { role } from 'in-stores/user';
 import Map from 'in-map/index';
 
 export default (
@@ -72,7 +73,9 @@ export default (
       path="/traces"
     />
 
-    <RouteWithTitle path="/agents" component={AgentView} windowTitle="Instana Agents" />
+    {role.canConfigureAgents
+      ? <RouteWithTitle path="/agents" component={AgentView} windowTitle="Instana Agents" />
+      : null}
 
     <RedirectWithHash from="/" to="/physical" />
   </Switch>
