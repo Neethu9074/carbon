@@ -5,6 +5,7 @@ import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import { getSnapshot, getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
@@ -18,8 +19,8 @@ const cols = [
     title: 'Name',
     type: 'snapshotLink',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getSnapshot(row) {
+        return row.snapshot;
       }
     }
   },
@@ -28,7 +29,7 @@ const cols = [
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId$(row) {
-        return getSnapshot(row.snapshotId).flatMap(snapshot => getHostSnapshotId(snapshot));
+        return getHostSnapshotId(row.snapshot);
       }
     }
   },
@@ -72,7 +73,8 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
-        const isReporting = row.snapshot.get('to', null) == null ? true : false;
+        const snapshotTimestamp = row.snapshot.get('to');
+        const isReporting = !snapshotTimestamp || snapshotTimestamp >= row.focusedMoment;
         return {
           value: isReporting,
           content: <Reporting isReporting={isReporting} />
@@ -88,17 +90,19 @@ export default connectTo(
       .flatMap(snapshots =>
         combineLatest(snapshots.map(snapshot => getSnapshot(snapshot.snapshotId, snapshot.timestamp)), false)
       )
-      .throttle(200)
+      .throttle(200),
+    focusedMoment: focusedMoment$
   },
-  function AgentViewTable({ agents }) {
+  function AgentViewTable({ agents, focusedMoment }) {
     if (!agents) {
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = agents.filter(snapshot => snapshot != null).map(snapshot => {
+    const rows = agents.filter(snapshot => snapshot).map(snapshot => {
       return {
         key: snapshot.get('id'),
         snapshotId: snapshot.get('id'),
+        focusedMoment,
         snapshot
       };
     });
