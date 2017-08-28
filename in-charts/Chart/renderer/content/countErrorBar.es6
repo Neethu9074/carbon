@@ -31,7 +31,7 @@ export default function createBarContentRenderer({ axisName, config }) {
         throw new Error('barPercentage charts can only be used with two data series: total count,percentage');
       }
 
-      if (count == dataColumn[0] == null) {
+      if (dataColumn[0] == null) {
         continue;
       }
 
