@@ -146,8 +146,7 @@ export default function createForecastController(config) {
           rollup: config.rollup.rollup,
           aggregation: axis.aggregation,
           blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
-          metricBaseMillis: axis.metricBaseMillis,
-          isDynamicAggregated: axis.isDynamicAggregated
+          metricBaseMillis: axis.metricBaseMillis
         }).subscribe(onNewDataPoints, null, queueIndex++, forecastConfig.queue)
       );
     }
