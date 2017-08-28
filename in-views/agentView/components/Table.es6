@@ -74,7 +74,7 @@ const cols = [
       comparator: compare,
       get(row) {
         const snapshotTimestamp = row.snapshot.get('to');
-        const isReporting = !snapshotTimestamp || snapshotTimestamp >= row.focusedMoment;
+        const isReporting = !snapshotTimestamp || snapshotTimestamp >= row.focusedMoment ? true : false;
         return {
           value: isReporting,
           content: <Reporting isReporting={isReporting} />
