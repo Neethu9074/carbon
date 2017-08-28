@@ -2,6 +2,7 @@ import { isEqual } from 'lodash';
 import React from 'react';
 
 import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
+import { number, percentage } from 'in-services/formatters/number';
 import ChartLegend from 'in-components/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
 
@@ -14,13 +15,26 @@ export default class extends React.Component {
     height: 150
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      chartProps: processChartProps(props)
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      chartProps: processChartProps(nextProps)
+    });
+  }
+
   componentDidMount() {
     this.renderChart();
   }
 
-  renderChart = () => {
+  renderChart() {
     // Copy all props to separate chart config object from React lifecycle and prop immutability.
-    const props = this.props;
+    const props = this.state.chartProps;
     const config = {
       height: props.height,
       margins: props.margins,
@@ -37,7 +51,7 @@ export default class extends React.Component {
     config.container = this.container;
     config.filterStore = this.filterStore;
     this.chart = createChart(config);
-  };
+  }
 
   shouldComponentUpdate(nextProps) {
     return (
@@ -51,7 +65,7 @@ export default class extends React.Component {
     );
   }
 
-  isAxisEqual = (currentAxis, nextAxis) => {
+  isAxisEqual(currentAxis, nextAxis) {
     if (currentAxis == null && nextAxis == null) {
       return true;
     }
@@ -61,15 +75,8 @@ export default class extends React.Component {
     if (currentAxis == null && nextAxis != null) {
       return false;
     }
-    return (
-      currentAxis.min === nextAxis.min &&
-      currentAxis.max === nextAxis.max &&
-      currentAxis.formatter === nextAxis.formatter &&
-      currentAxis.tooltipFormatter === nextAxis.tooltipFormatter &&
-      isEqual(currentAxis.labels, nextAxis.labels) &&
-      isEqual(currentAxis.metrics, nextAxis.metrics)
-    );
-  };
+    return isEqual(currentAxis.labels, nextAxis.labels) && isEqual(currentAxis.metrics, nextAxis.metrics);
+  }
 
   componentDidUpdate() {
     this.dispose();
@@ -80,19 +87,79 @@ export default class extends React.Component {
     this.dispose();
   }
 
-  dispose = () => {
+  dispose() {
     if (this.chart) {
       this.filterStore = createDataSeriesFilterStore();
       this.chart.dispose();
       this.chart = null;
     }
-  };
+  }
 
   render() {
     return (
       <div ref={container => (this.container = container)}>
-        {!this.props.withoutLegend && <ChartLegend {...this.props} filterStore={this.filterStore} />}
+        {!this.props.withoutLegend && <ChartLegend {...this.state.chartProps} filterStore={this.filterStore} />}
       </div>
     );
+  }
+}
+
+function processChartProps(props) {
+  if (props.y1) {
+    processAxis(props.y1);
+  }
+  if (props.y2) {
+    processAxis(props.y2);
+  }
+  return props;
+}
+
+function processAxis(axis) {
+  if (axis.type === 'countErrorBar') {
+    axis.colors = ['#5da6da', '#d03035'];
+    axis.aggregation = ['sum', 'mean'];
+    axis.formatter = [number.compact, percentage.compact];
+    axis.tooltipFormatter = [number.compact, percentage.detailed];
+    axis.tooltipFormatter = [];
+  }
+
+  if (axis.maxDataPoints && axis.minPixelPerBlock && axis.aggregation == null) {
+    if (__DEV__) {
+      throw new Error('no aggregation defined for aggregated chart');
+    }
+    axis.aggregation = 'sum';
+  }
+
+  if (typeof axis.aggregation === 'string') {
+    const aggregationArray = [];
+    for (let i = 0, len = axis.metrics.length; i < len; i++) {
+      aggregationArray[i] = axis.aggregation;
+    }
+    axis.aggregation = aggregationArray;
+  }
+
+  if (axis.aggregation instanceof Array) {
+    let isHomogeneousAggregation = true;
+    let prevAggregation = axis.aggregation[0];
+    for (let i = 1; i < axis.aggregation.length && isHomogeneousAggregation; i++) {
+      isHomogeneousAggregation = axis.aggregation[i] === prevAggregation;
+    }
+    axis.isHomogeneousAggregation = isHomogeneousAggregation;
+  }
+
+  if (!(axis.formatter instanceof Array)) {
+    const formatterArray = [];
+    for (let i = 0, len = axis.metrics.length; i < len; i++) {
+      formatterArray[i] = axis.formatter;
+    }
+    axis.formatter = formatterArray;
+  }
+
+  if (!(axis.tooltipFormatter instanceof Array)) {
+    const tooltipFormatterArray = [];
+    for (let i = 0, len = axis.metrics.length; i < len; i++) {
+      tooltipFormatterArray[i] = axis.tooltipFormatter;
+    }
+    axis.tooltipFormatter = tooltipFormatterArray;
   }
 }

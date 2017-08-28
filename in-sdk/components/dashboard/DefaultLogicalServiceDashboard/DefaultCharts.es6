@@ -26,9 +26,9 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: number.compact,
-            metrics: ['count'],
-            labels: ['calls'],
-            type: 'bar',
+            metrics: ['count', 'error_rate'],
+            labels: ['Calls', 'Errors'],
+            type: 'countErrorBar',
             aggregation: 'sum'
           }}
           y2={{

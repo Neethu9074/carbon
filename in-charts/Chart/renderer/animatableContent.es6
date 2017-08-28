@@ -184,7 +184,7 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
-    const formatter = config[axisName].formatter || twoDecimalPlaces;
+    const formatter = (config[axisName].formatter && config[axisName].formatter[0]) || twoDecimalPlaces;
 
     let ticks = getYTickPositions(scale);
 
