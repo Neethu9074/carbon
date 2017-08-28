@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
@@ -27,7 +27,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Apps">
           <Chart
             snapshotId={snapshotId}
@@ -58,8 +58,8 @@ export default function Dashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
-      <TwoColumnRow>
+      </Columize>
+      <Columize>
         <DashboardSection title="Cluster Memory">
           <Chart
             snapshotId={snapshotId}
@@ -91,7 +91,7 @@ export default function Dashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
       <NodesTable snapshot={snapshot} timeframe={timeframe} />
       {timeframe.to == null ? <AppsTable snapshot={snapshot} /> : null}
     </div>

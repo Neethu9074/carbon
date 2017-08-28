@@ -67,13 +67,19 @@ export default function({
               body: xhr.response,
               getHeader: name => xhr.getResponseHeader(name)
             };
+
+            if (responseType === 'json' && response.body && response.body.length > 0) {
+              try {
+                response.body = JSON.parse(response.body);
+              } catch (e) {
+                // ignore, servers may respond with non json responses in case of 4xx or 5xx
+              }
+            }
+
             if (
               (199 < response.status && response.status < 300) ||
               (!treat400AsError && 399 < response.status && response.status < 500)
             ) {
-              if (responseType === 'json' && response.body && response.body.length > 0) {
-                response.body = JSON.parse(response.body);
-              }
               observable.emit(response);
             } else if (!attemptRetry()) {
               observable.emitError(new HttpResponseStatusCodeError(response, method, url));

@@ -4,15 +4,15 @@ import React from 'react';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
+import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
-import EumView from 'promise-loader?global!in-views/eumView/EumView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
-import { eumViewEnabled } from 'in-services/featureFlags';
 import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import AsciiMap from 'in-map/AsciiMap';
@@ -46,13 +46,16 @@ export default (
 
     <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" windowTitle="Logs" />
 
-    {eumViewEnabled
-      ? <RouteWithTitle
-          component={createAsyncFullscreenOverlayViewComponent(EumView)}
-          path="/website"
-          windowTitle="Websites"
-        />
-      : null}
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(NewWebsite)}
+      path="/website/new"
+      windowTitle="New Website"
+    />
+    <RouteWithTitle
+      component={createAsyncFullscreenOverlayViewComponent(EumView)}
+      path="/website"
+      windowTitle="Websites"
+    />
 
     <RouteWithTitle component={GraphView} path="/graph" windowTitle="Graph" />
     <RouteWithTitle component={GlobeView} path="/globe" windowTitle="World Globe" />

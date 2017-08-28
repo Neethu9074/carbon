@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { isBlank } from 'in-services/util/string';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -8,18 +9,17 @@ import './DashboardTile.less';
 
 const block = 'in-dashboard-tile';
 
-export default function DashboardTile({ children, title, href, href$ }) {
+export default function DashboardTile({ children, title, href, href$, interactable, className }) {
   return (
     <div
       className={evaluateClassNames({
         [block]: true,
-        [`${block}--with-details`]: href || href$
+        [`${block}--interactable`]: href || href$ || interactable,
+        [className]: className
       })}
     >
       <div className={`${block}__header`}>
-        <span className={`${block}__title`}>
-          {title}
-        </span>
+        {!isBlank(title) && <span className={`${block}__title`}>{title}</span>}
         {href$ ? <ConnectedViewDetailsButton href$={href$} /> : <ViewDetailsButton href={href} />}
       </div>
 

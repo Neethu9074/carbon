@@ -23,16 +23,9 @@ const buildUtil = require('./util');
 // will be populated with data using the askForDevOptions task
 var devModeOptions;
 
-
 gulp.task('prepareTestExecution', cb => {
-  runSequence(
-    'ensureTargetDirStructureExists',
-    'translateThemeConfigs',
-    'setActiveThemeForTestExecution',
-    cb
-  );
+  runSequence('ensureTargetDirStructureExists', 'translateThemeConfigs', 'setActiveThemeForTestExecution', cb);
 });
-
 
 gulp.task('dev', cb => {
   runSequence(
@@ -54,7 +47,6 @@ gulp.task('dev', cb => {
     cb
   );
 });
-
 
 gulp.task('askForDevOptions', cb => {
   var questions = [
@@ -107,13 +99,6 @@ gulp.task('askForDevOptions', cb => {
           }
         },
         {
-          name: 'staging',
-          value: {
-            groundskeeperUrl: 'https://staging-groundskeeper-instana.instana.io',
-            butlerDomain: 'staging-groundskeeper-instana.instana.io'
-          }
-        },
-        {
           name: 'demo',
           value: {
             groundskeeperUrl: 'https://demo-groundskeeper-instana.instana.io',
@@ -152,20 +137,14 @@ gulp.task('askForDevOptions', cb => {
       type: 'list',
       name: 'buildMode',
       message: 'In which mode would you like to compile the source code?',
-      choices: [
-        'development',
-        'production'
-      ],
+      choices: ['development', 'production'],
       default: 'development'
     },
     {
       type: 'list',
       name: 'activeTheme',
       message: 'Enabled theme',
-      choices: [
-        'night',
-        'day'
-      ],
+      choices: ['night', 'day'],
       default: 'night'
     }
   ];
@@ -188,34 +167,25 @@ gulp.task('askForDevOptions', cb => {
   });
 });
 
-
 gulp.task('writeDevConfigFile', () => {
   buildUtil.writeDevModeConfig(devModeOptions.target);
 });
 
-
 gulp.task('copyDevIndexHtml', () => {
-  return gulp.src(paths.devIndexHtmlSrc)
-    .pipe(gulp.dest(paths.assetDir));
+  return gulp.src(paths.devIndexHtmlSrc).pipe(gulp.dest(paths.assetDir));
 });
-
 
 gulp.task('setActiveThemeForTestExecution', () => {
   buildUtil.setActiveTheme('night');
 });
-
 
 gulp.task('setActiveThemeForDevMode', () => {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
 
   var activeThemeConfig = path.join(paths.assetDir, 'activeTheme.json');
   execSync('ln -s "' + paths.activeThemeJsonFile + '" "' + activeThemeConfig + '"');
-  fs.writeFileSync(
-    path.join(paths.assetDir, 'activeTheme.name'),
-    devModeOptions.activeTheme
-  );
+  fs.writeFileSync(path.join(paths.assetDir, 'activeTheme.name'), devModeOptions.activeTheme);
 });
-
 
 gulp.task('enableDevWatches', () => {
   const themeBase = path.join(paths.rootDir, 'in-themes');
@@ -229,7 +199,6 @@ gulp.task('enableDevWatches', () => {
   gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
 });
-
 
 gulp.task('startDevProxy', function startDevProxy() {
   const envConfig = devModeOptions.target;
@@ -281,7 +250,6 @@ gulp.task('openDevUrlInBrowser', () => {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');
 });
 
-
 gulp.task('webpack:dev', () => {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
@@ -289,13 +257,14 @@ gulp.task('webpack:dev', () => {
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       debug: true
-    }));
+    })
+  );
 
   //TODO: Reactivate for dev mode if the problem with OOM has been fixed
   //see https://github.com/webpack/webpack/issues/5089
- if(devModeOptions.buildMode !== 'development') {
-   config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
- }
+  if (devModeOptions.buildMode !== 'development') {
+    config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+  }
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
@@ -310,18 +279,16 @@ gulp.task('webpack:dev', () => {
     stats: {
       colors: true
     }
-  })
-    .listen(3000, 'localhost', (err) => {
-      if (err) {
-        throw new gutil.PluginError('webpack-dev-server', err);
-      }
-      gutil.log('[webpack:dev]', 'http://localhost:3000/');
-    });
+  }).listen(3000, 'localhost', err => {
+    if (err) {
+      throw new gutil.PluginError('webpack-dev-server', err);
+    }
+    gutil.log('[webpack:dev]', 'http://localhost:3000/');
+  });
 
   // return a Promise so that Gulp knows that this task is going to
   // continue to run asynchronously
-  return new Promise(() => {
-  });
+  return new Promise(() => {});
 });
 
 function createWebpackCompiler(config, onReadyCallback) {
@@ -395,18 +362,10 @@ function createWebpackCompiler(config, onReadyCallback) {
       });
       // Teach some ESLint tricks.
       console.log('You may use special comments to disable some warnings.');
-      console.log(
-        'Use ' +
-        chalk.yellow('// eslint-disable-next-line') +
-        ' to ignore the next line.'
-      );
-      console.log(
-        'Use ' +
-        chalk.yellow('/* eslint-disable */') +
-        ' to ignore all warnings in a file.'
-      );
+      console.log('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
+      console.log('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
     }
   });
 
   return compiler;
-};
+}

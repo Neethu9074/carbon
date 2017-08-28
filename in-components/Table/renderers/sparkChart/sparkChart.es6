@@ -30,6 +30,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
   const metric = columnDefinition.typeArgs.getMetricName(row.rowConfig);
   const formatter = columnDefinition.typeArgs.getContent;
+  const timeWindowAggregation = columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig);
 
   const column = {
     columnDefinition,
@@ -39,16 +40,25 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     comparator: compare,
     content: null
   };
+
   column.refreshContent = () => {
     column.content = (
-      <SparkChartWithValue snapshotId={snapshotId} metric={metric} formatter={formatter} value={column.value} />
+      <SparkChartWithValue
+        snapshotId={snapshotId}
+        metric={metric}
+        formatter={formatter}
+        value={column.value}
+        aggregation={timeWindowAggregation}
+      />
     );
   };
 
   column.subscription = getMetric({
     snapshotId,
     metric,
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
+    timeWindowAggregation,
+    // this flag enforces the metric subscription to always use the time window aggregated metric values
+    forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
   }).subscribe(v => {
     if (column.value !== v) {
       column.value = v;

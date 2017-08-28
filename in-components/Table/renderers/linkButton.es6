@@ -47,7 +47,7 @@ function setResult(result, col, row, emitRawDataChange) {
   } else {
     col.value = result.value;
     col.content = (
-      <Button href={result.href} size="sm" kind="secondary">
+      <Button href={result.href} size="sm" kind={col.columnDefinition.typeArgs.kind || 'secondary'}>
         {result.label}
       </Button>
     );

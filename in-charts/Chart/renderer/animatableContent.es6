@@ -1,12 +1,15 @@
+import { formatTime, formatDateShort } from 'in-services/formatters/date';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
 
 const textHeightInPx = 13;
 const textMarginInPx = 5;
 const desiredNumberOfTicks = 5;
 const axisFontColor = '#2d4048';
+const softerAxisFontColor = '#8c969a';
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
 const axisFont = '10px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+const smallerAxisFont = '9px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
 const axisTickColor = '#ddd';
 
 export default function createAnimatableContentRenderer(config) {
@@ -40,14 +43,16 @@ export default function createAnimatableContentRenderer(config) {
     clearOverflowingAxisContent();
 
     // render after content since the content is updating the y scales
-    if (shouldRenderY1) {
-      renderYAxis('y1');
-    }
-    if (shouldRenderY2) {
-      renderYAxis('y2');
-    }
+    if (!config.withoutAxis) {
+      if (shouldRenderY1) {
+        renderYAxis('y1');
+      }
+      if (shouldRenderY2) {
+        renderYAxis('y2');
+      }
 
-    renderXAxis();
+      renderXAxis();
+    }
   }
 
   function prepareAxis(axisName) {
@@ -162,7 +167,6 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderXAxis() {
     const ticks = getXTickPositions();
-    const formatting = config.xAxisFormattingConfig;
     animationCtx.beginPath();
     animationCtx.font = axisFont;
     animationCtx.fillStyle = axisFontColor;
@@ -172,8 +176,12 @@ export default function createAnimatableContentRenderer(config) {
       const tick = ticks[i];
       animationCtx.rect(tick.range, config.bounds.bottom, 1, 5);
 
+      animationCtx.font = axisFont;
       animationCtx.fillStyle = axisFontColor;
-      animationCtx.fillText(formatting.formatter(tick.domain), tick.range, config.bounds.bottom + 18);
+      animationCtx.fillText(formatTime(tick.domain), tick.range, config.bounds.bottom + 17);
+      animationCtx.font = smallerAxisFont;
+      animationCtx.fillStyle = softerAxisFontColor;
+      animationCtx.fillText(formatDateShort(tick.domain), tick.range, config.bounds.bottom + 28);
     }
 
     animationCtx.fillStyle = axisTickColor;
@@ -250,7 +258,7 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
-    const formatter = config[axisName].formatter || twoDecimalPlaces;
+    const formatter = (config[axisName].formatter && config[axisName].formatter[0]) || twoDecimalPlaces;
 
     let ticks = getYTickPositions(scale);
 

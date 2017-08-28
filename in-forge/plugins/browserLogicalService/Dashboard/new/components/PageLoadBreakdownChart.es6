@@ -25,7 +25,7 @@ export default connectTo(
         metrics.map(metric =>
           getMetric({
             snapshotId: props.snapshotId,
-            metric,
+            metric: props.metricPrefix + metric,
             timeWindowAggregation: 'mean',
             forceTimeWindowAggregation: true
           })
@@ -34,10 +34,7 @@ export default connectTo(
     };
   },
   function PageLoadBreakdownChart({ metrics, className, onlyRequest }) {
-    if (!metrics) {
-      // TODO: at least show the chart but without the bars
-      return null;
-    }
+    metrics = metrics || [];
 
     const labels = onlyRequest ? onlyRequestLabels : allLabels;
 
@@ -46,14 +43,8 @@ export default connectTo(
     scale.setRangeTo(100);
     scale.setDomainFrom(0);
 
-    const containsNullValues = metrics.indexOf(null) >= 0;
-    if (containsNullValues) {
-      // TODO: at least show the chart but without the bars
-      return null;
-    }
-
     const colors = theme.chart.strokeColors;
-    const totalTime = metrics.reduce((a, b) => a + b, 0);
+    const totalTime = metrics.reduce((a, b) => a + (b != null ? b : 0), 0);
     scale.setDomainTo(totalTime);
 
     let prevWidth = 0;
@@ -61,31 +52,33 @@ export default connectTo(
     return (
       <div className={joinClassNames(block, className)}>
         <div className={`${block}__chart-background`} />
-        {metrics.map((metricValue, i) => {
-          const label = labels[i];
+        {labels.map((label, i) => {
+          const metricValue = metrics[i] != null ? millis.fixedCompact(metrics[i]) : '––';
           const left = prevWidth;
-          const width = scale.getRange(metricValue);
+          const width = metrics[i] != null ? scale.getRange(metrics[i]) : 0;
           prevWidth += width;
 
           return (
-            <div key={label} className={`${block}__row`}>
+            <div key={i} className={`${block}__row`}>
               <div className={`${block}__hover-bg`} style={{ background: colors[i] }} />
               <div className={`${block}__content`}>
                 <span className={`${block}__label`}>
                   {label}
                 </span>
                 <span className={`${block}__value`}>
-                  {millis.fixedCompact(metricValue)}
+                  {metricValue}
                 </span>
                 <div className={`${block}__lane-wrapper`}>
-                  <div
-                    className={`${block}__lane`}
-                    style={{
-                      background: colors[i],
-                      left: `${left}%`,
-                      width: `${width}%`
-                    }}
-                  />
+                  {metrics[i] != null
+                    ? <div
+                        className={`${block}__lane`}
+                        style={{
+                          background: colors[i],
+                          left: `${left}%`,
+                          width: `${width}%`
+                        }}
+                      />
+                    : null}
                 </div>
               </div>
             </div>

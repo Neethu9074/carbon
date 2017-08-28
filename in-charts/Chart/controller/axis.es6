@@ -4,6 +4,7 @@ import invariant from 'invariant';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
+import createCountErrorBarRenderer from 'in-charts/Chart/renderer/content/countErrorBar';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
@@ -21,6 +22,7 @@ import theme from 'in-services/theme';
 
 const contentRendererCreators = {
   stackedArea: createStackedAreaContentRenderer,
+  countErrorBar: createCountErrorBarRenderer,
   integral: createIntegralContentRenderer,
   point: createPointContentRenderer,
   line: createLineContentRenderer,
@@ -87,17 +89,18 @@ export default function createAxisController(config) {
 
   function determineDynamicAggregation() {
     const y1 = config.y1;
-    const y2 = config.y2;
     if (y1 && (y1.maxDataPoints || y1.minPixelPerBlock || y1.aggregation)) {
-      y1.isDynamicAggregated = true;
-      y1.aggregation = y1.aggregation || 'sum';
-      y1.metricBaseMillis = y1.metricBaseMillis || 1000;
+      determineDynamicAggregationForAxis(y1);
     }
+    const y2 = config.y2;
     if (y2 && (y2.maxDataPoints || y2.minPixelPerBlock || y2.aggregation)) {
-      y2.isDynamicAggregated = true;
-      y2.aggregation = y2.aggregation || 'sum';
-      y2.metricBaseMillis = y2.metricBaseMillis || 1000;
+      determineDynamicAggregationForAxis(y2);
     }
+  }
+
+  function determineDynamicAggregationForAxis(axis) {
+    axis.isDynamicAggregated = true;
+    axis.metricBaseMillis = axis.metricBaseMillis || 1000;
   }
 
   function getNumberOfDataSeries(axisName) {
@@ -211,7 +214,7 @@ export default function createAxisController(config) {
           metric: metrics[i],
           timeframe: config.timeframe,
           rollup: config.rollup.rollup,
-          aggregation: axis.aggregation,
+          aggregation: axis.aggregation ? axis.aggregation[i] : undefined,
           blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
           metricBaseMillis: axis.metricBaseMillis,
           isDynamicAggregated: axis.isDynamicAggregated
@@ -291,26 +294,25 @@ export default function createAxisController(config) {
     }
   }
 
-  function calculateBlockSizeMillis(config) {
+  function calculateBlockSizeMillis() {
     const chartWidthInPx = config.bounds.right - config.bounds.left;
     const rollup = config.rollup.rollup || 1000;
+    calculateBlockSizeMillisForAxis(config.y1, chartWidthInPx, rollup);
+    calculateBlockSizeMillisForAxis(config.y2, chartWidthInPx, rollup);
+  }
 
-    function calculateBlockSizeMillisForAxis(axis) {
-      if (!axis || !axis.isDynamicAggregated) {
-        return null;
-      }
-      axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: config.timeframe.windowSize,
-          maxDataPoints: axis.maxDataPoints,
-          minPixelPerBlock: axis.minPixelPerBlock,
-          width: chartWidthInPx,
-          rollup
-        })
-      );
+  function calculateBlockSizeMillisForAxis(axis, chartWidthInPx, rollup) {
+    if (!axis || !axis.isDynamicAggregated) {
+      return null;
     }
-
-    calculateBlockSizeMillisForAxis(config.y1);
-    calculateBlockSizeMillisForAxis(config.y2);
+    axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+      getBlockSizeMillis({
+        windowSize: config.timeframe.windowSize,
+        maxDataPoints: axis.maxDataPoints,
+        minPixelPerBlock: axis.minPixelPerBlock,
+        width: chartWidthInPx,
+        rollup
+      })
+    );
   }
 }

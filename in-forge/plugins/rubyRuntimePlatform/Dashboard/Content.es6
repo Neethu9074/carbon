@@ -2,7 +2,7 @@ import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -30,11 +30,11 @@ export default function RubyDashboard({ snapshot, timeframe }) {
           />
         </KpiKeyValue>
       </KpiSection>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Time Spent in GC">
           <GcTime snapshot={snapshot} timeframe={timeframe} />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -67,11 +67,11 @@ export default function RubyDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Threads">
           <ThreadMetrics snapshot={snapshot} timeframe={timeframe} />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
     </div>
   );
 }

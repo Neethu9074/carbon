@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import DashboardNotification from 'in-components/DashboardNotification';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { getErrorsForWebsite } from 'in-services/api/eumErrors';
@@ -23,7 +23,11 @@ const cols = [
     typeArgs: {
       comparator: compareIgnoreCase,
       get$(row) {
-        return getSubDashboardLink(`/errors/${encodeURIComponent(row.hash)}`).map(href => {
+        let path = `/errors/${encodeURIComponent(row.hash)}`;
+        if (row.pageHash) {
+          path = `/pages/${encodeURIComponent(row.pageHash)}${path}`;
+        }
+        return getSubDashboardLink(path).map(href => {
           return {
             label: row.message,
             value: row.message,
@@ -68,13 +72,11 @@ export default connectTo(
       result: getBreakdown(props)
     };
   },
-  function Errors({ result, snapshot, timeframe, pageHash, pageLabel }) {
+  function Errors({ result, snapshot, timeframe, pageHash, pageName }) {
     if (!result) {
       return <LoadingIndicator type="dark" />;
     }
     const websiteLabel = getLabel(snapshot);
-
-    // TODO show message when timeframe extends beyond our trace storage time
 
     if (result.error) {
       logger.warn('Failed to retrieve EUM error overview', result.error);
@@ -98,20 +100,16 @@ export default connectTo(
         websiteLabel,
         timeframe,
         pageHash,
-        pageLabel: pageLabel
+        pageName: pageName
       };
     });
 
     if (rows.length === 0) {
-      return (
-        <DashboardTile title={`Uncaught Errors`}>
-          No errors in the given time window
-        </DashboardTile>
-      );
+      return null;
     }
 
     return (
-      <DashboardTile title={`Uncaught Errors (${rows.length})`}>
+      <DashboardTile title="Uncaught Errors">
         <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
       </DashboardTile>
     );

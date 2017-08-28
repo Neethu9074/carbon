@@ -6,7 +6,7 @@ const timeFormats = [
     maxMillis: 10,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 60,
+    expectLabelWidth: 70,
     stepSize: 1,
     ceilToNearestStep: a => a
   },
@@ -14,7 +14,7 @@ const timeFormats = [
     maxMillis: 100,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 60,
+    expectLabelWidth: 70,
     stepSize: 10,
     ceilToNearestStep: composeCeil(ceilTo10Millis)
   },
@@ -22,7 +22,7 @@ const timeFormats = [
     maxMillis: 1000,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 60,
+    expectLabelWidth: 70,
     stepSize: 100,
     ceilToNearestStep: composeCeil(ceilTo100Millis)
   },
@@ -30,7 +30,7 @@ const timeFormats = [
     maxMillis: 1000 * 10,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 60,
+    expectLabelWidth: 70,
     stepSize: 1000,
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
@@ -38,7 +38,7 @@ const timeFormats = [
     maxMillis: 1000 * 60,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 60,
+    expectLabelWidth: 70,
     stepSize: 1000 * 10,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilTo10Seconds)
   },
@@ -46,7 +46,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 11,
     formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 30,
+    expectLabelWidth: 70,
     stepSize: 1000 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
@@ -54,7 +54,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 60,
     formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 30,
+    expectLabelWidth: 70,
     stepSize: 1000 * 60 * 5,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFiveMinuteStep)
   },
@@ -62,7 +62,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 60 * 12,
     formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
-    expectLabelWidth: 30,
+    expectLabelWidth: 70,
     stepSize: 1000 * 60 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },

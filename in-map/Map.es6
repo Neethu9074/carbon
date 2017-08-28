@@ -62,7 +62,7 @@ export default connectTo(
 
       return (
         <div>
-          <DashboardNavigationRoute />
+          {DashboardNavigationRoute}
           <div className={className}>
             <canvas
               className={`${block}__canvas`}

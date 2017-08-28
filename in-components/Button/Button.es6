@@ -1,6 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
@@ -41,8 +42,8 @@ function Button({
     classes = `${classes} ${block}--disabled`;
   }
 
-  if (onClick && disabled) {
-    onClick = stopPropagation;
+  if (disabled) {
+    onClick = stopPropagationAndPreventDefault;
   }
 
   if (!href) {
@@ -82,7 +83,3 @@ Button.propTypes = {
   disabled: rpt.bool,
   autoFocus: rpt.bool
 };
-
-function stopPropagation(e) {
-  e.stopPropagation();
-}

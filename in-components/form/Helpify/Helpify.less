@@ -1,11 +1,15 @@
 .in-helpify-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
   &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 100%;
   }
 
   &__help-icon {
-    padding: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 0 0 0 1rem;
   }
 }

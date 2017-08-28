@@ -2,13 +2,13 @@ import React from 'react';
 
 import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
 export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' }) {
   return (
     <div>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Views">
           <Chart
             snapshotId={snapshotId}
@@ -51,7 +51,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
       <DashboardSection title="Uncaught Errors">
         <Chart

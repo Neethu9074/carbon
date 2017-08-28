@@ -28,22 +28,26 @@ export default function ElasticsearchSidebar({ snapshot }) {
           {
             metric: 'indices_count',
             label: 'Indices',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'shards.node_active_shards',
             label: 'Active Shards',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'indices.document_count',
             label: 'Documents',
-            formatter: siPrefix
+            formatter: siPrefix,
+            aggregation: 'mean'
           },
           {
             metric: 'indices.store_size',
             label: 'Store Size',
-            formatter: bytes
+            formatter: bytes,
+            aggregation: 'mean'
           }
         ]}
       />

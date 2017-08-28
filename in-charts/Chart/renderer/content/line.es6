@@ -133,7 +133,7 @@ export default function createLineContentRenderer({ axisName, config }) {
       const xToRender = x.getRange(dataRow[0] + xDomainOffset);
       const yToRender = y.getRange(dataRow[1]);
 
-      if (xToRender - previousX > 5) {
+      if (xToRender - previousX > 10) {
         // draw these points later on as otherwise we would fill the line chart.
         singlePointsToRender.push({
           x: xToRender,

@@ -3,8 +3,9 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
+import NoXMessage from 'in-sdk/components/dashboard/NoXMessage';
 import { number, millis } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -20,6 +21,7 @@ const cols = [
     type: 'link',
     typeArgs: {
       comparator: compareIgnoreCase,
+      showLoadingIndicator: true,
       get$(row) {
         const snapshot$ = getSnapshot(row.otherSideSnapshotId);
         const href$ = getSubDashboardLink(`/resources/${encodeURIComponent(row.connectionSnapshotId)}`);
@@ -34,9 +36,10 @@ const cols = [
     }
   },
   {
-    title: 'Calls',
+    title: 'Calls (sum)',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -50,9 +53,10 @@ const cols = [
     }
   },
   {
-    title: 'Load Time',
+    title: 'Load Time (avg)',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -89,13 +93,10 @@ export default connectTo(
     );
 
     if (onlyResourceConnections.length === 0) {
-      // TODO MAKE THIS LOOK NICE!
       return (
-        <MaxWidthFullscreenContainer>
-          <DashboardTile title="Resource Hosts">
-            No resources in the given time window
-          </DashboardTile>
-        </MaxWidthFullscreenContainer>
+        <NoXMessage centered>
+          No resources at the focused moment.
+        </NoXMessage>
       );
     }
 

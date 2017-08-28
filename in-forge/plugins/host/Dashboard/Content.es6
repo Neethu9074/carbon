@@ -13,7 +13,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
@@ -42,7 +42,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="CPU Usage">
           <Chart
             snapshotId={snapshot.get('id')}
@@ -80,7 +80,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
               />
             </DashboardSection>
           : null}
-      </TwoColumnRow>
+      </Columize>
 
       <CpuTable snapshot={snapshot} timeframe={timeframe} />
 

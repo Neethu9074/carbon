@@ -1,3 +1,5 @@
+/* eslint-disable  react/no-unused-prop-types */
+
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import rpt from 'prop-types';
 import React from 'react';
@@ -37,10 +39,13 @@ export default class extends React.Component {
       height: props.height,
       datasource: props.datasource,
       container: this.container,
-      timeframe: props.timeframe,
+      timeframe: {
+        windowSize: props.timeframe.windowSize + props.wiggleRoom,
+        to: props.timeframe.to
+      },
       tooltipFormatter: props.tooltipFormatter,
-      design: this.props.design,
-      wiggleRoom: this.props.wiggleRoom
+      wiggleRoom: props.wiggleRoom,
+      metric: props.metric
     });
   };
 

@@ -15,7 +15,7 @@ const block = 'in-chart-legend';
 const axisConfigShape = rpt.shape({
   metrics: rpt.arrayOf(rpt.string).isRequired,
   labels: rpt.arrayOf(rpt.string).isRequired,
-  formatter: rpt.func
+  formatter: rpt.arrayOf(rpt.func).isRequired
 });
 
 export default connectTo(
@@ -53,7 +53,7 @@ export default connectTo(
         <dl className={classname + ' ' + classname + '--' + modifier}>
           {axis.metrics.map((metric, i) => {
             const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
-            const color = colors[(themeMetricOffset + i) % colors.length];
+            const color = axis.colors != null ? axis.colors[i] : colors[(themeMetricOffset + i) % colors.length];
             const label = axis.labels[i];
 
             return (
@@ -81,9 +81,9 @@ export default connectTo(
                     snapshotId={snapshotId}
                     metric={metric}
                     time={props.time}
-                    formatter={axis.formatter}
+                    formatter={axis.formatter[i]}
                     initialValue="––"
-                    timeWindowAggregation={axis.aggregation ? axis.aggregation : null}
+                    timeWindowAggregation={axis.aggregation ? axis.aggregation[i] : null}
                   />
                 </dd>
               </div>

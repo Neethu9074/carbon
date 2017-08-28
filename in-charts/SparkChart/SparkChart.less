@@ -1,6 +1,11 @@
 .in-spark-chart {
   &__wrapper {
     position: relative;
+
+    &--no-data {
+      background: #EEF2F4;
+      border-radius: 2px;
+    }
   }
 
   &__canvas {
@@ -18,9 +23,10 @@
 
   &__tooltip {
     position: absolute;
-    bottom: 100%;
+    bottom: 0;
     display: none;
     z-index: 2;
+    white-space: nowrap;
 
     background: #21282E;
     border-radius: 3px;
@@ -36,5 +42,13 @@
     top: 0;
     bottom: 0;
     z-index: 3;
+  }
+
+  &__no-data {
+    height: 60%;
+    top: 20%;
+    position: absolute;
+    left: 50%;
+    margin-left: -10%;
   }
 }

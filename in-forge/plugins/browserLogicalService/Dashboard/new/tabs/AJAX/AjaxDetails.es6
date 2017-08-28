@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
@@ -70,7 +70,7 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
     <div>
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
 
-      <DashboardTile title="Details">
+      <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Call Target">
             {getLabel(connectedSnapshot)}

@@ -35,7 +35,6 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
 
 function MetricBlock({ time, dataColumn, config, axisName }) {
   const axisConfig = config[axisName];
-  const formatter = axisConfig.tooltipFormatter || axisConfig.formatter || identity;
   const colors = axisConfig.tooltipColors || axisConfig.colors;
 
   return (
@@ -43,6 +42,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
       <TimeMarker time={time} axis={axisConfig} config={config} />
       {axisConfig.labels.map((axis, i) => {
         const dataPoint = dataColumn && dataColumn[i];
+        const formatter = axisConfig.tooltipFormatter[i] || axisConfig.formatter[i] || identity;
         return (
           <div className={`${block}__metric`} key={i}>
             <dt
@@ -52,6 +52,9 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
               className={`${block}__metric-name`}
             >
               {axisConfig.labels[i]}
+              {axisConfig.aggregation && !axisConfig.isHomogeneousAggregation
+                ? <span className={`${block}__inline-agg`}>{` (${axisConfig.aggregation[i]})`}</span>
+                : null}
             </dt>
             <dd className={`${block}__metric-value`}>
               {dataPoint ? formatter(dataPoint[1]) : '--'}
@@ -93,7 +96,8 @@ function TimeMarker({ time, axis, config }) {
         {time ? `${formatter(from)} - ${formatter(to)}` : null}
       </div>
       <div className={`${block}__aggregation`}>
-        {`${formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)} ${axis.aggregation}`}
+        {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
+        {axis.isHomogeneousAggregation ? ` ${axis.aggregation}` : ''}
       </div>
     </div>
   );

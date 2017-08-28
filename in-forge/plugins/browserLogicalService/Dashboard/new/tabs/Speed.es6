@@ -1,68 +1,72 @@
 import React from 'react';
 
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import timeDistributionUrl from 'in-forge/plugins/browserLogicalService/Dashboard/navigation-timing.svg';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { millis, seconds, number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/Grid';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
-export default function Speed({ snapshot, timeframe }) {
+export default function Speed({ snapshot, timeframe, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
-    <div>
-      <Row>
-        <Col cols={6}>
-          <DashboardTile title="Views vs Page Load Time">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              height={200}
-              margins={{
-                left: 60,
-                right: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: number.compact,
-                metrics: ['count'],
-                labels: ['views'],
-                type: 'bar',
-                aggregation: 'sum'
-              }}
-              y2={{
-                min: 0,
-                formatter: seconds.fromMillisFixedDetailed,
-                metrics: ['duration.mean'],
-                labels: ['load time'],
-                type: 'line',
-                aggregation: 'mean'
-              }}
-            />
-          </DashboardTile>
-        </Col>
-        <Col cols={6}>
-          <DashboardTile title="Page Load Time">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              height={200}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                formatter: seconds.fromMillisFixedDetailed,
-                metrics: ['duration.50th', 'duration.90th', 'duration.95th', 'duration.98th', 'duration.99th'],
-                labels: ['50th', '90th', '95th', '98th', '99th'],
-                type: 'line',
-                aggregation: 'mean'
-              }}
-            />
-          </DashboardTile>
-        </Col>
-      </Row>
+    <MaxWidthFullscreenContainer>
+      <Columize>
+        <DashboardTile title="Views vs Page Load Time">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            height={200}
+            margins={{
+              left: 60,
+              right: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [metricPrefix + 'count'],
+              labels: ['views'],
+              type: 'bar',
+              aggregation: 'sum'
+            }}
+            y2={{
+              min: 0,
+              formatter: seconds.fromMillisFixedDetailed,
+              metrics: [metricPrefix + 'duration.mean'],
+              labels: ['load time'],
+              type: 'line',
+              aggregation: 'mean'
+            }}
+          />
+        </DashboardTile>
+        <DashboardTile title="Page Load Time">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            height={200}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: seconds.fromMillisFixedDetailed,
+              metrics: [
+                metricPrefix + 'duration.50th',
+                metricPrefix + 'duration.90th',
+                metricPrefix + 'duration.95th',
+                metricPrefix + 'duration.98th',
+                metricPrefix + 'duration.99th'
+              ],
+              labels: ['50th', '90th', '95th', '98th', '99th'],
+              type: 'line',
+              aggregation: 'mean'
+            }}
+          />
+        </DashboardTile>
+      </Columize>
 
       {instanaInternalFeaturesEnabled
         ? <DashboardTile title="Load Time Distribution">
@@ -83,8 +87,10 @@ export default function Speed({ snapshot, timeframe }) {
           <Link href="https://www.w3.org/TR/navigation-timing-2/#h-processing-model" external>
             navigation timining
           </Link>{' '}
-          specification. DOM is defined as <code>domContentLoadedEventStart - domLoading</code> and children is defined
-          as <code>loadEventEnd - domContentLoadedEventStart</code>.
+          specification. To learn more about DOM and children timing, check out our variation of the{' '}
+          <Link href={timeDistributionUrl} external>
+            navigation timing stages
+          </Link>.
         </p>
         <Chart
           snapshotId={snapshotId}
@@ -96,7 +102,18 @@ export default function Speed({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: millis.compact,
-            metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi'],
+            metrics: [
+              metricPrefix + 'unl',
+              metricPrefix + 'red',
+              metricPrefix + 'apc',
+              metricPrefix + 'dns',
+              metricPrefix + 'tcp',
+              metricPrefix + 'ssl',
+              metricPrefix + 'req',
+              metricPrefix + 'rsp',
+              metricPrefix + 'dom',
+              metricPrefix + 'chi'
+            ],
             labels: ['Unload', 'Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response', 'DOM', 'Children'],
             type: 'stackedArea',
             aggregation: 'mean'
@@ -114,13 +131,13 @@ export default function Speed({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: seconds.fromMillisFixedDetailed,
-            metrics: ['fp'],
+            metrics: [metricPrefix + 'fp'],
             labels: ['First paint'],
             type: 'line',
             aggregation: 'mean'
           }}
         />
       </DashboardTile>
-    </div>
+    </MaxWidthFullscreenContainer>
   );
 }

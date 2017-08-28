@@ -2,7 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -49,7 +49,7 @@ function getRowDetails(row) {
 function auctioneerCharts(row) {
   const snapshotId = row.snapshotId;
   return (
-    <TwoColumnRow>
+    <Columize>
       <DashboardSection title="Routines">
         <Chart
           snapshotId={snapshotId}
@@ -87,7 +87,7 @@ function auctioneerCharts(row) {
           }}
         />
       </DashboardSection>
-    </TwoColumnRow>
+    </Columize>
   );
 }
 
@@ -95,7 +95,7 @@ function stagerCharts(row) {
   const snapshotId = row.snapshotId;
   return (
     <div>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Routines">
           <Chart
             snapshotId={snapshotId}
@@ -133,7 +133,7 @@ function stagerCharts(row) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
@@ -157,7 +157,7 @@ function stagerCharts(row) {
 function fileserverCharts(row) {
   const snapshotId = row.snapshotId;
   return (
-    <TwoColumnRow>
+    <Columize>
       <DashboardSection title="Routines">
         <Chart
           snapshotId={snapshotId}
@@ -191,6 +191,6 @@ function fileserverCharts(row) {
           }}
         />
       </DashboardSection>
-    </TwoColumnRow>
+    </Columize>
   );
 }

@@ -1,19 +1,28 @@
 import React from 'react';
 
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { Row, Col } from 'in-components/Grid';
+import { always } from 'in-services/fixedStreams';
 
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'link',
     typeArgs: {
-      getValue(row) {
-        return row.name;
+      comparator: compareIgnoreCase,
+      get$(row) {
+        if (row.href$) {
+          return row.href$.map(href => {
+            return { value: row.name, label: row.name, href };
+          });
+        }
+        return always({ value: row.name, label: row.name });
       }
     }
   },
@@ -50,11 +59,11 @@ const cols = [
   }
 ];
 
-export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageLabel }) {
+export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName, snapshot }) {
   const browserRows = result.data.get('browsers').toArray().map(browser => {
     let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
-    if (pageLabel) {
-      query += ` span.webEum.page:"${luceneEscapeString(pageLabel)}"`;
+    if (pageName) {
+      query += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
     }
     query += ` span.webEum.error.message:"${luceneEscapeString(errorMessage)}"`;
     query += ` span.webEum.userAgent.browser.name:"${browser.get('name')}"`;
@@ -66,35 +75,36 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
     };
   });
 
+  const existingPages = snapshot.getIn(['data', 'service_endpoints']);
   const pageRows = result.data.get('pages').toArray().map(page => {
+    const name = page.get('name');
+    const isMonitoredRightNow = existingPages.contains(name);
     return {
       key: page.get('hash'),
-      name: page.get('name'),
+      name,
       count: page.get('count'),
+      isMonitoredRightNow: existingPages.contains(page.get('name')),
       query: `entity.website.label:"${luceneEscapeString(
         websiteLabel
       )}" span.webEum.error.message:"${luceneEscapeString(errorMessage)}" span.webEum.page:"${luceneEscapeString(
         page.get('name')
-      )}"`
+      )}"`,
+      href$: isMonitoredRightNow ? getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`) : null
     };
   });
 
   return (
-    <Row>
-      <Col cols={6}>
-        {browserRows.length > 0
-          ? <DashboardTile title={`Browsers (${browserRows.length})`}>
-              <Table cols={cols} rows={browserRows} initialSortColumn={1} initialSortDirection="desc" />
-            </DashboardTile>
-          : null}
-      </Col>
-      <Col cols={6}>
-        {pageRows.length > 0
-          ? <DashboardTile title={`Pages (${pageRows.length})`}>
-              <Table cols={cols} rows={pageRows} initialSortColumn={1} initialSortDirection="desc" />
-            </DashboardTile>
-          : null}
-      </Col>
-    </Row>
+    <Columize>
+      {browserRows.length > 0
+        ? <DashboardTile title={`Browsers (${browserRows.length})`}>
+            <Table cols={cols} rows={browserRows} initialSortColumn={1} initialSortDirection="desc" />
+          </DashboardTile>
+        : null}
+      {pageRows.length > 0
+        ? <DashboardTile title={`Pages (${pageRows.length})`}>
+            <Table cols={cols} rows={pageRows} initialSortColumn={1} initialSortDirection="desc" />
+          </DashboardTile>
+        : null}
+    </Columize>
   );
 }

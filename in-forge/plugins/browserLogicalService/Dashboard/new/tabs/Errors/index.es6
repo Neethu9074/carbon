@@ -12,17 +12,12 @@ export default function ErrorsTab(props) {
       <Switch>
         {/* TODO error message in window title – helmet? */}
         <RouteWithTitle
-          path={`*/dashboard/errors/:errorHash`}
+          path={`*/errors/:errorHash`}
           component={ErrorDetails}
           windowTitle={'Error Details'}
           props={props}
         />
-        <RouteWithTitle
-          path={`*/dashboard/errors`}
-          component={ErrorOverview}
-          windowTitle={'Error Overview'}
-          props={props}
-        />
+        <RouteWithTitle path={`*/errors`} component={ErrorOverview} windowTitle={'Error Overview'} props={props} />
       </Switch>
     </MaxWidthFullscreenContainer>
   );

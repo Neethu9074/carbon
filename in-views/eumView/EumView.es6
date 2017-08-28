@@ -1,15 +1,17 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import NoWebsiteLandingScreen from 'in-views/eumView/components/NoWebsiteLandingScreen';
-import { snapshotIds$, snapshots$ } from 'in-views/eumView/stores/snapshots';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { debouncedQuery$ } from 'in-stores/search/query';
+import { data$ } from 'in-views/eumView/stores/snapshots';
+import { getLinkToPath } from 'in-stores/navigation';
+import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import './EumView.less';
@@ -20,12 +22,11 @@ const configureElement = `${headerElement}__configure`;
 
 export default connectTo(
   {
-    eumKeysViewLink: eumKeysViewLink$,
-    snapshotIds: snapshotIds$,
-    snapshots: snapshots$,
-    query: debouncedQuery$
+    data: data$
   },
-  function EumView({ snapshotIds, snapshots, eumKeysViewLink, query }) {
+  function EumView({ data }) {
+    const { snapshotIds, snapshots, query } = data;
+
     if (!snapshotIds || !snapshots) {
       return (
         <div>
@@ -35,42 +36,42 @@ export default connectTo(
               <LoadingIndicator type="dark" />
             </div>
           </FullscreenOverlayView>
-          <DashboardNavigationRoute />
+          {DashboardNavigationRoute}
         </div>
       );
     }
 
-    // data was loaded but there is no defined website
-    if ((query == null || query.trim().length === 0) && snapshotIds.size === 0 && snapshots.length === 0) {
-      return (
-        <div>
-          <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-            <NoWebsiteLandingScreen />
-          </FullscreenOverlayView>
-          <DashboardNavigationRoute />
-        </div>
-      );
+    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
+      // data was loaded but there is no defined website
+      return <RedirectWithHash to="/website/new" />;
     }
 
     return (
-      <div>
-        <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-          <div className={block}>
-            <div className={headerElement}>
-              <div>
-                <WebsiteHeading numWebsites={snapshots.length} />
+      <Switch>
+        {DashboardNavigationRoute}
+
+        <Route
+          path="/website"
+          render={() =>
+            <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+              <div className={block}>
+                <div className={headerElement}>
+                  <div>
+                    <WebsiteHeading numWebsites={snapshots.length} />
+                  </div>
+                  <div className={configureElement}>
+                    {role.canConfigureEumApplications
+                      ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                          Add Website
+                        </Link>
+                      : null}
+                  </div>
+                </div>
+                <WebsiteTable snapshots={snapshots} />
               </div>
-              <div className={configureElement}>
-                <Link href={eumKeysViewLink} className={configureElement}>
-                  Configure
-                </Link>
-              </div>
-            </div>
-            <WebsiteTable snapshots={snapshots} />
-          </div>
-        </FullscreenOverlayView>
-        <DashboardNavigationRoute />
-      </div>
+            </FullscreenOverlayView>}
+        />
+      </Switch>
     );
   }
 );

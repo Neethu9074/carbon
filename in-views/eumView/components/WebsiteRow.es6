@@ -3,12 +3,13 @@ import React from 'react';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import WebsiteIssueButton from 'in-views/eumView/components/WebsiteIssueButton';
 import WebsiteKpiSection from 'in-views/eumView/components/WebsiteKpiSection';
+import NoXMessage from 'in-sdk/components/dashboard/NoXMessage';
 import { number, seconds } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation';
-import Chart from 'in-components/EumChart';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Chart from 'in-components/Chart';
 
 import './WebsiteRow.less';
 
@@ -29,18 +30,25 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
       </div>
 
       <div className={metrics}>
-        <div className={kpis}>
-          <WebsiteKpiSection snapshotId={snapshotId} data={data} />
-          {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
-        </div>
-
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad < 1 ? <NoDataMessage /> : null}
+        {data.rawPageLoad != null && data.rawPageLoad < 1
+          ? <NoXMessage className={`${block}__no-data`}>No views in the given time window</NoXMessage>
+          : null}
+
+        {data.rawPageLoad != null && data.rawPageLoad >= 1
+          ? <div className={kpis}>
+              <WebsiteKpiSection snapshotId={snapshotId} data={data} />
+              {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
+            </div>
+          : null}
 
         {data.rawPageLoad != null && data.rawPageLoad >= 1
           ? <Chart
               snapshotId={snapshotId}
+              withoutAxis
+              withoutLegend
+              height={60}
               y1={{
                 min: 0,
                 formatter: number.compact,
@@ -87,11 +95,3 @@ const ViewDetailsButton = connectTo(
     );
   }
 );
-
-function NoDataMessage() {
-  return (
-    <h2 className={`${block}__no-data-message`}>
-      No views in the given time window
-    </h2>
-  );
-}

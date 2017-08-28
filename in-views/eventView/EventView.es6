@@ -24,7 +24,7 @@ export default function EventView() {
         expandedSide$={expandedSide$}
       />
 
-      <DashboardNavigationRoute />
+      {DashboardNavigationRoute}
     </div>
   );
 }

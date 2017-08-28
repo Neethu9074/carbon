@@ -7,7 +7,7 @@ export default function LogView() {
   return (
     <div>
       <LogLines />
-      <DashboardNavigationRoute />
+      {DashboardNavigationRoute}
     </div>
   );
 }

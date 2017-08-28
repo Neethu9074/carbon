@@ -29,6 +29,7 @@ export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregati
           timeWindowAggregation={timeWindowAggregation}
           formatter={formatter}
           className={`${block}__value`}
+          initialValue="––"
         />
 
         {renderedPercentages}
@@ -49,6 +50,9 @@ const DualPercentage = connectTo(
     };
   },
   function DualPercentage({ aValue, percentages }) {
+    if (aValue == null) {
+      return null;
+    }
     const width = aValue == null ? '0%' : `${(aValue * 100) | 0}%`;
 
     return (

@@ -2,6 +2,11 @@ export function stopPropagation(e) {
   e.stopPropagation();
 }
 
+export function stopPropagationAndPreventDefault(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
 export function noop() {
   // body...
 }

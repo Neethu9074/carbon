@@ -14,7 +14,7 @@ export default function DefaultKpiSection({ snapshot }) {
       <KpiHeading>
         {getLabel(snapshot)}
       </KpiHeading>
-      <KpiKeyValue label="calls/s">
+      <KpiKeyValue label="calls">
         <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
       <KpiKeyValue label="avg. latency">

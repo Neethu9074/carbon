@@ -6,7 +6,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -54,7 +54,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       <DashboardSection title="Message Status">
-        <TwoColumnRow>
+        <Columize>
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -85,7 +85,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
               formatter: twoDecimalPlaces
             }}
           />
-        </TwoColumnRow>
+        </Columize>
       </DashboardSection>
 
       <DashboardSection title="Overview">

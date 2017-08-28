@@ -2,10 +2,14 @@ import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
+import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { createLogger } from 'instalog';
+
+const logger = createLogger('in-charts.SparkChart');
 
 export default connectTo(
   props => {
@@ -34,10 +38,23 @@ export default connectTo(
     }
 
     updateDatasource = props => {
-      if (props.rollup === undefined) {
-        props = Object.create(props);
-        props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
+      props = Object.create(props);
+      props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
+
+      if (props.aggregation) {
+        props.blockSizeMillis = getBlockSizeMillis({
+          windowSize: props.timeframe.windowSize,
+          maxDataPoints: 100,
+          minPixelsPerBlock: 10,
+          width: props.width,
+          rollup: props.rollup
+        });
+        props.isDynamicAggregated = true;
+        props.metricBaseMillis = 1000;
+      } else if (__DEV__) {
+        logger.warn('No aggregation defined for spark chart', props);
       }
+
       this.setState({
         datasource: getMetricsForTimeframe(props)
       });

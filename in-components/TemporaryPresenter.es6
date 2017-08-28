@@ -1,9 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-export default class extends React.Component {
-  static displayName = 'TemporaryPresenter';
-
+export default class TemporaryPresenter extends React.PureComponent {
   static propTypes = {
     id: rpt.string.isRequired,
     duration: rpt.number,
@@ -15,7 +13,15 @@ export default class extends React.Component {
     renderedForId: null
   };
 
+  componentDidMount() {
+    this.onPropChange(this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
+    this.onPropChange(nextProps);
+  }
+
+  onPropChange(nextProps) {
     if (this.state.renderedForId === nextProps.id) {
       // nothing to do
       return;
@@ -48,6 +54,10 @@ export default class extends React.Component {
 
   render() {
     if (this.state.showChildren && this.props.children) {
+      // TODO remove with React 16 since React fiber should be able to render arrays
+      if (React.Children.count(this.props.children) > 1) {
+        return <div>{this.props.children}</div>;
+      }
       return this.props.children;
     }
     return null;

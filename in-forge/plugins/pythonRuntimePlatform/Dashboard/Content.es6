@@ -3,7 +3,7 @@ import React from 'react';
 import { timeByMillisTwoDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -16,7 +16,7 @@ export default function PythonDashboard({ snapshot, timeframe }) {
         </KpiHeading>
       </KpiSection>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="GC Activity">
           {renderGcMetrics(snapshot, timeframe)}
         </DashboardSection>
@@ -24,18 +24,18 @@ export default function PythonDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Memory Usage">
           {renderMemoryMetrics(snapshot, timeframe)}
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Threads">
           {renderThreadsMetrics(snapshot, timeframe)}
         </DashboardSection>
         <DashboardSection title="Time Spent">
           {renderTimeMetrics(snapshot, timeframe)}
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Paging">
           {renderPagingMetrics(snapshot, timeframe)}
         </DashboardSection>
@@ -43,9 +43,9 @@ export default function PythonDashboard({ snapshot, timeframe }) {
         <DashboardSection title="I/O">
           {renderIoMetrics(snapshot, timeframe)}
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Events">
           {renderEventsMetrics(snapshot, timeframe)}
         </DashboardSection>
@@ -53,7 +53,7 @@ export default function PythonDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Context Switching">
           {renderContextMetrics(snapshot, timeframe)}
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
     </div>
   );
 }

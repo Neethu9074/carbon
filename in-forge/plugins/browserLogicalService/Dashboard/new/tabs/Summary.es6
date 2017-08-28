@@ -4,55 +4,41 @@ import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashb
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
-import NoErrorsMessage from 'in-sdk/components/dashboard/NoErrorsMessage';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import RenderWithMetric from 'in-components/RenderWithMetric';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
-import { Row, Col } from 'in-components/Grid';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-const loadTimePercentages = [
-  {
-    label: 'Server',
-    metric: 'bac',
-    timeWindowAggregation: 'mean',
-    formatter: percentage.compact
-  },
-  {
-    label: 'Browser',
-    metric: 'fro',
-    timeWindowAggregation: 'mean',
-    formatter: percentage.compact
-  }
-];
-
-export default function Summary({ snapshot, timeframe }) {
+export default function Summary({ snapshot, timeframe, pageName, metricPrefix }) {
   const snapshotId = snapshot.get('id');
-
-  const viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
+  let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
+  if (pageName) {
+    viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
+  }
   const viewTracesButton = (
-    <Button kind="default" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-      View Traces
+    <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
+      Traces
     </Button>
   );
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel snapshot={snapshot} actions={[viewTracesButton]} />
+      <SnapshotLabel actions={[viewTracesButton]}>
+        {pageName ? pageName : getLabel(snapshot)}
+      </SnapshotLabel>
 
       <Kpis>
         <Kpi
           label="Views"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="count"
+          metric={`${metricPrefix}count`}
           timeWindowAggregation="sum"
           formatter={number.compact}
         />
@@ -60,16 +46,29 @@ export default function Summary({ snapshot, timeframe }) {
           label="Load Time (mean)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.mean"
+          metric={`${metricPrefix}duration.mean`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
-          percentages={loadTimePercentages}
+          percentages={[
+            {
+              label: 'Server',
+              metric: `${metricPrefix}bac`,
+              timeWindowAggregation: 'mean',
+              formatter: percentage.compact
+            },
+            {
+              label: 'Browser',
+              metric: `${metricPrefix}fro`,
+              timeWindowAggregation: 'mean',
+              formatter: percentage.compact
+            }
+          ]}
         />
         <Kpi
           label="Load Time (90th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.90th"
+          metric={`${metricPrefix}duration.90th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
@@ -77,13 +76,13 @@ export default function Summary({ snapshot, timeframe }) {
           label="Load Time (95th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric="duration.95th"
+          metric={`${metricPrefix}duration.95th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
       </Kpis>
 
-      <DashboardTile title="Overview">
+      <DashboardTile title="Views vs Page Load Time">
         <Chart
           snapshotId={snapshotId}
           margins={{
@@ -93,7 +92,7 @@ export default function Summary({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: number.compact,
-            metrics: ['count'],
+            metrics: [`${metricPrefix}count`],
             labels: ['views'],
             type: 'bar',
             aggregation: 'sum'
@@ -101,7 +100,7 @@ export default function Summary({ snapshot, timeframe }) {
           y2={{
             min: 0,
             formatter: seconds.fromMillisFixedDetailed,
-            metrics: ['duration.mean'],
+            metrics: [`${metricPrefix}duration.mean`],
             labels: ['load time'],
             type: 'line',
             aggregation: 'mean'
@@ -109,50 +108,32 @@ export default function Summary({ snapshot, timeframe }) {
         />
       </DashboardTile>
 
-      <Row>
-        <Col cols={6}>
-          <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
-            <PageLoadBreakdownChart snapshotId={snapshotId} timeframe={timeframe} onlyRequest />
-          </DashboardTile>
-        </Col>
-        <Col cols={6}>
-          <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
-            <RenderWithMetric
-              snapshotId={snapshotId}
-              metric="uncaughtErrors"
-              timeframe={timeframe}
-              timeWindowAggregation="sum"
-              component={UncaughtErrors}
-            />
-
-          </DashboardTile>
-        </Col>
-      </Row>
+      <Columize>
+        <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
+          <PageLoadBreakdownChart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            onlyRequest
+            metricPrefix={metricPrefix}
+          />
+        </DashboardTile>
+        <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
+          <Chart
+            snapshotId={snapshotId}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`${metricPrefix}uncaughtErrors`],
+              labels: ['Uncaught errors'],
+              type: 'bar',
+              aggregation: 'sum'
+            }}
+          />
+        </DashboardTile>
+      </Columize>
     </MaxWidthFullscreenContainer>
-  );
-}
-
-function UncaughtErrors({ snapshotId, metricValue }) {
-  if (metricValue === null) {
-    return <LoadingIndicator type="dark" />;
-  } else if (metricValue <= 0) {
-    return <NoErrorsMessage />;
-  }
-
-  return (
-    <Chart
-      snapshotId={snapshotId}
-      margins={{
-        left: 60
-      }}
-      y1={{
-        min: 0,
-        formatter: number.compact,
-        metrics: ['uncaughtErrors'],
-        labels: ['Uncaught errors'],
-        type: 'bar',
-        aggregation: 'sum'
-      }}
-    />
   );
 }

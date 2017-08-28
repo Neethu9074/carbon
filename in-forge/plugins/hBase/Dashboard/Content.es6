@@ -11,7 +11,7 @@ import {
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -126,7 +126,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Region Server - Compaction">
           <Chart
             snapshotId={snapshotId}
@@ -175,8 +175,8 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
-      <TwoColumnRow>
+      </Columize>
+      <Columize>
         <DashboardSection title="Region Server - Store File">
           <Chart
             snapshotId={snapshotId}
@@ -225,7 +225,7 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
     </div>
   );
 }

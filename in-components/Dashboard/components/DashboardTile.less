@@ -1,12 +1,12 @@
 .in-dashboard-tile {
-  margin-bottom: 1rem;
+  margin-bottom: .6rem;
   padding: .75rem 1.5rem;
 
   background: white;
   border: 1px solid #D5DFE4;
   border-radius: 0.313rem;
 
-  &--with-details {
+  &--interactable {
     box-shadow: 0 rgba(0, 0, 0, 0);
     transition: box-shadow .25s ease-in-out;
 
@@ -33,6 +33,10 @@
   &__details-button {
     opacity: 0;
     transition: opacity .2s ease-in-out;
+  }
+
+  & > .in-detail-pane__description-list:last-child > .in-detail-pane__description-item:last-child {
+    margin-bottom: 0;
   }
 }
 

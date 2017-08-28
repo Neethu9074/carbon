@@ -3,7 +3,7 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { timeNs, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -27,7 +27,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <TwoColumnRow>
+      <Columize>
         <DashboardSection title="Memory Usage">
           {renderMemoryMetrics(snapshot, timeframe)}
         </DashboardSection>
@@ -35,7 +35,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Heap Usage">
           {renderHeapMetrics(snapshot, timeframe)}
         </DashboardSection>
-      </TwoColumnRow>
+      </Columize>
 
       <DashboardSection title="GC Activity">
         <Chart

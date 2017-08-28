@@ -163,18 +163,9 @@ export function getActiveView(params) {
   return match ? match[1] : 'physical';
 }
 
-export function goHome() {
-  mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.HOME;
-    navParams.query = {};
-    return navParams;
-  });
+export function getLinkToPath(pathname) {
+  return getModifiedUrlStream(params => (params.pathname = pathname));
 }
-
-export const homeLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/';
-  params.query = {};
-});
 
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {

@@ -1,8 +1,9 @@
 import { on } from 'reactive-observables';
-import { sortedIndexBy, groupBy } from 'lodash';
+import { sortedIndexBy } from 'lodash';
 
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import createDataHolder from 'in-charts/data/dataHolder';
+import icons from 'in-components/SvgIcon/registry.json';
 import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
@@ -11,8 +12,8 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
-const windowSizeFactor = 0.04;
-const fractionOfDataCanBeFlat = 0.9;
+const wrapperClassName = `${block}__wrapper`;
+const wrapperNoDataClassName = `${wrapperClassName}--no-data`;
 
 export default function createSparkChart({
   width,
@@ -21,35 +22,21 @@ export default function createSparkChart({
   container,
   timeframe,
   tooltipFormatter,
-  design = 'light',
   wiggleRoom
 }) {
-  let metricLineStrokeColor;
-  let metricLineFillColor;
-  let metricAxisStrokeColor;
-  if (design === 'light') {
-    metricLineStrokeColor = '#2c4048';
-    metricLineFillColor = '#eef2f4';
-    metricAxisStrokeColor = '#203036';
-  } else {
-    metricLineStrokeColor = '#eef2f4';
-    metricLineFillColor = '#2c4048';
-    metricAxisStrokeColor = '#ffffff';
-  }
-
   const dataHolder = createDataHolder({ numberOfSeries: 1 });
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(width);
 
   const yScale = createScale();
-  yScale.setRangeFrom(height);
-  yScale.setRangeTo(0);
+  yScale.setRangeFrom(height - 2);
+  yScale.setRangeTo(2);
 
   const wrapper = document.createElement('div');
   wrapper.style.width = `${width}px`;
   wrapper.style.height = `${height}px`;
-  wrapper.classList.add(`${block}__wrapper`);
+  wrapper.classList.add(wrapperClassName);
   container.appendChild(wrapper);
 
   const canvas = document.createElement('canvas');
@@ -57,6 +44,15 @@ export default function createSparkChart({
   canvas.classList.add(`${block}__canvas`);
   wrapper.appendChild(canvas);
   updateCanvasDimensions(canvas, ctx, width, height);
+
+  const noDataIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  noDataIcon.classList.add(`${block}__no-data`);
+  noDataIcon.setAttribute('viewBox', `0 0 ${icons.crossed_circle.width} ${icons.crossed_circle.height}`);
+  const noDataIconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  noDataIconPath.setAttribute('d', icons.crossed_circle.path);
+  noDataIconPath.style.fill = '#bec7cb';
+  noDataIcon.appendChild(noDataIconPath);
+  wrapper.appendChild(noDataIcon);
 
   const tooltipLine = document.createElement('div');
   tooltipLine.classList.add(`${block}__tooltip-line`);
@@ -69,9 +65,6 @@ export default function createSparkChart({
   const glassPane = document.createElement('div');
   glassPane.classList.add(`${block}__glass-pane`);
   wrapper.appendChild(glassPane);
-
-  // draw initial axis
-  drawAxis();
 
   let timeSubscription;
   if (timeframe.to == null) {
@@ -98,14 +91,10 @@ export default function createSparkChart({
   });
 
   on(glassPane, 'mousemove').subscribe(e => setHighlightedMoment(xScale.getDomain(e.offsetX)));
-
   on(glassPane, 'mouseleave').subscribe(clearHighlightedMoment);
 
   const highlightedMomentSubscription = highlightedMoment$.subscribe(highlightedMoment => {
     if (highlightedMoment) {
-      tooltipContainer.style.display = 'block';
-      tooltipLine.style.display = 'block';
-      tooltipLine.style.left = `${xScale.getRange(highlightedMoment)}px`;
       fillTooltip(highlightedMoment);
     } else {
       tooltipContainer.style.display = 'none';
@@ -129,47 +118,50 @@ export default function createSparkChart({
   function render() {
     const dataColumns = dataHolder.getDataColumns();
     if (dataColumns.length === 0) {
+      noDataIcon.style.display = 'block';
+      wrapper.classList.add(wrapperNoDataClassName);
       return;
     }
+    noDataIcon.style.display = 'none';
+    wrapper.classList.remove(wrapperNoDataClassName);
 
     ctx.clearRect(0, 0, width, height);
+    const singlePointsToRender = [];
 
     ctx.beginPath();
-    let xToRender;
-    let firstX;
     for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
       const dataRow = dataColumns[columnIndex];
-      xToRender = xScale.getRange(dataRow[0]);
+      const xToRender = xScale.getRange(dataRow[0]);
+      const yToRender = yScale.getRange(dataRow[1]);
+
+      // draw these points later on as otherwise we would fill the line chart.
+      singlePointsToRender.push({
+        x: xToRender,
+        y: yToRender
+      });
 
       if (columnIndex === 0) {
-        firstX = xToRender;
-        ctx.moveTo(xToRender, yScale.getRange(dataRow[1]));
+        ctx.moveTo(xToRender, yToRender);
       } else {
-        ctx.lineTo(xToRender, yScale.getRange(dataRow[1]));
+        ctx.lineTo(xToRender, yToRender);
       }
     }
 
     ctx.lineWidth = 1;
-    ctx.lineTo(xToRender, yScale.getRangeFrom());
-    ctx.lineTo(firstX, yScale.getRangeFrom());
-    ctx.closePath();
-    ctx.fillStyle = metricLineFillColor;
-    ctx.fill();
-    ctx.strokeStyle = metricLineStrokeColor;
+    ctx.strokeStyle = '#00D6D8';
     ctx.stroke();
 
-    drawAxis();
+    ctx.fillStyle = '#00D6D8';
+    singlePointsToRender.forEach(renderPoint);
   }
 
-  function drawAxis() {
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, height);
-    ctx.lineTo(width, height);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = metricAxisStrokeColor;
-    ctx.stroke();
-    ctx.closePath();
+  function renderPoint(point) {
+    // avoid rendering arcs that are cut off
+    if (point.x > 3 && point.x < width - 3) {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
+      ctx.fill();
+    }
   }
 
   function updateYScale(dataColumns) {
@@ -181,6 +173,12 @@ export default function createSparkChart({
       max = Math.max(max, dataColumns[i][1]);
     }
 
+    if (min === max) {
+      // Center align data series which are flat lines
+      max = max + 1;
+      min = min - 1;
+    }
+
     yScale.setDomainFrom(min);
     yScale.setDomainTo(max);
   }
@@ -189,6 +187,7 @@ export default function createSparkChart({
     const dataPoint = lookForDataPoint(highlightedMoment);
     if (!dataPoint || dataPoint[1] == null) {
       tooltipContainer.style.display = 'none';
+      tooltipLine.style.display = 'none';
       return;
     }
 
@@ -208,6 +207,10 @@ export default function createSparkChart({
       tooltipContainer.style.left = `${position}px`;
       tooltipContainer.style.right = null;
     }
+
+    tooltipContainer.style.display = 'block';
+    tooltipLine.style.display = 'block';
+    tooltipLine.style.left = `${xScale.getRange(dataPoint[0])}px`;
   }
 
   function lookForDataPoint(highlightedMoment) {
@@ -223,55 +226,6 @@ export default function createSparkChart({
       return column;
     });
 
-    const noDataForHighlightedMoment = i == 0 || i == dataColumns.length;
-
-    if (noDataForHighlightedMoment) {
-      return null;
-    }
-
-    const window = dataWindow(highlightedMoment, dataColumns);
-
-    const standardElement = findStandardElement(window);
-    const dataIsFlat = standardElement !== undefined;
-
-    return dataIsFlat ? findClosestAnomaly(window, standardElement) : dataColumns[i];
-  }
-
-  function dataWindow(timestamp, dataColumns) {
-    const xFrom = xScale.getRangeFrom();
-    const xTo = xScale.getRangeTo();
-
-    const windowSize = (xTo - xFrom) * windowSizeFactor;
-
-    const xRangeOfHighlighted = xScale.getRange(timestamp);
-    const left = xScale.getDomain(xRangeOfHighlighted - windowSize);
-    const right = xScale.getDomain(xRangeOfHighlighted + windowSize);
-
-    return dataColumns.filter(c => c[0] >= left && c[0] <= right);
-  }
-
-  function findStandardElement(dataWindow) {
-    const toleratedLength = dataWindow.length * fractionOfDataCanBeFlat;
-
-    const groupedByValue = groupBy(dataWindow, c => c[1]);
-
-    return Object.keys(groupedByValue).find(key => groupedByValue[key].length > toleratedLength);
-  }
-
-  function findClosestAnomaly(dataWindow, standardElement) {
-    const index = Math.floor(dataWindow.length * 0.5);
-    const anomalyIndex = dataWindow.reduce((acc, cur, idx) => {
-      if (cur[1] != standardElement && isCloserTo(index, idx, acc)) {
-        return idx;
-      } else {
-        return acc;
-      }
-    }, 0);
-
-    return dataWindow[anomalyIndex];
-  }
-
-  function isCloserTo(to, a, b) {
-    return Math.abs(to - a) < Math.abs(to - b);
+    return dataColumns[i];
   }
 }

@@ -29,17 +29,20 @@ export default function KafkaClusterSidebar({ snapshot }) {
           {
             metric: 'broker.messagesIn',
             label: 'Brokers Msg.In',
-            formatter: number
+            formatter: number,
+            aggregation: 'sum'
           },
           {
             metric: 'broker.partitionCount',
             label: 'Brokers Partitions',
-            formatter: number
+            formatter: number,
+            aggregation: 'mean'
           },
           {
             metric: 'broker.totalTimeProduce',
             label: 'Prod. Latency',
-            formatter: ms
+            formatter: ms,
+            aggregation: 'mean'
           }
         ]}
       />

@@ -130,7 +130,7 @@ function getRowDetails(row) {
           min: 0,
           formatter: twoDecimalPlaces,
           metrics: [`endpoint.${endpointLabel}.count`],
-          labels: ['calls/s'],
+          labels: ['calls'],
           type: 'line'
         }}
         y2={{

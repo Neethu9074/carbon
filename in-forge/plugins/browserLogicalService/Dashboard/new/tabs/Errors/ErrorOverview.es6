@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorOverviewTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorOverviewTable';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 

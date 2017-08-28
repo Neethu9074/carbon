@@ -3,9 +3,10 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import NoXMessage from 'in-sdk/components/dashboard/NoXMessage';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -20,6 +21,7 @@ const cols = [
     type: 'link',
     typeArgs: {
       comparator: compareIgnoreCase,
+      showLoadingIndicator: true,
       get$(row) {
         const snapshot$ = getSnapshot(row.otherSideSnapshotId);
         const href$ = getSubDashboardLink(`/ajax/${encodeURIComponent(row.connectionSnapshotId)}`);
@@ -34,9 +36,10 @@ const cols = [
     }
   },
   {
-    title: 'Calls',
+    title: 'Calls (sum)',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -50,9 +53,10 @@ const cols = [
     }
   },
   {
-    title: 'Load Time',
+    title: 'Load Time (avg)',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -66,9 +70,10 @@ const cols = [
     }
   },
   {
-    title: 'Errors',
+    title: 'Error Rate (avg)',
     type: 'sparkChart',
     typeArgs: {
+      forceTimeWindowAggregation: true,
       getSnapshotId(row) {
         return row.connectionSnapshotId;
       },
@@ -105,13 +110,10 @@ export default connectTo(
     );
 
     if (onlyAjaxConnections.length === 0) {
-      // TODO MAKE THIS LOOK NICE!
       return (
-        <MaxWidthFullscreenContainer>
-          <DashboardTile title="Call Targets">
-            No call targets in the given time window
-          </DashboardTile>
-        </MaxWidthFullscreenContainer>
+        <NoXMessage centered>
+          No call targets at the focused moment.
+        </NoXMessage>
       );
     }
 

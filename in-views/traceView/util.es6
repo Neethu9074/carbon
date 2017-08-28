@@ -51,7 +51,7 @@ export function getCalls(span, count) {
       count = 0;
     }
 
-    const batchSize = span.get('batchSize');
+    const batchSize = span.get('batchSize', 1);
     count += batchSize === 0 ? 1 : batchSize;
   }
 

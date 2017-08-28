@@ -3,7 +3,7 @@ import React from 'react';
 import ResourceCaching from 'in-forge/plugins/pageResourceLogicalService/Dashboard/ResourceCaching';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-components/Dashboard/components/DashboardTile';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import { millis, number } from 'in-services/formatters/number';
@@ -71,7 +71,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
     <div>
       <BackButton label="Back to resource list" href$={getSubDashboardLink(`/resources`)} />
 
-      <DashboardTile title="Details">
+      <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Resource Host">
             {getLabel(connectedSnapshot)}

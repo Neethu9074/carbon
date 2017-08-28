@@ -32,23 +32,27 @@ export default function BrowserServiceSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'count',
-            label: 'calls/s',
-            formatter: number
+            label: 'views',
+            formatter: number,
+            aggregation: 'sum'
           },
           {
             metric: 'duration.mean',
             label: 'load time',
-            formatter: ms
+            formatter: ms,
+            aggregation: 'mean'
           },
           {
             metric: 'fp',
             label: 'first paint',
-            formatter: ms
+            formatter: ms,
+            aggregation: 'mean'
           },
           {
             metric: 'error_count',
-            label: 'errors/s',
-            formatter: number
+            label: 'errors',
+            formatter: number,
+            aggregation: 'mean'
           }
         ]}
       />

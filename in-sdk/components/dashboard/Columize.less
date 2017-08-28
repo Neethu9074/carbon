@@ -1,0 +1,19 @@
+@media (min-width: 1200px) {
+  .in-dashboard-columize {
+    display: flex;
+    flex-direction: row;
+
+    & > * {
+      width: 100%;
+      flex-grow: 0;
+    }
+
+    & > .in-dashboard-tile + .in-dashboard-tile {
+      margin-left: .6rem;
+    }
+
+    & > .in-dashboard-section + .in-dashboard-section {
+      margin-left: 4px;
+    }
+  }
+}

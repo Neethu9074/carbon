@@ -26,9 +26,10 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           y1={{
             min: 0,
             formatter: number.compact,
-            metrics: ['count'],
-            labels: ['calls'],
-            type: 'line'
+            metrics: ['count', 'error_rate'],
+            labels: ['Calls', 'Errors'],
+            type: 'countErrorBar',
+            aggregation: 'sum'
           }}
           y2={{
             min: 0,
@@ -68,7 +69,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Errors/s">
+      <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
