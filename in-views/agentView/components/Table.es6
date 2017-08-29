@@ -77,7 +77,7 @@ const cols = [
         return {
           value: row.isReportingAtFocusedMoment,
           content: (
-            <Tooltip content={getTooltipReportingText(row)}>
+            <Tooltip content={getTooltipReportingText(row)} align={'rightMiddle'}>
               <Reporting isReporting={row.isReportingAtFocusedMoment} />
             </Tooltip>
           )
