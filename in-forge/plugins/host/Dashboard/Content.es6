@@ -67,6 +67,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
               <Chart
                 snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
+                minRollup={5000}
                 margins={{
                   left: 60
                 }}

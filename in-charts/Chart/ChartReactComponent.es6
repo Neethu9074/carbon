@@ -37,6 +37,7 @@ export default class extends React.Component {
     const props = this.state.chartProps;
     const config = {
       height: props.height,
+      minRollup: props.minRollup,
       margins: props.margins,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,

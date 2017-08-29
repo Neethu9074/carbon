@@ -159,7 +159,7 @@ export function getDynamicAggregatedMetricsForTimeframe(opts) {
   return createDynamicAggregatedMetricObservable(opts);
 }
 
-export function getDefaultMetricRollupDuration(timeframe) {
+export function getDefaultMetricRollupDuration(timeframe, minRollup = 1000) {
   if (!timeframe) {
     return rollupDurationThresholds[0];
   }
@@ -170,9 +170,14 @@ export function getDefaultMetricRollupDuration(timeframe) {
   const to = timeframe.to ? timeframe.to : now;
   const from = to - timeframe.windowSize;
 
-  const availableRollupDefinitions = rollupDurationThresholds.filter(
+  let availableRollupDefinitions = rollupDurationThresholds.filter(
     rollupDefinition => from >= now - rollupDefinition.availableFor
   );
+  if (minRollup > 1000) {
+    availableRollupDefinitions = availableRollupDefinitions.filter(
+      rollupDefinition => rollupDefinition.rollup != null && rollupDefinition.rollup >= minRollup
+    );
+  }
 
   for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
     // this works because the rollupDurationThresholds array is sorted by rollup
