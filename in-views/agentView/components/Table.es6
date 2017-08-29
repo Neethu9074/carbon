@@ -101,7 +101,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <Table maxItemsPerPage={20} cols={cols} rows={rows} />
+        <Table maxItemsPerPage={20} cols={cols} rows={rows} initialSortColumn={5} />
       </div>
     );
   }
