@@ -178,7 +178,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAgents"
-          label="Configure of agents"
+          label="Configuration of agents"
         />
 
         {objectivesEnabled
