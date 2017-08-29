@@ -5,6 +5,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
+import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
 import Tooltip from 'in-components/Tooltip';
@@ -48,14 +49,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        switch (row.snapshot.getIn(['data', 'mode'])) {
-          case 1:
-            return 'Infrastructure';
-          case 2:
-            return 'Full APM';
-          default:
-            return 'Off';
-        }
+        return modes[row.snapshot.getIn(['data', 'mode'])];
       }
     }
   },
