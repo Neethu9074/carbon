@@ -4,8 +4,10 @@ import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
+import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
 
@@ -72,14 +74,13 @@ const cols = [
     typeArgs: {
       comparator: compare,
       get(row) {
-        const from = row.snapshot.get('from');
-        const to = row.snapshot.get('to');
-        const focusedMoment = row.focusedMoment;
-        const isReportingAtFocusedMoment = from <= focusedMoment && (!to || to >= focusedMoment) ? true : false;
-
         return {
-          value: isReportingAtFocusedMoment,
-          content: <Reporting isReporting={isReportingAtFocusedMoment} />
+          value: row.isReportingAtFocusedMoment,
+          content: (
+            <Tooltip content={getTooltipReportingText(row)}>
+              <Reporting isReporting={row.isReportingAtFocusedMoment} />
+            </Tooltip>
+          )
         };
       }
     }
@@ -99,9 +100,8 @@ export default connectTo(
     const rows = agents.toArray().map(snapshot => {
       return {
         key: snapshot.get('id'),
-        snapshotId: snapshot.get('id'),
-        focusedMoment,
-        snapshot
+        snapshot,
+        isReportingAtFocusedMoment: isReportingAtFocusedMoment(snapshot, focusedMoment)
       };
     });
 
@@ -124,4 +124,28 @@ function Reporting({ isReporting }) {
       {`${isReporting ? 'reporting' : 'not reporting'}`}
     </div>
   );
+}
+
+function getTooltipReportingText(row) {
+  let text = row.isReportingAtFocusedMoment
+    ? ''
+    : 'The agent reported in the selected time range but has not reported at the selected moment. ';
+  if (!row.snapshot.get('to')) {
+    text += `The agent started at ${formatDateTime(row.snapshot.get('from'))} and is still reporting.`;
+  } else {
+    text += `The agent reported between: ${formatDateTime(row.snapshot.get('from'))} and ${formatDateTime(
+      row.snapshot.get('to')
+    )}.`;
+  }
+  return text;
+}
+
+function isReportingAtFocusedMoment(snapshot, focusedMoment) {
+  const from = snapshot.get('from');
+  const to = snapshot.get('to');
+
+  if (!to && !focusedMoment) {
+    return true;
+  }
+  return from <= focusedMoment && (!to || to >= focusedMoment) ? true : false;
 }
