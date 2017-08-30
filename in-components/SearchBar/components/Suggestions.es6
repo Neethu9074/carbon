@@ -120,18 +120,23 @@ export default class extends React.Component {
   };
 
   onArrowDown = () => {
+    const numItems = this.state.availableChildren.length;
     this.setState({
-      currentHighlightedRowIndex: Math.min(
-        this.state.availableChildren.length - 1,
-        this.state.currentHighlightedRowIndex + 1
-      )
+      currentHighlightedRowIndex: (this.state.currentHighlightedRowIndex + 1) % numItems
     });
   };
 
   onArrowUp = () => {
-    this.setState({
-      currentHighlightedRowIndex: Math.max(0, this.state.currentHighlightedRowIndex - 1)
-    });
+    if (this.state.currentHighlightedRowIndex === 0) {
+      const numItems = this.state.availableChildren.length;
+      this.setState({
+        currentHighlightedRowIndex: numItems - 1
+      });
+    } else {
+      this.setState({
+        currentHighlightedRowIndex: this.state.currentHighlightedRowIndex - 1
+      });
+    }
   };
 
   onReturn = child => {
