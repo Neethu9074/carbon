@@ -32,19 +32,23 @@ export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAli
 }
 
 export function getAxisTickPositions(scale, formatter) {
-  const domainRange = scale.getDomainTo() - scale.getDomainFrom();
+  const rangeFrom = scale.getRangeFrom();
+  const rangeTo = scale.getRangeTo();
+  const domainFrom = scale.getDomainFrom();
+  const domainTo = scale.getDomainTo();
+  const domainRange = domainTo - domainFrom;
   if (!domainRange) {
     return [];
   }
 
   const defaultTicks = [
     {
-      range: scale.getRangeFrom(),
-      domain: scale.getDomainFrom()
+      range: rangeFrom,
+      domain: domainFrom
     },
     {
-      range: scale.getRangeTo(),
-      domain: scale.getDomainTo()
+      range: rangeTo,
+      domain: domainTo
     }
   ];
 
@@ -52,10 +56,6 @@ export function getAxisTickPositions(scale, formatter) {
   if (domainRange === 1) {
     // special case for percentage charts
     if (formatter === percentageZeroDecimalPlaces || formatter === percentageTwoDecimalPlaces) {
-      const rangeFrom = scale.getRangeFrom();
-      const rangeTo = scale.getRangeTo();
-      const domainFrom = scale.getDomainFrom();
-      const domainTo = scale.getDomainTo();
       const diffRange = rangeTo - rangeFrom;
       const diffDomain = domainTo - domainFrom;
       return [
@@ -91,10 +91,10 @@ export function getAxisTickPositions(scale, formatter) {
   const desiredNumberOfTicks = 4;
   const ticks = [];
 
-  const t = getTicks(scale.getDomainFrom(), scale.getDomainTo(), desiredNumberOfTicks);
+  const t = getTicks(domainFrom, domainTo, desiredNumberOfTicks);
   for (let i = 0, length = t.length; i < length; i++) {
     const tick = t[i];
-    if (tick > domainRange) {
+    if (tick > domainTo) {
       continue;
     }
     ticks.push({
@@ -109,6 +109,7 @@ export function getAxisTickPositions(scale, formatter) {
   if (ticks.length < 2) {
     return defaultTicks;
   }
+
   return ticks;
 }
 
