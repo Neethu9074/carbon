@@ -1,3 +1,5 @@
+import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+
 export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAligned = false) {
   // special case: Trace with 0 time.
   if (scale.getDomainFrom() >= scale.getDomainTo()) {
@@ -29,7 +31,7 @@ export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAli
   return ticks;
 }
 
-export function getAxisTickPositions(scale) {
+export function getAxisTickPositions(scale, formatter) {
   const domainRange = scale.getDomainTo() - scale.getDomainFrom();
   if (!domainRange) {
     return [];
@@ -46,8 +48,43 @@ export function getAxisTickPositions(scale) {
     }
   ];
 
-  // edge case
+  // special case, the range is 1, happens on percentages, Calls and Instances frequently
   if (domainRange === 1) {
+    // special case for percentage charts
+    if (formatter === percentageZeroDecimalPlaces || formatter === percentageTwoDecimalPlaces) {
+      const rangeFrom = scale.getRangeFrom();
+      const rangeTo = scale.getRangeTo();
+      const domainFrom = scale.getDomainFrom();
+      const domainTo = scale.getDomainTo();
+      const diffRange = rangeTo - rangeFrom;
+      const diffDomain = domainTo - domainFrom;
+      return [
+        {
+          range: rangeFrom,
+          domain: domainFrom
+        },
+        {
+          range: rangeFrom + diffRange * 0.2,
+          domain: domainFrom + diffDomain * 0.2
+        },
+        {
+          range: rangeFrom + diffRange * 0.4,
+          domain: domainFrom + diffDomain * 0.4
+        },
+        {
+          range: rangeFrom + diffRange * 0.6,
+          domain: domainFrom + diffDomain * 0.6
+        },
+        {
+          range: rangeFrom + diffRange * 0.8,
+          domain: domainFrom + diffDomain * 0.8
+        },
+        {
+          range: rangeTo,
+          domain: domainTo
+        }
+      ];
+    }
     return defaultTicks;
   }
 

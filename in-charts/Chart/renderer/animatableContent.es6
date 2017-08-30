@@ -184,7 +184,7 @@ export default function createAnimatableContentRenderer(config) {
     const scale = config.scales[axisName];
     const formatter = (config[axisName].formatter && config[axisName].formatter[0]) || twoDecimalPlaces;
 
-    const ticks = getAxisTickPositions(scale, { formatter });
+    const ticks = getAxisTickPositions(scale, formatter);
 
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
