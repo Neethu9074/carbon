@@ -37,55 +37,18 @@ export function getAxisTickPositions(scale, formatter) {
   const domainFrom = scale.getDomainFrom();
   const domainTo = scale.getDomainTo();
   const domainRange = domainTo - domainFrom;
+
   if (!domainRange) {
     return [];
   }
-
-  const defaultTicks = [
-    {
-      range: rangeFrom,
-      domain: domainFrom
-    },
-    {
-      range: rangeTo,
-      domain: domainTo
-    }
-  ];
 
   // special case, the range is 1, happens on percentages, Calls and Instances frequently
   if (domainRange === 1) {
     // special case for percentage charts
     if (formatter === percentageZeroDecimalPlaces || formatter === percentageTwoDecimalPlaces) {
-      const diffRange = rangeTo - rangeFrom;
-      const diffDomain = domainTo - domainFrom;
-      return [
-        {
-          range: rangeFrom,
-          domain: domainFrom
-        },
-        {
-          range: rangeFrom + diffRange * 0.2,
-          domain: domainFrom + diffDomain * 0.2
-        },
-        {
-          range: rangeFrom + diffRange * 0.4,
-          domain: domainFrom + diffDomain * 0.4
-        },
-        {
-          range: rangeFrom + diffRange * 0.6,
-          domain: domainFrom + diffDomain * 0.6
-        },
-        {
-          range: rangeFrom + diffRange * 0.8,
-          domain: domainFrom + diffDomain * 0.8
-        },
-        {
-          range: rangeTo,
-          domain: domainTo
-        }
-      ];
+      return getDefaultPercentageTicks(rangeFrom, rangeTo, domainFrom, domainTo);
     }
-    return defaultTicks;
+    return getDefaultTicks(rangeFrom, rangeTo, domainFrom, domainTo);
   }
 
   const desiredNumberOfTicks = 4;
@@ -107,17 +70,64 @@ export function getAxisTickPositions(scale, formatter) {
   removeCloseIndices(ticks);
 
   if (ticks.length < 2) {
-    return defaultTicks;
+    return getDefaultTicks(rangeFrom, rangeTo, domainFrom, domainTo);
   }
 
   return ticks;
 }
 
+function getDefaultTicks(rangeFrom, rangeTo, domainFrom, domainTo) {
+  return [
+    {
+      range: rangeFrom,
+      domain: domainFrom
+    },
+    {
+      range: rangeTo,
+      domain: domainTo
+    }
+  ];
+}
+
+function getDefaultPercentageTicks(rangeFrom, rangeTo, domainFrom, domainTo) {
+  const diffRange = rangeTo - rangeFrom;
+  const diffDomain = domainTo - domainFrom;
+  return [
+    {
+      range: rangeFrom,
+      domain: domainFrom
+    },
+    {
+      range: rangeFrom + diffRange * 0.2,
+      domain: domainFrom + diffDomain * 0.2
+    },
+    {
+      range: rangeFrom + diffRange * 0.4,
+      domain: domainFrom + diffDomain * 0.4
+    },
+    {
+      range: rangeFrom + diffRange * 0.6,
+      domain: domainFrom + diffDomain * 0.6
+    },
+    {
+      range: rangeFrom + diffRange * 0.8,
+      domain: domainFrom + diffDomain * 0.8
+    },
+    {
+      range: rangeTo,
+      domain: domainTo
+    }
+  ];
+}
+
 function removeCloseIndices(ticks) {
+  const minSpaceBetweenTicksInPx = 10;
   for (let i = ticks.length - 1; i > 1; i--) {
     const tick = ticks[i];
     const nextTick = ticks[i - 1];
-    if (Math.abs(tick.range - nextTick.range) < 10) {
+    if (Math.abs(tick.range - nextTick.range) < minSpaceBetweenTicksInPx) {
+      // remove that single element
+      // stop iteration over mutated array and start the check again with the mutated array
       ticks.splice(i - 1, 1);
       return removeCloseIndices(ticks);
     }
@@ -126,7 +136,7 @@ function removeCloseIndices(ticks) {
 
 const bases = [1, 2, 5];
 function getTicks(min, max, n) {
-  // Swap min and max if necessary;
+  // swap min and max if necessary
   if (min > max) {
     const temp = min;
     min = max;
@@ -144,14 +154,14 @@ function getTicks(min, max, n) {
 
   ticks = ticks.map(precision(interval));
 
+  // add the min and max values
   ticks[0] = min;
   ticks[ticks.length - 1] = max;
 
   return ticks;
 }
 
-// This eliminates floating point errors otherwise accumulated
-// by repeatedly adding the computed interval.
+// this eliminates floating point errors otherwise accumulated by repeatedly adding the computed interval
 function precision(interval) {
   const multiplier = Math.pow(10, Math.ceil(Math.log10(interval)) + 1);
   return function(value) {
@@ -163,18 +173,16 @@ function getNiceInterval(min, max, n) {
   const rawInterval = (max - min) / n;
   const rawExponent = Math.log10(rawInterval);
 
-  // One of these two integer exponents, in conjunction with one of the bases,
-  // will yield the nicest interval.
+  // one of these two integer exponents, in conjunction with one of the bases, will yield the nicest interval
   const exponents = [Math.floor(rawExponent), Math.ceil(rawExponent)];
 
   let nicestInterval = Infinity;
   bases.forEach(base => {
     exponents.forEach(exponent => {
-      // Try each combination of base and interval.
+      // try each combination of base and interval
       const currentInterval = base * Math.pow(10, exponent);
 
-      // Pick the combination that yields the nice interval that
-      // most closely matches the raw interval.
+      // pick the combination that yields the nice interval that most closely matches the raw interval
       const currentDeviation = Math.abs(rawInterval - currentInterval);
       const nicestDeviation = Math.abs(rawInterval - nicestInterval);
 
