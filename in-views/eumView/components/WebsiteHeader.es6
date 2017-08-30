@@ -1,7 +1,10 @@
 import React from 'react';
 
+import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
 import SortIndicator from 'in-views/eumView/components/SortIndicator';
 import Pagination from 'in-components/Pagination';
+import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
 
 import './WebsiteHeader.less';
 
@@ -12,7 +15,10 @@ export default function WebsiteHeader({
   onChangeSort,
   data,
   onPrevPage,
-  onNextPage
+  onNextPage,
+  filter,
+  setFilter,
+  showFilter
 }) {
   const block = 'in-website-table-header';
   const idHeader = `${block}__id`;
@@ -46,6 +52,7 @@ export default function WebsiteHeader({
     );
 
   const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
+  const randomFilterId = Math.random();
 
   return (
     <div className={block}>
@@ -53,15 +60,33 @@ export default function WebsiteHeader({
       <div className={kpiHeader}>
         {kpis}
       </div>
-      {showPagination
-        ? <Pagination
-            className={`${block}__pagination`}
-            onPrevPage={onPrevPage}
-            onNextPage={onNextPage}
-            currentPage={data.page}
-            pageCount={data.pageCount}
-            ariaLabel="Pagination for previous table"
-          />
+
+      {showPagination || showFilter
+        ? <div className={`${block}__right-side`}>
+            {showFilter
+              ? <HorizontalFormGroup>
+                  <Label htmlFor={randomFilterId}>Filter</Label>
+                  <Input
+                    id={randomFilterId}
+                    size="sm"
+                    type="text"
+                    value={filter}
+                    onChange={e => setFilter(e.target.value)}
+                  />
+                </HorizontalFormGroup>
+              : null}
+
+            {showPagination
+              ? <Pagination
+                  className={`${block}__pagination`}
+                  onPrevPage={onPrevPage}
+                  onNextPage={onNextPage}
+                  currentPage={data.page}
+                  pageCount={data.pageCount}
+                  ariaLabel="Pagination for previous table"
+                />
+              : null}
+          </div>
         : null}
     </div>
   );

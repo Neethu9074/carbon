@@ -13,7 +13,7 @@ export default function Pages({ snapshot }) {
   return (
     <MaxWidthFullscreenContainer>
       <FullscreenViewHeading count={numberOfPages} iconType="globe">Pages</FullscreenViewHeading>
-      <WebsiteTable snapshot={snapshot} />
+      <WebsiteTable snapshot={snapshot} showFilter noWebsitesMessages="No pages found for your current query." />
     </MaxWidthFullscreenContainer>
   );
 }

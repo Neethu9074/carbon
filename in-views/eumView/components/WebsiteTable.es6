@@ -64,7 +64,8 @@ export default class WebsiteTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      filter: ''
     };
   }
 
@@ -87,11 +88,15 @@ export default class WebsiteTable extends React.Component {
     });
     this.store.onRowChange(this.getRows(props.snapshots, props.snapshot));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
+    this.filterSubscription = this.store.filter$.subscribe(filter => this.setState({ filter }));
   }
 
   dispose() {
     if (this.dataSubscription) {
       this.dataSubscription.dispose();
+    }
+    if (this.filterSubscription) {
+      this.filterSubscription.dispose();
     }
     if (this.store) {
       this.store.dispose();
@@ -128,7 +133,7 @@ export default class WebsiteTable extends React.Component {
   };
 
   render() {
-    const { data } = this.state;
+    const { data, filter } = this.state;
     if (!data) {
       return null;
     }
@@ -143,11 +148,14 @@ export default class WebsiteTable extends React.Component {
           data={data}
           onPrevPage={this.store.onPrevPage}
           onNextPage={this.store.onNextPage}
+          filter={filter}
+          setFilter={this.store.setFilter}
+          showFilter={this.props.showFilter}
         />
 
         {data.rows.length === 0
           ? <div className={`${block}__no-websites-matching-query`}>
-              No websites found for your current query.
+              {this.props.noWebsitesMessages || 'No websites found for your current query.'}
             </div>
           : null}
 

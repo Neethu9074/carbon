@@ -2,9 +2,9 @@ import { create, combineLatest } from 'reactive-observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
 
+import { compare, isBlank, containsIgnoreCase } from 'in-services/util/string';
 import { renderers } from 'in-components/Table/renderers';
 import { getSetting$ } from 'in-services/settings';
-import { compare } from 'in-services/util/string';
 
 let updateFrequencyMillis = 3000;
 getSetting$('tables_refreshRate').subscribe(refreshRate => (updateFrequencyMillis = refreshRate));
@@ -49,6 +49,7 @@ export function createStore({
   const data = new Map();
 
   const data$ = create().emit(data);
+  const filter$ = create().emit('');
   const sort$ = create().emit({
     page: 0,
     column: initialSortColumn,
@@ -56,7 +57,12 @@ export function createStore({
   });
   const rowsChanged$ = create().emit(true);
   const expandStateChange$ = create().emit(true);
-  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis), rowsChanged$])
+  const sortedPagedData$ = combineLatest([
+    sort$,
+    filter$.debounce(300),
+    data$.throttle(updateFrequencyMillis),
+    rowsChanged$
+  ])
     // Data changes synchronously when the table is created. Force this sorting to happen
     // after all columns have been created.
     .nextFrame()
@@ -76,8 +82,14 @@ export function createStore({
     toggleExpanded,
     onPrevPage,
     onNextPage,
-    onRowChange
+    onRowChange,
+    filter$,
+    setFilter
   };
+
+  function setFilter(filter) {
+    filter$.emit(filter);
+  }
 
   function dispose() {
     data.clear();
@@ -214,9 +226,14 @@ export function createStore({
     data$.emit(data);
   }
 
-  function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }]) {
+  function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }, filter]) {
+    const needsToFilter = !isBlank(filter);
     let rows = [];
-    data.forEach(row => rows.push(row));
+    data.forEach(row => {
+      if (!needsToFilter || (needsToFilter && matchesFilter(row, filter))) {
+        rows.push(row);
+      }
+    });
 
     if (rows.length === 0) {
       return {
@@ -225,7 +242,8 @@ export function createStore({
         page: shownPage,
         pageCount: 1,
         sortColumnIndex,
-        sortDirection
+        sortDirection,
+        filter
       };
     }
 
@@ -258,7 +276,8 @@ export function createStore({
       page: shownPage,
       pageCount,
       sortColumnIndex,
-      sortDirection
+      sortDirection,
+      filter
     };
   }
 }
@@ -297,4 +316,18 @@ function buildRowComparatorForIndex(comparator, index) {
 
 function validateRow(row) {
   invariant(typeof row.key === 'string', 'row.key must be a string');
+}
+
+function matchesFilter(row, filter) {
+  const { columns } = row;
+  for (let i = 0, length = columns.length; i < length; i++) {
+    const column = columns[i];
+    if (typeof column.value === 'string' && containsIgnoreCase(column.value, filter)) {
+      return true;
+    }
+    if (typeof column.content === 'string' && containsIgnoreCase(column.content, filter)) {
+      return true;
+    }
+  }
+  return false;
 }
