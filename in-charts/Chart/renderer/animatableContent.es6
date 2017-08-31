@@ -1,6 +1,6 @@
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import { getAxisTickPositions } from 'in-charts/timeAxis';
+import { getAxisTickPositions } from 'in-charts/ticks/timeAxis';
 
 const axisFontColor = '#2d4048';
 const softerAxisFontColor = '#8c969a';

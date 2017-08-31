@@ -3,9 +3,9 @@ import React from 'react';
 import { highlightSpanId } from 'in-views/traceView/stores/highlightedSpan';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import { getLabel, getCategory, SPAN_KINDS } from 'in-sdk/tracing';
+import { getTickPositions } from 'in-charts/ticks/timeAxis';
 import { getStart, getEnd } from 'in-views/traceView/util';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import { getTickPositions } from 'in-charts/timeAxis';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
