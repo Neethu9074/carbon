@@ -14,6 +14,9 @@ const block = 'in-event-view-event-information';
 
 export default connectTo(
   props => {
+    if (props.snapshot) {
+      return {};
+    }
     return {
       snapshot: props.snapshotId ? getSnapshot(props.snapshotId, props.time) : alwaysNull
     };
