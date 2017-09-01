@@ -8,6 +8,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
 import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
@@ -34,7 +35,10 @@ const cols = [
     typeArgs: {
       getSnapshot$(row) {
         return getHostSnapshotId(row.snapshot).flatMap(hostId => {
-          return hostId ? getSnapshot(hostId, row.snapshot.get('from')) : alwaysNull;
+          const to = row.snapshot.get('to') || Date.now();
+          const reportingWindowSize = to - row.snapshot.get('from');
+          const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
+          return hostId ? getSnapshot(hostId, reportingCenterTime) : alwaysNull;
         });
       }
     }
@@ -87,9 +91,10 @@ const cols = [
 
 export default connectTo(
   {
-    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent')
+    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
+    focusedMoment: focusedMoment$
   },
-  function AgentViewTable({ agentSnapshots }) {
+  function AgentViewTable({ agentSnapshots, focusedMoment }) {
     if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }
@@ -99,6 +104,7 @@ export default connectTo(
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
+        focusedMoment,
         isReportingAtFocusedMoment: true
       });
     });
@@ -106,6 +112,7 @@ export default connectTo(
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
+        focusedMoment,
         isReportingAtFocusedMoment: false
       });
     });
