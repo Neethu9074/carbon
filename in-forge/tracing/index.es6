@@ -101,6 +101,7 @@ import './tabex';
 import './url';
 import './vaadin';
 import './vertx.client';
+import './vertx.cluster';
 import './vertx.server';
 import './wcf';
 import './wcfclient';
