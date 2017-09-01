@@ -6,6 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  awsRDS: 'awsRds',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
@@ -136,6 +137,7 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
   batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
   browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',

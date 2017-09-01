@@ -2,6 +2,7 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './availabilityZone';
+import './awsRds';
 import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
