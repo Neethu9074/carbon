@@ -6,6 +6,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { compare } from 'in-services/util/boolean';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -94,14 +95,14 @@ export default connectTo(
     }
 
     const rows = [];
-    agentSnapshots.get('online').forEach(snapshot => {
+    agentSnapshots.get('online', emptyList).forEach(snapshot => {
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
         isReportingAtFocusedMoment: true
       });
     });
-    agentSnapshots.get('offline').forEach(snapshot => {
+    agentSnapshots.get('offline', emptyList).forEach(snapshot => {
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
