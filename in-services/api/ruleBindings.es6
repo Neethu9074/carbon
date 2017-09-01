@@ -49,7 +49,7 @@ export function createRuleBinding(
   description = 'This is the Problem description. You can also use markdown here: \n * Relative change in value: **100%** \n * Confidence: **99.90%**',
   expirationTime = 60000,
   query = '',
-  ruleIds = []
+  ruleIds = ['entity.offline']
 ) {
   return {
     id: id || generateUniqueShortId(),
