@@ -200,7 +200,12 @@ export default connectTo(
           <SectionHeading>
             Event preview
           </SectionHeading>
-          <EventDescription className={`${block}__issue-preview`} event={createEvent(form)} snapshotId="snapshotId" />
+          <EventDescription
+            className={`${block}__issue-preview`}
+            event={createEvent(form)}
+            snapshotId="snapshotId"
+            isNotClickable
+          />
         </Section>
       </fieldset>
     );
