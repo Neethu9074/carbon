@@ -16,7 +16,7 @@ import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { parsedQuery$, query$ } from 'in-stores/search/query';
+import { debouncedQuery$, query$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 
 const selectedSnapshotIdStore = createTrackingStore({
@@ -235,7 +235,7 @@ export function getSnapshotVersions(snapshotId, time) {
 }
 
 export function getSnapshotsInTimeframe(customQuery) {
-  return combineLatest([timeframe$, focusedMoment$, parsedQuery$])
+  return combineLatest([timeframe$, focusedMoment$, debouncedQuery$])
     .nextFrame()
     .flatMap(([timeframe, focusedMoment, query]) => {
       query = query == null || query.length === 0 ? '' : query;
