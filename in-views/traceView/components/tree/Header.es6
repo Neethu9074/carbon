@@ -5,7 +5,7 @@ import ServiceImplementationEntityInformation from 'in-views/traceView/component
 import { getErrorCount, getDepth, getCalls, getPerCategorySummary } from 'in-views/traceView/util';
 import ServiceEntityInformation from 'in-views/traceView/components/ServiceEntityInformation';
 import TraceDownloadView from 'in-components/DownloadButton/components/TraceDownloadView';
-import { getCurrentViewWithTimelineCenteredAt } from 'in-stores/navigation/timeline';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -36,7 +36,7 @@ export default function TraceHeader({ trace }) {
 
       <div className={`${block}__date`}>
         <Tooltip content="Center timeline around this trace's start time.">
-          <Link href$={getCurrentViewWithTimelineCenteredAt(trace.get('start'))} className={`${block}__timeline-link`}>
+          <Link href$={getCurrentViewWithTimelineFocusedAt(trace.get('start'))} className={`${block}__timeline-link`}>
             {formatDateTime(trace.get('start'))}
           </Link>
         </Tooltip>

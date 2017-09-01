@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getCurrentViewWithTimelineCenteredAt } from 'in-stores/navigation/timeline';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';
@@ -107,7 +107,7 @@ function ListItem({ from, to }) {
 
   return (
     <li className={`${block}__list-item`}>
-      <Link href$={getCurrentViewWithTimelineCenteredAt(time, windowSize)} className={`${block}__set-time`}>
+      <Link href$={getCurrentViewWithTimelineFocusedAt(time)} className={`${block}__set-time`}>
         <span className={`${block}__key`}>
           from:
         </span>
