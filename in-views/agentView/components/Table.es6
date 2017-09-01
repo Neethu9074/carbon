@@ -6,7 +6,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
-import { focusedMoment$ } from 'in-stores/timeline';
 import { compare } from 'in-services/util/boolean';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -58,7 +57,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return `${row.snapshot.getIn(['data', 'java', 'vmname'])} ${row.snapshot.getIn(['data', 'java', 'version'])}`;
+        return `${row.snapshot.getIn(['data', 'java', 'vmvendor'])} ${row.snapshot.getIn(['data', 'java', 'version'])}`;
       }
     }
   },
@@ -83,20 +82,27 @@ const cols = [
 
 export default connectTo(
   {
-    agents: getSnapshotsInTimeframe('entity.selfType:agent').throttle(200),
-    focusedMoment: focusedMoment$
+    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent')
   },
-  function AgentViewTable({ agents, focusedMoment }) {
-    if (!agents) {
+  function AgentViewTable({ agentSnapshots }) {
+    if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = agents.toArray().map(snapshot => {
-      return {
+    const rows = [];
+    agentSnapshots.get('online').forEach(snapshot => {
+      rows.push({
         key: snapshot.get('id'),
-        snapshot,
-        isReportingAtFocusedMoment: isReportingAtFocusedMoment(snapshot, focusedMoment)
-      };
+        snapshot: snapshot,
+        isReportingAtFocusedMoment: true
+      });
+    });
+    agentSnapshots.get('offline').forEach(snapshot => {
+      rows.push({
+        key: snapshot.get('id'),
+        snapshot: snapshot,
+        isReportingAtFocusedMoment: false
+      });
     });
 
     return (
@@ -132,14 +138,4 @@ function getTooltipReportingText(row) {
     )}.`;
   }
   return text;
-}
-
-function isReportingAtFocusedMoment(snapshot, focusedMoment) {
-  const from = snapshot.get('from');
-  const to = snapshot.get('to');
-
-  if (!to && !focusedMoment) {
-    return true;
-  }
-  return from <= focusedMoment && (!to || to >= focusedMoment) ? true : false;
 }

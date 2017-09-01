@@ -237,7 +237,12 @@ export function getSnapshotVersions(snapshotId, time) {
 export function getSnapshotsInTimeframe(customQuery) {
   return combineLatest([timeframe$, focusedMoment$, query$])
     .nextFrame()
-    .flatMap(([timeframe, focusedMoment, query]) =>
-      createSnapshotsInTimeframeObservable({ timeframe, query: `${query} ${customQuery}`, focusedMoment })
-    );
+    .flatMap(([timeframe, focusedMoment, query]) => {
+      if (query.length === 0) {
+        query = customQuery;
+      } else {
+        query = `${query} AND ${customQuery}`;
+      }
+      return createSnapshotsInTimeframeObservable({ timeframe, query, focusedMoment });
+    });
 }
