@@ -63,6 +63,23 @@ export default connectTo(
             })}
           </div>
 
+          {form.get('ruleIds').map(field => {
+            const selectedRule = field.value.get(0);
+            const isSystemRule = selectedRule && find(systemRules, each => each.id == selectedRule) ? true : false;
+            if (isSystemRule) {
+              return (
+                <FormGroup>
+                  <span className={`${block}__help-text`}>
+                    Track offline events in order to trigger issues on entities that should not go offline. Please
+                    define
+                    a filter query to match the entities you want to put under offline observation.
+                  </span>
+                </FormGroup>
+              );
+            }
+            return null;
+          })}
+
           {form.get('query').map(field =>
             <FormGroup>
               <Label htmlFor="ruleBinding-query" hasError={!field.valid}>
