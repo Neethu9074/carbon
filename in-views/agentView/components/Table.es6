@@ -6,7 +6,9 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { compare } from 'in-services/util/boolean';
+import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
@@ -29,8 +31,10 @@ const cols = [
     title: 'Host',
     type: 'snapshotLink',
     typeArgs: {
-      getSnapshotId$(row) {
-        return getHostSnapshotId(row.snapshot);
+      getSnapshot$(row) {
+        return getHostSnapshotId(row.snapshot).flatMap(hostId => {
+          return hostId ? getSnapshot(hostId, row.snapshot.get('from')) : alwaysNull;
+        });
       }
     }
   },
