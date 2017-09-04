@@ -81,7 +81,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: 'Notifications',
     type: 'custom',
     typeArgs: {
       comparator: compareNumber,
