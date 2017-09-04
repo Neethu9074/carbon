@@ -19,7 +19,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
   if (pageName) {
-    viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
+    viewTracesQuery = `${viewTracesQuery} span.website.page:"${luceneEscapeString(pageName)}"`;
   }
   const viewTracesButton = (
     <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>

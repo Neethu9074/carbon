@@ -71,10 +71,10 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
   const browserRows = result.data.get('browsers').toArray().map(browser => {
     let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
     if (pageName) {
-      query += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
+      query += ` span.website.page:"${luceneEscapeString(pageName)}"`;
     }
-    query += ` span.webEum.error.message:"${luceneEscapeString(errorMessage)}"`;
-    query += ` span.webEum.userAgent.browser.name:"${browser.get('name')}"`;
+    query += ` span.website.error.message:"${luceneEscapeString(errorMessage)}"`;
+    query += ` span.website.userAgent.browser.name:"${browser.get('name')}"`;
     return {
       key: browser.get('hash'),
       name: browser.get('name'),
@@ -94,7 +94,7 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
       isMonitoredRightNow: existingPages.contains(page.get('name')),
       query: `entity.website.label:"${luceneEscapeString(
         websiteLabel
-      )}" span.webEum.error.message:"${luceneEscapeString(errorMessage)}" span.webEum.page:"${luceneEscapeString(
+      )}" span.website.error.message:"${luceneEscapeString(errorMessage)}" span.website.page:"${luceneEscapeString(
         page.get('name')
       )}"`,
       href$: isMonitoredRightNow ? getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`) : null

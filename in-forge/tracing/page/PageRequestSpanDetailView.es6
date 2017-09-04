@@ -11,7 +11,7 @@ import Link from 'in-components/Link';
 export default connectTo(
   props => {
     return {
-      allTracesHref: getTraceViewLinkWithQuery(`span.webEum.pageLoadId:"${props.span.get('traceId')}"`)
+      allTracesHref: getTraceViewLinkWithQuery(`span.website.pageLoadId:"${props.span.get('traceId')}"`)
     };
   },
   function PageRequestSpanDetailView({ span, allTracesHref }) {

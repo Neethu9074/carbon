@@ -65,9 +65,9 @@ export default connectTo(
 
     let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
     if (pageName) {
-      viewTracesQuery += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
+      viewTracesQuery += ` span.website.page:"${luceneEscapeString(pageName)}"`;
     }
-    viewTracesQuery += ` span.webEum.error.message:"${luceneEscapeString(message)}"`;
+    viewTracesQuery += ` span.website.error.message:"${luceneEscapeString(message)}"`;
 
     return (
       <div>
