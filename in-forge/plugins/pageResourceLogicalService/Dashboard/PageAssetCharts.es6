@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) {
   return (
     <div>
-      <DashboardSection title="Requests/s vs. Average Latency">
+      <DashboardSection title="Requests/s vs. Latency">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -28,7 +28,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: [prefix + 'duration.mean'],
-            labels: ['average latency'],
+            labels: ['latency'],
             type: 'line',
             aggregation: 'mean'
           }}

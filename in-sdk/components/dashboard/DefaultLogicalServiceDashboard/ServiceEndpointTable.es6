@@ -137,7 +137,7 @@ function getRowDetails(row) {
           min: 0,
           formatter: msTwoDecimalPlaces,
           metrics: [`endpoint.${endpointLabel}.duration.mean`],
-          labels: ['average latency'],
+          labels: ['latency'],
           type: 'line'
         }}
       />
