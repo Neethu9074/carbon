@@ -68,7 +68,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureEumApplications"
-          label="End-User Monitoring configuration"
+          label="Website Monitoring configuration"
         />
 
         <Permission

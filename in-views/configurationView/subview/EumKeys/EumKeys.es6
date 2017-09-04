@@ -19,7 +19,7 @@ export default connectTo(
       <SubViewWrapper>
         <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
         <SubViewHeader>
-          End-User Monitoring Keys
+          Website Monitoring Keys
         </SubViewHeader>
 
         {keys == null ? <LoadingIndicator type="dark" /> : null}

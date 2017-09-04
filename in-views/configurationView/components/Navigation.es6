@@ -104,7 +104,7 @@ export default function Navigation() {
           : null}
 
         {role.canConfigureEumApplications && config.tenant === 'edmunds'
-          ? <NavItem title="End-User Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
+          ? <NavItem title="Website Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
           : null}
 
         {role.canConfigureUsers || role.canConfigureRoles
