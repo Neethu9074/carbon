@@ -9,7 +9,7 @@ import {
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function DefaultCharts({ snapshot, timeframe }) {
+export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -45,7 +45,6 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          height={400}
           margins={{
             left: 80
           }}

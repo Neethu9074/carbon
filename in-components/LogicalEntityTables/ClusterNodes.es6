@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultCharts';
+import DefaultServiceInstanceCharts from 'in-sdk/components/dashboard/DefaultServiceInstanceDashboard/DefaultServiceInstanceCharts';
 import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -23,5 +23,5 @@ export default function ClusterNodes({ snapshotId, timeframe }) {
 }
 
 function getRowDetails(row) {
-  return <DefaultCharts snapshot={row.node} timeframe={row.timeframe} />;
+  return <DefaultServiceInstanceCharts snapshot={row.node} timeframe={row.timeframe} />;
 }
