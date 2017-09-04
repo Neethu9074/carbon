@@ -74,11 +74,11 @@ export default class extends React.Component {
   render() {
     const text = this.props.children || 'Copy to clipboard';
     return (
-      <div ref={button => (this.button = button)}>
+      <span ref={button => (this.button = button)}>
         <Button kind="secondary" size="sm">
           {text}
         </Button>
-      </div>
+      </span>
     );
   }
 }
