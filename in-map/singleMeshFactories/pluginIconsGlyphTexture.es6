@@ -1,7 +1,10 @@
+import { createLogger } from 'instalog';
+
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';
 import { getAllSvgIconPaths } from 'in-sdk/iconRegistry';
 
 const allIcons = getAllSvgIconPaths();
+
 export const config = {
   numElementsPerColumn: Math.ceil(Math.sqrt(allIcons.length)),
   iconWidth: 128,
@@ -10,9 +13,13 @@ export const config = {
 
 const canvas = document.createElement('canvas');
 canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
-
 const context = canvas.getContext('2d');
 context.fillStyle = '#fff';
+
+if (__DEV__ && canvas.width > 2000) {
+  const logger = createLogger('in-map/singleMeshFactories/pluginIconsGlyphTexture');
+  logger.warn('The atlas map has reached a critical size of', canvas.width, '. We should spit them into 1k maps.');
+}
 
 export const glyphTexture = new Texture(canvas);
 glyphTexture.minFilter = LinearFilter;
