@@ -21,7 +21,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Search Performance vs. Throughput">
+      <DashboardSection title="Latency vs. Number of Queries">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
