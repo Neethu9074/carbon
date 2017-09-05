@@ -3,20 +3,21 @@ import React from 'react';
 
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
+import AgentNotificationsView from 'promise-loader?global!in-views/agentView/AgentNotificationsView';
+import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesView/KubernetesView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
-import AgentView from 'promise-loader?global,eumView!in-views/agentView/AgentView';
-import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesView/KubernetesView';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
+import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-import { Route } from 'react-router-dom';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
+import { Route } from 'react-router-dom';
 import AsciiMap from 'in-map/AsciiMap';
 import { role } from 'in-stores/user';
 import Map from 'in-map/index';
@@ -52,7 +53,23 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="/traces" />
 
     {role.canConfigureAgents
+<<<<<<< HEAD
       ? <Route path="/agents" component={createAsyncFullscreenOverlayViewComponent(AgentView)} />
+=======
+      ? <RouteWithTitle
+          path="/agents/notifications"
+          component={createAsyncFullscreenOverlayViewComponent(AgentNotificationsView)}
+          windowTitle="Instana Agent Notifications"
+        />
+      : null}
+
+    {role.canConfigureAgents
+      ? <RouteWithTitle
+          path="/agents"
+          component={createAsyncFullscreenOverlayViewComponent(AgentView)}
+          windowTitle="Instana Agents"
+        />
+>>>>>>> prepare agent health view to support notifications per agent
       : null}
 
     <RedirectWithHash from="/" to="/physical" />

@@ -7,7 +7,6 @@ import { compare as compareBoolean } from 'in-services/util/boolean';
 import { compare as compareNumber } from 'in-services/util/number';
 import RowDetails from 'in-views/agentView/components/RowDetails';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -97,10 +96,9 @@ const cols = [
 
 export default connectTo(
   {
-    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
     focusedMoment: focusedMoment$
   },
-  function AgentViewTable({ agentSnapshots, focusedMoment }) {
+  function AgentViewAgentsTable({ agentSnapshots, focusedMoment }) {
     if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }

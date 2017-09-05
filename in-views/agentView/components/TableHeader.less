@@ -1,0 +1,30 @@
+.in-agent-view-table-header {
+  display: flex;
+  align-items: center;
+
+  background: #40535c;
+  padding-left: .75rem;
+  height: 2.25rem;
+
+  &__link:hover {
+    text-decoration: none;
+  }
+
+  &__tab {
+    display: flex;
+    align-items: center;
+
+    height: 2.125rem;
+    margin-right: 1.4rem;
+    color: #b3c0c2;
+    cursor: pointer;
+
+    &--selected, &:hover {
+      color: white;
+    }
+
+    &--selected {
+      border-bottom: 2px solid;
+    }
+  }
+}
