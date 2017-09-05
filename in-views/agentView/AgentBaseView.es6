@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import TableHeader from 'in-views/agentView/components/TableHeader';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
@@ -18,6 +19,7 @@ export default connectTo(
   function AgentBaseView({ agentSnapshots, notifications, View }) {
     return (
       <FullscreenOverlayView>
+        {DashboardNavigationRoute}
         <TableHeader agentSnapshots={agentSnapshots} notifications={notifications} />
         <View agentSnapshots={agentSnapshots} notifications={notifications} />
       </FullscreenOverlayView>
