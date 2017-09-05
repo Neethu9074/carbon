@@ -28,6 +28,9 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Engine">
         {data.get('db_engine')}
       </DescriptionItem>
+      <DescriptionItem title="Cluster">
+        {data.get('db_cluster')}
+      </DescriptionItem>
       <DescriptionItem title="Agent Host">
         {data.get('agent_host')}
       </DescriptionItem>

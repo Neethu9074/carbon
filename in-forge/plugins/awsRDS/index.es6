@@ -14,6 +14,6 @@ registerSnapshotDefinition({
     plural: 'AWS RDSes'
   },
   getLabel(snapshot) {
-    return snapshot.getIn(['data', 'db_instance_id'], '');
+    return snapshot.getIn(['data', 'db_instance_id'], '') + ' (' + snapshot.getIn(['data', 'db_engine'], '') + ')';
   }
 });
