@@ -6,6 +6,7 @@ export default function WebApiSpanDetailView({ span }) {
   const binding = span.getIn(['data', 'wcfclient', 'binding']);
   const oneway = span.getIn(['data', 'wcfclient', 'oneway']);
   const channeltype = span.getIn(['data', 'wcfclient', 'channel']);
+  const error = span.getIn(['data', 'wcfclient', 'error']);
 
   return (
     <div>
@@ -28,6 +29,11 @@ export default function WebApiSpanDetailView({ span }) {
         <DescriptionItem title="Channel">
           {channeltype ? channeltype : 'unknown'}
         </DescriptionItem>
+        {error
+          ? <DescriptionItem title="Error">
+              {error}
+            </DescriptionItem>
+          : null}
       </DescriptionList>
     </div>
   );
