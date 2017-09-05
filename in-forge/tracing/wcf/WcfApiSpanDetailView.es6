@@ -4,6 +4,8 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 
 export default function WebApiSpanDetailView({ span }) {
   const binding = span.getIn(['data', 'wcf', 'binding']);
+  const error = span.getIn(['data', 'wcf', 'error']);
+
   return (
     <div>
       <DescriptionList>
@@ -19,6 +21,11 @@ export default function WebApiSpanDetailView({ span }) {
         <DescriptionItem title="Url">
           {span.getIn(['data', 'wcf', 'localaddress'])}
         </DescriptionItem>
+        {error
+          ? <DescriptionItem title="Error">
+              {error}
+            </DescriptionItem>
+          : null}
       </DescriptionList>
     </div>
   );
