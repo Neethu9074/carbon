@@ -1,5 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
+import createSnapshotsMatchingHostIdObservable from 'in-services/subscription/snapshotsMatchingHostId';
 import createSnapshotsInTimeframeObservable from 'in-services/subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
@@ -242,4 +243,8 @@ export function getSnapshotsInTimeframe(customQuery) {
       query = query || '';
       return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} ${query}`, focusedMoment });
     });
+}
+
+export function getSnapshotsMatchingHostId(snapshot) {
+  return focusedMoment$.flatMap(time => createSnapshotsMatchingHostIdObservable({ snapshot, time }));
 }
