@@ -10,7 +10,6 @@ import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Route } from 'react-router-dom';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
 import GraphView from 'in-components/graphView/GraphView';
@@ -23,22 +22,18 @@ import Map from 'in-map/index';
 
 export default (
   <Switch>
-    <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
-    <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
+    <Route path="/cockpit" component={Cockpit} />
+    <Route path="/tableTest" component={TableTest} />
 
-    <Route path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map" />
-    <Route path="/ascii/logical" component={AsciiMap} windowTitle="Application Map" />
-    <Route path="/ascii/container" component={AsciiMap} windowTitle="Infrastructure Container Map" />
+    <Route path="/ascii/physical" component={AsciiMap} />
+    <Route path="/ascii/logical" component={AsciiMap} />
+    <Route path="/ascii/container" component={AsciiMap} />
 
     <Route path="/physical" component={Map} />
     <Route path="/logical" component={Map} />
     <Route path="/container" component={Map} />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(EventView)}
-      path="/events"
-      windowTitle="Events"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events" />
 
     <Route
       path="/table"
@@ -46,40 +41,20 @@ export default (
       windowTitle="Comparison Table"
     />
 
-    <RouteWithTitle component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" windowTitle="Logs" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(NewWebsite)}
-      path="/website/new"
-      windowTitle="New Website"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(EumView)}
-      path="/website"
-      windowTitle="Websites"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" windowTitle="Websites" />
 
-    <RouteWithTitle component={GraphView} path="/graph" windowTitle="Graph" />
-    <RouteWithTitle component={GlobeView} path="/globe" windowTitle="World Globe" />
+    <Route component={GraphView} path="/graph" />
+    <Route component={GlobeView} path="/globe" />
 
-    <RouteWithTitle
-      path="/config"
-      component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
-      windowTitle="Settings"
-    />
+    <Route path="/config" component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)} />
 
-    <RouteWithTitle
-      windowTitle="Traces"
-      component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)}
-      path="/traces"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="/traces" />
 
     {role.canConfigureAgents
-      ? <RouteWithTitle
-          path="/agents"
-          component={createAsyncFullscreenOverlayViewComponent(AgentView)}
-          windowTitle="Instana Agents"
-        />
+      ? <Route path="/agents" component={createAsyncFullscreenOverlayViewComponent(AgentView)} />
       : null}
 
     <RedirectWithHash from="/" to="/physical" />

@@ -3,6 +3,7 @@ import React from 'react';
 import { loadingResources$ } from 'in-components/globeView/stores/isLoadingStore';
 import Universe from 'in-components/globeView/components/Universe';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './GlobeView.less';
 
@@ -23,6 +24,7 @@ export default connectTo(
 
     return (
       <div className={block}>
+        <Title title="World Globe" />
         <Universe className={`${block}__universe`} />
 
         {loadingResources.isLoading

@@ -11,6 +11,7 @@ import { data$ } from 'in-views/eumView/stores/snapshots';
 import { getLinkToPath } from 'in-stores/navigation';
 import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
@@ -54,6 +55,7 @@ export default connectTo(
           path="/website"
           render={() =>
             <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+              <Title title="Websites" />
               <div className={block}>
                 <div className={headerElement}>
                   <div>
