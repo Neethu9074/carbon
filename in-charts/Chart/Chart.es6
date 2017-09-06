@@ -62,6 +62,12 @@ export default function createChart(config) {
     };
   }
 
+  //This is a hard override to make sure charts have the same width even if there are >1 yAxis.
+  if (config.margins) {
+    config.margins.left = 60;
+    config.margins.right = 50;
+  }
+
   addLowDetailModeSupport();
 
   const domController = createDomController(config);
