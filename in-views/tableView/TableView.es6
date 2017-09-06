@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
+import Title from 'in-components/Title';
 import Table from 'in-views/tableView/components/Table';
 
 import './TableView.less';
@@ -17,6 +18,7 @@ export default function TableView() {
 
   return (
     <div>
+      <Title title="Comparison Table" />
       {view}
       {DashboardNavigationRoute}
     </div>

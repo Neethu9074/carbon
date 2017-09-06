@@ -8,10 +8,12 @@ import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import MapNoContentMessage from 'in-components/MapNoContentMessage';
+import { view$, types as views } from 'in-stores/view';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import 'in-map/Map.less';
 
@@ -21,7 +23,8 @@ export default connectTo(
   {
     antialias: getSetting$('map_antialias'),
     isContextLost: isContextLost$,
-    canvas: canvas$
+    canvas: canvas$,
+    view: view$
   },
   class extends React.Component {
     static displayName = 'Map';
@@ -29,7 +32,8 @@ export default connectTo(
     static propTypes = {
       isContextLost: rpt.bool,
       antialias: rpt.string,
-      canvas: rpt.object
+      canvas: rpt.object,
+      view: rpt.string
     };
 
     componentDidMount() {
@@ -48,6 +52,17 @@ export default connectTo(
       }
     }
 
+    getTitle() {
+      switch (this.props.view) {
+        case views.container:
+          return 'Infrastructure Container Map';
+        case views.logical:
+          return 'Application Map';
+        case views.physical:
+          return 'Infrastructure Host Map';
+      }
+    }
+
     componentWillUnmount() {
       clear();
 
@@ -62,6 +77,7 @@ export default connectTo(
 
       return (
         <div>
+          <Title title={this.getTitle()} />
           {DashboardNavigationRoute}
           <div className={className}>
             <canvas

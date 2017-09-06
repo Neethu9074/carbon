@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { setWindowTitleFromRoute } from 'in-services/title';
+// import { setWindowTitleFromRoute } from 'in-services/title';
 import { Route } from 'react-router-dom';
-import config from 'in-services/config';
+// import config from 'in-services/config';
 
 export default class RouteWithTitle extends React.Component {
   render() {
@@ -24,11 +24,11 @@ export default class RouteWithTitle extends React.Component {
   setWindowTitle() {
     if (this.props && this.props.windowTitle) {
       if (this.proceedToSetWindowTitle()) {
-        const title = `${this.props.windowTitle} – Instana (${config.tenantUnit}-${config.tenant})`;
-        setWindowTitleFromRoute(title);
+        // const title = `${this.props.windowTitle} – Instana (${config.tenantUnit}-${config.tenant})`;
+        //setWindowTitleFromRoute(title);
       }
     } else {
-      setWindowTitleFromRoute('Welcome');
+      //setWindowTitleFromRoute('Welcome');
     }
   }
 

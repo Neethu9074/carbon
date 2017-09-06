@@ -11,6 +11,7 @@ import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
+import { Route } from 'react-router-dom';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
@@ -25,13 +26,13 @@ export default (
     <RouteWithTitle path="/cockpit" component={Cockpit} windowTitle="Cockpit" />
     <RouteWithTitle path="/tableTest" component={TableTest} windowTitle="Table Test" />
 
-    <RouteWithTitle path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map" />
-    <RouteWithTitle path="/ascii/logical" component={AsciiMap} windowTitle="Application Map" />
-    <RouteWithTitle path="/ascii/container" component={AsciiMap} windowTitle="Infrastructure Container Map" />
+    <Route path="/ascii/physical" component={AsciiMap} windowTitle="Infrastructure Host Map" />
+    <Route path="/ascii/logical" component={AsciiMap} windowTitle="Application Map" />
+    <Route path="/ascii/container" component={AsciiMap} windowTitle="Infrastructure Container Map" />
 
-    <RouteWithTitle path="/physical" component={Map} windowTitle="Infrastructure Host Map" />
-    <RouteWithTitle path="/logical" component={Map} windowTitle="Application Map" />
-    <RouteWithTitle path="/container" component={Map} windowTitle="Infrastructure Container Map" />
+    <Route path="/physical" component={Map} />
+    <Route path="/logical" component={Map} />
+    <Route path="/container" component={Map} />
 
     <RouteWithTitle
       component={createAsyncFullscreenOverlayViewComponent(EventView)}
@@ -39,7 +40,7 @@ export default (
       windowTitle="Events"
     />
 
-    <RouteWithTitle
+    <Route
       path="/table"
       component={createAsyncFullscreenOverlayViewComponent(TableView)}
       windowTitle="Comparison Table"

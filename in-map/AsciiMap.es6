@@ -7,28 +7,36 @@ import MapNoContentMessage from 'in-components/MapNoContentMessage';
 import AsciiSceneGraph from 'in-map/SceneGraph/AsciiSceneGraph';
 import { setCanvas, clear } from 'in-map/stores/indexStore';
 import Controls from 'in-components/MapOverlayControls';
+import { view$, types as views } from 'in-stores/view';
 import EventSidebar from 'in-components/EventSidebar';
 import MapSidebar from 'in-components/MapSidebar';
 import MapNotes from 'in-components/MapNotes';
+import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import 'in-map/Map.less';
 
 const block = 'in-map';
 
-export default function MapHandler(props) {
-  return (
-    <div>
-      <section>
-        <AsciiMap />
-        <Controls />
-        <EventSidebar />
-        <MapSidebar />
-        <MapNotes />
-      </section>
-      {props.children}
-    </div>
-  );
-}
+export default connectTo(
+  {
+    view: view$
+  },
+  function MapHandler(props) {
+    return (
+      <div>
+        <section>
+          <AsciiMap view={props.view} />
+          <Controls />
+          <EventSidebar />
+          <MapSidebar />
+          <MapNotes />
+        </section>
+        {props.children}
+      </div>
+    );
+  }
+);
 
 class AsciiMap extends React.Component {
   static displayName = 'AsciiMap';
@@ -48,11 +56,23 @@ class AsciiMap extends React.Component {
     }
   }
 
+  getTitle() {
+    switch (this.props.view) {
+      case views.container:
+        return 'Infrastructure Container Map';
+      case views.logical:
+        return 'Application Map';
+      case views.physical:
+        return 'Infrastructure Host Map';
+    }
+  }
+
   render() {
     let className = block;
 
     return (
       <div>
+        <Title title={this.getTitle()} />
         {DashboardNavigationRoute}
         <div id="in-map" className={className}>
           <canvas
