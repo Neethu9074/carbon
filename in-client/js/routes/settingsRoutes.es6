@@ -12,8 +12,8 @@ import RoleConfig from 'promise-loader?global,configView!in-views/configurationV
 import ObjectiveConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectiveConfig';
 import ApiTokens from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
-
 import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
+import { Route } from 'react-router-dom';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
@@ -33,22 +33,19 @@ import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing
 export default (
   <Switch>
 
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction/:ruleId"
-      windowTitle="Service Extraction Rule"
     />
 
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction"
-      windowTitle="Service Extraction Rule"
     />
 
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(GeneralServiceExtractionConfiguration)}
       path="/config/generalServiceExtraction"
-      windowTitle="General Service Extraction"
     />
     <RouteWithTitle
       component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
