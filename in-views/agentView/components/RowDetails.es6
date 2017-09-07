@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { getSnapshot, getSnapshotsMatchingHostId } from 'in-stores/snapshot';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { getAgentNotificationsForHost } from 'in-stores/agentNotification';
 import connectTo from 'in-hoc/connectTo';
 
 import './RowDetails.less';
 
-const block = 'in-in-agent-view-table-row-details';
+const block = 'in-agent-view-table-row-details';
 
 export default function RowDetails({ row }) {
   const notifications = row.snapshot.getIn(['data', 'notifications']);
@@ -14,36 +13,39 @@ export default function RowDetails({ row }) {
     return (
       <div className={block}>
         There are no notifications for this agent. Great job!
-        <SnapshotList snapshot={row.snapshot} />
+        <AgentNotifications snapshot={row.snapshot} />
       </div>
     );
   }
 }
 
-const SnapshotList = connectTo(
+const AgentNotifications = connectTo(
   props => {
     return {
-      snapshotIds: getSnapshotsMatchingHostId(props.snapshot).startWith([])
+      notifications: getAgentNotificationsForHost(props.snapshot)
     };
   },
-  function({ snapshotIds }) {
+  function({ notifications }) {
+    if (!notifications) {
+      return null;
+    }
+
     return (
       <ul>
-        {snapshotIds.map(snapshotId => <Snapshot key={snapshotId} snapshotId={snapshotId} />)}
+        {notifications.map(notification => <Notification key={notification.get('id')} notification={notification} />)}
       </ul>
     );
   }
 );
 
-const Snapshot = connectTo(
-  props => {
-    return { snapshot: getSnapshot(props.snapshotId) };
-  },
-  function Snapshot({ snapshot }) {
-    if (!snapshot) {
-      return null;
-    }
-
-    return <HierarchicalLink snapshot={snapshot} calculateHierarchy={false} kind="dark" />;
+function Notification({ notification }) {
+  if (!notification) {
+    return null;
   }
-);
+
+  return (
+    <li>
+      notification
+    </li>
+  );
+}

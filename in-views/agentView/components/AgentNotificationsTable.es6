@@ -1,7 +1,8 @@
 import React from 'react';
 
-import RowDetails from 'in-views/agentView/components/RowDetails';
+import { getAgentNotifications } from 'in-stores/agentNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
 
 const cols = [
@@ -16,15 +17,24 @@ const cols = [
   }
 ];
 
-export default function AgentViewAgentsTable({ agentSnapshots }) {
-  if (!agentSnapshots) {
-    return <LoadingIndicator type="dark" />;
+export default connectTo(
+  {
+    agentNotifications: getAgentNotifications()
+  },
+  function AgentViewAgentsTable({ agentNotifications }) {
+    if (!agentNotifications) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    const rows = [];
+    return <Table maxItemsPerPage={20} cols={cols} rows={rows} getRowDetails={getRowDetails} />;
   }
+);
 
-  const rows = [];
-  return <Table maxItemsPerPage={20} cols={cols} rows={rows} getRowDetails={getRowDetails} />;
-}
-
-function getRowDetails(row) {
-  return <RowDetails row={row} />;
+function getRowDetails() {
+  return (
+    <div>
+      foobar
+    </div>
+  );
 }
