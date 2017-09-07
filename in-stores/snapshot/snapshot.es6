@@ -1,6 +1,5 @@
 import { combineLatest } from 'reactive-observables';
 
-import createSnapshotsMatchingHostIdObservable from 'in-services/subscription/snapshotsMatchingHostId';
 import createSnapshotsInTimeframeObservable from 'in-services/subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
@@ -16,8 +15,8 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { debouncedQuery$, query$ } from 'in-stores/search/query';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
 
 const selectedSnapshotIdStore = createTrackingStore({
@@ -243,8 +242,4 @@ export function getSnapshotsInTimeframe(customQuery) {
       query = query || '';
       return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} ${query}`, focusedMoment });
     });
-}
-
-export function getSnapshotsMatchingHostId(snapshot) {
-  return focusedMoment$.flatMap(time => createSnapshotsMatchingHostIdObservable({ snapshot, time }));
 }
