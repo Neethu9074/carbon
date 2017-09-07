@@ -12,7 +12,6 @@ import RoleConfig from 'promise-loader?global,configView!in-views/configurationV
 import ObjectiveConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectiveConfig';
 import ApiTokens from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { Route } from 'react-router-dom';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
@@ -47,121 +46,57 @@ export default (
       component={createAsyncFullscreenOverlayViewComponent(GeneralServiceExtractionConfiguration)}
       path="/config/generalServiceExtraction"
     />
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
       path="/config/httpServiceExtraction"
-      windowTitle="HTTP Service Extraction"
     />
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(BatchServiceExtractionConfiguration)}
       path="/config/batchServiceExtraction"
-      windowTitle="Batch Service Extraction"
     />
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
       path="/config/ejbServiceExtraction"
-      windowTitle="EJB Service Extraction"
     />
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
       path="/config/elasticsearchServiceExtraction"
-      windowTitle="Elasticsearch Service Extraction"
     />
-    <RouteWithTitle
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(MessageBrokerServiceExtractionConfiguration)}
       path="/config/messageBrokerServiceExtraction"
-      windowTitle="Message Broker Service Extraction"
     />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
-      path="/config/userInterface"
-      windowTitle="User Interface Settings"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
-      path="/config/eumKeys"
-      windowTitle="EUM Keys"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)} path="/config/userInterface" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)} path="/config/eumKeys" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
-      path="/config/rolesConfig/:roleId"
-      windowTitle="Role Config"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)} path="/config/rolesConfig/:roleId" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
-      path="/config/rolesConfig"
-      windowTitle="Role Config"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
-      path="/config/users"
-      windowTitle="User Management"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)} path="/config/rolesConfig" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(ApiToken)}
-      path="/config/apiTokens/:apiTokenId"
-      windowTitle="API Tokens"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)} path="/config/users" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(ApiTokens)}
-      path="/config/apiTokens"
-      windowTitle="API Tokens"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(ApiToken)} path="/config/apiTokens/:apiTokenId" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(Rule)}
-      path="/config/rule/:ruleId"
-      windowTitle="Custom Rule"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(ApiTokens)} path="/config/apiTokens" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(Rules)}
-      path="/config/rules"
-      windowTitle="Custom Rules"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(Rule)}
-      path="/config/rule"
-      windowTitle="Custom Rule"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule/:ruleId" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
-      path="/config/binding/:ruleBindingId"
-      windowTitle="Custom Issue"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="/config/rules" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
-      path="/config/bindings"
-      windowTitle="Custom Issues"
-    />
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
-      path="/config/binding"
-      windowTitle="Custom Issue"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
 
-    <RouteWithTitle
+    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
+
+    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
+
+    <Route
       component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
       path="/config/objectives/:objectiveId"
-      windowTitle="Objectives"
     />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
-      path="/config/objectives"
-      windowTitle="Objectives"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)} path="/config/objectives" />
 
-    <RouteWithTitle
-      component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
-      path="/config/auditlog"
-      windowTitle="Audit Log"
-    />
+    <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>
 );

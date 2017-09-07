@@ -18,6 +18,7 @@ import { fallbackRoleId } from 'in-stores/user';
 import { config } from 'in-services/config';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './UserManagement.less';
 
@@ -102,6 +103,7 @@ export default connectTo(
 
       return (
         <SubViewWrapper>
+          <Title title="User Management" />
           <SubViewHeader>
             User Management
           </SubViewHeader>

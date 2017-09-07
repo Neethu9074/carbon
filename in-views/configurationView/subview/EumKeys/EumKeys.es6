@@ -9,6 +9,7 @@ import Section from 'in-views/configurationView/components/Section';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 export default connectTo(
   {
@@ -17,6 +18,7 @@ export default connectTo(
   function EumKeys({ keys }) {
     return (
       <SubViewWrapper>
+        <Title title="Eum Keys" />
         <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
         <SubViewHeader>
           Website Monitoring Keys

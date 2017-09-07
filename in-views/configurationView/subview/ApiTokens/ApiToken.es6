@@ -11,6 +11,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { openApiTokens } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('apiTokenConfig');
 
@@ -85,6 +86,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Api Token" />
         <SubViewHeader>
           {apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}
         </SubViewHeader>

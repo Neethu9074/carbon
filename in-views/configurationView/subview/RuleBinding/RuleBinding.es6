@@ -14,6 +14,7 @@ import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { getRules } from 'in-services/api/rules';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('RuleBinding');
 
@@ -48,6 +49,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Custom Issue" />
         <SubViewHeader>
           {ruleBinding ? `Configure custom issue: ${ruleBinding.get('text')}` : 'Configure custom issue'}
         </SubViewHeader>

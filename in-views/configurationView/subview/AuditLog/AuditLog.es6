@@ -14,6 +14,7 @@ import { getAuditLog } from 'in-services/auditLog';
 import Gravatar from 'in-components/Gravatar';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import 'in-views/configurationView/subview/AuditLog/AuditLog.less';
 
@@ -38,6 +39,8 @@ export default connectTo(
     render() {
       return (
         <SubViewWrapper>
+          <Title title="Audit Log" />
+
           <SubViewHeader>
             Audit Log
           </SubViewHeader>

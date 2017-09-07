@@ -21,6 +21,7 @@ import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 import './ObjectivesConfig.less';
 
@@ -221,6 +222,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Objectives" />
         <SubViewHeader>
           Objective Management
         </SubViewHeader>

@@ -10,6 +10,7 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Title from 'in-components/Title';
 
 import './UiConfig.less';
 
@@ -52,6 +53,7 @@ export default class extends React.Component {
     const { settings } = this.state;
     return (
       <SubViewWrapper>
+        <Title title="User Interface Settings" />
         <SubViewHeader>
           User Interface
         </SubViewHeader>
