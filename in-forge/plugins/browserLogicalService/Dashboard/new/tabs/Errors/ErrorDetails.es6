@@ -17,6 +17,7 @@ import Code from 'in-sdk/components/traceDetails/Code';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './ErrorDetails.less';
 
@@ -71,6 +72,7 @@ export default connectTo(
 
     return (
       <div>
+        <Title title={`Error Details (${message})`} />
         <div className={`${block}__actions`}>
           <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
           <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>

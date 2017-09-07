@@ -4,12 +4,14 @@ import ErrorOverviewTable from 'in-forge/plugins/browserLogicalService/Dashboard
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
+import Title from 'in-components/Title';
 
 export default function ErrorOverview(props) {
   const { snapshot, timeframe } = props;
 
   return (
     <div>
+      <Title title="Error Overview" />
       <DashboardTile title="Uncaught Errors Over Time">
         <Chart
           snapshotId={snapshot.get('id')}

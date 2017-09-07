@@ -67,14 +67,15 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
     );
   }
 
+  const label = getLabel(connectedSnapshot);
   return (
     <div>
-      <Title title="Call Target Details" />
+      <Title title={`Call Target Details (${label})`} />
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
       <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Call Target">
-            {getLabel(connectedSnapshot)}
+            {label}
           </DescriptionItem>
           <DescriptionItem title="TODO">
             <strong style={{ color: 'darkred' }}>
