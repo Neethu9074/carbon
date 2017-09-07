@@ -11,7 +11,6 @@ import Count from 'in-views/traceViewTabs/components/Count';
 import traceRoutes from 'in-client/js/routes/tracesRoutes';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import Title from 'in-components/Title';
 
 import './TraceViewTabs.less';
 
@@ -27,7 +26,6 @@ export default connectTo(
   function TraceViewTabs({ navigationParameters }) {
     return (
       <FullscreenOverlayView className={block}>
-        <Title title="Traces" />
         {traceAnalyticsEnabled
           ? <ul className={`${block}__tabs`}>
               <li

@@ -78,7 +78,7 @@ export default connectTo(
     //check if new dashboard implementation is needed
     const plugin = snapshot.get('plugin');
 
-    const dashboardTitle = `${getSingular(plugin)} - Dashboard`;
+    const dashboardTitle = `${getSingular(plugin)} (Dashboard)`;
 
     if (isNewDashboard(plugin)) {
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);

@@ -13,6 +13,7 @@ import { Row, Col } from 'in-components/Grid';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+import Title from 'in-components/Title';
 
 const notFoundIndicator = {};
 
@@ -68,8 +69,8 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
 
   return (
     <div>
+      <Title title="Call Target Details" />
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
-
       <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Call Target">

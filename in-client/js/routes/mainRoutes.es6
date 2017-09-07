@@ -35,16 +35,12 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events" />
 
-    <Route
-      path="/table"
-      component={createAsyncFullscreenOverlayViewComponent(TableView)}
-      windowTitle="Comparison Table"
-    />
+    <Route path="/table" component={createAsyncFullscreenOverlayViewComponent(TableView)} />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" windowTitle="Websites" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />
 
     <Route component={GraphView} path="/graph" />
     <Route component={GlobeView} path="/globe" />

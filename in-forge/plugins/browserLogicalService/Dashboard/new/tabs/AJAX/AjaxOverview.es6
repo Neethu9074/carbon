@@ -14,6 +14,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 const cols = [
   {
@@ -98,6 +99,7 @@ export default connectTo(
     if (connections == null) {
       return (
         <MaxWidthFullscreenContainer>
+          <Title title="AJAX Overview" />
           <DashboardTile title="Call Targets">
             <LoadingIndicator type="dark" />
           </DashboardTile>
@@ -112,6 +114,7 @@ export default connectTo(
     if (onlyAjaxConnections.length === 0) {
       return (
         <NoXMessage centered>
+          <Title title="AJAX Overview" />
           No call targets at the focused moment.
         </NoXMessage>
       );
@@ -128,6 +131,7 @@ export default connectTo(
 
     return (
       <MaxWidthFullscreenContainer>
+        <Title title="AJAX Overview" />
         <DashboardTile title={`Call Targets (${onlyAjaxConnections.length})`}>
           <Table cols={cols} rows={rows} initialSortColumn={0} initialSortDirection="asc" />
         </DashboardTile>

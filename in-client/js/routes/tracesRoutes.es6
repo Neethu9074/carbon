@@ -4,25 +4,20 @@ import { createAsyncComponentWithLoadingIndicatorPlaceholder } from 'in-componen
 import TraceAnalyticsView from 'promise-loader?global!in-views/traceAnalyticsView/TraceAnalyticsView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import { traceAnalyticsEnabled } from 'in-services/featureFlags';
 import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 export default (
   <Switch>
     <RedirectWithHash push={false} from="/traces/dashboard" to="/traces/search/dashboard" />
 
-    <RouteWithTitle
-      path="/traces/search"
-      component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)}
-      windowTitle="Traces"
-    />
+    <Route path="/traces/search" component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)} />
 
     {traceAnalyticsEnabled
-      ? <RouteWithTitle
+      ? <Route
           path="/traces/analytics"
           component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceAnalyticsView)}
-          windowTitle="Trace Analytics"
         />
       : null}
 

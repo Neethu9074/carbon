@@ -9,6 +9,7 @@ import TraceGroupings from 'in-views/traceAnalyticsView/components/TraceGrouping
 import TwoColumnView from 'in-components/TwoColumnView';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './TraceAnalyticsView.less';
 
@@ -30,6 +31,7 @@ export default connectTo(
     return (
       <TwoColumnView
         leftContent={[
+          <Title title="Trace Analytics" key="title_analytics" />,
           <ToggleViewHeader
             key="0"
             side="left"
