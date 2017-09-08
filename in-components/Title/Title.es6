@@ -24,7 +24,7 @@ function limitLength(props) {
   if (dynamic == null) {
     return title;
   } else {
-    return `${title} > ${dynamic.length <= MAX_TITLE_LENGTH ? dynamic : dynamic.substring(0, MAX_TITLE_LENGTH)}...`;
+    return `${title} > ${dynamic.length <= MAX_TITLE_LENGTH ? dynamic : dynamic.substring(0, MAX_TITLE_LENGTH) + '…'}`;
   }
 }
 

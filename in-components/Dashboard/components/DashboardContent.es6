@@ -12,9 +12,9 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Title from 'in-components/Title';
+import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
-import { isNewDashboard } from 'in-sdk/snapshot';
+import Title from 'in-components/Title';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 
@@ -85,7 +85,7 @@ export default connectTo(
 
       return (
         <FullscreenOverlayView className="in-dashboard in-dashboard--without-custom-scrolling">
-          <Title title={dashboardTitle} />
+          <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
         </FullscreenOverlayView>
       );
@@ -96,7 +96,7 @@ export default connectTo(
 
     return (
       <FullscreenOverlayView className="in-dashboard">
-        <Title title={dashboardTitle} />
+        <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={block}>
           <DetailPopupPresenter />
           <DashboardHeader snapshotId={snapshotId} />
