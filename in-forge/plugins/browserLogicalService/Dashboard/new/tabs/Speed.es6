@@ -101,7 +101,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
           }}
           y1={{
             min: 0,
-            formatter: millis.compact,
+            formatter: millis.fixedCompact,
             metrics: [
               metricPrefix + 'unl',
               metricPrefix + 'red',

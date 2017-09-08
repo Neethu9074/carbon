@@ -175,10 +175,14 @@ export function goToDashboard(snapshotId) {
   });
 }
 
-export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment } = {}) {
+export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname } = {}) {
   return getModifiedUrlStream(params => {
-    const view = getActiveView(params);
-    params.pathname = `/${view}/dashboard`;
+    if (pathname) {
+      params.pathname = pathname;
+    } else {
+      const view = getActiveView(params);
+      params.pathname = `/${view}/dashboard`;
+    }
     if (windowSize != null) {
       params.query['timeline.ws'] = windowSize;
     }

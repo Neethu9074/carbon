@@ -58,7 +58,11 @@ export default connectTo(
                   websiteName={this.state.saveResult.appName}
                   eumKey={this.state.saveResult.id}
                   isWaiting={this.state.snapshot == null}
-                  href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, { to: null, focusedMoment: null })}
+                  href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
+                    to: null,
+                    focusedMoment: null,
+                    pathname: '/website/dashboard'
+                  })}
                 />
               : null}
           </div>
