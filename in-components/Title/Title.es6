@@ -4,7 +4,7 @@ import config from 'in-services/config';
 const MAX_TITLE_LENGTH = 30;
 
 function setTitle(titles) {
-  titles[0] = titles[0] + ` - Instana (${config.tenantUnit}-${config.tenant})`;
+  setInstanaToTitle(titles);
   document.title = titles.reverse().join(' - ');
 }
 
@@ -25,6 +25,21 @@ function limitLength(props) {
     return title;
   } else {
     return `${title} > ${dynamic.length <= MAX_TITLE_LENGTH ? dynamic : dynamic.substring(0, MAX_TITLE_LENGTH)}...`;
+  }
+}
+
+/**
+ * setting the instana title at the beginning
+ * @param titles
+ * @returns {*}
+ */
+function setInstanaToTitle(titles) {
+  const instanaTitle = `Instana (${config.tenantUnit}-${config.tenant}`;
+  if (titles.length === 0) {
+    return instanaTitle;
+  } else {
+    titles[0] = titles[0] + ` - ${instanaTitle})`;
+    return titles;
   }
 }
 

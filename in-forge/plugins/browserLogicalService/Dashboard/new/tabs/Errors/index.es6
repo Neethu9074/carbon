@@ -16,7 +16,12 @@ export default function ErrorsTab(props) {
             return <ErrorDetails {...routeprops} {...props} />;
           }}
         />
-        <Route path={`*/errors`} component={ErrorOverview} props={props} />
+        <Route
+          path={`*/errors`}
+          render={routeprops => {
+            return <ErrorOverview {...routeprops} {...props} />;
+          }}
+        />
       </Switch>
     </MaxWidthFullscreenContainer>
   );

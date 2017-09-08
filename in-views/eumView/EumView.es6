@@ -37,7 +37,6 @@ export default connectTo(
               <LoadingIndicator type="dark" />
             </div>
           </FullscreenOverlayView>
-          {DashboardNavigationRoute}
         </div>
       );
     }
