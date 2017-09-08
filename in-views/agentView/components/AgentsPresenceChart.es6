@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import { number } from 'in-services/formatters/number';
 import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
@@ -30,7 +31,8 @@ export default connectTo(
             min: 0,
             metrics: [`plugin.${plugins.instanaAgent}`],
             labels: ['Agents'],
-            type: 'line'
+            type: 'line',
+            formatter: number.compact
           }}
         />
       </div>
