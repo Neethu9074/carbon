@@ -64,6 +64,8 @@ class AsciiMap extends React.Component {
         return 'Application Map';
       case views.physical:
         return 'Infrastructure Host Map';
+      default:
+        return 'Unknown view';
     }
   }
 

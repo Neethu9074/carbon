@@ -60,6 +60,8 @@ export default connectTo(
           return 'Application Map';
         case views.physical:
           return 'Infrastructure Host Map';
+        default:
+          return 'Unknown view';
       }
     }
 
