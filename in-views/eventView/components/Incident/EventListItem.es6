@@ -3,6 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
@@ -13,7 +14,6 @@ import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
 import Marker from 'in-views/eventView/components/Marker';
-import { getFixedTimeframeUrl } from 'in-stores/navigation';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -116,7 +116,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   }
   return (
     <div className={`${block}__time-indicator`}>
-      <Link href$={getFixedTimeframeUrl({ focusedMoment: event.get('start') })}>
+      <Link href$={getCurrentViewWithTimelineFocusedAt(event.get('start'))}>
         <span className={timeClass}>
           {formatTime(event.get('start'))}
         </span>
