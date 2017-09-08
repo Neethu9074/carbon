@@ -16,11 +16,15 @@ export default connectTo(
       notifications: agentSnapshots.map(extractNotifications)
     };
   },
-  function AgentBaseView({ agentSnapshots, notifications, View }) {
+  function AgentBaseView({ agentSnapshots, notifications, View, CustomHeaderComponent }) {
     return (
       <FullscreenOverlayView>
         {DashboardNavigationRoute}
-        <TableHeader agentSnapshots={agentSnapshots} notifications={notifications} />
+        <TableHeader
+          agentSnapshots={agentSnapshots}
+          notifications={notifications}
+          CustomHeaderComponent={CustomHeaderComponent}
+        />
         <View agentSnapshots={agentSnapshots} notifications={notifications} />
       </FullscreenOverlayView>
     );

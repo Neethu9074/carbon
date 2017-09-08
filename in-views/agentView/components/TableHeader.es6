@@ -15,7 +15,7 @@ import './TableHeader.less';
 
 const block = 'in-agent-view-table-header';
 
-export default function TableHeader({ agentSnapshots, notifications }) {
+export default function TableHeader({ agentSnapshots, notifications, CustomHeaderComponent }) {
   if (!agentSnapshots || !notifications) {
     return null;
   }
@@ -23,12 +23,17 @@ export default function TableHeader({ agentSnapshots, notifications }) {
   const numAgents = agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size;
   return (
     <div className={block}>
-      <Tab title={`Agents (${numAgents})`} href$={agentViewLink$} isActive$={isAgentViewLink$} />
-      <Tab
-        title={`Notifications (${notifications.size})`}
-        href$={agentNotificationsViewLink$}
-        isActive$={isAgentNotificationsViewLink$}
-      />
+      <div className={`${block}__left`}>
+        <Tab title={`Agents (${numAgents})`} href$={agentViewLink$} isActive$={isAgentViewLink$} />
+        <Tab
+          title={`Notifications (${notifications.size})`}
+          href$={agentNotificationsViewLink$}
+          isActive$={isAgentNotificationsViewLink$}
+        />
+      </div>
+      {CustomHeaderComponent
+        ? <CustomHeaderComponent agentSnapshots={agentSnapshots} notifications={notifications} />
+        : null}
     </div>
   );
 }

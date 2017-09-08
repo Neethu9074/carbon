@@ -1,8 +1,9 @@
 import React from 'react';
 
+import AgentsReportingCounter from 'in-views/agentView/components/AgentsReportingCounter';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import AgentBaseView from 'in-views/agentView/AgentBaseView';
 
 export default function AgentView() {
-  return <AgentBaseView View={AgentsTable} />;
+  return <AgentBaseView View={AgentsTable} CustomHeaderComponent={AgentsReportingCounter} />;
 }
