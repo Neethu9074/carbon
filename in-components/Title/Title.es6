@@ -9,18 +9,23 @@ function setTitle(titles) {
 }
 
 function reduceProps(propsList) {
-  return limitTitleLength(propsList.reduce((result, props) => result.concat(props.title), []));
+  return propsList.reduce((result, props) => result.concat(limitLength(props)), []);
 }
 
-function limitTitleLength(titles) {
-  return titles.map((title, index) => {
-    if (index === 0 || title.length < MAX_TITLE_LENGTH) {
-      //the first one will be instana - unit/tenant. we don't want to cut this ever.
-      return title;
-    } else {
-      return `${title.substring(0, MAX_TITLE_LENGTH)}...`;
-    }
-  });
+/**
+ * a dynamic part of a title might be limited by
+ * length as the could become very large (e.g error messages)
+ * @param props
+ * @returns {*}
+ */
+function limitLength(props) {
+  const { title, dynamic } = props;
+
+  if (dynamic == null) {
+    return title;
+  } else {
+    return `${title} > ${dynamic.length <= MAX_TITLE_LENGTH ? dynamic : dynamic.substring(0, MAX_TITLE_LENGTH)}...`;
+  }
 }
 
 export default withSideEffect(reduceProps, setTitle)(() => null);

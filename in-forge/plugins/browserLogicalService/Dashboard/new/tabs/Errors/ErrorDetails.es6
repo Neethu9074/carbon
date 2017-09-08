@@ -72,7 +72,7 @@ export default connectTo(
 
     return (
       <div>
-        <Title title={`Error Details (${message})`} />
+        <Title title={`Error Details`} dynamic={message} />
         <div className={`${block}__actions`}>
           <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
           <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>

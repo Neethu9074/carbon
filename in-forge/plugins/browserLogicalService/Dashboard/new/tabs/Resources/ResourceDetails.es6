@@ -71,7 +71,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
   const label = getLabel(connectedSnapshot);
   return (
     <div>
-      <Title title={`Resource Details (${label})`} />
+      <Title title={`Resource Details`} dynamic={label} />
       <BackButton label="Back to resource list" href$={getSubDashboardLink(`/resources`)} />
 
       <DashboardTile>
