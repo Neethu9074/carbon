@@ -44,6 +44,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 
   const getSnapshotLink = snapshot => {
     column.value = getLabel(snapshot);
+
     column.content = (
       <HierarchicalLink
         snapshot={snapshot}

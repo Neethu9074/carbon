@@ -1,14 +1,11 @@
 import React from 'react';
 
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number } from 'in-services/formatters/number';
 import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
-
-import './AgentsPresenceChart.less';
-
-const block = 'in-agent-view-table-reporting-chart';
 
 export default connectTo(
   {
@@ -20,7 +17,7 @@ export default connectTo(
     }
 
     return (
-      <div className={block}>
+      <DashboardTile>
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeframe={timeframe}
@@ -35,7 +32,7 @@ export default connectTo(
             formatter: number.compact
           }}
         />
-      </div>
+      </DashboardTile>
     );
   }
 );

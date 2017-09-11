@@ -8,6 +8,7 @@ import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesVie
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
+import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -56,14 +57,6 @@ export default (
 <<<<<<< HEAD
       ? <Route path="/agents" component={createAsyncFullscreenOverlayViewComponent(AgentView)} />
 =======
-      ? <RouteWithTitle
-          path="/agents/notifications"
-          component={createAsyncFullscreenOverlayViewComponent(AgentNotificationsView)}
-          windowTitle="Instana Agent Notifications"
-        />
-      : null}
-
-    {role.canConfigureAgents
       ? <RouteWithTitle
           path="/agents"
           component={createAsyncFullscreenOverlayViewComponent(AgentView)}
