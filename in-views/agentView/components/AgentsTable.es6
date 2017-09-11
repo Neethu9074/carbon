@@ -3,39 +3,61 @@ import React from 'react';
 import NotificationIndicator from 'in-views/agentView/components/NotificationIndicator';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
 import { compare as compareNumber } from 'in-services/util/number';
 import RowDetails from 'in-views/agentView/components/RowDetails';
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
+import { getDashboardLink } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
+import Link from 'in-components/Link';
+
+import './AgentsTable.less';
+
+const block = 'in-agent-view-table';
 
 const cols = [
   {
-    title: 'Name',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshot(row) {
-        return row.snapshot;
-      }
-    }
-  },
-  {
     title: 'Host',
-    type: 'snapshotLink',
+    type: 'custom',
     typeArgs: {
-      getSnapshot$(row) {
-        return getHostSnapshotId(row.snapshot).flatMap(hostId => {
+      comparator: () => compareIgnoreCase,
+      get$(row) {
+        const hostSnapshot$ = getHostSnapshotId(row.snapshot).flatMap(hostId => {
           const to = row.snapshot.get('to') || Date.now();
           const reportingWindowSize = to - row.snapshot.get('from');
           const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
           return hostId ? getSnapshot(hostId, reportingCenterTime) : alwaysNull;
         });
+        return hostSnapshot$.flatMap(hostSnapshot =>
+          getDashboardLink(row.key).map(href => {
+            const label = getLabel(hostSnapshot);
+            return {
+              value: label,
+              content: (
+                <Link href={href} className={`${block}__link`}>
+                  <HealthyPluginIcon
+                    snapshot={hostSnapshot}
+                    dimension={12}
+                    fallbackColor={'#000'}
+                    className={`${block}__plugin-icon`}
+                  />
+                  {label}
+                </Link>
+              )
+            };
+          })
+        );
       }
     }
   },
@@ -96,6 +118,7 @@ const cols = [
 
 export default connectTo(
   {
+    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
     focusedMoment: focusedMoment$
   },
   function AgentViewAgentsTable({ agentSnapshots, focusedMoment }) {
@@ -121,7 +144,14 @@ export default connectTo(
       });
     });
 
-    return <Table maxItemsPerPage={20} cols={cols} rows={rows} initialSortColumn={5} getRowDetails={getRowDetails} />;
+    return (
+      <DashboardTile
+        title={`Agents (${agentSnapshots.get('online', emptyList).size +
+          agentSnapshots.get('offline', emptyList).size})`}
+      >
+        <Table maxItemsPerPage={10} cols={cols} rows={rows} initialSortColumn={5} getRowDetails={getRowDetails} />
+      </DashboardTile>
+    );
   }
 );
 
