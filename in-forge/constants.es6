@@ -188,7 +188,7 @@ export const fullyQualifiedPlugins = {
   jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
   kafkaCluster: 'com.instana.forge.infrastructure.messaging.kafka.KafkaCluster',
-  kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.Cluster',
+  kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
   ldapLogicalService: 'com.instana.forge.connection.ldap.LdapLogicalService',
   ldapServiceInstance: 'com.instana.forge.connection.ldap.LdapServiceInstance',
