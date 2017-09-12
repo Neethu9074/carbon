@@ -7,7 +7,6 @@ import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import KubernetesClusterTable from 'in-views/kubernetesView/components/KubernetesClusterTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/kubernetesView/stores/snapshots';
-import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -21,7 +20,7 @@ export default connectTo(
     data: data$
   },
   function KubernetesView({ data }) {
-    const { snapshotIds, snapshots, query } = data;
+    const { snapshotIds, snapshots } = data;
 
     if (!snapshotIds || !snapshots) {
       return (
@@ -35,12 +34,6 @@ export default connectTo(
         </div>
       );
     }
-
-    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0) {
-      // data was loaded but there is no defined website
-      return <div>No Kubernetes Cluster found.</div>;
-    }
-
     return (
       <Switch>
         {DashboardNavigationRoute}
