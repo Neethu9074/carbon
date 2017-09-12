@@ -1,0 +1,70 @@
+.in-website-page-load-breakdown-chart {
+  position: relative;
+
+  &__row {
+    position: relative;
+
+    &:hover {
+      background: attr(data-background);
+
+      .in-website-page-load-breakdown-chart__hover-bg {
+        opacity: 0.1;
+      }
+    }
+  }
+
+  &__hover-bg {
+    position: absolute;
+    left: -0.5rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+
+  &__content {
+    // increase zIndex
+    position: relative;
+    display: flex;
+    align-items: center;
+    line-height: 2;
+  }
+
+  &__label {
+    width: 6rem;
+  }
+
+  &__value {
+    width: 5rem;
+    text-align: end;
+    font-weight: bold;
+  }
+
+  &__lane-wrapper {
+    position: relative;
+    width: ~'calc(100% - 12rem)';
+    height: 1.313rem;
+    margin: 0 0 0 1rem;
+    flex-shrink: 0;
+  }
+
+  &__lane {
+    position: absolute;
+
+    height: .438rem;
+    margin-top: .438rem;
+    border-radius: .125rem;
+    min-width: .125rem;
+  }
+
+  &__chart-background {
+    position: absolute;
+    left: 12rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    border-left: 1px dashed #D5DFE4;
+    border-right: 1px dashed #D5DFE4;
+  }
+}

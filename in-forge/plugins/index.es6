@@ -50,6 +50,7 @@ import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
 import './kafkaCluster';
+import './kubernetesCluster';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';

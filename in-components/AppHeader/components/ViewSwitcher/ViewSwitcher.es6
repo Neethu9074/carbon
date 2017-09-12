@@ -122,8 +122,9 @@ export default connectTo(
             </View>
 
             <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
+
             {kubernetesEnabled
-              ? <View label="Kubernetes" icon="globe" href$={kubernetesViewLink$} isActive={isKubernetesView} />
+              ? <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
               : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}

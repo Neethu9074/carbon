@@ -1,0 +1,37 @@
+.in-kubernetes-table-header {
+  position: relative;
+  display: flex;
+
+  margin-bottom: .813rem;
+  color: #b9b9b9;
+  font-size: .75rem;
+
+  &__id {
+    width: 30%;
+    padding-left: 1.875rem;
+  }
+
+  &__kpis {
+    display: flex;
+
+    &__kpi {
+      width: 6.063rem;
+
+      &:nth-child(3) {
+        width: 8.313rem;
+      }
+    }
+  }
+
+  &__pagination {
+    margin-left: 2rem;
+  }
+
+  &__right-side {
+    position: absolute;
+    right: 0;
+    top: -3px;
+    display: flex;
+    align-items: center;
+  }
+}

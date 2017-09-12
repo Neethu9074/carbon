@@ -6,6 +6,7 @@ import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import AgentView from 'promise-loader?global,eumView!in-views/agentView/AgentView';
+import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesView/KubernetesView';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -41,6 +42,7 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(KubernetesView)} path="/kubernetes" />
 
     <Route component={GraphView} path="/graph" />
     <Route component={GlobeView} path="/globe" />
