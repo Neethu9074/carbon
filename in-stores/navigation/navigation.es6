@@ -273,6 +273,10 @@ export const websiteViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/website';
 });
 
+export const kubernetesViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/kubernetes';
+});
+
 export const containerViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/container';
 });

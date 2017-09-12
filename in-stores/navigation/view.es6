@@ -94,6 +94,10 @@ export const websiteViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/website';
 });
 
+export const kubernetesViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/kubernetes';
+});
+
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
   params.query.q = trySetField(params.query.q || '', 'entity.selfType', 'service');
