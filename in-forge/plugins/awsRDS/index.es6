@@ -12,10 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'AWS RDS',
     plural: 'AWS RDSs'
-  },
-
-  getLabel(snapshot) {
-    // TODO remove
-    return snapshot.getIn(['data', 'db_instance_id'], '') + ' (' + snapshot.getIn(['data', 'db_engine'], '') + ')';
   }
 });
