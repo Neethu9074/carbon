@@ -1,12 +1,9 @@
 import React from 'react';
 
-import NotificationIndicator from 'in-views/agentView/components/NotificationIndicator';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
-import { compare as compareNumber } from 'in-services/util/number';
-import RowDetails from 'in-views/agentView/components/RowDetails';
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
@@ -100,19 +97,6 @@ const cols = [
         };
       }
     }
-  },
-  {
-    title: 'Notifications',
-    type: 'custom',
-    typeArgs: {
-      comparator: compareNumber,
-      get(row) {
-        return {
-          value: row.snapshot.getIn(['data', 'notifications'], emptyList).size,
-          content: <NotificationIndicator row={row} />
-        };
-      }
-    }
   }
 ];
 
@@ -146,15 +130,11 @@ export default connectTo(
 
     return (
       <DashboardTile
-        title={`Agents (${agentSnapshots.get('online', emptyList).size +
-          agentSnapshots.get('offline', emptyList).size})`}
+        title={`Agents (${agentSnapshots.get('online', emptyList).size} reporting,
+          ${agentSnapshots.get('offline', emptyList).size} offline)`}
       >
-        <Table maxItemsPerPage={10} cols={cols} rows={rows} initialSortColumn={5} getRowDetails={getRowDetails} />
+        <Table maxItemsPerPage={10} cols={cols} rows={rows} initialSortColumn={4} />
       </DashboardTile>
     );
   }
 );
-
-function getRowDetails(row) {
-  return <RowDetails row={row} />;
-}
