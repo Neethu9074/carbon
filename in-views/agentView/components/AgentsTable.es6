@@ -25,7 +25,7 @@ const block = 'in-agent-view-table';
 
 const cols = [
   {
-    title: 'Host',
+    title: 'Agent',
     type: 'custom',
     typeArgs: {
       comparator: () => compareIgnoreCase,

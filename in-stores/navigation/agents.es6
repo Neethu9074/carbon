@@ -1,6 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
-import { buildPathStartsWithStream, buildUrlStream } from 'in-stores/navigation/navigation';
+import { buildPathStartsWithStream, buildUrlStream } from 'in-stores/navigation';
 
 const agentNotificationsViewPath = '/agents/notifications';
 export const agentNotificationsViewLink$ = buildUrlStream({
