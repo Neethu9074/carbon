@@ -120,19 +120,21 @@ export default class WebsiteTable extends React.Component {
     }
 
     const hashes = snapshot.getIn(['data', 'service_endpoint_hashes']);
-    return snapshot.getIn(['data', 'service_endpoints']).toArray().map((pageName, i) => {
+    const rows = [];
+    snapshot.getIn(['data', 'service_endpoints']).toArray().map((pageName, i) => {
       if (!hashes || !hashes.get(i)) {
         return;
       }
       const pageHash = hashes.get(i);
-      return {
+      rows.push({
         key: pageHash,
         label: pageName,
         snapshot,
         isPage: true,
         pageHash
-      };
+      });
     });
+    return rows;
   };
 
   render() {
