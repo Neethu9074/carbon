@@ -36,6 +36,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Disk">
         <Chart
           snapshotId={snapshotId}
@@ -58,6 +59,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="DB Connections">
         <Chart
           snapshotId={snapshotId}
@@ -73,6 +75,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
@@ -88,6 +91,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="IO operations">
         <Chart
           snapshotId={snapshotId}
@@ -110,6 +114,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="IO Throughput">
         <Chart
           snapshotId={snapshotId}
@@ -125,6 +130,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Network Traffic">
         <Chart
           snapshotId={snapshotId}
@@ -140,6 +146,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Read Replica DB">
         <Chart
           snapshotId={snapshotId}

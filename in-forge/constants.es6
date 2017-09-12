@@ -6,7 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
-  awsRDS: 'awsRds',
+  awsRds: 'awsRds',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
