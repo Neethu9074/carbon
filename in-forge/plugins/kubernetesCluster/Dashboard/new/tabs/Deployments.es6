@@ -47,6 +47,7 @@ function wrapTooltipElement(deploymentLabels) {
   const labels = deploymentLabels.toJS();
   return (
     <span>
+      <h5>Labels</h5>
       {Object.keys(labels).map(key => {
         return <div key={key}>{`${key} : ${labels[key]}`}</div>;
       })}
