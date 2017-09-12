@@ -11,8 +11,8 @@ const cols = [
     title: 'Name',
     type: 'string',
     typeArgs: {
-      getValue() {
-        return '';
+      getValue(row) {
+        return row.agentNotification.getIn(['data', 'message']);
       }
     }
   }
@@ -27,10 +27,15 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = [];
+    const rows = agentNotifications.toArray().map(agentNotification => {
+      return {
+        key: agentNotification.get('id'),
+        agentNotification
+      };
+    });
     return (
       <DashboardTile title={`Agent Notifications (${agentNotifications.size})`}>
-        <Table maxItemsPerPage={10} cols={cols} rows={rows} getRowDetails={getRowDetails} />;
+        <Table maxItemsPerPage={10} cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardTile>
     );
   }
