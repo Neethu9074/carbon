@@ -8,6 +8,8 @@ import iconSvgPath from './iconPath';
 registerSnapshotDefinition({
   plugin: plugins.instanaAgent,
 
+  isNewDashboard: __DEV__ ? true : false,
+
   tableDefinition,
   iconSvgPath,
   metricDefinitions,
