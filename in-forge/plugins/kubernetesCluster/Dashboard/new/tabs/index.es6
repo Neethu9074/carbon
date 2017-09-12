@@ -1,12 +1,18 @@
-import Cluster from './Cluster';
+import Overview from './Overview';
+import Deployments from './Deployments';
 
 export function getTabs(snapshot, pageHash) {
   const pathPrefix = pageHash ? `/pages/${pageHash}` : '';
   return [
     {
-      label: 'Cluster',
+      label: 'Overview',
       path: `${pathPrefix}/`,
-      component: Cluster
+      component: Overview
+    },
+    {
+      label: 'Deployments',
+      path: `${pathPrefix}/deployments`,
+      component: Deployments
     }
   ].filter(tab => tab != null);
 }

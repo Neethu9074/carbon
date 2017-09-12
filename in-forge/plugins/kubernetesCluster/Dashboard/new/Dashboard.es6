@@ -3,7 +3,7 @@ import React from 'react';
 
 import KubernetesViewBreadcrumb from 'in-forge/plugins/kubernetesCluster/Dashboard/new/breadcrumbs/KubernetesViewBreadcrumb';
 import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/BreadcrumbForSnapshot';
-import { getTabs } from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/index';
+import { getTabs } from 'in-forge/plugins/kubernetesCluster/Dashboard/new/tabs/index';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';

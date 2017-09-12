@@ -2,10 +2,10 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 
-export default function Cluster() {
+export default function Deployments() {
   return (
     <MaxWidthFullscreenContainer>
-      Some more infos
+      Some more Deployment Infos
     </MaxWidthFullscreenContainer>
   );
 }
