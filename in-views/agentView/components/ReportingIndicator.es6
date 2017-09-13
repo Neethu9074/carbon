@@ -6,7 +6,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import './ReportingIndicator.less';
 
-const block = 'in-in-agent-view-table-reporting-indicator';
+const block = 'in-agent-view-table-reporting-indicator';
 
 export default function ReportingIndicator({ row }) {
   const isReporting = row.isReportingAtFocusedMoment;
