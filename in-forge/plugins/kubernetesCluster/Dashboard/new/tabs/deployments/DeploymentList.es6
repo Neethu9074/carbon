@@ -7,8 +7,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import Tooltip from 'in-components/Tooltip';
 
-import FakeData from './FakeData';
-
 const cols = [
   {
     title: 'Name',
@@ -68,7 +66,7 @@ function wrapTooltipElement(deploymentLabels) {
 
 export default function DeploymenList({ snapshot }) {
   //TODO: remove me
-  snapshot = FakeData();
+  //snapshot = FakeData();
 
   const deploymentSnapshotList = snapshot.getIn(['data', 'deployments', 'data']);
   const itemIds = snapshot.getIn(['data', 'deployments', 'itemIds']).toJS();

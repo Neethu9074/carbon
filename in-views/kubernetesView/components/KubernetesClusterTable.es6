@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, seconds } from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import KubernetesHeader from 'in-views/kubernetesView/components/KubernetesHeader';
 import { createStore } from 'in-components/Table/stores/content';
 import KubernetesClusterRow from 'in-views/kubernetesView/components/KubernetesClusterRow';
@@ -22,34 +22,45 @@ const columnDefinitions = [
   },
   {
     title: 'Nodes',
-    type: 'metric',
+    type: 'number',
     index: 1,
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshot.get('id');
-      },
-      getMetricName(row) {
-        return (row.isPage ? `endpoint.${row.label}.` : '') + 'count';
-      },
       getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'sum';
-      },
-      forceTimeWindowAggregation: true
+      getValue(row) {
+        return row.snapshot.getIn(['nodes', 'itemIds'], []).length;
+      }
     }
   },
   {
-    title: 'Health',
+    title: 'Available Replicas',
     type: 'metric',
     index: 2,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
       },
-      getMetricName(row) {
-        return (row.isPage ? `endpoint.${row.label}.` : '') + 'duration.mean';
+      getMetricName() {
+        return 'availableReplicas';
       },
-      getContent: seconds.fromMillisFixedDetailed,
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      },
+      forceTimeWindowAggregation: true
+    }
+  },
+  {
+    title: 'Desired Replicas',
+    type: 'metric',
+    index: 3,
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return 'replicas';
+      },
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       },
@@ -177,9 +188,9 @@ export default class KubernetestClusterTable extends React.Component {
               pageHash={row.rowConfig.pageHash}
               data={{
                 name: columns[0].value,
-                pageLoad: columns[1].content,
-                rawPageLoad: columns[1].value,
-                loadTime: columns[2].content
+                nodes: columns[1].content,
+                availableReplicas: columns[1].value,
+                replicas: columns[2].content
               }}
             />
           );

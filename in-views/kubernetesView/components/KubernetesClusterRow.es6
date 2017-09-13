@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { getDashboardLink } from 'in-stores/navigation';
+import KubernetesKpiSection from 'in-views/kubernetesView/components/KubernetesKpiSection';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,6 +13,8 @@ const block = 'in-kubernetes-table-row';
 export default function KubernetesClusterRow({ snapshot, data, pageHash }) {
   const snapshotId = snapshot.get('id');
 
+  const kpis = `${block}__kpis`;
+
   const nameElement = `${block}__name`;
 
   return (
@@ -21,7 +24,9 @@ export default function KubernetesClusterRow({ snapshot, data, pageHash }) {
         <ViewDetailsButton snapshotId={snapshotId} pageHash={pageHash} />
       </div>
 
-      Some Fancy Stuff goes here
+      <div className={kpis}>
+        <KubernetesKpiSection snapshotId={snapshotId} data={data} />
+      </div>
     </div>
   );
 }

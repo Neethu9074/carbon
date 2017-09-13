@@ -13,7 +13,6 @@ import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import Title from 'in-components/Title';
-import FakeData from './FakeData';
 
 const cols = [
   {
@@ -58,9 +57,9 @@ function wrapTooltipElement(deploymentLabels) {
 
 export default function DeploymentDetails(props) {
   const deploymentId = decodeURIComponent(props.match.params.deploymentId);
-  //const {snapshot} = props;
+  const { snapshot } = props;
 
-  const snapshot = FakeData();
+  //const snapshot = FakeData();
 
   if (!deploymentId) {
     //todo: do something better here
