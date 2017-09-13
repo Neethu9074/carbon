@@ -189,8 +189,8 @@ export default class KubernetestClusterTable extends React.Component {
               data={{
                 name: columns[0].value,
                 nodes: columns[1].content,
-                availableReplicas: columns[1].value,
-                replicas: columns[2].content
+                availableReplicas: columns[2].value,
+                replicas: columns[3].content
               }}
             />
           );
