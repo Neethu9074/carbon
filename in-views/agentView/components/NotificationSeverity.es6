@@ -26,9 +26,9 @@ export default function NotificationSeverity({ severity }) {
 
 function getConfig(severity) {
   if (severity > 5) {
-    return { background: '#e74c3c', color: '#eef2f4', label: 'Critical' };
+    return { background: '#e74c3c', color: '#fff', label: 'Critical' };
   } else if (severity > 0) {
-    return { background: '#f1c40f', color: '#eef2f4', label: 'Warning' };
+    return { background: '#f1c40f', color: '#fff', label: 'Warning' };
   }
   return { background: '#eef2f4', color: '#4d4d4d', label: 'Info' };
 }
