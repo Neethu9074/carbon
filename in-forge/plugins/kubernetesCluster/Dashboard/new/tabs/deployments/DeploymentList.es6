@@ -1,10 +1,12 @@
 import React from 'react';
-import Tooltip from 'in-components/Tooltip';
+
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import Tooltip from 'in-components/Tooltip';
+
 import FakeData from './FakeData';
 
 const cols = [
@@ -42,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Replicas / Available replicas',
+    title: 'Available Replicas / Desirbed Replicas',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -84,7 +86,7 @@ export default function DeploymenList({ snapshot }) {
         key: `${deployment.get('namespace')}:${deployment.get('name')}`,
         name: deployment.get('name'),
         labels: deployment.get('labels'),
-        replicas: `${deployment.get('replicas')} / ${deployment.get('availableReplicas')}`,
+        replicas: `${deployment.get('availableReplicas')} / ${deployment.get('replicas')}`,
         namespace: deployment.get('namespace'),
         snapshotId: snapshot.get('id')
       };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
@@ -100,28 +100,30 @@ export default function DeploymentDetails(props) {
     })
     .valueSeq();
 
-  const podRows = pods == null
-    ? []
-    : pods.toArray().map(pod => {
-        return {
-          key: `${pod.get('namespace')}:${pod.get('name')}`,
-          name: pod.get('name'),
-          labels: pod.get('labels'),
-          namespace: pod.get('namespace')
-        };
-      });
+  const podRows = pods.toArray().map(pod => {
+    return {
+      key: `${pod.get('namespace')}:${pod.get('name')}`,
+      name: pod.get('name'),
+      labels: pod.get('labels'),
+      namespace: pod.get('namespace')
+    };
+  });
 
   return (
     <div>
       <Title title="Deployment Details" />
       <BackButton label="Back to deployment list" href$={getSubDashboardLink(`/deployments`)} />
 
-      <DashboardTile>
+      <DashboardTile title="Deployment">
         <DescriptionList>
-          <DescriptionItem title={`Deployment: ${name}`}>
-            <Table cols={cols} rows={podRows} initialSortColumn={0} initialSortDirection="desc" />
+          <DescriptionItem title="Name">
+            {name}
           </DescriptionItem>
         </DescriptionList>
+      </DashboardTile>
+
+      <DashboardTile title={`Pods (${podRows.length})`}>
+        <Table cols={cols} rows={podRows} initialSortColumn={0} initialSortDirection="desc" />
       </DashboardTile>
     </div>
   );
