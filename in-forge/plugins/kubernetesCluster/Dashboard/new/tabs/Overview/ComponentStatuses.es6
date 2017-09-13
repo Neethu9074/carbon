@@ -1,32 +1,15 @@
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 import './ComponentStatuses.less';
 
 const block = 'in-kube-comp-status';
 
 export default function ComponentStatuses({ snapshot }) {
-  const statuses = fromJS({
-    scheduler: {
-      Healthy: 'True',
-      message: 'ok'
-    },
-    'controller-manager': {
-      Healthy: 'True',
-      message: 'ok'
-    },
-    'etcd-1': {
-      Healthy: 'True',
-      message: '{"health": "true"}'
-    },
-    'etcd-0': {
-      Healthy: 'True',
-      message: '{"health": "true"}'
-    }
-  });
+  const statuses = snapshot.getIn(['data', 'componentStatuses'], emptyMap);
 
   if (statuses.size === 0) {
     return null;
