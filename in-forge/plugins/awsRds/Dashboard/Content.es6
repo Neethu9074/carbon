@@ -44,7 +44,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['disk_queue_depth'],
             labels: ['Disk queue depth'],
-            formatter: number.compact,
+            formatter: number.detailed,
             type: 'line'
           }}
           y2={{
