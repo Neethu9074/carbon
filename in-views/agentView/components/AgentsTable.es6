@@ -101,9 +101,12 @@ const cols = [
 ];
 
 export default connectTo(
-  {
-    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
-    focusedMoment: focusedMoment$
+  props => {
+    const observables = { focusedMoment: focusedMoment$ };
+    if (!props.agentSnapshots) {
+      observables.agentSnapshots = getSnapshotsInTimeframe('entity.selfType:agent');
+    }
+    return observables;
   },
   function AgentViewAgentsTable({ agentSnapshots, focusedMoment }) {
     if (!agentSnapshots) {
