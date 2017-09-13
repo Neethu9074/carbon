@@ -1,5 +1,4 @@
 import Notifications from './Notifications';
-import Management from './Management';
 import Summary from './Summary';
 import Logs from './Logs';
 
@@ -11,14 +10,9 @@ export function getTabs() {
       component: Summary
     },
     {
-      label: 'Logs',
+      label: 'Management & Logs',
       path: `/logs`,
       component: Logs
-    },
-    {
-      label: 'Management',
-      path: `/management`,
-      component: Management
     },
     {
       label: 'Notifications',
