@@ -146,7 +146,7 @@ function getRowDetails(row) {
         comparator: compareIgnoreCase,
         showLoadingIndicator: true,
         get$(row) {
-          return search({ query: `entity.docker.containerId:${row.imageId}` })
+          return search({ query: `entity.selfType:docker entity.docker.containerId:${row.imageId}` })
             .map(snapshotIds => {
               if (snapshotIds.size === 0) {
                 return null;
@@ -178,8 +178,8 @@ function getRowDetails(row) {
   ];
 
   const rows = data.toArray().map(container => {
-    const imageId = container.get('id', '').replace(/docker:\/\//i, '');
     const uid = container.get('uid');
+    const imageId = uid.replace(/docker:\/\//i, '');
     return {
       key: uid,
       imageId
