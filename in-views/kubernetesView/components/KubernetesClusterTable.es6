@@ -27,7 +27,7 @@ const columnDefinitions = [
     typeArgs: {
       getContent: zeroDecimalPlaces,
       getValue(row) {
-        return row.snapshot.getIn(['nodes', 'itemIds'], []).length;
+        return row.snapshot.getIn(['data', 'nodes', 'itemIds']).size;
       }
     }
   },
