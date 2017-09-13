@@ -1,17 +1,16 @@
 import Overview from './Overview';
 import Deployments from './deployments';
 
-export function getTabs(snapshot, pageHash) {
-  const pathPrefix = pageHash ? `/pages/${pageHash}` : '';
+export function getTabs() {
   return [
     {
       label: 'Overview',
-      path: `${pathPrefix}/`,
+      path: `/`,
       component: Overview
     },
     {
       label: 'Deployments',
-      path: `${pathPrefix}/deployments`,
+      path: `/deployments`,
       component: Deployments
     }
   ].filter(tab => tab != null);

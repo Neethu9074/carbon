@@ -5,6 +5,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import FakeData from './FakeData';
 
 const cols = [
   {
@@ -14,9 +15,7 @@ const cols = [
       comparator: compareIgnoreCase,
       showLoadingIndicator: true,
       get$(row) {
-        const href$ = getSubDashboardLink(
-          `/deployments/${encodeURIComponent(row.key)}&${encodeURIComponent(row.snapshotId)}`
-        );
+        const href$ = getSubDashboardLink(`/deployments/${encodeURIComponent(row.key)}`);
 
         return href$.map(href => {
           return {
@@ -54,7 +53,7 @@ const cols = [
 ];
 
 function wrapTooltipElement(deploymentLabels) {
-  const labels = deploymentLabels.toJS();
+  const labels = deploymentLabels == null ? [] : deploymentLabels.toJS();
   return (
     <span>
       <h5>Labels</h5>
@@ -66,17 +65,30 @@ function wrapTooltipElement(deploymentLabels) {
 }
 
 export default function DeploymenList({ snapshot }) {
-  const deployments = snapshot.getIn(['data', 'deployments']).toArray();
-  const deploymentRows = deployments.map(deployment => {
-    return {
-      key: deployment.get('name'),
-      name: deployment.get('name'),
-      labels: deployment.get('labels'),
-      replicas: `${deployment.get('replicas')} / ${deployment.get('availableReplicas')}`,
-      namespace: deployment.get('namespace'),
-      snapshotId: snapshot.get('id')
-    };
-  });
+  //TODO: remove me
+  snapshot = FakeData();
+
+  const deploymentSnapshotList = snapshot.getIn(['data', 'deployments', 'data']);
+  const itemIds = snapshot.getIn(['data', 'deployments', 'itemIds']).toJS();
+  const deployments = deploymentSnapshotList == null ? [] : deploymentSnapshotList.toArray();
+
+  const deploymentRows = deployments
+    .filter(deployment => {
+      //this could possible be deleted in the future, once the backend is able to filter for deployments that are
+      //not available anymore
+      const desiredItemId = `${deployment.get('namespace')}:${deployment.get('name')}`;
+      return itemIds.indexOf(desiredItemId) !== -1;
+    })
+    .map(deployment => {
+      return {
+        key: `${deployment.get('namespace')}:${deployment.get('name')}`,
+        name: deployment.get('name'),
+        labels: deployment.get('labels'),
+        replicas: `${deployment.get('replicas')} / ${deployment.get('availableReplicas')}`,
+        namespace: deployment.get('namespace'),
+        snapshotId: snapshot.get('id')
+      };
+    });
 
   return (
     <MaxWidthFullscreenContainer>
