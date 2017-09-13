@@ -9,7 +9,8 @@ const notificationPlugins = [plugins.nginx, plugins.mysql, plugins.solr];
 const severities = [10, 5, 0];
 export default () => {
   const notifications = [];
-  for (let i = 0, length = Math.ceil(Math.random() * 3); i < length; i++) {
+  const numNotifications = Math.ceil(Math.random() * 3);
+  for (let i = 0, length = numNotifications; i < length; i++) {
     notifications.push({
       id: ids[i],
       data: {
