@@ -3,11 +3,15 @@ import React from 'react';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { getDockerSnapshotIdByContainerId } from 'in-stores/snapshot/graph';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { compare } from 'in-services/util/string';
+import { getDashboardLink } from 'in-stores/navigation/navigation';
+import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
+import { getLabel } from 'in-sdk/snapshot';
 import Title from 'in-components/Title';
 import FakeData from './FakeData';
 
@@ -16,7 +20,7 @@ const cols = [
     title: 'Name',
     type: 'custom',
     typeArgs: {
-      comparator: compare,
+      comparator: compareIgnoreCase,
       get(row) {
         return {
           value: row.name,
@@ -140,27 +144,39 @@ function getRowDetails(row) {
       title: 'Name',
       type: 'link',
       typeArgs: {
-        comparator: compare,
+        comparator: compareIgnoreCase,
         showLoadingIndicator: true,
         get$(row) {
-          const href$ = getSubDashboardLink(`/deployments/${encodeURIComponent(row.key)}`);
-
-          return href$.map(href => {
-            return {
-              label: row.name,
-              value: row.name,
-              href
-            };
-          });
+          return getDockerSnapshotIdByContainerId(row.imageId)
+            .flatMap(snapshotId => getSnapshot(snapshotId))
+            .flatMap(snapshot =>
+              getDashboardLink(snapshot.get('snapshotId')).map(href => {
+                return { href, snapshot };
+              })
+            )
+            .map(({ snapshot, href }) => {
+              return {
+                label: getLabel(snapshot),
+                value: getLabel(snapshot),
+                href
+              };
+            })
+            .startWith({
+              label: row.key,
+              value: row.key,
+              href: undefined
+            });
         }
       }
     }
   ];
 
   const rows = data.toArray().map(container => {
+    const imageId = container.get('id', '').replace(/docker:\/\//i, '');
+    const uid = container.get('uid');
     return {
-      key: container.get('uid'),
-      name: container.get('uid')
+      key: uid,
+      imageId
     };
   });
 
