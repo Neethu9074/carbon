@@ -1,5 +1,5 @@
 import Overview from './Overview';
-import Deployments from './Deployments';
+import Deployments from './deployments';
 
 export function getTabs(snapshot, pageHash) {
   const pathPrefix = pageHash ? `/pages/${pageHash}` : '';

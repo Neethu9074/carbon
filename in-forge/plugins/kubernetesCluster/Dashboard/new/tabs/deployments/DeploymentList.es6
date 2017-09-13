@@ -1,28 +1,38 @@
 import React from 'react';
 import Tooltip from 'in-components/Tooltip';
-import { compare } from 'in-services/util/boolean';
+import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 
 const cols = [
   {
     title: 'Name',
-    type: 'custom',
+    type: 'link',
     typeArgs: {
-      comparator: compare,
-      get(row) {
-        return {
-          value: row.name,
-          content: (
-            <Tooltip content={wrapTooltipElement(row.labels)} align={'rightMiddle'}>
-              <span>{row.name}</span>
-            </Tooltip>
-          )
-        };
+      comparator: compareIgnoreCase,
+      showLoadingIndicator: true,
+      get$(row) {
+        const href$ = getSubDashboardLink(
+          `/deployments/${encodeURIComponent(row.key)}&${encodeURIComponent(row.snapshotId)}`
+        );
+
+        return href$.map(href => {
+          return {
+            label: (
+              <Tooltip content={wrapTooltipElement(row.labels)} align={'rightMiddle'}>
+                <span>{row.name}</span>
+              </Tooltip>
+            ),
+            value: row.name,
+            href
+          };
+        });
       }
     }
   },
+
   {
     title: 'Namespace',
     type: 'string',
@@ -55,7 +65,7 @@ function wrapTooltipElement(deploymentLabels) {
   );
 }
 
-export default function Deployments({ snapshot }) {
+export default function DeploymenList({ snapshot }) {
   const deployments = snapshot.getIn(['data', 'deployments']).toArray();
   const deploymentRows = deployments.map(deployment => {
     return {
@@ -63,7 +73,8 @@ export default function Deployments({ snapshot }) {
       name: deployment.get('name'),
       labels: deployment.get('labels'),
       replicas: `${deployment.get('replicas')} / ${deployment.get('availableReplicas')}`,
-      namespace: deployment.get('namespace')
+      namespace: deployment.get('namespace'),
+      snapshotId: snapshot.get('id')
     };
   });
 
