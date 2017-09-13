@@ -3,11 +3,11 @@ import React from 'react';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { getDockerSnapshotIdByContainerId } from 'in-stores/snapshot/graph';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getDashboardLink } from 'in-stores/navigation/navigation';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { search } from 'in-stores/search/searchMatches';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
@@ -146,10 +146,17 @@ function getRowDetails(row) {
         comparator: compareIgnoreCase,
         showLoadingIndicator: true,
         get$(row) {
-          return getDockerSnapshotIdByContainerId(row.imageId)
+          return search({ query: `entity.docker.containerId:${row.imageId}` })
+            .map(snapshotIds => {
+              if (snapshotIds.size === 0) {
+                return null;
+              }
+              return snapshotIds.get(0);
+            })
+            .filter(snapshotId => snapshotId != null)
             .flatMap(snapshotId => getSnapshot(snapshotId))
             .flatMap(snapshot =>
-              getDashboardLink(snapshot.get('snapshotId')).map(href => {
+              getDashboardLink(snapshot.get('id')).map(href => {
                 return { href, snapshot };
               })
             )
