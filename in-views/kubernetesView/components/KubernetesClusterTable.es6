@@ -21,7 +21,7 @@ const columnDefinitions = [
     }
   },
   {
-    title: 'Views',
+    title: 'Nodes',
     type: 'metric',
     index: 1,
     typeArgs: {
@@ -39,7 +39,7 @@ const columnDefinitions = [
     }
   },
   {
-    title: 'Load Time',
+    title: 'Health',
     type: 'metric',
     index: 2,
     typeArgs: {
