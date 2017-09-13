@@ -44,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Replicas / Desirbed Replicas',
+    title: 'Actual / Desired Replicas',
     type: 'string',
     typeArgs: {
       getValue(row) {
