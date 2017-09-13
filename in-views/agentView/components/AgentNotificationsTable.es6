@@ -62,8 +62,13 @@ const cols = [
 ];
 
 export default connectTo(
-  {
-    agentNotifications: getAgentNotifications()
+  props => {
+    if (props.agentNotifications) {
+      return {};
+    }
+    return {
+      agentNotifications: getAgentNotifications()
+    };
   },
   function AgentViewAgentsTable({ agentNotifications }) {
     if (!agentNotifications) {
