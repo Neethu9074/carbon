@@ -170,6 +170,15 @@ export default class extends React.Component {
             />
           </Group>
 
+          <Group helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
+            <Heading text="Show external services" htmlFor="external-services" />
+            <Toggle
+              id="external-services"
+              checked={!settings['map_excludeExternalServices']}
+              onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
+            />
+          </Group>
+
           <Group>
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />
             <Toggle

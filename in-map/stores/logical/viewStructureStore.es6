@@ -9,6 +9,8 @@ import { getSetting$ } from 'in-services/settings';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
+const excludeExternalServices$ = getSetting$('map_excludeExternalServices');
+
 const nothingMatches = {
   contains() {
     return false;
@@ -27,9 +29,10 @@ export function getViewStructure() {
     focusedMoment$,
     searchMatches$,
     getSetting$('map_logical_numServiceHops'),
+    excludeExternalServices$,
     debouncedQuery$,
     viewGrouping$
-  ]).flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops, query, grouping]) => {
+  ]).flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops, excludeExternalServices, query, grouping]) => {
     if (!_searchMatches || _searchMatches.size === 0) {
       if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
         _searchMatches = everythingMatches;
@@ -39,6 +42,7 @@ export function getViewStructure() {
     }
     return createViewStructureObservable({ viewType, time: focusedMoment, grouping }).map(_viewStructure => {
       const serviceIds = {};
+      const externalIds = new Map();
       const serviceInstanceIds = {};
 
       _viewStructure.children.forEach(service => {
@@ -56,6 +60,10 @@ export function getViewStructure() {
         if (includeService) {
           serviceIds[serviceId] = true;
 
+          if (service.metadata.external) {
+            externalIds.set(serviceId, true);
+          }
+
           if (numServiceHops > 0) {
             const incoming = service.incomingConnections;
             const outgoing = service.outgoingConnections;
@@ -66,6 +74,12 @@ export function getViewStructure() {
           }
         }
       });
+
+      if (excludeExternalServices) {
+        for (let key of externalIds.keys()) {
+          serviceIds[key] = false;
+        }
+      }
 
       return {
         viewStructure: _viewStructure,
