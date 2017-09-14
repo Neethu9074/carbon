@@ -12,9 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Unmonitored Host',
     plural: 'Unmonitored Hosts'
-  },
-
-  getPower() {
-    return 1;
   }
 });

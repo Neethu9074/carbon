@@ -2,6 +2,7 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './availabilityZone';
+import './awsRds';
 import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
@@ -49,6 +50,7 @@ import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
 import './kafkaCluster';
+import './kubernetesCluster';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';

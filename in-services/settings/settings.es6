@@ -7,6 +7,10 @@ const logger = createLogger('SearchBar/stores/filers');
 export const settingsStore = create({ emitLatestOnSubscribe: true });
 export const settings$ = settingsStore;
 
+// apply default
+if (window.instana.settings) {
+  window.instana.settings.map_excludeExternalServices = window.instana.settings.map_excludeExternalServices || false;
+}
 settingsStore.emit(window.instana.settings);
 
 export function setIn(key, value) {

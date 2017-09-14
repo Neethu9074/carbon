@@ -6,6 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  awsRds: 'awsRds',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
@@ -53,6 +54,7 @@ export const plugins = {
   jvm: 'jvmRuntimePlatform',
   kafka: 'kafka',
   kafkaCluster: 'kafkaCluster',
+  kubernetesCluster: 'kubernetesCluster',
   ldapLogicalConnection: 'ldapLogicalConnection',
   ldapLogicalService: 'ldapLogicalService',
   ldapServiceInstance: 'ldapServiceInstance',
@@ -136,6 +138,7 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
   batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
   browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
@@ -185,6 +188,7 @@ export const fullyQualifiedPlugins = {
   jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
   kafkaCluster: 'com.instana.forge.infrastructure.messaging.kafka.KafkaCluster',
+  kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
   ldapLogicalService: 'com.instana.forge.connection.ldap.LdapLogicalService',
   ldapServiceInstance: 'com.instana.forge.connection.ldap.LdapServiceInstance',
