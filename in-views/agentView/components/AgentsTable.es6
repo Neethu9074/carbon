@@ -61,6 +61,7 @@ const cols = [
   {
     title: 'Boot Version',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'boot']);
@@ -70,6 +71,7 @@ const cols = [
   {
     title: 'Mode',
     type: 'string',
+    width: 120,
     typeArgs: {
       getValue(row) {
         return modes[row.snapshot.getIn(['data', 'mode'])];
@@ -88,6 +90,7 @@ const cols = [
   {
     title: 'Status',
     type: 'custom',
+    width: 100,
     typeArgs: {
       comparator: compareBoolean,
       get(row) {
