@@ -4,6 +4,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import AgentNotificationsTable from 'in-views/agentView/components/AgentNotificationsTable';
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
+import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 
@@ -18,6 +19,7 @@ export default function AgentView({ agentSnapshots }) {
         <div className={block}>
           {DashboardNavigationRoute}
 
+          <FullscreenViewHeading iconType="account">Agents and Notifications</FullscreenViewHeading>
           <AgentsPresenceChart />
           <AgentsTable agentSnapshots={agentSnapshots} />
           <AgentNotificationsTable agentSnapshots={agentSnapshots} />
