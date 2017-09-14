@@ -1,7 +1,7 @@
 .in-dash-sum-kpi {
-  min-width: 10rem;
-  flex-basis: 24%;
-  justify-content: center;
+  flex-shrink: 0;
+  min-width: 12rem;
+  padding-right: 5rem;
   box-sizing: border-box;
 
   &__label {
@@ -13,6 +13,10 @@
   &__value-wrapper {
     display: flex;
     align-items: center;
+  }
+
+  &__value-wrapper-grow {
+    flex-grow: 2;
   }
 
   &__value {

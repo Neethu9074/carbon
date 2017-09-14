@@ -16,12 +16,14 @@ export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregati
     throw new Error('Single percentage rendering not yet supported.');
   }
 
+  const wrapperClass = renderedPercentages ? `${block}__value-wrapper-grow` : '';
+
   return (
     <div className={block}>
       <span className={`${block}__label`}>
         {label}
       </span>
-      <div className={`${block}__value-wrapper`}>
+      <div className={`${block}__value-wrapper ${wrapperClass}`}>
         <MetricValue
           snapshotId={snapshotId}
           metric={metric}
