@@ -13,6 +13,7 @@ import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('roleConfig');
 
@@ -90,6 +91,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Role Config" />
         <SubViewHeader>
           {role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}
         </SubViewHeader>

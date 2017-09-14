@@ -30,3 +30,14 @@ export const searchMatches$ = createTrackingStore({
     })
     .distinct()
 }).observable;
+
+export function search({ query }) {
+  return combineLatest([focusedMoment$, timeframe$]).flatMap(([focusedMoment, timeframe]) => {
+    return createSearchSubscription({
+      query,
+      time: focusedMoment,
+      timeframe,
+      view: 'TABLE'
+    });
+  });
+}

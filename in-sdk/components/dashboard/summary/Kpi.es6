@@ -8,7 +8,16 @@ import './Kpi.less';
 
 const block = 'in-dash-sum-kpi';
 
-export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregation, formatter, label, percentages }) {
+export default function Kpi({
+  snapshotId,
+  timeframe,
+  metric,
+  timeWindowAggregation,
+  formatter,
+  label,
+  percentages,
+  children
+}) {
   let renderedPercentages = null;
   if (percentages != null && percentages.length === 2) {
     renderedPercentages = <DualPercentage percentages={percentages} snapshotId={snapshotId} timeframe={timeframe} />;
@@ -22,17 +31,23 @@ export default function Kpi({ snapshotId, timeframe, metric, timeWindowAggregati
         {label}
       </span>
       <div className={`${block}__value-wrapper`}>
-        <MetricValue
-          snapshotId={snapshotId}
-          metric={metric}
-          timeframe={timeframe}
-          timeWindowAggregation={timeWindowAggregation}
-          formatter={formatter}
-          className={`${block}__value`}
-          initialValue="––"
-        />
+        <div className={`${block}__value`}>
+          {children}
+        </div>
 
-        {renderedPercentages}
+        {!children
+          ? <MetricValue
+              snapshotId={snapshotId}
+              metric={metric}
+              timeframe={timeframe}
+              timeWindowAggregation={timeWindowAggregation}
+              formatter={formatter}
+              className={`${block}__value`}
+              initialValue="––"
+            />
+          : null}
+
+        {!children && renderedPercentages}
       </div>
     </div>
   );
@@ -50,7 +65,7 @@ const DualPercentage = connectTo(
     };
   },
   function DualPercentage({ aValue, percentages }) {
-    if (aValue == null) {
+    if (aValue == null || aValue < 0) {
       return null;
     }
     const width = aValue == null ? '0%' : `${(aValue * 100) | 0}%`;

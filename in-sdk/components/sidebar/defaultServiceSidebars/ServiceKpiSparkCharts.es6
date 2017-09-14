@@ -20,7 +20,7 @@ export default function ServiceKpiSparkCharts({ snapshot }) {
           },
           {
             metric: 'duration.mean',
-            label: 'avg. latency',
+            label: 'latency',
             formatter: ms,
             aggregation: 'mean'
           },

@@ -4,20 +4,24 @@ import React from 'react';
 import ErrorOverview from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorOverview';
 import ErrorDetails from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorDetails';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
+import { Route } from 'react-router-dom';
 
 export default function ErrorsTab(props) {
   return (
     <MaxWidthFullscreenContainer>
       <Switch>
-        {/* TODO error message in window title – helmet? */}
-        <RouteWithTitle
+        <Route
           path={`*/errors/:errorHash`}
-          component={ErrorDetails}
-          windowTitle={'Error Details'}
-          props={props}
+          render={routeprops => {
+            return <ErrorDetails {...routeprops} {...props} />;
+          }}
         />
-        <RouteWithTitle path={`*/errors`} component={ErrorOverview} windowTitle={'Error Overview'} props={props} />
+        <Route
+          path={`*/errors`}
+          render={routeprops => {
+            return <ErrorOverview {...routeprops} {...props} />;
+          }}
+        />
       </Switch>
     </MaxWidthFullscreenContainer>
   );

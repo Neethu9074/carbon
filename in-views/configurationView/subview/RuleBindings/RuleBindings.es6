@@ -23,6 +23,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getRule } from 'in-services/api/rules';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './RuleBindings.less';
 
@@ -203,6 +204,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Custom Issues" />
         <SubViewHeader>
           Custom issues
         </SubViewHeader>

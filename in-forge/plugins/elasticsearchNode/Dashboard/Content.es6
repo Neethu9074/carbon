@@ -19,7 +19,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
     <div>
       <NodeSummary snapshot={snapshot} />
 
-      <DashboardSection title="Search Performance vs. Throughput">
+      <DashboardSection title="Latency vs. Number of Queries">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}

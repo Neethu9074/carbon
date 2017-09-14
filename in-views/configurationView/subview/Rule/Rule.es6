@@ -11,6 +11,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { openRules } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('Rule');
 
@@ -44,6 +45,8 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Custom Rule" />
+
         <SubViewHeader>
           {rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}
         </SubViewHeader>

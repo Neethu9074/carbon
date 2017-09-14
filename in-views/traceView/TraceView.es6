@@ -11,6 +11,7 @@ import { traceAnalyticsEnabled } from 'in-services/featureFlags';
 import TraceTree from 'in-views/traceView/components/TraceTree';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import TwoColumnView from 'in-components/TwoColumnView';
+import Title from 'in-components/Title';
 
 import './TraceView.less';
 
@@ -32,6 +33,7 @@ export default function TraceView() {
   }
   return (
     <div className={block} style={style}>
+      <Title title="Traces" />
       {DashboardNavigationRoute}
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
       <TwoColumnView

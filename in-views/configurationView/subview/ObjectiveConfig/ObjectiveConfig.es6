@@ -12,6 +12,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('ObjectiveConfig');
 
@@ -45,6 +46,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Objective" />
         <SubViewHeader>
           {objective ? `Configure objective: ${objective.get('name')}` : 'Configure objective'}
         </SubViewHeader>

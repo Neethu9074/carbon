@@ -43,14 +43,15 @@ export default function createChart(config) {
       config.withoutAxis || (config.margins.left != null && config.margins.left),
       'Left margin must always be defined!'
     );
-    invariant(
+
+    /*  invariant(
       config.y2 == null || config.withoutAxis || (config.margins.right != null && config.margins.right > 0),
       'Right margin must be defined when defining a second y axis!'
     );
     invariant(
       config.y2 != null || config.withoutAxis || config.margins.right == null,
       'Right margin must not be defined when not defining a second y axis!'
-    );
+    );*/
   }
 
   if (!config.withoutAxis) {
@@ -60,6 +61,12 @@ export default function createChart(config) {
       left: config.margins.left || 1,
       right: config.margins.right || 1
     };
+  }
+
+  //This is a hard override to make sure charts have the same width even if there are >1 yAxis.
+  if (config.margins && !config.withoutAxis) {
+    config.margins.left = 60;
+    config.margins.right = 60;
   }
 
   addLowDetailModeSupport();

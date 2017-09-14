@@ -15,7 +15,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
 
   return (
     <div>
-      <DashboardSection title="Calls vs. Average Latency">
+      <DashboardSection title="Calls vs. Latency">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -35,7 +35,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
             min: 0,
             formatter: msTwoDecimalPlaces,
             metrics: ['duration.mean'],
-            labels: ['average latency'],
+            labels: ['latency'],
             type: 'line',
             aggregation: 'mean'
           }}

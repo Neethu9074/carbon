@@ -18,6 +18,7 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('ServiceExtractionRuleConfig');
 
@@ -70,6 +71,7 @@ export default class extends React.Component {
 
     return (
       <div>
+        <Title title="Service Extraction Rule" />
         <SubViewWrapper>
           <SubViewHeader>
             {rule ? `Configure service extraction rule: ${rule.get('name')}` : 'Configure service extraction rule'}

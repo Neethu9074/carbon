@@ -2,10 +2,11 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { percentage, millis, number } from 'in-services/formatters/number';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import getLogicalConnections from 'in-stores/graph/getLogicalConnections';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshot } from 'in-stores/snapshot';
 import { always } from 'in-services/fixedStreams';
@@ -13,6 +14,7 @@ import { Row, Col } from 'in-components/Grid';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+import Title from 'in-components/Title';
 
 const notFoundIndicator = {};
 
@@ -66,20 +68,23 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
     );
   }
 
+  const label = getLabel(connectedSnapshot);
   return (
     <div>
+      <Title title="Call Target Details" dynamic={label} />
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
-
       <DashboardTile>
         <DescriptionList>
           <DescriptionItem title="Call Target">
-            {getLabel(connectedSnapshot)}
+            {label}
           </DescriptionItem>
-          <DescriptionItem title="TODO">
-            <strong style={{ color: 'darkred' }}>
-              how do we link to the web service in general, i.e. without the context of this website?
-            </strong>
-          </DescriptionItem>
+          {instanaInternalFeaturesEnabled
+            ? <DescriptionItem title="TODO">
+                <strong style={{ color: 'darkred' }}>
+                  how do we link to the web service in general, i.e. without the context of this website?
+                </strong>
+              </DescriptionItem>
+            : null}
         </DescriptionList>
       </DashboardTile>
 

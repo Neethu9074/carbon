@@ -1,0 +1,30 @@
+.in-kube-comp-status {
+  &__component {
+    position: relative;
+    background: #EEF2F4;
+    padding: 0.5rem 0.6rem 0.5rem 1.2rem;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 0.5rem;
+    display: inline-block;
+  }
+
+  &__status {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: .6rem;
+    background: #ff4229;
+
+    &--healthy {
+      background: #6cf000;
+    }
+  }
+
+  &__name {
+    // increase zIndex
+    position: relative;
+    font-weight: bold;
+  }
+}

@@ -33,6 +33,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { compare } from 'in-services/util/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 import './ServiceExtraction.less';
 
@@ -293,6 +294,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title={this.props.title} />
         <SubViewHeader>
           {this.props.title}
         </SubViewHeader>

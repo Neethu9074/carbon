@@ -10,6 +10,7 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Title from 'in-components/Title';
 
 import './UiConfig.less';
 
@@ -52,6 +53,7 @@ export default class extends React.Component {
     const { settings } = this.state;
     return (
       <SubViewWrapper>
+        <Title title="User Interface Settings" />
         <SubViewHeader>
           User Interface
         </SubViewHeader>
@@ -165,6 +167,15 @@ export default class extends React.Component {
               id="unmonitored-hosts"
               checked={!settings['map_excludeUnmonitoredHosts']}
               onChange={e => this.saveSetting('map_excludeUnmonitoredHosts', !e.target.checked)}
+            />
+          </Group>
+
+          <Group helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
+            <Heading text="Show external services" htmlFor="external-services" />
+            <Toggle
+              id="external-services"
+              checked={!settings['map_excludeExternalServices']}
+              onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
             />
           </Group>
 

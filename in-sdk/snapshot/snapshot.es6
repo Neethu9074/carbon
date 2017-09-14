@@ -25,7 +25,7 @@ export function getPower(snapshot) {
   if (get) {
     return get(snapshot);
   }
-  return -1;
+  return 1;
 }
 
 export function getShowZoneInSidebarHeader(plugin) {

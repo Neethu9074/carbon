@@ -2,7 +2,6 @@ import React from 'react';
 
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
-import { homeLink$ } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Link from 'in-components/Link';
 
@@ -13,7 +12,7 @@ const block = 'in-app-header';
 export default function AppHeader() {
   return (
     <div className={block}>
-      <Link href$={homeLink$} className={`${block}__lettering`}>
+      <Link href="/" className={`${block}__lettering`}>
         <Lettering />
       </Link>
 
