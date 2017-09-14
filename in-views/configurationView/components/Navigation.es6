@@ -107,7 +107,7 @@ export default function Navigation() {
           ? <NavItem title="Website Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
           : null}
 
-        {role.canConfigureUsers || role.canConfigureRoles
+        {role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens
           ? <NavItem
               title="Access Control"
               isActive$={combine(isUserManagementView$, isRolesConfigView$, isApiTokensView$)}
