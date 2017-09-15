@@ -19,7 +19,7 @@ export default function AgentView({ agentSnapshots }) {
         <div className={block}>
           {DashboardNavigationRoute}
 
-          <FullscreenViewHeading iconType="account">Agents and Notifications</FullscreenViewHeading>
+          <FullscreenViewHeading iconType="agent">Agents and Notifications</FullscreenViewHeading>
           <AgentsPresenceChart />
           <AgentsTable agentSnapshots={agentSnapshots} />
           <AgentNotificationsTable agentSnapshots={agentSnapshots} />
