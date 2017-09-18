@@ -47,7 +47,7 @@ const cols = [
   {
     title: 'Severity',
     type: 'custom',
-    width: 100,
+    width: 120,
     typeArgs: {
       comparator: () => compare,
       get(row) {
