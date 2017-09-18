@@ -2,12 +2,12 @@ import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
-import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getDashboardLink } from 'in-stores/navigation';
@@ -79,6 +79,16 @@ const cols = [
     }
   },
   {
+    title: 'Log Level',
+    type: 'string',
+    width: 80,
+    typeArgs: {
+      getValue(row) {
+        return logLevels[row.snapshot.getIn(['data', 'loglevel'])];
+      }
+    }
+  },
+  {
     title: 'Java Runtime',
     type: 'string',
     typeArgs: {
@@ -90,7 +100,7 @@ const cols = [
   {
     title: 'Status',
     type: 'custom',
-    width: 100,
+    width: 120,
     typeArgs: {
       comparator: compareBoolean,
       get(row) {
