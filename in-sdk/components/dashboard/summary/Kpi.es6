@@ -25,12 +25,14 @@ export default function Kpi({
     throw new Error('Single percentage rendering not yet supported.');
   }
 
+  const wrapperClass = renderedPercentages ? `${block}__value-wrapper-grow` : '';
+
   return (
     <div className={block}>
       <span className={`${block}__label`}>
         {label}
       </span>
-      <div className={`${block}__value-wrapper`}>
+      <div className={`${block}__value-wrapper ${wrapperClass}`}>
         <div className={`${block}__value`}>
           {children}
         </div>
@@ -46,7 +48,6 @@ export default function Kpi({
               initialValue="––"
             />
           : null}
-
         {!children && renderedPercentages}
       </div>
     </div>
