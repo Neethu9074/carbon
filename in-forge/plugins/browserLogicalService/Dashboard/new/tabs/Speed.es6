@@ -61,8 +61,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
                 metricPrefix + 'duration.99th'
               ],
               labels: ['50th', '90th', '95th', '98th', '99th'],
-              type: 'line',
-              aggregation: 'mean'
+              type: 'line'
             }}
           />
         </DashboardTile>
