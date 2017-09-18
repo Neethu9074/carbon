@@ -15,6 +15,7 @@ import { applyTransform } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 
+import 'codemirror/addon/display/placeholder.js';
 import 'in-components/SearchBar/misc/codeMirrorModes';
 
 // the order is important here
@@ -39,6 +40,8 @@ export default getElementDimensions(
           mode: 'instanaSearch',
           value: this.props.query,
           autofocus: false,
+          placeholder:
+            'Filter with keywords. Simply start typing. Using lucene / Elasticsearch query syntax. AND is the default operator.',
           scrollbarStyle: null
         }));
 
