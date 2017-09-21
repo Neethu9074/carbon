@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
-import Chart from 'in-components/Chart';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { withSiMultiplyPrefixZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -32,7 +32,7 @@ export default function FlowsTable({ snapshot, timeframe }) {
   const rows = data
     .getIn(['flowNames'], emptyList)
     .map(key => {
-      const separatorIndex = key.indexOf('_');
+      const separatorIndex = key.lastIndexOf('_');
       const appName = key.substring(0, separatorIndex);
       const flowName = key.substring(separatorIndex + 1);
       return {
@@ -66,15 +66,21 @@ function getDetails(row) {
         right: 40
       }}
       y1={{
-        metrics: ['flows.' + row.key + '.processedEvents', 'flows.' + row.key + '.avgProcessingTime'],
-        labels: ['Processed events', 'Average processing time'],
-        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+        min: 0,
+        metrics: [
+          'flows.' + row.key + '.processedEvents',
+          'flows.' + row.key + '.executionErrors',
+          'flows.' + row.key + '.fatalErrors'
+        ],
+        labels: ['Processed events', 'Execution errors', 'Fatal errors'],
+        formatter: zeroDecimalPlaces,
         tooltipFormatter: zeroDecimalPlaces,
         type: 'line'
       }}
       y2={{
-        metrics: ['flows.' + row.key + '.executionErrors', 'flows.' + row.key + '.fatalErrors'],
-        labels: ['Execution errors', 'Fatal errors'],
+        min: 0,
+        metrics: ['flows.' + row.key + '.avgProcessingTime'],
+        labels: ['Average processing time'],
         formatter: zeroDecimalPlaces,
         type: 'line'
       }}

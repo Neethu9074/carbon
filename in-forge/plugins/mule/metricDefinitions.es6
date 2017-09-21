@@ -1,24 +1,31 @@
-import { number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: [
-      'totalQueuesEnqueueCount',
-      'totalTopicsDequeueCount',
-      'totalTopicsEnqueueCount',
-      'totalConnectionsCount',
-      'totalConsumerCount',
-      'totalProducerCount'
+      getMetricMatch('applications', 'processedEvents'),
+      getMetricMatch('applications', 'executionErrors'),
+      getMetricMatch('applications', 'fatalErrors'),
+      getMetricMatch('flows', 'processedEvents'),
+      getMetricMatch('flows', 'executionErrors'),
+      getMetricMatch('flows', 'fatalErrors')
     ],
     labels: [
-      'All Queues Messages Enqueue',
-      'All Topics Messages Dequeue',
-      'All Topics Messages Enqueue',
-      'Total Connections',
-      'Total Consumers',
-      'Total Producers'
+      'Processed Events',
+      'Execution Errors',
+      'Fatal Errors',
+      'Processed Events',
+      'Execution Errors',
+      'Fatal Errors'
     ],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [getMetricMatch('applications', 'avgProcessingTime'), getMetricMatch('flows', 'avgProcessingTime')],
+    labels: ['Average Processing Time', 'Average Processing Time'],
+    min: 0,
+    formatter: millis.fixedCompact
   }
 ];

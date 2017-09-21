@@ -1,12 +1,11 @@
 import React from 'react';
 
-const formatBoolean = value => (value ? 'Yes' : 'No');
-
-import { emptyList } from 'in-services/fixedImmutables';
-import Chart from 'in-components/Chart';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { yesOrNo } from 'in-services/formatters/boolean';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { withSiMultiplyPrefixZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -23,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return formatBoolean(row.config.get('containerMode'));
+        return yesOrNo(row.config.get('containerMode'));
       }
     }
   },
@@ -34,7 +33,7 @@ const cols = [
       getValue(row) {
         return row.config.get('shutdownTimeout');
       },
-      getContent: function(value) {
+      getContent(value) {
         return value;
       }
     }
@@ -46,7 +45,7 @@ const cols = [
       getValue(row) {
         return row.config.get('synchronousEventTimeout');
       },
-      getContent: function(value) {
+      getContent(value) {
         return value;
       }
     }
@@ -58,14 +57,14 @@ const cols = [
       getValue(row) {
         return row.config.get('transactionTimeout');
       },
-      getContent: function(value) {
+      getContent(value) {
         return value;
       }
     }
   }
 ];
 
-export default function FlowsTableApplicationsTable({ snapshot, timeframe }) {
+export default function ApplicationsTable({ snapshot, timeframe }) {
   const data = snapshot.get('data');
   const rows = data
     .getIn(['configurations'], emptyList)
@@ -102,15 +101,19 @@ function getDetails(row) {
         right: 40
       }}
       y1={{
-        metrics: ['applications.' + row.key + '.processedEvents', 'applications.' + row.key + '.avgProcessingTime'],
-        labels: ['Processed events', 'Average processing time'],
-        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+        metrics: [
+          'applications.' + row.key + '.processedEvents',
+          'applications.' + row.key + '.executionErrors',
+          'applications.' + row.key + '.fatalErrors'
+        ],
+        labels: ['Processed events', 'Execution errors', 'Fatal errors'],
+        formatter: zeroDecimalPlaces,
         tooltipFormatter: zeroDecimalPlaces,
         type: 'line'
       }}
       y2={{
-        metrics: ['applications.' + row.key + '.executionErrors', 'applications.' + row.key + '.fatalErrors'],
-        labels: ['Execution errors', 'Fatal errors'],
+        metrics: ['applications.' + row.key + '.avgProcessingTime'],
+        labels: ['Average processing time'],
         formatter: zeroDecimalPlaces,
         type: 'line'
       }}

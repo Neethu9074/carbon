@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Info from 'in-forge/plugins/mule/Info';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import Info from 'in-forge/plugins/mule/Info';
 
 export default function MuleSidebar({ snapshot }) {
   return (

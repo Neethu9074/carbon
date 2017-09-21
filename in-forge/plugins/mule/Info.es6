@@ -2,8 +2,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
-const formatBoolean = value => (value ? 'Yes' : 'No');
+import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -22,7 +21,7 @@ export default function Info({ snapshot }) {
             {data.get('startTime')}
           </DescriptionItem>
           <DescriptionItem title="Initialised">
-            {formatBoolean(data.get('initialised'))}
+            {yesOrNo(data.get('initialised'))}
           </DescriptionItem>
         </DescriptionList>
       </Collapsible.Content>
