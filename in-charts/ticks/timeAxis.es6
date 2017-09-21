@@ -1,7 +1,15 @@
-import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  kiloBytesTwoDecimalPlaces,
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import getTickPositionsPercentage from 'in-charts/ticks/percentage';
 import getTickPositionsDefault from 'in-charts/ticks/default';
 import getTickPositionsNumber from 'in-charts/ticks/number';
+import getTickPositionsBytes from 'in-charts/ticks/bytes';
 
 export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAligned = false) {
   // special case: Trace with 0 time.
@@ -37,6 +45,10 @@ export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAli
 const tickPositionStrategies = {};
 tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
 tickPositionStrategies[percentageZeroDecimalPlaces] = getTickPositionsPercentage;
+tickPositionStrategies[bytesZeroDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[bytesTwoDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[kiloBytesZeroDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[kiloBytesTwoDecimalPlaces] = getTickPositionsBytes;
 
 export function getAxisTickPositions(scale, formatter) {
   const rangeFrom = scale.getRangeFrom();
