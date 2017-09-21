@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -34,7 +34,7 @@ const cols = [
         return row.config.get('shutdownTimeout');
       },
       getContent(value) {
-        return value;
+        return millis.compact(value);
       }
     }
   },
@@ -46,7 +46,7 @@ const cols = [
         return row.config.get('synchronousEventTimeout');
       },
       getContent(value) {
-        return value;
+        return millis.compact(value);
       }
     }
   },
@@ -58,7 +58,7 @@ const cols = [
         return row.config.get('transactionTimeout');
       },
       getContent(value) {
-        return value;
+        return millis.compact(value);
       }
     }
   }
