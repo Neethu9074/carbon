@@ -92,6 +92,7 @@ import './mongoDb';
 import './mongoDbDatabaseServiceInstance';
 import './msiis';
 import './msSqlDatabase';
+import './mule';
 import './mySqlDatabase';
 import './nginx';
 import './nodeJsRuntimePlatform';
