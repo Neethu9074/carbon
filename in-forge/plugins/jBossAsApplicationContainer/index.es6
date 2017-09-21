@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   supportsCodeView,
   getCodeView,
   pluginName: {
-    singular: 'JBoss AS',
-    plural: 'JBoss AS'
+    singular: 'JBoss',
+    plural: 'JBoss'
   }
 });
