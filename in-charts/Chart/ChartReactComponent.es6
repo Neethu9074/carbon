@@ -121,7 +121,6 @@ function processAxis(axis) {
     axis.aggregation = ['sum', 'mean'];
     axis.formatter = [number.compact, percentage.compact];
     axis.tooltipFormatter = [number.compact, percentage.detailed];
-    axis.tooltipFormatter = [];
   }
 
   if (axis.maxDataPoints && axis.minPixelPerBlock && axis.aggregation == null) {
