@@ -2,26 +2,26 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
+import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
 
 const cols = [
   {
-    title: 'Application name',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.appName;
-      }
-    }
-  },
-  {
-    title: 'Flow name',
+    title: 'Name',
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.flowName;
+      }
+    }
+  },
+  {
+    title: 'Application',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.appName;
       }
     }
   }
@@ -30,17 +30,14 @@ const cols = [
 export default function FlowsTable({ snapshot, timeframe }) {
   const data = snapshot.get('data');
   const rows = data
-    .getIn(['flowNames'], emptyList)
-    .map(key => {
-      const separatorIndex = key.lastIndexOf('_');
-      const appName = key.substring(0, separatorIndex);
-      const flowName = key.substring(separatorIndex + 1);
+    .getIn(['flowNames'], emptyMap)
+    .map((appName, flowName) => {
       return {
-        key,
-        snapshotId: snapshot.get('id'),
-        timeframe: timeframe,
+        key: appName + '_' + flowName,
         appName,
-        flowName
+        flowName,
+        snapshotId: snapshot.get('id'),
+        timeframe: timeframe
       };
     })
     .toArray();
