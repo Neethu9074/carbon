@@ -3,6 +3,7 @@
 import './activeMQ';
 import './availabilityZone';
 import './awsRds';
+import './awsSqs';
 import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
