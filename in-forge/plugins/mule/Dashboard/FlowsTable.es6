@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
@@ -78,7 +78,7 @@ function getDetails(row) {
         min: 0,
         metrics: ['flows.' + row.key + '.avgProcessingTime'],
         labels: ['Average processing time'],
-        formatter: zeroDecimalPlaces,
+        formatter: millis.fixedCompact,
         type: 'line'
       }}
     />

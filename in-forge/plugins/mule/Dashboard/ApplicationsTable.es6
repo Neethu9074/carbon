@@ -114,7 +114,7 @@ function getDetails(row) {
       y2={{
         metrics: ['applications.' + row.key + '.avgProcessingTime'],
         labels: ['Average processing time'],
-        formatter: zeroDecimalPlaces,
+        formatter: millis.fixedCompact,
         type: 'line'
       }}
     />
