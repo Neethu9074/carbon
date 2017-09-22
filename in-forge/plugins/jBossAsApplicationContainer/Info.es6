@@ -9,7 +9,7 @@ export default function JBossAsInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Version">
-        {serverInfo.get('releaseVersion') + ' ' + serverInfo.get('productName')}
+        {`${serverInfo.get('releaseVersion', '')} ${serverInfo.get('productName', '')}`}
       </DescriptionItem>
       <DescriptionItem title="Server">
         {serverInfo.get('serverName')}
