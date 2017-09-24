@@ -85,7 +85,7 @@ export default class extends React.Component {
 
             if (fieldConfig.type === 'kv') {
               return (
-                <div className={`${block}__double-input`}>
+                <div key={key} className={`${block}__double-input`}>
                   <em className={`${block}__double-input-title`}>
                     Match Expression: {matchSpecificationOptions[key].titleName}
 
