@@ -3,18 +3,34 @@ import React from 'react';
 import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
+import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import KVSection from 'in-sdk/components/dashboard/KV/KVSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import KV from 'in-sdk/components/dashboard/KV';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
 export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
+
   return (
     <MaxWidthFullscreenContainer>
       <SnapshotLabel>
         {getLabel(snapshot)}
       </SnapshotLabel>
+
+      <DashboardTile>
+        <KVSection>
+          <KV k="Boot Version" v={snapshot.getIn(['data', 'boot'])} />
+          <KV k="Mode" v={modes[snapshot.getIn(['data', 'mode'])]} />
+          <KV k="Log Level" v={logLevels[snapshot.getIn(['data', 'loglevel'])]} />
+          <KV
+            k="Java Runtime"
+            v={`${snapshot.getIn(['data', 'java', 'vmvendor'])} ${snapshot.getIn(['data', 'java', 'version'])}`}
+          />
+        </KVSection>
+      </DashboardTile>
 
       <Columize>
         {snapshot.getIn(['data', 'hasCpuLoad'])
