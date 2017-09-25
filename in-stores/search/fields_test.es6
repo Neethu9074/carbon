@@ -34,7 +34,8 @@ describe('in-components/SearchBar/misc/fields', () => {
       { keyword: 'event.type' },
       { keyword: 'trace.type' },
       { keyword: 'trace.errorCount' },
-      { keyword: 'log.level' }
+      { keyword: 'log.level' },
+      { keyword: 'trace.eum.pageLoad', termType: 'id' }
     ]);
   });
 
@@ -88,5 +89,9 @@ describe('in-components/SearchBar/misc/fields', () => {
 
   it('must skip blacklisted items', () => {
     expect(mod.findNode('log')).to.equal(null);
+  });
+
+  it('must skip groups if children only contains termtype-id items', () => {
+    expect(mod.findNode('trace.eum')).to.equal(null);
   });
 });

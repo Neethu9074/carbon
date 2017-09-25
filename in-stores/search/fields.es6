@@ -69,6 +69,7 @@ export function node(name, props = {}) {
     description: props.description || helpTexts[props.path],
     children: props.children || {},
     isPreset: props.isPreset || false,
+    parentNode: props.parentNode,
     query: props.query || (requiresQuotes(name) ? `"${name}"` : name),
     termType: props.termType
   };
@@ -97,6 +98,7 @@ export function buildCategorizedFields(fields) {
       if (!currentNode.children[pathPart]) {
         currentNode.children[pathPart] = node(pathPart, {
           path: completePath,
+          parentNode: currentNode,
           numChildren: Object.keys(currentNode.children).length
         });
       }
@@ -107,12 +109,14 @@ export function buildCategorizedFields(fields) {
     const lastPart = path[path.length - 1];
     currentNode.children[lastPart] = node(lastPart, {
       description: field.description,
+      parentNode: currentNode,
       termType: field.termType
     });
   });
   root.children[filterNode.name] = filterNode;
 
   mapChildrenObjectsToArrays(root);
+  clearNode(root);
   tree = root;
 }
 
@@ -122,6 +126,22 @@ function mapChildrenObjectsToArrays(node) {
     .sort((a, b) => a.name.localeCompare(b.name));
   for (let i = 0, length = node.children.length; i < length; i++) {
     mapChildrenObjectsToArrays(node.children[i]);
+  }
+}
+
+function clearNode(node) {
+  if (node.children.length === 0) {
+    return;
+  }
+  const filteredChildren = node.children.filter(n => n.termType !== 'id');
+  if (filteredChildren.length === 0) {
+    // kill node which only has termType-id child nodes
+    if (node.parentNode) {
+      node.parentNode.children = node.parentNode.children.filter(child => child.name !== node.name);
+    }
+  }
+  for (let i = 0, length = filteredChildren.length; i < length; i++) {
+    clearNode(filteredChildren[i]);
   }
 }
 
