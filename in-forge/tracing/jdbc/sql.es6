@@ -47,6 +47,10 @@ export function shortenSqlStatement(sql) {
   }
 
   sql = sql.trim().replace(/\n/g, ' ');
+
+  // NSERT and UPDATE statements are mostly at the beginning of an SQL query.
+  // If the query contains a sub-select statement, the initial INSERT or UPDATE would be ignored if we first check against select.
+  // Therefore, we should check against select at the very end
   if (isInsertStatement(sql)) {
     return shortenInsertStatement(sql);
   } else if (isUpdateStatement(sql)) {
