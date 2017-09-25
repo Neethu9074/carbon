@@ -28,11 +28,28 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="HTTP Status Code">
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
         </DescriptionItem>
+        <DescriptionItem title="Wordpress Version">
+          {span.getIn(['data', 'wp', 'version'])}
+        </DescriptionItem>
+        <DescriptionItem title="Wordpress Cache Hits">
+          {span.getIn(['data', 'wp', 'cache_hits'])}
+        </DescriptionItem>
+        <DescriptionItem title="Wordpress Cache Misses">
+          {span.getIn(['data', 'wp', 'cache_misses'])}
+        </DescriptionItem>
+        <DescriptionItem title="Wordpress Current User">
+          {mapUserId(span.getIn(['data', 'wp', 'user_id']))}
+        </DescriptionItem>
         {getCustomHeaders(span)}
       </DescriptionList>
     </div>
   );
 }
+
+function mapUserId(userId) {
+  return userId > 0 ? userId : null;
+}
+
 function getCustomHeaders(span) {
   return span
     .getIn(['data', 'http', 'header'], emptyMap)

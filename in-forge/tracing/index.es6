@@ -108,6 +108,7 @@ import './wcfclient';
 import './webapi';
 import './wicket';
 import './wmglue';
+import './wordpress';
 import './wsgi';
 import './x.hc';
 import './x.http';
