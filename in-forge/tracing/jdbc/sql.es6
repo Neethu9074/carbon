@@ -47,12 +47,12 @@ export function shortenSqlStatement(sql) {
   }
 
   sql = sql.trim().replace(/\n/g, ' ');
-  if (isSelectStatement(sql)) {
-    return shortenSelectStatement(sql);
+  if (isInsertStatement(sql)) {
+    return shortenInsertStatement(sql);
   } else if (isUpdateStatement(sql)) {
     return shortenUpdateStatement(sql);
-  } else if (isInsertStatement(sql)) {
-    return shortenInsertStatement(sql);
+  } else if (isSelectStatement(sql)) {
+    return shortenSelectStatement(sql);
   }
 
   return sql;
