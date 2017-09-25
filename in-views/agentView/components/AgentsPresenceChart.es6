@@ -17,13 +17,14 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title="Reporting Agents">
+      <DashboardTile>
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeframe={timeframe}
           margins={{
             left: 40
           }}
+          height={120}
           y1={{
             min: 0,
             metrics: [`plugin.${plugins.instanaAgent}`],

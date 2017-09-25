@@ -1,0 +1,32 @@
+.in-dashboard-dual-value-bar {
+  padding: 0.375rem;
+  margin: 0 0 0 28px;
+  font-size: .75rem;
+
+  &__bar {
+    position: relative;
+    background: #64AADE;
+    border-radius: 2px;
+    overflow: hidden;
+    height: 7px;
+  }
+
+  &__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #D3E600;
+  }
+
+  &__a, &__b {
+    // increase zIndex
+    position: relative;
+    margin: 4px 0 0 0;
+    display: inline-block;
+  }
+
+  &__a {
+    margin-right: 2rem;
+  }
+}

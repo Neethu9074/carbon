@@ -21,13 +21,13 @@ export default function Summary({ snapshot, timeframe }) {
       </SnapshotLabel>
 
         <Kpis>
-          <KV k="Boot Version" v={snapshot.getIn(['data', 'boot'])} />
-          <KV k="Mode" v={modes[snapshot.getIn(['data', 'mode'])]} />
-          <KV k="Log Level" v={logLevels[snapshot.getIn(['data', 'loglevel'])]} />
+          <KV k="Boot Version" v={snapshot.getIn(['data', 'boot'])} size="sm" />
+          <KV k="Mode" v={modes[snapshot.getIn(['data', 'mode'])]} size="sm" />
+          <KV k="Log Level" v={logLevels[snapshot.getIn(['data', 'loglevel'])]} size="sm" />
           <KV
             k="Java Runtime"
             v={`${snapshot.getIn(['data', 'java', 'vmvendor'])} ${snapshot.getIn(['data', 'java', 'version'])}`}
-          />
+            size="sm" />
         </Kpis>
 
       <Columize>

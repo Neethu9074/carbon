@@ -145,10 +145,7 @@ export default connectTo(
     });
 
     return (
-      <DashboardTile
-        title={`Agents (${agentSnapshots.get('online', emptyList).size} reporting,
-          ${agentSnapshots.get('offline', emptyList).size} offline)`}
-      >
+      <DashboardTile title="Agents">
         <Table maxItemsPerPage={10} cols={cols} rows={rows} initialSortColumn={4} />
       </DashboardTile>
     );
