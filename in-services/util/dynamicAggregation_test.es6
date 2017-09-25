@@ -34,6 +34,12 @@ describe('in-services/util/dynamicAggregation', () => {
     ).to.equal(1000);
   });
 
+  it('should not return 0 as blocksize millis', () => {
+    expect(
+      getBlockSizeMillis({ windowSize: 1000, maxDataPoints: 1000, minPixelsPerBlock: 50, width: 1000, rollup: null })
+    ).to.equal(1000);
+  });
+
   it('should increase blocksize if there are to less pixels available', () => {
     expect(
       getBlockSizeMillis({ windowSize: 1000, maxDataPoints: 1000, minPixelsPerBlock: 50, width: 100, rollup: 1 })

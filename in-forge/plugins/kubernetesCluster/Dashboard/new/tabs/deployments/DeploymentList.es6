@@ -1,11 +1,15 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { getClusterMembers } from 'in-stores/clusterMembers';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
@@ -64,37 +68,39 @@ function wrapTooltipElement(deploymentLabels) {
   );
 }
 
-export default function DeploymenList({ snapshot }) {
-  //TODO: remove me
-  //snapshot = FakeData();
+export default connectTo(
+  props => {
+    return {
+      deployments: getClusterMembers(props.snapshot.get('id'))
+        // Always start with an empty set to avoid inconsistent view,
+        // displaying running components for a previously selected snapshot.
+        .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id).startWith(null))))
+        .map(x => x.filter(y => y != null))
+        .throttle(1000)
+        .startWith([])
+    };
+  },
+  function DeploymenList({ snapshot, deployments }) {
+    const deploymentRows = deployments
+      .filter(deployment => deployment.get('plugin') == 'kubernetesDeployment')
+      .map(deployment => deployment.get('data'))
+      .map(deployment => {
+        return {
+          key: `${deployment.get('namespace')}:${deployment.get('name')}`,
+          name: deployment.get('name'),
+          labels: deployment.get('labels'),
+          replicas: `${deployment.get('availableReplicas')} / ${deployment.get('replicas')}`,
+          namespace: deployment.get('namespace'),
+          snapshotId: snapshot.get('id')
+        };
+      });
 
-  const deploymentSnapshotList = snapshot.getIn(['data', 'deployments', 'data']);
-  const itemIds = snapshot.getIn(['data', 'deployments', 'itemIds']).toJS();
-  const deployments = deploymentSnapshotList == null ? [] : deploymentSnapshotList.toArray();
-
-  const deploymentRows = deployments
-    .filter(deployment => {
-      //this could possible be deleted in the future, once the backend is able to filter for deployments that are
-      //not available anymore
-      const desiredItemId = `${deployment.get('namespace')}:${deployment.get('name')}`;
-      return itemIds.indexOf(desiredItemId) !== -1;
-    })
-    .map(deployment => {
-      return {
-        key: `${deployment.get('namespace')}:${deployment.get('name')}`,
-        name: deployment.get('name'),
-        labels: deployment.get('labels'),
-        replicas: `${deployment.get('availableReplicas')} / ${deployment.get('replicas')}`,
-        namespace: deployment.get('namespace'),
-        snapshotId: snapshot.get('id')
-      };
-    });
-
-  return (
-    <MaxWidthFullscreenContainer>
-      <DashboardTile title={`Deployments (${deployments.length})`}>
-        <Table cols={cols} rows={deploymentRows} initialSortColumn={0} initialSortDirection="desc" />
-      </DashboardTile>
-    </MaxWidthFullscreenContainer>
-  );
-}
+    return (
+      <MaxWidthFullscreenContainer>
+        <DashboardTile title={`Deployments (${deploymentRows.length})`}>
+          <Table cols={cols} rows={deploymentRows} initialSortColumn={0} initialSortDirection="desc" />
+        </DashboardTile>
+      </MaxWidthFullscreenContainer>
+    );
+  }
+);
