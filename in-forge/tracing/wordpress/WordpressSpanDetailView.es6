@@ -12,6 +12,9 @@ export default function WordpressSpanDetailView({ span }) {
         <DescriptionItem title="Template">
           {span.getIn(['data', 'wp', 'view'])}
         </DescriptionItem>
+        <DescriptionItem title="Post Title">
+          {span.getIn(['data', 'wp', 'post_title'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
