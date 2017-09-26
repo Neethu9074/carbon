@@ -22,7 +22,7 @@ export default connectTo(
       <Kpis>
         {agentSnapshots
           ? <KV
-              k="Reporting agents"
+              k="Total agents"
               v={
                 <div
                   style={{

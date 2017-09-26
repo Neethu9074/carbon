@@ -17,10 +17,11 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile>
+      <DashboardTile title="Reporting Agents over Time">
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeframe={timeframe}
+          withoutLegend
           margins={{
             left: 40
           }}
