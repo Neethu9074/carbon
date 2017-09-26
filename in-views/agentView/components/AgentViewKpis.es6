@@ -35,8 +35,8 @@ export default connectTo(
                     aValue={agentSnapshots.get('online', emptyList).size}
                     bValue={agentSnapshots.get('offline', emptyList).size}
                     formatter={b => b}
-                    aLabel="Online"
-                    bLabel="Offline"
+                    aLabel="Reporting"
+                    bLabel="Not reporting"
                   />
                 </div>
               }
