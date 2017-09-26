@@ -14,6 +14,7 @@ import { getDashboardLink } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
+import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
@@ -44,6 +45,7 @@ const cols = [
               content: (
                 <Link href={href} className={`${block}__link`}>
                   <HealthyPluginIcon
+                    plugin={plugins.instanaAgent}
                     snapshot={hostSnapshot}
                     dimension={12}
                     fallbackColor={'#000'}
