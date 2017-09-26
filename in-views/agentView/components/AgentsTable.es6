@@ -146,7 +146,7 @@ export default connectTo(
 
     return (
       <DashboardTile title="Agents">
-        <Table maxItemsPerPage={10} cols={cols} rows={rows} initialSortColumn={4} />
+        <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={4} />
       </DashboardTile>
     );
   }

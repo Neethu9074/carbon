@@ -1,9 +1,11 @@
+import { agentNotificationsEnabled } from 'in-services/featureFlags';
+
 import Notifications from './Notifications';
 import Summary from './Summary';
 import Logs from './Logs';
 
 export function getTabs() {
-  return [
+  const tabs = [
     {
       label: 'Summary',
       path: '',
@@ -13,11 +15,16 @@ export function getTabs() {
       label: 'Management & Logs',
       path: `/logs`,
       component: Logs
-    },
-    {
+    }
+  ];
+
+  if (agentNotificationsEnabled) {
+    tabs.push({
       label: 'Notifications',
       path: `/notifications`,
       component: Notifications
-    }
-  ];
+    });
+  }
+
+  return tabs;
 }
