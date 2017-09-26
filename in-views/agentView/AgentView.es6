@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
@@ -16,21 +17,28 @@ const block = 'in-agent-view';
 
 export default function AgentView() {
   return (
-    <FullscreenOverlayView>
-      <MaxWidthFullscreenContainer>
-        <div className={block}>
-          {DashboardNavigationRoute}
+    <Switch>
+      {DashboardNavigationRoute}
 
-          <SnapshotLabel actions={[]}>
-            Agents
-          </SnapshotLabel>
+      <Route
+        path="/agents"
+        render={() =>
+          <FullscreenOverlayView>
+            <MaxWidthFullscreenContainer>
+              <div className={block}>
 
-          <AgentViewKpis />
-          <AgentsPresenceChart />
-          <AgentsTable />
-          {agentNotificationsEnabled ? <AgentNotificationsTable /> : null}
-        </div>
-      </MaxWidthFullscreenContainer>
-    </FullscreenOverlayView>
+                <SnapshotLabel actions={[]}>
+                  Agents
+                </SnapshotLabel>
+
+                <AgentViewKpis />
+                <AgentsPresenceChart />
+                <AgentsTable />
+                {agentNotificationsEnabled ? <AgentNotificationsTable /> : null}
+              </div>
+            </MaxWidthFullscreenContainer>
+          </FullscreenOverlayView>}
+      />
+    </Switch>
   );
 }
