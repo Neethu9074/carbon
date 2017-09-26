@@ -29,8 +29,10 @@ export default connectTo(
             min: 0,
             metrics: [`plugin.${plugins.instanaAgent}`],
             labels: ['Agents'],
-            type: 'line',
-            formatter: number.compact
+            formatter: number.compact,
+            type: 'bar',
+            aggregation: 'mean',
+            minPixelPerBlock: 2
           }}
         />
       </DashboardTile>

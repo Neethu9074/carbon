@@ -22,7 +22,7 @@ export default function AgentView() {
           {DashboardNavigationRoute}
 
           <SnapshotLabel actions={[]}>
-            Agents and Notifications
+            Agents
           </SnapshotLabel>
 
           <AgentViewKpis />
