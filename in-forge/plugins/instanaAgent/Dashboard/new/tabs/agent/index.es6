@@ -12,7 +12,7 @@ export function getTabs() {
       component: Summary
     },
     {
-      label: 'Management & Logs',
+      label: 'Management',
       path: `/logs`,
       component: Logs
     }
