@@ -15,8 +15,8 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { debouncedQuery$, query$ } from 'in-stores/search/query';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
 
 const selectedSnapshotIdStore = createTrackingStore({

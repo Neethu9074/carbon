@@ -4,7 +4,8 @@ import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { getIconSvgPath } from 'in-sdk/iconRegistry';
 
 export function getChartWiggleRoom(plugin) {
-  const chartWiggleRoom = getSnapshotDefinition(plugin).chartWiggleRoom;
+  const snapshotDefinition = getSnapshotDefinition(plugin);
+  const chartWiggleRoom = snapshotDefinition ? getSnapshotDefinition(plugin).chartWiggleRoom : null;
   if (chartWiggleRoom == null) {
     return 5000;
   }

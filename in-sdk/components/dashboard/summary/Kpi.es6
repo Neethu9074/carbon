@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DualValueBar from 'in-sdk/components/dashboard/summary/DualValueBar';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
@@ -66,24 +67,8 @@ const DualPercentage = connectTo(
     };
   },
   function DualPercentage({ aValue, percentages }) {
-    if (aValue == null || aValue < 0) {
-      return null;
-    }
-    const width = aValue == null ? '0%' : `${(aValue * 100) | 0}%`;
-
     return (
-      <div className={`${block}__percentage2`}>
-        <div className={`${block}__percentage2-bar`}>
-          <div className={`${block}__percentage2-fill`} style={{ width }} />
-        </div>
-
-        <span className={`${block}__percentage2-a`}>
-          {aValue != null ? percentages[0].formatter(aValue) : '––'} {percentages[0].label}
-        </span>
-        <span className={`${block}__percentage2-b`}>
-          {percentages[1].label} {aValue != null ? percentages[1].formatter(1 - aValue) : '––'}
-        </span>
-      </div>
+      <DualValueBar aValue={aValue} bValue={1 - aValue} formatter={percentages[0].formatter} aLabel={percentages[0].label} bLabel={percentages[1].label} />
     );
   }
 );

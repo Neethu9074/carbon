@@ -1,51 +1,69 @@
 import React from 'react';
 
+import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { compare as compareBoolean } from 'in-services/util/boolean';
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
-import { formatDateTime } from 'in-services/formatters/date';
-import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
+import { getDashboardLink } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
-import { compare } from 'in-services/util/boolean';
 import { getSnapshot } from 'in-stores/snapshot';
-import Tooltip from 'in-components/Tooltip';
+import { plugins } from 'in-forge/constants';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
+import Link from 'in-components/Link';
 
-import './Table.less';
+import './AgentsTable.less';
 
 const block = 'in-agent-view-table';
 
 const cols = [
   {
-    title: 'Name',
-    type: 'snapshotLink',
+    title: 'Agent',
+    type: 'custom',
     typeArgs: {
-      getSnapshot(row) {
-        return row.snapshot;
-      }
-    }
-  },
-  {
-    title: 'Host',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshot$(row) {
-        return getHostSnapshotId(row.snapshot).flatMap(hostId => {
+      comparator: () => compareIgnoreCase,
+      get$(row) {
+        const hostSnapshot$ = getHostSnapshotId(row.snapshot).flatMap(hostId => {
           const to = row.snapshot.get('to') || Date.now();
           const reportingWindowSize = to - row.snapshot.get('from');
           const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
           return hostId ? getSnapshot(hostId, reportingCenterTime) : alwaysNull;
         });
+        return hostSnapshot$.flatMap(hostSnapshot =>
+          getDashboardLink(row.key).map(href => {
+            const label = getLabel(hostSnapshot);
+            return {
+              value: label,
+              content: (
+                <Link href={href} className={`${block}__link`}>
+                  <HealthyPluginIcon
+                    plugin={plugins.instanaAgent}
+                    snapshot={hostSnapshot}
+                    dimension={12}
+                    fallbackColor={'#000'}
+                    className={`${block}__plugin-icon`}
+                  />
+                  {label}
+                </Link>
+              )
+            };
+          })
+        );
       }
     }
   },
   {
     title: 'Boot Version',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'boot']);
@@ -55,9 +73,20 @@ const cols = [
   {
     title: 'Mode',
     type: 'string',
+    width: 120,
     typeArgs: {
       getValue(row) {
         return modes[row.snapshot.getIn(['data', 'mode'])];
+      }
+    }
+  },
+  {
+    title: 'Log Level',
+    type: 'string',
+    width: 80,
+    typeArgs: {
+      getValue(row) {
+        return logLevels[row.snapshot.getIn(['data', 'loglevel'])];
       }
     }
   },
@@ -73,16 +102,13 @@ const cols = [
   {
     title: 'Status',
     type: 'custom',
+    width: 120,
     typeArgs: {
-      comparator: compare,
+      comparator: compareBoolean,
       get(row) {
         return {
           value: row.isReportingAtFocusedMoment,
-          content: (
-            <Tooltip content={getTooltipReportingText(row)} align={'rightMiddle'}>
-              <Reporting isReporting={row.isReportingAtFocusedMoment} />
-            </Tooltip>
-          )
+          content: <ReportingIndicator row={row} />
         };
       }
     }
@@ -90,11 +116,14 @@ const cols = [
 ];
 
 export default connectTo(
-  {
-    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
-    focusedMoment: focusedMoment$
+  props => {
+    const observables = { focusedMoment: focusedMoment$ };
+    if (!props.agentSnapshots) {
+      observables.agentSnapshots = getSnapshotsInTimeframe('entity.selfType:agent');
+    }
+    return observables;
   },
-  function AgentViewTable({ agentSnapshots, focusedMoment }) {
+  function AgentViewAgentsTable({ agentSnapshots, focusedMoment }) {
     if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }
@@ -118,36 +147,9 @@ export default connectTo(
     });
 
     return (
-      <div className={block}>
-        <Table maxItemsPerPage={20} cols={cols} rows={rows} initialSortColumn={5} />
-      </div>
+      <DashboardTile title="Agents">
+        <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={4} />
+      </DashboardTile>
     );
   }
 );
-
-function Reporting({ isReporting }) {
-  return (
-    <div
-      className={evaluateClassNames({
-        [`${block}__reporting`]: true,
-        [`${block}__is-reporting`]: isReporting
-      })}
-    >
-      {`${isReporting ? 'reporting' : 'not reporting'}`}
-    </div>
-  );
-}
-
-function getTooltipReportingText(row) {
-  let text = row.isReportingAtFocusedMoment
-    ? ''
-    : 'The agent reported in the selected time range but has not reported at the selected moment. ';
-  if (!row.snapshot.get('to')) {
-    text += `The agent started at ${formatDateTime(row.snapshot.get('from'))} and is still reporting.`;
-  } else {
-    text += `The agent reported between: ${formatDateTime(row.snapshot.get('from'))} and ${formatDateTime(
-      row.snapshot.get('to')
-    )}.`;
-  }
-  return text;
-}

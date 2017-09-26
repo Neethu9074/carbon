@@ -41,7 +41,7 @@ export default connectTo(
 
         <BreadcrumbHeader />
 
-        <NavigationTabs navigationParams={navigationParams} tabs={tabs} />
+        {tabs.length > 1 ? <NavigationTabs navigationParams={navigationParams} tabs={tabs} /> : null}
         <div className={`${block}__content`}>
           <NavigationRoutes tabs={tabs} props={props} />
         </div>

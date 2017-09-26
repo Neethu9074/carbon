@@ -6,7 +6,9 @@ import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
 
 // maps plugin => snapshot defintion
-export const registry = {};
+export const registry = {
+  processingStatistics: {}
+};
 
 export function registerSnapshotDefinition(snapshotDefinition) {
   registry[snapshotDefinition.plugin] = snapshotDefinition;
