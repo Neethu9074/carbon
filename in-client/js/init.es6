@@ -1,5 +1,3 @@
-/* global require:false */
-
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
 /* eslint-disable instana-import-order/instana-import-order */
@@ -57,7 +55,6 @@ if (!__DEV__) {
 // expose the React global to analyze performance issues
 if (__DEV__) {
   window.React = React;
-  window.React.Perf = require('react-addons-perf');
 }
 
 // configure reactive-observables to use chronos by default
