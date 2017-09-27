@@ -37,8 +37,9 @@ export default function BrowserLogicalServiceDashboard(props) {
       />
       <Route
         path={`*/dashboard*`}
-        render={() =>
-          <TabView tabs={getTabs(props.snapshot)} props={{ ...props, metricPrefix: '' }} breadcrumbs={breadcrumbs} />}
+        render={() => (
+          <TabView tabs={getTabs(props.snapshot)} props={{ ...props, metricPrefix: '' }} breadcrumbs={breadcrumbs} />
+        )}
       />
     </Switch>
   );

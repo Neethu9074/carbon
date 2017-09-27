@@ -23,11 +23,7 @@ export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
       return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
     }, s => s);
 
-    content = (
-      <div className={`${block}__content`}>
-        {formatter(ruleForm.get('label').value)}
-      </div>
-    );
+    content = <div className={`${block}__content`}>{formatter(ruleForm.get('label').value)}</div>;
   }
 
   return (

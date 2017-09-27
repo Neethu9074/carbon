@@ -15,9 +15,5 @@ export default function Marker({ event, className, label }) {
     name += ` ${className}`;
   }
 
-  return (
-    <span className={name}>
-      {label}
-    </span>
-  );
+  return <span className={name}>{label}</span>;
 }

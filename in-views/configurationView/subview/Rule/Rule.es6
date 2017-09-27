@@ -47,28 +47,25 @@ export default class extends React.Component {
       <SubViewWrapper>
         <Title title="Custom Rule" />
 
-        <SubViewHeader>
-          {rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}
-        </SubViewHeader>
+        <SubViewHeader>{rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
           {form ? <RuleForm form={form} onChange={this.onChange} /> : null}
         </form>
-
       </SubViewWrapper>
     );
   }

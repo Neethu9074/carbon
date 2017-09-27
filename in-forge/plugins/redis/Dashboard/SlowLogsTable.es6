@@ -21,11 +21,7 @@ const cols = [
         return row.slowLog.get('timestamp');
       },
       getContent(value) {
-        return (
-          <NoWrap>
-            {formatDateTime(value)}
-          </NoWrap>
-        );
+        return <NoWrap>{formatDateTime(value)}</NoWrap>;
       }
     }
   },

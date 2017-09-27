@@ -30,11 +30,11 @@ export default connectTo(
 
     return (
       <div>
-        {pageLoadTraceLink && pageLoadTraceId
-          ? <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
-              Open page load trace
-            </Button>
-          : null}
+        {pageLoadTraceLink && pageLoadTraceId ? (
+          <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
+            Open page load trace
+          </Button>
+        ) : null}
 
         <DescriptionList>
           <DescriptionItem title="URL">
@@ -45,28 +45,25 @@ export default connectTo(
 
           {getCommonDescriptionItems(span)}
 
-          {!isErrorNotReadableDueToSameOriginPolicy && error
-            ? <DescriptionItem title="Error Message">
-                {error.get('message')}
-              </DescriptionItem>
-            : null}
+          {!isErrorNotReadableDueToSameOriginPolicy && error ? (
+            <DescriptionItem title="Error Message">{error.get('message')}</DescriptionItem>
+          ) : null}
 
-          {!isErrorNotReadableDueToSameOriginPolicy && error && error.get('stack')
-            ? <DescriptionItem title="Stack Trace">
-                <Code code={error.get('stack')} />
-              </DescriptionItem>
-            : null}
+          {!isErrorNotReadableDueToSameOriginPolicy && error && error.get('stack') ? (
+            <DescriptionItem title="Stack Trace">
+              <Code code={error.get('stack')} />
+            </DescriptionItem>
+          ) : null}
         </DescriptionList>
 
-        {isErrorNotReadableDueToSameOriginPolicy
-          ? <Notification type="info">
-              <strong>Error details not accessible.</strong>{' '}
-              Due to same-origin policy restrictions, the browser did not permit access to the error message and{' '}
-              stack trace of this uncaught error. To gain visibility into these error details, please add the{' '}
-              <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML script tags and serve JavaScript files{' '}
-              with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
-            </Notification>
-          : null}
+        {isErrorNotReadableDueToSameOriginPolicy ? (
+          <Notification type="info">
+            <strong>Error details not accessible.</strong> Due to same-origin policy restrictions, the browser did not
+            permit access to the error message and stack trace of this uncaught error. To gain visibility into these
+            error details, please add the <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML script tags
+            and serve JavaScript files with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
+          </Notification>
+        ) : null}
       </div>
     );
   }

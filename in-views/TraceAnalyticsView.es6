@@ -46,22 +46,22 @@ export default connectTo(
                 >
                   Mark all traces
                 </Button>
-                {markedTraces.size > 0
-                  ? <Button
-                      kind="danger"
-                      size="sm"
-                      onClick={() => {
-                        const tracesToRemove = [];
-                        markedTraces.forEach((trace, id) => tracesToRemove.push(id));
-                        removeTraceIds(tracesToRemove);
+                {markedTraces.size > 0 ? (
+                  <Button
+                    kind="danger"
+                    size="sm"
+                    onClick={() => {
+                      const tracesToRemove = [];
+                      markedTraces.forEach((trace, id) => tracesToRemove.push(id));
+                      removeTraceIds(tracesToRemove);
 
-                        clear();
-                      }}
-                      className={`${block}__remove-marked-traces`}
-                    >
-                      {`Remove marked traces from analytics (${markedTraces.size})`}
-                    </Button>
-                  : null}
+                      clear();
+                    }}
+                    className={`${block}__remove-marked-traces`}
+                  >
+                    {`Remove marked traces from analytics (${markedTraces.size})`}
+                  </Button>
+                ) : null}
               </div>
             }
           />,

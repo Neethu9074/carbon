@@ -12,17 +12,13 @@ import { getLabel } from 'in-sdk/snapshot';
 export default function Overview({ snapshot }) {
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel>
-        {getLabel(snapshot)}
-      </SnapshotLabel>
+      <SnapshotLabel>{getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <Kpi label="Deployments">
           {number.compact(snapshot.getIn(['data', 'deployments', 'itemIds'], emptySet).size)}
         </Kpi>
-        <Kpi label="Pods">
-          {number.compact(snapshot.getIn(['data', 'pods', 'itemIds'], emptySet).size)}
-        </Kpi>
+        <Kpi label="Pods">{number.compact(snapshot.getIn(['data', 'pods', 'itemIds'], emptySet).size)}</Kpi>
         <Kpi label="Replica Sets">
           {number.compact(snapshot.getIn(['data', 'replicaSets', 'itemIds'], emptySet).size)}
         </Kpi>

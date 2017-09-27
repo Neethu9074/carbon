@@ -20,17 +20,15 @@ export default function DockerDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-      {!hasMemoryMetrics(snapshot)
-        ? <DashboardNotification type="info">
-            Due to a regression in Docker 1.11.0 and 1.11.1, no memory metrics can be collected.
-            This has been fixed by Docker in 1.12.0 and 1.11.2.
-          </DashboardNotification>
-        : null}
+      {!hasMemoryMetrics(snapshot) ? (
+        <DashboardNotification type="info">
+          Due to a regression in Docker 1.11.0 and 1.11.1, no memory metrics can be collected. This has been fixed by
+          Docker in 1.12.0 and 1.11.2.
+        </DashboardNotification>
+      ) : null}
 
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="CPU Total %">
           <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
@@ -76,40 +74,40 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {hasMemoryMetrics(snapshot)
-        ? <DashboardSection
-            title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}
-          >
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                min: 0,
-                metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
-                labels: ['Usage', 'RSS', 'Cache'],
-                formatter: bytesTwoDecimalPlaces,
-                type: 'line'
-              }}
-            />
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                min: 0,
-                metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
-                labels: ['active_anon', 'active_file', 'inactive_anon', 'inactive_file'],
-                formatter: bytesTwoDecimalPlaces,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {hasMemoryMetrics(snapshot) ? (
+        <DashboardSection
+          title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}
+        >
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: 0,
+              metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
+              labels: ['Usage', 'RSS', 'Cache'],
+              formatter: bytesTwoDecimalPlaces,
+              type: 'line'
+            }}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: 0,
+              metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
+              labels: ['active_anon', 'active_file', 'inactive_anon', 'inactive_file'],
+              formatter: bytesTwoDecimalPlaces,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <DashboardSection title="Block IO">
         <Chart
@@ -127,33 +125,33 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {hasNetworkMetrics(snapshot)
-        ? <DashboardSection title="Network">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80,
-                right: 80
-              }}
-              y1={{
-                min: 0,
-                formatter: bytesTwoDecimalPlaces,
-                metrics: ['network.rx.bytes', 'network.tx.bytes'],
-                labels: ['Received', 'Transmitted'],
-                type: 'line'
-              }}
-              y2={{
-                min: 0,
-                max: 1,
-                metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
-                labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
-                formatter: percentageTwoDecimalPlaces,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {hasNetworkMetrics(snapshot) ? (
+        <DashboardSection title="Network">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 80
+            }}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['network.rx.bytes', 'network.tx.bytes'],
+              labels: ['Received', 'Transmitted'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              max: 1,
+              metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
+              labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
+              formatter: percentageTwoDecimalPlaces,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }

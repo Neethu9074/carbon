@@ -69,9 +69,5 @@ function focusSnapshotId(id) {
 }
 
 function wrapTooltipElement(txt) {
-  return (
-    <span className={block + '__tooltip'}>
-      {txt}
-    </span>
-  );
+  return <span className={block + '__tooltip'}>{txt}</span>;
 }

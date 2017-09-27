@@ -29,9 +29,7 @@ export default function NewWebsiteForm({ field, loading, saveError, onSubmit, on
       <DashboardTile interactable className={`${block}__tile`}>
         <form onSubmit={onSubmit}>
           <FormGroup className={`${block}__group`}>
-            <Label htmlFor="website-name">
-              Website Name
-            </Label>
+            <Label htmlFor="website-name">Website Name</Label>
 
             {saveError && <SaveError>{saveError}</SaveError>}
 
@@ -57,11 +55,11 @@ export default function NewWebsiteForm({ field, loading, saveError, onSubmit, on
             </div>
 
             {field.touched &&
-              field.messages.map((message, i) =>
+              field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
           </FormGroup>
         </form>
       </DashboardTile>

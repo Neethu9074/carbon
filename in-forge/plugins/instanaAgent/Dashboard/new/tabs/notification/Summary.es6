@@ -35,9 +35,7 @@ export default connectTo(
     agentSnapshots = agentSnapshots || emptyMap;
     return (
       <MaxWidthFullscreenContainer>
-        <SnapshotLabel>
-          {`${getLabel(snapshot)}: ${notificationId}`}
-        </SnapshotLabel>
+        <SnapshotLabel>{`${getLabel(snapshot)}: ${notificationId}`}</SnapshotLabel>
 
         <AgentsTable agentSnapshots={agentSnapshots} />
       </MaxWidthFullscreenContainer>

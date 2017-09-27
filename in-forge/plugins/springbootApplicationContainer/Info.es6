@@ -10,25 +10,13 @@ export default function SpringbootInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">
-        {data.get('name')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Springboot Version">
-        {data.get('springBootVersion')}
-      </DescriptionItem>
+      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Springboot Version">{data.get('springBootVersion')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Status">
-        {data.get('status')}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {ports ? ports.valueSeq().join(', ') : null}
-      </DescriptionItem>
-      <DescriptionItem title="HTTP Sessions Max">
-        {data.get('httpsessionsMax')}
-      </DescriptionItem>
+      <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
+      <DescriptionItem title="Port">{ports ? ports.valueSeq().join(', ') : null}</DescriptionItem>
+      <DescriptionItem title="HTTP Sessions Max">{data.get('httpsessionsMax')}</DescriptionItem>
     </DescriptionList>
   );
 }

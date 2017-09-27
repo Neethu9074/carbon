@@ -31,7 +31,6 @@ import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing
 //these routes now needs ro be rendered within the parent component
 export default (
   <Switch>
-
     <Route
       component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction/:ruleId"

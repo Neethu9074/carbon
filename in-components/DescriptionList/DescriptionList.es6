@@ -10,11 +10,7 @@ const listClassName = `${block}__description-list`;
 const itemClassName = `${block}__description-item`;
 
 export function DescriptionList({ children, className }) {
-  return (
-    <dl className={joinClassNames(listClassName, className)}>
-      {children}
-    </dl>
-  );
+  return <dl className={joinClassNames(listClassName, className)}>{children}</dl>;
 }
 
 export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
@@ -30,9 +26,7 @@ export function DescriptionItem({ title, children, onClick, className, addSepara
         [className]: className
       })}
     >
-      <dt className={block + '__description-title'}>
-        {title}
-      </dt>
+      <dt className={block + '__description-title'}>{title}</dt>
       <dd className={`${block}__description-text`} onClick={onClick}>
         {children}
       </dd>

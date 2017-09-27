@@ -7,15 +7,9 @@ export default function NginxInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Worker processes">
-        {data.get('worker_processes')}
-      </DescriptionItem>
-      <DescriptionItem title="Worker connections">
-        {data.get('worker_connections')}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Worker processes">{data.get('worker_processes')}</DescriptionItem>
+      <DescriptionItem title="Worker connections">{data.get('worker_connections')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

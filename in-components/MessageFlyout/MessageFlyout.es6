@@ -17,10 +17,6 @@ export default connectTo(
       return null;
     }
 
-    return (
-      <div className={block}>
-        {messages.map(message => <Message key={message.id} message={message} />)}
-      </div>
-    );
+    return <div className={block}>{messages.map(message => <Message key={message.id} message={message} />)}</div>;
   }
 );

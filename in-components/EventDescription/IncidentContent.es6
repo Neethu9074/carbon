@@ -39,9 +39,7 @@ function IncidentContent({ incident, events, snapshot }) {
         {`incident: ${incident.getIn(['problem', 'problemText'])} - ${label} (${events.length} ${eventCounterLabel})`}
       </div>
 
-      <span className={block + '__incident-started'}>
-        started here:
-      </span>
+      <span className={block + '__incident-started'}>started here:</span>
 
       <Header event={firstEvent} text={problem.get('problemText')} />
 

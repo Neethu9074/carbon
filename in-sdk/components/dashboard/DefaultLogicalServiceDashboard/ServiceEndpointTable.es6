@@ -88,13 +88,16 @@ const cols = [
 ];
 
 export default function ServiceEndpointTable({ snapshot, timeframe }) {
-  const rows = snapshot.getIn(['data', 'service_endpoints'], emptyList).toArray().map(endpointName => {
-    return {
-      key: endpointName,
-      snapshotId: snapshot.get('id'),
-      timeframe: timeframe
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'service_endpoints'], emptyList)
+    .toArray()
+    .map(endpointName => {
+      return {
+        key: endpointName,
+        snapshotId: snapshot.get('id'),
+        timeframe: timeframe
+      };
+    });
 
   if (rows.length === 0) {
     return null;

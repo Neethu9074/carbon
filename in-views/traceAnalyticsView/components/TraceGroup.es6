@@ -109,114 +109,90 @@ export default class TraceGrouping extends React.Component {
                   />
                 </div>
 
-                {isRootElement
-                  ? null
-                  : <Tooltip content="Total Time" align="topMiddle">
-                      <div className={metricValueElement}>
-                        {getTotalDurationFromTraceGroup(traceGroup)}
-                      </div>
-                    </Tooltip>}
-                {isRootElement
-                  ? null
-                  : <Tooltip content="Error Count" align="topMiddle">
-                      <div className={metricValueElement}>
-                        {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                      </div>
-                    </Tooltip>}
-                {isRootElement
-                  ? null
-                  : <Tooltip content="Calls" align="topMiddle">
-                      <div className={metricValueElement}>
-                        {number.compact(traceGroup.statistics.count)}
-                      </div>
-                    </Tooltip>}
+                {isRootElement ? null : (
+                  <Tooltip content="Total Time" align="topMiddle">
+                    <div className={metricValueElement}>{getTotalDurationFromTraceGroup(traceGroup)}</div>
+                  </Tooltip>
+                )}
+                {isRootElement ? null : (
+                  <Tooltip content="Error Count" align="topMiddle">
+                    <div className={metricValueElement}>
+                      {percentage.compact(traceGroup.enrichment.errorPercentage)}
+                    </div>
+                  </Tooltip>
+                )}
+                {isRootElement ? null : (
+                  <Tooltip content="Calls" align="topMiddle">
+                    <div className={metricValueElement}>{number.compact(traceGroup.statistics.count)}</div>
+                  </Tooltip>
+                )}
               </div>
 
               <div className={`${block}__right`}>
                 <div className={`${block}__line`}>
-                  <span className={`${block}__span-type`}>
-                    {getTypeLabelPluralByType(traceGroup.spanType)}
-                  </span>
+                  <span className={`${block}__span-type`}>{getTypeLabelPluralByType(traceGroup.spanType)}</span>
                   {traceGroup.batched ? batchedIndicator : null}
                 </div>
-                <span className={labelElement}>
-                  {traceGroup.enrichment.label}
-                </span>
+                <span className={labelElement}>{traceGroup.enrichment.label}</span>
               </div>
             </div>
           </div>
 
-          {isRootElement
-            ? <div className={totalTimeElement}>
-                {getTotalDurationFromTraceGroup(traceGroup)}
-              </div>
-            : null}
+          {isRootElement ? <div className={totalTimeElement}>{getTotalDurationFromTraceGroup(traceGroup)}</div> : null}
 
-          {isRootElement
-            ? <div className={errorsElement}>
-                <div
-                  className={errorsPercentageIndicatorElement}
-                  style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
-                />
-                <span className={errorCountValueElement}>
-                  {percentage.compact(traceGroup.enrichment.errorPercentage)}
-                </span>
-              </div>
-            : null}
+          {isRootElement ? (
+            <div className={errorsElement}>
+              <div
+                className={errorsPercentageIndicatorElement}
+                style={{ width: `${traceGroup.enrichment.errorPercentage * 100}%` }}
+              />
+              <span className={errorCountValueElement}>
+                {percentage.compact(traceGroup.enrichment.errorPercentage)}
+              </span>
+            </div>
+          ) : null}
 
-          {isRootElement
-            ? <div className={callsElement}>
-                {number.compact(traceGroup.statistics.count)}
-              </div>
-            : null}
+          {isRootElement ? <div className={callsElement}>{number.compact(traceGroup.statistics.count)}</div> : null}
 
-          {showLatencyMetrics
-            ? <div className={minElement}>
-                {millis.compact(traceGroup.statistics.durationMin)}
-              </div>
-            : null}
-          {showLatencyMetrics
-            ? <div className={avgElement}>
-                {millis.compact(traceGroup.statistics.durationMean)}
-              </div>
-            : null}
-          {showLatencyMetrics
-            ? <div className={maxElement}>
-                {millis.compact(traceGroup.statistics.durationMax)}
-              </div>
-            : null}
+          {showLatencyMetrics ? (
+            <div className={minElement}>{millis.compact(traceGroup.statistics.durationMin)}</div>
+          ) : null}
+          {showLatencyMetrics ? (
+            <div className={avgElement}>{millis.compact(traceGroup.statistics.durationMean)}</div>
+          ) : null}
+          {showLatencyMetrics ? (
+            <div className={maxElement}>{millis.compact(traceGroup.statistics.durationMax)}</div>
+          ) : null}
         </div>
 
-        {showDetails
-          ? <div
-              className={detailsElement}
-              style={{
-                background: traceGroup.enrichment.categoryBackgroundTransparent.background,
-                borderLeft: traceGroup.enrichment.categoryBackgroundTransparent.detailBorderLeft
-              }}
-            >
-              <div>
-                <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
-                <LabeledValue label="50th">{millis.detailed(traceGroup.statistics.duration50th)}</LabeledValue>
-                <LabeledValue label="75th">{millis.detailed(traceGroup.statistics.duration75th)}</LabeledValue>
-                <LabeledValue label="95th">{millis.detailed(traceGroup.statistics.duration95th)}</LabeledValue>
-                <LabeledValue label="98th">{millis.detailed(traceGroup.statistics.duration98th)}</LabeledValue>
-                <LabeledValue label="99th">{millis.detailed(traceGroup.statistics.duration99th)}</LabeledValue>
+        {showDetails ? (
+          <div
+            className={detailsElement}
+            style={{
+              background: traceGroup.enrichment.categoryBackgroundTransparent.background,
+              borderLeft: traceGroup.enrichment.categoryBackgroundTransparent.detailBorderLeft
+            }}
+          >
+            <div>
+              <LabeledValue label="Self">{millis.detailed(traceGroup.statistics.durationSelf)}</LabeledValue>
+              <LabeledValue label="50th">{millis.detailed(traceGroup.statistics.duration50th)}</LabeledValue>
+              <LabeledValue label="75th">{millis.detailed(traceGroup.statistics.duration75th)}</LabeledValue>
+              <LabeledValue label="95th">{millis.detailed(traceGroup.statistics.duration95th)}</LabeledValue>
+              <LabeledValue label="98th">{millis.detailed(traceGroup.statistics.duration98th)}</LabeledValue>
+              <LabeledValue label="99th">{millis.detailed(traceGroup.statistics.duration99th)}</LabeledValue>
 
-                <InspectTracesForHashButton hash={traceGroup.hash} />
-              </div>
-              <div className={detailCallElement}>
-                {traceGroup.enrichment.label}
-              </div>
-              <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} showGroupingDetails />
+              <InspectTracesForHashButton hash={traceGroup.hash} />
             </div>
-          : null}
+            <div className={detailCallElement}>{traceGroup.enrichment.label}</div>
+            <SpanForgeDetails span={traceGroup.enrichment.fakeSpan} showGroupingDetails />
+          </div>
+        ) : null}
 
         <ol className={subGroupingsElement}>
           {showChildren &&
             traceGroup.children
               .sort(traceGroupsComparator)
-              .map(childTraceGroup =>
+              .map(childTraceGroup => (
                 <TraceGrouping
                   key={childTraceGroup.hash}
                   traceGroup={childTraceGroup}
@@ -225,7 +201,7 @@ export default class TraceGrouping extends React.Component {
                   level={level + 1}
                   traceGroupsComparator={traceGroupsComparator}
                 />
-              )}
+              ))}
         </ol>
       </li>
     );

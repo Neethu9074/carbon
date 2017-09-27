@@ -22,9 +22,7 @@ export default function MatchPresenter({ match, prefix }) {
     if (match.length > 1) {
       captureGroups = (
         <div>
-          <span className={`${block}__capture-groups`}>
-            Capture Groups
-          </span>
+          <span className={`${block}__capture-groups`}>Capture Groups</span>
 
           <DescriptionList className={`${block}__groups`}>
             {match.map((m, i) => {
@@ -53,9 +51,7 @@ export default function MatchPresenter({ match, prefix }) {
 
   return (
     <div className={block}>
-      <span className={`${block}__label`}>
-        Matching Results
-      </span>
+      <span className={`${block}__label`}>Matching Results</span>
 
       {content}
 

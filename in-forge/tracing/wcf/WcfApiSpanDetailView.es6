@@ -9,23 +9,11 @@ export default function WebApiSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Service-Class">
-          {span.getIn(['data', 'wcf', 'svcclass'])}
-        </DescriptionItem>
-        <DescriptionItem title="Action">
-          {span.getIn(['data', 'wcf', 'svcmethod'])}
-        </DescriptionItem>
-        <DescriptionItem title="Binding">
-          {binding ? binding : 'unknown'}
-        </DescriptionItem>
-        <DescriptionItem title="Url">
-          {span.getIn(['data', 'wcf', 'localaddress'])}
-        </DescriptionItem>
-        {error
-          ? <DescriptionItem title="Error">
-              {error}
-            </DescriptionItem>
-          : null}
+        <DescriptionItem title="Service-Class">{span.getIn(['data', 'wcf', 'svcclass'])}</DescriptionItem>
+        <DescriptionItem title="Action">{span.getIn(['data', 'wcf', 'svcmethod'])}</DescriptionItem>
+        <DescriptionItem title="Binding">{binding ? binding : 'unknown'}</DescriptionItem>
+        <DescriptionItem title="Url">{span.getIn(['data', 'wcf', 'localaddress'])}</DescriptionItem>
+        {error ? <DescriptionItem title="Error">{error}</DescriptionItem> : null}
       </DescriptionList>
     </div>
   );

@@ -16,18 +16,12 @@ export default function JettyThreadsInfo({ snapshot }) {
         <Collapsible.Header>Web Container Thread Pool</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Min Threads">
-              {data.get('threadPools.webContainer.minimumSize')}
-            </DescriptionItem>
-            <DescriptionItem title="Max Threads">
-              {data.get('threadPools.webContainer.maximumSize')}
-            </DescriptionItem>
+            <DescriptionItem title="Min Threads">{data.get('threadPools.webContainer.minimumSize')}</DescriptionItem>
+            <DescriptionItem title="Max Threads">{data.get('threadPools.webContainer.maximumSize')}</DescriptionItem>
             <DescriptionItem title="Inactivity Timeout">
               {data.get('threadPools.webContainer.inactivityTimeout')}
             </DescriptionItem>
-            <DescriptionItem title="Growable">
-              {yesOrNo(data.get('threadPools.webContainer.growable'))}
-            </DescriptionItem>
+            <DescriptionItem title="Growable">{yesOrNo(data.get('threadPools.webContainer.growable'))}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

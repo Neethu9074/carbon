@@ -7,9 +7,5 @@ import './HorizontalFormGroup.less';
 const block = 'in-horizontal-form-group';
 
 export default function HorizontalFormGroup({ children, className }) {
-  return (
-    <div className={joinClassNames(block, className)}>
-      {children}
-    </div>
-  );
+  return <div className={joinClassNames(block, className)}>{children}</div>;
 }

@@ -4,7 +4,10 @@ import { trySet, get } from 'in-services/localStorage';
 
 const layoutingPath = 'in-layouting';
 
-nodePositions$.distinct().debounce(PERSIST_LOGICAL_SERVICE_POSITIONS).subscribe(nodes => save(nodes));
+nodePositions$
+  .distinct()
+  .debounce(PERSIST_LOGICAL_SERVICE_POSITIONS)
+  .subscribe(nodes => save(nodes));
 
 function save(nodes) {
   if (typeof localStorage !== 'undefined') {

@@ -10,14 +10,11 @@ export default function AwsRdsSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          RDS Info
-        </Collapsible.Header>
+        <Collapsible.Header>RDS Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
     </div>
   );
 }

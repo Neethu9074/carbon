@@ -11,9 +11,7 @@ export default function MemcachedSidebar({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Memcached
-        </Collapsible.Header>
+        <Collapsible.Header>Memcached</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

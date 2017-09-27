@@ -10,22 +10,16 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Boot Version">
-        {data.get('boot')}
-      </DescriptionItem>
+      <DescriptionItem title="Boot Version">{data.get('boot')}</DescriptionItem>
 
-      {mode
-        ? <DescriptionItem title="Mode">
-            {modes[mode]}
-          </DescriptionItem>
-        : null}
+      {mode ? <DescriptionItem title="Mode">{modes[mode]}</DescriptionItem> : null}
       <DescriptionItem title="Java Version">
-        {data.get('version')}{' '}
-        {data.get('vmversion')}
+        {data.get('version')} {data.get('vmversion')}
       </DescriptionItem>
 
       <DescriptionItem title="Java Runtime">
-        {data.get('vmvendor')}<br />
+        {data.get('vmvendor')}
+        <br />
         {data.get('vmname')}
       </DescriptionItem>
     </DescriptionList>

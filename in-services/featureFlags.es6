@@ -27,9 +27,7 @@ export const blackListedSearchFieldValues = {
 // For example, the following configuration will hide up to 2.3s of missing data points.
 // rollup = 1s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
-export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
-  (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu)
-  ? 2.3
-  : 4;
+export const allowedMultiplesOfRollupSizeMissingInCharts =
+  onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
 
 export const maximumNumberOfTracesForAnalytics = 40;

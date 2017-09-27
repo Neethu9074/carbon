@@ -42,16 +42,19 @@ navigationParameters$.subscribe(params => {
   }
 });
 
-highlightedTimeframe$.skipFirst().debounce(500).subscribe(tf => {
-  mutateUrl(navParams => {
-    if (tf) {
-      navParams.query[queryKey] = `${tf[0]},${tf[1]}`;
-    } else {
-      delete navParams.query[queryKey];
-    }
-    return navParams;
+highlightedTimeframe$
+  .skipFirst()
+  .debounce(500)
+  .subscribe(tf => {
+    mutateUrl(navParams => {
+      if (tf) {
+        navParams.query[queryKey] = `${tf[0]},${tf[1]}`;
+      } else {
+        delete navParams.query[queryKey];
+      }
+      return navParams;
+    });
   });
-});
 
 export function setHighlightedTimeframe(from, to) {
   store.mutateTo([Math.round(Math.min(from, to)), Math.round(Math.max(from, to))]);

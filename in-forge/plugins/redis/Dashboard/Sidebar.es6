@@ -12,9 +12,7 @@ export default function RedisSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Redis
-        </Collapsible.Header>
+        <Collapsible.Header>Redis</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

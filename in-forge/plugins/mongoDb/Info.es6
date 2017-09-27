@@ -7,12 +7,8 @@ export default function MongoDBInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {data.get('port')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
     </DescriptionList>
   );
 }

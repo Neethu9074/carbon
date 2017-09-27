@@ -165,7 +165,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeframe={timeframe} />
-
     </div>
   );
 }

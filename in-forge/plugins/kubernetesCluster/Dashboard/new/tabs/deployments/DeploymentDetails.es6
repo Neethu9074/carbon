@@ -114,9 +114,7 @@ export default function DeploymentDetails(props) {
 
       <DashboardTile title="Deployment">
         <DescriptionList>
-          <DescriptionItem title="Name">
-            {name}
-          </DescriptionItem>
+          <DescriptionItem title="Name">{name}</DescriptionItem>
         </DescriptionList>
       </DashboardTile>
 

@@ -14,17 +14,9 @@ export default function HttpSpanGroupingDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Host">
-          {span.getIn(['data', 'http', 'host'])}
-        </DescriptionItem>
-        {url && url !== path
-          ? <DescriptionItem title="URL">
-              {url}
-            </DescriptionItem>
-          : null}
-        <DescriptionItem title="Method">
-          {span.getIn(['data', 'http', 'method'])}
-        </DescriptionItem>
+        <DescriptionItem title="Host">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
+        {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
+        <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

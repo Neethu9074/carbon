@@ -20,33 +20,29 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
       {getNativeExtensionHint(snapshot)}
 
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
-        {gcStatsSupported
-          ? <KpiKeyValue label="GC Pause">
-              <MetricValue snapshotId={snapshotId} metric="gc.gcPause" formatter={time} />
-            </KpiKeyValue>
-          : null}
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        {gcStatsSupported ? (
+          <KpiKeyValue label="GC Pause">
+            <MetricValue snapshotId={snapshotId} metric="gc.gcPause" formatter={time} />
+          </KpiKeyValue>
+        ) : null}
         <KpiKeyValue label="RSS">
           <MetricValue snapshotId={snapshotId} metric="memory.rss" formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label="Heap Used">
           <MetricValue snapshotId={snapshotId} metric="memory.heapUsed" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        {snapshot.getIn(['data', 'libuv.statsSupported'])
-          ? <KpiKeyValue label="Total time spent in loop per second">
-              <MetricValue snapshotId={snapshotId} metric="libuv.sum" formatter={time} />
-            </KpiKeyValue>
-          : null}
+        {snapshot.getIn(['data', 'libuv.statsSupported']) ? (
+          <KpiKeyValue label="Total time spent in loop per second">
+            <MetricValue snapshotId={snapshotId} metric="libuv.sum" formatter={time} />
+          </KpiKeyValue>
+        ) : null}
         <KpiKeyValue label="Event loop lag">
           <MetricValue snapshotId={snapshotId} metric="libuv.lag" formatter={time} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Memory Usage">
-        {renderGcMetrics(snapshot, timeframe)}
-      </DashboardSection>
+      <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeframe)}</DashboardSection>
 
       <DashboardSection title="GC Activity">
         <Chart
@@ -67,9 +63,7 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
 
       <HeapSpacesTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DashboardSection title="Event Loop">
-        {renderEventLoopMetrics(snapshot, timeframe)}
-      </DashboardSection>
+      <DashboardSection title="Event Loop">{renderEventLoopMetrics(snapshot, timeframe)}</DashboardSection>
 
       <DashboardSection title="Handles &amp; Requests">
         <Chart
@@ -209,13 +203,10 @@ function getNativeExtensionHint(snapshot) {
 
   return (
     <DashboardNotification type="info">
-      Native extensions could not be loaded for detailed{' '}
-      <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}monitoring. As a result, Instana
-      can only show you a limited set of metrics. Please contact us for installation support or
-      refer to the{' '}
-      <a href="https://github.com/instana/nodejs-sensor">
-        Node.js sensor installation instructions
-      </a>.
+      Native extensions could not be loaded for detailed <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}
+      monitoring. As a result, Instana can only show you a limited set of metrics. Please contact us for installation
+      support or refer to the{' '}
+      <a href="https://github.com/instana/nodejs-sensor">Node.js sensor installation instructions</a>.
     </DashboardNotification>
   );
 }

@@ -51,8 +51,8 @@ export default connectTo(
     } else if (result.error) {
       return (
         <Notification type="warning">
-          <strong>Failed to retrieve error details.</strong> Please refresh the page or contact customer{' '}
-          support should this issue persist.
+          <strong>Failed to retrieve error details.</strong> Please refresh the page or contact customer support should
+          this issue persist.
         </Notification>
       );
     }
@@ -82,39 +82,33 @@ export default connectTo(
 
         <DashboardTile>
           <DescriptionList>
-            <DescriptionItem title="Message">
-              {message}
-            </DescriptionItem>
+            <DescriptionItem title="Message">{message}</DescriptionItem>
 
-            {stack && !isErrorNotReadableDueToSameOriginPolicy
-              ? <DescriptionItem title="Stack">
-                  <Code code={stack} />
-                </DescriptionItem>
-              : null}
+            {stack && !isErrorNotReadableDueToSameOriginPolicy ? (
+              <DescriptionItem title="Stack">
+                <Code code={stack} />
+              </DescriptionItem>
+            ) : null}
 
-            {isErrorNotReadableDueToSameOriginPolicy
-              ? <Notification type="info">
-                  <strong>Error details not accessible.</strong>{' '}
-                  Due to same-origin policy restrictions, the browser did not permit access to the error message and{
-                    ' '
-                  }
-                  stack trace of this uncaught error. To gain visibility into these error details, please add the{' '}
-                  <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML script tags and serve JavaScript
-                  files{' '}
-                  with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
-                </Notification>
-              : null}
+            {isErrorNotReadableDueToSameOriginPolicy ? (
+              <Notification type="info">
+                <strong>Error details not accessible.</strong> Due to same-origin policy restrictions, the browser did
+                not permit access to the error message and stack trace of this uncaught error. To gain visibility into
+                these error details, please add the <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML
+                script tags and serve JavaScript files with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
+              </Notification>
+            ) : null}
           </DescriptionList>
         </DashboardTile>
 
-        {instanaInternalFeaturesEnabled
-          ? <DashboardTile title="Occurences over time">
-              <strong style={{ color: 'darkred' }}>
-                Show a chart how often this error occurred over time. This is currently not possible and will
-                require backend work.
-              </strong>
-            </DashboardTile>
-          : null}
+        {instanaInternalFeaturesEnabled ? (
+          <DashboardTile title="Occurences over time">
+            <strong style={{ color: 'darkred' }}>
+              Show a chart how often this error occurred over time. This is currently not possible and will require
+              backend work.
+            </strong>
+          </DashboardTile>
+        ) : null}
 
         <ErrorBreakdownTable
           result={result}

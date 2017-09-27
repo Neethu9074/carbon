@@ -22,23 +22,11 @@ export default connectTo(
     return (
       <ViewHeader className={block}>
         <div className={`${block}__left-side`}>
-          <EventFilter>
-            All
-          </EventFilter>
-          <EventFilter filter="incident">
-            Incidents
-          </EventFilter>
-          <EventFilter filter="issue">
-            Issues
-          </EventFilter>
-          <EventFilter filter="change">
-            Changes
-          </EventFilter>
-          {objectivesEnabled
-            ? <EventFilter filter="objectiveViolation">
-                Objective violations
-              </EventFilter>
-            : null}
+          <EventFilter>All</EventFilter>
+          <EventFilter filter="incident">Incidents</EventFilter>
+          <EventFilter filter="issue">Issues</EventFilter>
+          <EventFilter filter="change">Changes</EventFilter>
+          {objectivesEnabled ? <EventFilter filter="objectiveViolation">Objective violations</EventFilter> : null}
         </div>
         <div className={`${block}__right-side`}>
           <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />

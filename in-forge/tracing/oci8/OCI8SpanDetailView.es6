@@ -10,20 +10,14 @@ export default function OCI8SpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Connection">
-          {span.getIn(['data', 'oci8', 'conn'])}
-        </DescriptionItem>
-        {statement
-          ? <DescriptionItem title="Query">
-              <Code code={formatSql(statement)} lang="sql" />
-            </DescriptionItem>
-          : null}
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'oci8', 'error'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error Code">
-          {span.getIn(['data', 'oci8', 'error_code'])}
-        </DescriptionItem>
+        <DescriptionItem title="Connection">{span.getIn(['data', 'oci8', 'conn'])}</DescriptionItem>
+        {statement ? (
+          <DescriptionItem title="Query">
+            <Code code={formatSql(statement)} lang="sql" />
+          </DescriptionItem>
+        ) : null}
+        <DescriptionItem title="Error">{span.getIn(['data', 'oci8', 'error'])}</DescriptionItem>
+        <DescriptionItem title="Error Code">{span.getIn(['data', 'oci8', 'error_code'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

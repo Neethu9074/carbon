@@ -26,21 +26,17 @@ export default connectTo(
         {serviceEntity || physicalEntity ? <Separator /> : null}
 
         <DescriptionList>
-          {serviceEntity
-            ? <DescriptionItem title={`Service (${getSingular(serviceEntity.get('plugin'))})`}>
-                <SnapshotLink snapshotId={serviceEntity.get('id')}>
-                  {getLabel(serviceEntity)}
-                </SnapshotLink>
-              </DescriptionItem>
-            : null}
+          {serviceEntity ? (
+            <DescriptionItem title={`Service (${getSingular(serviceEntity.get('plugin'))})`}>
+              <SnapshotLink snapshotId={serviceEntity.get('id')}>{getLabel(serviceEntity)}</SnapshotLink>
+            </DescriptionItem>
+          ) : null}
 
-          {physicalEntity
-            ? <DescriptionItem title={`Physical Component (${getSingular(physicalEntity.get('plugin'))})`}>
-                <SnapshotLink snapshotId={physicalEntity.get('id')}>
-                  {getLabel(physicalEntity)}
-                </SnapshotLink>
-              </DescriptionItem>
-            : null}
+          {physicalEntity ? (
+            <DescriptionItem title={`Physical Component (${getSingular(physicalEntity.get('plugin'))})`}>
+              <SnapshotLink snapshotId={physicalEntity.get('id')}>{getLabel(physicalEntity)}</SnapshotLink>
+            </DescriptionItem>
+          ) : null}
         </DescriptionList>
       </div>
     );

@@ -16,10 +16,6 @@ export default connectTo(
       return null;
     }
 
-    return (
-      <div className={block}>
-        Loading…
-      </div>
-    );
+    return <div className={block}>Loading…</div>;
   }
 );

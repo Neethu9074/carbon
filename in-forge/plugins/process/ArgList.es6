@@ -8,15 +8,5 @@ export default function ArgList({ snapshot }) {
     return null;
   }
 
-  return (
-    <List>
-      {args
-        .map((arg, i) =>
-          <List.Item key={i}>
-            {arg}
-          </List.Item>
-        )
-        .toArray()}
-    </List>
-  );
+  return <List>{args.map((arg, i) => <List.Item key={i}>{arg}</List.Item>).toArray()}</List>;
 }

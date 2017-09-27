@@ -68,15 +68,18 @@ const cols = [
 
 export default function ServletsTable({ webAppContext, snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'servlets', webAppContext], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      servletKey: `${webAppContext}.${name}`,
-      webAppContext,
-      timeframe,
-      snapshotId
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'servlets', webAppContext], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        servletKey: `${webAppContext}.${name}`,
+        webAppContext,
+        timeframe,
+        snapshotId
+      };
+    });
 
   if (rows.length === 0) {
     return null;

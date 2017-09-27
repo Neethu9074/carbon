@@ -38,9 +38,7 @@ export default class extends React.Component {
         </p>
 
         <FormGroup>
-          <Label htmlFor="agent-mode">
-            Mode
-          </Label>
+          <Label htmlFor="agent-mode">Mode</Label>
 
           <Select
             id="agent-mode"

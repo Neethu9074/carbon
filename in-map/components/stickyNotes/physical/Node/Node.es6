@@ -21,11 +21,7 @@ export default createStickyNote(
         return null;
       }
 
-      return (
-        <div className="in-sticky-note-node">
-          {getLabel(snapshot)}
-        </div>
-      );
+      return <div className="in-sticky-note-node">{getLabel(snapshot)}</div>;
     }
   )
 );

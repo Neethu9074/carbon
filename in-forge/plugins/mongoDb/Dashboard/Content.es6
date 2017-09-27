@@ -17,11 +17,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
   if (sensorConnectionProblems.size > 0) {
     return (
       <DashboardNotification type="info">
-        {sensorConnectionProblems.map(problem =>
-          <div>
-            {problem}
-          </div>
-        )}
+        {sensorConnectionProblems.map(problem => <div>{problem}</div>)}
       </DashboardNotification>
     );
   }
@@ -29,9 +25,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="connections" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

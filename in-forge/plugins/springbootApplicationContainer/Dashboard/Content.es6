@@ -15,8 +15,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
   if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
       <DashboardNotification type="warning">
-        Metric collections was stopped because there are too many registered metrics
-        in this Spring Boot application.{' '}
+        Metric collections was stopped because there are too many registered metrics in this Spring Boot application.{' '}
         This can be due to a bug in{' '}
         <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external>
           Spring Boot
@@ -28,9 +27,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="All Requests">
           <MetricValue snapshotId={snapshotId} metric="metrics.requests" />
         </KpiKeyValue>
@@ -67,22 +64,22 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {httpSessionsMax
-        ? <DashboardSection title="HTTP Sessions Active">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: ['metrics.httpsessions.active'],
-                labels: ['Active Sessions'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {httpSessionsMax ? (
+        <DashboardSection title="HTTP Sessions Active">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              metrics: ['metrics.httpsessions.active'],
+              labels: ['Active Sessions'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }

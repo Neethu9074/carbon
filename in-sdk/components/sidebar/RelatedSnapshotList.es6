@@ -31,7 +31,7 @@ export default connectTo(
 
     return (
       <div>
-        {groupPlugins.map(plugin =>
+        {groupPlugins.map(plugin => (
           <div key={plugin}>
             <Separator />
 
@@ -48,16 +48,16 @@ export default connectTo(
                 <ClickableList>
                   {groups[plugin]
                     .sort((snapshotA, snapshotB) => compareIgnoreCase(getLabel(snapshotA), getLabel(snapshotB)))
-                    .map(snapshot =>
+                    .map(snapshot => (
                       <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
                         {getLabel(snapshot)}
                       </ClickableSnapshotListItem>
-                    )}
+                    ))}
                 </ClickableList>
               </Collapsible.Content>
             </Collapsible>
           </div>
-        )}
+        ))}
       </div>
     );
   }

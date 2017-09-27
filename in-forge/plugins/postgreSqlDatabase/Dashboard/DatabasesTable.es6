@@ -115,7 +115,10 @@ const cols = [
 ];
 
 export default function DatabasesTable({ snapshot, timeframe }) {
-  const databases = snapshot.getIn(['data', 'dbs'], emptyList).toArray().sort();
+  const databases = snapshot
+    .getIn(['data', 'dbs'], emptyList)
+    .toArray()
+    .sort();
   if (databases.size === 0) {
     return null;
   }
@@ -198,7 +201,6 @@ function getRowDetails(row) {
             type: 'line'
           }}
         />
-
       </DashboardSection>
       <DashboardSection title="Tuples">
         <Chart

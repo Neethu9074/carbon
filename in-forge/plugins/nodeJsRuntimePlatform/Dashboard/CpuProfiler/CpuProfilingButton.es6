@@ -20,11 +20,7 @@ export default connectTo(
     );
 
     if (isOnline) {
-      return (
-        <Tooltip content="CPU profiling is always live.">
-          {button}
-        </Tooltip>
-      );
+      return <Tooltip content="CPU profiling is always live.">{button}</Tooltip>;
     }
 
     return (

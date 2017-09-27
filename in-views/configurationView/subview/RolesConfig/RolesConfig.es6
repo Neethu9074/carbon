@@ -93,26 +93,22 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Role Config" />
-        <SubViewHeader>
-          Role Configuration
-        </SubViewHeader>
+        <SubViewHeader>Role Configuration</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRole}>
             Add New Role
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
         <Section>
-          <SectionHeading>
-            Existing Roles
-          </SectionHeading>
+          <SectionHeading>Existing Roles</SectionHeading>
 
           <Table cols={cols} rows={rows} />
         </Section>

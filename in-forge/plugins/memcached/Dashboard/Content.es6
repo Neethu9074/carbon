@@ -13,19 +13,13 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
   const maxBytes = snapshot.getIn(['data', 'limit_maxbytes']);
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus']);
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Gets">
           <MetricValue snapshotId={snapshotId} metric="cmd_get" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

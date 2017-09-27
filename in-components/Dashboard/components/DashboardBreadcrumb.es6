@@ -85,23 +85,23 @@ export default connectTo(
 
     return (
       <ul className={block}>
-        {physicalHierarchy.map((id, i) =>
+        {physicalHierarchy.map((id, i) => (
           <div key={id} className={`${block}__crumb-wrapper`}>
             <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
 
-            {i !== physicalHierarchy.length - 1
-              ? <div>
-                  <SvgIcon
-                    className={`${block}__crumb-separator`}
-                    type="chevron_right"
-                    width={8}
-                    height={8}
-                    color="#D5DFE4"
-                  />
-                </div>
-              : null}
+            {i !== physicalHierarchy.length - 1 ? (
+              <div>
+                <SvgIcon
+                  className={`${block}__crumb-separator`}
+                  type="chevron_right"
+                  width={8}
+                  height={8}
+                  color="#D5DFE4"
+                />
+              </div>
+            ) : null}
           </div>
-        )}
+        ))}
       </ul>
     );
   }

@@ -76,9 +76,7 @@ const Cell = connectTo(
     if (!field) {
       return (
         <div key={name} className={cellClassName}>
-          <div className={`${cellClassName}-simple`}>
-            {label ? label : <div className={`${block}__empty-label`} />}
-          </div>
+          <div className={`${cellClassName}-simple`}>{label ? label : <div className={`${block}__empty-label`} />}</div>
         </div>
       );
     }
@@ -92,12 +90,11 @@ const Cell = connectTo(
 
     return (
       <div key={name} className={cellClassName}>
-
-        {isSelected
-          ? <div className={`${block}__filter`}>
-              <FilterMenu field={name} closeMenu={() => onExpandClick(null)} />
-            </div>
-          : null}
+        {isSelected ? (
+          <div className={`${block}__filter`}>
+            <FilterMenu field={name} closeMenu={() => onExpandClick(null)} />
+          </div>
+        ) : null}
         <div
           className={toggleClassName}
           onClick={() => {
@@ -105,7 +102,6 @@ const Cell = connectTo(
             toggleSortDirection();
           }}
         >
-
           {label ? label : <div className={`${block}__empty-label`} />}
 
           <Arrow

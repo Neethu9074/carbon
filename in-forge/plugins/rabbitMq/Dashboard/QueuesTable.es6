@@ -67,7 +67,10 @@ const cols = [
 ];
 
 export default function QueuesTable({ snapshot, timeframe }) {
-  const queues = snapshot.getIn(['data', 'monitoredQueues'], emptyList).toArray().sort();
+  const queues = snapshot
+    .getIn(['data', 'monitoredQueues'], emptyList)
+    .toArray()
+    .sort();
   if (queues.length === 0) {
     return null;
   }

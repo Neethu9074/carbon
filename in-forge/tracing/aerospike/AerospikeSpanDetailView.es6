@@ -6,12 +6,8 @@ export default function AerospikeSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Operation">
-          {span.getIn(['data', 'aerospike', 'op'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'aerospike', 'error'])}
-        </DescriptionItem>
+        <DescriptionItem title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'aerospike', 'error'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

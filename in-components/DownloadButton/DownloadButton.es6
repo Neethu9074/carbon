@@ -38,11 +38,7 @@ export default class extends React.Component {
           color="#6b8088"
           onClick={() => this.setState({ isExpanded: !isExpanded })}
         />
-        {isExpanded
-          ? <div className={`${block}__popup`}>
-              {this.props.children}
-            </div>
-          : null}
+        {isExpanded ? <div className={`${block}__popup`}>{this.props.children}</div> : null}
       </div>
     );
   }

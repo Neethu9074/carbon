@@ -15,13 +15,9 @@ export default function PercentageIndicator({ p, v }) {
       <div className={`${block}__indicator-bar`} style={{ width: `${p * 100}%` }} />
 
       <div className={`${block}__content`}>
-        <span className={`${block}__value`}>
-          {formatter(v)}
-        </span>
+        <span className={`${block}__value`}>{formatter(v)}</span>
 
-        <span className={`${block}__percentage`}>
-          {isNaN(p) ? '' : percentageTwoDecimalPlaces(p)}
-        </span>
+        <span className={`${block}__percentage`}>{isNaN(p) ? '' : percentageTwoDecimalPlaces(p)}</span>
       </div>
     </div>
   );

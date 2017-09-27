@@ -90,7 +90,9 @@ export default class Table extends React.Component {
     if (data.rows.length === 0) {
       rows.push(
         <tr className={rowElement} key="no-data">
-          <td colSpan={colCount} className={cellElement}>{this.props.noDataText || 'No data.'}</td>
+          <td colSpan={colCount} className={cellElement}>
+            {this.props.noDataText || 'No data.'}
+          </td>
         </tr>
       );
     } else {
@@ -135,25 +137,23 @@ export default class Table extends React.Component {
 
     return (
       <div className={joinClassNames(block, this.props.className)}>
-        {showHeader
-          ? <div className={headerElement}>
-              <div className={headerLeftSideElement}>
-                {this.props.leftHeader}
-              </div>
-              <div className={headerRightSideElement}>
-                {this.props.rightHeader}
-                {showPagination
-                  ? <Pagination
-                      onPrevPage={this.store.onPrevPage}
-                      onNextPage={this.store.onNextPage}
-                      currentPage={data.page}
-                      pageCount={data.pageCount}
-                      ariaLabel="Pagination for previous table"
-                    />
-                  : null}
-              </div>
+        {showHeader ? (
+          <div className={headerElement}>
+            <div className={headerLeftSideElement}>{this.props.leftHeader}</div>
+            <div className={headerRightSideElement}>
+              {this.props.rightHeader}
+              {showPagination ? (
+                <Pagination
+                  onPrevPage={this.store.onPrevPage}
+                  onNextPage={this.store.onNextPage}
+                  currentPage={data.page}
+                  pageCount={data.pageCount}
+                  ariaLabel="Pagination for previous table"
+                />
+              ) : null}
             </div>
-          : null}
+          </div>
+        ) : null}
 
         {this.props.contentBetweenHeaderAndTable}
 
@@ -161,7 +161,7 @@ export default class Table extends React.Component {
           <thead className={columnHeader}>
             <tr>
               {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
-              {cols.map((col, i) =>
+              {cols.map((col, i) => (
                 <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
                   <SortIndicator
                     title={col.title}
@@ -172,12 +172,10 @@ export default class Table extends React.Component {
                     columnDefinition={col}
                   />
                 </th>
-              )}
+              ))}
             </tr>
           </thead>
-          <tbody>
-            {rows}
-          </tbody>
+          <tbody>{rows}</tbody>
         </table>
       </div>
     );

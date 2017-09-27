@@ -23,13 +23,9 @@ export default connectTo(
       return (
         <li className={block}>
           <Collapsible initiallyOpen={isActive}>
-            <Collapsible.Header>
-              {title}
-            </Collapsible.Header>
+            <Collapsible.Header>{title}</Collapsible.Header>
             <Collapsible.Content>
-              <NavItems>
-                {children}
-              </NavItems>
+              <NavItems>{children}</NavItems>
             </Collapsible.Content>
           </Collapsible>
         </li>

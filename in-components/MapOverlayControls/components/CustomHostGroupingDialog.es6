@@ -32,16 +32,13 @@ export default class CustomHostGroupingDialog extends React.Component {
       <Dialog header="Custom grouping using tag prefix" onClose={close} contentClassName={block}>
         <p>
           Group hosts by defining a prefix which is used to define the group. For example a host tagged as{' '}
-          <code>group=demo</code> can be placed into the zone <code>demo</code> using the prefix{' '}
-          <code>group=</code>.
+          <code>group=demo</code> can be placed into the zone <code>demo</code> using the prefix <code>group=</code>.
         </p>
 
         <form onSubmit={this.onSubmit}>
-          {form.get('prefix').map(field =>
+          {form.get('prefix').map(field => (
             <FormGroup>
-              <Label htmlFor="grouping-tag-prefix">
-                Tag prefix
-              </Label>
+              <Label htmlFor="grouping-tag-prefix">Tag prefix</Label>
               <Input
                 type="text"
                 id="grouping-tag-prefix"
@@ -50,13 +47,13 @@ export default class CustomHostGroupingDialog extends React.Component {
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) =>
+              {field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
             </FormGroup>
-          )}
+          ))}
 
           <Button disabled={!form.valid} type="submit">
             Apply grouping

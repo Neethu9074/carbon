@@ -107,14 +107,16 @@ export default function CpuTable({ snapshot, timeframe }) {
     return null;
   }
 
-  const rows = Range(1, cpuCount + 1).toArray().map(cpuNumber => {
-    return {
-      key: String(cpuNumber),
-      cpuNumber,
-      timeframe,
-      snapshotId: snapshot.get('id')
-    };
-  });
+  const rows = Range(1, cpuCount + 1)
+    .toArray()
+    .map(cpuNumber => {
+      return {
+        key: String(cpuNumber),
+        cpuNumber,
+        timeframe,
+        snapshotId: snapshot.get('id')
+      };
+    });
 
   return (
     <DashboardSection title="Individual CPU Usage">

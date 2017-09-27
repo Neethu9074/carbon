@@ -45,28 +45,18 @@ export default connectTo(
               {getSingular(rule.get('entityType'))}
             </div>
           </DescriptionItem>
-          <DescriptionItem title="Metric">
-            {getMetricLabel(rule)}
-          </DescriptionItem>
-          <DescriptionItem title="Time window">
-            {formatDurationAccurately(rule.get('window'), 1000)}
-          </DescriptionItem>
-          <DescriptionItem title="Aggregation">
-            {rule.get('aggregation')}
-          </DescriptionItem>
+          <DescriptionItem title="Metric">{getMetricLabel(rule)}</DescriptionItem>
+          <DescriptionItem title="Time window">{formatDurationAccurately(rule.get('window'), 1000)}</DescriptionItem>
+          <DescriptionItem title="Aggregation">{rule.get('aggregation')}</DescriptionItem>
           <DescriptionItem title="Condition">
             {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
           </DescriptionItem>
 
-          <DescriptionItem title="Last update">
-            {formatDateTime(rule.get('lastUpdated'))}
-          </DescriptionItem>
+          <DescriptionItem title="Last update">{formatDateTime(rule.get('lastUpdated'))}</DescriptionItem>
 
-          {instanaInternalFeaturesEnabled
-            ? <DescriptionItem title="technical metric name">
-                {rule.get('metricName')}
-              </DescriptionItem>
-            : null}
+          {instanaInternalFeaturesEnabled ? (
+            <DescriptionItem title="technical metric name">{rule.get('metricName')}</DescriptionItem>
+          ) : null}
         </DescriptionList>
       </div>
     );

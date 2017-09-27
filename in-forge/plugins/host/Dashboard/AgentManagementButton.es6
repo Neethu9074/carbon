@@ -25,10 +25,6 @@ export default connectTo(
       return button;
     }
 
-    return (
-      <Tooltip content="Agent management is only available when the agent is running.">
-        {button}
-      </Tooltip>
-    );
+    return <Tooltip content="Agent management is only available when the agent is running.">{button}</Tooltip>;
   }
 );

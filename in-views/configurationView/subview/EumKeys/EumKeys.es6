@@ -20,17 +20,15 @@ export default connectTo(
       <SubViewWrapper>
         <Title title="Eum Keys" />
         <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
-        <SubViewHeader>
-          Website Monitoring Keys
-        </SubViewHeader>
+        <SubViewHeader>Website Monitoring Keys</SubViewHeader>
 
         {keys == null ? <LoadingIndicator type="dark" /> : null}
 
-        {keys != null
-          ? <Section>
-              <NewAppForm />
-            </Section>
-          : null}
+        {keys != null ? (
+          <Section>
+            <NewAppForm />
+          </Section>
+        ) : null}
 
         {keys != null ? keys.map(key => <Key key={key.id} apiKey={key.id} name={key.appName} />) : null}
       </SubViewWrapper>

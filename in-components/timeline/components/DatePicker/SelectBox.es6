@@ -12,16 +12,14 @@ export default function SelectBox({ heading, value, onChange }) {
 
   return (
     <div className={block}>
-      <span className={block + '__heading'}>
-        {heading}
-      </span>
+      <span className={block + '__heading'}>{heading}</span>
       <br />
       <select className={block + '__select'} onChange={e => onChange(Number(e.target.value))} value={value}>
-        {!containsValue
-          ? <option key={value} value={value}>
-              {formatDurationAccurately(value)}
-            </option>
-          : null}
+        {!containsValue ? (
+          <option key={value} value={value}>
+            {formatDurationAccurately(value)}
+          </option>
+        ) : null}
         {slices.map(_value => {
           return (
             <option key={_value} value={_value}>

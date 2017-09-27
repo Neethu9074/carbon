@@ -132,31 +132,27 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Custom Rules" />
-        <SubViewHeader>
-          Rules
-        </SubViewHeader>
+        <SubViewHeader>Rules</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRule}>
             Add New Rule
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
-        {rulesAvailable
-          ? <Section>
-              <SectionHeading>
-                Custom rule
-              </SectionHeading>
+        {rulesAvailable ? (
+          <Section>
+            <SectionHeading>Custom rule</SectionHeading>
 
-              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-            </Section>
-          : null}
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+          </Section>
+        ) : null}
       </SubViewWrapper>
     );
   }

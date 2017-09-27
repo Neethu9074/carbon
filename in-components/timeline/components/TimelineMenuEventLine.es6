@@ -20,9 +20,7 @@ export default class extends React.PureComponent {
         {this.props.additionalContent}
         <div>
           {this.props.title}
-          <span className={block + '__counter'}>
-            {'(' + this.props.count + ')'}
-          </span>
+          <span className={block + '__counter'}>{'(' + this.props.count + ')'}</span>
         </div>
       </div>
     );

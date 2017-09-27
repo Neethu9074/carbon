@@ -39,12 +39,15 @@ navigationParameters$.subscribe(params => {
   }
 });
 
-unvalidatedQuery$.skipFirst().debounce(500).subscribe(query => {
-  mutateUrl(navParams => {
-    navParams.query.q = query;
-    return navParams;
+unvalidatedQuery$
+  .skipFirst()
+  .debounce(500)
+  .subscribe(query => {
+    mutateUrl(navParams => {
+      navParams.query.q = query;
+      return navParams;
+    });
   });
-});
 
 unvalidatedQuery$
   .map(query => {

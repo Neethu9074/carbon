@@ -2,7 +2,9 @@ import { create } from 'reactive-observables';
 
 import { createStore } from 'in-stores/store';
 
-export const noExpandedSides$ = create().emit(null).freeze();
+export const noExpandedSides$ = create()
+  .emit(null)
+  .freeze();
 
 export function createExpandedViewStore(name) {
   const store = createStore({

@@ -24,5 +24,9 @@ export const Col = ({ offset, cols, children, className, style }) => {
     classes += ' ' + className;
   }
 
-  return <div className={classes} style={style}>{children}</div>;
+  return (
+    <div className={classes} style={style}>
+      {children}
+    </div>
+  );
 };

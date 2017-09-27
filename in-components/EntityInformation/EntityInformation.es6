@@ -39,9 +39,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <span className={`${block}__label`}>
-          {label != undefined ? label : 'On:'}
-        </span>
+        <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
         <HierarchicalLink
           snapshot={snapshot}
           className={`${block}__link`}

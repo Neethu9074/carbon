@@ -59,7 +59,7 @@ export default class extends React.Component {
     return (
       <div className={block} style={{ left }}>
         <ul className={`${block}__list`}>
-          {availableChildren.map((child, i) =>
+          {availableChildren.map((child, i) => (
             <li
               className={evaluateClassNames({
                 [`${block}__item`]: true,
@@ -82,15 +82,11 @@ export default class extends React.Component {
                 }
               }}
             >
-              <span className={`${block}__label`}>
-                {child.name}
-              </span>
+              <span className={`${block}__label`}>{child.name}</span>
               <TermType node={child} />
-              <div className={`${block}__description`}>
-                {child.description}
-              </div>
+              <div className={`${block}__description`}>{child.description}</div>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     );
@@ -195,11 +191,7 @@ function TermType({ node }) {
     return null;
   }
 
-  return (
-    <span className={`${block}__term-type`}>
-      {node.termType}
-    </span>
-  );
+  return <span className={`${block}__term-type`}>{node.termType}</span>;
 }
 
 function getChildrenForConfig(config) {

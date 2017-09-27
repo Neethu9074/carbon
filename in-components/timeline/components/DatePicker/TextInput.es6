@@ -40,9 +40,7 @@ export default connectTo(
     if (showInputDescriptions) {
       component = (
         <div>
-          <span className={`${block}__heading`}>
-            {heading}
-          </span>
+          <span className={`${block}__heading`}>{heading}</span>
           <br />
           {input}
         </div>

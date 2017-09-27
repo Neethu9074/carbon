@@ -72,12 +72,8 @@ export default function NavigationTiming(props) {
 
         return (
           <div key={timing.prop} className={`${block}__timings`}>
-            <dt className={`${block}__label`}>
-              {timing.label}
-            </dt>
-            <dd className={`${block}__time`}>
-              {msZeroDecimalPlaces(time)}
-            </dd>
+            <dt className={`${block}__label`}>{timing.label}</dt>
+            <dd className={`${block}__time`}>{msZeroDecimalPlaces(time)}</dd>
             <div className={`${block}__indicator-wrapper`}>
               <div
                 style={{

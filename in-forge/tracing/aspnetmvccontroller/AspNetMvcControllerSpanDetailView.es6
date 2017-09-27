@@ -8,20 +8,10 @@ export default function WebApiSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Controller">
-          {controller ? controller : 'unknown'}
-        </DescriptionItem>
-        <DescriptionItem title="Action">
-          {span.getIn(['data', 'aspnetmvccontroller', 'action'])}
-        </DescriptionItem>
-        <DescriptionItem title="Url">
-          {span.getIn(['data', 'aspnetmvccontroller', 'url'])}
-        </DescriptionItem>
-        {error
-          ? <DescriptionItem title="Error">
-              {error}
-            </DescriptionItem>
-          : null}
+        <DescriptionItem title="Controller">{controller ? controller : 'unknown'}</DescriptionItem>
+        <DescriptionItem title="Action">{span.getIn(['data', 'aspnetmvccontroller', 'action'])}</DescriptionItem>
+        <DescriptionItem title="Url">{span.getIn(['data', 'aspnetmvccontroller', 'url'])}</DescriptionItem>
+        {error ? <DescriptionItem title="Error">{error}</DescriptionItem> : null}
       </DescriptionList>
     </div>
   );

@@ -56,29 +56,28 @@ export default class extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
-          {form
-            ? <RuleBindingForm
-                form={form}
-                rules={rules}
-                onChange={this.onChange}
-                onChangeInRuleIds={this.onChangeInRuleIds}
-              />
-            : null}
+          {form ? (
+            <RuleBindingForm
+              form={form}
+              rules={rules}
+              onChange={this.onChange}
+              onChangeInRuleIds={this.onChangeInRuleIds}
+            />
+          ) : null}
         </form>
-
       </SubViewWrapper>
     );
   }

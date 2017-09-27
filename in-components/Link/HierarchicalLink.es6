@@ -82,14 +82,16 @@ export default connectTo(
             width={12}
             height={12}
           />
-          {isExpanded
-            ? <Hierarchy
-                hierarchy={hierarchy}
-                kind={kind}
-                hierarchySnapshots={hierarchySnapshots}
-                useSnapshotLink={this.props.useSnapshotLink}
-              />
-            : link}
+          {isExpanded ? (
+            <Hierarchy
+              hierarchy={hierarchy}
+              kind={kind}
+              hierarchySnapshots={hierarchySnapshots}
+              useSnapshotLink={this.props.useSnapshotLink}
+            />
+          ) : (
+            link
+          )}
         </div>
       );
     }

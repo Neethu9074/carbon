@@ -7,11 +7,7 @@ import StreamingAppContent from './StreamingAppContent';
 export default function Dashboard({ snapshot, timeframe }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   const streamingApp = snapshot.getIn(['data', 'streamingApp'], false);
   if (streamingApp) {

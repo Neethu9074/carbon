@@ -13,9 +13,7 @@ export default function Metric({ label, children, pluginId }) {
         <Icon plugin={pluginId} />
         {label}
       </div>
-      <div className={`${block}__value`}>
-        {children}
-      </div>
+      <div className={`${block}__value`}>{children}</div>
     </div>
   );
 }

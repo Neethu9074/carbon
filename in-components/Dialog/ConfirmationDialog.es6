@@ -17,15 +17,12 @@ export default function ConfirmationDialog({
 }) {
   return (
     <Dialog header={header} onClose={onClose}>
-      <p>
-        {description}
-      </p>
+      <p>{description}</p>
 
       <div>
         <Button kind={aButtonKind} onClick={onA} autoFocus>
           {aButtonLabel}
-        </Button>
-        {' '}
+        </Button>{' '}
         <Button kind={bButtonKind} onClick={onB}>
           {bButtonLabel}
         </Button>

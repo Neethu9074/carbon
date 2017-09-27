@@ -12,9 +12,7 @@ export default function DashboardHeader({ snapshotId }) {
     <header className={block}>
       <DashboardCloseButton />
 
-      <span className={`${block}__title`}>
-        Dashboard
-      </span>
+      <span className={`${block}__title`}>Dashboard</span>
 
       <DashboardBreadcrumb snapshotId={snapshotId} />
     </header>

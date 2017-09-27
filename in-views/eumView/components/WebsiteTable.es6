@@ -121,20 +121,23 @@ export default class WebsiteTable extends React.Component {
 
     const hashes = snapshot.getIn(['data', 'service_endpoint_hashes']);
     const rows = [];
-    snapshot.getIn(['data', 'service_endpoints']).toArray().forEach((pageName, i) => {
-      // protect against missing data
-      if (!hashes || !hashes.get(i)) {
-        return;
-      }
-      const pageHash = hashes.get(i);
-      rows.push({
-        key: pageHash,
-        label: pageName,
-        snapshot,
-        isPage: true,
-        pageHash
+    snapshot
+      .getIn(['data', 'service_endpoints'])
+      .toArray()
+      .forEach((pageName, i) => {
+        // protect against missing data
+        if (!hashes || !hashes.get(i)) {
+          return;
+        }
+        const pageHash = hashes.get(i);
+        rows.push({
+          key: pageHash,
+          label: pageName,
+          snapshot,
+          isPage: true,
+          pageHash
+        });
       });
-    });
     return rows;
   };
 
@@ -159,11 +162,11 @@ export default class WebsiteTable extends React.Component {
           showFilter={this.props.showFilter}
         />
 
-        {data.rows.length === 0
-          ? <div className={`${block}__no-websites-matching-query`}>
-              {this.props.noWebsitesMessages || 'No websites found for your current query.'}
-            </div>
-          : null}
+        {data.rows.length === 0 ? (
+          <div className={`${block}__no-websites-matching-query`}>
+            {this.props.noWebsitesMessages || 'No websites found for your current query.'}
+          </div>
+        ) : null}
 
         {data.rows.map(row => {
           const columns = row.columns;

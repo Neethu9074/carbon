@@ -18,9 +18,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          PHP-FPM Runtime
-        </Collapsible.Header>
+        <Collapsible.Header>PHP-FPM Runtime</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
 
@@ -33,7 +31,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {pools.map(pool =>
+      {pools.map(pool => (
         <div key={pool}>
           <Separator />
 
@@ -41,26 +39,18 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
             <Collapsible.Header>Worker Pool: {pool}</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {data.get('worker_pool.' + pool + '.start_time')
-                  ? <DescriptionItem title="Start Time">
-                      {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
-                    </DescriptionItem>
-                  : null}
-                <DescriptionItem title="Process Manager">
-                  {data.get('worker_pool.' + pool + '.pm')}
-                </DescriptionItem>
+                {data.get('worker_pool.' + pool + '.start_time') ? (
+                  <DescriptionItem title="Start Time">
+                    {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
+                  </DescriptionItem>
+                ) : null}
+                <DescriptionItem title="Process Manager">{data.get('worker_pool.' + pool + '.pm')}</DescriptionItem>
                 <DescriptionItem title="Status Path">
                   {data.get('worker_pool.' + pool + '.pm_status_path')}
                 </DescriptionItem>
-                <DescriptionItem title="Ping Path">
-                  {data.get('worker_pool.' + pool + '.ping_path')}
-                </DescriptionItem>
-                <DescriptionItem title="User">
-                  {data.get('worker_pool.' + pool + '.user')}
-                </DescriptionItem>
-                <DescriptionItem title="Group">
-                  {data.get('worker_pool.' + pool + '.group')}
-                </DescriptionItem>
+                <DescriptionItem title="Ping Path">{data.get('worker_pool.' + pool + '.ping_path')}</DescriptionItem>
+                <DescriptionItem title="User">{data.get('worker_pool.' + pool + '.user')}</DescriptionItem>
+                <DescriptionItem title="Group">{data.get('worker_pool.' + pool + '.group')}</DescriptionItem>
               </DescriptionList>
 
               <KeyValuePopupButton
@@ -74,7 +64,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      )}
+      ))}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

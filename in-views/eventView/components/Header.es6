@@ -21,9 +21,7 @@ export default connectTo(
           <EventIcon event={event} />
         </div>
         <div className={`${block}__right`}>
-          <h1 className={`${block}__heading`}>
-            {heading}
-          </h1>
+          <h1 className={`${block}__heading`}>{heading}</h1>
           {children}
         </div>
       </div>

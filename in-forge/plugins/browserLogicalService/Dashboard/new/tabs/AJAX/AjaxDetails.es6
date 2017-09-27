@@ -62,8 +62,8 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
   } else if (connection === notFoundIndicator || connectedSnapshot === notFoundIndicator) {
     return (
       <Notification type="warning">
-        <strong>Failed to retrieve details.</strong> Please refresh the page or contact customer{' '}
-        support should this issue persist.
+        <strong>Failed to retrieve details.</strong> Please refresh the page or contact customer support should this
+        issue persist.
       </Notification>
     );
   }
@@ -75,16 +75,14 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
       <BackButton label="Back to list" href$={getSubDashboardLink(`/ajax`)} />
       <DashboardTile>
         <DescriptionList>
-          <DescriptionItem title="Call Target">
-            {label}
-          </DescriptionItem>
-          {instanaInternalFeaturesEnabled
-            ? <DescriptionItem title="TODO">
-                <strong style={{ color: 'darkred' }}>
-                  how do we link to the web service in general, i.e. without the context of this website?
-                </strong>
-              </DescriptionItem>
-            : null}
+          <DescriptionItem title="Call Target">{label}</DescriptionItem>
+          {instanaInternalFeaturesEnabled ? (
+            <DescriptionItem title="TODO">
+              <strong style={{ color: 'darkred' }}>
+                how do we link to the web service in general, i.e. without the context of this website?
+              </strong>
+            </DescriptionItem>
+          ) : null}
         </DescriptionList>
       </DashboardTile>
 

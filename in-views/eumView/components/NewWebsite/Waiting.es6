@@ -22,15 +22,17 @@ export default function Waiting({ websiteName, eumKey, isWaiting, href$ }) {
       </FullscreenViewHeading>
 
       <p className={`${block}__explanation`}>
-        {isWaiting
-          ? <span>
-              We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add
-              the tracking script to your website.
-            </span>
-          : <span>
-              Everything is ready to monitor your website <strong>{websiteName}</strong>. Add the tracking script to
-              your website to track real users.
-            </span>}
+        {isWaiting ? (
+          <span>
+            We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add
+            the tracking script to your website.
+          </span>
+        ) : (
+          <span>
+            Everything is ready to monitor your website <strong>{websiteName}</strong>. Add the tracking script to your
+            website to track real users.
+          </span>
+        )}
       </p>
 
       <Code code={getEumSnippet({ key: eumKey })} lang="html" showLineNumbers={false} />

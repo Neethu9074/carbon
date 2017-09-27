@@ -8,9 +8,7 @@ export default function SolrCoreInfo({ snapshot, core }) {
   return (
     <DescriptionList>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Version">
-        {data.get('cores.' + core + '.version')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('cores.' + core + '.version')}</DescriptionItem>
     </DescriptionList>
   );
 }

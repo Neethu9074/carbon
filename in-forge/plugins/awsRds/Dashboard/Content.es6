@@ -9,7 +9,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-
       <DashboardSection title="CPU Usage">
         <Chart
           snapshotId={snapshotId}
@@ -158,7 +157,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-
     </div>
   );
 }

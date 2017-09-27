@@ -8,9 +8,7 @@ export default function OpenLDAPInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

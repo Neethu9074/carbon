@@ -62,23 +62,19 @@ export default connectTo(
             <div key={i} className={`${block}__row`}>
               <div className={`${block}__hover-bg`} style={{ background: colors[i] }} />
               <div className={`${block}__content`}>
-                <span className={`${block}__label`}>
-                  {label}
-                </span>
-                <span className={`${block}__value`}>
-                  {metricValue}
-                </span>
+                <span className={`${block}__label`}>{label}</span>
+                <span className={`${block}__value`}>{metricValue}</span>
                 <div className={`${block}__lane-wrapper`}>
-                  {metrics[i] != null
-                    ? <div
-                        className={`${block}__lane`}
-                        style={{
-                          background: colors[i],
-                          left: `${left}%`,
-                          width: `${width}%`
-                        }}
-                      />
-                    : null}
+                  {metrics[i] != null ? (
+                    <div
+                      className={`${block}__lane`}
+                      style={{
+                        background: colors[i],
+                        left: `${left}%`,
+                        width: `${width}%`
+                      }}
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>

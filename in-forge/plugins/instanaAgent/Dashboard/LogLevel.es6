@@ -37,9 +37,7 @@ export default class extends React.Component {
         </p>
 
         <FormGroup>
-          <Label htmlFor="agent-loglevel">
-            Log Level
-          </Label>
+          <Label htmlFor="agent-loglevel">Log Level</Label>
 
           <Select
             id="agent-loglevel"

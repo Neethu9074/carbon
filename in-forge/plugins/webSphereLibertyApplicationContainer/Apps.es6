@@ -15,17 +15,11 @@ export default function Apps({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Application States
-        </Collapsible.Header>
+        <Collapsible.Header>Application States</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {apps
-              .map((appData, appName) =>
-                <DescriptionItem title={appName}>
-                  {appData.get('state')}
-                </DescriptionItem>
-              )
+              .map((appData, appName) => <DescriptionItem title={appName}>{appData.get('state')}</DescriptionItem>)
               .valueSeq()}
           </DescriptionList>
         </Collapsible.Content>

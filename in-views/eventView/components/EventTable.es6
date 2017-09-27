@@ -31,9 +31,7 @@ function EventTable({ events, height, isInfiniteLoading }) {
   if (!isInfiniteLoading && events.length === 0) {
     return (
       <div className={block}>
-        <p className={`${block}__no-events`}>
-          There are no events in the selected time window.
-        </p>
+        <p className={`${block}__no-events`}>There are no events in the selected time window.</p>
       </div>
     );
   }

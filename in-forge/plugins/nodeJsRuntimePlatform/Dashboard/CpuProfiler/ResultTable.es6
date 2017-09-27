@@ -38,9 +38,7 @@ export default connectTo(
               <th>Function</th>
             </tr>
           </thead>
-          <tbody>
-            {createRowForNode(result, 0, expandedNodes, selectedNode, result, snapshot)}
-          </tbody>
+          <tbody>{createRowForNode(result, 0, expandedNodes, selectedNode, result, snapshot)}</tbody>
         </table>
       </div>
     );
@@ -67,17 +65,16 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
         <PercentageIndicator v={node.t} p={getPercentageOfParent(node, 't', rootNode)} />
       </td>
       <td className={`${block}__function`} style={{ paddingLeft: `${indentationPx}px` }}>
-
         <div className={`${block}__content`}>
-          {node.c.length > 0
-            ? <SvgIcon
-                onClick={() => toggleExpandedNode(node.id)}
-                type={isExpanded ? 'triangle_down' : 'triangle_right'}
-                className={`${block}__expand`}
-                width={10}
-                height={10}
-              />
-            : null}
+          {node.c.length > 0 ? (
+            <SvgIcon
+              onClick={() => toggleExpandedNode(node.id)}
+              type={isExpanded ? 'triangle_down' : 'triangle_right'}
+              className={`${block}__expand`}
+              width={10}
+              height={10}
+            />
+          ) : null}
 
           <NodeLabel node={node} snapshot={snapshot} />
         </div>
@@ -100,12 +97,12 @@ function NodeLabel({ node, snapshot }) {
       <span className={`${block}__node-label`}>
         {node.f || '<anonymous>'}
 
-        {node.u
-          ? <Link className={`${block}__file`} href="" onClick={e => showCodeView(e, snapshot, node.u)}>
-              {node.u}
-              {node.l != null ? `:${node.l}` : null}
-            </Link>
-          : null}
+        {node.u ? (
+          <Link className={`${block}__file`} href="" onClick={e => showCodeView(e, snapshot, node.u)}>
+            {node.u}
+            {node.l != null ? `:${node.l}` : null}
+          </Link>
+        ) : null}
       </span>
     );
   }
@@ -114,12 +111,12 @@ function NodeLabel({ node, snapshot }) {
     <span className={`${block}__node-label`}>
       {node.f || '<anonymous>'}
 
-      {node.u
-        ? <span>
-            {node.u}
-            {node.l != null ? `:${node.l}` : null}
-          </span>
-        : null}
+      {node.u ? (
+        <span>
+          {node.u}
+          {node.l != null ? `:${node.l}` : null}
+        </span>
+      ) : null}
     </span>
   );
 }

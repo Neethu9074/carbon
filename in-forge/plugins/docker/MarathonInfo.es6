@@ -18,20 +18,12 @@ export default function MarathonInfo({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Marathon
-        </Collapsible.Header>
+        <Collapsible.Header>Marathon</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="App ID">
-              {marathon.get('appId')}
-            </DescriptionItem>
-            <DescriptionItem title="App Version">
-              {marathon.get('appVersion')}
-            </DescriptionItem>
-            <DescriptionItem title="CPU Resources">
-              {marathon.get('cpuResources')}
-            </DescriptionItem>
+            <DescriptionItem title="App ID">{marathon.get('appId')}</DescriptionItem>
+            <DescriptionItem title="App Version">{marathon.get('appVersion')}</DescriptionItem>
+            <DescriptionItem title="CPU Resources">{marathon.get('cpuResources')}</DescriptionItem>
             <DescriptionItem title="Memory Resources">
               {marathon.get('memoryResources') ? `${marathon.get('memoryResources')} MB` : null}
             </DescriptionItem>
@@ -40,11 +32,11 @@ export default function MarathonInfo({ snapshot }) {
             </DescriptionItem>
           </DescriptionList>
 
-          {labels && labels.size > 0
-            ? <KeyValuePopupButton title="Marathon Labels" data={labels}>
-                Show Marathon labels
-              </KeyValuePopupButton>
-            : null}
+          {labels && labels.size > 0 ? (
+            <KeyValuePopupButton title="Marathon Labels" data={labels}>
+              Show Marathon labels
+            </KeyValuePopupButton>
+          ) : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

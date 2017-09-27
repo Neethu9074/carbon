@@ -92,7 +92,9 @@ function getArrowGeometry(position, dir) {
   const arrowLength = 0.25;
 
   // because the arrow are laying on the ground, the up-vector is 0 1 0
-  const right = UP.clone().cross(dir).multiplyScalar(arrowLength * 1.5); // shorten to get a angle < 45 degree
+  const right = UP.clone()
+    .cross(dir)
+    .multiplyScalar(arrowLength * 1.5); // shorten to get a angle < 45 degree
   const arrowLineX = (right.x + dir.x) * arrowLength;
   const arrowLineZ = (right.z + dir.z) * arrowLength;
   const arrowLineXLeft = (-right.x + dir.x) * arrowLength;

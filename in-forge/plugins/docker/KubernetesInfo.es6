@@ -28,29 +28,25 @@ export default function MarathonInfo({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Kubernetes
-        </Collapsible.Header>
+        <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Namespace">
-              {labels.get('io.kubernetes.pod.namespace')}
-            </DescriptionItem>
-            {labels.get('io.kubernetes.pod.name')
-              ? <DescriptionItem title="Pod">
-                  {labels.get('io.kubernetes.pod.name')} ({labels.get('io.kubernetes.pod.uid')})
-                </DescriptionItem>
-              : null}
+            <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
+            {labels.get('io.kubernetes.pod.name') ? (
+              <DescriptionItem title="Pod">
+                {labels.get('io.kubernetes.pod.name')} ({labels.get('io.kubernetes.pod.uid')})
+              </DescriptionItem>
+            ) : null}
             <DescriptionItem title="Restart Count">
               {labels.get('annotation.io.kubernetes.container.restartCount')}
             </DescriptionItem>
           </DescriptionList>
 
-          {labels && labels.size > 0
-            ? <KeyValuePopupButton title="Kubernetes Labels and annotations" data={allKubernetesLabelsWithoutPrefix}>
-                Show all Kubernetes labels and annotations
-              </KeyValuePopupButton>
-            : null}
+          {labels && labels.size > 0 ? (
+            <KeyValuePopupButton title="Kubernetes Labels and annotations" data={allKubernetesLabelsWithoutPrefix}>
+              Show all Kubernetes labels and annotations
+            </KeyValuePopupButton>
+          ) : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

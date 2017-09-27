@@ -24,33 +24,33 @@ export default connectTo(
 
     return (
       <Kpis>
-        {agentSnapshots
-          ? <Tooltip
-              content={`At the selected moment: ${focusedMoment ? formatDateTime(focusedMoment) : 'Now'}`}
-              align="rightMiddle"
-            >
-              <KV
-                k="Total agents"
-                v={
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
-                    <DualValueBar
-                      aValue={agentSnapshots.get('online', emptyList).size}
-                      bValue={agentSnapshots.get('offline', emptyList).size}
-                      formatter={b => b}
-                      aLabel="Reporting"
-                      bLabel="Not reporting"
-                    />
-                  </div>
-                }
-              />
-            </Tooltip>
-          : null}
+        {agentSnapshots ? (
+          <Tooltip
+            content={`At the selected moment: ${focusedMoment ? formatDateTime(focusedMoment) : 'Now'}`}
+            align="rightMiddle"
+          >
+            <KV
+              k="Total agents"
+              v={
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
+                  <DualValueBar
+                    aValue={agentSnapshots.get('online', emptyList).size}
+                    bValue={agentSnapshots.get('offline', emptyList).size}
+                    formatter={b => b}
+                    aLabel="Reporting"
+                    bLabel="Not reporting"
+                  />
+                </div>
+              }
+            />
+          </Tooltip>
+        ) : null}
         {agentNotificationsEnabled ? <KV k="Notifications" v={agentNotifications.size} /> : null}
       </Kpis>
     );

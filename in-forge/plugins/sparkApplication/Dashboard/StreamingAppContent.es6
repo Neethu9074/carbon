@@ -72,23 +72,23 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {semver.satisfies(version, '>=1.6.0')
-        ? <DashboardSection title="Output Operations">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                formatter: zeroDecimalPlaces,
-                metrics: ['completedOutputOperations', 'failedOutputOperations'],
-                labels: ['Completed Output Operations', 'Failed Output Operations'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {semver.satisfies(version, '>=1.6.0') ? (
+        <DashboardSection title="Output Operations">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['completedOutputOperations', 'failedOutputOperations'],
+              labels: ['Completed Output Operations', 'Failed Output Operations'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DashboardSection title="Input Records">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -119,9 +119,11 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {semver.satisfies(version, '>=2.0.0')
-        ? <ExecutorsStreamingAppTable snapshot={snapshot} timeframe={timeframe} />
-        : <ExecutorsStreamingAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />}
+      {semver.satisfies(version, '>=2.0.0') ? (
+        <ExecutorsStreamingAppTable snapshot={snapshot} timeframe={timeframe} />
+      ) : (
+        <ExecutorsStreamingAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />
+      )}
     </div>
   );
 }

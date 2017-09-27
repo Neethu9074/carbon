@@ -28,18 +28,16 @@ export default function View({ label, href$, icon, iconSize, color, children, is
           color={color || '#22d8d8'}
         />
         {label}
-        {children
-          ? <SvgIcon className={`${block}__expand-icon`} type="triangle_down" width={6} height={6} color={'#6B8088'} />
-          : null}
+        {children ? (
+          <SvgIcon className={`${block}__expand-icon`} type="triangle_down" width={6} height={6} color={'#6B8088'} />
+        ) : null}
       </Link>
 
-      {children
-        ? <div className={`${block}__menu`}>
-            <SubMenu>
-              {children}
-            </SubMenu>
-          </div>
-        : null}
+      {children ? (
+        <div className={`${block}__menu`}>
+          <SubMenu>{children}</SubMenu>
+        </div>
+      ) : null}
     </li>
   );
 }

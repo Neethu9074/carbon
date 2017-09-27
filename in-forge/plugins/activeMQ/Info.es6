@@ -11,34 +11,21 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Broker Name">
-        {data.get('brokerName')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Broker Name">{data.get('brokerName')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Health Status">
-        {data.get('healthStatus')}
-      </DescriptionItem>
+      <DescriptionItem title="Health Status">{data.get('healthStatus')}</DescriptionItem>
       <DescriptionItem title="Ports">
-        {data.get('ports', emptyList).sort().join(', ')}
+        {data
+          .get('ports', emptyList)
+          .sort()
+          .join(', ')}
       </DescriptionItem>
-      <DescriptionItem title="Role">
-        {role}
-      </DescriptionItem>
-      <DescriptionItem title="Memory Limit">
-        {bytesTwoDecimalPlaces(data.get('memoryLimit'))}
-      </DescriptionItem>
-      <DescriptionItem title="Store Limit">
-        {bytesTwoDecimalPlaces(data.get('storeLimit'))}
-      </DescriptionItem>
-      <DescriptionItem title="Queues Count">
-        {data.get('queues', emptyList).size}
-      </DescriptionItem>
-      <DescriptionItem title="Topics Count">
-        {data.get('topics', emptyList).size}
-      </DescriptionItem>
+      <DescriptionItem title="Role">{role}</DescriptionItem>
+      <DescriptionItem title="Memory Limit">{bytesTwoDecimalPlaces(data.get('memoryLimit'))}</DescriptionItem>
+      <DescriptionItem title="Store Limit">{bytesTwoDecimalPlaces(data.get('storeLimit'))}</DescriptionItem>
+      <DescriptionItem title="Queues Count">{data.get('queues', emptyList).size}</DescriptionItem>
+      <DescriptionItem title="Topics Count">{data.get('topics', emptyList).size}</DescriptionItem>
     </DescriptionList>
   );
 }

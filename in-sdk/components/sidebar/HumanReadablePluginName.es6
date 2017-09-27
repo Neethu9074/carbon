@@ -11,10 +11,6 @@ export default connectTo(
     };
   },
   function HumanReadablePluginName({ snapshot, fallback = null }) {
-    return (
-      <span>
-        {snapshot ? getSingular(snapshot.get('plugin')) : fallback}
-      </span>
-    );
+    return <span>{snapshot ? getSingular(snapshot.get('plugin')) : fallback}</span>;
   }
 );

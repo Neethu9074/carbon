@@ -9,16 +9,10 @@ export default function CrystalInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="CrystalVersion">
-        {data.get('crystal_version')}
-      </DescriptionItem>
-      <DescriptionItem title="Runtime Arguments">
-        {data.get('args', emptyArray).join(' ')}
-      </DescriptionItem>
+      <DescriptionItem title="CrystalVersion">{data.get('crystal_version')}</DescriptionItem>
+      <DescriptionItem title="Runtime Arguments">{data.get('args', emptyArray).join(' ')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
     </DescriptionList>
   );
 }

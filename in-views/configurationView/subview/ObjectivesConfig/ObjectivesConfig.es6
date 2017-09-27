@@ -223,31 +223,27 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Objectives" />
-        <SubViewHeader>
-          Objective Management
-        </SubViewHeader>
+        <SubViewHeader>Objective Management</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewObjective}>
             Add New Objective
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
-        {objectivesAvailable
-          ? <Section>
-              <SectionHeading>
-                Objectives
-              </SectionHeading>
+        {objectivesAvailable ? (
+          <Section>
+            <SectionHeading>Objectives</SectionHeading>
 
-              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-            </Section>
-          : null}
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+          </Section>
+        ) : null}
       </SubViewWrapper>
     );
   }
@@ -267,22 +263,14 @@ function getRowDetails(row) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title="Applied on filter query">
-          {match.get('filteringQuery')}
-        </DescriptionItem>
-        <DescriptionItem title="Time pattern">
-          {match.get('timePattern')}
-        </DescriptionItem>
-        <DescriptionItem title="Time zone">
-          {rule.get('timeZoneId')}
-        </DescriptionItem>
+        <DescriptionItem title="Applied on filter query">{match.get('filteringQuery')}</DescriptionItem>
+        <DescriptionItem title="Time pattern">{match.get('timePattern')}</DescriptionItem>
+        <DescriptionItem title="Time zone">{rule.get('timeZoneId')}</DescriptionItem>
 
-        <DescriptionItem title="Reduction operation">
-          {reductionOperation}
-        </DescriptionItem>
+        <DescriptionItem title="Reduction operation">{reductionOperation}</DescriptionItem>
         <DescriptionItem title="Thresholds">
           <ul className={`${block}__thresholds`}>
-            {rule.get('thresholds').map((threshold, i) =>
+            {rule.get('thresholds').map((threshold, i) => (
               <li key={i} className={`${block}__flex-wrapper`}>
                 <DescriptionItem title="Value" className={`${block}__value`}>
                   {threshold.get('value')}
@@ -290,17 +278,13 @@ function getRowDetails(row) {
                 <DescriptionItem title="Severity" className={`${block}__severity`}>
                   {mapSeverityToLabel(threshold.get('severity'))}
                 </DescriptionItem>
-                <DescriptionItem title="Message">
-                  {threshold.get('message')}
-                </DescriptionItem>
+                <DescriptionItem title="Message">{threshold.get('message')}</DescriptionItem>
               </li>
-            )}
+            ))}
           </ul>
         </DescriptionItem>
 
-        <DescriptionItem title="Last update">
-          {formatDateTime(objective.get('lastUpdated'))}
-        </DescriptionItem>
+        <DescriptionItem title="Last update">{formatDateTime(objective.get('lastUpdated'))}</DescriptionItem>
       </DescriptionList>
     </div>
   );

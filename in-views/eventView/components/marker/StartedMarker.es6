@@ -12,12 +12,8 @@ export default function StartedMarker({ event }) {
 
   return (
     <LabeledValue label={label}>
-      <span className="in-event-view-marker__time">
-        {formatDate(timestamp)}
-      </span>
-      <span>
-        {formatTime(timestamp)}
-      </span>
+      <span className="in-event-view-marker__time">{formatDate(timestamp)}</span>
+      <span>{formatTime(timestamp)}</span>
     </LabeledValue>
   );
 }

@@ -53,11 +53,7 @@ function toggleEvent(event, selectedEventId) {
 }
 
 function Cell({ content }) {
-  return (
-    <div className={`${block}__cell`}>
-      {content}
-    </div>
-  );
+  return <div className={`${block}__cell`}>{content}</div>;
 }
 
 const Icon = connectTo(

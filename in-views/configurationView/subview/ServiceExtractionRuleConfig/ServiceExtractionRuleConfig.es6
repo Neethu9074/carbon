@@ -79,53 +79,52 @@ export default class extends React.Component {
 
           <form onSubmit={this.onSubmit}>
             <Section>
-              {form
-                ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                    Save
-                  </Button>
-                : null}
+              {form ? (
+                <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                  Save
+                </Button>
+              ) : null}
 
-              {this.state.message
-                ? <Notification failure={this.state.error} loading={this.state.loading}>
-                    {this.state.message}
-                  </Notification>
-                : null}
+              {this.state.message ? (
+                <Notification failure={this.state.error} loading={this.state.loading}>
+                  {this.state.message}
+                </Notification>
+              ) : null}
             </Section>
 
-            {form
-              ? <ServiceExtractionRuleConfigForm
-                  prePath={[]}
-                  ruleForm={form}
-                  helpTexts={helpTexts}
-                  resultingEntityNameTitle="Service Name"
-                  resultingEntityTooltipText={helpTexts.serviceNameHelp}
-                  matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-                  matchSpecificationOptions={matchSpecificationOptions}
-                  onChangeIn={this.onChangeIn}
-                  addMatchSpecification={this.addMatchSpecification}
-                  removeMatchSpecification={this.removeMatchSpecification}
-                />
-              : null}
+            {form ? (
+              <ServiceExtractionRuleConfigForm
+                prePath={[]}
+                ruleForm={form}
+                helpTexts={helpTexts}
+                resultingEntityNameTitle="Service Name"
+                resultingEntityTooltipText={helpTexts.serviceNameHelp}
+                matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+                matchSpecificationOptions={matchSpecificationOptions}
+                onChangeIn={this.onChangeIn}
+                addMatchSpecification={this.addMatchSpecification}
+                removeMatchSpecification={this.removeMatchSpecification}
+              />
+            ) : null}
           </form>
-
         </SubViewWrapper>
 
-        {supportsEndpoints !== false
-          ? <ServiceExtractionEndpointRuleConfigSubForm
-              serviceRule={rule}
-              form={form}
-              onChangeIn={this.onChangeInEndpoints}
-              helpTexts={helpTexts}
-              matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-              matchSpecificationOptions={matchSpecificationOptions}
-              addMatchSpecification={this.addMatchSpecification}
-              removeMatchSpecification={this.removeMatchSpecification}
-              removeEndpointRule={this.removeEndpointRule}
-              addEndpointRule={this.addEndpointRule}
-              moveUp={this.moveUp}
-              moveDown={this.moveDown}
-            />
-          : null}
+        {supportsEndpoints !== false ? (
+          <ServiceExtractionEndpointRuleConfigSubForm
+            serviceRule={rule}
+            form={form}
+            onChangeIn={this.onChangeInEndpoints}
+            helpTexts={helpTexts}
+            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+            matchSpecificationOptions={matchSpecificationOptions}
+            addMatchSpecification={this.addMatchSpecification}
+            removeMatchSpecification={this.removeMatchSpecification}
+            removeEndpointRule={this.removeEndpointRule}
+            addEndpointRule={this.addEndpointRule}
+            moveUp={this.moveUp}
+            moveDown={this.moveDown}
+          />
+        ) : null}
       </div>
     );
   }
@@ -327,7 +326,10 @@ export default class extends React.Component {
 }
 
 function getMatchSpecifications(form) {
-  const matchSpecificationKeys = form.get('matchSpecification').reduce((acc, cur, key) => acc.concat(key), []).sort();
+  const matchSpecificationKeys = form
+    .get('matchSpecification')
+    .reduce((acc, cur, key) => acc.concat(key), [])
+    .sort();
   const matchSpecifications = {};
   for (let i = 0, length = matchSpecificationKeys.length; i < length; i++) {
     const field = form.get('matchSpecification').get(matchSpecificationKeys[i]);

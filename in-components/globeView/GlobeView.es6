@@ -27,19 +27,19 @@ export default connectTo(
         <Title title="World Globe" />
         <Universe className={`${block}__universe`} />
 
-        {loadingResources.isLoading
-          ? <div className={`${block}__loading`}>
-              LOADING...
-              <div className={`${block}__loading-indocator-wrapper`}>
-                <div
-                  className={`${block}__loading-indocator`}
-                  style={{
-                    width: `${percentLaoded}%`
-                  }}
-                />
-              </div>
+        {loadingResources.isLoading ? (
+          <div className={`${block}__loading`}>
+            LOADING...
+            <div className={`${block}__loading-indocator-wrapper`}>
+              <div
+                className={`${block}__loading-indocator`}
+                style={{
+                  width: `${percentLaoded}%`
+                }}
+              />
             </div>
-          : null}
+          </div>
+        ) : null}
       </div>
     );
   }

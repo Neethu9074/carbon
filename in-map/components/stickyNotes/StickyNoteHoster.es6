@@ -20,10 +20,6 @@ export default connectTo(
       stickyComponents[stickyComponentsIndex++] = <StickyNote key={id} id={id} {...stickyDefinition.props} />;
     });
 
-    return (
-      <div>
-        {stickyComponents}
-      </div>
-    );
+    return <div>{stickyComponents}</div>;
   }
 );

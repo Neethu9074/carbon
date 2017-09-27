@@ -21,9 +21,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Produce Latency">
           <MetricValue snapshotId={snapshotId} metric="broker.totalTimeProduce" formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>

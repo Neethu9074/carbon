@@ -42,12 +42,9 @@ export default class Remove extends React.PureComponent {
         <p className={`${block}__help`}>
           <strong>Please note that neither you nor the Instana support can undo this action!</strong>
         </p>
-
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
-
         {removeError && <SaveError>{removeError}</SaveError>}
-
         <Button
           kind="danger"
           disabled={loading || !this.state.checkboxChecked}

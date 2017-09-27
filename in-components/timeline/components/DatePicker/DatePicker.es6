@@ -45,20 +45,20 @@ export default connectTo(
             width: currentDateStore ? 250 : 0
           }}
         >
-          {currentDateStore
-            ? <DayPicker
-                initialMonth={this.state.initialMonth}
-                modifiers={{
-                  selected: day => dateUtils.isSameDay(day, new Date(selectedTime)),
-                  inactive: day =>
-                    !dateUtils.isDayInRange(day, {
-                      from: new Date(bigBangTimestamp),
-                      to: new Date(serverTime)
-                    })
-                }}
-                onDayClick={day => currentDateStore.setDateString(formatDate(day))}
-              />
-            : null}
+          {currentDateStore ? (
+            <DayPicker
+              initialMonth={this.state.initialMonth}
+              modifiers={{
+                selected: day => dateUtils.isSameDay(day, new Date(selectedTime)),
+                inactive: day =>
+                  !dateUtils.isDayInRange(day, {
+                    from: new Date(bigBangTimestamp),
+                    to: new Date(serverTime)
+                  })
+              }}
+              onDayClick={day => currentDateStore.setDateString(formatDate(day))}
+            />
+          ) : null}
         </div>
       );
     }

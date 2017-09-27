@@ -52,7 +52,7 @@ export default connectTo(
 
         <Route
           path="/website"
-          render={() =>
+          render={() => (
             <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
               <Title title="Websites" />
               <div className={block}>
@@ -61,16 +61,17 @@ export default connectTo(
                     <WebsiteHeading numWebsites={snapshots.length} />
                   </div>
                   <div className={configureElement}>
-                    {role.canConfigureEumApplications
-                      ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
-                          Add Website
-                        </Link>
-                      : null}
+                    {role.canConfigureEumApplications ? (
+                      <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                        Add Website
+                      </Link>
+                    ) : null}
                   </div>
                 </div>
                 <WebsiteTable snapshots={snapshots} />
               </div>
-            </FullscreenOverlayView>}
+            </FullscreenOverlayView>
+          )}
         />
       </Switch>
     );

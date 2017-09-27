@@ -15,20 +15,16 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
     <fieldset disabled={disabled}>
       <Section>
-        <SectionHeading>
-          General
-        </SectionHeading>
+        <SectionHeading>General</SectionHeading>
 
-        {form.get('id').map(field =>
+        {form.get('id').map(field => (
           <FormGroup>
-            <Label htmlFor="api-token-id">
-              API Token
-            </Label>
+            <Label htmlFor="api-token-id">API Token</Label>
             <Input id="api-token-id" value={field.value} disabled />
           </FormGroup>
-        )}
+        ))}
 
-        {form.get('name').map(field =>
+        {form.get('name').map(field => (
           <FormGroup>
             <Label htmlFor="api-token-name" hasError={!field.valid}>
               Name
@@ -41,19 +37,17 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) =>
+            {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            )}
+            ))}
           </FormGroup>
-        )}
+        ))}
       </Section>
 
       <Section>
-        <SectionHeading>
-          Permissions
-        </SectionHeading>
+        <SectionHeading>Permissions</SectionHeading>
 
         <Permission
           form={form}
@@ -103,15 +97,15 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           label="Access to license usage"
         />
 
-        {isOnPremise
-          ? <Permission
-              form={form}
-              disabled={disabled}
-              onChange={onChange}
-              name="canSeeOnPremLicenseInformation"
-              label="Access to on prem license usage"
-            />
-          : null}
+        {isOnPremise ? (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canSeeOnPremLicenseInformation"
+            label="Access to on prem license usage"
+          />
+        ) : null}
 
         <Permission
           form={form}
@@ -161,15 +155,15 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           label="Configuration of agents"
         />
 
-        {objectivesEnabled
-          ? <Permission
-              form={form}
-              disabled={disabled}
-              onChange={onChange}
-              name="canConfigureObjectives"
-              label="Configuration of objectives"
-            />
-          : null}
+        {objectivesEnabled ? (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureObjectives"
+            label="Configuration of objectives"
+          />
+        ) : null}
       </Section>
     </fieldset>
   );
@@ -187,9 +181,7 @@ function Permission({ form, onChange, name, label, disabled }) {
         disabled={disabled}
       />
 
-      <Label htmlFor={`api-token-${name}`}>
-        {label}
-      </Label>
+      <Label htmlFor={`api-token-${name}`}>{label}</Label>
     </HorizontalFormGroupWithBackground>
   );
 }

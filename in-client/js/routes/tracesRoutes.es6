@@ -14,12 +14,11 @@ export default (
 
     <Route path="/traces/search" component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceView)} />
 
-    {traceAnalyticsEnabled
-      ? <Route
-          path="/traces/analytics"
-          component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceAnalyticsView)}
-        />
-      : null}
-
+    {traceAnalyticsEnabled ? (
+      <Route
+        path="/traces/analytics"
+        component={createAsyncComponentWithLoadingIndicatorPlaceholder(TraceAnalyticsView)}
+      />
+    ) : null}
   </Switch>
 );

@@ -8,25 +8,21 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
   return (
     <div>
       <p>
-        Detailed information about in-browser resources and specifically about caching is not available in all {' '}
-        web browsers. For this reason, this chart will only represent a subset of all the resource requests. More
-        {' '}
-        {' '}
+        Detailed information about in-browser resources and specifically about caching is not available in all web
+        browsers. For this reason, this chart will only represent a subset of all the resource requests. More {' '}
         information is available through the {' '}
         <Link href="https://www.w3.org/TR/resource-timing-2/" external>
           resource timing level 2 specification
-        </Link>
-        {' '}
-        and the
-        {' '}
+        </Link>{' '}
+        and the{' '}
         <Link href="https://www.w3.org/TR/resource-timing-2/" external>
           browser support matrix
         </Link>.
       </p>
       <p>
-        Access to caching statistics is restricted by the browser for security reasons using the same-origin {' '}
-        principle. In order to allow gathering of this information from a variety of domains, ensure that {' '}
-        resources are served with a <code>Timing-Allow-Origin: *</code> header.
+        Access to caching statistics is restricted by the browser for security reasons using the same-origin principle.
+        In order to allow gathering of this information from a variety of domains, ensure that resources are served with
+        a <code>Timing-Allow-Origin: *</code> header.
       </p>
 
       <Chart

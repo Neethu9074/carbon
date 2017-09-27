@@ -27,13 +27,13 @@ export default connectTo(
       headerClassName += ' ' + headerClassName + '--highlighted';
     }
 
-    return childrenAreAvailable
-      ? <div className={headerClassName} onClick={onClick}>
-          {getLabel(snapshot) + ' (' + children.length + ')'}
-          <ExpandIcon expanded={expanded} />
-        </div>
-      : <div className={headerClassName}>
-          {getLabel(snapshot)}
-        </div>;
+    return childrenAreAvailable ? (
+      <div className={headerClassName} onClick={onClick}>
+        {getLabel(snapshot) + ' (' + children.length + ')'}
+        <ExpandIcon expanded={expanded} />
+      </div>
+    ) : (
+      <div className={headerClassName}>{getLabel(snapshot)}</div>
+    );
   }
 );

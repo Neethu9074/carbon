@@ -20,10 +20,8 @@ export const helpTexts = defaults(
     viewHelp: (
       <span>
         Configure how Instana uses attributes of underlying components to extract services. You can define multiple
-        rules{' '}
-        which will be executed in order, i.e. the first rule of which all match expression match, will be used to
-        extract{' '}
-        a service name. General rules are only applied when more specific rules like{' '}
+        rules which will be executed in order, i.e. the first rule of which all match expression match, will be used to
+        extract a service name. General rules are only applied when more specific rules like{' '}
         <Link href$={httpServiceExtractionConfigurationViewLink$}>HTTP</Link>,{' '}
         <Link href$={batchServiceExtractionConfigurationViewLink$}>Batch</Link>,{' '}
         <Link href$={ejbServiceExtractionConfigurationViewLink$}>EJB</Link>,{' '}
@@ -35,9 +33,8 @@ export const helpTexts = defaults(
     matchesHelp: (
       <span>
         Select here which attributes should be used to match and extract a service. At least one match expression is
-        required.{' '}
-        Currently supported is matching tags of a host, and labels of docker containers.{' '}
-        Host tags are split by <code>=</code> or <code>:</code> into a key value pair.
+        required. Currently supported is matching tags of a host, and labels of docker containers. Host tags are split
+        by <code>=</code> or <code>:</code> into a key value pair.
       </span>
     )
   },
@@ -66,9 +63,9 @@ export const matchSpecificationOptions = {
         initialValue: '',
         help: (
           <span>
-            Host tags are split by <code>=</code> or <code>:</code> into a key value pair.{' '}
-            So <code>zone:test</code> would have the key <code>zone</code>.{' '}
-            This value needs to be an exact case sensitive match. No wildcards or regular expressions allowed.
+            Host tags are split by <code>=</code> or <code>:</code> into a key value pair. So <code>zone:test</code>{' '}
+            would have the key <code>zone</code>. This value needs to be an exact case sensitive match. No wildcards or
+            regular expressions allowed.
           </span>
         )
       },
@@ -78,11 +75,10 @@ export const matchSpecificationOptions = {
         initialValue: '',
         help: (
           <span>
-            Host tags are split by <code>=</code> or <code>:</code> into a key value pair.{' '}
-            So <code>zone:test</code> would have the value <code>test</code>.{' '}
-            To use the value in a service name, use <code>{'{host.tag-zone}'}</code>. When a regular expression is used{' '}
-            to match parts of the value, they can be accessed with <code>{'{host.tag-zone-1'}</code> (for the first
-            match group).
+            Host tags are split by <code>=</code> or <code>:</code> into a key value pair. So <code>zone:test</code>{' '}
+            would have the value <code>test</code>. To use the value in a service name, use{' '}
+            <code>{'{host.tag-zone}'}</code>. When a regular expression is used to match parts of the value, they can be
+            accessed with <code>{'{host.tag-zone-1'}</code> (for the first match group).
           </span>
         )
       }
@@ -98,8 +94,8 @@ export const matchSpecificationOptions = {
         initialValue: '',
         help: (
           <span>
-            This value needs to be an exact case sensitive match. No wildcards or regular expressions allowed.{' '}
-            For the docker label <code>com.amazonaws.ecs.cluster: prod</code> just provide{' '}
+            This value needs to be an exact case sensitive match. No wildcards or regular expressions allowed. For the
+            docker label <code>com.amazonaws.ecs.cluster: prod</code> just provide{' '}
             <code>com.amazonaws.ecs.cluster</code>.
           </span>
         )
@@ -110,11 +106,10 @@ export const matchSpecificationOptions = {
         initialValue: '',
         help: (
           <span>
-            To use the value of the docker label <code>com.amazonaws.ecs.cluster: prod</code> in a service name,{' '}
-            use <code>{'{docker.label-com.amazonaws.ecs.cluster}'}</code>. When a regular expression is used to match
-            parts of the value,{' '}
-            they can be accessed with <code>{'{docker.label-com.amazonaws.ecs.cluster-1}'}</code> (for the first match
-            group).
+            To use the value of the docker label <code>com.amazonaws.ecs.cluster: prod</code> in a service name, use{' '}
+            <code>{'{docker.label-com.amazonaws.ecs.cluster}'}</code>. When a regular expression is used to match parts
+            of the value, they can be accessed with <code>{'{docker.label-com.amazonaws.ecs.cluster-1}'}</code> (for the
+            first match group).
           </span>
         )
       }

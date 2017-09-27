@@ -6,9 +6,7 @@ export default function SessionSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Session Handler">
-          {span.getIn(['data', 'session', 'save_handler'])}
-        </DescriptionItem>
+        <DescriptionItem title="Session Handler">{span.getIn(['data', 'session', 'save_handler'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

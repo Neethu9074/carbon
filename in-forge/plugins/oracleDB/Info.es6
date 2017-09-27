@@ -8,22 +8,12 @@ export default function OracleDBInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Oracle SID">
-        {data.get('databaseSID')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Oracle SID">{data.get('databaseSID')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="CPU Count">
-        {data.get('cpuCount')}
-      </DescriptionItem>
-      <DescriptionItem title="Max Sessions">
-        {data.get('maxSessions')}
-      </DescriptionItem>
-      <DescriptionItem title="DB Block Size">
-        {data.get('dbBlockSize')}
-      </DescriptionItem>
+      <DescriptionItem title="CPU Count">{data.get('cpuCount')}</DescriptionItem>
+      <DescriptionItem title="Max Sessions">{data.get('maxSessions')}</DescriptionItem>
+      <DescriptionItem title="DB Block Size">{data.get('dbBlockSize')}</DescriptionItem>
     </DescriptionList>
   );
 }

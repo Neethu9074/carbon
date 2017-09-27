@@ -36,7 +36,10 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.iface.get('addresses', emptyList).map(address => address.get('ip')).join(', ');
+        return row.iface
+          .get('addresses', emptyList)
+          .map(address => address.get('ip'))
+          .join(', ');
       }
     }
   },

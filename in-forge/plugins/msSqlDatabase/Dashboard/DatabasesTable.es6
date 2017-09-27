@@ -17,11 +17,14 @@ const cols = [
 ];
 
 export default function DatabasesTable({ snapshot }) {
-  const rows = snapshot.getIn(['data', 'databases'], emptyList).toArray().map(name => {
-    return {
-      key: name
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'databases'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name
+      };
+    });
 
   if (rows.length === 0) {
     return null;

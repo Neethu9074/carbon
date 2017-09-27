@@ -51,12 +51,13 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="/traces" />
 
-    {role.canConfigureAgents ?
-      <Route path="/agents"
-          component={createAsyncFullscreenOverlayViewComponent(AgentView)}
-          windowTitle="Instana Agents"
-        />
-      : null}
+    {role.canConfigureAgents ? (
+      <Route
+        path="/agents"
+        component={createAsyncFullscreenOverlayViewComponent(AgentView)}
+        windowTitle="Instana Agents"
+      />
+    ) : null}
 
     <RedirectWithHash from="/" to="/physical" />
   </Switch>

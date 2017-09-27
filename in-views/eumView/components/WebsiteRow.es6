@@ -32,45 +32,45 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
       <div className={metrics}>
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad < 1
-          ? <NoXMessage className={`${block}__no-data`}>No views in the given time window</NoXMessage>
-          : null}
+        {data.rawPageLoad != null && data.rawPageLoad < 1 ? (
+          <NoXMessage className={`${block}__no-data`}>No views in the given time window</NoXMessage>
+        ) : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad >= 1
-          ? <div className={kpis}>
-              <WebsiteKpiSection snapshotId={snapshotId} data={data} />
-              {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
-            </div>
-          : null}
+        {data.rawPageLoad != null && data.rawPageLoad >= 1 ? (
+          <div className={kpis}>
+            <WebsiteKpiSection snapshotId={snapshotId} data={data} />
+            {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
+          </div>
+        ) : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad >= 1
-          ? <Chart
-              snapshotId={snapshotId}
-              withoutAxis
-              withoutLegend
-              height={60}
-              y1={{
-                min: 0,
-                formatter: number.compact,
-                metrics: [`${metricPrefix}count`],
-                labels: ['views'],
-                type: 'bar',
-                aggregation: 'sum',
-                minPixelPerBlock: 5,
-                maxDataPoints: 100
-              }}
-              y2={{
-                min: 0,
-                formatter: seconds.fromMillisFixedDetailed,
-                metrics: [`${metricPrefix}duration.mean`],
-                labels: ['load time'],
-                type: 'line',
-                aggregation: 'mean',
-                minPixelPerBlock: 5,
-                maxDataPoints: 100
-              }}
-            />
-          : null}
+        {data.rawPageLoad != null && data.rawPageLoad >= 1 ? (
+          <Chart
+            snapshotId={snapshotId}
+            withoutAxis
+            withoutLegend
+            height={60}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`${metricPrefix}count`],
+              labels: ['views'],
+              type: 'bar',
+              aggregation: 'sum',
+              minPixelPerBlock: 5,
+              maxDataPoints: 100
+            }}
+            y2={{
+              min: 0,
+              formatter: seconds.fromMillisFixedDetailed,
+              metrics: [`${metricPrefix}duration.mean`],
+              labels: ['load time'],
+              type: 'line',
+              aggregation: 'mean',
+              minPixelPerBlock: 5,
+              maxDataPoints: 100
+            }}
+          />
+        ) : null}
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ export default function WebsiteHeader({
 
   const kpis = columnDefinitions
     .slice(1)
-    .map(def =>
+    .map(def => (
       <SortIndicator
         key={def.index}
         className={kpiElement}
@@ -49,7 +49,7 @@ export default function WebsiteHeader({
         sortDirection={sortDirection}
         onChangeSort={onChangeSort}
       />
-    );
+    ));
 
   const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
   const randomFilterId = Math.random();
@@ -57,37 +57,35 @@ export default function WebsiteHeader({
   return (
     <div className={block}>
       {name}
-      <div className={kpiHeader}>
-        {kpis}
-      </div>
+      <div className={kpiHeader}>{kpis}</div>
 
-      {showPagination || showFilter
-        ? <div className={`${block}__right-side`}>
-            {showFilter
-              ? <HorizontalFormGroup>
-                  <Label htmlFor={randomFilterId}>Filter</Label>
-                  <Input
-                    id={randomFilterId}
-                    size="sm"
-                    type="text"
-                    value={filter}
-                    onChange={e => setFilter(e.target.value)}
-                  />
-                </HorizontalFormGroup>
-              : null}
+      {showPagination || showFilter ? (
+        <div className={`${block}__right-side`}>
+          {showFilter ? (
+            <HorizontalFormGroup>
+              <Label htmlFor={randomFilterId}>Filter</Label>
+              <Input
+                id={randomFilterId}
+                size="sm"
+                type="text"
+                value={filter}
+                onChange={e => setFilter(e.target.value)}
+              />
+            </HorizontalFormGroup>
+          ) : null}
 
-            {showPagination
-              ? <Pagination
-                  className={`${block}__pagination`}
-                  onPrevPage={onPrevPage}
-                  onNextPage={onNextPage}
-                  currentPage={data.page}
-                  pageCount={data.pageCount}
-                  ariaLabel="Pagination for previous table"
-                />
-              : null}
-          </div>
-        : null}
+          {showPagination ? (
+            <Pagination
+              className={`${block}__pagination`}
+              onPrevPage={onPrevPage}
+              onNextPage={onNextPage}
+              currentPage={data.page}
+              pageCount={data.pageCount}
+              ariaLabel="Pagination for previous table"
+            />
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

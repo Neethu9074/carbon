@@ -56,13 +56,16 @@ const cols = [
 
 export default function DatabasesTable({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'dbs'], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      snapshotId,
-      timeframe
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'dbs'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        snapshotId,
+        timeframe
+      };
+    });
 
   if (rows.length === 0) {
     return null;

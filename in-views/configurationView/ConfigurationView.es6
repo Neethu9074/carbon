@@ -16,11 +16,7 @@ export default function ConfigurationView(props) {
     <FullscreenOverlayView className={block}>
       <Title title="Settings" />
       <Navigation />
-      {!props.match.isExact
-        ? <ActiveSubView>
-            {routes}
-          </ActiveSubView>
-        : <DefaultConfigView />}
+      {!props.match.isExact ? <ActiveSubView>{routes}</ActiveSubView> : <DefaultConfigView />}
     </FullscreenOverlayView>
   );
 }

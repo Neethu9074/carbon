@@ -14,19 +14,13 @@ export default function PageResourceRequestSpanDetailView({ span }) {
         </Link>
       </DescriptionItem>
 
-      <DescriptionItem title="Initiator">
-        {span.getIn(['data', 'page_res', 'initiator'])}
-      </DescriptionItem>
+      <DescriptionItem title="Initiator">{span.getIn(['data', 'page_res', 'initiator'])}</DescriptionItem>
 
-      {encodedBodySize
-        ? <DescriptionItem title="Encoded Body Size">
-            {bytesTwoDecimalPlaces(encodedBodySize)}
-          </DescriptionItem>
-        : null}
+      {encodedBodySize ? (
+        <DescriptionItem title="Encoded Body Size">{bytesTwoDecimalPlaces(encodedBodySize)}</DescriptionItem>
+      ) : null}
 
-      <DescriptionItem title="Cache Status">
-        {span.getIn(['data', 'page_res', 'caching'])}
-      </DescriptionItem>
+      <DescriptionItem title="Cache Status">{span.getIn(['data', 'page_res', 'caching'])}</DescriptionItem>
     </DescriptionList>
   );
 }

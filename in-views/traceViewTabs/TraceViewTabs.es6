@@ -26,34 +26,32 @@ export default connectTo(
   function TraceViewTabs({ navigationParameters }) {
     return (
       <FullscreenOverlayView className={block}>
-        {traceAnalyticsEnabled
-          ? <ul className={`${block}__tabs`}>
-              <li
-                className={evaluateClassNames({
-                  [tabElement]: true,
-                  [activeTabElement]: navigationParameters.pathname.indexOf('/traces/search') === 0
-                })}
-              >
-
-                <Link href$={traceViewLink$} className={linkElement}>
-                  <em>Traces</em> <Count count$={totalTraceCountActiveFilter$} />
-                </Link>
-              </li>
-              <li
-                className={evaluateClassNames({
-                  [tabElement]: true,
-                  [activeTabElement]: navigationParameters.pathname.indexOf('/traces/analytics') === 0
-                })}
-              >
-                <Link href$={traceAnalyticsViewLink$} className={linkElement}>
-                  <em>Analytics</em> <Count count$={analysedTraces$.map(map => map.size)} />
-                </Link>
-              </li>
-            </ul>
-          : null}
+        {traceAnalyticsEnabled ? (
+          <ul className={`${block}__tabs`}>
+            <li
+              className={evaluateClassNames({
+                [tabElement]: true,
+                [activeTabElement]: navigationParameters.pathname.indexOf('/traces/search') === 0
+              })}
+            >
+              <Link href$={traceViewLink$} className={linkElement}>
+                <em>Traces</em> <Count count$={totalTraceCountActiveFilter$} />
+              </Link>
+            </li>
+            <li
+              className={evaluateClassNames({
+                [tabElement]: true,
+                [activeTabElement]: navigationParameters.pathname.indexOf('/traces/analytics') === 0
+              })}
+            >
+              <Link href$={traceAnalyticsViewLink$} className={linkElement}>
+                <em>Analytics</em> <Count count$={analysedTraces$.map(map => map.size)} />
+              </Link>
+            </li>
+          </ul>
+        ) : null}
 
         {traceRoutes}
-
       </FullscreenOverlayView>
     );
   }

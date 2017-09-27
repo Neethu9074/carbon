@@ -20,21 +20,17 @@ export default connectTo(
       <div>
         {isProfiling ? <LoadingIndicator type="dark" /> : null}
 
-        {lastProfilingResult && lastProfilingResult.error
-          ? <DashboardNotification type="danger">
-              {lastProfilingResult.error}
-            </DashboardNotification>
-          : null}
+        {lastProfilingResult && lastProfilingResult.error ? (
+          <DashboardNotification type="danger">{lastProfilingResult.error}</DashboardNotification>
+        ) : null}
 
-        {lastProfilingResult && typeof lastProfilingResult.data === 'string'
-          ? <DashboardNotification type="info">
-              {lastProfilingResult.data}
-            </DashboardNotification>
-          : null}
+        {lastProfilingResult && typeof lastProfilingResult.data === 'string' ? (
+          <DashboardNotification type="info">{lastProfilingResult.data}</DashboardNotification>
+        ) : null}
 
-        {lastProfilingResult && lastProfilingResult.data && typeof lastProfilingResult.data === 'object'
-          ? <ResultTable result={lastProfilingResult.data} snapshot={snapshot} />
-          : null}
+        {lastProfilingResult && lastProfilingResult.data && typeof lastProfilingResult.data === 'object' ? (
+          <ResultTable result={lastProfilingResult.data} snapshot={snapshot} />
+        ) : null}
       </div>
     );
   }

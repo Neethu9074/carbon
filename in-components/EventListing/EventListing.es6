@@ -24,9 +24,9 @@ export default connectTo(
 
     return (
       <div>
-        {events.map(event =>
+        {events.map(event => (
           <EventDescription className={block + '__item'} key={event.get('id')} event={event} snapshotId={snapshotId} />
-        )}
+        ))}
       </div>
     );
   }
@@ -34,6 +34,11 @@ export default connectTo(
 
 function getEventsForEntityAtFocusedMoment(snapshotId) {
   return getHealthInfoAtFocusedMoment(snapshotId).flatMap(healthInfo =>
-    combineLatest(healthInfo.get('eventIds').toArray().map(getEvent))
+    combineLatest(
+      healthInfo
+        .get('eventIds')
+        .toArray()
+        .map(getEvent)
+    )
   );
 }

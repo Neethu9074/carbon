@@ -13,9 +13,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="GC Pause">
           <MetricValue snapshotId={snapshotId} metric="metrics.memory.pause_ns" formatter={timeNs} />
         </KpiKeyValue>
@@ -28,13 +26,9 @@ export default function GolangDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Memory Usage">
-          {renderMemoryMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeframe)}</DashboardSection>
 
-        <DashboardSection title="Heap Usage">
-          {renderHeapMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Heap Usage">{renderHeapMetrics(snapshot, timeframe)}</DashboardSection>
       </Columize>
 
       <DashboardSection title="GC Activity">

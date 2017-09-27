@@ -18,9 +18,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="All heaps">
           <MetricValue snapshotId={snapshotId} metric="mem.all_heaps" formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>

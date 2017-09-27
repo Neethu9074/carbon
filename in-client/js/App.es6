@@ -42,7 +42,6 @@ export default function App() {
       {__DEV__ ? getDevPanel() : null}
 
       {routes}
-
     </div>
   );
 }

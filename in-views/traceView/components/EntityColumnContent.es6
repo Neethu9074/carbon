@@ -25,9 +25,7 @@ export default connectTo(
       <Tooltip content={label} align="rightMiddle">
         <div className={block}>
           <PluginIcon className={`${block}__icon`} dimension={14} color="#000" snapshot={snapshot} />
-          <span>
-            {label}
-          </span>
+          <span>{label}</span>
         </div>
       </Tooltip>
     );

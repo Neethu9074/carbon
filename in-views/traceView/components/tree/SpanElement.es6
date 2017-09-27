@@ -84,7 +84,8 @@ export default connectTo(
               left: `${this.props.totalTimeIndentationDepth * 20 + 16}px`
             }}
           >
-            {msZeroDecimalPlaces(totalTime)}<br />({percentageTwoDecimalPlaces(totalTimePercentage)})
+            {msZeroDecimalPlaces(totalTime)}
+            <br />({percentageTwoDecimalPlaces(totalTimePercentage)})
             <div className={`${block}__total-time-indicator`}>
               <div
                 className={`${block}__total-time-indicator-bar`}
@@ -93,12 +94,11 @@ export default connectTo(
                 }}
               />
             </div>
-
-            {span.get('async')
-              ? <Tooltip content="Async call">
-                  <SvgIcon type="async" className={`${block}__async-icon`} width={14} />
-                </Tooltip>
-              : null}
+            {span.get('async') ? (
+              <Tooltip content="Async call">
+                <SvgIcon type="async" className={`${block}__async-icon`} width={14} />
+              </Tooltip>
+            ) : null}
           </div>
 
           <div
@@ -122,7 +122,8 @@ export default connectTo(
                   ? [
                       <div key="0">
                         <span className={`${block}__self-time-label`}>Self: </span>
-                        {msZeroDecimalPlaces(selfTime)}<br />({percentageTwoDecimalPlaces(selfTimePercentage)})
+                        {msZeroDecimalPlaces(selfTime)}
+                        <br />({percentageTwoDecimalPlaces(selfTimePercentage)})
                       </div>,
                       <div className={`${block}__horizontal-divider`} key="1" style={backgroundInCategoryColorStyle} />
                     ]
@@ -131,32 +132,37 @@ export default connectTo(
                 <div className={`${block}__descriptions`}>
                   <div className={`${block}__span-description`}>
                     <span className={`${block}__span-type`}>
-                      {batchSize > 1
-                        ? <span><Badge size="sm">{batchSize}</Badge> {getTypeLabelPlural(span)}</span>
-                        : getTypeLabelSingular(span)}
-                    </span>
-                    {' '}
+                      {batchSize > 1 ? (
+                        <span>
+                          <Badge size="sm">{batchSize}</Badge> {getTypeLabelPlural(span)}
+                        </span>
+                      ) : (
+                        getTypeLabelSingular(span)
+                      )}
+                    </span>{' '}
                     {getLabel(span)}
                   </div>
 
                   <div className={`${block}__entity-description`}>
-                    {span.get('kind') === SPAN_KINDS.ENTRY
-                      ? <span>
-                          <ServiceImplementationEntityInformation
-                            span={span}
-                            label="From:"
-                            connectionEndpointType="source"
-                          />
-                          <ServiceImplementationEntityInformation span={span} connectionEndpointType="destination" />
-                        </span>
-                      : <span>
-                          <ServiceImplementationEntityInformation span={span} connectionEndpointType="source" />
-                          <ServiceImplementationEntityInformation
-                            span={span}
-                            label="To:"
-                            connectionEndpointType="destination"
-                          />
-                        </span>}
+                    {span.get('kind') === SPAN_KINDS.ENTRY ? (
+                      <span>
+                        <ServiceImplementationEntityInformation
+                          span={span}
+                          label="From:"
+                          connectionEndpointType="source"
+                        />
+                        <ServiceImplementationEntityInformation span={span} connectionEndpointType="destination" />
+                      </span>
+                    ) : (
+                      <span>
+                        <ServiceImplementationEntityInformation span={span} connectionEndpointType="source" />
+                        <ServiceImplementationEntityInformation
+                          span={span}
+                          label="To:"
+                          connectionEndpointType="destination"
+                        />
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -168,17 +174,17 @@ export default connectTo(
                 />
               </div>
 
-              {this.state.detailsExpanded
-                ? <div
-                    className={`${block}__details`}
-                    style={{
-                      borderColor
-                    }}
-                  >
-                    <SpanServiceInformation span={span} borderColor={borderColor} />
-                    <SpanForgeDetails span={span} trace={this.props.trace} />
-                  </div>
-                : null}
+              {this.state.detailsExpanded ? (
+                <div
+                  className={`${block}__details`}
+                  style={{
+                    borderColor
+                  }}
+                >
+                  <SpanServiceInformation span={span} borderColor={borderColor} />
+                  <SpanForgeDetails span={span} trace={this.props.trace} />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

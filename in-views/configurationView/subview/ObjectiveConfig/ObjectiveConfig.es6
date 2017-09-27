@@ -53,30 +53,29 @@ export default class extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
-          {form
-            ? <ObjectiveForm
-                form={form}
-                onChange={this.onChange}
-                onChangeInThresholds={this.onChangeInThresholds}
-                onAddThreshold={this.onAddThreshold}
-                onRemoveThreshold={this.onRemoveThreshold}
-              />
-            : null}
+          {form ? (
+            <ObjectiveForm
+              form={form}
+              onChange={this.onChange}
+              onChangeInThresholds={this.onChangeInThresholds}
+              onAddThreshold={this.onAddThreshold}
+              onRemoveThreshold={this.onRemoveThreshold}
+            />
+          ) : null}
         </form>
-
       </SubViewWrapper>
     );
   }

@@ -6,18 +6,10 @@ export default function CassandraSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Keyspace">
-          {span.getIn(['data', 'cassandra', 'keyspace'])}
-        </DescriptionItem>
-        <DescriptionItem title="Fetch Size">
-          {span.getIn(['data', 'cassandra', 'fetchSize'])}
-        </DescriptionItem>
-        <DescriptionItem title="Query">
-          {span.getIn(['data', 'cassandra', 'query'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'cassandra', 'error'])}
-        </DescriptionItem>
+        <DescriptionItem title="Keyspace">{span.getIn(['data', 'cassandra', 'keyspace'])}</DescriptionItem>
+        <DescriptionItem title="Fetch Size">{span.getIn(['data', 'cassandra', 'fetchSize'])}</DescriptionItem>
+        <DescriptionItem title="Query">{span.getIn(['data', 'cassandra', 'query'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'cassandra', 'error'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

@@ -29,12 +29,8 @@ export default connectTo(
 
     return (
       <LabeledValue label="ended">
-        <span className="in-event-view-marker__time">
-          {formatDate(timestamp)}
-        </span>
-        <span>
-          {formatTime(timestamp)}
-        </span>
+        <span className="in-event-view-marker__time">{formatDate(timestamp)}</span>
+        <span>{formatTime(timestamp)}</span>
       </LabeledValue>
     );
   }

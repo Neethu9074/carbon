@@ -17,11 +17,11 @@ export default function ButtonSection({ snapshot }) {
 
   return (
     <div className={block}>
-      {role.canConfigureAgentRunMode
-        ? <ImageButton iconType="gear" onClick={() => changeMode(snapshot)}>
-            Change Agent Mode
-          </ImageButton>
-        : null}
+      {role.canConfigureAgentRunMode ? (
+        <ImageButton iconType="gear" onClick={() => changeMode(snapshot)}>
+          Change Agent Mode
+        </ImageButton>
+      ) : null}
 
       <ImageButton iconType="gear" onClick={() => changeLogLevel(snapshot)}>
         Change Log Level

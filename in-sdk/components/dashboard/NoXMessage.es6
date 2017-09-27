@@ -16,7 +16,8 @@ export default function NoXMessage({ children, className, centered }) {
         [className]: className
       })}
     >
-      <SvgIcon type="crossed_circle" width={16} className={`${block}__icon`} />{children}
+      <SvgIcon type="crossed_circle" width={16} className={`${block}__icon`} />
+      {children}
     </div>
   );
 }

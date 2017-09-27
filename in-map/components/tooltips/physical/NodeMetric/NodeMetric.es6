@@ -28,7 +28,10 @@ export default createTooltip(
         return null;
       }
 
-      const metrics = activeMetric.get('metrics', emptyArray).slice().reverse();
+      const metrics = activeMetric
+        .get('metrics', emptyArray)
+        .slice()
+        .reverse();
       const colors = theme.chart.strokeColors.slice(0, metrics.size).reverse();
 
       return (

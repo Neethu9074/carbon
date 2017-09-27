@@ -171,9 +171,10 @@ function findInNode(node, query) {
   }
 
   // if the user presses dot (.) but the previous string hasn't matched anything, return only directly matching results
-  const children = path.length > 1
-    ? node.children.filter(child => child.name === currentPart)
-    : node.children.filter(child => child.name.indexOf(currentPart) >= 0);
+  const children =
+    path.length > 1
+      ? node.children.filter(child => child.name === currentPart)
+      : node.children.filter(child => child.name.indexOf(currentPart) >= 0);
   return children.length === 0 ? null : node;
 }
 

@@ -31,11 +31,11 @@ export function getCommonDescriptionItems(span) {
       {span.getIn(['data', 'page', 'ip'])}
     </DescriptionItem>,
 
-    geo
-      ? <DescriptionItem title="Location" key="location">
-          <GeoLocation geo={geo} />
-        </DescriptionItem>
-      : null,
+    geo ? (
+      <DescriptionItem title="Location" key="location">
+        <GeoLocation geo={geo} />
+      </DescriptionItem>
+    ) : null,
 
     getMetaData(span)
   ];

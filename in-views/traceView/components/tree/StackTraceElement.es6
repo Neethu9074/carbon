@@ -16,9 +16,8 @@ const STRIP_QUOTES_REGEX = /`|'/g;
 
 export default connectTo(
   props => {
-    const side = props.parentSpan.get('kind') === SPAN_KINDS.ENTRY
-      ? 'destinationPhysicalEndpoint'
-      : 'sourcePhysicalEndpoint';
+    const side =
+      props.parentSpan.get('kind') === SPAN_KINDS.ENTRY ? 'destinationPhysicalEndpoint' : 'sourcePhysicalEndpoint';
     const physicalEndpoint = props.parentSpan.getIn(['rels', side]);
     let snapshot$ = alwaysNull;
     if (physicalEndpoint) {
@@ -72,28 +71,29 @@ export default connectTo(
 
       return (
         <div className={classes} onClick={stackTraceLength > 1 ? this.toggle : undefined}>
-
-          {stackTraceLength > 1
-            ? <SvgIcon
-                type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
-                className={`${block}__toggle-details`}
-                width={12}
-              />
-            : null}
+          {stackTraceLength > 1 ? (
+            <SvgIcon
+              type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
+              className={`${block}__toggle-details`}
+              width={12}
+            />
+          ) : null}
 
           <ol className={`${block}__list`}>
-            {stackTrace.map((st, i) =>
+            {stackTrace.map((st, i) => (
               <li key={i} className={`${block}__item`}>
                 <span className={`${block}__method`}> {stripQuotes(st.get('m'))} </span>
                 <span className={`${block}__in`}>in</span>
                 <span className={`${block}__file`}>
-                  {' '}{st.get('c', st.get('f'))}{st.get('n') ? `:${st.get('n')}` : ''}
+                  {' '}
+                  {st.get('c', st.get('f'))}
+                  {st.get('n') ? `:${st.get('n')}` : ''}
                 </span>
-                {this.props.snapshot != null && this.props.online
-                  ? <ShowCodeButton snapshot={this.props.snapshot} file={st.get('f', st.get('c'))} line={st.get('n')} />
-                  : null}
+                {this.props.snapshot != null && this.props.online ? (
+                  <ShowCodeButton snapshot={this.props.snapshot} file={st.get('f', st.get('c'))} line={st.get('n')} />
+                ) : null}
               </li>
-            )}
+            ))}
           </ol>
         </div>
       );

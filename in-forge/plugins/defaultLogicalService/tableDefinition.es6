@@ -17,11 +17,7 @@ export default {
           return getSingular(row.snapshot.get('plugin'));
         },
         getContent(pluginName, row) {
-          return (
-            <ImageAndLabel snapshot={row.snapshot}>
-              {pluginName}
-            </ImageAndLabel>
-          );
+          return <ImageAndLabel snapshot={row.snapshot}>{pluginName}</ImageAndLabel>;
         }
       }
     },

@@ -27,12 +27,14 @@ export default createTooltip(
         return null;
       }
 
-      return mostImportantEvent
-        ? <EventDescription event={mostImportantEvent} showFullTextIfToLong={false} snapshotId={snapshot.get('id')} />
-        : <Content className={`${block}__content`}>
-            {getLabel(snapshot)}
-            <LayerListing layer={layer} />
-          </Content>;
+      return mostImportantEvent ? (
+        <EventDescription event={mostImportantEvent} showFullTextIfToLong={false} snapshotId={snapshot.get('id')} />
+      ) : (
+        <Content className={`${block}__content`}>
+          {getLabel(snapshot)}
+          <LayerListing layer={layer} />
+        </Content>
+      );
     }
   )
 );

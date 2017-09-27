@@ -44,10 +44,7 @@ export default connectTo(
           borderColor
         }}
       >
-
-        <span className={`${block}__heading`}>
-          Services:
-        </span>
+        <span className={`${block}__heading`}>Services:</span>
 
         <Service
           span={span}
@@ -74,9 +71,9 @@ function Service({ span, label, snapshot, addEntryIcon, endpointLabel }) {
 
   return (
     <div>
-      {addEntryIcon
-        ? <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
-        : null}
+      {addEntryIcon ? (
+        <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
+      ) : null}
       <EntityInformation
         snapshotId={snapshot.get('id')}
         time={span.get('start')}

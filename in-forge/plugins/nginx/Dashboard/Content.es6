@@ -27,8 +27,8 @@ export default function NginxDashboard({ snapshot, timeframe }) {
 
         <p>
           The config file could either not be located or could not be accessed. The agent tries to automatically{' '}
-          identify the location of the configuration file. It does so by analyzing the command line of the nginx{' '}
-          master process. Additionally, it also tries common locations for nginx config files such as{' '}
+          identify the location of the configuration file. It does so by analyzing the command line of the nginx master
+          process. Additionally, it also tries common locations for nginx config files such as{' '}
           <code>/etc/nginx/nginx.conf</code>.
         </p>
         <p>
@@ -57,26 +57,19 @@ export default function NginxDashboard({ snapshot, timeframe }) {
         <strong>Status URL not accessible.</strong>
 
         <p>
-          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified. Unfortunately, it was{' '}
-          not possible to access this URL. This is commonly the case due to nginx <code>allow</code> and{' '}
-          <code>deny</code> directives, but can also happen for various other reasons, e.g. port bindings and{' '}
-          iptable configurations.
+          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified. Unfortunately, it was not
+          possible to access this URL. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
+          directives, but can also happen for various other reasons, e.g. port bindings and iptable configurations.
         </p>
       </DashboardNotification>
     );
   } else if (stubStatusUrlFound === false) {
     return (
       <DashboardNotification type="warning">
-        A
-        {' '}
-        <code>stub_status</code>
-        {' '}
-        directive could not found within the nginx configuration. Please add or enable it
-        {' '}
+        A <code>stub_status</code> directive could not found within the nginx configuration. Please add or enable it{' '}
         within the nginx configuration to enable monitoring metrics.
         <br />
         <br />
-
         <Code code={stubStatusSampleConfig} />
       </DashboardNotification>
     );
@@ -85,9 +78,7 @@ export default function NginxDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Requests / s">
           <MetricValue snapshotId={snapshotId} metric="requests" />
         </KpiKeyValue>

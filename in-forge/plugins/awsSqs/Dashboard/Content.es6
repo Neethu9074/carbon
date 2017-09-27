@@ -9,7 +9,6 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-
       <DashboardSection title="Messages">
         <Chart
           snapshotId={snapshotId}
@@ -67,7 +66,6 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-
     </div>
   );
 }

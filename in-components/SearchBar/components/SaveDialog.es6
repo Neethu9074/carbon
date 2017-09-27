@@ -23,11 +23,9 @@ export default connectTo(
     return (
       <Dialog header="Save filter" onClose={close}>
         <form onSubmit={onSubmit}>
-          {form.get('name').map(field =>
+          {form.get('name').map(field => (
             <FormGroup>
-              <Label htmlFor="filter-name">
-                Name
-              </Label>
+              <Label htmlFor="filter-name">Name</Label>
               <Input
                 type="text"
                 id="filter-name"
@@ -36,19 +34,17 @@ export default connectTo(
                 hasError={!field.valid}
                 autoFocus
               />
-              {field.messages.map((message, i) =>
+              {field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
             </FormGroup>
-          )}
+          ))}
 
-          {form.get('definition').map(field =>
+          {form.get('definition').map(field => (
             <FormGroup>
-              <Label htmlFor="filter-definition">
-                Definition
-              </Label>
+              <Label htmlFor="filter-definition">Definition</Label>
               <Input
                 type="text"
                 id="filter-definition"
@@ -56,23 +52,19 @@ export default connectTo(
                 onChange={e => setValue('definition', e.target.value)}
                 hasError={!field.valid}
               />
-              {field.messages.map((message, i) =>
+              {field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
             </FormGroup>
-          )}
+          ))}
 
           <div className={`${block}__actions`}>
             <Button disabled={!form.valid} type="submit">
               Save filter
             </Button>
-            {error
-              ? <div className={`${block}__error`}>
-                  {error}
-                </div>
-              : null}
+            {error ? <div className={`${block}__error`}>{error}</div> : null}
           </div>
         </form>
       </Dialog>

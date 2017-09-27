@@ -47,8 +47,14 @@ export default class extends React.Component {
     matchKeys.forEach(matchKey => {
       const fieldType = this.props.matchSpecificationOptions[matchKey].type;
       if (fieldType === 'kv') {
-        const key = matchSpecificationForm.get(matchKey).get(0).get('key').value;
-        const value = matchSpecificationForm.get(matchKey).get(0).get('value').value;
+        const key = matchSpecificationForm
+          .get(matchKey)
+          .get(0)
+          .get('key').value;
+        const value = matchSpecificationForm
+          .get(matchKey)
+          .get(0)
+          .get('value').value;
 
         const [givenKey, givenValue] = (this.state[matchKey] || '').split(/\:|\=/, 2);
         if (givenKey === key) {
@@ -71,9 +77,8 @@ export default class extends React.Component {
         <Row>
           {matchSpecificationForm.reduce((acc, item, matchKey) => {
             const matchOpts = this.props.matchSpecificationOptions[matchKey];
-            const matchPrefix = matchOpts.type === 'kv'
-              ? `${matchKey}-${item.get(0).get('key').value}-`
-              : `${matchKey}-`;
+            const matchPrefix =
+              matchOpts.type === 'kv' ? `${matchKey}-${item.get(0).get('key').value}-` : `${matchKey}-`;
             acc.push(
               <Col cols={6} key={matchKey}>
                 <FormGroup>
@@ -105,7 +110,6 @@ export default class extends React.Component {
     return (
       <h3>
         Rule Tester
-
         <Button kind="info" size="sm" className="pull-right" onClick={this.props.toggleRuleTesting}>
           Hide Rule Tester
         </Button>

@@ -9,26 +9,14 @@ export default function NodeJsInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">
-        {data.get('name')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Description">
-        {data.get('description')}
-      </DescriptionItem>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
+      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <HealthcheckResultDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Application Arguments">
-        {data.get('args', []).join(' ')}
-      </DescriptionItem>
-      <DescriptionItem title="Runtime Arguments">
-        {data.get('execArgs', []).join(' ')}
-      </DescriptionItem>
+      <DescriptionItem title="Application Arguments">{data.get('args', []).join(' ')}</DescriptionItem>
+      <DescriptionItem title="Runtime Arguments">{data.get('execArgs', []).join(' ')}</DescriptionItem>
     </DescriptionList>
   );
 }

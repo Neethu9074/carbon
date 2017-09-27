@@ -72,7 +72,6 @@ class Header extends React.Component {
 
     return (
       <div onClick={this.props.toggle} className={className} style={this.props.style}>
-
         <span>{this.props.children}</span>
 
         <SvgIcon

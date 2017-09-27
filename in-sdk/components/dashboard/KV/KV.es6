@@ -18,9 +18,7 @@ export default function KV({ k, v, size }) {
         [`${block}--${size}`]: size
       })}
     >
-      <div className={`${block}__key`}>
-        {k}
-      </div>
+      <div className={`${block}__key`}>{k}</div>
       {v}
     </div>
   );

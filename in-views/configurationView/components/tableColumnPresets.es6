@@ -15,11 +15,7 @@ export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
         return getLink(row.key, linkParams).map(href => {
           return {
             value: row.entity.get(propertyName),
-            content: (
-              <Link href={href}>
-                {row.entity.get(propertyName)}
-              </Link>
-            )
+            content: <Link href={href}>{row.entity.get(propertyName)}</Link>
           };
         });
       }

@@ -20,11 +20,9 @@ export default function RoleForm({ form, onChange, disabled }) {
   return (
     <fieldset disabled={disabled}>
       <Section>
-        <SectionHeading>
-          General
-        </SectionHeading>
+        <SectionHeading>General</SectionHeading>
 
-        {form.get('name').map(field =>
+        {form.get('name').map(field => (
           <FormGroup>
             <Label htmlFor="role-name" hasError={!field.valid}>
               Name
@@ -37,16 +35,16 @@ export default function RoleForm({ form, onChange, disabled }) {
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) =>
+            {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>
                 {message.message}
               </ValidationBlock>
-            )}
+            ))}
           </FormGroup>
-        )}
+        ))}
 
         {roleViewFilterEnabled &&
-          form.get('implicitViewFilter').map(field =>
+          form.get('implicitViewFilter').map(field => (
             <FormGroup>
               <Label htmlFor="role-implicit-view-filter" hasError={!field.valid}>
                 View Filter
@@ -60,20 +58,18 @@ export default function RoleForm({ form, onChange, disabled }) {
                   hasError={!field.valid}
                   disabled={disabled}
                 />
-                {field.messages.map((message, i) =>
+                {field.messages.map((message, i) => (
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                )}
+                ))}
               </Helpify>
             </FormGroup>
-          )}
+          ))}
       </Section>
 
       <Section>
-        <SectionHeading>
-          Permissions
-        </SectionHeading>
+        <SectionHeading>Permissions</SectionHeading>
 
         <Permission
           form={form}
@@ -123,15 +119,15 @@ export default function RoleForm({ form, onChange, disabled }) {
           label="Access to license usage"
         />
 
-        {isOnPremise
-          ? <Permission
-              form={form}
-              disabled={disabled}
-              onChange={onChange}
-              name="canSeeOnPremLicenseInformation"
-              label="Access to on prem license usage"
-            />
-          : null}
+        {isOnPremise ? (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canSeeOnPremLicenseInformation"
+            label="Access to on prem license usage"
+          />
+        ) : null}
 
         <Permission
           form={form}
@@ -181,15 +177,15 @@ export default function RoleForm({ form, onChange, disabled }) {
           label="Configuration of agents"
         />
 
-        {objectivesEnabled
-          ? <Permission
-              form={form}
-              disabled={disabled}
-              onChange={onChange}
-              name="canConfigureObjectives"
-              label="Configuration of objectives"
-            />
-          : null}
+        {objectivesEnabled ? (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureObjectives"
+            label="Configuration of objectives"
+          />
+        ) : null}
       </Section>
     </fieldset>
   );
@@ -207,9 +203,7 @@ function Permission({ form, onChange, name, label, disabled }) {
         disabled={disabled}
       />
 
-      <Label htmlFor={`role-${name}`}>
-        {label}
-      </Label>
+      <Label htmlFor={`role-${name}`}>{label}</Label>
     </HorizontalFormGroupWithBackground>
   );
 }

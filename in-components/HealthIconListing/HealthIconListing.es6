@@ -50,11 +50,7 @@ export default connectTo(
     );
 
     if (numberOfOpenIssues > 0) {
-      return (
-        <Tooltip content={<EventListing snapshotId={snapshotId} />}>
-          {counter}
-        </Tooltip>
-      );
+      return <Tooltip content={<EventListing snapshotId={snapshotId} />}>{counter}</Tooltip>;
     }
 
     return counter;

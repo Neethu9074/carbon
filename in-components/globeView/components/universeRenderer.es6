@@ -21,7 +21,9 @@ export default function createUniverseRenderer({ container, canvas }) {
   const backgroundScene = new BackgroundScene();
   const globeScene = new GlobeScene(renderer);
 
-  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
+  const resizeSubscription = on(window, 'resize')
+    .debounce(500)
+    .subscribe(resize);
 
   // initial resize
   resize();

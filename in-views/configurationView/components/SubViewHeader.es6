@@ -9,9 +9,7 @@ const block = 'in-config-view-sub-view-header';
 export default function SubViewHeader({ children }) {
   return (
     <Section>
-      <h1 className={block}>
-        {children}
-      </h1>
+      <h1 className={block}>{children}</h1>
     </Section>
   );
 }

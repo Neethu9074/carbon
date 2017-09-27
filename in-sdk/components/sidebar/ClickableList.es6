@@ -13,11 +13,7 @@ import './ClickableList.less';
 const block = 'in-clickable-list';
 
 export function ClickableSnapshotListItem({ snapshotId, children }) {
-  return (
-    <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>
-      {children}
-    </ClickableListItem>
-  );
+  return <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>{children}</ClickableListItem>;
 }
 
 function ClickableListItem({ onClick, href$, children }) {
@@ -41,11 +37,7 @@ function ClickableListItem({ onClick, href$, children }) {
 }
 
 export function ClickableList({ children }) {
-  return (
-    <ul className={block}>
-      {children}
-    </ul>
-  );
+  return <ul className={block}>{children}</ul>;
 }
 
 function stopPropagation(e) {

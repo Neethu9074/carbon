@@ -25,9 +25,7 @@ export default connectTo(
   function TableViewTable({ data, plugin, selectedSnapshotIds }) {
     if (!supportTableView(plugin)) {
       return (
-        <div className={`${block}__unsupported`}>
-          Sorry, we do not yet support tables for {getPlural(plugin)}.
-        </div>
+        <div className={`${block}__unsupported`}>Sorry, we do not yet support tables for {getPlural(plugin)}.</div>
       );
     }
 

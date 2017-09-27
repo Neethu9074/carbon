@@ -16,12 +16,8 @@ export default function AboutInstanaDialog() {
     <Dialog header="About" onClose={() => setActiveDialog(null)}>
       <div className={block}>
         <Lettering className={`${block}__lettering`} />
-        <span>
-          {build.tag}
-        </span>
-        <span className={`${block}__revision`}>
-          {build.revision}
-        </span>
+        <span>{build.tag}</span>
+        <span className={`${block}__revision`}>{build.revision}</span>
 
         <Button
           className={`${block}__button`}

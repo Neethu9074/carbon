@@ -40,9 +40,8 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
     };
 
     const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
-    const to = highlightedEvent.get('state') === 'open'
-      ? ctx.canvas.width
-      : scale.getRange(highlightedEvent.get('end'));
+    const to =
+      highlightedEvent.get('state') === 'open' ? ctx.canvas.width : scale.getRange(highlightedEvent.get('end'));
 
     ctx.globalAlpha = 0.2;
     ctx.fillStyle = getColorByEvent({ event: highlightedEvent, focusedMoment });

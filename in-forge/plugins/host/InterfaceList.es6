@@ -19,11 +19,11 @@ export default function InterfaceList({ snapshot }) {
         <Collapsible.Content>
           <DescriptionList>
             {ifaces
-              .map((ifaceData, ifaceName) =>
+              .map((ifaceData, ifaceName) => (
                 <DescriptionItem key={ifaceName} title={ifaceName}>
                   {formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
                 </DescriptionItem>
-              )
+              ))
               .toArray()}
           </DescriptionList>
         </Collapsible.Content>
@@ -36,13 +36,5 @@ function formatIPs(ips) {
   if (!ips) return null;
   // sort IPs based on their length, will make v4 come before v6
   const ipsSorted = ips.sort((a, b) => a.length - b.length);
-  return (
-    <span>
-      {ipsSorted.map(ip =>
-        <div key={ip}>
-          {ip}
-        </div>
-      )}
-    </span>
-  );
+  return <span>{ipsSorted.map(ip => <div key={ip}>{ip}</div>)}</span>;
 }

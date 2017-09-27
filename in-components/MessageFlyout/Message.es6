@@ -52,9 +52,5 @@ function Title({ title }) {
 }
 
 function Content({ content }) {
-  return (
-    <div className={`${block}__content`}>
-      {content}
-    </div>
-  );
+  return <div className={`${block}__content`}>{content}</div>;
 }

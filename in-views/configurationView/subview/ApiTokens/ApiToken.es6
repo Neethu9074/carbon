@@ -87,28 +87,25 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Api Token" />
-        <SubViewHeader>
-          {apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}
-        </SubViewHeader>
+        <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
           {form ? <ApiTokenForm form={form} onChange={this.onChange} /> : null}
         </form>
-
       </SubViewWrapper>
     );
   }

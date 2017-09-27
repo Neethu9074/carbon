@@ -25,7 +25,6 @@ export default function TreeNetworkElement({ parent, element, parentSpanForPerce
     <div className={block}>
       Network and Serialization
       {duration != null ? ` (${duration} ms, ${percentageTwoDecimalPlaces(Math.min(1, duration / totalTime))})` : null}
-
       <div className={`${block}__dashed-filler`} />
     </div>
   );

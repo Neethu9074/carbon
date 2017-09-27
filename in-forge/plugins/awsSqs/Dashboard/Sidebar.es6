@@ -10,14 +10,11 @@ export default function AwsSqsSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          SQS Info
-        </Collapsible.Header>
+        <Collapsible.Header>SQS Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
     </div>
   );
 }

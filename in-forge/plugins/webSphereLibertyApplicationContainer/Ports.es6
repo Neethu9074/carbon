@@ -15,17 +15,11 @@ export default function Ports({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Ports
-        </Collapsible.Header>
+        <Collapsible.Header>Ports</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {ports
-              .map((portNumber, portName) =>
-                <DescriptionItem title={portName}>
-                  {portNumber}
-                </DescriptionItem>
-              )
+              .map((portNumber, portName) => <DescriptionItem title={portName}>{portNumber}</DescriptionItem>)
               .valueSeq()}
           </DescriptionList>
         </Collapsible.Content>

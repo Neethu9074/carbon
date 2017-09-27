@@ -13,11 +13,7 @@ export default [
         return getSingular(row.snapshot.get('plugin'));
       },
       getContent(val, row) {
-        return (
-          <ImageAndLabel snapshot={row.snapshot}>
-            {val}
-          </ImageAndLabel>
-        );
+        return <ImageAndLabel snapshot={row.snapshot}>{val}</ImageAndLabel>;
       }
     }
   },

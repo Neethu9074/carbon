@@ -66,11 +66,12 @@ export default connectTo(
               {formatDateTime(event.get('triggeringTime', event.get('start')))}
             </Col>
 
-            {!isOpen && start !== end
-              ? <Col cols={6} className={block + '__end'}>
-                  Ended:<br />{formatDateTime(end)}
-                </Col>
-              : null}
+            {!isOpen && start !== end ? (
+              <Col cols={6} className={block + '__end'}>
+                Ended:<br />
+                {formatDateTime(end)}
+              </Col>
+            ) : null}
           </Row>
 
           <Content snapshotId={snapshotId} event={event} color={color} showFullTextIfToLong={showFullTextIfToLong} />

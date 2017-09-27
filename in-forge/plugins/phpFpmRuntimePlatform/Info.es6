@@ -7,9 +7,7 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Master Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
+      <DescriptionItem title="Master Process ID">{data.get('pid')}</DescriptionItem>
     </DescriptionList>
   );
 }

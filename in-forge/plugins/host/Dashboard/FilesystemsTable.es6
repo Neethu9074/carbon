@@ -152,50 +152,52 @@ export default function FilesystemsTable({ snapshot, timeframe }) {
 function getDetails(row) {
   return (
     <div>
-      {row.windows || !row.filesystem.get('icapacity')
-        ? <Chart
-            snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
-            y1={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
-              formatter: kiloBytesZeroDecimalPlaces,
-              tooltipFormatter: kiloBytesTwoDecimalPlaces,
-              metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
-              labels: ['Free', 'Leaked'],
-              type: 'line'
-            }}
-          />
-        : <Chart
-            snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
-            y1={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
-              formatter: kiloBytesZeroDecimalPlaces,
-              tooltipFormatter: kiloBytesTwoDecimalPlaces,
-              metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
-              labels: ['Free', 'Leaked'],
-              type: 'line'
-            }}
-            y2={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
-              metrics: ['fs.' + row.key + '.ifree'],
-              labels: ['iFree'],
-              type: 'line',
-              formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }}
-          />}
+      {row.windows || !row.filesystem.get('icapacity') ? (
+        <Chart
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
+          margins={{
+            left: 80,
+            right: 80
+          }}
+          y1={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
+            formatter: kiloBytesZeroDecimalPlaces,
+            tooltipFormatter: kiloBytesTwoDecimalPlaces,
+            metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
+            labels: ['Free', 'Leaked'],
+            type: 'line'
+          }}
+        />
+      ) : (
+        <Chart
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
+          margins={{
+            left: 80,
+            right: 80
+          }}
+          y1={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
+            formatter: kiloBytesZeroDecimalPlaces,
+            tooltipFormatter: kiloBytesTwoDecimalPlaces,
+            metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
+            labels: ['Free', 'Leaked'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
+            metrics: ['fs.' + row.key + '.ifree'],
+            labels: ['iFree'],
+            type: 'line',
+            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+            tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
+          }}
+        />
+      )}
 
       <Chart
         snapshotId={row.snapshotId}

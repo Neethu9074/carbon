@@ -12,9 +12,7 @@ export default function PostgreSqlSidebar({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          PostgreSql
-        </Collapsible.Header>
+        <Collapsible.Header>PostgreSql</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

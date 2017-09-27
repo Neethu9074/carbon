@@ -205,31 +205,27 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Custom Issues" />
-        <SubViewHeader>
-          Custom issues
-        </SubViewHeader>
+        <SubViewHeader>Custom issues</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRuleBinding}>
             Add Custom Issue
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
-        {rulesAvailable
-          ? <Section>
-              <SectionHeading>
-                Custom Issues
-              </SectionHeading>
+        {rulesAvailable ? (
+          <Section>
+            <SectionHeading>Custom Issues</SectionHeading>
 
-              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-            </Section>
-          : null}
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+          </Section>
+        ) : null}
       </SubViewWrapper>
     );
   }
@@ -249,12 +245,8 @@ const Details = connectTo(
     return (
       <div className={`${block}__details-wrapper`}>
         <DescriptionList>
-          <DescriptionItem title="Text">
-            {ruleBinding.get('text')}
-          </DescriptionItem>
-          <DescriptionItem title="Description">
-            {ruleBinding.get('description')}
-          </DescriptionItem>
+          <DescriptionItem title="Text">{ruleBinding.get('text')}</DescriptionItem>
+          <DescriptionItem title="Description">{ruleBinding.get('description')}</DescriptionItem>
           <DescriptionItem title="Expiration time">
             {formatDurationAccurately(ruleBinding.get('expirationTime'), 1000)}
           </DescriptionItem>
@@ -267,13 +259,9 @@ const Details = connectTo(
           <DescriptionItem title="Bound rule">
             {rule ? rule.get('name') : ruleBinding.getIn(['ruleIds', 0], '')}
           </DescriptionItem>
-          <DescriptionItem title="Applied on filter query">
-            {ruleBinding.get('query', '')}
-          </DescriptionItem>
+          <DescriptionItem title="Applied on filter query">{ruleBinding.get('query', '')}</DescriptionItem>
 
-          <DescriptionItem title="Last update">
-            {formatDateTime(ruleBinding.get('lastUpdated'))}
-          </DescriptionItem>
+          <DescriptionItem title="Last update">{formatDateTime(ruleBinding.get('lastUpdated'))}</DescriptionItem>
         </DescriptionList>
       </div>
     );

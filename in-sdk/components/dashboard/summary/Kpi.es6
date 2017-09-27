@@ -30,25 +30,21 @@ export default function Kpi({
 
   return (
     <div className={block}>
-      <span className={`${block}__label`}>
-        {label}
-      </span>
+      <span className={`${block}__label`}>{label}</span>
       <div className={`${block}__value-wrapper ${wrapperClass}`}>
-        <div className={`${block}__value`}>
-          {children}
-        </div>
+        <div className={`${block}__value`}>{children}</div>
 
-        {!children
-          ? <MetricValue
-              snapshotId={snapshotId}
-              metric={metric}
-              timeframe={timeframe}
-              timeWindowAggregation={timeWindowAggregation}
-              formatter={formatter}
-              className={`${block}__value`}
-              initialValue="––"
-            />
-          : null}
+        {!children ? (
+          <MetricValue
+            snapshotId={snapshotId}
+            metric={metric}
+            timeframe={timeframe}
+            timeWindowAggregation={timeWindowAggregation}
+            formatter={formatter}
+            className={`${block}__value`}
+            initialValue="––"
+          />
+        ) : null}
         {!children && renderedPercentages}
       </div>
     </div>
@@ -68,7 +64,13 @@ const DualPercentage = connectTo(
   },
   function DualPercentage({ aValue, percentages }) {
     return (
-      <DualValueBar aValue={aValue} bValue={1 - aValue} formatter={percentages[0].formatter} aLabel={percentages[0].label} bLabel={percentages[1].label} />
+      <DualValueBar
+        aValue={aValue}
+        bValue={1 - aValue}
+        formatter={percentages[0].formatter}
+        aLabel={percentages[0].label}
+        bLabel={percentages[1].label}
+      />
     );
   }
 );

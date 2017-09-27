@@ -44,7 +44,6 @@ export default connectTo(
           }}
           onClick={() => onEventClick(event)}
         >
-
           <div className={`${block}__change`} />
         </div>
       );
@@ -53,10 +52,11 @@ export default connectTo(
     const iconSize = 10;
     const barOffset = iconSize + 2;
     const end = event.get('end');
-    const right = end || isOpen
-      ? scale.getRange(end)
-      : // add 2 because we want to cut off the border of the events div
-        scale.getRangeTo() + 2;
+    const right =
+      end || isOpen
+        ? scale.getRange(end)
+        : // add 2 because we want to cut off the border of the events div
+          scale.getRangeTo() + 2;
 
     const barWidth = right - left;
 
@@ -71,7 +71,6 @@ export default connectTo(
         }}
         onClick={() => onEventClick(event)}
       >
-
         <div className={`${block}__icon`}>
           <EventIcon event={event} useAlternativeChangeIcon={false} size={iconSize} />
         </div>

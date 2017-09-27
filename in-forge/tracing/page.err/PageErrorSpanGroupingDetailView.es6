@@ -14,11 +14,7 @@ export default function PageErrorSpanGroupingDetailView({ span }) {
         </Link>
       </DescriptionItem>
 
-      {error
-        ? <DescriptionItem title="Error Message">
-            {error.get('message')}
-          </DescriptionItem>
-        : null}
+      {error ? <DescriptionItem title="Error Message">{error.get('message')}</DescriptionItem> : null}
     </DescriptionList>
   );
 }

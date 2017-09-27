@@ -8,19 +8,11 @@ export default function MemcachedInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {data.get('port')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Limit maxbytes">
-        {data.get('limit_maxbytes')}
-      </DescriptionItem>
-      <DescriptionItem title="Max connections">
-        {data.get('max_connections')}
-      </DescriptionItem>
+      <DescriptionItem title="Limit maxbytes">{data.get('limit_maxbytes')}</DescriptionItem>
+      <DescriptionItem title="Max connections">{data.get('max_connections')}</DescriptionItem>
     </DescriptionList>
   );
 }

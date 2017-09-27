@@ -72,14 +72,17 @@ const cols = [
 
 export default function IndicesTable({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'index.names'], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      name,
-      timeframe,
-      snapshotId
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'index.names'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        name,
+        timeframe,
+        snapshotId
+      };
+    });
 
   if (rows.length === 0) {
     return null;

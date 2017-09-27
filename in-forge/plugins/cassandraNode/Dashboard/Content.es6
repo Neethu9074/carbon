@@ -21,9 +21,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Read Requests">
           <MetricValue snapshotId={snapshotId} metric="clientrequests.read.count" />
         </KpiKeyValue>
@@ -71,7 +69,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {['read', 'write'].map(op =>
+      {['read', 'write'].map(op => (
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'} key={op}>
           <Chart
             snapshotId={snapshotId}
@@ -93,9 +91,9 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      )}
+      ))}
 
-      {['pending', 'blocked'].map(stage =>
+      {['pending', 'blocked'].map(stage => (
         <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'} key={stage}>
           <Chart
             snapshotId={snapshotId}
@@ -126,7 +124,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      )}
+      ))}
 
       <DashboardSection title="Dropped Messages">
         <Chart

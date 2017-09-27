@@ -10,25 +10,17 @@ export default function PdoSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Driver">
-          {span.getIn(['data', 'pdo', 'driver'])}
-        </DescriptionItem>
-        <DescriptionItem title="DSN">
-          {span.getIn(['data', 'pdo', 'dsn'])}
-        </DescriptionItem>
+        <DescriptionItem title="Driver">{span.getIn(['data', 'pdo', 'driver'])}</DescriptionItem>
+        <DescriptionItem title="DSN">{span.getIn(['data', 'pdo', 'dsn'])}</DescriptionItem>
 
-        {statement
-          ? <DescriptionItem title="Query">
-              <Code code={formatSql(statement)} lang="sql" />
-            </DescriptionItem>
-          : null}
+        {statement ? (
+          <DescriptionItem title="Query">
+            <Code code={formatSql(statement)} lang="sql" />
+          </DescriptionItem>
+        ) : null}
 
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'pdo', 'error'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error Code">
-          {span.getIn(['data', 'pdo', 'error_code'])}
-        </DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'pdo', 'error'])}</DescriptionItem>
+        <DescriptionItem title="Error Code">{span.getIn(['data', 'pdo', 'error_code'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

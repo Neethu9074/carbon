@@ -10,9 +10,7 @@ const block = 'in-helpify-wrapper';
 export default function Helpify({ children, helpText }) {
   return (
     <div className={block}>
-      <div className={`${block}__content`}>
-        {children}
-      </div>
+      <div className={`${block}__content`}>{children}</div>
       <div className={`${block}__help-icon`}>
         <Tooltip content={helpText} align="leftMiddle">
           <SvgIcon type="info" width={16} height={16} color="#2D4048" style={{ marginTop: '.25rem' }} />

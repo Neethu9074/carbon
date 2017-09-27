@@ -15,9 +15,7 @@ export default function PercentageCell({ value, content }) {
   return (
     <div className={block}>
       <div className={levelElement} style={{ width }} />
-      <span className={valueElement}>
-        {content}
-      </span>
+      <span className={valueElement}>{content}</span>
     </div>
   );
 }

@@ -24,12 +24,8 @@ function Kpi({ metricName, children, classNameAppendix }) {
   const kpi = `${block}__kpi ${block}__kpi`;
   return (
     <div className={`${block}__kpi-block`}>
-      <span className={`${block}__metric-name ${block}__metric-name${classNameAppendix}`}>
-        {metricName}
-      </span>
-      <span className={`${kpi}${classNameAppendix}`}>
-        {children}
-      </span>
+      <span className={`${block}__metric-name ${block}__metric-name${classNameAppendix}`}>{metricName}</span>
+      <span className={`${kpi}${classNameAppendix}`}>{children}</span>
     </div>
   );
 }

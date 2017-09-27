@@ -92,29 +92,23 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Role Config" />
-        <SubViewHeader>
-          {role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}
-        </SubViewHeader>
+        <SubViewHeader>{role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form && !disabled
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form && !disabled ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
 
-            {form && disabled
-              ? <p>
-                  This role cannot be modified as it is a predefined system role.
-                </p>
-              : null}
+            {form && disabled ? <p>This role cannot be modified as it is a predefined system role.</p> : null}
           </Section>
 
           {form ? <RoleForm form={form} onChange={this.onChange} disabled={disabled} /> : null}

@@ -20,13 +20,9 @@ export default function SidebarHeader({ snapshot }) {
       <div className={`${block}__entity`}>
         <PluginIcon className={`${block}__entity-icon`} dimension={25} color="#000" snapshot={snapshot} />
         <div className={`${block}__entity-description`}>
-          <h1 className={`${block}__entity-label`}>
-            {getLabel(snapshot)}
-          </h1>
+          <h1 className={`${block}__entity-label`}>{getLabel(snapshot)}</h1>
           <div className={`${block}__type-id-wrapper`}>
-            <span className={`${block}__entity-type`}>
-              {entityType}
-            </span>
+            <span className={`${block}__entity-type`}>{entityType}</span>
 
             {getShowZoneInSidebarHeader(plugin) ? <ZoneTag snapshotId={snapshot.get('id')} /> : null}
           </div>

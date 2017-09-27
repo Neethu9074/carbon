@@ -110,13 +110,16 @@ const cols = [
 
 export default function CoresTable({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'core_names'], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      timeframe,
-      snapshotId
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'core_names'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        timeframe,
+        snapshotId
+      };
+    });
 
   if (rows.length === 0) {
     return null;

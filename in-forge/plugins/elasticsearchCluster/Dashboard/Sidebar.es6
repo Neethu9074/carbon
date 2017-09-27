@@ -27,15 +27,9 @@ export default function ElasticsearchClusterSidebar({ snapshot }) {
         <Collapsible.Header>Nodes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Nodes">
-              {data.get('nodeCount')}
-            </DescriptionItem>
-            <DescriptionItem title="Data Nodes">
-              {data.get('dataNodeCount')}
-            </DescriptionItem>
-            <DescriptionItem title="Master Nodes">
-              {data.get('masterNodeCount')}
-            </DescriptionItem>
+            <DescriptionItem title="Nodes">{data.get('nodeCount')}</DescriptionItem>
+            <DescriptionItem title="Data Nodes">{data.get('dataNodeCount')}</DescriptionItem>
+            <DescriptionItem title="Master Nodes">{data.get('masterNodeCount')}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

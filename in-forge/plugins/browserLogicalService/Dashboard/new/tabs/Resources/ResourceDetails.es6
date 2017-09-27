@@ -62,8 +62,8 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
   } else if (connection === notFoundIndicator || connectedSnapshot === notFoundIndicator) {
     return (
       <Notification type="warning">
-        <strong>Failed to retrieve resource details.</strong> Please refresh the page or contact customer{' '}
-        support should this issue persist.
+        <strong>Failed to retrieve resource details.</strong> Please refresh the page or contact customer support should
+        this issue persist.
       </Notification>
     );
   }
@@ -76,9 +76,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
 
       <DashboardTile>
         <DescriptionList>
-          <DescriptionItem title="Resource Host">
-            {label}
-          </DescriptionItem>
+          <DescriptionItem title="Resource Host">{label}</DescriptionItem>
         </DescriptionList>
       </DashboardTile>
 

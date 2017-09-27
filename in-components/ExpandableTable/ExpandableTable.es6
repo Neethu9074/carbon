@@ -33,9 +33,7 @@ export default class extends React.Component {
       <table className={classes}>
         {this.props.createHeader(this.props.context)}
 
-        <tbody>
-          {this.flatMapRows(this.createRow)}
-        </tbody>
+        <tbody>{this.flatMapRows(this.createRow)}</tbody>
       </table>
     );
   }

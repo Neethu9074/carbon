@@ -11,15 +11,9 @@ export default function JBossAsInfo({ snapshot }) {
       <DescriptionItem title="Version">
         {`${serverInfo.get('releaseVersion', '')} ${serverInfo.get('productName', '')}`}
       </DescriptionItem>
-      <DescriptionItem title="Server">
-        {serverInfo.get('serverName')}
-      </DescriptionItem>
-      <DescriptionItem title="Node">
-        {serverInfo.get('nodeName')}
-      </DescriptionItem>
-      <DescriptionItem title="Home">
-        {serverInfo.get('homeDir')}
-      </DescriptionItem>
+      <DescriptionItem title="Server">{serverInfo.get('serverName')}</DescriptionItem>
+      <DescriptionItem title="Node">{serverInfo.get('nodeName')}</DescriptionItem>
+      <DescriptionItem title="Home">{serverInfo.get('homeDir')}</DescriptionItem>
     </DescriptionList>
   );
 }

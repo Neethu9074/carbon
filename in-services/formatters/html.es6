@@ -16,7 +16,10 @@ let cachedAnsiConverter;
  * user, e.g. Apache HTTPD configs. AND REMEMBER TO SANITIZE AFTERWARDS!
  */
 export function replaceHtmlChars(s) {
-  return s.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+  return s
+    .replace(/\&/g, '&amp;')
+    .replace(/\</g, '&lt;')
+    .replace(/\>/g, '&gt;');
 }
 
 export function sanitize(html) {

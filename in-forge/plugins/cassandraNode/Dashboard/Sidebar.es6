@@ -18,9 +18,7 @@ export default function CassandraSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Info
-        </Collapsible.Header>
+        <Collapsible.Header>Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,9 +27,7 @@ export default function CassandraSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Topology
-        </Collapsible.Header>
+        <Collapsible.Header>Topology</Collapsible.Header>
         <Collapsible.Content>
           <CassandraTopologyInfo snapshotId={snapshot.get('id')} snapshot={snapshot} />
         </Collapsible.Content>
@@ -40,29 +36,28 @@ export default function CassandraSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Communication
-        </Collapsible.Header>
+        <Collapsible.Header>Communication</Collapsible.Header>
         <Collapsible.Content>
           <CassandraCommunicationInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {tokens && tokens.size > 0
-        ? <div>
-            <Separator />
-            <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>
-                Tokens ({tokens.size})
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <List>
-                  {tokens.toArray().sort().map((token, i) => <List.Item key={i}>{token}</List.Item>)}
-                </List>
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+      {tokens && tokens.size > 0 ? (
+        <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Tokens ({tokens.size})</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {tokens
+                  .toArray()
+                  .sort()
+                  .map((token, i) => <List.Item key={i}>{token}</List.Item>)}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

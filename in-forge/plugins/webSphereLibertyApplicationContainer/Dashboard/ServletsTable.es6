@@ -61,14 +61,20 @@ const cols = [
 
 export default function ServletsTable({ snapshot, timeframe }) {
   const servlets = [];
-  snapshot.getIn(['data', 'applications'], emptyMap).sort().forEach((appData, appName) => {
-    appData.get('servlets', emptyList).sort().forEach(servletName => {
-      servlets.push({
-        appName: appName,
-        servletName: servletName
-      });
+  snapshot
+    .getIn(['data', 'applications'], emptyMap)
+    .sort()
+    .forEach((appData, appName) => {
+      appData
+        .get('servlets', emptyList)
+        .sort()
+        .forEach(servletName => {
+          servlets.push({
+            appName: appName,
+            servletName: servletName
+          });
+        });
     });
-  });
   if (servlets.length === 0) {
     return null;
   }

@@ -88,15 +88,18 @@ export default function DatasourcesTable({ snapshot, timeframe }) {
     return null;
   }
 
-  const rows = datasources.keySeq().toArray().map(key => {
-    const datasource = datasources.get(key);
-    return {
-      key,
-      timeframe,
-      snapshotId: snapshot.get('id'),
-      datasource
-    };
-  });
+  const rows = datasources
+    .keySeq()
+    .toArray()
+    .map(key => {
+      const datasource = datasources.get(key);
+      return {
+        key,
+        timeframe,
+        snapshotId: snapshot.get('id'),
+        datasource
+      };
+    });
 
   return (
     <DashboardSection title={`Datasource Connection Pools (${rows.length})`}>

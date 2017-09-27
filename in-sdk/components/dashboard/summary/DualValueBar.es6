@@ -9,7 +9,7 @@ export default function DualValueBar({ aValue, bValue, aLabel, bLabel, formatter
     return null;
   }
   const fullDomain = aValue + bValue;
-  const aBarWidth = aValue == null ? '0%' : `${((aValue / fullDomain) * 100) | 0}%`;
+  const aBarWidth = aValue == null ? '0%' : `${(aValue / fullDomain * 100) | 0}%`;
 
   return (
     <div className={block}>

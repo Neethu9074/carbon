@@ -20,27 +20,23 @@ export default function DockerSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Docker Container
-        </Collapsible.Header>
+        <Collapsible.Header>Docker Container</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {ports && ports.size > 0
-        ? <div>
-            <Separator />
-            <Collapsible>
-              <Collapsible.Header>
-                Ports
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <Ports snapshot={snapshot} />
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+      {ports && ports.size > 0 ? (
+        <div>
+          <Separator />
+          <Collapsible>
+            <Collapsible.Header>Ports</Collapsible.Header>
+            <Collapsible.Content>
+              <Ports snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <KeyValuePopup header="Container Labels" data={labels} />
 

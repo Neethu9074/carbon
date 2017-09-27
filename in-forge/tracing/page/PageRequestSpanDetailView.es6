@@ -32,11 +32,11 @@ export default connectTo(
 
           {getCommonDescriptionItems(span)}
 
-          {timing
-            ? <DescriptionItem title="Navigation Timing">
-                <NavigationTiming {...timing.toJS()} />
-              </DescriptionItem>
-            : null}
+          {timing ? (
+            <DescriptionItem title="Navigation Timing">
+              <NavigationTiming {...timing.toJS()} />
+            </DescriptionItem>
+          ) : null}
         </DescriptionList>
       </div>
     );

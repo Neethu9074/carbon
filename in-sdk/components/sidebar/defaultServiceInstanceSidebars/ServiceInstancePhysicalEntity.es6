@@ -32,15 +32,11 @@ export default connectTo(
         <Separator />
 
         <Collapsible initiallyOpen>
-          <Collapsible.Header>
-            Component
-          </Collapsible.Header>
+          <Collapsible.Header>Component</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               <DescriptionItem title={pluginLabel}>
-                <SnapshotLink snapshotId={snapshot.get('id')}>
-                  {getLabel(snapshot)}
-                </SnapshotLink>
+                <SnapshotLink snapshotId={snapshot.get('id')}>{getLabel(snapshot)}</SnapshotLink>
               </DescriptionItem>
             </DescriptionList>
             <SnapshotForgeInfo snapshot={snapshot} />

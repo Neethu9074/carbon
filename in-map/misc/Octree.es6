@@ -853,12 +853,12 @@ export const OCTREE = {};
           indexPotentialBitwise1 = infoPotential1.index | 1;
           indexPotentialBitwise2 = infoPotential2.index | 1;
 
-          infoIndexOutside3 = indexPotentialBitwise1 !== indexOutsideBitwise1 &&
-            indexPotentialBitwise1 !== indexOutsideBitwise2
-            ? infoPotential1
-            : indexPotentialBitwise2 !== indexOutsideBitwise1 && indexPotentialBitwise2 !== indexOutsideBitwise2
-              ? infoPotential2
-              : infoPotential3;
+          infoIndexOutside3 =
+            indexPotentialBitwise1 !== indexOutsideBitwise1 && indexPotentialBitwise1 !== indexOutsideBitwise2
+              ? infoPotential1
+              : indexPotentialBitwise2 !== indexOutsideBitwise1 && indexPotentialBitwise2 !== indexOutsideBitwise2
+                ? infoPotential2
+                : infoPotential3;
 
           // get this octant normal based on outside octant indices
           octantX = infoIndexOutside1.x + infoIndexOutside2.x + infoIndexOutside3.x;
@@ -874,9 +874,8 @@ export const OCTREE = {};
           radius = this.radius;
 
           // radius of parent comes from reversing overlap of this, unless overlap percent is 0
-          radiusParent = this.tree.overlapPct > 0
-            ? overlap / (0.5 * this.tree.overlapPct * (1 + this.tree.overlapPct))
-            : radius * 2;
+          radiusParent =
+            this.tree.overlapPct > 0 ? overlap / (0.5 * this.tree.overlapPct * (1 + this.tree.overlapPct)) : radius * 2;
           overlapParent = radiusParent * this.tree.overlapPct;
 
           // parent offset is difference between radius + overlap of parent and child

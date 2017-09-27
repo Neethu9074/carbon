@@ -16,18 +16,16 @@ export default function WebApps({ snapshot }) {
     <div>
       <Separator />
 
-      {webApps.map((info, webAppName) =>
+      {webApps.map((info, webAppName) => (
         <Collapsible initiallyOpen={false} key={webAppName}>
-          <Collapsible.Header>
-            App [{webAppName}]
-          </Collapsible.Header>
+          <Collapsible.Header>App [{webAppName}]</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
-      )}
+      ))}
     </div>
   );
 }

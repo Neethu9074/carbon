@@ -31,10 +31,13 @@ export function setSelectedType(type) {
   setKeyword('entity.selfType', type);
 }
 
-export const plugin$ = selectedType$.map(translateTypeToPlugin).distinct().tap(() => {
-  clearMetrics();
-  clearSelectedSnapshots();
-});
+export const plugin$ = selectedType$
+  .map(translateTypeToPlugin)
+  .distinct()
+  .tap(() => {
+    clearMetrics();
+    clearSelectedSnapshots();
+  });
 
 function translateTypeToPlugin(type) {
   const pluginId = entityTypeToFullyQualifiedPlugin[type];

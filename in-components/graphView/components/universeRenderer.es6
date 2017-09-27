@@ -22,7 +22,9 @@ export default function createUniverseRenderer({ container, canvas }) {
   const graphScene = new GraphScene(renderer);
   const graph = new Graph();
 
-  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
+  const resizeSubscription = on(window, 'resize')
+    .debounce(500)
+    .subscribe(resize);
 
   // initial resize
   resize();

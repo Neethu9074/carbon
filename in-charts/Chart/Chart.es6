@@ -173,7 +173,11 @@ export default function createChart(config) {
   }
 
   function addWindowResizeSupport() {
-    config.subscriptions.push(on(window, 'resize').debounce(500).subscribe(onResize));
+    config.subscriptions.push(
+      on(window, 'resize')
+        .debounce(500)
+        .subscribe(onResize)
+    );
   }
 
   function onResize() {

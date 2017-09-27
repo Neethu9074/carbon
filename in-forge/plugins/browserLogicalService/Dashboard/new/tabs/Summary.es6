@@ -29,9 +29,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>
-        {pageName ? pageName : getLabel(snapshot)}
-      </SnapshotLabel>
+      <SnapshotLabel actions={[viewTracesButton]}>{pageName ? pageName : getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <Kpi

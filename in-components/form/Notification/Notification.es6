@@ -20,15 +20,15 @@ export default function Notification({ children, success, failure, loading }) {
 
   return (
     <span className={className}>
-      {loading
-        ? <LoadingIndicator
-            type="dark"
-            inline
-            style={{
-              height: '17px'
-            }}
-          />
-        : null}
+      {loading ? (
+        <LoadingIndicator
+          type="dark"
+          inline
+          style={{
+            height: '17px'
+          }}
+        />
+      ) : null}
 
       {children}
     </span>

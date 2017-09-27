@@ -23,9 +23,7 @@ export default connectTo(
       } else {
         components.push(
           <Collapsible key={key} initiallyOpen>
-            <Collapsible.Header>
-              {key}
-            </Collapsible.Header>
+            <Collapsible.Header>{key}</Collapsible.Header>
             <Collapsible.Content>
               <StatisticsList _statistics={statistic} />
             </Collapsible.Content>
@@ -34,23 +32,15 @@ export default connectTo(
       }
     });
 
-    return (
-      <div className={block}>
-        {components}
-      </div>
-    );
+    return <div className={block}>{components}</div>;
   }
 );
 
 function KeyValue({ name, value }) {
   return (
     <div className={block + '__key-value'}>
-      <span>
-        {name}
-      </span>
-      <span>
-        {value}
-      </span>
+      <span>{name}</span>
+      <span>{value}</span>
     </div>
   );
 }

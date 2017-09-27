@@ -49,13 +49,8 @@ export default class extends React.Component {
 
     return (
       <Dialog header={header} onClose={this.props.onClose}>
-
         <div className={`${block}__margin-remover`}>
-          {parseError
-            ? <p className={`${block}__parse-error`}>
-                {parseError}
-              </p>
-            : null}
+          {parseError ? <p className={`${block}__parse-error`}>{parseError}</p> : null}
 
           <Editor
             value={this.getValue()}

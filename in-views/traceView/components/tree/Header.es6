@@ -42,9 +42,7 @@ export default function TraceHeader({ trace }) {
         </Tooltip>
       </div>
       <div className={`${block}__description`}>
-        <h1 className={`${block}__title`}>
-          {getLabel(trace)}
-        </h1>
+        <h1 className={`${block}__title`}>{getLabel(trace)}</h1>
 
         <div className={`${block}__entity`}>
           <ServiceImplementationEntityInformation span={trace} connectionEndpointType="destination" />
@@ -55,9 +53,7 @@ export default function TraceHeader({ trace }) {
         </div>
 
         <div className={`${block}__stats`}>
-          <LabeledValue label="Total">
-            {msZeroDecimalPlaces(trace.get('duration'))}
-          </LabeledValue>
+          <LabeledValue label="Total">{msZeroDecimalPlaces(trace.get('duration'))}</LabeledValue>
 
           <LabeledValue
             label="Errors"
@@ -69,15 +65,11 @@ export default function TraceHeader({ trace }) {
           </LabeledValue>
 
           <Tooltip content="Calls to services">
-            <LabeledValue label="Calls">
-              {calls}
-            </LabeledValue>
+            <LabeledValue label="Calls">{calls}</LabeledValue>
           </Tooltip>
 
           <Tooltip content="Maximum service call nesting">
-            <LabeledValue label="Depth">
-              {depth}
-            </LabeledValue>
+            <LabeledValue label="Depth">{depth}</LabeledValue>
           </Tooltip>
 
           <ul className={`${block}__category-list`}>
@@ -95,12 +87,9 @@ export default function TraceHeader({ trace }) {
                 <Tooltip content={tooltip} key={category}>
                   <li className={`${block}__category`}>
                     <CategoryIcon category={category} />
-                    <span className={`${block}__category-call-count`}>
-                      {perCategorySummary[category].calls}
-                    </span>
+                    <span className={`${block}__category-call-count`}>{perCategorySummary[category].calls}</span>
                     <span className={`${block}__category-self-time`}>
                       &nbsp;
-
                       {isShowSelfTimeForCategory(category)
                         ? '(' + msZeroDecimalPlaces(perCategorySummary[category].durationSelf) + ')'
                         : null}

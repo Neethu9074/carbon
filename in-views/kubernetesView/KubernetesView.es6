@@ -40,7 +40,7 @@ export default connectTo(
 
         <Route
           path="/kubernetes"
-          render={() =>
+          render={() => (
             <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
               <Title title="Kubernetes Clusters" />
               <div className={block}>
@@ -51,7 +51,8 @@ export default connectTo(
                 </div>
                 <KubernetesClusterTable snapshots={snapshots} />
               </div>
-            </FullscreenOverlayView>}
+            </FullscreenOverlayView>
+          )}
         />
       </Switch>
     );

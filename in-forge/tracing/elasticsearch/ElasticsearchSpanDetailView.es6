@@ -8,27 +8,17 @@ export default function ElasticsearchSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Action">
-          {span.getIn(['data', 'elasticsearch', 'action'])}
-        </DescriptionItem>
-        <DescriptionItem title="Index">
-          {span.getIn(['data', 'elasticsearch', 'index'])}
-        </DescriptionItem>
-        <DescriptionItem title="Type">
-          {span.getIn(['data', 'elasticsearch', 'type'])}
-        </DescriptionItem>
-        <DescriptionItem title="Hits">
-          {span.getIn(['data', 'elasticsearch', 'hits'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'elasticsearch', 'error'])}
-        </DescriptionItem>
+        <DescriptionItem title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</DescriptionItem>
+        <DescriptionItem title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</DescriptionItem>
+        <DescriptionItem title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</DescriptionItem>
+        <DescriptionItem title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'elasticsearch', 'error'])}</DescriptionItem>
 
-        {query
-          ? <DescriptionItem title="Query">
-              <Code code={prettyPrintQuery(query)} lang="json" />
-            </DescriptionItem>
-          : null}
+        {query ? (
+          <DescriptionItem title="Query">
+            <Code code={prettyPrintQuery(query)} lang="json" />
+          </DescriptionItem>
+        ) : null}
       </DescriptionList>
     </div>
   );

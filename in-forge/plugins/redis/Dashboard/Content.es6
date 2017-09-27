@@ -58,11 +58,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
   const latencyThreshold = snapshot.getIn(['data', 'latency_monitor_threshold']);
@@ -74,9 +70,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Throughput">
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
@@ -91,24 +85,24 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
 
-      {latencyThreshold > 0
-        ? <DashboardSection title="Latency">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                min: latencyThreshold,
-                metrics: ['latency_max'],
-                labels: ['Latency'],
-                formatter: latencyFormatter.bind(latencyThreshold),
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {latencyThreshold > 0 ? (
+        <DashboardSection title="Latency">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: latencyThreshold,
+              metrics: ['latency_max'],
+              labels: ['Latency'],
+              formatter: latencyFormatter.bind(latencyThreshold),
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <DashboardSection title="Throughput">
         <Chart
@@ -165,22 +159,22 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {dbNames && dbNames.length > 0
-        ? <DashboardSection title="Database">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: dbKeysMetrics(dbNames),
-                labels: dbKeysLabels(dbNames),
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {dbNames && dbNames.length > 0 ? (
+        <DashboardSection title="Database">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              metrics: dbKeysMetrics(dbNames),
+              labels: dbKeysLabels(dbNames),
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
@@ -213,28 +207,28 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {channelNames && channelNames.length > 0
-        ? <DashboardSection title="Pub/Sub">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80,
-                right: 80
-              }}
-              y1={{
-                metrics: pubSubMetrics(channelNames),
-                labels: channelNames,
-                type: 'line'
-              }}
-              y2={{
-                metrics: ['pubsub_subscribed_patterns'],
-                labels: ['Subscribed patterns'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {channelNames && channelNames.length > 0 ? (
+        <DashboardSection title="Pub/Sub">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 80
+            }}
+            y1={{
+              metrics: pubSubMetrics(channelNames),
+              labels: channelNames,
+              type: 'line'
+            }}
+            y2={{
+              metrics: ['pubsub_subscribed_patterns'],
+              labels: ['Subscribed patterns'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DashboardSection title="Persistence">
         <Chart
           snapshotId={snapshotId}
@@ -254,28 +248,27 @@ export default function RedisDashboard({ snapshot, timeframe }) {
 
       {timeframe.to == null ? <SlowLogsTable snapshotId={snapshotId} /> : null}
 
-      {role === 'slave'
-        ? <DashboardSection title="Bytes left before syncing is complete">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                min: 0,
-                formatter: kiloBytesZeroDecimalPlaces,
-                tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                metrics: ['master_sync_left_bytes'],
-                labels: ['Bytes left before syncing is complete'],
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {role === 'slave' ? (
+        <DashboardSection title="Bytes left before syncing is complete">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: 0,
+              formatter: kiloBytesZeroDecimalPlaces,
+              tooltipFormatter: kiloBytesTwoDecimalPlaces,
+              metrics: ['master_sync_left_bytes'],
+              labels: ['Bytes left before syncing is complete'],
+              type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <CustomMonitorsTable snapshot={snapshot} timeframe={timeframe} />
-
     </div>
   );
 }

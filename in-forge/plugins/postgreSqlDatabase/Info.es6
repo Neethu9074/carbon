@@ -8,15 +8,9 @@ export default function PostgreSqlInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {data.get('port')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('variables.VERSION')}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('variables.VERSION')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

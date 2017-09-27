@@ -23,13 +23,9 @@ export default function TimelineSelectedTime({ timestamp, style, type = 'light',
       }}
       style={style}
     >
-      <span className={block + '__date'}>
-        {formatDate(timestamp)}
-      </span>
+      <span className={block + '__date'}>{formatDate(timestamp)}</span>
       &nbsp;
-      <span className={block + '__time'}>
-        {formatTime(timestamp)}
-      </span>
+      <span className={block + '__time'}>{formatTime(timestamp)}</span>
     </div>
   );
 }

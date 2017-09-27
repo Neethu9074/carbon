@@ -22,31 +22,31 @@ export default function SpringbootSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {applicationConfig
-        ? <div>
-            <Separator />
+      {applicationConfig ? (
+        <div>
+          <Separator />
 
-            <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>Application Configs</Collapsible.Header>
-              <Collapsible.Content>
-                <ClickableList>
-                  {applicationConfig
-                    .map((applicationConfigData, applicationConfigPath) =>
-                      <ClickableKeyValuePopupListItem
-                        title={applicationConfigPath}
-                        key={applicationConfigPath}
-                        data={applicationConfigData}
-                      >
-                        {applicationConfigPath}
-                      </ClickableKeyValuePopupListItem>
-                    )
-                    .valueSeq()
-                    .toArray()}
-                </ClickableList>
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Application Configs</Collapsible.Header>
+            <Collapsible.Content>
+              <ClickableList>
+                {applicationConfig
+                  .map((applicationConfigData, applicationConfigPath) => (
+                    <ClickableKeyValuePopupListItem
+                      title={applicationConfigPath}
+                      key={applicationConfigPath}
+                      data={applicationConfigData}
+                    >
+                      {applicationConfigPath}
+                    </ClickableKeyValuePopupListItem>
+                  ))
+                  .valueSeq()
+                  .toArray()}
+              </ClickableList>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

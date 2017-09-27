@@ -17,13 +17,13 @@ export default function NavigationRoutes({ tabs, props }) {
       tabs
         .slice(0)
         .sort(compareTabsForRoutingPreference)
-        .map(nav =>
+        .map(nav => (
           <Route
             key={`route_${nav.path}`}
             path={`*/dashboard${nav.path}`}
             render={() => <View ChildComponent={nav.component} label={nav.label} props={props} />}
           />
-        )}
+        ))}
     </Switch>
   );
 }

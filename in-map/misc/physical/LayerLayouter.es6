@@ -109,9 +109,8 @@ export default function createLayouter(node) {
         currentYPosition += heightOfGap;
       }
 
-      const heightOfLayer = i === _layer.length - 1
-        ? heightOfEachLayer * LAYER_MARGIN_OF_LAST_NODE
-        : heightOfEachLayer * LAYER_MARGIN;
+      const heightOfLayer =
+        i === _layer.length - 1 ? heightOfEachLayer * LAYER_MARGIN_OF_LAST_NODE : heightOfEachLayer * LAYER_MARGIN;
 
       const transform = layer.getComponent('transform');
       transform.setTransformXYZ(

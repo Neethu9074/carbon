@@ -37,7 +37,9 @@ export default connectTo(
         return alwaysFalse;
       }
 
-      return timeout(5000).map(() => true).startWith(false);
+      return timeout(5000)
+        .map(() => true)
+        .startWith(false);
     }),
 
     // snapshot versions

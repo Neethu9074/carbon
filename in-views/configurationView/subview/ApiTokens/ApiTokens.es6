@@ -97,20 +97,18 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Api Tokens" />
-        <SubViewHeader>
-          API Tokens
-        </SubViewHeader>
+        <SubViewHeader>API Tokens</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewApiToken}>
             Add API Token
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
         <Section>

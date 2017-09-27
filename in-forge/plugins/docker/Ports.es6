@@ -11,9 +11,9 @@ export default function DockerPorts({ snapshot }) {
       <List>
         {portBindings
           .map((value, key) =>
-            value.map(v =>
+            value.map(v => (
               <List.Item key={key}>{(v.get('HostIp') || '0.0.0.0') + ':' + v.get('HostPort') + '->' + key}</List.Item>
-            )
+            ))
           )
           .valueSeq()
           .flatten()}
@@ -25,7 +25,11 @@ export default function DockerPorts({ snapshot }) {
   if (ports != null && ports.size > 0) {
     return (
       <List>
-        {ports.map(port => <List.Item key={port}>{port.get('PrivatePort')}/{port.get('Type')}</List.Item>)}
+        {ports.map(port => (
+          <List.Item key={port}>
+            {port.get('PrivatePort')}/{port.get('Type')}
+          </List.Item>
+        ))}
       </List>
     );
   }

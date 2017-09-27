@@ -13,9 +13,7 @@ export default function OpenLDAPSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          OpenLDAP
-        </Collapsible.Header>
+        <Collapsible.Header>OpenLDAP</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -24,9 +22,7 @@ export default function OpenLDAPSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Config
-        </Collapsible.Header>
+        <Collapsible.Header>Config</Collapsible.Header>
         <Collapsible.Content>
           <ConfigInfo snapshot={snapshot} />
         </Collapsible.Content>

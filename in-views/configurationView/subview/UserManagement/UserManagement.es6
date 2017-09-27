@@ -104,67 +104,62 @@ export default connectTo(
       return (
         <SubViewWrapper>
           <Title title="User Management" />
-          <SubViewHeader>
-            User Management
-          </SubViewHeader>
+          <SubViewHeader>User Management</SubViewHeader>
 
           <Section>
             <Button kind="info" onClick={this.inviteUser}>
               Invite User
             </Button>
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
-          {users.size > 0
-            ? <Section>
-                <SectionHeading>
-                  Users
-                </SectionHeading>
+          {users.size > 0 ? (
+            <Section>
+              <SectionHeading>Users</SectionHeading>
 
-                <ul className={`${block}__users`}>
-                  {users.toArray().sort((a, b) => a.get('fullName').localeCompare(b.get('fullName'))).map(user =>
+              <ul className={`${block}__users`}>
+                {users
+                  .toArray()
+                  .sort((a, b) => a.get('fullName').localeCompare(b.get('fullName')))
+                  .map(user => (
                     <li key={user.get('id')} className={`${block}__user`}>
                       <div className={`${block}__user-side`}>
                         <Gravatar email={user.get('email')} className={`${block}__avatar`} />
 
                         <div>
-                          <div className={`${block}__full-name`}>
-                            {user.get('fullName')}
-                          </div>
-                          <div className={`${block}__email`}>
-                            {user.get('email')}
-                          </div>
+                          <div className={`${block}__full-name`}>{user.get('fullName')}</div>
+                          <div className={`${block}__email`}>{user.get('email')}</div>
                         </div>
                       </div>
 
                       <div className={`${block}__user-side`}>
-                        {sortedRoles
-                          ? <span className={`${block}__role-edit`}>
-                              <select
-                                id="user-management-roles"
-                                className={`${block}__roles`}
-                                value={user.get('roleId')}
-                                onChange={e => this.setRole(user, e.target.value)}
-                              >
-                                {sortedRoles.map(role =>
-                                  <option value={role.get('id')} key={role.get('id')}>
-                                    {role.get('name')}
-                                  </option>
-                                )}
-                              </select>
+                        {sortedRoles ? (
+                          <span className={`${block}__role-edit`}>
+                            <select
+                              id="user-management-roles"
+                              className={`${block}__roles`}
+                              value={user.get('roleId')}
+                              onChange={e => this.setRole(user, e.target.value)}
+                            >
+                              {sortedRoles.map(role => (
+                                <option value={role.get('id')} key={role.get('id')}>
+                                  {role.get('name')}
+                                </option>
+                              ))}
+                            </select>
 
-                              <ModificationSaveStatus
-                                status={this.state.status[user.get('id')]}
-                                className={`${block}__save-status`}
-                                reserveSpace
-                              />
-                            </span>
-                          : null}
+                            <ModificationSaveStatus
+                              status={this.state.status[user.get('id')]}
+                              className={`${block}__save-status`}
+                              reserveSpace
+                            />
+                          </span>
+                        ) : null}
 
                         <Button
                           kind="danger"
@@ -176,44 +171,40 @@ export default connectTo(
                         </Button>
                       </div>
                     </li>
-                  )}
-                </ul>
-              </Section>
-            : null}
+                  ))}
+              </ul>
+            </Section>
+          ) : null}
 
-          {invitations.size > 0
-            ? <Section>
-                <SectionHeading>
-                  Pending Invitations
-                </SectionHeading>
+          {invitations.size > 0 ? (
+            <Section>
+              <SectionHeading>Pending Invitations</SectionHeading>
 
-                <ul className={`${block}__users`}>
-                  {invitations
-                    .toArray()
-                    .sort((a, b) => a.get('email').localeCompare(b.get('email')))
-                    .map((invitation, i) =>
-                      <li key={i} className={`${block}__user`}>
-                        <div className={`${block}__user-side`}>
-                          <Gravatar email={invitation.get('email')} className={`${block}__avatar`} />
+              <ul className={`${block}__users`}>
+                {invitations
+                  .toArray()
+                  .sort((a, b) => a.get('email').localeCompare(b.get('email')))
+                  .map((invitation, i) => (
+                    <li key={i} className={`${block}__user`}>
+                      <div className={`${block}__user-side`}>
+                        <Gravatar email={invitation.get('email')} className={`${block}__avatar`} />
 
-                          <div className={`${block}__full-name`}>
-                            {invitation.get('email')}
-                          </div>
-                        </div>
+                        <div className={`${block}__full-name`}>{invitation.get('email')}</div>
+                      </div>
 
-                        <Button
-                          kind="danger"
-                          size="sm"
-                          className={`${block}__remove`}
-                          onClick={() => this.onRevoke(invitation)}
-                        >
-                          Revoke Invitation
-                        </Button>
-                      </li>
-                    )}
-                </ul>
-              </Section>
-            : null}
+                      <Button
+                        kind="danger"
+                        size="sm"
+                        className={`${block}__remove`}
+                        onClick={() => this.onRevoke(invitation)}
+                      >
+                        Revoke Invitation
+                      </Button>
+                    </li>
+                  ))}
+              </ul>
+            </Section>
+          ) : null}
         </SubViewWrapper>
       );
     }
@@ -283,9 +274,7 @@ export default connectTo(
           header="Confirm removal"
           description={
             <span>
-              Are you sure you want to remove the user{' '}
-              <strong>{user.get('fullName')}</strong>
-              {' '}from the tenant{' '}
+              Are you sure you want to remove the user <strong>{user.get('fullName')}</strong> from the tenant{' '}
               <strong>{config.tenant}</strong>
               ?
             </span>
@@ -339,8 +328,7 @@ export default connectTo(
           header="Confirm removal"
           description={
             <span>
-              Are you sure you want to revoke the invitation to join the{' '}
-              <strong>{config.tenant}</strong> tenant for<strong>{invitation.get('email')}</strong>?
+              Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for<strong>{invitation.get('email')}</strong>?
             </span>
           }
           bButtonLabel="Revoke invitation"

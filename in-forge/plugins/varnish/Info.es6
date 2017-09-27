@@ -8,16 +8,10 @@ export default function VarnishInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Port">
-        {data.get('port')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Thread pools">
-        {data.get('thread_pools')}
-      </DescriptionItem>
+      <DescriptionItem title="Thread pools">{data.get('thread_pools')}</DescriptionItem>
     </DescriptionList>
   );
 }

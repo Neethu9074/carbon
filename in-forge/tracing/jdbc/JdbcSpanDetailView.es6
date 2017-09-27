@@ -10,24 +10,16 @@ export default function JdbcSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Connection">
-          {span.getIn(['data', 'jdbc', 'connection'])}
-        </DescriptionItem>
-        <DescriptionItem title="Timeout">
-          {span.getIn(['data', 'jdbc', 'timeout'])}
-        </DescriptionItem>
-        <DescriptionItem title="Result Size">
-          {span.getIn(['data', 'jdbc', 'size'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'jdbc', 'error'])}
-        </DescriptionItem>
+        <DescriptionItem title="Connection">{span.getIn(['data', 'jdbc', 'connection'])}</DescriptionItem>
+        <DescriptionItem title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</DescriptionItem>
+        <DescriptionItem title="Result Size">{span.getIn(['data', 'jdbc', 'size'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'jdbc', 'error'])}</DescriptionItem>
 
-        {statement
-          ? <DescriptionItem title="Statement">
-              <Code code={formatSql(statement)} lang="sql" />
-            </DescriptionItem>
-          : null}
+        {statement ? (
+          <DescriptionItem title="Statement">
+            <Code code={formatSql(statement)} lang="sql" />
+          </DescriptionItem>
+        ) : null}
       </DescriptionList>
     </div>
   );

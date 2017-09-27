@@ -33,22 +33,18 @@ export default connectTo(
   function SpaSpanDetailView({ span, pageLoadTraceLink, pageLoadTraceId, selectedTraceId }) {
     return (
       <div>
-        {pageLoadTraceLink && pageLoadTraceId !== selectedTraceId
-          ? <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
-              Open page load trace
-            </Button>
-          : null}
+        {pageLoadTraceLink && pageLoadTraceId !== selectedTraceId ? (
+          <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
+            Open page load trace
+          </Button>
+        ) : null}
 
         <DescriptionList>
-          <DescriptionItem title="URL">
-            {span.getIn(['data', 'spa', 'url'])}
-          </DescriptionItem>
+          <DescriptionItem title="URL">{span.getIn(['data', 'spa', 'url'])}</DescriptionItem>
           <DescriptionItem title="Status">
             {statusMapping[span.getIn(['data', 'spa', 'status'], statusMapping.u)]}
           </DescriptionItem>
-          <DescriptionItem title="Explanation">
-            {span.getIn(['data', 'spa', 'explanation'])}
-          </DescriptionItem>
+          <DescriptionItem title="Explanation">{span.getIn(['data', 'spa', 'explanation'])}</DescriptionItem>
 
           {getCommonDescriptionItems(span)}
         </DescriptionList>

@@ -11,30 +11,14 @@ export default function RabbitMqInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="PID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Ports">
-        {data.get('overview.ports', emptyList).join(', ')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('overview.version')}
-      </DescriptionItem>
-      <DescriptionItem title="Erlang version">
-        {data.get('overview.erlang_version')}
-      </DescriptionItem>
-      <DescriptionItem title="Node">
-        {data.get('overview.node')}
-      </DescriptionItem>
-      <DescriptionItem title="Nodes">
-        {nodeNames.size}
-      </DescriptionItem>
-      <DescriptionItem title="Queues">
-        {queueNames.size}
-      </DescriptionItem>
-      <DescriptionItem title="Channels">
-        {channelNames.size}
-      </DescriptionItem>
+      <DescriptionItem title="PID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Ports">{data.get('overview.ports', emptyList).join(', ')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('overview.version')}</DescriptionItem>
+      <DescriptionItem title="Erlang version">{data.get('overview.erlang_version')}</DescriptionItem>
+      <DescriptionItem title="Node">{data.get('overview.node')}</DescriptionItem>
+      <DescriptionItem title="Nodes">{nodeNames.size}</DescriptionItem>
+      <DescriptionItem title="Queues">{queueNames.size}</DescriptionItem>
+      <DescriptionItem title="Channels">{channelNames.size}</DescriptionItem>
     </DescriptionList>
   );
 }

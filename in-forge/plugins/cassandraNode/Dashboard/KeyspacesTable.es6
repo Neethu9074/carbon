@@ -118,13 +118,16 @@ const cols = [
 
 export default function KeyspacesTable({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'keyspaces'], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      timeframe,
-      snapshotId
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'keyspaces'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        timeframe,
+        snapshotId
+      };
+    });
 
   return (
     <DashboardSection title={`Keyspaces (${rows.length})`}>

@@ -34,9 +34,7 @@ export default connectTo(
           aggregation={aggregation}
         />
         <div className={block + '__description'}>
-          <span className={block + '__title'}>
-            {label}
-          </span>
+          <span className={block + '__title'}>{label}</span>
           <MetricValue
             snapshotId={snapshotId}
             metric={metricName}

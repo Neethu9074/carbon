@@ -98,9 +98,9 @@ export default connectTo(
       return (
         <div className={block}>
           <ul className={block + '__list'}>
-            {cockpitEnabled
-              ? <View label="cockpit" icon="dashboard" isActive={isContainerView} href$={cockpitLink$} />
-              : null}
+            {cockpitEnabled ? (
+              <View label="cockpit" icon="dashboard" isActive={isContainerView} href$={cockpitLink$} />
+            ) : null}
 
             <View
               label="infrastructure"
@@ -123,9 +123,9 @@ export default connectTo(
 
             <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
 
-            {kubernetesEnabled
-              ? <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
-              : null}
+            {kubernetesEnabled ? (
+              <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
+            ) : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 

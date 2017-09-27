@@ -24,9 +24,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="All Queues Messages Enqueue">
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>

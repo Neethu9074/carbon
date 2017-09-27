@@ -51,9 +51,7 @@ export default connectTo(
 
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
-          <p className={block + '__account-name'}>
-            Signed in as {window.instana.user.fullName}
-          </p>
+          <p className={block + '__account-name'}>Signed in as {window.instana.user.fullName}</p>
 
           <Link href={umpLink} className={`${linkElement} ${block}__account-menu-link`} onClick={closeMenu} external>
             Management Portal
@@ -68,23 +66,23 @@ export default connectTo(
             Settings
           </Link>
 
-          {role.canConfigureAgents
-            ? <Link className={linkElement} href$={agentsViewLink$} onClick={closeMenu}>
-                Agents
-              </Link>
-            : null}
+          {role.canConfigureAgents ? (
+            <Link className={linkElement} href$={agentsViewLink$} onClick={closeMenu}>
+              Agents
+            </Link>
+          ) : null}
 
-          {!isOnPremise()
-            ? <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
-                Release Notes
-              </Link>
-            : null}
+          {!isOnPremise() ? (
+            <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
+              Release Notes
+            </Link>
+          ) : null}
 
-          {__DEV__
-            ? <Link className={linkElement} onClick={toggleDevPanel}>
-                Developer Panel
-              </Link>
-            : null}
+          {__DEV__ ? (
+            <Link className={linkElement} onClick={toggleDevPanel}>
+              Developer Panel
+            </Link>
+          ) : null}
 
           <Link className={linkElement} href="https://docs.instana.com" onClick={closeMenu} target="_block">
             Documentation

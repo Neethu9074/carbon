@@ -22,14 +22,11 @@ export default function AgentView() {
 
       <Route
         path="/agents"
-        render={() =>
+        render={() => (
           <FullscreenOverlayView>
             <MaxWidthFullscreenContainer>
               <div className={block}>
-
-                <SnapshotLabel actions={[]}>
-                  Agents
-                </SnapshotLabel>
+                <SnapshotLabel actions={[]}>Agents</SnapshotLabel>
 
                 <AgentViewKpis />
                 <AgentsPresenceChart />
@@ -37,7 +34,8 @@ export default function AgentView() {
                 {agentNotificationsEnabled ? <AgentNotificationsTable /> : null}
               </div>
             </MaxWidthFullscreenContainer>
-          </FullscreenOverlayView>}
+          </FullscreenOverlayView>
+        )}
       />
     </Switch>
   );

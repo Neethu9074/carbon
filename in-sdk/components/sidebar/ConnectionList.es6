@@ -32,34 +32,30 @@ export default connectTo(
 
     return (
       <div>
-        {connections.incoming.length === 0
-          ? null
-          : <div>
-              <Separator />
+        {connections.incoming.length === 0 ? null : (
+          <div>
+            <Separator />
 
-              <Collapsible initiallyOpen={false}>
-                <Collapsible.Header>
-                  {'Inbound Connections (' + connections.incoming.length + ')'}
-                </Collapsible.Header>
-                <Collapsible.Content>
-                  <SnapshotList connections={connections.incoming} />
-                </Collapsible.Content>
-              </Collapsible>
-            </div>}
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>{'Inbound Connections (' + connections.incoming.length + ')'}</Collapsible.Header>
+              <Collapsible.Content>
+                <SnapshotList connections={connections.incoming} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        )}
 
-        {connections.outgoing.length === 0
-          ? null
-          : <div>
-              <Separator />
-              <Collapsible initiallyOpen={false}>
-                <Collapsible.Header>
-                  {'Outbound Connections (' + connections.outgoing.length + ')'}
-                </Collapsible.Header>
-                <Collapsible.Content>
-                  <SnapshotList connections={connections.outgoing} />
-                </Collapsible.Content>
-              </Collapsible>
-            </div>}
+        {connections.outgoing.length === 0 ? null : (
+          <div>
+            <Separator />
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>{'Outbound Connections (' + connections.outgoing.length + ')'}</Collapsible.Header>
+              <Collapsible.Content>
+                <SnapshotList connections={connections.outgoing} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        )}
       </div>
     );
   }
@@ -78,11 +74,11 @@ const SnapshotList = connectTo(
 
     return (
       <ClickableList>
-        {snapshots.map(snapshot =>
+        {snapshots.map(snapshot => (
           <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
             {getLabel(snapshot)}
           </ClickableSnapshotListItem>
-        )}
+        ))}
       </ClickableList>
     );
   }

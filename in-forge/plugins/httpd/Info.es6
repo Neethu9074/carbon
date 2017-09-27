@@ -7,25 +7,13 @@ export default function HttpdInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Architecture">
-        {data.get('architecture')}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Architecture">{data.get('architecture')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Max workers">
-        {data.get('max_workers')}
-      </DescriptionItem>
-      <DescriptionItem title="MPM">
-        {data.get('mpm')}
-      </DescriptionItem>
-      <DescriptionItem title="Listen">
-        {data.get('ports', []).join(', ')}
-      </DescriptionItem>
+      <DescriptionItem title="Max workers">{data.get('max_workers')}</DescriptionItem>
+      <DescriptionItem title="MPM">{data.get('mpm')}</DescriptionItem>
+      <DescriptionItem title="Listen">{data.get('ports', []).join(', ')}</DescriptionItem>
     </DescriptionList>
   );
 }

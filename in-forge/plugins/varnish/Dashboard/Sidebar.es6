@@ -9,34 +9,33 @@ import Info from '../Info';
 import Backends from '../Backends';
 
 export default function VarnishSidebar({ snapshot }) {
-  const backendNames = snapshot.getIn(['data', 'backend_names'], emptyList).toArray().sort();
+  const backendNames = snapshot
+    .getIn(['data', 'backend_names'], emptyList)
+    .toArray()
+    .sort();
   return (
     <div>
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Varnish
-        </Collapsible.Header>
+        <Collapsible.Header>Varnish</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {backendNames.map(bEnd =>
+      {backendNames.map(bEnd => (
         <div key={bEnd}>
           <Separator />
 
           <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>
-              Backend: {bEnd}
-            </Collapsible.Header>
+            <Collapsible.Header>Backend: {bEnd}</Collapsible.Header>
             <Collapsible.Content>
               <Backends snapshot={snapshot} backend={bEnd} />
             </Collapsible.Content>
           </Collapsible>
         </div>
-      )}
+      ))}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

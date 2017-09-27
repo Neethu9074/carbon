@@ -120,9 +120,8 @@ export default connectTo(
         data: fromJS(traceGroup.dataSample)
       });
       const category = getCategory(fakeSpan);
-      const typeLabel = traceGroup.statistics.count === 1
-        ? getTypeLabelSingular(fakeSpan)
-        : getTypeLabelPlural(fakeSpan);
+      const typeLabel =
+        traceGroup.statistics.count === 1 ? getTypeLabelSingular(fakeSpan) : getTypeLabelPlural(fakeSpan);
 
       const categoryColor = spanCategoryColors[category];
       const categoryColorRgb = hexToRGB(categoryColor);
@@ -158,11 +157,7 @@ export default connectTo(
       if (isLoading) {
         return <LoadingIndicator type="dark" />;
       } else if (error) {
-        return (
-          <p className={`${block}__error`}>
-            {error}
-          </p>
-        );
+        return <p className={`${block}__error`}>{error}</p>;
       }
 
       const groupSorting = this.props.groupSorting;
@@ -171,9 +166,7 @@ export default connectTo(
 
       return (
         <Section>
-          <SectionHeading>
-            Trace Groupings
-          </SectionHeading>
+          <SectionHeading>Trace Groupings</SectionHeading>
           <DescriptionText />
           <div className={heading}>
             <Tooltip
@@ -188,8 +181,7 @@ export default connectTo(
 
             <Tooltip content="Describes the metric where the groups are sorted by" align={'topMiddle'}>
               <div className={`${block}__checkbox`}>
-                Show latency metrics
-                &nbsp;
+                Show latency metrics &nbsp;
                 <Toggle
                   checked={showLatencyMetrics}
                   onChange={e => this.setState({ showLatencyMetrics: e.target.checked })}
@@ -231,39 +223,39 @@ export default connectTo(
               >
                 #Calls
               </HeaderCell>
-              {showLatencyMetrics
-                ? <HeaderCell
-                    className={minElement}
-                    activeComparator={traceGroupsComparator}
-                    comparator={compareTraceGroupByDurationMin}
-                  >
-                    Min
-                  </HeaderCell>
-                : null}
-              {showLatencyMetrics
-                ? <HeaderCell
-                    className={avgElement}
-                    activeComparator={traceGroupsComparator}
-                    comparator={compareTraceGroupByDurationAvg}
-                  >
-                    Avg
-                  </HeaderCell>
-                : null}
-              {showLatencyMetrics
-                ? <HeaderCell
-                    className={maxElement}
-                    activeComparator={traceGroupsComparator}
-                    comparator={compareTraceGroupByDurationMax}
-                  >
-                    Max
-                  </HeaderCell>
-                : null}
+              {showLatencyMetrics ? (
+                <HeaderCell
+                  className={minElement}
+                  activeComparator={traceGroupsComparator}
+                  comparator={compareTraceGroupByDurationMin}
+                >
+                  Min
+                </HeaderCell>
+              ) : null}
+              {showLatencyMetrics ? (
+                <HeaderCell
+                  className={avgElement}
+                  activeComparator={traceGroupsComparator}
+                  comparator={compareTraceGroupByDurationAvg}
+                >
+                  Avg
+                </HeaderCell>
+              ) : null}
+              {showLatencyMetrics ? (
+                <HeaderCell
+                  className={maxElement}
+                  activeComparator={traceGroupsComparator}
+                  comparator={compareTraceGroupByDurationMax}
+                >
+                  Max
+                </HeaderCell>
+              ) : null}
             </div>
 
             <ol className={groupings}>
               {traceGroups
                 .sort(comparator)
-                .map(traceGroup =>
+                .map(traceGroup => (
                   <TraceGroup
                     key={traceGroup.hash}
                     showLatencyMetrics={showLatencyMetrics}
@@ -271,7 +263,7 @@ export default connectTo(
                     level={0}
                     traceGroupsComparator={comparator}
                   />
-                )}
+                ))}
             </ol>
           </div>
         </Section>
@@ -330,19 +322,13 @@ function DescriptionText() {
   return (
     <div className={descriptionElement}>
       Trace groups are calculated out of the selected traces and spans on the left. Spans are compared and grouped by
-      specific properties, depending on the spans type.
-      For a deep drill down, there are KPIs, helping you to understand and find the root cause. The KPIs are:
+      specific properties, depending on the spans type. For a deep drill down, there are KPIs, helping you to understand
+      and find the root cause. The KPIs are:
       <br />
       <div className={kpiWrapperElement}>
-        <div className={kpiElement}>
-          Total Time
-        </div>
-        <div className={kpiElement}>
-          Error Rate
-        </div>
-        <div className={kpiElement}>
-          Calls
-        </div>
+        <div className={kpiElement}>Total Time</div>
+        <div className={kpiElement}>Error Rate</div>
+        <div className={kpiElement}>Calls</div>
       </div>
     </div>
   );

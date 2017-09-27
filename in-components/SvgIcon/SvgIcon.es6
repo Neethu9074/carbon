@@ -60,7 +60,7 @@ export function SvgIconList({ className }) {
   const iconNames = Object.keys(icons).sort();
   return (
     <div className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {iconNames.map(key =>
+      {iconNames.map(key => (
         <div key={key} style={{ listStyle: 'none', margin: '0 2rem 1rem 0' }}>
           <div
             style={{
@@ -69,12 +69,10 @@ export function SvgIconList({ className }) {
             }}
           >
             <SvgIcon type={key} width={16} height={16} color="#fff" spinning={key === 'spinner'} />
-            <span style={{ marginLeft: '5px' }}>
-              {key}
-            </span>
+            <span style={{ marginLeft: '5px' }}>{key}</span>
           </div>
         </div>
-      )}
+      ))}
     </div>
   );
 }

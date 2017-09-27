@@ -42,11 +42,7 @@ export default function MetricSelector({ id, className, plugin, label, onChange,
   if (label) {
     return (
       <label htmlFor="metric-selector" className={classes}>
-        {label
-          ? <span className={`${block}__label`}>
-              {label}
-            </span>
-          : null}
+        {label ? <span className={`${block}__label`}>{label}</span> : null}
 
         {select}
       </label>

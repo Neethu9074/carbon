@@ -26,28 +26,18 @@ export default connectTo(
   function XhrSpanDetailView({ span, pageLoadTraceLink, pageLoadTraceId, selectedTraceId }) {
     return (
       <div>
-        {pageLoadTraceLink && pageLoadTraceId !== selectedTraceId
-          ? <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
-              Open page load trace
-            </Button>
-          : null}
+        {pageLoadTraceLink && pageLoadTraceId !== selectedTraceId ? (
+          <Button href={pageLoadTraceLink} className="pull-right" kind="secondary">
+            Open page load trace
+          </Button>
+        ) : null}
 
         <DescriptionList>
-          <DescriptionItem title="Host">
-            {span.getIn(['data', 'http', 'host'])}
-          </DescriptionItem>
-          <DescriptionItem title="URL">
-            {span.getIn(['data', 'http', 'url'])}
-          </DescriptionItem>
-          <DescriptionItem title="Method">
-            {span.getIn(['data', 'http', 'method'])}
-          </DescriptionItem>
-          <DescriptionItem title="Status Code">
-            {span.getIn(['data', 'http', 'status'])}
-          </DescriptionItem>
-          <DescriptionItem title="Error">
-            {span.getIn(['data', 'http', 'error'])}
-          </DescriptionItem>
+          <DescriptionItem title="Host">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
+          <DescriptionItem title="URL">{span.getIn(['data', 'http', 'url'])}</DescriptionItem>
+          <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
+          <DescriptionItem title="Status Code">{span.getIn(['data', 'http', 'status'])}</DescriptionItem>
+          <DescriptionItem title="Error">{span.getIn(['data', 'http', 'error'])}</DescriptionItem>
 
           {getCommonDescriptionItems(span)}
         </DescriptionList>

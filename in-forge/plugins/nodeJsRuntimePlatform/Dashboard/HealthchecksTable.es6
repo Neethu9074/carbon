@@ -54,14 +54,17 @@ const cols = [
 
 export default function HealthchecksTable({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot.getIn(['data', 'healthchecks'], emptyList).toArray().map(name => {
-    return {
-      key: name,
-      name,
-      snapshotId,
-      timeframe
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'healthchecks'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        name,
+        snapshotId,
+        timeframe
+      };
+    });
 
   if (rows.length === 0) {
     return null;
