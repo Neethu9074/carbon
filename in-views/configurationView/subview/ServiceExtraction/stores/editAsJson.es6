@@ -48,7 +48,8 @@ function enrichValuesWhichWhereMeaninglessToUsers(rules, type) {
         label: rule.extractSpecification ? rule.extractSpecification.label : null,
         endpointRules: enrichEndpointRules(rule.endpointRules),
         type,
-        order: i
+        order: i,
+        ignoreService: rule.ignoreService
       })
     );
   }
