@@ -1,7 +1,7 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription({
-  eventId: 'subscribe-host-snapshot-id',
+  eventId: 'subscribe-agent-snapshot-id',
 
   getId(snapshot) {
     return JSON.stringify(snapshot.get('entityId').toJS());
