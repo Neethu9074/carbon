@@ -17,7 +17,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title="Reporting Agents over Time">
+      <DashboardTile title="Reporting Agents">
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeframe={timeframe}

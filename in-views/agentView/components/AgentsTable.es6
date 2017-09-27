@@ -26,7 +26,7 @@ const block = 'in-agent-view-table';
 
 const cols = [
   {
-    title: 'Agent',
+    title: 'FQDN',
     type: 'custom',
     typeArgs: {
       comparator: () => compareIgnoreCase,
@@ -148,7 +148,7 @@ export default connectTo(
 
     return (
       <DashboardTile title="Agents">
-        <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={4} />
+        <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
       </DashboardTile>
     );
   }
