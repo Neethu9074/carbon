@@ -5,6 +5,7 @@ import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
+import { start } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
@@ -43,7 +44,7 @@ const cols = [
             return {
               value: label,
               content: (
-                <Link href={href} className={`${block}__link`}>
+                <Link href={href} className={`${block}__link`} onClick={() => start(row.snapshot, true)}>
                   <HealthyPluginIcon
                     plugin={plugins.instanaAgent}
                     snapshot={hostSnapshot}
