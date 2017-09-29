@@ -7,11 +7,13 @@ const trainingTu = config.tenant === 'training';
 const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
-export const logViewEnabled = onlyInternally;
+export const logViewEnabled = false;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
 export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
+export const kubernetesEnabled = __DEV__;
+export const agentNotificationsEnabled = false;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
@@ -25,9 +27,7 @@ export const blackListedSearchFieldValues = {
 // For example, the following configuration will hide up to 2.3s of missing data points.
 // rollup = 1s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
-export const allowedMultiplesOfRollupSizeMissingInCharts = onlyInternally ||
-  (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu)
-  ? 2.3
-  : 4;
+export const allowedMultiplesOfRollupSizeMissingInCharts =
+  onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
 
 export const maximumNumberOfTracesForAnalytics = 40;

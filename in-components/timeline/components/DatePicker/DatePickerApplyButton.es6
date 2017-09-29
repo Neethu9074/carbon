@@ -29,11 +29,11 @@ export default connectTo(
         return {
           fixedTimestampsAreValid:
             focusedMomentValid.date &&
-              focusedMomentValid.time &&
-              fromValid.date &&
-              fromValid.time &&
-              toValid.date &&
-              toValid.time,
+            focusedMomentValid.time &&
+            fromValid.date &&
+            fromValid.time &&
+            toValid.date &&
+            toValid.time,
           focusedMoment: focusedMomentValid.timestamp,
           from: fromValid.timestamp,
           to: toValid.timestamp

@@ -68,18 +68,17 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
         </DashboardTile>
       </Columize>
 
-      {instanaInternalFeaturesEnabled
-        ? <DashboardTile title="Load Time Distribution">
-            <p>
-              <strong style={{ color: 'darkred' }}>
-                This is a mockup which is only visible internally. We should really have this! In order to get this,
-                we need a new way of analyzing durations and calculating distributions.
-              </strong>
-            </p>
-            <img src={mockup} style={{ height: '200px' }} />
-
-          </DashboardTile>
-        : null}
+      {instanaInternalFeaturesEnabled ? (
+        <DashboardTile title="Load Time Distribution">
+          <p>
+            <strong style={{ color: 'darkred' }}>
+              This is a mockup which is only visible internally. We should really have this! In order to get this, we
+              need a new way of analyzing durations and calculating distributions.
+            </strong>
+          </p>
+          <img src={mockup} style={{ height: '200px' }} />
+        </DashboardTile>
+      ) : null}
 
       <DashboardTile title="Page Load Breakdown Over Time">
         <p>
@@ -101,7 +100,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
           }}
           y1={{
             min: 0,
-            formatter: millis.compact,
+            formatter: millis.fixedCompact,
             metrics: [
               metricPrefix + 'unl',
               metricPrefix + 'red',

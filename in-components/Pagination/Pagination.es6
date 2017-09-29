@@ -42,9 +42,7 @@ export default function Pagination({ className, ariaLabel, currentPage, pageCoun
           </a>
         </li>
         <li className={element}>
-          <span className={pageIndicator}>
-            {`${currentPage + 1} / ${pageCount}`}
-          </span>
+          <span className={pageIndicator}>{`${currentPage + 1} / ${pageCount}`}</span>
         </li>
         <li className={element}>
           <a href="" aria-label="Next" onClick={next} className={nextDisabled ? disabledSwitchElement : switchElement}>

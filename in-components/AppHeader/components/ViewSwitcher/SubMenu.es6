@@ -7,11 +7,7 @@ import './SubMenu.less';
 const block = 'in-view-switcher-menu';
 
 export function SubMenu({ children }) {
-  return (
-    <ul className={block}>
-      {children}
-    </ul>
-  );
+  return <ul className={block}>{children}</ul>;
 }
 
 export function SubMenuItem({ isActive, label, href$ }) {

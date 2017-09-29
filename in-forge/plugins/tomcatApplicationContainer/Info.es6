@@ -7,12 +7,8 @@ export default function TomcatInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Home">
-        {data.get('home-dir')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Home">{data.get('home-dir')}</DescriptionItem>
     </DescriptionList>
   );
 }

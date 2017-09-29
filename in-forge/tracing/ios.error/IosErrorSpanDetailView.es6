@@ -41,19 +41,17 @@ export default function IosErrorSpanDetailView({ span }) {
           {span.getIn(['data', 'ios_error', 'report', 'system', 'system_version'])}
         </DescriptionItem>
 
-        <DescriptionItem title="IP">
-          {span.getIn(['data', 'ios_error', 'ip'])}
-        </DescriptionItem>
+        <DescriptionItem title="IP">{span.getIn(['data', 'ios_error', 'ip'])}</DescriptionItem>
 
         <DescriptionItem title="Location">
           <GeoLocation geo={span.getIn(['data', 'ios_error', 'geo'])} />
         </DescriptionItem>
 
-        {report
-          ? <DescriptionItem title="Crash Report">
-              <Code code={report} />
-            </DescriptionItem>
-          : null}
+        {report ? (
+          <DescriptionItem title="Crash Report">
+            <Code code={report} />
+          </DescriptionItem>
+        ) : null}
       </DescriptionList>
     </div>
   );

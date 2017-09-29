@@ -1,7 +1,10 @@
 import React from 'react';
 
+import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
 import SortIndicator from 'in-views/eumView/components/SortIndicator';
 import Pagination from 'in-components/Pagination';
+import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
 
 import './WebsiteHeader.less';
 
@@ -12,7 +15,10 @@ export default function WebsiteHeader({
   onChangeSort,
   data,
   onPrevPage,
-  onNextPage
+  onNextPage,
+  filter,
+  setFilter,
+  showFilter
 }) {
   const block = 'in-website-table-header';
   const idHeader = `${block}__id`;
@@ -33,7 +39,7 @@ export default function WebsiteHeader({
 
   const kpis = columnDefinitions
     .slice(1)
-    .map(def =>
+    .map(def => (
       <SortIndicator
         key={def.index}
         className={kpiElement}
@@ -43,26 +49,43 @@ export default function WebsiteHeader({
         sortDirection={sortDirection}
         onChangeSort={onChangeSort}
       />
-    );
+    ));
 
   const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
+  const randomFilterId = Math.random();
 
   return (
     <div className={block}>
       {name}
-      <div className={kpiHeader}>
-        {kpis}
-      </div>
-      {showPagination
-        ? <Pagination
-            className={`${block}__pagination`}
-            onPrevPage={onPrevPage}
-            onNextPage={onNextPage}
-            currentPage={data.page}
-            pageCount={data.pageCount}
-            ariaLabel="Pagination for previous table"
-          />
-        : null}
+      <div className={kpiHeader}>{kpis}</div>
+
+      {showPagination || showFilter ? (
+        <div className={`${block}__right-side`}>
+          {showFilter ? (
+            <HorizontalFormGroup>
+              <Label htmlFor={randomFilterId}>Filter</Label>
+              <Input
+                id={randomFilterId}
+                size="sm"
+                type="text"
+                value={filter}
+                onChange={e => setFilter(e.target.value)}
+              />
+            </HorizontalFormGroup>
+          ) : null}
+
+          {showPagination ? (
+            <Pagination
+              className={`${block}__pagination`}
+              onPrevPage={onPrevPage}
+              onNextPage={onNextPage}
+              currentPage={data.page}
+              pageCount={data.pageCount}
+              ariaLabel="Pagination for previous table"
+            />
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

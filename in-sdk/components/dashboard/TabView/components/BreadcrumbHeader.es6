@@ -41,10 +41,6 @@ export default connectTo(
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 
-    return (
-      <header className={block}>
-        {crumbsElement}
-      </header>
-    );
+    return <header className={block}>{crumbsElement}</header>;
   }
 );

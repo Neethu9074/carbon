@@ -16,9 +16,12 @@ const readReleaseNotesStore = createStore({
 });
 
 // ensure that the read state is persisted in localStorage
-readReleaseNotesStore.observable.skipFirst().distinct().subscribe(readReleaseNotes => {
-  trySet(localStorageKey, readReleaseNotes);
-});
+readReleaseNotesStore.observable
+  .skipFirst()
+  .distinct()
+  .subscribe(readReleaseNotes => {
+    trySet(localStorageKey, readReleaseNotes);
+  });
 
 // stores the latest release notes, but does not account for the users read state
 const currentReleaseNotesStore = createStore({

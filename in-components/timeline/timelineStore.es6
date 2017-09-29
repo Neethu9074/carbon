@@ -170,7 +170,14 @@ export function getValidWindowSize(windowSize) {
 }
 
 export const to$ = timeframe$
-  .flatMap(_timeframe => (_timeframe.to ? create().emit(_timeframe.to).freeze() : serverTime$))
+  .flatMap(
+    _timeframe =>
+      _timeframe.to
+        ? create()
+            .emit(_timeframe.to)
+            .freeze()
+        : serverTime$
+  )
   .distinct();
 
 export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();
@@ -206,7 +213,10 @@ export function setFocusedMoment(newFocusedMoment) {
 
 globalFocusedMoment$.subscribe(setFocusedMoment);
 
-focusedMoment$.skipFirst().debounce(1000).subscribe(setGlobalFocusedMoment);
+focusedMoment$
+  .skipFirst()
+  .debounce(1000)
+  .subscribe(setGlobalFocusedMoment);
 
 export function fixFocusedMomentIfNotFixed() {
   combineLatest([to$, focusedMoment$]).once(e => {
@@ -246,14 +256,18 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).s
 });
 
 // automatically show a message when the focused moment is changed
-timeframe$.skipFirst().map(timeframe => timeframe.windowSize).distinct().subscribe(windowSize => {
-  addMessage(
-    {
-      type: 'info',
-      title: 'Time window has changed',
-      content: `The current window is ${formatDurationAccurately(windowSize, 60000, false)}.`,
-      timeout: 4000
-    },
-    'timewindow_changed'
-  );
-});
+timeframe$
+  .skipFirst()
+  .map(timeframe => timeframe.windowSize)
+  .distinct()
+  .subscribe(windowSize => {
+    addMessage(
+      {
+        type: 'info',
+        title: 'Time window has changed',
+        content: `The current window is ${formatDurationAccurately(windowSize, 60000, false)}.`,
+        timeout: 4000
+      },
+      'timewindow_changed'
+    );
+  });

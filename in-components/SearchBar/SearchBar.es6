@@ -51,11 +51,11 @@ export default connectTo(
               <Input />
             </div>
 
-            {hasContent
-              ? <div className={`${collapseClass}`} onClick={() => setInputString('')}>
-                  <SvgIcon type="x" height={10} className={`${block}__icon`} />
-                </div>
-              : null}
+            {hasContent ? (
+              <div className={`${collapseClass}`} onClick={() => setInputString('')}>
+                <SvgIcon type="x" height={10} className={`${block}__icon`} />
+              </div>
+            ) : null}
 
             <div
               className={evaluateClassNames({

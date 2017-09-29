@@ -9,9 +9,7 @@ export default function ObjectiveContent({ event }) {
     <div>
       <Header event={event} />
 
-      <Section>
-        {event.getIn(['problem', 'problemText'])}
-      </Section>
+      <Section>{event.getIn(['problem', 'problemText'])}</Section>
 
       <Section>
         <EventList incident={event} />

@@ -72,9 +72,7 @@ class HelpDialog extends React.PureComponent {
     } else if (this.state.error) {
       content = (
         <NotificationDialog title="Help Article Missing" onClose={closeHelp}>
-          <p className={`${block}__content`}>
-            Sorry, we failed to retrieve the help article :(.
-          </p>
+          <p className={`${block}__content`}>Sorry, we failed to retrieve the help article :(.</p>
         </NotificationDialog>
       );
     } else {

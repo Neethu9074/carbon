@@ -146,11 +146,14 @@ export default getElementDimensions(
           this.state.eventEmitter.emit('blur', true);
         });
 
-        this.blurSubscription = this.state.eventEmitter.on('blur').throttle(200, { leading: false }).subscribe(() => {
-          if (!this.isFocused) {
-            this.hide();
-          }
-        });
+        this.blurSubscription = this.state.eventEmitter
+          .on('blur')
+          .throttle(200, { leading: false })
+          .subscribe(() => {
+            if (!this.isFocused) {
+              this.hide();
+            }
+          });
 
         editor.on('change', (editor, change) => {
           const query = editor.getValue();

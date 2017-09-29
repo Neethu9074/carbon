@@ -15,18 +15,12 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Messages ready">
           <MetricValue snapshotId={snapshotId} metric="overview.messages_ready" />
         </KpiKeyValue>
@@ -108,7 +102,6 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       <NodesTable snapshot={snapshot} timeframe={timeframe} />
 
       <QueuesTable snapshot={snapshot} timeframe={timeframe} />
-
     </div>
   );
 }

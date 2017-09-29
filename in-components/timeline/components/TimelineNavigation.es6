@@ -52,9 +52,7 @@ export default connectTo(
           />
           <SvgIcon className={block + '__icon-zoom'} type="search" width={16} color="#6b8088" onClick={this.zoomIn} />
           <Tooltip content="Selected time window size">
-            <div className={`${block}__window-size`}>
-              {formatDurationAccurately(timeframe.windowSize)}
-            </div>
+            <div className={`${block}__window-size`}>{formatDurationAccurately(timeframe.windowSize)}</div>
           </Tooltip>
         </div>
       );

@@ -13,6 +13,7 @@ import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('roleConfig');
 
@@ -90,29 +91,24 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          {role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}
-        </SubViewHeader>
+        <Title title="Role Config" />
+        <SubViewHeader>{role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form && !disabled
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form && !disabled ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
 
-            {form && disabled
-              ? <p>
-                  This role cannot be modified as it is a predefined system role.
-                </p>
-              : null}
+            {form && disabled ? <p>This role cannot be modified as it is a predefined system role.</p> : null}
           </Section>
 
           {form ? <RoleForm form={form} onChange={this.onChange} disabled={disabled} /> : null}
@@ -190,5 +186,6 @@ function createForm(role) {
     .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureObjectives', createField({ value: role.get('canConfigureObjectives') }));
+    .put('canConfigureObjectives', createField({ value: role.get('canConfigureObjectives') }))
+    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }));
 }

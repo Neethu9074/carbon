@@ -16,13 +16,9 @@ export default function AndroidErrorSpanDetailView({ span }) {
           {span.getIn(['data', 'android_error', 'report', 'android_version'])}
         </DescriptionItem>
 
-        <DescriptionItem title="Phone Model">
-          {span.getIn(['data', 'android_error', 'phone_model'])}
-        </DescriptionItem>
+        <DescriptionItem title="Phone Model">{span.getIn(['data', 'android_error', 'phone_model'])}</DescriptionItem>
 
-        <DescriptionItem title="Carrier">
-          {span.getIn(['data', 'android_error', 'report', 'provider'])}
-        </DescriptionItem>
+        <DescriptionItem title="Carrier">{span.getIn(['data', 'android_error', 'report', 'provider'])}</DescriptionItem>
 
         <DescriptionItem title="Network Type">
           {span.getIn(['data', 'android_error', 'report', 'networkType'])}
@@ -32,9 +28,7 @@ export default function AndroidErrorSpanDetailView({ span }) {
           {formatDateTime(span.getIn(['data', 'android_error', 'crashTimestamp']))}
         </DescriptionItem>
 
-        <DescriptionItem title="IP">
-          {span.getIn(['data', 'android_error', 'ip'])}
-        </DescriptionItem>
+        <DescriptionItem title="IP">{span.getIn(['data', 'android_error', 'ip'])}</DescriptionItem>
 
         <DescriptionItem title="Location">
           <GeoLocation geo={span.getIn(['data', 'android_error', 'geo'])} />
@@ -43,7 +37,6 @@ export default function AndroidErrorSpanDetailView({ span }) {
         <DescriptionItem title="Stacktrace">
           <Code lang="json" code={span.getIn(['data', 'android_error', 'report', 'stack_trace'])} />
         </DescriptionItem>
-
       </DescriptionList>
     </div>
   );

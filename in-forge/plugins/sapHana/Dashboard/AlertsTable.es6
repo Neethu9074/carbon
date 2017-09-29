@@ -39,12 +39,15 @@ const cols = [
 ];
 
 export default function AlertsTable({ snapshot }) {
-  const rows = snapshot.getIn(['data', 'alerts'], emptyList).toArray().map((alert, i) => {
-    return {
-      key: i,
-      alert
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'alerts'], emptyList)
+    .toArray()
+    .map((alert, i) => {
+      return {
+        key: i,
+        alert
+      };
+    });
 
   if (rows.length === 0) {
     return null;
@@ -60,12 +63,8 @@ export default function AlertsTable({ snapshot }) {
 function getRowDetails(row) {
   return (
     <DescriptionList>
-      <DescriptionItem>
-        {row.alert.get('details')}
-      </DescriptionItem>
-      <DescriptionItem title="User Action">
-        {row.alert.get('userAction')}
-      </DescriptionItem>
+      <DescriptionItem>{row.alert.get('details')}</DescriptionItem>
+      <DescriptionItem title="User Action">{row.alert.get('userAction')}</DescriptionItem>
     </DescriptionList>
   );
 }

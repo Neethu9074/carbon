@@ -51,18 +51,14 @@ export default class extends React.Component {
           <DescriptionItem title="App name">
             <EditableTextInput text={name} onSave={this.saveName} />
           </DescriptionItem>
-          <DescriptionItem title="API key">
-            {key}
-          </DescriptionItem>
+          <DescriptionItem title="API key">{key}</DescriptionItem>
           <DescriptionItem title="Tracking code">
             <Code code={snippet} lang="html" showLineNumbers={false} wrapperClassName={`${block}__tracking-code`} />
           </DescriptionItem>
         </DescriptionList>
 
         <RightAlignment>
-          <CopyToClipboardButton getText={() => snippet}>
-            Copy tracking code to clipboard
-          </CopyToClipboardButton>
+          <CopyToClipboardButton getText={() => snippet}>Copy tracking code to clipboard</CopyToClipboardButton>
           <Button size="sm" kind="danger" className={`${block}__remove`} onClick={() => remove(key, name)}>
             Remove
           </Button>

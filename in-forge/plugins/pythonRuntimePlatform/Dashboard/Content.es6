@@ -11,48 +11,30 @@ export default function PythonDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="GC Activity">
-          {renderGcMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="GC Activity">{renderGcMetrics(snapshot, timeframe)}</DashboardSection>
 
-        <DashboardSection title="Memory Usage">
-          {renderMemoryMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeframe)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Threads">
-          {renderThreadsMetrics(snapshot, timeframe)}
-        </DashboardSection>
-        <DashboardSection title="Time Spent">
-          {renderTimeMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Threads">{renderThreadsMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Time Spent">{renderTimeMetrics(snapshot, timeframe)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Paging">
-          {renderPagingMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Paging">{renderPagingMetrics(snapshot, timeframe)}</DashboardSection>
 
-        <DashboardSection title="I/O">
-          {renderIoMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="I/O">{renderIoMetrics(snapshot, timeframe)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Events">
-          {renderEventsMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Events">{renderEventsMetrics(snapshot, timeframe)}</DashboardSection>
 
-        <DashboardSection title="Context Switching">
-          {renderContextMetrics(snapshot, timeframe)}
-        </DashboardSection>
+        <DashboardSection title="Context Switching">{renderContextMetrics(snapshot, timeframe)}</DashboardSection>
       </Columize>
     </div>
   );

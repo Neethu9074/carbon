@@ -90,7 +90,9 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
     throttledDrawStream.emit(changeSignal);
   });
 
-  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
+  const resizeSubscription = on(window, 'resize')
+    .debounce(500)
+    .subscribe(resize);
   resize(); // initial resize
 
   const drawSubscription = throttledDrawStream.debounce(300).subscribe(draw);

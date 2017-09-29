@@ -9,8 +9,8 @@ export default function HAProxyDashboard({ snapshot, timeframe }) {
   if (!socketPath) {
     return (
       <DashboardNotification type="info">
-        HAProxy is not configured for socket access.
-        Please configure <code>stats socket</code> to point to a UNIX socket.
+        HAProxy is not configured for socket access. Please configure <code>stats socket</code> to point to a UNIX
+        socket.
       </DashboardNotification>
     );
   }

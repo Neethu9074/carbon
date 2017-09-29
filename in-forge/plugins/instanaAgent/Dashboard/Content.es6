@@ -21,23 +21,23 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <Columize>
-        {snapshot.getIn(['data', 'hasCpuLoad'])
-          ? <DashboardSection title="CPU Load">
-              <Chart
-                snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  metrics: ['cpu.load'],
-                  labels: ['Load'],
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-          : null}
+        {snapshot.getIn(['data', 'hasCpuLoad']) ? (
+          <DashboardSection title="CPU Load">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeframe={timeframe}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                metrics: ['cpu.load'],
+                labels: ['Load'],
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        ) : null}
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}

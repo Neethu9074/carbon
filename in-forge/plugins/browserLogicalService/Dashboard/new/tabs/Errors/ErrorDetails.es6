@@ -17,6 +17,7 @@ import Code from 'in-sdk/components/traceDetails/Code';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './ErrorDetails.less';
 
@@ -50,8 +51,8 @@ export default connectTo(
     } else if (result.error) {
       return (
         <Notification type="warning">
-          <strong>Failed to retrieve error details.</strong> Please refresh the page or contact customer{' '}
-          support should this issue persist.
+          <strong>Failed to retrieve error details.</strong> Please refresh the page or contact customer support should
+          this issue persist.
         </Notification>
       );
     }
@@ -65,12 +66,13 @@ export default connectTo(
 
     let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
     if (pageName) {
-      viewTracesQuery += ` span.webEum.page:"${luceneEscapeString(pageName)}"`;
+      viewTracesQuery += ` span.website.page:"${luceneEscapeString(pageName)}"`;
     }
-    viewTracesQuery += ` span.webEum.error.message:"${luceneEscapeString(message)}"`;
+    viewTracesQuery += ` span.website.error.message:"${luceneEscapeString(message)}"`;
 
     return (
       <div>
+        <Title title="Error Details" dynamic={message} />
         <div className={`${block}__actions`}>
           <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
           <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
@@ -80,39 +82,33 @@ export default connectTo(
 
         <DashboardTile>
           <DescriptionList>
-            <DescriptionItem title="Message">
-              {message}
-            </DescriptionItem>
+            <DescriptionItem title="Message">{message}</DescriptionItem>
 
-            {stack && !isErrorNotReadableDueToSameOriginPolicy
-              ? <DescriptionItem title="Stack">
-                  <Code code={stack} />
-                </DescriptionItem>
-              : null}
+            {stack && !isErrorNotReadableDueToSameOriginPolicy ? (
+              <DescriptionItem title="Stack">
+                <Code code={stack} />
+              </DescriptionItem>
+            ) : null}
 
-            {isErrorNotReadableDueToSameOriginPolicy
-              ? <Notification type="info">
-                  <strong>Error details not accessible.</strong>{' '}
-                  Due to same-origin policy restrictions, the browser did not permit access to the error message and{
-                    ' '
-                  }
-                  stack trace of this uncaught error. To gain visibility into these error details, please add the{' '}
-                  <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML script tags and serve JavaScript
-                  files{' '}
-                  with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
-                </Notification>
-              : null}
+            {isErrorNotReadableDueToSameOriginPolicy ? (
+              <Notification type="info">
+                <strong>Error details not accessible.</strong> Due to same-origin policy restrictions, the browser did
+                not permit access to the error message and stack trace of this uncaught error. To gain visibility into
+                these error details, please add the <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML
+                script tags and serve JavaScript files with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
+              </Notification>
+            ) : null}
           </DescriptionList>
         </DashboardTile>
 
-        {instanaInternalFeaturesEnabled
-          ? <DashboardTile title="Occurences over time">
-              <strong style={{ color: 'darkred' }}>
-                Show a chart how often this error occurred over time. This is currently not possible and will
-                require backend work.
-              </strong>
-            </DashboardTile>
-          : null}
+        {instanaInternalFeaturesEnabled ? (
+          <DashboardTile title="Occurences over time">
+            <strong style={{ color: 'darkred' }}>
+              Show a chart how often this error occurred over time. This is currently not possible and will require
+              backend work.
+            </strong>
+          </DashboardTile>
+        ) : null}
 
         <ErrorBreakdownTable
           result={result}

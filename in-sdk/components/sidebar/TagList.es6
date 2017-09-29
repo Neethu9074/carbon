@@ -16,9 +16,7 @@ export default function TagList({ snapshot }) {
 
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Tags ({tags.size})</Collapsible.Header>
-        <Collapsible.Content>
-          {tags.toArray().map(tag => <Tag key={tag} tag={tag} />)}
-        </Collapsible.Content>
+        <Collapsible.Content>{tags.toArray().map(tag => <Tag key={tag} tag={tag} />)}</Collapsible.Content>
       </Collapsible>
     </div>
   );

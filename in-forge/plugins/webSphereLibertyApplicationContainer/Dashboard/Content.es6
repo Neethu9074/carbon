@@ -23,27 +23,29 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-      {threadPoolStatsPresent
-        ? <DashboardSection title="Thread Pool">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                formatter: zeroDecimalPlaces,
-                metrics: ['threadPool.activeThreads', 'threadPool.poolSize'],
-                labels: ['Active Threads', 'Pool Size'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : <DashboardNotification type="info">
-            Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and
-            WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is
-            overridden and not visible.
-          </DashboardNotification>}
+      {threadPoolStatsPresent ? (
+        <DashboardSection title="Thread Pool">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['threadPool.activeThreads', 'threadPool.poolSize'],
+              labels: ['Active Threads', 'Pool Size'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : (
+        <DashboardNotification type="info">
+          Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and
+          WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is
+          overridden and not visible.
+        </DashboardNotification>
+      )}
       <ServletsTable snapshot={snapshot} timeframe={timeframe} />
       <ConnectionPoolsTable snapshot={snapshot} timeframe={timeframe} />
       <SessionsTable snapshot={snapshot} timeframe={timeframe} />

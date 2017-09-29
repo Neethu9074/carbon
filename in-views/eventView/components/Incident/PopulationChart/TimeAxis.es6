@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
+import { getTickPositions } from 'in-charts/ticks/timeAxis';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import { getTickPositions } from 'in-charts/timeAxis';
 
 import './TimeAxis.less';
 

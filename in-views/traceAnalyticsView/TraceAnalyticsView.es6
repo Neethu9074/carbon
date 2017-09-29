@@ -9,6 +9,7 @@ import TraceGroupings from 'in-views/traceAnalyticsView/components/TraceGrouping
 import TwoColumnView from 'in-components/TwoColumnView';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './TraceAnalyticsView.less';
 
@@ -30,6 +31,7 @@ export default connectTo(
     return (
       <TwoColumnView
         leftContent={[
+          <Title title="Trace Analytics" key="title_analytics" />,
           <ToggleViewHeader
             key="0"
             side="left"
@@ -48,22 +50,22 @@ export default connectTo(
                 >
                   Mark all traces
                 </Button>
-                {markedTraces.size > 0
-                  ? <Button
-                      kind="danger"
-                      size="sm"
-                      onClick={() => {
-                        const tracesToRemove = [];
-                        markedTraces.forEach((trace, id) => tracesToRemove.push(id));
-                        removeTraceIds(tracesToRemove);
+                {markedTraces.size > 0 ? (
+                  <Button
+                    kind="danger"
+                    size="sm"
+                    onClick={() => {
+                      const tracesToRemove = [];
+                      markedTraces.forEach((trace, id) => tracesToRemove.push(id));
+                      removeTraceIds(tracesToRemove);
 
-                        clear();
-                      }}
-                      className={`${block}__remove-marked-traces`}
-                    >
-                      {`Remove marked traces from analytics (${markedTraces.size})`}
-                    </Button>
-                  : null}
+                      clear();
+                    }}
+                    className={`${block}__remove-marked-traces`}
+                  >
+                    {`Remove marked traces from analytics (${markedTraces.size})`}
+                  </Button>
+                ) : null}
               </div>
             }
           />,

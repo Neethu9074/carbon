@@ -173,7 +173,9 @@ export default function createAxisController(config) {
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(
       combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe]) => {
-        config.rollup = getDefaultMetricRollupDuration(timeframe);
+        clearData();
+
+        config.rollup = getDefaultMetricRollupDuration(timeframe, config.minRollup);
         config.timeframe = timeframe;
         config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
 

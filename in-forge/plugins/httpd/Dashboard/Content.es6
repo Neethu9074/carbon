@@ -18,31 +18,25 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
   if (status !== 'OK' && status !== 'EXTENDED_INFO_DISABLED') {
     if (!status) {
       return (
-        <DashboardNotification type="info">
-          There is no further information about this entity.
-        </DashboardNotification>
+        <DashboardNotification type="info">There is no further information about this entity.</DashboardNotification>
       );
     }
-    return (
-      <DashboardNotification type="warning">
-        {status}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="warning">{status}</DashboardNotification>;
   }
   return (
     <div>
       <KpiSection>
         <KpiHeading>{snapshot.getIn(['data', 'version'])}</KpiHeading>
-        {status !== 'EXTENDED_INFO_DISABLED'
-          ? <KpiKeyValue label="Requests">
-              <MetricValue snapshotId={snapshotId} metric="requests" />
-            </KpiKeyValue>
-          : null}
-        {status !== 'EXTENDED_INFO_DISABLED'
-          ? <KpiKeyValue label="kBytes Traffic">
-              <MetricValue snapshotId={snapshotId} metric="kBytes" />
-            </KpiKeyValue>
-          : null}
+        {status !== 'EXTENDED_INFO_DISABLED' ? (
+          <KpiKeyValue label="Requests">
+            <MetricValue snapshotId={snapshotId} metric="requests" />
+          </KpiKeyValue>
+        ) : null}
+        {status !== 'EXTENDED_INFO_DISABLED' ? (
+          <KpiKeyValue label="kBytes Traffic">
+            <MetricValue snapshotId={snapshotId} metric="kBytes" />
+          </KpiKeyValue>
+        ) : null}
         <KpiKeyValue label="Busy Worker">
           <MetricValue snapshotId={snapshotId} metric="busy_workers" />
         </KpiKeyValue>
@@ -50,53 +44,53 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
 
       {extendedStatusInfo(status, ver)}
 
-      {status !== 'EXTENDED_INFO_DISABLED'
-        ? <DashboardSection title="Traffic">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 80,
-                right: 60
-              }}
-              y1={{
-                metrics: ['requests'],
-                labels: ['Requests'],
-                type: 'line'
-              }}
-              y2={{
-                metrics: ['kBytes'],
-                labels: ['kBytes'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {status !== 'EXTENDED_INFO_DISABLED' ? (
+        <DashboardSection title="Traffic">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 60
+            }}
+            y1={{
+              metrics: ['requests'],
+              labels: ['Requests'],
+              type: 'line'
+            }}
+            y2={{
+              metrics: ['kBytes'],
+              labels: ['kBytes'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
-      {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0')
-        ? <DashboardSection title="Connections">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 50,
-                right: 40
-              }}
-              y1={{
-                min: 0,
-                metrics: ['conns_total'],
-                labels: ['Connections'],
-                type: 'line'
-              }}
-              y2={{
-                min: 0,
-                metrics: ['conns_async_writing', 'conns_async_keep_alive', 'conns_async_closing'],
-                labels: ['Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0') ? (
+        <DashboardSection title="Connections">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 50,
+              right: 40
+            }}
+            y1={{
+              min: 0,
+              metrics: ['conns_total'],
+              labels: ['Connections'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              metrics: ['conns_async_writing', 'conns_async_keep_alive', 'conns_async_closing'],
+              labels: ['Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <DashboardSection title="Worker">
         <Chart
@@ -136,43 +130,42 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {status !== 'EXTENDED_INFO_DISABLED'
-        ? <div>
-            <DashboardSection title="CPU">
-              <Chart
-                snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  metrics: ['cpu_load'],
-                  labels: ['CPU load'],
-                  type: 'line',
-                  formatter: percentageZeroDecimalPlaces
-                }}
-              />
-            </DashboardSection>
-            <DashboardSection title="Traffic per Request">
-              <Chart
-                snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  metrics: ['bytes_per_req'],
-                  labels: ['Traffic per request'],
-                  type: 'line',
-                  formatter: bytesZeroDecimalPlaces
-                }}
-              />
-            </DashboardSection>
-          </div>
-        : null}
-
+      {status !== 'EXTENDED_INFO_DISABLED' ? (
+        <div>
+          <DashboardSection title="CPU">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeframe={timeframe}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                metrics: ['cpu_load'],
+                labels: ['CPU load'],
+                type: 'line',
+                formatter: percentageZeroDecimalPlaces
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Traffic per Request">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeframe={timeframe}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                metrics: ['bytes_per_req'],
+                labels: ['Traffic per request'],
+                type: 'line',
+                formatter: bytesZeroDecimalPlaces
+              }}
+            />
+          </DashboardSection>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -184,9 +177,8 @@ function extendedStatusInfo(status, ver) {
 
   return (
     <DashboardNotification type="info">
-      In order to display metrics such as:
-      Traffic, Traffic per Request and CPU,
-      &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
+      In order to display metrics such as: Traffic, Traffic per Request and CPU, &nbsp;<strong>ExtendedStatus</strong>{' '}
+      flag should be&nbsp;
       <strong>enabled</strong> in apache httpd configuration.&nbsp;
       <Link href={getModStatusDoc(ver)} external>
         Apache ExtendedStatus Directive

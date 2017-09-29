@@ -55,96 +55,96 @@ export default function Navigation() {
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
-        {role.canConfigureServiceMapping
-          ? <NavItem
-              title="Service Mapper"
-              isActive$={combine(
-                isGeneralServiceExtractionConfigurationView$,
-                isHttpServiceExtractionConfigurationView$,
-                isEjbServiceExtractionConfigurationView$,
-                isElasticsearchServiceExtractionConfigurationView$,
-                isMessageBrokerServiceExtractionConfigurationView$
-              )}
-            >
-              <NavItem
-                title="General Rules"
-                href$={generalServiceExtractionConfigurationViewLink$}
-                isActive$={isGeneralServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="HTTP Rules"
-                href$={httpServiceExtractionConfigurationViewLink$}
-                isActive$={isHttpServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="Batch Rules"
-                href$={batchServiceExtractionConfigurationViewLink$}
-                isActive$={isBatchServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="EJB Rules"
-                href$={ejbServiceExtractionConfigurationViewLink$}
-                isActive$={isEjbServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="Elasticsearch Rules"
-                href$={elasticsearchServiceExtractionConfigurationViewLink$}
-                isActive$={isElasticsearchServiceExtractionConfigurationView$}
-                borderless
-              />
-              <NavItem
-                title="Message Broker Rules"
-                href$={messageBrokerServiceExtractionConfigurationViewLink$}
-                isActive$={isMessageBrokerServiceExtractionConfigurationView$}
-                borderless
-              />
-            </NavItem>
-          : null}
+        {role.canConfigureServiceMapping ? (
+          <NavItem
+            title="Service Mapper"
+            isActive$={combine(
+              isGeneralServiceExtractionConfigurationView$,
+              isHttpServiceExtractionConfigurationView$,
+              isEjbServiceExtractionConfigurationView$,
+              isElasticsearchServiceExtractionConfigurationView$,
+              isMessageBrokerServiceExtractionConfigurationView$
+            )}
+          >
+            <NavItem
+              title="General Rules"
+              href$={generalServiceExtractionConfigurationViewLink$}
+              isActive$={isGeneralServiceExtractionConfigurationView$}
+              borderless
+            />
+            <NavItem
+              title="HTTP Rules"
+              href$={httpServiceExtractionConfigurationViewLink$}
+              isActive$={isHttpServiceExtractionConfigurationView$}
+              borderless
+            />
+            <NavItem
+              title="Batch Rules"
+              href$={batchServiceExtractionConfigurationViewLink$}
+              isActive$={isBatchServiceExtractionConfigurationView$}
+              borderless
+            />
+            <NavItem
+              title="EJB Rules"
+              href$={ejbServiceExtractionConfigurationViewLink$}
+              isActive$={isEjbServiceExtractionConfigurationView$}
+              borderless
+            />
+            <NavItem
+              title="Elasticsearch Rules"
+              href$={elasticsearchServiceExtractionConfigurationViewLink$}
+              isActive$={isElasticsearchServiceExtractionConfigurationView$}
+              borderless
+            />
+            <NavItem
+              title="Message Broker Rules"
+              href$={messageBrokerServiceExtractionConfigurationViewLink$}
+              isActive$={isMessageBrokerServiceExtractionConfigurationView$}
+              borderless
+            />
+          </NavItem>
+        ) : null}
 
-        {role.canConfigureEumApplications && config.tenant === 'edmunds'
-          ? <NavItem title="End-User Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
-          : null}
+        {role.canConfigureEumApplications && config.tenant === 'edmunds' ? (
+          <NavItem title="Website Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
+        ) : null}
 
-        {role.canConfigureUsers || role.canConfigureRoles
-          ? <NavItem
-              title="Access Control"
-              isActive$={combine(isUserManagementView$, isRolesConfigView$, isApiTokensView$)}
-            >
-              {role.canConfigureUsers
-                ? <NavItem title="Users" href$={userManagementViewLink$} isActive$={isUserManagementView$} borderless />
-                : null}
+        {role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens ? (
+          <NavItem
+            title="Access Control"
+            isActive$={combine(isUserManagementView$, isRolesConfigView$, isApiTokensView$)}
+          >
+            {role.canConfigureUsers ? (
+              <NavItem title="Users" href$={userManagementViewLink$} isActive$={isUserManagementView$} borderless />
+            ) : null}
 
-              {role.canConfigureRoles
-                ? <NavItem title="Roles" href$={rolesConfigViewLink$} isActive$={isRolesConfigView$} borderless />
-                : null}
+            {role.canConfigureRoles ? (
+              <NavItem title="Roles" href$={rolesConfigViewLink$} isActive$={isRolesConfigView$} borderless />
+            ) : null}
 
-              {role.canConfigureApiTokens
-                ? <NavItem title="API Tokens" href$={apiTokensViewLink$} isActive$={isApiTokensView$} borderless />
-                : null}
-            </NavItem>
-          : null}
+            {role.canConfigureApiTokens ? (
+              <NavItem title="API Tokens" href$={apiTokensViewLink$} isActive$={isApiTokensView$} borderless />
+            ) : null}
+          </NavItem>
+        ) : null}
 
-        {role.canConfigureCustomAlerts
-          ? <NavItem title="Knowledge Management" isActive$={combine(isRulesViewLink$, isRuleBindingsViewLink$)}>
-              <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
-              <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
-              {instanaInternalFeaturesEnabled
-                ? <NavItem title="Custom Forecast Rules" href$={forecastsViewLink$} isActive$={isForecastsView$} />
-                : null}
-            </NavItem>
-          : null}
+        {role.canConfigureCustomAlerts ? (
+          <NavItem title="Knowledge Management" isActive$={combine(isRulesViewLink$, isRuleBindingsViewLink$)}>
+            <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
+            <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
+            {instanaInternalFeaturesEnabled ? (
+              <NavItem title="Custom Forecast Rules" href$={forecastsViewLink$} isActive$={isForecastsView$} />
+            ) : null}
+          </NavItem>
+        ) : null}
 
-        {role.canViewAuditLog
-          ? <NavItem title="Audit Log" href$={auditLogViewLink$} isActive$={isAuditLogView$} />
-          : null}
+        {role.canViewAuditLog ? (
+          <NavItem title="Audit Log" href$={auditLogViewLink$} isActive$={isAuditLogView$} />
+        ) : null}
 
-        {objectivesEnabled
-          ? <NavItem title="Objectives" href$={objectiveViewLink$} isActive$={isObjectivesView$} />
-          : null}
+        {objectivesEnabled ? (
+          <NavItem title="Objectives" href$={objectiveViewLink$} isActive$={isObjectivesView$} />
+        ) : null}
       </NavItems>
     </nav>
   );

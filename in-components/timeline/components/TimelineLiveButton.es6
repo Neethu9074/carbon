@@ -28,9 +28,7 @@ export default connectTo(
 
     return (
       <Link className={`${block}__link`} href$={href$} onClick={e => e.stopPropagation()}>
-        <div className={className}>
-          Live
-        </div>
+        <div className={className}>Live</div>
       </Link>
     );
   }

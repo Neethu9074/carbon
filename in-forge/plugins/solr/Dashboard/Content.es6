@@ -8,8 +8,8 @@ export default function SolrDashboard({ snapshot, timeframe }) {
   if (!version) {
     return (
       <DashboardNotification type="warning">
-        Jmx module is not enabled in solr. Please enable it to be able to collect data.
-        You can do so, by adding &lt;jmx /&gt; to solrconfig.xml.
+        Jmx module is not enabled in solr. Please enable it to be able to collect data. You can do so, by adding &lt;jmx
+        /&gt; to solrconfig.xml.
       </DashboardNotification>
     );
   }

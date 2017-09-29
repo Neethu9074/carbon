@@ -20,7 +20,6 @@ export default connectTo(
       <div className={`${block} ${block}__flex`}>
         <div className={`${block}__live-button`}>
           Live
-
           <Toggle
             className={`${block}__checkbox`}
             id="toggle_datepicker_live"

@@ -21,19 +21,17 @@ export const helpTexts = defaults(
       <span>
         Configure how Instana uses message broker span attributes to extract services. You can define multiple rules{' '}
         which will be executed in order, i.e. the first rule of which all match expression match, will be used to
-        extract{' '}
-        a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ.{' '}
-        Should no rule match, the defaults from the{' '}
-        <Link href$={generalServiceExtractionConfigurationViewLink$}>General config</Link> apply.{' '}
-        Should these not match as well, a default service name using the destination is used.
+        extract a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ. Should no rule match, the defaults
+        from the <Link href$={generalServiceExtractionConfigurationViewLink$}>General config</Link> apply. Should these
+        not match as well, a default service name using the destination is used.
       </span>
     ),
 
     matchesHelp:
       'Select here which message broker attributes should be used to match and extract a service. At least one match ' +
-        'expression is required. The message broker destination / queue / topic can be matched ' +
-        "to extract services. When all of the configured match expressions match a message broker span's attributes, a " +
-        'service will be extracted.'
+      'expression is required. The message broker destination / queue / topic can be matched ' +
+      "to extract services. When all of the configured match expressions match a message broker span's attributes, a " +
+      'service will be extracted.'
   },
   commonHelpTexts
 );

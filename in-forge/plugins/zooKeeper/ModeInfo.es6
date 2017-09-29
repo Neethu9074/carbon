@@ -6,9 +6,7 @@ export default function ModeInfo({ snapshot }) {
   const version = snapshot.getIn(['data', 'version']);
   return (
     <DescriptionList>
-      <DescriptionItem title="Mode">
-        {version ? 'Standalone' : 'Replicated'}
-      </DescriptionItem>
+      <DescriptionItem title="Mode">{version ? 'Standalone' : 'Replicated'}</DescriptionItem>
     </DescriptionList>
   );
 }

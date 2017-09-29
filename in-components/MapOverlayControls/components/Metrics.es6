@@ -58,11 +58,11 @@ const MetricPanel = connectTo(
       const metricList = getMetricList(this.props.view);
       return (
         <div className={block}>
-          {this.state.isOpen
-            ? <div className={`${block}__wrapper`}>
-                {Object.keys(metricList).map(topic => <Topic key={topic} label={topic} list={metricList} />)}
-              </div>
-            : null}
+          {this.state.isOpen ? (
+            <div className={`${block}__wrapper`}>
+              {Object.keys(metricList).map(topic => <Topic key={topic} label={topic} list={metricList} />)}
+            </div>
+          ) : null}
 
           <DropDown onClick={() => this.setState({ isOpen: !this.state.isOpen })} isOpen={this.state.isOpen} />
         </div>
@@ -79,7 +79,6 @@ const DropDown = connectTo(
     return (
       <div className={`${block}__dropdown`}>
         <div className={`${block}__dropdown-label`} onClick={onClick}>
-
           {activeMetric ? activeMetric.get('longLabel') : 'choose metric'}
 
           <SvgIcon
@@ -117,13 +116,11 @@ function Topic({ label, list }) {
   const topic = list[label];
   return (
     <div>
-      <h4 className={`${block}__topic`}>
-        {label}
-      </h4>
+      <h4 className={`${block}__topic`}>{label}</h4>
       <ul className={`${block}__list`}>
-        {Object.keys(topic).map(metricKey =>
+        {Object.keys(topic).map(metricKey => (
           <Metric key={metricKey} topic={label} metricKey={metricKey} metric={topic} />
-        )}
+        ))}
       </ul>
     </div>
   );

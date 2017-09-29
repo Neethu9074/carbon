@@ -8,9 +8,5 @@ import './HorizontalFormGroupWithBackground.less';
 const block = 'in-config-view-hori-form-group';
 
 export default function HorizontalFormGroupWithBackground({ children, className }) {
-  return (
-    <HorizontalFormGroup className={joinClassNames(className, block)}>
-      {children}
-    </HorizontalFormGroup>
-  );
+  return <HorizontalFormGroup className={joinClassNames(className, block)}>{children}</HorizontalFormGroup>;
 }

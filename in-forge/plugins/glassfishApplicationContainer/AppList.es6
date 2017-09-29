@@ -8,15 +8,5 @@ export default function AppList({ snapshot }) {
     return null;
   }
 
-  return (
-    <List>
-      {apps
-        .map((arg, i) =>
-          <List.Item key={i}>
-            {arg}
-          </List.Item>
-        )
-        .toArray()}
-    </List>
-  );
+  return <List>{apps.map((arg, i) => <List.Item key={i}>{arg}</List.Item>).toArray()}</List>;
 }

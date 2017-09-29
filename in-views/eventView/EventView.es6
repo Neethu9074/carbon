@@ -11,10 +11,12 @@ import { expandedSide$ } from 'in-views/eventView/stores/expandedSide';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import Title from 'in-components/Title';
 
 export default function EventView() {
   return (
     <div>
+      <Title title="Events" />
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
 
       <FullscreenTwoColumnView

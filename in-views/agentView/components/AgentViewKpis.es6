@@ -1,0 +1,58 @@
+import React from 'react';
+
+import DualValueBar from 'in-sdk/components/dashboard/summary/DualValueBar';
+import { agentNotificationsEnabled } from 'in-services/featureFlags';
+import { emptyList, emptyMap } from 'in-services/fixedImmutables';
+import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
+import { formatDateTime } from 'in-services/formatters/date';
+import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
+import { focusedMoment$ } from 'in-stores/timeline';
+import KV from 'in-sdk/components/dashboard/KV';
+import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
+
+export default connectTo(
+  {
+    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
+    focusedMoment: focusedMoment$
+  },
+  function AgentViewKpis({ agentSnapshots, focusedMoment }) {
+    const agentNotifications = emptyMap;
+    if (!agentSnapshots) {
+      return null;
+    }
+
+    return (
+      <Kpis>
+        {agentSnapshots ? (
+          <Tooltip
+            content={`At the selected moment: ${focusedMoment ? formatDateTime(focusedMoment) : 'Now'}`}
+            align="rightMiddle"
+          >
+            <KV
+              k="Total agents"
+              v={
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
+                  <DualValueBar
+                    aValue={agentSnapshots.get('online', emptyList).size}
+                    bValue={agentSnapshots.get('offline', emptyList).size}
+                    formatter={b => b}
+                    aLabel="Reporting"
+                    bLabel="Not reporting"
+                  />
+                </div>
+              }
+            />
+          </Tooltip>
+        ) : null}
+        {agentNotificationsEnabled ? <KV k="Notifications" v={agentNotifications.size} /> : null}
+      </Kpis>
+    );
+  }
+);

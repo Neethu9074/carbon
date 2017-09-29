@@ -27,12 +27,8 @@ export default function CassandraClusterSidebar({ snapshot }) {
         <Collapsible.Header>Nodes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Available Nodes">
-              {liveNodesCount}
-            </DescriptionItem>
-            <DescriptionItem title="Unreachable Nodes">
-              {unreachableNodesCount(data)}
-            </DescriptionItem>
+            <DescriptionItem title="Available Nodes">{liveNodesCount}</DescriptionItem>
+            <DescriptionItem title="Unreachable Nodes">{unreachableNodesCount(data)}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

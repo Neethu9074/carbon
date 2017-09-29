@@ -42,29 +42,29 @@ export default function Dashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {serverLogRuntimeMBeanAvailable
-        ? <DashboardSection title="Server Log Messages by Severity">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                formatter: zeroDecimalPlaces,
-                metrics: [
-                  'serverLogMessages.warnings',
-                  'serverLogMessages.errors',
-                  'serverLogMessages.alerts',
-                  'serverLogMessages.criticals',
-                  'serverLogMessages.emergencies'
-                ],
-                labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergencie'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {serverLogRuntimeMBeanAvailable ? (
+        <DashboardSection title="Server Log Messages by Severity">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: [
+                'serverLogMessages.warnings',
+                'serverLogMessages.errors',
+                'serverLogMessages.alerts',
+                'serverLogMessages.criticals',
+                'serverLogMessages.emergencies'
+              ],
+              labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergencie'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DatasourcesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );

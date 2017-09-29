@@ -8,10 +8,11 @@ import {
   websiteViewLink$,
   tableViewFilteredForServicesLink$,
   logView$,
+  kubernetesViewLink$,
   cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
-import { logViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
+import { logViewEnabled, cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
@@ -42,6 +43,7 @@ export default connectTo(
       const isEventView = pathname.indexOf('/events') === 0;
       const isLogsView = pathname.indexOf('/logs') === 0;
       const isWebsiteView = pathname.indexOf('/website') === 0;
+      const isKubernetesView = pathname.indexOf('/kubernetes') === 0;
 
       return {
         isLogicalTable,
@@ -52,7 +54,8 @@ export default connectTo(
         isContainerView,
         isEventView,
         isLogsView,
-        isWebsiteView
+        isWebsiteView,
+        isKubernetesView
       };
     })
   },
@@ -71,7 +74,8 @@ export default connectTo(
         viewActiveState.isContainerView !== nextViewActiveState.isContainerView ||
         viewActiveState.isEventView !== nextViewActiveState.isEventView ||
         viewActiveState.isLogsView !== nextViewActiveState.isLogsView ||
-        viewActiveState.isWebsiteView !== nextViewActiveState.isWebsiteView
+        viewActiveState.isWebsiteView !== nextViewActiveState.isWebsiteView ||
+        viewActiveState.isKubernetesView !== nextViewActiveState.isKubernetesView
       );
     }
 
@@ -87,15 +91,16 @@ export default connectTo(
         isContainerView,
         isEventView,
         isLogsView,
-        isWebsiteView
+        isWebsiteView,
+        isKubernetesView
       } = viewActiveState;
 
       return (
         <div className={block}>
           <ul className={block + '__list'}>
-            {cockpitEnabled
-              ? <View label="cockpit" icon="dashboard" isActive={isContainerView} href$={cockpitLink$} />
-              : null}
+            {cockpitEnabled ? (
+              <View label="cockpit" icon="dashboard" isActive={isContainerView} href$={cockpitLink$} />
+            ) : null}
 
             <View
               label="infrastructure"
@@ -117,6 +122,10 @@ export default connectTo(
             </View>
 
             <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
+
+            {kubernetesEnabled ? (
+              <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
+            ) : null}
 
             {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 

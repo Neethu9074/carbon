@@ -12,6 +12,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('ObjectiveConfig');
 
@@ -45,36 +46,36 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Objective" />
         <SubViewHeader>
           {objective ? `Configure objective: ${objective.get('name')}` : 'Configure objective'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
-          {form
-            ? <ObjectiveForm
-                form={form}
-                onChange={this.onChange}
-                onChangeInThresholds={this.onChangeInThresholds}
-                onAddThreshold={this.onAddThreshold}
-                onRemoveThreshold={this.onRemoveThreshold}
-              />
-            : null}
+          {form ? (
+            <ObjectiveForm
+              form={form}
+              onChange={this.onChange}
+              onChangeInThresholds={this.onChangeInThresholds}
+              onAddThreshold={this.onAddThreshold}
+              onRemoveThreshold={this.onRemoveThreshold}
+            />
+          ) : null}
         </form>
-
       </SubViewWrapper>
     );
   }

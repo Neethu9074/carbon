@@ -10,11 +10,7 @@ import AlertsTable from './AlertsTable.es6';
 export default function Dashboard({ snapshot, timeframe }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
   return (

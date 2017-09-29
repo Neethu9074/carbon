@@ -33,6 +33,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { compare } from 'in-services/util/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 import './ServiceExtraction.less';
 
@@ -293,9 +294,8 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          {this.props.title}
-        </SubViewHeader>
+        <Title title={this.props.title} />
+        <SubViewHeader>{this.props.title}</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewService} className={`${block}__button`}>
@@ -309,31 +309,27 @@ export default class extends React.Component {
             Edit as JSON
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
 
-          <p>
-            {this.props.helpTexts.viewHelp}
-          </p>
+          <p>{this.props.helpTexts.viewHelp}</p>
         </Section>
 
-        {servicesAvailable
-          ? <Section>
-              <SectionHeading>
-                Service Rules
-              </SectionHeading>
-              <Table
-                cols={this.cols}
-                rows={rows}
-                getRowDetails={getRowDetails}
-                initialSortColumn={1}
-                initialSortDirection="asc"
-              />
-            </Section>
-          : null}
+        {servicesAvailable ? (
+          <Section>
+            <SectionHeading>Service Rules</SectionHeading>
+            <Table
+              cols={this.cols}
+              rows={rows}
+              getRowDetails={getRowDetails}
+              initialSortColumn={1}
+              initialSortDirection="asc"
+            />
+          </Section>
+        ) : null}
       </SubViewWrapper>
     );
   }
@@ -426,26 +422,20 @@ function getRowDetails(row) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title="comment">
-          {rule.get('comment')}
-        </DescriptionItem>
-        <DescriptionItem title="match specification path">
-          {rule.getIn(['matchSpecification', 'path'])}
-        </DescriptionItem>
-        <DescriptionItem title="match specification host">
-          {rule.getIn(['matchSpecification', 'host'])}
-        </DescriptionItem>
+        <DescriptionItem title="comment">{rule.get('comment')}</DescriptionItem>
+        <DescriptionItem title="match specification path">{rule.getIn(['matchSpecification', 'path'])}</DescriptionItem>
+        <DescriptionItem title="match specification host">{rule.getIn(['matchSpecification', 'host'])}</DescriptionItem>
         <DescriptionItem title="extract specification label">
           {rule.getIn(['extractSpecification', 'label'])}
         </DescriptionItem>
 
         <DescriptionItem title="Endpoints">
           <ul className={`${block}__endpoint-list`}>
-            {rule.get('endpointRules', emptyList).map(endpoint =>
+            {rule.get('endpointRules', emptyList).map(endpoint => (
               <li key={endpoint.get('id')} className={`${block}__endpoint-list-item`}>
                 {endpoint.get('name')}
               </li>
-            )}
+            ))}
           </ul>
         </DescriptionItem>
       </DescriptionList>

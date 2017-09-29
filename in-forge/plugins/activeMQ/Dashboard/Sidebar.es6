@@ -12,9 +12,7 @@ export default function ActiveMQSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Broker Info
-        </Collapsible.Header>
+        <Collapsible.Header>Broker Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -23,9 +21,7 @@ export default function ActiveMQSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Transport Connectors Info
-        </Collapsible.Header>
+        <Collapsible.Header>Transport Connectors Info</Collapsible.Header>
         <Collapsible.Content>
           <ConnectorsInfo snapshot={snapshot} />
         </Collapsible.Content>

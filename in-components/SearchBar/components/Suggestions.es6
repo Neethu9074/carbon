@@ -59,7 +59,7 @@ export default class extends React.Component {
     return (
       <div className={block} style={{ left }}>
         <ul className={`${block}__list`}>
-          {availableChildren.map((child, i) =>
+          {availableChildren.map((child, i) => (
             <li
               className={evaluateClassNames({
                 [`${block}__item`]: true,
@@ -82,15 +82,11 @@ export default class extends React.Component {
                 }
               }}
             >
-              <span className={`${block}__label`}>
-                {child.name}
-              </span>
+              <span className={`${block}__label`}>{child.name}</span>
               <TermType node={child} />
-              <div className={`${block}__description`}>
-                {child.description}
-              </div>
+              <div className={`${block}__description`}>{child.description}</div>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     );
@@ -120,18 +116,23 @@ export default class extends React.Component {
   };
 
   onArrowDown = () => {
+    const numItems = this.state.availableChildren.length;
     this.setState({
-      currentHighlightedRowIndex: Math.min(
-        this.state.availableChildren.length - 1,
-        this.state.currentHighlightedRowIndex + 1
-      )
+      currentHighlightedRowIndex: (this.state.currentHighlightedRowIndex + 1) % numItems
     });
   };
 
   onArrowUp = () => {
-    this.setState({
-      currentHighlightedRowIndex: Math.max(0, this.state.currentHighlightedRowIndex - 1)
-    });
+    if (this.state.currentHighlightedRowIndex === 0) {
+      const numItems = this.state.availableChildren.length;
+      this.setState({
+        currentHighlightedRowIndex: numItems - 1
+      });
+    } else {
+      this.setState({
+        currentHighlightedRowIndex: this.state.currentHighlightedRowIndex - 1
+      });
+    }
   };
 
   onReturn = child => {
@@ -190,11 +191,7 @@ function TermType({ node }) {
     return null;
   }
 
-  return (
-    <span className={`${block}__term-type`}>
-      {node.termType}
-    </span>
-  );
+  return <span className={`${block}__term-type`}>{node.termType}</span>;
 }
 
 function getChildrenForConfig(config) {

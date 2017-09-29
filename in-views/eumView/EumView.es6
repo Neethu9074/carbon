@@ -11,6 +11,7 @@ import { data$ } from 'in-views/eumView/stores/snapshots';
 import { getLinkToPath } from 'in-stores/navigation';
 import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
@@ -36,7 +37,6 @@ export default connectTo(
               <LoadingIndicator type="dark" />
             </div>
           </FullscreenOverlayView>
-          {DashboardNavigationRoute}
         </div>
       );
     }
@@ -52,24 +52,26 @@ export default connectTo(
 
         <Route
           path="/website"
-          render={() =>
+          render={() => (
             <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+              <Title title="Websites" />
               <div className={block}>
                 <div className={headerElement}>
                   <div>
                     <WebsiteHeading numWebsites={snapshots.length} />
                   </div>
                   <div className={configureElement}>
-                    {role.canConfigureEumApplications
-                      ? <Link href$={getLinkToPath('/website/new')} className={configureElement}>
-                          Add Website
-                        </Link>
-                      : null}
+                    {role.canConfigureEumApplications ? (
+                      <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                        Add Website
+                      </Link>
+                    ) : null}
                   </div>
                 </div>
                 <WebsiteTable snapshots={snapshots} />
               </div>
-            </FullscreenOverlayView>}
+            </FullscreenOverlayView>
+          )}
         />
       </Switch>
     );

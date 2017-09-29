@@ -26,7 +26,9 @@ describe('layoutingStorage', () => {
       timestamp: now
     }
   };
-  const nodePositions$ = create().startWith(fromJS(testData)).freeze();
+  const nodePositions$ = create()
+    .startWith(fromJS(testData))
+    .freeze();
 
   beforeEach(() => {
     global.Storage = 'test';

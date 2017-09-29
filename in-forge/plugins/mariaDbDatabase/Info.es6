@@ -7,19 +7,11 @@ export default function MariaDbInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {data.get('port')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {getVersion(data)}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+      <DescriptionItem title="Version">{getVersion(data)}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Role">
-        {data.get('role')}
-      </DescriptionItem>
+      <DescriptionItem title="Role">{data.get('role')}</DescriptionItem>
     </DescriptionList>
   );
 }

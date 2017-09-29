@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import Dashboard from 'in-components/Dashboard';
+import { Route } from 'react-router-dom';
 
-export default <RouteWithTitle path={'*/dashboard'} component={Dashboard} windowTitle={'Dashboard'} />;
+export default <Route path={'*/dashboard'} component={Dashboard} />;

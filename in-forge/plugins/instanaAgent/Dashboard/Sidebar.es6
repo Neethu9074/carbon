@@ -10,9 +10,7 @@ export default function InstanaAgentSidebar({ snapshot }) {
     <div>
       <Separator />
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Instana Agent
-        </Collapsible.Header>
+        <Collapsible.Header>Instana Agent</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

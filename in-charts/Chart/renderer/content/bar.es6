@@ -6,7 +6,7 @@ export default function createBarContentRenderer({ axisName, config }) {
   const margin = 1;
 
   return {
-    requireExistenceInAllSeries: true,
+    requireExistenceInAllSeries: false,
     processNewDataColumns() {},
     render
   };
@@ -37,6 +37,10 @@ export default function createBarContentRenderer({ axisName, config }) {
         }
 
         const dataRow = dataColumn[iRows];
+        if (!dataRow) {
+          continue;
+        }
+
         const metricValue = dataRow[1];
         const yPosMetric = y.getRange(metricValue);
         const height = Math.max(chartHeight - yPosMetric, 2); // 2px minimum bar height

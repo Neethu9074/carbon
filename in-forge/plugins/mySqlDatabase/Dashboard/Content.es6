@@ -24,11 +24,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
     'wait/synch/rwlock'
   ];
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
   const snapshotId = snapshot.get('id');
@@ -37,9 +33,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Queries">
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
         </KpiKeyValue>
@@ -90,24 +84,24 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {performanceDataAvailable
-        ? <DashboardSection title="Latency">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                metrics: ['status.DB_QUERY_LATENCY'],
-                labels: ['avg. Query Latency'],
-                type: 'line',
-                formatter: msZeroDecimalPlaces
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {performanceDataAvailable ? (
+        <DashboardSection title="Latency">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              metrics: ['status.DB_QUERY_LATENCY'],
+              labels: ['avg. Query Latency'],
+              type: 'line',
+              formatter: msZeroDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DashboardSection title="Clients">
         <Chart
           snapshotId={snapshotId}
@@ -124,24 +118,24 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {performanceDataAvailable
-        ? <DashboardSection title="Wait Events">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
-                labels: waitEvents,
-                type: 'line',
-                formatter: msFormatter
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {performanceDataAvailable ? (
+        <DashboardSection title="Wait Events">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 60
+            }}
+            y1={{
+              min: 0,
+              metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
+              labels: waitEvents,
+              type: 'line',
+              formatter: msFormatter
+            }}
+          />
+        </DashboardSection>
+      ) : null}
       <DashboardSection title="Key Access">
         <Chart
           snapshotId={snapshotId}

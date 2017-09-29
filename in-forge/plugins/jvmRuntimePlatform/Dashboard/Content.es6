@@ -21,18 +21,16 @@ export default function JVMDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Memory Used">
           <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
 
-        {__DEV__
-          ? <Button onClick={() => getSource(snapshot)} kind="secondary">
-              Get source for arbitrary class
-            </Button>
-          : null}
+        {__DEV__ ? (
+          <Button onClick={() => getSource(snapshot)} kind="secondary">
+            Get source for arbitrary class
+          </Button>
+        ) : null}
       </KpiSection>
 
       <DashboardSection title="Threads">
@@ -82,30 +80,30 @@ export default function JVMDashboard({ snapshot, timeframe }) {
 
       <MemoryPoolsTable snapshot={snapshot} timeframe={timeframe} />
 
-      {collectors
-        ? <DashboardSection title="Garbage Collection">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80,
-                right: 80
-              }}
-              y1={{
-                metrics: collectors.map(name => 'gc.' + name + '.time').toArray(),
-                labels: collectors.map(name => name + ' Time').toArray(),
-                type: 'line',
-                formatter: time
-              }}
-              y2={{
-                metrics: collectors.map(name => 'gc.' + name + '.inv').toArray(),
-                labels: collectors.map(name => name + ' Invocations').toArray(),
-                type: 'point',
-                formatter: twoDecimalPlaces
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {collectors ? (
+        <DashboardSection title="Garbage Collection">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 80
+            }}
+            y1={{
+              metrics: collectors.map(name => 'gc.' + name + '.time').toArray(),
+              labels: collectors.map(name => name + ' Time').toArray(),
+              type: 'line',
+              formatter: time
+            }}
+            y2={{
+              metrics: collectors.map(name => 'gc.' + name + '.inv').toArray(),
+              labels: collectors.map(name => name + ' Invocations').toArray(),
+              type: 'point',
+              formatter: twoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <JmxMetricsTable snapshot={snapshot} timeframe={timeframe} />
     </div>

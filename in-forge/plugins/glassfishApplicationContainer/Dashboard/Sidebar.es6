@@ -17,34 +17,28 @@ export default function GlassfishSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Glassfish
-        </Collapsible.Header>
+        <Collapsible.Header>Glassfish</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {apps && apps.size > 0
-        ? <div>
-            <Separator />
-            <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>
-                Applications
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <AppList snapshot={snapshot} />
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+      {apps && apps.size > 0 ? (
+        <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Applications</Collapsible.Header>
+            <Collapsible.Content>
+              <AppList snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Thread Pool
-        </Collapsible.Header>
+        <Collapsible.Header>Thread Pool</Collapsible.Header>
         <Collapsible.Content>
           <ThreadPool snapshot={snapshot} />
         </Collapsible.Content>
@@ -53,9 +47,7 @@ export default function GlassfishSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          JDBC Pool
-        </Collapsible.Header>
+        <Collapsible.Header>JDBC Pool</Collapsible.Header>
         <Collapsible.Content>
           <JdbcPool snapshot={snapshot} />
         </Collapsible.Content>
@@ -64,9 +56,7 @@ export default function GlassfishSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Connection Pool
-        </Collapsible.Header>
+        <Collapsible.Header>Connection Pool</Collapsible.Header>
         <Collapsible.Content>
           <ConnectionPool snapshot={snapshot} />
         </Collapsible.Content>

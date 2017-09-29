@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import KubernetesInfo from 'in-forge/plugins/docker/KubernetesInfo';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -19,33 +20,31 @@ export default function DockerSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Docker Container
-        </Collapsible.Header>
+        <Collapsible.Header>Docker Container</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {ports && ports.size > 0
-        ? <div>
-            <Separator />
-            <Collapsible>
-              <Collapsible.Header>
-                Ports
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <Ports snapshot={snapshot} />
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+      {ports && ports.size > 0 ? (
+        <div>
+          <Separator />
+          <Collapsible>
+            <Collapsible.Header>Ports</Collapsible.Header>
+            <Collapsible.Content>
+              <Ports snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <KeyValuePopup header="Container Labels" data={labels} />
 
       <MarathonInfo snapshot={snapshot} />
 
       <NomadInfo snapshot={snapshot} />
+
+      <KubernetesInfo snapshot={snapshot} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

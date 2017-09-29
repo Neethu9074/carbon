@@ -19,26 +19,19 @@ export default function HardwareInfo({ snapshot }) {
         {data.get('cpu.count')} x {data.get('cpu.model')}
       </DescriptionItem>
 
-      {memoryTotal != null
-        ? <DescriptionItem title="Memory">
-            {bytesTwoDecimalPlaces(memoryTotal)}
-          </DescriptionItem>
-        : null}
+      {memoryTotal != null ? (
+        <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>
+      ) : null}
 
-      <DescriptionItem title="Hostname">
-        {data.get('hostname')}
-      </DescriptionItem>
+      <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
 
-      <DescriptionItem title="FQDN">
-        {data.get('fqdn')}
-      </DescriptionItem>
+      <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>
 
-      {start != null
-        ? <DescriptionItem title="Started At">
-            {formatDateTime(start)} ({fromNowAccurately(start)})
-          </DescriptionItem>
-        : null}
-
+      {start != null ? (
+        <DescriptionItem title="Started At">
+          {formatDateTime(start)} ({fromNowAccurately(start)})
+        </DescriptionItem>
+      ) : null}
     </DescriptionList>
   );
 }

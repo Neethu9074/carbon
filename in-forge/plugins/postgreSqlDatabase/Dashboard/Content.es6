@@ -11,11 +11,7 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
   const snapshotId = snapshot.get('id');
@@ -23,9 +19,7 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Committed Transactions">
           <MetricValue
             snapshotId={snapshotId}

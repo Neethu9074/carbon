@@ -20,33 +20,25 @@ export default function JettyWebApps({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Web Apps</Collapsible.Header>
         <Collapsible.Content>
-          {webApps.map((webApp, i) =>
+          {webApps.map((webApp, i) => (
             <Collapsible initiallyOpen={false} key={i}>
               <Collapsible.Header>{webApp.get('displayName') || '<unnamed>'}</Collapsible.Header>
               <Collapsible.Content>
                 <DescriptionList>
-                  <DescriptionItem title="Context Path">
-                    {webApp.get('contextPath')}
-                  </DescriptionItem>
-                  <DescriptionItem title="State">
-                    {webApp.get('state')}
-                  </DescriptionItem>
+                  <DescriptionItem title="Context Path">{webApp.get('contextPath')}</DescriptionItem>
+                  <DescriptionItem title="State">{webApp.get('state')}</DescriptionItem>
                   <DescriptionItem title="Session Timeout">
                     {data.get('webAppsSessionData.' + webApp.get('displayName') + '.sessionTimeout')}
                   </DescriptionItem>
-                  <DescriptionItem title="War File Path">
-                    {webApp.get('warFile')}
-                  </DescriptionItem>
-                  <DescriptionItem title="Temporary Directory">
-                    {webApp.get('tempDirectory')}
-                  </DescriptionItem>
+                  <DescriptionItem title="War File Path">{webApp.get('warFile')}</DescriptionItem>
+                  <DescriptionItem title="Temporary Directory">{webApp.get('tempDirectory')}</DescriptionItem>
                   <DescriptionItem title="Classpath">
                     <ClasspathLayouter classpath={webApp.get('classPath')} />
                   </DescriptionItem>
                 </DescriptionList>
               </Collapsible.Content>
             </Collapsible>
-          )}
+          ))}
         </Collapsible.Content>
       </Collapsible>
     </div>

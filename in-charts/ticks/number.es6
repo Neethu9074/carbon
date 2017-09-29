@@ -1,0 +1,92 @@
+import getTickPositionsDefault from 'in-charts/ticks/default';
+
+export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale) {
+  const domainRange = domainTo - domainFrom;
+
+  // special case, the range is 1, happens on Calls and Instances frequently
+  if (domainRange === 1) {
+    return getTickPositionsDefault(rangeFrom, rangeTo, domainFrom, domainTo);
+  }
+
+  const desiredNumberOfTicks = 4;
+  const ticks = [];
+
+  const t = getTicks(domainFrom, domainTo, desiredNumberOfTicks);
+  for (let i = 0, length = t.length; i < length; i++) {
+    const tick = t[i];
+    if (tick > domainTo) {
+      continue;
+    }
+    ticks.push({
+      range: scale.getRange(tick),
+      domain: tick
+    });
+  }
+
+  return ticks;
+}
+
+const bases = [1, 2, 5];
+function getTicks(min, max, n) {
+  // swap min and max if necessary
+  if (min > max) {
+    const temp = min;
+    min = max;
+    max = temp;
+  }
+
+  const interval = getNiceInterval(min, max, n);
+  let value = getFirstTickValue(min, interval);
+
+  let ticks = [value];
+  while (value < max) {
+    value += interval;
+    ticks.push(value);
+  }
+
+  ticks = ticks.map(precision(interval));
+
+  // add the min and max values
+  ticks[0] = min;
+  ticks[ticks.length - 1] = max;
+
+  return ticks;
+}
+
+// this eliminates floating point errors otherwise accumulated by repeatedly adding the computed interval
+function precision(interval) {
+  const multiplier = Math.pow(10, Math.ceil(Math.log10(interval)) + 1);
+  return function(value) {
+    return Math.round(value * multiplier) / multiplier;
+  };
+}
+
+function getNiceInterval(min, max, n) {
+  const rawInterval = (max - min) / n;
+  const rawExponent = Math.log10(rawInterval);
+
+  // one of these two integer exponents, in conjunction with one of the bases, will yield the nicest interval
+  const exponents = [Math.floor(rawExponent), Math.ceil(rawExponent)];
+
+  let nicestInterval = Infinity;
+  bases.forEach(base => {
+    exponents.forEach(exponent => {
+      // try each combination of base and interval
+      const currentInterval = base * Math.pow(10, exponent);
+
+      // pick the combination that yields the nice interval that most closely matches the raw interval
+      const currentDeviation = Math.abs(rawInterval - currentInterval);
+      const nicestDeviation = Math.abs(rawInterval - nicestInterval);
+
+      if (currentDeviation < nicestDeviation) {
+        nicestInterval = currentInterval;
+      }
+    });
+  });
+
+  return nicestInterval;
+}
+
+function getFirstTickValue(min, interval) {
+  return Math.floor(min / interval) * interval;
+}

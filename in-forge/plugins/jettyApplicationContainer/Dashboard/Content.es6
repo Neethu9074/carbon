@@ -14,8 +14,8 @@ export default function JettyDashboard({ snapshot, timeframe }) {
   if (!version) {
     return (
       <DashboardNotification type="info">
-        Jmx module is not enabled in jetty. Please enable it to be able to collect data.
-        You can do so by adding <code>--module=jmx</code> to <code>start.ini</code>.
+        Jmx module is not enabled in jetty. Please enable it to be able to collect data. You can do so by adding{' '}
+        <code>--module=jmx</code> to <code>start.ini</code>.
       </DashboardNotification>
     );
   }
@@ -25,9 +25,7 @@ export default function JettyDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Idle Threads">
           <MetricValue snapshotId={snapshotId} metric="idleThreads" />
         </KpiKeyValue>

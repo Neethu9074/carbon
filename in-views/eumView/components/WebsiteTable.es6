@@ -64,7 +64,8 @@ export default class WebsiteTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      filter: ''
     };
   }
 
@@ -87,11 +88,15 @@ export default class WebsiteTable extends React.Component {
     });
     this.store.onRowChange(this.getRows(props.snapshots, props.snapshot));
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
+    this.filterSubscription = this.store.filter$.subscribe(filter => this.setState({ filter }));
   }
 
   dispose() {
     if (this.dataSubscription) {
       this.dataSubscription.dispose();
+    }
+    if (this.filterSubscription) {
+      this.filterSubscription.dispose();
     }
     if (this.store) {
       this.store.dispose();
@@ -115,20 +120,29 @@ export default class WebsiteTable extends React.Component {
     }
 
     const hashes = snapshot.getIn(['data', 'service_endpoint_hashes']);
-    return snapshot.getIn(['data', 'service_endpoints']).toArray().map((pageName, i) => {
-      const pageHash = hashes.get(i);
-      return {
-        key: pageHash,
-        label: pageName,
-        snapshot,
-        isPage: true,
-        pageHash
-      };
-    });
+    const rows = [];
+    snapshot
+      .getIn(['data', 'service_endpoints'])
+      .toArray()
+      .forEach((pageName, i) => {
+        // protect against missing data
+        if (!hashes || !hashes.get(i)) {
+          return;
+        }
+        const pageHash = hashes.get(i);
+        rows.push({
+          key: pageHash,
+          label: pageName,
+          snapshot,
+          isPage: true,
+          pageHash
+        });
+      });
+    return rows;
   };
 
   render() {
-    const { data } = this.state;
+    const { data, filter } = this.state;
     if (!data) {
       return null;
     }
@@ -143,13 +157,16 @@ export default class WebsiteTable extends React.Component {
           data={data}
           onPrevPage={this.store.onPrevPage}
           onNextPage={this.store.onNextPage}
+          filter={filter}
+          setFilter={this.store.setFilter}
+          showFilter={this.props.showFilter}
         />
 
-        {data.rows.length === 0
-          ? <div className={`${block}__no-websites-matching-query`}>
-              No websites found for your current query.
-            </div>
-          : null}
+        {data.rows.length === 0 ? (
+          <div className={`${block}__no-websites-matching-query`}>
+            {this.props.noWebsitesMessages || 'No websites found for your current query.'}
+          </div>
+        ) : null}
 
         {data.rows.map(row => {
           const columns = row.columns;

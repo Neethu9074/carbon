@@ -37,6 +37,7 @@ export default class extends React.Component {
     const props = this.state.chartProps;
     const config = {
       height: props.height,
+      minRollup: props.minRollup,
       margins: props.margins,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
@@ -120,7 +121,6 @@ function processAxis(axis) {
     axis.aggregation = ['sum', 'mean'];
     axis.formatter = [number.compact, percentage.compact];
     axis.tooltipFormatter = [number.compact, percentage.detailed];
-    axis.tooltipFormatter = [];
   }
 
   if (axis.maxDataPoints && axis.minPixelPerBlock && axis.aggregation == null) {
@@ -140,9 +140,9 @@ function processAxis(axis) {
 
   if (axis.aggregation instanceof Array) {
     let isHomogeneousAggregation = true;
-    let prevAggregation = axis.aggregation[0];
+    const firstAggregation = axis.aggregation[0];
     for (let i = 1; i < axis.aggregation.length && isHomogeneousAggregation; i++) {
-      isHomogeneousAggregation = axis.aggregation[i] === prevAggregation;
+      isHomogeneousAggregation = axis.aggregation[i] === firstAggregation;
     }
     axis.isHomogeneousAggregation = isHomogeneousAggregation;
   }

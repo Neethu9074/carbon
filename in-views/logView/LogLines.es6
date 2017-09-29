@@ -29,19 +29,19 @@ export default connectTo(
           <SvgIcon type="refresh" className={`${block}__refresh-icon`} width={16} />
         </Button>
 
-        {height
-          ? <Infinite
-              containerHeight={height - 20}
-              elementHeight={15}
-              loadingSpinnerDelegate={<LoadingIndicator type="light" />}
-              infiniteLoadBeginEdgeOffset={height * 0.5}
-              onInfiniteLoad={loadMoreLines}
-              isInfiniteLoading={isInfiniteLoading}
-              className={`${block}__scroller`}
-            >
-              {lines.map((line, i) => <LogLine line={line} key={i} />)}
-            </Infinite>
-          : null}
+        {height ? (
+          <Infinite
+            containerHeight={height - 20}
+            elementHeight={15}
+            loadingSpinnerDelegate={<LoadingIndicator type="light" />}
+            infiniteLoadBeginEdgeOffset={height * 0.5}
+            onInfiniteLoad={loadMoreLines}
+            isInfiniteLoading={isInfiniteLoading}
+            className={`${block}__scroller`}
+          >
+            {lines.map((line, i) => <LogLine line={line} key={i} />)}
+          </Infinite>
+        ) : null}
       </FullscreenOverlayView>
     );
   })

@@ -10,17 +10,9 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      {uniqueClusterName
-        ? <DescriptionItem title="Cluster Name">
-            {data.get('clusterName')}
-          </DescriptionItem>
-        : null}
-      <DescriptionItem title="Zookeeper">
-        {data.get('zookeeper')}
-      </DescriptionItem>
-      <DescriptionItem title="Nodes">
-        {nodes.size}
-      </DescriptionItem>
+      {uniqueClusterName ? <DescriptionItem title="Cluster Name">{data.get('clusterName')}</DescriptionItem> : null}
+      <DescriptionItem title="Zookeeper">{data.get('zookeeper')}</DescriptionItem>
+      <DescriptionItem title="Nodes">{nodes.size}</DescriptionItem>
     </DescriptionList>
   );
 }

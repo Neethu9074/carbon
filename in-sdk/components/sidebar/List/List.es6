@@ -6,11 +6,7 @@ import './List.less';
 const block = 'in-list';
 
 export default function List({ children }) {
-  return (
-    <ul className={block}>
-      {children}
-    </ul>
-  );
+  return <ul className={block}>{children}</ul>;
 }
 
 List.Item = function ListItem({ children, onClick }) {
@@ -21,9 +17,5 @@ List.Item = function ListItem({ children, onClick }) {
     );
   }
 
-  return (
-    <li className={`${block}__item`}>
-      {children}
-    </li>
-  );
+  return <li className={`${block}__item`}>{children}</li>;
 };

@@ -21,7 +21,6 @@ export default function CloudFoundryDashboard({ snapshot, timeframe }) {
       <CloudControllerTable snapshot={snapshot} timeframe={timeframe} />
 
       <HealthManagerTable snapshot={snapshot} timeframe={timeframe} />
-
     </div>
   );
 }

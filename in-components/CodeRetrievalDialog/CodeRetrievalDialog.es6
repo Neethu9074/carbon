@@ -28,7 +28,9 @@ export default connectTo(
     } else {
       header = (
         <CenterAlignment>
-          <span>File: {file} - Line: {line}</span>
+          <span>
+            File: {file} - Line: {line}
+          </span>
 
           <CopyToClipboardButton getText={() => response.data} />
         </CenterAlignment>
@@ -37,24 +39,21 @@ export default connectTo(
 
     return (
       <Dialog header={header} onClose={close} contentClassName={`${block}__content`}>
-
         {!response ? <LoadingIndicator type="dark" /> : null}
 
-        {response && response.error
-          ? <DialogNotification type="danger">
-              Error: {response.error}
-            </DialogNotification>
-          : null}
+        {response && response.error ? (
+          <DialogNotification type="danger">Error: {response.error}</DialogNotification>
+        ) : null}
 
-        {response && response.data
-          ? <Code
-              lang={lang}
-              line={line}
-              code={response.data}
-              className={`${block}__code`}
-              showLineNumbers={lang !== 'java'}
-            />
-          : null}
+        {response && response.data ? (
+          <Code
+            lang={lang}
+            line={line}
+            code={response.data}
+            className={`${block}__code`}
+            showLineNumbers={lang !== 'java'}
+          />
+        ) : null}
       </Dialog>
     );
   }

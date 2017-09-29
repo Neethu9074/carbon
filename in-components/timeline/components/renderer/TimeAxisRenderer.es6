@@ -1,5 +1,5 @@
 import { font, darkColorTransparent, darkColor, lightColor, midColor } from 'in-components/timeline/timelineConfig';
-import { getTickPositions } from 'in-charts/timeAxis';
+import { getTickPositions } from 'in-charts/ticks/timeAxis';
 
 const edgeWidth = 260;
 

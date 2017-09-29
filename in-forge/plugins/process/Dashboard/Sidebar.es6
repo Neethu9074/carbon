@@ -18,27 +18,23 @@ export default function ProcessSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Process
-        </Collapsible.Header>
+        <Collapsible.Header>Process</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {args && args.size > 0
-        ? <div>
-            <Separator />
-            <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>
-                Arguments
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <ArgList snapshot={snapshot} />
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        : null}
+      {args && args.size > 0 ? (
+        <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Arguments</Collapsible.Header>
+            <Collapsible.Content>
+              <ArgList snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <KeyValuePopup header="Environment Variables" data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />

@@ -76,11 +76,7 @@ export default connectTo({}, function FilterMenu({ field, closeMenu }) {
 });
 
 function Row({ children }) {
-  return (
-    <div className={`${block}__row`}>
-      {children}
-    </div>
-  );
+  return <div className={`${block}__row`}>{children}</div>;
 }
 
 function Entry({ onClick, children, kind }) {

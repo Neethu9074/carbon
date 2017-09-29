@@ -9,31 +9,17 @@ export default function MemcacheSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Command">
-          {command}
-        </DescriptionItem>
-        <DescriptionItem title="Key">
-          {span.getIn(['data', 'memcache', 'key'])}
-        </DescriptionItem>
+        <DescriptionItem title="Command">{command}</DescriptionItem>
+        <DescriptionItem title="Key">{span.getIn(['data', 'memcache', 'key'])}</DescriptionItem>
 
-        {command === 'get'
-          ? <DescriptionItem title="Hit">
-              {yesOrNo(span.getIn(['data', 'memcache', 'hit']) == 1)}
-            </DescriptionItem>
-          : null}
+        {command === 'get' ? (
+          <DescriptionItem title="Hit">{yesOrNo(span.getIn(['data', 'memcache', 'hit']) == 1)}</DescriptionItem>
+        ) : null}
 
-        <DescriptionItem title="Keys">
-          {span.getIn(['data', 'memcache', 'keys'])}
-        </DescriptionItem>
-        <DescriptionItem title="Hit Count">
-          {span.getIn(['data', 'memcache', 'hits'])}
-        </DescriptionItem>
-        <DescriptionItem title="Namespace">
-          {span.getIn(['data', 'memcache', 'namespace'])}
-        </DescriptionItem>
-        <DescriptionItem title="Server">
-          {span.getIn(['data', 'memcache', 'server'])}
-        </DescriptionItem>
+        <DescriptionItem title="Keys">{span.getIn(['data', 'memcache', 'keys'])}</DescriptionItem>
+        <DescriptionItem title="Hit Count">{span.getIn(['data', 'memcache', 'hits'])}</DescriptionItem>
+        <DescriptionItem title="Namespace">{span.getIn(['data', 'memcache', 'namespace'])}</DescriptionItem>
+        <DescriptionItem title="Server">{span.getIn(['data', 'memcache', 'server'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

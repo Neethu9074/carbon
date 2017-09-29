@@ -18,10 +18,6 @@ export default connectTo(
       return null;
     }
 
-    return (
-      <DescriptionItem title="Health check result">
-        {status ? 'Healthy' : 'Unhealthy'}
-      </DescriptionItem>
-    );
+    return <DescriptionItem title="Health check result">{status ? 'Healthy' : 'Unhealthy'}</DescriptionItem>;
   }
 );

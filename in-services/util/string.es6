@@ -4,3 +4,7 @@ export function isBlank(s) {
 
 export const compare = new Intl.Collator('en-US').compare;
 export const compareIgnoreCase = new Intl.Collator('en-US', { sensitivity: 'base' }).compare;
+
+export function containsIgnoreCase(s, search) {
+  return s.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+}

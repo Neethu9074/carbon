@@ -89,11 +89,7 @@ export default connectTo(
         return null;
       }
 
-      return (
-        <div ref={tooltipElement => (this.tooltipElement = tooltipElement)}>
-          {tooltip.content}
-        </div>
-      );
+      return <div ref={tooltipElement => (this.tooltipElement = tooltipElement)}>{tooltip.content}</div>;
     }
   }
 );

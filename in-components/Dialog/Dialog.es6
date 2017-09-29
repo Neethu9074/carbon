@@ -23,9 +23,7 @@ export default function Dialog({ childrenOutsideOfContentFlow, children, header,
           {onClose ? <SvgIcon type="x" width={14} className={`${block}__close`} onClick={onClose} /> : null}
         </header>
 
-        <div className={contentClasses}>
-          {children}
-        </div>
+        <div className={contentClasses}>{children}</div>
       </div>
     </section>
   );

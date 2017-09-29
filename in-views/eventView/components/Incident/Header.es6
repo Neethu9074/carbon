@@ -46,17 +46,11 @@ export default connectTo(
           <TriggeredMarker event={event} />
           <EndedMarker event={event} />
           <EventDurationMarker event={event} />
-          <LabeledValue label="active">
-            {`${numOpenEvents}/${recentEvents.length}`}
-          </LabeledValue>
+          <LabeledValue label="active">{`${numOpenEvents}/${recentEvents.length}`}</LabeledValue>
 
-          <LabeledValue label="changes">
-            {`${changes.length}`}
-          </LabeledValue>
+          <LabeledValue label="changes">{`${changes.length}`}</LabeledValue>
 
-          <LabeledValue label="affected entities">
-            {`${Object.keys(affectedEnties).length}`}
-          </LabeledValue>
+          <LabeledValue label="affected entities">{`${Object.keys(affectedEnties).length}`}</LabeledValue>
         </div>
       </Header>
     );

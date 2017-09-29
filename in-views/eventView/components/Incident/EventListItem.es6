@@ -3,6 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
@@ -13,7 +14,6 @@ import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
 import Marker from 'in-views/eventView/components/Marker';
-import { getFixedTimeframeUrl } from 'in-stores/navigation';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -66,14 +66,13 @@ export default connectTo(
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
+          {hasServiceImpact ? (
+            <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
+          ) : null}
 
-          {hasServiceImpact
-            ? <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
-            : null}
-
-          {isTriggeringEvent
-            ? <Marker className={`${block}__triggering-event-marker`} label="triggering event" event={event} />
-            : null}
+          {isTriggeringEvent ? (
+            <Marker className={`${block}__triggering-event-marker`} label="triggering event" event={event} />
+          ) : null}
 
           <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
 
@@ -90,17 +89,17 @@ export default connectTo(
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
-              {isExpanded
-                ? <div className={`${block}__expanded-details`}>
-                    <ProblemDescription event={event} />
-                    <Spacer />
-                    <EventChart event={event} />
-                    <Spacer />
-                    <EventDependecyGraph event={event} />
-                    <Spacer />
-                    <EventTraces event={event} />
-                  </div>
-                : null}
+              {isExpanded ? (
+                <div className={`${block}__expanded-details`}>
+                  <ProblemDescription event={event} />
+                  <Spacer />
+                  <EventChart event={event} />
+                  <Spacer />
+                  <EventDependecyGraph event={event} />
+                  <Spacer />
+                  <EventTraces event={event} />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -116,10 +115,8 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   }
   return (
     <div className={`${block}__time-indicator`}>
-      <Link href$={getFixedTimeframeUrl({ focusedMoment: event.get('start') })}>
-        <span className={timeClass}>
-          {formatTime(event.get('start'))}
-        </span>
+      <Link href$={getCurrentViewWithTimelineFocusedAt(event.get('start'))}>
+        <span className={timeClass}>{formatTime(event.get('start'))}</span>
       </Link>
       <div className={`${block}__line`} />
       <div className={`${block}__dot`} />
@@ -132,7 +129,6 @@ function DetailsHeader({ event, onClick, iconType, background }) {
 
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
-
       <div className={`${block}__left`}>
         <div className={`${block}__icon-wrapper`} style={{ background }}>
           <EventIcon event={event} size={12} />
@@ -140,9 +136,7 @@ function DetailsHeader({ event, onClick, iconType, background }) {
 
         <div className={`${block}__entity`}>
           <div>
-            <span className={`${block}__problem-text`}>
-              {event.getIn(['problem', 'problemText'])}
-            </span>
+            <span className={`${block}__problem-text`}>{event.getIn(['problem', 'problemText'])}</span>
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>

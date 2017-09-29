@@ -3,6 +3,7 @@ import { sortedIndexBy } from 'lodash';
 import { dynamicRollupPredefinitions } from 'in-stores/metric/metric';
 
 export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }) {
+  rollup = rollup || 1000;
   const userDefinedMaxDataPoints = maxDataPoints || windowSize / rollup;
   const userDefinedminPixelsPerBlock = minPixelsPerBlock || 10;
 

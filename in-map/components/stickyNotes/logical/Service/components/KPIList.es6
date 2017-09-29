@@ -83,23 +83,25 @@ export default connectTo(
           </div>
 
           <div className={`${block}__kpi-wrapper`}>
-            {isExpanded
-              ? kpis.map(kpi =>
-                  <LabeledSparkChart
-                    className={block + '__spark-chart'}
-                    key={kpi.label}
-                    snapshotId={this.props.snapshotId}
-                    design="dark"
-                    metric={kpi}
-                  />
-                )
-              : <KPIList
-                  snapshot={snapshot}
-                  metrics={kpis.map(kpi => kpi.metric)}
-                  labels={kpis.map(kpi => kpi.label)}
-                  formatters={formatters}
-                  timeWindowAggregations={kpis.map(kpi => kpi.timeWindowAggregation)}
-                />}
+            {isExpanded ? (
+              kpis.map(kpi => (
+                <LabeledSparkChart
+                  className={block + '__spark-chart'}
+                  key={kpi.label}
+                  snapshotId={this.props.snapshotId}
+                  design="dark"
+                  metric={kpi}
+                />
+              ))
+            ) : (
+              <KPIList
+                snapshot={snapshot}
+                metrics={kpis.map(kpi => kpi.metric)}
+                labels={kpis.map(kpi => kpi.label)}
+                formatters={formatters}
+                timeWindowAggregations={kpis.map(kpi => kpi.timeWindowAggregation)}
+              />
+            )}
           </div>
         </div>
       );

@@ -82,8 +82,8 @@ export default connectTo(
       logger.warn('Failed to retrieve EUM error overview', result.error);
       return (
         <DashboardNotification type="danger">
-          <strong>Failed to retrieve error list.</strong> Please refresh the page or contact customer{' '}
-          support should this issue persist.
+          <strong>Failed to retrieve error list.</strong> Please refresh the page or contact customer support should
+          this issue persist.
         </DashboardNotification>
       );
     }

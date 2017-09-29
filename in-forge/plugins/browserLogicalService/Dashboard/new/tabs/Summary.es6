@@ -4,8 +4,8 @@ import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashb
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { number, seconds, percentage } from 'in-services/formatters/number';
+import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -19,7 +19,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
   if (pageName) {
-    viewTracesQuery = `${viewTracesQuery} span.webEum.page:"${luceneEscapeString(pageName)}"`;
+    viewTracesQuery = `${viewTracesQuery} span.website.page:"${luceneEscapeString(pageName)}"`;
   }
   const viewTracesButton = (
     <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
@@ -29,9 +29,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>
-        {pageName ? pageName : getLabel(snapshot)}
-      </SnapshotLabel>
+      <SnapshotLabel actions={[viewTracesButton]}>{pageName ? pageName : getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <Kpi

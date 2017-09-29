@@ -11,9 +11,7 @@ export default function DefaultKpiSection({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiHeading>
-        {getLabel(snapshot)}
-      </KpiHeading>
+      <KpiHeading>{getLabel(snapshot)}</KpiHeading>
       <KpiKeyValue label="calls">
         <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>

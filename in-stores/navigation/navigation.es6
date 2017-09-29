@@ -159,8 +159,7 @@ function getInitParams() {
 }
 
 export function getActiveView(params) {
-  const match = params.pathname.match(/([a-z]+)/i);
-  return match ? match[1] : 'physical';
+  return params.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
 }
 
 export function getLinkToPath(pathname) {
@@ -176,10 +175,23 @@ export function goToDashboard(snapshotId) {
   });
 }
 
-export function getDashboardLink(snapshotId) {
+export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname } = {}) {
   return getModifiedUrlStream(params => {
-    const view = getActiveView(params);
-    params.pathname = `/${view}/dashboard`;
+    if (pathname) {
+      params.pathname = pathname;
+    } else {
+      const view = getActiveView(params);
+      params.pathname = `/${view}/dashboard`;
+    }
+    if (windowSize != null) {
+      params.query['timeline.ws'] = windowSize;
+    }
+    if (to !== undefined) {
+      params.query['timeline.to'] = to == null ? '' : to;
+    }
+    if (focusedMoment !== undefined) {
+      params.query['timeline.fm'] = focusedMoment == null ? '' : focusedMoment;
+    }
     params.query.snapshotId = snapshotId;
   });
 }
@@ -259,6 +271,10 @@ export const physicalViewLink$ = getModifiedUrlStream(params => {
 
 export const websiteViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/website';
+});
+
+export const kubernetesViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/kubernetes';
 });
 
 export const containerViewLink$ = getModifiedUrlStream(params => {

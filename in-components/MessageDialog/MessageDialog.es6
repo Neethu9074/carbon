@@ -25,9 +25,7 @@ export default connectTo(
 
       return (
         <NotificationDialog title={message.title} onClose={this.onClose}>
-          <p>
-            {message.text}
-          </p>
+          <p>{message.text}</p>
         </NotificationDialog>
       );
     }

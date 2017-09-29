@@ -4,23 +4,24 @@ import React from 'react';
 import ResourceHostsList from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Resources/ResourceHostsList';
 import ResourceDetails from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Resources/ResourceDetails';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
+import { Route } from 'react-router-dom';
 
 export default function Resources(props) {
-  // TODO resource host in window title – helmet?
   return (
     <MaxWidthFullscreenContainer>
       <Switch>
-        <RouteWithTitle
+        <Route
           path={`*/dashboard/resources/:resourceHostId`}
-          component={ResourceDetails}
-          windowTitle={'Resource Details'}
+          render={routeprops => {
+            return <ResourceDetails {...routeprops} {...props} />;
+          }}
           props={props}
         />
-        <RouteWithTitle
+        <Route
           path={`*/dashboard/resources`}
-          component={ResourceHostsList}
-          windowTitle={'Resource Overview'}
+          render={routeprops => {
+            return <ResourceHostsList {...routeprops} {...props} />;
+          }}
           props={props}
         />
       </Switch>

@@ -7,9 +7,7 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">
-        {data.get('groupId')}
-      </DescriptionItem>
+      <DescriptionItem title="Name">{data.get('groupId')}</DescriptionItem>
     </DescriptionList>
   );
 }

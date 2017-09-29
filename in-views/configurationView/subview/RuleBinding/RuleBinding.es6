@@ -14,6 +14,7 @@ import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { getRules } from 'in-services/api/rules';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('RuleBinding');
 
@@ -48,35 +49,35 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        <Title title="Custom Issue" />
         <SubViewHeader>
           {ruleBinding ? `Configure custom issue: ${ruleBinding.get('text')}` : 'Configure custom issue'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
-          {form
-            ? <RuleBindingForm
-                form={form}
-                rules={rules}
-                onChange={this.onChange}
-                onChangeInRuleIds={this.onChangeInRuleIds}
-              />
-            : null}
+          {form ? (
+            <RuleBindingForm
+              form={form}
+              rules={rules}
+              onChange={this.onChange}
+              onChangeInRuleIds={this.onChangeInRuleIds}
+            />
+          ) : null}
         </form>
-
       </SubViewWrapper>
     );
   }

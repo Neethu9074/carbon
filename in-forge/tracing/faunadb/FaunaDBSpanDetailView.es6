@@ -6,12 +6,8 @@ export default function FaunaDBSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Query">
-          {span.getIn(['data', 'faunadb', 'query'])}
-        </DescriptionItem>
-        <DescriptionItem title="Error">
-          {span.getIn(['data', 'faunadb', 'error'])}
-        </DescriptionItem>
+        <DescriptionItem title="Query">{span.getIn(['data', 'faunadb', 'query'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'faunadb', 'error'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

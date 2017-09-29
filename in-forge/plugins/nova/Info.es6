@@ -8,17 +8,11 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Hostname">
-          {data.get('public-hostname')}
-        </DescriptionItem>
+        <DescriptionItem title="Hostname">{data.get('public-hostname')}</DescriptionItem>
 
-        <DescriptionItem title="Instance ID">
-          {data.get('instance-id')}
-        </DescriptionItem>
+        <DescriptionItem title="Instance ID">{data.get('instance-id')}</DescriptionItem>
 
-        <DescriptionItem title="Availability Zone">
-          {data.get('availability-zone')}
-        </DescriptionItem>
+        <DescriptionItem title="Availability Zone">{data.get('availability-zone')}</DescriptionItem>
       </DescriptionList>
     </div>
   );

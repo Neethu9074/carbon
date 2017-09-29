@@ -1,6 +1,11 @@
 import { combineLatest } from 'reactive-observables';
 
-import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import {
+  buildUrlStream,
+  mutateUrl,
+  navigationParameters$,
+  getModifiedUrlStream
+} from 'in-stores/navigation/navigation';
 import { trySetField, removeField } from 'in-stores/search/manipulation';
 
 export const cockpitLink$ = getModifiedUrlStream(params => (params.pathname = '/cockpit'));
@@ -89,6 +94,10 @@ export const websiteViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/website';
 });
 
+export const kubernetesViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/kubernetes';
+});
+
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
   params.query.q = trySetField(params.query.q || '', 'entity.selfType', 'service');
@@ -131,3 +140,5 @@ export function setCurrentViewWithViewGrouping(view, vg) {
     return params;
   });
 }
+
+export const agentsViewLink$ = buildUrlStream({ path: '/agents' });

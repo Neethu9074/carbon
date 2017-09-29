@@ -6,12 +6,8 @@ export default function LogSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Message">
-          {span.getIn(['data', 'log', 'message'])}
-        </DescriptionItem>
-        <DescriptionItem title="Parameters">
-          {span.getIn(['data', 'log', 'parameters'])}
-        </DescriptionItem>
+        <DescriptionItem title="Message">{span.getIn(['data', 'log', 'message'])}</DescriptionItem>
+        <DescriptionItem title="Parameters">{span.getIn(['data', 'log', 'parameters'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

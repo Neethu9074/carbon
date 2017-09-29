@@ -11,9 +11,7 @@ export default function PageResourceLogicalServiceKpis({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiHeading>
-        {getLabel(snapshot)}
-      </KpiHeading>
+      <KpiHeading>{getLabel(snapshot)}</KpiHeading>
       <KpiKeyValue label={<TimeWindowSizeLabel prefix="requests in " />}>
         <MetricValue snapshotId={snapshotId} formatter={zeroDecimalPlaces} metric="count" timeWindowAggregation="sum" />
       </KpiKeyValue>

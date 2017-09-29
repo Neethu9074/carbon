@@ -9,9 +9,5 @@ export default function ContentHeading({ children, className }) {
   if (className) {
     classes = `${classes} ${className}`;
   }
-  return (
-    <h2 className={classes}>
-      {children}
-    </h2>
-  );
+  return <h2 className={classes}>{children}</h2>;
 }

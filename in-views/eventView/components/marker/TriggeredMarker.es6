@@ -10,12 +10,8 @@ export default function TriggeredMarker({ event }) {
 
   return (
     <LabeledValue label="Triggered">
-      <span className="in-event-view-marker__time">
-        {formatDate(timestamp)}
-      </span>
-      <span>
-        {formatTime(timestamp)}
-      </span>
+      <span className="in-event-view-marker__time">{formatDate(timestamp)}</span>
+      <span>{formatTime(timestamp)}</span>
     </LabeledValue>
   );
 }

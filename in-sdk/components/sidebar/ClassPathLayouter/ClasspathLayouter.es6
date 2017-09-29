@@ -46,11 +46,11 @@ export default class extends React.Component {
 
     return (
       <div className={block}>
-        {cpEntries.length > 5
-          ? <Button onClick={this.toggleVisibility} kind="secondary" className={`${block}__toggle`}>
-              {this.state.visible ? 'Hide Classpath' : 'Show Classpath'}
-            </Button>
-          : null}
+        {cpEntries.length > 5 ? (
+          <Button onClick={this.toggleVisibility} kind="secondary" className={`${block}__toggle`}>
+            {this.state.visible ? 'Hide Classpath' : 'Show Classpath'}
+          </Button>
+        ) : null}
 
         {this.state.visible || cpEntries.length <= 5
           ? Object.keys(tree).map((path, i) => {
@@ -67,9 +67,7 @@ export default class extends React.Component {
                       return (
                         // Classpaths may very well contain duplicate entries.
                         // Using the index here deliberately to cater for this.
-                        <div key={j}>
-                          {child.slice(parentPath.length, child.length)}
-                        </div>
+                        <div key={j}>{child.slice(parentPath.length, child.length)}</div>
                       );
                     })}
                   </div>

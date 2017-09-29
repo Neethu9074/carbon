@@ -8,6 +8,8 @@ export const aliasMap = {};
 
 const helpTexts = {
   entity: 'Infrastructure and application entity',
+  'entity.aws': 'Amazon web services',
+  'entity.aws.rds': 'Relational database service',
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
@@ -31,14 +33,14 @@ const helpTexts = {
   trace: 'Trace and root span',
   event: 'Changes, issues and incidents',
   span: 'Spans within traces',
-  'span.webEum': 'Web end-user monitoring',
-  'span.webEum.geo': 'Geo location based on IP',
-  'span.webEum.error': 'Uncaught errors',
-  'span.webEum.timing': 'Navigation timing',
-  'span.webEum.resource': 'Resource timing',
-  'span.webEum.userAgent': 'User Agent',
-  'span.webEum.userAgent.os': 'Operating System',
-  'span.webEum.userAgent.browser': 'Web Browser',
+  'span.website': 'Web end-user monitoring',
+  'span.website.geo': 'Geo location based on IP',
+  'span.website.error': 'Uncaught errors',
+  'span.website.timing': 'Navigation timing',
+  'span.website.resource': 'Resource timing',
+  'span.website.userAgent': 'User Agent',
+  'span.website.userAgent.os': 'Operating System',
+  'span.website.userAgent.browser': 'Web Browser',
   'span.endpoint': 'Endpoint specific fields'
 };
 
@@ -67,6 +69,7 @@ export function node(name, props = {}) {
     description: props.description || helpTexts[props.path],
     children: props.children || {},
     isPreset: props.isPreset || false,
+    parentNode: props.parentNode,
     query: props.query || (requiresQuotes(name) ? `"${name}"` : name),
     termType: props.termType
   };
@@ -95,6 +98,7 @@ export function buildCategorizedFields(fields) {
       if (!currentNode.children[pathPart]) {
         currentNode.children[pathPart] = node(pathPart, {
           path: completePath,
+          parentNode: currentNode,
           numChildren: Object.keys(currentNode.children).length
         });
       }
@@ -105,12 +109,14 @@ export function buildCategorizedFields(fields) {
     const lastPart = path[path.length - 1];
     currentNode.children[lastPart] = node(lastPart, {
       description: field.description,
+      parentNode: currentNode,
       termType: field.termType
     });
   });
   root.children[filterNode.name] = filterNode;
 
   mapChildrenObjectsToArrays(root);
+  clearNode(root);
   tree = root;
 }
 
@@ -120,6 +126,22 @@ function mapChildrenObjectsToArrays(node) {
     .sort((a, b) => a.name.localeCompare(b.name));
   for (let i = 0, length = node.children.length; i < length; i++) {
     mapChildrenObjectsToArrays(node.children[i]);
+  }
+}
+
+function clearNode(node) {
+  if (node.children.length === 0) {
+    return;
+  }
+  const filteredChildren = node.children.filter(n => n.termType !== 'id');
+  if (filteredChildren.length === 0) {
+    // kill node which only has termType-id child nodes
+    if (node.parentNode) {
+      node.parentNode.children = node.parentNode.children.filter(child => child.name !== node.name);
+    }
+  }
+  for (let i = 0, length = filteredChildren.length; i < length; i++) {
+    clearNode(filteredChildren[i]);
   }
 }
 
@@ -149,9 +171,10 @@ function findInNode(node, query) {
   }
 
   // if the user presses dot (.) but the previous string hasn't matched anything, return only directly matching results
-  const children = path.length > 1
-    ? node.children.filter(child => child.name === currentPart)
-    : node.children.filter(child => child.name.indexOf(currentPart) >= 0);
+  const children =
+    path.length > 1
+      ? node.children.filter(child => child.name === currentPart)
+      : node.children.filter(child => child.name.indexOf(currentPart) >= 0);
   return children.length === 0 ? null : node;
 }
 

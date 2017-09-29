@@ -9,7 +9,10 @@ import List from 'in-sdk/components/sidebar/List';
 import Info from '../Info';
 
 export default function MongoDBSidebar({ snapshot }) {
-  const databases = snapshot.getIn(['data', 'databases'], emptyList).toArray().sort();
+  const databases = snapshot
+    .getIn(['data', 'databases'], emptyList)
+    .toArray()
+    .sort();
 
   return (
     <div>
@@ -26,9 +29,7 @@ export default function MongoDBSidebar({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Databases</Collapsible.Header>
         <Collapsible.Content>
-          <List>
-            {databases.map(database => <List.Item key={database}>{database}</List.Item>)}
-          </List>
+          <List>{databases.map(database => <List.Item key={database}>{database}</List.Item>)}</List>
         </Collapsible.Content>
       </Collapsible>
 

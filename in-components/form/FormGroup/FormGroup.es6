@@ -7,9 +7,5 @@ import './FormGroup.less';
 const block = 'in-form-group';
 
 export default function FormGroup({ children, className }) {
-  return (
-    <div className={joinClassNames(block, className)}>
-      {children}
-    </div>
-  );
+  return <div className={joinClassNames(block, className)}>{children}</div>;
 }

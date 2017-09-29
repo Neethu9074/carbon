@@ -42,9 +42,7 @@ const ViewGroupingMenu = connectTo(
     return (
       <div className={block}>
         <div className={`${block}__left`}>
-          <h3 className={`${block}__heading`}>
-            Perspective
-          </h3>
+          <h3 className={`${block}__heading`}>Perspective</h3>
           <ButtonGroup>
             <Button
               kind={view === types.physical ? 'primary' : 'secondary'}
@@ -91,13 +89,11 @@ const MenuContent = connectTo(
     }
     return (
       <div className={`${block}__right`}>
-        <h3 className={`${block}__heading`}>
-          Grouping
-        </h3>
+        <h3 className={`${block}__heading`}>Grouping</h3>
         <ButtonGroup>
-          {availableGroupings.map(grouping =>
+          {availableGroupings.map(grouping => (
             <GroupingButton view={view} grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
-          )}
+          ))}
         </ButtonGroup>
         <br />
         <ButtonGroup>

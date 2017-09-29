@@ -17,9 +17,10 @@ export default connectTo(
       return {};
     }
 
-    const otherId = props.connection.sourceNode.id === props.nodeIdWhereConnectionsBelongTo
-      ? props.connection.destinationNode.id
-      : props.connection.sourceNode.id;
+    const otherId =
+      props.connection.sourceNode.id === props.nodeIdWhereConnectionsBelongTo
+        ? props.connection.destinationNode.id
+        : props.connection.sourceNode.id;
 
     return {
       otherSnapshot: getSnapshot(otherId),
@@ -44,13 +45,9 @@ export default connectTo(
       <div className={block}>
         {direction}
 
-        <span className={block + '__ip'}>
-          {getLabel(otherSnapshot)}
-        </span>
+        <span className={block + '__ip'}>{getLabel(otherSnapshot)}</span>
 
-        <span style={{ color: otherColor }}>
-          {zoneLabel}
-        </span>
+        <span style={{ color: otherColor }}>{zoneLabel}</span>
       </div>
     );
   }

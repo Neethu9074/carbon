@@ -37,20 +37,16 @@ export default class extends React.Component {
     return (
       <div className={`${block}__sub-section`}>
         <SubViewWrapper>
-          <SubViewHeader>
-            Endpoints
-          </SubViewHeader>
+          <SubViewHeader>Endpoints</SubViewHeader>
 
           <Section>
             <Button kind="success" onClick={addEndpointRule}>
               Add Endpoint
             </Button>
           </Section>
-          {rows.length > 0
-            ? <Section>
-                {rows.map((row, index) => <Row key={row.key} row={row} index={index} {...this.props} />)}
-              </Section>
-            : null}
+          {rows.length > 0 ? (
+            <Section>{rows.map((row, index) => <Row key={row.key} row={row} index={index} {...this.props} />)}</Section>
+          ) : null}
         </SubViewWrapper>
       </div>
     );
@@ -96,11 +92,11 @@ const Row = class extends React.Component {
               onClick={() => this.setState({ isExpanded: !this.state.isExpanded })}
             />
 
-            {form.hierarchyValid
-              ? form.get('name').value
-              : <span className={`${block}__invalid-row`}>
-                  {form.get('name').value}
-                </span>}
+            {form.hierarchyValid ? (
+              form.get('name').value
+            ) : (
+              <span className={`${block}__invalid-row`}>{form.get('name').value}</span>
+            )}
           </div>
           <div className={`${block}__flex-wrapper`}>
             <SvgIcon
@@ -122,20 +118,20 @@ const Row = class extends React.Component {
             </Link>
           </div>
         </div>
-        {this.state.isExpanded
-          ? <ServiceExtractionRuleConfigForm
-              prePath={['endpointRules', index]}
-              ruleForm={form}
-              helpTexts={helpTexts}
-              resultingEntityNameTitle="Endpoint Name"
-              resultingEntityTooltipText={helpTexts.serviceEndpointNameHelp}
-              matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-              matchSpecificationOptions={matchSpecificationOptions}
-              onChangeIn={onChangeIn}
-              addMatchSpecification={addMatchSpecification}
-              removeMatchSpecification={removeMatchSpecification}
-            />
-          : null}
+        {this.state.isExpanded ? (
+          <ServiceExtractionRuleConfigForm
+            prePath={['endpointRules', index]}
+            ruleForm={form}
+            helpTexts={helpTexts}
+            resultingEntityNameTitle="Endpoint Name"
+            resultingEntityTooltipText={helpTexts.serviceEndpointNameHelp}
+            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+            matchSpecificationOptions={matchSpecificationOptions}
+            onChangeIn={onChangeIn}
+            addMatchSpecification={addMatchSpecification}
+            removeMatchSpecification={removeMatchSpecification}
+          />
+        ) : null}
       </div>
     );
   }

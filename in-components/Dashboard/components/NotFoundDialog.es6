@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getCurrentViewWithTimelineCenteredAt } from 'in-stores/navigation/timeline';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';
@@ -20,14 +20,12 @@ export default function NotFoundDialog({ versionsForFocusedMoment, versionsForLi
 
   return (
     <div className={block}>
-      <h1>
-        Dashboard: entity not found
-      </h1>
+      <h1>Dashboard: entity not found</h1>
 
       <p>
-        We could not find a version of the entity for the position of the time picker. Below you will find a{' '}
-        selection of known versions of this entity. Click on one of the versions below to set the timeline and time{' '}
-        picker so that the entity can be inspected.
+        We could not find a version of the entity for the position of the time picker. Below you will find a selection
+        of known versions of this entity. Click on one of the versions below to set the timeline and time picker so that
+        the entity can be inspected.
       </p>
 
       <VersionList title="Available entity versions" versions={list} />
@@ -67,9 +65,7 @@ const VersionList = connectTo(
   function VersionList({ title, versions, focusedMoment }) {
     return (
       <div className={`${block}__list-wrapper`}>
-        <p className={`${block}__header`}>
-          {title}
-        </p>
+        <p className={`${block}__header`}>{title}</p>
 
         <ul className={`${block}__list`}>
           {versions.map((version, i) => {
@@ -79,12 +75,8 @@ const VersionList = connectTo(
             if (focusedMoment > from && (!prev || focusedMoment < prev.from)) {
               return [
                 <li className={`${block}__focused-moment`}>
-                  <span className={`${block}__key`}>
-                    selected moment:
-                  </span>
-                  <span className={`${block}__value`}>
-                    {formatDateTime(focusedMoment)}
-                  </span>
+                  <span className={`${block}__key`}>selected moment:</span>
+                  <span className={`${block}__value`}>{formatDateTime(focusedMoment)}</span>
                 </li>,
                 <ListItem key={`${from},${to}`} from={from} to={to} />
               ];
@@ -107,19 +99,11 @@ function ListItem({ from, to }) {
 
   return (
     <li className={`${block}__list-item`}>
-      <Link href$={getCurrentViewWithTimelineCenteredAt(time, windowSize)} className={`${block}__set-time`}>
-        <span className={`${block}__key`}>
-          from:
-        </span>
-        <span className={`${block}__value`}>
-          {formatDateTime(from)}
-        </span>
-        <span className={`${block}__key`}>
-          to:
-        </span>
-        <span className={`${block}__value`}>
-          {to ? formatDateTime(to) : 'now'}
-        </span>
+      <Link href$={getCurrentViewWithTimelineFocusedAt(time)} className={`${block}__set-time`}>
+        <span className={`${block}__key`}>from:</span>
+        <span className={`${block}__value`}>{formatDateTime(from)}</span>
+        <span className={`${block}__key`}>to:</span>
+        <span className={`${block}__value`}>{to ? formatDateTime(to) : 'now'}</span>
       </Link>
     </li>
   );

@@ -10,12 +10,8 @@ export default function JbossDataGridInfo({ snapshot }) {
       <Collapsible.Header>Jboss Data Grid Info</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
-          <DescriptionItem title="Jboss Data Grid Version">
-            {data.get('version')}
-          </DescriptionItem>
-          <DescriptionItem title="JGroups Version">
-            {data.get('jGroupsVersion')}
-          </DescriptionItem>
+          <DescriptionItem title="Jboss Data Grid Version">{data.get('version')}</DescriptionItem>
+          <DescriptionItem title="JGroups Version">{data.get('jGroupsVersion')}</DescriptionItem>
           <DescriptionItem title="HotRod Max Worker Threads">
             {data.get('hotRod.numberOfWorkerThreads')}
           </DescriptionItem>

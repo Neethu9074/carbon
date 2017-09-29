@@ -19,9 +19,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="RSS">
           <MetricValue
             snapshotId={snapshot.get('id')}

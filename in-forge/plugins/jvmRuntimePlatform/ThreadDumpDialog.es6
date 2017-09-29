@@ -34,7 +34,6 @@ export default connectTo(
       header = (
         <CenterAlignment>
           Thread dump
-
           <CopyToClipboardButton targetId={codeTargetId} />
         </CenterAlignment>
       );
@@ -42,14 +41,11 @@ export default connectTo(
 
     return (
       <Dialog header={header} onClose={close}>
-
         {!response ? <LoadingIndicator type="dark" /> : null}
 
-        {response && response.error
-          ? <DialogNotification type="danger">
-              Error: {response.error}
-            </DialogNotification>
-          : null}
+        {response && response.error ? (
+          <DialogNotification type="danger">Error: {response.error}</DialogNotification>
+        ) : null}
 
         {response && response.data ? <Code code={response.data} id={codeTargetId} /> : null}
       </Dialog>

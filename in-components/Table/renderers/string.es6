@@ -32,11 +32,7 @@ export function initialize(row, columnDefinition, columnIndex) {
   }
 
   if (typeof content === 'string') {
-    content = (
-      <BreakAll>
-        {content}
-      </BreakAll>
-    );
+    content = <BreakAll>{content}</BreakAll>;
   }
 
   return {

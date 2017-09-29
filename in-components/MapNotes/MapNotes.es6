@@ -29,9 +29,9 @@ export default connectTo(
     if (hasLogicalViewData === false) {
       return (
         <div className={block}>
-          No traces available. The logical view shows the communication, relations and KPIs for
-          discovered Services. The basis for this are traces. Please review the documentation or
-          contact support for more information about the supported technologies and frameworks
+          No traces available. The logical view shows the communication, relations and KPIs for discovered Services. The
+          basis for this are traces. Please review the documentation or contact support for more information about the
+          supported technologies and frameworks
         </div>
       );
     }

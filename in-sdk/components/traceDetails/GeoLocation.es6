@@ -30,9 +30,7 @@ export default function GeoLocation({ geo }) {
 
   return (
     <Tooltip content="Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.">
-      <div>
-        {location}
-      </div>
+      <div>{location}</div>
     </Tooltip>
   );
 }

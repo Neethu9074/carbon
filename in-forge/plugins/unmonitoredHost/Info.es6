@@ -7,12 +7,8 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="IPv4">
-        {data.get('ipv4')}
-      </DescriptionItem>
-      <DescriptionItem title="Reverse Lookup">
-        {data.get('dnsName')}
-      </DescriptionItem>
+      <DescriptionItem title="IPv4">{data.get('ipv4')}</DescriptionItem>
+      <DescriptionItem title="Reverse Lookup">{data.get('dnsName')}</DescriptionItem>
     </DescriptionList>
   );
 }

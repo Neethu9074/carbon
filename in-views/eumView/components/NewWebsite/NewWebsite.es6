@@ -11,6 +11,7 @@ import { getDashboardLink } from 'in-stores/navigation';
 import { getSnapshot } from 'in-stores/snapshot';
 import { addKey } from 'in-services/api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import './NewWebsite.less';
 
@@ -41,24 +42,29 @@ export default connectTo(
     render() {
       return (
         <FullscreenOverlayView>
+          <Title title="New Website" />
           <div className={block}>
-            {this.state.saveResult == null
-              ? <From
-                  field={this.state.field}
-                  loading={this.state.loading}
-                  saveError={this.state.saveError}
-                  onChange={this.onChange}
-                  onSubmit={this.onSubmit}
-                />
-              : null}
-            {this.state.saveResult != null
-              ? <Waiting
-                  websiteName={this.state.saveResult.appName}
-                  eumKey={this.state.saveResult.id}
-                  isWaiting={this.state.snapshot == null}
-                  href$={getDashboardLink(this.state.saveResult.websiteSnapshotId)}
-                />
-              : null}
+            {this.state.saveResult == null ? (
+              <From
+                field={this.state.field}
+                loading={this.state.loading}
+                saveError={this.state.saveError}
+                onChange={this.onChange}
+                onSubmit={this.onSubmit}
+              />
+            ) : null}
+            {this.state.saveResult != null ? (
+              <Waiting
+                websiteName={this.state.saveResult.appName}
+                eumKey={this.state.saveResult.id}
+                isWaiting={this.state.snapshot == null}
+                href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
+                  to: null,
+                  focusedMoment: null,
+                  pathname: '/website/dashboard'
+                })}
+              />
+            ) : null}
           </div>
         </FullscreenOverlayView>
       );

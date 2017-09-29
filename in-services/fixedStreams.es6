@@ -11,5 +11,7 @@ export const alwaysEmptyImmutableMap = always(emptyMap);
 export const alwaysEmptyImmutableList = always(emptyList);
 
 export function always(v) {
-  return create().emit(v).freeze();
+  return create()
+    .emit(v)
+    .freeze();
 }

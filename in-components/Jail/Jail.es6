@@ -62,9 +62,7 @@ class Jail extends React.Component {
           <span className={block + '__error-component'}>{Component.displayName || Component.name}</span> component:{' '}
           <span className={block + '__error-reason'}>{e.message}</span>
           <p>Component properties:</p>
-          <pre className={block + '__error-component-props'}>
-            {JSON.stringify(props, 0, 2)}
-          </pre>
+          <pre className={block + '__error-component-props'}>{JSON.stringify(props, 0, 2)}</pre>
         </div>,
         domNode
       );

@@ -11,6 +11,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { openApiTokens } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('apiTokenConfig');
 
@@ -85,28 +86,26 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          {apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}
-        </SubViewHeader>
+        <Title title="Api Token" />
+        <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
           {form ? <ApiTokenForm form={form} onChange={this.onChange} /> : null}
         </form>
-
       </SubViewWrapper>
     );
   }
@@ -173,5 +172,6 @@ function createForm(apiToken) {
     .put('canConfigureApiTokens', createField({ value: apiToken.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: apiToken.get('canViewAuditLog') }))
-    .put('canConfigureObjectives', createField({ value: apiToken.get('canConfigureObjectives') }));
+    .put('canConfigureObjectives', createField({ value: apiToken.get('canConfigureObjectives') }))
+    .put('canConfigureAgents', createField({ value: apiToken.get('canConfigureAgents') }));
 }

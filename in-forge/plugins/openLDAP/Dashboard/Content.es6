@@ -12,18 +12,12 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Operations complete">
           <MetricValue snapshotId={snapshotId} metric="ops_completed" />
         </KpiKeyValue>

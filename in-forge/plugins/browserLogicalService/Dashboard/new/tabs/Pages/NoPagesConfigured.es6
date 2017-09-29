@@ -20,9 +20,9 @@ export default function NoPagesConfigured({ snapshot }) {
       <FullscreenViewHeading iconType="globe">Pages</FullscreenViewHeading>
 
       <p>
-        No pages are currently being monitored. Pages grant you deeper insights into the performance of your
-        website. This is helpful to understand which part of your website is slow and to track the performance
-        of these parts over time. You should try it, it is easy to set up!
+        No pages are currently being monitored. Pages grant you deeper insights into the performance of your website.
+        This is helpful to understand which part of your website is slow and to track the performance of these parts
+        over time. You should try it, it is easy to set up!
       </p>
 
       <Code code={snippet} lang="html" showLineNumbers={false} wrapperClassName={`${block}__tracking-code`} />

@@ -12,11 +12,7 @@ const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
 
 export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort, columnDefinition }) {
   if (columnDefinition.disableSorting) {
-    return (
-      <span className={block}>
-        {title}
-      </span>
-    );
+    return <span className={block}>{title}</span>;
   }
 
   const active = index === sortIndex;

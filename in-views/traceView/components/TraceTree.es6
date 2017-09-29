@@ -31,7 +31,6 @@ export default connectTo(
 
     return (
       <div className={block}>
-
         <TraceHeader trace={trace} />
 
         <TraceFlameGraph trace={trace} />

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { start } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import getAgentSnapshotId from 'in-services/subscription/getAgentSnapshotId';
+import { getDashboardLink } from 'in-stores/navigation';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
@@ -9,24 +10,21 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      isOnline: isEntityOnline(props.snapshot.get('id'))
+      isOnline: isEntityOnline(props.snapshot.get('id')),
+      href: getAgentSnapshotId(props.snapshot).flatMap(getDashboardLink)
     };
   },
-  function EnableSelfMonitoringButton({ snapshot, isOnline }) {
+  function EnableSelfMonitoringButton({ isOnline, href }) {
     const button = (
-      <Button onClick={() => start(snapshot, true)} kind="default" disabled={!isOnline}>
+      <Button kind="default" disabled={!isOnline} href={href}>
         Open Agent Management
       </Button>
     );
 
-    if (isOnline) {
+    if (isOnline || !href) {
       return button;
     }
 
-    return (
-      <Tooltip content="Agent management is only available when the agent is running.">
-        {button}
-      </Tooltip>
-    );
+    return <Tooltip content="Agent management is only available when the agent is running.">{button}</Tooltip>;
   }
 );

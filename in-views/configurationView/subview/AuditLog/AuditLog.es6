@@ -14,6 +14,7 @@ import { getAuditLog } from 'in-services/auditLog';
 import Gravatar from 'in-components/Gravatar';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 import 'in-views/configurationView/subview/AuditLog/AuditLog.less';
 
@@ -38,9 +39,9 @@ export default connectTo(
     render() {
       return (
         <SubViewWrapper>
-          <SubViewHeader>
-            Audit Log
-          </SubViewHeader>
+          <Title title="Audit Log" />
+
+          <SubViewHeader>Audit Log</SubViewHeader>
 
           <Section>
             <AuditLogDownloadView offset={this.state.offset} query={this.props.query} />
@@ -80,9 +81,7 @@ const AuditLogEntries = connectTo(
     return (
       <Section>
         <div className={`${block}__heading`}>
-          <SectionHeading>
-            {`Recent events (${totalEntries})`}
-          </SectionHeading>
+          <SectionHeading>{`Recent events (${totalEntries})`}</SectionHeading>
 
           <div className={`${block}__right`}>
             <input
@@ -97,20 +96,18 @@ const AuditLogEntries = connectTo(
           </div>
         </div>
         <ul className={`${block}__list`}>
-          {entries.map(logEntry =>
+          {entries.map(logEntry => (
             <li className={`${block}__item`} key={logEntry.get('id')}>
               <div className={`${block}__user-side`}>
-                {logEntry.getIn(['actor', 'type']) !== 'API_TOKEN'
-                  ? <Gravatar className={`${block}__avatar`} email={logEntry.getIn(['actor', 'email'])} />
-                  : <div className={`${block}__spacer`} />}
+                {logEntry.getIn(['actor', 'type']) !== 'API_TOKEN' ? (
+                  <Gravatar className={`${block}__avatar`} email={logEntry.getIn(['actor', 'email'])} />
+                ) : (
+                  <div className={`${block}__spacer`} />
+                )}
 
                 <div className={`${block}__text`}>
-                  <span className={`${block}__full-name`}>
-                    {logEntry.getIn(['actor', 'name'])}
-                  </span>
-                  <span className={`${block}__topic`}>
-                    {` - ${logEntry.get('action')}`}
-                  </span>
+                  <span className={`${block}__full-name`}>{logEntry.getIn(['actor', 'name'])}</span>
+                  <span className={`${block}__topic`}>{` - ${logEntry.get('action')}`}</span>
                   <span className={`${block}__time`}>
                     {` - ${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
                   </span>
@@ -118,7 +115,7 @@ const AuditLogEntries = connectTo(
                 </div>
               </div>
             </li>
-          )}
+          ))}
           <div className={`${block}__footer`}>
             <SvgIcon
               className={`${block}__icon`}

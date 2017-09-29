@@ -30,13 +30,16 @@ export default addSection(
       };
 
       return {
-        href: serverTime$.map(serverTime => Math.min(serverTime, to)).distinct().flatMap(timeframeTo =>
-          getTraceViewFilteredBySnapshotIdAndTimeframe({
-            snapshotId: serviceId,
-            from,
-            to: timeframeTo
-          }).nextFrame()
-        ),
+        href: serverTime$
+          .map(serverTime => Math.min(serverTime, to))
+          .distinct()
+          .flatMap(timeframeTo =>
+            getTraceViewFilteredBySnapshotIdAndTimeframe({
+              snapshotId: serviceId,
+              from,
+              to: timeframeTo
+            }).nextFrame()
+          ),
 
         numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe)
       };
@@ -51,27 +54,26 @@ export default addSection(
           <DescriptionItem
             id="title"
             title={
-              tracesAvailable
-                ? <div className={`${block}__title-wrapper`}>
-                    <SvgIcon className={`${block}__icon`} type="traces" width={24} color={'#22d8d8'} />
-                    {tracesAvailable ? 'Traces Touching' : ''}
-                  </div>
-                : null
+              tracesAvailable ? (
+                <div className={`${block}__title-wrapper`}>
+                  <SvgIcon className={`${block}__icon`} type="traces" width={24} color={'#22d8d8'} />
+                  {tracesAvailable ? 'Traces Touching' : ''}
+                </div>
+              ) : null
             }
           >
-
-            {tracesAvailable
-              ? <Button className={`${block}__button`} kind="secondary" size="sm" href={href}>
-                  View Traces
-                </Button>
-              : null}
+            {tracesAvailable ? (
+              <Button className={`${block}__button`} kind="secondary" size="sm" href={href}>
+                View Traces
+              </Button>
+            ) : null}
 
             <DescriptionList className={`${block}__metrics`}>
-              {tracesAvailable
-                ? <DescriptionItem className={itemClassName} title="Number of traces">
-                    {numberOfTraces}
-                  </DescriptionItem>
-                : null}
+              {tracesAvailable ? (
+                <DescriptionItem className={itemClassName} title="Number of traces">
+                  {numberOfTraces}
+                </DescriptionItem>
+              ) : null}
 
               <DescriptionItem className={itemClassName} title="Avg response time">
                 <MetricValue

@@ -9,26 +9,16 @@ export default function MongoSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Hostname">
-          {span.getIn(['data', 'peer', 'hostname'])}
-        </DescriptionItem>
-        <DescriptionItem title="Port">
-          {span.getIn(['data', 'peer', 'port'])}
-        </DescriptionItem>
-        <DescriptionItem title="Service">
-          {span.getIn(['data', 'mongo', 'service'])}
-        </DescriptionItem>
-        <DescriptionItem title="Protocol">
-          {span.getIn(['data', 'mongo', 'protocol'])}
-        </DescriptionItem>
-        <DescriptionItem title="Namespace">
-          {span.getIn(['data', 'mongo', 'namespace'])}
-        </DescriptionItem>
-        {query
-          ? <DescriptionItem title="Query">
-              <Code code={query} lang="json" />
-            </DescriptionItem>
-          : null}
+        <DescriptionItem title="Hostname">{span.getIn(['data', 'peer', 'hostname'])}</DescriptionItem>
+        <DescriptionItem title="Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
+        <DescriptionItem title="Service">{span.getIn(['data', 'mongo', 'service'])}</DescriptionItem>
+        <DescriptionItem title="Protocol">{span.getIn(['data', 'mongo', 'protocol'])}</DescriptionItem>
+        <DescriptionItem title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</DescriptionItem>
+        {query ? (
+          <DescriptionItem title="Query">
+            <Code code={query} lang="json" />
+          </DescriptionItem>
+        ) : null}
       </DescriptionList>
     </div>
   );

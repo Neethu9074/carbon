@@ -11,13 +11,9 @@ export default function ObjectiveContent({ objective }) {
 
   return (
     <div>
-      <div className={block + '__header'}>
-        {`Objective violation (${objective.get('issues').size}) events`}
-      </div>
+      <div className={block + '__header'}>{`Objective violation (${objective.get('issues').size}) events`}</div>
 
-      <span className={block + '__incident-started'}>
-        started here:
-      </span>
+      <span className={block + '__incident-started'}>started here:</span>
 
       <Header event={objective} text={problem.get('problemText')} />
 

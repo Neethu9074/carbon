@@ -50,11 +50,11 @@ export default connectTo(
                       onChangeInRuleIds={onChangeInRuleIds}
                     />
 
-                    {field.messages.map((message, i) =>
+                    {field.messages.map((message, i) => (
                       <ValidationBlock hasError key={i}>
                         {message.message}
                       </ValidationBlock>
-                    )}
+                    ))}
                   </Helpify>
 
                   {field.value.get(0) && !isSystemRule ? <RuleDetails ruleId={String(field.value.get(0))} /> : null}
@@ -63,7 +63,23 @@ export default connectTo(
             })}
           </div>
 
-          {form.get('query').map(field =>
+          {form.get('ruleIds').map(field => {
+            const selectedRule = field.value.get(0);
+            const isSystemRule = selectedRule && find(systemRules, each => each.id == selectedRule) ? true : false;
+            if (isSystemRule) {
+              return (
+                <FormGroup>
+                  <span className={`${block}__help-text`}>
+                    Track offline events in order to trigger issues on entities that should not go offline. Please
+                    define a filter query to match the entities you want to put under offline observation.
+                  </span>
+                </FormGroup>
+              );
+            }
+            return null;
+          })}
+
+          {form.get('query').map(field => (
             <FormGroup>
               <Label htmlFor="ruleBinding-query" hasError={!field.valid}>
                 Applied on filter query
@@ -77,17 +93,17 @@ export default connectTo(
                   onChange={e => onChange('query', e.target.value)}
                   hasError={!field.valid}
                 />
-                {field.messages.map((message, i) =>
+                {field.messages.map((message, i) => (
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
-                )}
+                ))}
               </Helpify>
             </FormGroup>
-          )}
+          ))}
           <Row>
             <Col cols={4}>
-              {form.get('severity').map(field =>
+              {form.get('severity').map(field => (
                 <FormGroup>
                   <Label htmlFor="ruleBinding-severity" hasError={!field.valid}>
                     Severity
@@ -102,16 +118,16 @@ export default connectTo(
                     ]}
                     onChange={e => onChange('severity', (e = e ? e.value : ''))}
                   />
-                  {field.messages.map((message, i) =>
+                  {field.messages.map((message, i) => (
                     <ValidationBlock hasError key={i}>
                       {message.message}
                     </ValidationBlock>
-                  )}
+                  ))}
                 </FormGroup>
-              )}
+              ))}
             </Col>
             <Col cols={4}>
-              {form.get('expirationTime').map(field =>
+              {form.get('expirationTime').map(field => (
                 <FormGroup>
                   <Label htmlFor="ruleBinding-expirationTime" hasError={!field.valid}>
                     Expiration time
@@ -130,21 +146,19 @@ export default connectTo(
                       ]}
                       onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
                     />
-                    {field.messages.map((message, i) =>
+                    {field.messages.map((message, i) => (
                       <ValidationBlock hasError key={i}>
                         {message.message}
                       </ValidationBlock>
-                    )}
+                    ))}
                   </Helpify>
                 </FormGroup>
-              )}
+              ))}
             </Col>
             <Col cols={4}>
-              {form.get('triggering').map(field =>
+              {form.get('triggering').map(field => (
                 <FormGroup>
-                  <Label htmlFor="ruleBinding-triggering">
-                    Triggering incident
-                  </Label>
+                  <Label htmlFor="ruleBinding-triggering">Triggering incident</Label>
                   <Toggle
                     id="ruleBinding-triggering"
                     className={`${block}__toggle`}
@@ -152,10 +166,10 @@ export default connectTo(
                     onChange={e => onChange('triggering', e.target.checked)}
                   />
                 </FormGroup>
-              )}
+              ))}
             </Col>
           </Row>
-          {form.get('text').map(field =>
+          {form.get('text').map(field => (
             <FormGroup>
               <Label htmlFor="ruleBinding-text" hasError={!field.valid}>
                 Text
@@ -167,15 +181,15 @@ export default connectTo(
                 onChange={e => onChange('text', e.target.value)}
                 hasError={!field.valid}
               />
-              {field.messages.map((message, i) =>
+              {field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
             </FormGroup>
-          )}
+          ))}
 
-          {form.get('description').map(field =>
+          {form.get('description').map(field => (
             <FormGroup>
               <Label htmlFor="ruleBinding-description" hasError={!field.valid}>
                 Description
@@ -187,20 +201,23 @@ export default connectTo(
                 onChange={e => onChange('description', e.target.value)}
                 hasError={!field.valid}
               />
-              {field.messages.map((message, i) =>
+              {field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
             </FormGroup>
-          )}
+          ))}
         </Section>
 
         <Section>
-          <SectionHeading>
-            Event preview
-          </SectionHeading>
-          <EventDescription className={`${block}__issue-preview`} event={createEvent(form)} snapshotId="snapshotId" />
+          <SectionHeading>Event preview</SectionHeading>
+          <EventDescription
+            className={`${block}__issue-preview`}
+            event={createEvent(form)}
+            snapshotId="snapshotId"
+            isNotClickable
+          />
         </Section>
       </fieldset>
     );

@@ -61,13 +61,9 @@ export default connectTo(
         <Separator />
 
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            Services
-          </Collapsible.Header>
+          <Collapsible.Header>Services</Collapsible.Header>
           <Collapsible.Content>
-            <DescriptionList>
-              {items}
-            </DescriptionList>
+            <DescriptionList>{items}</DescriptionList>
           </Collapsible.Content>
         </Collapsible>
       </div>

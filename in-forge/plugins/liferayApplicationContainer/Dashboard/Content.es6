@@ -12,9 +12,7 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Average Time">
           <MetricValue snapshotId={snapshotId} metric="portalStatistics.averageTime" />
         </KpiKeyValue>

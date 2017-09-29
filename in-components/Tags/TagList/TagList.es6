@@ -18,11 +18,7 @@ export default connectTo(
   },
   function TagList({ tags, tagsFilter, filteredTags }) {
     if (!tags || tags.size === 0) {
-      return (
-        <div className={block + '__no-tags'}>
-          There are no tags defined
-        </div>
-      );
+      return <div className={block + '__no-tags'}>There are no tags defined</div>;
     }
 
     tags = tags.toArray();
@@ -45,9 +41,7 @@ export default connectTo(
     return (
       <div>
         <div className={block}>
-          <div className={block + '__active-tags'}>
-            {activeTags}
-          </div>
+          <div className={block + '__active-tags'}>{activeTags}</div>
           {inactiveTags}
         </div>
         <TagFilter />

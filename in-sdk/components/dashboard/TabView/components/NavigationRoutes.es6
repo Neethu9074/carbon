@@ -2,9 +2,9 @@ import { Switch } from 'react-router-dom';
 import React from 'react';
 
 import { compareTabsForRoutingPreference } from 'in-sdk/components/dashboard/TabView/components/paths';
-import RouteWithTitle from 'in-components/Navigation/RouteWithTitle';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-
+import { Route } from 'react-router-dom';
+import Title from 'in-components/Title';
 import './NavigationRoutes.less';
 
 const block = 'in-dashboard-nav-routes';
@@ -17,21 +17,21 @@ export default function NavigationRoutes({ tabs, props }) {
       tabs
         .slice(0)
         .sort(compareTabsForRoutingPreference)
-        .map(nav =>
-          <RouteWithTitle
+        .map(nav => (
+          <Route
             key={`route_${nav.path}`}
             path={`*/dashboard${nav.path}`}
-            render={() => <View ChildComponent={nav.component} props={props} />}
-            windowTitle={nav.label}
+            render={() => <View ChildComponent={nav.component} label={nav.label} props={props} />}
           />
-        )}
+        ))}
     </Switch>
   );
 }
 
-function View({ ChildComponent, props }) {
+function View({ ChildComponent, label, props }) {
   return (
     <div className={block}>
+      <Title title={label} />
       <LifecycleObserver onDidMount={forceScrollTop} />
       <ChildComponent {...props} />
     </div>

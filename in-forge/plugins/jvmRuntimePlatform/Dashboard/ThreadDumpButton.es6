@@ -21,11 +21,7 @@ export default connectTo(
     );
 
     if (isOnline) {
-      return (
-        <Tooltip content="Thread dumps are always live.">
-          {button}
-        </Tooltip>
-      );
+      return <Tooltip content="Thread dumps are always live.">{button}</Tooltip>;
     }
 
     return (

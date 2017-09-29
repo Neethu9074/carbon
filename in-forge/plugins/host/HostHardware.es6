@@ -27,9 +27,7 @@ export default connectTo(
         <Separator />
 
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            {getSingular(foundationSnapshot.get('plugin'))}
-          </Collapsible.Header>
+          <Collapsible.Header>{getSingular(foundationSnapshot.get('plugin'))}</Collapsible.Header>
           <Collapsible.Content>
             <Details snapshot={foundationSnapshot} />
           </Collapsible.Content>

@@ -11,6 +11,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { openRules } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('Rule');
 
@@ -44,28 +45,27 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          {rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}
-        </SubViewHeader>
+        <Title title="Custom Rule" />
+
+        <SubViewHeader>{rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form
-              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Save
-                </Button>
-              : null}
+            {form ? (
+              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            ) : null}
 
-            {this.state.message
-              ? <Notification failure={this.state.error} loading={this.state.loading}>
-                  {this.state.message}
-                </Notification>
-              : null}
+            {this.state.message ? (
+              <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            ) : null}
           </Section>
 
           {form ? <RuleForm form={form} onChange={this.onChange} /> : null}
         </form>
-
       </SubViewWrapper>
     );
   }

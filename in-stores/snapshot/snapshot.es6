@@ -1,5 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
+import createSnapshotsInTimeframeObservable from 'in-services/subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
@@ -14,9 +15,9 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createSearchObservable from 'in-services/subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { debouncedQuery$, query$ } from 'in-stores/search/query';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { createTrackingStore } from 'in-stores/store';
-import { query$ } from 'in-stores/search/query';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -95,7 +96,6 @@ export function getSnapshot(snapshotId, time) {
   if (time === undefined) {
     return focusedMoment$.flatMap(focusedMoment => createSnapshotObservable({ snapshotId, time: focusedMoment }));
   }
-
   return createSnapshotObservable({ snapshotId, time });
 }
 
@@ -232,4 +232,14 @@ export function getSnapshotVersions(snapshotId, time) {
     return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({ snapshotId, time: _time }));
   }
   return createSnapshotVersionsObservable({ snapshotId, time });
+}
+
+export function getSnapshotsInTimeframe(customQuery) {
+  return combineLatest([timeframe$, focusedMoment$, debouncedQuery$])
+    .nextFrame()
+    .flatMap(([timeframe, focusedMoment, query]) => {
+      query = query == null || query.length === 0 ? '' : query;
+      query = query || '';
+      return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} ${query}`, focusedMoment });
+    });
 }

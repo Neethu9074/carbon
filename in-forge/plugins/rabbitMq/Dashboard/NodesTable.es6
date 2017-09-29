@@ -20,7 +20,10 @@ const cols = [
 ];
 
 export default function NodesTable({ snapshot, timeframe }) {
-  const nodes = snapshot.getIn(['data', 'nodes'], emptyList).toArray().sort();
+  const nodes = snapshot
+    .getIn(['data', 'nodes'], emptyList)
+    .toArray()
+    .sort();
   if (nodes.length === 0) {
     return null;
   }

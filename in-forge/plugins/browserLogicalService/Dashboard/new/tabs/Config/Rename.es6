@@ -37,16 +37,14 @@ export default class Rename extends React.PureComponent {
       <DashboardTile>
         <form onSubmit={this.onSubmit}>
           <FormGroup className={`${block}__group`}>
-            <Label htmlFor="website-name">
-              Website Name
-            </Label>
+            <Label htmlFor="website-name">Website Name</Label>
 
             {saveError && <SaveError>{saveError}</SaveError>}
 
             <p className={`${block}__help`}>
-              Renaming a website is an eventually consistent action within the Instana system. For this reason, a
-              change to a website name may take <em>up to a few minutes</em> until it has populated throughout the
-              whole system.
+              Renaming a website is an eventually consistent action within the Instana system. For this reason, a change
+              to a website name may take <em>up to a few minutes</em> until it has populated throughout the whole
+              system.
             </p>
 
             <div className={`${block}__action-wrapper`}>
@@ -67,20 +65,20 @@ export default class Rename extends React.PureComponent {
               >
                 Rename
               </Button>
-              {this.state.saveResult != null
-                ? <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
-                    <SvgIcon type="ok" width={16} className={`${block}__success-icon`} />{' '}
-                    <span className={`${block}__sucess-label`}>Saved</span>
-                  </TemporaryPresenter>
-                : null}
+              {this.state.saveResult != null ? (
+                <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
+                  <SvgIcon type="ok" width={16} className={`${block}__success-icon`} />{' '}
+                  <span className={`${block}__sucess-label`}>Saved</span>
+                </TemporaryPresenter>
+              ) : null}
             </div>
 
             {field.touched &&
-              field.messages.map((message, i) =>
+              field.messages.map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
-              )}
+              ))}
           </FormGroup>
         </form>
       </DashboardTile>

@@ -21,7 +21,10 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
 
     this.addSubscriptions([
       eventEmitter.on('transformationChanged').subscribe(updateFactoryCallback),
-      eventEmitter.on(this.eventToListen).distinct().subscribe(highlightingChangedCallback)
+      eventEmitter
+        .on(this.eventToListen)
+        .distinct()
+        .subscribe(highlightingChangedCallback)
     ]);
   }
 

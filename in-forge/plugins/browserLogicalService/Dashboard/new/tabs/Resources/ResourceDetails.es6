@@ -14,6 +14,7 @@ import { Row, Col } from 'in-components/Grid';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+import Title from 'in-components/Title';
 
 const notFoundIndicator = {};
 
@@ -61,21 +62,21 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
   } else if (connection === notFoundIndicator || connectedSnapshot === notFoundIndicator) {
     return (
       <Notification type="warning">
-        <strong>Failed to retrieve resource details.</strong> Please refresh the page or contact customer{' '}
-        support should this issue persist.
+        <strong>Failed to retrieve resource details.</strong> Please refresh the page or contact customer support should
+        this issue persist.
       </Notification>
     );
   }
 
+  const label = getLabel(connectedSnapshot);
   return (
     <div>
+      <Title title="Resource Details" dynamic={label} />
       <BackButton label="Back to resource list" href$={getSubDashboardLink(`/resources`)} />
 
       <DashboardTile>
         <DescriptionList>
-          <DescriptionItem title="Resource Host">
-            {getLabel(connectedSnapshot)}
-          </DescriptionItem>
+          <DescriptionItem title="Resource Host">{label}</DescriptionItem>
         </DescriptionList>
       </DashboardTile>
 

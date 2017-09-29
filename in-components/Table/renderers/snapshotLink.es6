@@ -13,8 +13,11 @@ export const type = 'snapshotLink';
 
 export function validate(col) {
   invariant(
-    typeof col.typeArgs.getSnapshotId === 'function' || typeof col.typeArgs.getSnapshotId$ === 'function',
-    'Columns with type=snapshotLink must have a getSnapshotId(row) or a getSnapshotId$(row) function.'
+    typeof col.typeArgs.getSnapshotId === 'function' ||
+      typeof col.typeArgs.getSnapshotId$ === 'function' ||
+      typeof col.typeArgs.getSnapshot === 'function' ||
+      typeof col.typeArgs.getSnapshot$ === 'function',
+    'Columns with type=snapshotLink must have a getSnapshotId(row), a getSnapshot(row), a getSnapshot$(row) or a getSnapshotId$(row) function.'
   );
   invariant(
     col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
@@ -41,6 +44,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 
   const getSnapshotLink = snapshot => {
     column.value = getLabel(snapshot);
+
     column.content = (
       <HierarchicalLink
         snapshot={snapshot}
@@ -57,6 +61,10 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   if (columnDefinition.typeArgs.getSnapshotId) {
     const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
     column.subscription = getSnapshot(snapshotId).subscribe(getSnapshotLink);
+  } else if (columnDefinition.typeArgs.getSnapshot) {
+    getSnapshotLink(columnDefinition.typeArgs.getSnapshot(row.rowConfig));
+  } else if (columnDefinition.typeArgs.getSnapshot$) {
+    column.subscription = columnDefinition.typeArgs.getSnapshot$(row.rowConfig).subscribe(getSnapshotLink);
   } else {
     const snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
     column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(getSnapshotLink);

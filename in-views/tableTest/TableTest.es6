@@ -5,6 +5,7 @@ import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { number } from 'in-services/formatters/number';
 import { getPlural } from 'in-sdk/pluginName';
 import Table from 'in-components/Table';
+import Title from 'in-components/Title';
 
 const rows = Object.keys(plugins).map(key => {
   return {
@@ -49,6 +50,7 @@ function getRowDetails(rowConfig) {
 export default function TableTest() {
   return (
     <FullscreenOverlayView overlayTimeline>
+      <Title title="Table Test" />
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </FullscreenOverlayView>
   );

@@ -1,6 +1,6 @@
 .in-dash-sum-kpi {
   flex-shrink: 0;
-  min-width: 10rem;
+  min-width: 12rem;
   padding-right: 5rem;
   box-sizing: border-box;
 
@@ -15,40 +15,12 @@
     align-items: center;
   }
 
+  &__value-wrapper-grow {
+    flex-grow: 2;
+  }
+
   &__value {
     font-size: 2rem;
     color: #1E3036;
-  }
-
-  &__percentage2 {
-    padding: 0.375rem;
-    margin: 0 0 0 16px;
-  }
-
-  &__percentage2-bar {
-    position: relative;
-    background: #64AADE;
-    border-radius: 2px;
-    overflow: hidden;
-    height: 7px;
-  }
-
-  &__percentage2-fill {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    background: #D3E600;
-  }
-
-  &__percentage2-a, &__percentage2-b {
-    // increase zIndex
-    position: relative;
-    margin: 4px 0 0 0;
-    display: inline-block;
-  }
-
-  &__percentage2-a {
-    margin-right: 2rem;
   }
 }

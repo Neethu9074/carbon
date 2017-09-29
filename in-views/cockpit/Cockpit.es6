@@ -9,6 +9,7 @@ import Entities from 'in-views/cockpit/components/Entities';
 import Overall from 'in-views/cockpit/components/Overall';
 import Tile from 'in-views/cockpit/components/Tile';
 import { Row, Col } from 'in-components/Grid/Grid';
+import Title from 'in-components/Title';
 
 import './Cockpit.less';
 
@@ -20,6 +21,7 @@ const isPhysicalPlugin = pluginId => !isLogicalPlugin(pluginId);
 export default function Cockpit() {
   return (
     <FullscreenOverlayView className={block} overlayTimeline>
+      <Title title="Cockpit" />
       <Row>
         <Col cols={6}>
           <Tile header="Entities">

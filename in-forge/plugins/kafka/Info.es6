@@ -6,18 +6,10 @@ export default function KafkaInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Zookeeper Connect">
-        {data.get('config.zookeeper')}
-      </DescriptionItem>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Node Id">
-        {data.get('node_id')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Zookeeper Connect">{data.get('config.zookeeper')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Node Id">{data.get('node_id')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -61,15 +61,18 @@ export default function WebAppsTable({ snapshot, timeframe }) {
   if (contextRootPaths.size === 0) {
     return null;
   }
-  const rows = contextRootPaths.keySeq().toArray().map(key => {
-    return {
-      key,
-      snapshotId: snapshot.get('id'),
-      snapshot,
-      data: snapshot.get('data'),
-      timeframe
-    };
-  });
+  const rows = contextRootPaths
+    .keySeq()
+    .toArray()
+    .map(key => {
+      return {
+        key,
+        snapshotId: snapshot.get('id'),
+        snapshot,
+        data: snapshot.get('data'),
+        timeframe
+      };
+    });
 
   return (
     <DashboardSection title={`Web Deployments (${rows.length})`}>

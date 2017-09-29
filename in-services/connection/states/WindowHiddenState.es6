@@ -9,7 +9,10 @@ export default class WindowHiddenState extends AbstractState {
 
     this.on('close', this.onClose);
     window.document.addEventListener('visibilitychange', this.onVisibilityChange, false);
-    this.timerHandle = setTimeout(this.onHiddenForLongTime, this.sharedState.timeUntilDisposingSubscriptionsForHiddenUi);
+    this.timerHandle = setTimeout(
+      this.onHiddenForLongTime,
+      this.sharedState.timeUntilDisposingSubscriptionsForHiddenUi
+    );
   }
 
   onLeave() {
@@ -26,15 +29,15 @@ export default class WindowHiddenState extends AbstractState {
 
   onClose = () => {
     this.transitionTo('connectionLost');
-  }
+  };
 
   onVisibilityChange = () => {
     if (!window.document.hidden) {
       this.transitionTo('connected');
     }
-  }
+  };
 
   onHiddenForLongTime = () => {
     this.transitionTo('windowHiddenLongTime');
-  }
+  };
 }

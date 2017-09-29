@@ -50,27 +50,28 @@ export default connectTo(
 
           <MenuHeading className={`${block}__heading`}>
             Filter
-
-            {query
-              ? <a
-                  href=""
-                  onClick={e => {
-                    e.preventDefault();
-                    save(query);
-                  }}
-                  className={`${block}__save`}
-                >
-                  <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
-                  {' Save current filter as new preset'}
-                </a>
-              : <span className={`${block}__save ${block}__save--disabled`}>
-                  <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
-                  {' Save current filter as new preset'}
-                </span>}
+            {query ? (
+              <a
+                href=""
+                onClick={e => {
+                  e.preventDefault();
+                  save(query);
+                }}
+                className={`${block}__save`}
+              >
+                <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
+                {' Save current filter as new preset'}
+              </a>
+            ) : (
+              <span className={`${block}__save ${block}__save--disabled`}>
+                <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
+                {' Save current filter as new preset'}
+              </span>
+            )}
           </MenuHeading>
 
           <ul className={`${block}__preset-list`}>
-            {filters.toArray().map(filter =>
+            {filters.toArray().map(filter => (
               <li key={filter.get('id')} className={`${block}__preset-item`}>
                 <UserFilterLink onClick={togglePresets} filter={filter} />
 
@@ -97,7 +98,7 @@ export default connectTo(
                   </a>
                 </div>
               </li>
-            )}
+            ))}
           </ul>
         </section>
       );

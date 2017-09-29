@@ -18,7 +18,9 @@ const block = 'in-map-sidebar';
 export default connectTo(
   {
     snapshot: selectedSnapshot$,
-    windowHeight: on(window, 'resize').map(() => window.innerHeight).startWithFn(() => window.innerHeight),
+    windowHeight: on(window, 'resize')
+      .map(() => window.innerHeight)
+      .startWithFn(() => window.innerHeight),
     timelineHeight: timelineHeight$
   },
   function MapSidebar({ snapshot, windowHeight, timelineHeight }) {

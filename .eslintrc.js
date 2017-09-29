@@ -1,6 +1,5 @@
 module.exports = {
   env: {
-    browser: true,
     es6: true
   },
 
@@ -33,10 +32,13 @@ module.exports = {
   ],
 
 
-  globals: {
-    Promise: false,
-    __DEV__: false
-  },
+  globals: (function(){
+    var globals = require("globals").browser;
+    delete globals["name"];
+    globals.Promise = false;
+    globals.__DEV__ = false;
+    return globals;
+  }()),
 
 
   rules: {

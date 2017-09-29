@@ -23,10 +23,6 @@ export default connectTo(
         />
       );
     }
-    return (
-      <span>
-        {getLabel(snapshot)}
-      </span>
-    );
+    return <span>{getLabel(snapshot)}</span>;
   }
 );

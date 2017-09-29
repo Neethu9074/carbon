@@ -13,9 +13,7 @@ export default function Sidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Hadoop YARN Resource Manager Info
-        </Collapsible.Header>
+        <Collapsible.Header>Hadoop YARN Resource Manager Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -12,9 +12,5 @@ export default function TooltipFrame({ children, anchor }) {
 
   anchor = anchor ? anchor : 'left';
 
-  return (
-    <div className={block + ' ' + block + '__' + anchor}>
-      {children}
-    </div>
-  );
+  return <div className={block + ' ' + block + '__' + anchor}>{children}</div>;
 }

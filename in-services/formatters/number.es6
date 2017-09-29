@@ -7,7 +7,11 @@ export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
 export const number = {
   compact: zeroDecimalPlaces,
-  detailed: twoDecimalPlaces
+  detailed: twoDecimalPlaces,
+  perSecond: {
+    compact: v => zeroDecimalPlaces(v) + '/s',
+    detailed: v => twoDecimalPlaces(v) + '/s'
+  }
 };
 
 export const activityZeroDecimalPlaces = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
@@ -30,7 +34,11 @@ export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
 export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
 export const bytes = {
   compact: bytesZeroDecimalPlaces,
-  detailed: bytesTwoDecimalPlaces
+  detailed: bytesTwoDecimalPlaces,
+  perSecond: {
+    compact: v => bytesZeroDecimalPlaces(v) + '/s',
+    detailed: v => bytesTwoDecimalPlaces(v) + '/s'
+  }
 };
 
 export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits, number.detailed);
@@ -46,7 +54,8 @@ export const millis = {
   detailed: timeByMillisTwoDecimalPlaces
 };
 export const seconds = {
-  fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's'
+  fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',
+  fixedCompact: t => number.compact(t) + 's'
 };
 export const minutes = {
   compact: t => formatTime(t, timeMinuteUnits, number.compact),

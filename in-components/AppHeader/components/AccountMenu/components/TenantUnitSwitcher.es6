@@ -21,12 +21,14 @@ export default connectTo(
   {
     tenantUnitStructure: tenantsWithUnits$
       .map(units => {
-        return Object.keys(units).sort().map(tenantName => {
-          return {
-            name: tenantName,
-            units: units[tenantName].map(unit => unit.name).sort()
-          };
-        });
+        return Object.keys(units)
+          .sort()
+          .map(tenantName => {
+            return {
+              name: tenantName,
+              units: units[tenantName].map(unit => unit.name).sort()
+            };
+          });
       })
       .startWith(emptyArray)
   },
@@ -49,19 +51,17 @@ export default connectTo(
 
       return (
         <div className={block}>
-          <span className={block + '__heading'}>
-            Tenants
-          </span>
+          <span className={block + '__heading'}>Tenants</span>
 
           <ul className={block + '__tenants'}>
-            {tenantUnitStructure.map(tenant =>
+            {tenantUnitStructure.map(tenant => (
               <Tenant
                 key={tenant.name}
                 tenant={tenant}
                 expandedTenant={this.state.expandedTenant}
                 toggleTenant={this.toggleTenant}
               />
-            )}
+            ))}
           </ul>
         </div>
       );
@@ -98,7 +98,6 @@ function Tenant({ tenant, expandedTenant, toggleTenant }) {
         })}
       >
         {tenant.name} ({tenant.units.length})
-
         <SvgIcon
           type={tenant.name === expandedTenant ? 'triangle_down' : 'triangle_right'}
           width={6}
@@ -107,11 +106,11 @@ function Tenant({ tenant, expandedTenant, toggleTenant }) {
         />
       </a>
 
-      {tenant.name === expandedTenant
-        ? <ul className={block + '__units'}>
-            {tenant.units.map(unit => <Unit unit={unit} tenant={tenant} key={unit} />)}
-          </ul>
-        : null}
+      {tenant.name === expandedTenant ? (
+        <ul className={block + '__units'}>
+          {tenant.units.map(unit => <Unit unit={unit} tenant={tenant} key={unit} />)}
+        </ul>
+      ) : null}
     </li>
   );
 }

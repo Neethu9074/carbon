@@ -14,6 +14,9 @@ const block = 'in-event-view-event-information';
 
 export default connectTo(
   props => {
+    if (props.snapshot) {
+      return {};
+    }
     return {
       snapshot: props.snapshotId ? getSnapshot(props.snapshotId, props.time) : alwaysNull
     };
@@ -36,9 +39,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <span className={`${block}__label`}>
-          {label != undefined ? label : 'On:'}
-        </span>
+        <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
         <HierarchicalLink
           snapshot={snapshot}
           className={`${block}__link`}

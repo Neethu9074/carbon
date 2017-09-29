@@ -13,9 +13,7 @@ export default function Sidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          WebLogic Server Info
-        </Collapsible.Header>
+        <Collapsible.Header>WebLogic Server Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

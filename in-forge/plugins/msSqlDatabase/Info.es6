@@ -7,15 +7,9 @@ export default function MsSqlInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">
-        {data.get('pid')}
-      </DescriptionItem>
-      <DescriptionItem title="Instance-Name">
-        {data.get('instance')}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Instance-Name">{data.get('instance')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
     </DescriptionList>
   );
 }

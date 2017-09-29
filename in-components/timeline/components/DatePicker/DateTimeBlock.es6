@@ -21,9 +21,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <span className={`${block}__heading`}>
-          {heading}
-        </span>
+        <span className={`${block}__heading`}>{heading}</span>
         <div className={`${block}__inputs`}>
           <DateInput
             heading="Date"

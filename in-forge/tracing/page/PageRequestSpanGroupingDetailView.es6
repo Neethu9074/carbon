@@ -12,25 +12,15 @@ export default function PageRequestSpanGroupingDetailView({ span }) {
         </Link>
       </DescriptionItem>
 
-      <DescriptionItem title="City">
-        {span.getIn(['data', 'page', 'geo', 'city'])}
-      </DescriptionItem>
+      <DescriptionItem title="City">{span.getIn(['data', 'page', 'geo', 'city'])}</DescriptionItem>
 
-      <DescriptionItem title="Country">
-        {span.getIn(['data', 'page', 'geo', 'country'])}
-      </DescriptionItem>
+      <DescriptionItem title="Country">{span.getIn(['data', 'page', 'geo', 'country'])}</DescriptionItem>
 
-      <DescriptionItem title="Continent">
-        {span.getIn(['data', 'page', 'geo', 'continent'])}
-      </DescriptionItem>
+      <DescriptionItem title="Continent">{span.getIn(['data', 'page', 'geo', 'continent'])}</DescriptionItem>
 
-      <DescriptionItem title="Browser">
-        {span.getIn(['data', 'page', 'userAgent', 'browser', 'name'])}
-      </DescriptionItem>
+      <DescriptionItem title="Browser">{span.getIn(['data', 'page', 'userAgent', 'browser', 'name'])}</DescriptionItem>
 
-      <DescriptionItem title="OS">
-        {span.getIn(['data', 'page', 'userAgent', 'os', 'name'])}
-      </DescriptionItem>
+      <DescriptionItem title="OS">{span.getIn(['data', 'page', 'userAgent', 'os', 'name'])}</DescriptionItem>
     </DescriptionList>
   );
 }

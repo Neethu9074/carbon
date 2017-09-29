@@ -6,12 +6,8 @@ export default function MemcacheSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Operation">
-          {span.getIn(['data', 'memcached', 'operation'])}
-        </DescriptionItem>
-        <DescriptionItem title="Key">
-          {span.getIn(['data', 'memcached', 'key'])}
-        </DescriptionItem>
+        <DescriptionItem title="Operation">{span.getIn(['data', 'memcached', 'operation'])}</DescriptionItem>
+        <DescriptionItem title="Key">{span.getIn(['data', 'memcached', 'key'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

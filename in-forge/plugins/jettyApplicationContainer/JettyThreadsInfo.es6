@@ -18,12 +18,8 @@ export default function JettyThreadsInfo({ snapshot }) {
         <Collapsible.Header>Queued Thread Pool</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Min Threads">
-              {minThreads}
-            </DescriptionItem>
-            <DescriptionItem title="Max Threads">
-              {data.get('maxThreads')}
-            </DescriptionItem>
+            <DescriptionItem title="Min Threads">{minThreads}</DescriptionItem>
+            <DescriptionItem title="Max Threads">{data.get('maxThreads')}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

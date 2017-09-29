@@ -11,9 +11,7 @@ export default function StatsdSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          Information
-        </Collapsible.Header>
+        <Collapsible.Header>Information</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

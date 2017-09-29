@@ -13,13 +13,14 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
+import { role } from 'in-stores/user';
 
 import './Content.less';
 
@@ -61,25 +62,26 @@ export default function HostDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        {!(isWindows(snapshot) || isZos(snapshot))
-          ? <DashboardSection title="CPU Load">
-              <Chart
-                snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  formatter: twoDecimalPlaces,
-                  tooltipFormatter: twoDecimalPlaces,
-                  metrics: ['load.1min'],
-                  labels: ['Load'],
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-          : null}
+        {!(isWindows(snapshot) || isZos(snapshot)) ? (
+          <DashboardSection title="CPU Load">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeframe={timeframe}
+              minRollup={5000}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                formatter: twoDecimalPlaces,
+                tooltipFormatter: twoDecimalPlaces,
+                metrics: ['load.1min'],
+                labels: ['Load'],
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        ) : null}
       </Columize>
 
       <CpuTable snapshot={snapshot} timeframe={timeframe} />
@@ -103,24 +105,24 @@ export default function HostDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {swapTotal > 0
-        ? <DashboardSection title="Swap Activity">
-            <Chart
-              snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
-              margins={{
-                left: 90
-              }}
-              y1={{
-                min: 0,
-                formatter: twoDecimalPlaces,
-                metrics: ['swap.pgin', 'swap.pgout'],
-                labels: ['Page-In', 'Page-Out'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {swapTotal > 0 ? (
+        <DashboardSection title="Swap Activity">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 90
+            }}
+            y1={{
+              min: 0,
+              formatter: twoDecimalPlaces,
+              metrics: ['swap.pgin', 'swap.pgout'],
+              labels: ['Page-In', 'Page-Out'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <FilesystemsTable snapshot={snapshot} timeframe={timeframe} />
 
@@ -157,22 +159,23 @@ export default function HostDashboard({ snapshot, timeframe }) {
 
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeframe={timeframe} />
 
-      <DashboardSection title="Agent Management">
-        <div className={`${block}__self-monitoring`}>
-          <div className={`${block}__self-monitoring-description`}>
-            <p>
-              The Instana Agent has management and self monitoring capabilities which assist troubleshooting and provide
-              deeper
-              insights without the need to log in and review files. This includes inspecting the agent log, running
-              sensor versions and more.
-            </p>
-          </div>
+      {role.canConfigureAgents ? (
+        <DashboardSection title="Agent Management">
+          <div className={`${block}__self-monitoring`}>
+            <div className={`${block}__self-monitoring-description`}>
+              <p>
+                The Instana Agent has management and self monitoring capabilities which assist troubleshooting and
+                provide deeper insights without the need to log in and review files. This includes inspecting the agent
+                log, running sensor versions and more.
+              </p>
+            </div>
 
-          <div className={`${block}__self-monitoring-controls`}>
-            <AgentManagementButton snapshot={snapshot} />
+            <div className={`${block}__self-monitoring-controls`}>
+              <AgentManagementButton snapshot={snapshot} />
+            </div>
           </div>
-        </div>
-      </DashboardSection>
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }

@@ -9,9 +9,9 @@ const block = 'in-spark-chart-section';
 export default function SparkChartsSection({ snapshot, metrics }) {
   return (
     <div className={block}>
-      {metrics.map(metric =>
+      {metrics.map(metric => (
         <LabeledSparkChart key={metric.metric + metric.aggregation} snapshotId={snapshot.get('id')} metric={metric} />
-      )}
+      ))}
     </div>
   );
 }

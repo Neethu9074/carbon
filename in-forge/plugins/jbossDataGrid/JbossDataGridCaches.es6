@@ -14,26 +14,20 @@ export default function JbossDataGridCaches({ snapshot }) {
   return (
     <div>
       {caches
-        .map((cache, cacheName) =>
+        .map((cache, cacheName) => (
           <Collapsible initiallyOpen={false} key={cacheName}>
             <Collapsible.Header>Cache [{cacheName}]</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                <DescriptionItem title="Status">
-                  {cache.get('status')}
-                </DescriptionItem>
+                <DescriptionItem title="Status">{cache.get('status')}</DescriptionItem>
                 <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-                <DescriptionItem title="Cluster Name">
-                  {cache.get('clusterName')}
-                </DescriptionItem>
-                <DescriptionItem title="Statistics Enabled">
-                  {yesOrNo(cache.get('statisticsEnabled'))}
-                </DescriptionItem>
+                <DescriptionItem title="Cluster Name">{cache.get('clusterName')}</DescriptionItem>
+                <DescriptionItem title="Statistics Enabled">{yesOrNo(cache.get('statisticsEnabled'))}</DescriptionItem>
               </DescriptionList>
               <KeyValuePopup header="Configuration" data={cache.get('configuration')} />
             </Collapsible.Content>
           </Collapsible>
-        )
+        ))
         .valueSeq()
         .toArray()}
     </div>

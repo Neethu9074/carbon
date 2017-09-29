@@ -7,15 +7,9 @@ export default function AppInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Application">
-        {data.getIn(['appInfo', 'title'])}
-      </DescriptionItem>
-      <DescriptionItem title="Version">
-        {data.getIn(['appInfo', 'version'])}
-      </DescriptionItem>
-      <DescriptionItem title="Command Line">
-        {data.get('name')}
-      </DescriptionItem>
+      <DescriptionItem title="Application">{data.getIn(['appInfo', 'title'])}</DescriptionItem>
+      <DescriptionItem title="Version">{data.getIn(['appInfo', 'version'])}</DescriptionItem>
+      <DescriptionItem title="Command Line">{data.get('name')}</DescriptionItem>
     </DescriptionList>
   );
 }

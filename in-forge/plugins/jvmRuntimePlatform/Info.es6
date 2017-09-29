@@ -11,20 +11,16 @@ export default function JVMInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Java Version">
-        {data.get('jvm.version')}{' '}
-        {data.get('jvm.build')}
+        {data.get('jvm.version')} {data.get('jvm.build')}
       </DescriptionItem>
 
       <DescriptionItem title="Java Runtime">
-        {data.get('jvm.vendor')}<br />
+        {data.get('jvm.vendor')}
+        <br />
         {data.get('jvm.name')}
       </DescriptionItem>
 
-      {maxMemory
-        ? <DescriptionItem title="Maximum Heap">
-            {bytesTwoDecimalPlaces(maxMemory)}
-          </DescriptionItem>
-        : null}
+      {maxMemory ? <DescriptionItem title="Maximum Heap">{bytesTwoDecimalPlaces(maxMemory)}</DescriptionItem> : null}
 
       <DescriptionItem title="Classpath">
         <ClasspathLayouter classpath={data.get('jvm.cp')} />

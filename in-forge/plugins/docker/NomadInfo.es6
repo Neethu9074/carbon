@@ -15,29 +15,15 @@ export default function NomadInfo({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          Nomad
-        </Collapsible.Header>
+        <Collapsible.Header>Nomad</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Task Name">
-              {nomad.get('taskName')}
-            </DescriptionItem>
-            <DescriptionItem title="Task Directory">
-              {nomad.get('taskDir')}
-            </DescriptionItem>
-            <DescriptionItem title="Allocation ID">
-              {nomad.get('allocId')}
-            </DescriptionItem>
-            <DescriptionItem title="Allocation Name">
-              {nomad.get('allocName')}
-            </DescriptionItem>
-            <DescriptionItem title="Allocation Directory">
-              {nomad.get('allocDir')}
-            </DescriptionItem>
-            <DescriptionItem title="Job Name">
-              {nomad.get('jobName')}
-            </DescriptionItem>
+            <DescriptionItem title="Task Name">{nomad.get('taskName')}</DescriptionItem>
+            <DescriptionItem title="Task Directory">{nomad.get('taskDir')}</DescriptionItem>
+            <DescriptionItem title="Allocation ID">{nomad.get('allocId')}</DescriptionItem>
+            <DescriptionItem title="Allocation Name">{nomad.get('allocName')}</DescriptionItem>
+            <DescriptionItem title="Allocation Directory">{nomad.get('allocDir')}</DescriptionItem>
+            <DescriptionItem title="Job Name">{nomad.get('jobName')}</DescriptionItem>
             <DescriptionItem title="CPU Limit">
               {nomad.get('cpuLimit') ? `${nomad.get('cpuLimit')} MHz` : null}
             </DescriptionItem>

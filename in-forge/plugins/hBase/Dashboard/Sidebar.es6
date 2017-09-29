@@ -12,9 +12,7 @@ export default function HBaseSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          HBase
-        </Collapsible.Header>
+        <Collapsible.Header>HBase</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

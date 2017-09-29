@@ -15,9 +15,7 @@ export default function WebSphereSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          WebSphere Liberty Server Info
-        </Collapsible.Header>
+        <Collapsible.Header>WebSphere Liberty Server Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

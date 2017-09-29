@@ -14,7 +14,7 @@ export default connectTo(
     timeframe: timeframe$
   },
   function LabeledSparkChart({ snapshotId, timeframe, metric, className, design }) {
-    const { label, formatter, aggregation, timeWindowAggregation } = metric;
+    const { label, formatter, aggregation } = metric;
     const metricName = metric.metric;
 
     let classes = block;
@@ -34,15 +34,13 @@ export default connectTo(
           aggregation={aggregation}
         />
         <div className={block + '__description'}>
-          <span className={block + '__title'}>
-            {label}
-          </span>
+          <span className={block + '__title'}>{label}</span>
           <MetricValue
             snapshotId={snapshotId}
             metric={metricName}
             className={block + '__value'}
             formatter={formatter.compact}
-            optionalTimeWindowAggregation={timeWindowAggregation}
+            timeWindowAggregation={aggregation}
           />
         </div>
       </div>

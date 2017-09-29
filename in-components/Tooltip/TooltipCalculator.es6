@@ -263,13 +263,15 @@ const TooltipCalculator = {
   // Provides a clipped mask which contains a better alignment to avoid
   // any bound collision
   clipMask(mask, data, bounds, tooltip) {
-    Object.keys(data).filter(key => data[key] != null).forEach(key => {
-      if (key === 'left' || key === 'right') {
-        mask = this.clipInternally(key, mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
-      } else {
-        mask = this.clipInternally(key, mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
-      }
-    });
+    Object.keys(data)
+      .filter(key => data[key] != null)
+      .forEach(key => {
+        if (key === 'left' || key === 'right') {
+          mask = this.clipInternally(key, mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
+        } else {
+          mask = this.clipInternally(key, mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
+        }
+      });
     return mask;
   },
 

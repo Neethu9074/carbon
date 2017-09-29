@@ -12,18 +12,12 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionStatus}
-      </DashboardNotification>
-    );
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Queries">
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
         </KpiKeyValue>
@@ -95,7 +89,6 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-
     </div>
   );
 }

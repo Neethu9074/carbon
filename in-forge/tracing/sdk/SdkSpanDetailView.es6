@@ -10,19 +10,14 @@ export default function SdkSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Captured Arguments">
-          {span.getIn(['data', 'sdk', 'arguments'])}
-        </DescriptionItem>
-        <DescriptionItem title="Captured Return Value">
-          {span.getIn(['data', 'sdk', 'return'])}
-        </DescriptionItem>
-        {custom
-          ? <DescriptionItem title="Data">
-              <Code code={JSON.stringify(custom.toJS(), 0, 2)} lang="json" />
-            </DescriptionItem>
-          : null}
+        <DescriptionItem title="Captured Arguments">{span.getIn(['data', 'sdk', 'arguments'])}</DescriptionItem>
+        <DescriptionItem title="Captured Return Value">{span.getIn(['data', 'sdk', 'return'])}</DescriptionItem>
+        {custom ? (
+          <DescriptionItem title="Data">
+            <Code code={JSON.stringify(custom.toJS(), 0, 2)} lang="json" />
+          </DescriptionItem>
+        ) : null}
       </DescriptionList>
-
     </div>
   );
 }

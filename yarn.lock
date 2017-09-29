@@ -6519,9 +6519,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.4.4:
-  version "1.4.4"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prettier/-/prettier-1.4.4.tgz#a8d1447b14c9bf67e6d420dcadd10fb9a4fad65a"
+prettier@^1.7.0:
+  version "1.7.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prettier/-/prettier-1.7.0.tgz#47481588f41f7c90f63938feb202ac82554e7150"
 
 pretty-bytes@^3.0.1:
   version "3.0.1"

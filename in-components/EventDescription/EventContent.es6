@@ -8,9 +8,10 @@ const block = 'in-event-description';
 
 export default function EventContent({ showFullTextIfToLong, snapshotId, event, color }) {
   let fixSuggestion = event.getIn(['problem', 'fixSuggestion']);
-  fixSuggestion = !showFullTextIfToLong && fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH
-    ? 'further information are available in the notification center'
-    : toHtml(fixSuggestion);
+  fixSuggestion =
+    !showFullTextIfToLong && fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH
+      ? 'further information are available in the notification center'
+      : toHtml(fixSuggestion);
 
   return (
     <div>

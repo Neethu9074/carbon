@@ -56,11 +56,7 @@ function setResult(result, col, row, emitRawDataChange) {
   } else {
     col.value = result.value;
     if (result.href) {
-      col.content = (
-        <Link href={result.href}>
-          {result.label}
-        </Link>
-      );
+      col.content = <Link href={result.href}>{result.label}</Link>;
     } else {
       col.content = result.label;
     }

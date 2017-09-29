@@ -34,10 +34,6 @@ export default connectTo(
     } else {
       content = <EventContent event={event} />;
     }
-    return (
-      <div className={block}>
-        {content}
-      </div>
-    );
+    return <div className={block}>{content}</div>;
   }
 );

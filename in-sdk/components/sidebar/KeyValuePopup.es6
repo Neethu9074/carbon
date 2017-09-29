@@ -38,9 +38,8 @@ export default connectTo(
       }
 
       const activeContent = this.props.activeContent;
-      const buttonClassName = activeContent && data === activeContent.data
-        ? block + '__button-open'
-        : block + '__button-close';
+      const buttonClassName =
+        activeContent && data === activeContent.data ? block + '__button-open' : block + '__button-close';
 
       const title = this.props.header;
       return (
@@ -48,9 +47,7 @@ export default connectTo(
           <Separator />
 
           <div className={block}>
-            <span className={block + '__header'}>
-              {title}
-            </span>
+            <span className={block + '__header'}>{title}</span>
             <div className={buttonClassName} onClick={() => toggleContent({ title, data })}>
               <SvgIcon className={`${block}__icon`} type="popup" width={16} color="#4a91e4" />
             </div>

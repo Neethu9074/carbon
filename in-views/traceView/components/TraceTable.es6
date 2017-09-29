@@ -45,32 +45,30 @@ export default getElementDimensions(
         const height = this.props.height;
         return (
           <div className={block}>
-            {traces.length === 0 && !isInfiniteLoading
-              ? <p className={`${block}__no-traces`}>
-                  There are no traces in the selected time window.
-                </p>
-              : null}
-            {height && (traces.length > 0 || isInfiniteLoading)
-              ? <Infinite
-                  containerHeight={height - 24} /* Height of the header */
-                  elementHeight={26}
-                  loadingSpinnerDelegate={<LoadingIndicator type="dark" />}
-                  infiniteLoadBeginEdgeOffset={height * 0.5}
-                  onInfiniteLoad={loadMoreTraces}
-                  isInfiniteLoading={isInfiniteLoading}
-                  className={block + '__scroll-area'}
-                >
-                  {traces.map((trace, i) =>
-                    <TraceTableRow
-                      key={trace.id}
-                      trace={trace}
-                      selectedTraceId={this.props.selectedTraceId}
-                      markedTraces={this.props.markedTraces}
-                      onRowClicked={(e, trace) => this.onRowClicked(e, trace, traces, i)}
-                    />
-                  )}
-                </Infinite>
-              : null}
+            {traces.length === 0 && !isInfiniteLoading ? (
+              <p className={`${block}__no-traces`}>There are no traces in the selected time window.</p>
+            ) : null}
+            {height && (traces.length > 0 || isInfiniteLoading) ? (
+              <Infinite
+                containerHeight={height - 24} /* Height of the header */
+                elementHeight={26}
+                loadingSpinnerDelegate={<LoadingIndicator type="dark" />}
+                infiniteLoadBeginEdgeOffset={height * 0.5}
+                onInfiniteLoad={loadMoreTraces}
+                isInfiniteLoading={isInfiniteLoading}
+                className={block + '__scroll-area'}
+              >
+                {traces.map((trace, i) => (
+                  <TraceTableRow
+                    key={trace.id}
+                    trace={trace}
+                    selectedTraceId={this.props.selectedTraceId}
+                    markedTraces={this.props.markedTraces}
+                    onRowClicked={(e, trace) => this.onRowClicked(e, trace, traces, i)}
+                  />
+                ))}
+              </Infinite>
+            ) : null}
           </div>
         );
       }

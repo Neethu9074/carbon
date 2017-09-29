@@ -34,37 +34,41 @@ export default connectTo(
 
     return (
       <ViewHeader className={block}>
-        {traceAnalyticsEnabled
-          ? <div className={`${block}__left-side`}>
-              {traces.length > 0
-                ? <Button
-                    kind="info"
-                    size="sm"
-                    onClick={() => markTraces(traces.map(t => t.raw), maximumNumberOfTracesForAnalytics)}
-                  >
-                    Mark all traces
-                  </Button>
-                : null}
-              {markedTraces.size > 0
-                ? <Button
-                    kind="info"
-                    size="sm"
-                    onClick={() => {
-                      addMarkedTracesToAnalytics();
-                      clearTraceSelection();
-                    }}
-                    disabled={remainingCount <= 0}
-                    className={`${block}__add-marked-traces`}
-                  >
-                    {remainingCount <= 0
-                      ? `Max #traces for trace analytics reached`
-                      : `Add marked traces (${markedTraces.size})`}
-                  </Button>
-                : null}
-            </div>
-          : <div className={`${block}__left-side`}>
-              <strong className={`${block}__count`}>Traces <Count count$={totalTraceCountActiveFilter$} /></strong>
-            </div>}
+        {traceAnalyticsEnabled ? (
+          <div className={`${block}__left-side`}>
+            {traces.length > 0 ? (
+              <Button
+                kind="info"
+                size="sm"
+                onClick={() => markTraces(traces.map(t => t.raw), maximumNumberOfTracesForAnalytics)}
+              >
+                Mark all traces
+              </Button>
+            ) : null}
+            {markedTraces.size > 0 ? (
+              <Button
+                kind="info"
+                size="sm"
+                onClick={() => {
+                  addMarkedTracesToAnalytics();
+                  clearTraceSelection();
+                }}
+                disabled={remainingCount <= 0}
+                className={`${block}__add-marked-traces`}
+              >
+                {remainingCount <= 0
+                  ? `Max #traces for trace analytics reached`
+                  : `Add marked traces (${markedTraces.size})`}
+              </Button>
+            ) : null}
+          </div>
+        ) : (
+          <div className={`${block}__left-side`}>
+            <strong className={`${block}__count`}>
+              Traces <Count count$={totalTraceCountActiveFilter$} />
+            </strong>
+          </div>
+        )}
 
         <div className={`${block}__right-side`}>
           <SvgIcon type="refresh" onClick={refresh} height={15} className={`${block}__refresh`} />

@@ -80,9 +80,7 @@ export default function Misc() {
 function Section({ title, children }) {
   return (
     <div className={`${block}__section`}>
-      <h2 className={`${block}__title`}>
-        {title}
-      </h2>
+      <h2 className={`${block}__title`}>{title}</h2>
 
       {children}
     </div>

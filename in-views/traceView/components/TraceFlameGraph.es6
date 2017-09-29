@@ -3,9 +3,9 @@ import React from 'react';
 import { highlightSpanId } from 'in-views/traceView/stores/highlightedSpan';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import { getLabel, getCategory, SPAN_KINDS } from 'in-sdk/tracing';
+import { getTickPositions } from 'in-charts/ticks/timeAxis';
 import { getStart, getEnd } from 'in-views/traceView/util';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import { getTickPositions } from 'in-charts/timeAxis';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -34,28 +34,28 @@ function FlameGraphElement({ span, currentDepth, scale }) {
       {span
         .get('childSpans')
         .toArray()
-        .map(childSpan =>
+        .map(childSpan => (
           <FlameGraphElement
             key={childSpan.get('spanId')}
             span={childSpan}
             currentDepth={currentDepth + 1}
             scale={scale}
           />
-        )}
+        ))}
 
-      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1
-        ? <Tooltip content="Network and Serialization" align={tooltipAlignment}>
-            <div
-              className={`${block}__network`}
-              style={{
-                top: `${top - 1}px`,
-                left: `${left}%`,
-                width: `${width}%`
-              }}
-              onClick={() => onSpanClick(span)}
-            />
-          </Tooltip>
-        : null}
+      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1 ? (
+        <Tooltip content="Network and Serialization" align={tooltipAlignment}>
+          <div
+            className={`${block}__network`}
+            style={{
+              top: `${top - 1}px`,
+              left: `${left}%`,
+              width: `${width}%`
+            }}
+            onClick={() => onSpanClick(span)}
+          />
+        </Tooltip>
+      ) : null}
 
       <Tooltip content={getLabel(span)} align={tooltipAlignment}>
         <div
@@ -125,7 +125,7 @@ function TimeAxis({ tickPositions, axisConfig, start, chartHeight }) {
         height: `${chartHeight + timeAxisOffset}px`
       }}
     >
-      {tickPositions.map(position =>
+      {tickPositions.map(position => (
         <div
           style={{
             left: `${position.range}%`
@@ -135,7 +135,7 @@ function TimeAxis({ tickPositions, axisConfig, start, chartHeight }) {
         >
           {axisConfig.relativeFormatter(position.domain - start)}
         </div>
-      )}
+      ))}
     </div>
   );
 }

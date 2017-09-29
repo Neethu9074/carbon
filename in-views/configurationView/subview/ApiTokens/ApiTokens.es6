@@ -14,6 +14,7 @@ import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('ApiTokenManagement');
 
@@ -95,20 +96,19 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          API Tokens
-        </SubViewHeader>
+        <Title title="Api Tokens" />
+        <SubViewHeader>API Tokens</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewApiToken}>
             Add API Token
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
         <Section>

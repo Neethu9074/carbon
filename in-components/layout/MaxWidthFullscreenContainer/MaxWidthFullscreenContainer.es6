@@ -5,9 +5,5 @@ import './MaxWidthFullscreenContainer.less';
 const block = 'in-max-width-container';
 
 export default function MaxWidthFullscreenContainer({ children }) {
-  return (
-    <div className={block}>
-      {children}
-    </div>
-  );
+  return <div className={block}>{children}</div>;
 }

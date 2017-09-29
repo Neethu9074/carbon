@@ -68,32 +68,24 @@ export default function TraceTableRow({ selectedTraceId, markedTraces, trace, on
       onClick={e => onRowClicked(e, trace)}
     >
       <span className={cellClassName}>
-        {trace.raw.get('errorCount') > 0
-          ? <Tooltip content="Erroneous root span" align={'bottomLeft'}>
-              <SvgIcon className={`${block}__error-icon`} type="error" height={12} color="#40535b" />
-            </Tooltip>
-          : null}
+        {trace.raw.get('errorCount') > 0 ? (
+          <Tooltip content="Erroneous root span" align={'bottomLeft'}>
+            <SvgIcon className={`${block}__error-icon`} type="error" height={12} color="#40535b" />
+          </Tooltip>
+        ) : null}
       </span>
+      <span className={cellClassName}>{trace.start}</span>
+      <span className={cellClassName}>{trace.name}</span>
+      <span className={cellClassName}>{trace.duration}</span>
+      <span className={cellClassName}>{trace.totalErrorCount}</span>
       <span className={cellClassName}>
-        {trace.start}
-      </span>
-      <span className={cellClassName}>
-        {trace.name}
-      </span>
-      <span className={cellClassName}>
-        {trace.duration}
-      </span>
-      <span className={cellClassName}>
-        {trace.totalErrorCount}
-      </span>
-      <span className={cellClassName}>
-        {serviceSnapshotId
-          ? <EntityColumnContent
-              serviceSnapshotId={serviceSnapshotId}
-              time={trace.startMillis}
-              getLabelCallback={label => getServiceLabelWithEndpoint(label, trace.raw.get('destinationEndpointLabel'))}
-            />
-          : null}
+        {serviceSnapshotId ? (
+          <EntityColumnContent
+            serviceSnapshotId={serviceSnapshotId}
+            time={trace.startMillis}
+            getLabelCallback={label => getServiceLabelWithEndpoint(label, trace.raw.get('destinationEndpointLabel'))}
+          />
+        ) : null}
       </span>
     </div>
   );

@@ -15,6 +15,7 @@ import Notification from 'in-components/form/Notification';
 import { emptySet } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Button from 'in-components/Button';
+import Title from 'in-components/Title';
 
 const logger = createLogger('RolesConfig');
 
@@ -91,26 +92,23 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          Role Configuration
-        </SubViewHeader>
+        <Title title="Role Config" />
+        <SubViewHeader>Role Configuration</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRole}>
             Add New Role
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
         <Section>
-          <SectionHeading>
-            Existing Roles
-          </SectionHeading>
+          <SectionHeading>Existing Roles</SectionHeading>
 
           <Table cols={cols} rows={rows} />
         </Section>

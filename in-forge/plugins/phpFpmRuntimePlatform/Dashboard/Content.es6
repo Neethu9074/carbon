@@ -9,23 +9,21 @@ import { emptyList } from 'in-services/fixedImmutables';
 export default function PhpFpmDashboard({ snapshot, timeframe }) {
   const pools = snapshot.getIn(['data', 'worker_pools'], emptyList);
   if (pools.size === 0) {
-    return (
-      <span>
-        No Worker Pools found
-      </span>
-    );
+    return <span>No Worker Pools found</span>;
   }
 
   return (
     <div>
       {pools.map(
         pool =>
-          isStatusPathEnabled(snapshot, pool)
-            ? <WorkerPoolMetrics key={pool} snapshot={snapshot} timeframe={timeframe} pool={pool} />
-            : <DashboardNotification key={pool} type="info">
-                In order to monitor the worker pool {pool}, you need to
-                enable <code>pm.status_path</code> in your PHP-FPM config.
-              </DashboardNotification>
+          isStatusPathEnabled(snapshot, pool) ? (
+            <WorkerPoolMetrics key={pool} snapshot={snapshot} timeframe={timeframe} pool={pool} />
+          ) : (
+            <DashboardNotification key={pool} type="info">
+              In order to monitor the worker pool {pool}, you need to enable <code>pm.status_path</code> in your PHP-FPM
+              config.
+            </DashboardNotification>
+          )
       )}
     </div>
   );

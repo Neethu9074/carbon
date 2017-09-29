@@ -30,15 +30,15 @@ export default class extends React.Component {
       <div>
         <a ref={link => (this.downloadLink = link)} onClick={stopPropagation} />
         <div className={block}>
-          {this.props.getCsvData
-            ? <DownloadButtonCsv onClick={fileType => this.downloadFile(this.props.getCsvData, fileType)} />
-            : null}
-          {this.props.getJsonData
-            ? <DownloadButtonJson onClick={fileType => this.downloadFile(this.props.getJsonData, fileType)} />
-            : null}
-          {this.props.jsonLink
-            ? <DownloadLink label="Download as JSON" href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
-            : null}
+          {this.props.getCsvData ? (
+            <DownloadButtonCsv onClick={fileType => this.downloadFile(this.props.getCsvData, fileType)} />
+          ) : null}
+          {this.props.getJsonData ? (
+            <DownloadButtonJson onClick={fileType => this.downloadFile(this.props.getJsonData, fileType)} />
+          ) : null}
+          {this.props.jsonLink ? (
+            <DownloadLink label="Download as JSON" href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
+          ) : null}
         </div>
       </div>
     );

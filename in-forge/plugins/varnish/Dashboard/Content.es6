@@ -14,9 +14,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Requests">
           <MetricValue snapshotId={snapshotId} metric="client_req" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
@@ -139,32 +137,32 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {hasMse
-        ? <DashboardSection title="MSE">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80,
-                right: 80
-              }}
-              y1={{
-                min: 0,
-                metrics: ['mse_space'],
-                labels: ['Free Space'],
-                type: 'line',
-                formatter: bytesZeroDecimalPlaces
-              }}
-              y2={{
-                min: 0,
-                metrics: ['mse_sparenode'],
-                labels: ['Spare Nodes'],
-                type: 'line',
-                formatter: zeroDecimalPlaces
-              }}
-            />
-          </DashboardSection>
-        : null}
+      {hasMse ? (
+        <DashboardSection title="MSE">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 80
+            }}
+            y1={{
+              min: 0,
+              metrics: ['mse_space'],
+              labels: ['Free Space'],
+              type: 'line',
+              formatter: bytesZeroDecimalPlaces
+            }}
+            y2={{
+              min: 0,
+              metrics: ['mse_sparenode'],
+              labels: ['Spare Nodes'],
+              type: 'line',
+              formatter: zeroDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }

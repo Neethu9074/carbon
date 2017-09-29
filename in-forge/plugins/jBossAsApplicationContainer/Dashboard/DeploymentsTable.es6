@@ -69,16 +69,19 @@ export default function DeploymentsTable({ snapshot, timeframe }) {
     return null;
   }
 
-  const rows = deployments.keySeq().toArray().map(key => {
-    const deployment = deployments.get(key);
-    return {
-      key,
-      timeframe,
-      snapshotId: snapshot.get('id'),
-      snapshot: snapshot,
-      deployment
-    };
-  });
+  const rows = deployments
+    .keySeq()
+    .toArray()
+    .map(key => {
+      const deployment = deployments.get(key);
+      return {
+        key,
+        timeframe,
+        snapshotId: snapshot.get('id'),
+        snapshot: snapshot,
+        deployment
+      };
+    });
 
   return (
     <DashboardSection title={`Web Deployments (${rows.length})`}>

@@ -20,14 +20,14 @@ export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn,
     <div className={block}>
       <dl className={`${block}__metrics`}>
         <MetricBlock time={time} dataColumn={y1DataColumn} config={config} axisName="y1" />
-        {config.y2
-          ? <MetricBlock
-              time={timeToUseForDynamicAggregationTooltip}
-              dataColumn={y2DataColumn}
-              config={config}
-              axisName="y2"
-            />
-          : null}
+        {config.y2 ? (
+          <MetricBlock
+            time={timeToUseForDynamicAggregationTooltip}
+            dataColumn={y2DataColumn}
+            config={config}
+            axisName="y2"
+          />
+        ) : null}
       </dl>
     </div>
   );
@@ -52,17 +52,14 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
               className={`${block}__metric-name`}
             >
               {axisConfig.labels[i]}
-              {axisConfig.aggregation && !axisConfig.isHomogeneousAggregation
-                ? <span className={`${block}__inline-agg`}>{` (${axisConfig.aggregation[i]})`}</span>
-                : null}
+              {axisConfig.aggregation && !axisConfig.isHomogeneousAggregation ? (
+                <span className={`${block}__inline-agg`}>{` (${axisConfig.aggregation[i]})`}</span>
+              ) : null}
             </dt>
-            <dd className={`${block}__metric-value`}>
-              {dataPoint ? formatter(dataPoint[1]) : '--'}
-            </dd>
+            <dd className={`${block}__metric-value`}>{dataPoint ? formatter(dataPoint[1]) : '--'}</dd>
           </div>
         );
       })}
-
     </div>
   );
 }
@@ -75,12 +72,8 @@ function TimeMarker({ time, axis, config }) {
   if (!axis.isDynamicAggregated) {
     return (
       <div className={`${block}__aggregated`}>
-        <div className={`${block}__aggregated-time`}>
-          {formatDateTime(time)}
-        </div>
-        <div className={`${block}__aggregation`}>
-          {config.rollup.label} rollup
-        </div>
+        <div className={`${block}__aggregated-time`}>{formatDateTime(time)}</div>
+        <div className={`${block}__aggregation`}>{config.rollup.label} rollup</div>
       </div>
     );
   }
@@ -89,15 +82,12 @@ function TimeMarker({ time, axis, config }) {
   const to = time;
   const oneDay = 1000 * 60 * 60 * 24;
   const formatter = to - from >= oneDay ? formatDateTime : formatTime;
-
   return (
     <div className={`${block}__aggregated`}>
-      <div className={`${block}__aggregated-time`}>
-        {time ? `${formatter(from)} - ${formatter(to)}` : null}
-      </div>
+      <div className={`${block}__aggregated-time`}>{time ? `${formatter(from)} - ${formatter(to)}` : null}</div>
       <div className={`${block}__aggregation`}>
         {formatDurationAccurately(axis.dynamicCalculatedBlockSizeMillis, 0)}
-        {axis.isHomogeneousAggregation ? ` ${axis.aggregation}` : ''}
+        {axis.isHomogeneousAggregation ? ` ${axis.aggregation[0]}` : ''}
       </div>
     </div>
   );

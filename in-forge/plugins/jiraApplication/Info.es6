@@ -8,9 +8,7 @@ export default function JiraInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
-        {snapshot.getIn(['data', 'version'])}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{snapshot.getIn(['data', 'version'])}</DescriptionItem>
       <DescriptionItem title="Issues">
         <MetricValue metric={'instruments.entity.issues.total'} snapshotId={snapshotId} />
       </DescriptionItem>

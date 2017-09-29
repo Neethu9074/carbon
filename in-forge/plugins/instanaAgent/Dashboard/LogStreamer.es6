@@ -125,11 +125,9 @@ export default class extends React.PureComponent {
     const logStreamTargetId = 'logStreamId';
     return (
       <div className={block}>
-        {this.state.error != null
-          ? <DialogNotification type="danger">
-              Error: {this.state.error}
-            </DialogNotification>
-          : null}
+        {this.state.error != null ? (
+          <DialogNotification type="danger">Error: {this.state.error}</DialogNotification>
+        ) : null}
 
         <CopyToClipboardButton targetId={logStreamTargetId} />
 

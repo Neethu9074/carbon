@@ -19,9 +19,7 @@ export default function ZooKeeperSidebar({ snapshot }) {
         <ModeInfo snapshot={snapshot} />
 
         <Collapsible initiallyOpen>
-          <Collapsible.Header>
-            ZooKeeper Info
-          </Collapsible.Header>
+          <Collapsible.Header>ZooKeeper Info</Collapsible.Header>
           <Collapsible.Content>
             <StandaloneInfo snapshot={snapshot} />
           </Collapsible.Content>
@@ -35,20 +33,18 @@ export default function ZooKeeperSidebar({ snapshot }) {
 
         <ModeInfo snapshot={snapshot} />
 
-        {peerNames.map(peerName =>
+        {peerNames.map(peerName => (
           <div key={peerName}>
             <Separator />
 
             <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>
-                Peer: {peerName}
-              </Collapsible.Header>
+              <Collapsible.Header>Peer: {peerName}</Collapsible.Header>
               <Collapsible.Content>
                 <ReplicatedInfo snapshot={snapshot} peer={peerName} />
               </Collapsible.Content>
             </Collapsible>
           </div>
-        )}
+        ))}
       </div>
     );
   }

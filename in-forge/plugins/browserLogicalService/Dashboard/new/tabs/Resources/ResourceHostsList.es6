@@ -14,6 +14,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 const cols = [
   {
@@ -95,6 +96,7 @@ export default connectTo(
     if (onlyResourceConnections.length === 0) {
       return (
         <NoXMessage centered>
+          <Title title="Resource Overview" />
           No resources at the focused moment.
         </NoXMessage>
       );
@@ -111,6 +113,7 @@ export default connectTo(
 
     return (
       <MaxWidthFullscreenContainer>
+        <Title title="Resource Overview" />
         <DashboardTile title={`Resource Hosts (${onlyResourceConnections.length})`}>
           <Table cols={cols} rows={rows} initialSortColumn={2} initialSortDirection="desc" />
         </DashboardTile>

@@ -12,31 +12,19 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Application Name">
-        {data.get('appName')}
-      </DescriptionItem>
-      <DescriptionItem title="Application ID">
-        {data.get('appId')}
-      </DescriptionItem>
+      <DescriptionItem title="Application Name">{data.get('appName')}</DescriptionItem>
+      <DescriptionItem title="Application ID">{data.get('appId')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Version">
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title="Spark User">
-        {data.get('sparkUser')}
-      </DescriptionItem>
-      <DescriptionItem title="Master">
-        {data.get('master')}
-      </DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Spark User">{data.get('sparkUser')}</DescriptionItem>
+      <DescriptionItem title="Master">{data.get('master')}</DescriptionItem>
       <DescriptionItem title="Executor Memory">
         {executorMemory ? bytesZeroDecimalPlaces(executorMemory * 1024 * 1024) : null}
       </DescriptionItem>
       <DescriptionItem title="Batch Duration">
         {batchDuration ? msZeroDecimalPlaces(data.get('batchDuration')) : null}
       </DescriptionItem>
-      <DescriptionItem title="Streaming Application">
-        {yesOrNo(data.get('streamingApp'))}
-      </DescriptionItem>
+      <DescriptionItem title="Streaming Application">{yesOrNo(data.get('streamingApp'))}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -16,27 +16,27 @@ export default connectTo(
   function TwoColumnView({ leftContent, rightContent, leftWidth = '40rem', expandedSide }) {
     return (
       <section className={block}>
-        {expandedSide !== 'right'
-          ? <div
-              className={`${block}__left`}
-              style={{
-                maxWidth: expandedSide === 'left' ? undefined : leftWidth
-              }}
-            >
-              {leftContent}
-            </div>
-          : null}
+        {expandedSide !== 'right' ? (
+          <div
+            className={`${block}__left`}
+            style={{
+              maxWidth: expandedSide === 'left' ? undefined : leftWidth
+            }}
+          >
+            {leftContent}
+          </div>
+        ) : null}
 
-        {expandedSide !== 'left'
-          ? <div
-              className={`${block}__right`}
-              style={{
-                maxWidth: expandedSide === 'right' ? undefined : `calc(100% - ${leftWidth})`
-              }}
-            >
-              {rightContent}
-            </div>
-          : null}
+        {expandedSide !== 'left' ? (
+          <div
+            className={`${block}__right`}
+            style={{
+              maxWidth: expandedSide === 'right' ? undefined : `calc(100% - ${leftWidth})`
+            }}
+          >
+            {rightContent}
+          </div>
+        ) : null}
       </section>
     );
   }

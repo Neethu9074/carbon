@@ -9,9 +9,7 @@ const block = 'in-entity-health-info';
 export default function EntityHealthInfo({ snapshotId }) {
   return (
     <div className={block}>
-      <span className={`${block}__title`}>
-        Health
-      </span>
+      <span className={`${block}__title`}>Health</span>
       <EntityHealthBar snapshotId={snapshotId} className={`${block}__health-bar`} />
     </div>
   );

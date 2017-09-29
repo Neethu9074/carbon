@@ -7,32 +7,31 @@ export default function HttpSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="SAPI Type">
-          {span.getIn(['data', 'php', 'sapi'])}
-        </DescriptionItem>
-        <DescriptionItem title="PHP Version">
-          {span.getIn(['data', 'php', 'version'])}
-        </DescriptionItem>
-        <DescriptionItem title="Host Header">
-          {span.getIn(['data', 'http', 'host'])}
-        </DescriptionItem>
-        <DescriptionItem title="Remote Address">
-          {span.getIn(['data', 'peer', 'ip'])}
-        </DescriptionItem>
-        <DescriptionItem title="Request URI">
-          {span.getIn(['data', 'http', 'url'])}
-        </DescriptionItem>
-        <DescriptionItem title="Request Method">
-          {span.getIn(['data', 'http', 'method'])}
-        </DescriptionItem>
+        <DescriptionItem title="SAPI Type">{span.getIn(['data', 'php', 'sapi'])}</DescriptionItem>
+        <DescriptionItem title="PHP Version">{span.getIn(['data', 'php', 'version'])}</DescriptionItem>
+        <DescriptionItem title="Host Header">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
+        <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
+        <DescriptionItem title="Request URI">{span.getIn(['data', 'http', 'url'])}</DescriptionItem>
+        <DescriptionItem title="Request Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
         <DescriptionItem title="HTTP Status Code">
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
+        </DescriptionItem>
+        <DescriptionItem title="Wordpress Version">{span.getIn(['data', 'wp', 'version'])}</DescriptionItem>
+        <DescriptionItem title="Wordpress Cache Hits">{span.getIn(['data', 'wp', 'cache_hits'])}</DescriptionItem>
+        <DescriptionItem title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</DescriptionItem>
+        <DescriptionItem title="Wordpress Current User">
+          {mapUserId(span.getIn(['data', 'wp', 'user_id']))}
         </DescriptionItem>
         {getCustomHeaders(span)}
       </DescriptionList>
     </div>
   );
 }
+
+function mapUserId(userId) {
+  return userId > 0 ? userId : null;
+}
+
 function getCustomHeaders(span) {
   return span
     .getIn(['data', 'http', 'header'], emptyMap)

@@ -23,7 +23,9 @@ export default connectTo(
     event: selectedEvent$,
     eventId: selectedEventId$,
     timelineHeight: timelineHeight$,
-    windowHeight: on(window, 'resize').map(() => window.innerHeight).startWithFn(() => window.innerHeight)
+    windowHeight: on(window, 'resize')
+      .map(() => window.innerHeight)
+      .startWithFn(() => window.innerHeight)
   },
   function EventSidebar({ snapshotId, eventId, event, incident, objective, windowHeight, timelineHeight }) {
     if ((!incident && !event && !objective) || snapshotId) {

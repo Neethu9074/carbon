@@ -9,27 +9,17 @@ export default function MySqlSpanDetailView({ span }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Host">
-        {span.getIn(['data', 'mysql', 'host'])}
-      </DescriptionItem>
-      <DescriptionItem title="Port">
-        {span.getIn(['data', 'mysql', 'port'])}
-      </DescriptionItem>
-      <DescriptionItem title="Database">
-        {span.getIn(['data', 'mysql', 'db'])}
-      </DescriptionItem>
-      <DescriptionItem title="User">
-        {span.getIn(['data', 'mysql', 'user'])}
-      </DescriptionItem>
-      <DescriptionItem title="Error">
-        {span.getIn(['data', 'mysql', 'error'])}
-      </DescriptionItem>
+      <DescriptionItem title="Host">{span.getIn(['data', 'mysql', 'host'])}</DescriptionItem>
+      <DescriptionItem title="Port">{span.getIn(['data', 'mysql', 'port'])}</DescriptionItem>
+      <DescriptionItem title="Database">{span.getIn(['data', 'mysql', 'db'])}</DescriptionItem>
+      <DescriptionItem title="User">{span.getIn(['data', 'mysql', 'user'])}</DescriptionItem>
+      <DescriptionItem title="Error">{span.getIn(['data', 'mysql', 'error'])}</DescriptionItem>
 
-      {statement
-        ? <DescriptionItem title="Query">
-            <Code code={formatSql(statement)} lang="sql" />
-          </DescriptionItem>
-        : null}
+      {statement ? (
+        <DescriptionItem title="Query">
+          <Code code={formatSql(statement)} lang="sql" />
+        </DescriptionItem>
+      ) : null}
     </DescriptionList>
   );
 }

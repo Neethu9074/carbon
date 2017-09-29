@@ -22,9 +22,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Requests">
           <MetricValue snapshotId={snapshotId} metric="http_request_count" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

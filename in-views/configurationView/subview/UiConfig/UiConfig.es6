@@ -10,6 +10,7 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Title from 'in-components/Title';
 
 import './UiConfig.less';
 
@@ -52,14 +53,11 @@ export default class extends React.Component {
     const { settings } = this.state;
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          User Interface
-        </SubViewHeader>
+        <Title title="User Interface Settings" />
+        <SubViewHeader>User Interface</SubViewHeader>
 
         <Section>
-          <SectionHeading>
-            General
-          </SectionHeading>
+          <SectionHeading>General</SectionHeading>
 
           <Group>
             <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
@@ -94,12 +92,8 @@ export default class extends React.Component {
                 <span className={`${block}__warning`}>
                   Requires browser refresh to become active.<br />
                 </span>
-                Define how often tables with live metrics should be refreshed. Ranges from once per second to once{' '}
-                every ten seconds. Current refresh rate is once every
-                {' '}
-                {settings['tables_refreshRate'] / 1000}
-                {' '}
-                second(s).
+                Define how often tables with live metrics should be refreshed. Ranges from once per second to once every
+                ten seconds. Current refresh rate is once every {settings['tables_refreshRate'] / 1000} second(s).
               </span>
             }
             isWarning
@@ -120,11 +114,7 @@ export default class extends React.Component {
           </Group>
 
           <Group
-            helpText={
-              <span className={`${block}__warning`}>
-                Requires browser refresh to become active.
-              </span>
-            }
+            helpText={<span className={`${block}__warning`}>Requires browser refresh to become active.</span>}
             isWarning
           >
             <Heading text="Format time according to UTC" htmlFor="format-time" />
@@ -137,9 +127,7 @@ export default class extends React.Component {
         </Section>
 
         <Section>
-          <SectionHeading>
-            3D Maps
-          </SectionHeading>
+          <SectionHeading>3D Maps</SectionHeading>
 
           <Group>
             <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
@@ -165,6 +153,15 @@ export default class extends React.Component {
               id="unmonitored-hosts"
               checked={!settings['map_excludeUnmonitoredHosts']}
               onChange={e => this.saveSetting('map_excludeUnmonitoredHosts', !e.target.checked)}
+            />
+          </Group>
+
+          <Group helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
+            <Heading text="Show external services" htmlFor="external-services" />
+            <Toggle
+              id="external-services"
+              checked={!settings['map_excludeExternalServices']}
+              onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
             />
           </Group>
 
@@ -234,9 +231,7 @@ export default class extends React.Component {
             />
           </Group>
 
-          <SectionHeading>
-            Infrastructure
-          </SectionHeading>
+          <SectionHeading>Infrastructure</SectionHeading>
           <Group>
             <Heading
               text={`Compact layouter: Space between groups in x direction (${settings['map_packingXSpace']})`}
@@ -270,9 +265,7 @@ export default class extends React.Component {
             />
           </Group>
 
-          <SectionHeading>
-            Application
-          </SectionHeading>
+          <SectionHeading>Application</SectionHeading>
           <Group>
             <Heading
               text={`Number of shown hops when filtering services (${settings['map_logical_numServiceHops']})`}
@@ -289,7 +282,6 @@ export default class extends React.Component {
               onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
             />
           </Group>
-
         </Section>
       </SubViewWrapper>
     );
@@ -299,17 +291,17 @@ export default class extends React.Component {
 function Group({ children, helpText, isWarning }) {
   return (
     <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
-      {helpText
-        ? <Tooltip content={helpText} align="leftMiddle">
-            <SvgIcon
-              className={`${block}__info-icon`}
-              type="info"
-              width={16}
-              height={16}
-              color={isWarning ? '#64aade' : '#172429'}
-            />
-          </Tooltip>
-        : null}
+      {helpText ? (
+        <Tooltip content={helpText} align="leftMiddle">
+          <SvgIcon
+            className={`${block}__info-icon`}
+            type="info"
+            width={16}
+            height={16}
+            color={isWarning ? '#64aade' : '#172429'}
+          />
+        </Tooltip>
+      ) : null}
 
       {children}
     </HorizontalFormGroupWithBackground>
