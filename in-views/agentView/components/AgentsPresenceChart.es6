@@ -30,7 +30,7 @@ export default connectTo(
             min: 0,
             metrics: [`plugin.${plugins.instanaAgent}`],
             labels: ['Agents'],
-            formatter: number.compact,
+            formatter: n => number.compact(Math.ceil(n)),
             type: 'bar',
             aggregation: 'mean',
             minPixelPerBlock: 2

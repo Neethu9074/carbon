@@ -29,7 +29,7 @@ const cols = [
     title: 'FQDN',
     type: 'custom',
     typeArgs: {
-      comparator: () => compareIgnoreCase,
+      comparator: compareIgnoreCase,
       get$(row) {
         const hostSnapshot$ = getHostSnapshotId(row.snapshot).flatMap(hostId => {
           const to = row.snapshot.get('to') || Date.now();
