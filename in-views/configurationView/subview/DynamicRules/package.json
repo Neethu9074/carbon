@@ -1,6 +1,0 @@
-{
-  "name": "DynamicRules",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./DynamicRules.es6"
-}

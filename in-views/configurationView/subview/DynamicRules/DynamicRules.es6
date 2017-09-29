@@ -25,7 +25,7 @@ import Chart from 'in-components/Chart';
 import 'in-views/configurationView/subview/DynamicRules/DynamicRules.less';
 
 const logger = createLogger('DynamicRules');
-const block = 'in-dynamic-rule-config';
+const block = 'in-dynamic-rules-config';
 
 const cols = [
   getLinkColumn(getDynamicRuleLink),
@@ -166,7 +166,7 @@ export default class extends React.Component {
 
         <Section>
           <Button kind="info" onClick={this.addNewRule}>
-            Add New Dynamic Rule
+            Add New Rule
           </Button>
 
           {this.state.message ? (
