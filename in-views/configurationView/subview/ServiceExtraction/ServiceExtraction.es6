@@ -201,9 +201,10 @@ export default class extends React.Component {
         type: service.get('type'),
         comment: '',
         matchSpecification: service.get('matchSpecification'),
-        label: service.get('label'),
         order: service.get('order'),
-        endpointRules: service.get('endpointRules')
+        endpointRules: service.get('endpointRules'),
+        label: service.getIn(['extractSpecification', 'label']),
+        ignoreService: service.get('ignoreService')
       })
     );
 
