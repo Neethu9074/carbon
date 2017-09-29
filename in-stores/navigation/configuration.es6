@@ -204,21 +204,21 @@ export function openServiceExtractionConfigByDefinition(definition) {
 }
 // end service extraction ------------------------------------
 
-// forecasts ---------------------------------------------
-const forecastsViewPath = '/config/forecasts';
-const forecastViewPath = '/config/forecast';
-export const forecastsViewLink$ = buildUrlStream({ path: forecastsViewPath });
-export const isForecastsView$ = buildPathStartsWithStream(forecastsViewPath);
+// dynamic rules ---------------------------------------------
+const dynamicRulesViewPath = '/config/dynamicRules';
+const dynamicRuleViewPath = '/config/dynamicRule';
+export const dynamicRulesViewLink$ = buildUrlStream({ path: dynamicRulesViewPath });
+export const isDynamicRulesView$ = buildPathStartsWithStream(dynamicRulesViewPath);
 
-function getForecastRulePath(id) {
-  return id ? `${forecastViewPath}/${encodeURIComponent(id)}` : forecastViewPath;
+function getDynamicRulePath(id) {
+  return id ? `${dynamicRuleViewPath}/${encodeURIComponent(id)}` : dynamicRuleViewPath;
 }
 
-export function openForecastRule(id) {
-  mutateUrl(params => (params.pathname = getForecastRulePath(id)));
+export function openDynamicRule(id) {
+  mutateUrl(params => (params.pathname = getDynamicRulePath(id)));
 }
 
-export function getForecastRuleLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getForecastRulePath(id)));
+export function getDynamicRuleLink(id) {
+  return getModifiedUrlStream(params => (params.pathname = getDynamicRulePath(id)));
 }
-//  end forecasts ---------------------------------------------
+// end dynamic rules ---------------------------------------------

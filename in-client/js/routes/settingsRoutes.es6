@@ -16,7 +16,7 @@ import { Route } from 'react-router-dom';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
-import Forecasts from 'promise-loader?global,configView!in-views/configurationView/subview/Forecasts/Forecasts';
+import DynamicRules from 'promise-loader?global,configView!in-views/configurationView/subview/DynamicRules';
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
@@ -81,8 +81,8 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule/:ruleId" />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(Forecasts)} path="/config/forecasts" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(Forecasts)} path="/config/forecast" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRules)} path="/config/dynamicRules" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRules)} path="/config/dynamicRule" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="/config/rules" />
     <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule" />

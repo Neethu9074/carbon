@@ -27,8 +27,8 @@ import {
   auditLogViewLink$,
   isAuditLogView$,
   objectiveViewLink$,
-  forecastsViewLink$,
-  isForecastsView$,
+  dynamicRulesViewLink$,
+  isDynamicRulesView$,
   isObjectivesView$,
   rulesViewLink$,
   isRulesViewLink$,
@@ -133,7 +133,7 @@ export default function Navigation() {
             <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
             <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
             {instanaInternalFeaturesEnabled ? (
-              <NavItem title="Custom Forecast Rules" href$={forecastsViewLink$} isActive$={isForecastsView$} />
+              <NavItem title="Custom Dynamic Rules" href$={dynamicRulesViewLink$} isActive$={isDynamicRulesView$} />
             ) : null}
           </NavItem>
         ) : null}

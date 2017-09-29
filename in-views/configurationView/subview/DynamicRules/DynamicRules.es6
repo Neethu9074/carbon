@@ -2,14 +2,14 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getLinkColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import { getDynamicRules, deleteDynamicRule } from 'in-services/api/dynamicRules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
-import { getForecastRules, deleteForecastRule } from 'in-services/api/forecasts';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getForecastRuleLink } from 'in-stores/navigation/configuration';
+import { getDynamicRuleLink } from 'in-stores/navigation/configuration';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import { openForecastRule } from 'in-stores/navigation/configuration';
+import { openDynamicRule } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
@@ -22,13 +22,13 @@ import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
-import 'in-views/configurationView/subview/Forecasts/Forecasts.less';
+import 'in-views/configurationView/subview/DynamicRules/DynamicRules.less';
 
-const logger = createLogger('Forecasts');
-const block = 'in-forecast-rule-config';
+const logger = createLogger('DynamicRules');
+const block = 'in-dynamic-rule-config';
 
 const cols = [
-  getLinkColumn(getForecastRuleLink),
+  getLinkColumn(getDynamicRuleLink),
   {
     title: 'Entity',
     type: 'snapshotLink',
@@ -46,17 +46,18 @@ const cols = [
         return row.metricName;
       }
     }
-  }
+  },
+  getDeleteButtonColumn()
 ];
 
 export default class extends React.Component {
-  static displayName = 'Forecasts';
+  static displayName = 'DynamicRules';
 
   state = {
     loading: true,
     error: false,
     message: null,
-    forecasts: emptyList,
+    rules: emptyList,
     status: {}
   };
 
@@ -70,21 +71,21 @@ export default class extends React.Component {
     this.setState({
       error: false,
       loading: true,
-      message: 'Loading forecasts…'
+      message: 'Loading dynamic rules…'
     });
 
-    const result$ = getForecastRules();
-    this.responseSubscription = result$.once(forecasts => {
+    const result$ = getDynamicRules();
+    this.responseSubscription = result$.once(rules => {
       this.setState({
         error: false,
         loading: false,
         message: null,
-        forecasts
+        rules
       });
     });
 
     // this.errorSubscription = result$.errors().once(error => {
-    //   const message = `Failed to retrieve forecasts: ${error.message}`;
+    //   const message = `Failed to retrieve rules: ${error.message}`;
     //   logger.error(message, error);
     //   this.setState({
     //     error: true,
@@ -112,7 +113,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openForecastRule();
+    openDynamicRule();
   };
 
   onDelete = rule => {
@@ -123,13 +124,13 @@ export default class extends React.Component {
       message: `Removing rule ${ruleId}`
     });
 
-    const result$ = deleteForecastRule(ruleId);
+    const result$ = deleteDynamicRule(ruleId);
     this.responseSubscription = result$.once(() => {
       this.setState({
         error: false,
         loading: false,
         message: null,
-        forecasts: this.state.forecasts.filter(eachRule => eachRule.get('id') !== ruleId)
+        rules: this.state.rules.filter(eachRule => eachRule.get('id') !== ruleId)
       });
     });
 
@@ -146,45 +147,42 @@ export default class extends React.Component {
   };
 
   render() {
-    const { forecasts } = this.state;
-    const rulesAvailable = forecasts && forecasts.size > 0;
+    const { rules } = this.state;
+    const rulesAvailable = rules && rules.size > 0;
 
-    const rows = forecasts.toArray().map(rule => {
+    const rows = rules.toArray().map(rule => {
       return {
         key: rule.get('snapshotId') + rule.get('metricName'),
         snapshotId: rule.get('snapshotId'),
         metricName: rule.get('metricName'),
+        onDelete: this.onDelete,
         entity: rule
       };
     });
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>
-          Forecasts
-        </SubViewHeader>
+        <SubViewHeader>DynamicRules</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRule}>
-            Add New Forecast Rule
+            Add New Dynamic Rule
           </Button>
 
-          {this.state.message
-            ? <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+          {this.state.message ? (
+            <Notification failure={this.state.error} loading={this.state.loading}>
+              {this.state.message}
+            </Notification>
+          ) : null}
         </Section>
 
-        {rulesAvailable
-          ? <Section>
-              <SectionHeading>
-                Custom forecast rules
-              </SectionHeading>
+        {rulesAvailable ? (
+          <Section>
+            <SectionHeading>Custom dynamic rules</SectionHeading>
 
-              <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-            </Section>
-          : null}
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+          </Section>
+        ) : null}
       </SubViewWrapper>
     );
   }
