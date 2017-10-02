@@ -5,12 +5,13 @@ import React from 'react';
 
 import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-services/api/dynamicRules';
 import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/DynamicRuleForm';
+import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { openRules } from 'in-stores/navigation/configuration';
+import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
-import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
 const logger = createLogger('Rule');
@@ -50,21 +51,15 @@ export default class extends React.Component {
         <SubViewHeader>{rule ? `Configure dynamic rule: ${rule.get('name')}` : 'Configure dynamic rule'}</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
+          {form ? <DynamicRuleForm form={form} onChange={this.onChange} /> : null}
           <Section>
-            {form ? (
-              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                Save
-              </Button>
-            ) : null}
-
+            {form ? <Step4 form={form} onChange={this.onChange} /> : null}
             {this.state.message ? (
               <Notification failure={this.state.error} loading={this.state.loading}>
                 {this.state.message}
               </Notification>
             ) : null}
           </Section>
-
-          {form ? <DynamicRuleForm form={form} onChange={this.onChange} /> : null}
         </form>
       </SubViewWrapper>
     );
@@ -150,28 +145,26 @@ export default class extends React.Component {
     const rule = this.state.rule;
     const form = this.state.form;
 
-    const result$ = saveDynamicRule(
-      fromJS(
-        createDynamicRule(
-          rule ? rule.get('id') : null,
-          form.get('name').value,
-          form.get('enabled').value,
-          form.get('entityType').value,
-          form.get('metricName').value,
-          form.get('rollup').value,
-          form.get('query').value,
-          form.get('queryEvaluationTimestamp').value,
-          form.get('ruleType').value,
-          form.get('sensitivity').value,
-          form.get('violationDirection').value,
-          form.get('triggering').value,
-          form.get('severity').value,
-          form.get('text').value,
-          form.get('description').value,
-          form.get('expirationTime').value
-        )
-      )
+    const ruleTest = createDynamicRule(
+      rule ? rule.get('id') : null,
+      form.get('name').value,
+      form.get('enabled').value,
+      form.get('entityType').value,
+      form.get('metricName').value,
+      1000 * 60 * 60, // rollup,
+      form.get('query').value,
+      Date.now(), // queryEvaluationTimestamp
+      'anomaly', // ruleType
+      form.get('sensitivity').value,
+      form.get('violationDirection').value,
+      form.get('triggering').value,
+      form.get('severity').value,
+      form.get('text').value,
+      form.get('description').value,
+      1000 * 60 * 60 // expirationTime
     );
+
+    const result$ = saveDynamicRule(ruleTest);
 
     this.disposeAsyncAction();
     this.setState({
@@ -194,13 +187,87 @@ export default class extends React.Component {
 }
 
 function createForm(rule) {
-  return createMapForm().put(
-    'name',
-    createField({
-      value: rule ? rule.get('name') : '',
-      validator: notBlankValidator
-    })
-  );
+  return createMapForm()
+    .put(
+      'name',
+      createField({
+        value: rule ? rule.get('name') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'entityType',
+      createField({
+        value: rule ? rule.getIn(['match', 'entityType']) : undefined,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'metricName',
+      createField({
+        value: rule ? rule.getIn(['match', 'metricName']) : '',
+        validator: metricName => {
+          return metricName && metricName != '-1' && metricName.length > 0
+            ? null
+            : [
+                {
+                  severity: 'error',
+                  message: `Please enter a valid metric.`
+                }
+              ];
+        }
+      })
+    )
+    .put(
+      'query',
+      createField({
+        value: rule.getIn(['match', 'query']),
+        validator: queryValidator
+      })
+    )
+    .put(
+      'violationDirection',
+      createField({
+        value: rule.getIn(['rule', 'violationDirection'])
+      })
+    )
+    .put(
+      'sensitivity',
+      createField({
+        value: rule.getIn(['rule', 'sensitivity'])
+      })
+    )
+    .put(
+      'severity',
+      createField({
+        value: rule.getIn(['event', 'severity'])
+      })
+    )
+    .put(
+      'triggering',
+      createField({
+        value: rule.getIn(['event', 'triggering'])
+      })
+    )
+    .put(
+      'text',
+      createField({
+        value: rule.getIn(['event', 'text']),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'description',
+      createField({
+        value: rule.getIn(['event', 'description'])
+      })
+    )
+    .put(
+      'enabled',
+      createField({
+        value: rule.get('enabled')
+      })
+    );
 }
 
 function setFieldValue(value, field) {

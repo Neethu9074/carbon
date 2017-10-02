@@ -23,8 +23,8 @@ export function saveDynamicRule(rule) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/alerts/${encodeURIComponent(rule.get('id'))}`,
-    data: rule.toJS()
+    url: `/api/alerts/${encodeURIComponent(rule.id)}`,
+    data: rule
   }).map(response => fromJS(response.body));
 }
 
@@ -45,11 +45,11 @@ export function createDynamicRule(
   rollup = 1000,
   query = '',
   queryEvaluationTimestamp = Date.now(),
-  ruleType = null,
-  sensitivity = 99,
+  ruleType = 'anomaly',
+  sensitivity = 100,
   violationDirection = 'either',
   triggering = false,
-  severity = 0,
+  severity = 10,
   text = '',
   description = '',
   expirationTime = 1000 * 60 * 60

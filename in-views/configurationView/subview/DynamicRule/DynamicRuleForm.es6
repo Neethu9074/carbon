@@ -1,13 +1,15 @@
 import React from 'react';
 
-import Section from 'in-views/configurationView/components/Section';
+import Step1 from 'in-views/configurationView/subview/DynamicRule/components/Step1';
+import Step2 from 'in-views/configurationView/subview/DynamicRule/components/Step2';
+import Step3 from 'in-views/configurationView/subview/DynamicRule/components/Step3';
 
-import './DynamicRuleForm.less';
-
-export default function DynamicRuleForm() {
+export default function DynamicRuleForm({ form, onChange }) {
   return (
     <fieldset>
-      <Section>todo</Section>
+      <Step1 form={form} onChange={onChange} />
+      <Step2 form={form} onChange={onChange} />
+      <Step3 form={form} onChange={onChange} />
     </fieldset>
   );
 }

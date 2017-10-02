@@ -1,4 +1,3 @@
-import { getConfiguredMetrics } from 'in-services/forecastConfig';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -33,7 +32,7 @@ export default function createForecastController(config) {
   };
 
   function determineForecasts() {
-    const forecastedMetrics = getConfiguredMetrics(config.snapshotId);
+    const forecastedMetrics = false;
     if (!forecastedMetrics) {
       return;
     }
