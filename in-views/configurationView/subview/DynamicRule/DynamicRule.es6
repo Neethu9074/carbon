@@ -42,13 +42,13 @@ export default class extends React.Component {
   }
 
   render() {
-    const { form, rule } = this.state;
+    const { form } = this.state;
 
     return (
       <SubViewWrapper>
         <Title title="Dynamic Rule" />
 
-        <SubViewHeader>{rule ? `Configure dynamic rule: ${rule.get('name')}` : 'Configure dynamic rule'}</SubViewHeader>
+        <SubViewHeader>Configure dynamic rule</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           {form ? <DynamicRuleForm form={form} onChange={this.onChange} /> : null}
@@ -147,7 +147,7 @@ export default class extends React.Component {
 
     const ruleTest = createDynamicRule(
       rule ? rule.get('id') : null,
-      form.get('name').value,
+      form.get('text').value,
       form.get('enabled').value,
       form.get('entityType').value,
       form.get('metricName').value,
@@ -188,13 +188,6 @@ export default class extends React.Component {
 
 function createForm(rule) {
   return createMapForm()
-    .put(
-      'name',
-      createField({
-        value: rule ? rule.get('name') : '',
-        validator: notBlankValidator
-      })
-    )
     .put(
       'entityType',
       createField({

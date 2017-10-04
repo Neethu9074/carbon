@@ -14,6 +14,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getCategories } from 'in-sdk/metrics';
 import Button from 'in-components/Button';
 
 const logger = createLogger('DynamicRules');
@@ -25,7 +26,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.entity.get('entityType');
+        return row.entity.getIn(['match', 'entityType']);
       }
     }
   },
@@ -34,7 +35,8 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.entity.get('metricName');
+        const metric = row.entity.getIn(['match', 'metricName']);
+        return findMetricName(metric, getCategories(row.entity.getIn(['match', 'entityType']))) || metric;
       }
     }
   },
@@ -179,4 +181,23 @@ export default class extends React.Component {
 
 function getRowDetails(row) {
   return <div>{row.key}</div>;
+}
+
+function findMetricName(metric, tree, humanReadableMetricName) {
+  if (!tree) {
+    return null;
+  }
+
+  for (let i = 0, length = tree.length; i < length; i++) {
+    const item = tree[i];
+    if (item.type === 'category') {
+      humanReadableMetricName = findMetricName(metric, item.children, humanReadableMetricName);
+    }
+    if (!humanReadableMetricName && item.metric === metric) {
+      humanReadableMetricName = item.label;
+    }
+    if (humanReadableMetricName) {
+      return humanReadableMetricName;
+    }
+  }
 }
