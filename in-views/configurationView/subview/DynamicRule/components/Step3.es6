@@ -68,7 +68,6 @@ export default function Step3({ form, onChange }) {
               value={field.value}
               onChange={e => onChange('text', e.target.value)}
               hasError={!field.valid}
-              autoFocus
             />
             {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>
