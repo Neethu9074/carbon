@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
+import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -29,6 +30,7 @@ export default function Step3({ form, onChange }) {
         {form.get('triggering').map(field => (
           <FormGroup className={`${block}__triggering-group`}>
             <div className={`${block}__triggering`}>
+              <TooltipIcon tooltip="triggering incidents" />
               Triggering Incident
               <Toggle
                 className={`${block}__toggle`}

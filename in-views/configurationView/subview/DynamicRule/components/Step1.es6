@@ -2,6 +2,7 @@ import React from 'react';
 
 import SectionLine from 'in-views/configurationView/subview/DynamicRule/components/SectionLine';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
+import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -94,9 +95,12 @@ export default function Step1({ form, onChange }) {
       <RuleControl name="Entities matched" helpComponent={MatchingEntitiesHelpBox}>
         {form.get('query').map(field => (
           <FormGroup>
-            <Label htmlFor="rule-query" hasError={!field.valid}>
-              Filter query
-            </Label>
+            <div className={`${block}__filter-label-wrapper`}>
+              <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
+                Filter query
+              </Label>
+              <TooltipIcon tooltip="A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities." />
+            </div>
             <Input
               id="rule-query"
               type="text"
