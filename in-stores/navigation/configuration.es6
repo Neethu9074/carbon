@@ -203,3 +203,30 @@ export function openServiceExtractionConfigByDefinition(definition) {
   mutateUrl(params => (params.pathname = definition.pathname));
 }
 // end service extraction ------------------------------------
+
+// dynamic rules ---------------------------------------------
+const dynamicRulesViewPath = '/config/dynamicRules';
+const dynamicRuleViewPath = '/config/dynamicRule';
+export const dynamicRulesViewLink$ = buildUrlStream({ path: dynamicRulesViewPath });
+export const isDynamicRulesView$ = buildPathStartsWithStream(dynamicRulesViewPath);
+
+function getDynamicRulePath(id) {
+  return id ? `${dynamicRuleViewPath}/${encodeURIComponent(id)}` : dynamicRuleViewPath;
+}
+
+function getDynamicRulesPath() {
+  return dynamicRulesViewPath;
+}
+
+export function openDynamicRules() {
+  mutateUrl(params => (params.pathname = getDynamicRulesPath()));
+}
+
+export function openDynamicRule(id) {
+  mutateUrl(params => (params.pathname = getDynamicRulePath(id)));
+}
+
+export function getDynamicRuleLink(id) {
+  return getModifiedUrlStream(params => (params.pathname = getDynamicRulePath(id)));
+}
+// end dynamic rules ---------------------------------------------

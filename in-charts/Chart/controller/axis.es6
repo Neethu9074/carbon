@@ -37,6 +37,7 @@ export default function createAxisController(config) {
   addDataSeriesTogglingSupport();
   determineSeriesColors();
   determineDynamicAggregation();
+
   // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
   // of availability of metrics. We are removing x millis from the right border in order to
   // hide this fact from the user.
@@ -180,10 +181,14 @@ export default function createAxisController(config) {
 
         calculateBlockSizeMillis(config);
 
+        config.signals.refreshDataSources$.emit(true);
+      })
+    );
+    config.subscriptions.push(
+      config.signals.refreshDataSources$.subscribe(() => {
+        clearData();
         disposeTimeframeSpecificSubscriptions();
-
         subscribeToDataSources();
-
         config.signals.restartRendering$.emit(true);
       })
     );
@@ -201,8 +206,8 @@ export default function createAxisController(config) {
   function subscribeToDataSourcesForAxis(axisName) {
     const axis = config[axisName];
     const metrics = axis.metrics;
-
     const queue = config.queues[axisName];
+
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(

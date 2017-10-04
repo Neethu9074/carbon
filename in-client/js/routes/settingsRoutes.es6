@@ -15,7 +15,9 @@ import ApiToken from 'promise-loader?global,configView!in-views/configurationVie
 import { Route } from 'react-router-dom';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
+import DynamicRules from 'promise-loader?global,configView!in-views/configurationView/subview/DynamicRules/DynamicRules';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
+import DynamicRule from 'promise-loader?global,configView!in-views/configurationView/subview/DynamicRule/DynamicRule';
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
@@ -80,13 +82,15 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule/:ruleId" />
 
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule/:ruleId" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRules)} path="/config/dynamicRules" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule" />
+
     <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="/config/rules" />
     <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
-
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
-
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
 
     <Route

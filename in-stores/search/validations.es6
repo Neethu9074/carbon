@@ -1,6 +1,9 @@
 import { parse } from 'lucene';
 
 export function queryValidator(query) {
+  if (!query) {
+    return null;
+  }
   try {
     parse(query);
     return null;

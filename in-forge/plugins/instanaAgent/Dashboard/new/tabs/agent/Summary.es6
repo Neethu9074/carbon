@@ -20,9 +20,7 @@ export default function Summary({ snapshot, timeframe }) {
     <MaxWidthFullscreenContainer>
       <LifecycleObserver onWillMount={() => start(snapshot, true)} />
 
-      <SnapshotLabel>
-        {getLabel(snapshot)}
-      </SnapshotLabel>
+      <SnapshotLabel>{getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <KV k="Boot Version" v={snapshot.getIn(['data', 'boot'])} size="sm" />
@@ -36,23 +34,23 @@ export default function Summary({ snapshot, timeframe }) {
       </Kpis>
 
       <Columize>
-        {snapshot.getIn(['data', 'hasCpuLoad'])
-          ? <DashboardTile title="CPU Load">
-              <Chart
-                snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  metrics: ['cpu.load'],
-                  labels: ['Load'],
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardTile>
-          : null}
+        {snapshot.getIn(['data', 'hasCpuLoad']) ? (
+          <DashboardTile title="CPU Load">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeframe={timeframe}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                metrics: ['cpu.load'],
+                labels: ['Load'],
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardTile>
+        ) : null}
         <DashboardTile title="Memory">
           <Chart
             snapshotId={snapshotId}
