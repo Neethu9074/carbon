@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp, react/prop-types */
 import { createLogger } from 'instalog';
 import React from 'react';
 
