@@ -76,7 +76,7 @@ export default function Step1({ form, onChange }) {
                     onChange={e => onChange('metricName', e ? e.value : '')}
                   />
                 ) : (
-                  <ComboBox options={[{ value: '', label: 'Please select an entity first' }]} />
+                  <ComboBox options={[]} />
                 )}
                 {field.messages.map((message, i) => (
                   <ValidationBlock hasError key={i}>
