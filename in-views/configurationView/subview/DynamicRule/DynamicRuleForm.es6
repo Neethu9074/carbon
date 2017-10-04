@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Step0 from 'in-views/configurationView/subview/DynamicRule/components/Step0';
 import Step1 from 'in-views/configurationView/subview/DynamicRule/components/Step1';
 import Step2 from 'in-views/configurationView/subview/DynamicRule/components/Step2';
 import Step3 from 'in-views/configurationView/subview/DynamicRule/components/Step3';
@@ -7,6 +8,7 @@ import Step3 from 'in-views/configurationView/subview/DynamicRule/components/Ste
 export default function DynamicRuleForm({ form, onChange }) {
   return (
     <fieldset>
+      <Step0 form={form} onChange={onChange} />
       <Step1 form={form} onChange={onChange} />
       <Step2 form={form} onChange={onChange} />
       <Step3 form={form} onChange={onChange} />
