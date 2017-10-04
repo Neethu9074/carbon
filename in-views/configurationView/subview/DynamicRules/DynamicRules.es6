@@ -8,33 +8,24 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { getDynamicRuleLink } from 'in-stores/navigation/configuration';
-import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { openDynamicRule } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { always } from 'in-services/fixedStreams';
-import { getSnapshot } from 'in-stores/snapshot';
-import Slider from 'in-components/Slider';
 import Button from 'in-components/Button';
-import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
-
-import 'in-views/configurationView/subview/DynamicRules/DynamicRules.less';
 
 const logger = createLogger('DynamicRules');
-const block = 'in-dynamic-rules-config';
 
 const cols = [
   getLinkColumn(getDynamicRuleLink),
   {
-    title: 'Entity',
-    type: 'snapshotLink',
+    title: 'Entity Type',
+    type: 'string',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getValue(row) {
+        return row.entity.get('entityType');
       }
     }
   },
@@ -43,7 +34,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.metricName;
+        return row.entity.get('metricName');
       }
     }
   },
@@ -84,15 +75,15 @@ export default class extends React.Component {
       });
     });
 
-    // this.errorSubscription = result$.errors().once(error => {
-    //   const message = `Failed to retrieve rules: ${error.message}`;
-    //   logger.error(message, error);
-    //   this.setState({
-    //     error: true,
-    //     loading: false,
-    //     message
-    //   });
-    // });
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to retrieve rules: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        error: true,
+        loading: false,
+        message
+      });
+    });
   };
 
   componentWillUnmount() {
@@ -152,9 +143,7 @@ export default class extends React.Component {
 
     const rows = rules.toArray().map(rule => {
       return {
-        key: rule.get('snapshotId') + rule.get('metricName'),
-        snapshotId: rule.get('snapshotId'),
-        metricName: rule.get('metricName'),
+        key: rule.get('id'),
         onDelete: this.onDelete,
         entity: rule
       };
@@ -189,66 +178,5 @@ export default class extends React.Component {
 }
 
 function getRowDetails(row) {
-  return <RowDetails snapshotId={row.snapshotId} row={row} />;
+  return <div>{row.key}</div>;
 }
-
-const RowDetails = connectTo(
-  props => {
-    return {
-      snapshot: getSnapshot(props.snapshotId)
-    };
-  },
-  class extends React.Component {
-    static displayName = 'getRowDetails';
-
-    state = {
-      sensitivity: 99
-    };
-
-    render() {
-      const { snapshot, row } = this.props;
-      if (!snapshot) {
-        return null;
-      }
-
-      const sensitivity = this.state.sensitivity;
-      const metricDefinition = getMetricDefinition(snapshot.get('plugin'), row.metricName);
-      const timeframe = {
-        windowSize: 1000 * 60 * 60 * 24 * 14,
-        to: Date.now() + 1000 * 60 * 60 * 24
-      };
-      return (
-        <div>
-          <Slider
-            onChange={e => {
-              this.setState({
-                sensitivity: e.target.value
-              });
-            }}
-            min={0}
-            max={100}
-            step={1}
-            value={sensitivity}
-            className={block + '__slider'}
-          />
-          <Chart
-            snapshotId={row.snapshotId}
-            timeframe={timeframe}
-            timeframe$={always(timeframe)}
-            margins={{
-              left: 80
-            }}
-            y1={{
-              min: 0,
-              metrics: [row.metricName],
-              labels: [metricDefinition.label],
-              type: 'line',
-              formatter: metricDefinition.formatter.compact,
-              forecastSensitivity: sensitivity
-            }}
-          />
-        </div>
-      );
-    }
-  }
-);

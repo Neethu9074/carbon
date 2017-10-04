@@ -8,8 +8,8 @@ import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/Dyna
 import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import { openDynamicRules } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import { openRules } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import Title from 'in-components/Title';
@@ -172,7 +172,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(openRules);
+    this.responseSubscription = result$.once(openDynamicRules);
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save rule: ${error.message}`;
@@ -228,7 +228,7 @@ function createForm(rule) {
     .put(
       'violationDirection',
       createField({
-        value: rule.getIn(['rule', 'violationDirection'])
+        value: rule.getIn(['rule', 'violationDirection'], '').toLowerCase()
       })
     )
     .put(

@@ -82,6 +82,7 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule/:ruleId" />
 
+    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule/:ruleId" />
     <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRules)} path="/config/dynamicRules" />
     <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule" />
 

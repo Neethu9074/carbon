@@ -7,7 +7,7 @@ export function getDynamicRules() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/alerts`
+    url: `/api/alerts/anomaly`
   }).map(response => fromJS(response.body));
 }
 
@@ -15,15 +15,15 @@ export function getDynamicRule(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/alerts/${encodeURIComponent(id)}`
+    url: `/api/alerts/anomaly/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
 
 export function saveDynamicRule(rule) {
   return http({
     method: 'PUT',
-    maxRetries: 3,
-    url: `/api/alerts/${encodeURIComponent(rule.id)}`,
+    maxRetries: 1,
+    url: `/api/alerts/anomaly/${encodeURIComponent(rule.id)}`,
     data: rule
   }).map(response => fromJS(response.body));
 }

@@ -214,6 +214,14 @@ function getDynamicRulePath(id) {
   return id ? `${dynamicRuleViewPath}/${encodeURIComponent(id)}` : dynamicRuleViewPath;
 }
 
+function getDynamicRulesPath() {
+  return dynamicRulesViewPath;
+}
+
+export function openDynamicRules() {
+  mutateUrl(params => (params.pathname = getDynamicRulesPath()));
+}
+
 export function openDynamicRule(id) {
   mutateUrl(params => (params.pathname = getDynamicRulePath(id)));
 }
