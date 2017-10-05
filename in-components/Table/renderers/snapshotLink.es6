@@ -3,6 +3,7 @@ import React from 'react';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { noop } from 'in-services/fixedObjects';
 import { getLabel } from 'in-sdk/snapshot';
@@ -67,7 +68,10 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     column.subscription = columnDefinition.typeArgs.getSnapshot$(row.rowConfig).subscribe(getSnapshotLink);
   } else {
     const snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
-    column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(getSnapshotLink);
+    column.subscription = snapshotId$
+      .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
+      .filter(snapshot => snapshot !== null)
+      .subscribe(getSnapshotLink);
   }
 
   return column;
