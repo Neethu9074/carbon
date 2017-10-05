@@ -7,6 +7,7 @@ import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelect
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import { servicePlugins } from 'in-forge/constants';
 import { getSingular } from 'in-sdk/pluginName';
 import { Row, Col } from 'in-components/Grid';
 import { getCategories } from 'in-sdk/metrics';
@@ -17,69 +18,15 @@ import Label from 'in-components/form/Label';
 import './Step1.less';
 
 const block = 'in-dynamic-rule-dialog-step-1';
-const allowedPlugins = [
-  'batchServiceInstance',
-  'browserLogicalConnection',
-  'browserLogicalService',
-  'cassandraKeyspaceServiceInstance',
-  'databaseServiceInstance',
-  'ejbLogicalConnection',
-  'ejbLogicalService',
-  'ejbServiceInstance',
-  'elasticSearchIndexServiceInstance',
-  'ftpServiceInstance',
-  'javaMailLogicalConnection',
-  'javaMailLogicalService',
-  'javaMailServiceInstance',
-  'ldapLogicalConnection',
-  'ldapLogicalService',
-  'ldapServiceInstance',
-  'logicalBatch',
-  'logicalBatchConnection',
-  'logicalCassandraConnection',
-  'logicalCassandraKeyspace',
-  'logicalDatabase',
-  'logicalDatabaseConnection',
-  'logicalEjbConnection',
-  'logicalElasticSearchConnection',
-  'logicalElasticSearchIndex',
-  'logicalFtpConnection',
-  'logicalFtpService',
-  'logicalHttpConnection',
-  'logicalJdbcConnection',
-  'logicalKafkaConsumerConnection',
-  'logicalKafkaPublisherConnection',
-  'logicalMessageBroker',
-  'logicalMessageConsumer',
-  'logicalMessageConsumerConnection',
-  'logicalMessagePublisherConnection',
-  'logicalMongoDbConnection',
-  'logicalMongoDbDatabase',
-  'logicalPdoConnection',
-  'logicalRabbitMqConsumerConnection',
-  'logicalRabbitMqPublisherConnection',
-  'logicalRedisConnection',
-  'logicalRedisDatabase',
-  'logicalRpcConnection',
-  'logicalRpcEndpoint',
-  'logicalWebApp',
-  'messageBrokerServiceInstance',
-  'messageConsumerServiceInstance',
-  'mongoDbDatabaseServiceInstance',
-  'pageResourceLogicalConnection',
-  'pageResourceLogicalService',
-  'pageResourceLogicalService',
-  'pageResourceServiceInstance',
-  'redisServiceInstance',
-  'rpcEndpointServiceInstance',
-  'sdkLogicalConnection',
-  'sdkLogicalService',
-  'sdkServiceInstance',
-  'shellLogicalConnection',
-  'shellLogicalService',
-  'webAppServiceInstance'
+const furtherPluginsToFilter = [
+  'unknownService',
+  'defaultLogicalService',
+  'defaultServiceInstance',
+  'defaultLogicalConnection'
 ];
-const pluginsWithMetricDefinitions = allowedPlugins
+const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
+  .map(key => servicePlugins[key])
+  .filter(plugin => furtherPluginsToFilter.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
