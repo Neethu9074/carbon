@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/components/MatchingEntityTable';
 import SectionLine from 'in-views/configurationView/subview/DynamicRule/components/SectionLine';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
@@ -114,7 +115,9 @@ export default function Step1({ form, onChange }) {
                 {message.message}
               </ValidationBlock>
             ))}
-            <MatchingEntities />
+            {form
+              .get('entityType')
+              .map(entityField => <MatchingEntityTable entityType={entityField.value} query={field.value} />)}
           </FormGroup>
         ))}
       </RuleControl>
@@ -137,8 +140,4 @@ function MatchingEntitiesHelpBox() {
       </span>
     </div>
   );
-}
-
-function MatchingEntities() {
-  return <div className={`${block}__matching-entities`} />;
 }

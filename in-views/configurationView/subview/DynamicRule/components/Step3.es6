@@ -30,7 +30,7 @@ export default function Step3({ form, onChange }) {
         {form.get('triggering').map(field => (
           <FormGroup className={`${block}__triggering-group`}>
             <div className={`${block}__triggering`}>
-              <TooltipIcon tooltip="triggering incidents" />
+              <TooltipIcon tooltip="Incidents represent the highest alert mode in Instana. Related warnings and criticals are being grouped within an incident for easy root cause analysis." />
               Triggering Incident
               <Toggle
                 className={`${block}__toggle`}
