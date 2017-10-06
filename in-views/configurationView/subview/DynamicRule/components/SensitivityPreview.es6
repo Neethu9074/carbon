@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SensitivityDefaultChart from 'in-views/configurationView/subview/DynamicRule/components/SensitivityDefaultChart';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -42,17 +43,11 @@ export default class extends React.Component {
         {this.state.activeTab === 'entities' ? (
           <EntityTable form={this.props.form} getRowDetails={getRowDetails} />
         ) : (
-          <SensitivityDefaultChart form={this.props.form} />
+          this.props.form.get('sensitivity').map(field => <SensitivityDefaultChart sensitivity={field.value} />)
         )}
       </div>
     );
   }
-}
-
-function SensitivityDefaultChart({ form }) {
-  return (
-    <div className={`${block}__sensitivity-default-chart`}>{form.get('sensitivity').map(field => field.value)}</div>
-  );
 }
 
 const cols = [
