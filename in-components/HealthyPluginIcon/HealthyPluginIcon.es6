@@ -22,10 +22,27 @@ export default connectTo(
     }
     return observables;
   },
-  function HealthyEntityIcon({ health, className, fallbackColor = '#fff', dimension = 16, plugin }) {
+  function HealthyEntityIcon({
+    health,
+    className,
+    fallbackColor = '#fff',
+    dimension = 16,
+    snapshot,
+    plugin,
+    overrideSnapshot
+  }) {
     const severity = health ? health.get('maxSeverity') : 0;
     const color = health && severity > 0 ? getColorBySeverity(severity) : fallbackColor;
 
-    return <PluginIcon className={className} dimension={dimension} color={color} plugin={plugin} />;
+    return (
+      <PluginIcon
+        className={className}
+        dimension={dimension}
+        color={color}
+        snapshot={snapshot}
+        plugin={plugin}
+        overrideSnapshot={overrideSnapshot}
+      />
+    );
   }
 );

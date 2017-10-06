@@ -46,6 +46,7 @@ const cols = [
                 <Link href={href} className={`${block}__link`}>
                   <HealthyPluginIcon
                     plugin={plugins.instanaAgent}
+                    overrideSnapshot
                     snapshot={hostSnapshot}
                     dimension={12}
                     fallbackColor={'#000'}
