@@ -1,4 +1,7 @@
 export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale) {
+  domainFrom = Math.max(0, domainFrom);
+  domainTo = Math.min(100, domainTo);
+
   const step = 0.2; // 20% steps
 
   const ticks = [
