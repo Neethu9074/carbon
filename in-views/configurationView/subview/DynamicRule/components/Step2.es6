@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SensitivityPreview from 'in-views/configurationView/subview/DynamicRule/components/SensitivityPreview';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -52,13 +53,13 @@ export default function Step2({ form, onChange }) {
         ))}
       </RuleControl>
       <RuleControl name="Sensitivity (Preview)" helpComponent={CorridorHelpBox}>
-        <CorridorPreviewChart />
         {form.get('sensitivity').map(field => (
           <FormGroup>
             <Label htmlFor="rule-rule-sensitivity">Adjust Sensitivity</Label>
             <SensitivitySlider field={field} onChange={onChange} />
           </FormGroup>
         ))}
+        <SensitivityPreview form={form} />
       </RuleControl>
     </Step>
   );
@@ -87,10 +88,6 @@ function CorridorSelection({ isActive, title, onClick }) {
       {title}
     </div>
   );
-}
-
-function CorridorPreviewChart() {
-  return <div className={`${block}__corridor-preview-chart`} />;
 }
 
 function SensitivitySlider({ field, onChange }) {

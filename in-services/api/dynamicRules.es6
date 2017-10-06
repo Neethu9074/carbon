@@ -52,7 +52,8 @@ export function createDynamicRule(
   severity = 10,
   text = '',
   description = '',
-  expirationTime = 1000 * 60 * 60
+  expirationTime = 1000 * 60 * 60,
+  excludedSnapshotIds = []
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -63,7 +64,8 @@ export function createDynamicRule(
       metricName,
       rollup,
       query,
-      queryEvaluationTimestamp
+      queryEvaluationTimestamp,
+      excludedSnapshotIds
     },
     rule: {
       ruleType,

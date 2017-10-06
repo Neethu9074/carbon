@@ -51,7 +51,14 @@ export default class extends React.Component {
         <SubViewHeader>Configure dynamic rule</SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
-          {form ? <DynamicRuleForm form={form} onChange={this.onChange} /> : null}
+          {form ? (
+            <DynamicRuleForm
+              form={form}
+              onChange={this.onChange}
+              excludeEntity={this.excludeEntity}
+              includeEntity={this.includeEntity}
+            />
+          ) : null}
           <Section>
             {form ? <Step4 form={form} onChange={this.onChange} /> : null}
             {this.state.message ? (
@@ -117,6 +124,28 @@ export default class extends React.Component {
     }
   };
 
+  includeEntity = id => {
+    let updatedForm = this.state.form;
+    updatedForm = updatedForm.updateIn(['excludedSnapshotIds'], field =>
+      field.setValue(field.value.filter(value => value !== id)).setTouched(true)
+    );
+
+    this.setState({
+      form: updatedForm
+    });
+  };
+
+  excludeEntity = id => {
+    let updatedForm = this.state.form;
+    updatedForm = updatedForm.updateIn(['excludedSnapshotIds'], field =>
+      field.setValue(field.value.push(id)).setTouched(true)
+    );
+
+    this.setState({
+      form: updatedForm
+    });
+  };
+
   onChange = (fieldName, value) => {
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
@@ -161,7 +190,8 @@ export default class extends React.Component {
       form.get('severity').value,
       form.get('text').value,
       form.get('description').value,
-      1000 * 60 * 60 // expirationTime
+      1000 * 60 * 60, // expirationTime
+      form.get('excludedSnapshotIds').value.toJS()
     );
 
     const result$ = saveDynamicRule(ruleTest);
@@ -259,6 +289,18 @@ function createForm(rule) {
       'enabled',
       createField({
         value: rule.get('enabled')
+      })
+    )
+    .put(
+      'excludedSnapshotIds',
+      createField({
+        value: rule.getIn(['match', 'excludedSnapshotIds'])
+      })
+    )
+    .put(
+      'matchingEntities',
+      createField({
+        value: null
       })
     );
 }

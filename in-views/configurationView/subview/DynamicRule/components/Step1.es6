@@ -31,7 +31,7 @@ const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
-export default function Step1({ form, onChange }) {
+export default function Step1({ form, onChange, excludeEntity, includeEntity }) {
   return (
     <Step number={1} title="Entities & Metrics" form={form} onChange={onChange}>
       <RuleControl name="Entity type and metric">
@@ -115,9 +115,7 @@ export default function Step1({ form, onChange }) {
                 {message.message}
               </ValidationBlock>
             ))}
-            {form
-              .get('entityType')
-              .map(entityField => <MatchingEntityTable entityType={entityField.value} query={field.value} />)}
+            <MatchingEntityTable form={form} excludeEntity={excludeEntity} includeEntity={includeEntity} />
           </FormGroup>
         ))}
       </RuleControl>

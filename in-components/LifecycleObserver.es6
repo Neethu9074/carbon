@@ -15,6 +15,10 @@ export default class extends React.Component {
     this.call('onWillUnmount');
   }
 
+  componentWillUpdate() {
+    this.call('onWillUpdate');
+  }
+
   call = fnName => {
     if (this.props[fnName]) {
       this.props[fnName]();
