@@ -20,7 +20,11 @@ export default getElementDimensions(
     }
 
     render() {
-      return <canvas ref={canvas => (this.canvas = canvas)} className={block + '__canvas'} />;
+      return (
+        <div>
+          <canvas ref={canvas => (this.canvas = canvas)} className={block + '__canvas'} />
+        </div>
+      );
     }
   }
 );
