@@ -2,8 +2,22 @@ import React from 'react';
 
 import { getIconSvgPath } from 'in-sdk/snapshot';
 
-export default function PluginIcon({ className, onClick, style, dimension = 16, color = '#fff', snapshot, plugin }) {
-  const path = getIconSvgPath(snapshot ? snapshot : plugin);
+export default function PluginIcon({
+  className,
+  onClick,
+  style,
+  dimension = 16,
+  color = '#fff',
+  snapshot,
+  plugin,
+  overrideSnapshot
+}) {
+  let path;
+  if (snapshot && plugin && overrideSnapshot) {
+    path = getIconSvgPath(plugin);
+  } else {
+    path = getIconSvgPath(snapshot ? snapshot : plugin);
+  }
 
   style = style || {};
   style.width = `${dimension}px`;
