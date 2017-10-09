@@ -133,8 +133,8 @@ function MatchingEntitiesHelpBox() {
       <br />
       <br />
       <span>
-        The number of entities that can be monitored is limited to 20. Please narrow down the entities by adding a
-        filter query.
+        The number of entities that can be monitored by a dynamic corridor is limited to{' '}
+        <span className={`${block}__num-entities-during-beta`}>20</span> during the beta.
       </span>
     </div>
   );
