@@ -6,14 +6,18 @@ import { number } from 'in-services/formatters/number';
 export default connectTo(
   props => {
     return {
-      count: props.count$
+      countResult: props.count$
     };
   },
-  function TotalTraceCount({ count }) {
-    if (count == null || count < 0) {
+  function TotalTraceCount({ countResult }) {
+    if (countResult == null || countResult.get('count') < 0) {
       return null;
     }
 
-    return <span>{`(${number.compact(count)})`}</span>;
+    if (countResult.get('determinedEarly') || countResult.get('timedOut')) {
+      return <span>{`>(${number.compact(countResult.get('count'))})`}</span>;
+    }
+
+    return <span>{`(${number.compact(countResult.get('count'))})`}</span>;
   }
 );

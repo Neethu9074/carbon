@@ -11,37 +11,26 @@ import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 
-export const totalTraceCountNoFiltering$ = getTraceCount('');
-
-export const totalTraceCountOnlyEum$ = getTraceCount(' trace.type:eum');
-
-// Avoid user visible inconsistencies between counts by calculating the third number.
-// We are calculating it this way because finding EUM traces is cheaper than calculating
-// non-EUM traces.
-export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$]).map(
-  ([total, eum]) => total - eum
-);
-
 export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
-  return getTraceCount(`trace.startingAt:"${serviceId}"`);
+  return getTraceCount(`trace.startingAt:"${serviceId}"`).map(countResult => countResult.get('count'));
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
-  return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`);
+  return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`).map(countResult => countResult.get('count'));
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
-  return getTraceCount(`trace.startingAtInstance:"${serviceId}"`);
+  return getTraceCount(`trace.startingAtInstance:"${serviceId}"`).map(countResult => countResult.get('count'));
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
-  return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`);
+  return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`).map(countResult => countResult.get('count'));
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  return getTraceCount(`trace.touching:"${id}"`, timeframe);
+  return getTraceCount(`trace.touching:"${id}"`, timeframe).map(countResult => countResult.get('count'));
 }
 
 export function getTraceCount(query, timeframe) {
