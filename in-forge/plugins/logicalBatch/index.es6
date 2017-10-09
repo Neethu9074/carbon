@@ -1,7 +1,7 @@
 import metricDefinitions from 'in-forge/plugins/defaultLogicalService/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinition';
+import iconSvgPath from 'in-forge/plugins/batchServiceInstance/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-sdk/unknownIconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
