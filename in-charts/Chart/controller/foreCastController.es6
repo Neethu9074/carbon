@@ -5,12 +5,12 @@ import createQueue from 'in-charts/data/queue';
 
 export default function createForecastController(config) {
   let timeframeSpecificSubscriptions = [];
-  let isForecastsDefined = false;
+  let isForecastDefined = false;
 
   determineForecasts();
 
   // if there are no forecasts defined for this chart
-  if (!isForecastsDefined) {
+  if (!isForecastDefined) {
     return {
       dispose: () => {},
       resize: () => {}
@@ -32,37 +32,28 @@ export default function createForecastController(config) {
   };
 
   function determineForecasts() {
-    const forecastedMetrics = false;
-    if (!forecastedMetrics) {
-      return;
-    }
-
     function checkAxis(axisName) {
       const axis = config[axisName];
-      if (!axis) {
+      if (!axis || !axis.enableForecast) {
         return;
       }
+      isForecastDefined = true;
 
       for (let i = 0, length = axis.metrics.length; i < length; i++) {
         const metric = axis.metrics[i];
-        if (forecastedMetrics.indexOf(metric) >= 0) {
-          isForecastsDefined = true;
-          if (!axis.forecastConfig) {
-            axis.forecastConfig = {
-              metrics: []
-            };
-          }
+        axis.forecastConfig = {
+          metrics: []
+        };
 
-          const sensitivity = axis.forecastSensitivity || '99';
-          const lowMetric = metric + '.forecast.low.' + sensitivity;
-          const highMetric = metric + '.forecast.high.' + sensitivity;
-          axis.forecastConfig.metrics.push({
-            indexInMetrics: i,
-            metric,
-            lowMetric,
-            highMetric
-          });
-        }
+        const sensitivity = axis.forecastSensitivity || '99';
+        const lowMetric = metric + '.forecast.low.' + sensitivity;
+        const highMetric = metric + '.forecast.high.' + sensitivity;
+        axis.forecastConfig.metrics.push({
+          indexInMetrics: i,
+          metric,
+          lowMetric,
+          highMetric
+        });
       }
 
       if (!axis.forecastConfig) {
@@ -142,7 +133,7 @@ export default function createForecastController(config) {
             windowSize: to - from,
             to
           },
-          rollup: config.rollup.rollup,
+          rollup: oneHour,
           aggregation: axis.aggregation,
           blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
           metricBaseMillis: axis.metricBaseMillis

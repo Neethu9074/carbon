@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
 import './Charts.less';
@@ -11,18 +11,18 @@ export default function Charts() {
   return (
     <div className={block}>
       <Chart
-        snapshotId="wQb3rE752dKH0Lgy8MDP0tTLGiY"
+        snapshotId="P9wdg-O_QgPAOgiqtk_ErPIUAzs"
         timeframe={{ windowSize: 1000 * 60, to: Date.now() }}
         margins={{
           left: 60
         }}
         y1={{
           min: 0,
-          max: 1,
-          formatter: percentageZeroDecimalPlaces,
-          metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-          labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
-          type: 'bar'
+          formatter: number.detailed,
+          metrics: ['count'],
+          labels: ['Calls'],
+          enableForecast: true,
+          type: 'line'
         }}
       />
     </div>
