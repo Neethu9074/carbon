@@ -1,4 +1,4 @@
-@import "~in-themes/active.less";
+@import '~in-themes/active.less';
 
 .in-search-presets {
   position: absolute;
@@ -7,7 +7,7 @@
   width: 25rem;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background: #2D4048;;
+  background: #2d4048;
 
   z-index: @z-index__search-menu;
 
@@ -19,21 +19,22 @@
   }
 
   &__save {
-    color: #90A3AB;
+    color: #90a3ab;
     text-decoration: none;
     display: flex;
     align-items: center;
-    font-size: .813rem;
+    font-size: 0.813rem;
 
     &:hover {
-      color: #FAFBFB;
+      color: #fafbfb;
 
       .in-search-presets__save-icon {
-        fill: #FAFBFB;
+        fill: #fafbfb;
       }
     }
 
-    &--disabled, &--disabled:hover {
+    &--disabled,
+    &--disabled:hover {
       color: #586c74;
 
       .in-search-presets__save-icon {
@@ -43,39 +44,45 @@
   }
 
   &__save-icon {
-    fill: #90A3AB;
+    fill: #90a3ab;
     margin: 0 0.3rem 0 0;
   }
 
   &__preset-list {
     margin: 0 0 0;
     padding: 0 0 0;
-    font-size: .813rem;
+    font-size: 0.813rem;
     list-style: none;
   }
 
   &__preset-item {
     margin: 0;
-    padding: .25rem .5rem;
+    padding: 0.25rem 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #90A3AB;
+    color: #90a3ab;
 
     &:hover {
-      color: #FAFBFB;
-      background: #42565E;
+      color: #fafbfb;
+      background: #42565e;
     }
   }
 
-  &__edit, &__remove {
+  &__edit,
+  &__remove {
     text-decoration: none;
-    color: #90A3AB;
+    color: #90a3ab;
     margin: 0 0 0 0.6rem;
 
     &:hover {
       color: #fff;
     }
+  }
 
+  &__no-filters-help-text {
+    margin-left: 0.625rem;
+    line-height: 1.875rem;
+    color: #6b8088;
   }
 }

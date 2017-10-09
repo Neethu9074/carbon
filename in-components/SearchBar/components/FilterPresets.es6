@@ -9,8 +9,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { query$ } from 'in-stores/search/query';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './FilterPresets.less';
@@ -19,8 +17,7 @@ const block = 'in-search-presets';
 
 export default connectTo(
   {
-    filters: filters$,
-    query: query$
+    filters: filters$
   },
   class extends React.Component {
     static displayName = 'FilterPresets';
@@ -42,35 +39,18 @@ export default connectTo(
     }
 
     render() {
-      const { filters, query } = this.props;
+      const { filters } = this.props;
 
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
           <LifecycleObserver onWillMount={refresh} />
 
-          <MenuHeading className={`${block}__heading`}>
-            Filter
-            {query ? (
-              <a
-                href=""
-                onClick={e => {
-                  e.preventDefault();
-                  save(query);
-                }}
-                className={`${block}__save`}
-              >
-                <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
-                {' Save current filter as new preset'}
-              </a>
-            ) : (
-              <span className={`${block}__save ${block}__save--disabled`}>
-                <SvgIcon type="plus" className={`${block}__save-icon`} width={12} />
-                {' Save current filter as new preset'}
-              </span>
-            )}
-          </MenuHeading>
+          <MenuHeading className={`${block}__heading`}>Filters</MenuHeading>
 
           <ul className={`${block}__preset-list`}>
+            {filters.size === 0 ? (
+              <span className={`${block}__no-filters-help-text`}>Save filters for easy access here</span>
+            ) : null}
             {filters.toArray().map(filter => (
               <li key={filter.get('id')} className={`${block}__preset-item`}>
                 <UserFilterLink onClick={togglePresets} filter={filter} />
@@ -117,11 +97,6 @@ export default connectTo(
     };
   }
 );
-
-function save(query) {
-  setValues('', 'New filter', query);
-  setActiveDialog(<SaveDialog />);
-}
 
 function edit(filter) {
   setValues(filter.get('id'), filter.get('name'), filter.get('definition'));

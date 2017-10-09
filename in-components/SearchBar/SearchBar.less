@@ -1,11 +1,11 @@
-@import "~in-themes/active.less";
+@import '~in-themes/active.less';
 
 .in-searchbar {
   position: absolute;
   top: 2.5rem;
   left: 0;
   right: 0;
-  padding: .313rem 0.9rem .313rem .9rem;
+  padding: 0.313rem 0.9rem 0.313rem 0.9rem;
 
   z-index: @z-index__search-bar;
 
@@ -15,30 +15,49 @@
   display: flex;
   align-items: center;
 
-  &__icon {
-    fill: #6B8088;
-  }
-
-  &__expand-collapse-wrapper {
+  &__expand-collapse-wrapper,
+  &__delete-query-button,
+  &__filter-menu-button,
+  &__save-button {
     height: 1.75rem;
-    border: 1px solid #2D4048;
-    padding: 0 .5rem;
+    border: 1px solid #2d4048;
+    padding: 0 0.5rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0E1619;
+    background: #0e1619;
     cursor: pointer;
-    color: #6B8088;
+    color: #6b8088;
 
-    &--menu-visible, &:hover {
-      background: #2D4048;
+    &--menu-visible,
+    &:hover {
+      background: #2d4048;
 
       .in-searchbar__expand-collapse {
         fill: #fff;
         color: #fff;
       }
     }
+  }
+
+  &__delete-query-button,
+  &__save-button {
+    border: 0;
+    border-top: 1px solid #2d4048;
+    border-bottom: 1px solid #2d4048;
+  }
+
+  &__filter-menu-button {
+    font-size: 12px;
+  }
+
+  &__icon {
+    margin-left: 5px;
+  }
+
+  &__save-button {
+    font-size: 12px;
   }
 
   &__input-wrapper {
