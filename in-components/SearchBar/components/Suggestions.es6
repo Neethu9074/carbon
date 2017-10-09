@@ -98,7 +98,7 @@ export default class extends React.Component {
         this.onArrowDown();
       } else if (keyCode === keyCodes.arrows.up) {
         this.onArrowUp();
-      } else if (keyCode === keyCodes.return) {
+      } else if (keyCode === keyCodes.return || keyCode === keyCodes.tab) {
         this.onReturn();
       }
     });

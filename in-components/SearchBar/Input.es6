@@ -93,6 +93,7 @@ export default getElementDimensions(
           // send allowed navigation keys to the suggestions component
           if (
             event.keyCode === keyCodes.return ||
+            event.keyCode === keyCodes.tab ||
             event.keyCode === keyCodes.arrows.down ||
             event.keyCode === keyCodes.arrows.up
           ) {

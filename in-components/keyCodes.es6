@@ -5,6 +5,7 @@ export default {
     down: 40,
     left: 37
   },
+  tab: 9,
   space: 32,
   escape: 27,
   return: 13,
