@@ -27,18 +27,18 @@ export default function createController(canvas) {
   function render() {
     ctx.clearRect(0, 0, width, height);
     renderCorridor(ctx);
-    renderMetric(ctx, '#5da6da');
+    renderMetric(ctx, '#5da6da', 2);
 
     ctxAnomalies.clearRect(0, 0, width, height);
     ctxAnomalies.globalCompositeOperation = 'source-over';
-    renderMetric(ctxAnomalies, '#ff0000');
+    renderMetric(ctxAnomalies, '#ff4229', 3);
     ctxAnomalies.globalCompositeOperation = 'destination-out';
     renderCorridor(ctxAnomalies);
     ctxAnomalies.globalCompositeOperation = 'source-over';
     ctx.drawImage(anomaliesCanvas, 0, 0, width, height);
   }
 
-  function renderMetric(context, color) {
+  function renderMetric(context, color, lineWidth) {
     const metricCurve = [
       [0, 0.5],
       [0.1, 0.074],
@@ -58,7 +58,7 @@ export default function createController(canvas) {
       const dataPoint = metricCurve[i];
       context.lineTo(width * dataPoint[0], height * dataPoint[1]);
     }
-    context.lineWidth = 2;
+    context.lineWidth = lineWidth;
     context.strokeStyle = color;
     context.stroke();
   }
