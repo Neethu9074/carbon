@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Separator from 'in-sdk/components/sidebar/Separator';
-import { percentage, ms, number } from 'in-services/formatters/number';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
+import { percentage, ms, number } from 'in-services/formatters/number';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function ServiceKpiSparkCharts({ snapshot }) {
   return (

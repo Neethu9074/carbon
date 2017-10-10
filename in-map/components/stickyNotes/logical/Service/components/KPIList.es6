@@ -3,7 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { zeroDecimalPlacesPerSecond, zeroDecimalPlaces } from 'in-services/formatters/number';
-import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
+import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
@@ -26,7 +26,6 @@ export default connectTo(
     static displayName = 'KPIList';
 
     static propTypes = {
-      snapshotId: rpt.string.isRequired,
       onExpand: rpt.func.isRequired,
       snapshot: irpt.map,
       showAggregations: rpt.bool
@@ -84,15 +83,17 @@ export default connectTo(
 
           <div className={`${block}__kpi-wrapper`}>
             {isExpanded ? (
-              kpis.map(kpi => (
-                <LabeledSparkChart
-                  className={block + '__spark-chart'}
-                  key={kpi.label}
-                  snapshotId={this.props.snapshotId}
-                  design="dark"
-                  metric={kpi}
-                />
-              ))
+              <SparkChartsSection
+                snapshot={snapshot}
+                metrics={kpis.map(kpi => {
+                  return {
+                    metric: kpi.metric,
+                    label: kpi.label,
+                    formatter: kpi.formatter,
+                    aggregation: kpi.timeWindowAggregation
+                  };
+                })}
+              />
             ) : (
               <KPIList
                 snapshot={snapshot}
