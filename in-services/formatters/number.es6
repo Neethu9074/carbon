@@ -41,6 +41,7 @@ export const bytes = {
   }
 };
 
+export const timeByNanoTwoDecimalPlaces = t => formatTime(t, timeNanoUnits, number.detailed);
 export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits, number.detailed);
 export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits, number.detailed);
 export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
@@ -230,7 +231,11 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   return (neg ? '-' : '') + num + ' ' + unit;
 }
 
-const timeMicroUnits = [
+const timeNanoUnits = [
+  {
+    unit: 'ns',
+    range: 1000
+  },
   {
     unit: 'µs',
     range: 1000
@@ -256,8 +261,9 @@ const timeMicroUnits = [
     range: Number.MAX_VALUE
   }
 ];
-const timeMilliUnits = timeMicroUnits.slice(1);
-const timeMinuteUnits = timeMicroUnits.slice(3);
+const timeMicroUnits = timeNanoUnits.slice(1);
+const timeMilliUnits = timeNanoUnits.slice(2);
+const timeMinuteUnits = timeNanoUnits.slice(4);
 
 /**
  * Format a time to improve readability for humans. Turn a raw

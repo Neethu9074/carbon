@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   bytesTwoDecimalPlaces,
-  timeByMicroTwoDecimalPlaces,
+  timeByNanoTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -70,7 +70,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
             metrics: ['cpu.throttling_time'],
             labels: ['Throttling time'],
             type: 'line',
-            formatter: timeByMicroTwoDecimalPlaces
+            formatter: timeByNanoTwoDecimalPlaces
           }}
         />
       </DashboardSection>
