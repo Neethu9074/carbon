@@ -76,7 +76,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx.fill();
   }
 
-  function renderAnomalies(metricDataColumns, forecastDataColumns) {
+  function renderAnomalies(metricDataColumns, forecastDataColumns, anomalyTimestampMap) {
     ctx = config.forecastConfig.anomaliesMaskCanvasContext;
     ctx.clearRect(0, 0, config.width, config.height);
 
@@ -98,7 +98,8 @@ export default function createLineContentRenderer({ axisName, config }) {
       renderLine(metricDataColumns, metricSeriesIndex, {
         xDomainOffset,
         color: '#ff4229',
-        lineWidth: 3
+        lineWidth: 3,
+        timestampLUT: anomalyTimestampMap
       });
 
       ctx.globalCompositeOperation = 'destination-out';
@@ -114,7 +115,7 @@ export default function createLineContentRenderer({ axisName, config }) {
     ctx = config.ctx.animationBuffer;
   }
 
-  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color, lineWidth = 2 }) {
+  function renderLine(dataColumns, seriesIndex, { xDomainOffset, color, lineWidth = 2, timestampLUT }) {
     ctx.beginPath();
 
     const singlePointsToRender = [];
@@ -126,7 +127,7 @@ export default function createLineContentRenderer({ axisName, config }) {
       const dataRow = dataColumn[seriesIndex];
 
       // existense of data points in all rows is not guaranteed - skip column for this series
-      if (!dataRow) {
+      if (!dataRow || (timestampLUT && !timestampLUT[dataRow.time])) {
         continue;
       }
 

@@ -21,7 +21,7 @@ export default connectTo(
     static displayName = 'DeveloperPanel';
 
     state = {
-      activeMenu: SvgIconList
+      activeMenu: Charts
     };
 
     render() {

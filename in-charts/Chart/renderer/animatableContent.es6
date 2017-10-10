@@ -132,7 +132,7 @@ export default function createAnimatableContentRenderer(config) {
 
     const axisContentRenderer = config.axisContentRenderers[axisName];
     if (axisContentRenderer.renderAnomalies) {
-      axisContentRenderer.renderAnomalies(metricDataColumns, forecastDataColumns);
+      axisContentRenderer.renderAnomalies(metricDataColumns, forecastDataColumns, axis.forecastConfig.anomalies);
     }
   }
 

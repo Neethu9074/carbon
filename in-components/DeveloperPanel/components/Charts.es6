@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number } from 'in-services/formatters/number';
+import { timeframe$ } from 'in-stores/timeline';
 import Chart from 'in-components/Chart';
 
 import './Charts.less';
@@ -12,17 +13,17 @@ export default function Charts() {
     <div className={block}>
       <Chart
         snapshotId="P9wdg-O_QgPAOgiqtk_ErPIUAzs"
-        timeframe={{ windowSize: 1000 * 60, to: Date.now() }}
+        timeframe$={timeframe$}
         margins={{
           left: 60
         }}
         y1={{
-          min: 0,
+          min: 12,
           formatter: number.detailed,
           metrics: ['count'],
           labels: ['Calls'],
-          enableForecast: true,
-          type: 'line'
+          type: 'line',
+          enableForecast: true
         }}
       />
     </div>
