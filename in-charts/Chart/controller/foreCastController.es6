@@ -132,7 +132,7 @@ export default function createForecastController(config) {
       const forecastMetric = forecastConfig.metrics[i];
       subscribeToMetric(forecastMetric.lowMetric, 0, axis.forecastConfig.queue, addDataPoints);
       subscribeToMetric(forecastMetric.highMetric, 1, axis.forecastConfig.queue, addDataPoints);
-      subscribeToMetric('instances', 2, axis.forecastConfig.queue, addDataPoints);
+      subscribeToMetric(forecastMetric.metric, 2, axis.forecastConfig.queue, addDataPoints);
 
       subscribeToMetric(forecastMetric.anomalyMetric, 0, axis.forecastConfig.anomalyQueue, dataPoints => {
         axis.forecastConfig.anomalies = {};

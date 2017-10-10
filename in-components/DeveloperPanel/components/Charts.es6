@@ -18,7 +18,6 @@ export default function Charts() {
           left: 60
         }}
         y1={{
-          min: 12,
           formatter: number.detailed,
           metrics: ['count'],
           labels: ['Calls'],

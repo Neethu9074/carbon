@@ -79,7 +79,6 @@ export default function createAnimatableContentRenderer(config) {
       if (config.processDataColumnsAgain) {
         axisContentRenderer.processNewDataColumns(dataColumnsForecasts, axisName);
       }
-      updateScale(dataColumnsForecasts, axisName, false);
     }
 
     rollupSize = config.rollup.rollup || 1000;
@@ -95,7 +94,12 @@ export default function createAnimatableContentRenderer(config) {
     }
 
     config.processDataColumnsAgain = false;
-    updateScale(dataColumnsMetrics, axisName);
+    if (axis.forecastConfig) {
+      const dataColumnsForecasts = axis.forecastConfig.dataHolder.getDataColumns();
+      updateScale(dataColumnsForecasts.concat(dataColumnsMetrics), axisName, false);
+    } else {
+      updateScale(dataColumnsMetrics, axisName);
+    }
 
     if (axisContentRenderer.prepareRendering) {
       axisContentRenderer.prepareRendering();
@@ -215,6 +219,13 @@ export default function createAnimatableContentRenderer(config) {
   function updateScale(dataColumns, axisName, checkSeries = true) {
     const axisConfig = config[axisName];
     const scale = config.scales[axisName];
+
+    if (!dataColumns || dataColumns.length === 0) {
+      scale.setDomainFrom(Math.min(0, scale.getDomainFrom()));
+      scale.setDomainTo(Math.max(1, scale.getDomainTo()));
+      return;
+    }
+
     let max = Number.NEGATIVE_INFINITY;
     let min = Number.POSITIVE_INFINITY;
 
@@ -230,6 +241,10 @@ export default function createAnimatableContentRenderer(config) {
         max = Math.max(max, bounds[1]);
         min = Math.min(min, bounds[0]);
       }
+
+      const rangeBeforeOverride = max - min;
+      min -= rangeBeforeOverride * 0.1;
+      max += rangeBeforeOverride * 0.1;
 
       if (axisConfig.min != null) {
         min = axisConfig.min;
@@ -250,8 +265,8 @@ export default function createAnimatableContentRenderer(config) {
       max = min + 1;
     }
 
-    scale.setDomainFrom(Math.min(min, scale.getDomainFrom()));
-    scale.setDomainTo(Math.max(max, scale.getDomainTo()));
+    scale.setDomainFrom(min);
+    scale.setDomainTo(max);
   }
 
   function renderYAxis(axisName) {
