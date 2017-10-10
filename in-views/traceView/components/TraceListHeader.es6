@@ -4,7 +4,6 @@ import { addMarkedTracesToAnalytics, markTraces, markedTraces$ } from 'in-stores
 import { maximumNumberOfTracesForAnalytics, traceAnalyticsEnabled } from 'in-services/featureFlags';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
 import { totalTraceCountActiveFilter$, clearTraceSelection } from 'in-stores/traces';
-import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh, traces$ } from 'in-views/traceView/stores/traceList';
@@ -22,10 +21,9 @@ export default connectTo(
   {
     analysedTraces: analysedTraces$,
     markedTraces: markedTraces$,
-    expandedSide: expandedSide$,
     traces: traces$
   },
-  function TraceListHeader({ analysedTraces, expandedSide, markedTraces, traces }) {
+  function TraceListHeader({ analysedTraces, markedTraces, traces }) {
     const remainingCount = Math.min(
       traces.length,
       // if the limit is 100, there are 99 already analysed and 1 marked (total = 100), allow to add the marked one, but not more (so -1)
@@ -76,12 +74,6 @@ export default connectTo(
             checkboxId="trace-view-auto-update"
             autoUpdate$={autoUpdate$}
             toggleAutoUpdate={toggleAutoUpdate}
-          />
-          <SvgIcon
-            type={expandedSide === 'left' ? 'minimize' : 'maximize'}
-            onClick={toggleLeft}
-            height={14}
-            className={`${block}__toggle-left`}
           />
         </div>
       </ViewHeader>
