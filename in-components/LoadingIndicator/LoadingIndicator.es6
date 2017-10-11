@@ -6,7 +6,7 @@ import './LoadingIndicator.less';
 const block = 'in-loading-indicator';
 const rectClass = block + '__rect';
 
-export default class extends React.PureComponent {
+export default class extends React.Component {
   static displayName = 'LoadingIndicator';
 
   static propTypes = {

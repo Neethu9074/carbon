@@ -12,7 +12,7 @@ export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally || config.tenant === 'hermes';
 export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
-export const kubernetesEnabled = __DEV__;
+export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 
 export const blackListedSearchFieldKeywords = ['log'];
