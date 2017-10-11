@@ -124,7 +124,7 @@ const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName 
         metrics: [metricDefinition.value],
         labels: [metricDefinition.label],
         type: 'line',
-        formatter: formatter.compact,
+        formatter: formatter.detailed,
         enableForecast: true
       }}
     />
