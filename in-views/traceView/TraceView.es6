@@ -11,6 +11,8 @@ import { traceAnalyticsEnabled } from 'in-services/featureFlags';
 import TraceTree from 'in-views/traceView/components/TraceTree';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import TwoColumnView from 'in-components/TwoColumnView';
+import { clearTraceSelection } from 'in-stores/traces';
+import { clear as clearMarkedTraces } from 'in-stores/traces/analytics/markedTraces';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 
@@ -26,7 +28,18 @@ const rightContent = [
     side="right"
     expandedSide$={expandedSide$}
     toggle={toggleRight}
-    leftChildren={<SvgIcon type="x" onClick={toggleLeft} height={10} className={`${block}__close`} />}
+    leftChildren={
+      <SvgIcon
+        type="x"
+        onClick={() => {
+          toggleLeft();
+          clearMarkedTraces();
+          clearTraceSelection();
+        }}
+        height={10}
+        className={`${block}__close`}
+      />
+    }
   />,
   <TraceTree key="1" />
 ];

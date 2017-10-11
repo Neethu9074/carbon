@@ -5,11 +5,12 @@ import {
   markedTraces$,
   clear as clearMarkedTraces,
   markTrace,
-  markTraces
+  markTraces,
+  clearTraceId
 } from 'in-stores/traces/analytics/markedTraces';
-import { toggleLeft } from 'in-views/traceView/stores/expandedSide';
+import { forceLeftExpanded, forceRightExpanded } from 'in-views/traceView/stores/expandedSide';
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
-import { setSelectedTraceId } from 'in-stores/traces';
+import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -91,6 +92,13 @@ export default getElementDimensions(
           markTrace(traceId, trace.raw);
           markedIndex = indexOfClickedTrace;
         }
+        if (isSelected || isMarked) {
+          clearTraceSelection();
+          clearTraceId(traceId);
+          forceLeftExpanded();
+        } else {
+          forceRightExpanded();
+        }
 
         if (e.shiftKey) {
           if (lastMarkedIndex !== indexOfClickedTrace) {
@@ -100,8 +108,6 @@ export default getElementDimensions(
             markTraces(tracesToMark, Infinity);
           }
         }
-
-        toggleLeft();
 
         this.setState({
           lastMarkedIndex: markedIndex
