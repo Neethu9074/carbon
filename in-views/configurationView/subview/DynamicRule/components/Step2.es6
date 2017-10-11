@@ -95,11 +95,11 @@ function SensitivitySlider({ field, onChange }) {
     <div>
       <Slider
         className={`${block}__slider`}
-        onChange={e => onChange('sensitivity', e.target.value)}
+        onChange={e => onChange('sensitivity', 100 - e.target.value)}
         min={0}
         max={100}
         step={1}
-        value={field.value}
+        value={100 - field.value}
       />
       <div className={`${block}__slider-labels`}>
         <span>fewer events</span>
