@@ -2,7 +2,7 @@ import { createStore } from 'in-stores/store';
 
 const visibilityStore = createStore({
   name: 'in-components/DeveloperPanel/stores/visibilityStore',
-  initialValue: true
+  initialValue: false
 });
 
 export const devPanelVisible$ = visibilityStore.observable;
