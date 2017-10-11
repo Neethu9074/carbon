@@ -243,7 +243,7 @@ export default function createAnimatableContentRenderer(config) {
       }
 
       const rangeBeforeOverride = max - min;
-      min -= rangeBeforeOverride * 0.1;
+      min = Math.max(0, min - rangeBeforeOverride * 0.1); // when expanding the scale, don't go to negative values
       max += rangeBeforeOverride * 0.1;
 
       if (axisConfig.min != null) {
