@@ -2,19 +2,11 @@ import React from 'react';
 
 import EditableTextInput from 'in-components/EditableTextInput/EditableTextInput';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
-import { getCategories } from 'in-sdk/metrics';
+import { getPlainMetricList } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
 export default function MetricSelector({ id, plugin, onChange, value }) {
-  const categoryTree = getCategories(plugin);
-  if (categoryTree.length === 0) {
-    return null;
-  }
-
-  const metrics = [{ value: '', label: 'Please select' }];
-  for (let i = 0, length = categoryTree.length; i < length; i++) {
-    getMetrics(metrics, categoryTree[i]);
-  }
+  const metrics = [{ value: '', label: 'Please select' }].concat(getPlainMetricList(plugin));
   if (instanaInternalFeaturesEnabled) {
     metrics.push({
       value: 'custom',
@@ -33,17 +25,4 @@ export default function MetricSelector({ id, plugin, onChange, value }) {
   }
 
   return select;
-}
-
-function getMetrics(allOptions, categoryNode) {
-  if (categoryNode.type === 'metric') {
-    allOptions.push({
-      value: categoryNode.metric,
-      label: `${categoryNode.label} (${categoryNode.metric})`
-    });
-  } else {
-    for (let i = 0, length = categoryNode.children.length; i < length; i++) {
-      getMetrics(allOptions, categoryNode.children[i]);
-    }
-  }
 }

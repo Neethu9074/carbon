@@ -194,6 +194,7 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
     node.children.push({
       label: metricDefinitionForPlugin.label,
       metric: metricDefinitionForPlugin.metric,
+      formatter: metricDefinitionForPlugin.formatter,
       type: 'metric'
     });
     return;

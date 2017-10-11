@@ -2,7 +2,13 @@ import React from 'react';
 
 import SensitivityDefaultChart from 'in-views/configurationView/subview/DynamicRule/components/SensitivityDefaultChart';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getPlainMetricList } from 'in-sdk/metrics';
+import { always } from 'in-services/fixedStreams';
+import { timeframe$ } from 'in-stores/timeline';
+import connectTo from 'in-hoc/connectTo';
+import Chart from 'in-components/Chart';
 
 import './SensitivityPreview.less';
 
@@ -71,6 +77,7 @@ function EntityTable({ form, getRowDetails }) {
         return {
           key: snapshot.get('id'),
           snapshot,
+          metricName: form.get('metricName').value,
           isExcluded: form.get('excludedSnapshotIds').value.indexOf(snapshot.get('id')) >= 0
         };
       })
@@ -82,6 +89,51 @@ function EntityTable({ form, getRowDetails }) {
   return <Table cols={cols} rows={rows} maxItemsPerPage={10} getRowDetails={getRowDetails} />;
 }
 
-function getRowDetails() {
-  return <div>hjsdfk</div>;
+function getRowDetails(row) {
+  return (
+    <div>
+      <PreviewChart snapshot={row.snapshot} metricName={row.metricName} />
+    </div>
+  );
+}
+
+const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName }) {
+  const metricDefinition = getMetricDefinition(snapshot.get('plugin'), metricName);
+  if (!metricDefinition) {
+    return null;
+  }
+  const formatter = metricDefinition.formatter || number;
+
+  return (
+    <Chart
+      snapshotId={snapshot.get('id')}
+      timeframe$={
+        !__DEV__
+          ? timeframe$
+          : always({
+              to: null,
+              windowSize: 1000 * 60 * 60 * 24 * 14 // 2 weeks
+            })
+      }
+      margins={{
+        left: 60
+      }}
+      y1={{
+        metrics: [metricDefinition.value],
+        labels: [metricDefinition.label],
+        type: 'line',
+        formatter: formatter.compact,
+        enableForecast: true
+      }}
+    />
+  );
+});
+
+function getMetricDefinition(plugin, metricName) {
+  const list = getPlainMetricList(plugin);
+  for (let i = 0, length = list.length; i < length; i++) {
+    if (list[i].value === metricName) {
+      return list[i];
+    }
+  }
 }
