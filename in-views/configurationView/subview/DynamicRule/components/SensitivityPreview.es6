@@ -116,9 +116,10 @@ const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName 
             })
       }
       margins={{
-        left: 50,
-        right: 10
+        left: 40,
+        right: 1
       }}
+      avoidMarginOverrides
       y1={{
         metrics: [metricDefinition.value],
         labels: [metricDefinition.label],

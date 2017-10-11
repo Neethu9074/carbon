@@ -39,6 +39,7 @@ export default class extends React.Component {
       height: props.height,
       minRollup: props.minRollup,
       margins: props.margins,
+      avoidMarginOverrides: props.avoidMarginOverrides,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
       snapshotIds: props.snapshotIds,
