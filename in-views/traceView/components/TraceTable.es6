@@ -1,4 +1,5 @@
 import Infinite from 'react-infinite';
+import { debounce } from 'lodash';
 import React from 'react';
 
 import {
@@ -19,6 +20,10 @@ import connectTo from 'in-hoc/connectTo';
 import './TraceTable.less';
 
 const block = 'in-trace-table';
+
+// react-infinite may call load more a bunch of times in a small amount of time. We need ot protect
+// against this.
+const debouncedLoadMoreTraces = debounce(loadMoreTraces, 100);
 
 export default getElementDimensions(
   connectTo(
@@ -54,7 +59,7 @@ export default getElementDimensions(
                 elementHeight={26}
                 loadingSpinnerDelegate={<LoadingIndicator type="dark" />}
                 infiniteLoadBeginEdgeOffset={height * 0.5}
-                onInfiniteLoad={loadMoreTraces}
+                onInfiniteLoad={debouncedLoadMoreTraces}
                 isInfiniteLoading={isInfiniteLoading}
                 className={block + '__scroll-area'}
               >
