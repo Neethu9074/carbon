@@ -108,7 +108,7 @@ const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName 
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe$={
-        !__DEV__
+        __DEV__
           ? timeframe$
           : always({
               to: null,
@@ -116,7 +116,8 @@ const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName 
             })
       }
       margins={{
-        left: 60
+        left: 50,
+        right: 10
       }}
       y1={{
         metrics: [metricDefinition.value],
