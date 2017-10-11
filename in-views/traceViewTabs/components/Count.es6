@@ -15,7 +15,7 @@ export default connectTo(
     }
 
     if (countResult.get('determinedEarly') || countResult.get('timedOut')) {
-      return <span>{`>(${number.compact(countResult.get('count'))})`}</span>;
+      return <span>{`(>${number.compact(countResult.get('count'))})`}</span>;
     }
 
     return <span>{`(${number.compact(countResult.get('count'))})`}</span>;
