@@ -78,6 +78,7 @@ function EntityTable({ form, getRowDetails }) {
           key: snapshot.get('id'),
           snapshot,
           metricName: form.get('metricName').value,
+          sensitivity: form.get('sensitivity').value,
           isExcluded: form.get('excludedSnapshotIds').value.indexOf(snapshot.get('id')) >= 0
         };
       })
@@ -92,12 +93,12 @@ function EntityTable({ form, getRowDetails }) {
 function getRowDetails(row) {
   return (
     <div>
-      <PreviewChart snapshot={row.snapshot} metricName={row.metricName} />
+      <PreviewChart snapshot={row.snapshot} metricName={row.metricName} sensitivity={row.sensitivity} />
     </div>
   );
 }
 
-const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName }) {
+const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName, sensitivity }) {
   const metricDefinition = getMetricDefinition(snapshot.get('plugin'), metricName);
   if (!metricDefinition) {
     return null;
@@ -125,7 +126,8 @@ const PreviewChart = connectTo({}, function PreviewChart({ snapshot, metricName 
         labels: [metricDefinition.label],
         type: 'line',
         formatter: formatter.detailed,
-        enableForecast: true
+        enableForecast: true,
+        forecastSensitivity: sensitivity
       }}
     />
   );

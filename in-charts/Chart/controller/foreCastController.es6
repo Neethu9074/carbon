@@ -1,3 +1,5 @@
+import { create } from 'reactive-observables';
+
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -26,12 +28,14 @@ export default function createForecastController(config) {
       label: '1h'
     },
     anomaliesMaskCanvas: anomaliesMaskCanvas,
-    anomaliesMaskCanvasContext: anomaliesMaskCanvasContext
+    anomaliesMaskCanvasContext: anomaliesMaskCanvasContext,
+    refreshForecastMetrics$: create()
   };
 
   establishSubscriptions();
   return {
     dispose,
+    update,
     resize
   };
 
@@ -43,31 +47,12 @@ export default function createForecastController(config) {
       }
       isForecastDefined = true;
 
-      for (let i = 0, length = axis.metrics.length; i < length; i++) {
-        const metric = axis.metrics[i];
-        axis.forecastConfig = {
-          anomalies: {},
-          metrics: []
-        };
+      axis.forecastConfig = {
+        anomalies: {},
+        metrics: []
+      };
 
-        const sensitivity = axis.forecastSensitivity || '99';
-        const lowMetric = metric + '.forecast.low.' + sensitivity;
-        const highMetric = metric + '.forecast.high.' + sensitivity;
-        const anomalyMetric = metric + '.forecast.anomaly.' + sensitivity;
-        axis.forecastConfig.metrics.push({
-          indexInMetrics: i,
-          metric,
-          lowMetric,
-          highMetric,
-          anomalyMetric
-        });
-      }
-
-      if (!axis.forecastConfig) {
-        return;
-      }
-
-      const numberOfSeries = axis.forecastConfig.metrics.length * 3;
+      const numberOfSeries = axis.metrics.length * 3;
       axis.forecastConfig.queue = createQueue({
         numberOfSeries,
         requireExistenceInAllSeries: true
@@ -81,7 +66,7 @@ export default function createForecastController(config) {
 
   function establishSubscriptions() {
     config.subscriptions.push(
-      config.signals.refreshDataSources$.subscribe(() => {
+      config.signals.refreshDataSources$.debounce(250).subscribe(() => {
         clearData();
         disposeTimeframeSpecificSubscriptions();
         subscribeToDataSources();
@@ -114,6 +99,7 @@ export default function createForecastController(config) {
     if (!forecastConfig) {
       return;
     }
+    axis.forecastConfig.metrics = [];
     const snapshotId = config.snapshotId;
     const rollup = config.forecastConfig.rollup.rollup;
 
@@ -126,6 +112,22 @@ export default function createForecastController(config) {
           rollup
         }).subscribe(dataPoints => callback(dataPoints, queue, queueIndex))
       );
+    }
+
+    for (let i = 0, length = axis.metrics.length; i < length; i++) {
+      const metric = axis.metrics[i];
+
+      const sensitivity = axis.forecastSensitivity || '99';
+      const lowMetric = metric + '.forecast.low.' + sensitivity;
+      const highMetric = metric + '.forecast.high.' + sensitivity;
+      const anomalyMetric = metric + '.forecast.anomaly.' + sensitivity;
+      axis.forecastConfig.metrics.push({
+        indexInMetrics: i,
+        metric,
+        lowMetric,
+        highMetric,
+        anomalyMetric
+      });
     }
 
     for (let i = 0, length = forecastConfig.metrics.length; i < length; i++) {
@@ -160,6 +162,16 @@ export default function createForecastController(config) {
 
   function dispose() {
     disposeTimeframeSpecificSubscriptions();
+  }
+
+  function update(nextProps) {
+    if (config.y1 && nextProps.y1) {
+      config.y1.forecastSensitivity = nextProps.y1.forecastSensitivity;
+    }
+    if (config.y2 && nextProps.y2) {
+      config.y2.forecastSensitivity = nextProps.y2.forecastSensitivity;
+    }
+    config.signals.refreshDataSources$.emit(true);
   }
 
   function resize() {

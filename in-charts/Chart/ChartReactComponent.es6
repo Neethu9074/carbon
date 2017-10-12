@@ -26,6 +26,7 @@ export default class extends React.Component {
     this.setState({
       chartProps: processChartProps(nextProps)
     });
+    this.chart.update(nextProps);
   }
 
   componentDidMount() {

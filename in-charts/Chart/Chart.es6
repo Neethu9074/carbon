@@ -99,6 +99,7 @@ export default function createChart(config) {
   startRendering();
 
   return {
+    update,
     dispose
   };
 
@@ -191,6 +192,10 @@ export default function createChart(config) {
     forecastController.resize();
 
     restartRendering();
+  }
+
+  function update(nextProps) {
+    forecastController.update(nextProps);
   }
 
   function addVisibilityChangeSupport() {
