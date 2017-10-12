@@ -8,6 +8,7 @@ import {
   markTraces,
   clearTraceId
 } from 'in-stores/traces/analytics/markedTraces';
+import { forceLeftExpanded, forceRightExpanded } from 'in-views/traceView/stores/expandedSide';
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import TraceTableRow from 'in-views/traceView/components/TraceTableRow';
@@ -94,6 +95,9 @@ export default getElementDimensions(
         if (isSelected || isMarked) {
           clearTraceSelection();
           clearTraceId(traceId);
+          forceLeftExpanded();
+        } else {
+          forceRightExpanded();
         }
 
         if (e.shiftKey) {

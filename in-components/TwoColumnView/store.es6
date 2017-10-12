@@ -21,6 +21,15 @@ export function createExpandedViewStore(name) {
 
     toggleRight() {
       store.applyStateMutation(side => (side === 'right' ? null : 'right'));
+    },
+
+    forceLeftExpanded() {
+      store.applyStateMutation(() => 'left');
+    },
+
+    forceRightExpanded() {
+      //null means standard layout where left panel is expanded
+      store.applyStateMutation(() => null);
     }
   };
 }
