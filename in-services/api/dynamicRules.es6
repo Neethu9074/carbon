@@ -46,7 +46,7 @@ export function createDynamicRule(
   query = '',
   queryEvaluationTimestamp = Date.now(),
   ruleType = 'anomaly',
-  sensitivity = 100,
+  sensitivity = 50,
   violationDirection = 'either',
   triggering = false,
   severity = 10,
