@@ -25,7 +25,8 @@ export default class FormDataEnrichment extends React.Component {
         if (!entityType) {
           return alwaysNull;
         }
-        return search(`entity.pluginId:${entityType} ${query}`);
+        return search(`${query}`);
+        // return search(`entity.pluginId:${entityType} ${query}`);
       })
       .subscribe(matchingEntities => this.props.onChange('matchingEntities', matchingEntities));
   }
