@@ -1,3 +1,5 @@
+import { fromJS } from 'immutable';
+
 import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription({
@@ -14,5 +16,5 @@ export default createSubscription({
     };
   },
 
-  transformData: count => count
+  transformData: countResult => fromJS(countResult)
 });

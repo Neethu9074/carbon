@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { traceAnalyticsViewLink$, traceViewLink$ } from 'in-stores/navigation/view';
-import { analysedTraces$ } from 'in-stores/traces/analytics/analysedTraces';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -45,7 +44,7 @@ export default connectTo(
               })}
             >
               <Link href$={traceAnalyticsViewLink$} className={linkElement}>
-                <em>Analytics</em> <Count count$={analysedTraces$.map(map => map.size)} />
+                <em>Analytics</em>
               </Link>
             </li>
           </ul>

@@ -19,14 +19,15 @@ export default connectTo(
     }
 
     if (props.count$) {
-      result.count = props.count$;
+      result.countResult = props.count$;
     }
 
     return result;
   },
-  function CountBasedJumpToButton({ href, count, title, tooltip }) {
+  function CountBasedJumpToButton({ href, countResult, title, tooltip }) {
     // Count may be -1 when the span keyword is used as calculation of counts
     // may be too expensive.
+    const count = countResult ? countResult.get('count') : null;
     if (count == null || count === 0) {
       return null;
     }
