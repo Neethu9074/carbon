@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
+import { unvalidatedQuery$, query$, setInputString } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
@@ -8,7 +9,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { query$, setInputString } from 'in-stores/search/query';
 import { emitResizeEvent } from 'in-services/browser';
 import Input from 'in-components/SearchBar/Input';
 import { showHelp } from 'in-stores/navigation';
@@ -56,11 +56,7 @@ export default connectTo(
               <Input />
             </div>
 
-            {hasContent ? (
-              <div className={`${block}__delete-query-button`} onClick={() => setInputString('')}>
-                <SvgIcon type="x" height={10} color="#6b8088" />
-              </div>
-            ) : null}
+            <ClearQueryButton />
 
             {hasContent ? (
               <div
@@ -106,3 +102,20 @@ function save(query) {
   setValues('', 'New filter', query);
   setActiveDialog(<SaveDialog />);
 }
+
+const ClearQueryButton = connectTo(
+  {
+    query: unvalidatedQuery$
+  },
+  function ClearQueryButton({ query }) {
+    if (!query || query.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className={`${block}__delete-query-button`} onClick={() => setInputString('')}>
+        <SvgIcon type="x" height={10} color="#6b8088" />
+      </div>
+    );
+  }
+);
