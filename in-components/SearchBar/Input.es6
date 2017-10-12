@@ -396,5 +396,5 @@ function removeAllHighlightedClasses() {
 }
 
 function trim(str) {
-  return str.trim().replace(/\s\s+/g, ' ');
+  return str.trim().replace(/\s\s+/g, ' ') + ' ';
 }
