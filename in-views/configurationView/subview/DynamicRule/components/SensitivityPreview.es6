@@ -156,12 +156,10 @@ class PreviewChart extends React.Component {
         timeframe$={
           __DEV__
             ? timeframe$.map(timeframe => {
-                if (!timeframe.to) {
-                  timeframe.to = Date.now();
-                }
-                timeframe.to += 1000 * 60 * 60 * 24;
-                timeframe.windowSize += 1000 * 60 * 60 * 24;
-                return timeframe;
+                return {
+                  to: (timeframe.to || Date.now()) + 1000 * 60 * 60 * 24,
+                  windowSize: timeframe.windowSize + 1000 * 60 * 60 * 24
+                };
               })
             : always({
                 to: timeOpened + 1000 * 60 * 60 * 24, // 1 day
