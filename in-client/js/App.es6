@@ -5,6 +5,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
@@ -17,32 +18,42 @@ import './App.less';
 
 export default function App() {
   return (
-    <div>
-      <AppHeader />
-      <SearchBar />
-      <Timeline />
+    <ErrorBoundary name="app">
+      <ErrorBoundary name="app-header">
+        <AppHeader />
+      </ErrorBoundary>
 
-      {/* for release notes */}
-      <ReleaseNotesDialog />
+      <ErrorBoundary name="search-bar">
+        <SearchBar />
+      </ErrorBoundary>
 
-      {/* for backend send messages */}
-      <MessageDialog />
+      <ErrorBoundary name="timeline">
+        <Timeline />
+      </ErrorBoundary>
 
-      {/* help articles */}
-      <HelpPresenter />
+      <ErrorBoundary name="dialogs">
+        {/* for release notes */}
+        <ReleaseNotesDialog />
 
-      <TooltipPresenter />
+        {/* for backend send messages */}
+        <MessageDialog />
 
-      {/* the flyouts on the top right corner */}
-      <MessageFlyout />
+        {/* help articles */}
+        <HelpPresenter />
 
-      {/* all the different dialogs e.g. in the settings */}
-      <DialogPresenter />
+        <TooltipPresenter />
 
-      {__DEV__ ? getDevPanel() : null}
+        {/* the flyouts on the top right corner */}
+        <MessageFlyout />
 
-      {routes}
-    </div>
+        {/* all the different dialogs e.g. in the settings */}
+        <DialogPresenter />
+
+        {__DEV__ ? getDevPanel() : null}
+      </ErrorBoundary>
+
+      <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+    </ErrorBoundary>
   );
 }
 

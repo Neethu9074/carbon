@@ -16,6 +16,7 @@ import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayo
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
+import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
@@ -79,6 +80,7 @@ initAutoFocus();
 initEvents();
 initEventsInTimeframe();
 initFaviconHandling();
+initErrorBoundary();
 
 ReactDOM.render(
   <Router history={history}>
