@@ -5,7 +5,6 @@ import RuleControl from 'in-views/configurationView/subview/DynamicRule/componen
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
-import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Slider from 'in-components/Slider';
 
@@ -24,31 +23,23 @@ export default function Step2({ form, onChange }) {
           <FormGroup>
             <Label htmlFor="rule-rule-violationDirection">Trigger if metric violates</Label>
 
-            <Row>
-              <Col cols={6}>
-                <CorridorSelection
-                  title="Upper corridor limit"
-                  isActive={field.value === 'upper'}
-                  onClick={() => onChange('violationDirection', 'upper')}
-                />
-              </Col>
-              <Col cols={6}>
-                <CorridorSelection
-                  title="Lower corridor limit"
-                  isActive={field.value === 'lower'}
-                  onClick={() => onChange('violationDirection', 'lower')}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col cols={6}>
-                <CorridorSelection
-                  title="Either corridor limits"
-                  isActive={field.value === 'either'}
-                  onClick={() => onChange('violationDirection', 'either')}
-                />
-              </Col>
-            </Row>
+            <div className={`${block}__button-wrapper`}>
+              <CorridorSelection
+                title="Upper corridor limit"
+                isActive={field.value === 'upper'}
+                onClick={() => onChange('violationDirection', 'upper')}
+              />
+              <CorridorSelection
+                title="Either corridor limits"
+                isActive={field.value === 'either'}
+                onClick={() => onChange('violationDirection', 'either')}
+              />
+              <CorridorSelection
+                title="Lower corridor limit"
+                isActive={field.value === 'lower'}
+                onClick={() => onChange('violationDirection', 'lower')}
+              />
+            </div>
           </FormGroup>
         ))}
       </RuleControl>

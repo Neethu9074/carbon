@@ -1,13 +1,32 @@
 .in-dynamic-rule-dialog-step-2 {
+  &__button-wrapper {
+    display: flex;
+    margin-bottom: 0.625rem;
+  }
+
   &__violation-direction {
+    &:nth-child(1) {
+      border-radius: 0.25rem 0 0 0.25rem;
+      border-right: 0;
+    }
+    &:nth-child(2) {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+    }
+    &:nth-child(3) {
+      border-left: 0;
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-grow: 1;
 
-    padding: 0.625rem 1.875rem;
-    margin-bottom: 0.625rem;
-    border: 1px solid #d5dfe4;
+    padding: 0.625rem 0.875rem;
     border-radius: 0.25rem;
+    border: 1px solid #d5dfe4;
     cursor: pointer;
 
     &__active {
