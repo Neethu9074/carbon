@@ -160,6 +160,7 @@ class PreviewChart extends React.Component {
                   timeframe.to = Date.now();
                 }
                 timeframe.to += 1000 * 60 * 60 * 24;
+                timeframe.windowSize += 1000 * 60 * 60 * 24;
                 return timeframe;
               })
             : always({
