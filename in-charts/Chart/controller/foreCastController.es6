@@ -13,6 +13,7 @@ export default function createForecastController(config) {
   // if there are no forecasts defined for this chart
   if (!isForecastDefined) {
     return {
+      update: () => {},
       dispose: () => {},
       resize: () => {}
     };
