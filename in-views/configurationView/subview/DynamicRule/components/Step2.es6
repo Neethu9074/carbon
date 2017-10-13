@@ -3,6 +3,7 @@ import React from 'react';
 import SensitivityPreview from 'in-views/configurationView/subview/DynamicRule/components/SensitivityPreview';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -15,34 +16,36 @@ const block = 'in-dynamic-rule-dialog-step-2';
 export default function Step2({ form, onChange }) {
   return (
     <Step number={2} title="Event contitions" form={form} onChange={onChange}>
-      <RuleControl
-        name="Dynamic corridor"
-        helpText="Instanas dynamic corridor can distinguish between normal and unregular metric trends, by analyzing a metric’s historical behavior."
-      >
-        {form.get('violationDirection').map(field => (
-          <FormGroup>
-            <Label htmlFor="rule-rule-violationDirection">Trigger if metric violates</Label>
+      {instanaInternalFeaturesEnabled ? (
+        <RuleControl
+          name="Dynamic corridor"
+          helpText="Instanas dynamic corridor can distinguish between normal and unregular metric trends, by analyzing a metric’s historical behavior."
+        >
+          {form.get('violationDirection').map(field => (
+            <FormGroup>
+              <Label htmlFor="rule-rule-violationDirection">Trigger if metric violates</Label>
 
-            <div className={`${block}__button-wrapper`}>
-              <CorridorSelection
-                title="Upper corridor limit"
-                isActive={field.value === 'upper'}
-                onClick={() => onChange('violationDirection', 'upper')}
-              />
-              <CorridorSelection
-                title="Either corridor limits"
-                isActive={field.value === 'either'}
-                onClick={() => onChange('violationDirection', 'either')}
-              />
-              <CorridorSelection
-                title="Lower corridor limit"
-                isActive={field.value === 'lower'}
-                onClick={() => onChange('violationDirection', 'lower')}
-              />
-            </div>
-          </FormGroup>
-        ))}
-      </RuleControl>
+              <div className={`${block}__button-wrapper`}>
+                <CorridorSelection
+                  title="Upper corridor limit"
+                  isActive={field.value === 'upper'}
+                  onClick={() => onChange('violationDirection', 'upper')}
+                />
+                <CorridorSelection
+                  title="Either corridor limits"
+                  isActive={field.value === 'either'}
+                  onClick={() => onChange('violationDirection', 'either')}
+                />
+                <CorridorSelection
+                  title="Lower corridor limit"
+                  isActive={field.value === 'lower'}
+                  onClick={() => onChange('violationDirection', 'lower')}
+                />
+              </div>
+            </FormGroup>
+          ))}
+        </RuleControl>
+      ) : null}
       <RuleControl name="Sensitivity (Preview)" helpComponent={CorridorHelpBox}>
         {form.get('sensitivity').map(field => (
           <FormGroup>
