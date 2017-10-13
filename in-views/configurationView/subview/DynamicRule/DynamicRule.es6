@@ -302,6 +302,12 @@ function createForm(rule) {
       createField({
         value: null
       })
+    )
+    .put(
+      'timeOpened',
+      createField({
+        value: Date.now()
+      })
     );
 }
 

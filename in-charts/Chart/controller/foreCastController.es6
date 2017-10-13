@@ -66,11 +66,10 @@ export default function createForecastController(config) {
 
   function establishSubscriptions() {
     config.subscriptions.push(
-      config.signals.refreshDataSources$.debounce(250).subscribe(() => {
+      config.signals.refreshDataSources$.throttle(500).subscribe(() => {
         clearData();
         disposeTimeframeSpecificSubscriptions();
         subscribeToDataSources();
-        config.signals.restartRendering$.emit(true);
       })
     );
   }
@@ -165,13 +164,12 @@ export default function createForecastController(config) {
   }
 
   function update(nextProps) {
-    if (config.y1 && nextProps.y1) {
+    if (config.y1 && nextProps.y1 && config.y1.forecastSensitivity !== nextProps.y1.forecastSensitivity) {
       config.y1.forecastSensitivity = nextProps.y1.forecastSensitivity;
     }
-    if (config.y2 && nextProps.y2) {
+    if (config.y2 && nextProps.y2 && config.y2.forecastSensitivity !== nextProps.y2.forecastSensitivity) {
       config.y2.forecastSensitivity = nextProps.y2.forecastSensitivity;
     }
-    config.signals.refreshDataSources$.emit(true);
   }
 
   function resize() {
