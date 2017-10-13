@@ -97,6 +97,7 @@ export default function createAnimatableContentRenderer(config) {
     if (axis.forecastConfig) {
       const dataColumnsForecasts = axis.forecastConfig.dataHolder.getDataColumns();
       updateScale(dataColumnsForecasts.concat(dataColumnsMetrics), axisName, false);
+      config.forecastConfig.anomalyRenderer.prepareRendering();
     } else {
       updateScale(dataColumnsMetrics, axisName);
     }
@@ -137,6 +138,7 @@ export default function createAnimatableContentRenderer(config) {
     const axisContentRenderer = config.axisContentRenderers[axisName];
     if (axisContentRenderer.renderAnomalies) {
       axisContentRenderer.renderAnomalies(metricDataColumns, forecastDataColumns, axis.forecastConfig.anomalies);
+      config.forecastConfig.anomalyRenderer.render(axis.forecastConfig.anomalies);
     }
   }
 

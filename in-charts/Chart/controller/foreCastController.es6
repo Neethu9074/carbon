@@ -1,5 +1,4 @@
-import { create } from 'reactive-observables';
-
+import createAnomalyRenderer from 'in-charts/Chart/renderer/content/anomalies';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -29,7 +28,7 @@ export default function createForecastController(config) {
     },
     anomaliesMaskCanvas: anomaliesMaskCanvas,
     anomaliesMaskCanvasContext: anomaliesMaskCanvasContext,
-    refreshForecastMetrics$: create()
+    anomalyRenderer: createAnomalyRenderer(config)
   };
 
   establishSubscriptions();
