@@ -1,8 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ConnectionSummary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/ConnectionSummary';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
