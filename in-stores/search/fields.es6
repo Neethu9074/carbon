@@ -192,12 +192,13 @@ export function getValueSuggestions(keyword, currentValue) {
     value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
   );
 
+  // also empty string should lead to all values
   if (!currentValue) {
     return values;
   }
 
   return values
-    .filter(value => value.indexOf(currentValue) !== -1)
+    .filter(value => value.indexOf(currentValue) === 0)
     .filter(
       value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
     );

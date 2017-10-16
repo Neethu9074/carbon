@@ -203,11 +203,16 @@ function getChildrenForConfig(config) {
     return emptyArray;
   }
 
+  const tokenAtCursor = getTokenForConfig(config);
+
   if (config.field) {
-    return getValueSuggestions(config.field, config.fieldValue).map(field => createNode(field, { isPreset: true }));
+    let cappedValueAtCursor = config.fieldValue;
+    if (tokenAtCursor && config.cursor - tokenAtCursor.start >= 0) {
+      cappedValueAtCursor = config.fieldValue.substr(0, config.cursor - tokenAtCursor.start);
+    }
+    return getValueSuggestions(config.field, cappedValueAtCursor).map(field => createNode(field, { isPreset: true }));
   }
 
-  const tokenAtCursor = getTokenForConfig(config);
   if (
     !tokenAtCursor ||
     (!isOperator(tokenAtCursor) && !isTerm(tokenAtCursor) && !isField(tokenAtCursor) && !isWhitespace(tokenAtCursor))
