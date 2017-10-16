@@ -23,7 +23,7 @@ export default function Summary({ snapshot, timeframe }) {
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>getLabel(snapshot)</SnapshotLabel>
+      <SnapshotLabel actions={[viewTracesButton]}>{getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <Kpi
