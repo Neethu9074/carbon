@@ -5,6 +5,10 @@ export default function createBarContentRenderer({ axisName, config }) {
   const colors = config[axisName].colors;
   const margin = 1;
 
+  if (__DEV__ && config.y1.metrics.length !== 2) {
+    throw new Error('barPercentage charts can only be used with two data series: total count,percentage');
+  }
+
   return {
     requireExistenceInAllSeries: false,
     processNewDataColumns() {},
@@ -26,10 +30,6 @@ export default function createBarContentRenderer({ axisName, config }) {
 
     for (let iColumn = 0, length = dataColumns.length; iColumn < length; iColumn++) {
       const dataColumn = dataColumns[iColumn];
-
-      if (__DEV__ && dataColumn.length !== 2) {
-        throw new Error('barPercentage charts can only be used with two data series: total count,percentage');
-      }
 
       if (dataColumn[0] == null) {
         continue;
