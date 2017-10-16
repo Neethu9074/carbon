@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import Summary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Summary';
+import ConnectionSummary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/ConnectionSummary';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
@@ -69,7 +69,7 @@ const ConnectionDashboard = connectTo(
     if (!snapshot) {
       return <MaxWidthFullscreenContainer />;
     }
-    return <Summary snapshot={snapshot} timeframe={timeframe} isConnectionSummary />;
+    return <ConnectionSummary snapshot={snapshot} timeframe={timeframe} />;
   }
 );
 

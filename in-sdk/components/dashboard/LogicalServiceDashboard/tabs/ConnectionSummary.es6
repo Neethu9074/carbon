@@ -1,29 +1,22 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { number, seconds, percentage } from 'in-services/formatters/number';
+import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
-import { getLabel } from 'in-sdk/snapshot';
-import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
 export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  let viewTracesQuery = `entity.service.name:"${luceneEscapeString(getLabel(snapshot))}"`;
-  const viewTracesButton = (
-    <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-      Traces
-    </Button>
-  );
+
+  const backButtonPath = `/connections`;
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>{getLabel(snapshot)}</SnapshotLabel>
+      <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
 
       <Kpis>
         <Kpi
