@@ -157,10 +157,14 @@ export default class extends React.Component {
 
     let replaceWith;
     let replaceFrom;
+    let replaceTo = changedToken.end; // default: delete all what comes after the change in this current token
 
     if (isFieldSeparator(changedToken)) {
       replaceWith = `${child.query} `;
       replaceFrom = changedToken.start + 1;
+      if (nextToken) {
+        replaceTo = nextToken.end;
+      }
     } else if (child.isPreset) {
       // if a preset was choosen, replace the whole term with the presets definition (query)
       replaceWith = `${child.query} `;
@@ -180,7 +184,7 @@ export default class extends React.Component {
 
     onSelectSuggestion({
       replaceFrom,
-      replaceTo: changedToken.end, // always delete all what comes after the change in this current token
+      replaceTo,
       replaceWith
     });
   };

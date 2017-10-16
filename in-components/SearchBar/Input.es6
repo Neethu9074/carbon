@@ -49,7 +49,7 @@ export default getElementDimensions(
         editor.on('cursorActivity', () => {
           const currentCursorPosition = editor.getCursor().ch;
           if (autocompleteShownForCursorPosition != currentCursorPosition) {
-            this.hide();
+            // this.hide();
           }
           autocompleteShownForCursorPosition = currentCursorPosition;
 
@@ -142,11 +142,6 @@ export default getElementDimensions(
         editor.on('blur', () => {
           if (this.editor) {
             this.updateQuery(trim(this.editor.getValue()));
-            const currentQuery = editor.getValue();
-            const currentCursorPosition = editor.getCursor().ch;
-            if (currentQuery.length > currentCursorPosition) {
-              this.editor.setCursor({ line: 0, ch: currentQuery.length });
-            }
           }
           this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
@@ -177,7 +172,7 @@ export default getElementDimensions(
 
         const onChange = () => {
           const query = editor.getValue();
-          const { ch } = editor.doc.getCursor();
+          const { ch } = editor.getCursor();
           const cursor = ch - 1;
           const tokens = lex(query);
           autocompleteShownForCursorPosition = ch;
@@ -291,7 +286,6 @@ export default getElementDimensions(
         );
 
         string = trim(string);
-        string += ' ';
 
         this.editor.setValue(string);
         this.updateQuery(string);
