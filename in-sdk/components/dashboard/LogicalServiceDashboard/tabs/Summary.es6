@@ -27,13 +27,11 @@ export default function Summary({ snapshot, timeframe, isConnectionSummary }) {
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>
-        {isConnectionSummary ? (
-          <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
-        ) : (
-          getLabel(snapshot)
-        )}
-      </SnapshotLabel>
+      {isConnectionSummary ? (
+        <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
+      ) : (
+        <SnapshotLabel actions={[viewTracesButton]}>getLabel(snapshot)</SnapshotLabel>
+      )}
 
       <Kpis>
         <Kpi
