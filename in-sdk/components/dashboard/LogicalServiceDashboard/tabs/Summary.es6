@@ -12,7 +12,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe, pageName, metricPrefix }) {
+export default function Summary({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.service.name:"${luceneEscapeString(getLabel(snapshot))}"`;
   const viewTracesButton = (
@@ -23,14 +23,14 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
 
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>{pageName ? pageName : getLabel(snapshot)}</SnapshotLabel>
+      <SnapshotLabel actions={[viewTracesButton]}>{getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
         <Kpi
           label="Views"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric={`${metricPrefix}count`}
+          metric={`count`}
           timeWindowAggregation="sum"
           formatter={number.compact}
         />
@@ -38,19 +38,19 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
           label="Load Time (mean)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric={`${metricPrefix}duration.mean`}
+          metric={`duration.mean`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
           percentages={[
             {
               label: 'Server',
-              metric: `${metricPrefix}bac`,
+              metric: `bac`,
               timeWindowAggregation: 'mean',
               formatter: percentage.compact
             },
             {
               label: 'Browser',
-              metric: `${metricPrefix}fro`,
+              metric: `fro`,
               timeWindowAggregation: 'mean',
               formatter: percentage.compact
             }
@@ -60,7 +60,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
           label="Load Time (90th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric={`${metricPrefix}duration.90th`}
+          metric={`duration.90th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
@@ -68,7 +68,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
           label="Load Time (95th)"
           snapshotId={snapshotId}
           timeframe={timeframe}
-          metric={`${metricPrefix}duration.95th`}
+          metric={`duration.95th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
         />
