@@ -14,23 +14,23 @@ import { getSnapshot } from 'in-stores/snapshot';
 export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
-  return getTraceCount(`trace.startingAt:"${serviceId}"`).map(countResult => countResult.get('count'));
+  return getTraceCount(`trace.startingAt:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
-  return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`).map(countResult => countResult.get('count'));
+  return getTraceCount(`trace.touchedLogicalService:"${serviceId}"`);
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
-  return getTraceCount(`trace.startingAtInstance:"${serviceId}"`).map(countResult => countResult.get('count'));
+  return getTraceCount(`trace.startingAtInstance:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
-  return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`).map(countResult => countResult.get('count'));
+  return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`);
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  return getTraceCount(`trace.touching:"${id}"`, timeframe).map(countResult => countResult.get('count'));
+  return getTraceCount(`trace.touching:"${id}"`, timeframe);
 }
 
 export function getTraceCount(query, timeframe) {

@@ -13,6 +13,7 @@ import { getTraceCount } from 'in-stores/traces';
 export default function BrowserServiceSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
   const query = `trace.touching:"${snapshotId}" AND trace.type:web AND trace.errorCount:>0`;
+
   return (
     <div>
       <TracesButtonWrapper>
