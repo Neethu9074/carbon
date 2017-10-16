@@ -93,7 +93,7 @@ export function clearTraceSelection() {
   });
 }
 
-export function getEntitySnapshot$BySpan(span, connectionEndpointType) {
+export function getEntitySnapshot$BySpan(span, connectionEndpointType, { useLoadingPlaceholder = true } = {}) {
   const physicalEndpoint = span.getIn(['rels', connectionEndpointType + 'PhysicalEndpoint']);
 
   let snapshot$ = alwaysNull;
@@ -103,15 +103,20 @@ export function getEntitySnapshot$BySpan(span, connectionEndpointType) {
       time,
       physicalEndpoint
     })
-      .startWith(loadingPlaceholder)
+      .startWith(useLoadingPlaceholder ? loadingPlaceholder : null)
       .flatMap(physicalEndpointImplementationSnapshotId => {
         if (!physicalEndpointImplementationSnapshotId) {
           return alwaysNull;
         } else if (physicalEndpointImplementationSnapshotId === loadingPlaceholder) {
-          return alwaysLoadingPlaceholder$;
+          if (useLoadingPlaceholder) {
+            return alwaysLoadingPlaceholder$;
+          }
+          return alwaysNull;
         }
 
-        return getSnapshot(physicalEndpointImplementationSnapshotId, time).startWith(loadingPlaceholder);
+        return getSnapshot(physicalEndpointImplementationSnapshotId, time).startWith(
+          useLoadingPlaceholder ? loadingPlaceholder : null
+        );
       });
   }
 

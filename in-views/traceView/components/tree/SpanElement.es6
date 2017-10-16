@@ -9,6 +9,7 @@ import {
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
+import SpanPhysicalEntitiesInformation from 'in-views/traceView/components/SpanPhysicalEntitiesInformation';
 import { msZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import SpanServiceInformation from 'in-views/traceView/components/SpanServiceInformation';
 import { highlightedSpanId$ } from 'in-views/traceView/stores/highlightedSpan';
@@ -162,7 +163,7 @@ export default connectTo(
                     borderColor
                   }}
                 >
-                  TODO physical details
+                  <SpanPhysicalEntitiesInformation span={span} borderColor={borderColor} />
                   <SpanForgeDetails span={span} trace={this.props.trace} />
                 </div>
               ) : null}
