@@ -1,8 +1,10 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import { number, seconds, percentage } from 'in-services/formatters/number';
+import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
@@ -12,7 +14,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe }) {
+export default function Summary({ snapshot, timeframe, isConnectionSummary }) {
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.service.name:"${luceneEscapeString(getLabel(snapshot))}"`;
   const viewTracesButton = (
@@ -21,9 +23,17 @@ export default function Summary({ snapshot, timeframe }) {
     </Button>
   );
 
+  const backButtonPath = `/connections`;
+
   return (
     <MaxWidthFullscreenContainer>
-      <SnapshotLabel actions={[viewTracesButton]}>{getLabel(snapshot)}</SnapshotLabel>
+      <SnapshotLabel actions={[viewTracesButton]}>
+        {isConnectionSummary ? (
+          <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
+        ) : (
+          getLabel(snapshot)
+        )}
+      </SnapshotLabel>
 
       <Kpis>
         <Kpi

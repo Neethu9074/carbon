@@ -69,7 +69,7 @@ const ConnectionDashboard = connectTo(
     if (!snapshot) {
       return <MaxWidthFullscreenContainer />;
     }
-    return <Summary snapshot={snapshot} timeframe={timeframe} />;
+    return <Summary snapshot={snapshot} timeframe={timeframe} isConnectionSummary />;
   }
 );
 
