@@ -9,7 +9,6 @@ import {
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
-import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import { msZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import SpanServiceInformation from 'in-views/traceView/components/SpanServiceInformation';
 import { highlightedSpanId$ } from 'in-views/traceView/stores/highlightedSpan';
@@ -144,25 +143,7 @@ export default connectTo(
                   </div>
 
                   <div className={`${block}__entity-description`}>
-                    {span.get('kind') === SPAN_KINDS.ENTRY ? (
-                      <span>
-                        <ServiceImplementationEntityInformation
-                          span={span}
-                          label="From:"
-                          connectionEndpointType="source"
-                        />
-                        <ServiceImplementationEntityInformation span={span} connectionEndpointType="destination" />
-                      </span>
-                    ) : (
-                      <span>
-                        <ServiceImplementationEntityInformation span={span} connectionEndpointType="source" />
-                        <ServiceImplementationEntityInformation
-                          span={span}
-                          label="To:"
-                          connectionEndpointType="destination"
-                        />
-                      </span>
-                    )}
+                    <SpanServiceInformation span={span} />
                   </div>
                 </div>
 
@@ -181,7 +162,7 @@ export default connectTo(
                     borderColor
                   }}
                 >
-                  <SpanServiceInformation span={span} borderColor={borderColor} />
+                  TODO physical details
                   <SpanForgeDetails span={span} trace={this.props.trace} />
                 </div>
               ) : null}
