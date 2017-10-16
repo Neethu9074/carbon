@@ -142,6 +142,11 @@ export default getElementDimensions(
         editor.on('blur', () => {
           if (this.editor) {
             this.updateQuery(trim(this.editor.getValue()));
+            const currentQuery = editor.getValue();
+            const currentCursorPosition = editor.getCursor().ch;
+            if (currentQuery.length > currentCursorPosition) {
+              this.editor.setCursor({ line: 0, ch: currentQuery.length });
+            }
           }
           this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
@@ -286,10 +291,12 @@ export default getElementDimensions(
         );
 
         string = trim(string);
+        string += ' ';
+
         this.editor.setValue(string);
         this.updateQuery(string);
 
-        // set cursor to the end of the line
+        // set cursor to the end of the block
         this.editor.setCursor({ line: 0, ch: cursorAfterInsertion });
 
         tryFocusSearch(() => (this.focusByUserClick = true));
@@ -396,5 +403,5 @@ function removeAllHighlightedClasses() {
 }
 
 function trim(str) {
-  return str.trim().replace(/\s\s+/g, ' ') + ' ';
+  return str.trimLeft().replace(/\s\s+/g, ' ');
 }
