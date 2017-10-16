@@ -2,6 +2,7 @@ import React from 'react';
 
 import ApplicationViewBreadcrumb from 'in-sdk/components/dashboard/LogicalServiceDashboard/ApplicationViewBreadcrumb';
 import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/BreadcrumbForSnapshot';
+import Connections from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections';
 import Summary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Summary';
 import TabView from 'in-sdk/components/dashboard/TabView';
 
@@ -16,6 +17,11 @@ function getTabs() {
       label: 'Summary',
       path: '/',
       component: Summary
+    },
+    {
+      label: 'Connections',
+      path: '/connections',
+      component: Connections
     }
   ];
 }
