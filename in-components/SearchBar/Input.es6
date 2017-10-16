@@ -134,7 +134,7 @@ export default getElementDimensions(
             '.in-searchbar .CodeMirror-code .cm-character.cm-custom-block--end:last-child'
           );
           if (lastCharacterElement && lastCharacterElement.getBoundingClientRect().right < event.screenX + 5) {
-            editor.setValue(editor.getValue() + ' ');
+            editor.setValue(editor.getValue());
           }
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
         });
