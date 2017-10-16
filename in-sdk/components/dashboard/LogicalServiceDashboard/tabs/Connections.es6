@@ -1,12 +1,14 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import Summary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Summary';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { logicalViewStructure$ } from 'in-stores/view';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -28,18 +30,48 @@ const cols = [
   }
 ];
 
-export default function Summary({ snapshot }) {
+export default function Connections({ snapshot, timeframe }) {
   return (
-    <MaxWidthFullscreenContainer>
-      <DashboardTile title="Incoming">
-        <ConnectionsTable snapshot={snapshot} property="incomingConnections" />
-      </DashboardTile>
-      <DashboardTile title="Outgoing">
-        <ConnectionsTable snapshot={snapshot} property="outgoingConnections" />
-      </DashboardTile>
-    </MaxWidthFullscreenContainer>
+    <Switch>
+      <Route
+        path={`*/dashboard/connections/:connectionId`}
+        render={({ match }) => {
+          const connectionId = match.params.connectionId;
+          return <ConnectionDashboard snapshotId={connectionId} timeframe={timeframe} />;
+        }}
+      />
+      <Route
+        path={`*/dashboard*`}
+        render={() => {
+          return (
+            <MaxWidthFullscreenContainer>
+              <DashboardTile title="Incoming">
+                <ConnectionsTable snapshot={snapshot} property="incomingConnections" />
+              </DashboardTile>
+              <DashboardTile title="Outgoing">
+                <ConnectionsTable snapshot={snapshot} property="outgoingConnections" />
+              </DashboardTile>
+            </MaxWidthFullscreenContainer>
+          );
+        }}
+      />
+    </Switch>
   );
 }
+
+const ConnectionDashboard = connectTo(
+  props => {
+    return {
+      snapshot: getSnapshot(props.snapshotId)
+    };
+  },
+  function ConnectionDashboard({ snapshot, timeframe }) {
+    if (!snapshot) {
+      return <MaxWidthFullscreenContainer />;
+    }
+    return <Summary snapshot={snapshot} timeframe={timeframe} />;
+  }
+);
 
 const ConnectionsTable = connectTo(
   props => {
