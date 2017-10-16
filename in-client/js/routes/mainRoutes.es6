@@ -14,7 +14,6 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import LogView from 'promise-loader?global!in-views/logView/LogView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
-import TableTest from 'in-views/tableTest/TableTest';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import { Route } from 'react-router-dom';
 import AsciiMap from 'in-map/AsciiMap';
@@ -24,7 +23,6 @@ import Map from 'in-map/index';
 export default (
   <Switch>
     <Route path="/cockpit" component={Cockpit} />
-    <Route path="/tableTest" component={TableTest} />
 
     <Route path="/ascii/physical" component={AsciiMap} />
     <Route path="/ascii/logical" component={AsciiMap} />

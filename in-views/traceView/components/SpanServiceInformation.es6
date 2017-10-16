@@ -4,13 +4,8 @@ import EntityInformation from 'in-components/EntityInformation';
 import { getEntitySnapshot$BySpan } from 'in-stores/traces';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import { SPAN_KINDS } from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
-
-import './SpanServiceInformation.less';
-
-const block = 'in-trace-tree-span-service-information';
 
 export default connectTo(
   props => {
@@ -24,13 +19,7 @@ export default connectTo(
       destinationServiceSnapshot: destinationId ? getSnapshot(destinationId, start) : alwaysNull
     };
   },
-  function SpanServiceInformation({
-    span,
-    borderColor,
-    sourceServiceSnapshot,
-    sourceEntitySnapshot,
-    destinationServiceSnapshot
-  }) {
+  function SpanServiceInformation({ span, sourceServiceSnapshot, sourceEntitySnapshot, destinationServiceSnapshot }) {
     if ((!sourceServiceSnapshot || !sourceEntitySnapshot) && !destinationServiceSnapshot) {
       return null;
     }
@@ -38,14 +27,7 @@ export default connectTo(
     const isEntry = span.get('kind') === SPAN_KINDS.ENTRY;
 
     return (
-      <div
-        className={block}
-        style={{
-          borderColor
-        }}
-      >
-        <span className={`${block}__heading`}>Services:</span>
-
+      <div>
         <Service
           span={span}
           label={isEntry ? 'From:' : null}
@@ -55,7 +37,6 @@ export default connectTo(
         <Service
           span={span}
           label={isEntry ? null : 'To:'}
-          addEntryIcon={sourceEntitySnapshot && sourceServiceSnapshot ? true : false}
           snapshot={destinationServiceSnapshot}
           endpointLabel={span.get('destinationEndpointLabel')}
         />
@@ -64,23 +45,18 @@ export default connectTo(
   }
 );
 
-function Service({ span, label, snapshot, addEntryIcon, endpointLabel }) {
+function Service({ span, label, snapshot, endpointLabel }) {
   if (!snapshot) {
     return null;
   }
 
   return (
-    <div>
-      {addEntryIcon ? (
-        <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
-      ) : null}
-      <EntityInformation
-        snapshotId={snapshot.get('id')}
-        time={span.get('start')}
-        label={label}
-        getLabelCallback={label => getServiceLabelWithEndpoint(label, endpointLabel)}
-      />
-    </div>
+    <EntityInformation
+      snapshotId={snapshot.get('id')}
+      time={span.get('start')}
+      label={label}
+      getLabelCallback={label => getServiceLabelWithEndpoint(label, endpointLabel)}
+    />
   );
 }
 
