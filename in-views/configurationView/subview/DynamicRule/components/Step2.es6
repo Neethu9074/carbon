@@ -15,7 +15,7 @@ const block = 'in-dynamic-rule-dialog-step-2';
 
 export default function Step2({ form, onChange }) {
   return (
-    <Step number={2} title="Event Contitions" form={form} onChange={onChange}>
+    <Step number={2} title="Event Conditions" form={form} onChange={onChange}>
       {instanaInternalFeaturesEnabled ? (
         <RuleControl
           name="Dynamic corridor"
