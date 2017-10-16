@@ -14,3 +14,7 @@ export function noop() {
 export function createInverseComparator(comp) {
   return (a, b) => comp(a, b) * -1;
 }
+
+export function identity(v) {
+  return v;
+}

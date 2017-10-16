@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { identity } from 'in-services/util/function';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
@@ -16,7 +17,7 @@ export default connectTo(
       snapshot: getSnapshot(props.serviceSnapshotId, props.time)
     };
   },
-  function EntityColumnContent({ snapshot, getLabelCallback = label => label }) {
+  function EntityColumnContent({ snapshot, getLabelCallback = identity }) {
     if (!snapshot) {
       return null;
     }
