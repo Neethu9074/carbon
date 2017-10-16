@@ -15,6 +15,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import './Step3.less';
 
@@ -23,14 +24,11 @@ const block = 'in-dynamic-rule-dialog-step-3';
 export default function Step3({ form, onChange }) {
   return (
     <Step number={3} title="Event" form={form} onChange={onChange}>
-      <RuleControl
-        name="Action in case of metric violating corridor"
-        helpText="An event is triggered whenever a metric violates the corridor limits and can have a custom severity and a definition to describe what is happening."
-      >
+      <RuleControl name="Created when limits are surpassed" helpComponent={EventHelpComponent}>
         {form.get('triggering').map(field => (
           <FormGroup className={`${block}__triggering-group`}>
             <div className={`${block}__triggering`}>
-              <TooltipIcon tooltip="Incidents represent the highest alert mode in Instana. Related warnings and criticals are being grouped within an incident for easy root cause analysis." />
+              <TooltipIcon tooltip="Incidents represent the highest alert mode in Instana. Related events are associated with an incident for easy root cause analysis." />
               Triggering Incident
               <Toggle
                 className={`${block}__toggle`}
@@ -150,4 +148,17 @@ function createEvent(form) {
     state: 'open',
     type: 'issue'
   });
+}
+
+function EventHelpComponent() {
+  return (
+    <div className={`${block}__event-help`}>
+      Define the event, its severity, and if it should trigger an incident. These properties will affect the event’s
+      presentation and its alerting behavior. Learn more about events in the&nbsp;
+      <Link className={`${block}__link`} href="https://docs.instana.io/core_concepts/events_and_incidents" external>
+        docs
+      </Link>
+      .
+    </div>
+  );
 }

@@ -101,7 +101,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
               <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
                 Filter query
               </Label>
-              <TooltipIcon tooltip="A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities." />
+              <TooltipIcon tooltip="Apply a filter query to narrow down the number of entities the rule shall be applied on. If no filter query is given, it will be applied on all entities." />
             </div>
             <Input
               id="rule-query"
@@ -134,8 +134,9 @@ function MatchingEntitiesHelpBox() {
       <br />
       <br />
       <span>
-        The number of entities that can be monitored by a dynamic corridor is limited to{' '}
-        <span className={`${block}__num-entities-during-beta`}>20</span> during the beta.
+        The number of entities that can be monitored by a dynamic rule is limited to{' '}
+        <span className={`${block}__num-entities-during-beta`}>20</span> during the beta. Please narrow down the
+        entities by adding a filter query and/or excluding entities.
       </span>
     </div>
   );

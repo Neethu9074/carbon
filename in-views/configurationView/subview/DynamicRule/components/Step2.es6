@@ -15,29 +15,29 @@ const block = 'in-dynamic-rule-dialog-step-2';
 
 export default function Step2({ form, onChange }) {
   return (
-    <Step number={2} title="Event contitions" form={form} onChange={onChange}>
+    <Step number={2} title="Event Contitions" form={form} onChange={onChange}>
       {instanaInternalFeaturesEnabled ? (
         <RuleControl
           name="Dynamic corridor"
-          helpText="Instanas dynamic corridor can distinguish between normal and unregular metric trends, by analyzing a metric’s historical behavior."
+          helpText="The dynamic corridor is used to distinguish between normal and unregular metric trends-, by analyzing historical behavior."
         >
           {form.get('violationDirection').map(field => (
             <FormGroup>
-              <Label htmlFor="rule-rule-violationDirection">Trigger if metric violates</Label>
+              <Label htmlFor="rule-rule-violationDirection">Trigger if metric surpasses</Label>
 
               <div className={`${block}__button-wrapper`}>
                 <CorridorSelection
-                  title="Upper corridor limit"
+                  title="Upper limit"
                   isActive={field.value === 'upper'}
                   onClick={() => onChange('violationDirection', 'upper')}
                 />
                 <CorridorSelection
-                  title="Either corridor limits"
+                  title="Either limit"
                   isActive={field.value === 'either'}
                   onClick={() => onChange('violationDirection', 'either')}
                 />
                 <CorridorSelection
-                  title="Lower corridor limit"
+                  title="Lower limit"
                   isActive={field.value === 'lower'}
                   onClick={() => onChange('violationDirection', 'lower')}
                 />
@@ -49,7 +49,7 @@ export default function Step2({ form, onChange }) {
       <RuleControl name="Sensitivity (Preview)" helpComponent={CorridorHelpBox}>
         {form.get('sensitivity').map(field => (
           <FormGroup>
-            <Label htmlFor="rule-rule-sensitivity">Adjust Sensitivity</Label>
+            <Label htmlFor="rule-rule-sensitivity">Corridor Sensitivity</Label>
             <SensitivitySlider field={field} onChange={onChange} />
           </FormGroup>
         ))}
@@ -62,10 +62,12 @@ export default function Step2({ form, onChange }) {
 function CorridorHelpBox() {
   return (
     <div className={`${block}__corridor-help-box`}>
-      <span>The system takes some time to be trained on a metric’s historical behavior.</span>
+      <span>The system takes time to train on historical behavior.</span>
       <br />
       <br />
-      <span>To adjust the sensitivity based on real data please check back after the training has been completed.</span>
+      <span>
+        To adjust the sensitivity based on real data please check back after creating the rule (may take up to 30m).
+      </span>
     </div>
   );
 }

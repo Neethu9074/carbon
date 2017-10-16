@@ -20,8 +20,9 @@ export default function Step4({ form, onChange }) {
           Set rule active ?
         </div>
         <span className={`${block}__help-text`}>
-          Activating this rule will immediately trigger events after the training is completed. You can also activate
-          this rule after adjusting the sensitivity based on real data, once the training has been completed.
+          Activating this rule will immediately trigger corresponding events once the training is complete. We recommend
+          waiting for training to complete in order to consider the behavior and adjust the sensitivity if necessary
+          before activating.
         </span>
       </div>
       <div className={`${block}__right`}>
