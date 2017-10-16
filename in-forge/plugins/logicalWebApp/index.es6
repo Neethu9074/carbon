@@ -11,6 +11,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   tableDefinition,
   metricDefinitions,
+  isNewDashboard: true,
 
   pluginName: {
     singular: 'WebApp',
