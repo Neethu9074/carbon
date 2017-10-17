@@ -104,6 +104,7 @@ import './pageResourceLogicalConnection';
 import './pageResourceLogicalService';
 import './pageResourceServiceInstance';
 import './phpFpmRuntimePlatform';
+import './phpRuntimePlatform';
 import './postgreSqlDatabase';
 import './process';
 import './pythonRuntimePlatform';

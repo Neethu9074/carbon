@@ -1,11 +1,13 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.es6';
+import { getProcessCompanions } from 'in-stores/snapshot/graph';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { formatDateTime } from 'in-services/formatters/date';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
@@ -15,6 +17,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
 
   return (
     <div>
+      <PhpSnapshot companions$={getProcessCompanions(snapshot.get('id'))} />
       <Separator />
 
       <Collapsible initiallyOpen>
@@ -65,7 +68,6 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
           </Collapsible>
         </div>
       ))}
-
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
