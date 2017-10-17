@@ -1488,6 +1488,10 @@ chalk@~0.5.1:
     strip-ansi "^0.3.0"
     supports-color "^0.2.0"
 
+change-emitter@^0.1.2:
+  version "0.1.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/change-emitter/-/change-emitter-0.1.6.tgz#e8b2fe3d7f1ab7d69a32199aff91ea6931409515"
+
 chokidar@^1.6.0, chokidar@^1.6.1, chokidar@^1.7.0:
   version "1.7.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -2087,9 +2091,88 @@ cwebp-bin@^3.1.0:
     bin-wrapper "^3.0.1"
     logalot "^2.0.0"
 
-d3-format@^1.0.2:
+d3-array@1, d3-array@^1.2.0:
+  version "1.2.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-array/-/d3-array-1.2.1.tgz#d1ca33de2f6ac31efadb8e050a021d7e2396d5dc"
+
+d3-chord@^1.0.4:
+  version "1.0.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-chord/-/d3-chord-1.0.4.tgz#7dec4f0ba886f713fe111c45f763414f6f74ca2c"
+  dependencies:
+    d3-array "1"
+    d3-path "1"
+
+d3-collection@1:
+  version "1.0.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-collection/-/d3-collection-1.0.4.tgz#342dfd12837c90974f33f1cc0a785aea570dcdc2"
+
+d3-color@1, d3-color@^1.0.3:
+  version "1.0.3"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-color/-/d3-color-1.0.3.tgz#bc7643fca8e53a8347e2fbdaffa236796b58509b"
+
+d3-format@1, d3-format@^1.0.2, d3-format@^1.2.0:
   version "1.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-format/-/d3-format-1.2.0.tgz#6b480baa886885d4651dc248a8f4ac9da16db07a"
+
+d3-hierarchy@^1.1.5:
+  version "1.1.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-hierarchy/-/d3-hierarchy-1.1.5.tgz#a1c845c42f84a206bcf1c01c01098ea4ddaa7a26"
+
+d3-interpolate@1, d3-interpolate@^1.1.5:
+  version "1.1.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-interpolate/-/d3-interpolate-1.1.5.tgz#69e099ff39214716e563c9aec3ea9d1ea4b8a79f"
+  dependencies:
+    d3-color "1"
+
+d3-path@1:
+  version "1.0.5"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-path/-/d3-path-1.0.5.tgz#241eb1849bd9e9e8021c0d0a799f8a0e8e441764"
+
+d3-sankey@^0.7.1:
+  version "0.7.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-sankey/-/d3-sankey-0.7.1.tgz#d229832268fc69a7fec84803e96c2256a614c521"
+  dependencies:
+    d3-array "1"
+    d3-collection "1"
+    d3-shape "^1.2.0"
+
+d3-scale-chromatic@^1.1.1:
+  version "1.1.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-scale-chromatic/-/d3-scale-chromatic-1.1.1.tgz#811406e8e09dab78a49dac4a32047d5d3edd0c44"
+  dependencies:
+    d3-interpolate "1"
+
+d3-scale@^1.0.6:
+  version "1.0.6"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-scale/-/d3-scale-1.0.6.tgz#bce19da80d3a0cf422c9543ae3322086220b34ed"
+  dependencies:
+    d3-array "^1.2.0"
+    d3-collection "1"
+    d3-color "1"
+    d3-format "1"
+    d3-interpolate "1"
+    d3-time "1"
+    d3-time-format "2"
+
+d3-shape@^1.2.0:
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-shape/-/d3-shape-1.2.0.tgz#45d01538f064bafd05ea3d6d2cb748fd8c41f777"
+  dependencies:
+    d3-path "1"
+
+d3-time-format@2, d3-time-format@^2.0.5:
+  version "2.1.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-time-format/-/d3-time-format-2.1.0.tgz#a1d9540a1dc498817d44066b121b19a4a83e3531"
+  dependencies:
+    d3-time "1"
+
+d3-time@1, d3-time@^1.0.7:
+  version "1.0.7"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-time/-/d3-time-1.0.7.tgz#94caf6edbb7879bb809d0d1f7572bc48482f7270"
+
+d3-voronoi@^1.1.2:
+  version "1.1.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-voronoi/-/d3-voronoi-1.1.2.tgz#1687667e8f13a2d158c80c1480c5a29cb0d8973c"
 
 d@1:
   version "1.0.0"
@@ -3017,7 +3100,7 @@ faye-websocket@~0.7.3:
   dependencies:
     websocket-driver ">=0.3.6"
 
-fbjs@^0.8.16, fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -3404,6 +3487,10 @@ generate-object-property@^1.1.0:
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
+
+get-node-dimensions@^1.2.0:
+  version "1.2.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/get-node-dimensions/-/get-node-dimensions-1.2.2.tgz#7a71e8624cf9e1ab74599bb05b7e5116e995e45b"
 
 get-proxy@^1.0.1:
   version "1.1.0"
@@ -3938,7 +4025,7 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.3.0:
+hoist-non-react-statics@^2.3.0, hoist-non-react-statics@^2.3.1:
   version "2.3.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
@@ -5712,6 +5799,28 @@ nested-error-stacks@^1.0.0:
   dependencies:
     inherits "~2.0.1"
 
+nivo@^0.29.4:
+  version "0.29.4"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nivo/-/nivo-0.29.4.tgz#1f29cd09239edfc8ac8b09544810ce8ef604bb3e"
+  dependencies:
+    d3-chord "^1.0.4"
+    d3-color "^1.0.3"
+    d3-format "^1.2.0"
+    d3-hierarchy "^1.1.5"
+    d3-interpolate "^1.1.5"
+    d3-sankey "^0.7.1"
+    d3-scale "^1.0.6"
+    d3-scale-chromatic "^1.1.1"
+    d3-shape "^1.2.0"
+    d3-time "^1.0.7"
+    d3-time-format "^2.0.5"
+    d3-voronoi "^1.1.2"
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+    react-measure "^2.0.2"
+    react-motion "^0.5.1"
+    recompose "^0.25.0"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
@@ -7159,11 +7268,27 @@ react-input-autosize@^2.0.1:
     create-react-class "^15.5.2"
     prop-types "^15.5.8"
 
+react-measure@^2.0.2:
+  version "2.0.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-measure/-/react-measure-2.0.2.tgz#072a9a5fafc01dfbadc1fa5fb09fc351037f636c"
+  dependencies:
+    get-node-dimensions "^1.2.0"
+    prop-types "^15.5.10"
+    resize-observer-polyfill "^1.4.2"
+
 react-motion@^0.4.4:
   version "0.4.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-motion/-/react-motion-0.4.8.tgz#23bb2dd27c2d8e00d229e45572d105efcf40a35e"
   dependencies:
     create-react-class "^15.5.2"
+    performance-now "^0.2.0"
+    prop-types "^15.5.8"
+    raf "^3.1.0"
+
+react-motion@^0.5.1:
+  version "0.5.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-motion/-/react-motion-0.5.2.tgz#0dd3a69e411316567927917c6626551ba0607316"
+  dependencies:
     performance-now "^0.2.0"
     prop-types "^15.5.8"
     raf "^3.1.0"
@@ -7451,6 +7576,15 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
+recompose@^0.25.0:
+  version "0.25.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/recompose/-/recompose-0.25.1.tgz#5eb9d6cf6e25a9ffad73cbbae5658b5b55d6e728"
+  dependencies:
+    change-emitter "^0.1.2"
+    fbjs "^0.8.1"
+    hoist-non-react-statics "^2.3.1"
+    symbol-observable "^1.0.4"
+
 recursive-readdir@2.1.1:
   version "2.1.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/recursive-readdir/-/recursive-readdir-2.1.1.tgz#a01cfc7f7f38a53ec096a096f63a50489c3e297c"
@@ -7685,6 +7819,10 @@ require-uncached@^1.0.2:
 requires-port@1.0.x, requires-port@1.x.x:
   version "1.0.0"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+resize-observer-polyfill@^1.4.2:
+  version "1.4.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/resize-observer-polyfill/-/resize-observer-polyfill-1.4.2.tgz#a37198e6209e888acb1532a9968e06d38b6788e5"
 
 resolve-dir@^0.1.0:
   version "0.1.1"
@@ -8594,7 +8732,7 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
-symbol-observable@^1.0.1:
+symbol-observable@^1.0.1, symbol-observable@^1.0.4:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 

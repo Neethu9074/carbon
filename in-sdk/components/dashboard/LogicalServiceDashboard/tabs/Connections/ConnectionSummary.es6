@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ConnectionInformation from 'in-sdk/components/dashboard/LogicalServiceDashboard/components/ConnectionInformation';
+import ConnectionInformation from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionInformation';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { msTwoDecimalPlaces, number } from 'in-services/formatters/number';
@@ -8,15 +8,30 @@ import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import {getSnapshot} from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
 import './ConnectionSummary.less';
 
 const block = 'in-service-connection-dashboard';
 
-export default function ConnectionSummary({ snapshot, timeframe }) {
+export default connectTo(props => {
+  return {
+    snapshot: getSnapshot(props.snapshotId)
+  };
+}, function ConnectionSummary({ snapshot, timeframe }) {
+  if (!snapshot) {
+    return (
+      <MaxWidthFullscreenContainer>
+        <LoadingIndicator type="dark" />
+      </MaxWidthFullscreenContainer>
+    );
+  }
+
   const backButtonPath = `/connections`;
 
   const snapshotId = snapshot.get('id');
@@ -57,4 +72,4 @@ export default function ConnectionSummary({ snapshot, timeframe }) {
       <ConnectionInformation snapshot={snapshot} />
     </MaxWidthFullscreenContainer>
   );
-}
+});

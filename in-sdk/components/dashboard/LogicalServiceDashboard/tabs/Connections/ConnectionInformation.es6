@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Endpoint from 'in-sdk/components/dashboard/LogicalServiceDashboard/components/Endpoint';
+import Endpoint from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/Endpoint';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function ConnectionInformation({ snapshot }) {

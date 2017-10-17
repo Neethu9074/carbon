@@ -31,7 +31,6 @@ export default connectTo(
     if (!endpointSnapshot) {
       return (
         <DashboardTile title={type}>
-          the endpoint service is unknown
           <div className={`${block}__icon-wrapper`}>
             <SvgIcon type="crossed_circle" color="#bec7cb" height={36} width={36} />
           </div>
