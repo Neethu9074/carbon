@@ -1,9 +1,13 @@
+/* eslint-disable no-console */
+
 import React from 'react';
 
+import ConnectionSankey from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionSankey';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { logicalViewStructure$ } from 'in-stores/view';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -44,9 +48,11 @@ const cols = [
   }
 ];
 
-export default function ConnectionOverview({snapshot}) {
+export default function ConnectionOverview({ snapshot, timeframe }) {
   return (
     <MaxWidthFullscreenContainer>
+      <ConnectionSankey snapshot={snapshot} timeframe={timeframe} />
+
       <DashboardTile title="Incoming">
         <ConnectionsTable snapshot={snapshot} property="incomingConnections" iconType="arrow_right" />
       </DashboardTile>
@@ -57,10 +63,12 @@ export default function ConnectionOverview({snapshot}) {
   );
 }
 
-
 const ConnectionsTable = connectTo(
   props => {
     const snapshotId = props.snapshot.get('id');
+    console.warn(
+      'Do not rely on logical view structure! This is expensive to retrieve. Please use special subscriptions for this.'
+    );
     const entity$ = logicalViewStructure$.map(root => {
       for (let i = 0, length = root.children.length; i < length; i++) {
         const item = root.children[i];
@@ -71,7 +79,9 @@ const ConnectionsTable = connectTo(
       return null;
     });
     return {
-      connections: entity$.flatMap(entity => getSnapshots(entity[props.property].map(c => c.id)))
+      connections: entity$.flatMap(
+        entity => (entity ? getSnapshots(entity[props.property].map(c => c.id)) : alwaysEmptyArray)
+      )
     };
   },
   function ConnectionsTable({ connections, iconType }) {

@@ -16,9 +16,7 @@ export default function Connections({ snapshot, timeframe }) {
       <Route
         path={`*/dashboard*`}
         render={() => {
-          return (
-            <ConnectionOverview snapshot={snapshot} />
-          );
+          return <ConnectionOverview snapshot={snapshot} timeframe={timeframe} />;
         }}
       />
     </Switch>
