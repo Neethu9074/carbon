@@ -25,7 +25,7 @@ export default function ConnectionSummary({ snapshot, timeframe }) {
   return (
     <MaxWidthFullscreenContainer>
       <div className={`${block}__heading`}>
-        <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
+        <BackButton label="Back to connection list" href$={getSubDashboardLink(backButtonPath)} />
         <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
           Traces
         </Button>
