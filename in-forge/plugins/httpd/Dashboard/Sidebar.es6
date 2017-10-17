@@ -3,7 +3,6 @@ import React from 'react';
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.es6';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { getProcessCompanions } from 'in-stores/snapshot/graph';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
@@ -21,7 +20,7 @@ export default function HttpdSidebar({ snapshot }) {
       </Collapsible>
 
       <KeyValuePopup header="Modules" data={snapshot.getIn(['data', 'modules'])} />
-      <PhpSnapshot companions$={getProcessCompanions(snapshot.get('id'))} />
+      <PhpSnapshot snapshotId={snapshot.get('id')} />
     </div>
   );
 }

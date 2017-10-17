@@ -2,6 +2,7 @@ import React from 'react';
 import { combineLatest } from 'reactive-observables';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { getProcessCompanions } from 'in-stores/snapshot/graph';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -10,7 +11,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      companions: props.companions$
+      companions: getProcessCompanions(props.snapshotId)
         .flatMap(companionIds => {
           const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
           return combineLatest(companions$, false);
@@ -18,22 +19,10 @@ export default connectTo(
         .map(companions => companions.filter(m => !!m))
     };
   },
-  function PhpSnapshot({ companions }) {
+  function PhpSnapshot({ companions, initiallyOpen }) {
     if (!companions || companions.length === 0) {
       return null;
     }
-
-    const stripIniDir = function(iniFilesParsed, iniDir) {
-      if (iniFilesParsed != null && iniDir != null) {
-        return iniFilesParsed
-          .split(',')
-          .map(function(iniFile) {
-            return iniFile.replace(iniDir + '/', '');
-          })
-          .join(', ');
-      }
-      return iniFilesParsed;
-    };
 
     return (
       <div>
@@ -41,7 +30,7 @@ export default connectTo(
           <div key={companion.get('id')}>
             <Separator />
 
-            <Collapsible initiallyOpen>
+            <Collapsible initiallyOpen={initiallyOpen}>
               <Collapsible.Header>PHP</Collapsible.Header>
               <Collapsible.Content>
                 <DescriptionList>
@@ -68,3 +57,15 @@ export default connectTo(
     );
   }
 );
+
+function stripIniDir(iniFilesParsed, iniDir) {
+  if (iniFilesParsed != null && iniDir != null) {
+    return iniFilesParsed
+      .split(',')
+      .map(function(iniFile) {
+        return iniFile.replace(iniDir + '/', '');
+      })
+      .join(', ');
+  }
+  return iniFilesParsed;
+}
