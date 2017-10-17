@@ -74,7 +74,7 @@ const VersionList = connectTo(
             const prev = versions[i - 1];
             if (focusedMoment > from && (!prev || focusedMoment < prev.from)) {
               return [
-                <li className={`${block}__focused-moment`}>
+                <li className={`${block}__focused-moment`} key={`${to}-${from}`}>
                   <span className={`${block}__key`}>selected moment:</span>
                   <span className={`${block}__value`}>{formatDateTime(focusedMoment)}</span>
                 </li>,
