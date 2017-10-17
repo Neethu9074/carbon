@@ -4,6 +4,7 @@ import ApplicationViewBreadcrumb from 'in-sdk/components/dashboard/LogicalServic
 import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/BreadcrumbForSnapshot';
 import Connections from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections';
 import Summary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Summary';
+import Calls from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Calls';
 import TabView from 'in-sdk/components/dashboard/TabView';
 
 export default function LogicalServiceDashboard(props) {
@@ -17,6 +18,11 @@ function getTabs() {
       label: 'Summary',
       path: '/',
       component: Summary
+    },
+    {
+      label: 'Calls',
+      path: '/calls',
+      component: Calls
     },
     {
       label: 'Connections',

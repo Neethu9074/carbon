@@ -57,6 +57,14 @@ export default function Summary({ snapshot, timeframe }) {
           timeWindowAggregation="mean"
           formatter={millis.fixedCompact}
         />
+        <Kpi
+          label="Instances (mean)"
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          metric={`instances`}
+          timeWindowAggregation="mean"
+          formatter={number.compact}
+        />
       </Kpis>
 
       <DashboardTile title="Calls vs. Latency">
@@ -82,6 +90,23 @@ export default function Summary({ snapshot, timeframe }) {
             labels: ['latency'],
             type: 'line',
             aggregation: 'mean'
+          }}
+        />
+      </DashboardTile>
+
+      <DashboardTile title="Instances">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: ['instances'],
+            labels: ['Instances'],
+            type: 'line'
           }}
         />
       </DashboardTile>
