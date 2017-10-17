@@ -33,6 +33,11 @@ export default function Summary({ snapshot, timeframe }) {
           metric={`count`}
           timeWindowAggregation="sum"
           formatter={number.compact}
+          errorPercentage={{
+            snapshotId,
+            metric: 'error_rate',
+            timeframe
+          }}
         />
         <Kpi
           label="Latency (50th)"

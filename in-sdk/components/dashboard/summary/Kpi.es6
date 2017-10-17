@@ -2,6 +2,7 @@ import React from 'react';
 
 import DualValueBar from 'in-sdk/components/dashboard/summary/DualValueBar';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import ErrorBar from 'in-sdk/components/dashboard/summary/ErrorBar';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,13 +18,18 @@ export default function Kpi({
   formatter,
   label,
   percentages,
-  children
+  children,
+  errorPercentage
 }) {
   let renderedPercentages = null;
-  if (percentages != null && percentages.length === 2) {
-    renderedPercentages = <DualPercentage percentages={percentages} snapshotId={snapshotId} timeframe={timeframe} />;
-  } else if (percentages != null && percentages.length === 1 && __DEV__) {
-    throw new Error('Single percentage rendering not yet supported.');
+  if (percentages != null) {
+    if (percentages.length === 2) {
+      renderedPercentages = <DualPercentage percentages={percentages} snapshotId={snapshotId} timeframe={timeframe} />;
+    } else {
+      throw new Error('Single percentage rendering not yet supported.');
+    }
+  } else if (errorPercentage != null) {
+    renderedPercentages = <ErrorPercentage {...errorPercentage} />;
   }
 
   const wrapperClass = renderedPercentages ? `${block}__value-wrapper-grow` : '';
@@ -74,3 +80,14 @@ const DualPercentage = connectTo(
     );
   }
 );
+
+const ErrorPercentage = connectTo(props => {
+  return {
+    value: getTimeWindowBasedMetricAggregation({
+      snapshotId: props.snapshotId,
+      metric: props.metric,
+      timeWindowAggregation: 'mean',
+      timeframe: props.timeframe
+    })
+  };
+}, ErrorBar);
