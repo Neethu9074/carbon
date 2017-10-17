@@ -1,16 +1,15 @@
 import React from 'react';
 
 import Endpoint from 'in-sdk/components/dashboard/LogicalServiceDashboard/components/Endpoint';
-import { getLabel } from 'in-sdk/snapshot';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function ConnectionInformation({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
-    <div>
-      Fancy conenction chart for: {` ${getLabel(snapshot)}`}
+    <Columize>
       <Endpoint snapshotId={snapshotId} type="source" />
       <Endpoint snapshotId={snapshotId} type="destination" />
-    </div>
+    </Columize>
   );
 }

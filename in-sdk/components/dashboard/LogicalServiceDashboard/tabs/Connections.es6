@@ -27,6 +27,20 @@ const cols = [
         };
       }
     }
+  },
+  {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: () => compareIgnoreCase,
+      get(row) {
+        const label = getLabel(row.connection);
+        return {
+          value: label,
+          content: <Link href$={getSubDashboardLink(`/connections/${row.key}`)}>{label}</Link>
+        };
+      }
+    }
   }
 ];
 
