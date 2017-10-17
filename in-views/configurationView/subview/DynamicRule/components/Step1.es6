@@ -27,7 +27,6 @@ const furtherPluginsToFilter = [
 ];
 const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
   .map(key => servicePlugins[key])
-  .filter(plugin => plugin === 'browserLogicalService')
   .filter(plugin => furtherPluginsToFilter.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
