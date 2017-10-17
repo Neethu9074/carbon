@@ -1,14 +1,14 @@
 .in-dashboard-tile {
-  margin-bottom: .6rem;
-  padding: .75rem 1.5rem;
+  margin-bottom: 0.6rem;
+  padding: 0.75rem 1.5rem;
 
   background: white;
-  border: 1px solid #D5DFE4;
+  border: 1px solid #d5dfe4;
   border-radius: 0.313rem;
 
   &--interactable {
     box-shadow: 0 rgba(0, 0, 0, 0);
-    transition: box-shadow .25s ease-in-out;
+    transition: box-shadow 0.25s ease-in-out;
 
     &:hover {
       box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.125);
@@ -20,7 +20,8 @@
     justify-content: space-between;
     align-items: flex-start;
 
-    & + *, & + * > *:first-child {
+    & + *,
+    & + * > *:first-child {
       margin-top: 0;
     }
   }
@@ -28,11 +29,12 @@
   &__title {
     margin-bottom: 1.2rem;
     font-weight: 600;
+    text-transform: capitalize;
   }
 
   &__details-button {
     opacity: 0;
-    transition: opacity .2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
   }
 
   & > .in-detail-pane__description-list:last-child > .in-detail-pane__description-item:last-child {
