@@ -9,21 +9,23 @@ import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { logicalViewStructure$ } from 'in-stores/view';
 import Table from 'in-sdk/components/dashboard/Table';
+import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 const cols = [
   {
-    title: 'Name',
+    title: '',
     type: 'custom',
+    width: 20,
+    disableSorting: true,
     typeArgs: {
-      comparator: () => compareIgnoreCase,
+      comparator: () => 0,
       get(row) {
-        const label = getLabel(row.connection);
         return {
-          value: label,
-          content: <Link href$={getSubDashboardLink(`/connections/${row.key}`)}>{label}</Link>
+          value: 0,
+          content: <SvgIcon type={row.iconType} color="#40535b" height={12} width={12} />
         };
       }
     }
@@ -60,10 +62,10 @@ export default function Connections({ snapshot, timeframe }) {
           return (
             <MaxWidthFullscreenContainer>
               <DashboardTile title="Incoming">
-                <ConnectionsTable snapshot={snapshot} property="incomingConnections" />
+                <ConnectionsTable snapshot={snapshot} property="incomingConnections" iconType="arrow_right" />
               </DashboardTile>
               <DashboardTile title="Outgoing">
-                <ConnectionsTable snapshot={snapshot} property="outgoingConnections" />
+                <ConnectionsTable snapshot={snapshot} property="outgoingConnections" iconType="arrow_left" />
               </DashboardTile>
             </MaxWidthFullscreenContainer>
           );
@@ -103,7 +105,7 @@ const ConnectionsTable = connectTo(
       connections: entity$.flatMap(entity => getSnapshots(entity[props.property].map(c => c.id)))
     };
   },
-  function ConnectionsTable({ connections }) {
+  function ConnectionsTable({ connections, iconType }) {
     let rows;
     if (!connections) {
       rows = [];
@@ -112,6 +114,7 @@ const ConnectionsTable = connectTo(
         return {
           key: connection.get('id'),
           snapshot: connection,
+          iconType: iconType,
           connection
         };
       });
