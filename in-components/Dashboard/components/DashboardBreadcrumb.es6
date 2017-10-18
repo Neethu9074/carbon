@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
+import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getDashboardLink } from 'in-stores/navigation';

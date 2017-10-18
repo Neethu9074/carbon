@@ -2,7 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { getDashboardLink, getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
-import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
+import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { joinClassNames } from 'in-services/util/classnames';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';

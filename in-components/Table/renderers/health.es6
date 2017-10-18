@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import React from 'react';
 
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import EntityHealthBar from 'in-components/EntityHealthBar';
+import EntityHealthBar from 'in-components/health/EntityHealthBar';
 import { compare } from 'in-services/util/number';
 import { noop } from 'in-services/fixedObjects';
 

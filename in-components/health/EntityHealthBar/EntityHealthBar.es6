@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HealthIconListing from 'in-components/HealthIconListing';
+import HealthIconListing from 'in-components/health/HealthIconListing';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { joinClassNames } from 'in-services/util/classnames';
 import { getColorBySeverity } from 'in-stores/events';

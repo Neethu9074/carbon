@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EntityHealthBar from 'in-components/EntityHealthBar';
+import EntityHealthBar from 'in-components/health/EntityHealthBar';
 
 import './EntityHealthInfo.less';
 

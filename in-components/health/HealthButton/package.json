@@ -1,0 +1,6 @@
+{
+  "name": "HealthButton",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HealthButton.es6"
+}

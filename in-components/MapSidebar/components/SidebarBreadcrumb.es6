@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
-import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
+import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';

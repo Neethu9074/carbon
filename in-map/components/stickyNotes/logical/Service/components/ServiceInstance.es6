@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getSnapshot, setSelectedSnapshotId, selectedSnapshotId } from 'in-stores/snapshot';
 import EntityInformation from 'in-components/EntityInformation';
-import HealthIconListing from 'in-components/HealthIconListing';
+import HealthIconListing from 'in-components/health/HealthIconListing';
 import KPIList from 'in-components/KPIList';
 import connectTo from 'in-hoc/connectTo';
 import { getKpis } from 'in-sdk/kpi';
