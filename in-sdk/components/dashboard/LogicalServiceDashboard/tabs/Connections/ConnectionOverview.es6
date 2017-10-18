@@ -5,6 +5,7 @@ import React from 'react';
 import ConnectionSankey from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionSankey';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -43,6 +44,57 @@ const cols = [
           value: label,
           content: <Link href$={getSubDashboardLink(`/connections/${row.key}`)}>{label}</Link>
         };
+      }
+    }
+  },
+  {
+    title: 'Calls (sum)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'count';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Latency (avg)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'duration.mean';
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Error Rate (avg)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'error_rate';
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
