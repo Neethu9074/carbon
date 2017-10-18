@@ -17,6 +17,8 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.isEnabled = true;
+
+    PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
   }
 
   initEvents() {
@@ -34,8 +36,7 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.updateMatrix();
     mesh.updateMatrixWorld();
 
-    PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
-    PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
+    PhysicsServiceLocator.updateCollisionObject(mesh, this.layerId);
   }
 
   dispose() {

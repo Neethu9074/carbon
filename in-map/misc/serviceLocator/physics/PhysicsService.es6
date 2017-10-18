@@ -11,6 +11,10 @@ export default function createPhysicsService() {
   octrees[OCTREE_LAYER.NODES] = createOctree();
   octrees[OCTREE_LAYER.LAYER] = createOctree();
 
+  const addObjectQueues = createQueues();
+  const updateObjectQueues = createQueues();
+  const removeObjectQueues = createQueues();
+
   let zoomLevelSubscription;
 
   const signal = {};
@@ -22,15 +26,10 @@ export default function createPhysicsService() {
 
   function init() {
     updateSignalSubscription = updateSignal.debounce(OCTREE_UPDATES).subscribe(_signal => {
-      if (_signal[OCTREE_LAYER.NODES]) {
-        octrees[OCTREE_LAYER.NODES].update();
-        _signal[OCTREE_LAYER.NODES] = false;
-      }
-      if (_signal[OCTREE_LAYER.LAYER]) {
-        octrees[OCTREE_LAYER.LAYER].update();
-        _signal[OCTREE_LAYER.LAYER] = false;
-      }
+      handleOctreeUpdate(_signal, OCTREE_LAYER.NODES);
+      handleOctreeUpdate(_signal, OCTREE_LAYER.LAYER);
     });
+
     zoomLevelSubscription = eventBus.on('zoomLevelChanged').subscribe(zoomLevel => {
       if (zoomLevel > 250) {
         octrees[OCTREE_LAYER.LAYER].isEnabled = false;
@@ -38,6 +37,31 @@ export default function createPhysicsService() {
         octrees[OCTREE_LAYER.LAYER].isEnabled = true;
       }
     });
+  }
+
+  function handleOctreeUpdate(_signal, layer) {
+    if (_signal[layer]) {
+      for (let objectToRemove of removeObjectQueues[layer].values()) {
+        octrees[layer].remove(objectToRemove);
+      }
+
+      for (let objectToAdd of addObjectQueues[layer].values()) {
+        octrees[layer].add(objectToAdd);
+      }
+
+      for (let objectToUpdate of updateObjectQueues[layer].values()) {
+        objectToUpdate.updateMatrix();
+        objectToUpdate.updateMatrixWorld();
+
+        octrees[layer].updateObject(objectToUpdate);
+      }
+      addObjectQueues[layer].clear();
+      updateObjectQueues[layer].clear();
+      removeObjectQueues[layer].clear();
+
+      octrees[layer].update();
+      _signal[layer] = false;
+    }
   }
 
   function createOctree() {
@@ -63,7 +87,19 @@ export default function createPhysicsService() {
 
   function addCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
     if (obj) {
-      octrees[layer].add(obj);
+      addObjectQueues[layer].set(obj.uuid, obj);
+      removeObjectQueues[layer].delete(obj.uuid);
+      updateObjectQueues[layer].delete(obj.uuid);
+
+      signal[layer] = true;
+      updateSignal.emit(signal);
+    }
+  }
+
+  function updateCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
+    if (obj) {
+      updateObjectQueues[layer].set(obj.uuid, obj);
+      removeObjectQueues[layer].delete(obj.uuid);
 
       signal[layer] = true;
       updateSignal.emit(signal);
@@ -71,7 +107,9 @@ export default function createPhysicsService() {
   }
 
   function removeCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
-    octrees[layer].remove(obj);
+    removeObjectQueues[layer].set(obj.uuid, obj);
+    addObjectQueues[layer].delete(obj.uuid);
+    updateObjectQueues[layer].delete(obj.uuid);
 
     signal[layer] = true;
     updateSignal.emit(signal);
@@ -118,10 +156,18 @@ export default function createPhysicsService() {
     return undefined;
   }
 
+  function createQueues() {
+    const queue = {};
+    queue[OCTREE_LAYER.NODES] = new Map();
+    queue[OCTREE_LAYER.LAYER] = new Map();
+    return queue;
+  }
+
   return {
     init,
     checkRaycaster,
     addCollisionObject,
+    updateCollisionObject,
     removeCollisionObject,
     dispose
   };
