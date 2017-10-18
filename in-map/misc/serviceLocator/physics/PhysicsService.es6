@@ -11,10 +11,6 @@ export default function createPhysicsService() {
   octrees[OCTREE_LAYER.NODES] = createOctree();
   octrees[OCTREE_LAYER.LAYER] = createOctree();
 
-  const updateObjectQueues = {};
-  updateObjectQueues[OCTREE_LAYER.NODES] = [];
-  updateObjectQueues[OCTREE_LAYER.LAYER] = [];
-
   let zoomLevelSubscription;
 
   const signal = {};
@@ -27,24 +23,10 @@ export default function createPhysicsService() {
   function init() {
     updateSignalSubscription = updateSignal.debounce(OCTREE_UPDATES).subscribe(_signal => {
       if (_signal[OCTREE_LAYER.NODES]) {
-        for (let i = 0, length = updateObjectQueues[OCTREE_LAYER.NODES].length; i < length; i++) {
-          const objectToUpdate = updateObjectQueues[OCTREE_LAYER.NODES][i];
-          octrees[OCTREE_LAYER.NODES].remove(objectToUpdate);
-          octrees[OCTREE_LAYER.NODES].add(objectToUpdate);
-        }
-        updateObjectQueues[OCTREE_LAYER.NODES] = [];
-
         octrees[OCTREE_LAYER.NODES].update();
         _signal[OCTREE_LAYER.NODES] = false;
       }
       if (_signal[OCTREE_LAYER.LAYER]) {
-        for (let i = 0, length = updateObjectQueues[OCTREE_LAYER.LAYER].length; i < length; i++) {
-          const objectToUpdate = updateObjectQueues[OCTREE_LAYER.LAYER][i];
-          octrees[OCTREE_LAYER.LAYER].remove(objectToUpdate);
-          octrees[OCTREE_LAYER.LAYER].add(objectToUpdate);
-        }
-        updateObjectQueues[OCTREE_LAYER.LAYER] = [];
-
         octrees[OCTREE_LAYER.LAYER].update();
         _signal[OCTREE_LAYER.LAYER] = false;
       }
@@ -82,15 +64,6 @@ export default function createPhysicsService() {
   function addCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
     if (obj) {
       octrees[layer].add(obj);
-
-      signal[layer] = true;
-      updateSignal.emit(signal);
-    }
-  }
-
-  function updateCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
-    if (obj) {
-      updateObjectQueues[layer].push(obj);
 
       signal[layer] = true;
       updateSignal.emit(signal);
@@ -149,7 +122,6 @@ export default function createPhysicsService() {
     init,
     checkRaycaster,
     addCollisionObject,
-    updateCollisionObject,
     removeCollisionObject,
     dispose
   };

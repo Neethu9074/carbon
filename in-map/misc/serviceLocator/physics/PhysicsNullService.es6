@@ -5,7 +5,6 @@ const physicsNullService = {
   checkRaycaster: noop,
   addCollisionObject: noop,
   removeCollisionObject: noop,
-  updateCollisionObject: noop,
   dispose: noop
 };
 export default function createNullService() {
