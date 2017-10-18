@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ConnectionInformation from 'in-sdk/components/dashboard/LogicalServiceDashboard/components/ConnectionInformation';
+import ConnectionInformation from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionInformation';
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
