@@ -9,6 +9,7 @@ import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import HealthButton from 'in-components/health/HealthButton';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
@@ -43,9 +44,17 @@ export default connectTo(
       <MaxWidthFullscreenContainer>
         <div className={`${block}__heading`}>
           <BackButton label="Back to connection list" href$={getSubDashboardLink(backButtonPath)} />
-          <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-            Traces
-          </Button>
+          <div>
+            <Button
+              className={`${block}__traces-button`}
+              kind="secondary"
+              size="sm"
+              href$={getTraceViewLinkWithQuery(viewTracesQuery)}
+            >
+              Traces
+            </Button>
+            <HealthButton size="sm" snapshotId={snapshotId} />
+          </div>
         </div>
 
         <ConnectionInformation snapshot={snapshot} />
