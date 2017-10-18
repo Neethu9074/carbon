@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import React from 'react';
 
 import ConnectionSankey from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionSankey';
@@ -7,15 +6,22 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { getConnectedEntities } from 'in-stores/connectedEntities';
+import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { logicalViewStructure$ } from 'in-stores/view';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getSnapshots } from 'in-stores/snapshot';
+import { always } from 'in-services/fixedStreams';
+import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+
+import './ConnectionOverview.less';
+
+const block = 'in-service-connection-dashboard-overview';
 
 const cols = [
   {
@@ -28,7 +34,14 @@ const cols = [
       get(row) {
         return {
           value: 0,
-          content: <SvgIcon type={row.iconType} color="#40535b" height={12} width={12} />
+          content: (
+            <SvgIcon
+              type={row.type === 'incoming' ? 'arrow_right' : 'arrow_left'}
+              color="#40535b"
+              height={12}
+              width={12}
+            />
+          )
         };
       }
     }
@@ -38,12 +51,27 @@ const cols = [
     type: 'custom',
     typeArgs: {
       comparator: () => compareIgnoreCase,
-      get(row) {
-        const label = getLabel(row.connection);
-        return {
-          value: label,
-          content: <Link href$={getSubDashboardLink(`/connections/${row.key}`)}>{label}</Link>
-        };
+      get$(row) {
+        return getConnectedEntities(row.key).flatMap(connectedEntities => {
+          const id = row.type === 'incoming' ? 'sourceId' : 'destinationId';
+          if (!connectedEntities || !connectedEntities.get(id)) {
+            return always({
+              value: '',
+              content: <ConnectionLink snapshot={row.snapshot}>unknown</ConnectionLink>
+            });
+          }
+          return getSnapshot(connectedEntities.get(id)).map(snapshot => {
+            const label = getLabel(snapshot);
+            return {
+              value: label,
+              content: (
+                <ConnectionLink pluginSnapshot={snapshot} snapshot={row.snapshot}>
+                  {label}
+                </ConnectionLink>
+              )
+            };
+          });
+        });
       }
     }
   },
@@ -106,10 +134,10 @@ export default function ConnectionOverview({ snapshot, timeframe }) {
       <ConnectionSankey snapshot={snapshot} timeframe={timeframe} />
 
       <DashboardTile title="Incoming">
-        <ConnectionsTable snapshot={snapshot} property="incomingConnections" iconType="arrow_right" />
+        <ConnectionsTable snapshot={snapshot} type="incoming" />
       </DashboardTile>
       <DashboardTile title="Outgoing">
-        <ConnectionsTable snapshot={snapshot} property="outgoingConnections" iconType="arrow_left" />
+        <ConnectionsTable snapshot={snapshot} type="outgoing" />
       </DashboardTile>
     </MaxWidthFullscreenContainer>
   );
@@ -130,13 +158,14 @@ const ConnectionsTable = connectTo(
       }
       return null;
     });
+    const property = props.type === 'incoming' ? 'incomingConnections' : 'outgoingConnections';
     return {
       connections: entity$.flatMap(
-        entity => (entity ? getSnapshots(entity[props.property].map(c => c.id)) : alwaysEmptyArray)
+        entity => (entity ? getSnapshots(entity[property].map(c => c.id)) : alwaysEmptyArray)
       )
     };
   },
-  function ConnectionsTable({ connections, iconType }) {
+  function ConnectionsTable({ connections, type }) {
     let rows;
     if (!connections) {
       rows = [];
@@ -145,7 +174,7 @@ const ConnectionsTable = connectTo(
         return {
           key: connection.get('id'),
           snapshot: connection,
-          iconType: iconType,
+          type,
           connection
         };
       });
@@ -154,3 +183,12 @@ const ConnectionsTable = connectTo(
     return <Table cols={cols} rows={rows} />;
   }
 );
+
+function ConnectionLink({ pluginSnapshot, snapshot, children }) {
+  return (
+    <Link className={`${block}__link`} href$={getSubDashboardLink(`/connections/${snapshot.get('id')}`)}>
+      <PluginIcon className={`${block}__plugin-icon`} snapshot={pluginSnapshot} color="#2D4048" dimension={12} />
+      {children}
+    </Link>
+  );
+}
