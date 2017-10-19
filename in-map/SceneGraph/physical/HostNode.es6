@@ -98,11 +98,6 @@ export default class HostNode extends Node {
     this.entity = newParams.entity;
 
     this.sceneObjectInstance.eventEmitter.emit('updateSignal', true);
-    // // don't create layer if there are metrics shown. Layer are auto added after disabling maps metrics,
-    // // so there is no need to handle this case here
-    // if (!this.metricNode) {
-    //   this.addLayer();
-    // }
   }
 
   disposeMetricNode() {
