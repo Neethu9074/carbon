@@ -300,7 +300,17 @@ function createForm(rule) {
     .put(
       'matchingEntities',
       createField({
-        value: null
+        value: null,
+        validator: entities => {
+          if (entities && entities.snapshots && entities.snapshots.length > 10) {
+            return [
+              {
+                severity: 'error',
+                message: `The number of entities is limited to 10.`
+              }
+            ];
+          }
+        }
       })
     )
     .put(

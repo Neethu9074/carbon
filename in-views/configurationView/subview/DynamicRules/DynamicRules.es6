@@ -14,6 +14,7 @@ import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getCategories } from 'in-sdk/metrics';
+import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 
 const logger = createLogger('DynamicRules');
@@ -155,9 +156,17 @@ export default class extends React.Component {
         <SubViewHeader>DynamicRules</SubViewHeader>
 
         <Section>
-          <Button kind="info" onClick={this.addNewRule}>
-            Add New Rule
-          </Button>
+          {rows.length > 2 ? (
+            <Tooltip content="Number of rules is restricted to 2.">
+              <Button disabled kind="info" onClick={this.addNewRule}>
+                Add New Rule
+              </Button>
+            </Tooltip>
+          ) : (
+            <Button kind="info" onClick={this.addNewRule}>
+              Add New Rule
+            </Button>
+          )}
 
           {this.state.message ? (
             <Notification failure={this.state.error} loading={this.state.loading}>

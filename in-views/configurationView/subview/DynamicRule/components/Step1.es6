@@ -110,6 +110,13 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
               onChange={e => onChange('query', e.target.value)}
               hasError={!field.valid}
             />
+            {form.get('matchingEntities').map(field =>
+              field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))
+            )}
             {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>
                 {message.message}
