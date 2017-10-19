@@ -220,7 +220,7 @@ export function getColorForMostSevereEvents(events) {
   return getColorByEvent({ event: eventWithMaxSeverity });
 }
 
-const health = [
+export const healthColors = [
   '#ffffff',
   '#e3e2b8',
   '#eae18a',
@@ -244,7 +244,7 @@ export function getColorBySeverity(severity, params = {}) {
   if (severity === 0 && params.theme === 'day') {
     return '#bababa';
   }
-  return health[Math.max(0, severity) | 0];
+  return healthColors[Math.max(0, severity) | 0];
 }
 export const EVENT_TYPES = {
   CHANGE: 0,

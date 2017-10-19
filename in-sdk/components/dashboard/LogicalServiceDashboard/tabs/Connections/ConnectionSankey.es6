@@ -47,12 +47,20 @@ export default connectTo(
               timeWindowAggregation: 'sum',
               timeframe: props.timeframe
             });
-            return combineLatest([snapshot$, callCount$]).map(([snapshot, callCount]) => {
+            const errorRate$ = getTimeWindowBasedMetricAggregation({
+              snapshotId: connection.id,
+              metric: 'error_rate',
+              timeWindowAggregation: 'mean',
+              timeframe: props.timeframe
+            });
+            return combineLatest([snapshot$, callCount$, errorRate$]).map(([snapshot, callCount, errorRate]) => {
               return {
                 connectionId: connection.id,
                 direction: 'outgoing',
                 label: getLabel(snapshot),
-                callCount
+                callCount,
+                errorRate,
+                color: `hsl(360, ${(errorRate || 0) * 100}%, 42%)`
               };
             });
           })
@@ -67,12 +75,20 @@ export default connectTo(
               timeWindowAggregation: 'sum',
               timeframe: props.timeframe
             });
-            return combineLatest([snapshot$, callCount$]).map(([snapshot, callCount]) => {
+            const errorRate$ = getTimeWindowBasedMetricAggregation({
+              snapshotId: connection.id,
+              metric: 'error_rate',
+              timeWindowAggregation: 'mean',
+              timeframe: props.timeframe
+            });
+            return combineLatest([snapshot$, callCount$, errorRate$]).map(([snapshot, callCount, errorRate]) => {
               return {
                 connectionId: connection.id,
                 direction: 'incoming',
                 label: getLabel(snapshot),
-                callCount
+                callCount,
+                errorRate,
+                color: `hsl(360, ${(errorRate || 0) * 100}%, 42%)`
               };
             });
           })
@@ -85,20 +101,24 @@ export default connectTo(
         const data = {
           nodes: connections.map(connection => {
             return {
-              id: connection.label
+              id: connection.label,
+              color: connection.color
             };
           }),
           links: connections.map(connection => {
             return {
               source: connection.direction === 'incoming' ? connection.label : theSelectedService,
               target: connection.direction === 'outgoing' ? connection.label : theSelectedService,
-              value: Math.round(connection.callCount)
+              value: Math.round(connection.callCount),
+              errorRate: connection.errorRate,
+              color: connection.color
             };
           })
         };
 
         data.nodes.push({
-          id: theSelectedService
+          id: theSelectedService,
+          color: 'blue'
         });
 
         return data;
@@ -128,25 +148,25 @@ export default connectTo(
               bottom: 10,
               left: 0
             }}
-            nodeOpacity={0.75}
+            nodeOpacity={0.6}
             nodeHoverOpacity={1}
-            nodeWidth={18}
+            nodeWidth={16}
             nodePaddingX={4}
             nodePaddingY={12}
             nodeBorderWidth={0}
             nodeBorderColor="inherit:darker(0.4)"
-            linkOpacity={0.2}
+            colorBy={nodeColorBy}
+            linkOpacity={0.4}
             linkHoverOpacity={0.6}
-            linkHoverOthersOpacity={0.1}
+            linkHoverOthersOpacity={0.3}
             linkContract={0}
+            linkColorBy={linkColorBy}
             enableLabels
             labelOrientation="horizontal"
             labelPadding={12}
             labelTextColor="inherit:darker(2.4)"
             labelPosition="inside"
-            animate
-            motionStiffness={120}
-            motionDamping={11}
+            animate={false}
             isInteractive
           />
         </div>
@@ -154,3 +174,11 @@ export default connectTo(
     );
   }
 );
+
+function nodeColorBy(node) {
+  return node.color;
+}
+
+function linkColorBy(link) {
+  return link.color;
+}
