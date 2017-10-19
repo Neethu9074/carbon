@@ -82,9 +82,9 @@ export default class Node extends SceneObject {
 
     this.addComponent('collision', new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES));
 
-    this.addComponent('snapshot', new SnapshotComponent(this));
+    this.addComponent('snapshot', new SnapshotComponent(this, null, true)); // enable only if visible
 
-    this.addComponent('health', new HealthComponent(this));
+    this.addComponent('health', new HealthComponent(this, true)); // enable only if visible
 
     this.addComponent('power', new PowerComponent(this));
   }
