@@ -20,6 +20,10 @@ const PhysicsServiceLocator = (function create() {
     return service.removeCollisionObject(object, layerId);
   }
 
+  function updateCollisionObject(object, layerId) {
+    return service.updateCollisionObject(object, layerId);
+  }
+
   function dispose() {
     return service.dispose();
   }
@@ -43,6 +47,7 @@ const PhysicsServiceLocator = (function create() {
     provide,
     checkRaycaster,
     addCollisionObject,
+    updateCollisionObject,
     removeCollisionObject,
     dispose
   };

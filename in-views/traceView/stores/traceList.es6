@@ -15,6 +15,7 @@ let initPhase = false;
 let enabled = false;
 let subscriptions = [];
 let loadSubscription;
+let traceLoadSubscription;
 let autoUpdateHandle;
 
 // Timestamp bounds to use for queries. Will only be updated when the view
@@ -103,6 +104,7 @@ export function refresh() {
 
   if (tracesSubscription) {
     tracesSubscription.dispose();
+    tracesSubscription = null;
   }
 
   tracesSubscription = combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
@@ -120,14 +122,14 @@ export function loadMoreTraces() {
     return;
   }
 
+  disposeExistingLoad();
   isLoadingStore.mutateTo(true);
 
-  traces$.once(traces => {
+  traceLoadSubscription = traces$.once(traces => {
     const offset = traces.length;
     const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
     const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
 
-    disposeExistingLoad();
     loadSubscription = createTracesObservable({
       time: focusedMoment,
       maxTimestamp: maxTimestampForQuery,
@@ -182,5 +184,10 @@ function disposeExistingLoad() {
   if (loadSubscription) {
     loadSubscription.dispose();
     loadSubscription = null;
+  }
+
+  if (traceLoadSubscription) {
+    traceLoadSubscription.dispose();
+    traceLoadSubscription = null;
   }
 }
