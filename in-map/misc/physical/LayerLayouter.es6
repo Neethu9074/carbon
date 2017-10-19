@@ -18,6 +18,8 @@ export default function createLayouter(node) {
       const plugins = applyLayout(nodeTransform, _layer);
       if (plugins) {
         setupPluginIcons(plugins);
+      } else {
+        removeCurrentIcons();
       }
     });
 
