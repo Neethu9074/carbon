@@ -39,7 +39,7 @@ export default function EndpointOverview({ snapshot }) {
 
   return (
     <MaxWidthFullscreenContainer>
-      <DashboardTile title="Ednpoints">
+      <DashboardTile title="Endpoints">
         <Table cols={cols} rows={rows} />
       </DashboardTile>
     </MaxWidthFullscreenContainer>
