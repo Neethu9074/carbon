@@ -19,7 +19,7 @@ export default createTooltip(
       return {
         snapshot: getSnapshot(props.entity.id),
         mostImportantEvent: getMostImportantEventAtFocusedMoment(props.entity.id).startWith(null),
-        layer: props.entity.layer.stream
+        layer: props.entity.layer.stream.throttle(100)
       };
     },
     function Node({ snapshot, layer, mostImportantEvent }) {

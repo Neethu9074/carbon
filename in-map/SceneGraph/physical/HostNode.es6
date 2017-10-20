@@ -37,6 +37,7 @@ export default class HostNode extends Node {
         activeMetric$,
         eventBus.on('zoomLevelChanged'),
         this.sceneObjectInstance.eventEmitter.on('isVisibleChanged' + this.sceneObjectInstance.id).distinct(),
+        this.sceneObjectInstance.eventEmitter.on('isHighlighted'),
         this.sceneObjectInstance.eventEmitter.on('updateSignal')
       ])
         .debounce(100)
@@ -48,8 +49,8 @@ export default class HostNode extends Node {
     isHighlighted ? this.connectionNode.createConnections(this.entity, _nodes) : this.connectionNode.clearConnections();
   }
 
-  activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible]) {
-    if (activeMetric || !isVisible || zoomLevel > MAX_ZOOM_LEVEL) {
+  activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible, isHighlighted]) {
+    if (!isHighlighted && (activeMetric || !isVisible || zoomLevel > MAX_ZOOM_LEVEL)) {
       // clear current layer
       this.updateEntities(emptyArray);
     } else {
