@@ -102,13 +102,14 @@ export default function createForecastController(config) {
     const snapshotId = config.snapshotId;
     const rollup = config.forecastConfig.rollup.rollup;
 
-    function subscribeToMetric(metricName, queueIndex, queue, callback) {
+    function subscribeToMetric(focusedMoment, metricName, queueIndex, queue, callback) {
       timeframeSpecificSubscriptions.push(
         getMetricsForTimeframe({
           snapshotId,
           metric: metricName,
           timeframe: config.timeframe,
-          rollup
+          rollup,
+          focusedMoment
         }).subscribe(dataPoints => callback(dataPoints, queue, queueIndex))
       );
     }
@@ -131,18 +132,24 @@ export default function createForecastController(config) {
 
     for (let i = 0, length = forecastConfig.metrics.length; i < length; i++) {
       const forecastMetric = forecastConfig.metrics[i];
-      subscribeToMetric(forecastMetric.lowMetric, 0, axis.forecastConfig.queue, addDataPoints);
-      subscribeToMetric(forecastMetric.highMetric, 1, axis.forecastConfig.queue, addDataPoints);
+      subscribeToMetric(axis.focusedMoment, forecastMetric.lowMetric, 0, axis.forecastConfig.queue, addDataPoints);
+      subscribeToMetric(axis.focusedMoment, forecastMetric.highMetric, 1, axis.forecastConfig.queue, addDataPoints);
 
-      subscribeToMetric(forecastMetric.anomalyMetric, 0, axis.forecastConfig.anomalyQueue, dataPoints => {
-        axis.forecastConfig.anomalies = {};
-        for (let i = 0, length = dataPoints.length; i < length; i++) {
-          const dataPoint = dataPoints[i];
-          axis.forecastConfig.anomalies[dataPoint.time] = dataPoint;
-          axis.forecastConfig.anomalies[dataPoint.time - rollup] = dataPoint;
-          axis.forecastConfig.anomalies[dataPoint.time + rollup] = dataPoint;
+      subscribeToMetric(
+        axis.focusedMoment,
+        forecastMetric.anomalyMetric,
+        0,
+        axis.forecastConfig.anomalyQueue,
+        dataPoints => {
+          axis.forecastConfig.anomalies = {};
+          for (let i = 0, length = dataPoints.length; i < length; i++) {
+            const dataPoint = dataPoints[i];
+            axis.forecastConfig.anomalies[dataPoint.time] = dataPoint;
+            axis.forecastConfig.anomalies[dataPoint.time - rollup] = dataPoint;
+            axis.forecastConfig.anomalies[dataPoint.time + rollup] = dataPoint;
+          }
         }
-      });
+      );
     }
   }
 

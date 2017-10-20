@@ -2,9 +2,9 @@ import React from 'react';
 
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import addSection from 'in-views/eventView/hocs/addSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
+import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -26,6 +26,12 @@ export default addSection(
       };
     },
     function EventChart({ to, event }) {
+      const anomalyMap = {};
+      event
+        .getIn(['metadata', 'anomalies'], emptyList)
+        .toArray()
+        .forEach(anomalyConfig => (anomalyMap[anomalyConfig.get('metricName')] = anomalyConfig));
+
       const triggeringMetrics = event
         .getIn(['metadata', 'metrics'], emptyList)
         .toArray()
@@ -36,6 +42,7 @@ export default addSection(
             const metricName = metric.get('metricName');
             const timeframe = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeframe);
+            const anomalyConfig = anomalyMap[metricName];
 
             return (
               <ChartWrapper
@@ -45,6 +52,7 @@ export default addSection(
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
                 rollup={rollup.label}
+                anomalyConfig={anomalyConfig}
               />
             );
           })}
@@ -61,9 +69,23 @@ const ChartWrapper = connectTo(
       snapshot: getSnapshot(props.snapshotId, props.start)
     };
   },
-  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup }) {
+  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
     if (!snapshot) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+    }
+
+    let forecastSensitivity;
+    let focusedMoment;
+    if (anomalyConfig) {
+      const oneDay = 1000 * 60 * 60 * 24;
+      forecastSensitivity = 100 * anomalyConfig.get('sensitivity', 1);
+      focusedMoment = anomalyConfig.get('ts');
+      timeframe$ = timeframe$.map(timeframe => {
+        return {
+          to: timeframe.to ? timeframe.to : Date.now() + oneDay,
+          windowSize: oneDay * 14
+        };
+      });
     }
 
     const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
@@ -74,16 +96,21 @@ const ChartWrapper = connectTo(
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
-            left: 80
+            left: 80,
+            right: 1
           }}
+          avoidMarginOverrides
           y1={{
             metrics: [metric],
             labels: [chartConfig.getLabel(snapshot, metric)],
             min: chartConfig.getMin(snapshot),
             max: chartConfig.getMax(snapshot),
             type: 'line',
-            formatter: chartConfig.formatter.detailed,
-            tooltipFormatter: chartConfig.formatter.detailed
+            formatter: chartConfig.formatter.compact,
+            tooltipFormatter: chartConfig.formatter.detailed,
+            enableForecast: anomalyConfig ? true : false,
+            forecastSensitivity,
+            focusedMoment
           }}
         />
       </div>

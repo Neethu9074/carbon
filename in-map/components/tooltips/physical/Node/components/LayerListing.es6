@@ -1,8 +1,7 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { getSingular, getPlural } from 'in-sdk/pluginName';
-import { getSnapshot } from 'in-stores/snapshot';
+import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './LayerListing.less';
@@ -16,9 +15,9 @@ export default connectTo(
     }
 
     const ids = [];
-    props.layer.forEach((value, id) => ids.push(getSnapshot(id)));
+    props.layer.forEach((value, id) => ids.push(id));
     return {
-      snapshots: combineLatest(ids)
+      snapshots: getSnapshots(ids)
     };
   },
   function LayerListing({ snapshots }) {
@@ -40,6 +39,9 @@ export default connectTo(
           ))}
       </ul>
     );
+  },
+  {
+    pure: false
   }
 );
 
