@@ -8,12 +8,13 @@ import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
 
-import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/lib/timers';
 import { init as initHighlightedSuggestionStore } from 'in-components/SearchBar/stores/highlightedSuggestion';
 import { init as initGlyphTexture } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDialogPresenter';
 import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayouterStorage';
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
+import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/lib/timers';
+import { init as initDebuggingBackchannel } from 'in-services/debuggingBackchannel';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
 import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
@@ -81,6 +82,7 @@ initEvents();
 initEventsInTimeframe();
 initFaviconHandling();
 initErrorBoundary();
+initDebuggingBackchannel();
 
 ReactDOM.render(
   <Router history={history}>

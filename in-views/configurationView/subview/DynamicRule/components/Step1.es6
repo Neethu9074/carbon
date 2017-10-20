@@ -27,7 +27,6 @@ const furtherPluginsToFilter = [
 ];
 const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
   .map(key => servicePlugins[key])
-  .filter(plugin => plugin === 'browserLogicalService')
   .filter(plugin => furtherPluginsToFilter.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
@@ -111,6 +110,13 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
               onChange={e => onChange('query', e.target.value)}
               hasError={!field.valid}
             />
+            {form.get('matchingEntities').map(field =>
+              field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))
+            )}
             {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>
                 {message.message}

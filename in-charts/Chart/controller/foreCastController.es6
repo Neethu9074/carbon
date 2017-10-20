@@ -116,7 +116,7 @@ export default function createForecastController(config) {
     for (let i = 0, length = axis.metrics.length; i < length; i++) {
       const metric = axis.metrics[i];
 
-      const sensitivity = axis.forecastSensitivity || '99';
+      const sensitivity = axis.forecastSensitivity != undefined ? axis.forecastSensitivity : '99';
       const lowMetric = metric + '.forecast.low.' + sensitivity;
       const highMetric = metric + '.forecast.high.' + sensitivity;
       const anomalyMetric = metric + '.forecast.anomaly.' + sensitivity;

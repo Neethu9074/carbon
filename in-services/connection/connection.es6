@@ -5,6 +5,7 @@ import ConnectionLostState from 'in-services/connection/states/ConnectionLostSta
 import WindowHiddenState from 'in-services/connection/states/WindowHiddenState';
 import WaitForInitState from 'in-services/connection/states/WaitForInitState';
 import ConnectedState from 'in-services/connection/states/ConnectedState';
+import { compare } from 'in-services/util/string';
 import { createFsm } from 'in-services/fsm';
 
 window.instana.dev = window.instana.dev || {};
@@ -43,7 +44,7 @@ const sharedState = (window.instana.dev.ws = {
 });
 
 export const connection = createFsm({
-  publicApiMethods: ['init', 'subscribe', 'unsubscribe', 'getNewSubscriptionId', 'on', 'off'],
+  publicApiMethods: ['init', 'subscribe', 'unsubscribe', 'getNewSubscriptionId', 'on', 'off', 'send'],
 
   initialState: 'waitForInit',
 
@@ -58,4 +59,23 @@ export const connection = createFsm({
 
 export function init() {
   connection.init();
+}
+
+export function getDebuggingData() {
+  const subscriptions = [];
+  const counts = {};
+
+  sharedState.subscriptions.forEach(subscriptionDescription => {
+    const event = subscriptionDescription.event;
+    counts[event] = (counts[event] || 0) + 1;
+    subscriptions.push({
+      event: event,
+      payload: subscriptionDescription.payload,
+      subscribed: subscriptionDescription.isSubscribedToBackend
+    });
+  });
+
+  subscriptions.sort((a, b) => compare(a.event, b.event));
+
+  return { subscriptions, counts };
 }

@@ -7,8 +7,11 @@ import NodeSceneObject from 'in-map/sceneObjects/physical/Node';
 import LayerNode from 'in-map/SceneGraph/physical/LayerNode';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { emptyArray } from 'in-services/fixedObjects';
+import { eventBus } from 'in-map/services/eventBus';
 import { activeMetric$ } from 'in-stores/metric';
 import Node from 'in-map/SceneGraph/Node';
+
+const MAX_ZOOM_LEVEL = 300;
 
 export default class HostNode extends Node {
   constructor(params) {
@@ -24,13 +27,20 @@ export default class HostNode extends Node {
     this.metricNode = null;
 
     const highlightingChangedCallback = this.highlightingChanged.bind(this);
-    const activeMetricChangedCallback = this.activeMetricChanged.bind(this);
+    const activeMetricAndVisibilityChangedCallback = this.activeMetricAndVisibilityChanged.bind(this);
 
     this.addSubscriptions([
       combineLatest([this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(), nodes.stream]).subscribe(
         highlightingChangedCallback
       ),
-      activeMetric$.subscribe(activeMetricChangedCallback)
+      combineLatest([
+        activeMetric$,
+        eventBus.on('zoomLevelChanged'),
+        this.sceneObjectInstance.eventEmitter.on('isVisibleChanged' + this.sceneObjectInstance.id).distinct(),
+        this.sceneObjectInstance.eventEmitter.on('updateSignal')
+      ])
+        .debounce(100)
+        .subscribe(activeMetricAndVisibilityChangedCallback)
     ]);
   }
 
@@ -38,11 +48,16 @@ export default class HostNode extends Node {
     isHighlighted ? this.connectionNode.createConnections(this.entity, _nodes) : this.connectionNode.clearConnections();
   }
 
-  activeMetricChanged(activeMetric) {
-    if (activeMetric) {
+  activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible]) {
+    if (activeMetric || !isVisible || zoomLevel > MAX_ZOOM_LEVEL) {
       // clear current layer
       this.updateEntities(emptyArray);
-
+    } else {
+      if (!activeMetric) {
+        this.addLayer();
+      }
+    }
+    if (activeMetric) {
       if (!this.metricNode) {
         this.metricNode = new HostMetricNode({
           id: `${this.params.id}_metric`,
@@ -52,7 +67,6 @@ export default class HostNode extends Node {
       }
     } else {
       this.disposeMetricNode();
-      this.addLayer();
     }
   }
 
@@ -83,11 +97,7 @@ export default class HostNode extends Node {
     this.includedIds = newParams.includedIds;
     this.entity = newParams.entity;
 
-    // don't create layer if there are metrics shown. Layer are auto added after disabling maps metrics,
-    // so there is no need to handle this case here
-    if (!this.metricNode) {
-      this.addLayer();
-    }
+    this.sceneObjectInstance.eventEmitter.emit('updateSignal', true);
   }
 
   disposeMetricNode() {

@@ -115,13 +115,34 @@ export default getElementDimensions(
           if (change.origin === 'paste') {
             change.text = [change.text.join(' ')];
           }
+
+          const query = editor.getValue();
+          const { ch } = editor.getCursor();
+          const cursor = ch - 1;
+          const tokens = lex(query);
+          const changedToken = getTokenForColumn(tokens, cursor);
+
+          // we want to support typing flow
+          if (
+            change &&
+            change.origin === '+input' && // only on add input
+            change.text[0] === '"' &&
+            changedToken &&
+            changedToken.lexeme.length > 1 && // more than 1 character
+            changedToken.lexeme.indexOf('"') === 0 && // starts with "
+            changedToken.end - 1 === cursor &&
+            changedToken.token === 'phrase' &&
+            changedToken.lexeme[changedToken.lexeme.length - 1] !== '"' // ends with "
+          ) {
+            change.text = [change.text + ' '];
+          }
         });
 
-        editor.on('focus', editor => {
+        editor.on('focus', () => {
           this.isFocused = true;
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
           if (this.focusByUserClick) {
-            onChange(editor);
+            onChange();
           }
           this.focusByUserClick = false;
         });
@@ -167,7 +188,7 @@ export default getElementDimensions(
             return;
           }
 
-          onChange(editor);
+          onChange(change, editor);
         });
 
         const onChange = () => {
@@ -175,6 +196,8 @@ export default getElementDimensions(
           const { ch } = editor.getCursor();
           const cursor = ch - 1;
           const tokens = lex(query);
+          const changedToken = getTokenForColumn(tokens, cursor);
+
           autocompleteShownForCursorPosition = ch;
 
           const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
@@ -190,7 +213,6 @@ export default getElementDimensions(
             return;
           }
 
-          const changedToken = getTokenForColumn(tokens, cursor);
           if (
             changedToken == null ||
             (changedToken.token !== 'term' && changedToken.token !== 'field' && changedToken.token !== 'fieldSeparator')

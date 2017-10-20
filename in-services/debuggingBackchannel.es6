@@ -1,0 +1,43 @@
+import { get } from 'lodash';
+
+import getUiDebuggingInstructions from 'in-services/subscription/getUiDebuggingInstructions';
+import { connection, getDebuggingData } from 'in-services/connection';
+import { allStates } from 'in-stores/store';
+
+export function init() {
+  getUiDebuggingInstructions().subscribe(gatherAndTransmitDebuggingData);
+}
+
+function gatherAndTransmitDebuggingData(instructions) {
+  const debugData = {
+    href: window.location.href,
+    storeStates: allStates,
+    subscriptions: getDebuggingData()
+  };
+
+  if (instructions.selector.paths.length === 0) {
+    connection.send('debug', ensureJsonSerializability(debugData));
+  } else {
+    const filtered = {};
+
+    instructions.selector.paths.forEach(path => {
+      const value = get(debugData, path);
+      if (value !== undefined) {
+        filtered[path.join('.')] = value;
+      }
+    });
+
+    connection.send('debug', ensureJsonSerializability(filtered));
+  }
+}
+
+function ensureJsonSerializability(obj) {
+  for (let key in obj) {
+    try {
+      JSON.stringify(obj[key]);
+    } catch (e) {
+      obj[key] = 'JSON serialization failed: ' + e.message;
+    }
+  }
+  return obj;
+}

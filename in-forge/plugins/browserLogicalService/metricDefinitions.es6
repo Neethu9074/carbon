@@ -71,7 +71,7 @@ export default [
     formatter: number
   },
   {
-    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'pro', 'loa', 'fp'],
+    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi', 'fp'],
     labels: [
       'Unload Time',
       'Redirect Time',
@@ -81,8 +81,8 @@ export default [
       'SSL Time',
       'Request Time',
       'Response Time',
-      'Processing Time',
-      'Load Time',
+      'DOM',
+      'Children',
       'First Paint Time'
     ],
     category: ['Page Load Breakdown'],
