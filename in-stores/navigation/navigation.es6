@@ -1,6 +1,7 @@
 /* global process:false */
 import qs from 'qs';
 
+import { luceneEscapeString } from 'in-stores/search/manipulation';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -299,9 +300,9 @@ export function getEventsViewFilteredByEntity(entityId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/events';
     if (params.query.q) {
-      params.query.q += ` entity.id:${entityId}`;
+      params.query.q += ` entity.id:"${luceneEscapeString(entityId)}"`;
     } else {
-      params.query.q = `entity.id:${entityId}`;
+      params.query.q = `entity.id:"${luceneEscapeString(entityId)}"`;
     }
   });
 }
