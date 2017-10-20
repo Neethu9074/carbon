@@ -13,7 +13,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
     this.get3DPositionToProjectCallback = get3DPositionToProject;
 
-    this.wiggleRoom = { x: 200, y: 200 };
+    this.wiggleRoom = { x: 150, y: 150 };
     this.screenPositionAnchor = ZERO.clone();
     this.screenPosition = { x: 0, y: 0 };
     this.wasInView = false;
@@ -91,9 +91,9 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
     const screenPos = this.screenPosition;
     return (
       screenPos.x + this.wiggleRoom.x > 0 &&
-      screenPos.x + this.wiggleRoom.x <= width &&
+      screenPos.x - this.wiggleRoom.x <= width &&
       screenPos.y + this.wiggleRoom.y > 0 &&
-      screenPos.y + this.wiggleRoom.y <= height
+      screenPos.y - this.wiggleRoom.y <= height
     );
   }
 
