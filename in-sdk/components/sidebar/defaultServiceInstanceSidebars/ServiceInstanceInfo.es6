@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { getClusterMembers } from 'in-stores/clusterMembers';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { getClusterMembers } from 'in-stores/clusterMembers';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';

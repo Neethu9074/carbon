@@ -2,10 +2,10 @@ import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
-import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
