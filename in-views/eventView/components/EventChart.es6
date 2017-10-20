@@ -26,6 +26,12 @@ export default addSection(
       };
     },
     function EventChart({ to, event }) {
+      const anomalyMap = {};
+      event
+        .getIn(['metadata', 'anomalies'], emptyList)
+        .toArray()
+        .forEach(anomalyConfig => (anomalyMap[anomalyConfig.get('metricName')] = anomalyConfig));
+
       const triggeringMetrics = event
         .getIn(['metadata', 'metrics'], emptyList)
         .toArray()
@@ -36,6 +42,7 @@ export default addSection(
             const metricName = metric.get('metricName');
             const timeframe = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeframe);
+            const anomalyConfig = anomalyMap[metricName];
 
             return (
               <ChartWrapper
@@ -45,6 +52,7 @@ export default addSection(
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
                 rollup={rollup.label}
+                anomalyConfig={anomalyConfig}
               />
             );
           })}
@@ -61,9 +69,21 @@ const ChartWrapper = connectTo(
       snapshot: getSnapshot(props.snapshotId, props.start)
     };
   },
-  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup }) {
+  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
     if (!snapshot) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+    }
+
+    let forecastSensitivity;
+    if (anomalyConfig) {
+      const oneDay = 1000 * 60 * 60 * 24;
+      forecastSensitivity = anomalyConfig.get('sensitivity', 100);
+      timeframe$ = timeframe$.map(timeframe => {
+        return {
+          to: timeframe.to ? timeframe.to : Date.now() + oneDay,
+          windowSize: oneDay * 14
+        };
+      });
     }
 
     const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
@@ -83,7 +103,9 @@ const ChartWrapper = connectTo(
             max: chartConfig.getMax(snapshot),
             type: 'line',
             formatter: chartConfig.formatter.detailed,
-            tooltipFormatter: chartConfig.formatter.detailed
+            tooltipFormatter: chartConfig.formatter.detailed,
+            enableForecast: anomalyConfig ? true : false,
+            forecastSensitivity
           }}
         />
       </div>
