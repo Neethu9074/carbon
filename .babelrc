@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "preval",
     "transform-class-properties",
     "check-es2015-constants",
     ["transform-es2015-arrow-functions", {"loose": true}],

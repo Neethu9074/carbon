@@ -37,6 +37,7 @@ module.exports = {
     delete globals["name"];
     globals.Promise = false;
     globals.__DEV__ = false;
+    globals.preval = false;
     return globals;
   }()),
 

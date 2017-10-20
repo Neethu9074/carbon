@@ -12,6 +12,10 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+const errorRateColor = preval`
+module.exports = require('tinygradient')('#ddd', '#ff4229').hsv(9).map(c => '#' + c.toHex());
+`;
+
 export default connectTo(
   props => {
     const snapshotId = props.snapshot.get('id');
@@ -52,15 +56,29 @@ export default connectTo(
               metric: 'error_rate',
               timeWindowAggregation: 'mean',
               timeframe: props.timeframe
-            });
-            return combineLatest([snapshot$, callCount$, errorRate$]).map(([snapshot, callCount, errorRate]) => {
+            }).startWith(0);
+            const otherErrorRate$ = getTimeWindowBasedMetricAggregation({
+              snapshotId: connection.otherId,
+              metric: 'error_rate',
+              timeWindowAggregation: 'mean',
+              timeframe: props.timeframe
+            }).startWith(null);
+            return combineLatest([
+              snapshot$,
+              callCount$,
+              errorRate$,
+              otherErrorRate$
+            ]).map(([snapshot, callCount, errorRate, otherErrorRate]) => {
+              otherErrorRate = otherErrorRate != null ? otherErrorRate : errorRate;
               return {
                 connectionId: connection.id,
                 direction: 'outgoing',
                 label: getLabel(snapshot),
                 callCount,
                 errorRate,
-                color: `hsl(360, ${(errorRate || 0) * 100}%, 42%)`
+                otherErrorRate,
+                color: errorRateColor[Math.round(errorRate * 9)],
+                otherColor: errorRateColor[Math.round(otherErrorRate * 9)]
               };
             });
           })
@@ -80,15 +98,29 @@ export default connectTo(
               metric: 'error_rate',
               timeWindowAggregation: 'mean',
               timeframe: props.timeframe
-            });
-            return combineLatest([snapshot$, callCount$, errorRate$]).map(([snapshot, callCount, errorRate]) => {
+            }).startWith(0);
+            const otherErrorRate$ = getTimeWindowBasedMetricAggregation({
+              snapshotId: connection.otherId,
+              metric: 'error_rate',
+              timeWindowAggregation: 'mean',
+              timeframe: props.timeframe
+            }).startWith(null);
+            return combineLatest([
+              snapshot$,
+              callCount$,
+              errorRate$,
+              otherErrorRate$
+            ]).map(([snapshot, callCount, errorRate, otherErrorRate]) => {
+              otherErrorRate = otherErrorRate != null ? otherErrorRate : errorRate;
               return {
                 connectionId: connection.id,
                 direction: 'incoming',
                 label: getLabel(snapshot),
                 callCount,
                 errorRate,
-                color: `hsl(360, ${(errorRate || 0) * 100}%, 42%)`
+                otherErrorRate,
+                color: errorRateColor[Math.round(errorRate * 9)],
+                otherColor: errorRateColor[Math.round(otherErrorRate * 9)]
               };
             });
           })
@@ -102,7 +134,8 @@ export default connectTo(
           nodes: connections.map(connection => {
             return {
               id: connection.label,
-              color: connection.color
+              color: connection.otherColor,
+              errorRate: connection.otherErrorRate
             };
           }),
           links: connections.map(connection => {
@@ -118,7 +151,7 @@ export default connectTo(
 
         data.nodes.push({
           id: theSelectedService,
-          color: 'blue'
+          color: '#ddd'
         });
 
         return data;
@@ -135,7 +168,7 @@ export default connectTo(
     }
     return (
       <DashboardTile title="Overview">
-        <strong>Colors, interaction with this chart and more details are not yet done.</strong>
+        <strong>Interaction with this chart and labels are not yet done.</strong>
 
         <div style={{ height: '200px' }}>
           <ResponsiveSankey
