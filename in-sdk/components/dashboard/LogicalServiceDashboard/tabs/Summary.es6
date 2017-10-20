@@ -9,7 +9,6 @@ import { number, millis } from 'in-services/formatters/number';
 import HealthButton from 'in-components/health/HealthButton';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
-
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
