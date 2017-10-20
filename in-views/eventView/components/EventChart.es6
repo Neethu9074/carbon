@@ -2,9 +2,9 @@ import React from 'react';
 
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import addSection from 'in-views/eventView/hocs/addSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
+import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -94,15 +94,17 @@ const ChartWrapper = connectTo(
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
-            left: 80
+            left: 80,
+            right: 1
           }}
+          avoidMarginOverrides
           y1={{
             metrics: [metric],
             labels: [chartConfig.getLabel(snapshot, metric)],
             min: chartConfig.getMin(snapshot),
             max: chartConfig.getMax(snapshot),
             type: 'line',
-            formatter: chartConfig.formatter.detailed,
+            formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
             enableForecast: anomalyConfig ? true : false,
             forecastSensitivity
