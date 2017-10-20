@@ -37,8 +37,8 @@ function getTabs() {
       component: Endpoints
     },
     {
-      label: 'Service Instances',
-      path: '/serviceInstances',
+      label: 'Instances',
+      path: '/instances',
       component: ServiceInstances
     }
   ];

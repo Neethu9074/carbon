@@ -8,7 +8,7 @@ export default function ServiceInstances({ snapshot, timeframe }) {
   return (
     <Switch>
       <Route
-        path={`*/dashboard/serviceInstances/:serviceInstanceId`}
+        path={`*/dashboard/instances/:serviceInstanceId`}
         render={({ match }) => {
           return <ServiceInstanceSummary serviceInstanceId={match.params.serviceInstanceId} timeframe={timeframe} />;
         }}

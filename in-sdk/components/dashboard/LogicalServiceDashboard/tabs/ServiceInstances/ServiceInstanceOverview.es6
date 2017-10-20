@@ -2,6 +2,7 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
@@ -22,8 +23,59 @@ const cols = [
         const label = getLabel(row.serviceInstance);
         return {
           value: label,
-          content: <Link href$={getSubDashboardLink(`/serviceInstances/${row.key}`)}>{label}</Link>
+          content: <Link href$={getSubDashboardLink(`/instances/${row.key}`)}>{label}</Link>
         };
+      }
+    }
+  },
+  {
+    title: 'Calls (sum)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'count';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Latency (avg)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'duration.mean';
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Error Rate (avg)',
+    type: 'sparkChart',
+    typeArgs: {
+      forceTimeWindowAggregation: true,
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'error_rate';
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -53,7 +105,7 @@ export default connectTo(
 
     return (
       <MaxWidthFullscreenContainer>
-        <DashboardTile title="Service Instances">
+        <DashboardTile title="Instances">
           <Table cols={cols} rows={rows} />
         </DashboardTile>
       </MaxWidthFullscreenContainer>

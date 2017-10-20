@@ -48,7 +48,7 @@ export default connectTo(
     return (
       <MaxWidthFullscreenContainer>
         <div className={`${block}__heading`}>
-          <BackButton label="Back to service instance list" href$={getSubDashboardLink(`/serviceInstances`)} />
+          <BackButton label="Back to instance list" href$={getSubDashboardLink(`/instances`)} />
           <div>
             <Button
               className={`${block}__traces-button`}
