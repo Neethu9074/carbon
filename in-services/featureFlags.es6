@@ -14,6 +14,7 @@ export const traceAnalyticsEnabled = onlyInternally;
 export const cockpitEnabled = false;
 export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
+export const newServiceDashboardsEnabled = onlyInternally;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {

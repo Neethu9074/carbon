@@ -11,8 +11,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'WebApp Instance',
-    plural: 'WebApp Instances'
+    singular: 'Web Service Instance',
+    plural: 'Web Service Instances'
   },
 
   chartWiggleRoom: 20000,
