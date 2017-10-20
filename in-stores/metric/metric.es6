@@ -70,17 +70,27 @@ export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup })
   });
 }
 
-function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
+function getHistoricMetrics({ snapshotId, metric, timeframe, rollup, focusedMoment }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe).rollup;
   }
 
-  return focusedMoment$.flatMap(focusedMoment =>
-    createHistoricMetricsObservable({
+  if (focusedMoment) {
+    return createHistoricMetricsObservable({
       snapshotId,
       metric,
       timeframe,
       focusedMoment,
+      rollup
+    });
+  }
+
+  return focusedMoment$.flatMap(_focusedMoment =>
+    createHistoricMetricsObservable({
+      snapshotId,
+      metric,
+      timeframe,
+      focusedMoment: _focusedMoment,
       rollup
     })
   );

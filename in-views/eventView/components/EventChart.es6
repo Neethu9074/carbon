@@ -75,9 +75,11 @@ const ChartWrapper = connectTo(
     }
 
     let forecastSensitivity;
+    let focusedMoment;
     if (anomalyConfig) {
       const oneDay = 1000 * 60 * 60 * 24;
       forecastSensitivity = 100 * anomalyConfig.get('sensitivity', 1);
+      focusedMoment = anomalyConfig.get('ts');
       timeframe$ = timeframe$.map(timeframe => {
         return {
           to: timeframe.to ? timeframe.to : Date.now() + oneDay,
@@ -107,7 +109,8 @@ const ChartWrapper = connectTo(
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
             enableForecast: anomalyConfig ? true : false,
-            forecastSensitivity
+            forecastSensitivity,
+            focusedMoment
           }}
         />
       </div>
