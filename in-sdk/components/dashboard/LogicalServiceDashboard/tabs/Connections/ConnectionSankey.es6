@@ -6,6 +6,7 @@ import React from 'react';
 
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { number, percentage } from 'in-services/formatters/number';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { logicalViewStructure$ } from 'in-stores/view';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -133,15 +134,18 @@ export default connectTo(
         const data = {
           nodes: connections.map(connection => {
             return {
-              id: connection.label,
+              id: connection.connectionId,
+              label: `${connection.label} (${number.compact(connection.callCount)} calls, ${percentage.compact(
+                connection.errorRate
+              )} errors)`,
               color: connection.otherColor,
               errorRate: connection.otherErrorRate
             };
           }),
           links: connections.map(connection => {
             return {
-              source: connection.direction === 'incoming' ? connection.label : theSelectedService,
-              target: connection.direction === 'outgoing' ? connection.label : theSelectedService,
+              source: connection.direction === 'incoming' ? connection.connectionId : snapshotId,
+              target: connection.direction === 'outgoing' ? connection.connectionId : snapshotId,
               value: Math.round(connection.callCount),
               errorRate: connection.errorRate,
               color: connection.color
@@ -150,7 +154,8 @@ export default connectTo(
         };
 
         data.nodes.push({
-          id: theSelectedService,
+          id: snapshotId,
+          label: getLabel(props.snapshot),
           color: '#ddd'
         });
 
@@ -201,6 +206,7 @@ export default connectTo(
             labelPosition="inside"
             animate={false}
             isInteractive
+            label={getNodeLabel}
           />
         </div>
       </DashboardTile>
@@ -214,4 +220,8 @@ function nodeColorBy(node) {
 
 function linkColorBy(link) {
   return link.color;
+}
+
+function getNodeLabel(node) {
+  return node.label;
 }
