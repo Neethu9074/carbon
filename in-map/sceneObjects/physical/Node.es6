@@ -1,3 +1,5 @@
+import { combineLatest } from 'reactive-observables';
+
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
@@ -20,6 +22,7 @@ import { showSticky$ } from 'in-map/stores/physical/nodesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { getColorBySeverity } from 'in-stores/events';
+import { eventBus } from 'in-map/services/eventBus';
 
 export default class Node extends SceneObject {
   constructor(params) {
@@ -94,9 +97,14 @@ export default class Node extends SceneObject {
 
     const isVisibleChangedCallback = this.isVisibleChanged.bind(this);
     const healthChangedCallback = this.healthChanged.bind(this);
+    const wordUnitsToPxChanged = this.wordUnitsToPxChanged.bind(this);
+
     this.addSubscriptions([
       this.eventEmitter.on('isVisibleChanged' + this.id).subscribe(isVisibleChangedCallback),
-      this.eventEmitter.on('healthChanged').subscribe(healthChangedCallback)
+      this.eventEmitter.on('healthChanged').subscribe(healthChangedCallback),
+      combineLatest([eventBus.on('worldUnitsToPx'), this.eventEmitter.on('transformationChanged')]).subscribe(
+        wordUnitsToPxChanged
+      )
     ]);
   }
 
@@ -114,6 +122,15 @@ export default class Node extends SceneObject {
     const severity = health ? health.get('maxSeverity', 0) : 0;
     const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
     this.getComponent('color').setHex(color);
+  }
+
+  wordUnitsToPxChanged([relation, transform]) {
+    const screenPositionComponent = this.getComponent('screenPosition');
+    const heightInPx = relation * transform.scale.y;
+    const widthInPx = relation * transform.scale.x;
+
+    screenPositionComponent.setWidthInPx(widthInPx);
+    screenPositionComponent.setHeightInPx(heightInPx);
   }
 
   addLayer(id, node) {

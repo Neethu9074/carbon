@@ -1,8 +1,11 @@
+import { combineLatest } from 'reactive-observables';
+
 import { ZOOM_SPEED, INIT_ZOOM_LEVEL, MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL } from 'in-map/misc/CameraConfig';
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 import { onWheel, onMove } from 'in-services/util/reactiveMouseEvents';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { width, height } from 'in-map/stores/indexStore';
+import { debouncedResize$ } from 'in-services/browser';
 import { eventBus } from 'in-map/services/eventBus';
 
 function weightZoom(zoomLevel) {
@@ -47,6 +50,10 @@ export default class MouseControlDecorator extends Decorator {
   initEvents() {
     super.initEvents();
 
+    const cameraController = this.getCameraController();
+    const cameraWrapper = cameraController.camera;
+    const camera = cameraWrapper.getRenderableCamera();
+
     const domElement = this.canvas;
 
     this.addSubscriptions([
@@ -70,6 +77,12 @@ export default class MouseControlDecorator extends Decorator {
         // the only thing we extract is the scroll direction. To get the same feeling as before, a factor
         // is multiplied (15 here) which was found heuristically.
         this.zoom(15 * event.scrollSpeed * event.scrollDirection);
+      }),
+
+      combineLatest([eventBus.on('zoomLevelChanged'), debouncedResize$]).subscribe(() => {
+        const widthInPx = domElement.width;
+        const cameraWidth = camera.right - camera.left;
+        eventBus.emit('worldUnitsToPx', widthInPx / cameraWidth);
       })
     ]);
   }
