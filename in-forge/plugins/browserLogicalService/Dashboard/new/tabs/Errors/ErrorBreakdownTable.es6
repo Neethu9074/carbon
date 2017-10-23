@@ -77,7 +77,7 @@ export default function ErrorBreakdownTable({ result, websiteLabel, pageName, sn
         query += ` span.website.page:"${luceneEscapeString(pageName)}"`;
       }
       query += ` span.website.userAgent.browser.name:"${browser.get('name')}"`;
-      query += ` span.hash:"${luceneEscapeString(errorHash)}"`;
+      query += ` span.hash:"errorMessage=${luceneEscapeString(errorHash)}"`;
       return {
         key: browser.get('hash'),
         name: browser.get('name'),
@@ -98,7 +98,7 @@ export default function ErrorBreakdownTable({ result, websiteLabel, pageName, sn
         name,
         count: page.get('count'),
         isMonitoredRightNow: existingPages.contains(page.get('name')),
-        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" span.hash:"${luceneEscapeString(
+        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" span.hash:"errorMessage=${luceneEscapeString(
           errorHash
         )}" span.website.page:"${luceneEscapeString(page.get('name'))}"`,
         href$: isMonitoredRightNow ? getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`) : null
