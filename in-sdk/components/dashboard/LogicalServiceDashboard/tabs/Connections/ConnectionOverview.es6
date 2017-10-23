@@ -133,13 +133,8 @@ export default function ConnectionOverview({ snapshot, timeframe }) {
   return (
     <MaxWidthFullscreenContainer>
       <ConnectionSankey snapshot={snapshot} timeframe={timeframe} />
-
-      <DashboardTile title="Incoming">
-        <ConnectionsTable snapshot={snapshot} type="incoming" />
-      </DashboardTile>
-      <DashboardTile title="Outgoing">
-        <ConnectionsTable snapshot={snapshot} type="outgoing" />
-      </DashboardTile>
+      <ConnectionsTable title="Incoming" snapshot={snapshot} type="incoming" />
+      <ConnectionsTable title="Outgoing" snapshot={snapshot} type="outgoing" />
     </MaxWidthFullscreenContainer>
   );
 }
@@ -150,7 +145,7 @@ const ConnectionsTable = connectTo(
       connections: getLogicalConnections(props.snapshot.get('id'))
     };
   },
-  function ConnectionsTable({ connections, type }) {
+  function ConnectionsTable({ connections, type, title }) {
     let rows;
     if (!connections) {
       rows = [];
@@ -166,7 +161,11 @@ const ConnectionsTable = connectTo(
         });
     }
 
-    return <Table cols={cols} rows={rows} />;
+    return (
+      <DashboardTile title={`${title} (${rows.length})`}>
+        <Table cols={cols} rows={rows} />
+      </DashboardTile>
+    );
   }
 );
 

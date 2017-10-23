@@ -11,20 +11,21 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
     title: 'Name',
-    type: 'custom',
+    type: 'link',
     typeArgs: {
       comparator: compareIgnoreCase,
-      get(row) {
+      get$(row) {
         const label = getLabel(row.serviceInstance);
-        return {
+        return getSubDashboardLink(`/instances/${row.key}`).map(href => ({
           value: label,
-          content: <Link href$={getSubDashboardLink(`/instances/${row.key}`)}>{label}</Link>
-        };
+          label,
+          href
+        }));
       }
     }
   },
@@ -87,7 +88,7 @@ export default connectTo(
       serviceInstances: getClusterMembers(props.snapshot.get('id')).flatMap(getSnapshots)
     };
   },
-  function ServiceInstanceOverview({ snapshot, serviceInstances }) {
+  function ServiceInstanceOverview({ snapshot, serviceInstances, timeframe }) {
     if (!snapshot || !serviceInstances) {
       return (
         <MaxWidthFullscreenContainer>
@@ -106,6 +107,23 @@ export default connectTo(
     return (
       <MaxWidthFullscreenContainer>
         <DashboardTile title="Instances">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['instances'],
+              labels: ['Instances'],
+              type: 'line'
+            }}
+          />
+        </DashboardTile>
+
+        <DashboardTile title={`Instances (${rows.length})`}>
           <Table cols={cols} rows={rows} />
         </DashboardTile>
       </MaxWidthFullscreenContainer>
