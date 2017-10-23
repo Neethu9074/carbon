@@ -116,6 +116,20 @@ export const matchSpecificationOptions = defaults(
           <code>key=value&otherKey=otherValue</code>
         </span>
       )
+    },
+
+    status: {
+      titleName: 'Status Code',
+      placeholder: '',
+      testPlaceholder: '',
+      initialValue: '',
+      help: (
+        <span>
+          Define a regular expression to match HTTP status codes. Capture groups from matches of this regular {' '}
+          expression are available in the service name field via the prefix <code>status</code>, e.g. {' '}
+          <code>{'{status-1}'}</code> references the first capture group.
+        </span>
+      )
     }
   },
   generalMatchSpecificationOptions
@@ -137,6 +151,10 @@ export const matchSpecificationOptionsTree = [
   {
     label: 'Request Method',
     value: 'method'
+  },
+  {
+    label: 'Status Code',
+    value: 'status'
   }
 ].concat(generalMatchSpecificationOptionsTree);
 
