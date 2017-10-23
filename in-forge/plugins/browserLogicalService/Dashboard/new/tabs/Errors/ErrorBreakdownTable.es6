@@ -67,17 +67,12 @@ const cols = [
   }
 ];
 
-export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName, snapshot }) {
+export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, snapshot, errorHash }) {
   const browserRows = result.data
     .get('browsers')
     .toArray()
     .map(browser => {
-      let query = `entity.website.label:"${luceneEscapeString(websiteLabel)}"`;
-      if (pageName) {
-        query += ` span.website.page:"${luceneEscapeString(pageName)}"`;
-      }
-      query += ` span.website.error.message:"${luceneEscapeString(errorMessage)}"`;
-      query += ` span.website.userAgent.browser.name:"${browser.get('name')}"`;
+      const query = `span.hash:"${errorHash}"`;
       return {
         key: browser.get('hash'),
         name: browser.get('name'),
