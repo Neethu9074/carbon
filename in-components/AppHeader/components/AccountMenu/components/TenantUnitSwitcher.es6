@@ -2,6 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { getTenantsWithUnits } from 'in-services/api/account';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { emptyArray } from 'in-services/fixedObjects';
 import classnames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -13,24 +14,29 @@ import './TenantUnitSwitcher.less';
 
 const block = 'in-tenant-unit-switcher';
 
-// ignore tenant units retrieval errors
-let tenantsWithUnits$ = getTenantsWithUnits();
-tenantsWithUnits$ = tenantsWithUnits$.merge(tenantsWithUnits$.errors().map(() => {})).delayedStop(500);
+let tenantUnitStructure$ = alwaysEmptyArray;
+if (!__DEV__) {
+  tenantUnitStructure$ = getTenantsWithUnits();
+  // ignore errors
+  tenantUnitStructure$ = tenantUnitStructure$
+    .merge(tenantUnitStructure$.errors().map(() => {}))
+    .delayedStop(500)
+    .map(units => {
+      return Object.keys(units)
+        .sort()
+        .map(tenantName => {
+          return {
+            name: tenantName,
+            units: units[tenantName].map(unit => unit.name).sort()
+          };
+        });
+    })
+    .startWith(emptyArray);
+}
 
 export default connectTo(
   {
-    tenantUnitStructure: tenantsWithUnits$
-      .map(units => {
-        return Object.keys(units)
-          .sort()
-          .map(tenantName => {
-            return {
-              name: tenantName,
-              units: units[tenantName].map(unit => unit.name).sort()
-            };
-          });
-      })
-      .startWith(emptyArray)
+    tenantUnitStructure: tenantUnitStructure$
   },
   class extends React.Component {
     static displayName = 'TenantSwitcher';
