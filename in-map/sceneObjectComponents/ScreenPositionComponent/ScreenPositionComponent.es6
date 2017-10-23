@@ -96,8 +96,8 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   isInView() {
     const screenPos = this.screenPosition;
-    const objectWidthInPx = screenPos.w;
-    const objectHeightInPx = screenPos.h;
+    const objectWidthInPx = screenPos.w * 1.1;
+    const objectHeightInPx = screenPos.h * 1.1;
     return (
       screenPos.x + objectWidthInPx > 0 &&
       screenPos.x - objectWidthInPx <= width &&
