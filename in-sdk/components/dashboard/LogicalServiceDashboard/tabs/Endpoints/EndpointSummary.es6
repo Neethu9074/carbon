@@ -12,6 +12,7 @@ import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
+import Chart from 'in-components/Chart';
 
 export default function EndpointSummary({ snapshot, endpoint, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -63,7 +64,60 @@ export default function EndpointSummary({ snapshot, endpoint, timeframe }) {
         />
       </Kpis>
 
-      <DashboardTile title="Summary">Summary for {endpoint}</DashboardTile>
+      <DashboardTile title="Calls vs. Latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 80,
+            right: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: [`${metricPrefix}count`, `${metricPrefix}error_rate`],
+            labels: ['Calls', 'Errors'],
+            type: 'countErrorBar',
+            aggregation: 'sum'
+          }}
+          y2={{
+            min: 0,
+            formatter: millis.fixedCompact,
+            metrics: [`${metricPrefix}duration.mean`],
+            labels: ['latency'],
+            type: 'line',
+            aggregation: 'mean'
+          }}
+        />
+      </DashboardTile>
+
+      <DashboardTile title="Latency Overview">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          height={200}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: millis.fixedCompact,
+            tooltipFormatter: millis.fixedDetailed,
+            metrics: [
+              `${metricPrefix}duration.min`,
+              `${metricPrefix}duration.25th`,
+              `${metricPrefix}duration.50th`,
+              `${metricPrefix}duration.75th`,
+              `${metricPrefix}duration.95th`,
+              `${metricPrefix}duration.98th`,
+              `${metricPrefix}duration.99th`,
+              `${metricPrefix}duration.max`
+            ],
+            labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+            type: 'integral'
+          }}
+        />
+      </DashboardTile>
     </MaxWidthFullscreenContainer>
   );
 }
