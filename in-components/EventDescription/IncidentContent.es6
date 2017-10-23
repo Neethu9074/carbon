@@ -45,7 +45,7 @@ function IncidentContent({ incident, events, snapshot }) {
 
       <div
         className={block + '__suggestion'}
-        dangerouslySetInnerHTML={{ __html: toHtml(problem.get('fixSuggestion')) }}
+        dangerouslySetInnerHTML={{ __html: toHtml(problem.get('fixSuggestion', '')) }}
       />
 
       <SnapshotDescription snapshotId={problem.get('snapshotId', '')} time={firstEvent.get('start')} />

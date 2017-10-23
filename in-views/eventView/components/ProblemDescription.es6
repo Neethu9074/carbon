@@ -11,7 +11,7 @@ import 'in-views/eventView/components/ProblemDescription.less';
 const block = 'in-event-view-event-problem';
 
 export default addSection(function EventProblem({ event }) {
-  const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion']));
+  const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion'], ''));
 
   return (
     <DescriptionList>
