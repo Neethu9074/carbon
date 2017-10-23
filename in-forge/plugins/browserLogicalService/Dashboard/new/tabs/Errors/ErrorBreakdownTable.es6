@@ -67,7 +67,7 @@ const cols = [
   }
 ];
 
-export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel, pageName, snapshot, errorHash }) {
+export default function ErrorBreakdownTable({ result, websiteLabel, pageName, snapshot, errorHash }) {
   const browserRows = result.data
     .get('browsers')
     .toArray()
@@ -98,11 +98,9 @@ export default function ErrorBreakdownTable({ result, errorMessage, websiteLabel
         name,
         count: page.get('count'),
         isMonitoredRightNow: existingPages.contains(page.get('name')),
-        query: `entity.website.label:"${luceneEscapeString(
-          websiteLabel
-        )}" span.website.error.message:"${luceneEscapeString(errorMessage)}" span.website.page:"${luceneEscapeString(
-          page.get('name')
-        )}"`,
+        query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" span.hash:"${luceneEscapeString(
+          errorHash
+        )}" span.website.page:"${luceneEscapeString(page.get('name'))}"`,
         href$: isMonitoredRightNow ? getSubDashboardLink(`/pages/${encodeURIComponent(page.get('hash'))}`) : null
       };
     });

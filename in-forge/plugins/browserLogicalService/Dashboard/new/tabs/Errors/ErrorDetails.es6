@@ -68,7 +68,7 @@ export default connectTo(
     if (pageName) {
       viewTracesQuery += ` span.website.page:"${luceneEscapeString(pageName)}"`;
     }
-    viewTracesQuery += ` span.website.error.message:"${luceneEscapeString(message)}"`;
+    viewTracesQuery += ` span.hash:"${luceneEscapeString(errorHash)}"`;
 
     return (
       <div>
