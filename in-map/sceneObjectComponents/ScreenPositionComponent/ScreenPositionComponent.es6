@@ -11,17 +11,20 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
   constructor(sceneObject, get3DPositionToProject) {
     super(sceneObject, '_screenPosition');
 
-    this.get3DPositionToProjectCallback = get3DPositionToProject;
+    this.get3DPositionToProjectCallback = get3DPositionToProject || this.identity;
 
-    this.wiggleRoom = { x: 150, y: 150 };
     this.screenPositionAnchor = ZERO.clone();
-    this.screenPosition = { x: 0, y: 0 };
+    this.screenPosition = { x: 0, y: 0, w: 0, h: 0 };
     this.wasInView = false;
     this.isVisibleChangedKey = IS_VISIBLE_CHANGED_KEY + sceneObject.id;
     this.positionChangedKey = SCREEN_POSITION_CHANGED_KEY + sceneObject.id;
 
     // send initial signal
     this.emitToClient(this.isVisibleChangedKey, this.wasInView);
+  }
+
+  identity(position) {
+    return position;
   }
 
   initEvents() {
@@ -38,11 +41,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
   }
 
   transformationChanged(transform) {
-    this.set3DPositionToProject(
-      this.get3DPositionToProjectCallback
-        ? this.get3DPositionToProjectCallback(transform.position, transform.scale)
-        : transform.position
-    );
+    this.set3DPositionToProject(this.get3DPositionToProjectCallback(transform.position, transform.scale));
   }
 
   willRender() {
@@ -51,6 +50,14 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   set3DPositionToProject(pos) {
     this.screenPositionAnchor.copy(pos);
+  }
+
+  setWidthInPx(w) {
+    this.screenPosition.w = w;
+  }
+
+  setHeightInPx(h) {
+    this.screenPosition.h = h;
   }
 
   updateScreenPosition() {
@@ -89,11 +96,13 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   isInView() {
     const screenPos = this.screenPosition;
+    const objectWidthInPx = screenPos.w;
+    const objectHeightInPx = screenPos.h;
     return (
-      screenPos.x + this.wiggleRoom.x > 0 &&
-      screenPos.x - this.wiggleRoom.x <= width &&
-      screenPos.y + this.wiggleRoom.y > 0 &&
-      screenPos.y - this.wiggleRoom.y <= height
+      screenPos.x + objectWidthInPx > 0 &&
+      screenPos.x - objectWidthInPx <= width &&
+      screenPos.y + objectHeightInPx > 0 &&
+      screenPos.y <= height
     );
   }
 
