@@ -49,7 +49,7 @@ const cols = [
     title: 'Name',
     type: 'custom',
     typeArgs: {
-      comparator: () => compareIgnoreCase,
+      comparator: compareIgnoreCase,
       get$(row) {
         return getSnapshot(row.key).flatMap(connectionSnapshot =>
           getConnectedEntities(row.key).flatMap(connectedEntities => {

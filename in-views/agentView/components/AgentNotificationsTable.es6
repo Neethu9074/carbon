@@ -21,7 +21,7 @@ const cols = [
     title: 'Notification',
     type: 'custom',
     typeArgs: {
-      comparator: () => compareIgnoreCase,
+      comparator: compareIgnoreCase,
       get(row) {
         const msg = row.agentNotification.getIn(['data', 'message']);
         return {

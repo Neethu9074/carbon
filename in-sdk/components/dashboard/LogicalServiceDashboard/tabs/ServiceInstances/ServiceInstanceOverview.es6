@@ -18,7 +18,7 @@ const cols = [
     title: 'Name',
     type: 'custom',
     typeArgs: {
-      comparator: () => compareIgnoreCase,
+      comparator: compareIgnoreCase,
       get(row) {
         const label = getLabel(row.serviceInstance);
         return {

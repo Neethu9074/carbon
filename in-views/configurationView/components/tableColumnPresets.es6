@@ -49,7 +49,6 @@ export function getDeleteButtonColumn(propertyName = 'name') {
     width: 80,
     disableSorting: true,
     typeArgs: {
-      comparator: () => 0,
       get(row) {
         return {
           value: 0,
@@ -67,7 +66,6 @@ export function getCloneButtonColumn() {
     width: 80,
     disableSorting: true,
     typeArgs: {
-      comparator: () => 0,
       get(row) {
         return {
           value: 0,

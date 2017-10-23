@@ -54,7 +54,6 @@ const cols = [
     type: 'custom',
     disableSorting: true,
     typeArgs: {
-      comparator: () => 0,
       get(row) {
         return {
           value: row.key,
