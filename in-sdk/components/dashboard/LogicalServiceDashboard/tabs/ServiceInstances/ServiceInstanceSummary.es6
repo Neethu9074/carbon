@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import TwoColumnDetailHeader from 'in-sdk/components/dashboard/TabView/TwoColumnDetailHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
@@ -19,14 +20,9 @@ import { getDashboardLink } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
-import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
-
-import './ServiceInstanceSummary.less';
-
-const block = 'in-service-instance-dashboard';
 
 export default connectTo(
   props => {
@@ -44,23 +40,19 @@ export default connectTo(
     }
 
     const snapshotId = snapshot.get('id');
-    let viewTracesQuery = `entity.service.name:"${luceneEscapeString(getLabel(snapshot))}"`;
+    let viewTracesQuery = `trace.touchedServiceInstance:"${luceneEscapeString(snapshotId)}"`;
     return (
       <MaxWidthFullscreenContainer>
-        <div className={`${block}__heading`}>
-          <BackButton label="Back to instance list" href$={getSubDashboardLink(`/instances`)} />
-          <div>
-            <Button
-              className={`${block}__traces-button`}
-              kind="secondary"
-              size="sm"
-              href$={getTraceViewLinkWithQuery(viewTracesQuery)}
-            >
+        <TwoColumnDetailHeader
+          left={<BackButton label="Back to instance list" href$={getSubDashboardLink(`/instances`)} />}
+          right={[
+            <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
               Traces
-            </Button>
+            </Button>,
             <HealthButton size="sm" snapshotId={snapshotId} />
-          </div>
-        </div>
+          ]}
+        />
+
         <Kpis>
           <Kpi
             label="Calls"
@@ -90,14 +82,6 @@ export default connectTo(
             metric={`duration.95th`}
             timeWindowAggregation="mean"
             formatter={millis.fixedCompact}
-          />
-          <Kpi
-            label="Instances (mean)"
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            metric={`instances`}
-            timeWindowAggregation="mean"
-            formatter={number.compact}
           />
         </Kpis>
 

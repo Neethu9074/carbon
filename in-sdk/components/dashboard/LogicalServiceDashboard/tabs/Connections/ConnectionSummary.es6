@@ -1,31 +1,24 @@
 import React from 'react';
 
 import ConnectionInformation from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionInformation';
-import { msZeroDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import TwoColumnDetailHeader from 'in-sdk/components/dashboard/TabView/TwoColumnDetailHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { number, millis } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import HealthButton from 'in-components/health/HealthButton';
+import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
+import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
-import './ConnectionSummary.less';
-
-const block = 'in-service-connection-dashboard';
-
 export default connectTo(
-  props => {
-    return {
-      snapshot: getSnapshot(props.snapshotId)
-    };
-  },
+  props => ({
+    snapshot: getSnapshot(props.snapshotId)
+  }),
   function ConnectionSummary({ snapshot, timeframe }) {
     if (!snapshot) {
       return (
@@ -36,26 +29,46 @@ export default connectTo(
     }
 
     const backButtonPath = `/connections`;
-
     const snapshotId = snapshot.get('id');
-    let viewTracesQuery = `entity.service.name:"${luceneEscapeString(getLabel(snapshot))}"`;
 
     return (
       <MaxWidthFullscreenContainer>
-        <div className={`${block}__heading`}>
-          <BackButton label="Back to connection list" href$={getSubDashboardLink(backButtonPath)} />
-          <div>
-            <Button
-              className={`${block}__traces-button`}
-              kind="secondary"
-              size="sm"
-              href$={getTraceViewLinkWithQuery(viewTracesQuery)}
-            >
-              Traces
-            </Button>
-            <HealthButton size="sm" snapshotId={snapshotId} />
-          </div>
-        </div>
+        <TwoColumnDetailHeader
+          left={<BackButton label="Back to connection list" href$={getSubDashboardLink(backButtonPath)} />}
+          right={<HealthButton size="sm" snapshotId={snapshotId} />}
+        />
+
+        <Kpis>
+          <Kpi
+            label="Calls"
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            metric={`count`}
+            timeWindowAggregation="sum"
+            formatter={number.compact}
+            errorPercentage={{
+              snapshotId,
+              metric: 'error_rate',
+              timeframe
+            }}
+          />
+          <Kpi
+            label="Latency (50th)"
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            metric={`duration.50th`}
+            timeWindowAggregation="mean"
+            formatter={millis.fixedCompact}
+          />
+          <Kpi
+            label="Latency (95th)"
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            metric={`duration.95th`}
+            timeWindowAggregation="mean"
+            formatter={millis.fixedCompact}
+          />
+        </Kpis>
 
         <ConnectionInformation snapshot={snapshot} />
 
@@ -73,7 +86,7 @@ export default connectTo(
             }}
             y2={{
               min: 0,
-              formatter: msTwoDecimalPlaces,
+              formatter: millis.fixedCompact,
               metrics: ['duration.mean'],
               labels: ['latency'],
               type: 'line',
@@ -92,8 +105,8 @@ export default connectTo(
             }}
             y1={{
               min: 0,
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.fixedCompact,
+              tooltipFormatter: millis.fixedCompact,
               metrics: [
                 'duration.min',
                 'duration.25th',

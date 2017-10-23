@@ -8,9 +8,9 @@ export default function Endpoints({ snapshot, timeframe }) {
   return (
     <Switch>
       <Route
-        path={`*/dashboard/endpoints/:endpointId`}
+        path={`*/dashboard/endpoints/:endpoint`}
         render={({ match }) => {
-          return <EndpointSummary snapshot={snapshot} endpointId={match.params.endpointId} timeframe={timeframe} />;
+          return <EndpointSummary snapshot={snapshot} endpoint={match.params.endpoint} timeframe={timeframe} />;
         }}
       />
       <Route
