@@ -5,5 +5,3 @@ const store = createExpandedViewStore('traceView/expandedSide');
 export const expandedSide$ = store.expandedSide$;
 export const toggleLeft = store.toggleLeft;
 export const toggleRight = store.toggleRight;
-export const forceLeftExpanded = store.forceLeftExpanded;
-export const forceRightExpanded = store.forceRightExpanded;
