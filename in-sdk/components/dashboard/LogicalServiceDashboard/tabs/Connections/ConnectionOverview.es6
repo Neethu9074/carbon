@@ -13,7 +13,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -23,28 +22,6 @@ import './ConnectionOverview.less';
 const block = 'in-service-connection-dashboard-overview';
 
 const cols = [
-  {
-    title: '',
-    type: 'custom',
-    width: 20,
-    disableSorting: true,
-    typeArgs: {
-      comparator: () => 0,
-      get(row) {
-        return {
-          value: 0,
-          content: (
-            <SvgIcon
-              type={row.type === 'incoming' ? 'arrow_right' : 'arrow_left'}
-              color="#40535b"
-              height={12}
-              width={12}
-            />
-          )
-        };
-      }
-    }
-  },
   {
     title: 'Name',
     type: 'custom',
