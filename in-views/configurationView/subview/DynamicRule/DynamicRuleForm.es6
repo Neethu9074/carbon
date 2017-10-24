@@ -6,11 +6,11 @@ import Step1 from 'in-views/configurationView/subview/DynamicRule/components/Ste
 import Step2 from 'in-views/configurationView/subview/DynamicRule/components/Step2';
 import Step3 from 'in-views/configurationView/subview/DynamicRule/components/Step3';
 
-export default function DynamicRuleForm({ form, onChange, excludeEntity, includeEntity }) {
+export default function DynamicRuleForm({ form, onChange, excludeEntity, includeEntity, isNewRuleDialog }) {
   return (
     <fieldset>
       <FormDataEnrichment form={form} onChange={onChange} />
-      <Step0 form={form} onChange={onChange} />
+      {isNewRuleDialog ? null : <Step0 form={form} onChange={onChange} />}
       <Step1 form={form} onChange={onChange} excludeEntity={excludeEntity} includeEntity={includeEntity} />
       <Step2 form={form} onChange={onChange} />
       <Step3 form={form} onChange={onChange} />

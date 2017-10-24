@@ -53,6 +53,7 @@ export default class extends React.Component {
         <form onSubmit={this.onSubmit}>
           {form ? (
             <DynamicRuleForm
+              isNewRuleDialog={this.props.match.params.ruleId ? false : true}
               form={form}
               onChange={this.onChange}
               excludeEntity={this.excludeEntity}
