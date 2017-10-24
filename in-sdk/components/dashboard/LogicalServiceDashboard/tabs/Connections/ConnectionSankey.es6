@@ -14,7 +14,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const errorRateColor = preval`
-module.exports = require('tinygradient')('#ddd', '#ff4229').hsv(9).map(c => '#' + c.toHex());
+module.exports = require('tinygradient')('#ddd', 'ffde00', '#ff4229').hsv(10).map(c => '#' + c.toHex());
 `;
 
 export default connectTo(
@@ -173,7 +173,7 @@ export default connectTo(
     }
     return (
       <DashboardTile title="Overview">
-        <strong>Interaction with this chart and labels are not yet done.</strong>
+        <strong>Design, interaction and tooltip of this chart are not yet done. This is meant for demo purposes and to collect feedback.</strong>
 
         <div style={{ height: '200px' }}>
           <ResponsiveSankey
