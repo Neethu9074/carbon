@@ -106,7 +106,7 @@ export default connectTo(
 
     return (
       <MaxWidthFullscreenContainer>
-        <DashboardTile title="Instances">
+        <DashboardTile title="Number of Instances">
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
