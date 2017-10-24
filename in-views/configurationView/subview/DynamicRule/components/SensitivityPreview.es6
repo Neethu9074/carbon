@@ -24,7 +24,10 @@ export default class extends React.Component {
 
   render() {
     const entities = this.props.form.get('matchingEntities').value;
+    const excludedIds = this.props.form.get('excludedSnapshotIds').value;
+
     const buttonElement = `${block}__button`;
+
     return (
       <div className={block}>
         <div className={`${block}__button-group`}>
@@ -45,7 +48,11 @@ export default class extends React.Component {
               [`${buttonElement}__active`]: this.state.activeTab === 'entities'
             })}
             onClick={() => this.setState({ activeTab: 'entities' })}
-          >{`Entities ${entities && entities.snapshots ? '(' + entities.snapshots.length + ')' : ''}`}</div>
+          >
+            {`Entities ${entities && entities.snapshots
+              ? '(' + entities.snapshots.filter(snapshot => excludedIds.indexOf(snapshot.get('id')) < 0).length + ')'
+              : ''}`}
+          </div>
         </div>
         {this.state.activeTab === 'entities' ? (
           <EntityTable form={this.props.form} getRowDetails={getRowDetails} />
