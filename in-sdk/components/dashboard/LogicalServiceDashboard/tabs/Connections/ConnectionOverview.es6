@@ -9,10 +9,12 @@ import { getLogicalConnections } from 'in-services/logicalConnections';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getConnectedEntities } from 'in-stores/connectedEntities';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getPlural } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -123,26 +125,30 @@ const ConnectionsTable = connectTo(
     };
   },
   function ConnectionsTable({ connections, type, title }) {
-    let rows;
+    let groups;
     if (!connections) {
-      rows = [];
+      groups = emptyMap;
     } else {
-      rows = connections
-        .toArray()
+      groups = connections
         .filter(connection => connection.get('direction', '').toLowerCase() === type)
         .map(connection => {
           return {
             key: connection.get('connectionSnapshotId'),
+            connectionPlugin: getPlural(connection.get('connectionPlugin')),
             type
           };
-        });
+        })
+        .groupBy(row => row.connectionPlugin)
+        .sort((a, b) => compareIgnoreCase(a.connectionPlugin, b.connectionPlugin));
     }
 
-    return (
-      <DashboardTile title={`${title} (${rows.length})`}>
-        <Table cols={cols} rows={rows} />
-      </DashboardTile>
-    );
+    return groups
+      .map((group, label) => (
+        <DashboardTile title={`${title} ${label} (${group.size})`} key={label}>
+          <Table cols={cols} rows={group.toArray()} />
+        </DashboardTile>
+      ))
+      .valueSeq();
   }
 );
 
