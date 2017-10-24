@@ -6,7 +6,6 @@ import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/Breadc
 import Connections from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections';
 import Endpoints from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Endpoints';
 import Summary from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Summary';
-import Calls from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Calls';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import TabView from 'in-sdk/components/dashboard/TabView';
 import connectTo from 'in-hoc/connectTo';
@@ -14,7 +13,9 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      hasServiceInstances: getClusterMembers(props.snapshot.get('id')).map(m => m.size > 0).startWith(true)
+      hasServiceInstances: getClusterMembers(props.snapshot.get('id'))
+        .map(m => m.size > 0)
+        .startWith(true)
     };
   },
   function LogicalServiceDashboard(props) {
@@ -31,11 +32,6 @@ function getTabs(snapshot, hasServiceInstances) {
       label: 'Summary',
       path: '/',
       component: Summary
-    },
-    {
-      label: 'Calls',
-      path: '/calls',
-      component: Calls
     },
     {
       label: 'Connections',
