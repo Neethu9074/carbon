@@ -118,7 +118,8 @@ export default connectTo(
               formatter: number.compact,
               metrics: ['instances'],
               labels: ['Instances'],
-              type: 'line'
+              type: 'bar',
+              aggregation: 'mean'
             }}
           />
         </DashboardTile>
