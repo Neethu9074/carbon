@@ -173,7 +173,17 @@ export default connectTo(
     }
     return (
       <DashboardTile title="Overview">
-        <strong>Design, interaction and tooltip of this chart are not yet done. This is meant for demo purposes and to collect feedback.</strong>
+        <strong>
+          Design, interaction and tooltip of this chart are not yet done. This is meant for demo purposes and to collect
+          feedback.
+        </strong>
+
+        <p>
+          <strong>
+            There is going to be a switch here to switch being usage of counts vs. usage of latency as the data source
+            for the Sankey link sizing.
+          </strong>
+        </p>
 
         <div style={{ height: '200px' }}>
           <ResponsiveSankey
