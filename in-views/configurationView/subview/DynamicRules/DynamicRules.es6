@@ -156,7 +156,7 @@ export default class extends React.Component {
         <SubViewHeader>DynamicRules</SubViewHeader>
 
         <Section>
-          {rows.length > 2 ? (
+          {rows.length >= 2 ? (
             <Tooltip content="Number of rules is restricted to 2.">
               <Button disabled kind="info" onClick={this.addNewRule}>
                 Add New Rule
