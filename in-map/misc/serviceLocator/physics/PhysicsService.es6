@@ -98,7 +98,9 @@ export default function createPhysicsService() {
 
   function updateCollisionObject(obj, layer = OCTREE_LAYER.NODES) {
     if (obj) {
-      updateObjectQueues[layer].set(obj.uuid, obj);
+      if (!addObjectQueues[layer].has(obj.uuid)) {
+        updateObjectQueues[layer].set(obj.uuid, obj);
+      }
       removeObjectQueues[layer].delete(obj.uuid);
 
       signal[layer] = true;
@@ -124,7 +126,7 @@ export default function createPhysicsService() {
   }
 
   function checkRaycaster(raycaster) {
-    raycaster.far = Math.min(2500, raycaster.far); // [0, 2500]
+    raycaster.far = Math.min(10000, raycaster.far); // [0, 2500]
     const ray = raycaster.ray;
 
     // iterate all octrees backwards from the highest layer to the lowest

@@ -33,9 +33,6 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.position.set(transform.position.x, transform.position.y + transform.scale.y / 2, transform.position.z);
     mesh.scale.copy(transform.scale);
 
-    mesh.updateMatrix();
-    mesh.updateMatrixWorld();
-
     PhysicsServiceLocator.updateCollisionObject(mesh, this.layerId);
   }
 
