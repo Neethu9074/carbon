@@ -141,7 +141,7 @@ function MatchingEntitiesHelpBox() {
       <br />
       <span>
         The number of entities that can be monitored by a dynamic rule is limited to{' '}
-        <span className={`${block}__num-entities-during-beta`}>20</span> during the beta. Please narrow down the
+        <span className={`${block}__num-entities-during-beta`}>10</span> during the beta. Please narrow down the
         entities by adding a filter query and/or excluding entities.
       </span>
     </div>
