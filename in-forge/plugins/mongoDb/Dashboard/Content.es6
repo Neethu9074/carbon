@@ -45,7 +45,8 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['documents.deleted', 'documents.inserted', 'documents.returned', 'documents.updated'],
             labels: ['Deleted', 'Inserted', 'Returned', 'Updated'],
-            type: 'line'
+            type: 'bar',
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
