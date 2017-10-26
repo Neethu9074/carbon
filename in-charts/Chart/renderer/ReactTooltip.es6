@@ -56,7 +56,9 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
                 <span className={`${block}__inline-agg`}>{` (${axisConfig.aggregation[i]})`}</span>
               ) : null}
             </dt>
-            <dd className={`${block}__metric-value`}>{dataPoint ? formatter(dataPoint[1]) : '--'}</dd>
+            <dd className={`${block}__metric-value`}>
+              {dataPoint && dataPoint[1] != null ? formatter(dataPoint[1]) : '––'}
+            </dd>
           </div>
         );
       })}

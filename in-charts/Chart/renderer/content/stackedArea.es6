@@ -7,7 +7,7 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
   const numberOfSeries = axisConfig.numberOfSeries;
 
   return {
-    requireExistenceInAllSeries: true,
+    requireExistenceInAllSeries: false,
     processNewDataColumns,
     getBoundsForRow,
     render
@@ -15,15 +15,23 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
 
   function processNewDataColumns(dataColumns) {
     const activeSeries = config.activeSeries[axisName];
+
     dataColumns.forEach(dataColumn => {
       let sum = 0;
-      dataColumn.forEach((dataRow, i) => {
-        if (activeSeries[i] === true) {
+
+      for (let seriesIndex = 0; seriesIndex < numberOfSeries; seriesIndex++) {
+        const dataRow = dataColumn[seriesIndex];
+        // support missing series data points
+        if (dataRow == null) {
+          dataColumn[seriesIndex] = [dataColumn.time, null];
+          dataColumn[seriesIndex].y0 = sum;
+          dataColumn[seriesIndex].y1 = sum;
+        } else if (activeSeries[seriesIndex] === true) {
           dataRow.y0 = sum;
-          sum += dataRow[1];
+          sum += dataRow != null ? dataRow[1] : 0;
           dataRow.y1 = sum;
         }
-      });
+      }
     });
   }
 
@@ -37,7 +45,7 @@ export default function createStackedAreaContentRenderer({ axisName, config }) {
     let min = Number.POSITIVE_INFINITY;
 
     for (let i = 0; i < numberOfSeries; i++) {
-      if (activeSeries[i] === true) {
+      if (activeSeries[i] === true && dataRow[i] != null) {
         min = Math.min(min, dataRow[i].y0);
         max = Math.max(max, dataRow[i].y1);
       }
