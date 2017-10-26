@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -27,15 +27,24 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Connections">
-          <MetricValue snapshotId={snapshotId} metric="connections" formatter={zeroDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="connections"
+            formatter={number.compact}
+            timeWindowAggregation="mean"
+          />
         </KpiKeyValue>
-        <KpiKeyValue label="DB Size">
-          <MetricValue snapshotId={snapshotId} metric="totalDbSize" formatter={bytesZeroDecimalPlaces} />
+        <KpiKeyValue label="Database Size">
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="totalDbSize"
+            formatter={bytesZeroDecimalPlaces}
+            timeWindowAggregation="mean"
+          />
         </KpiKeyValue>
       </KpiSection>
-      <DatabaseSizesTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DashboardSection title="Document Counter">
+      <DashboardSection title="Database Activity">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -43,10 +52,11 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
             left: 80
           }}
           y1={{
-            metrics: ['documents.deleted', 'documents.inserted', 'documents.returned', 'documents.updated'],
-            labels: ['Deleted', 'Inserted', 'Returned', 'Updated'],
+            metrics: ['documents.returned', 'documents.inserted', 'documents.updated', 'documents.deleted'],
+            labels: ['Read', 'Inserted', 'Updated', 'Deleted'],
             type: 'bar',
-            aggregation: 'sum'
+            aggregation: 'sum',
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -62,10 +72,13 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
             min: 0,
             metrics: ['connections'],
             labels: ['Connections'],
-            type: 'line'
+            type: 'line',
+            formatter: number.compact
           }}
         />
       </DashboardSection>
+
+      <DatabaseSizesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }
