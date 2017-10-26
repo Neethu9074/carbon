@@ -11,7 +11,7 @@ export const midColor = '#43565e';
 const minute = 1000 * 60;
 const hour = minute * 60;
 const day = hour * 24;
-const month = day * 31;
+const month = day * 30.38;
 
 export const slices = [
   minute,

@@ -16,7 +16,7 @@ import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
 import theme from 'in-services/theme';
 
-export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
+export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30.38; // 30.38 days per average per month
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
 
 let maxAvailableWindowSize = undefined;
