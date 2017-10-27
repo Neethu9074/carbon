@@ -96,19 +96,17 @@ const MenuContent = connectTo(
           ))}
         </ButtonGroup>
         <br />
-        <ButtonGroup>
-          <Button
-            kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
-            size="sm"
-            onClick={() => {
-              const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
-              setActiveDialog(dialog);
-            }}
-            className={`${block}__custom-button`}
-          >
-            {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
-          </Button>
-        </ButtonGroup>
+        <Button
+          kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
+          size="sm"
+          onClick={() => {
+            const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
+            setActiveDialog(dialog);
+          }}
+          className={`${block}__custom-button`}
+        >
+          {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
+        </Button>
       </div>
     );
   }

@@ -5,5 +5,9 @@ import './ButtonGroup.less';
 const block = 'in-button-group';
 
 export default function ButtonGroup({ children }) {
-  return <div className={block}>{children}</div>;
+  return (
+    <div className={block} role="group">
+      {children}
+    </div>
+  );
 }

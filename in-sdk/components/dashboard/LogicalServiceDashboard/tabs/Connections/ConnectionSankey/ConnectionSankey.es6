@@ -3,16 +3,24 @@ import React from 'react';
 
 import {
   getData,
+  sizeByLatency,
   sizeByCalls
 } from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionSankey/data';
+import {
+  sizeBy$,
+  setSizing
+} from 'in-sdk/components/dashboard/LogicalServiceDashboard/tabs/Connections/ConnectionSankey/store';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import ButtonGroup from 'in-components/ButtonGroup';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    data: getData({ snapshot: props.snapshot, sizeBy: sizeByCalls })
+    data: sizeBy$.flatMap(sizeBy => getData({ snapshot: props.snapshot, sizeBy })),
+    sizeBy: sizeBy$
   }),
-  function ConnectionSankey({ data }) {
+  function ConnectionSankey({ data, sizeBy }) {
     if (!data || data.links.length === 0) {
       return null;
     }
@@ -24,12 +32,14 @@ export default connectTo(
           feedback.
         </strong>
 
-        <p>
-          <strong>
-            There is going to be a switch here to switch being usage of counts vs. usage of latency as the data source
-            for the Sankey link sizing.
-          </strong>
-        </p>
+        <ButtonGroup>
+          <Button kind={sizeBy === sizeByCalls ? 'primary' : 'secondary'} onClick={() => setSizing(sizeByCalls)}>
+            By Calls
+          </Button>
+          <Button kind={sizeBy === sizeByLatency ? 'primary' : 'secondary'} onClick={() => setSizing(sizeByLatency)}>
+            By Latency
+          </Button>
+        </ButtonGroup>
 
         <div style={{ height: '200px' }}>
           <ResponsiveSankey
