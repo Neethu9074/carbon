@@ -2,12 +2,13 @@ import React from 'react';
 
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { filteredTags$ } from 'in-stores/search/keywords/tags';
+import { emptyList } from 'in-services/fixedImmutables';
 import TagList from 'in-components/Tags/TagList';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    filteredTags: filteredTags$
+    filteredTags: filteredTags$.startWith(emptyList)
   },
   function Tags({ filteredTags }) {
     return (
