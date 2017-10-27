@@ -3,6 +3,7 @@ import { create } from 'reactive-observables';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import { emptyArray } from 'in-services/fixedObjects';
 
+export const nothing = create().freeze();
 export const alwaysNull = always(null);
 export const alwaysFalse = always(false);
 export const alwaysTrue = always(true);
