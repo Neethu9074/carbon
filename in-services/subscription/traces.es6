@@ -6,7 +6,7 @@ export default createSubscription({
   eventId: 'subscribe-traces',
 
   getId: ({ time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset }) =>
-    time + maxTimestamp + minTimestamp + sortByField + sortMode + Math.round(Date.now() / 2000) + query + offset,
+    time + maxTimestamp + minTimestamp + sortByField + sortMode + Math.round(Date.now() / 5000) + query + offset,
 
   getData: (subscriptionId, { time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset }) => {
     return {

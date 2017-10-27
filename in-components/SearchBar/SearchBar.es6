@@ -22,7 +22,7 @@ const block = 'in-searchbar';
 export default connectTo(
   {
     presetsVisible: presetsVisible$,
-    query: query$.distinct()
+    query: query$.distinct().startWith('')
   },
   class extends React.Component {
     static displayName = 'SearchBar';

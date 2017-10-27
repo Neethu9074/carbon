@@ -7,15 +7,15 @@ import { createStore } from 'in-stores/store';
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
-  value: ''
+  initialValue: ''
 });
 export const unvalidatedQuery$ = unvalidatedQueryStore.observable.distinct();
 
 const queryStore = createStore({
   name: 'search/validatedQuery',
-  initialValue: ''
+  initialValue: null
 });
-export const query$ = queryStore.observable.distinct();
+export const query$ = queryStore.observable.distinct().filter(v => v != null);
 export const debouncedQuery$ = query$.debounce(200);
 
 const parsedQueryStore = createStore({

@@ -83,9 +83,14 @@ export function enable() {
     })
   );
 
-  initPhase = false;
-  enabled = true;
-  refreshStream.emit(true);
+  // query is loaded asynchronously
+  // TODO: do this in a proper RX way
+  query$.once(_query => {
+    query = _query;
+    initPhase = false;
+    enabled = true;
+    refreshStream.emit(true);
+  });
 }
 
 export function disable() {
@@ -154,6 +159,11 @@ function getMaxStartMillis(traces, fallback) {
 }
 
 function addNewTraces(newTraces) {
+  if (newTraces.size === 0) {
+    isLoadingStore.mutateTo(false);
+    return;
+  }
+
   const transformedTraces = newTraces.toArray().map(trace => {
     return {
       start: formatDateTime(trace.get('start')),

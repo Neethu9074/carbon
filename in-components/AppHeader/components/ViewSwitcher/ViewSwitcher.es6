@@ -29,7 +29,10 @@ export default connectTo(
   {
     viewActiveState: combineLatest([
       navigationParameters$,
-      query$.map(query => containsKeyword(query, 'entity.selfType', 'service')).distinct()
+      query$
+        .map(query => containsKeyword(query, 'entity.selfType', 'service'))
+        .distinct()
+        .startWith(false)
     ]).map(([navigationParameters, containsServiceKeywords]) => {
       const pathname = navigationParameters.pathname;
 

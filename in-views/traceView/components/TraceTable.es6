@@ -23,7 +23,7 @@ const block = 'in-trace-table';
 
 // react-infinite may call load more a bunch of times in a small amount of time. We need ot protect
 // against this.
-const debouncedLoadMoreTraces = debounce(loadMoreTraces, 100);
+const debouncedLoadMoreTraces = debounce(loadMoreTraces, 1000);
 
 export default getElementDimensions(
   connectTo(
