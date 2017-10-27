@@ -41,31 +41,22 @@ export default function createPhysicsService() {
 
   function handleOctreeUpdate(_signal, layer) {
     if (_signal[layer]) {
+      _signal[layer] = false;
+
       for (let objectToRemove of removeObjectQueues[layer].values()) {
         octrees[layer].remove(objectToRemove);
       }
 
       for (let objectToAdd of addObjectQueues[layer].values()) {
         octrees[layer].add(objectToAdd);
-
-        updateCollisionObject(objectToAdd, layer);
       }
 
       for (let objectToUpdate of updateObjectQueues[layer].values()) {
-        objectToUpdate.updateMatrix();
-        objectToUpdate.updateMatrixWorld();
-
-        octrees[layer].updateObject(objectToUpdate);
+        octrees[layer].remove(objectToUpdate);
+        octrees[layer].add(objectToUpdate);
       }
+
       octrees[layer].update();
-      _signal[layer] = false;
-
-      for (let objectToUpdate of addObjectQueues[layer].values()) {
-        objectToUpdate.updateMatrix();
-        objectToUpdate.updateMatrixWorld();
-
-        octrees[layer].updateObject(objectToUpdate);
-      }
 
       addObjectQueues[layer].clear();
       updateObjectQueues[layer].clear();
