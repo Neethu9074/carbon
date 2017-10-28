@@ -10,7 +10,7 @@ export default connectTo(
   {
     filteredTags: filteredTags$.startWith(emptyList)
   },
-  function Tags({ filteredTags = emptyList }) {
+  function Tags({ filteredTags }) {
     return (
       <Control
         createMenuContent={createMenuContent}
