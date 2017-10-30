@@ -52,6 +52,8 @@ import './jvmRuntimePlatform';
 import './kafka';
 import './kafkaCluster';
 import './kubernetesCluster';
+import './kubernetesPod';
+import './kubernetesNode';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';

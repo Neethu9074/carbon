@@ -1,15 +1,15 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
+import iconSvgPath from 'in-forge/plugins/kubernetesCluster/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
-  plugin: plugins.kubernetesCluster,
+  plugin: plugins.kubernetesPod,
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Kubernetes Cluster',
-    plural: 'Kubernetes Clusters'
+    singular: 'Kubernetes Pod',
+    plural: 'Kubernetes Pods'
   }
 });
