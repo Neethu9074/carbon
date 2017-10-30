@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
-import ContainerList from 'in-forge/plugins/kubernetes/Sidebar/ContainerList';
-import ConditionsList from 'in-forge/plugins/kubernetes/Sidebar/ConditionsList';
+import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
 
 import Info from '../Info';
 
@@ -24,16 +25,18 @@ export default function KubernetesPodSidebar({ snapshot }) {
 
       <ConditionsList snapshot={snapshot} />
 
-      <ContainerList snapshot={snapshot} />
-
       <Separator />
 
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>kubectl</Collapsible.Header>
         <Collapsible.Content>
-          <code>
-            kubectl get pod -n {data.get('namespace')} {data.get('name')}
-          </code>
+          <DescriptionList>
+            <DescriptionItem title="describe">
+              <code>
+                kubectl describe pod -n {data.get('namespace')} {data.get('name')}
+              </code>
+            </DescriptionItem>
+          </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
     </div>
