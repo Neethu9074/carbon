@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { Collapsible } from 'in-sdk/components/sidebar/Collapsible';
-import { Separator } from 'in-sdk/components/sidebar/Separator';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ConditionsList({ snapshot }) {
@@ -12,7 +12,7 @@ export default function ConditionsList({ snapshot }) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen>
+      <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Conditions</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
