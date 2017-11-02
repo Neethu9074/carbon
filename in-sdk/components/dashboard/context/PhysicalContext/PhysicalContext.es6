@@ -11,7 +11,7 @@ import { focusedMoment$ } from 'in-stores/timeline';
 import { nothing } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import Button from 'in-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './PhysicalContext.less';
@@ -59,11 +59,15 @@ const Item = connectTo(
       <div className={`${block}__item`}>
         <HealthDot snapshotId={snapshot.get('id')} />
         <PluginIcon snapshot={snapshot} className={`${block}__icon`} />
-        {getLabel(snapshot)}
-
         {context.size > 0 ? (
-          <Button onClick={() => setActiveDialog(<ContextPopup context={context} />)}>Tags</Button>
+          <SvgIcon
+            type="tag"
+            width={12}
+            className={`${block}__tag`}
+            onClick={() => setActiveDialog(<ContextPopup context={context} />)}
+          />
         ) : null}
+        {getLabel(snapshot)}
       </div>
     );
   }

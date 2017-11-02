@@ -4,6 +4,40 @@ import React from 'react';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
+import Table from 'in-components/Table';
+
+const mapCols = [
+  {
+    title: 'Key',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Value',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.value;
+      }
+    }
+  }
+];
+
+const seqCols = [
+  {
+    title: 'Value',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  }
+];
 
 export default function ContextPopup({ context }) {
   return (
@@ -14,46 +48,31 @@ export default function ContextPopup({ context }) {
         .sort(compareIgnoreCase)
         .map(key => {
           const items = context.get(key);
+
+          let cols;
+          let rows;
+
           if (Map.isMap(items)) {
-            return <MapItems key={key} name={key} items={items} />;
+            cols = mapCols;
+            rows = items
+              .map((value, key) => ({ value, key }))
+              .valueSeq()
+              .toArray();
+          } else {
+            cols = seqCols;
+            rows = items.toArray().map(key => ({ key }));
           }
-          return <SeqItems key={key} name={key} items={items} />;
+
+          return (
+            <div key={key}>
+              <p>
+                <strong>{key}</strong>
+              </p>
+
+              <Table rows={rows} cols={cols} maxItemsPerPage={10} />
+            </div>
+          );
         })}
     </Dialog>
-  );
-}
-
-function MapItems({ name, items }) {
-  return (
-    <div>
-      <p>
-        <strong>{name}</strong>
-      </p>
-
-      <dl>
-        {items
-          .keySeq()
-          .toArray()
-          .sort(compareIgnoreCase)
-          .map(k => [<dt key={`${k}-key`}>{k}</dt>, <dd key={`${k}-value`}>{items.get(k)}</dd>])}
-      </dl>
-    </div>
-  );
-}
-
-function SeqItems({ name, items }) {
-  return (
-    <div>
-      <p>
-        <strong>{name}</strong>
-      </p>
-
-      <ul>
-        {items
-          .toArray()
-          .sort(compareIgnoreCase)
-          .map(v => <li key={v}>{v}</li>)}
-      </ul>
-    </div>
   );
 }
