@@ -54,6 +54,7 @@ export default function Step2({ form, onChange }) {
           </FormGroup>
         ))}
         <SensitivityPreview form={form} />
+        <Legend />
       </RuleControl>
     </Step>
   );
@@ -100,6 +101,22 @@ function SensitivitySlider({ field, onChange }) {
       <div className={`${block}__slider-labels`}>
         <span>fewer events</span>
         <span>more events</span>
+      </div>
+    </div>
+  );
+}
+
+function Legend() {
+  return (
+    <div className={`${block}__legend`}>
+      <div className={`${block}__legend-block`}>
+        <div style={{ background: '#ff4229' }} className={`${block}__legend-rect`} />irregular metric trend
+      </div>
+      <div className={`${block}__legend-block`}>
+        <div style={{ background: '#e5e5e5' }} className={`${block}__legend-rect`} />dynamic corridor
+      </div>
+      <div className={`${block}__legend-block`}>
+        <div style={{ background: '#5da6da' }} className={`${block}__legend-rect`} />sample metric
       </div>
     </div>
   );
