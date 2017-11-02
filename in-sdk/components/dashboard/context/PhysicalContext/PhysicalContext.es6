@@ -2,7 +2,9 @@
 
 import React from 'react';
 
+import ContextPopup from 'in-sdk/components/dashboard/context/PhysicalContext/ContextPopup';
 import getPhysicalContext from 'in-services/subscription/getPhysicalContext';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import HealthDot from 'in-components/health/HealthDot';
@@ -11,6 +13,7 @@ import { focusedMoment$ } from 'in-stores/timeline';
 import { nothing } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './PhysicalContext.less';
@@ -61,6 +64,10 @@ const Item = connectTo(
         <HealthDot snapshotId={snapshot.get('id')} />
         <PluginIcon snapshot={snapshot} className={`${block}__icon`} />
         {getLabel(snapshot)}
+
+        {context.size > 0 ? (
+          <Button onClick={() => setActiveDialog(<ContextPopup context={context} />)}>Tags</Button>
+        ) : null}
       </div>
     );
   }
