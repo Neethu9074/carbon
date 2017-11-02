@@ -9,7 +9,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Generic Zone',
-    plural: 'Generic Zones'
+    singular: 'Zone',
+    plural: 'Zones'
   }
 });
