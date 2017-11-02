@@ -179,16 +179,12 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Custom dynamic rules</SectionHeading>
 
-            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+            <Table cols={cols} rows={rows} />
           </Section>
         ) : null}
       </SubViewWrapper>
     );
   }
-}
-
-function getRowDetails(row) {
-  return <div>{row.key}</div>;
 }
 
 function findMetricName(metric, tree, humanReadableMetricName) {
