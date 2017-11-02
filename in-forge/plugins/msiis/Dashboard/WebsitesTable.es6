@@ -21,7 +21,7 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return 'siteperf.' + row.key + '.current_connections';
@@ -37,7 +37,7 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return 'siteperf.' + row.key + '.total_requests';
@@ -53,7 +53,7 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return 'siteperf.' + row.key + '.get_requests';
@@ -69,7 +69,7 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return 'siteperf.' + row.key + '.post_requests';
@@ -85,7 +85,7 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return 'siteperf.' + row.key + '.put_requests';
