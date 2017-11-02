@@ -16,8 +16,6 @@ const headerRightSideElement = `${block}__header-right`;
 const tableElement = `${block}__table`;
 const cellElement = `${block}__cell`;
 const expandedCellElement = `${cellElement} ${cellElement}--expanded`;
-const rowElement = `${block}__row`;
-const expandedRowElement = `${rowElement} ${rowElement}--expanded`;
 const headerCellElement = `${block}__header-cell`;
 const headerToggleCellElement = `${block}__header-toggle-cell`;
 const columnHeader = `${block}__column-header`;
@@ -53,7 +51,8 @@ export default class Table extends React.Component {
       columnDefinitions: props.cols,
       maxItemsPerPage: props.maxItemsPerPage || 10,
       initialSortColumn: props.initialSortColumn || 0,
-      initialSortDirection: props.initialSortDirection || 'asc'
+      initialSortDirection: props.initialSortDirection || 'asc',
+      disableSorting: props.disableSorting || false
     });
     this.store.onRowChange(props.rows);
     this.store.onSelectedRowKeyChange(props.selectedRowKeys);
@@ -89,7 +88,7 @@ export default class Table extends React.Component {
     const rows = [];
     if (data.rows.length === 0) {
       rows.push(
-        <tr className={rowElement} key="no-data">
+        <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
             {this.props.noDataText || 'No data.'}
           </td>
@@ -98,31 +97,29 @@ export default class Table extends React.Component {
     } else {
       for (let i = 0, length = data.rows.length; i < length; i++) {
         const rowData = data.rows[i];
-        let rowClassName = rowElement;
-        if (rowData.rowConfig.className) {
-          rowClassName += ` ${rowData.rowConfig.className}`;
-        }
 
         let onClick;
         if (this.props.onRowClick) {
           onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
         }
 
+        const selected = rowData.rowConfig.isSelected;
+
         rows.push(
           <Row
             key={rowData.key}
             row={rowData}
-            rowClassName={rowClassName}
             cellClassName={cellElement}
             toggleRowDetails={toggleRowDetails}
             rowIndex={i}
             onClick={onClick}
+            selected={selected}
           />
         );
 
         if (rowData.expanded) {
           rows.push(
-            <tr className={expandedRowElement} key={`${rowData.key}--expanded`}>
+            <tr key={`${rowData.key}--expanded`}>
               <td className={expandedCellElement} colSpan={colCount}>
                 {this.props.getRowDetails(rowData.rowConfig)}
               </td>

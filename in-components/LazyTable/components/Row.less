@@ -1,0 +1,27 @@
+.in-lazy-table-row {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  border-bottom: 1px solid #d5dfe4;
+  cursor: pointer;
+
+  &:hover {
+    background: #e1e8eb;
+  }
+
+  &--selected {
+    background: #fff;
+
+    &::after {
+      content: '';
+      width: 4px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      background: #24d8d8;
+      left: 0;
+    }
+  }
+}

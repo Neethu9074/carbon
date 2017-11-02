@@ -10,6 +10,8 @@ import { sortBy$ } from 'in-views/eventView/stores/sortBy';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
 
+const MAX_PAGE_SIZE = 200;
+
 let subscriptions = emptyArray;
 let initPhase = false;
 let enabled = false;
@@ -33,6 +35,12 @@ const rawEventList = createStore({
   initialValue: []
 });
 export const rawEventList$ = rawEventList.observable;
+
+const furtherDataAvailable = createStore({
+  name: 'eventView/furtherDataAvailable',
+  initialValue: true
+});
+export const furtherDataAvailable$ = furtherDataAvailable.observable;
 
 // this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
 // it is capsuled within a stream to be able to throttle refreshes.
@@ -122,7 +130,8 @@ export function loadMoreRawEvents() {
       sortByField,
       sortMode: sortDirection,
       query,
-      offset
+      offset,
+      size: MAX_PAGE_SIZE
     }).once(addNewEvents);
   });
 }
@@ -139,6 +148,8 @@ function getMaxStartMillis(events, fallback) {
 }
 
 function addNewEvents(newEvents) {
+  furtherDataAvailable.mutateTo(newEvents.size >= MAX_PAGE_SIZE);
+
   const transformedEvents = newEvents.toArray().map(event => {
     return {
       // required for inifinity scroll and loading of additional events. see getMaxStartMillis()

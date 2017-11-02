@@ -42,7 +42,7 @@ export default connectTo(
         })}
         onClick={() => {
           if (!isNotClickable) {
-            focusEvent(event);
+            focusEvent(event.get('id'));
           }
         }}
       >

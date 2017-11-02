@@ -26,16 +26,22 @@ export default class Row extends React.Component {
   }
 
   render() {
-    this.lastRowKey = this.props.row.key;
-    this.lastMutationCount = this.props.row.mutationCount;
+    const { row, selected, toggleRowDetails, cellClassName } = this.props;
+    this.lastRowKey = row.key;
+    this.lastMutationCount = row.mutationCount;
 
-    let rowClasses = `${block} ${this.props.rowClassName}`;
-    if (this.props.row.selected) {
+    const isInteractive = this.props.onClick;
+
+    let rowClasses = block;
+
+    if (selected) {
       rowClasses += ' ' + selectedRow;
     }
-    if (this.props.onClick) {
+
+    if (isInteractive) {
       rowClasses += ' ' + clickableRow;
     }
+
     return (
       <tr
         className={rowClasses}
@@ -44,14 +50,14 @@ export default class Row extends React.Component {
         onKeyDown={this.onKeyDown}
         onClick={this.onClick}
       >
-        {this.props.toggleRowDetails ? (
-          <td className={this.props.cellClassName} onClick={() => this.props.toggleRowDetails(this.props.row.key)}>
-            {this.props.row.expanded ? collapse : expand}
+        {toggleRowDetails ? (
+          <td className={cellClassName} onClick={() => toggleRowDetails(row.key)}>
+            {row.expanded ? collapse : expand}
           </td>
         ) : null}
 
-        {this.props.row.columns.map((column, i) => (
-          <td key={i} className={this.props.cellClassName} style={column.columnDefinition.cellStyle}>
+        {row.columns.map((column, i) => (
+          <td key={i} className={cellClassName} style={column.columnDefinition.cellStyle}>
             {column.content}
           </td>
         ))}
