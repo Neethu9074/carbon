@@ -8,18 +8,10 @@ const block = 'in-dynamic-rule-dialog-matchin-entities-table';
 
 const cols = [
   {
-    title: 'Name',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshot(row) {
-        return row.snapshot;
-      }
-    }
-  },
-  {
     title: '',
     type: 'custom',
     disableSorting: true,
+    width: 30,
     typeArgs: {
       get(row) {
         return {
@@ -29,10 +21,23 @@ const cols = [
               className={`${block}__exclude-label`}
               onClick={() => (row.isExcluded ? row.includeEntity(row.key) : row.excludeEntity(row.key))}
             >
-              {row.isExcluded ? 'include' : 'exclude'}
+              <input
+                type="checkbox"
+                checked={!row.isExcluded}
+                onChange={() => (row.isExcluded ? row.includeEntity(row.key) : row.excludeEntity(row.key))}
+              />
             </span>
           )
         };
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshot(row) {
+        return row.snapshot;
       }
     }
   }
@@ -57,7 +62,7 @@ export default function MatchingEntityTable({ form, getRowDetails, excludeEntity
 
   return (
     <div className={block}>
-      <Table cols={cols} rows={rows} maxItemsPerPage={10} getRowDetails={getRowDetails} />
+      <Table cols={cols} rows={rows} maxItemsPerPage={10} getRowDetails={getRowDetails} initialSortColumn={1} />
     </div>
   );
 }
