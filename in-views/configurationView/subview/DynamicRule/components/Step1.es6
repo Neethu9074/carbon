@@ -93,7 +93,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
 
       <Spacer />
 
-      <RuleControl name="Entities the rule will be applied on:" helpComponent={MatchingEntitiesHelpBox}>
+      <RuleControl name="Entities the rule will be applied on:" helpComponent={MatchingEntitiesHelpBox} form={form}>
         {form.get('query').map(field => (
           <FormGroup>
             <div className={`${block}__filter-label-wrapper`}>
@@ -135,41 +135,42 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
 function MatchingEntitiesIndicator({ form }) {
   return (
     <div className={`${block}__matching-entities-indicator`}>
-      {form.get('matchingEntities').map(field => {
-        if (field.value && field.value.snapshots) {
-          const selectedEntities = field.value.snapshots
-            .map(snapshot => {
-              return {
-                snapshot,
-                isExcluded: form.get('excludedSnapshotIds').value.indexOf(snapshot.get('id')) >= 0
-              };
-            })
-            .filter(row => !row.isExcluded);
-          return (
-            <span>
-              {selectedEntities.length} {selectedEntities.length === 1 ? 'Entity' : 'Entities'} selected
-            </span>
-          );
-        }
+      {form.get('selectedEntities').map(field => {
+        const selectedEntities = field.value;
+        return (
+          <span>
+            {selectedEntities.length} {selectedEntities.length === 1 ? 'Entity' : 'Entities'} selected
+          </span>
+        );
+      })}
+      {form.get('selectedEntities').map(field => {
+        return field.messages.map((message, i) => (
+          <ValidationBlock hasError key={i}>
+            {message.message}
+          </ValidationBlock>
+        ));
       })}
     </div>
   );
 }
 
-function MatchingEntitiesHelpBox() {
-  return (
-    <div className={`${block}__matching-entities-help-box`}>
-      <span className={`${block}__matching-entities-help-box-beta`}>beta</span>
-      <br />
-      <br />
-      <span>This feature is currently in testing phase. </span>
-      <br />
-      <br />
-      <span>
-        The number of entities that can be monitored by a dynamic rule is limited to{' '}
-        <span className={`${block}__num-entities-during-beta`}>10</span> during the beta. Please narrow down the
-        entities by adding a filter query and/or excluding entities.
-      </span>
-    </div>
-  );
+function MatchingEntitiesHelpBox({ form }) {
+  return form.get('selectedEntities').map(field => {
+    const selectedEntities = field.value;
+    if (selectedEntities.length <= 10) {
+      return null;
+    }
+    return (
+      <div className={`${block}__matching-entities-help-box`}>
+        <span className={`${block}__matching-entities-help-box-beta`}>beta</span>
+        <br />
+        <br />
+        <span>
+          The number of entities that can be monitored by a dynamic rule is limited to{' '}
+          <span className={`${block}__num-entities-during-beta`}>10</span> during the beta. Please narrow down the
+          entities by adding a filter query and/or excluding entities.
+        </span>
+      </div>
+    );
+  });
 }

@@ -132,7 +132,7 @@ export default class extends React.Component {
     );
 
     this.setState({
-      form: updatedForm
+      form: this.enrichForm(updatedForm)
     });
   };
 
@@ -143,7 +143,7 @@ export default class extends React.Component {
     );
 
     this.setState({
-      form: updatedForm
+      form: this.enrichForm(updatedForm)
     });
   };
 
@@ -158,8 +158,21 @@ export default class extends React.Component {
     }
 
     this.setState({
-      form: updatedForm
+      form: this.enrichForm(updatedForm)
     });
+  };
+
+  enrichForm = form => {
+    const matchingEntities = form.get('matchingEntities').value;
+    const excludedSnapshotIds = form.get('excludedSnapshotIds').value;
+    if (matchingEntities && matchingEntities.snapshots) {
+      const selectedEntities = matchingEntities.snapshots.filter(
+        snapshot => excludedSnapshotIds.indexOf(snapshot.get('id')) < 0
+      );
+      form = form.updateIn(['selectedEntities'], field => field.setValue(selectedEntities).setTouched(true));
+    }
+
+    return form;
   };
 
   onSubmit = e => {
@@ -301,9 +314,15 @@ function createForm(rule) {
     .put(
       'matchingEntities',
       createField({
-        value: null,
+        value: null
+      })
+    )
+    .put(
+      'selectedEntities',
+      createField({
+        value: [],
         validator: entities => {
-          if (entities && entities.snapshots && entities.snapshots.length > 10) {
+          if (entities.length > 10) {
             return [
               {
                 severity: 'error',
