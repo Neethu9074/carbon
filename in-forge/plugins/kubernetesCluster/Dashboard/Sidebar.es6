@@ -3,7 +3,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { twoDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 
@@ -22,7 +22,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
           {
             metric: 'pods.count',
             label: 'Pods',
-            formatter: twoDecimalPlaces,
+            formatter: number,
             aggregation: 'mean'
           }
         ]}
