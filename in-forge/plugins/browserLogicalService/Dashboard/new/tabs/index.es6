@@ -4,12 +4,14 @@ import Summary from './Summary';
 import Config from './Config';
 import Errors from './Errors';
 import Pages from './Pages';
+import Transitions from './Transitions';
 import Speed from './Speed';
 import AJAX from './AJAX';
 
 export function getTabs(snapshot, pageHash) {
   const isNonServiceMappedWebsite = snapshot.getIn(['data', 'eumKey']) === snapshot.getIn(['data', 'steady_id']);
   const pathPrefix = pageHash ? `/pages/${pageHash}` : '';
+  const spaEnabled = /*snapshot.getIn(['data', 'spaEnabled']);*/ 1;
   return [
     {
       label: 'Summary',
@@ -45,6 +47,13 @@ export function getTabs(snapshot, pageHash) {
           label: 'Pages',
           path: `${pathPrefix}/pages`,
           component: Pages
+        }
+      : null,
+    pageHash == null && spaEnabled
+      ? {
+          label: 'Transitions',
+          path: `${pathPrefix}/transitions`,
+          component: Transitions
         }
       : null,
     pageHash == null && isNonServiceMappedWebsite && role.canConfigureEumApplications

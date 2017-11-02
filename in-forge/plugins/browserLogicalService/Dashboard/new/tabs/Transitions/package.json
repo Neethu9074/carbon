@@ -1,0 +1,6 @@
+{
+  "name": "Transitions",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Transitions.es6"
+}

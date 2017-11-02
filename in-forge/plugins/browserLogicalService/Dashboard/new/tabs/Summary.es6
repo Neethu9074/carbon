@@ -4,7 +4,7 @@ import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashb
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
-import { number, seconds, percentage } from 'in-services/formatters/number';
+import { number, seconds, percentage, millis } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
@@ -26,6 +26,37 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
       Traces
     </Button>
   );
+
+  let spaSummaryChart;
+  if (snapshot.getIn(['data', 'spaEnabled'])) {
+    spaSummaryChart = (
+      <DashboardTile title="SPA Route Views vs Route Transition Time">
+        <Chart
+          snapshotId={snapshotId}
+          margins={{
+            left: 60,
+            right: 60
+          }}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: [`${metricPrefix}pt`, `${metricPrefix}ptErrorRate`],
+            labels: ['views', 'errors'],
+            type: 'countErrorBar',
+            aggregation: 'sum'
+          }}
+          y2={{
+            min: 0,
+            formatter: millis.detailed,
+            metrics: [`${metricPrefix}pt.mean`],
+            labels: ['transition time'],
+            type: 'line',
+            aggregation: 'mean'
+          }}
+        />
+      </DashboardTile>
+    );
+  }
 
   return (
     <MaxWidthFullscreenContainer>
@@ -132,6 +163,8 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
           />
         </DashboardTile>
       </Columize>
+
+      {spaSummaryChart}
     </MaxWidthFullscreenContainer>
   );
 }
