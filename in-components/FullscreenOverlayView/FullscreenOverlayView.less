@@ -1,4 +1,4 @@
-@import "~in-themes/active.less";
+@import '~in-themes/active.less';
 
 .in-fullscreen-overlay-view {
   position: absolute;
@@ -13,12 +13,16 @@
   overflow-x: hidden;
   overflow-y: auto;
 
-  background: #EEF2F4;
+  background: #eef2f4;
   font-size: 0.75rem;
-  color: #2D4048;
+  color: #2d4048;
 
   &__overlay {
     z-index: @z-index__fullscreen-view-overlay-timeline;
+  }
+
+  &__overlay-search-bar {
+    z-index: @z-index__fullscreen-view-overlay-search-bar;
   }
 
   .in-fullscreen-overlay-view {

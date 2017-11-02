@@ -21,6 +21,7 @@ module.exports = {
     searchMenu: zIndex++,
     searchBar: zIndex++,
     searchSuggestions: zIndex++,
+    fullscreenViewOverlaySearchBar: zIndex++,
     header: zIndex++,
     viewSwitcher: zIndex++,
     accountMenu: zIndex++,

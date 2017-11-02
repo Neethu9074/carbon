@@ -16,7 +16,14 @@ export default connectTo(
       timelineHeight: timelineHeight$
     };
   },
-  function FullscreenOverlayView({ isOpen, timelineHeight, children, className, overlayTimeline = false }) {
+  function FullscreenOverlayView({
+    isOpen,
+    timelineHeight,
+    children,
+    className,
+    overlayTimeline = false,
+    overlaySearchBar = false
+  }) {
     if (!isOpen) {
       return null;
     }
@@ -31,12 +38,18 @@ export default connectTo(
       classes += ` ${block}__overlay`;
     }
 
+    let top = 80;
+    if (overlaySearchBar) {
+      top = 40;
+      classes += ` ${block}__overlay-search-bar`;
+    }
+
     return (
       <section
         className={classes}
         style={{
           bottom: toPx(timelineHeight),
-          top: toPx(80)
+          top: toPx(top)
         }}
       >
         {children}

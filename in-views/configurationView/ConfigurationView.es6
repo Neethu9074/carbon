@@ -13,7 +13,7 @@ const block = 'in-configuration-view';
 
 export default function ConfigurationView(props) {
   return (
-    <FullscreenOverlayView className={block}>
+    <FullscreenOverlayView className={block} overlayTimeline overlaySearchBar>
       <Title title="Settings" />
       <Navigation />
       {!props.match.isExact ? <ActiveSubView>{routes}</ActiveSubView> : <DefaultConfigView />}
