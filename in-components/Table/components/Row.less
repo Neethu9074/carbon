@@ -1,13 +1,15 @@
 .in-table-row {
-
   outline: 0;
+  background: #eef2f4;
+  position: relative;
 
-  &:focus {
-    background: #ddd;
+  &:hover {
+    background: #e1e8eb;
   }
 
   &--selected {
-    background: #eee;
+    background: #fff;
+    border-left: 0.5rem solid #24d8d8;
   }
 
   &--clickable {
@@ -15,7 +17,7 @@
   }
 
   &__toggle {
-    fill: #2D4048;
+    fill: #2d4048;
     position: relative;
     top: 2px;
     cursor: pointer;

@@ -68,7 +68,6 @@
     "react-day-picker": "^6.1.0",
     "react-dom": "^16.0.0",
     "react-immutable-proptypes": "^2.1.0",
-    "react-infinite": "^0.11.0",
     "react-motion": "^0.4.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",

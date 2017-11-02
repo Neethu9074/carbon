@@ -1,3 +1,4 @@
+import { toggleSortDirection, setSortDirection } from 'in-views/eventView/stores/sortDirection';
 import { createStore } from 'in-stores/store';
 
 const sortByStore = createStore({
@@ -7,5 +8,12 @@ const sortByStore = createStore({
 export const sortBy$ = sortByStore.observable;
 
 export function setSortBy(newSortBy) {
-  sortByStore.mutateTo(newSortBy);
+  sortByStore.applyStateMutation(oldSortBy => {
+    if (oldSortBy === newSortBy) {
+      toggleSortDirection();
+    } else {
+      setSortDirection('desc');
+    }
+    return newSortBy;
+  });
 }

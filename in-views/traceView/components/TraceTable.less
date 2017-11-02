@@ -1,17 +1,20 @@
 .in-trace-table {
-  height: 100%;
   position: relative;
-
-  &__scroll-area {
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
+  height: 100%;
 
   &__no-traces {
     text-align: center;
     font-style: italic;
+  }
+
+  &__error-icon {
+    margin-left: 0.625rem;
+  }
+
+  &__call,
+  &__service {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }

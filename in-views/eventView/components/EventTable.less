@@ -7,11 +7,28 @@
     font-style: italic;
   }
 
-  &__scroll-area {
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+  &__entity-wrapper {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  &__entity-icon {
+    margin-right: 0.313rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__icon-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.625rem;
+    width: 2.25rem;
   }
 }

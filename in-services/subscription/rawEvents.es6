@@ -5,10 +5,10 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-raw-events',
 
-  getId: ({ time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset }) =>
-    time + maxTimestamp + minTimestamp + sortByField + sortMode + Math.round(Date.now() / 2000) + query + offset,
+  getId: ({ time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) =>
+    time + maxTimestamp + minTimestamp + sortByField + sortMode + Math.round(Date.now() / 2000) + query + offset + size,
 
-  getData: (subscriptionId, { time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset }) => {
+  getData: (subscriptionId, { time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) => {
     return {
       subscriptionId,
       time,
@@ -17,7 +17,8 @@ export default createSubscription({
       sortByField,
       sortMode,
       query,
-      offset
+      offset,
+      size
     };
   },
 

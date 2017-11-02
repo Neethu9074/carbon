@@ -27,7 +27,6 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
   .distinct();
 
 export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/search'));
-export const traceAnalyticsViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/analytics'));
 
 export function getTraceViewLinkWithQuery(query) {
   return getModifiedUrlStream(params => {
@@ -41,18 +40,6 @@ export function getTraceViewLinkShowingTrace(traceId) {
   return getModifiedUrlStream(params => {
     params.pathname = '/traces/search';
     params.query.traceId = traceId;
-  });
-}
-
-export const logView$ = getModifiedUrlStream(params => {
-  params.pathname = '/logs';
-});
-
-export function getLogViewLinkWithQuery(query) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/logs';
-    params.query.q = query;
-    params.query.ss = '1';
   });
 }
 
@@ -105,8 +92,7 @@ export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => 
 
 export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
 
-export function focusEvent(event) {
-  const eventId = event.get('id');
+export function focusEvent(eventId) {
   mutateUrl(params => {
     const match = params.pathname.match(/\/(logical|physical)/i);
     if (match) {
