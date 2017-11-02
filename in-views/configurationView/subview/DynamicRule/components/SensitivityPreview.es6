@@ -174,7 +174,7 @@ class PreviewChart extends React.Component {
               })
         }
         margins={{
-          left: 40,
+          left: 60,
           right: 1
         }}
         avoidMarginOverrides

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/components/MatchingEntityTable';
-import SectionLine from 'in-views/configurationView/subview/DynamicRule/components/SectionLine';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
+import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -91,7 +91,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
         </Row>
       </RuleControl>
 
-      <SectionLine />
+      <Spacer />
 
       <RuleControl name="Entities matched" helpComponent={MatchingEntitiesHelpBox}>
         {form.get('query').map(field => (
@@ -105,6 +105,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
             <Input
               id="rule-query"
               type="text"
+              placeholder="e.g: entity.zone:prod"
               className={`${block}__helpfified_input`}
               value={field.value}
               onChange={e => onChange('query', e.target.value)}
@@ -123,10 +124,35 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
               </ValidationBlock>
             ))}
             <MatchingEntityTable form={form} excludeEntity={excludeEntity} includeEntity={includeEntity} />
+            <MatchingEntitiesIndicator form={form} />
           </FormGroup>
         ))}
       </RuleControl>
     </Step>
+  );
+}
+
+function MatchingEntitiesIndicator({ form }) {
+  return (
+    <div className={`${block}__matching-entities-indicator`}>
+      {form.get('matchingEntities').map(field => {
+        if (field.value && field.value.snapshots) {
+          const selectedEntities = field.value.snapshots
+            .map(snapshot => {
+              return {
+                snapshot,
+                isExcluded: form.get('excludedSnapshotIds').value.indexOf(snapshot.get('id')) >= 0
+              };
+            })
+            .filter(row => !row.isExcluded);
+          return (
+            <span>
+              {selectedEntities.length} {selectedEntities.length === 1 ? 'Entity' : 'Entities'} selected
+            </span>
+          );
+        }
+      })}
+    </div>
   );
 }
 

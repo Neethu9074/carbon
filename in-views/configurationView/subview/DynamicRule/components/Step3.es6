@@ -3,6 +3,7 @@ import React from 'react';
 
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
+import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -28,7 +29,7 @@ export default function Step3({ form, onChange }) {
         {form.get('enabled').map(field => (
           <Row>
             <Col cols={6}>
-              <CreateEventSelection title="Yes, tigger Events" field={field} onChange={onChange} value={true} />
+              <CreateEventSelection title="Yes, tigger Events" field={field} onChange={onChange} value />
             </Col>
             <Col cols={6}>
               <CreateEventSelection
@@ -42,9 +43,7 @@ export default function Step3({ form, onChange }) {
         ))}
       </RuleControl>
 
-      {form
-        .get('enabled')
-        .map(isEnabledField => (isEnabledField.value ? <div className={`${block}__spacer`} /> : null))}
+      {form.get('enabled').map(isEnabledField => (isEnabledField.value ? <Spacer /> : null))}
 
       {form.get('enabled').map(
         isEnabledField =>
