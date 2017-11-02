@@ -1,0 +1,6 @@
+{
+  "name": "PhysicalContext",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PhysicalContext.es6"
+}

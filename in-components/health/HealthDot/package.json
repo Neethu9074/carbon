@@ -1,0 +1,6 @@
+{
+  "name": "HealthDot",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HealthDot.es6"
+}
