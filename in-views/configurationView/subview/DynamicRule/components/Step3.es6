@@ -25,6 +25,98 @@ const block = 'in-dynamic-rule-dialog-step-3';
 export default function Step3({ form, onChange }) {
   return (
     <Step number={3} title="Event" form={form} onChange={onChange}>
+      <RuleControl name="Created when limits are surpassed" helpComponent={EventHelpComponent}>
+        {form.get('triggering').map(field => (
+          <FormGroup className={`${block}__triggering-group`}>
+            <div className={`${block}__triggering`}>
+              <TooltipIcon tooltip="Incidents represent the highest alert mode in Instana. Related events are associated with an incident for easy root cause analysis." />
+              Create Incident
+              <Toggle
+                className={`${block}__toggle`}
+                checked={field.value}
+                onChange={e => onChange('triggering', e.target.checked)}
+              />
+            </div>
+          </FormGroup>
+        ))}
+        {form.get('severity').map(field => (
+          <FormGroup>
+            <Label htmlFor="rule-event-severity">Severity</Label>
+            <Row>
+              <Col cols={6}>
+                <SeveritySelection
+                  title="Critical"
+                  iconType="critical"
+                  field={field}
+                  onChange={onChange}
+                  severity={10}
+                />
+              </Col>
+              <Col cols={6}>
+                <SeveritySelection title="Warning" iconType="warning" field={field} onChange={onChange} severity={5} />
+              </Col>
+            </Row>
+          </FormGroup>
+        ))}
+        {form.get('text').map(field => (
+          <FormGroup>
+            <Label htmlFor="rule-event-text" hasError={!field.valid}>
+              Title
+            </Label>
+            <Input
+              id="rule-event-text"
+              type="text"
+              value={field.value}
+              onChange={e => onChange('text', e.target.value)}
+              hasError={!field.valid}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+        {form.get('description').map(field => (
+          <FormGroup>
+            <Label htmlFor="rule-event-description" hasError={!field.valid}>
+              Description
+            </Label>
+            <TextArea
+              id="rule-event-description"
+              className={`${block}__description`}
+              value={field.value}
+              onChange={e => onChange('description', e.target.value)}
+              hasError={!field.valid}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+        <div className={`${block}__event-preview`}>
+          <Tooltip
+            content={
+              <EventDescription
+                className={`${block}__issue-preview`}
+                event={createEvent(form)}
+                snapshotId="snapshotId"
+                isNotClickable
+              />
+            }
+          >
+            <div className={`${block}__event-preview-wrapper`}>
+              <SvgIcon type="eye" className={`${block}__preview-icon`} color="#6B8088" width={20} />
+              Event Preview
+            </div>
+          </Tooltip>
+        </div>
+      </RuleControl>
+
+      <Spacer />
+
       <RuleControl name="Trigger corresponding events based on the sensitivity settings">
         {form.get('enabled').map(field => (
           <Row>
@@ -42,109 +134,6 @@ export default function Step3({ form, onChange }) {
           </Row>
         ))}
       </RuleControl>
-
-      {form.get('enabled').map(isEnabledField => (isEnabledField.value ? <Spacer /> : null))}
-
-      {form.get('enabled').map(
-        isEnabledField =>
-          isEnabledField.value ? (
-            <RuleControl name="Created when limits are surpassed" helpComponent={EventHelpComponent}>
-              {form.get('triggering').map(field => (
-                <FormGroup className={`${block}__triggering-group`}>
-                  <div className={`${block}__triggering`}>
-                    <TooltipIcon tooltip="Incidents represent the highest alert mode in Instana. Related events are associated with an incident for easy root cause analysis." />
-                    Create Incident
-                    <Toggle
-                      className={`${block}__toggle`}
-                      checked={field.value}
-                      onChange={e => onChange('triggering', e.target.checked)}
-                    />
-                  </div>
-                </FormGroup>
-              ))}
-              {form.get('severity').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-event-severity">Severity</Label>
-                  <Row>
-                    <Col cols={6}>
-                      <SeveritySelection
-                        title="Critical"
-                        iconType="critical"
-                        field={field}
-                        onChange={onChange}
-                        severity={10}
-                      />
-                    </Col>
-                    <Col cols={6}>
-                      <SeveritySelection
-                        title="Warning"
-                        iconType="warning"
-                        field={field}
-                        onChange={onChange}
-                        severity={5}
-                      />
-                    </Col>
-                  </Row>
-                </FormGroup>
-              ))}
-              {form.get('text').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-event-text" hasError={!field.valid}>
-                    Title
-                  </Label>
-                  <Input
-                    id="rule-event-text"
-                    type="text"
-                    value={field.value}
-                    onChange={e => onChange('text', e.target.value)}
-                    hasError={!field.valid}
-                  />
-                  {field.messages.map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))}
-                </FormGroup>
-              ))}
-              {form.get('description').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-event-description" hasError={!field.valid}>
-                    Description
-                  </Label>
-                  <TextArea
-                    id="rule-event-description"
-                    className={`${block}__description`}
-                    value={field.value}
-                    onChange={e => onChange('description', e.target.value)}
-                    hasError={!field.valid}
-                  />
-                  {field.messages.map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))}
-                </FormGroup>
-              ))}
-              <div className={`${block}__event-preview`}>
-                <Tooltip
-                  content={
-                    <EventDescription
-                      className={`${block}__issue-preview`}
-                      event={createEvent(form)}
-                      snapshotId="snapshotId"
-                      isNotClickable
-                    />
-                  }
-                >
-                  <div className={`${block}__event-preview-wrapper`}>
-                    <SvgIcon type="eye" className={`${block}__preview-icon`} color="#6B8088" width={20} />
-                    Event Preview
-                  </div>
-                </Tooltip>
-              </div>
-            </RuleControl>
-          ) : null
-      )}
     </Step>
   );
 }
