@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { twoDecimalPlaces } from 'in-services/formatters/number';
-
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
-
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { twoDecimalPlaces } from 'in-services/formatters/number';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 
 export default function KubernetesClusterSidebar({ snapshot }) {
