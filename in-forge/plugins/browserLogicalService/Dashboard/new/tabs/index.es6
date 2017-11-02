@@ -11,7 +11,7 @@ import AJAX from './AJAX';
 export function getTabs(snapshot, pageHash) {
   const isNonServiceMappedWebsite = snapshot.getIn(['data', 'eumKey']) === snapshot.getIn(['data', 'steady_id']);
   const pathPrefix = pageHash ? `/pages/${pageHash}` : '';
-  const spaEnabled = /*snapshot.getIn(['data', 'spaEnabled']);*/ 1;
+  const spaEnabled = snapshot.getIn(['data', 'spaEnabled']);
   return [
     {
       label: 'Summary',
