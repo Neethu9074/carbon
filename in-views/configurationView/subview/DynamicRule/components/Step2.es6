@@ -2,6 +2,7 @@ import React from 'react';
 
 import SensitivityPreview from 'in-views/configurationView/subview/DynamicRule/components/SensitivityPreview';
 import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
+import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -46,6 +47,9 @@ export default function Step2({ form, onChange }) {
           ))}
         </RuleControl>
       ) : null}
+
+      <Spacer />
+
       <RuleControl name="Sensitivity (Preview)" helpComponent={CorridorHelpBox}>
         {form.get('sensitivity').map(field => (
           <FormGroup>

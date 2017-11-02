@@ -34,7 +34,7 @@ const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
 export default function Step1({ form, onChange, excludeEntity, includeEntity }) {
   return (
     <Step number={1} title="Entities & Metrics" form={form} onChange={onChange}>
-      <RuleControl name="Entity type and metric">
+      <RuleControl name="Type and metric">
         <Row>
           <Col cols={6}>
             {form.get('entityType').map(field => (
@@ -93,7 +93,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
 
       <Spacer />
 
-      <RuleControl name="Entities matched" helpComponent={MatchingEntitiesHelpBox}>
+      <RuleControl name="Entities the rule will be applied on:" helpComponent={MatchingEntitiesHelpBox}>
         {form.get('query').map(field => (
           <FormGroup>
             <div className={`${block}__filter-label-wrapper`}>
