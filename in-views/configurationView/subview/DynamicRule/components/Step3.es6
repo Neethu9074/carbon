@@ -163,7 +163,13 @@ function SeveritySelection({ field, iconType, title, severity, onChange }) {
       })}
       onClick={() => onChange('severity', severity)}
     >
-      <SvgIcon type={iconType} className={`${block}__icon`} color={isActive ? '#fff' : '#000'} height={16} width={16} />
+      <SvgIcon
+        type={iconType}
+        className={`${block}__icon`}
+        color={isActive && severity === 10 ? '#fff' : '#000'}
+        height={16}
+        width={16}
+      />
       {title}
     </div>
   );
