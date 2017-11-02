@@ -220,7 +220,17 @@ function createForm(ruleBinding) {
       'severity',
       createField({
         value: String(ruleBinding.get('severity')),
-        validator: notBlankValidator
+        validator: severity => {
+          if (Number(severity) === 0) {
+            return [
+              {
+                severity: 'error',
+                message: `Please select a severity`
+              }
+            ];
+          }
+          return null;
+        }
       })
     )
     .put(
