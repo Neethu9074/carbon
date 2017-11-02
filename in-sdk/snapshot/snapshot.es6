@@ -1,6 +1,7 @@
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { addLabelFinder, getLabel } from 'in-sdk/snapshot/legacy';
 import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { emptyMap } from 'in-services/fixedImmutables';
 export { getIconSvgPath } from 'in-sdk/iconRegistry';
 
 export function getChartWiggleRoom(plugin) {
@@ -99,4 +100,31 @@ export function supportTableView(plugin) {
  */
 export function getTableDefinition(plugin) {
   return getSnapshotDefinition(plugin).tableDefinition;
+}
+
+/**
+ * To provide context in scenarios where we show a physical entity, we want to show
+ * key/value pairs or sets of strings to ease understanding what the entity that we
+ * are showing actually is. To do so, plugins can register context "tags".
+ *
+ * Plugins can define a function to do so:
+ * getContext(snapshot) : ImmutableMap<String, ImmutableSet | ImmutableMap>
+ *
+ * Plugins do not need to add processorTags to the map. It will already exist under the
+ * key Tags.
+ *
+ * This function guarantees that undefined / null is never returned. In the worst case,
+ * an empty map is returned.
+ */
+export function getContext(snapshot) {
+  let result = emptyMap;
+
+  const getter = getSnapshotDefinition(snapshot.get('plugin')).getContext;
+  if (getter) {
+    result = getter(snapshot);
+  }
+
+  result = result.set('Tags', snapshot.get('processorTags'));
+
+  return result.filter(v => v && v.size > 0);
 }

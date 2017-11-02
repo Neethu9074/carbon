@@ -1,14 +1,16 @@
+/* eslint-disable no-console */
+
 import React from 'react';
 
 import getPhysicalContext from 'in-services/subscription/getPhysicalContext';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import HealthDot from 'in-components/health/HealthDot';
+import { getContext, getLabel } from 'in-sdk/snapshot';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { nothing } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './PhysicalContext.less';
@@ -27,7 +29,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <Item snapshotId={appSnapshotId} />
+        <Item snapshotId={appSnapshotId} additionalContextFrom={context.get('process')} />
         <Item snapshotId={context.get('container')} />
         <Item snapshotId={context.get('host')} />
         <Item snapshotId={context.get('hostHardware')} />
@@ -39,12 +41,20 @@ export default connectTo(
 
 const Item = connectTo(
   props => ({
-    snapshot: props.snapshotId ? getSnapshot(props.snapshotId) : nothing
+    snapshot: props.snapshotId ? getSnapshot(props.snapshotId) : nothing,
+    additionalContextSnapshot: props.additionalContextFrom ? getSnapshot(props.additionalContextFrom) : nothing
   }),
-  function Item({ snapshot }) {
+  function Item({ snapshot, additionalContextSnapshot }) {
     if (!snapshot) {
       return null;
     }
+
+    let context = getContext(snapshot);
+    if (additionalContextSnapshot) {
+      context = context.mergeDeep(getContext(additionalContextSnapshot));
+    }
+
+    console.log(snapshot.get('plugin'), context.toJS());
 
     return (
       <div className={`${block}__item`}>

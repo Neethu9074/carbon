@@ -1,9 +1,10 @@
-import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import { Map } from 'immutable';
 
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
+import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
@@ -17,6 +18,13 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Docker Container',
     plural: 'Docker Containers'
+  },
+
+  getContext(snapshot) {
+    return Map({
+      Labels: snapshot.getIn(['data', 'Labels']),
+      Marathon: snapshot.getIn(['data', 'Marathon', 'labels'])
+    });
   }
 });
 

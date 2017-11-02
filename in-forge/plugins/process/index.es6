@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 import tableDefinition from 'in-forge/plugins/process/tableDefinition';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -13,5 +15,11 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Process',
     plural: 'Processes'
+  },
+
+  getContext(snapshot) {
+    return Map({
+      Environment: snapshot.getIn(['data', 'env'])
+    });
   }
 });
