@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import React from 'react';
 
 import ContextPopup from 'in-sdk/components/dashboard/context/PhysicalContext/ContextPopup';
@@ -56,8 +54,6 @@ const Item = connectTo(
     if (additionalContextSnapshot) {
       context = context.mergeDeep(getContext(additionalContextSnapshot));
     }
-
-    console.log(snapshot.get('plugin'), context.toJS());
 
     return (
       <div className={`${block}__item`}>
