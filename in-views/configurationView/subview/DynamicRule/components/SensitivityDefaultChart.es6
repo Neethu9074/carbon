@@ -21,8 +21,9 @@ export default getElementDimensions(
 
     render() {
       return (
-        <div>
-          <canvas ref={canvas => (this.canvas = canvas)} className={block + '__canvas'} />
+        <div className={block}>
+          <canvas ref={canvas => (this.canvas = canvas)} className={`${block}__canvas`} />
+          <div className={`${block}__notification`}>not based on real data</div>
         </div>
       );
     }
