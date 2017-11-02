@@ -4,11 +4,14 @@ import React from 'react';
 
 import SensitivityDefaultChart from 'in-views/configurationView/subview/DynamicRule/components/SensitivityDefaultChart';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { always } from 'in-services/fixedStreams';
+import PluginIcon from 'in-components/PluginIcon';
 import { timeframe$ } from 'in-stores/timeline';
+import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
 import './SensitivityPreview.less';
@@ -68,10 +71,20 @@ export default class extends React.Component {
 const cols = [
   {
     title: 'Name',
-    type: 'snapshotLink',
+    type: 'custom',
     typeArgs: {
-      getSnapshot(row) {
-        return row.snapshot;
+      comparator: compareIgnoreCase,
+      get(row) {
+        const label = getLabel(row.snapshot);
+        return {
+          value: label,
+          content: (
+            <div className={`${block}__row`}>
+              <PluginIcon snapshot={row.snapshot} className={`${block}__icon`} color="#000" dimension={12} />
+              {label}
+            </div>
+          )
+        };
       }
     }
   }
