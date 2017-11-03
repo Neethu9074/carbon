@@ -249,7 +249,7 @@ function createForm(rule) {
             : [
                 {
                   severity: 'error',
-                  message: `Please enter a valid metric.`
+                  message: `Please enter a valid Metric.`
                 }
               ];
         }
@@ -326,7 +326,7 @@ function createForm(rule) {
             return [
               {
                 severity: 'error',
-                message: `The number of entities is limited to 10.`
+                message: `The number of Entities is limited to 10.`
               }
             ];
           }

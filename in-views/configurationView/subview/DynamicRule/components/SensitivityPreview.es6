@@ -5,13 +5,16 @@ import React from 'react';
 import SensitivityDefaultChart from 'in-views/configurationView/subview/DynamicRule/components/SensitivityDefaultChart';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { getMetricsForTimeframe } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { timeframe$ } from 'in-stores/timeline';
+import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
 import './SensitivityPreview.less';
@@ -114,96 +117,125 @@ function EntityTable({ form, getRowDetails }) {
 }
 
 function getRowDetails(row) {
+  const metricDefinition = getMetricDefinition(row.snapshot.get('plugin'), row.metricName);
+  if (!metricDefinition) {
+    return null;
+  }
+
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  const chartTimeframe$ = __DEV__
+    ? timeframe$.map(timeframe => {
+        return {
+          to: (timeframe.to || Date.now()) + oneDay,
+          windowSize: timeframe.windowSize + oneDay
+        };
+      })
+    : always({
+        to: row.timeOpened + oneDay,
+        windowSize: oneDay * 13
+      });
+
   return (
     <div>
       <PreviewChart
         snapshot={row.snapshot}
-        metricName={row.metricName}
+        metricDefinition={metricDefinition}
         sensitivity={row.sensitivity}
-        timeOpened={row.timeOpened}
+        chartTimeframe$={chartTimeframe$}
       />
     </div>
   );
 }
 
-class PreviewChart extends React.Component {
-  static displayName = 'PreviewChart';
-
-  sensitivity$ = create();
-  subscription = null;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      sensitivity: props.sensitivity
+const PreviewChart = connectTo(
+  props => {
+    return {
+      forecastAvailable: props.chartTimeframe$.flatMap(timeframe =>
+        getMetricsForTimeframe({
+          snapshotId: props.snapshot.get('id'),
+          // subscribe to one of the forecast metrics.
+          // if it's not responding or with an empty result -> there are no forecasts available
+          metric: props.metricDefinition.value + '.forecast.high.' + props.sensitivity,
+          timeframe,
+          rollup: 1000 * 60 * 60
+        }).map(metricValues => (metricValues && metricValues.length > 0 ? true : false))
+      )
     };
-    this.sensitivity$.emit(props.sensitivity);
-  }
+  },
+  class PreviewChart extends React.Component {
+    static displayName = 'PreviewChart';
 
-  componentWillMount() {
-    this.subscription = this.sensitivity$.debounce(250).subscribe(sensitivity => this.setState({ sensitivity }));
-  }
+    sensitivity$ = create();
+    subscription = null;
 
-  componentWillUnmount() {
-    if (this.subscription) {
-      this.subscription.dispose();
-      this.subscription = null;
+    constructor(props) {
+      super(props);
+      this.state = {
+        sensitivity: props.sensitivity
+      };
+      this.sensitivity$.emit(props.sensitivity);
+    }
+
+    componentWillMount() {
+      this.subscription = this.sensitivity$.debounce(250).subscribe(sensitivity => this.setState({ sensitivity }));
+    }
+
+    componentWillUnmount() {
+      if (this.subscription) {
+        this.subscription.dispose();
+        this.subscription = null;
+      }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      if (nextProps.sensitivity !== this.props.sensitivity) {
+        this.sensitivity$.emit(nextProps.sensitivity);
+      }
+      if (
+        nextState.sensitivity !== this.state.sensitivity ||
+        nextProps.forecastAvailable !== this.props.forecastAvailable
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    render() {
+      const { forecastAvailable, chartTimeframe$, metricDefinition, snapshot } = this.props;
+      const formatter = metricDefinition.formatter || number;
+      const { sensitivity } = this.state;
+
+      return (
+        <div className={`${block}__chart-wrapper`}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe$={chartTimeframe$}
+            margins={{
+              left: 60,
+              right: 1
+            }}
+            avoidMarginOverrides
+            y1={{
+              metrics: [metricDefinition.value],
+              labels: [metricDefinition.label],
+              type: 'line',
+              formatter: formatter.detailed,
+              enableForecast: true,
+              forecastSensitivity: sensitivity
+            }}
+          />
+          {!forecastAvailable ? (
+            <div className={`${block}__training-indicator`}>
+              <SvgIcon className={`${block}__icon`} type="spinner" color="#fff" width={16} spinning />Training metric’s
+              historical behavior...
+            </div>
+          ) : null}
+        </div>
+      );
     }
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.sensitivity !== this.props.sensitivity) {
-      this.sensitivity$.emit(nextProps.sensitivity);
-    }
-    if (nextState.sensitivity !== this.state.sensitivity) {
-      return true;
-    }
-    return false;
-  }
-
-  render() {
-    const { snapshot, metricName, timeOpened } = this.props;
-    const { sensitivity } = this.state;
-
-    const metricDefinition = getMetricDefinition(snapshot.get('plugin'), metricName);
-    if (!metricDefinition) {
-      return null;
-    }
-    const formatter = metricDefinition.formatter || number;
-
-    return (
-      <Chart
-        snapshotId={snapshot.get('id')}
-        timeframe$={
-          __DEV__
-            ? timeframe$.map(timeframe => {
-                return {
-                  to: (timeframe.to || Date.now()) + 1000 * 60 * 60 * 24,
-                  windowSize: timeframe.windowSize + 1000 * 60 * 60 * 24
-                };
-              })
-            : always({
-                to: timeOpened + 1000 * 60 * 60 * 24, // 1 day
-                windowSize: 1000 * 60 * 60 * 24 * 13 // 13 days
-              })
-        }
-        margins={{
-          left: 60,
-          right: 1
-        }}
-        avoidMarginOverrides
-        y1={{
-          metrics: [metricDefinition.value],
-          labels: [metricDefinition.label],
-          type: 'line',
-          formatter: formatter.detailed,
-          enableForecast: true,
-          forecastSensitivity: sensitivity
-        }}
-      />
-    );
-  }
-}
+);
 
 function getMetricDefinition(plugin, metricName) {
   const list = getPlainMetricList(plugin);
