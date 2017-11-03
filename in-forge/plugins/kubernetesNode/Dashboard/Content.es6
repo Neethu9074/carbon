@@ -44,6 +44,11 @@ export default function KubernetesNodeDashboard({ snapshot, timeframe }) {
     .valueSeq()
     .toArray();
 
+  const ready = snapshot
+    .getIn(['data', 'conditions'], emptyList)
+    .filter(cond => cond.get('type') === 'Ready')
+    .first()
+    .get('status');
   return (
     <div>
       <KpiSection>
@@ -53,6 +58,9 @@ export default function KubernetesNodeDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
         <KpiKeyValue label="Internal IP">
           <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'internalIp'], null)} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Ready">
+          <MetricValue snapshotId={snapshotId} initialValue={ready} />
         </KpiKeyValue>
       </KpiSection>
 

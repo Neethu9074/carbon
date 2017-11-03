@@ -12,7 +12,7 @@ import Chart from 'in-components/Chart';
 
 export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const nodeIds = snapshot.getIn(['data', 'nodes.itemIds'], emptyList);
+  const nodeIds = snapshot.getIn(['data', 'nodes.itemIds'], emptyList).toArray();
   return (
     <div>
       <KpiSection>
