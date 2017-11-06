@@ -47,7 +47,7 @@ const cols = [
         return {
           value: label,
           content: (
-            <Link href$={getDashboardLink(row.key)} className={`${block}__link`}>
+            <Link href$={getDashboardLink(row.key)} className={`${block}__link`} target="_block">
               <HealthyPluginIcon
                 overrideSnapshot
                 snapshot={row.snapshot}
