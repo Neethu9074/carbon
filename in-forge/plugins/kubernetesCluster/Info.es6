@@ -8,6 +8,7 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Cluster">{data.get('clusterId')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
       <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
       <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
