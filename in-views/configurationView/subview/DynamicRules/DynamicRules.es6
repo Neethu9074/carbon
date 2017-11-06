@@ -41,6 +41,15 @@ const cols = [
       }
     }
   },
+  {
+    title: 'Triggering events',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.entity.get('enabled') ? 'Yes' : 'No';
+      }
+    }
+  },
   getDeleteButtonColumn()
 ];
 
