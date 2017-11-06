@@ -1,6 +1,11 @@
 import React from 'react';
 
+import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { getDashboardLink } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getLabel } from 'in-sdk/snapshot';
+import Link from 'in-components/Link';
 
 import './MatchingEntityTable.less';
 
@@ -34,10 +39,26 @@ const cols = [
   },
   {
     title: 'Name',
-    type: 'snapshotLink',
+    type: 'custom',
     typeArgs: {
-      getSnapshot(row) {
-        return row.snapshot;
+      comparator: compareIgnoreCase,
+      get(row) {
+        const label = getLabel(row.snapshot);
+        return {
+          value: label,
+          content: (
+            <Link href$={getDashboardLink(row.key)} className={`${block}__link`}>
+              <HealthyPluginIcon
+                overrideSnapshot
+                snapshot={row.snapshot}
+                dimension={12}
+                fallbackColor={'#000'}
+                className={`${block}__plugin-icon`}
+              />
+              {label}
+            </Link>
+          )
+        };
       }
     }
   }

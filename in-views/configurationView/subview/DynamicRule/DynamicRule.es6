@@ -3,6 +3,7 @@ import { createLogger } from 'instalog';
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-services/api/dynamicRules';
 import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/DynamicRuleForm';
 import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
@@ -46,6 +47,8 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
+        {DashboardNavigationRoute}
+
         <Title title="Dynamic Rule" />
 
         <SubViewHeader>Configure dynamic rule</SubViewHeader>
