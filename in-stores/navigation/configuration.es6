@@ -208,7 +208,7 @@ export function openServiceExtractionConfigByDefinition(definition) {
 const dynamicRulesViewPath = '/config/dynamicRules';
 const dynamicRuleViewPath = '/config/dynamicRule';
 export const dynamicRulesViewLink$ = buildUrlStream({ path: dynamicRulesViewPath });
-export const isDynamicRulesView$ = buildPathStartsWithStream(dynamicRulesViewPath);
+export const isDynamicRulesView$ = buildPathStartsWithStream(dynamicRuleViewPath);
 
 function getDynamicRulePath(id) {
   return id ? `${dynamicRuleViewPath}/${encodeURIComponent(id)}` : dynamicRuleViewPath;

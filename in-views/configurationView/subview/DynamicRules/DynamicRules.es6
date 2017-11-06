@@ -13,6 +13,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
@@ -26,7 +27,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.entity.getIn(['match', 'entityType']);
+        return getSingular(row.entity.getIn(['match', 'entityType']));
       }
     }
   },
@@ -153,7 +154,7 @@ export default class extends React.Component {
 
     return (
       <SubViewWrapper>
-        <SubViewHeader>DynamicRules</SubViewHeader>
+        <SubViewHeader>Dynamic Rules</SubViewHeader>
 
         <Section>
           {rows.length >= 2 ? (

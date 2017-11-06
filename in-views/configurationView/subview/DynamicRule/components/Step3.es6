@@ -121,11 +121,11 @@ export default function Step3({ form, onChange }) {
         {form.get('enabled').map(field => (
           <Row>
             <Col cols={6}>
-              <CreateEventSelection title="Yes, tigger Events" field={field} onChange={onChange} value />
+              <CreateEventSelection title="Yes, trigger events" field={field} onChange={onChange} value />
             </Col>
             <Col cols={6}>
               <CreateEventSelection
-                title="No, don't trigger Events yet"
+                title="No, don't trigger events yet"
                 field={field}
                 onChange={onChange}
                 value={false}

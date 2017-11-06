@@ -20,7 +20,7 @@ export default function Step2({ form, onChange }) {
       {instanaInternalFeaturesEnabled ? (
         <RuleControl
           name="Dynamic corridor"
-          helpText="The dynamic corridor is used to distinguish between normal and unregular metric trends-, by analyzing historical behavior."
+          helpText="The dynamic corridor is used to distinguish between normal and irregular metric trends by analyzing historical behavior."
         >
           {form.get('violationDirection').map(field => (
             <FormGroup>

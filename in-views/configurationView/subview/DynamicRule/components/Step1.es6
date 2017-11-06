@@ -93,7 +93,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
 
       <Spacer />
 
-      <RuleControl name="Entities the rule will be applied on:" helpComponent={MatchingEntitiesHelpBox} form={form}>
+      <RuleControl name="Entities the rule will be applied on." helpComponent={MatchingEntitiesHelpBox} form={form}>
         {form.get('query').map(field => (
           <FormGroup>
             <div className={`${block}__filter-label-wrapper`}>
