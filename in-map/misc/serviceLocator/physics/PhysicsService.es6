@@ -49,8 +49,6 @@ export default function createPhysicsService() {
 
       for (let objectToAdd of addObjectQueues[layer].values()) {
         octrees[layer].add(objectToAdd);
-
-        updateCollisionObject(objectToAdd, layer);
       }
 
       for (let objectToUpdate of updateObjectQueues[layer].values()) {
