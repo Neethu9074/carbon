@@ -17,21 +17,23 @@ export default connectTo(
     const data = snapshot.get('data');
 
     return (
-      <DescriptionList>
-        {zoneSnapshot ? (
-          <DescriptionItem title="Cluster">
-            <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
+      <div>
+        <DescriptionList>
+          {zoneSnapshot ? (
+            <DescriptionItem title="Cluster">
+              <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
+            </DescriptionItem>
+          ) : null}
+          <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+          <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
+          <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
+          <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
+          <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
+          <DescriptionItem title="Labels">
+            {(data.get('labels').map((v, k) => k + '=' + v) || []).join(', ')}
           </DescriptionItem>
-        ) : null}
-        <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
-        <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-        <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
-        <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
-        <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
-        <DescriptionItem title="Labels">
-          {(data.get('labels').map((v, k) => k + '=' + v) || []).join(', ')}
-        </DescriptionItem>
-      </DescriptionList>
+        </DescriptionList>
+      </div>
     );
   }
 );
