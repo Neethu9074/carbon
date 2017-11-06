@@ -6,6 +6,7 @@ const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current'
 const trainingTu = config.tenant === 'training';
 const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
 
+export const edmunds = config.tenant === 'edmunds';
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const logViewEnabled = false;
 export const objectivesEnabled = onlyInternally;
