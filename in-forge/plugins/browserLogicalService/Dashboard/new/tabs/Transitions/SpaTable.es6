@@ -11,7 +11,6 @@ const cols = [
   {
     title: 'Name',
     type: 'string',
-    index: 0,
     typeArgs: {
       getValue(row) {
         return row.label;
@@ -21,7 +20,6 @@ const cols = [
   {
     title: 'Views',
     type: 'sparkChart',
-    index: 1,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -39,7 +37,6 @@ const cols = [
   {
     title: 'Transition Time',
     type: 'sparkChart',
-    index: 2,
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
@@ -75,9 +72,8 @@ export default function SpaTable({ snapshot, timeframe }) {
       rows.push({
         key: pageHash,
         label: pageName,
-        metricPrefix: pageName == null ? '' : `endpoint.${pageName}.`,
+        metricPrefix: `endpoint.${pageName}.`,
         snapshot,
-        isPage: true,
         pageHash,
         timeframe: timeframe,
         snapshotId: snapshotId

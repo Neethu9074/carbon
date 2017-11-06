@@ -27,36 +27,33 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
     </Button>
   );
 
-  let spaSummaryChart;
-  if (snapshot.getIn(['data', 'spaEnabled'])) {
-    spaSummaryChart = (
-      <DashboardTile title="SPA Route Views vs Route Transition Time">
-        <Chart
-          snapshotId={snapshotId}
-          margins={{
-            left: 60,
-            right: 60
-          }}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`${metricPrefix}pt`, `${metricPrefix}ptErrorRate`],
-            labels: ['views', 'errors'],
-            type: 'countErrorBar',
-            aggregation: 'sum'
-          }}
-          y2={{
-            min: 0,
-            formatter: millis.detailed,
-            metrics: [`${metricPrefix}pt.mean`],
-            labels: ['transition time'],
-            type: 'line',
-            aggregation: 'mean'
-          }}
-        />
-      </DashboardTile>
-    );
-  }
+  const spaSummaryChart = snapshot.getIn(['data', 'spaEnabled']) ? (
+    <DashboardTile title="SPA Route Views vs Route Transition Time">
+      <Chart
+        snapshotId={snapshotId}
+        margins={{
+          left: 60,
+          right: 60
+        }}
+        y1={{
+          min: 0,
+          formatter: number.compact,
+          metrics: [`${metricPrefix}pt`, `${metricPrefix}ptErrorRate`],
+          labels: ['views', 'errors'],
+          type: 'countErrorBar',
+          aggregation: 'sum'
+        }}
+        y2={{
+          min: 0,
+          formatter: millis.detailed,
+          metrics: [`${metricPrefix}pt.mean`],
+          labels: ['transition time'],
+          type: 'line',
+          aggregation: 'mean'
+        }}
+      />
+    </DashboardTile>
+  ) : null;
 
   return (
     <MaxWidthFullscreenContainer>
