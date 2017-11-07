@@ -3,8 +3,10 @@ import { config } from 'in-services/config';
 
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
+const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
 const trainingTu = config.tenant === 'training';
-const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
+const onlyInternally =
+  __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu);
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const logViewEnabled = false;
@@ -15,9 +17,7 @@ export const cockpitEnabled = false;
 export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = onlyInternally;
-
-export const forecastsEnabled =
-  __DEV__ || config.tenant === 'edmunds' || (config.tenant === 'instana' && !stagingTu && !trainingTu);
+export const forecastsEnabled = config.tenant === 'edmunds' || onlyInternally;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
