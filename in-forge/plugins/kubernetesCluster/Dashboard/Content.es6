@@ -18,7 +18,22 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Node Count">
-          <MetricValue snapshotId={snapshotId} initialValue={nodeIds.length + ''} formatter={zeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} initialValue={String(nodeIds.length)} formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Pod count">
+          <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Shares Allocatable">
+          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_cpu" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Shares Limit">
+          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_cpu" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Allocatable">
+          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_mem" formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Limit">
+          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_mem" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
