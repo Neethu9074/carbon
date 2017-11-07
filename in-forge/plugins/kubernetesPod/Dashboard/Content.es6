@@ -80,9 +80,6 @@ export default function KubernetesPodDashboard({ snapshot }) {
         <KpiKeyValue label="Host IP">
           <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'hostIp'], null)} />
         </KpiKeyValue>
-        <KpiKeyValue label="Phase">
-          <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'phase'], null)} />
-        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title="Containers">
