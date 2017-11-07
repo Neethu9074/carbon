@@ -3,7 +3,6 @@ import React from 'react';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getClusterMembers } from 'in-stores/clusterMembers';
-import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -75,15 +74,6 @@ const cols = [
         return row.internalIp;
       }
     }
-  },
-  {
-    title: 'Labels',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return (row.labels || []).join(', ');
-      }
-    }
   }
 ];
 
@@ -101,7 +91,6 @@ export default connectTo(
         snapshotId: snapshot.get('id'),
         snapshotLinkId: node.get('id'),
         internalIp: data.get('internalIp'),
-        labels: data.get('labels', emptyList).map((v, k) => k + '=' + v),
         timeframe
       };
     });
