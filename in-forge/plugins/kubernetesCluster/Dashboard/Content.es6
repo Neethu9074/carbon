@@ -23,7 +23,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="CPU Shares">
+        <DashboardSection title="Allocatable vs Limit CPU Shares">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -38,7 +38,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Memory">
+        <DashboardSection title="Allocatable vs Limit Memory">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -56,7 +56,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Pod Count">
+        <DashboardSection title="Running Pods">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -71,7 +71,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Pods">
+        <DashboardSection title="Allocatable vs Limit Pods">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -88,7 +88,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Replicas">
+      <DashboardSection title="Available vs Desired Replicas">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
