@@ -3,9 +3,9 @@ import React from 'react';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getClusterMembers } from 'in-stores/clusterMembers';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { combineLatest } from 'reactive-observables';
-import { getSnapshot } from 'in-stores/snapshot';
+import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -90,16 +90,10 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      clusterNodes: getClusterMembers(props.snapshot.get('id'))
-        .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
-        .throttle(1000)
+      clusterNodes: getClusterMembers(props.snapshot.get('id')).flatMap(nodeIds => getSnapshots(nodeIds.toArray()))
     };
   },
-  function NodesTable({ snapshot, clusterNodes, timeframe }) {
-    if (clusterNodes == null || clusterNodes.length === 0) {
-      return null;
-    }
-
+  function NodesTable({ snapshot, clusterNodes = [], timeframe }) {
     const rows = clusterNodes.filter(node => node.get('plugin') == 'kubernetesNode').map(node => {
       const data = node.get('data');
       return {
@@ -107,7 +101,7 @@ export default connectTo(
         snapshotId: snapshot.get('id'),
         snapshotLinkId: node.get('id'),
         internalIp: data.get('internalIp'),
-        labels: data.get('labels').map((v, k) => k + '=' + v),
+        labels: data.get('labels', emptyList).map((v, k) => k + '=' + v),
         timeframe
       };
     });

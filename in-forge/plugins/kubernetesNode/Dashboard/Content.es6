@@ -31,24 +31,21 @@ const cols = [
 export default function KubernetesNodeDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const pods = snapshot.getIn(['data', 'pods'], emptyList);
-
-  const rows = pods
-    .map(pod => {
-      return {
-        key: pod.get('name'),
-        uid: pod.get('uid'),
-        namespace: pod.get('namespace'),
-        timeframe
-      };
-    })
-    .valueSeq()
-    .toArray();
-
   const ready = snapshot
     .getIn(['data', 'conditions'], emptyList)
     .filter(cond => cond.get('type') === 'Ready')
     .first()
     .get('status');
+
+  const rows = pods.toArray().map(pod => {
+    return {
+      key: pod.get('name'),
+      uid: pod.get('uid'),
+      namespace: pod.get('namespace'),
+      timeframe
+    };
+  });
+
   return (
     <div>
       <KpiSection>
