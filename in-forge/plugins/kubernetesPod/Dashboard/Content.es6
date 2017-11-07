@@ -42,7 +42,7 @@ const containerCols = [
   },
   {
     title: 'Restarts',
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
