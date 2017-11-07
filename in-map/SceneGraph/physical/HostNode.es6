@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import HostConnectionNode from 'in-map/SceneGraph/physical/HostConnectionNode';
+import LayerPlaceHolder from 'in-map/SceneGraph/physical/LayerPlaceholderNode';
 import ConnectionHandlerNode from 'in-map/SceneGraph/ConnectionHandlerNode';
 import HostMetricNode from 'in-map/SceneGraph/physical/HostMetricNode';
 import NodeSceneObject from 'in-map/sceneObjects/physical/Node';
@@ -50,9 +51,13 @@ export default class HostNode extends Node {
   }
 
   activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible, isHighlighted]) {
-    if (!isHighlighted && (activeMetric || !isVisible || zoomLevel > MAX_ZOOM_LEVEL)) {
+    if (!isHighlighted && (activeMetric || !isVisible)) {
       // clear current layer
       this.updateEntities(emptyArray);
+      // if the user zoomed out to much we want to show a layer placeholder to indicate that the host has some inventory.
+      // But only, if the host is not highlighted or even metrics are actice
+    } else if (zoomLevel > MAX_ZOOM_LEVEL && !isHighlighted && !activeMetric) {
+      this.addLayerPlaceholder();
     } else {
       if (!activeMetric) {
         this.addLayer();
@@ -92,6 +97,35 @@ export default class HostNode extends Node {
     }
 
     this.updateEntities(filteredLayer);
+  }
+
+  addLayerPlaceholder() {
+    const includedIds = this.includedIds;
+    const layers = this.entity.children;
+    let hasEntities = false;
+
+    for (let i = 0, length = layers.length; i < length; i++) {
+      const layer = layers[i];
+      if (includedIds.layerIds[layer.id]) {
+        hasEntities = true;
+        break;
+      }
+    }
+
+    if (hasEntities) {
+      this.updateEntities([
+        {
+          NodeType: LayerPlaceHolder,
+          params: {
+            id: 'abc123',
+            defaultColor: '#dddddd',
+            node: this.sceneObjectInstance
+          }
+        }
+      ]);
+    } else {
+      this.updateEntities(emptyArray);
+    }
   }
 
   update(oldParams, newParams) {
