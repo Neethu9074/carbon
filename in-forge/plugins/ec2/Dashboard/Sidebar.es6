@@ -11,7 +11,6 @@ export default function EC2SidebarDetails({ snapshot }) {
       <Separator />
       <Info snapshot={snapshot} />
 
-      <Separator />
       <TagList snapshot={snapshot} />
     </div>
   );
