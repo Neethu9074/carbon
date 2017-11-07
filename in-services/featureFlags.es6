@@ -7,7 +7,7 @@ const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release'
 const trainingTu = config.tenant === 'training';
 const onlyInternally =
   __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu);
-const betaInstanaTus = onlyInternally || stagingTu || trainingTu || releaseTu;
+const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const logViewEnabled = false;
