@@ -8,9 +8,9 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 
 export default function KubernetesClusterSidebar({ snapshot }) {
-  const schedulerHealthy = snapshot.getIn(['data', 'componentStatuses', 'scheduler', 'Healthy'], 'False');
-  const controllerMgrHealthy = snapshot.getIn(['data', 'componentStatuses', 'controller-manager', 'Healthy'], 'False');
-  const etcdHealthy = snapshot.getIn(['data', 'componentStatuses', 'etcd-0', 'Healthy'], 'False');
+  const schedulerHealthy = snapshot.getIn(['data', 'componentStatuses', 'scheduler', 'Healthy']);
+  const controllerMgrHealthy = snapshot.getIn(['data', 'componentStatuses', 'controller-manager', 'Healthy']);
+  const etcdHealthy = snapshot.getIn(['data', 'componentStatuses', 'etcd-0', 'Healthy']);
 
   return (
     <div>
