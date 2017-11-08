@@ -18,10 +18,6 @@ export default connectTo(
     };
   },
   function SpanPhysicalEntitiesInformation({ span, borderColor, source, destination }) {
-    if (!source) {
-      return null;
-    }
-
     const isEntry = span.get('kind') === SPAN_KINDS.ENTRY;
 
     return (
