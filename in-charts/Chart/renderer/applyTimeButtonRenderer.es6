@@ -6,7 +6,7 @@ import React from 'react';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
-const WIDTH_OF_BUTTONS_IN_PX = 52;
+const WIDTH_OF_BUTTONS_IN_PX = 58;
 
 export default function createHighlightedTimeframeRenderer(config) {
   const eventEmitter = new RoEmitter();
