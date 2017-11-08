@@ -49,10 +49,10 @@ export default connectTo(
     return (
       <div className={block}>
         <Button className={`${block}__button`} kind="secondary" href={href} onClick={onButtonClicked}>
-          <SvgIcon type="search" width={12} color="#172429" />
+          <SvgIcon type="search" height={12} color="#172429" />
         </Button>
         <Button className={`${block}__button`} kind="secondary" onClick={onButtonClicked}>
-          <SvgIcon type="x" width={10} color="#172429" />
+          <SvgIcon type="x" height={12} color="#172429" />
         </Button>
       </div>
     );

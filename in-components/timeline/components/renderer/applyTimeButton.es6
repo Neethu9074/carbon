@@ -6,7 +6,7 @@ import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import { onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
-const WIDTH_OF_BUTTONS_IN_PX = 52;
+const WIDTH_OF_BUTTONS_IN_PX = 58;
 
 export default function createHighlightedTimeframeRenderer(container, glassPane, canvas, scale) {
   const applyButtonContainer = document.createElement('div');
