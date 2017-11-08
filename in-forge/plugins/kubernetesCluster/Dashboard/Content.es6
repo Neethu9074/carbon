@@ -18,12 +18,27 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Node Count">
-          <MetricValue snapshotId={snapshotId} initialValue={nodeIds.length + ''} formatter={zeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} initialValue={String(nodeIds.length)} formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Pod count">
+          <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Shares Allocatable">
+          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_cpu" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Shares Limit">
+          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_cpu" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Allocatable">
+          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_mem" formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Limit">
+          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_mem" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="CPU Shares">
+        <DashboardSection title="Allocatable vs Limit CPU Shares">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -38,7 +53,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Memory">
+        <DashboardSection title="Allocatable vs Limit Memory">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -56,7 +71,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Pod Count">
+        <DashboardSection title="Running Pods">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -71,7 +86,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Pods">
+        <DashboardSection title="Allocatable vs Limit Pods">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -88,7 +103,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Replicas">
+      <DashboardSection title="Available vs Desired Replicas">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}

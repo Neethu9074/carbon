@@ -1,15 +1,11 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
-
-import MetricValue from 'in-components/MetricValue';
-
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
-
+import Table from 'in-sdk/components/dashboard/Table';
+import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
 const containerCols = [
@@ -42,7 +38,7 @@ const containerCols = [
   },
   {
     title: 'Restarts',
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;

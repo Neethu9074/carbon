@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -29,9 +30,7 @@ export default connectTo(
           <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
           <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
           <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
-          <DescriptionItem title="Labels">
-            {(data.get('labels').map((v, k) => k + '=' + v) || []).join(', ')}
-          </DescriptionItem>
+          <KeyValuePopup header="Labels" data={data.get('labels')} />
         </DescriptionList>
       </div>
     );
