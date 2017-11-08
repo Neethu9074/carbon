@@ -44,7 +44,7 @@ export default [
   },
   {
     metric: 'uncaughtErrors',
-    label: 'Uncaught errors',
+    label: 'Errors',
     category: [],
     min: 0,
     formatter: number

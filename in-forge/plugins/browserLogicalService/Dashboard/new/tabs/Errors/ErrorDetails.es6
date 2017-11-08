@@ -93,9 +93,9 @@ export default connectTo(
             {isErrorNotReadableDueToSameOriginPolicy ? (
               <Notification type="info">
                 <strong>Error details not accessible.</strong> Due to same-origin policy restrictions, the browser did
-                not permit access to the error message and stack trace of this uncaught error. To gain visibility into
-                these error details, please add the <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML
-                script tags and serve JavaScript files with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
+                not permit access to the error message and stack trace of this error. To gain visibility into these
+                error details, please add the <code>crossorigin=&quot;anonymous&quot;</code> attribute to HTML script
+                tags and serve JavaScript files with an <code>Access-Control-Allow-Origin: *</code> HTTP header.
               </Notification>
             ) : null}
           </DescriptionList>

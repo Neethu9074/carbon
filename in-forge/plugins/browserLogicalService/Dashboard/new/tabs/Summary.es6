@@ -143,7 +143,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
             metricPrefix={metricPrefix}
           />
         </DashboardTile>
-        <DashboardTile title="Uncaught Errors" href$={getSubDashboardLink('/errors')}>
+        <DashboardTile title="Errors" href$={getSubDashboardLink('/errors')}>
           <Chart
             snapshotId={snapshotId}
             margins={{
@@ -153,7 +153,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
               min: 0,
               formatter: number.compact,
               metrics: [`${metricPrefix}uncaughtErrors`],
-              labels: ['Uncaught errors'],
+              labels: ['Errors'],
               type: 'bar',
               aggregation: 'sum'
             }}

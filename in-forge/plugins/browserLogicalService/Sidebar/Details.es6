@@ -21,8 +21,8 @@ export default function BrowserServiceSidebar({ snapshot }) {
         <CountBasedJumpToButton
           href$={getTraceViewLinkWithQuery(query)}
           count$={getTraceCount(query)}
-          title="Uncaught errors"
-          tooltip="View traces for uncaught errors"
+          title="Errors"
+          tooltip="View traces for errors"
         />
       </TracesButtonWrapper>
 

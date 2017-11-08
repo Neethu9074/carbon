@@ -53,7 +53,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Uncaught Errors">
+      <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
@@ -64,7 +64,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
             min: 0,
             formatter: twoDecimalPlaces,
             metrics: [metricPrefix + 'uncaughtErrors'],
-            labels: ['Uncaught errors'],
+            labels: ['Errors'],
             type: 'line'
           }}
         />

@@ -12,7 +12,7 @@ export default function ErrorOverview(props) {
   return (
     <div>
       <Title title="Error Overview" />
-      <DashboardTile title="Uncaught Errors Over Time">
+      <DashboardTile title="Errors Over Time">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
@@ -23,7 +23,7 @@ export default function ErrorOverview(props) {
             min: 0,
             formatter: number.compact,
             metrics: ['uncaughtErrors'],
-            labels: ['Uncaught errors'],
+            labels: ['Errors'],
             type: 'bar',
             aggregation: 'sum'
           }}
