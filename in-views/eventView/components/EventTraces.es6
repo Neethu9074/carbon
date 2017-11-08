@@ -41,7 +41,9 @@ export default addSection(
             }).nextFrame()
           ),
 
-        numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe)
+        numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe).map(map =>
+          map.get('count', 0)
+        )
       };
     },
     function EventTraces({ event, href, numberOfTraces }) {
