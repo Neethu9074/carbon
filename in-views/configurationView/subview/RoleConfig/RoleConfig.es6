@@ -7,11 +7,11 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
 import Section from 'in-views/configurationView/components/Section';
-import { getRole, saveRole } from 'in-services/api/roles';
 import { openRoles } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
-import Notification from 'in-components/form/Notification';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';
+import Notification from 'in-components/form/Notification';
+import { getRole, saveRole } from 'in-services/api/roles';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
@@ -186,6 +186,5 @@ function createForm(role) {
     .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureObjectives', createField({ value: role.get('canConfigureObjectives') }))
     .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }));
 }

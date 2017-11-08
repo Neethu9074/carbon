@@ -150,18 +150,12 @@ export const selectedIncident$ = createTrackingStore({
   observable: selectedEvent$.map(event => (event == null || event.get('type') === 'incident' ? event : null))
 }).observable;
 
-export const selectedObjective$ = createTrackingStore({
-  name: 'events/selectedObjective',
-  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'objective' ? event : null))
-}).observable;
-
 export function countEvents(events) {
   const counter = {
     warning: 0,
     danger: 0,
     change: 0,
-    incident: 0,
-    objective: 0
+    incident: 0
   };
 
   events.forEach(event => {
@@ -177,9 +171,6 @@ export function countEvents(events) {
         break;
       case EVENT_TYPES.INCIDENT:
         counter.incident++;
-        break;
-      case EVENT_TYPES.OBJECTIVE:
-        counter.objective++;
         break;
       default:
     }
@@ -251,8 +242,7 @@ export const EVENT_TYPES = {
   ISSUE_WARNING: 1,
   ISSUE_CRITICAL: 2,
   ISSUE_OK: 3,
-  INCIDENT: 4,
-  OBJECTIVE: 5
+  INCIDENT: 4
 };
 
 /**
@@ -269,8 +259,6 @@ export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
       return 'critical';
     case EVENT_TYPES.INCIDENT:
       return 'incidents';
-    case EVENT_TYPES.OBJECTIVE:
-      return 'objectives';
     default:
       return useAlternativeChangeIcon ? 'change2' : 'change';
   }
@@ -291,8 +279,6 @@ export function getEventType(event) {
   switch (eventType) {
     case 'incident':
       return EVENT_TYPES.INCIDENT;
-    case 'objective':
-      return EVENT_TYPES.OBJECTIVE;
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue': {

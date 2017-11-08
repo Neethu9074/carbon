@@ -1,10 +1,10 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
-import { objectivesEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { roleViewFilterEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import { isOnPremise } from 'in-services/config';
@@ -176,16 +176,6 @@ export default function RoleForm({ form, onChange, disabled }) {
           name="canConfigureAgents"
           label="Configuration of agents"
         />
-
-        {objectivesEnabled ? (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureObjectives"
-            label="Configuration of objectives"
-          />
-        ) : null}
       </Section>
     </fieldset>
   );

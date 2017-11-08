@@ -8,7 +8,6 @@ const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && 
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const logViewEnabled = false;
-export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
 export const traceAnalyticsEnabled = false;
 export const cockpitEnabled = false;

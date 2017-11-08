@@ -14,7 +14,6 @@ export default connectTo(
     }
     return (
       <div>
-        <Metric label="Objectives">{eventsInTimeframe.objectives.length}</Metric>
         <Metric label="Incidents">{eventsInTimeframe.incidents.length}</Metric>
         <Metric label="Issues">{eventsInTimeframe.issues.length}</Metric>
         <Metric label="Changes">{eventsInTimeframe.changes.length}</Metric>

@@ -14,7 +14,6 @@ import { Row, Col } from 'in-components/Grid/Grid';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import ObjectiveContent from './ObjectiveContent';
 import IncidentContent from './IncidentContent';
 import EventContent from './EventContent';
 
@@ -86,8 +85,6 @@ function Content({ snapshotId, event, color, showFullTextIfToLong = true }) {
 
   if (eventType === EVENT_TYPES.INCIDENT) {
     return <IncidentContent incident={event} />;
-  } else if (eventType === EVENT_TYPES.OBJECTIVE) {
-    return <ObjectiveContent objective={event} />;
   }
   return (
     <EventContent snapshotId={snapshotId} showFullTextIfToLong={showFullTextIfToLong} event={event} color={color} />

@@ -8,13 +8,10 @@ export const eventFilter$ = createTrackingStore({
     const filteredByIssues = containsKeyword(query, 'event.type', 'issue');
     const filteredByChanges = containsKeyword(query, 'event.type', 'change');
     const filteredByIncidents = containsKeyword(query, 'event.type', 'incident');
-    const filteredByObjectives = containsKeyword(query, 'event.type', 'objectiveViolation');
-    if (filteredByIssues && filteredByChanges && filteredByIncidents && filteredByObjectives) {
+    if (filteredByIssues && filteredByChanges && filteredByIncidents) {
       return null;
     } else if (filteredByIncidents) {
       return 'incident';
-    } else if (filteredByObjectives) {
-      return 'objectiveViolation';
     } else if (filteredByIssues) {
       return 'issue';
     } else if (filteredByChanges) {

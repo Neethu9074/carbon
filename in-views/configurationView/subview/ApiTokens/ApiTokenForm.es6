@@ -4,7 +4,6 @@ import HorizontalFormGroupWithBackground from 'in-views/configurationView/compon
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import { objectivesEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
@@ -154,16 +153,6 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           name="canConfigureAgents"
           label="Configuration of agents"
         />
-
-        {objectivesEnabled ? (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureObjectives"
-            label="Configuration of objectives"
-          />
-        ) : null}
       </Section>
     </fieldset>
   );

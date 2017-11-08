@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { selectedEventId$, selectedEvent$, getEventType, EVENT_TYPES } from 'in-stores/events';
-import ObjectiveContent from 'in-views/eventView/components/Objective/Content';
 import IncidentContent from 'in-views/eventView/components/Incident/Content';
 import EventContent from 'in-views/eventView/components/Event/Content';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -29,8 +28,6 @@ export default connectTo(
     let content;
     if (eventType === EVENT_TYPES.INCIDENT) {
       content = <IncidentContent event={event} />;
-    } else if (eventType === EVENT_TYPES.OBJECTIVE) {
-      content = <ObjectiveContent event={event} />;
     } else {
       content = <EventContent event={event} />;
     }

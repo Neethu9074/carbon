@@ -90,8 +90,7 @@ function categorize(_data) {
   const categories = {
     issues: [],
     changes: [],
-    incidents: [],
-    objectives: []
+    incidents: []
   };
 
   _data.forEach(eventProperty => {

@@ -26,18 +26,16 @@ import {
   isApiTokensView$,
   auditLogViewLink$,
   isAuditLogView$,
-  objectiveViewLink$,
   dynamicRulesViewLink$,
   isDynamicRulesView$,
-  isObjectivesView$,
   rulesViewLink$,
   isRulesViewLink$,
   ruleBindingsViewLink$,
   isRuleBindingsViewLink$
 } from 'in-stores/navigation/configuration';
-import { forecastsEnabled, objectivesEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import { forecastsEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
@@ -140,10 +138,6 @@ export default function Navigation() {
 
         {role.canViewAuditLog ? (
           <NavItem title="Audit Log" href$={auditLogViewLink$} isActive$={isAuditLogView$} />
-        ) : null}
-
-        {objectivesEnabled ? (
-          <NavItem title="Objectives" href$={objectiveViewLink$} isActive$={isObjectivesView$} />
         ) : null}
       </NavItems>
     </nav>

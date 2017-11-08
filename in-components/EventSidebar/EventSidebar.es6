@@ -1,8 +1,7 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import { selectedEventId$, selectedEvent$, selectedIncident$, selectedObjective$ } from 'in-stores/events';
-import ObjectiveContent from 'in-views/eventView/components/Objective/Content';
+import { selectedEventId$, selectedEvent$, selectedIncident$ } from 'in-stores/events';
 import IncidentContent from 'in-views/eventView/components/Incident/Content';
 import EventContent from 'in-views/eventView/components/Event/Content';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
@@ -17,7 +16,6 @@ const block = 'in-event-sidebar';
 
 export default connectTo(
   {
-    objective: selectedObjective$,
     snapshotId: selectedSnapshotId$,
     incident: selectedIncident$,
     event: selectedEvent$,
@@ -27,16 +25,14 @@ export default connectTo(
       .map(() => window.innerHeight)
       .startWithFn(() => window.innerHeight)
   },
-  function EventSidebar({ snapshotId, eventId, event, incident, objective, windowHeight, timelineHeight }) {
-    if ((!incident && !event && !objective) || snapshotId) {
+  function EventSidebar({ snapshotId, eventId, event, incident, windowHeight, timelineHeight }) {
+    if ((!incident && !event) || snapshotId) {
       return null;
     }
 
     let content;
     if (incident) {
       content = <IncidentContent event={incident} />;
-    } else if (objective) {
-      content = <ObjectiveContent event={objective} />;
     } else {
       content = <EventContent event={event} />;
     }

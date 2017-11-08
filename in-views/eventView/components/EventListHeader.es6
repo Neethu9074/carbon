@@ -5,7 +5,6 @@ import { toggleAutoUpdate, autoUpdate$ } from 'in-views/eventView/stores/autoUpd
 import { expandedSide$, toggleLeft } from 'in-views/eventView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh } from 'in-views/eventView/stores/rawEventListStore';
-import { objectivesEnabled } from 'in-services/featureFlags';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -26,7 +25,6 @@ export default connectTo(
           <EventFilter filter="incident">Incidents</EventFilter>
           <EventFilter filter="issue">Issues</EventFilter>
           <EventFilter filter="change">Changes</EventFilter>
-          {objectivesEnabled ? <EventFilter filter="objectiveViolation">Objective violations</EventFilter> : null}
         </div>
         <div className={`${block}__right-side`}>
           <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />

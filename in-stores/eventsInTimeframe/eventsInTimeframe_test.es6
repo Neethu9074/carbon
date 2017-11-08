@@ -59,15 +59,13 @@ describe('in-stores/eventsInTimeframe', () => {
     expect(eventsCallback.getCall(0).args[0].issues).to.have.length(0);
     expect(eventsCallback.getCall(0).args[0].changes).to.have.length(0);
     expect(eventsCallback.getCall(0).args[0].incidents).to.have.length(0);
-    expect(eventsCallback.getCall(0).args[0].objectives).to.have.length(0);
   });
 
   it('should add all events on first fire', () => {
     eventsInTimeframeFromBackend$.emit([
       { id: '1', type: 'issue' },
       { id: '2', type: 'incident' },
-      { id: '3', type: 'change' },
-      { id: '4', type: 'objective' }
+      { id: '3', type: 'change' }
     ]);
     focusedMoment$.emit(true);
     timeframe$.emit(true);
@@ -77,60 +75,49 @@ describe('in-stores/eventsInTimeframe', () => {
     expect(dataCallback.getCall(1).args[0].get('1').rawEvent.type).to.equal('issue');
     expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
     expect(dataCallback.getCall(1).args[0].get('3').rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 
   it('should remove events that were not send anymore', () => {
     eventsInTimeframeFromBackend$.emit([
       { id: '1', type: 'issue' },
       { id: '2', type: 'incident' },
-      { id: '3', type: 'change' },
-      { id: '4', type: 'objective' }
+      { id: '3', type: 'change' }
     ]);
     focusedMoment$.emit(true);
     timeframe$.emit(true);
     query$.emit(true);
-    eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }, { id: '4', type: 'objective' }]);
+
+    eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }]);
 
     expect(dataCallback).to.have.callCount(3);
     expect(dataCallback.getCall(1).args[0].get('1')).to.equal(undefined);
     expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
     expect(dataCallback.getCall(1).args[0].get('3')).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 
   it('should remove events that were not send anymore and add new ones', () => {
     eventsInTimeframeFromBackend$.emit([
       { id: '1', type: 'issue' },
       { id: '2', type: 'incident' },
-      { id: '3', type: 'change' },
-      { id: '4', type: 'objective' }
+      { id: '3', type: 'change' }
     ]);
     focusedMoment$.emit(true);
     timeframe$.emit(true);
     query$.emit(true);
-    eventsInTimeframeFromBackend$.emit([
-      { id: '2', type: 'incident' },
-      { id: '4', type: 'objective' },
-      { id: '5', type: 'incident' },
-      { id: '6', type: 'objective' }
-    ]);
+    eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }, { id: '5', type: 'incident' }]);
 
     expect(dataCallback).to.have.callCount(3);
     expect(dataCallback.getCall(1).args[0].get('1')).to.equal(undefined);
     expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('incident');
     expect(dataCallback.getCall(1).args[0].get('3')).to.equal(undefined);
-    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
     expect(dataCallback.getCall(1).args[0].get('5').rawEvent.type).to.equal('incident');
-    expect(dataCallback.getCall(1).args[0].get('6').rawEvent.type).to.equal('objective');
   });
 
   it('should change events which changed', () => {
     eventsInTimeframeFromBackend$.emit([
       { id: '1', type: 'issue' },
       { id: '2', type: 'incident' },
-      { id: '3', type: 'change' },
-      { id: '4', type: 'objective' }
+      { id: '3', type: 'change' }
     ]);
     focusedMoment$.emit(true);
     timeframe$.emit(true);
@@ -139,19 +126,11 @@ describe('in-stores/eventsInTimeframe', () => {
     expect(dataCallback.getCall(0).args[0].get('1').rawEvent.type).to.equal('issue');
     expect(dataCallback.getCall(0).args[0].get('2').rawEvent.type).to.equal('incident');
     expect(dataCallback.getCall(0).args[0].get('3').rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(0).args[0].get('4').rawEvent.type).to.equal('objective');
 
-    eventsInTimeframeFromBackend$.emit([
-      { id: '1', type: 'incident' },
-      { id: '2', type: 'change' },
-      { id: '3', type: 'objective' },
-      { id: '4', type: 'objective' }
-    ]);
+    eventsInTimeframeFromBackend$.emit([{ id: '1', type: 'incident' }, { id: '2', type: 'change' }]);
 
     expect(dataCallback).to.have.callCount(3);
     expect(dataCallback.getCall(1).args[0].get('1').rawEvent.type).to.equal('incident');
     expect(dataCallback.getCall(1).args[0].get('2').rawEvent.type).to.equal('change');
-    expect(dataCallback.getCall(1).args[0].get('3').rawEvent.type).to.equal('objective');
-    expect(dataCallback.getCall(1).args[0].get('4').rawEvent.type).to.equal('objective');
   });
 });

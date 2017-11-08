@@ -7,9 +7,7 @@ import EjbServiceExtractionConfiguration from 'promise-loader?global,configView!
 import ServiceExtractionRuleConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import UserManagement from 'promise-loader?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
-import ObjectivesConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectivesConfig';
 import RoleConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
-import ObjectiveConfig from 'promise-loader?global,configView!in-views/configurationView/subview/ObjectiveConfig';
 import ApiTokens from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
 import { Route } from 'react-router-dom';
@@ -92,13 +90,6 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
-
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
-      path="/config/objectives/:objectiveId"
-    />
-
-    <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)} path="/config/objectives" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>

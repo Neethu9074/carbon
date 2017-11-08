@@ -105,30 +105,6 @@ const auditLogViewPath = '/config/auditlog';
 export const auditLogViewLink$ = buildUrlStream({ path: auditLogViewPath });
 export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);
 
-function getObjectiveConfigPath(objectiveId) {
-  return `/config/objectives/${encodeURIComponent(objectiveId)}`;
-}
-
-export function getObjectivesConfigLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getObjectiveConfigPath(id)));
-}
-
-export function openObjectiveConfig(objectiveId) {
-  mutateUrl(params => (params.pathname = getObjectiveConfigPath(objectiveId)));
-}
-
-function getObjectivesConfigPath() {
-  return `/config/objectives`;
-}
-
-export function openObjectivesConfig() {
-  mutateUrl(params => (params.pathname = getObjectivesConfigPath()));
-}
-
-const objectiveViewPath = '/config/objectives';
-export const objectiveViewLink$ = buildUrlStream({ path: objectiveViewPath });
-export const isObjectivesView$ = buildPathStartsWithStream(objectiveViewPath);
-
 // custom alerting rules ------------------------------------
 // rule
 const ruleViewPath = '/config/rule';
