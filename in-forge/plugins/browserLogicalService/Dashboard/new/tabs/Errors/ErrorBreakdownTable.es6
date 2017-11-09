@@ -23,13 +23,16 @@ const cols = [
             return { value: row.name, label: row.name, href };
           });
         }
+
+        let label = <span>{row.name}</span>;
+        if (row.isPageRow && !row.isMonitoredRightNow) {
+          label = (
+            <Tooltip content="This page is not a part of the dynamic graph for the selected moment.">{label}</Tooltip>
+          );
+        }
         return always({
           value: row.name,
-          label: (
-            <Tooltip content="This page is not a part of the dynamic graph for the selected moment.">
-              <span>{row.name}</span>
-            </Tooltip>
-          )
+          label
         });
       }
     }
@@ -97,6 +100,7 @@ export default function ErrorBreakdownTable({ result, websiteLabel, pageName, sn
         key: page.get('hash'),
         name,
         count: page.get('count'),
+        isPageRow: true,
         isMonitoredRightNow: existingPages.contains(page.get('name')),
         query: `entity.website.label:"${luceneEscapeString(websiteLabel)}" span.hash:"errorMessage=${luceneEscapeString(
           errorHash
