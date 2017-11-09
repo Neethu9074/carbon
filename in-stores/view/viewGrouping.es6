@@ -6,7 +6,7 @@ const viewGroupings = Object.freeze({
   docker: 'DOCKER_IMAGE',
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
   host: 'HOST',
-  kube: 'KUBERNETES_NAMESPACE',
+  kube: 'KUBERNETES_POD_NAME',
   marathon: 'MARATHON_APP_ID',
   nomad: 'NOMAD_TASK_NAME',
 
@@ -26,7 +26,7 @@ export const humanReadableDescriptions = Object.freeze({
   docker: 'Docker image',
   ecs: 'Amazon ECS task definition family',
   host: 'Host',
-  kube: 'Kubernetes namespace',
+  kube: 'Kubernetes pod name',
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
 
