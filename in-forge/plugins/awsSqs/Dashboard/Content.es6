@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number } from 'in-services/formatters/number';
+import { number, bytes, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
@@ -9,13 +9,12 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-      <DashboardSection title="Messages">
+      <DashboardSection title="Messages (Average)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 30
+            left: 60
           }}
           y1={{
             metrics: [
@@ -27,41 +26,39 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
               'num_of_msg_sent'
             ],
             labels: ['Delayed', 'Not Visible', 'Visible', 'Empty Receives', 'Received', 'Sent'],
-            formatter: number.compact,
+            formatter: number.detailed,
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Old Messages">
+      <DashboardSection title="Old Messages (Average)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 30
+            left: 80
           }}
           y1={{
             metrics: ['age_of_oldest_msg'],
             labels: ['Age of oldest message'],
-            formatter: number.compact,
+            formatter: seconds.fixedCompact,
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Sent Messages">
+      <DashboardSection title="Sent Messages Size (Average)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 60,
-            right: 30
+            left: 80
           }}
           y1={{
             metrics: ['sent_message_size'],
             labels: ['Sent message size'],
-            formatter: number.compact,
+            formatter: bytes.compact,
             type: 'line'
           }}
         />
