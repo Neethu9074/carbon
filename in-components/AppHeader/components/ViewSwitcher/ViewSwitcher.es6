@@ -7,13 +7,12 @@ import {
   tableViewLink$,
   websiteViewLink$,
   tableViewFilteredForServicesLink$,
-  logView$,
   kubernetesViewLink$,
   cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
-import { logViewEnabled, cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
@@ -44,7 +43,6 @@ export default connectTo(
       const isPhysicalView = pathname.indexOf('/physical') === 0;
       const isContainerView = pathname.indexOf('/container') === 0;
       const isEventView = pathname.indexOf('/events') === 0;
-      const isLogsView = pathname.indexOf('/logs') === 0;
       const isWebsiteView = pathname.indexOf('/website') === 0;
       const isKubernetesView = pathname.indexOf('/kubernetes') === 0;
 
@@ -56,7 +54,6 @@ export default connectTo(
         isPhysicalView,
         isContainerView,
         isEventView,
-        isLogsView,
         isWebsiteView,
         isKubernetesView
       };
@@ -93,7 +90,6 @@ export default connectTo(
         isPhysicalView,
         isContainerView,
         isEventView,
-        isLogsView,
         isWebsiteView,
         isKubernetesView
       } = viewActiveState;
@@ -129,8 +125,6 @@ export default connectTo(
             {kubernetesEnabled ? (
               <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
             ) : null}
-
-            {logViewEnabled ? <View label="logs" icon="letter" isActive={isLogsView} href$={logView$} /> : null}
 
             <IncidentsMenuPoint isActive={isEventView} />
           </ul>

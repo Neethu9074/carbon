@@ -3,7 +3,6 @@ import React from 'react';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import FullscreenTwoColumnView from 'in-components/FullscreenTwoColumnView/FullscreenTwoColumnView';
 import EventDetailHeader from 'in-views/eventView/components/EventDetailHeader';
-import EventTableHeader from 'in-views/eventView/components/EventTableHeader';
 import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
@@ -22,7 +21,7 @@ export default function EventView() {
       <FullscreenTwoColumnView
         leftContent={getLeftContent()}
         rightContent={getRightContent()}
-        leftWidth="50rem"
+        leftWidth="46rem"
         expandedSide$={expandedSide$}
       />
 
@@ -32,11 +31,7 @@ export default function EventView() {
 }
 
 function getLeftContent() {
-  return [
-    <EventListHeader key="EventListHeader" />,
-    <EventTableHeader key="EventTableHeader" />,
-    <EventTable key="EventTable" />
-  ];
+  return [<EventListHeader key="EventListHeader" />, <EventTable key="EventTable" />];
 }
 
 function getRightContent() {

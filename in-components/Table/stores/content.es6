@@ -13,7 +13,8 @@ export function createStore({
   columnDefinitions,
   initialSortColumn = 0,
   maxItemsPerPage = 10,
-  initialSortDirection = 'asc'
+  initialSortDirection = 'asc',
+  disableSorting = false
 }) {
   if (__DEV__) {
     invariant(typeof initialSortColumn === 'number', 'initialSortColumn must be a number');
@@ -247,10 +248,12 @@ export function createStore({
       };
     }
 
-    let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
-    rows.sort(comparator);
-    if (sortDirection === 'desc') {
-      rows.reverse();
+    if (!disableSorting) {
+      let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
+      rows.sort(comparator);
+      if (sortDirection === 'desc') {
+        rows.reverse();
+      }
     }
 
     let start;

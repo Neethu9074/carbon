@@ -5,13 +5,12 @@ import ConfigurationView from 'promise-loader?global,configView!in-views/configu
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesView/KubernetesView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
-import TraceViewTabs from 'promise-loader?global!in-views/traceViewTabs/TraceViewTabs';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
+import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-import LogView from 'promise-loader?global!in-views/logView/LogView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import Cockpit from 'in-views/cockpit/Cockpit';
@@ -36,8 +35,6 @@ export default (
 
     <Route path="/table" component={createAsyncFullscreenOverlayViewComponent(TableView)} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="/logs" />
-
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />
     <Route component={createAsyncFullscreenOverlayViewComponent(KubernetesView)} path="/kubernetes" />
@@ -47,7 +44,7 @@ export default (
 
     <Route path="/config" component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TraceViewTabs)} path="/traces" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)} path="/traces" />
 
     {role.canConfigureAgents ? (
       <Route

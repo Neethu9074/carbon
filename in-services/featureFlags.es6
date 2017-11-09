@@ -7,9 +7,7 @@ const trainingTu = config.tenant === 'training';
 const onlyInternally = __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu);
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
-export const logViewEnabled = false;
 export const roleViewFilterEnabled = onlyInternally;
-export const traceAnalyticsEnabled = false;
 export const cockpitEnabled = false;
 export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
@@ -32,5 +30,3 @@ export const blackListedSearchFieldValues = {
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
-
-export const maximumNumberOfTracesForAnalytics = 40;

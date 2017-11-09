@@ -130,7 +130,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
   function onClick(e) {
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
-      focusEvent(eventAtCursor);
+      focusEvent(eventAtCursor.get('id'));
     } else {
       // if there is no event and the user clicked, set the focused moment to the time at pixel clicked
       setFocusedMoment(scale.getDomain(e.offsetX));
