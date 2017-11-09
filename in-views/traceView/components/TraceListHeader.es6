@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
-import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh, traces$ } from 'in-views/traceView/stores/traceList';
 import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
@@ -16,10 +15,9 @@ const block = 'in-trace-list-header';
 
 export default connectTo(
   {
-    expandedSide: expandedSide$,
     traces: traces$
   },
-  function TraceListHeader({ expandedSide }) {
+  function TraceListHeader() {
     return (
       <ViewHeader className={block}>
         <div className={`${block}__left-side`}>
@@ -33,12 +31,6 @@ export default connectTo(
             checkboxId="trace-view-auto-update"
             autoUpdate$={autoUpdate$}
             toggleAutoUpdate={toggleAutoUpdate}
-          />
-          <SvgIcon
-            type={expandedSide === 'left' ? 'minimize' : 'maximize'}
-            onClick={toggleLeft}
-            height={14}
-            className={`${block}__toggle-left`}
           />
         </div>
       </ViewHeader>

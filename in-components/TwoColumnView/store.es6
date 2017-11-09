@@ -6,10 +6,10 @@ export const noExpandedSides$ = create()
   .emit(null)
   .freeze();
 
-export function createExpandedViewStore(name) {
+export function createExpandedViewStore(name, initialValue = null) {
   const store = createStore({
     name,
-    initialValue: null
+    initialValue
   });
 
   return {
@@ -21,6 +21,10 @@ export function createExpandedViewStore(name) {
 
     toggleRight() {
       store.applyStateMutation(side => (side === 'right' ? null : 'right'));
+    },
+
+    set(value) {
+      store.mutateTo(value);
     }
   };
 }

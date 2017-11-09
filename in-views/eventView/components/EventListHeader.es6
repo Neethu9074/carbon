@@ -2,7 +2,6 @@ import React from 'react';
 
 import { eventFilter$, setEventTypeFilter } from 'in-views/eventView/stores/eventFilterStore';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
-import { expandedSide$, toggleLeft } from 'in-views/eventView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh } from 'in-views/eventView/stores/rawEventListStore';
 import AutoUpdate from 'in-components/AutoUpdate';
@@ -13,37 +12,22 @@ import './EventListHeader.less';
 
 const block = 'in-event-view-event-list-header';
 
-export default connectTo(
-  {
-    expandedSide: expandedSide$
-  },
-  function EventListHeader({ expandedSide }) {
-    return (
-      <ViewHeader className={block}>
-        <div className={`${block}__left-side`}>
-          <EventFilter>All</EventFilter>
-          <EventFilter filter="incident">Incidents</EventFilter>
-          <EventFilter filter="issue">Issues</EventFilter>
-          <EventFilter filter="change">Changes</EventFilter>
-        </div>
-        <div className={`${block}__right-side`}>
-          <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />
-          <AutoUpdate
-            checkboxId="event-view-auto-update"
-            autoUpdate$={autoUpdate$}
-            toggleAutoUpdate={toggleAutoUpdate}
-          />
-          <SvgIcon
-            type={expandedSide === 'left' ? 'minimize' : 'maximize'}
-            onClick={toggleLeft}
-            height={14}
-            className={`${block}__toggle-left`}
-          />
-        </div>
-      </ViewHeader>
-    );
-  }
-);
+export default function EventListHeader() {
+  return (
+    <ViewHeader className={block}>
+      <div className={`${block}__left-side`}>
+        <EventFilter>All</EventFilter>
+        <EventFilter filter="incident">Incidents</EventFilter>
+        <EventFilter filter="issue">Issues</EventFilter>
+        <EventFilter filter="change">Changes</EventFilter>
+      </div>
+      <div className={`${block}__right-side`}>
+        <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />
+        <AutoUpdate checkboxId="event-view-auto-update" autoUpdate$={autoUpdate$} toggleAutoUpdate={toggleAutoUpdate} />
+      </div>
+    </ViewHeader>
+  );
+}
 
 const EventFilter = connectTo(
   {
