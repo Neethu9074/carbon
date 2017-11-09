@@ -1,21 +1,20 @@
 import React from 'react';
 
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import connectTo from 'in-hoc/connectTo';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import { getZone } from 'in-stores/zone';
 
 export default connectTo(
-  props => {
-    return {
-      zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot)
-    };
-  },
+  props => ({
+    zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+  }),
   function KubernetesInfo({ snapshot, zoneSnapshot }) {
     const labels = snapshot.getIn(['data', 'Labels']);
     if (!labels || labels.size === 0) {
@@ -38,7 +37,7 @@ export default connectTo(
       <div>
         <Separator />
 
-        <Collapsible initiallyOpen={true}>
+        <Collapsible initiallyOpen>
           <Collapsible.Header>Kubernetes</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
@@ -54,7 +53,9 @@ export default connectTo(
             </DescriptionList>
 
             {labels && labels.size > 0 ? (
-              <KeyValuePopup header="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix} />
+              <KeyValuePopupButton title="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix}>
+                Kubernetes Labels
+              </KeyValuePopupButton>
             ) : null}
           </Collapsible.Content>
         </Collapsible>
