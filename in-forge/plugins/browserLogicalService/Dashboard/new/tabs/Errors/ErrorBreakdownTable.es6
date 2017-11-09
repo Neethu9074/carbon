@@ -9,6 +9,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { always } from 'in-services/fixedStreams';
+import Tooltip from 'in-components/Tooltip';
 
 const cols = [
   {
@@ -24,7 +25,11 @@ const cols = [
         }
         return always({
           value: row.name,
-          label: row.name
+          label: (
+            <Tooltip content="This page is not a part of the dynamic graph for the selected moment.">
+              <span>{row.name}</span>
+            </Tooltip>
+          )
         });
       }
     }
