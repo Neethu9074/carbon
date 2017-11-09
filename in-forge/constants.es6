@@ -1,3 +1,5 @@
+import { assign } from 'lodash';
+
 /* eslint-disable max-len */
 export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
 export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
@@ -142,7 +144,7 @@ export const servicePlugins = {
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
-export const plugins = Object.assign({}, servicePlugins, nonServicePlugins);
+export const plugins = assign({}, servicePlugins, nonServicePlugins);
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
