@@ -61,11 +61,7 @@ const LoadMoreButton = connectTo(
   }),
   function LoadMoreButton({ furtherDataAvailable, loadMoreData }) {
     if (!furtherDataAvailable) {
-      return (
-        <Button className={`${block}__button`} disabled>
-          no more data available
-        </Button>
-      );
+      return null;
     }
     return (
       <Button className={`${block}__button`} onClick={loadMoreData}>
