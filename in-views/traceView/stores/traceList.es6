@@ -46,7 +46,7 @@ export const isLoading$ = isLoadingStore.observable;
 
 const furtherDataAvailable = createStore({
   name: 'traceView/furtherDataAvailable',
-  initialValue: true
+  initialValue: false
 });
 export const furtherDataAvailable$ = furtherDataAvailable.observable;
 
