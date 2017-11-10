@@ -24,6 +24,12 @@ export const helpTexts = defaults(
         extract a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ. Should no rule match, the defaults
         from the <Link href$={generalServiceExtractionConfigurationViewLink$}>General config</Link> apply. Should these
         not match as well, a default service name using the destination is used.
+        <br />
+        View our{' '}
+        <Link href="https://docs.instana.io/products/application_service_management/#configuration" external>
+          documentation
+        </Link>{' '}
+        for further information.
       </span>
     ),
 

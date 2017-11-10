@@ -28,6 +28,12 @@ export const helpTexts = defaults(
         <Link href$={elasticsearchServiceExtractionConfigurationViewLink$}>Elasticsearch</Link> or{' '}
         <Link href$={messageBrokerServiceExtractionConfigurationViewLink$}>Message Brokers</Link> did not produce a
         service name.
+        <br />
+        View our{' '}
+        <Link href="https://docs.instana.io/products/application_service_management/#configuration" external>
+          documentation
+        </Link>{' '}
+        for further information.
       </span>
     ),
     matchesHelp: (
