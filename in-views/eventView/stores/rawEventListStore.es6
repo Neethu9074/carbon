@@ -38,7 +38,7 @@ export const rawEventList$ = rawEventList.observable;
 
 const furtherDataAvailable = createStore({
   name: 'eventView/furtherDataAvailable',
-  initialValue: true
+  initialValue: false
 });
 export const furtherDataAvailable$ = furtherDataAvailable.observable;
 
