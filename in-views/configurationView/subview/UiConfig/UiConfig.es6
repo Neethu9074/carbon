@@ -282,19 +282,6 @@ export default class extends React.Component {
               onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
             />
           </Group>
-          <Group>
-            <Heading text={`Distance, where connection KPIs appear (near to far)`} htmlFor="service-connection-kpis" />
-            <input
-              type="range"
-              id="service-connection-kpis"
-              min={100}
-              max={600}
-              step={10}
-              className={`${block}__slider`}
-              value={settings['map_logical_service_kpi_distance'] || 150}
-              onChange={e => this.saveSetting('map_logical_service_kpi_distance', Number(e.target.value))}
-            />
-          </Group>
         </Section>
       </SubViewWrapper>
     );
