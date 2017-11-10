@@ -41,6 +41,7 @@ export const nonServicePlugins = {
   kubernetesCluster: 'kubernetesCluster',
   kubernetesPod: 'kubernetesPod',
   kubernetesNode: 'kubernetesNode',
+  kubernetesReplicaSet: 'kubernetesReplicaSet',
   liferay: 'liferayApplicationContainer',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
@@ -201,6 +202,8 @@ export const fullyQualifiedPlugins = {
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesPod',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesNode',
+  kubernetesReplicaSet:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicaset.KubernetesReplicaSet',
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
   ldapLogicalService: 'com.instana.forge.connection.ldap.LdapLogicalService',
   ldapServiceInstance: 'com.instana.forge.connection.ldap.LdapServiceInstance',

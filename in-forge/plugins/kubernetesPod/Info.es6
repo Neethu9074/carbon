@@ -3,6 +3,8 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
+import { nonServicePlugins } from 'in-forge/constants';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -11,7 +13,9 @@ import { getZone } from 'in-stores/zone';
 export default connectTo(
   props => {
     return {
-      zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot)
+      zoneSnapshot: getZone(props.snapshot.get('id'))
+        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+        .filter(zone => zone && zone.get('plugin') !== nonServicePlugins.kubernetesReplicaSet)
     };
   },
   function Info({ snapshot, zoneSnapshot }) {

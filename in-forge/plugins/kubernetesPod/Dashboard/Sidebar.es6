@@ -1,11 +1,9 @@
 import React from 'react';
 
+import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-
-import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
 
 import Info from '../Info';
 

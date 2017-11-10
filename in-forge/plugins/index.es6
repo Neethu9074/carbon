@@ -54,6 +54,7 @@ import './kafkaCluster';
 import './kubernetesCluster';
 import './kubernetesPod';
 import './kubernetesNode';
+import './kubernetesReplicaSet';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
