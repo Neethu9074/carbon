@@ -1,8 +1,8 @@
 import { combineLatest, create } from 'reactive-observables';
 
-import { eventFilter$, setEventTypeFilter } from 'in-views/eventView/stores/eventFilterStore';
 import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import createRawEventsObservable from 'in-services/subscription/rawEvents';
+import { eventFilter$ } from 'in-views/eventView/stores/eventFilterStore';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { setIsLoading } from 'in-views/eventView/stores/isLoadingStore';
 import { autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
@@ -83,9 +83,6 @@ export function enable() {
       }
     })
   ];
-
-  // start on the incident view
-  setEventTypeFilter('incident');
 
   initPhase = false;
   enabled = true;

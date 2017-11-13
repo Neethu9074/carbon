@@ -1,11 +1,26 @@
-import { createStore } from 'in-stores/store';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { createTrackingStore } from 'in-stores/store';
 
-const eventFilter = createStore({
+export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilter',
-  initialValue: undefined
-});
-export const eventFilter$ = eventFilter.observable;
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('eventType' in query) {
+        return query.eventType;
+      }
+      return null;
+    })
+    .distinct()
+}).observable;
 
 export function setEventTypeFilter(filter) {
-  eventFilter.mutateTo(filter);
+  mutateUrl(params => {
+    if (filter) {
+      params.query.eventType = filter;
+    } else {
+      delete params.query.eventType;
+    }
+    return params;
+  });
 }
