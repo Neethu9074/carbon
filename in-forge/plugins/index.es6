@@ -4,6 +4,7 @@ import './activeMQ';
 import './availabilityZone';
 import './awsRds';
 import './awsSqs';
+import './azure';
 import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
