@@ -86,6 +86,21 @@ const cols = [
     }
   },
   {
+    title: 'Total queries',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `index.${row.name}.query_total`;
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'Size',
     type: 'metric',
     typeArgs: {
