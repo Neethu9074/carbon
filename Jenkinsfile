@@ -14,7 +14,7 @@ stage('Checkout') {
     checkout scm
 
     instanaVersion  = getVersion('ui-client')
-    gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
+    gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
 
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
