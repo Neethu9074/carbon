@@ -29,13 +29,6 @@ export const isTraceView$ = navigationParameters$.map(params => params.pathname.
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 
-export const isPhysicalTableView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/table/physical') === 0)
-  .distinct();
-export const isLogicalTableView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/table/logical') === 0)
-  .distinct();
-
 export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/search'));
 
 export function getTraceViewLinkWithQuery(query) {
