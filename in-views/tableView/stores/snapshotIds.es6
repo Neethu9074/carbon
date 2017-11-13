@@ -1,8 +1,8 @@
 import { assign } from 'lodash';
 
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
+import { mutateUrl, viewPathParams$ } from 'in-stores/navigation';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
@@ -21,25 +21,23 @@ const entityTypeToFullyQualifiedPlugin = {
 
 export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
-  observable: navigationParameters$
-    .map(params => {
-      const query = params.query;
-      if ('tableView' in query) {
-        return query.tableView;
-      }
-      return 'host';
+  observable: viewPathParams$
+    .map(config => {
+      const view = config.params[0];
+      const defaultType = view === 'logical' ? 'service' : 'host';
+      return config.params[1] || defaultType;
     })
     .distinct()
 }).observable;
 
-export function setSelectedType(type = 'host') {
-  mutateUrl(params => {
-    if (type) {
-      params.query.tableView = type;
-    } else {
-      delete params.query.tableView;
-    }
-    return params;
+export function setSelectedType(type) {
+  viewPathParams$.once(config => {
+    mutateUrl(params => {
+      if (config.params.length > 0) {
+        params.pathname = `/table/@${config.params[0]},${type}`;
+      }
+      return params;
+    });
   });
 }
 

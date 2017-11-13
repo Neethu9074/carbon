@@ -34,8 +34,8 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events" />
 
-    <Route path="/table/physical" component={createAsyncFullscreenOverlayViewComponent(PhysicalTableView)} />
-    <Route path="/table/logical" component={createAsyncFullscreenOverlayViewComponent(LogicalTableView)} />
+    <Route path="/table/@physical*" component={createAsyncFullscreenOverlayViewComponent(PhysicalTableView)} />
+    <Route path="/table/@logical*" component={createAsyncFullscreenOverlayViewComponent(LogicalTableView)} />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />

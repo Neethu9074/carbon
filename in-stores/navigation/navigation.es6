@@ -334,3 +334,23 @@ export function closeHelp() {
     return navParams;
   });
 }
+
+export const viewPathParams$ = navigationParameters$.map(params => {
+  const view = getActiveView(params);
+
+  const index = view.indexOf('@');
+  if (index > 0) {
+    // cap the @
+    const subPathes = view.slice(index + 1);
+
+    return {
+      path: view.slice(0, index),
+      params: subPathes.split(',')
+    };
+  }
+
+  return {
+    path: view,
+    params: []
+  };
+});
