@@ -25,7 +25,11 @@ export const selectedType$ = createTrackingStore({
     .map(config => {
       const view = config.params[0];
       const defaultType = view === 'logical' ? 'service' : 'host';
-      return config.params[1] || defaultType;
+      const type = config.params[1];
+      if (type && entityTypeToFullyQualifiedPlugin[type]) {
+        return type;
+      }
+      return defaultType;
     })
     .distinct()
 }).observable;
