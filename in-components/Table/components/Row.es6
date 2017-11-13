@@ -56,11 +56,17 @@ export default class Row extends React.Component {
           </td>
         ) : null}
 
-        {row.columns.map((column, i) => (
-          <td key={i} className={cellClassName} style={column.columnDefinition.cellStyle}>
-            {column.content}
-          </td>
-        ))}
+        {row.columns.map((column, i) => {
+          const style = column.columnDefinition.cellStyle || {};
+          if (selected && i === 0) {
+            style.paddingLeft = '0.25rem';
+          }
+          return (
+            <td key={i} className={cellClassName} style={style}>
+              {column.content}
+            </td>
+          );
+        })}
       </tr>
     );
   }
