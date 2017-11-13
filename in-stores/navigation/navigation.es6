@@ -54,11 +54,7 @@ export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneNavigationParameters(currentLocation);
     mutator(newLocation);
-
-    Object.assign(newLocation, {
-      search: qs.stringify(newLocation.query)
-    });
-
+    newLocation.search = qs.stringify(newLocation.query);
     if (!isEqualLocation(newLocation, currentLocation)) {
       hashHistory.push(newLocation);
     }

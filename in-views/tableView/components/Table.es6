@@ -23,14 +23,14 @@ export default connectTo(
     plugin: plugin$
   },
   function TableViewTable({ data, plugin, selectedSnapshotIds, domains }) {
+    if (!data || !data.snapshots || data.plugin !== plugin || !plugin) {
+      return <LoadingIndicator type="dark" />;
+    }
+
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>Sorry, we do not yet support tables for {getPlural(plugin)}.</div>
       );
-    }
-
-    if (!data || !data.snapshots || data.plugin !== plugin) {
-      return <LoadingIndicator type="dark" />;
     }
 
     const tableDefinition = getTableDefinition(plugin);
