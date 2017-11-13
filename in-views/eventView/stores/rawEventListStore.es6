@@ -1,5 +1,6 @@
 import { combineLatest, create } from 'reactive-observables';
 
+import { eventFilter$, setEventTypeFilter } from 'in-views/eventView/stores/eventFilterStore';
 import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import createRawEventsObservable from 'in-services/subscription/rawEvents';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
@@ -26,6 +27,7 @@ let focusedMoment;
 
 let autoUpdateHandle;
 
+let eventFilter;
 let sortDirection;
 let sortByField;
 let query;
@@ -56,6 +58,10 @@ export function enable() {
       sortDirection = _sortDirection;
       refreshStream.emit(true);
     }),
+    eventFilter$.subscribe(_eventFilter => {
+      eventFilter = _eventFilter;
+      refreshStream.emit(true);
+    }),
     sortBy$.subscribe(_sortBy => {
       sortByField = _sortBy;
       refreshStream.emit(true);
@@ -77,6 +83,9 @@ export function enable() {
       }
     })
   ];
+
+  // start on the incident view
+  setEventTypeFilter('incident');
 
   initPhase = false;
   enabled = true;
@@ -122,6 +131,11 @@ export function loadMoreRawEvents() {
       ? maxTimestamp
       : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
+    let filterQuery = query || '';
+    if (eventFilter) {
+      filterQuery = `${filterQuery} event.type:${eventFilter}`;
+    }
+
     disposeExistingLoad();
     loadSubscription = createRawEventsObservable({
       time: focusedMoment,
@@ -129,7 +143,7 @@ export function loadMoreRawEvents() {
       minTimestamp,
       sortByField,
       sortMode: sortDirection,
-      query,
+      query: filterQuery,
       offset,
       size: MAX_PAGE_SIZE
     }).once(addNewEvents);

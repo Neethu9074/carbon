@@ -12,37 +12,47 @@ import './EventListHeader.less';
 
 const block = 'in-event-view-event-list-header';
 
-export default function EventListHeader() {
-  return (
-    <ViewHeader className={block}>
-      <div className={`${block}__left-side`}>
-        <EventFilter>All</EventFilter>
-        <EventFilter filter="incident">Incidents</EventFilter>
-        <EventFilter filter="issue">Issues</EventFilter>
-        <EventFilter filter="change">Changes</EventFilter>
-      </div>
-      <div className={`${block}__right-side`}>
-        <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />
-        <AutoUpdate checkboxId="event-view-auto-update" autoUpdate$={autoUpdate$} toggleAutoUpdate={toggleAutoUpdate} />
-      </div>
-    </ViewHeader>
-  );
-}
-
-const EventFilter = connectTo(
+export default connectTo(
   {
-    eventFilter: eventFilter$
+    activeFilter: eventFilter$
   },
-  function EventFilter({ eventFilter, children, filter }) {
-    let className = `${block}__title`;
-    if ((filter && eventFilter === filter) || (!eventFilter && !filter)) {
-      className += ` ${className}--selected`;
-    }
-
+  function EventListHeader({ activeFilter }) {
     return (
-      <div className={className} onClick={() => setEventTypeFilter(filter)}>
-        {children}
-      </div>
+      <ViewHeader className={block}>
+        <div className={`${block}__left-side`}>
+          <EventFilter activeFilter={activeFilter}>All</EventFilter>
+          <EventFilter activeFilter={activeFilter} filter="incident">
+            Incidents
+          </EventFilter>
+          <EventFilter activeFilter={activeFilter} filter="issue">
+            Issues
+          </EventFilter>
+          <EventFilter activeFilter={activeFilter} filter="change">
+            Changes
+          </EventFilter>
+        </div>
+        <div className={`${block}__right-side`}>
+          <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />
+          <AutoUpdate
+            checkboxId="event-view-auto-update"
+            autoUpdate$={autoUpdate$}
+            toggleAutoUpdate={toggleAutoUpdate}
+          />
+        </div>
+      </ViewHeader>
     );
   }
 );
+
+function EventFilter({ activeFilter, children, filter }) {
+  let className = `${block}__title`;
+  if ((filter && activeFilter === filter) || (!activeFilter && !filter)) {
+    className += ` ${className}--selected`;
+  }
+
+  return (
+    <div className={className} onClick={() => setEventTypeFilter(filter)}>
+      {children}
+    </div>
+  );
+}
