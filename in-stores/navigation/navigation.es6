@@ -335,17 +335,19 @@ export function closeHelp() {
   });
 }
 
-export const viewPathParams$ = navigationParameters$.map(params => {
+export const viewPathParams$ = navigationParameters$.map(extractSubPathes);
+
+export function extractSubPathes(params) {
   const view = getActiveView(params);
 
   const index = view.indexOf('@');
-  if (index > 0) {
+  if (index >= 0) {
     // cap the @
     const subPathes = view.slice(index + 1);
 
     return {
       path: view.slice(0, index),
-      params: subPathes.split(',')
+      params: subPathes.split(',').filter(param => param.length > 0)
     };
   }
 
@@ -353,4 +355,4 @@ export const viewPathParams$ = navigationParameters$.map(params => {
     path: view,
     params: []
   };
-});
+}
