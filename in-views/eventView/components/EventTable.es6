@@ -116,6 +116,7 @@ export default getElementDimensions(
             sortBy$={sortBy$}
             sortDirection$={sortDirection$}
             furtherDataAvailable$={furtherDataAvailable$}
+            isLoading$={isLoading$}
             onSortingChanged={setSortBy}
             onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
             maxHeight={height}
