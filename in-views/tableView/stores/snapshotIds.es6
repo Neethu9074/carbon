@@ -1,10 +1,11 @@
 import { assign } from 'lodash';
 
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
+import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
-import { createStore } from 'in-stores/store';
 
 // TODO: Read this mapping from backend
 const entityTypeToFullyQualifiedPlugin = {
@@ -18,14 +19,28 @@ const entityTypeToFullyQualifiedPlugin = {
   process: fullyQualifiedPlugins.process
 };
 
-const selectedType = createStore({
+export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
-  initialValue: 'host'
-});
-export const selectedType$ = selectedType.observable;
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('tableView' in query) {
+        return query.tableView;
+      }
+      return 'host';
+    })
+    .distinct()
+}).observable;
 
 export function setSelectedType(type = 'host') {
-  selectedType.mutateTo(type);
+  mutateUrl(params => {
+    if (type) {
+      params.query.tableView = type;
+    } else {
+      delete params.query.tableView;
+    }
+    return params;
+  });
 }
 
 export const plugin$ = selectedType$

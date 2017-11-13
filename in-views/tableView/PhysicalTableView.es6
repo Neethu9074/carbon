@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { setSelectedType } from 'in-views/tableView/stores/snapshotIds';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import TableView from 'in-views/tableView/TableView';
 
 const domains = {
@@ -13,8 +11,5 @@ const domains = {
 };
 
 export default function PhysicalTableView() {
-  return [
-    <LifecycleObserver key="0" onWillMount={() => setSelectedType('host')} />,
-    <TableView domains={domains} key="1" />
-  ];
+  return <TableView domains={domains} />;
 }

@@ -54,8 +54,7 @@ export function getTraceViewLinkShowingTrace(traceId) {
 }
 
 export const eventViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/events';
-  params.query.eventType = 'incident';
+  params.pathname = '/events/incident';
 });
 
 export function getEventViewWithEvent(eventId) {
@@ -67,10 +66,12 @@ export function getEventViewWithEvent(eventId) {
 
 export const physicalTableViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table/physical';
+  params.query.tableView = 'host';
 });
 
 export const logicalTableViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table/logical';
+  params.query.tableView = 'service';
 });
 
 export const websiteViewLink$ = getModifiedUrlStream(params => {

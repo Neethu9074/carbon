@@ -5,9 +5,11 @@ export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilter',
   observable: navigationParameters$
     .map(params => {
-      const query = params.query;
-      if ('eventType' in query) {
-        return query.eventType;
+      if (params.pathname.indexOf('/events/') === 0) {
+        const subView = params.pathname.split('/events/').filter(s => s.length > 0);
+        if (subView.length > 0) {
+          return subView[subView.length - 1];
+        }
       }
       return null;
     })
@@ -17,9 +19,9 @@ export const eventFilter$ = createTrackingStore({
 export function setEventTypeFilter(filter) {
   mutateUrl(params => {
     if (filter) {
-      params.query.eventType = filter;
+      params.pathname = `/events/${filter}`;
     } else {
-      delete params.query.eventType;
+      params.pathname = '/events';
     }
     return params;
   });
