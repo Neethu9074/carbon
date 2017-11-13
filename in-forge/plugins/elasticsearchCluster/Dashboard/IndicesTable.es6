@@ -96,7 +96,7 @@ const cols = [
         return `index.${row.name}.query_total`;
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'max';
       }
     }
   },
