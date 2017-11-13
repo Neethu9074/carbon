@@ -1,9 +1,8 @@
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
-import { search } from 'in-stores/snapshot/snapshot';
-import { setKeyword, getValues } from 'in-stores/search/keywords';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
-import { query$ } from 'in-stores/search/query';
+import { search } from 'in-stores/snapshot/snapshot';
+import { createStore } from 'in-stores/store';
 
 // TODO: Read this mapping from backend
 const entityTypeToFullyQualifiedPlugin = {
@@ -17,18 +16,14 @@ const entityTypeToFullyQualifiedPlugin = {
   process: fullyQualifiedPlugins.process
 };
 
-export const selectedType$ = query$
-  .map(query => {
-    if (!query) {
-      return plugins.host;
-    }
+const selectedType = createStore({
+  name: 'tableView/stores/selectedType',
+  initialValue: 'host'
+});
+export const selectedType$ = selectedType.observable;
 
-    return getSelectedType(query) || 'host';
-  })
-  .distinct();
-
-export function setSelectedType(type) {
-  setKeyword('entity.selfType', type);
+export function setSelectedType(type = 'host') {
+  selectedType.mutateTo(type);
 }
 
 export const plugin$ = selectedType$
@@ -44,22 +39,16 @@ function translateTypeToPlugin(type) {
   if (pluginId) {
     return translateFullyQualifiedPluginToShortPluginName(pluginId) || plugins.host;
   }
-
   return plugins.host;
 }
 
-export const data$ = query$.flatMap(query => {
-  const type = getSelectedType(query) || 'host';
-  return search({ queryExtension: `entity.selfType:${type}` }).map(result =>
-    Object.assign({}, { type, plugin: translateTypeToPlugin(type) }, result)
+export const data$ = selectedType$.flatMap(_selectedType => {
+  return search({ queryExtension: `entity.selfType:${_selectedType}` }).map(result =>
+    Object.assign({}, { type: _selectedType, plugin: translateTypeToPlugin(_selectedType) }, result)
   );
 });
 
 export const matchedSnapshotCount$ = data$.filter(data => data.snapshots != null).map(data => data.snapshots.length);
-
-function getSelectedType(query) {
-  return getValues(query, 'entity.selfType')[0];
-}
 
 function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
   for (const plugin in fullyQualifiedPlugins) {

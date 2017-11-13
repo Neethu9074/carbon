@@ -2,24 +2,18 @@ import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import Title from 'in-components/Title';
 import Table from 'in-views/tableView/components/Table';
+import Title from 'in-components/Title';
 
-import './TableView.less';
-
-const block = 'in-table-view';
-
-export default function TableView() {
-  const view = (
-    <FullscreenOverlayView className={block}>
-      <Table />
-    </FullscreenOverlayView>
-  );
-
+export default function TableView(props) {
   return (
     <div>
       <Title title="Comparison Table" />
-      {view}
+
+      <FullscreenOverlayView>
+        <Table {...props} />
+      </FullscreenOverlayView>
+
       {DashboardNavigationRoute}
     </div>
   );

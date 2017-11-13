@@ -22,7 +22,7 @@ export default connectTo(
     selectedSnapshotIds: selectedSnapshotIds$,
     plugin: plugin$
   },
-  function TableViewTable({ data, plugin, selectedSnapshotIds }) {
+  function TableViewTable({ data, plugin, selectedSnapshotIds, domains }) {
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>Sorry, we do not yet support tables for {getPlural(plugin)}.</div>
@@ -58,7 +58,7 @@ export default connectTo(
           initialSortColumn={tableDefinition.initialSortColumn}
           initialSortDirection={tableDefinition.initialSortDirection}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
-          leftHeader={<LeftHeader />}
+          leftHeader={<LeftHeader domains={domains} />}
           rightHeader={<RightHeader />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key)}

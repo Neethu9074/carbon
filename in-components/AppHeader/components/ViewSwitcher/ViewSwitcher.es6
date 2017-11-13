@@ -1,12 +1,11 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import {
   eventViewLink$,
   traceViewLink$,
-  tableViewLink$,
+  physicalTableViewLink$,
+  logicalTableViewLink$,
   websiteViewLink$,
-  tableViewFilteredForServicesLink$,
   kubernetesViewLink$,
   cockpitLink$
 } from 'in-stores/navigation/view';
@@ -14,10 +13,8 @@ import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-s
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
-import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -26,20 +23,13 @@ const block = 'in-view-switcher';
 
 export default connectTo(
   {
-    viewActiveState: combineLatest([
-      navigationParameters$,
-      query$
-        .map(query => containsKeyword(query, 'entity.selfType', 'service'))
-        .distinct()
-        .startWith(false)
-    ]).map(([navigationParameters, containsServiceKeywords]) => {
+    viewActiveState: navigationParameters$.map(navigationParameters => {
       const pathname = navigationParameters.pathname;
 
-      const isTableView = pathname.indexOf('/table') === 0;
-      const isLogicalTable = isTableView && containsServiceKeywords;
+      const isPhysicalTable = pathname.indexOf('/table/physical') === 0;
+      const isLogicalTable = pathname.indexOf('/table/logical') === 0;
       const isTraceView = pathname.indexOf('/traces/search') === 0;
       const isLogicalView = pathname.indexOf('/logical') === 0;
-      const isPhysicalTable = isTableView && !isLogicalTable;
       const isPhysicalView = pathname.indexOf('/physical') === 0;
       const isContainerView = pathname.indexOf('/container') === 0;
       const isEventView = pathname.indexOf('/events') === 0;
@@ -107,17 +97,13 @@ export default connectTo(
               isActive={isPhysicalView || isPhysicalTable || isContainerView}
             >
               <SubMenuItem label="Map" href$={physicalViewLink$} isActive={isPhysicalView || isContainerView} />
-              <SubMenuItem label="Comparison Table" href$={tableViewLink$} isActive={isPhysicalTable} />
+              <SubMenuItem label="Comparison Table" href$={physicalTableViewLink$} isActive={isPhysicalTable} />
             </View>
 
             <View label="application" icon="application" isActive={isLogicalView || isTraceView || isLogicalTable}>
               <SubMenuItem label="Map" href$={logicalViewLink$} isActive={isLogicalView} />
               <SubMenuItem label="Trace" href$={traceViewLink$} isActive={isTraceView} />
-              <SubMenuItem
-                label="Comparison Table"
-                href$={tableViewFilteredForServicesLink$}
-                isActive={isLogicalTable}
-              />
+              <SubMenuItem label="Comparison Table" href$={logicalTableViewLink$} isActive={isLogicalTable} />
             </View>
 
             <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />

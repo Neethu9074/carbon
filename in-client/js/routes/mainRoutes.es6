@@ -5,10 +5,11 @@ import ConfigurationView from 'promise-loader?global,configView!in-views/configu
 import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import KubernetesView from 'promise-loader?global,eumView!in-views/kubernetesView/KubernetesView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import PhysicalTableView from 'promise-loader?global!in-views/tableView/PhysicalTableView';
+import LogicalTableView from 'promise-loader?global!in-views/tableView/LogicalTableView';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
-import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import GraphView from 'in-components/graphView/GraphView';
@@ -33,7 +34,8 @@ export default (
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events" />
 
-    <Route path="/table" component={createAsyncFullscreenOverlayViewComponent(TableView)} />
+    <Route path="/table/physical" component={createAsyncFullscreenOverlayViewComponent(PhysicalTableView)} />
+    <Route path="/table/logical" component={createAsyncFullscreenOverlayViewComponent(LogicalTableView)} />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />

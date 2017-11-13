@@ -6,7 +6,6 @@ import {
   navigationParameters$,
   getModifiedUrlStream
 } from 'in-stores/navigation/navigation';
-import { trySetField, removeField } from 'in-stores/search/manipulation';
 
 export const cockpitLink$ = getModifiedUrlStream(params => (params.pathname = '/cockpit'));
 
@@ -26,6 +25,17 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
   .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
+export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
+
+export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
+
+export const isPhysicalTableView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/table/physical') === 0)
+  .distinct();
+export const isLogicalTableView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/table/logical') === 0)
+  .distinct();
+
 export const traceViewLink$ = getModifiedUrlStream(params => (params.pathname = '/traces/search'));
 
 export function getTraceViewLinkWithQuery(query) {
@@ -43,11 +53,7 @@ export function getTraceViewLinkShowingTrace(traceId) {
   });
 }
 
-export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
-
 export const eventViewLink$ = getModifiedUrlStream(params => (params.pathname = '/events'));
-
-export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 
 export function getEventViewWithEvent(eventId) {
   return getModifiedUrlStream(params => {
@@ -56,31 +62,23 @@ export function getEventViewWithEvent(eventId) {
   });
 }
 
-export const tableViewLink$ = getModifiedUrlStream(params => {
-  try {
-    if (params.query.q) {
-      params.query.q = removeField(params.query.q, 'entity.selfType');
-    }
-  } catch (Exception) {
-    // best effort: ignore
-  }
-  params.pathname = '/table';
+export const physicalTableViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/table/physical';
+});
+
+export const logicalTableViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/table/logical';
 });
 
 export const websiteViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/website';
 });
 
+export const agentsViewLink$ = buildUrlStream({ path: '/agents' });
+
 export const kubernetesViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/kubernetes';
 });
-
-export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/table';
-  params.query.q = trySetField(params.query.q || '', 'entity.selfType', 'service');
-});
-
-export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
 
 export function focusEvent(eventId) {
   mutateUrl(params => {
@@ -116,5 +114,3 @@ export function setCurrentViewWithViewGrouping(view, vg) {
     return params;
   });
 }
-
-export const agentsViewLink$ = buildUrlStream({ path: '/agents' });
