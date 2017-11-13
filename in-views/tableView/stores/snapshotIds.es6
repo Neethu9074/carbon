@@ -1,3 +1,5 @@
+import { assign } from 'lodash';
+
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { search } from 'in-stores/snapshot/snapshot';
@@ -51,7 +53,7 @@ function translateTypeToPlugin(type) {
 export const data$ = query$.flatMap(query => {
   const type = getSelectedType(query) || 'host';
   return search({ queryExtension: `entity.selfType:${type}` }).map(result =>
-    Object.assign({}, { type, plugin: translateTypeToPlugin(type) }, result)
+    assign({}, { type, plugin: translateTypeToPlugin(type) }, result)
   );
 });
 
