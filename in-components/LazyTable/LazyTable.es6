@@ -1,5 +1,6 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Column from 'in-components/LazyTable/components/Column';
 import Row from 'in-components/LazyTable/components/Row';
 import Button from 'in-components/Button';
@@ -57,9 +58,13 @@ export default class extends React.Component {
 
 const LoadMoreButton = connectTo(
   props => ({
-    furtherDataAvailable: props.furtherDataAvailable$
+    furtherDataAvailable: props.furtherDataAvailable$,
+    isLoading: props.isLoading$
   }),
-  function LoadMoreButton({ furtherDataAvailable, loadMoreData }) {
+  function LoadMoreButton({ isLoading, furtherDataAvailable, loadMoreData }) {
+    if (isLoading) {
+      return <LoadingIndicator type="dark" />;
+    }
     if (!furtherDataAvailable) {
       return null;
     }
