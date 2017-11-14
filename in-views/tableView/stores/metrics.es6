@@ -5,7 +5,7 @@ export const metrics$ = createTrackingStore({
   name: 'tableView/stores/metrics',
   observable: navigationParameters$
     .map(params => {
-      const encodedMetrics = params.matrix.metric;
+      const encodedMetrics = params.matrix.metrics;
       if (!encodedMetrics) {
         return [];
       }
@@ -19,7 +19,7 @@ export function addMetric(metric) {
   metrics$.once(metrics => {
     metrics = metrics.slice();
     metrics.push(metric);
-    setOrDeleteMatrixKey('metric', metrics.join(','));
+    setOrDeleteMatrixKey('metrics', metrics.join(','));
   });
 }
 
@@ -31,10 +31,10 @@ export function removeMetric(metric) {
     }
     const result = metrics.slice();
     result.splice(i, 1);
-    setOrDeleteMatrixKey('metric', metrics.join(','));
+    setOrDeleteMatrixKey('metrics', metrics.join(','));
   });
 }
 
 export function clearMetrics() {
-  setOrDeleteMatrixKey('metric');
+  setOrDeleteMatrixKey('metrics');
 }
