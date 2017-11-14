@@ -58,11 +58,11 @@ export function getEventViewWithEvent(eventId) {
 }
 
 export const physicalTableViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/table;plugin=host';
+  params.pathname = '/table;view=physical;plugin=host';
 });
 
 export const logicalTableViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/table;plugin=service';
+  params.pathname = '/table;view=logical;plugin=service';
 });
 
 export const websiteViewLink$ = getModifiedUrlStream(params => {
