@@ -15,10 +15,10 @@ export default connectTo(
   {
     plugin: plugin$
   },
-  function Header({ plugin, domains }) {
+  function Header({ plugin }) {
     return (
       <header className={block}>
-        <TypeSelector domains={domains} />
+        <TypeSelector />
         <MetricSelector
           className={`${block}__selector`}
           plugin={plugin}

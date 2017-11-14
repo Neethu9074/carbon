@@ -14,51 +14,46 @@ describe('in-services/eum', () => {
     resetStoreRegistry();
   });
 
-  describe('sub pathes', () => {
-    it('must return an empty array if there are no pathes defined', () => {
-      const result = mod.extractSubPathes({ pathname: '' });
-      expect(result.path).to.equal('');
-      expect(result.params).to.have.length(0);
+  describe('extract matrix', () => {
+    it('must return an empty object if there are no pathes defined', () => {
+      let matrix = mod.extractMatrix();
+      expect(matrix).to.deep.equal({});
+
+      matrix = mod.extractMatrix('');
+      expect(matrix).to.deep.equal({});
+
+      matrix = mod.extractMatrix(';');
+      expect(matrix).to.deep.equal({});
     });
 
-    it('must return the complete path till @', () => {
-      let result = mod.extractSubPathes({ pathname: '' });
-      expect(result.path).to.equal('');
-      expect(result.params).to.have.length(0);
+    it('must ingore path before ;', () => {
+      let matrix = mod.extractMatrix('/');
+      expect(matrix).to.deep.equal({});
 
-      result = mod.extractSubPathes({ pathname: '/events' });
-      expect(result.path).to.equal('events');
-      expect(result.params).to.have.length(0);
+      matrix = mod.extractMatrix('foobar');
+      expect(matrix).to.deep.equal({});
 
-      result = mod.extractSubPathes({ pathname: '/events/' });
-      expect(result.path).to.equal('events/');
-      expect(result.params).to.have.length(0);
+      matrix = mod.extractMatrix('/events');
+      expect(matrix).to.deep.equal({});
 
-      result = mod.extractSubPathes({ pathname: '/this/is/a/longer/path' });
-      expect(result.path).to.equal('this/is/a/longer/path');
-      expect(result.params).to.have.length(0);
+      matrix = mod.extractMatrix('/events/abc');
+      expect(matrix).to.deep.equal({});
 
-      result = mod.extractSubPathes({ pathname: '/table/@' });
-      expect(result.path).to.equal('table/');
-      expect(result.params).to.have.length(0);
+      matrix = mod.extractMatrix('/events/abc;');
+      expect(matrix).to.deep.equal({});
     });
 
-    it('must split the sub pathes after @', () => {
-      let result = mod.extractSubPathes({ pathname: '/@a' });
-      expect(result.path).to.equal('');
-      expect(result.params).to.deep.equal(['a']);
+    it('must split the sub kvs', () => {
+      let matrix = mod.extractMatrix('/events;a=b');
+      expect(matrix).to.deep.equal({ a: 'b' });
 
-      result = mod.extractSubPathes({ pathname: '/events/@a' });
-      expect(result.path).to.equal('events/');
-      expect(result.params).to.deep.equal(['a']);
+      matrix = mod.extractMatrix('/events;a=b;c=d;foo=bar');
+      expect(matrix).to.deep.equal({ a: 'b', c: 'd', foo: 'bar' });
+    });
 
-      result = mod.extractSubPathes({ pathname: '/events/@a,b,c' });
-      expect(result.path).to.equal('events/');
-      expect(result.params).to.deep.equal(['a', 'b', 'c']);
-
-      result = mod.extractSubPathes({ pathname: '/table/physical@a,b,c' });
-      expect(result.path).to.equal('table/physical');
-      expect(result.params).to.deep.equal(['a', 'b', 'c']);
+    it('must ingore incomplete kvs', () => {
+      let matrix = mod.extractMatrix('/events;a=b;cd;=;;c=d;;');
+      expect(matrix).to.deep.equal({ a: 'b', c: 'd' });
     });
   });
 });

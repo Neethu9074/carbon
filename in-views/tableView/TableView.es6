@@ -5,13 +5,13 @@ import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import Table from 'in-views/tableView/components/Table';
 import Title from 'in-components/Title';
 
-export default function TableView(props) {
+export default function TableView() {
   return (
     <div>
       <Title title="Comparison Table" />
 
       <FullscreenOverlayView>
-        <Table {...props} />
+        <Table />
       </FullscreenOverlayView>
 
       {DashboardNavigationRoute}

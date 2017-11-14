@@ -22,7 +22,7 @@ export default connectTo(
     selectedSnapshotIds: selectedSnapshotIds$,
     plugin: plugin$
   },
-  function TableViewTable({ data, plugin, selectedSnapshotIds, domains }) {
+  function TableViewTable({ data, plugin, selectedSnapshotIds }) {
     if (!data || !data.snapshots || data.plugin !== plugin || !plugin) {
       return <LoadingIndicator type="dark" />;
     }
@@ -58,7 +58,7 @@ export default connectTo(
           initialSortColumn={tableDefinition.initialSortColumn}
           initialSortDirection={tableDefinition.initialSortDirection}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
-          leftHeader={<LeftHeader domains={domains} />}
+          leftHeader={<LeftHeader />}
           rightHeader={<RightHeader />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key)}

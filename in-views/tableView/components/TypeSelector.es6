@@ -8,10 +8,25 @@ import './TypeSelector.less';
 const block = 'in-table-view-type-selector';
 const id = 'table-view-type-selector';
 
+const physicalDomains = {
+  host: 'Hosts',
+  jvm: 'JVMs',
+  nodejs: 'Node.js Apps',
+  docker: 'Docker Containers',
+  process: 'Processes'
+};
+
+// This list exists because we have the special type
+// "service" which is an aggregation of multiple types.
+const logicalDomains = {
+  service: 'Services'
+};
+
 export default connectTo(
   {
     selectedType: selectedType$,
-    matchedSnapshotCount: matchedSnapshotCount$
+    matchedSnapshotCount: matchedSnapshotCount$,
+    domains: selectedType$.map(type => (physicalDomains[type] ? physicalDomains : logicalDomains))
   },
   function TypeSelector({ selectedType, matchedSnapshotCount, domains }) {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { eventFilter$, setEventTypeFilter } from 'in-views/eventView/stores/eventFilterStore';
+import { setEventTypeFilter, eventFilter$ } from 'in-views/eventView/stores/eventFilterStore';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh } from 'in-views/eventView/stores/rawEventListStore';

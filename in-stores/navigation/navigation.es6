@@ -30,19 +30,23 @@ const store = createStore({
   name: 'navigation',
   initialValue: {
     pathname: getCurrentPath(),
-    query: getInitParams()
+    query: getInitParams(),
+    matrix: extractMatrix(getCurrentPath())
   }
 });
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
 hashHistory.listen(location => {
-  const pathname = getCurrentPath();
+  const currentPath = getCurrentPath();
+  const pathname = currentPath;
+
   ineum('page', pathname);
   ineum('startSpaPageTransition');
   store.mutateTo({
     pathname,
-    query: qs.parse(location.search.replace('?', ''))
+    query: qs.parse(location.search.replace('?', '')),
+    matrix: extractMatrix(currentPath)
   });
   ineum('endSpaPageTransition', {
     url: window.location.href,
@@ -54,6 +58,7 @@ export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneNavigationParameters(currentLocation);
     mutator(newLocation);
+    reApplyMatrix(newLocation);
     newLocation.search = qs.stringify(newLocation.query);
     if (!isEqualLocation(newLocation, currentLocation)) {
       hashHistory.push(newLocation);
@@ -114,12 +119,25 @@ function cloneNavigationParameters(params) {
     query[key] = params.query[key];
   }
 
+  const matrix = {};
+  for (let key in params.matrix) {
+    matrix[key] = params.matrix[key];
+  }
+
   const cloned = {
     pathname: params.pathname,
-    query
+    query,
+    matrix
   };
 
   return cloned;
+}
+
+function reApplyMatrix(params) {
+  params.pathname = ignoreMatrix(params.pathname);
+  for (let key in params.matrix) {
+    params.pathname += `;${key}=${params.matrix[key]}`;
+  }
 }
 
 function toUrl(params) {
@@ -335,24 +353,37 @@ export function closeHelp() {
   });
 }
 
-export const viewPathParams$ = navigationParameters$.map(extractSubPathes);
-
-export function extractSubPathes(params) {
-  const view = getActiveView(params);
-
-  const index = view.indexOf('@');
-  if (index >= 0) {
-    // cap the @
-    const subPathes = view.slice(index + 1);
-
-    return {
-      path: view.slice(0, index),
-      params: subPathes.split(',').filter(param => param.length > 0)
-    };
+function ignoreMatrix(path) {
+  if (!path) {
+    return path;
   }
 
-  return {
-    path: view,
-    params: []
-  };
+  return path.split(';')[0];
+}
+
+export function extractMatrix(path) {
+  if (!path) {
+    return {};
+  }
+
+  const parts = path
+    .split(';')
+    .filter(part => part.length > 0) // remove all "" caused by ";", or "foobar" or "foobar;" etc.
+    .splice(1); // remove the first hit because it is the path before KVs
+  if (path.length === 0) {
+    return {};
+  }
+
+  const kvs = {};
+  for (let i = 0, length = parts.length; i < length; i++) {
+    const part = parts[i];
+    const kv = part.split('=').filter(part => part.length > 0);
+    if (kv.length !== 2) {
+      continue;
+    }
+
+    kvs[kv[0]] = kv[1];
+  }
+
+  return kvs;
 }
