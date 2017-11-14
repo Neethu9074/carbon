@@ -32,15 +32,12 @@ export const selectedType$ = createTrackingStore({
 
 export function setSelectedType(type) {
   setOrDeleteMatrixKey('plugin', type);
+
+  clearMetrics();
+  clearSelectedSnapshots();
 }
 
-export const plugin$ = selectedType$
-  .map(translateTypeToPlugin)
-  .distinct()
-  .tap(() => {
-    clearMetrics();
-    clearSelectedSnapshots();
-  });
+export const plugin$ = selectedType$.map(translateTypeToPlugin).distinct();
 
 function translateTypeToPlugin(type) {
   const pluginId = entityTypeToFullyQualifiedPlugin[type];
