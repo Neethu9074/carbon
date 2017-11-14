@@ -366,7 +366,7 @@ export function extractMatrix(path) {
     return {};
   }
 
-  const parts = path
+  const parts = decodeURIComponent(path)
     .split(';')
     .filter(part => part.length > 0) // remove all "" caused by ";", or "foobar" or "foobar;" etc.
     .splice(1); // remove the first hit because it is the path before KVs
@@ -386,4 +386,15 @@ export function extractMatrix(path) {
   }
 
   return kvs;
+}
+
+export function setOrDeleteMatrixKey(key, value) {
+  mutateUrl(params => {
+    if (value) {
+      params.matrix[key] = value;
+    } else {
+      delete params.matrix[key];
+    }
+    return params;
+  });
 }

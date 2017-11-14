@@ -1,4 +1,4 @@
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { setOrDeleteMatrixKey, navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
 export const eventFilter$ = createTrackingStore({
@@ -7,12 +7,5 @@ export const eventFilter$ = createTrackingStore({
 }).observable;
 
 export function setEventTypeFilter(filter) {
-  mutateUrl(params => {
-    if (filter) {
-      params.matrix.view = filter;
-    } else {
-      delete params.matrix.view;
-    }
-    return params;
-  });
+  setOrDeleteMatrixKey('view', filter);
 }

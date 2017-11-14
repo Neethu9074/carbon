@@ -1,7 +1,7 @@
 import { assign } from 'lodash';
 
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { setOrDeleteMatrixKey, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import { createTrackingStore } from 'in-stores/store';
@@ -31,14 +31,7 @@ export const selectedType$ = createTrackingStore({
 }).observable;
 
 export function setSelectedType(type) {
-  mutateUrl(params => {
-    if (type) {
-      params.matrix.plugin = type;
-    } else {
-      delete params.matrix.plugin;
-    }
-    return params;
-  });
+  setOrDeleteMatrixKey('plugin', type);
 }
 
 export const plugin$ = selectedType$

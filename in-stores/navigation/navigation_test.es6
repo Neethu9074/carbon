@@ -26,7 +26,7 @@ describe('in-services/eum', () => {
       expect(matrix).to.deep.equal({});
     });
 
-    it('must ingore path before ;', () => {
+    it('must ignore path before ;', () => {
       let matrix = mod.extractMatrix('/');
       expect(matrix).to.deep.equal({});
 
