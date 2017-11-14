@@ -1,11 +1,11 @@
 import { assign } from 'lodash';
 
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
-import { search } from 'in-stores/snapshot/snapshot';
-import { setKeyword, getValues } from 'in-stores/search/keywords';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
-import { query$ } from 'in-stores/search/query';
+import { createTrackingStore } from 'in-stores/store';
+import { search } from 'in-stores/snapshot/snapshot';
 
 // TODO: Read this mapping from backend
 const entityTypeToFullyQualifiedPlugin = {
@@ -19,18 +19,26 @@ const entityTypeToFullyQualifiedPlugin = {
   process: fullyQualifiedPlugins.process
 };
 
-export const selectedType$ = query$
-  .map(query => {
-    if (!query) {
-      return plugins.host;
-    }
-
-    return getSelectedType(query) || 'host';
-  })
-  .distinct();
+export const selectedType$ = createTrackingStore({
+  name: 'tableView/stores/selectedType',
+  observable: navigationParameters$
+    .map(params => {
+      const defaultType = params.pathname.indexOf('/table/physical') >= 0 ? 'host' : 'service';
+      return params.matrix.plugin || defaultType;
+    })
+    .filter(type => entityTypeToFullyQualifiedPlugin[type])
+    .distinct()
+}).observable;
 
 export function setSelectedType(type) {
-  setKeyword('entity.selfType', type);
+  mutateUrl(params => {
+    if (type) {
+      params.matrix.plugin = type;
+    } else {
+      delete params.matrix.plugin;
+    }
+    return params;
+  });
 }
 
 export const plugin$ = selectedType$
@@ -46,22 +54,16 @@ function translateTypeToPlugin(type) {
   if (pluginId) {
     return translateFullyQualifiedPluginToShortPluginName(pluginId) || plugins.host;
   }
-
   return plugins.host;
 }
 
-export const data$ = query$.flatMap(query => {
-  const type = getSelectedType(query) || 'host';
-  return search({ queryExtension: `entity.selfType:${type}` }).map(result =>
-    assign({}, { type, plugin: translateTypeToPlugin(type) }, result)
+export const data$ = selectedType$.flatMap(_selectedType => {
+  return search({ queryExtension: `entity.selfType:${_selectedType}` }).map(result =>
+    assign({}, { type: _selectedType, plugin: translateTypeToPlugin(_selectedType) }, result)
   );
 });
 
 export const matchedSnapshotCount$ = data$.filter(data => data.snapshots != null).map(data => data.snapshots.length);
-
-function getSelectedType(query) {
-  return getValues(query, 'entity.selfType')[0];
-}
 
 function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
   for (const plugin in fullyQualifiedPlugins) {

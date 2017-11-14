@@ -8,42 +8,38 @@ import './TypeSelector.less';
 const block = 'in-table-view-type-selector';
 const id = 'table-view-type-selector';
 
+const physicalDomains = {
+  host: 'Hosts',
+  jvm: 'JVMs',
+  nodejs: 'Node.js Apps',
+  docker: 'Docker Containers',
+  process: 'Processes'
+};
+
 // This list exists because we have the special type
 // "service" which is an aggregation of multiple types.
-const domains = {
-  Infrastructure: {
-    host: 'Hosts',
-    jvm: 'JVMs',
-    nodejs: 'Node.js Apps',
-    docker: 'Docker Containers',
-    process: 'Processes'
-  },
-  Application: {
-    service: 'Services'
-  }
+const logicalDomains = {
+  service: 'Services'
 };
 
 export default connectTo(
   {
     selectedType: selectedType$,
-    matchedSnapshotCount: matchedSnapshotCount$
+    matchedSnapshotCount: matchedSnapshotCount$,
+    domains: selectedType$.map(type => (physicalDomains[type] ? physicalDomains : logicalDomains))
   },
-  function TypeSelector({ selectedType, matchedSnapshotCount }) {
+  function TypeSelector({ selectedType, matchedSnapshotCount, domains }) {
     return (
       <label className={block} htmlFor={id}>
         Table content:
         <select id={id} className={`${block}__selection`} value={selectedType} onChange={setType}>
-          {Object.keys(domains).map(domain => (
-            <optgroup key={domain} label={domain}>
-              {Object.keys(domains[domain])
-                .sort()
-                .map(val => (
-                  <option value={val} key={val}>
-                    {domains[domain][val]}
-                  </option>
-                ))}
-            </optgroup>
-          ))}
+          {Object.keys(domains)
+            .sort()
+            .map(val => (
+              <option value={val} key={val}>
+                {[val]}
+              </option>
+            ))}
         </select>
         ({matchedSnapshotCount})
       </label>
