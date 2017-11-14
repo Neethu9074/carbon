@@ -136,7 +136,7 @@ function cloneNavigationParameters(params) {
 function reApplyMatrix(params) {
   params.pathname = ignoreMatrix(params.pathname);
   for (let key in params.matrix) {
-    params.pathname += `;${key}=${params.matrix[key]}`;
+    params.pathname += `;${encodeURIComponent(key)}=${encodeURIComponent(params.matrix[key])}`;
   }
 }
 
