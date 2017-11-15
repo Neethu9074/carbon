@@ -1,32 +1,30 @@
 import React from 'react';
 
+import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { nonServicePlugins } from 'in-forge/constants';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { getZone } from 'in-stores/zone';
 
 export default connectTo(
   props => {
     return {
-      zoneSnapshot: getZone(props.snapshot.get('id'))
-        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
-        .filter(zone => zone && zone.get('plugin') !== nonServicePlugins.kubernetesReplicaSet)
+      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
     };
   },
-  function Info({ snapshot, zoneSnapshot }) {
+  function Info({ snapshot, cluster }) {
     const data = snapshot.get('data');
 
     return (
       <div>
         <DescriptionList>
-          {zoneSnapshot ? (
+          {cluster ? (
             <DescriptionItem title="Cluster">
-              <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
+              <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
           <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
@@ -40,3 +38,7 @@ export default connectTo(
     );
   }
 );
+
+function getClusterForPod(snapshotId) {
+  return focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time }));
+}
