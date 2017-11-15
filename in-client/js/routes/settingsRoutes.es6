@@ -19,6 +19,11 @@ import DynamicRule from 'promise-loader?global,configView!in-views/configuration
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
 import Rule from 'promise-loader?global,configView!in-views/configurationView/subview/Rule/Rule';
 
+import AlertingConfigurations from 'promise-loader?global,configView!in-views/configurationView/subview/AlertingConfigurations/AlertingConfigurations';
+import AlertingConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/AlertingConfiguration/AlertingConfiguration';
+import Integrations from 'promise-loader?global,configView!in-views/configurationView/subview/Integrations/Integrations';
+import Integration from 'promise-loader?global,configView!in-views/configurationView/subview/Integration/Integration';
+
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
@@ -90,6 +95,23 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
+
+    <Route
+      component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
+      path="/config/alertingConfiguration/:id"
+    />
+    <Route
+      component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
+      path="/config/alertingConfiguration"
+    />
+    <Route
+      component={createAsyncFullscreenOverlayViewComponent(AlertingConfigurations)}
+      path="/config/alertingConfigurations"
+    />
+
+    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>

@@ -132,7 +132,42 @@ export function openRules() {
   mutateUrl(params => (params.pathname = getRulesPath()));
 }
 
-// binding
+// alerting config ------------------------------------
+const alertingConfigPath = '/config/alertingConfiguration';
+const alertingConfigsPath = '/config/alertingConfigurations';
+export const alertingConfigsViewLink$ = buildUrlStream({ path: alertingConfigsPath });
+export const isAlertingConfigLink$ = buildPathStartsWithStream(alertingConfigPath);
+
+function getAlertingConfigPath(id) {
+  return id ? `${alertingConfigPath}/${encodeURIComponent(id)}` : alertingConfigPath;
+}
+
+export function openAlertingConfiguration(id) {
+  mutateUrl(params => (params.pathname = getAlertingConfigPath(id)));
+}
+
+export function getAlertingConfigLink(id) {
+  return getModifiedUrlStream(params => (params.pathname = getAlertingConfigPath(id)));
+}
+
+// integrations ------------------------------------
+const integrationPath = '/config/integration';
+const integrationsPath = '/config/integrations';
+export const integrationsViewLink$ = buildUrlStream({ path: integrationsPath });
+export const isIntegrationLink$ = buildPathStartsWithStream(integrationPath);
+
+function getIntegrationPath(id) {
+  return id ? `${integrationPath}/${encodeURIComponent(id)}` : integrationPath;
+}
+
+export function openIntegration(id) {
+  mutateUrl(params => (params.pathname = getIntegrationPath(id)));
+}
+export function getIntegrationLink(id) {
+  return getModifiedUrlStream(params => (params.pathname = getIntegrationPath(id)));
+}
+
+// binding ------------------------------------
 const ruleBindingViewPath = '/config/binding';
 const ruleBindingsViewPath = '/config/bindings';
 export const ruleBindingsViewLink$ = buildUrlStream({ path: ruleBindingsViewPath });
