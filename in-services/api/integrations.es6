@@ -11,6 +11,19 @@ export function getIntegrations() {
   }).map(response => fromJS(response.body));
 }
 
+export function getIntegrationsByIds(ids) {
+  return getIntegrations().map(integrations => {
+    if (!integrations) {
+      return null;
+    }
+
+    const integrationsMap = {};
+    integrations.forEach(integration => (integrationsMap[integration.get('id')] = integration));
+
+    return ids.map(id => integrationsMap[id]).filter(resolved => resolved);
+  });
+}
+
 export function getIntegration(id) {
   return http({
     method: 'GET',
