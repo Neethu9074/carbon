@@ -71,8 +71,7 @@ function createForm(config) {
     .put(
       'eventType',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventType']),
-        validator: ruleIdsValidator
+        value: config.getIn(['eventFilteringConfiguration', 'eventType'])
       })
     );
 }
