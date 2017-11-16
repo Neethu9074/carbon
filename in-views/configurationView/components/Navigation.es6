@@ -31,11 +31,15 @@ import {
   rulesViewLink$,
   isRulesViewLink$,
   ruleBindingsViewLink$,
-  isRuleBindingsViewLink$
+  isRuleBindingsViewLink$,
+  isIntegrationLink$,
+  integrationsViewLink$,
+  isAlertingConfigLink$,
+  alertingConfigsViewLink$
 } from 'in-stores/navigation/configuration';
+import { alertingConfigEnabled, forecastsEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import { forecastsEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
@@ -133,6 +137,17 @@ export default function Navigation() {
             {forecastsEnabled ? (
               <NavItem title="Custom Dynamic Rules" href$={dynamicRulesViewLink$} isActive$={isDynamicRulesView$} />
             ) : null}
+          </NavItem>
+        ) : null}
+
+        {alertingConfigEnabled ? (
+          <NavItem title="Alerting" isActive$={combine(isAlertingConfigLink$, isIntegrationLink$)}>
+            <NavItem title="Integrations" href$={integrationsViewLink$} isActive$={isIntegrationLink$} />
+            <NavItem
+              title="Alerting Configurations"
+              href$={alertingConfigsViewLink$}
+              isActive$={isAlertingConfigLink$}
+            />
           </NavItem>
         ) : null}
 
