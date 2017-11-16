@@ -47,23 +47,28 @@ export function shortenSqlStatement(sql) {
   }
 
   sql = sql.trim().replace(/\n/g, ' ');
+  const definitelySelect = isSelectStatement(sql);
 
-  // NSERT and UPDATE statements are mostly at the beginning of an SQL query.
+  // INSERT and UPDATE statements are mostly at the beginning of an SQL query.
   // If the query contains a sub-select statement, the initial INSERT or UPDATE would be ignored if we first check against select.
   // Therefore, we should check against select at the very end
-  if (isInsertStatement(sql)) {
+  if (!definitelySelect && isInsertStatement(sql)) {
     return shortenInsertStatement(sql);
-  } else if (isUpdateStatement(sql)) {
+  } else if (!definitelySelect && isUpdateStatement(sql)) {
     return shortenUpdateStatement(sql);
-  } else if (isSelectStatement(sql)) {
+  } else if (isPotentialSelectStatement(sql)) {
     return shortenSelectStatement(sql);
   }
 
   return sql;
 }
 
-function isSelectStatement(sql) {
+function isPotentialSelectStatement(sql) {
   return /\s*select.*from.*/i.test(sql);
+}
+
+function isSelectStatement(sql) {
+  return /(^|^\s+)select\s/i.test(sql);
 }
 
 function isUpdateStatement(sql) {
@@ -75,7 +80,7 @@ function isInsertStatement(sql) {
 }
 
 function shortenSelectStatement(sql) {
-  const match = sql.match(/\s+from +(([a-z0-9\-\_]+)|(\`([^\`]+)\`)|(\"([^\"]+)\"))/i);
+  const match = sql.match(/\s+from\s+(([a-z0-9\-\_\.]+)|(\`([^\`]+)\`)|(\"([^\"]+)\"))/i);
   if (!match) {
     return sql;
   }
