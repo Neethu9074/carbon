@@ -7,10 +7,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/Grid/Grid';
 import connectTo from 'in-hoc/connectTo';
 
-import './AlertingConfigurationDetails.less';
-
-const block = 'in-alertings-config-details';
-
 export default connectTo(
   props => {
     const connectedHealthRules = props.config.getIn(['eventFilteringConfiguration', 'ruleIds'], emptyList).toArray();
@@ -37,7 +33,7 @@ export default connectTo(
     }
 
     return (
-      <div className={block}>
+      <div>
         <DescriptionList>
           <DescriptionItem title="Query">{config.getIn(['eventFilteringConfiguration', 'query'])}</DescriptionItem>
           <DescriptionItem title="Event Type">
@@ -46,24 +42,18 @@ export default connectTo(
         </DescriptionList>
         <Row>
           <Col cols={6}>
-            <div className={`${block}__header`}>Rules</div>
-            <ul className={`${block}__list`}>
-              {healthRules.map(healthRule => (
-                <li key={healthRule.get('id')} className={`${block}__item`}>
-                  {healthRule.get('description')}
-                </li>
-              ))}
-            </ul>
+            <DescriptionList>
+              <DescriptionItem title="Event Rules">
+                {healthRules.map(healthRule => <div key={healthRule.get('id')}>{healthRule.get('description')}</div>)}
+              </DescriptionItem>
+            </DescriptionList>
           </Col>
           <Col cols={6}>
-            <div className={`${block}__header`}>Integrations</div>
-            <ul className={`${block}__list`}>
-              {integrations.map(integration => (
-                <li key={integration.get('id')} className={`${block}__item`}>
-                  {integration.get('kind')}
-                </li>
-              ))}
-            </ul>
+            <DescriptionList>
+              <DescriptionItem title="Integrations">
+                {integrations.map(integration => <div key={integration.get('id')}>{integration.get('kind')}</div>)}
+              </DescriptionItem>
+            </DescriptionList>
           </Col>
         </Row>
       </div>

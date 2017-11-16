@@ -36,10 +36,9 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function createIntegration(id, kind = 'pagerduty', configuration = {}) {
+export function createIntegration(id, kind = 'pagerduty') {
   return {
     id: id || generateUniqueShortId(),
-    kind,
-    configuration
+    kind
   };
 }

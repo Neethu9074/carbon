@@ -1,11 +1,16 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import createOffice365IntegrationForm from 'in-views/configurationView/subview/Integration/office365IntegrationForm';
+import createEmailIntegrationForm from 'in-views/configurationView/subview/Integration/emailIntegrationForm';
 import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
-import IntegrationForm from 'in-views/configurationView/subview/Integration/IntegrationForm';
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
 import { openIntegration } from 'in-stores/navigation/configuration';
+
+const forms = {
+  email: createEmailIntegrationForm,
+  office365: createOffice365IntegrationForm
+};
 
 export default function Integration(props) {
   return (
@@ -23,25 +28,15 @@ export default function Integration(props) {
   );
 }
 
-function save(config, form) {
-  return saveIntegration(
-    fromJS(createIntegration(config ? config.get('id') : null, form.get('kind').value, form.get('configuration').value))
-  );
+function save(integration, form) {
+  return saveIntegration(fromJS(forms[integration.get('kind')].createEntity(integration, form)));
 }
 
 function createForm(config) {
-  return createMapForm()
-    .put(
-      'kind',
-      createField({
-        value: config.get('kind'),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'configuration',
-      createField({
-        value: config.get('configuration')
-      })
-    );
+  return forms[config.get('kind')].createForm();
+}
+
+function IntegrationForm(props) {
+  const Form = forms[props.form.get('kind').value].Form;
+  return <Form {...props} />;
 }
