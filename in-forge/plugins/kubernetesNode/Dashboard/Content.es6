@@ -6,14 +6,17 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import { getClusterMembers } from 'in-stores/clusterMembers';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return row.key;
+      getSnapshotId(row) {
+        return row.snapshotId;
       }
     }
   },
@@ -28,42 +31,50 @@ const cols = [
   }
 ];
 
-export default function KubernetesNodeDashboard({ snapshot, timeframe }) {
-  const snapshotId = snapshot.get('id');
-  const pods = snapshot.getIn(['data', 'pods'], emptyList);
-  const ready = snapshot
-    .getIn(['data', 'conditions'], emptyList)
-    .filter(cond => cond.get('type') === 'Ready')
-    .first()
-    .get('status');
-
-  const rows = pods.toArray().map(pod => {
+export default connectTo(
+  props => {
     return {
-      key: pod.get('name'),
-      uid: pod.get('uid'),
-      namespace: pod.get('namespace'),
-      timeframe
+      pods: getClusterMembers(props.snapshot.get('id')).flatMap(podIds => getSnapshots(podIds.toArray()))
     };
-  });
+  },
+  function PodsTable({ snapshot, pods = [], timeframe }) {
+    const ready = snapshot
+      .getIn(['data', 'conditions'], emptyList)
+      .filter(cond => cond.get('type') === 'Ready')
+      .first()
+      .get('status');
 
-  return (
-    <div>
-      <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Hostname">
-          <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'hostname'], null)} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Internal IP">
-          <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'internalIp'], null)} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Ready">
-          <MetricValue snapshotId={snapshotId} initialValue={ready} />
-        </KpiKeyValue>
-      </KpiSection>
+    const rows = pods.map(pod => {
+      const data = pod.get('data');
+      return {
+        key: data.get('name'),
+        snapshotId: pod.get('id'),
+        namespace: data.get('namespace'),
+        timeframe
+      };
+    });
 
-      <DashboardSection title={`Pods (${rows.length})`}>
-        <Table cols={cols} rows={rows} />
-      </DashboardSection>
-    </div>
-  );
-}
+    const snapshotId = snapshot.get('id');
+
+    return (
+      <div>
+        <KpiSection>
+          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+          <KpiKeyValue label="Hostname">
+            <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'hostname'], null)} />
+          </KpiKeyValue>
+          <KpiKeyValue label="Internal IP">
+            <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'internalIp'], null)} />
+          </KpiKeyValue>
+          <KpiKeyValue label="Ready">
+            <MetricValue snapshotId={snapshotId} initialValue={ready} />
+          </KpiKeyValue>
+        </KpiSection>
+
+        <DashboardSection title={`Pods (${rows.length})`}>
+          <Table cols={cols} rows={rows} />
+        </DashboardSection>
+      </div>
+    );
+  }
+);
