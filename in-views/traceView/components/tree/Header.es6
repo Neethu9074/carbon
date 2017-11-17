@@ -45,11 +45,11 @@ export default function TraceHeader({ trace }) {
         <h1 className={`${block}__title`}>{getLabel(trace)}</h1>
 
         <div className={`${block}__entity`}>
-          <ServiceImplementationEntityInformation span={trace} connectionEndpointType="destination" />
+          <ServiceEntityInformation span={trace} label="Service:" />
         </div>
 
         <div className={`${block}__entity`}>
-          <ServiceEntityInformation span={trace} label="Service:" />
+          <ServiceImplementationEntityInformation span={trace} connectionEndpointType="destination" label="Instance:" />
         </div>
 
         <div className={`${block}__stats`}>
