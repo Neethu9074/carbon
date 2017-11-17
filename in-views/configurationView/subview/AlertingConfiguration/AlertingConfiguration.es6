@@ -73,6 +73,12 @@ function createForm(config) {
       createField({
         value: config.getIn(['eventFilteringConfiguration', 'eventType'])
       })
+    )
+    .put(
+      'matchingEntities',
+      createField({
+        value: null
+      })
     );
 }
 
