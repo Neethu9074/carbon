@@ -1,0 +1,44 @@
+.in-two-column-multi-select {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  &__item-box {
+    width: ~'calc(50% - 30px)';
+    border: 1px solid #d5dfe4;
+    border-radius: 3px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+    background: #40535b;
+    color: white;
+    font-weight: bold;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    list-style: none;
+
+    border-bottom: 1px solid #d5dfe4;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #d5dfe4;
+    }
+  }
+
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+  }
+}
