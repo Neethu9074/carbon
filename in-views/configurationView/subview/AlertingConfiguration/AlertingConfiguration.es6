@@ -5,7 +5,7 @@ import React from 'react';
 import AlertingConfigurationForm from 'in-views/configurationView/subview/AlertingConfiguration/AlertingConfigurationForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-services/api/alertingConfiguration';
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
-import { openRuleBindings } from 'in-stores/navigation/configuration';
+import { openAlertingConfigurations } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 
 export default function AlertingConfiguration(props) {
@@ -16,7 +16,7 @@ export default function AlertingConfiguration(props) {
       entityTitle="alerting configuration"
       createForm={createForm}
       getEntity={getAlertingConfig}
-      openEntities={openRuleBindings}
+      openEntities={openAlertingConfigurations}
       save={save}
       Form={AlertingConfigurationForm}
       {...props}

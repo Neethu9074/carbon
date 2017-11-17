@@ -5,7 +5,7 @@ import createOffice365IntegrationForm from 'in-views/configurationView/subview/I
 import createEmailIntegrationForm from 'in-views/configurationView/subview/Integration/emailIntegrationForm';
 import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
-import { openIntegration } from 'in-stores/navigation/configuration';
+import { openIntegrations } from 'in-stores/navigation/configuration';
 
 const forms = {
   email: createEmailIntegrationForm,
@@ -20,7 +20,7 @@ export default function Integration(props) {
       entityTitle="integration"
       createForm={createForm}
       getEntity={getIntegration}
-      openEntities={openIntegration}
+      openEntities={openIntegrations}
       save={save}
       Form={IntegrationForm}
       {...props}
