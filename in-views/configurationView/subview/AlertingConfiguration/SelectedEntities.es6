@@ -1,0 +1,77 @@
+import React from 'react';
+
+import TwoColumnMultiSelect from 'in-components/TwoColumnMultiSelect/TwoColumnMultiSelect';
+import Section from 'in-views/configurationView/components/Section';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import FormGroup from 'in-components/form/FormGroup';
+import connectTo from 'in-hoc/connectTo';
+
+export default connectTo(
+  props => ({
+    items: props.getItems()
+  }),
+  function SelectedEntities({ form, onChange, items, formFieldName, fieldName }) {
+    if (!items) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    const selectedItemsAsMap = {};
+    let selectedItems = form.get(formFieldName).value.toArray();
+
+    selectedItems.forEach(item => (selectedItemsAsMap[item] = true));
+    const selectableItems = items.filter(item => !selectedItemsAsMap[item.get('id')]);
+    selectedItems = items.filter(item => selectedItemsAsMap[item.get('id')]);
+
+    return (
+      <Section>
+        {form.get(formFieldName).map(field => (
+          <FormGroup>
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+            <TwoColumnMultiSelect
+              selectableItems={selectableItems}
+              selectedItems={selectedItems}
+              onSelectableClick={item => select(item, form, onChange, formFieldName)}
+              onSelectedClick={item => remove(item, form, onChange, formFieldName)}
+              Item={Item}
+              fieldName={fieldName}
+            />
+          </FormGroup>
+        ))}
+      </Section>
+    );
+  }
+);
+
+function Item({ item, fieldName }) {
+  return item.get(fieldName);
+}
+
+function select(item, form, onChange, formFieldName) {
+  let ids = form.get(formFieldName).value;
+  ids = ids.push(item.get('id'));
+  onChange(formFieldName, ids);
+}
+
+function remove(item, form, onChange, formFieldName) {
+  let itemIndex = -1;
+  let ids = form.get(formFieldName).value;
+
+  for (let i = 0, length = ids.size; i < length; i++) {
+    if (ids.get(i) === item.get('id')) {
+      itemIndex = i;
+      break;
+    }
+  }
+
+  if (itemIndex < 0) {
+    return;
+  }
+
+  ids = ids.delete(itemIndex);
+  onChange(formFieldName, ids);
+}

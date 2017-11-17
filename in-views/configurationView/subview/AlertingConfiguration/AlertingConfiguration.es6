@@ -87,7 +87,7 @@ function ruleIdsValidator(rules) {
     return [
       {
         severity: 'error',
-        message: `Please select a rule`
+        message: `Please select at least one rule`
       }
     ];
   }

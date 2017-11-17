@@ -2,11 +2,13 @@ import React from 'react';
 
 import MatchingEntityTable from 'in-views/configurationView/subview/AlertingConfiguration/MatchingEntityTable';
 import FormDataEnrichment from 'in-views/configurationView/subview/AlertingConfiguration/FormDataEnrichment';
-import SelectedRules from 'in-views/configurationView/subview/AlertingConfiguration/SelectedRules';
+import SelectedEntities from 'in-views/configurationView/subview/AlertingConfiguration/SelectedEntities';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Section from 'in-views/configurationView/components/Section';
 import { getIntegrationsByIds } from 'in-services/api/integrations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { getIntegrations } from 'in-services/api/integrations';
+import { getHealthRules } from 'in-services/api/healthRules';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -75,18 +77,20 @@ export default connectTo(
             </FormGroup>
           ))}
         </Section>
-        <Section>
-          {form.get('ruleIds').map(field => (
-            <FormGroup>
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
-              <SelectedRules form={form} onChange={onChange} />
-            </FormGroup>
-          ))}
-        </Section>
+        <SelectedEntities
+          form={form}
+          onChange={onChange}
+          getItems={getHealthRules}
+          fieldName="description"
+          formFieldName="ruleIds"
+        />
+        <SelectedEntities
+          form={form}
+          onChange={onChange}
+          getItems={getIntegrations}
+          fieldName="kind"
+          formFieldName="integrationIds"
+        />
       </fieldset>
     );
   }
