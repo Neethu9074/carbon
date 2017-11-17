@@ -16,8 +16,8 @@ export default connectTo(
     const connectedIntegrations = props.form.get('integrationIds').value;
 
     return {
-      healthRules: getIntegrationsByIds(connectedIntegrations),
-      integrations: getHealthRulesByIds(connectedHealthRules)
+      integrations: getIntegrationsByIds(connectedIntegrations),
+      healthRules: getHealthRulesByIds(connectedHealthRules)
     };
   },
   function AlertingConfigurationForm({ healthRules, integrations }) {

@@ -19,7 +19,6 @@ export function getIntegrationsByIds(ids) {
 
     const integrationsMap = {};
     integrations.forEach(integration => (integrationsMap[integration.get('id')] = integration));
-
     return ids.map(id => integrationsMap[id]).filter(resolved => resolved);
   });
 }

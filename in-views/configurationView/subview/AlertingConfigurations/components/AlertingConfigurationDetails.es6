@@ -13,8 +13,8 @@ export default connectTo(
     const connectedIntegrations = props.config.get('integrationIds', emptyList).toArray();
 
     return {
-      healthRules: getIntegrationsByIds(connectedIntegrations),
-      integrations: getHealthRulesByIds(connectedHealthRules)
+      integrations: getIntegrationsByIds(connectedIntegrations),
+      healthRules: getHealthRulesByIds(connectedHealthRules)
     };
   },
   function AlertingConfigurationDetails({ config, healthRules = [], integrations = [] }) {
