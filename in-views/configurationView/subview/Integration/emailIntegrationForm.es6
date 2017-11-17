@@ -3,7 +3,16 @@ import { List } from 'immutable';
 import React from 'react';
 
 import Section from 'in-views/configurationView/components/Section';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
+import FormGroup from 'in-components/form/FormGroup';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+import Button from 'in-components/Button';
+
+import './Forms.less';
+
+const block = 'in-integrations-config-form';
 
 export default {
   createForm(integration) {
@@ -23,7 +32,7 @@ export default {
       );
   },
 
-  createEntitiy(integration, form) {
+  createEntity(integration, form) {
     return {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
@@ -38,27 +47,99 @@ function emails(emails) {
   if (emails.size === 0) {
     return [
       {
+        type: 'no_mail',
         severity: 'error',
         message: `Please define at least one email`
       }
     ];
   }
-  const error = notBlankValidator(emails.get(0));
-  if (error.length > 0) {
-    return [
-      {
+  const errors = [];
+  for (let i = 0, length = emails.size; i < length; i++) {
+    const email = emails.get(i);
+    const error = notBlankValidator(email);
+    if (error.length > 0) {
+      errors.push({
+        mailIndex: i,
         severity: 'error',
         message: error[0].message
-      }
-    ];
+      });
+    }
   }
-  return null;
+  return errors;
 }
 
-function Form(/*{ form, onChange }*/) {
+function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>email form</Section>
+      <Section>
+        {form.get('emails').map(field => (
+          <FormGroup>
+            <Label htmlFor="email" hasError={!field.valid}>
+              Emails
+            </Label>
+            {field.messages.map((message, i) => {
+              if (message.type !== 'no_mail') {
+                return null;
+              }
+              return (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              );
+            })}
+          </FormGroup>
+        ))}
+        {form.get('emails').map(field => {
+          const emails = field.value;
+          return emails.map((email, i) => (
+            <FormGroup key={i}>
+              <div className={`${block}__input-delete-wrapper`}>
+                <Input
+                  className={`${block}__input`}
+                  id={`email_${email}`}
+                  type="text"
+                  placeholder="ops@your_company.com"
+                  value={email}
+                  onChange={e => onChangeEmail(e, form, onChange, i)}
+                />
+                <Button
+                  className={`${block}__delete-button`}
+                  kind="danger"
+                  onClick={() => removeEmail(form, onChange, i)}
+                >
+                  Remove
+                </Button>
+              </div>
+              {field.messages.filter(msg => msg.mailIndex === i).map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))}
+            </FormGroup>
+          ));
+        })}
+      </Section>
+      <Section>
+        <Button kind="success" onClick={() => addEmail(form, onChange)}>
+          Add Email
+        </Button>
+      </Section>
     </fieldset>
   );
+}
+
+function onChangeEmail(e, form, onChange, index) {
+  const emails = form.get('emails').value.setIn([index], e.target.value);
+  onChange('emails', emails);
+}
+
+function addEmail(form, onChange) {
+  let emails = form.get('emails').value;
+  emails = emails.push('');
+  onChange('emails', emails);
+}
+
+function removeEmail(form, onChange, index) {
+  const emails = form.get('emails').value.deleteIn([index]);
+  onChange('emails', emails);
 }
