@@ -21,24 +21,29 @@ const block = 'in-eum';
 const headerElement = `${block}__header`;
 const configureElement = `${headerElement}__configure`;
 
+const loadingState = (
+  <div>
+    <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
+      <div className={block}>
+        <WebsiteHeading />
+        <LoadingIndicator type="dark" />
+      </div>
+    </FullscreenOverlayView>
+  </div>
+);
+
 export default connectTo(
   {
     data: data$
   },
   function EumView({ data }) {
+    if (!data || data.query == null) {
+      return loadingState;
+    }
     const { snapshotIds, snapshots, query } = data;
 
     if (!snapshotIds || !snapshots) {
-      return (
-        <div>
-          <FullscreenOverlayView className={`${block}__fullscreen-overview`}>
-            <div className={block}>
-              <WebsiteHeading />
-              <LoadingIndicator type="dark" />
-            </div>
-          </FullscreenOverlayView>
-        </div>
-      );
+      return loadingState;
     }
 
     if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
