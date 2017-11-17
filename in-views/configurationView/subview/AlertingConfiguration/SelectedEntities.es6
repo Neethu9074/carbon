@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TwoColumnMultiSelect from 'in-components/TwoColumnMultiSelect/TwoColumnMultiSelect';
-import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-components/form/FormGroup';
@@ -23,27 +22,23 @@ export default connectTo(
     const selectableItems = items.filter(item => !selectedItemsAsMap[item.get('id')]);
     selectedItems = items.filter(item => selectedItemsAsMap[item.get('id')]);
 
-    return (
-      <Section>
-        {form.get(formFieldName).map(field => (
-          <FormGroup>
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-            <TwoColumnMultiSelect
-              selectableItems={selectableItems}
-              selectedItems={selectedItems}
-              onSelectableClick={item => select(item, form, onChange, formFieldName)}
-              onSelectedClick={item => remove(item, form, onChange, formFieldName)}
-              Item={Item}
-              fieldName={fieldName}
-            />
-          </FormGroup>
+    return form.get(formFieldName).map(field => (
+      <FormGroup>
+        {field.messages.map((message, i) => (
+          <ValidationBlock hasError key={i}>
+            {message.message}
+          </ValidationBlock>
         ))}
-      </Section>
-    );
+        <TwoColumnMultiSelect
+          selectableItems={selectableItems}
+          selectedItems={selectedItems}
+          onSelectableClick={item => select(item, form, onChange, formFieldName)}
+          onSelectedClick={item => remove(item, form, onChange, formFieldName)}
+          Item={Item}
+          fieldName={fieldName}
+        />
+      </FormGroup>
+    ));
   }
 );
 

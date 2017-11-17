@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
+
 import MatchingEntityTable from 'in-views/configurationView/subview/AlertingConfiguration/MatchingEntityTable';
 import FormDataEnrichment from 'in-views/configurationView/subview/AlertingConfiguration/FormDataEnrichment';
 import SelectedEntities from 'in-views/configurationView/subview/AlertingConfiguration/SelectedEntities';
@@ -51,6 +53,8 @@ export default connectTo(
               ))}
             </FormGroup>
           ))}
+        </Section>
+        <Step number={1} title="Entities & Metrics" form={form} onChange={onChange}>
           {form.get('query').map(field => (
             <FormGroup>
               <div className={`${block}__filter-label-wrapper`}>
@@ -76,21 +80,25 @@ export default connectTo(
               <MatchingEntityTable form={form} />
             </FormGroup>
           ))}
-        </Section>
-        <SelectedEntities
-          form={form}
-          onChange={onChange}
-          getItems={getHealthRules}
-          fieldName="description"
-          formFieldName="ruleIds"
-        />
-        <SelectedEntities
-          form={form}
-          onChange={onChange}
-          getItems={getIntegrations}
-          fieldName="kind"
-          formFieldName="integrationIds"
-        />
+        </Step>
+        <Step number={2} title="Event Rules" form={form} onChange={onChange}>
+          <SelectedEntities
+            form={form}
+            onChange={onChange}
+            getItems={getHealthRules}
+            fieldName="description"
+            formFieldName="ruleIds"
+          />
+        </Step>
+        <Step number={3} title="Integrations" form={form} onChange={onChange}>
+          <SelectedEntities
+            form={form}
+            onChange={onChange}
+            getItems={getIntegrations}
+            fieldName="kind"
+            formFieldName="integrationIds"
+          />
+        </Step>
       </fieldset>
     );
   }
