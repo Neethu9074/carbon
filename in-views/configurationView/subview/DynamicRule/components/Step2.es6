@@ -1,13 +1,13 @@
 import React from 'react';
 
 import SensitivityPreview from 'in-views/configurationView/subview/DynamicRule/components/SensitivityPreview';
-import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
-import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
+import Step from 'in-components/form/Step';
 import Slider from 'in-components/Slider';
 
 import './Step2.less';
