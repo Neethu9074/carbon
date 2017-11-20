@@ -1,16 +1,10 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import createOffice365IntegrationForm from 'in-views/configurationView/subview/Integration/office365IntegrationForm';
-import createEmailIntegrationForm from 'in-views/configurationView/subview/Integration/emailIntegrationForm';
 import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
+import forms from 'in-views/configurationView/subview/Integration/forms';
 import { openIntegrations } from 'in-stores/navigation/configuration';
-
-const forms = {
-  email: createEmailIntegrationForm,
-  office365: createOffice365IntegrationForm
-};
 
 export default function Integration(props) {
   return (
@@ -33,7 +27,7 @@ function save(integration, form) {
 }
 
 function createForm(config) {
-  return forms[config.get('kind')].createForm();
+  return forms[config.get('kind')].createForm(config);
 }
 
 function IntegrationForm(props) {

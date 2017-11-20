@@ -13,8 +13,7 @@ export default function TwoColumnMultiSelect({
   onSelectedClick,
   Item,
   fieldName,
-  addNewItem,
-  NewItemComponent
+  addNewItem
 }) {
   return (
     <div className={block}>
@@ -28,7 +27,7 @@ export default function TwoColumnMultiSelect({
           ))}
           {addNewItem ? (
             <li key="add_new" className={`${block}__item`} onClick={addNewItem}>
-              {NewItemComponent ? <NewItemComponent /> : '+ Add New'}
+              + Add New
             </li>
           ) : null}
         </ul>

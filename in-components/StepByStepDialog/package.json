@@ -1,0 +1,6 @@
+{
+  "name": "StepByStepDialog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./StepByStepDialog.es6"
+}

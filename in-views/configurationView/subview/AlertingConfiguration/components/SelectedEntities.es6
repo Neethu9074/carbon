@@ -10,7 +10,7 @@ export default connectTo(
   props => ({
     items: props.getItems()
   }),
-  function SelectedEntities({ form, onChange, items, formFieldName, fieldName, addNewItem, NewItemComponent }) {
+  function SelectedEntities({ form, onChange, items, formFieldName, fieldName, addNewItem }) {
     if (!items) {
       return <LoadingIndicator type="dark" />;
     }
@@ -37,7 +37,6 @@ export default connectTo(
           Item={Item}
           fieldName={fieldName}
           addNewItem={addNewItem}
-          NewItemComponent={NewItemComponent}
         />
       </FormGroup>
     ));
@@ -55,20 +54,7 @@ function select(item, form, onChange, formFieldName) {
 }
 
 function remove(item, form, onChange, formFieldName) {
-  let itemIndex = -1;
   let ids = form.get(formFieldName).value;
-
-  for (let i = 0, length = ids.size; i < length; i++) {
-    if (ids.get(i) === item.get('id')) {
-      itemIndex = i;
-      break;
-    }
-  }
-
-  if (itemIndex < 0) {
-    return;
-  }
-
-  ids = ids.delete(itemIndex);
+  ids = ids.delete(ids.indexOf(item.get('id')));
   onChange(formFieldName, ids);
 }

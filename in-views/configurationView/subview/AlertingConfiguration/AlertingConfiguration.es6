@@ -33,7 +33,7 @@ function save(config, form) {
         form.get('integrationIds').value.toJS(),
         form.get('ruleIds').value.toJS(),
         form.get('query').value,
-        form.get('eventType').value
+        form.get('eventTypes').value
       )
     )
   );
@@ -51,27 +51,27 @@ function createForm(config) {
     .put(
       'integrationIds',
       createField({
-        value: config ? config.get('integrationIds') : List()
+        value: config.get('integrationIds', List())
       })
     )
     .put(
       'query',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'query']),
+        value: config.get('query'),
         validator: queryValidator
       })
     )
     .put(
       'ruleIds',
       createField({
-        value: config ? config.getIn(['eventFilteringConfiguration', 'ruleIds']) : List(),
+        value: config.get('ruleIds', List()),
         validator: ruleIdsValidator
       })
     )
     .put(
-      'eventType',
+      'eventTypes',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventType'])
+        value: config.get('eventTypes', List())
       })
     )
     .put(
