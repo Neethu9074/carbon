@@ -3,6 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import MseTable from 'in-forge/plugins/varnish/Dashboard/MseTable';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
@@ -138,29 +139,21 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
       {hasMse ? (
-        <DashboardSection title="MSE">
+        <DashboardSection title="Massive Storage Engine">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             margins={{
-              left: 80,
-              right: 80
+              left: 80
             }}
             y1={{
-              min: 0,
-              metrics: ['mse_space'],
-              labels: ['Free Space'],
+              metrics: ['mse_bytes'],
+              labels: ['Used Bytes'],
               type: 'line',
               formatter: bytesZeroDecimalPlaces
             }}
-            y2={{
-              min: 0,
-              metrics: ['mse_sparenode'],
-              labels: ['Spare Nodes'],
-              type: 'line',
-              formatter: zeroDecimalPlaces
-            }}
           />
+          <MseTable snapshot={snapshot} timeframe={timeframe} />
         </DashboardSection>
       ) : null}
     </div>
