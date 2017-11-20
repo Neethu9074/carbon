@@ -3,6 +3,7 @@ import React from 'react';
 import { tagsFilter$ } from 'in-components/Tags/TagList/stores/tagsFilterStore';
 import { filteredTags$, filterableTags$ } from 'in-stores/search/keywords/tags';
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
+import { emptySet } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 import Tag from 'in-components/Tags/Tag';
 
@@ -16,7 +17,7 @@ export default connectTo(
     tagsFilter: tagsFilter$,
     tags: filterableTags$
   },
-  function TagList({ tags, tagsFilter, filteredTags }) {
+  function TagList({ tags, tagsFilter, filteredTags = emptySet }) {
     if (!tags || tags.size === 0) {
       return <div className={block + '__no-tags'}>There are no tags defined</div>;
     }
