@@ -11,15 +11,12 @@
     "try-build-without-building": "export BUILD_DEV='false' && gulp try-build-without-building",
     "test": "yarn run test:unit && yarn run test:lint",
     "test:lint": "eslint --ext .es6 in-* gulpfile.js",
-    "test:unit":
-      "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
     "check:updates": "ncu",
     "check:licenses": "license-checker > licenses.txt",
-    "check:bundle-size":
-      "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
+    "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "dev":
-      "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
+    "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
@@ -27,7 +24,11 @@
     "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && lint-staged"
   },
   "lint-staged": {
-    "*.es6": ["eslint --ext .es6", "prettier --single-quote --print-width 120 --write", "git add"]
+    "*.es6": [
+      "eslint --ext .es6",
+      "prettier --single-quote --print-width 120 --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",

@@ -5361,8 +5361,8 @@ lru-cache@^4.0.0, lru-cache@^4.0.1:
     yallist "^2.1.2"
 
 lucene@^1.1.2:
-  version "1.1.2"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lucene/-/lucene-1.1.2.tgz#849fa12a042fb03f3f4669def317ca07d64658bb"
+  version "1.2.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lucene/-/lucene-1.2.0.tgz#9a20cfeac14681e1d9bd378dddb34b2c54c9d0c9"
 
 macaddress@^0.2.8:
   version "0.2.8"
