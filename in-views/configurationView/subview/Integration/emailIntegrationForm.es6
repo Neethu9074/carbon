@@ -24,6 +24,13 @@ export default {
         })
       )
       .put(
+        'name',
+        createField({
+          value: integration ? integration.get('name') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
         'emails',
         createField({
           value: integration ? integration.get('emails') : List(),
@@ -71,6 +78,28 @@ function emails(emails) {
 function Form({ form, onChange }) {
   return (
     <fieldset>
+      <Section>
+        {form.get('name').map(field => (
+          <FormGroup className={block}>
+            <Label htmlFor="name" hasError={!field.valid}>
+              Config Name
+            </Label>
+            <Input
+              id="name"
+              className={`${block}__input`}
+              type="text"
+              value={field.value}
+              onChange={e => onChange('name', e.target.value)}
+              hasError={!field.valid}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+      </Section>
       <Section>
         {form.get('emails').map(field => (
           <FormGroup>
