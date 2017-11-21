@@ -1,3 +1,4 @@
+import { List } from 'immutable';
 import React from 'react';
 
 import SelectedEntities from 'in-views/configurationView/subview/AlertingConfiguration/components/SelectedEntities';
@@ -21,26 +22,47 @@ export default function Step2({ form, onChange }) {
 
   return (
     <Step number={2} title="Event Rules" form={form} onChange={onChange}>
-      <div onClick={() => onChange('advancedMode', !form.get('advancedMode').value)}>test</div>
-
-      {form.get('advancedMode').value ? (
+      {form.get('advancedMode').map(field => (
         <RuleControl name="Events">
-          {form.get('eventQuery').map(field => (
+          <div className={`${block}__button-wrapper`}>
+            <AdvancedModeOption
+              title="All event rules (simple mode)"
+              isActive={field.value === false}
+              onClick={() => {
+                onChange(['eventQuery', 'advancedMode', 'ruleIds'], ['', false, List()]);
+              }}
+            />
+            <AdvancedModeOption
+              title="Pick event rules (advanced mode)"
+              isActive={field.value === true}
+              onClick={() => onChange('advancedMode', true)}
+            />
+          </div>
+          {field.value ? (
             <FormGroup>
               <div className={`${block}__filter-label-wrapper`}>
                 <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
                   Filter event rules
                 </Label>
               </div>
-              <Input
-                id="rule-query"
-                type="text"
-                placeholder="e.g: event.text:CPU*"
-                className={`${block}__input`}
-                value={field.value}
-                onChange={e => onChange('eventQuery', e.target.value)}
-                hasError={!field.valid}
-              />
+              {form.get('eventQuery').map(eventQueryField => (
+                <div>
+                  <Input
+                    id="rule-query"
+                    type="text"
+                    placeholder="e.g: event.text:CPU*"
+                    className={`${block}__input`}
+                    value={eventQueryField.value}
+                    onChange={e => onChange('eventQuery', e.target.value)}
+                    hasError={!eventQueryField.valid}
+                  />
+                  {eventQueryField.messages.map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))}
+                </div>
+              ))}
               <SelectedEntities
                 form={form}
                 onChange={onChange}
@@ -48,15 +70,11 @@ export default function Step2({ form, onChange }) {
                 fieldName="description"
                 formFieldName="ruleIds"
               />
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
             </FormGroup>
-          ))}
+          ) : null}
         </RuleControl>
-      ) : null}
+      ))}
+
       {form.get('advancedMode').value ? <Spacer /> : null}
 
       <div className={`${block}__labeled-toggle-group`}>
@@ -68,6 +86,20 @@ export default function Step2({ form, onChange }) {
         <LabeledToggle onChange={onChange} types={types} type="offline" />
       </div>
     </Step>
+  );
+}
+
+function AdvancedModeOption({ isActive, title, onClick }) {
+  return (
+    <div
+      className={evaluateClassNames({
+        [`${block}__advanced-mode-option`]: true,
+        [`${block}__advanced-mode-option__active`]: isActive
+      })}
+      onClick={onClick}
+    >
+      {title}
+    </div>
   );
 }
 

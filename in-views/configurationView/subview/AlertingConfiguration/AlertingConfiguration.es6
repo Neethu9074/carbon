@@ -78,8 +78,7 @@ function createForm(config) {
     .put(
       'ruleIds',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()),
-        validator: ruleIdsValidator
+        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List())
       })
     )
     .put(
@@ -94,25 +93,4 @@ function createForm(config) {
         value: { snapshots: [] }
       })
     );
-}
-
-function ruleIdsValidator(rules) {
-  if (rules.size === 0) {
-    return [
-      {
-        severity: 'error',
-        message: `Please select at least one rule`
-      }
-    ];
-  }
-  const error = notBlankValidator(rules.get(0));
-  if (error.length > 0) {
-    return [
-      {
-        severity: 'error',
-        message: error[0].message
-      }
-    ];
-  }
-  return null;
 }
