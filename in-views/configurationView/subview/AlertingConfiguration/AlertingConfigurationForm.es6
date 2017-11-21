@@ -5,7 +5,6 @@ import Step0 from 'in-views/configurationView/subview/AlertingConfiguration/comp
 import Step1 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step1';
 import Step2 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step2';
 import Step3 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step3';
-import Step4 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step4';
 
 export default function AlertingConfigurationForm({ form, onChange }) {
   return (
@@ -15,7 +14,6 @@ export default function AlertingConfigurationForm({ form, onChange }) {
       <Step1 form={form} onChange={onChange} />
       <Step2 form={form} onChange={onChange} />
       <Step3 form={form} onChange={onChange} />
-      <Step4 form={form} onChange={onChange} />
     </fieldset>
   );
 }

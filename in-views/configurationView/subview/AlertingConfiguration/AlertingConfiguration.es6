@@ -33,6 +33,7 @@ function save(config, form) {
         form.get('integrationIds').value.toJS(),
         form.get('ruleIds').value.toJS(),
         form.get('query').value,
+        form.get('eventQuery').value,
         form.get('eventTypes').value
       )
     )
@@ -41,6 +42,12 @@ function save(config, form) {
 
 function createForm(config) {
   return createMapForm()
+    .put(
+      'advancedMode',
+      createField({
+        value: config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false
+      })
+    )
     .put(
       'name',
       createField({
@@ -62,6 +69,13 @@ function createForm(config) {
       })
     )
     .put(
+      'eventQuery',
+      createField({
+        value: config.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
+        validator: queryValidator
+      })
+    )
+    .put(
       'ruleIds',
       createField({
         value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()),
@@ -71,7 +85,7 @@ function createForm(config) {
     .put(
       'eventTypes',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List())
+        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List(['incident', 'critical']))
       })
     )
     .put(
