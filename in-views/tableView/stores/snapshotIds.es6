@@ -52,7 +52,10 @@ function translateTypeToPlugin(selectedType) {
 }
 
 export const data$ = selectedType$.flatMap(_selectedType => {
-  return search({ queryExtension: `entity.selfType:${_selectedType.type}`, view: _selectedType.view }).map(result => {
+  return search({
+    view: _selectedType.view,
+    restrictResultEntityType: entityTypeToFullyQualifiedPlugin[_selectedType.type]
+  }).map(result => {
     return assign({}, { type: _selectedType.type, plugin: translateTypeToPlugin(_selectedType) }, result);
   });
 });
