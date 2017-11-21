@@ -24,9 +24,9 @@ const logicalDomains = {
 
 export default connectTo(
   {
-    selectedType: selectedType$,
+    selectedType: selectedType$.map(selectedType => selectedType.type),
     matchedSnapshotCount: matchedSnapshotCount$,
-    domains: selectedType$.map(type => (physicalDomains[type] ? physicalDomains : logicalDomains))
+    domains: selectedType$.map(selectedType => (physicalDomains[selectedType.type] ? physicalDomains : logicalDomains))
   },
   function TypeSelector({ selectedType, matchedSnapshotCount, domains }) {
     return (

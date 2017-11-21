@@ -4,14 +4,14 @@ import MetricChartDownloadView from 'in-components/DownloadButton/components/Met
 import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots';
 import { metrics$, removeMetric } from 'in-views/tableView/stores/metrics';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import Chart from 'in-components/Chart';
 import DownloadButton from 'in-components/DownloadButton';
 import { getMetricDefinition } from 'in-sdk/metrics';
-import SvgIcon from 'in-components/SvgIcon';
 import { getPlural } from 'in-sdk/pluginName';
+import SvgIcon from 'in-components/SvgIcon';
+import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 import './ChartsForSelectedEntities.less';
 

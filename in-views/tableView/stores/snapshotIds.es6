@@ -23,10 +23,14 @@ export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
   observable: navigationParameters$
     .map(params => {
-      const defaultType = params.pathname.indexOf('/table/physical') >= 0 ? 'host' : 'service';
-      return params.matrix.plugin || defaultType;
+      const isPhysicalView = params.matrix.view === 'physical';
+      const defaultType = isPhysicalView ? 'host' : 'service';
+      return {
+        type: params.matrix.plugin || defaultType,
+        view: isPhysicalView ? 'PHYSICAL' : 'LOGICAL'
+      };
     })
-    .filter(type => entityTypeToFullyQualifiedPlugin[type])
+    .filter(selectedType => entityTypeToFullyQualifiedPlugin[selectedType.type])
     .distinct()
 }).observable;
 
@@ -39,8 +43,8 @@ export function setSelectedType(type) {
 
 export const plugin$ = selectedType$.map(translateTypeToPlugin).distinct();
 
-function translateTypeToPlugin(type) {
-  const pluginId = entityTypeToFullyQualifiedPlugin[type];
+function translateTypeToPlugin(selectedType) {
+  const pluginId = entityTypeToFullyQualifiedPlugin[selectedType.type];
   if (pluginId) {
     return translateFullyQualifiedPluginToShortPluginName(pluginId) || plugins.host;
   }
@@ -48,9 +52,9 @@ function translateTypeToPlugin(type) {
 }
 
 export const data$ = selectedType$.flatMap(_selectedType => {
-  return search({ queryExtension: `entity.selfType:${_selectedType}` }).map(result =>
-    assign({}, { type: _selectedType, plugin: translateTypeToPlugin(_selectedType) }, result)
-  );
+  return search({ queryExtension: `entity.selfType:${_selectedType.type}`, view: _selectedType.view }).map(result => {
+    return assign({}, { type: _selectedType.type, plugin: translateTypeToPlugin(_selectedType) }, result);
+  });
 });
 
 export const matchedSnapshotCount$ = data$.filter(data => data.snapshots != null).map(data => data.snapshots.length);

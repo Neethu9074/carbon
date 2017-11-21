@@ -66,7 +66,7 @@ function search(query) {
     return createSearchObservable({
       query,
       time: focusedMoment,
-      view: 'TABLE',
+      view: 'LOGICAL',
       timeframe
     })
       .flatMap(snapshotIds => {
