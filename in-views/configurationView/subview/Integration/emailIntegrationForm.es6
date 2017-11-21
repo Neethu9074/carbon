@@ -43,6 +43,7 @@ export default {
     return {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
+      name: form.get('name').value,
       emails: form.get('emails').value
     };
   },

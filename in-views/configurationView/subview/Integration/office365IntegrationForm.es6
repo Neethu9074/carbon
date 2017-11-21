@@ -41,6 +41,7 @@ export default {
     return {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
+      name: form.get('name').value,
       webhookUrl: form.get('webhookUrl').value
     };
   },

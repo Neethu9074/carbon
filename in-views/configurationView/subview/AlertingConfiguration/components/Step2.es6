@@ -8,6 +8,7 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { getHealthRules } from 'in-services/api/healthRules';
 import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
+import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Step from 'in-components/form/Step';
@@ -23,7 +24,7 @@ export default function Step2({ form, onChange }) {
   return (
     <Step number={2} title="Event Rules" form={form} onChange={onChange}>
       {form.get('advancedMode').map(field => (
-        <RuleControl name="Events">
+        <RuleControl name="Filter Event Rules">
           <div className={`${block}__button-wrapper`}>
             <AdvancedModeOption
               title="All event rules (simple mode)"
@@ -75,16 +76,32 @@ export default function Step2({ form, onChange }) {
         </RuleControl>
       ))}
 
-      {form.get('advancedMode').value ? <Spacer /> : null}
+      <Spacer />
 
-      <div className={`${block}__labeled-toggle-group`}>
-        <LabeledToggle onChange={onChange} types={types} type="incident" />
-        <LabeledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
-        <LabeledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
-        <LabeledToggle onChange={onChange} types={types} type="change" />
-        <LabeledToggle onChange={onChange} types={types} type="online" />
-        <LabeledToggle onChange={onChange} types={types} type="offline" />
-      </div>
+      <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities ">
+        <Row>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="incident" />
+          </Col>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
+          </Col>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
+          </Col>
+        </Row>
+        <Row>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="change" />
+          </Col>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="online" />
+          </Col>
+          <Col cols={4}>
+            <LabeledToggle onChange={onChange} types={types} type="offline" />
+          </Col>
+        </Row>
+      </RuleControl>
     </Step>
   );
 }
