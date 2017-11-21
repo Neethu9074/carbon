@@ -25,7 +25,7 @@ export default function Step2({ form, onChange }) {
 
       {form.get('advancedMode').value ? (
         <RuleControl name="Events">
-          {form.get('query').map(field => (
+          {form.get('eventQuery').map(field => (
             <FormGroup>
               <div className={`${block}__filter-label-wrapper`}>
                 <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
@@ -35,10 +35,10 @@ export default function Step2({ form, onChange }) {
               <Input
                 id="rule-query"
                 type="text"
-                placeholder="e.g: entity.zone:prod"
+                placeholder="e.g: event.text:CPU*"
                 className={`${block}__input`}
                 value={field.value}
-                onChange={e => onChange('query', e.target.value)}
+                onChange={e => onChange('eventQuery', e.target.value)}
                 hasError={!field.valid}
               />
               <SelectedEntities

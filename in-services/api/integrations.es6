@@ -48,10 +48,29 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function createIntegration(id, kind = 'pagerduty', name = '') {
-  return {
+export function createIntegration(id, kind, name = '') {
+  if (!kind) {
+    return {
+      id: id || generateUniqueShortId(),
+      kind: 'email',
+      name,
+      emails: []
+    };
+  }
+  const integration = {
     id: id || generateUniqueShortId(),
     kind,
     name
   };
+
+  switch (kind) {
+    case 'email':
+      integration.emails = [];
+      break;
+    case 'office365':
+      integration.webhookUrl = '';
+      break;
+  }
+
+  return integration;
 }

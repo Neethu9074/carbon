@@ -5,11 +5,14 @@ import { getIntegration, saveIntegration, createIntegration } from 'in-services/
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
 import forms from 'in-views/configurationView/subview/Integration/forms';
 import { openIntegrations } from 'in-stores/navigation/configuration';
+import { extractMatrix } from 'in-stores/navigation';
 
 export default function Integration(props) {
+  const matrix = extractMatrix(props.location.pathname);
+
   return (
     <BasicEntityOverview
-      createEntity={createIntegration}
+      createEntity={() => createIntegration(null, matrix.kind)}
       title="Integration"
       entityTitle="integration"
       createForm={createForm}

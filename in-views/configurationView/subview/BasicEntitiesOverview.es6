@@ -131,7 +131,6 @@ export default class extends React.Component {
           <Button kind="info" onClick={this.addNewRule}>
             Add New
           </Button>
-
           {this.state.message ? (
             <Notification failure={this.state.error} loading={this.state.loading}>
               {this.state.message}

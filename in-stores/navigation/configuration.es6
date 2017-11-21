@@ -142,6 +142,10 @@ function getAlertingConfigPath(id) {
   return id ? `${alertingConfigPath}/${encodeURIComponent(id)}` : alertingConfigPath;
 }
 
+export function openAlertingConfiguration() {
+  mutateUrl(params => (params.pathname = alertingConfigPath));
+}
+
 export function openAlertingConfigurations() {
   mutateUrl(params => (params.pathname = alertingConfigsPath));
 }
@@ -158,6 +162,14 @@ export const isIntegrationLink$ = buildPathStartsWithStream(integrationPath);
 
 function getIntegrationPath(id) {
   return id ? `${integrationPath}/${encodeURIComponent(id)}` : integrationPath;
+}
+
+export function openIntegration(kind) {
+  mutateUrl(params => {
+    params.pathname = integrationPath;
+    params.matrix.kind = kind;
+    return params;
+  });
 }
 
 export function openIntegrations() {
