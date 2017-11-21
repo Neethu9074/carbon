@@ -57,27 +57,21 @@ function createForm(config) {
     .put(
       'query',
       createField({
-        value: config.get('query', ''),
+        value: config.getIn(['eventFilteringConfiguration', 'query'], ''),
         validator: queryValidator
       })
     )
     .put(
       'ruleIds',
       createField({
-        value: config.get('ruleIds', List()),
+        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()),
         validator: ruleIdsValidator
-      })
-    )
-    .put(
-      'eventType',
-      createField({
-        value: config.get('eventType', '')
       })
     )
     .put(
       'eventTypes',
       createField({
-        value: config.get('eventTypes', List())
+        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List())
       })
     )
     .put(

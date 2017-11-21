@@ -48,8 +48,10 @@ export function createAlertingConfig(
     id: id || generateUniqueShortId(),
     alertName,
     integrationIds,
-    query,
-    ruleIds,
-    eventTypes
+    eventFilteringConfiguration: {
+      query,
+      ruleIds,
+      eventTypes
+    }
   };
 }
