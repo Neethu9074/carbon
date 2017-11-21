@@ -17,7 +17,7 @@ export default class extends React.Component {
   };
 
   render() {
-    const { header, steps, onSave = close } = this.props;
+    const { header, steps, onSave = close, allowSaving } = this.props;
     const { currentStep } = this.state;
 
     return (
@@ -26,7 +26,7 @@ export default class extends React.Component {
 
         <div className={`${block}__footer`}>
           {currentStep === steps.length - 1 ? (
-            <Button kind="success" onClick={onSave}>
+            <Button kind="success" onClick={onSave} disabled={!allowSaving}>
               Save
             </Button>
           ) : (

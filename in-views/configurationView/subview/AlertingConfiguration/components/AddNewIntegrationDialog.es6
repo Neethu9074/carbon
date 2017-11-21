@@ -51,7 +51,14 @@ export default class extends React.Component {
       />,
       <Form state={this.state} onChange={this.onChange} />
     ];
-    return <StepByStepDialog header="Add New Integration" steps={steps} onSave={this.onSave} />;
+    return (
+      <StepByStepDialog
+        header="Add New Integration"
+        steps={steps}
+        onSave={this.onSave}
+        allowSaving={this.state.form && this.state.form.hierarchyValid}
+      />
+    );
   }
 
   onChange = (fieldName, value) => {
