@@ -4,6 +4,7 @@ import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getDashboardLink } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Link from 'in-components/Link';
 
@@ -34,6 +35,16 @@ const cols = [
             </Link>
           )
         };
+      }
+    }
+  },
+  {
+    title: 'Entity Type',
+    type: 'string',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      getValue(row) {
+        return getSingular(row.snapshot);
       }
     }
   }

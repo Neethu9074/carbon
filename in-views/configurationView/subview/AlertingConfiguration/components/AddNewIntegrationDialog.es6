@@ -3,13 +3,14 @@ import React from 'react';
 
 import forms from 'in-views/configurationView/subview/Integration/forms';
 import { saveIntegration } from 'in-services/api/integrations';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import StepByStepDialog from 'in-components/StepByStepDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import ComboBox from 'in-components/ComboBox';
 
-import './AddNewIntegrationDialog.less';
-
-const block = 'in-alerting-add-new-integration-dialog';
+// import './AddNewIntegrationDialog.less';
+//
+// const block = 'in-alerting-add-new-integration-dialog';
 
 export default class extends React.Component {
   static displayName = 'AddNewIntegrationDialog';
@@ -48,7 +49,7 @@ export default class extends React.Component {
         })}
         onChange={e => this.setState({ selectedType: e.value })}
       />,
-      this.state.Form ? <this.state.Form form={this.state.form} onChange={this.onChange} /> : null
+      <Form state={this.state} onChange={this.onChange} />
     ];
     return <StepByStepDialog header="Add New Integration" steps={steps} onSave={this.onSave} />;
   }
@@ -66,25 +67,23 @@ export default class extends React.Component {
     const result$ = saveIntegration(fromJS(forms[this.state.selectedType].createEntity(null, this.state.form)));
 
     this.disposeAsyncAction();
-    // this.setState({
-    //   loading: true,
-    //   error: false,
-    //   message: 'Saving…'
-    // });
+    this.setState({
+      loading: true,
+      error: false,
+      message: 'Saving…'
+    });
 
     this.responseSubscription = result$.once(() => {
-      console.log('success');
       close();
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      console.log(`Failed to save: ${error.message}`);
-      // const message = `Failed to save: ${error.message}`;
-      // this.setState({
-      //   loading: false,
-      //   error: true,
-      //   message
-      // });
+      const message = `Failed to save: ${error.message}`;
+      this.setState({
+        loading: false,
+        error: true,
+        message
+      });
     });
   };
 
@@ -97,4 +96,20 @@ export default class extends React.Component {
       this.errorSubscription.dispose();
     }
   };
+}
+
+function Form({ state, onChange }) {
+  if (!state.Form) {
+    return null;
+  }
+
+  if (state.loading) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  if (state.error) {
+    return state.message;
+  }
+
+  return <state.Form form={state.form} onChange={onChange} />;
 }

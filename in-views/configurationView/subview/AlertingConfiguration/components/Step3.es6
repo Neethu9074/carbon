@@ -1,7 +1,8 @@
 import React from 'react';
 
-import Toggle from 'in-components/form/Toggle';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Step from 'in-components/form/Step';
+import Button from 'in-components/Button';
 
 import './Step3.less';
 
@@ -26,14 +27,15 @@ export default function Step3({ form, onChange }) {
 
 function LabeledToggle({ onChange, types, title, type }) {
   return (
-    <div className={`${block}__labeled-toggle`}>
-      <span className={`${block}__label`}>{title ? title : type}</span>
-      <Toggle
-        className={`${block}__toggle`}
-        checked={types.includes(type)}
-        onChange={() => onSelectChanged(types, onChange, type)}
-      />
-    </div>
+    <Button
+      className={evaluateClassNames({
+        [`${block}__button`]: true,
+        [`${block}__button--selected`]: types.includes(type)
+      })}
+      onClick={() => onSelectChanged(types, onChange, type)}
+    >
+      {title || type}
+    </Button>
   );
 }
 

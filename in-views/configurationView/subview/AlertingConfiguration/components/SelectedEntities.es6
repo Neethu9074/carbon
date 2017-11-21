@@ -10,7 +10,7 @@ export default connectTo(
   props => ({
     items: props.getItems()
   }),
-  function SelectedEntities({ form, onChange, items, formFieldName, fieldName, addNewItem }) {
+  function SelectedEntities({ form, onChange, items, formFieldName, fieldName }) {
     if (!items) {
       return <LoadingIndicator type="dark" />;
     }
@@ -36,7 +36,6 @@ export default connectTo(
           onSelectedClick={item => remove(item, form, onChange, formFieldName)}
           Item={Item}
           fieldName={fieldName}
-          addNewItem={addNewItem}
         />
       </FormGroup>
     ));

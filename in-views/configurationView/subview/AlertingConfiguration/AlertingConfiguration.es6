@@ -57,7 +57,7 @@ function createForm(config) {
     .put(
       'query',
       createField({
-        value: config.get('query'),
+        value: config.get('query', ''),
         validator: queryValidator
       })
     )
@@ -69,6 +69,12 @@ function createForm(config) {
       })
     )
     .put(
+      'eventType',
+      createField({
+        value: config.get('eventType', '')
+      })
+    )
+    .put(
       'eventTypes',
       createField({
         value: config.get('eventTypes', List())
@@ -77,7 +83,7 @@ function createForm(config) {
     .put(
       'matchingEntities',
       createField({
-        value: null
+        value: { snapshots: [] }
       })
     );
 }

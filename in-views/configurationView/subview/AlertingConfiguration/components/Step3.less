@@ -1,16 +1,14 @@
 .in-alerting-config-form-step-3 {
-  &__labeled-toggle-group,
-  &__labeled-toggle {
+  &__labeled-toggle-group {
     display: flex;
     align-items: center;
+    justify-content: space-around;
   }
 
-  &__label {
-    text-transform: capitalize;
-  }
-
-  &__toggle {
-    transform: scale(0.75);
-    margin-right: 1rem;
+  &__button {
+    background: #eef2f4;
+    &--selected {
+      background: #91ecee;
+    }
   }
 }
