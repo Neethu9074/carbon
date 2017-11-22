@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import MatchingEntityTable from 'in-views/configurationView/subview/AlertingConfiguration/components/MatchingEntityTable';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import RuleControl from 'in-components/form/RuleControl';
@@ -51,10 +50,10 @@ function MatchingEntitiesIndicator({ form }) {
   return (
     <div className={`${block}__matching-entities-indicator`}>
       {form.get('matchingEntities').map(field => {
-        const matchingEntities = field.value.snapshots || [];
+        const matchingEntities = field.value;
         return (
           <span>
-            {matchingEntities.length} {matchingEntities.length === 1 ? 'Entity' : 'Entities'} matched
+            {matchingEntities.size} {matchingEntities.size === 1 ? 'Entity' : 'Entities'} matched
           </span>
         );
       })}

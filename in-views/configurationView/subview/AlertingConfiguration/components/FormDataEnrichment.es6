@@ -3,8 +3,7 @@ import React from 'react';
 
 import createSearchObservable from 'in-services/subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { getSnapshots } from 'in-stores/snapshot/snapshot';
-import { always } from 'in-services/fixedStreams';
+// import { always } from 'in-services/fixedStreams';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -56,9 +55,9 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function search(query) {
-  if (query || !query) {
-    return always({ snapshots: [] });
-  }
+  // if (query || !query) {
+  //   return always({ snapshots: [] });
+  // }
 
   return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
     return createSearchObservable({
@@ -66,18 +65,6 @@ function search(query) {
       time: focusedMoment,
       view: 'TABLE',
       timeframe
-    })
-      .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds, focusedMoment).map(snapshots => {
-          return {
-            snapshots,
-            snapshotIds,
-            query
-          };
-        });
-      })
-      .startWith({
-        query
-      });
+    });
   });
 }

@@ -96,7 +96,7 @@ function createForm(config) {
     .put(
       'matchingEntities',
       createField({
-        value: { snapshots: [] }
+        value: List()
       })
     );
 }
