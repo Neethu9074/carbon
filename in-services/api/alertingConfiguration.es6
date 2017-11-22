@@ -43,7 +43,7 @@ export function createAlertingConfig(
   ruleIds = [],
   query = '',
   eventQuery = '',
-  eventTypes = []
+  eventTypes = ['incident', 'critical']
 ) {
   return {
     id: id || generateUniqueShortId(),

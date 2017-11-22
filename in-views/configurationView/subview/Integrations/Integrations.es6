@@ -35,7 +35,7 @@ function getRowDetails(row) {
 
 function NewIntegrationDialog() {
   return (
-    <Dialog header="About" onClose={() => setActiveDialog(null)}>
+    <Dialog header="Supported Integrations" onClose={() => setActiveDialog(null)}>
       <div className={block}>{Object.keys(forms).map(type => <IntegrationButton key={type} type={type} />)}</div>
     </Dialog>
   );
