@@ -42,7 +42,8 @@ export function createAlertingConfig(
   integrationIds = [],
   ruleIds = [],
   query = '',
-  eventType = ''
+  eventQuery = '',
+  eventTypes = ['incident', 'critical']
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -50,8 +51,9 @@ export function createAlertingConfig(
     integrationIds,
     eventFilteringConfiguration: {
       query,
+      eventQuery,
       ruleIds,
-      eventType
+      eventTypes
     }
   };
 }

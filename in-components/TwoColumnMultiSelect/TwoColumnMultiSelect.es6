@@ -16,38 +16,31 @@ export default function TwoColumnMultiSelect({
 }) {
   return (
     <div className={block}>
-      <ItemBox
-        title="Selectable items"
-        items={selectableItems}
-        onClick={onSelectableClick}
-        Item={Item}
-        fieldName={fieldName}
-      />
+      <div className={`${block}__item-box`}>
+        <div className={`${block}__header`}>Selectable items</div>
+        <ul className={`${block}__list`}>
+          {selectableItems.map((item, i) => (
+            <li key={i} className={`${block}__item`} onClick={() => onSelectableClick(item)}>
+              <Item item={item} fieldName={fieldName} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className={`${block}__icon-wrapper`}>
         <SvgIcon type="triangle_right" color="#40535b" height={16} width={16} />
       </div>
-      <ItemBox
-        title="Selected items"
-        items={selectedItems}
-        onClick={onSelectedClick}
-        Item={Item}
-        fieldName={fieldName}
-      />
-    </div>
-  );
-}
 
-function ItemBox({ title, items = [], onClick, Item, fieldName }) {
-  return (
-    <div className={`${block}__item-box`}>
-      <div className={`${block}__header`}>{title}</div>
-      <ul className={`${block}__list`}>
-        {items.map((item, i) => (
-          <li key={i} className={`${block}__item`} onClick={() => onClick(item)}>
-            <Item item={item} fieldName={fieldName} />
-          </li>
-        ))}
-      </ul>
+      <div className={`${block}__item-box`}>
+        <div className={`${block}__header`}>Selected items</div>
+        <ul className={`${block}__list`}>
+          {selectedItems.map((item, i) => (
+            <li key={i} className={`${block}__item`} onClick={() => onSelectedClick(item)}>
+              <Item item={item} fieldName={fieldName} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

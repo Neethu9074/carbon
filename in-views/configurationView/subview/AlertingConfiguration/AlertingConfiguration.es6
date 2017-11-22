@@ -33,14 +33,27 @@ function save(config, form) {
         form.get('integrationIds').value.toJS(),
         form.get('ruleIds').value.toJS(),
         form.get('query').value,
-        form.get('eventType').value
+        form.get('eventQuery').value,
+        form.get('eventTypes').value
       )
     )
   );
 }
 
 function createForm(config) {
+  // const isAdvancedMode =
+  //   (config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false) ||
+  //   config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()).size > 0;
+
+  const isAdvancedMode = config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false;
+
   return createMapForm()
+    .put(
+      'advancedMode',
+      createField({
+        value: isAdvancedMode
+      })
+    )
     .put(
       'name',
       createField({
@@ -51,54 +64,39 @@ function createForm(config) {
     .put(
       'integrationIds',
       createField({
-        value: config ? config.get('integrationIds') : List()
+        value: config.get('integrationIds', List())
       })
     )
     .put(
       'query',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'query']),
+        value: config.getIn(['eventFilteringConfiguration', 'query'], ''),
+        validator: queryValidator
+      })
+    )
+    .put(
+      'eventQuery',
+      createField({
+        value: config.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
         validator: queryValidator
       })
     )
     .put(
       'ruleIds',
       createField({
-        value: config ? config.getIn(['eventFilteringConfiguration', 'ruleIds']) : List(),
-        validator: ruleIdsValidator
+        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List())
       })
     )
     .put(
-      'eventType',
+      'eventTypes',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventType'])
+        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List(['incident', 'critical']))
       })
     )
     .put(
       'matchingEntities',
       createField({
-        value: null
+        value: List()
       })
     );
-}
-
-function ruleIdsValidator(rules) {
-  if (rules.size === 0) {
-    return [
-      {
-        severity: 'error',
-        message: `Please select at least one rule`
-      }
-    ];
-  }
-  const error = notBlankValidator(rules.get(0));
-  if (error.length > 0) {
-    return [
-      {
-        severity: 'error',
-        message: error[0].message
-      }
-    ];
-  }
-  return null;
 }

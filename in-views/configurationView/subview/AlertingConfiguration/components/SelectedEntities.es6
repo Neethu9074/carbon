@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TwoColumnMultiSelect from 'in-components/TwoColumnMultiSelect/TwoColumnMultiSelect';
-import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-components/form/FormGroup';
@@ -12,6 +11,9 @@ export default connectTo(
     items: props.getItems()
   }),
   function SelectedEntities({ form, onChange, items, formFieldName, fieldName }) {
+    if (!items || items) {
+      return null;
+    }
     if (!items) {
       return <LoadingIndicator type="dark" />;
     }
@@ -23,27 +25,23 @@ export default connectTo(
     const selectableItems = items.filter(item => !selectedItemsAsMap[item.get('id')]);
     selectedItems = items.filter(item => selectedItemsAsMap[item.get('id')]);
 
-    return (
-      <Section>
-        {form.get(formFieldName).map(field => (
-          <FormGroup>
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-            <TwoColumnMultiSelect
-              selectableItems={selectableItems}
-              selectedItems={selectedItems}
-              onSelectableClick={item => select(item, form, onChange, formFieldName)}
-              onSelectedClick={item => remove(item, form, onChange, formFieldName)}
-              Item={Item}
-              fieldName={fieldName}
-            />
-          </FormGroup>
+    return form.get(formFieldName).map(field => (
+      <FormGroup>
+        {field.messages.map((message, i) => (
+          <ValidationBlock hasError key={i}>
+            {message.message}
+          </ValidationBlock>
         ))}
-      </Section>
-    );
+        <TwoColumnMultiSelect
+          selectableItems={selectableItems}
+          selectedItems={selectedItems}
+          onSelectableClick={item => select(item, form, onChange, formFieldName)}
+          onSelectedClick={item => remove(item, form, onChange, formFieldName)}
+          Item={Item}
+          fieldName={fieldName}
+        />
+      </FormGroup>
+    ));
   }
 );
 
@@ -58,20 +56,7 @@ function select(item, form, onChange, formFieldName) {
 }
 
 function remove(item, form, onChange, formFieldName) {
-  let itemIndex = -1;
   let ids = form.get(formFieldName).value;
-
-  for (let i = 0, length = ids.size; i < length; i++) {
-    if (ids.get(i) === item.get('id')) {
-      itemIndex = i;
-      break;
-    }
-  }
-
-  if (itemIndex < 0) {
-    return;
-  }
-
-  ids = ids.delete(itemIndex);
+  ids = ids.delete(ids.indexOf(item.get('id')));
   onChange(formFieldName, ids);
 }

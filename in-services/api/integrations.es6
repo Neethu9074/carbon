@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { configs, fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -48,9 +49,23 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function createIntegration(id, kind = 'pagerduty') {
-  return {
+export function createIntegration(id, kind, name = '') {
+  if (!kind) {
+    return {
+      id: id || generateUniqueShortId(),
+      kind: configs.email.name,
+      name,
+      emails: []
+    };
+  }
+
+  kind = configs[kind].name;
+  const integration = {
     id: id || generateUniqueShortId(),
-    kind
+    kind,
+    name
   };
+
+  fullyQualified[kind].enrichIntegrationObject(integration);
+  return integration;
 }

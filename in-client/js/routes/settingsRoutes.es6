@@ -110,7 +110,7 @@ export default (
     />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration;*" />
     <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />

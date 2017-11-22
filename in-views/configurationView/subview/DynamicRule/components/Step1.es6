@@ -1,12 +1,11 @@
 import React from 'react';
 
 import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/components/MatchingEntityTable';
-import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
-import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
 import { servicePlugins } from 'in-forge/constants';
 import { getSingular } from 'in-sdk/pluginName';
@@ -15,6 +14,7 @@ import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import Step from 'in-components/form/Step';
 
 import './Step1.less';
 

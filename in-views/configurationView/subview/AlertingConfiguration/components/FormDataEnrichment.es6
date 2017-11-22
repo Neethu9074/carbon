@@ -3,8 +3,6 @@ import React from 'react';
 
 import createSearchObservable from 'in-services/subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-import { getSnapshots } from 'in-stores/snapshot/snapshot';
-import { alwaysNull } from 'in-services/fixedStreams';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -20,7 +18,13 @@ export default class FormDataEnrichment extends React.Component {
     this.debouncedQuery.emit(this.props.form.get('query').value);
     this.subscription = this.debouncedQuery
       .debounce(1000)
-      .flatMap(search)
+      .flatMap(query => {
+        if (!`${query}`) {
+          return search('');
+        } else {
+          return search(`${query}`);
+        }
+      })
       .subscribe(matchingEntities => this.props.onChange('matchingEntities', matchingEntities));
   }
 
@@ -50,28 +54,12 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function search(query) {
-  if (query || !query) {
-    return alwaysNull;
-  }
-
   return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
     return createSearchObservable({
       query,
       time: focusedMoment,
       view: 'TABLE',
       timeframe
-    })
-      .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds, focusedMoment).map(snapshots => {
-          return {
-            snapshots,
-            snapshotIds,
-            query
-          };
-        });
-      })
-      .startWith({
-        query
-      });
+    });
   });
 }

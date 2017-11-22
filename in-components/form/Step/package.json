@@ -1,0 +1,6 @@
+{
+  "name": "Step",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Step.es6"
+}

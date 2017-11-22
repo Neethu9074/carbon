@@ -1,21 +1,18 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import createOffice365IntegrationForm from 'in-views/configurationView/subview/Integration/office365IntegrationForm';
-import createEmailIntegrationForm from 'in-views/configurationView/subview/Integration/emailIntegrationForm';
 import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
 import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
+import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import { openIntegrations } from 'in-stores/navigation/configuration';
-
-const forms = {
-  email: createEmailIntegrationForm,
-  office365: createOffice365IntegrationForm
-};
+import { extractMatrix } from 'in-stores/navigation';
 
 export default function Integration(props) {
+  const matrix = extractMatrix(props.location.pathname);
+
   return (
     <BasicEntityOverview
-      createEntity={createIntegration}
+      createEntity={() => createIntegration(null, matrix.kind)}
       title="Integration"
       entityTitle="integration"
       createForm={createForm}
@@ -29,14 +26,14 @@ export default function Integration(props) {
 }
 
 function save(integration, form) {
-  return saveIntegration(fromJS(forms[integration.get('kind')].createEntity(integration, form)));
+  return saveIntegration(fromJS(fullyQualified[integration.get('kind')].createEntity(integration, form)));
 }
 
 function createForm(config) {
-  return forms[config.get('kind')].createForm();
+  return fullyQualified[config.get('kind')].createForm(config);
 }
 
 function IntegrationForm(props) {
-  const Form = forms[props.form.get('kind').value].Form;
+  const Form = fullyQualified[props.form.get('kind').value].Form;
   return <Form {...props} />;
 }

@@ -1,13 +1,12 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import RuleControl from 'in-views/configurationView/subview/DynamicRule/components/RuleControl';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
-import Step from 'in-views/configurationView/subview/DynamicRule/components/Step';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import EventDescription from 'in-components/EventDescription';
+import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
@@ -16,6 +15,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Step from 'in-components/form/Step';
 import Link from 'in-components/Link';
 
 import './Step3.less';

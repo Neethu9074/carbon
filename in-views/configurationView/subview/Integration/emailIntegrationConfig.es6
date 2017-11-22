@@ -2,6 +2,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -14,19 +15,49 @@ import './Forms.less';
 
 const block = 'in-integrations-config-form';
 
+const name = 'EMAIL';
+
 export default {
+  name,
+
+  enrichIntegrationObject(integration) {
+    integration.emails = [''];
+  },
+
+  createDetails(integration) {
+    const emails = integration.get('emails');
+    if (!emails || emails.size === 0) {
+      return null;
+    }
+
+    return (
+      <DescriptionList>
+        <DescriptionItem title="EMails">
+          {emails.toArray().map(email => <div key={email}>{email}</div>)}
+        </DescriptionItem>
+      </DescriptionList>
+    );
+  },
+
   createForm(integration) {
     return createMapForm()
       .put(
         'kind',
         createField({
-          value: 'email'
+          value: name
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: integration ? integration.get('name') : '',
+          validator: notBlankValidator
         })
       )
       .put(
         'emails',
         createField({
-          value: integration ? integration.get('emails') : List(),
+          value: integration ? integration.get('emails') : List(['']),
           validator: emails
         })
       );
@@ -36,6 +67,7 @@ export default {
     return {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
+      name: form.get('name').value,
       emails: form.get('emails').value
     };
   },
@@ -72,6 +104,28 @@ function Form({ form, onChange }) {
   return (
     <fieldset>
       <Section>
+        {form.get('name').map(field => (
+          <FormGroup className={block}>
+            <Label htmlFor="name" hasError={!field.valid}>
+              Config Name
+            </Label>
+            <Input
+              id="name"
+              className={`${block}__input`}
+              type="text"
+              value={field.value}
+              onChange={e => onChange('name', e.target.value)}
+              hasError={!field.valid}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+      </Section>
+      <Section>
         {form.get('emails').map(field => (
           <FormGroup>
             <Label htmlFor="email" hasError={!field.valid}>
@@ -97,8 +151,8 @@ function Form({ form, onChange }) {
                 <Input
                   className={`${block}__input`}
                   id={`email_${email}`}
-                  type="text"
-                  placeholder="ops@your_company.com"
+                  type="email"
+                  placeholder="ops@your_company.org"
                   value={email}
                   onChange={e => onChangeEmail(e, form, onChange, i)}
                 />
