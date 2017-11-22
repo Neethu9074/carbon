@@ -32,7 +32,9 @@ export default {
 
     return (
       <DescriptionList>
-        <DescriptionItem title="EMails">{webhookUrls.toArray().map(url => <div key={url}>{url}</div>)}</DescriptionItem>
+        <DescriptionItem title="Webhooks">
+          {webhookUrls.toArray().map(url => <div key={url}>{url}</div>)}
+        </DescriptionItem>
       </DescriptionList>
     );
   },
@@ -147,7 +149,7 @@ function Form({ form, onChange }) {
                 <Input
                   className={`${block}__input`}
                   id={`webhookUrl_${webhookUrl}`}
-                  type="text"
+                  type="url"
                   placeholder="your webhook URL"
                   value={webhookUrl}
                   onChange={e => onChangewebHookUrl(e, form, onChange, i)}

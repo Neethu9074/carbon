@@ -151,7 +151,7 @@ function Form({ form, onChange }) {
                 <Input
                   className={`${block}__input`}
                   id={`email_${email}`}
-                  type="text"
+                  type="email"
                   placeholder="ops@your_company.org"
                   value={email}
                   onChange={e => onChangeEmail(e, form, onChange, i)}

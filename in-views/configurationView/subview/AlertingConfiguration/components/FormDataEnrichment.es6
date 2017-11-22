@@ -3,7 +3,6 @@ import React from 'react';
 
 import createSearchObservable from 'in-services/subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
-// import { always } from 'in-services/fixedStreams';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -55,10 +54,6 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function search(query) {
-  // if (query || !query) {
-  //   return always({ snapshots: [] });
-  // }
-
   return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
     return createSearchObservable({
       query,

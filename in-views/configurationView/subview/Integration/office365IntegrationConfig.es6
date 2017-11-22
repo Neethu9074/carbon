@@ -100,7 +100,7 @@ function Form({ form, onChange }) {
             <Input
               className={`${block}__input`}
               id="webhookUrl"
-              type="text"
+              type="url"
               placeholder="Webhook URL"
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}

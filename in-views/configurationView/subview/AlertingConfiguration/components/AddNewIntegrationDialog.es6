@@ -8,9 +8,9 @@ import StepByStepDialog from 'in-components/StepByStepDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import ComboBox from 'in-components/ComboBox';
 
-// import './AddNewIntegrationDialog.less';
-//
-// const block = 'in-alerting-add-new-integration-dialog';
+import './AddNewIntegrationDialog.less';
+
+const block = 'in-alerting-add-new-integration-dialog';
 
 export default class extends React.Component {
   static displayName = 'AddNewIntegrationDialog';
@@ -37,19 +37,24 @@ export default class extends React.Component {
   render() {
     const { selectedType } = this.state;
     const steps = [
-      <ComboBox
-        name="integrationType"
-        value={selectedType}
-        clearable={false}
-        options={Object.keys(configs).map(type => {
-          return {
-            value: type,
-            label: type
-          };
-        })}
-        onChange={e => this.setState({ selectedType: e.value })}
-      />,
-      <Form state={this.state} onChange={this.onChange} />
+      <div className={block}>
+        <ComboBox
+          name="integrationType"
+          value={selectedType}
+          clearable={false}
+          options={Object.keys(configs).map(type => {
+            return {
+              value: type,
+              label: type
+            };
+          })}
+          onChange={e => this.setState({ selectedType: e.value })}
+        />
+      </div>,
+
+      <div className={block}>
+        <Form state={this.state} onChange={this.onChange} />
+      </div>
     ];
     return (
       <StepByStepDialog
