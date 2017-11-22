@@ -18,6 +18,12 @@ const name = 'OPS_GENIE';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.apiKey = '';
+    integration.tags = '';
+    integration.email = '';
+  },
+
   createDetails(integration) {
     return (
       <DescriptionList>

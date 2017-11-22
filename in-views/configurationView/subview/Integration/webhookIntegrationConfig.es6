@@ -20,6 +20,10 @@ const name = 'WEB_HOOK';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.webhookUrls = [''];
+  },
+
   createDetails(integration) {
     const webhookUrls = integration.get('webhookUrls');
     if (!webhookUrls || webhookUrls.size === 0) {

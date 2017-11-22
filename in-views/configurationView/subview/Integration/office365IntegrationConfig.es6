@@ -18,6 +18,10 @@ const name = 'OFFICE_365';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.webhookUrl = '';
+  },
+
   createDetails(integration) {
     return (
       <DescriptionList>

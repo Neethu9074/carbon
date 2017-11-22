@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import configs from 'in-views/configurationView/subview/Integration/configs';
+import { configs, fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -66,30 +66,6 @@ export function createIntegration(id, kind, name = '') {
     name
   };
 
-  switch (kind) {
-    case configs.email.name:
-      integration.emails = [''];
-      break;
-    case configs.office365.name:
-      integration.webhookUrl = '';
-      break;
-    case configs.slack.name:
-      integration.webhookUrl = '';
-      integration.iconUrl = '';
-      integration.channel = '';
-      break;
-    case configs.opsgenie.name:
-      integration.apiKey = '';
-      integration.tags = '';
-      integration.email = '';
-      break;
-    case configs.pagerduty.name:
-      integration.serviceIntegrationKey = '';
-      break;
-    case configs.webhook.name:
-      integration.webhookUrls = [''];
-      break;
-  }
-
+  fullyQualified[kind].enrichIntegrationObject(integration);
   return integration;
 }

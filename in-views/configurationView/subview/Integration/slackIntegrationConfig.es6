@@ -17,6 +17,12 @@ const name = 'SLACK';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.webhookUrl = '';
+    integration.iconUrl = '';
+    integration.channel = '';
+  },
+
   createDetails(integration) {
     return (
       <DescriptionList>

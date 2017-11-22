@@ -20,6 +20,10 @@ const name = 'EMAIL';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.emails = [''];
+  },
+
   createDetails(integration) {
     const emails = integration.get('emails');
     if (!emails || emails.size === 0) {

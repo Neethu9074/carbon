@@ -18,6 +18,10 @@ const name = 'PAGER_DUTY';
 export default {
   name,
 
+  enrichIntegrationObject(integration) {
+    integration.serviceIntegrationKey = '';
+  },
+
   createDetails(integration) {
     return (
       <DescriptionList>
