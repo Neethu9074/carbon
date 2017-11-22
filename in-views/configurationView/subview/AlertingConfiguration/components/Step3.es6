@@ -68,13 +68,16 @@ const IntegrationTable = connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    const rows = integrations.toArray().map(integration => ({
-      key: integration.get('id'),
-      name: integration.get('name'),
-      checked: form.get('integrationIds').value.includes(integration.get('id')),
-      include: id => select(id, form, onChange),
-      exclude: id => remove(id, form, onChange)
-    }));
+    const rows = integrations
+      .toArray()
+      .filter(value => value)
+      .map(integration => ({
+        key: integration.get('id'),
+        name: integration.get('name'),
+        checked: form.get('integrationIds').value.includes(integration.get('id')),
+        include: id => select(id, form, onChange),
+        exclude: id => remove(id, form, onChange)
+      }));
 
     return <Table cols={cols} rows={rows} maxItemsPerPage={10} initialSortColumn={1} />;
   }
