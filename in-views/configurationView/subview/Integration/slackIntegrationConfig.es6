@@ -1,6 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -15,6 +16,16 @@ const block = 'in-integrations-config-form';
 const name = 'SLACK';
 export default {
   name,
+
+  createDetails(integration) {
+    return (
+      <DescriptionList>
+        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="Icon URL">{integration.get('iconUrl')}</DescriptionItem>
+        <DescriptionItem title="Channel">{integration.get('channel')}</DescriptionItem>
+      </DescriptionList>
+    );
+  },
 
   createForm(integration) {
     return createMapForm()

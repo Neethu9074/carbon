@@ -1,6 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -16,6 +17,14 @@ const name = 'OFFICE_365';
 
 export default {
   name,
+
+  createDetails(integration) {
+    return (
+      <DescriptionList>
+        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+      </DescriptionList>
+    );
+  },
 
   createForm(integration) {
     return createMapForm()

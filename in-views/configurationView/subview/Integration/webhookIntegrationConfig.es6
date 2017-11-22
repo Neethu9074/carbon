@@ -2,6 +2,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -18,6 +19,19 @@ const name = 'WEB_HOOK';
 
 export default {
   name,
+
+  createDetails(integration) {
+    const webhookUrls = integration.get('webhookUrls');
+    if (!webhookUrls || webhookUrls.size === 0) {
+      return null;
+    }
+
+    return (
+      <DescriptionList>
+        <DescriptionItem title="EMails">{webhookUrls.toArray().map(url => <div key={url}>{url}</div>)}</DescriptionItem>
+      </DescriptionList>
+    );
+  },
 
   createForm(integration) {
     return createMapForm()
