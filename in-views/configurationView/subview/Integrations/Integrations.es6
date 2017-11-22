@@ -2,13 +2,12 @@ import React from 'react';
 
 import IntegrationsDetails from 'in-views/configurationView/subview/Integrations/components/IntegrationsDetails';
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntitiesOverview';
 import { openIntegration, getIntegrationLink } from 'in-stores/navigation/configuration';
 import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { Row, Col } from 'in-components/Grid/Grid';
 import Dialog from 'in-components/Dialog';
-import Button from 'in-components/Button';
 
 import './Integrations.less';
 
@@ -35,35 +34,13 @@ function getRowDetails(row) {
 
 function NewIntegrationDialog() {
   return (
-    <Dialog header="Supported Integrations" onClose={() => setActiveDialog(null)}>
-      <div className={block}>
-        <Row>
-          <IntegrationButton type="email" />
-          <IntegrationButton type="slack" />
-          <IntegrationButton type="opsgenie" />
-        </Row>
-        <Row>
-          <IntegrationButton type="pagerduty" />
-          <IntegrationButton type="office365" />
-          <IntegrationButton type="webhook" />
-        </Row>
-      </div>
-    </Dialog>
-  );
-}
-
-function IntegrationButton({ type }) {
-  return (
-    <Col cols={4}>
-      <Button
-        className={`${block}__button`}
-        onClick={() => {
+    <Dialog contentClassName={`${block}__content`} header="Choose Integration" onClose={() => setActiveDialog(null)}>
+      <IntegrationSwitch
+        onClick={type => {
           close();
           openIntegration(type);
         }}
-      >
-        {type}
-      </Button>
-    </Col>
+      />
+    </Dialog>
   );
 }

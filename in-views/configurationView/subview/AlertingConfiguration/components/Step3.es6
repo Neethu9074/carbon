@@ -49,7 +49,7 @@ const cols = [
 
 export default function Step2({ form, onChange }) {
   return (
-    <Step number={3} title="Integrations" form={form} onChange={onChange}>
+    <Step number={2} title="Integrations" form={form} onChange={onChange}>
       <div className={`${block}__create-link`} onClick={addNewItem}>
         new integration...
       </div>

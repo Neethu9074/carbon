@@ -21,7 +21,7 @@ export default function Step2({ form, onChange }) {
   const types = form.get('eventTypes').value;
 
   return (
-    <Step number={2} title="Event Rules" form={form} onChange={onChange}>
+    <Step number={1} title="Event Rules" form={form} onChange={onChange}>
       <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities ">
         <Row>
           <LabelledToggle onChange={onChange} types={types} type="incident" />
@@ -60,7 +60,7 @@ export default function Step2({ form, onChange }) {
                     Filter event rules
                   </Label>
                 </div>
-                {form.get('eventQuery').map(eventQueryField => (
+                {form.get('query').map(eventQueryField => (
                   <div>
                     <Input
                       id="rule-query"
@@ -68,7 +68,7 @@ export default function Step2({ form, onChange }) {
                       placeholder="e.g: event.text:CPU*"
                       className={`${block}__input`}
                       value={eventQueryField.value}
-                      onChange={e => onChange('eventQuery', e.target.value)}
+                      onChange={e => onChange('query', e.target.value)}
                       hasError={!eventQueryField.valid}
                     />
                     {eventQueryField.messages.map((message, i) => (

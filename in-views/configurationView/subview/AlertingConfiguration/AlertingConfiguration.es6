@@ -45,7 +45,7 @@ function createForm(config) {
   //   (config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false) ||
   //   config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()).size > 0;
 
-  const isAdvancedMode = config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false;
+  const isAdvancedMode = config.getIn(['eventFilteringConfiguration', 'query'], '') ? true : false;
 
   return createMapForm()
     .put(
