@@ -6,7 +6,7 @@ import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntit
 import { openIntegration, getIntegrationLink } from 'in-stores/navigation/configuration';
 import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import configs from 'in-views/configurationView/subview/Integration/configs';
+import { Row, Col } from 'in-components/Grid/Grid';
 import Dialog from 'in-components/Dialog';
 import Button from 'in-components/Button';
 
@@ -36,14 +36,25 @@ function getRowDetails(row) {
 function NewIntegrationDialog() {
   return (
     <Dialog header="Supported Integrations" onClose={() => setActiveDialog(null)}>
-      <div className={block}>{Object.keys(configs).map(type => <IntegrationButton key={type} type={type} />)}</div>
+      <div className={block}>
+        <Row>
+          <IntegrationButton type="email" />
+          <IntegrationButton type="slack" />
+          <IntegrationButton type="opsgenie" />
+        </Row>
+        <Row>
+          <IntegrationButton type="pagerduty" />
+          <IntegrationButton type="office365" />
+          <IntegrationButton type="webhook" />
+        </Row>
+      </div>
     </Dialog>
   );
 }
 
 function IntegrationButton({ type }) {
   return (
-    <div>
+    <Col cols={4}>
       <Button
         className={`${block}__button`}
         onClick={() => {
@@ -53,6 +64,6 @@ function IntegrationButton({ type }) {
       >
         {type}
       </Button>
-    </div>
+    </Col>
   );
 }
