@@ -1,14 +1,12 @@
 import React from 'react';
 
 import SelectedEntities from 'in-views/configurationView/subview/AlertingConfiguration/components/SelectedEntities';
-import Spacer from 'in-views/configurationView/subview/AlertingConfiguration/components/Spacer';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { getHealthRules } from 'in-services/api/healthRules';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
-import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
 import Step from 'in-components/form/Step';
 import Button from 'in-components/Button';
@@ -39,7 +37,9 @@ export default function Step2({ form, onChange }) {
             className={`${block}__advanced-options-label-wrapper`}
             onClick={() => onChange('advancedMode', !field.value)}
           >
-            {field.value ? 'Hide' : 'Show'} advanced options
+            <span className={`${block}__bold-text`}>
+              {`Send alerts on: ${field.value ? 'selected' : 'all'}  events & entities`}
+            </span>
             <SvgIcon
               type={field.value ? 'triangle_up' : 'triangle_down'}
               className={`${block}__icon`}
@@ -49,17 +49,10 @@ export default function Step2({ form, onChange }) {
           </div>
         ))}
 
-        {form.get('advancedMode').map(field => (field.value ? <Spacer /> : null))}
-
         {form.get('advancedMode').map(
           field =>
             field.value ? (
               <div>
-                <div className={`${block}__filter-label-wrapper`}>
-                  <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
-                    Filter event rules
-                  </Label>
-                </div>
                 {form.get('query').map(eventQueryField => (
                   <div>
                     <Input
@@ -76,6 +69,7 @@ export default function Step2({ form, onChange }) {
                         {message.message}
                       </ValidationBlock>
                     ))}
+                    <MatchingEntitiesIndicator form={form} />
                   </div>
                 ))}
                 <SelectedEntities
@@ -119,4 +113,19 @@ function onSelectChanged(types, onChange, type) {
   }
 
   onChange('eventTypes', types);
+}
+
+function MatchingEntitiesIndicator({ form }) {
+  return (
+    <div className={`${block}__matching-entities-indicator`}>
+      {form.get('matchingEntities').map(field => {
+        const matchingEntities = field.value;
+        return (
+          <span>
+            {matchingEntities.size} {matchingEntities.size === 1 ? 'Entity' : 'Entities'} matched
+          </span>
+        );
+      })}
+    </div>
+  );
 }
