@@ -114,13 +114,16 @@ export default class extends React.Component {
     const { entities } = this.state;
     const entitiesAvailable = entities && entities.size > 0;
 
-    const rows = entities.toArray().map(entity => {
-      return {
-        key: entity.get('id'),
-        entity: entity,
-        onDelete: this.onDelete
-      };
-    });
+    const rows = entities
+      .toArray()
+      .filter(item => item)
+      .map(entity => {
+        return {
+          key: entity.get('id'),
+          entity: entity,
+          onDelete: this.onDelete
+        };
+      });
 
     return (
       <SubViewWrapper>
