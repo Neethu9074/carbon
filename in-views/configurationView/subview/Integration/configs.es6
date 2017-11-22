@@ -14,12 +14,12 @@ export const configs = {
   webhook: webhookIntegrationConfig
 };
 
-export const reverseLookup = {};
-reverseLookup[configs.email.name] = configs.email;
-reverseLookup[configs.office365.name] = configs.office365;
-reverseLookup[configs.opsgenie.name] = configs.opsgenie;
-reverseLookup[configs.pagerduty.name] = configs.pagerduty;
-reverseLookup[configs.slack.name] = configs.slack;
-reverseLookup[configs.webhook.name] = configs.webhook;
+export const fullyQualified = {};
+fullyQualified[configs.email.name] = configs.email;
+fullyQualified[configs.office365.name] = configs.office365;
+fullyQualified[configs.opsgenie.name] = configs.opsgenie;
+fullyQualified[configs.pagerduty.name] = configs.pagerduty;
+fullyQualified[configs.slack.name] = configs.slack;
+fullyQualified[configs.webhook.name] = configs.webhook;
 
 export default configs;

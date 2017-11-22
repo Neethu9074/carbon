@@ -6,7 +6,7 @@ import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntit
 import { openIntegration, getIntegrationLink } from 'in-stores/navigation/configuration';
 import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import forms from 'in-views/configurationView/subview/Integration/forms';
+import configs from 'in-views/configurationView/subview/Integration/configs';
 import Dialog from 'in-components/Dialog';
 import Button from 'in-components/Button';
 
@@ -36,7 +36,7 @@ function getRowDetails(row) {
 function NewIntegrationDialog() {
   return (
     <Dialog header="Supported Integrations" onClose={() => setActiveDialog(null)}>
-      <div className={block}>{Object.keys(forms).map(type => <IntegrationButton key={type} type={type} />)}</div>
+      <div className={block}>{Object.keys(configs).map(type => <IntegrationButton key={type} type={type} />)}</div>
     </Dialog>
   );
 }

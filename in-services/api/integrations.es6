@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import configs from 'in-views/configurationView/subview/Integration/forms';
+import configs from 'in-views/configurationView/subview/Integration/configs';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 

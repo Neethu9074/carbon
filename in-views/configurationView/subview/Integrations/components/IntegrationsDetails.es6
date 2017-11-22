@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import configs from 'in-views/configurationView/subview/Integration/forms';
+import configs from 'in-views/configurationView/subview/Integration/configs';
 
 export default function AlertingConfigurationDetails({ integration }) {
   if (!integration) {

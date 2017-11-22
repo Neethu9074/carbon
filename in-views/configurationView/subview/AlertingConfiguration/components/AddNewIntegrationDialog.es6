@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import forms from 'in-views/configurationView/subview/Integration/forms';
+import configs from 'in-views/configurationView/subview/Integration/configs';
 import { saveIntegration } from 'in-services/api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import StepByStepDialog from 'in-components/StepByStepDialog';
@@ -24,8 +24,8 @@ export default class extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     if (this.state.selectedType !== nextState.selectedType) {
       this.setState({
-        form: forms[nextState.selectedType].createForm(),
-        Form: forms[nextState.selectedType].Form
+        form: configs[nextState.selectedType].createForm(),
+        Form: configs[nextState.selectedType].Form
       });
     }
   }
@@ -41,7 +41,7 @@ export default class extends React.Component {
         name="integrationType"
         value={selectedType}
         clearable={false}
-        options={Object.keys(forms).map(type => {
+        options={Object.keys(configs).map(type => {
           return {
             value: type,
             label: type
@@ -71,7 +71,7 @@ export default class extends React.Component {
   };
 
   onSave = () => {
-    const result$ = saveIntegration(fromJS(forms[this.state.selectedType].createEntity(null, this.state.form)));
+    const result$ = saveIntegration(fromJS(configs[this.state.selectedType].createEntity(null, this.state.form)));
 
     this.disposeAsyncAction();
     this.setState({
