@@ -6,6 +6,7 @@ import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntit
 import { openIntegration, getIntegrationLink } from 'in-stores/navigation/configuration';
 import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import forms from 'in-views/configurationView/subview/Integration/forms';
 import Dialog from 'in-components/Dialog';
 import Button from 'in-components/Button';
 
@@ -35,23 +36,23 @@ function getRowDetails(row) {
 function NewIntegrationDialog() {
   return (
     <Dialog header="About" onClose={() => setActiveDialog(null)}>
-      <div className={block}>
-        <IntegrationButton type="email" />
-        <IntegrationButton type="office365" />
-      </div>
+      <div className={block}>{Object.keys(forms).map(type => <IntegrationButton key={type} type={type} />)}</div>
     </Dialog>
   );
 }
 
 function IntegrationButton({ type }) {
   return (
-    <Button
-      onClick={() => {
-        close();
-        openIntegration(type);
-      }}
-    >
-      {type}
-    </Button>
+    <div>
+      <Button
+        className={`${block}__button`}
+        onClick={() => {
+          close();
+          openIntegration(type);
+        }}
+      >
+        {type}
+      </Button>
+    </div>
   );
 }

@@ -1,0 +1,101 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import React from 'react';
+
+import Section from 'in-views/configurationView/components/Section';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import { generateUniqueShortId } from 'in-services/util/id';
+import FormGroup from 'in-components/form/FormGroup';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+
+import './Forms.less';
+
+const block = 'in-integrations-config-form';
+
+export default {
+  createForm(integration) {
+    return createMapForm()
+      .put(
+        'kind',
+        createField({
+          value: 'pagerduty'
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: integration ? integration.get('name') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'serviceIntegrationKey',
+        createField({
+          value: integration ? integration.get('serviceIntegrationKey') : '',
+          validator: notBlankValidator
+        })
+      );
+  },
+
+  createEntity(integration, form) {
+    return {
+      id: integration ? integration.get('id') : generateUniqueShortId(),
+      kind: form.get('kind').value,
+      name: form.get('name').value,
+      serviceIntegrationKey: form.get('serviceIntegrationKey').value
+    };
+  },
+
+  Form
+};
+
+function Form({ form, onChange }) {
+  return (
+    <fieldset>
+      <Section>
+        {form.get('name').map(field => (
+          <FormGroup className={block}>
+            <Label htmlFor="name" hasError={!field.valid}>
+              Config Name
+            </Label>
+            <Input
+              id="name"
+              className={`${block}__input`}
+              type="text"
+              value={field.value}
+              onChange={e => onChange('name', e.target.value)}
+              hasError={!field.valid}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+      </Section>
+      <Section>
+        {form.get('serviceIntegrationKey').map(field => (
+          <FormGroup>
+            <Label htmlFor="serviceIntegrationKey" hasError={!field.valid}>
+              Service Integration Key
+            </Label>
+            <Input
+              className={`${block}__input`}
+              id="serviceIntegrationKey"
+              type="text"
+              placeholder="Service Integration Key"
+              value={field.value}
+              onChange={e => onChange('serviceIntegrationKey', e.target.value)}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+      </Section>
+    </fieldset>
+  );
+}

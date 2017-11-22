@@ -65,10 +65,26 @@ export function createIntegration(id, kind, name = '') {
 
   switch (kind) {
     case 'email':
-      integration.emails = [];
+      integration.emails = [''];
       break;
     case 'office365':
       integration.webhookUrl = '';
+      break;
+    case 'slack':
+      integration.webhookUrl = '';
+      integration.iconUrl = '';
+      integration.channel = '';
+      break;
+    case 'opsgenie':
+      integration.apiKey = '';
+      integration.tags = '';
+      integration.email = '';
+      break;
+    case 'pagerguty':
+      integration.serviceIntegrationKey = '';
+      break;
+    case 'webhook':
+      integration.webhookUrls = [''];
       break;
   }
 

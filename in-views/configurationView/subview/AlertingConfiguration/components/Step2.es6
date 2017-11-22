@@ -24,26 +24,14 @@ export default function Step2({ form, onChange }) {
     <Step number={2} title="Event Rules" form={form} onChange={onChange}>
       <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities ">
         <Row>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="incident" />
-          </Col>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
-          </Col>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
-          </Col>
+          <LabeledToggle onChange={onChange} types={types} type="incident" />
+          <LabeledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
+          <LabeledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
         </Row>
         <Row>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="change" />
-          </Col>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="online" />
-          </Col>
-          <Col cols={4}>
-            <LabeledToggle onChange={onChange} types={types} type="offline" />
-          </Col>
+          <LabeledToggle onChange={onChange} types={types} type="change" />
+          <LabeledToggle onChange={onChange} types={types} type="online" />
+          <LabeledToggle onChange={onChange} types={types} type="offline" />
         </Row>
 
         {form.get('advancedMode').map(field => (
@@ -107,15 +95,17 @@ export default function Step2({ form, onChange }) {
 
 function LabeledToggle({ onChange, types, title, type }) {
   return (
-    <Button
-      className={evaluateClassNames({
-        [`${block}__button`]: true,
-        [`${block}__button--selected`]: types.includes(type)
-      })}
-      onClick={() => onSelectChanged(types, onChange, type)}
-    >
-      {title || type}
-    </Button>
+    <Col cols={4}>
+      <Button
+        className={evaluateClassNames({
+          [`${block}__button`]: true,
+          [`${block}__button--selected`]: types.includes(type)
+        })}
+        onClick={() => onSelectChanged(types, onChange, type)}
+      >
+        {title || type}
+      </Button>
+    </Col>
   );
 }
 

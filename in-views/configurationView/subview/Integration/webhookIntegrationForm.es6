@@ -20,7 +20,7 @@ export default {
       .put(
         'kind',
         createField({
-          value: 'email'
+          value: 'webhook'
         })
       )
       .put(
@@ -31,10 +31,10 @@ export default {
         })
       )
       .put(
-        'emails',
+        'webhookUrls',
         createField({
-          value: integration ? integration.get('emails') : List(['']),
-          validator: emails
+          value: integration ? integration.get('webhookUrls') : List(['']),
+          validator: webhooks
         })
       );
   },
@@ -44,30 +44,30 @@ export default {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      emails: form.get('emails').value
+      webhookUrls: form.get('webhookUrls').value
     };
   },
 
   Form
 };
 
-function emails(emails) {
-  if (emails.size === 0) {
+function webhooks(webhooks) {
+  if (webhooks.size === 0) {
     return [
       {
-        type: 'no_mail',
+        type: 'no_webhook',
         severity: 'error',
-        message: `Please define at least one email`
+        message: `Please define at least one webhook URL`
       }
     ];
   }
   const errors = [];
-  for (let i = 0, length = emails.size; i < length; i++) {
-    const email = emails.get(i);
-    const error = notBlankValidator(email);
+  for (let i = 0, length = webhooks.size; i < length; i++) {
+    const webhook = webhooks.get(i);
+    const error = notBlankValidator(webhook);
     if (error.length > 0) {
       errors.push({
-        mailIndex: i,
+        urlIndex: i,
         severity: 'error',
         message: error[0].message
       });
@@ -102,13 +102,11 @@ function Form({ form, onChange }) {
         ))}
       </Section>
       <Section>
-        {form.get('emails').map(field => (
+        {form.get('webhookUrls').map(field => (
           <FormGroup>
-            <Label htmlFor="email" hasError={!field.valid}>
-              Emails
-            </Label>
+            <Label hasError={!field.valid}>Webhook URLs</Label>
             {field.messages.map((message, i) => {
-              if (message.type !== 'no_mail') {
+              if (message.type !== 'no_webhook') {
                 return null;
               }
               return (
@@ -119,28 +117,28 @@ function Form({ form, onChange }) {
             })}
           </FormGroup>
         ))}
-        {form.get('emails').map(field => {
-          const emails = field.value;
-          return emails.map((email, i) => (
+        {form.get('webhookUrls').map(field => {
+          const webhookUrls = field.value;
+          return webhookUrls.map((webhookUrl, i) => (
             <FormGroup key={i}>
               <div className={`${block}__input-delete-wrapper`}>
                 <Input
                   className={`${block}__input`}
-                  id={`email_${email}`}
+                  id={`webhookUrl_${webhookUrl}`}
                   type="text"
-                  placeholder="ops@your_company.org"
-                  value={email}
-                  onChange={e => onChangeEmail(e, form, onChange, i)}
+                  placeholder="your webhook URL"
+                  value={webhookUrl}
+                  onChange={e => onChangewebHookUrl(e, form, onChange, i)}
                 />
                 <Button
                   className={`${block}__delete-button`}
                   kind="danger"
-                  onClick={() => removeEmail(form, onChange, i)}
+                  onClick={() => removewebHookUrl(form, onChange, i)}
                 >
                   Remove
                 </Button>
               </div>
-              {field.messages.filter(msg => msg.mailIndex === i).map((message, i) => (
+              {field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
                 <ValidationBlock hasError key={i}>
                   {message.message}
                 </ValidationBlock>
@@ -150,26 +148,26 @@ function Form({ form, onChange }) {
         })}
       </Section>
       <Section>
-        <Button kind="success" onClick={() => addEmail(form, onChange)}>
-          Add Email
+        <Button kind="success" onClick={() => addwebHookUrl(form, onChange)}>
+          Add webhook URL
         </Button>
       </Section>
     </fieldset>
   );
 }
 
-function onChangeEmail(e, form, onChange, index) {
-  const emails = form.get('emails').value.setIn([index], e.target.value);
-  onChange('emails', emails);
+function onChangewebHookUrl(e, form, onChange, index) {
+  const webhookUrls = form.get('webhookUrls').value.setIn([index], e.target.value);
+  onChange('webhookUrls', webhookUrls);
 }
 
-function addEmail(form, onChange) {
-  let emails = form.get('emails').value;
-  emails = emails.push('');
-  onChange('emails', emails);
+function addwebHookUrl(form, onChange) {
+  let webhookUrls = form.get('webhookUrls').value;
+  webhookUrls = webhookUrls.push('');
+  onChange('webhookUrls', webhookUrls);
 }
 
-function removeEmail(form, onChange, index) {
-  const emails = form.get('emails').value.deleteIn([index]);
-  onChange('emails', emails);
+function removewebHookUrl(form, onChange, index) {
+  const webhookUrls = form.get('webhookUrls').value.deleteIn([index]);
+  onChange('webhookUrls', webhookUrls);
 }
