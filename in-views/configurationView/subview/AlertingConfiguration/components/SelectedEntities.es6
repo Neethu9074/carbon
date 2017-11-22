@@ -11,6 +11,9 @@ export default connectTo(
     items: props.getItems()
   }),
   function SelectedEntities({ form, onChange, items, formFieldName, fieldName }) {
+    if (!items || items) {
+      return null;
+    }
     if (!items) {
       return <LoadingIndicator type="dark" />;
     }

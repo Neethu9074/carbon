@@ -41,9 +41,11 @@ function save(config, form) {
 }
 
 function createForm(config) {
-  const isAdvancedMode =
-    (config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false) ||
-    config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()).size > 0;
+  // const isAdvancedMode =
+  //   (config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false) ||
+  //   config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()).size > 0;
+
+  const isAdvancedMode = config.getIn(['eventFilteringConfiguration', 'eventQuery'], '') ? true : false;
 
   return createMapForm()
     .put(
