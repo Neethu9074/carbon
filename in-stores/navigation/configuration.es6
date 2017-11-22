@@ -173,7 +173,11 @@ export function openIntegration(kind) {
 }
 
 export function openIntegrations() {
-  mutateUrl(params => (params.pathname = integrationsPath));
+  mutateUrl(params => {
+    params.pathname = integrationsPath;
+    delete params.matrix.kind;
+    return params;
+  });
 }
 export function getIntegrationLink(id) {
   return getModifiedUrlStream(params => (params.pathname = getIntegrationPath(id)));
