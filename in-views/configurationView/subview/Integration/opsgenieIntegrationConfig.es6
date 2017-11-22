@@ -12,13 +12,17 @@ import './Forms.less';
 
 const block = 'in-integrations-config-form';
 
+const name = 'OPS_GENIE';
+
 export default {
+  name,
+
   createForm(integration) {
     return createMapForm()
       .put(
         'kind',
         createField({
-          value: 'pagerduty'
+          value: name
         })
       )
       .put(
@@ -29,9 +33,23 @@ export default {
         })
       )
       .put(
-        'serviceIntegrationKey',
+        'apiKey',
         createField({
-          value: integration ? integration.get('serviceIntegrationKey') : '',
+          value: integration ? integration.get('apiKey') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'tags',
+        createField({
+          value: integration ? integration.get('tags') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'email',
+        createField({
+          value: integration ? integration.get('email') : '',
           validator: notBlankValidator
         })
       );
@@ -42,7 +60,9 @@ export default {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      serviceIntegrationKey: form.get('serviceIntegrationKey').value
+      apiKey: form.get('apiKey').value,
+      tags: form.get('tags').value,
+      email: form.get('email').value
     };
   },
 
@@ -75,18 +95,60 @@ function Form({ form, onChange }) {
         ))}
       </Section>
       <Section>
-        {form.get('serviceIntegrationKey').map(field => (
+        {form.get('apiKey').map(field => (
           <FormGroup>
-            <Label htmlFor="serviceIntegrationKey" hasError={!field.valid}>
-              Service Integration Key
+            <Label htmlFor="apiKey" hasError={!field.valid}>
+              API Key
             </Label>
             <Input
               className={`${block}__input`}
-              id="serviceIntegrationKey"
+              id="apiKey"
               type="text"
-              placeholder="Service Integration Key"
+              placeholder="Your API key"
               value={field.value}
-              onChange={e => onChange('serviceIntegrationKey', e.target.value)}
+              onChange={e => onChange('apiKey', e.target.value)}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+
+        {form.get('email').map(field => (
+          <FormGroup>
+            <Label htmlFor="email" hasError={!field.valid}>
+              Email
+            </Label>
+            <Input
+              className={`${block}__input`}
+              id="email"
+              type="text"
+              placeholder="ops@your_company.org"
+              value={field.value}
+              onChange={e => onChange('email', e.target.value)}
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+
+        {form.get('tags').map(field => (
+          <FormGroup>
+            <Label htmlFor="tags" hasError={!field.valid}>
+              Tags
+            </Label>
+            <Input
+              className={`${block}__input`}
+              id="tags"
+              type="text"
+              placeholder="Tags (comma separated)"
+              value={field.value}
+              onChange={e => onChange('tags', e.target.value)}
             />
             {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>

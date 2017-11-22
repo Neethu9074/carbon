@@ -12,13 +12,17 @@ import './Forms.less';
 
 const block = 'in-integrations-config-form';
 
+const name = 'OFFICE_365';
+
 export default {
+  name,
+
   createForm(integration) {
     return createMapForm()
       .put(
         'kind',
         createField({
-          value: 'slack'
+          value: name
         })
       )
       .put(
@@ -34,20 +38,6 @@ export default {
           value: integration ? integration.get('webhookUrl') : '',
           validator: notBlankValidator
         })
-      )
-      .put(
-        'iconUrl',
-        createField({
-          value: integration ? integration.get('iconUrl') : '',
-          validator: notBlankValidator
-        })
-      )
-      .put(
-        'channel',
-        createField({
-          value: integration ? integration.get('channel') : '',
-          validator: notBlankValidator
-        })
       );
   },
 
@@ -56,9 +46,7 @@ export default {
       id: integration ? integration.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      webhookUrl: form.get('webhookUrl').value,
-      iconUrl: form.get('iconUrl').value,
-      channel: form.get('channel').value
+      webhookUrl: form.get('webhookUrl').value
     };
   },
 
@@ -90,7 +78,6 @@ function Form({ form, onChange }) {
           </FormGroup>
         ))}
       </Section>
-
       <Section>
         {form.get('webhookUrl').map(field => (
           <FormGroup>
@@ -104,48 +91,6 @@ function Form({ form, onChange }) {
               placeholder="Webhook URL"
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-          </FormGroup>
-        ))}
-
-        {form.get('iconUrl').map(field => (
-          <FormGroup>
-            <Label htmlFor="iconUrl" hasError={!field.valid}>
-              Icon URL
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="iconUrl"
-              type="text"
-              placeholder="Icon URL"
-              value={field.value}
-              onChange={e => onChange('iconUrl', e.target.value)}
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-          </FormGroup>
-        ))}
-
-        {form.get('channel').map(field => (
-          <FormGroup>
-            <Label htmlFor="channel" hasError={!field.valid}>
-              Channel Name
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="channel"
-              type="text"
-              placeholder="e.g.: general"
-              value={field.value}
-              onChange={e => onChange('channel', e.target.value)}
             />
             {field.messages.map((message, i) => (
               <ValidationBlock hasError key={i}>

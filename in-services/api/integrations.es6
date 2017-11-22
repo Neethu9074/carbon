@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import configs from 'in-views/configurationView/subview/Integration/forms';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -52,11 +53,13 @@ export function createIntegration(id, kind, name = '') {
   if (!kind) {
     return {
       id: id || generateUniqueShortId(),
-      kind: 'email',
+      kind: configs.email.name,
       name,
       emails: []
     };
   }
+
+  kind = configs[kind].name;
   const integration = {
     id: id || generateUniqueShortId(),
     kind,
@@ -64,26 +67,26 @@ export function createIntegration(id, kind, name = '') {
   };
 
   switch (kind) {
-    case 'email':
+    case configs.email.name:
       integration.emails = [''];
       break;
-    case 'office365':
+    case configs.office365.name:
       integration.webhookUrl = '';
       break;
-    case 'slack':
+    case configs.slack.name:
       integration.webhookUrl = '';
       integration.iconUrl = '';
       integration.channel = '';
       break;
-    case 'opsgenie':
+    case configs.opsgenie.name:
       integration.apiKey = '';
       integration.tags = '';
       integration.email = '';
       break;
-    case 'pagerguty':
+    case configs.pagerduty.name:
       integration.serviceIntegrationKey = '';
       break;
-    case 'webhook':
+    case configs.webhook.name:
       integration.webhookUrls = [''];
       break;
   }

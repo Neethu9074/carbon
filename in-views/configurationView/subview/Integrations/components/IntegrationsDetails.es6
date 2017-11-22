@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import configs from 'in-views/configurationView/subview/Integration/forms';
 
 export default function AlertingConfigurationDetails({ integration }) {
   if (!integration) {
@@ -13,7 +14,7 @@ export default function AlertingConfigurationDetails({ integration }) {
 function getSpecificIntegrationDetails(integration) {
   const kind = integration.get('kind');
 
-  if (kind === 'email') {
+  if (kind === configs.email.name) {
     const emails = integration.get('emails');
     if (!emails || emails.size === 0) {
       return null;
@@ -31,7 +32,7 @@ function getSpecificIntegrationDetails(integration) {
     );
   }
 
-  if (kind === 'office365') {
+  if (kind === configs.office365.name) {
     return (
       <DescriptionList>
         <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
