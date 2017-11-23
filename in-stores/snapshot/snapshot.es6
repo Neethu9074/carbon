@@ -240,6 +240,9 @@ export function getSnapshotsInTimeframe(customQuery) {
     .flatMap(([timeframe, focusedMoment, query]) => {
       query = query == null || query.length === 0 ? '' : query;
       query = query || '';
-      return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} ${query}`, focusedMoment });
+      if (!query) {
+        return createSnapshotsInTimeframeObservable({ timeframe, query: customQuery, focusedMoment });
+      }
+      return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} AND (${query})`, focusedMoment });
     });
 }
