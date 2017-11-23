@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AddNewIntegrationDialog from 'in-views/configurationView/subview/AlertingConfiguration/components/AddNewIntegrationDialog';
+import IntegrationsDetails from 'in-views/configurationView/subview/Integrations/components/IntegrationsDetails';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getIntegrations } from 'in-services/api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -98,6 +99,7 @@ class IntegrationTable extends React.Component {
       .map(integration => ({
         key: integration.get('id'),
         name: integration.get('name'),
+        entity: integration,
         checked: form.get('integrationIds').value.includes(integration.get('id')),
         include: id => select(id, form, onChange),
         exclude: id => remove(id, form, onChange)
@@ -111,7 +113,7 @@ class IntegrationTable extends React.Component {
         >
           New integration...
         </div>
-        <Table cols={cols} rows={rows} maxItemsPerPage={10} initialSortColumn={1} />
+        <Table cols={cols} rows={rows} maxItemsPerPage={10} initialSortColumn={1} getRowDetails={getRowDetails} />
       </RuleControl>
     );
   }
@@ -127,4 +129,8 @@ function remove(id, form, onChange) {
   let ids = form.get('integrationIds').value;
   ids = ids.delete(ids.indexOf(id));
   onChange('integrationIds', ids);
+}
+
+function getRowDetails(row) {
+  return <IntegrationsDetails integration={row.entity} />;
 }
