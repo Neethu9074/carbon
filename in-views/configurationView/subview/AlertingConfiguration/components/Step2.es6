@@ -20,16 +20,16 @@ export default function Step2({ form, onChange }) {
 
   return (
     <Step number={1} title="Event Rules" form={form} onChange={onChange}>
-      <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities.">
+      <RuleControl name="Notify on" helpText="Only send alerts which have these criticalities.">
         <Row>
-          <LabelledToggle onChange={onChange} types={types} type="incident" />
+          <LabelledToggle onChange={onChange} types={types} type="incident" title="Incidents" />
           <LabelledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
           <LabelledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
         </Row>
         <Row>
-          <LabelledToggle onChange={onChange} types={types} type="change" />
-          <LabelledToggle onChange={onChange} types={types} type="online" />
-          <LabelledToggle onChange={onChange} types={types} type="offline" />
+          <LabelledToggle onChange={onChange} types={types} type="change" title="Changes" />
+          <LabelledToggle onChange={onChange} types={types} type="online" title="Online" />
+          <LabelledToggle onChange={onChange} types={types} type="offline" title="Offline" />
         </Row>
 
         {form.get('advancedMode').map(field => (
@@ -97,7 +97,7 @@ function LabelledToggle({ onChange, types, title, type }) {
         })}
         onClick={() => onSelectChanged(types, onChange, type)}
       >
-        {title || type}
+        {title}
       </Button>
     </Col>
   );
