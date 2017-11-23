@@ -28,6 +28,8 @@ import AuditLogView from 'promise-loader?global,configView!in-views/configuratio
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
 
+import { alertingEnabled } from 'in-services/featureFlags';
+
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
@@ -96,22 +98,34 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
 
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
-      path="/config/alertingConfiguration/:id"
-    />
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
-      path="/config/alertingConfiguration"
-    />
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(AlertingConfigurations)}
-      path="/config/alertingConfigurations"
-    />
+    {alertingEnabled ? (
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
+        path="/config/alertingConfiguration/:id"
+      />
+    ) : null}
+    {alertingEnabled ? (
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
+        path="/config/alertingConfiguration"
+      />
+    ) : null}
+    {alertingEnabled ? (
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(AlertingConfigurations)}
+        path="/config/alertingConfigurations"
+      />
+    ) : null}
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration;*" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />
+    {alertingEnabled ? (
+      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
+    ) : null}
+    {alertingEnabled ? (
+      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration;*" />
+    ) : null}
+    {alertingEnabled ? (
+      <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />
+    ) : null}
 
     <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>
