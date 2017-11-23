@@ -12,5 +12,11 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'AWS EC',
     plural: 'AWS ECs'
+  },
+  getLabel(snapshot) {
+    const clusterId = snapshot.getIn(['data', 'cache_cluster_id'], '');
+    const engine = snapshot.getIn(['data', 'cache_engine'], '');
+
+    return clusterId + ' (' + engine + ')';
   }
 });

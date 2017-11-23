@@ -1,0 +1,104 @@
+import React from 'react';
+
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart';
+import { number, bytes, percentage } from 'in-services/formatters/number';
+
+export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
+  const snapshotId = snapshot.get('id');
+
+  return (
+    <div>
+      <DashboardSection title="CPU Usage">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['cpu_utilization'],
+            labels: ['CPU Utilization'],
+            formatter: percentage.detailed,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Freeable Memory">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['freeable_memory'],
+            labels: ['Freeable memory'],
+            formatter: bytes.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Network Traffic">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['net_bytes_in', 'net_bytes_out'],
+            labels: ['Bytes In', 'Bytes out'],
+            formatter: bytes.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Swap Usage">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['swap_usage'],
+            labels: ['Swap usage'],
+            formatter: bytes.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['curr_connections', 'new_connections'],
+            labels: ['Current', 'New'],
+            formatter: number.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Items count">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            metrics: ['curr_items', 'evictions', 'reclaimed'],
+            labels: ['Current', 'Evicted', 'Reclaimed'],
+            formatter: number.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+    </div>
+  );
+}

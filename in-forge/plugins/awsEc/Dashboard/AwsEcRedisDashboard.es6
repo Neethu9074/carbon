@@ -70,8 +70,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           margins={{
-            left: 80,
-            right: 40
+            left: 80
           }}
           y1={{
             min: 0,
@@ -87,7 +86,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
             ],
             labels: ['Get', 'Hash', 'Key', 'List', 'Set', 'Sorted Set', 'Strings', 'Hyper Log'],
             type: 'line',
-            formatter: bytes.compact
+            formatter: number.compact
           }}
         />
       </DashboardSection>
