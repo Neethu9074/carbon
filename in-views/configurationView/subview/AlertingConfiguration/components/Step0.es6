@@ -6,9 +6,9 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
-import './Step1.less';
+import './Step0.less';
 
-const block = 'in-alerting-config-form-step-1';
+const block = 'in-alerting-config-form-step-0';
 
 export default function Step1({ form, onChange }) {
   return (
@@ -16,7 +16,7 @@ export default function Step1({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid}>
-            Config Name
+            Configuration Name
           </Label>
           <Input
             id="name"

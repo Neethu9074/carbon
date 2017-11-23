@@ -5,10 +5,10 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getIntegrations } from 'in-services/api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
+import RuleControl from 'in-components/form/RuleControl';
 import Table from 'in-sdk/components/dashboard/Table';
 import { compare } from 'in-services/util/boolean';
 import Step from 'in-components/form/Step';
-import connectTo from 'in-hoc/connectTo';
 
 import './Step3.less';
 
@@ -50,20 +50,44 @@ const cols = [
 export default function Step2({ form, onChange }) {
   return (
     <Step number={2} title="Integrations" form={form} onChange={onChange}>
-      <div className={`${block}__create-link`} onClick={addNewItem}>
-        new integration...
-      </div>
-
       <IntegrationTable form={form} onChange={onChange} />
     </Step>
   );
 }
 
-const IntegrationTable = connectTo(
-  {
-    integrations: getIntegrations()
-  },
-  function IntegrationTable({ form, onChange, integrations }) {
+class IntegrationTable extends React.Component {
+  static displayName = 'IntegrationTable';
+
+  state = {
+    integrations: null
+  };
+
+  subscription = null;
+
+  componentWillMount() {
+    this.update();
+  }
+
+  componentWillUnmount() {
+    this.disposeSubscription();
+  }
+
+  update = () => {
+    this.disposeSubscription();
+    this.subscription = getIntegrations().once(integrations => this.setState({ integrations }));
+  };
+
+  disposeSubscription = () => {
+    if (this.subscription) {
+      this.subscription.dispose();
+      this.subscription = null;
+    }
+  };
+
+  render() {
+    const { form, onChange } = this.props;
+    const { integrations } = this.state;
+
     if (!integrations) {
       return <LoadingIndicator type="dark" />;
     }
@@ -79,12 +103,18 @@ const IntegrationTable = connectTo(
         exclude: id => remove(id, form, onChange)
       }));
 
-    return <Table cols={cols} rows={rows} maxItemsPerPage={10} initialSortColumn={1} />;
+    return (
+      <RuleControl name="Integrations" helpText="Select integrations you want to be alerted on.">
+        <div
+          className={`${block}__create-link`}
+          onClick={() => setActiveDialog(<AddNewIntegrationDialog onClose={this.update} />)}
+        >
+          New integration...
+        </div>
+        <Table cols={cols} rows={rows} maxItemsPerPage={10} initialSortColumn={1} />
+      </RuleControl>
+    );
   }
-);
-
-function addNewItem() {
-  setActiveDialog(<AddNewIntegrationDialog />);
 }
 
 function select(id, form, onChange) {

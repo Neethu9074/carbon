@@ -1,12 +1,12 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import configs from 'in-views/configurationView/subview/Integration/configs';
 import { saveIntegration } from 'in-services/api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import StepByStepDialog from 'in-components/StepByStepDialog';
 import { close } from 'in-components/DialogPresenter/store';
-import ComboBox from 'in-components/ComboBox';
 
 import './AddNewIntegrationDialog.less';
 
@@ -38,18 +38,7 @@ export default class extends React.Component {
     const { selectedType } = this.state;
     const steps = [
       <div className={block}>
-        <ComboBox
-          name="integrationType"
-          value={selectedType}
-          clearable={false}
-          options={Object.keys(configs).map(type => {
-            return {
-              value: type,
-              label: type
-            };
-          })}
-          onChange={e => this.setState({ selectedType: e.value })}
-        />
+        <IntegrationSwitch onClick={selectedType => this.setState({ selectedType })} selectedType={selectedType} />
       </div>,
 
       <div className={block}>
@@ -86,6 +75,7 @@ export default class extends React.Component {
     });
 
     this.responseSubscription = result$.once(() => {
+      this.props.onClose();
       close();
     });
 

@@ -20,7 +20,7 @@ export default function Step2({ form, onChange }) {
 
   return (
     <Step number={1} title="Event Rules" form={form} onChange={onChange}>
-      <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities ">
+      <RuleControl name="Criticality" helpText="Only send alerts which have these criticalities.">
         <Row>
           <LabelledToggle onChange={onChange} types={types} type="incident" />
           <LabelledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />

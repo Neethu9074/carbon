@@ -9,10 +9,6 @@ import { getIntegrations, deleteIntegration } from 'in-services/api/integrations
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 
-import './Integrations.less';
-
-const block = 'in-integrations-config-dialog';
-
 export default function AlertingConfigurations() {
   const cols = [getLinkColumn(getIntegrationLink, 'name'), getDeleteButtonColumn()];
 
@@ -34,7 +30,7 @@ function getRowDetails(row) {
 
 function NewIntegrationDialog() {
   return (
-    <Dialog contentClassName={`${block}__content`} header="Choose Integration" onClose={() => setActiveDialog(null)}>
+    <Dialog header="Choose Integration" onClose={() => setActiveDialog(null)}>
       <IntegrationSwitch
         onClick={type => {
           close();
