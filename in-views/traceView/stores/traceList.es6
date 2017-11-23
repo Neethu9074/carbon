@@ -6,6 +6,7 @@ import createTracesObservable from 'in-services/subscription/traces';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
+import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import { formatDateTime } from 'in-services/formatters/date';
 import { sortBy$ } from 'in-views/traceView/stores/sortBy';
 import { createStore } from 'in-stores/store';
@@ -138,7 +139,7 @@ export function loadMoreTraces() {
   disposeExistingLoad();
   isLoadingStore.mutateTo(true);
 
-  traceLoadSubscription = traces$.once(traces => {
+  traceLoadSubscription = combineLatest([traces$, totalTraceCountActiveFilter$]).once(([traces, totalTraceCount]) => {
     const offset = traces.length;
     const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
     const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
@@ -152,7 +153,7 @@ export function loadMoreTraces() {
       query,
       offset,
       size: MAX_PAGE_SIZE
-    }).once(addNewTraces);
+    }).once(newTraces => addNewTraces(newTraces, totalTraceCount));
   });
 }
 
@@ -167,10 +168,14 @@ function getMaxStartMillis(traces, fallback) {
   return max;
 }
 
-function addNewTraces(newTraces) {
-  furtherDataAvailable.mutateTo(newTraces.size >= MAX_PAGE_SIZE);
+function addNewTraces(newTraces, totalTraceCount) {
+  totalTraceCount = totalTraceCount ? totalTraceCount.get('count') : Number.MAX_VALUE;
+  if (totalTraceCount === -1) {
+    totalTraceCount = Number.MAX_VALUE;
+  }
 
   if (newTraces.size === 0) {
+    furtherDataAvailable.mutateTo(false);
     isLoadingStore.mutateTo(false);
     return;
   }
@@ -190,6 +195,8 @@ function addNewTraces(newTraces) {
     };
   });
   tracesStore.applyStateMutation(existingTraces => {
+    furtherDataAvailable.mutateTo(newTraces.size + existingTraces.length < totalTraceCount);
+
     // There may be multiple successive traces requests with the same data. Protect against
     // this.
     const existingTraceIds = {};
