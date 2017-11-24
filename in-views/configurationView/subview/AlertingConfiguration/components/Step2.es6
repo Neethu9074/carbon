@@ -20,7 +20,7 @@ export default function Step2({ form, onChange }) {
 
   return (
     <Step number={1} title="Event Rules" form={form} onChange={onChange}>
-      <RuleControl name="Notify on" helpText="Only send alerts which have these criticalities.">
+      <RuleControl name="Notify on" helpText="Only send alerts for these event types.">
         <Row>
           <LabelledToggle onChange={onChange} types={types} type="incident" title="Incidents" />
           <LabelledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
@@ -37,9 +37,7 @@ export default function Step2({ form, onChange }) {
             className={`${block}__advanced-options-label-wrapper`}
             onClick={() => onChange('advancedMode', !field.value)}
           >
-            <span className={`${block}__bold-text`}>
-              {`Send alerts on: ${field.value ? 'selected' : 'all'}  events & entities`}
-            </span>
+            <span className={`${block}__bold-text`}>Add events filter:</span>
             <SvgIcon
               type={field.value ? 'triangle_up' : 'triangle_down'}
               className={`${block}__icon`}
