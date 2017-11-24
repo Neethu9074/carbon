@@ -47,7 +47,7 @@ const cols = [
       if (!event) {
         return null;
       }
-      return formatDateTime(event.get('triggeringTime', event.get('start')));
+      return formatDateTime(event.get('start'));
     }
   },
   {
