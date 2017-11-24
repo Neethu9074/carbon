@@ -30,6 +30,7 @@ function save(config, form) {
       createAlertingConfig(
         config ? config.get('id') : null,
         form.get('name').value,
+        form.get('muteUntil').value,
         form.get('integrationIds').value.toJS(),
         form.get('ruleIds').value.toJS(),
         form.get('query').value,
@@ -59,6 +60,12 @@ function createForm(config) {
       createField({
         value: config.get('alertName'),
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'muteUntil',
+      createField({
+        value: config.get('muteUntil')
       })
     )
     .put(

@@ -43,7 +43,7 @@ export function deleteAlertingConfig(id) {
 export function createAlertingConfig(
   id,
   alertName = 'New Alert Configuration',
-  muteUntil: 0,
+  muteUntil = 0,
   integrationIds = [],
   ruleIds = [],
   query = '',
