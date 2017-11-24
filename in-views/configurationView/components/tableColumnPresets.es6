@@ -23,14 +23,14 @@ export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
   };
 }
 
-export function getEnableToggleColumn() {
+export function getEnableToggleColumn(isEnabledCallback) {
   return {
     title: 'Enabled',
     type: 'boolean',
     width: 80,
     typeArgs: {
       getValue(row) {
-        return row.entity.get('enabled', false);
+        return isEnabledCallback ? isEnabledCallback(row.entity) : row.entity.get('enabled', false);
       },
       onChange(row, newValue) {
         row.setEnabled(row.entity, newValue);

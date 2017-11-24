@@ -110,6 +110,75 @@ export default class extends React.Component {
     close();
   };
 
+  setEnabled = (entity, enabled) => {
+    const previousEnabled = this.props.getEnabledState ? this.props.getEnabledState(entity) : entity.get('enabled');
+    const entityId = entity.get('id');
+
+    this.setState(state => {
+      state.status[entityId] = {
+        state: 'loading',
+        time: Date.now(),
+        message: 'Saving…'
+      };
+
+      // optimistic write
+      const index = state.entities.findIndex(each => entityId === each.get('id'));
+      const newEntities = state.entities.update(
+        index,
+        modifiable =>
+          this.props.setEnabledState
+            ? this.props.setEnabledState(modifiable, enabled)
+            : modifiable.set('enabled', enabled)
+      );
+      return {
+        status: state.status,
+        entities: newEntities
+      };
+    });
+
+    const result$ = this.props.setEnabled(entity, enabled);
+    result$.once(() => {
+      this.setState(state => {
+        state.status[entityId] = {
+          state: 'success',
+          time: Date.now(),
+          message: 'Successfully saved!'
+        };
+
+        return {
+          status: state.status
+        };
+      });
+    });
+
+    result$.errors().once(error => {
+      const message = `Failed to set the enable flag: ${error.message}`;
+      logger.warn(message, error);
+
+      this.setState(state => {
+        state.status[entityId] = {
+          state: 'failure',
+          time: Date.now(),
+          message
+        };
+
+        // roll back optimistic write
+        const index = state.entities.findIndex(each => entityId === each.get('id'));
+        const newEntities = state.entities.update(
+          index,
+          modifiable =>
+            this.props.setEnabledState
+              ? this.props.setEnabledState(modifiable, previousEnabled)
+              : modifiable.set('enabled', previousEnabled)
+        );
+        return {
+          status: state.status,
+          entities: newEntities
+        };
+      });
+    });
+  };
+
   render() {
     const { entities } = this.state;
     const entitiesAvailable = entities && entities.size > 0;
@@ -121,7 +190,8 @@ export default class extends React.Component {
         return {
           key: entity.get('id'),
           entity: entity,
-          onDelete: this.onDelete
+          onDelete: this.onDelete,
+          setEnabled: this.setEnabled
         };
       });
 

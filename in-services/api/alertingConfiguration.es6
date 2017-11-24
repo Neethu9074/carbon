@@ -19,6 +19,10 @@ export function getAlertingConfig(id) {
   }).map(response => fromJS(response.body));
 }
 
+export function setEnabled(config, enabled) {
+  return saveAlertingConfig(config.setIn(['muteUntil'], enabled ? 0 : Number.MAX_SAFE_INTEGER));
+}
+
 export function saveAlertingConfig(config) {
   return http({
     method: 'PUT',
@@ -39,6 +43,7 @@ export function deleteAlertingConfig(id) {
 export function createAlertingConfig(
   id,
   alertName = 'New Alert Configuration',
+  muteUntil: 0,
   integrationIds = [],
   ruleIds = [],
   query = '',
@@ -48,6 +53,7 @@ export function createAlertingConfig(
   return {
     id: id || generateUniqueShortId(),
     alertName,
+    muteUntil,
     integrationIds,
     eventFilteringConfiguration: {
       query,
