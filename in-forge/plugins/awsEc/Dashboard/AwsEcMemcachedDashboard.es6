@@ -3,6 +3,7 @@ import semver from 'semver';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AwsEcNewMemcachedDashboard from './AwsEcNewMemcachedDashboard';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { number, bytes } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
@@ -62,41 +63,42 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Operations">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
-          y1={{
-            min: 0,
-            metrics: [
-              'get_hits',
-              'get_misses',
-              'delete_hits',
-              'delete_misses',
-              'incr_hits',
-              'incr_misses',
-              'decr_hits',
-              'decr_misses'
-            ],
-            labels: [
-              'Get Hits',
-              'Get Misses',
-              'Delete Hits',
-              'Delete Misses',
-              'Incr Hits',
-              'Incr Misses',
-              'Decr Hits',
-              'Decr Misses'
-            ],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title="Operations">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 40
+            }}
+            y1={{
+              min: 0,
+              metrics: ['get_hits', 'get_misses', 'delete_hits', 'delete_misses'],
+              labels: ['Get Hits', 'Get Misses', 'Delete Hits', 'Delete Misses'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Operations">
+          <Chart
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80,
+              right: 40
+            }}
+            y1={{
+              min: 0,
+              metrics: ['incr_hits', 'incr_misses', 'decr_hits', 'decr_misses'],
+              labels: ['Incr Hits', 'Incr Misses', 'Decr Hits', 'Decr Misses'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
       <DashboardSection title="Unused Memory">
         <Chart
           snapshotId={snapshotId}
