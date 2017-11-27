@@ -16,9 +16,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlacesPerSecond,
             metrics: ['completedBatches'],
@@ -31,9 +28,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['schedulingDelay'],
@@ -46,9 +40,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['totalDelay'],
@@ -61,9 +52,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['processingTime'],
@@ -77,9 +65,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['completedOutputOperations', 'failedOutputOperations'],
@@ -93,9 +78,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['inputRecords'],
@@ -108,9 +90,6 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['activeReceivers', 'activeReceivers'],

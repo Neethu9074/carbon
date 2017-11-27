@@ -156,10 +156,6 @@ function getDetails(row) {
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
@@ -174,10 +170,6 @@ function getDetails(row) {
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
@@ -202,10 +194,6 @@ function getDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 80
-        }}
         y1={{
           min: 0,
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,

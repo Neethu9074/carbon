@@ -25,9 +25,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: muSecondsToMillisTwoDecimalPlaces,
             metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
@@ -40,9 +37,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             max: 1,
@@ -58,9 +52,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: [
@@ -97,10 +88,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.sqlExecuteCount'],
@@ -119,9 +106,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
@@ -134,9 +118,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             max: 1,
@@ -151,9 +132,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -172,9 +150,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
@@ -187,9 +162,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             max: 1,
@@ -204,9 +176,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
@@ -219,9 +188,6 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             max: 1,

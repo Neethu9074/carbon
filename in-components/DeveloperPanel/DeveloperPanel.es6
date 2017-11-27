@@ -2,7 +2,6 @@ import React from 'react';
 
 import { toggleDevPanel, devPanelVisible$ } from 'in-components/DeveloperPanel/stores/visibilityStore';
 import MapStatistics from 'in-components/DeveloperPanel/components/MapStatistics';
-import Charts from 'in-components/DeveloperPanel/components/Charts';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Misc from 'in-components/DeveloperPanel/components/Misc';
 import { SvgIconList } from 'in-components/SvgIcon';
@@ -21,7 +20,7 @@ export default connectTo(
     static displayName = 'DeveloperPanel';
 
     state = {
-      activeMenu: Charts
+      activeMenu: SvgIconList
     };
 
     render() {
@@ -47,12 +46,6 @@ export default connectTo(
               activeMenu={this.state.activeMenu}
               onClick={activeMenu => this.setState({ activeMenu })}
               menu={MapStatistics}
-            />
-            <Tab
-              title="Charts"
-              activeMenu={this.state.activeMenu}
-              onClick={activeMenu => this.setState({ activeMenu })}
-              menu={Charts}
             />
             <Tab
               title="Misc"

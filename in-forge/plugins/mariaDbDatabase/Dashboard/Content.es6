@@ -30,9 +30,6 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
@@ -46,9 +43,6 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['status.SLOW_QUERIES'],
             labels: ['Slow Queries'],
@@ -60,9 +54,6 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
             labels: ['Read Requests', 'Write Requests'],
@@ -79,9 +70,6 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['status.ARIA_PAGECACHE_READS', 'status.ARIA_PAGECACHE_WRITES'],
             labels: ['Pagecache Reads', 'Pagecache Writes'],

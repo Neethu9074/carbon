@@ -12,9 +12,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['runningContainers', 'failedContainers'],
             labels: ['Running Containers', 'Failed Containers'],
@@ -27,9 +24,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['allocatedMem', 'availableMem'],
             labels: ['Allocated Memory', 'Available Memory'],
@@ -43,9 +37,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['allocatedVCores', 'availableVCores'],
             labels: ['Allocated Virtual Cores', 'Available Virtual Cores'],

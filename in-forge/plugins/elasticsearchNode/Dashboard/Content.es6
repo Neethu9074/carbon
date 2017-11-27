@@ -23,10 +23,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
@@ -50,9 +46,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -67,9 +60,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -86,10 +76,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
@@ -115,10 +101,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             metrics: ['indices.refresh_count', 'indices.flush_count'],
             labels: ['Refresh Count', 'Flush Count'],
@@ -139,9 +121,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['indices.segment_count'],
@@ -156,9 +135,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -181,9 +157,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -202,9 +175,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: [

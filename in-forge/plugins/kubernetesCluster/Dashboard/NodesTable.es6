@@ -109,9 +109,6 @@ function getNodeRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 60
-        }}
         y1={{
           formatter: twoDecimalPlaces,
           metrics: [`nodes.data.${row.key}.alloc_cpu`, `nodes.data.${row.key}.cap_cpu`],
@@ -123,9 +120,6 @@ function getNodeRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 60
-        }}
         y1={{
           formatter: bytesTwoDecimalPlaces,
           metrics: [`nodes.data.${row.key}.alloc_mem`, `nodes.data.${row.key}.cap_mem`],

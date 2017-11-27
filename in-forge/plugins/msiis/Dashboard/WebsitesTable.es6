@@ -126,9 +126,6 @@ function getDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 60
-        }}
         y1={{
           metrics: ['siteperf.' + name + '.total_requests'],
           labels: ['Total number of requests'],
@@ -139,9 +136,6 @@ function getDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['siteperf.' + name + '.current_connections'],
           labels: ['Current number of connections'],
@@ -152,10 +146,6 @@ function getDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 80
-        }}
         y1={{
           min: 0,
           metrics: [

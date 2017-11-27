@@ -12,9 +12,6 @@ export default function CrystalDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -28,9 +25,6 @@ export default function CrystalDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,

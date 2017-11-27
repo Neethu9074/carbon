@@ -176,10 +176,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 80
-        }}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['backendStats.' + row.key + '.avgResponseTime', 'backendStats.' + row.key + '.avgQueueTime'],
@@ -195,9 +191,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['backendStats.' + row.key + '.reqConnErrors', 'backendStats.' + row.key + '.errorRes'],
           labels: ['Connection Errors', 'Response Errors'],
@@ -207,9 +200,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['backendStats.' + row.key + '.connRetries'],
           labels: ['Connection Retries'],
@@ -219,9 +209,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['backendStats.' + row.key + '.deniedRes'],
           labels: ['Denied Responses'],
@@ -231,9 +218,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['backendStats.' + row.key + '.reDispatchedReq'],
           labels: ['Re-Dispatched Requests'],

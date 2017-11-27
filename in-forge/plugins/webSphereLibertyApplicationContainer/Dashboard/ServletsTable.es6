@@ -101,10 +101,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 40
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.requests'],
@@ -115,10 +111,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 40
-        }}
         y1={{
           formatter: muSecondsToMillisTwoDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.avgResponseTime'],

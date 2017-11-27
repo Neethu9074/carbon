@@ -48,9 +48,6 @@ export default function HostDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               min: 0,
               max: 1,
@@ -68,9 +65,6 @@ export default function HostDashboard({ snapshot, timeframe }) {
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
               minRollup={5000}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 formatter: twoDecimalPlaces,
@@ -90,9 +84,6 @@ export default function HostDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             max: 1,
@@ -147,10 +138,6 @@ export default function HostDashboard({ snapshot, timeframe }) {
             min: 0,
             max: 1,
             formatter: percentageZeroDecimalPlaces
-          }}
-          margins={{
-            right: 60,
-            left: 80
           }}
         />
       </DashboardSection>

@@ -26,9 +26,6 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
             <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 metrics: ['cpu.load'],

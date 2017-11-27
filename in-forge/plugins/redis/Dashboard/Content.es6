@@ -90,9 +90,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: latencyThreshold,
               metrics: ['latency_max'],
@@ -108,9 +105,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['throughput'],
             labels: ['Throughput (ops/sec)'],
@@ -124,10 +118,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             metrics: ['keyspace_hits', 'keyspace_misses'],
@@ -148,9 +138,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['expired_keys', 'evicted_keys'],
@@ -164,9 +151,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: dbKeysMetrics(dbNames),
               labels: dbKeysLabels(dbNames),
@@ -179,9 +163,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -196,9 +177,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: getConnectionMetricsForRole(role),
@@ -212,10 +190,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
             y1={{
               metrics: pubSubMetrics(channelNames),
               labels: channelNames,
@@ -233,9 +207,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['rdb_current_bgsave_time_sec', 'aof_current_rewrite_time_sec'],
@@ -253,9 +224,6 @@ export default function RedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: kiloBytesZeroDecimalPlaces,

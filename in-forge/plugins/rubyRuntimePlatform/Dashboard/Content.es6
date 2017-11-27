@@ -37,9 +37,6 @@ export default function RubyDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: kiloBytesTwoDecimalPlaces,
@@ -53,9 +50,6 @@ export default function RubyDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,
@@ -79,10 +73,6 @@ function GcTime({ snapshot, timeframe }) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: msTwoDecimalPlaces,
@@ -107,9 +97,6 @@ function ThreadMetrics({ snapshot, timeframe }) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,

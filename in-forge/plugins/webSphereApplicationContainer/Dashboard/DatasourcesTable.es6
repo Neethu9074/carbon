@@ -109,9 +109,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['datasources.' + row.key + '.poolSize', 'datasources.' + row.key + '.freePoolSize'],
@@ -122,10 +119,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80,
-          right: 40
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['datasources.' + row.key + '.waitingThreadCount'],

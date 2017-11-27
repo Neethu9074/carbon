@@ -18,10 +18,6 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -45,9 +41,6 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
@@ -72,9 +65,6 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: percentageTwoDecimalPlaces,

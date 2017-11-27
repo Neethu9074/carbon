@@ -25,10 +25,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
@@ -53,9 +49,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: withSiPrefixZeroDecimalPlaces,
@@ -70,9 +63,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -95,10 +85,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
@@ -122,9 +108,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,

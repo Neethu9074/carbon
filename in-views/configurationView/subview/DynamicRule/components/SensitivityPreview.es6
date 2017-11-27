@@ -215,7 +215,6 @@ const PreviewChart = connectTo(
               left: 60,
               right: 1
             }}
-            avoidMarginOverrides
             y1={{
               metrics: [metricDefinition.value],
               labels: [metricDefinition.label],

@@ -13,10 +13,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60,
-            right: 30
-          }}
           y1={{
             metrics: ['cpu_utilization'],
             labels: ['CPU Utilization'],
@@ -36,10 +32,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 30,
-            right: 60
-          }}
           y1={{
             metrics: ['disk_queue_depth'],
             labels: ['Disk queue depth'],
@@ -59,9 +51,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 30
-          }}
           y1={{
             metrics: ['db_connections'],
             labels: ['Connections'],
@@ -75,9 +64,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['freeable_memory', 'free_storage_space', 'swap_usage'],
             labels: ['Freeable RAM', 'Available storage space', 'Swap usage'],
@@ -91,10 +77,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 50,
-            right: 30
-          }}
           y1={{
             metrics: ['read_iops', 'write_iops'],
             labels: ['Read ops', 'Write ops'],
@@ -114,9 +96,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['read_throughput', 'write_throughput'],
             labels: ['Read throughput', 'Write throughput'],
@@ -130,9 +109,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['net_receive_throughput', 'net_transmit_throughput'],
             labels: ['Receive throughput', 'Transmit throughput'],
@@ -146,9 +122,6 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['replica_lag'],
             labels: ['Replica lag'],

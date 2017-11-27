@@ -19,10 +19,6 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -47,9 +43,6 @@ export default function DefaultCharts({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
@@ -74,9 +67,6 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: percentageTwoDecimalPlaces,
@@ -91,9 +81,6 @@ export default function DefaultCharts({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,

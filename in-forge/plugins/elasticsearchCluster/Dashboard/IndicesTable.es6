@@ -164,10 +164,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80,
-        right: 80
-      }}
       y1={{
         metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
         labels: ['Documents', 'Deletions'],

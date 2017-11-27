@@ -99,7 +99,6 @@ const ChartWrapper = connectTo(
             left: 80,
             right: 1
           }}
-          avoidMarginOverrides
           y1={{
             metrics: [metric],
             labels: [chartConfig.getLabel(snapshot, metric)],

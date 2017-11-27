@@ -40,9 +40,6 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: [
               'metrics.requests',
@@ -69,9 +66,6 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['metrics.httpsessions.active'],
               labels: ['Active Sessions'],

@@ -21,10 +21,6 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             metrics: ['clientrequests.read.count'],
@@ -47,9 +43,6 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: muSecondsToMillisTwoDecimalPlaces,
@@ -70,9 +63,6 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,

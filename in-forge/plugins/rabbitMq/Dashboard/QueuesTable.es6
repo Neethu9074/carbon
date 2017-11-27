@@ -99,9 +99,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['queue_map.' + row.key + '.messages_ready', 'queue_map.' + row.key + '.messages_unacknowledged'],
           labels: ['Messages ready', 'Messages unacknowledged'],

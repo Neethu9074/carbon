@@ -74,10 +74,6 @@ function getRowDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80,
-        right: 80
-      }}
       y1={{
         metrics: ['keyspace.' + row.key + '.diskSize'],
         labels: ['Disk Size'],

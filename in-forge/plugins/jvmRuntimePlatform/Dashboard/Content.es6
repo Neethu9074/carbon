@@ -39,9 +39,6 @@ export default function JVMDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -85,10 +82,6 @@ export default function JVMDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
             y1={{
               metrics: collectors.map(name => 'gc.' + name + '.time').toArray(),
               labels: collectors.map(name => name + ' Time').toArray(),

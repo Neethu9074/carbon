@@ -95,9 +95,6 @@ function getRowDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80
-      }}
       y1={{
         metrics: ['datasources.' + row.key + '.active'],
         labels: ['Active connections'],
