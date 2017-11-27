@@ -45,6 +45,33 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
+      <DashboardSection title="Documents">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeframe={timeframe}
+          margins={{
+            left: 80,
+            right: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: withSiPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
+            metrics: ['indices.document_count'],
+            labels: ['Overall Documents'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: withSiPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
+            metrics: ['indices.index_count', 'indices.deleted_count'],
+            labels: ['Added', 'Removed'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
       <Columize>
         <DashboardSection title="Indices Count">
           <Chart
@@ -81,33 +108,6 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
       </Columize>
-
-      <DashboardSection title="Documents">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: withSiPrefixThreeDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['indices.document_count'],
-            labels: ['Overall Documents'],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: withSiPrefixThreeDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['indices.index_count', 'indices.deleted_count'],
-            labels: ['Added', 'Removed'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
 
       <IndicesTable snapshot={snapshot} timeframe={timeframe} />
 

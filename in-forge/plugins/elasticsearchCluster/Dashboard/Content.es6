@@ -48,6 +48,33 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
+      <DashboardSection title="Documents">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeframe={timeframe}
+          margins={{
+            left: 80,
+            right: 80
+          }}
+          y1={{
+            min: 0,
+            formatter: withSiPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
+            metrics: ['document_count'],
+            labels: ['Overall Documents'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: withSiPrefixThreeDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
+            metrics: ['index_count', 'deleted_count'],
+            labels: ['Added', 'Removed'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
       <Columize>
         <DashboardSection title="Indices">
           <Chart
@@ -90,33 +117,6 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
       </Columize>
-
-      <DashboardSection title="Documents">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
-          y1={{
-            min: 0,
-            formatter: withSiPrefixThreeDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['document_count'],
-            labels: ['Overall Documents'],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: withSiPrefixThreeDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['index_count', 'deleted_count'],
-            labels: ['Added', 'Removed'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
 
       <DashboardSection title="Cluster State Size">
         <Chart
