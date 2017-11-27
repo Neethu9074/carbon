@@ -1,7 +1,8 @@
 import { create } from 'reactive-observables';
 import React from 'react';
 
-import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
+// import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
+import { alwaysNull } from 'in-services/fixedStreams';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -17,17 +18,18 @@ export default class FormDataEnrichment extends React.Component {
     this.debouncedQuery.emit(this.props.form.get('query').value);
     this.subscription = this.debouncedQuery
       .debounce(1000)
-      .flatMap(query => {
-        const timeOpened = this.props.form.get('timeOpened').value;
-        const eventTypes = this.props.form.get('eventTypes').value;
-        if (!`${query}`) {
-          return search(timeOpened, eventTypes, '');
-        } else {
-          return search(timeOpened, eventTypes, `${query}`);
-        }
+      .flatMap(() => {
+        return alwaysNull;
+        // const timeOpened = this.props.form.get('timeOpened').value;
+        // const eventTypes = this.props.form.get('eventTypes').value;
+        // if (!`${query}`) {
+        //   return search(timeOpened, eventTypes, '');
+        // } else {
+        //   return search(timeOpened, eventTypes, `${query}`);
+        // }
       })
       .subscribe(events => {
-        this.props.onChange('matchingEntities', events.length);
+        this.props.onChange('matchingEntities', events ? events.length : events);
       });
   }
 
@@ -58,13 +60,13 @@ export default class FormDataEnrichment extends React.Component {
   }
 }
 
-function search(timeOpened, eventTypes, query) {
-  return getEventsInTimeframeSubscription({
-    focusedMoment: timeOpened,
-    timeframe: {
-      to: timeOpened,
-      windowSize: 1000 * 60 * 60 * 24 * 7 // 1 week
-    },
-    query
-  });
-}
+// function search(timeOpened, eventTypes, query) {
+//   return getEventsInTimeframeSubscription({
+//     focusedMoment: timeOpened,
+//     timeframe: {
+//       to: timeOpened,
+//       windowSize: 1000 * 60 * 60 * 24 * 7 // 1 week
+//     },
+//     query
+//   });
+// }
