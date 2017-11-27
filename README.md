@@ -95,6 +95,14 @@ Described here are the steps to whitelist the local certificate:
 4. In the new window inside the `Trust` section, set `When using this certificate` to `Always Trust`. You may need to reauthenticate after this step.
 5. You're done! Close the window and restart Chrome and when you enter the local environment Chrome should display `Secure` next to the URL.
 
+For Linux, you'd have to update the `ca-certificates`. Chrome and Firefox have their own certificate stores and the site just needs to be whitelisted there.
+To add the certificate to Linux, follow these steps (as `root` user):
+
+1. Create a certificate directory `mkdir /usr/share/ca-certificates/instana`
+2. Copy the certificate `cp <ui-client dir>/build/cert/server.crt /usr/share/ca-certificates/instana`
+3. Re-build the certificate store `dpkg-reconfigure ca-certificates`
+4. Choose `ask` when rebuilding and include the Instana certificate to be trusted
+
 ## Troubleshooting
 
 ### I cannot access the local development domain in Chrome due to HSTS!
