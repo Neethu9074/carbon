@@ -14,9 +14,11 @@ import './Forms.less';
 const block = 'in-integrations-config-form';
 
 const name = 'OFFICE_365';
+const label = 'Office365';
 
 export default {
   name,
+  label,
 
   enrichIntegrationObject(integration) {
     integration.webhookUrl = '';
@@ -73,12 +75,13 @@ function Form({ form, onChange }) {
         {form.get('name').map(field => (
           <FormGroup className={block}>
             <Label htmlFor="name" hasError={!field.valid}>
-              Config Name
+              Name
             </Label>
             <Input
               id="name"
               className={`${block}__input`}
               type="text"
+              placeholder="Office365 Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid}

@@ -142,12 +142,8 @@ export default function Navigation() {
 
         {alertingEnabled ? (
           <NavItem title="Alerting" isActive$={combine(isAlertingConfigLink$, isIntegrationLink$)}>
+            <NavItem title="Configurations" href$={alertingConfigsViewLink$} isActive$={isAlertingConfigLink$} />
             <NavItem title="Integrations" href$={integrationsViewLink$} isActive$={isIntegrationLink$} />
-            <NavItem
-              title="Alerting Configurations"
-              href$={alertingConfigsViewLink$}
-              isActive$={isAlertingConfigLink$}
-            />
           </NavItem>
         ) : null}
 

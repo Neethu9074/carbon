@@ -14,9 +14,11 @@ import './Forms.less';
 const block = 'in-integrations-config-form';
 
 const name = 'OPS_GENIE';
+const label = 'OpsGenie';
 
 export default {
   name,
+  label,
 
   enrichIntegrationObject(integration) {
     integration.apiKey = '';
@@ -93,12 +95,13 @@ function Form({ form, onChange }) {
         {form.get('name').map(field => (
           <FormGroup className={block}>
             <Label htmlFor="name" hasError={!field.valid}>
-              Config Name
+              Name
             </Label>
             <Input
               id="name"
               className={`${block}__input`}
               type="text"
+              placeholder="OpsGenie Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid}
@@ -121,7 +124,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="apiKey"
               type="text"
-              placeholder="Your API key"
+              placeholder="API Key"
               value={field.value}
               onChange={e => onChange('apiKey', e.target.value)}
             />
@@ -142,7 +145,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="email"
               type="email"
-              placeholder="ops@your_company.org"
+              placeholder="ops@company.org"
               value={field.value}
               onChange={e => onChange('email', e.target.value)}
             />

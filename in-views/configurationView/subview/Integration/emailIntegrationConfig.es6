@@ -16,9 +16,11 @@ import './Forms.less';
 const block = 'in-integrations-config-form';
 
 const name = 'EMAIL';
+const label = 'Email';
 
 export default {
   name,
+  label,
 
   enrichIntegrationObject(integration) {
     integration.emails = [''];
@@ -107,12 +109,13 @@ function Form({ form, onChange }) {
         {form.get('name').map(field => (
           <FormGroup className={block}>
             <Label htmlFor="name" hasError={!field.valid}>
-              Config Name
+              Name
             </Label>
             <Input
               id="name"
               className={`${block}__input`}
               type="text"
+              placeholder="Email Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid}
@@ -152,7 +155,7 @@ function Form({ form, onChange }) {
                   className={`${block}__input`}
                   id={`email_${email}`}
                   type="email"
-                  placeholder="ops@your_company.org"
+                  placeholder="ops@company.org"
                   value={email}
                   onChange={e => onChangeEmail(e, form, onChange, i)}
                 />
@@ -169,14 +172,14 @@ function Form({ form, onChange }) {
                   {message.message}
                 </ValidationBlock>
               ))}
+              <div>
+                <Button className={`${block}__add-button`} kind="success" onClick={() => addEmail(form, onChange)}>
+                  Add Email
+                </Button>
+              </div>
             </FormGroup>
           ));
         })}
-      </Section>
-      <Section>
-        <Button kind="success" onClick={() => addEmail(form, onChange)}>
-          Add Email
-        </Button>
       </Section>
     </fieldset>
   );

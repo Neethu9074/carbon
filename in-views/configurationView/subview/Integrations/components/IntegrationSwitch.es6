@@ -1,5 +1,6 @@
 import React from 'react';
 
+import configs from 'in-views/configurationView/subview/Integration/configs';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Row, Col } from 'in-components/Grid/Grid';
 
@@ -34,7 +35,7 @@ function IntegrationButton({ type, selectedType, onClick }) {
         })}
         onClick={() => onClick(type)}
       >
-        {type}
+        {configs[type].label}
       </div>
     </Col>
   );

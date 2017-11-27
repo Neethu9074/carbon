@@ -65,7 +65,8 @@ export default class extends React.Component {
   };
 
   onSave = () => {
-    const result$ = saveIntegration(fromJS(configs[this.state.selectedType].createEntity(null, this.state.form)));
+    const integration = fromJS(configs[this.state.selectedType].createEntity(null, this.state.form));
+    const result$ = saveIntegration(integration);
 
     this.disposeAsyncAction();
     this.setState({
@@ -75,7 +76,7 @@ export default class extends React.Component {
     });
 
     this.responseSubscription = result$.once(() => {
-      this.props.onClose();
+      this.props.onClose(integration);
       close();
     });
 

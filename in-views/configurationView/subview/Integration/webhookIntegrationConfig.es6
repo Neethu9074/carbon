@@ -16,9 +16,11 @@ import './Forms.less';
 const block = 'in-integrations-config-form';
 
 const name = 'WEB_HOOK';
+const label = 'WebHook';
 
 export default {
   name,
+  label,
 
   enrichIntegrationObject(integration) {
     integration.webhookUrls = [''];
@@ -107,12 +109,13 @@ function Form({ form, onChange }) {
         {form.get('name').map(field => (
           <FormGroup className={block}>
             <Label htmlFor="name" hasError={!field.valid}>
-              Config Name
+              Name
             </Label>
             <Input
               id="name"
               className={`${block}__input`}
               type="text"
+              placeholder="WebHook Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid}
@@ -150,7 +153,7 @@ function Form({ form, onChange }) {
                   className={`${block}__input`}
                   id={`webhookUrl_${webhookUrl}`}
                   type="url"
-                  placeholder="your webhook URL"
+                  placeholder="Webhook URL"
                   value={webhookUrl}
                   onChange={e => onChangewebHookUrl(e, form, onChange, i)}
                 />
@@ -167,14 +170,14 @@ function Form({ form, onChange }) {
                   {message.message}
                 </ValidationBlock>
               ))}
+              <div>
+                <Button className={`${block}__add-button`} kind="success" onClick={() => addwebHookUrl(form, onChange)}>
+                  Add WebHook
+                </Button>
+              </div>
             </FormGroup>
           ));
         })}
-      </Section>
-      <Section>
-        <Button kind="success" onClick={() => addwebHookUrl(form, onChange)}>
-          Add webhook URL
-        </Button>
       </Section>
     </fieldset>
   );

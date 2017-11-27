@@ -16,7 +16,7 @@ export default function Step1({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid}>
-            Configuration Name
+            Name
           </Label>
           <Input
             id="name"
