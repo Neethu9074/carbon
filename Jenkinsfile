@@ -140,7 +140,6 @@ def runNodeBuild(gitCommitId, buildCommands) {
   deleteDir()
   unstash name: "ui-client-checkout-${gitCommitId}"
   sh '''
-    cp ~/.npmrc-private-registry .npmrc
     if [ -z "$(which yarn)" ]; then
       npm install -g yarn
     fi
