@@ -12,7 +12,6 @@ const chai = require('chai');
 const fs = require('fs');
 
 var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
-var setupThemeGlobals = require('../in-test/setupThemeGlobals');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
@@ -81,9 +80,6 @@ global.window.instana.user = {
 };
 
 global.requestAnimationFrame = fn => fn();
-
-// ensure that the theme information is defined
-setupThemeGlobals();
 
 // many tests import a whole bunch of modules and at some point this always
 // ends up in in-services/connection (which requirs WebSocket globals).

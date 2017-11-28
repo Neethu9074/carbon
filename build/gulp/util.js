@@ -34,16 +34,6 @@ exports.getRevision = function getRevision() {
 };
 
 
-exports.setActiveTheme = function setActiveTheme(themeName) {
-  execSync('rm -f "' + paths.activeThemeLessFile + '"');
-  execSync('rm -f "' + paths.activeThemeJsonFile + '"');
-
-  const themeBaseName = path.join(paths.assetDir, themeName, 'config');
-  execSync('ln -s "' + themeBaseName + '.json" "' + paths.activeThemeJsonFile + '"');
-  execSync('ln -s "' + themeBaseName + '.less" "' + paths.activeThemeLessFile + '"');
-};
-
-
 exports.startProxrox = function startProxrox(config) {
   var configLocation = path.join(os.tmpdir(), '.proxrox.json');
   fs.writeFileSync(configLocation, JSON.stringify(config, 0, 2));
