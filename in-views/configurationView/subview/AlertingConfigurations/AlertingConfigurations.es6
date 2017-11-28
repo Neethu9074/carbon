@@ -27,6 +27,8 @@ export default function AlertingConfigurations() {
       getEnabledState={entity => entity.get('muteUntil') === 0}
       setEnabledState={(entity, enabled) => entity.set('muteUntil', enabled ? 0 : Number.MAX_SAFE_INTEGER)}
       getRowDetails={getRowDetails}
+      getAddNewButtonDisabledMessage={rows =>
+        rows.length >= 10 ? 'Number of configurations is restricted to 10.' : null}
       cols={cols}
     />
   );
