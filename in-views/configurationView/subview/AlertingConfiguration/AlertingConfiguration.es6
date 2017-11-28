@@ -103,7 +103,13 @@ function createForm(config) {
     .put(
       'matchingEntities',
       createField({
-        value: List()
+        value: null
+      })
+    )
+    .put(
+      'timeOpened',
+      createField({
+        value: Date.now()
       })
     );
 }

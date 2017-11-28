@@ -17,6 +17,9 @@ export default function AlertingConfigurations() {
     getDeleteButtonColumn()
   ];
 
+  // will be reduced to 10 after test phase
+  const maxNumOfAlertingConfigurations = 100000;
+
   return (
     <BasicEntitiesOverview
       title="Alerting Configurations"
@@ -27,6 +30,10 @@ export default function AlertingConfigurations() {
       getEnabledState={entity => entity.get('muteUntil') === 0}
       setEnabledState={(entity, enabled) => entity.set('muteUntil', enabled ? 0 : Number.MAX_SAFE_INTEGER)}
       getRowDetails={getRowDetails}
+      getAddNewButtonDisabledMessage={rows =>
+        rows.length >= maxNumOfAlertingConfigurations
+          ? `Number of configurations is restricted to ${maxNumOfAlertingConfigurations}.`
+          : null}
       cols={cols}
     />
   );

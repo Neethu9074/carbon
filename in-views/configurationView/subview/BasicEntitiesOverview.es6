@@ -9,6 +9,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
@@ -195,15 +196,31 @@ export default class extends React.Component {
         };
       });
 
+    let AddNewButton = (
+      <Button kind="info" onClick={this.addNewRule}>
+        Add New
+      </Button>
+    );
+    if (this.props.getAddNewButtonDisabledMessage) {
+      const message = this.props.getAddNewButtonDisabledMessage(rows);
+      if (message) {
+        AddNewButton = (
+          <Tooltip content={message} align="rightMiddle">
+            <Button disabled kind="info" onClick={this.addNewRule}>
+              Add New
+            </Button>
+          </Tooltip>
+        );
+      }
+    }
+
     return (
       <SubViewWrapper>
         <Title title={this.props.title} />
         <SubViewHeader>{this.props.title}</SubViewHeader>
 
         <Section>
-          <Button kind="info" onClick={this.addNewRule}>
-            Add New
-          </Button>
+          {AddNewButton}
           {this.state.message ? (
             <Notification failure={this.state.error} loading={this.state.loading}>
               {this.state.message}

@@ -1,8 +1,8 @@
-import { combineLatest, create } from 'reactive-observables';
+import { create } from 'reactive-observables';
 import React from 'react';
 
-import createSearchObservable from 'in-services/subscription/search';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
+// import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
+import { alwaysNull } from 'in-services/fixedStreams';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -18,14 +18,19 @@ export default class FormDataEnrichment extends React.Component {
     this.debouncedQuery.emit(this.props.form.get('query').value);
     this.subscription = this.debouncedQuery
       .debounce(1000)
-      .flatMap(query => {
-        if (!`${query}`) {
-          return search('');
-        } else {
-          return search(`${query}`);
-        }
+      .flatMap(() => {
+        return alwaysNull;
+        // const timeOpened = this.props.form.get('timeOpened').value;
+        // const eventTypes = this.props.form.get('eventTypes').value;
+        // if (!`${query}`) {
+        //   return search(timeOpened, eventTypes, '');
+        // } else {
+        //   return search(timeOpened, eventTypes, `${query}`);
+        // }
       })
-      .subscribe(matchingEntities => this.props.onChange('matchingEntities', matchingEntities));
+      .subscribe(events => {
+        this.props.onChange('matchingEntities', events ? events.length : events);
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -35,7 +40,9 @@ export default class FormDataEnrichment extends React.Component {
   shouldComponentUpdate(nextProps) {
     const prevQuery = this.props.form.get('query').value;
     const nextQuery = nextProps.form.get('query').value;
-    if (prevQuery !== nextQuery) {
+    const prevEventTypes = this.props.form.get('eventTypes').value;
+    const nextEventTypes = nextProps.form.get('eventTypes').value;
+    if (prevQuery !== nextQuery || prevEventTypes !== nextEventTypes) {
       return true;
     }
     return false;
@@ -53,13 +60,13 @@ export default class FormDataEnrichment extends React.Component {
   }
 }
 
-function search(query) {
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
-    return createSearchObservable({
-      query,
-      time: focusedMoment,
-      view: 'TABLE',
-      timeframe
-    });
-  });
-}
+// function search(timeOpened, eventTypes, query) {
+//   return getEventsInTimeframeSubscription({
+//     focusedMoment: timeOpened,
+//     timeframe: {
+//       to: timeOpened,
+//       windowSize: 1000 * 60 * 60 * 24 * 7 // 1 week
+//     },
+//     query
+//   });
+// }

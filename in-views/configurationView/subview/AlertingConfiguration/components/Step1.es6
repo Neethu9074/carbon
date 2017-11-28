@@ -51,9 +51,13 @@ function MatchingEntitiesIndicator({ form }) {
     <div className={`${block}__matching-entities-indicator`}>
       {form.get('matchingEntities').map(field => {
         const matchingEntities = field.value;
+        if (!matchingEntities) {
+          return null;
+        }
         return (
           <span>
-            {matchingEntities.size} {matchingEntities.size === 1 ? 'Entity' : 'Entities'} matched
+            {matchingEntities >= 1000 ? '>' : ''}
+            {matchingEntities} {matchingEntities === 1 ? 'Event' : 'Events'} matched
           </span>
         );
       })}

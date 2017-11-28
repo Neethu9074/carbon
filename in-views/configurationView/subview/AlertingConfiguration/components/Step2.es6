@@ -37,7 +37,7 @@ export default function Step2({ form, onChange }) {
             className={`${block}__advanced-options-label-wrapper`}
             onClick={() => onChange('advancedMode', !field.value)}
           >
-            <span className={`${block}__bold-text`}>Add events filter:</span>
+            <span className={`${block}__bold-text`}>Advanced Filter:</span>
             <SvgIcon
               type={field.value ? 'triangle_up' : 'triangle_down'}
               className={`${block}__icon`}
@@ -46,41 +46,43 @@ export default function Step2({ form, onChange }) {
             />
           </div>
         ))}
-
-        {form.get('advancedMode').map(
-          field =>
-            field.value ? (
-              <div>
-                {form.get('query').map(eventQueryField => (
-                  <div>
-                    <Input
-                      id="rule-query"
-                      type="text"
-                      placeholder="e.g: event.text:CPU*"
-                      className={`${block}__input`}
-                      value={eventQueryField.value}
-                      onChange={e => onChange('query', e.target.value)}
-                      hasError={!eventQueryField.valid}
-                    />
-                    {eventQueryField.messages.map((message, i) => (
-                      <ValidationBlock hasError key={i}>
-                        {message.message}
-                      </ValidationBlock>
-                    ))}
-                    <MatchingEntitiesIndicator form={form} />
-                  </div>
-                ))}
-                <SelectedEntities
-                  form={form}
-                  onChange={onChange}
-                  getItems={getHealthRules}
-                  fieldName="description"
-                  formFieldName="ruleIds"
-                />
-              </div>
-            ) : null
-        )}
       </RuleControl>
+      {form.get('advancedMode').map(
+        field =>
+          field.value ? (
+            <RuleControl
+              name=""
+              helpText="Only events that match the advanced filter will enter the notification stream. When empty, no filter is applied. For example, to only receive notifications for a prod environment: 'entity.zone:production'."
+            >
+              {form.get('query').map(eventQueryField => (
+                <div>
+                  <Input
+                    id="rule-query"
+                    type="text"
+                    placeholder="e.g: event.text:CPU*"
+                    className={`${block}__input`}
+                    value={eventQueryField.value}
+                    onChange={e => onChange('query', e.target.value)}
+                    hasError={!eventQueryField.valid}
+                  />
+                  {eventQueryField.messages.map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))}
+                  <MatchingEntitiesIndicator form={form} />
+                </div>
+              ))}
+              <SelectedEntities
+                form={form}
+                onChange={onChange}
+                getItems={getHealthRules}
+                fieldName="description"
+                formFieldName="ruleIds"
+              />
+            </RuleControl>
+          ) : null
+      )}
     </Step>
   );
 }
@@ -118,10 +120,15 @@ function MatchingEntitiesIndicator({ form }) {
     <div className={`${block}__matching-entities-indicator`}>
       {form.get('matchingEntities').map(field => {
         const matchingEntities = field.value;
+        if (!matchingEntities) {
+          return null;
+        }
+
         return (
-          <span>
-            {matchingEntities.size} {matchingEntities.size === 1 ? 'Entity' : 'Entities'} matched
-          </span>
+          <div className={`${block}__matching-text`}>
+            {matchingEntities >= 1000 ? '>' : ''}
+            {matchingEntities} {matchingEntities === 1 ? 'event' : 'events'} match over the past week
+          </div>
         );
       })}
     </div>

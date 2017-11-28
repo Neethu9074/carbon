@@ -37,13 +37,15 @@ export default class extends React.Component {
   }
 
   render() {
-    const { title, entityTitle, Form } = this.props;
-    const { form } = this.state;
+    const { title, getEntityTitle, defaultEntityTitle, Form } = this.props;
+    const { form, entity } = this.state;
 
     return (
       <SubViewWrapper>
         <Title title={title} />
-        <SubViewHeader>{entityTitle ? `Configure ${entityTitle}` : null}</SubViewHeader>
+        <SubViewHeader>
+          {getEntityTitle ? `Configure ${getEntityTitle(entity)}` : `Configure ${defaultEntityTitle || ''}`}
+        </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
           <Section>

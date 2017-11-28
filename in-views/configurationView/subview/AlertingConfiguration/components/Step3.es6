@@ -73,7 +73,10 @@ class IntegrationTable extends React.Component {
     this.disposeSubscription();
   }
 
-  update = () => {
+  update = integration => {
+    if (integration) {
+      select(integration.get('id'), this.props.form, this.props.onChange);
+    }
     this.disposeSubscription();
     this.subscription = getIntegrations().once(integrations => this.setState({ integrations }));
   };
@@ -106,7 +109,7 @@ class IntegrationTable extends React.Component {
       }));
 
     return (
-      <RuleControl name="Integrations" helpText="Select integrations you want to be alerted on.">
+      <RuleControl name="Send to" helpText="Select integrations you want to be alerted on.">
         <div
           className={`${block}__create-link`}
           onClick={() => setActiveDialog(<AddNewIntegrationDialog onClose={this.update} />)}

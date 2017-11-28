@@ -14,7 +14,8 @@ export default function Integration(props) {
     <BasicEntityOverview
       createEntity={() => createIntegration(null, matrix.kind)}
       title="Integration"
-      entityTitle="integration"
+      defaultEntityTitle="Integration"
+      getEntityTitle={entity => (entity ? `${fullyQualified[entity.get('kind')].label} Integration` : 'Integration')}
       createForm={createForm}
       getEntity={getIntegration}
       openEntities={openIntegrations}

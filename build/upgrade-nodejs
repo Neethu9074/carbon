@@ -7,7 +7,7 @@
 # have the Node.js version installed which is specified by the .nvmrc.
 # We therefore source it in the beginning and enable strict error mode
 # in the following line.
-. "$HOME/.nvm/nvm.sh" --no-use
+. "${NVM_DIR:-"$HOME/.nvm"}/nvm.sh" --no-use
 
 set -eo pipefail
 
