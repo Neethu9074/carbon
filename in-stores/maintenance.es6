@@ -1,9 +1,9 @@
 /* eslint-disable react/no-danger */
-
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
 import { getSetting$ } from 'in-services/settings';
 import { isOnPremise } from 'in-services/config';
@@ -46,7 +46,7 @@ export function init() {
           {
             type: 'info',
             icon: 'server',
-            content: <div dangerouslySetInnerHTML={{ __html: toHtml(message) }} />,
+            content: <DangerousHtmlPresenter dangerouslySetInnerHTML={{ __html: toHtml(message) }} />,
             onClick: markAsRead
           },
           messageId

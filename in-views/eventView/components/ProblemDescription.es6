@@ -1,8 +1,8 @@
 /* eslint-disable react/no-danger */
-
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { toHtml } from 'in-services/formatters/markdown';
 
@@ -16,7 +16,7 @@ export default addSection(function EventProblem({ event }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Detail">
-        <span className={`${block}__suggestion`} dangerouslySetInnerHTML={{ __html: fixSuggestion }} />
+        <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
       </DescriptionItem>
     </DescriptionList>
   );

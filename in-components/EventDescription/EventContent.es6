@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import { toHtml } from 'in-services/formatters/markdown';
 
@@ -19,8 +20,7 @@ export default function EventContent({ showFullTextIfToLong, snapshotId, event, 
         {event.getIn(['problem', 'problemText'])}
       </div>
 
-      <div className={`${block}__suggestion`} dangerouslySetInnerHTML={{ __html: fixSuggestion }} />
-
+      <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
       <SnapshotDescription snapshotId={snapshotId} time={event.get('start')} />
     </div>
   );

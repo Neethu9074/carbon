@@ -1,8 +1,9 @@
 import React from 'react';
 
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { markAsRead, releaseNotes$ } from 'in-stores/releaseNotes';
-import { toHtml } from 'in-services/formatters/markdown';
 import NotificationDialog from 'in-components/NotificationDialog';
+import { toHtml } from 'in-services/formatters/markdown';
 import connectTo from 'in-hoc/connectTo';
 
 import './ReleaseNotesDialog.less';
@@ -20,7 +21,7 @@ export default connectTo(
 
     return (
       <NotificationDialog onClose={markAsRead} title="Release Notes">
-        <div dangerouslySetInnerHTML={{ __html: toHtml(releaseNotes) }} className={block} />
+        <DangerousHtmlPresenter className={block} html={toHtml(releaseNotes)} />
       </NotificationDialog>
     );
   }

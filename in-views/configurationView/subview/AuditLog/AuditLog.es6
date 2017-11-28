@@ -6,6 +6,7 @@ import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditL
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import Section from 'in-views/configurationView/components/Section';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -111,7 +112,8 @@ const AuditLogEntries = connectTo(
                   <span className={`${block}__time`}>
                     {` - ${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
                   </span>
-                  <div dangerouslySetInnerHTML={{ __html: toHtml(logEntry.get('message')) }} />
+
+                  <DangerousHtmlPresenter className={`${block}__suggestion`} html={toHtml(logEntry.get('message'))} />
                 </div>
               </div>
             </li>

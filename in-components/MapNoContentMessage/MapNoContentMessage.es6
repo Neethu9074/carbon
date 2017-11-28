@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -55,14 +56,7 @@ export default connectTo(
           {
             type: 'info',
             title: 'No data found',
-            content: (
-              <div
-                className={block}
-                dangerouslySetInnerHTML={{
-                  __html: toHtml(message)
-                }}
-              />
-            )
+            content: <DangerousHtmlPresenter className={block} html={toHtml(message)} />
           },
           'mapNoContent'
         );

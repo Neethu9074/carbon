@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
-
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import createUsageInfoSubscription from 'in-services/subscription/usageInfo';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { createTrackingStore, createStore } from 'in-stores/store';
 import { toHtml } from 'in-services/formatters/markdown';
 
@@ -39,7 +39,7 @@ export function init() {
         {
           type: usageInfo.get('type'),
           icon: 'info',
-          content: <div dangerouslySetInnerHTML={{ __html: toHtml(usageInfo.get('note')) }} />,
+          content: <DangerousHtmlPresenter html={toHtml(usageInfo.get('note'))} />,
           onClick: hideUsageInfo
         },
         messageId

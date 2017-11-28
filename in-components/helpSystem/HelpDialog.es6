@@ -1,8 +1,8 @@
 /* global require:false */
-
 import rpt from 'prop-types';
 import React from 'react';
 
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import NotificationDialog from 'in-components/NotificationDialog';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { closeHelp } from 'in-stores/navigation';
@@ -66,7 +66,7 @@ class HelpDialog extends React.PureComponent {
     if (this.state.article) {
       content = (
         <NotificationDialog title={this.state.article.meta.title} onClose={closeHelp}>
-          <div dangerouslySetInnerHTML={{ __html: this.state.article.html }} className={`${block}__content`} />
+          <DangerousHtmlPresenter className={`${block}__content`} html={this.state.article.html} />
         </NotificationDialog>
       );
     } else if (this.state.error) {

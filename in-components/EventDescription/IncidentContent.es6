@@ -4,6 +4,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { getEvent, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -43,10 +44,7 @@ function IncidentContent({ incident, events, snapshot }) {
 
       <Header event={firstEvent} text={problem.get('problemText')} />
 
-      <div
-        className={block + '__suggestion'}
-        dangerouslySetInnerHTML={{ __html: toHtml(problem.get('fixSuggestion', '')) }}
-      />
+      <DangerousHtmlPresenter className={`${block}__suggestion`} html={toHtml(problem.get('fixSuggestion', ''))} />
 
       <SnapshotDescription snapshotId={problem.get('snapshotId', '')} time={firstEvent.get('start')} />
     </div>
