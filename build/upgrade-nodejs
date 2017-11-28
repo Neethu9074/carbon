@@ -25,8 +25,10 @@ rm -rf ~/.node-gyp
 # we also update the in-server
 rm -rf in-server/node_modules
 
-# copy npmrc
-cp .npmrc in-server
+# Force removal of npmrc. Our nexus is outdated and does not support
+# new Node package formats. Some developers may still have .npmrc files,
+# which is why we force remove it.
+rm -f .npmrc in-server/.npmrc
 
 # okay, actually install the current version
 nvm install "$NEW_NODE_VERSION"

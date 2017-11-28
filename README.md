@@ -4,7 +4,6 @@
 
 - [Branching Model](#branching-model)
 - [Getting Started](#getting-started)
-	- [Accessing our artifact repository via Yarn](#accessing-our-artifact-repository-via-yarn)
 	- [Installation of required software](#installation-of-required-software)
 		- [Node.js and Yarn](#nodejs-and-yarn)
 		- [Nginx](#nginx)
@@ -27,15 +26,6 @@ We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-mod
 ## Getting Started
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
 [Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
-
-### Accessing our artifact repository via Yarn
-To access our artifact repository (NEXUS) and retrieve dependencies via Yarn, you need to add a local `.npmrc` configuration file to the `ui-client` directory. You do so via…
-
-```
-cp .npmrc.sample .npmrc
-```
-
-You need to edit the `.npmrc` file according to the comments contained within that file (*read the comments in the file!*). Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default via the `.gitignore`.
 
 ### Installation of required software
 

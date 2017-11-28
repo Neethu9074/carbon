@@ -166,8 +166,5 @@
     "url-loader": "^0.5.5",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
-  },
-  "publishConfig": {
-    "registry": "https://repo-internal.instana.io/nexus/content/repositories/instana-npm-releases/"
   }
 }
