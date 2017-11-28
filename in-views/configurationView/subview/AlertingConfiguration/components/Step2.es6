@@ -1,9 +1,7 @@
 import React from 'react';
 
-import SelectedEntities from 'in-views/configurationView/subview/AlertingConfiguration/components/SelectedEntities';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import { getHealthRules } from 'in-services/api/healthRules';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
@@ -73,13 +71,6 @@ export default function Step2({ form, onChange }) {
                   <MatchingEntitiesIndicator form={form} />
                 </div>
               ))}
-              <SelectedEntities
-                form={form}
-                onChange={onChange}
-                getItems={getHealthRules}
-                fieldName="description"
-                formFieldName="ruleIds"
-              />
             </RuleControl>
           ) : null
       )}
