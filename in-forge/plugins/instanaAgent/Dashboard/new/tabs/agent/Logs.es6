@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/new/components/ButtonSection';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogStreamer';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 
 export default function Logs({ snapshot }) {
