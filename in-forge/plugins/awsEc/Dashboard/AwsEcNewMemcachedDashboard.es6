@@ -13,9 +13,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_hash'],
@@ -29,10 +26,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['cmd_config_get', 'cmd_config_set', 'cmd_touch'],
@@ -46,9 +39,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['cmd_touch'],
@@ -62,10 +52,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['evicted_unfetched', 'expired_unfetched'],
@@ -79,10 +65,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['touch_hits', 'touch_misses'],
@@ -96,9 +78,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['slabs_moved'],
