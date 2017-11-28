@@ -1,11 +1,11 @@
 import { setUnhandledErrorHandler } from 'reactive-observables';
-import logging from 'instalog';
+import { createLogger } from 'instalog';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEmployee } from 'in-stores/user';
 import { config } from 'in-services/config';
 
-const unhandledLogger = logging.createLogger('in-services/unhandledErrors');
+const unhandledLogger = createLogger('in-services/unhandledErrors');
 
 export function init() {
   setUnhandledErrorHandler(e => {

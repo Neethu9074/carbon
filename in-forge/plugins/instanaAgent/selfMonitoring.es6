@@ -1,9 +1,9 @@
-import logging from 'instalog';
+import { createLogger } from 'instalog';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import { goToDashboard } from 'in-stores/navigation/navigation';
 
-const logger = logging.createLogger('in-forge/instanaAgent/selfMonitoring');
+const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
 
 export function start(snapshot, open) {
   createAgentResponseObservable({

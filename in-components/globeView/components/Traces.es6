@@ -1,4 +1,4 @@
-import logging from 'instalog';
+import { createLogger } from 'instalog';
 
 import { Mesh, Color, Object3D, MeshBasicMaterial, DoubleSide } from 'in-map/3DLibProvider';
 import TraceBufferGeometry from 'in-components/globeView/components/TraceGeometry';
@@ -8,7 +8,7 @@ const sizeForMaxColor = 100;
 const fromColor = { r: 0, g: 0.5, b: 1 };
 const toColor = { r: 1, g: 0.5, b: 0 };
 const degToRad = Math.PI / 180;
-const logger = logging.createLogger('globeview');
+const logger = createLogger('globeview');
 
 export default class Traces {
   constructor(parent) {

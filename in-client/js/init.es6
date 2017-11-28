@@ -3,9 +3,9 @@
 /* eslint-disable instana-import-order/instana-import-order */
 import 'in-forge';
 
+import { ConsoleAppender, addAppender } from 'instalog';
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import logging from 'instalog';
 import React from 'react';
 
 import { init as initHighlightedSuggestionStore } from 'in-components/SearchBar/stores/highlightedSuggestion';
@@ -41,16 +41,16 @@ import './devtools/storeStates';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
-if (logging.ConsoleAppender.isPossible()) {
-  const consoleAppender = new logging.ConsoleAppender();
+if (ConsoleAppender.isPossible()) {
+  const consoleAppender = new ConsoleAppender();
   consoleAppender.setActivePriority(11);
-  logging.addAppender(consoleAppender);
+  addAppender(consoleAppender);
 }
 
 if (!__DEV__) {
   const uiTrackerAppender = new UiTrackerLogAppender();
   uiTrackerAppender.setActivePriority(31);
-  logging.addAppender(uiTrackerAppender);
+  addAppender(uiTrackerAppender);
 }
 
 // expose the React global to analyze performance issues

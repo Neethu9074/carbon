@@ -4347,12 +4347,6 @@ inquirer@^0.9.0:
     strip-ansi "^3.0.0"
     through "^2.3.6"
 
-instalog@^1.0.0:
-  version "1.1.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/instalog/-/instalog-1.1.0.tgz#0172d3034d219ce119c794404dc778f6231c57d7"
-  dependencies:
-    invariant "^2.0.0"
-
 instana-nodejs-sensor@next:
   version "1.26.8"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/instana-nodejs-sensor/-/instana-nodejs-sensor-1.26.8.tgz#2f5296a78acd0b0db946cd5b5fa1b7bebeae7f30"
@@ -4387,7 +4381,7 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-invariant@^2.0.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
