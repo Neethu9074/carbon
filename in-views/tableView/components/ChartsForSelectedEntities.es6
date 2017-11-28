@@ -62,9 +62,6 @@ function SelectedChart({ metric, snapshots }) {
 
       <Chart
         snapshotIds={snapshots.map(s => s.get('id'))}
-        margins={{
-          left: 90
-        }}
         y1={{
           metrics: snapshots.map(() => definition.metric),
           labels: snapshots.map(s => getLabel(s)),

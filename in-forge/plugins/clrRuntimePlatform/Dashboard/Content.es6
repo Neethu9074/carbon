@@ -72,9 +72,6 @@ export default function ClrDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 100
-          }}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,

@@ -101,9 +101,6 @@ export default function HostDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 90
-            }}
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,

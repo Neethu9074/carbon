@@ -112,9 +112,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 90
-      }}
       y1={{
         min: 0,
         formatter: bytesZeroDecimalPlaces,

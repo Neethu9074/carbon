@@ -52,10 +52,6 @@ export default function Summary({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100,
-              right: 100
-            }}
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.total']),
@@ -82,9 +78,6 @@ export default function Summary({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100
-            }}
             y1={{
               min: 0,
               formatter: bytesPerSecondTwoDecimalPlaces,
@@ -99,10 +92,6 @@ export default function Summary({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100,
-              right: 100
-            }}
             y1={{
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],

@@ -60,9 +60,6 @@ export default function JVMDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 100
-          }}
           y1={{
             min: 0,
             max: snapshot.getIn(['data', 'memory.max']),

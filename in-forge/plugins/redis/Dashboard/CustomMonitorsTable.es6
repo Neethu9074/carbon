@@ -61,9 +61,6 @@ function getRowDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 90
-      }}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
         metrics: ['monitor.' + row.monitorName],

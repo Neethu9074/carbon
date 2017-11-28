@@ -96,7 +96,6 @@ const ChartWrapper = connectTo(
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
-            left: 80,
             right: 1
           }}
           y1={{

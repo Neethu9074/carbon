@@ -66,9 +66,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 90
-      }}
       y1={{
         formatter: rateFormatter,
         metrics: ['metrics.meters.' + row.name],
