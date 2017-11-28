@@ -8,10 +8,9 @@ var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var mkdirp = require('mkdirp');
-var execSync = require('child_process').execSync;
 
+const translateTheme = require('./translateTheme');
 var buildUtil = require('./util');
-
 var paths = require('./paths');
 
 
@@ -51,24 +50,6 @@ gulp.task('writeBuildInfo', cb => {
 
 
 gulp.task('translateThemeConfigs', () => {
-  buildTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
-  buildTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
+  translateTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
+  translateTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
 });
-
-
-function buildTheme(themeName, sourceDir, targetDir) {
-  var script = path.join(
-    paths.rootDir,
-    'node_modules',
-    'instana-ui-theme',
-    'build',
-    'translateTheme.js'
-  );
-
-  execSync(
-    'node "' + script + '" "' + themeName + '" "' + sourceDir + '" "' + targetDir + '"',
-    {
-      stdio: 'inherit'
-    }
-  );
-}

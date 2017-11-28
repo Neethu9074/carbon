@@ -1,22 +1,34 @@
 #!/bin/sh
 
+linkModule() {
+  name="$1"
+  rm -f node_modules/$name
+  ln -s "../$name" "node_modules/$name"
+}
+
+linkLib() {
+  name="$1"
+  rm -f node_modules/$name
+  ln -s "../packages/$name" "node_modules/$name"
+}
+
 echo "Symlinking node modules to node_modules to enable shorter require paths"
-rm -f node_modules/in-*
-ln -s ../in-services node_modules/in-services
-ln -s ../in-sdk node_modules/in-sdk
-ln -s ../in-forge node_modules/in-forge
-ln -s ../in-map node_modules/in-map
-ln -s ../in-themes node_modules/in-themes
-ln -s ../in-components node_modules/in-components
-ln -s ../in-test node_modules/in-test
-ln -s ../in-stores node_modules/in-stores
-ln -s ../in-hoc node_modules/in-hoc
-ln -s ../in-client node_modules/in-client
-ln -s ../in-charts node_modules/in-charts
-ln -s ../in-views node_modules/in-views
-ln -s ../libs/roemitter node_modules/roemitter
-ln -s ../libs/instalog node_modules/instalog
-ln -s ../libs/reactive-observables node_modules/reactive-observables
+linkModule in-services
+linkModule in-sdk
+linkModule in-forge
+linkModule in-map
+linkModule in-themes
+linkModule in-components
+linkModule in-test
+linkModule in-stores
+linkModule in-hoc
+linkModule in-client
+linkModule in-charts
+linkModule in-views
+
+linkLib roemitter
+linkLib instalog
+linkLib reactive-observables
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
