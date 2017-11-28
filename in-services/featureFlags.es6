@@ -6,6 +6,7 @@ const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current'
 const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
 const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
 const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
+const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 const onlyInternally =
   __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu);
@@ -18,7 +19,7 @@ export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = onlyInternally;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
-export const alertingEnabled = monitoringTu || testTu || __DEV__;
+export const alertingEnabled = loadTu || monitoringTu || testTu || __DEV__;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
