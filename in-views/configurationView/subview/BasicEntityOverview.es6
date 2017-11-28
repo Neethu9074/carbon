@@ -147,8 +147,6 @@ export default class extends React.Component {
 
     const entity = this.state.entity;
     const form = this.state.form;
-    this.props.save(entity, form);
-
     const result$ = this.props.save(entity, form);
 
     this.disposeAsyncAction();
