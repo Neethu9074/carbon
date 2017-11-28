@@ -1,5 +1,4 @@
 import { combineLatest } from 'reactive-observables';
-import rpt from 'prop-types';
 import React from 'react';
 
 import { applyTransform } from 'in-services/util/dom';
@@ -12,12 +11,6 @@ const invisibleClass = `${block}__invisible`;
 export default function StickyNote(ComposedComponent) {
   return class extends React.Component {
     static displayName = `StickyNote for ${ComposedComponent.displayName || ComposedComponent.name}`;
-
-    static propTypes = {
-      eventEmitter: rpt.object.isRequired,
-      showSticky$: rpt.object.isRequired,
-      id: rpt.string.isRequired
-    };
 
     state = {
       isVisible: false
@@ -50,6 +43,7 @@ export default function StickyNote(ComposedComponent) {
     }
 
     setupSubscriptions = (props = this.props) => {
+      const { eventEmitter, id, showSticky$ } = props;
       this.disposeSubscriptions();
 
       const isVisibleChangedCallback = ([_position, _isVisible, _showSticky]) => {
@@ -63,9 +57,9 @@ export default function StickyNote(ComposedComponent) {
       };
 
       this.positionSubscription = combineLatest([
-        props.eventEmitter.on('screenPositionChanged' + props.id),
-        props.eventEmitter.on('isVisibleChanged' + props.id).distinct(),
-        props.showSticky$.distinct()
+        eventEmitter.on('screenPositionChanged' + id),
+        eventEmitter.on('isVisibleChanged' + id).distinct(),
+        showSticky$.distinct()
       ]).subscribe(isVisibleChangedCallback);
     };
 

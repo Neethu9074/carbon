@@ -4,7 +4,6 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getClassName } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Collapsible.less';
@@ -54,36 +53,34 @@ class Collapsible extends React.PureComponent {
 
 export default Collapsible;
 
-class Header extends React.Component {
-  static propTypes = {
-    children: rpt.any.isRequired,
-    className: rpt.string,
-    style: rpt.object,
-    toggle: rpt.func,
-    isOpen: rpt.bool
-  };
+function Header({ isOpen, toggle, style, children, className }) {
+  let classNames = evaluateClassNames({
+    [`${block}__header`]: true,
+    [`${className}__header`]: className
+  });
 
-  render() {
-    const isOpen = this.props.isOpen;
-    let className = getClassName(this, block, '__header');
-    if (!isOpen) {
-      className += ' ' + getClassName(this, block, '__header__closed');
-    }
-
-    return (
-      <div onClick={this.props.toggle} className={className} style={this.props.style}>
-        <span>{this.props.children}</span>
-
-        <SvgIcon
-          type={isOpen ? 'triangle_down' : 'triangle_right'}
-          className={block + '__toggle'}
-          color="#6B8088"
-          height={6}
-          width={6}
-        />
-      </div>
-    );
+  if (!open) {
+    classNames = evaluateClassNames({
+      [`${block}__header`]: true,
+      [`${className}__header`]: className,
+      [`${block}__header__closed`]: true,
+      [`${className}__header__closed`]: className
+    });
   }
+
+  return (
+    <div onClick={toggle} className={classNames} style={style}>
+      <span>{children}</span>
+
+      <SvgIcon
+        type={isOpen ? 'triangle_down' : 'triangle_right'}
+        className={block + '__toggle'}
+        color="#6B8088"
+        height={6}
+        width={6}
+      />
+    </div>
+  );
 }
 
 Collapsible.Header = Header;
