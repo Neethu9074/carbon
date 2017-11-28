@@ -52,7 +52,6 @@ stage('Node Build') {
   parallel buildSteps
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
-
 }
 
 stage ('Container Build') {
@@ -114,6 +113,27 @@ stage('Deployment') {
   }
 
   parallel deployments
+}
+
+stage('Storybook build') {
+  if ( env.BRANCH_NAME == 'develop' ) {
+    node {
+      runNodeBuild(gitCommitId, 'yarn && npm run storybookBuild')
+      if ( currentBuild.currentResult == 'SUCCESS' ) {
+        stash includes: "storybookTarget/**/*", name: "ui-client-storybook-build-${gitCommitId}"
+      }
+    }
+    slackNotification('Storybook build', 'ui-client', gitCommitId, currentBuild.currentResult)
+  }
+}
+
+stage('Deploy Storybook to S3') {
+  if ( env.BRANCH_NAME == 'develop' ) {
+    node {
+      // sh "s3cmd sync --delete-removed ./public/ s3://docs-us.instana.com/${env.BRANCH_NAME}/"
+    }
+    slackNotification('Storybook S3 Deployment', 'docs', gitCommitId, currentBuild.currentResult)
+  }
 }
 
 def runNodeBuild(gitCommitId, buildCommands) {

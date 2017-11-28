@@ -18,6 +18,7 @@
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "storybook": "start-storybook -p 9001 -c storybook/config",
+    "storybookBuild": "build-storybook -c storybook/config -o storybookTarget",
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
