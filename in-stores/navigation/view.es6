@@ -47,7 +47,7 @@ export function getTraceViewLinkShowingTrace(traceId) {
 }
 
 export const eventViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/events';
+  params.pathname = '/events;view=incident';
 });
 
 export function getEventViewWithEvent(eventId) {
