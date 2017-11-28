@@ -35,6 +35,7 @@ module.exports = {
   globals: (function(){
     var globals = require("globals").browser;
     delete globals["name"];
+    delete globals["Notification"];
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.preval = false;
@@ -262,7 +263,7 @@ module.exports = {
 
     // only .jsx files may have JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
-    'react/jsx-filename-extension': ['error', { extensions: ['.es6'] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.es6', '.js'] }],
 
     // prevent accidental JS comments from being injected into JSX as text
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-comment-textnodes.md
