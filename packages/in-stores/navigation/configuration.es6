@@ -61,9 +61,10 @@ const userManagementViewPath = '/config/users';
 export const userManagementViewLink$ = buildUrlStream({ path: userManagementViewPath });
 export const isUserManagementView$ = buildPathStartsWithStream(userManagementViewPath);
 
-const rolesConfigViewPath = '/config/rolesConfig';
+const rolesConfigViewPath = '/config/rolesConfigs';
+const roleConfigViewPath = '/config/rolesConfig';
 export const rolesConfigViewLink$ = buildUrlStream({ path: rolesConfigViewPath });
-export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
+export const isRolesConfigView$ = buildPathStartsWithStream(roleConfigViewPath);
 
 export function getRoleConfigLink(roleId) {
   return getModifiedUrlStream(params => (params.pathname = getRoleConfigPath(roleId)));
@@ -74,11 +75,11 @@ export function openRoleConfig(roleId) {
 }
 
 export function openRoles() {
-  mutateUrl(params => (params.pathname = '/config/rolesConfig'));
+  mutateUrl(params => (params.pathname = '/config/rolesConfigs'));
 }
 
 function getRoleConfigPath(roleId) {
-  return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
+  return roleId ? `${roleConfigViewPath}/${encodeURIComponent(roleId)}` : roleConfigViewPath;
 }
 
 const apiTokensViewPath = '/config/apiTokens';

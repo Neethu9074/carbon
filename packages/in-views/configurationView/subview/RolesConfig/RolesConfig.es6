@@ -1,16 +1,14 @@
 import { createLogger } from 'instalog';
-import { Map } from 'immutable';
 import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRoles, saveRole, deleteRole } from 'in-services/api/roles';
+import { getRoles, deleteRole } from 'in-services/api/roles';
 import { getRoleConfigLink } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { openRoleConfig } from 'in-stores/navigation/configuration';
-import { generateUniqueShortId } from 'in-services/util/id';
 import Notification from 'in-components/form/Notification';
 import { emptySet } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -117,40 +115,8 @@ export default class extends React.Component {
   }
 
   addNewRole = () => {
-    const newRole = Map({
-      id: generateUniqueShortId(),
-      name: 'New Role',
-      implicitViewFilter: '',
-      canConfigureServiceMapping: false,
-      canConfigureEumApplications: false,
-      canConfigureUsers: false,
-      canConfigureRoles: false,
-      canInstallNewAgents: false,
-      canSeeUsageInformation: false,
-      canSeeOnPremLicenseInformation: false,
-      canConfigureIntegrations: false
-    });
-
-    this.setState({
-      error: false,
-      loading: true,
-      message: 'Adding new role…'
-    });
-
-    const result$ = saveRole(newRole);
-    this.responseSubscription = result$.once(() => {
-      openRoleConfig(newRole.get('id'));
-    });
-
-    this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save new role: ${error.message}`;
-      logger.error(message, error);
-      this.setState({
-        error: true,
-        loading: false,
-        message
-      });
-    });
+    this.disposeAsyncAction();
+    openRoleConfig();
   };
 
   onDelete = role => {

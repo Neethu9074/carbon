@@ -75,9 +75,9 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)} path="/config/userInterface" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)} path="/config/eumKeys" />
 
+    <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)} path="/config/rolesConfigs" />
     <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)} path="/config/rolesConfig/:roleId" />
-
-    <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)} path="/config/rolesConfig" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)} path="/config/rolesConfig" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)} path="/config/users" />
 

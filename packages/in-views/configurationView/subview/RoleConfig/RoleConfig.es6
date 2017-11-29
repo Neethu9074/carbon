@@ -1,160 +1,65 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
+import { getRole, saveRole, createRole } from 'in-services/api/roles';
 import Section from 'in-views/configurationView/components/Section';
 import { openRoles } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';
 import Notification from 'in-components/form/Notification';
-import { getRole, saveRole } from 'in-services/api/roles';
+import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
-import Title from 'in-components/Title';
 
-const logger = createLogger('roleConfig');
+export default function AlertingConfiguration(props) {
+  const entityId = props.match.params.roleId;
 
-export default class extends React.Component {
-  static displayName = 'RoleConfig';
+  return (
+    <Form
+      title="Role Configuration"
+      entityId={entityId}
+      createDefaultEntity={createRole}
+      createForm={createForm}
+      getEntityFromApi={getRole}
+      openEntities={openRoles}
+      saveEntity={save}
+    />
+  );
+}
 
-  state = {
-    loading: true,
-    error: false,
-    message: 'Loading Role…',
-    form: null,
-    role: null
-  };
+const Form = entityForm(function IntegrationForm(props) {
+  const { entity, form, message, error, loading } = props;
 
-  componentWillMount() {
-    this.loadRole(this.props.match.params.roleId);
-  }
+  const roleId = form ? form.get('id').value : null;
+  // do not allow editing of the owner or fallback role
+  const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.roleId !== nextProps.match.params.roleId) {
-      this.loadRole(nextProps.match.params.roleId);
-    }
-  }
+  return (
+    <div>
+      <SubViewHeader>Configure Role: {entity.get('name')}</SubViewHeader>
 
-  loadRole = roleId => {
-    this.disposeAsyncAction();
+      <Section>
+        <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+          Save
+        </Button>
 
-    this.setState({
-      loading: true,
-      error: false,
-      message: 'Loading Role…',
-      form: null,
-      role: null
-    });
+        {message ? (
+          <Notification failure={error} loading={loading}>
+            {message}
+          </Notification>
+        ) : null}
+      </Section>
 
-    const result$ = getRole(roleId);
-    this.responseSubscription = result$.once(role => {
-      this.setState({
-        loading: false,
-        error: false,
-        message: null,
-        role,
-        form: createForm(role)
-      });
-    });
+      <RoleForm {...props} disabled={disabled} />
+    </div>
+  );
+});
 
-    this.errorSubscription = result$.errors().once(() => {
-      this.setState({
-        loading: false,
-        error: true,
-        message: 'Failed to load role.'
-      });
-    });
-  };
-
-  componentWillUnmount() {
-    this.disposeAsyncAction();
-  }
-
-  disposeAsyncAction = () => {
-    if (this.responseSubscription) {
-      this.responseSubscription.dispose();
-    }
-
-    if (this.errorSubscription) {
-      this.errorSubscription.dispose();
-    }
-  };
-
-  render() {
-    const { form, role } = this.state;
-    const roleId = form ? form.get('id').value : null;
-    // do not allow editing of the owner or fallback role
-    const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
-
-    return (
-      <SubViewWrapper>
-        <Title title="Role Config" />
-        <SubViewHeader>{role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}</SubViewHeader>
-
-        <form onSubmit={this.onSubmit}>
-          <Section>
-            {form && !disabled ? (
-              <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                Save
-              </Button>
-            ) : null}
-
-            {this.state.message ? (
-              <Notification failure={this.state.error} loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            ) : null}
-
-            {form && disabled ? <p>This role cannot be modified as it is a predefined system role.</p> : null}
-          </Section>
-
-          {form ? <RoleForm form={form} onChange={this.onChange} disabled={disabled} /> : null}
-        </form>
-      </SubViewWrapper>
-    );
-  }
-
-  onChange = (fieldName, value) => {
-    const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-
-    this.setState({
-      form: updatedForm
-    });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    if (!this.state.form.hierarchyValid) {
-      this.setState({
-        form: this.state.form.setTouched(true, { recurse: true })
-      });
-      return;
-    }
-
-    const role = Map(this.state.form.toJS());
-    const result$ = saveRole(role);
-    this.disposeAsyncAction();
-    this.setState({
-      loading: true,
-      error: false,
-      message: 'Saving…'
-    });
-    this.responseSubscription = result$.once(openRoles);
-
-    this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save role: ${error.message}`;
-      logger.error(message, error);
-      this.setState({
-        loading: false,
-        error: true,
-        message
-      });
-    });
-  };
+function save(entity, form) {
+  const role = Map(form.toJS());
+  return saveRole(role);
 }
 
 function createForm(role) {

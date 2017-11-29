@@ -4,25 +4,53 @@ import React from 'react';
 
 import AlertingConfigurationForm from 'in-views/configurationView/subview/AlertingConfiguration/AlertingConfigurationForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-services/api/alertingConfiguration';
-import BasicEntityOverview from 'in-views/configurationView/subview/BasicEntityOverview';
+import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { openAlertingConfigurations } from 'in-stores/navigation/configuration';
+import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
+import Notification from 'in-components/form/Notification';
+import entityForm from 'in-hoc/entityForm';
+import Button from 'in-components/Button';
 
 export default function AlertingConfiguration(props) {
+  const entityId = props.match.params.id;
+
   return (
-    <BasicEntityOverview
-      createEntity={createAlertingConfig}
-      title="AlertingConfiguration"
-      entityTitle="alerting configuration"
+    <Form
+      title="Alerting Configuration"
+      entityId={entityId}
+      createDefaultEntity={createAlertingConfig}
       createForm={createForm}
-      getEntity={getAlertingConfig}
+      getEntityFromApi={getAlertingConfig}
       openEntities={openAlertingConfigurations}
-      save={save}
-      Form={AlertingConfigurationForm}
-      {...props}
+      saveEntity={save}
     />
   );
 }
+
+const Form = entityForm(function IntegrationForm(props) {
+  const { form, message, error, loading } = props;
+
+  return (
+    <div>
+      <SubViewHeader>Configure Alert</SubViewHeader>
+
+      <Section>
+        <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+          Save
+        </Button>
+
+        {message ? (
+          <Notification failure={error} loading={loading}>
+            {message}
+          </Notification>
+        ) : null}
+      </Section>
+
+      <AlertingConfigurationForm {...props} />
+    </div>
+  );
+});
 
 function save(config, form) {
   return saveAlertingConfig(
