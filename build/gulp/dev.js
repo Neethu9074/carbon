@@ -4,7 +4,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const fs = require('fs');
 const gulp = require('gulp');
 const path = require('path');
 const runSequence = require('run-sequence');
@@ -12,7 +11,6 @@ const inquirer = require('inquirer');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const gutil = require('gulp-util');
-const execSync = require('child_process').execSync;
 const clearConsole = require('react-dev-utils/clearConsole');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
@@ -24,7 +22,7 @@ const buildUtil = require('./util');
 var devModeOptions;
 
 gulp.task('prepareTestExecution', cb => {
-  runSequence('ensureTargetDirStructureExists', 'translateThemeConfigs', 'setActiveThemeForTestExecution', cb);
+  runSequence('ensureTargetDirStructureExists', 'translateTheme', cb);
 });
 
 gulp.task('dev', cb => {
@@ -35,8 +33,7 @@ gulp.task('dev', cb => {
     [
       'copyFavicon',
       'writeBuildInfo',
-      'translateThemeConfigs',
-      'setActiveThemeForDevMode',
+      'translateTheme',
       'copyDevIndexHtml',
       'writeDevConfigFile',
       'startDevProxy',
@@ -139,13 +136,6 @@ gulp.task('askForDevOptions', cb => {
       message: 'In which mode would you like to compile the source code?',
       choices: ['development', 'production'],
       default: 'development'
-    },
-    {
-      type: 'list',
-      name: 'activeTheme',
-      message: 'Enabled theme',
-      choices: ['night', 'day'],
-      default: 'night'
     }
   ];
 
@@ -175,27 +165,8 @@ gulp.task('copyDevIndexHtml', () => {
   return gulp.src(paths.devIndexHtmlSrc).pipe(gulp.dest(paths.assetDir));
 });
 
-gulp.task('setActiveThemeForTestExecution', () => {
-  buildUtil.setActiveTheme('night');
-});
-
-gulp.task('setActiveThemeForDevMode', () => {
-  buildUtil.setActiveTheme(devModeOptions.activeTheme);
-
-  var activeThemeConfig = path.join(paths.assetDir, 'activeTheme.json');
-  execSync('ln -s "' + paths.activeThemeJsonFile + '" "' + activeThemeConfig + '"');
-  fs.writeFileSync(path.join(paths.assetDir, 'activeTheme.name'), devModeOptions.activeTheme);
-});
-
 gulp.task('enableDevWatches', () => {
-  const themeBase = path.join(paths.rootDir, 'in-themes');
-  const themeFiles = [
-    path.join(themeBase, 'common.js'),
-    path.join(themeBase, 'day.js'),
-    path.join(themeBase, 'night.js')
-  ];
-  gulp.watch(themeFiles, ['translateThemeConfigs']);
-
+  gulp.watch(path.join(paths.themeDir, 'theme.js'), ['translateTheme']);
   gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
 });

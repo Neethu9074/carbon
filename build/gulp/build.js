@@ -28,7 +28,7 @@ gulp.task('build', cb => {
   runSequence(
     'clean',
     'ensureTargetDirStructureExists',
-    ['copyFavicon', 'writeBuildInfo', 'copyServerSources', 'translateThemeConfigs'],
+    ['copyFavicon', 'writeBuildInfo', 'copyServerSources', 'translateTheme'],
     'webpack:build',
     'minifyCss',
     'printFileStatistics',
@@ -117,29 +117,17 @@ gulp.task('webpack:build', (callback) => {
     new webpack.BannerPlugin(buildUtil.getBanner())
   );
 
-  // buildForTheme('day', () => {
-    buildForTheme('night', () => {
-      callback();
-    });
-  // });
+  webpack(config, (err, stats) => {
+    if (err) {
+      throw new gutil.PluginError('webpack:build', err);
+    }
 
-  function buildForTheme(themeName, cb) {
-    buildUtil.setActiveTheme(themeName);
-    webpack(config, (err, stats) => {
-      if (err) {
-        throw new gutil.PluginError('webpack:build', err);
-      }
+    gutil.log('[webpack:build]', stats.toString({
+      colors: true
+    }));
 
-      gutil.log('[webpack:build]', stats.toString({
-        colors: true
-      }));
-
-      const generatedCssFile = path.join(paths.bundleDir, 'index.css');
-      const renamedThemeFile = path.join(paths.bundleDir, 'theme-' + themeName + '.css');
-      execSync('mv "' + generatedCssFile + '" "' + renamedThemeFile + '"');
-      cb();
-    });
-  }
+    callback();
+  });
 });
 
 

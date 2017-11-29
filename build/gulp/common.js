@@ -4,12 +4,11 @@
 'use strict';
 
 var fs = require('fs');
-var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var mkdirp = require('mkdirp');
 
-const translateTheme = require('./translateTheme');
+const translateThemeInternal = require('./translateTheme');
 var buildUtil = require('./util');
 var paths = require('./paths');
 
@@ -49,7 +48,6 @@ gulp.task('writeBuildInfo', cb => {
 });
 
 
-gulp.task('translateThemeConfigs', () => {
-  translateTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
-  translateTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
+gulp.task('translateTheme', () => {
+  translateThemeInternal('theme', paths.themeDir, paths.themeDir, 'active');
 });

@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 
 const paths = require('../services/paths');
 
@@ -24,8 +23,6 @@ router.use(express.static(paths.assetDir, {
 // support both requests with and without checksum
 router.get('/bundle/index.js', sendIndexJs);
 router.get('/bundle/index-*.js', sendIndexJs);
-
-
 function sendIndexJs(req, res) {
   res.sendFile(
     paths.indexJs,
@@ -38,23 +35,17 @@ function sendIndexJs(req, res) {
   );
 }
 
-
-router.get('/bundle/theme-*.css', (req, res) => {
-  const url = req.originalUrl;
-  const match = url.match(/theme-(\w+)(-.*)?\.css$/);
-  if (!match) {
-    res.sendStatus(404);
-    return;
-  }
-
-  const themeName = match[1];
+// support both requests with and without checksum
+router.get('/bundle/index.css', sendIndexCss);
+router.get('/bundle/index-*.css', sendIndexCss);
+function sendIndexCss(req, res) {
   res.sendFile(
-    path.join(paths.bundleDir, 'theme-' + themeName + '.css'),
+    paths.indexCss,
     sendImmutableFilesConfig,
     err => {
       if (err) {
-        res.sendStatus(404);
+        console.error('Failed to send file. Cannot complete request.', err);
       }
     }
   );
-});
+}

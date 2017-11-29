@@ -15,7 +15,7 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:700,600,400,300&subset=latin,greek,vietnamese,latin-ext,cyrillic,cyrillic-ext"
         crossorigin="anonymous">
   <link rel="stylesheet"
-        href="/bundle/theme-{{theme}}-{{themeChecksum}}.css"
+        href="/bundle/index-{{indexCssChecksum}}.css"
         integrity="{{themeSri}}">
 
   {{#each prefetchItems}}
@@ -27,8 +27,6 @@
       user: {{{user}}},
       build: {{{build}}},
       config: {{{config}}},
-      activeTheme: '{{theme}}',
-      activeThemeConfig: {{{themeConfig}}},
       searchFields: {{{searchFields}}},
       settings: {{{settings}}}
     };

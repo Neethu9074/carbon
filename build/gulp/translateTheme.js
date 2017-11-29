@@ -2,22 +2,19 @@
 
 const fs = require('fs');
 const path = require('path');
-const mkdirp = require('mkdirp');
 
-module.exports = function main(themeName, sourceDir, targetDir) {
+module.exports = function main(themeName, sourceDir, targetDir, targetName) {
   const theme = require(path.join(sourceDir, themeName + '.js'));
-  var targetDirForTheme = path.join(targetDir, themeName);
-  mkdirp.sync(targetDirForTheme);
 
   var stylesheet = '';
   walkConstants([], theme);
   stylesheet = stylesheet.trim();
   fs.writeFileSync(
-    path.join(targetDirForTheme, 'config.less'),
+    path.join(targetDir, targetName + '.less'),
     stylesheet
   );
   fs.writeFileSync(
-    path.join(targetDirForTheme, 'config.json'),
+    path.join(targetDir, targetName + '.json'),
     JSON.stringify(theme, 0, 2)
   );
 
