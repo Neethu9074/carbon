@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createNodeForHostSubscription from 'in-services/subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -40,16 +41,16 @@ export default connectTo(
       <Collapsible key="2">
         <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
-          <ClickableList>
-            <ClickableSnapshotListItem key={nodeSnapshot.get('id')} snapshotId={nodeSnapshot.get('id')}>
-              {getLabel(nodeSnapshot)}
-            </ClickableSnapshotListItem>
+          <DescriptionList>
+            <DescriptionItem title="Node">
+              <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+            </DescriptionItem>
             {clusterSnapshot ? (
-              <ClickableSnapshotListItem key={clusterSnapshot.get('id')} snapshotId={clusterSnapshot.get('id')}>
-                {getLabel(clusterSnapshot)}
-              </ClickableSnapshotListItem>
+              <DescriptionItem title="Cluster">
+                <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+              </DescriptionItem>
             ) : null}
-          </ClickableList>
+          </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
     ];
