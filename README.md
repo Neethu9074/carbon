@@ -1,5 +1,7 @@
 # ui-client aka. the stuff that runs in the browser
 
+[![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Branching Model](#branching-model)
@@ -15,8 +17,6 @@
 	- [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
 	- [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
 	- [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
-- [Theming](#theming)
-	- [Most important files](#most-important-files)
 
 <!-- /TOC -->
 
