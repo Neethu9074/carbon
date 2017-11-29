@@ -130,7 +130,7 @@ stage('Storybook build') {
 stage('Deploy Storybook to S3') {
   if ( env.BRANCH_NAME == 'develop' ) {
     node {
-      // sh "s3cmd sync --delete-removed ./public/ s3://docs-us.instana.com/${env.BRANCH_NAME}/"
+      sh "s3cmd sync --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
     }
     slackNotification('Storybook S3 Deployment', 'ui-client', gitCommitId, currentBuild.currentResult)
   }
