@@ -23,7 +23,7 @@ chai.use(require('sinon-chai'));
 });
 
 // support ES6
-const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.babelrc'), { encoding: 'utf8' }));
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '.babelrc'), { encoding: 'utf8' }));
 babelConfig.only = /es6/;
 babelConfig.ignore = '^$';
 require('babel-core/register')(babelConfig);
@@ -81,6 +81,7 @@ global.window.instana.user = {
 };
 
 global.requestAnimationFrame = fn => fn();
+global.window.requestAnimationFrame = global.requestAnimationFrame;
 
 // many tests import a whole bunch of modules and at some point this always
 // ends up in in-services/connection (which requirs WebSocket globals).
