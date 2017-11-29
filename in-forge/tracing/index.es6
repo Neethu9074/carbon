@@ -14,6 +14,7 @@ import './cassandra';
 import './corba';
 import './cxf.client';
 import './django';
+import './dynamodb';
 import './ehcache';
 import './ejb-schedule';
 import './ejb';
