@@ -14,7 +14,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30.38; // 30.38 days per average per month
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute

@@ -6,7 +6,7 @@ import { millis } from 'in-services/formatters/number';
 import { getMetric } from 'in-stores/metric/metric';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 import './PageLoadBreakdownChart.less';
 

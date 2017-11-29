@@ -13,7 +13,7 @@ import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
 import { setCanvas } from 'in-map/stores/indexStore';
 import { Scene } from 'in-map/3DLibProvider';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 import CanvasRenderer from 'in-map/lib/CanvasRenderer.js';
 import AsciiEffect from 'in-map/lib/AsciiEffect.js';

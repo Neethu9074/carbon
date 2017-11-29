@@ -9,7 +9,7 @@ import { getFormattedValue } from 'in-sdk/metrics';
 import { getSnapshot } from 'in-stores/snapshot';
 import { activeMetric$ } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 import 'in-map/components/tooltips/physical/NodeMetric/NodeMetric.less';
 
