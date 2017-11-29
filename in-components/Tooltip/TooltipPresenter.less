@@ -1,5 +1,5 @@
-@import "~in-themes/active.less";
-@import "~in-themes/mixins.less";
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 .in-tooltip-presenter {
   @background: #203036;
@@ -25,7 +25,7 @@
 
   @size: 6px;
   &::after {
-    content: "";
+    content: '';
     width: 0;
     height: 0;
     border-bottom: @size solid transparent;
@@ -35,7 +35,8 @@
     top: 10px;
   }
 
-  &__leftBottom::after, &__leftMiddle::after {
+  &__leftBottom::after,
+  &__leftMiddle::after {
     right: @size * -1;
   }
 

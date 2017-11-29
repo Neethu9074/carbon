@@ -55,9 +55,11 @@ export default class extends React.Component {
             })}
             onClick={() => this.setState({ activeTab: 'entities' })}
           >
-            {`Entities ${entities && entities.snapshots
-              ? '(' + entities.snapshots.filter(snapshot => excludedIds.indexOf(snapshot.get('id')) < 0).length + ')'
-              : ''}`}
+            {`Entities ${
+              entities && entities.snapshots
+                ? '(' + entities.snapshots.filter(snapshot => excludedIds.indexOf(snapshot.get('id')) < 0).length + ')'
+                : ''
+            }`}
           </div>
         </div>
         {this.state.activeTab === 'entities' ? (

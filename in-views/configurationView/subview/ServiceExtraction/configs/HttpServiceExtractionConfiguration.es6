@@ -88,9 +88,9 @@ export const matchSpecificationOptions = defaults(
       initialValue: '(.*)',
       help: (
         <span>
-          Define a regular expression to match HTTP host headers. Capture groups from matches of this regular {' '}
-          expression are available in the service name field via the prefix <code>host</code>, e.g. {' '}
-          <code>{'{host-1}'}</code> references the first capture group.
+          Define a regular expression to match HTTP host headers. Capture groups from matches of this regular expression
+          are available in the service name field via the prefix <code>host</code>, e.g. <code>{'{host-1}'}</code>{' '}
+          references the first capture group.
         </span>
       )
     },
@@ -102,8 +102,8 @@ export const matchSpecificationOptions = defaults(
       initialValue: '(.*)',
       help: (
         <span>
-          Define a regular expression to match HTTP request methods. Capture groups from matches of this regular {' '}
-          expression are available in the service name field via the prefix <code>method</code>, e.g. {' '}
+          Define a regular expression to match HTTP request methods. Capture groups from matches of this regular{' '}
+          expression are available in the service name field via the prefix <code>method</code>, e.g.{' '}
           <code>{'{method-1}'}</code> references the first capture group.
         </span>
       )
@@ -116,8 +116,8 @@ export const matchSpecificationOptions = defaults(
       initialValue: '',
       help: (
         <span>
-          Define a regular expression to match HTTP query parameters. Capture groups from matches of this regular {' '}
-          expression are available in the service name field via the prefix <code>params</code>, e.g. {' '}
+          Define a regular expression to match HTTP query parameters. Capture groups from matches of this regular{' '}
+          expression are available in the service name field via the prefix <code>params</code>, e.g.{' '}
           <code>{'{params-1}'}</code> references the first capture group. Query parameters are captured in the form{' '}
           <code>key=value&otherKey=otherValue</code>
         </span>
@@ -131,9 +131,9 @@ export const matchSpecificationOptions = defaults(
       initialValue: '',
       help: (
         <span>
-          Define a regular expression to match HTTP status codes. Capture groups from matches of this regular {' '}
-          expression are available in the service name field via the prefix <code>status</code>, e.g. {' '}
-          <code>{'{status-1}'}</code> references the first capture group.
+          Define a regular expression to match HTTP status codes. Capture groups from matches of this regular expression
+          are available in the service name field via the prefix <code>status</code>, e.g. <code>{'{status-1}'}</code>{' '}
+          references the first capture group.
         </span>
       )
     }

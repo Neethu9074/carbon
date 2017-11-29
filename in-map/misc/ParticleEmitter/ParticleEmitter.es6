@@ -77,20 +77,19 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.startSubscription = combineLatest([
-      particlesAreActive$,
-      focusedMoment$
-    ]).subscribe(([particlesAreActive, focusedMoment]) => {
-      this.stop();
+    this.startSubscription = combineLatest([particlesAreActive$, focusedMoment$]).subscribe(
+      ([particlesAreActive, focusedMoment]) => {
+        this.stop();
 
-      if (particlesAreActive) {
-        if (focusedMoment) {
-          this.startStatic();
-        } else {
-          this.start();
+        if (particlesAreActive) {
+          if (focusedMoment) {
+            this.startStatic();
+          } else {
+            this.start();
+          }
         }
       }
-    });
+    );
   }
 
   setFromAndTo(fromPos, toPos) {

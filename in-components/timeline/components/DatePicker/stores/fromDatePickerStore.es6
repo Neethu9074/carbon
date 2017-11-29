@@ -36,45 +36,44 @@ export const timestamp$ = fromTimestamp$;
 export let isDateTimeValid$;
 
 export function reset() {
-  isDateTimeValid$ = combineLatest([
-    toTimestamp$,
-    getValidation$(fromTimestamp$)
-  ]).map(([toTimestamp, validationObject]) => {
-    if (!validationObject.date || !validationObject.time) {
-      return validationObject;
-    }
+  isDateTimeValid$ = combineLatest([toTimestamp$, getValidation$(fromTimestamp$)]).map(
+    ([toTimestamp, validationObject]) => {
+      if (!validationObject.date || !validationObject.time) {
+        return validationObject;
+      }
 
-    // if there is no to timestamp and the date is in a valid range, return true
-    if (!toTimestamp) {
+      // if there is no to timestamp and the date is in a valid range, return true
+      if (!toTimestamp) {
+        return {
+          date: true,
+          time: true,
+          timestamp: validationObject.timestamp
+        };
+      }
+
+      const fromTimestamp = validationObject.timestamp;
+      const fromTimestamp_date = validationObject.timestamp_date;
+
+      const toTimestamp_date = parseDate(formatDate(toTimestamp)).getTime();
+
+      const date = fromTimestamp_date <= toTimestamp_date;
+
+      // we don't want to validate the time when the date is already invalid. Makes no sense to validate
+      // it since our basis for invalidation is not existing.
+      const time = !date ? true : fromTimestamp < toTimestamp;
+
+      if (!date || !time) {
+        validationObject.error = 'It is not allowed to set the from date after to';
+      }
+
       return {
-        date: true,
-        time: true,
-        timestamp: validationObject.timestamp
+        date,
+        time,
+        timestamp: validationObject.timestamp,
+        error: validationObject.error
       };
     }
-
-    const fromTimestamp = validationObject.timestamp;
-    const fromTimestamp_date = validationObject.timestamp_date;
-
-    const toTimestamp_date = parseDate(formatDate(toTimestamp)).getTime();
-
-    const date = fromTimestamp_date <= toTimestamp_date;
-
-    // we don't want to validate the time when the date is already invalid. Makes no sense to validate
-    // it since our basis for invalidation is not existing.
-    const time = !date ? true : fromTimestamp < toTimestamp;
-
-    if (!date || !time) {
-      validationObject.error = 'It is not allowed to set the from date after to';
-    }
-
-    return {
-      date,
-      time,
-      timestamp: validationObject.timestamp,
-      error: validationObject.error
-    };
-  });
+  );
 
   from$.once(_from => setTimestamp(_from, setDateString, setTimeString));
 }

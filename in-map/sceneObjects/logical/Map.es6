@@ -41,15 +41,14 @@ export default class Map extends BaseMap {
     this.connectedNodesHighlighter.initEvents();
 
     this.addSubscriptions([
-      combineLatest([
-        selectedSnapshotIdForHighlightingInMap$,
-        connectedHighlightedIds$
-      ]).subscribe(([selectedId, connectedHighlightedIds]) => {
-        selectedId || Object.keys(connectedHighlightedIds).length > 0
-          ? getFactory('nodes').lockOpacity(0.15)
-          : getFactory('nodes').unlockOpacity();
-        requestRendering();
-      })
+      combineLatest([selectedSnapshotIdForHighlightingInMap$, connectedHighlightedIds$]).subscribe(
+        ([selectedId, connectedHighlightedIds]) => {
+          selectedId || Object.keys(connectedHighlightedIds).length > 0
+            ? getFactory('nodes').lockOpacity(0.15)
+            : getFactory('nodes').unlockOpacity();
+          requestRendering();
+        }
+      )
     ]);
   }
 

@@ -21,7 +21,8 @@ export default function Misc() {
                 content: 'This is the content.'
               },
               'test_info_msg'
-            )}
+            )
+          }
         >
           Create Info
         </Button>
@@ -35,7 +36,8 @@ export default function Misc() {
                 content: 'This is the content.'
               },
               'test_warning_msg'
-            )}
+            )
+          }
         >
           Create Warning
         </Button>
@@ -49,7 +51,8 @@ export default function Misc() {
                 content: 'This is the content.'
               },
               'test_error_msg'
-            )}
+            )
+          }
         >
           Create Error
         </Button>

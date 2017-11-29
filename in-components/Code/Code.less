@@ -1,7 +1,7 @@
 code.in-code {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
   line-height: 1.4;
-  font-size: .688rem;
+  font-size: 0.688rem;
   text-shadow: inherit;
 
   background: transparent;
@@ -10,9 +10,9 @@ code.in-code {
 }
 
 pre.in-code__wrapper {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
   line-height: 1.4;
-  font-size: .688rem;
+  font-size: 0.688rem;
   text-shadow: inherit;
 
   background: transparent;
@@ -27,7 +27,8 @@ pre.in-code__wrapper {
 }
 // hide the small line number indicator added by line highlight
 // when we don't show line numbers
-.line-highlight:before, .line-highlight[data-end]:after {
+.line-highlight:before,
+.line-highlight[data-end]:after {
   display: none;
 }
 
@@ -37,6 +38,10 @@ pre.in-code__wrapper {
   background: rgba(153, 228, 255, 0.4);
 }
 
-.language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url {
+.language-css .token.string,
+.style .token.string,
+.token.entity,
+.token.operator,
+.token.url {
   background: transparent;
 }

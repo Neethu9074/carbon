@@ -33,7 +33,8 @@ export default function AlertingConfigurations() {
       getAddNewButtonDisabledMessage={rows =>
         rows.length >= maxNumOfAlertingConfigurations
           ? `Number of configurations is restricted to ${maxNumOfAlertingConfigurations}.`
-          : null}
+          : null
+      }
       cols={cols}
     />
   );

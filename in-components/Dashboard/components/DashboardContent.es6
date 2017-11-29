@@ -28,19 +28,17 @@ export default connectTo(
     // hide temporary unavailability due to loading lag
     snapshot: selectedSnapshot$,
     timeframe: timeframe$,
-    showVersionSelector: combineLatest([
-      selectedSnapshotId$,
-      focusedMoment$,
-      selectedSnapshot$
-    ]).flatMap(([snapshotId]) => {
-      if (snapshotId == null) {
-        return alwaysFalse;
-      }
+    showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$, selectedSnapshot$]).flatMap(
+      ([snapshotId]) => {
+        if (snapshotId == null) {
+          return alwaysFalse;
+        }
 
-      return timeout(5000)
-        .map(() => true)
-        .startWith(false);
-    }),
+        return timeout(5000)
+          .map(() => true)
+          .startWith(false);
+      }
+    ),
 
     // snapshot versions
     versionsForFocusedMoment: getSnapshotVersionsByTime(),

@@ -73,8 +73,9 @@ export default class ConnectionLostState extends AbstractState {
         {
           type: 'warning',
           title: 'Connecting…',
-          content: `Connection attempt ${this
-            .connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
+          content: `Connection attempt ${
+            this.connectionAttempts
+          } failed. Continuing to retry to establish persistent backend connection.`
         },
         'connectionStatus'
       );

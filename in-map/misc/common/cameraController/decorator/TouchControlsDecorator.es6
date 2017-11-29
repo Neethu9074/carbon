@@ -52,14 +52,13 @@ export default class TouchControlsDecorator extends Decorator {
     });
 
     this.addSubscriptions([
-      combineLatest([
-        this.eventEmitter.on('onMove'),
-        this.eventEmitter.on('isDragingObject')
-      ]).subscribe(([delta, isDraging]) => {
-        if (!isDraging) {
-          this.move(delta.dx, delta.dy);
+      combineLatest([this.eventEmitter.on('onMove'), this.eventEmitter.on('isDragingObject')]).subscribe(
+        ([delta, isDraging]) => {
+          if (!isDraging) {
+            this.move(delta.dx, delta.dy);
+          }
         }
-      })
+      )
     ]);
 
     this.eventEmitter.emit('isDragingObject', false);

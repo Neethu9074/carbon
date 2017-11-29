@@ -20,19 +20,31 @@
     animation: in-loading-indicator-animation 1.2s infinite ease-in-out;
 
     &--dark {
-      background-color: #2D4048;
+      background-color: #2d4048;
     }
   }
 
-  &__rect--1 { animation-delay: -1.2s; }
-  &__rect--2 { animation-delay: -1.1s; }
-  &__rect--3 { animation-delay: -1.0s; }
-  &__rect--4 { animation-delay: -0.9s; }
-  &__rect--5 { animation-delay: -0.8s; }
+  &__rect--1 {
+    animation-delay: -1.2s;
+  }
+  &__rect--2 {
+    animation-delay: -1.1s;
+  }
+  &__rect--3 {
+    animation-delay: -1s;
+  }
+  &__rect--4 {
+    animation-delay: -0.9s;
+  }
+  &__rect--5 {
+    animation-delay: -0.8s;
+  }
 }
 
 @keyframes in-loading-indicator-animation {
-  0%, 40%, 100% {
+  0%,
+  40%,
+  100% {
     transform: scaleY(0.4);
   }
   20% {

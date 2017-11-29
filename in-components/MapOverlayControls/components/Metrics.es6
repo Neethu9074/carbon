@@ -144,7 +144,8 @@ const Metric = connectTo(
               longLabel: `${topic} ${metricKey}`,
               metrics: metric[metricKey]
             })
-          )}
+          )
+        }
       >
         {metricKey}
       </div>

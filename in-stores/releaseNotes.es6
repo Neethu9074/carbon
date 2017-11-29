@@ -31,15 +31,14 @@ const currentReleaseNotesStore = createStore({
 
 const currentReleaseNotes$ = currentReleaseNotesStore.observable.distinct();
 
-export const releaseNotes$ = combineLatest([
-  readReleaseNotesStore.observable,
-  currentReleaseNotes$
-]).map(([readState, currentReleaseNotes]) => {
-  if (readState === hashCode(currentReleaseNotes)) {
-    return null;
+export const releaseNotes$ = combineLatest([readReleaseNotesStore.observable, currentReleaseNotes$]).map(
+  ([readState, currentReleaseNotes]) => {
+    if (readState === hashCode(currentReleaseNotes)) {
+      return null;
+    }
+    return currentReleaseNotes;
   }
-  return currentReleaseNotes;
-});
+);
 
 if (!isOnPremise()) {
   retrieveLatestReleaseNotes();

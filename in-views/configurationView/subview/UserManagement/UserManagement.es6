@@ -328,7 +328,10 @@ export default connectTo(
           header="Confirm removal"
           description={
             <span>
-              Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for<strong>{invitation.get('email')}</strong>?
+              Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for<strong
+              >
+                {invitation.get('email')}
+              </strong>?
             </span>
           }
           bButtonLabel="Revoke invitation"

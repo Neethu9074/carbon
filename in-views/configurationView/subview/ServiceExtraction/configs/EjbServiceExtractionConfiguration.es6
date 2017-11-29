@@ -79,9 +79,9 @@ export const matchSpecificationOptions = defaults(
       initialValue: '',
       help: (
         <span>
-          Define a regular expression to match application names. Capture groups from matches of this regular {' '}
-          expression are available in the service name field via the prefix <code>app</code>, e.g. {' '}
-          <code>{'{app-1}'}</code> references the first capture group.
+          Define a regular expression to match application names. Capture groups from matches of this regular expression
+          are available in the service name field via the prefix <code>app</code>, e.g. <code>{'{app-1}'}</code>{' '}
+          references the first capture group.
         </span>
       )
     },

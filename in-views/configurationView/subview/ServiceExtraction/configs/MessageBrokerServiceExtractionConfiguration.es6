@@ -59,7 +59,7 @@ export const matchSpecificationOptions = defaults(
       help: (
         <span>
           Define a regular expression to match destinations / queues. Capture groups from matches of this regular{' '}
-          expression are available in the service name field via the prefix <code>destination</code>, e.g. {' '}
+          expression are available in the service name field via the prefix <code>destination</code>, e.g.{' '}
           <code>{'{destination-1}'}</code> references the first capture group.
         </span>
       )

@@ -76,10 +76,9 @@ export default function TraceHeader({ trace }) {
             {categories.map(category => {
               let tooltip;
               if (isShowSelfTimeForCategory(category)) {
-                tooltip = `${perCategorySummary[category]
-                  .calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(
-                  perCategorySummary[category].durationSelf
-                )}`;
+                tooltip = `${perCategorySummary[category].calls} ${
+                  category
+                } spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`;
               } else {
                 tooltip = `${perCategorySummary[category].calls} ${category} spans`;
               }

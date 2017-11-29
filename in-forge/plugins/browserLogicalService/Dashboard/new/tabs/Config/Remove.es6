@@ -69,17 +69,17 @@ export default class Remove extends React.PureComponent {
       removeError: null
     });
 
-    this.subscription = combineDataAndError(
-      removeKey(this.props.snapshot.getIn(['data', 'eumKey']))
-    ).once(({ error }) => {
-      if (error) {
-        this.setState({
-          loading: false,
-          saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
-        });
-      } else {
-        mutateUrl(params => (params.pathname = '/website'));
+    this.subscription = combineDataAndError(removeKey(this.props.snapshot.getIn(['data', 'eumKey']))).once(
+      ({ error }) => {
+        if (error) {
+          this.setState({
+            loading: false,
+            saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
+          });
+        } else {
+          mutateUrl(params => (params.pathname = '/website'));
+        }
       }
-    });
+    );
   };
 }

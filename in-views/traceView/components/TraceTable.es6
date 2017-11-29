@@ -72,7 +72,8 @@ const cols = [
           serviceSnapshotId={serviceSnapshotId}
           time={row.rawTrace.startMillis}
           getLabelCallback={label =>
-            getServiceLabelWithEndpoint(label, row.rawTrace.raw.get('destinationEndpointLabel'))}
+            getServiceLabelWithEndpoint(label, row.rawTrace.raw.get('destinationEndpointLabel'))
+          }
         />
       ) : null;
     }

@@ -37,43 +37,41 @@ export const timestamp$ = focusedMomentTimestamp$;
 export let isDateTimeValid$;
 
 export function reset() {
-  isDateTimeValid$ = combineLatest([
-    fromTimestamp$,
-    toTimestamp$,
-    getValidation$(focusedMomentTimestamp$)
-  ]).map(([fromTimestamp, toTimestamp, validationObject]) => {
-    if (!validationObject.date || !validationObject.time) {
-      return validationObject;
+  isDateTimeValid$ = combineLatest([fromTimestamp$, toTimestamp$, getValidation$(focusedMomentTimestamp$)]).map(
+    ([fromTimestamp, toTimestamp, validationObject]) => {
+      if (!validationObject.date || !validationObject.time) {
+        return validationObject;
+      }
+
+      fromTimestamp = fromTimestamp || 0;
+      toTimestamp = toTimestamp || Number.MAX_VALUE;
+
+      const focusedMomentTimestamp = validationObject.timestamp;
+      const focusedMomentTimestamp_date = validationObject.timestamp_date;
+
+      const fromTimestamp_date = parseDate(formatDate(fromTimestamp)).getTime();
+      const toTimestamp_date = parseDate(formatDate(toTimestamp)).getTime();
+
+      const date = focusedMomentTimestamp_date >= fromTimestamp_date && focusedMomentTimestamp_date <= toTimestamp_date;
+
+      // we don't want to validate the time when the date is already invalid. Makes no sense to validate
+      // it since our basis for invalidation is not existing.
+      const time = !date ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
+
+      if (!date || !time) {
+        validationObject.hint = `The selected moment is not between ${formatDateTime(
+          fromTimestamp
+        )} and ${formatDateTime(toTimestamp)}.`;
+      }
+
+      return {
+        date: true,
+        time: true,
+        timestamp: validationObject.timestamp,
+        hint: validationObject.hint
+      };
     }
-
-    fromTimestamp = fromTimestamp || 0;
-    toTimestamp = toTimestamp || Number.MAX_VALUE;
-
-    const focusedMomentTimestamp = validationObject.timestamp;
-    const focusedMomentTimestamp_date = validationObject.timestamp_date;
-
-    const fromTimestamp_date = parseDate(formatDate(fromTimestamp)).getTime();
-    const toTimestamp_date = parseDate(formatDate(toTimestamp)).getTime();
-
-    const date = focusedMomentTimestamp_date >= fromTimestamp_date && focusedMomentTimestamp_date <= toTimestamp_date;
-
-    // we don't want to validate the time when the date is already invalid. Makes no sense to validate
-    // it since our basis for invalidation is not existing.
-    const time = !date ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
-
-    if (!date || !time) {
-      validationObject.hint = `The selected moment is not between ${formatDateTime(fromTimestamp)} and ${formatDateTime(
-        toTimestamp
-      )}.`;
-    }
-
-    return {
-      date: true,
-      time: true,
-      timestamp: validationObject.timestamp,
-      hint: validationObject.hint
-    };
-  });
+  );
   focusedMoment$.once(_focusedMoment => {
     _focusedMoment
       ? setTimestamp(_focusedMoment, setDateString, setTimeString)

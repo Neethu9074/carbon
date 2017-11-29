@@ -1,4 +1,4 @@
-@import "~in-themes/active.less";
+@import '~in-themes/active.less';
 
 body {
   font-family: @common__font-family;
@@ -8,7 +8,7 @@ body {
   // the base font size and the users' zoom levels.
   font-size: 16px;
   color: #fcfcfc;
-  background: #0D1217;
+  background: #0d1217;
 
   // we are a fullscreen app and have dedicated scrollable areas
   margin: 0;
@@ -17,9 +17,10 @@ body {
 }
 
 a {
-  color: #2D4048;
+  color: #2d4048;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     color: #8c969a;
   }
 }
@@ -45,11 +46,11 @@ fieldset {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, .5);
-  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: textfield;
 
   // Padding will cause the clear button to be hidden.
@@ -58,7 +59,7 @@ input[type="search"] {
     padding-right: 0 !important;
   }
 }
-input[type="search"]::-webkit-search-cancel-button {
+input[type='search']::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
 
@@ -77,46 +78,54 @@ input[type="search"]::-webkit-search-cancel-button {
   flex-direction: column;
 
   color: #fff;
-  background: #43565E;
+  background: #43565e;
 
-  background: radial-gradient(#5d7883 0%, #43565E 70%);
+  background: radial-gradient(#5d7883 0%, #43565e 70%);
 
   &__loading-spinner {
     width: 64px;
     height: 64px;
-    animation: loading_spinner .75s infinite linear;
+    animation: loading_spinner 0.75s infinite linear;
   }
 
   @keyframes loading_spinner {
-    0%, 12.49999% {
+    0%,
+    12.49999% {
       transform: rotate(-0deg);
     }
 
-    12.5%, 24.9999% {
+    12.5%,
+    24.9999% {
       transform: rotate(-45deg);
     }
 
-    25%, 37.4999% {
+    25%,
+    37.4999% {
       transform: rotate(-90deg);
     }
 
-    37.5%, 49.9999% {
+    37.5%,
+    49.9999% {
       transform: rotate(-135deg);
     }
 
-    50%, 62.49999% {
+    50%,
+    62.49999% {
       transform: rotate(-180deg);
     }
 
-    62.5%, 74.9999% {
+    62.5%,
+    74.9999% {
       transform: rotate(-225deg);
     }
 
-    75%, 87.4999% {
+    75%,
+    87.4999% {
       transform: rotate(-270deg);
     }
 
-    99.9999%, 87.5% {
+    99.9999%,
+    87.5% {
       transform: rotate(-315deg);
     }
 

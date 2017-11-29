@@ -1,21 +1,22 @@
-@import "~in-themes/mixins.less";
+@import '~in-themes/mixins.less';
 
 .in-expandable-table {
   overflow-x: auto;
   width: 100%;
   border-spacing: 0;
 
-  th, td {
+  th,
+  td {
     padding: 7px;
     font-size: 11px;
-    color: #2D4048;
+    color: #2d4048;
   }
 
   th {
     text-align: left;
     text-transform: uppercase;
-    background: #E2E9EC;
-    color: #6B8088;
+    background: #e2e9ec;
+    color: #6b8088;
     font-weight: normal;
 
     &:empty {
@@ -25,15 +26,15 @@
 
   td {
     background: transparent;
-    border-bottom: 1px solid #E2E9EC;
+    border-bottom: 1px solid #e2e9ec;
     .breakWord();
   }
 
   td > a {
-    color: #2D4048;
+    color: #2d4048;
 
     &:hover {
-      color: #2D4048;
+      color: #2d4048;
     }
   }
 
@@ -41,8 +42,9 @@
     border-bottom: 0;
   }
 
-  tr.active > td, tr:hover > td {
-    background: #92A5AE;
+  tr.active > td,
+  tr:hover > td {
+    background: #92a5ae;
     color: #fff;
   }
 

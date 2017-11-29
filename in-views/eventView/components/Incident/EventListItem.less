@@ -26,18 +26,20 @@
 
   &__time-indicator {
     position: relative;
-    margin-right: .625rem;
+    margin-right: 0.625rem;
     min-width: 4rem;
     max-width: 4rem;
   }
 
-  &__time, &__line, &__dot {
+  &__time,
+  &__line,
+  &__dot {
     position: absolute;
   }
 
   &__time {
     top: 1rem;
-    right: .625rem;
+    right: 0.625rem;
     text-decoration: underline;
 
     &--triggering {
@@ -55,11 +57,11 @@
 
   &__dot {
     top: 1.375rem;
-    right: -.188rem;
+    right: -0.188rem;
 
     background: #6b8088;
-    width: .25rem;
-    height: .25rem;
+    width: 0.25rem;
+    height: 0.25rem;
     border-radius: 50%;
   }
 
@@ -75,7 +77,8 @@
     }
   }
 
-  &__left-border, &__background {
+  &__left-border,
+  &__background {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -83,36 +86,36 @@
 
   &__background {
     right: 0;
-    left: .438rem;;
+    left: 0.438rem;
     z-index: 1;
-    opacity: .1;
-    border-radius: 0 .25rem .25rem  0;
+    opacity: 0.1;
+    border-radius: 0 0.25rem 0.25rem 0;
 
     transition: opacity 0.25s ease-in-out;
     .in-event-view-incident-event-list-item:hover & {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
   &__left-border {
     left: 0;
-    width: .438rem;
+    width: 0.438rem;
     z-index: 2;
-    opacity: .3;
-    border-top-left-radius: .25rem;
-    border-bottom-left-radius: .25rem;
+    opacity: 0.3;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 
     transition: opacity 0.25s ease-in-out;
     .in-event-view-incident-event-list-item:hover & {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 
   &__border {
     height: 1px;
     width: ~'calc(100% - .438rem)';
-    margin-left: .438rem;
-    opacity: .3;
+    margin-left: 0.438rem;
+    opacity: 0.3;
   }
 
   &__content-wrapper {
@@ -129,7 +132,7 @@
     cursor: pointer;
   }
 
-  &__expanded-details{
+  &__expanded-details {
     padding: 0.5rem;
     padding-left: 1rem;
   }
@@ -159,11 +162,12 @@
   }
 
   &__entity {
-    padding-left: .5rem;
-    border-left: 1px solid #D5DFE4;
+    padding-left: 0.5rem;
+    border-left: 1px solid #d5dfe4;
   }
 
-  &__affected-service-marker, &__triggering-event-marker {
+  &__affected-service-marker,
+  &__triggering-event-marker {
     position: absolute;
     bottom: ~'calc(100% - 2px)';
 

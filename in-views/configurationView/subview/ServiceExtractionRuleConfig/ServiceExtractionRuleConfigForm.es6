@@ -72,7 +72,8 @@ export default class extends React.Component {
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
               helpTexts={helpTexts}
               onChangeMatchOption={e =>
-                this.onChangeMatchOption(e, matchSpecificationOptions, this.matchSpecificationPath)}
+                this.onChangeMatchOption(e, matchSpecificationOptions, this.matchSpecificationPath)
+              }
             />
           }
 

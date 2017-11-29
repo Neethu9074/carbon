@@ -54,7 +54,8 @@ export default connectTo(
             onQueryChanged={() =>
               this.setState({
                 offset: 0
-              })}
+              })
+            }
           />
         </SubViewWrapper>
       );

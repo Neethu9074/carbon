@@ -24,7 +24,8 @@ export default function SavingToggle({ itemName, onDelete }) {
               onDelete();
             }}
           />
-        )}
+        )
+      }
     >
       Delete
     </Button>

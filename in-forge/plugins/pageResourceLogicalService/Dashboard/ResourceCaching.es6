@@ -9,8 +9,8 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
     <div>
       <p>
         Detailed information about in-browser resources and specifically about caching is not available in all web
-        browsers. For this reason, this chart will only represent a subset of all the resource requests. More {' '}
-        information is available through the {' '}
+        browsers. For this reason, this chart will only represent a subset of all the resource requests. More{' '}
+        information is available through the{' '}
         <Link href="https://www.w3.org/TR/resource-timing-2/" external>
           resource timing level 2 specification
         </Link>{' '}
