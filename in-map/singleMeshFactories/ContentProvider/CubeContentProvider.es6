@@ -1,4 +1,4 @@
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 const VERTICES = [
   // front

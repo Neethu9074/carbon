@@ -13,7 +13,7 @@ import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 export default class MainScene extends SceneObject {
   constructor(params) {

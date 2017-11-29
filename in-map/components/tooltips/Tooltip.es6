@@ -4,7 +4,7 @@ import React from 'react';
 import { onMove } from 'in-services/util/reactiveMouseEvents';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import { applyTransform } from 'in-services/util/dom';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 const OFFSET = 15;
 const DEFAULT_STYLE = {

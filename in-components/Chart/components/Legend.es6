@@ -6,7 +6,7 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-services/theme';
+import theme from 'in-themes';
 
 import './Legend.less';
 
