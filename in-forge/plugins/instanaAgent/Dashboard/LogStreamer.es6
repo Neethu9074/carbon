@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 

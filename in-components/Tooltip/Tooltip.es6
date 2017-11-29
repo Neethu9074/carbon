@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
