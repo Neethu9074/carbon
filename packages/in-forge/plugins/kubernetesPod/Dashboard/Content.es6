@@ -1,16 +1,15 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import createContainersForPodSubscription from 'in-services/subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import connectTo from 'in-hoc/connectTo';
-
-import createContainersForPodSubscription from 'in-services/subscription/containersForPod';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
 const containerCols = [
   {
