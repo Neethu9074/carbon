@@ -15,19 +15,47 @@ storiesOf('Button', module)
 function Kinds() {
   return (
     <div>
+
+      <h2>Without Modifiers</h2>
       <p>
         {kinds.map(kind =>
           <Button kind={kind}
-          key={kind}
+                  key={kind}
                   onClick={action('click')}>
             {kind}
           </Button>
         )}
       </p>
 
+      <h2>Disabled</h2>
       <p>
         {kinds.map(kind =>
           <Button kind={kind} disabled key={kind}>
+            {kind}
+          </Button>
+        )}
+      </p>
+
+      <h2>Outline Only</h2>
+      <p>
+        {kinds.map(kind =>
+          <Button kind={kind}
+                  key={kind}
+                  onClick={action('click')}
+                  outlineOnly>
+            {kind}
+          </Button>
+        )}
+      </p>
+
+      <h2>Disabled and Outline Only</h2>
+      <p>
+        {kinds.map(kind =>
+          <Button kind={kind}
+                  key={kind}
+                  onClick={action('click')}
+                  outlineOnly
+                  disabled>
             {kind}
           </Button>
         )}

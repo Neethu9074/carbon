@@ -40,7 +40,7 @@ function ViewDetailsButton({ href }) {
   }
 
   return (
-    <Button size="sm" kind="secondaryv2" href={href} className={`${block}__details-button`}>
+    <Button size="sm" kind="default" outlineOnly href={href} className={`${block}__details-button`}>
       View Details
     </Button>
   );
