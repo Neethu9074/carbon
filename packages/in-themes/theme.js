@@ -7,31 +7,22 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    map: zIndex++,
-    stickyNotes: zIndex++,
     viewControls: zIndex++,
     sidebar: zIndex++,
     fullscreenView: zIndex++,
     footer: zIndex++,
     fullscreenViewOverlayTimeline: zIndex++,
-    footerSelectedTimeNotification: zIndex++,
     footerTimePicker: zIndex++,
     mapNotes: zIndex++,
-
     searchMenu: zIndex++,
     searchBar: zIndex++,
     searchSuggestions: zIndex++,
     fullscreenViewOverlaySearchBar: zIndex++,
     header: zIndex++,
     viewSwitcher: zIndex++,
-    accountMenu: zIndex++,
-
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
-    toast: zIndex++,
     tooltips: zIndex++,
-    maintenanceNote: zIndex++,
-    backdrop: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,
     messageFlyout: zIndex++
@@ -39,17 +30,7 @@ module.exports = {
   common: {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif'
   },
-  tenantSwitcher: {
-    headlineBackgroundColor: '#435b65',
-    headlineBorderColor: '#2d4048',
-    fontColor: '#fff',
-    linkHoverColor: '#6c8087',
-    linkColor: '#fff',
-    triangleColor: '#6b7f88',
-    tagColor: '#62c0ec'
-  },
-  fontFamilySansSerif:
-    '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontFamilySansSerif: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
   fontFamilySerif: 'Georgia, "Times New Roman", Times, serif',
   fontFamilyMonospace: 'Menlo, Monaco, Consolas, "Courier New", monospace',
   chart: {
