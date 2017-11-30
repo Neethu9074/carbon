@@ -1,0 +1,104 @@
+/* eslint-env mocha,node */
+/* eslint-disable no-var, vars-on-top, strict */
+
+'use strict';
+
+// Set our default time zone so that tests with date formatting are predictable.
+process.env.TZ = 'Europe/Berlin';
+
+const {JSDOM} = require('jsdom');
+const path = require('path');
+const chai = require('chai');
+const fs = require('fs');
+
+chai.use(require('chai-string'));
+chai.use(require('chai-subset'));
+chai.use(require('sinon-chai'));
+
+// support static file require statements
+['.png', '.obj', '.less', '.css', '.svg', '.glsl'].forEach(extension => {
+  require.extensions[extension] = () => {
+    return `a ${extension} module`;
+  };
+});
+
+// support ES6
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '.babelrc'), { encoding: 'utf8' }));
+babelConfig.only = /es6/;
+babelConfig.ignore = '^$';
+require('babel-core/register')(babelConfig);
+
+// Ensuring a browser environment is simulated before React is loaded to avoid
+// Error: Invariant Violation: Markup wrapping node not initialized
+// Also see:
+// https://github.com/facebook/react/issues/3840
+const jsdom = new JSDOM('<html><head></head><body></body></html>', {
+  url: 'http://demo.internal.instana.io'
+});
+global.window = jsdom.window;
+global.document = global.window.document;
+global.navigator = global.window.navigator;
+global.__DEV__ = false;
+global.window.instana = {
+  config: {
+    environment: 'saas',
+    tenant: 'instana',
+    tenantUnit: 'test'
+  }
+};
+
+global.window.instana.user = {
+  tenants: [
+    {
+      role: {
+        id: '-1',
+        name: 'Owner',
+        implicitViewFilter: '',
+        canConfigureServiceMapping: true,
+        canConfigureEumApplications: true,
+        canConfigureUsers: true,
+        canInstallNewAgents: true,
+        canSeeUsageInformation: true,
+        canConfigureIntegrations: true,
+        canSeeOnPremLicenseInformation: true,
+        canConfigureRoles: true,
+        canConfigureCustomAlerts: true,
+        canConfigureApiTokens: true,
+        canConfigureAgentRunMode: true,
+        canViewAuditLog: true,
+        canConfigureObjectives: true,
+        canConfigureAgents: true
+      },
+      tenantKey: 'instana',
+      name: 'instana',
+      id: '57309f589e1d8461616a545'
+    }
+  ],
+  fullName: 'Stan stan',
+  id: '59085f81fa065b001a0f6a8b',
+  preferredName: 'Stan stan',
+  email: 'stan@instana.com'
+};
+
+global.requestAnimationFrame = fn => fn();
+global.window.requestAnimationFrame = global.requestAnimationFrame;
+
+// many tests import a whole bunch of modules and at some point this always
+// ends up in in-services/connection (which requirs WebSocket globals).
+global.window.WebSocket = function() {
+  this.send = function() {};
+  this.close = function() {};
+};
+
+// simulate local storage
+['localStorage', 'sessionStorage'].forEach(function(type) {
+  var storage = {};
+  global.window[type] = {
+    setItem: function(k, v) {
+      storage[k] = v + '';
+    },
+    getItem: function(k) {
+      return storage[k];
+    }
+  };
+});

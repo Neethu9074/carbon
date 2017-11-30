@@ -1,0 +1,53 @@
+.in-chart-tooltip {
+  padding: 0.25rem 0.438rem;
+  background: #21282e;
+  border-radius: 0.188rem;
+  font-size: 0.688rem;
+  color: #6b8088;
+
+  &__metrics {
+    margin-bottom: 0;
+    margin-top: 0.188rem;
+  }
+
+  &__metric-block {
+    &:nth-child(2) {
+      margin-top: 0.5rem;
+      border-top: 1px solid #5e7178;
+      padding-top: 0.25rem;
+    }
+  }
+
+  &__metric {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__metric-name {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  &__metric-value {
+    display: inline-block;
+    color: #fff;
+  }
+
+  &__no-data-points {
+    margin-top: 0.7rem;
+  }
+
+  &__aggregated {
+    margin: 0 0 0.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__aggregation {
+    margin-left: 1rem;
+  }
+
+  &__inline-agg {
+    color: #6b8088;
+  }
+}

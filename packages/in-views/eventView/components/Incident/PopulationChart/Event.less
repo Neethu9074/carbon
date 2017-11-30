@@ -1,0 +1,28 @@
+.in-event-view-detail-chart-event {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  &__icon {
+    width: 10px;
+    margin-right: 2px;
+  }
+
+  &__bar,
+  &__change {
+    opacity: 1;
+    border-radius: 2px;
+    height: 0.438rem;
+
+    transition: opacity 0.25s ease-in-out;
+    .in-event-view-detail-chart-event:hover & {
+      opacity: 0.6;
+    }
+  }
+
+  &__change {
+    width: 0.125rem;
+    background: #3f525a;
+  }
+}

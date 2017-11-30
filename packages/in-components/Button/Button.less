@@ -1,0 +1,133 @@
+@import '~in-themes/active.less';
+
+.in-button {
+  background: #9fffff;
+  color: black;
+  font-family: @common__font-family;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  border: 0;
+  border-radius: 0.188rem;
+  cursor: pointer;
+
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+
+  & + .in-button {
+    margin-left: 0.5rem;
+  }
+
+  &:hover {
+    color: black;
+    background: #94eced;
+  }
+
+  &--secondary,
+  &--secondary.in-button--disabled:hover {
+    background: #92a5ae;
+    color: #fff;
+  }
+
+  &--secondary:hover {
+    background: #6b8088;
+    color: #fff;
+  }
+
+  &--secondaryv2,
+  &--secondaryv2.in-button--disabled:hover {
+    background: transparent;
+    color: #06b7ba;
+    border: 1px solid;
+  }
+
+  &--secondaryv2:hover {
+    background: transparent;
+    color: #1b7071;
+  }
+
+  &--danger,
+  &--danger.in-button--disabled:hover {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+  }
+
+  &--danger:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+  }
+
+  &--warning,
+  &--warning.in-button--disabled:hover {
+    color: #1e3036;
+    background-color: #ffde00;
+    border-color: #ffc107;
+  }
+
+  &--warning:hover {
+    color: #1e3036;
+    background-color: #e6c700;
+    border-color: #d39e00;
+  }
+
+  &--primary,
+  &--primary.in-button--disabled:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+  }
+
+  &--primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+  }
+
+  &--info,
+  &--info.in-button--disabled:hover {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+  }
+
+  &--info:hover {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+  }
+
+  &--success,
+  &--success.in-button--disabled:hover {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+
+  &--success:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+  }
+
+  &--lg {
+    padding: 0.625rem 0.938rem;
+    font-size: 0.688rem;
+  }
+
+  &--sm {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.625rem;
+  }
+
+  &--xs {
+    padding: 0.188rem 0.313rem;
+    font-size: 0.563rem;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    outline: 0;
+  }
+}

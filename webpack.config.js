@@ -15,7 +15,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-  entry: './in-client/js/index.es6',
+  entry: './packages/in-client/js/index.es6',
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',

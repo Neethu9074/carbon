@@ -1,0 +1,66 @@
+@import '~in-themes/mixins.less';
+
+.in-expandable-table {
+  overflow-x: auto;
+  width: 100%;
+  border-spacing: 0;
+
+  th,
+  td {
+    padding: 7px;
+    font-size: 11px;
+    color: #2d4048;
+  }
+
+  th {
+    text-align: left;
+    text-transform: uppercase;
+    background: #e2e9ec;
+    color: #6b8088;
+    font-weight: normal;
+
+    &:empty {
+      background: transparent;
+    }
+  }
+
+  td {
+    background: transparent;
+    border-bottom: 1px solid #e2e9ec;
+    .breakWord();
+  }
+
+  td > a {
+    color: #2d4048;
+
+    &:hover {
+      color: #2d4048;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tr.active > td,
+  tr:hover > td {
+    background: #92a5ae;
+    color: #fff;
+  }
+
+  &__clickable > tbody > tr > td {
+    cursor: pointer;
+  }
+
+  // increase specificity to overwrite rules seen above
+  & &__details {
+    padding: 1.4rem 1rem 2rem;
+    box-sizing: border-box;
+    background: transparent;
+    cursor: auto;
+  }
+
+  & tr:hover &__details {
+    background: transparent;
+  }
+}
