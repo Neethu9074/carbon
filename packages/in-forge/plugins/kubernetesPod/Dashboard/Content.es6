@@ -89,16 +89,13 @@ const ContainerTable = connectTo(
   function ContainerTable({ snapshot, containerSnapshots }) {
     let rows = [];
     if (containerSnapshots) {
-      rows = containerSnapshots.map(containerSnapshot => {
-        const uid = containerSnapshot.getIn(['data', `Id`]);
-        return {
-          key: containerSnapshot.get('id'),
-          image: containerSnapshot.getIn(['data', `Image`], ''),
-          snapshotId: snapshot.get('id'),
-          state: snapshot.getIn(['data', `containers.data.docker://${uid}.state`], null),
-          uid
-        };
-      });
+      rows = containerSnapshots.map(containerSnapshot => ({
+        key: containerSnapshot.get('id'),
+        image: containerSnapshot.getIn(['data', 'sheduling', `image`], ''),
+        state: containerSnapshot.getIn(['data', 'sheduling', `state`], ''),
+        snapshotId: snapshot.get('id'),
+        uid: containerSnapshot.getIn(['data', 'sheduling', 'uid'])
+      }));
     }
 
     return <Table cols={containerCols} rows={rows} />;
