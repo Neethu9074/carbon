@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
@@ -59,13 +59,9 @@ export default function Step2({ form, onChange }) {
                     className={`${block}__input`}
                     value={eventQueryField.value}
                     onChange={e => onChange('query', e.target.value)}
-                    hasError={!eventQueryField.valid}
+                    hasError={!eventQueryField.valid && eventQueryField.touched}
                   />
-                  {eventQueryField.messages.map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))}
+                  <TouchedMessages field={eventQueryField} />
                   <MatchingEntitiesIndicator form={form} />
                 </div>
               ))}

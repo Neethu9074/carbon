@@ -3,7 +3,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
@@ -94,7 +94,7 @@ function Form({ form, onChange }) {
       <Section>
         {form.get('name').map(field => (
           <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid}>
+            <Label htmlFor="name" hasError={!field.valid && field.touched}>
               Name
             </Label>
             <Input
@@ -104,13 +104,9 @@ function Form({ form, onChange }) {
               placeholder="Slack Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       </Section>
@@ -118,7 +114,7 @@ function Form({ form, onChange }) {
       <Section>
         {form.get('webhookUrl').map(field => (
           <FormGroup>
-            <Label htmlFor="webhookUrl" hasError={!field.valid}>
+            <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
               Webhook URL
             </Label>
             <Input
@@ -129,17 +125,13 @@ function Form({ form, onChange }) {
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
 
         {form.get('iconUrl').map(field => (
           <FormGroup>
-            <Label htmlFor="iconUrl" hasError={!field.valid}>
+            <Label htmlFor="iconUrl" hasError={!field.valid && field.touched}>
               Icon URL
             </Label>
             <Input
@@ -150,17 +142,13 @@ function Form({ form, onChange }) {
               value={field.value}
               onChange={e => onChange('iconUrl', e.target.value)}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
 
         {form.get('channel').map(field => (
           <FormGroup>
-            <Label htmlFor="channel" hasError={!field.valid}>
+            <Label htmlFor="channel" hasError={!field.valid && field.touched}>
               Channel Name
             </Label>
             <Input
@@ -171,11 +159,7 @@ function Form({ form, onChange }) {
               value={field.value}
               onChange={e => onChange('channel', e.target.value)}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       </Section>

@@ -4,6 +4,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Section from 'in-views/configurationView/components/Section';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
@@ -108,7 +109,7 @@ function Form({ form, onChange }) {
       <Section>
         {form.get('name').map(field => (
           <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid}>
+            <Label htmlFor="name" hasError={!field.valid && field.touched}>
               Name
             </Label>
             <Input
@@ -118,30 +119,28 @@ function Form({ form, onChange }) {
               placeholder="WebHook Integration"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       </Section>
       <Section>
         {form.get('webhookUrls').map(field => (
           <FormGroup>
-            <Label hasError={!field.valid}>Webhook URLs</Label>
-            {field.messages.map((message, i) => {
-              if (message.type !== 'no_webhook') {
-                return null;
-              }
-              return (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              );
-            })}
+            <Label hasError={!field.valid && field.touched}>Webhook URLs</Label>
+            {field.touched
+              ? field.messages.map((message, i) => {
+                  if (message.type !== 'no_webhook') {
+                    return null;
+                  }
+                  return (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  );
+                })
+              : null}
           </FormGroup>
         ))}
         {form.get('webhookUrls').map(field => {
@@ -165,11 +164,13 @@ function Form({ form, onChange }) {
                   Remove
                 </Button>
               </div>
-              {field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
+              {field.touched
+                ? field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))
+                : null}
             </FormGroup>
           ));
         })}

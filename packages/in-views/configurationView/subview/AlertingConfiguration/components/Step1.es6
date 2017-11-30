@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
@@ -19,7 +19,7 @@ export default function Step1({ form, onChange }) {
         {form.get('query').map(field => (
           <FormGroup>
             <div className={`${block}__filter-label-wrapper`}>
-              <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
+              <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid && field.touched}>
                 Filter query
               </Label>
               <TooltipIcon tooltip="Apply a filter query to narrow down the number of entities the rule shall be applied on. If no filter query is given, it will be applied on all entities." />
@@ -31,13 +31,9 @@ export default function Step1({ form, onChange }) {
               className={`${block}__input`}
               value={field.value}
               onChange={e => onChange('query', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
             <MatchingEntitiesIndicator form={form} />
           </FormGroup>
         ))}

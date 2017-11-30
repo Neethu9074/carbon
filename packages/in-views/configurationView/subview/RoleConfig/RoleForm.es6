@@ -3,7 +3,7 @@ import React from 'react';
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { roleViewFilterEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
@@ -24,29 +24,25 @@ export default function RoleForm({ form, onChange, disabled }) {
 
         {form.get('name').map(field => (
           <FormGroup>
-            <Label htmlFor="role-name" hasError={!field.valid}>
+            <Label htmlFor="role-name" hasError={!field.valid && field.touched}>
               Name
             </Label>
             <Input
               id="role-name"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
 
         {roleViewFilterEnabled &&
           form.get('implicitViewFilter').map(field => (
             <FormGroup>
-              <Label htmlFor="role-implicit-view-filter" hasError={!field.valid}>
+              <Label htmlFor="role-implicit-view-filter" hasError={!field.valid && field.touched}>
                 View Filter
               </Label>
               <Helpify helpText="Define a filter which will be applied to all the views and integrations. Only entities, events and traces {' '} matching this filter will be visible to the user.">
@@ -55,14 +51,10 @@ export default function RoleForm({ form, onChange, disabled }) {
                   value={field.value}
                   className={`${block}__helpfified_input`}
                   onChange={e => onChange('implicitViewFilter', e.target.value)}
-                  hasError={!field.valid}
+                  hasError={!field.valid && field.touched}
                   disabled={disabled}
                 />
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </Helpify>
             </FormGroup>
           ))}

@@ -4,7 +4,7 @@ import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
 import { servicePlugins } from 'in-forge/constants';
@@ -39,7 +39,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
           <Col cols={6}>
             {form.get('entityType').map(field => (
               <FormGroup className={`${block}__select`}>
-                <Label htmlFor="rule-entityType" hasError={!field.valid}>
+                <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
                   Entity type
                 </Label>
                 <ComboBox
@@ -55,18 +55,14 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
                   )}
                   onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
                 />
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </FormGroup>
             ))}
           </Col>
           <Col cols={6}>
             {form.get('metricName').map(field => (
               <FormGroup className={`${block}__select`}>
-                <Label htmlFor="rule-metricName" hasError={!field.valid}>
+                <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
                   Metric
                 </Label>
                 {form.get('entityType').value ? (
@@ -80,11 +76,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
                 ) : (
                   <ComboBox options={[]} />
                 )}
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </FormGroup>
             ))}
           </Col>
@@ -97,7 +89,7 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
         {form.get('query').map(field => (
           <FormGroup>
             <div className={`${block}__filter-label-wrapper`}>
-              <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid}>
+              <Label className={`${block}__filter-label`} htmlFor="rule-query" hasError={!field.valid && field.touched}>
                 Filter query
               </Label>
               <TooltipIcon tooltip="Apply a filter query to narrow down the number of entities the rule shall be applied on. If no filter query is given, it will be applied on all entities." />
@@ -109,20 +101,10 @@ export default function Step1({ form, onChange, excludeEntity, includeEntity }) 
               className={`${block}__helpfified_input`}
               value={field.value}
               onChange={e => onChange('query', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {form.get('matchingEntities').map(field =>
-              field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))
-            )}
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            {form.get('matchingEntities').map((field, i) => <TouchedMessages key={i} field={field} />)}
+            <TouchedMessages field={field} />
             <MatchingEntityTable form={form} excludeEntity={excludeEntity} includeEntity={includeEntity} />
             <MatchingEntitiesIndicator form={form} />
           </FormGroup>
@@ -144,11 +126,7 @@ function MatchingEntitiesIndicator({ form }) {
         );
       })}
       {form.get('selectedEntities').map(field => {
-        return field.messages.map((message, i) => (
-          <ValidationBlock hasError key={i}>
-            {message.message}
-          </ValidationBlock>
-        ));
+        return field.messages.map((message, i) => <TouchedMessages key={i} field={field} />);
       })}
     </div>
   );

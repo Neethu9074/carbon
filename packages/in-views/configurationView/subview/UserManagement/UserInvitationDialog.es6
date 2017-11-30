@@ -2,17 +2,17 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import rpt from 'prop-types';
 import React from 'react';
 
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
-import { getRoles } from 'in-services/api/roles';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
+import { getRoles } from 'in-services/api/roles';
 import { fallbackRoleId } from 'in-stores/user';
+import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { ownerRoleId } from 'in-stores/user';
-import Button from 'in-components/Button';
 import { config } from 'in-services/config';
+import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 
@@ -61,7 +61,7 @@ export default connectTo(
           <form onSubmit={this.onSubmit}>
             {form.get('email').map(field => (
               <FormGroup>
-                <Label htmlFor="invitation-email" hasError={!field.valid}>
+                <Label htmlFor="invitation-email" hasError={!field.valid && field.touched}>
                   Email Address
                 </Label>
                 <Input
@@ -69,27 +69,23 @@ export default connectTo(
                   type="email"
                   value={field.value}
                   onChange={e => this.onChange('email', e.target.value)}
-                  hasError={!field.valid}
+                  hasError={!field.valid && field.touched}
                   autoFocus
                 />
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </FormGroup>
             ))}
 
             {form.get('roleId').map(field => (
               <FormGroup>
-                <Label htmlFor="invitation-role-id" hasError={!field.valid}>
+                <Label htmlFor="invitation-role-id" hasError={!field.valid && field.touched}>
                   Role
                 </Label>
                 <Select
                   id="invitation-role-id"
                   value={field.value}
                   onChange={e => this.onChange('roleId', e.target.value)}
-                  hasError={!field.valid}
+                  hasError={!field.valid && field.touched}
                 >
                   {sortedRoles &&
                     sortedRoles.map(role => (
@@ -98,11 +94,7 @@ export default connectTo(
                       </option>
                     ))}
                 </Select>
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </FormGroup>
             ))}
 

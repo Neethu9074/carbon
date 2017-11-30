@@ -2,7 +2,7 @@ import React from 'react';
 
 import MatchSpecificationSelector from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/components/RuleTester';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -58,9 +58,7 @@ export default class extends React.Component {
                 value={nameField.value}
                 onChange={e => onChangeIn(this.namePath, e.target.value)}
               />
-              {nameField.valid ? null : (
-                <ValidationBlock hasError>{nameField.messages.map(e => e.message)}</ValidationBlock>
-              )}
+              <TouchedMessages field={nameField} />
             </FormGroup>
           ))}
         </div>
@@ -107,7 +105,7 @@ export default class extends React.Component {
                           .get('key')
                           .map(keyField => (
                             <FormGroup>
-                              <Label htmlFor={`${id}-${key}-key`} hasError={!keyField.valid}>
+                              <Label htmlFor={`${id}-${key}-key`} hasError={!keyField.valid && keyField.touched}>
                                 Key
                               </Label>
                               <Helpify helpText={fieldConfig.typeArgs.key.help}>
@@ -118,11 +116,9 @@ export default class extends React.Component {
                                   placeholder={fieldConfig.typeArgs.key.placeholder}
                                   value={keyField.value}
                                   onChange={e => onChangeIn(path.concat([0, 'key']), e.target.value)}
-                                  hasError={!keyField.valid}
+                                  hasError={!keyField.valid && keyField.touched}
                                 />
-                                {keyField.valid ? null : (
-                                  <ValidationBlock hasError>{keyField.messages.map(e => e.message)}</ValidationBlock>
-                                )}
+                                <TouchedMessages field={keyField} />
                               </Helpify>
                             </FormGroup>
                           ))}
@@ -133,7 +129,7 @@ export default class extends React.Component {
                           .get('value')
                           .map(valueField => (
                             <FormGroup>
-                              <Label htmlFor={`${id}-${key}-value`} hasError={!valueField.valid}>
+                              <Label htmlFor={`${id}-${key}-value`} hasError={!valueField.valid && valueField.touched}>
                                 Value
                               </Label>
                               <Helpify helpText={fieldConfig.typeArgs.value.help}>
@@ -144,11 +140,9 @@ export default class extends React.Component {
                                   placeholder={fieldConfig.typeArgs.value.placeholder}
                                   value={valueField.value}
                                   onChange={e => onChangeIn(path.concat([0, 'value']), e.target.value)}
-                                  hasError={!valueField.valid}
+                                  hasError={!valueField.valid && valueField.touched}
                                 />
-                                {valueField.valid ? null : (
-                                  <ValidationBlock hasError>{valueField.messages.map(e => e.message)}</ValidationBlock>
-                                )}
+                                <TouchedMessages field={valueField} />
                               </Helpify>
                             </FormGroup>
                           ))}
@@ -160,7 +154,7 @@ export default class extends React.Component {
 
               return (
                 <FormGroup key={key}>
-                  <Label htmlFor={`${id}-${key}`} hasError={!field.valid}>
+                  <Label htmlFor={`${id}-${key}`} hasError={!field.valid && field.touched}>
                     Match Expression: {matchSpecificationOptions[key].titleName}
                     <a
                       href="#"
@@ -178,11 +172,9 @@ export default class extends React.Component {
                       placeholder={matchSpecificationOptions[key].placeholder}
                       value={field.value}
                       onChange={e => onChangeIn(this.matchSpecificationPath.concat([key]), e.target.value)}
-                      hasError={!field.valid}
+                      hasError={!field.valid && field.touched}
                     />
-                    {field.valid ? null : (
-                      <ValidationBlock hasError>{field.messages.map(e => e.message)}</ValidationBlock>
-                    )}
+                    <TouchedMessages field={field} />
                   </Helpify>
                 </FormGroup>
               );
@@ -217,9 +209,7 @@ export default class extends React.Component {
                           value={labelField.value}
                           onChange={e => onChangeIn(this.labelPath, e.target.value)}
                         />
-                        {labelField.valid ? null : (
-                          <ValidationBlock hasError>{labelField.messages.map(e => e.message)}</ValidationBlock>
-                        )}
+                        <TouchedMessages field={labelField} />
                       </Helpify>
                     </FormGroup>
                   ))

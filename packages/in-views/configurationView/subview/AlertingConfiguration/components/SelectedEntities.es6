@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TwoColumnMultiSelect from 'in-components/TwoColumnMultiSelect/TwoColumnMultiSelect';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-components/form/FormGroup';
 import connectTo from 'in-hoc/connectTo';
@@ -27,11 +27,7 @@ export default connectTo(
 
     return form.get(formFieldName).map(field => (
       <FormGroup>
-        {field.messages.map((message, i) => (
-          <ValidationBlock hasError key={i}>
-            {message.message}
-          </ValidationBlock>
-        ))}
+        <TouchedMessages field={field} />
         <TwoColumnMultiSelect
           selectableItems={selectableItems}
           selectedItems={selectedItems}

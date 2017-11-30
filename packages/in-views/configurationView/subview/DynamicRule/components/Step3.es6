@@ -4,7 +4,7 @@ import React from 'react';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
 import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
@@ -60,7 +60,7 @@ export default function Step3({ form, onChange }) {
         ))}
         {form.get('text').map(field => (
           <FormGroup>
-            <Label htmlFor="rule-event-text" hasError={!field.valid}>
+            <Label htmlFor="rule-event-text" hasError={!field.valid && field.touched}>
               Title
             </Label>
             <Input
@@ -68,18 +68,14 @@ export default function Step3({ form, onChange }) {
               type="text"
               value={field.value}
               onChange={e => onChange('text', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
         {form.get('description').map(field => (
           <FormGroup>
-            <Label htmlFor="rule-event-description" hasError={!field.valid}>
+            <Label htmlFor="rule-event-description" hasError={!field.valid && field.touched}>
               Description
             </Label>
             <TextArea
@@ -87,13 +83,9 @@ export default function Step3({ form, onChange }) {
               className={`${block}__description`}
               value={field.value}
               onChange={e => onChange('description', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
         <div className={`${block}__event-preview`}>

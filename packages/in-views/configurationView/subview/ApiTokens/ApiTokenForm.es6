@@ -3,7 +3,7 @@ import React from 'react';
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
@@ -25,22 +25,18 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
 
         {form.get('name').map(field => (
           <FormGroup>
-            <Label htmlFor="api-token-name" hasError={!field.valid}>
+            <Label htmlFor="api-token-name" hasError={!field.valid && field.touched}>
               Name
             </Label>
             <Input
               id="api-token-name"
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
+              hasError={!field.valid && field.touched}
               disabled={disabled}
               autoFocus
             />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       </Section>

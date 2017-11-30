@@ -4,7 +4,7 @@ import React from 'react';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
 import { getSystemRules } from 'in-services/api/rules';
 import FormGroup from 'in-components/form/FormGroup';
@@ -39,7 +39,7 @@ export default connectTo(
 
               return (
                 <FormGroup>
-                  <Label htmlFor="ruleBinding-rule" hasError={!field.valid}>
+                  <Label htmlFor="ruleBinding-rule" hasError={!field.valid && field.touched}>
                     Rule
                   </Label>
                   <Helpify helpText="Select rule that will trigger this issue.">
@@ -50,11 +50,7 @@ export default connectTo(
                       onChangeInRuleIds={onChangeInRuleIds}
                     />
 
-                    {field.messages.map((message, i) => (
-                      <ValidationBlock hasError key={i}>
-                        {message.message}
-                      </ValidationBlock>
-                    ))}
+                    <TouchedMessages field={field} />
                   </Helpify>
 
                   {field.value.get(0) && !isSystemRule ? <RuleDetails ruleId={String(field.value.get(0))} /> : null}
@@ -81,7 +77,7 @@ export default connectTo(
 
           {form.get('query').map(field => (
             <FormGroup>
-              <Label htmlFor="ruleBinding-query" hasError={!field.valid}>
+              <Label htmlFor="ruleBinding-query" hasError={!field.valid && field.touched}>
                 Applied on filter query
               </Label>
               <Helpify helpText="A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities.">
@@ -91,13 +87,9 @@ export default connectTo(
                   className={`${block}__helpfified_input`}
                   value={field.value}
                   onChange={e => onChange('query', e.target.value)}
-                  hasError={!field.valid}
+                  hasError={!field.valid && field.touched}
                 />
-                {field.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
+                <TouchedMessages field={field} />
               </Helpify>
             </FormGroup>
           ))}
@@ -105,7 +97,7 @@ export default connectTo(
             <Col cols={4}>
               {form.get('severity').map(field => (
                 <FormGroup>
-                  <Label htmlFor="ruleBinding-severity" hasError={!field.valid}>
+                  <Label htmlFor="ruleBinding-severity" hasError={!field.valid && field.touched}>
                     Severity
                   </Label>
                   <ComboBox
@@ -118,18 +110,14 @@ export default connectTo(
                     ]}
                     onChange={e => onChange('severity', (e = e ? e.value : ''))}
                   />
-                  {field.messages.map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))}
+                  <TouchedMessages field={field} />
                 </FormGroup>
               ))}
             </Col>
             <Col cols={4}>
               {form.get('expirationTime').map(field => (
                 <FormGroup>
-                  <Label htmlFor="ruleBinding-expirationTime" hasError={!field.valid}>
+                  <Label htmlFor="ruleBinding-expirationTime" hasError={!field.valid && field.touched}>
                     Expiration time
                   </Label>
                   <Helpify helpText="Grace time an issue stays open.">
@@ -146,11 +134,7 @@ export default connectTo(
                       ]}
                       onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
                     />
-                    {field.messages.map((message, i) => (
-                      <ValidationBlock hasError key={i}>
-                        {message.message}
-                      </ValidationBlock>
-                    ))}
+                    <TouchedMessages field={field} />
                   </Helpify>
                 </FormGroup>
               ))}
@@ -171,7 +155,7 @@ export default connectTo(
           </Row>
           {form.get('text').map(field => (
             <FormGroup>
-              <Label htmlFor="ruleBinding-text" hasError={!field.valid}>
+              <Label htmlFor="ruleBinding-text" hasError={!field.valid && field.touched}>
                 Text
               </Label>
               <Input
@@ -179,19 +163,15 @@ export default connectTo(
                 type="text"
                 value={field.value}
                 onChange={e => onChange('text', e.target.value)}
-                hasError={!field.valid}
+                hasError={!field.valid && field.touched}
               />
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
+              <TouchedMessages field={field} />
             </FormGroup>
           ))}
 
           {form.get('description').map(field => (
             <FormGroup>
-              <Label htmlFor="ruleBinding-description" hasError={!field.valid}>
+              <Label htmlFor="ruleBinding-description" hasError={!field.valid && field.touched}>
                 Description
               </Label>
               <TextArea
@@ -199,13 +179,9 @@ export default connectTo(
                 rows="3"
                 value={field.value}
                 onChange={e => onChange('description', e.target.value)}
-                hasError={!field.valid}
+                hasError={!field.valid && field.touched}
               />
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
+              <TouchedMessages field={field} />
             </FormGroup>
           ))}
         </Section>
