@@ -170,14 +170,14 @@ function Form({ form, onChange }) {
                   {message.message}
                 </ValidationBlock>
               ))}
-              <div>
-                <Button className={`${block}__add-button`} kind="success" onClick={() => addwebHookUrl(form, onChange)}>
-                  Add WebHook
-                </Button>
-              </div>
             </FormGroup>
           ));
         })}
+        <div className={`${block}__add-button-wrapper`}>
+          <span className={`${block}__add-link`} onClick={() => addwebHookUrl(form, onChange)}>
+            Add WebHook
+          </span>
+        </div>
       </Section>
     </fieldset>
   );

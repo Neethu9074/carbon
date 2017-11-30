@@ -172,14 +172,14 @@ function Form({ form, onChange }) {
                   {message.message}
                 </ValidationBlock>
               ))}
-              <div>
-                <Button className={`${block}__add-button`} kind="success" onClick={() => addEmail(form, onChange)}>
-                  Add Email
-                </Button>
-              </div>
             </FormGroup>
           ));
         })}
+        <div className={`${block}__add-button-wrapper`}>
+          <span className={`${block}__add-link`} onClick={() => addEmail(form, onChange)}>
+            Add Email
+          </span>
+        </div>
       </Section>
     </fieldset>
   );

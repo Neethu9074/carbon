@@ -29,7 +29,7 @@
     "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && lint-staged"
   },
   "lint-staged": {
-    "*.es6": ["eslint --ext {.es6,.less}", "prettier --single-quote --print-width 120 --write", "git add"]
+    "*.es6": ["eslint --ext .es6", "prettier --single-quote --print-width 120 --write", "git add"]
   },
   "repository": {
     "type": "git",
