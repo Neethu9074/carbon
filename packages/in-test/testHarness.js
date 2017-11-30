@@ -16,7 +16,7 @@ chai.use(require('chai-subset'));
 chai.use(require('sinon-chai'));
 
 // support static file require statements
-['.png', '.obj', '.less', '.css', '.svg', '.glsl'].forEach(extension => {
+['.png', '.obj', '.less', '.css', '.svg', '.glsl', '.mless'].forEach(extension => {
   require.extensions[extension] = () => {
     return `a ${extension} module`;
   };
