@@ -65,7 +65,7 @@
     "react": "^16.0.0",
     "react-addons-shallow-compare": "^15.6.2",
     "react-codemirror": "^1.0.0",
-    "react-day-picker": "^6.1.0",
+    "react-day-picker": "^7.0.3",
     "react-dom": "^16.0.0",
     "react-immutable-proptypes": "^2.1.0",
     "react-motion": "^0.4.4",

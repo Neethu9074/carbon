@@ -8011,12 +8011,12 @@ react-codemirror@^1.0.0:
     lodash.isequal "^4.5.0"
     prop-types "^15.5.4"
 
-react-day-picker@^6.1.0:
-  version "6.1.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-day-picker/-/react-day-picker-6.1.0.tgz#81122c34bfb4eeec288ec31709e8aa6d4bc161cc"
+react-day-picker@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.0.3.tgz#f61df4377503dd5cc61de7853e31ad0a8bfcd112"
   dependencies:
     object-assign "^4.1.1"
-    prop-types "^15.5.10"
+    prop-types "^15.6.0"
 
 react-dev-utils@^0.5.2:
   version "0.5.2"
