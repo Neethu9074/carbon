@@ -1,12 +1,10 @@
 import React from 'react';
 
-import './ButtonGroup.less';
-
-const block = 'in-button-group';
+import locals from './ButtonGroup.mless';
 
 export default function ButtonGroup({ children }) {
   return (
-    <div className={block} role="group">
+    <div className={locals.group} role="group">
       {children}
     </div>
   );

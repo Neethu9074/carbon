@@ -5,9 +5,10 @@ import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/u
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import './Button.less';
+import locals from  './Button.mless';
 
-const block = 'in-button';
+export const kinds = ['default', 'primary', 'secondary', 'secondaryv2', 'danger', 'info', 'success', 'warning'];
+export const sizes = ['lg', 'sm', 'xs'];
 
 export default connectTo(props => {
   if (props.href$) {
@@ -31,7 +32,7 @@ function Button({
   disabled,
   autoFocus
 }) {
-  let classes = `${block} ${block}--${kind} ${block}--${size}`;
+  let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
     classes = `${classes} ${className}`;
   }
@@ -39,7 +40,7 @@ function Button({
   // Do not use the disabled attribute as we want to continue to retrieve mouse events
   // sorry usability :(.
   if (disabled) {
-    classes = `${classes} ${block}--disabled`;
+    classes = `${classes} ${locals.disabled}`;
   }
 
   if (disabled) {
@@ -73,8 +74,8 @@ Button.propTypes = {
   style: rpt.object,
   children: rpt.node.isRequired,
   type: rpt.oneOf(['button', 'submit']),
-  kind: rpt.oneOf(['default', 'primary', 'secondary', 'secondaryv2', 'danger', 'info', 'success', 'warning']),
-  size: rpt.oneOf(['lg', 'sm', 'xs']),
+  kind: rpt.oneOf(kinds),
+  size: rpt.oneOf(sizes),
   target: rpt.string,
   onClick: rpt.func,
   href: rpt.string,
