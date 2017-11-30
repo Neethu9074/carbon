@@ -12,7 +12,7 @@
     "test": "yarn run test:unit && yarn run test:lint",
     "test:lint": "eslint --ext .es6 in-* gulpfile.js packages",
     "test:unit":
-      "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./build/testHarness --reporter dot $(find in-* packages -name '*_test.es6')",
+      "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
     "check:updates": "ncu",
     "check:licenses": "license-checker > licenses.txt",
     "check:bundle-size":
@@ -24,7 +24,7 @@
     "storybookBuild": "gulp prepareTestExecution && build-storybook -c storybook/config -o storybookTarget",
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
-    "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.{es6,less}\"",
+    "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{es6,less}\"",
     "postinstall": "./build/postInstall",
     "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && lint-staged"
   },
@@ -113,7 +113,6 @@
     "babel-plugin-transform-es2015-typeof-symbol": "^6.22.0",
     "babel-plugin-transform-es2015-unicode-regex": "^6.24.1",
     "babel-plugin-transform-regenerator": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.0.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
     "chai": "^3.0.0",
@@ -139,7 +138,7 @@
     "image-webpack-loader": "^3.3.1",
     "inquirer": "^0.9.0",
     "instana-nodejs-sensor": "next",
-    "jsdom": "^2.0.0",
+    "jsdom": "^11.5.1",
     "json-loader": "^0.5.4",
     "less": "^2.3.1",
     "less-loader": "^4.0.4",
@@ -149,7 +148,6 @@
     "meta-marked-loader": "^1.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.3.0",
-    "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.2",
     "npm-check-updates": "2.11.0",
     "opn": "3.0.3",

@@ -3,12 +3,6 @@
 linkModule() {
   name="$1"
   rm -f node_modules/$name
-  ln -s "../$name" "node_modules/$name"
-}
-
-linkLib() {
-  name="$1"
-  rm -f node_modules/$name
   ln -s "../packages/$name" "node_modules/$name"
 }
 
@@ -25,10 +19,9 @@ linkModule in-hoc
 linkModule in-client
 linkModule in-charts
 linkModule in-views
-
-linkLib roemitter
-linkLib instalog
-linkLib reactive-observables
+linkModule roemitter
+linkModule instalog
+linkModule reactive-observables
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"

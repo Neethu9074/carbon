@@ -5,6 +5,6 @@ module.exports = {
   rules: {
     'no-console': 0,
     'new-cap': 0,
-    strict: ['error', 'global']
+    strict: 0
   }
 };

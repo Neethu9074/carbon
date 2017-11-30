@@ -6,12 +6,10 @@
 // Set our default time zone so that tests with date formatting are predictable.
 process.env.TZ = 'Europe/Berlin';
 
-const jsdom = require('jsdom');
+const {JSDOM} = require('jsdom');
 const path = require('path');
 const chai = require('chai');
 const fs = require('fs');
-
-var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
@@ -25,7 +23,7 @@ chai.use(require('sinon-chai'));
 });
 
 // support ES6
-const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.babelrc'), { encoding: 'utf8' }));
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '.babelrc'), { encoding: 'utf8' }));
 babelConfig.only = /es6/;
 babelConfig.ignore = '^$';
 require('babel-core/register')(babelConfig);
@@ -34,8 +32,11 @@ require('babel-core/register')(babelConfig);
 // Error: Invariant Violation: Markup wrapping node not initialized
 // Also see:
 // https://github.com/facebook/react/issues/3840
-global.document = jsdom.jsdom('<html><head></head><body></body></html>');
-global.window = global.document.defaultView;
+const jsdom = new JSDOM('<html><head></head><body></body></html>', {
+  url: 'http://demo.internal.instana.io'
+});
+global.window = jsdom.window;
+global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.__DEV__ = false;
 global.window.instana = {
@@ -80,7 +81,24 @@ global.window.instana.user = {
 };
 
 global.requestAnimationFrame = fn => fn();
+global.window.requestAnimationFrame = global.requestAnimationFrame;
 
 // many tests import a whole bunch of modules and at some point this always
 // ends up in in-services/connection (which requirs WebSocket globals).
-setupWebSocketGlobals();
+global.window.WebSocket = function() {
+  this.send = function() {};
+  this.close = function() {};
+};
+
+// simulate local storage
+['localStorage', 'sessionStorage'].forEach(function(type) {
+  var storage = {};
+  global.window[type] = {
+    setItem: function(k, v) {
+      storage[k] = v + '';
+    },
+    getItem: function(k) {
+      return storage[k];
+    }
+  };
+});
