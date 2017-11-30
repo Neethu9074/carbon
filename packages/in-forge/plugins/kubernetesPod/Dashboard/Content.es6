@@ -91,10 +91,10 @@ const ContainerTable = connectTo(
     if (containerSnapshots) {
       rows = containerSnapshots.map(containerSnapshot => ({
         key: containerSnapshot.get('id'),
-        image: containerSnapshot.getIn(['data', 'sheduling', `image`], ''),
-        state: containerSnapshot.getIn(['data', 'sheduling', `state`], ''),
+        image: containerSnapshot.getIn(['data', 'scheduling', `image`], ''),
+        state: containerSnapshot.getIn(['data', 'scheduling', `state`], ''),
         snapshotId: snapshot.get('id'),
-        uid: containerSnapshot.getIn(['data', 'sheduling', 'uid'])
+        uid: containerSnapshot.getIn(['data', 'scheduling', 'uid'])
       }));
     }
 
