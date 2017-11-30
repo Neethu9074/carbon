@@ -8,7 +8,7 @@ import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
-import './Mode.less';
+import './LogLevel.less';
 
 const block = 'in-agent-log-level-selector';
 
