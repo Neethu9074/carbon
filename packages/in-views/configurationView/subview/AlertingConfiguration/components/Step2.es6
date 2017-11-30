@@ -8,6 +8,7 @@ import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Step from 'in-components/form/Step';
 import Button from 'in-components/Button';
+import Link from 'in-components/Link';
 
 import './Step2.less';
 
@@ -48,16 +49,13 @@ export default function Step2({ form, onChange }) {
       {form.get('advancedMode').map(
         field =>
           field.value ? (
-            <RuleControl
-              name=""
-              helpText="Only events that match the advanced filter will enter the notification stream. When empty, no filter is applied. For example, to only receive notifications for a prod environment: 'entity.zone:production'."
-            >
+            <RuleControl name="" helpComponent={QueryHelpComponent}>
               {form.get('query').map(eventQueryField => (
                 <div>
                   <Input
                     id="rule-query"
                     type="text"
-                    placeholder="e.g: event.text:CPU*"
+                    placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
                     className={`${block}__input`}
                     value={eventQueryField.value}
                     onChange={e => onChange('query', e.target.value)}
@@ -122,6 +120,19 @@ function MatchingEntitiesIndicator({ form }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function QueryHelpComponent() {
+  return (
+    <div className={`${block}__event-help`}>
+      Only events that match the advanced filter will enter the notification stream. When empty, no filter is applied.
+      For more information on syntax, please see our&nbsp;
+      <Link className={`${block}__link`} href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+        documentation
+      </Link>
+      .
     </div>
   );
 }
