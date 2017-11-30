@@ -33,7 +33,7 @@ const Form = entityForm(function IntegrationForm(props) {
 
   return (
     <div>
-      <SubViewHeader>Configure Alert</SubViewHeader>
+      <SubViewHeader>Alerting Configuration</SubViewHeader>
 
       <Section>
         <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
