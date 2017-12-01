@@ -17,8 +17,7 @@ export default function AlertingConfigurations() {
     getDeleteButtonColumn()
   ];
 
-  // will be reduced to 10 after test phase
-  const maxNumOfAlertingConfigurations = 100000;
+  const maxNumOfAlertingConfigurations = 10;
 
   return (
     <BasicEntitiesOverview
