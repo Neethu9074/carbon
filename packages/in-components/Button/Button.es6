@@ -5,9 +5,9 @@ import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/u
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from  './Button.mless';
+import locals from './Button.mless';
 
-export const kinds = ['default', 'primary', 'secondary', 'secondaryv2', 'danger', 'info', 'success', 'warning'];
+export const kinds = ['default', 'primary', 'secondary', 'danger', 'info', 'success', 'warning'];
 export const sizes = ['lg', 'sm', 'xs'];
 
 export default connectTo(props => {
@@ -30,7 +30,8 @@ function Button({
   target,
   href,
   disabled,
-  autoFocus
+  autoFocus,
+  outlineOnly
 }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
@@ -41,6 +42,10 @@ function Button({
   // sorry usability :(.
   if (disabled) {
     classes = `${classes} ${locals.disabled}`;
+  }
+
+  if (outlineOnly) {
+    classes = `${classes} ${locals.outlineOnly}`;
   }
 
   if (disabled) {
@@ -82,5 +87,6 @@ Button.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   href$: rpt.object,
   disabled: rpt.bool,
-  autoFocus: rpt.bool
+  autoFocus: rpt.bool,
+  outlineOnly: rpt.bool
 };

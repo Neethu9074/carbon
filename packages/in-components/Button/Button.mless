@@ -2,7 +2,6 @@
 
 :local {
   .button {
-    background: #9fffff;
     color: black;
     font-family: @common__font-family;
     font-weight: bold;
@@ -17,99 +16,118 @@
     & + .button {
       margin-left: 0.5rem;
     }
-
-    &:hover {
-      color: black;
-      background: #94eced;
-    }
   }
 
-  .secondary,
-  .secondary.disabled:hover {
-    background: #92a5ae;
-    color: #fff;
+  .default {
+    .buttonStyle(
+      // bg
+      #9fffff,
+      // hover bg
+      darken(#9fffff, 20%),
+      // font
+      black,
+      // hover font
+      black,
+      // outlined color
+      #06b7ba,
+      // outlined hovercolor
+      #1b7071);
   }
 
-  .secondary:hover {
-    background: #6b8088;
-    color: #fff;
+  .secondary {
+    .buttonStyle(
+      // bg
+      #92a5ae,
+      // hover bg
+      #6b8088,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      // outlined color
+      #92a5ae,
+      // outlined hovercolor
+      #6b8088);
   }
 
-  .secondaryv2,
-  .secondaryv2.disabled:hover {
-    background: transparent;
-    color: #06b7ba;
-    border: 1px solid;
+  .danger {
+    .buttonStyle(
+      // bg
+      #d9534f,
+      // hover bg
+      #c9302c,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      // outlined color
+      #d43f3a,
+      // outlined hovercolor
+      #ac2925);
   }
 
-  .secondaryv2:hover {
-    background: transparent;
-    color: #1b7071;
+  .warning {
+    .buttonStyle(
+      // bg
+      #ffde00,
+      // hover bg
+      #e6c700,
+      // font
+      #1e3036,
+      // hover font
+      #1e3036,
+      // outlined color
+      #ffc107,
+      // outlined hovercolor
+      #d39e00);
   }
 
-  .danger,
-  .danger.disabled:hover {
-    color: #fff;
-    background-color: #d9534f;
-    border-color: #d43f3a;
+  .primary {
+    .buttonStyle(
+      // bg
+      #337ab7,
+      // hover bg
+      #286090,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      // outlined color
+      #2e6da4,
+      // outlined hovercolor
+      #204d74);
   }
 
-  .danger:hover {
-    color: #fff;
-    background-color: #c9302c;
-    border-color: #ac2925;
+  .info {
+    .buttonStyle(
+      // bg
+      #5bc0de,
+      // hover bg
+      #31b0d5,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      // outlined color
+      #46b8da,
+      // outlined hovercolor
+      #269abc);
   }
 
-  .warning,
-  .warning.disabled:hover {
-    color: #1e3036;
-    background-color: #ffde00;
-    border-color: #ffc107;
-  }
-
-  .warning:hover {
-    color: #1e3036;
-    background-color: #e6c700;
-    border-color: #d39e00;
-  }
-
-  .primary,
-  .primary.disabled:hover {
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-  }
-
-  .primary:hover {
-    color: #fff;
-    background-color: #286090;
-    border-color: #204d74;
-  }
-
-  .info,
-  .info.disabled:hover {
-    color: #fff;
-    background-color: #5bc0de;
-    border-color: #46b8da;
-  }
-
-  .info:hover {
-    color: #fff;
-    background-color: #31b0d5;
-    border-color: #269abc;
-  }
-
-  .success,
-  .success.disabled:hover {
-    color: #fff;
-    background-color: #5cb85c;
-    border-color: #4cae4c;
-  }
-
-  .success:hover {
-    color: #fff;
-    background-color: #449d44;
-    border-color: #398439;
+  .success {
+    .buttonStyle(
+      // bg
+      #5cb85c,
+      // hover bg
+      #449d44,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      // outlined color
+      #4cae4c,
+      // outlined hovercolor
+      #398439);
   }
 
   .lg {
@@ -131,5 +149,32 @@
     cursor: not-allowed;
     opacity: 0.6;
     outline: 0;
+  }
+}
+
+
+.buttonStyle(@bg, @hoverBg, @font, @hoverFont, @borderOutline, @borderHoverOutline) {
+  &, &.disabled:hover {
+    background: @bg;
+    color: @font;
+  }
+
+  &:hover {
+    color: @hoverFont;
+    background: @hoverBg;
+  }
+
+  &.outlineOnly {
+    &, &.disabled, &.disabled:hover {
+      background: transparent;
+      border: 1px solid @borderOutline;
+      color: @borderOutline;
+    }
+
+    &:hover {
+      background: transparent;
+      border: 1px solid @borderHoverOutline;
+      color: @borderHoverOutline;
+    }
   }
 }
