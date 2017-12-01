@@ -105,7 +105,7 @@ function MatchingEntitiesIndicator({ form }) {
     <div className={`${block}__matching-entities-indicator`}>
       {form.get('matchingEntities').map(field => {
         const matchingEntities = field.value;
-        if (!matchingEntities) {
+        if (!matchingEntities && matchingEntities != 0) {
           return null;
         }
 
