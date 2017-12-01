@@ -30,6 +30,7 @@ export default function Step2({ form, onChange }) {
           <LabelledToggle onChange={onChange} types={types} type="online" title="Online" />
           <LabelledToggle onChange={onChange} types={types} type="offline" title="Offline" />
         </Row>
+        <TouchedMessages field={form.get('eventTypes')} />
 
         {form.get('advancedMode').map(field => (
           <div

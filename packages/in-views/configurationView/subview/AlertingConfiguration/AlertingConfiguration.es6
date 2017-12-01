@@ -125,7 +125,8 @@ function createForm(config) {
     .put(
       'eventTypes',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List(['incident', 'critical']))
+        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List(['incident', 'critical'])),
+        validator: eventTypeValidator
       })
     )
     .put(
@@ -140,4 +141,14 @@ function createForm(config) {
         value: Date.now()
       })
     );
+}
+function eventTypeValidator(eventType) {
+  if (eventType.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: `Please define at least one event type`
+      }
+    ];
+  }
 }
