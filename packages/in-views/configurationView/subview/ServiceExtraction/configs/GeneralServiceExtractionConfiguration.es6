@@ -39,8 +39,9 @@ export const helpTexts = defaults(
     matchesHelp: (
       <span>
         Select here which attributes should be used to match and extract a service. At least one match expression is
-        required. Currently supported is matching tags of a host, and labels of docker containers. Host tags are split
-        by <code>=</code> or <code>:</code> into a key value pair.
+        required. Currently supported is matching tags of a host, labels of Docker containers and labels and application
+        id for Marathon hosted containers. Host tags are split by <code>=</code> or <code>:</code> into a key value
+        pair.
       </span>
     )
   },
@@ -55,6 +56,14 @@ export const matchSpecificationOptionsTree = [
   {
     label: 'Docker Label',
     value: 'docker.label'
+  },
+  {
+    label: 'Marathon Application ID',
+    value: 'marathon.appId'
+  },
+  {
+    label: 'Marathon Label',
+    value: 'marathon.label'
   }
 ];
 
@@ -101,7 +110,7 @@ export const matchSpecificationOptions = {
         help: (
           <span>
             This value needs to be an exact case sensitive match. No wildcards or regular expressions allowed. For the
-            docker label <code>com.amazonaws.ecs.cluster: prod</code> just provide{' '}
+            Docker label <code>com.amazonaws.ecs.cluster: prod</code> just provide{' '}
             <code>com.amazonaws.ecs.cluster</code>.
           </span>
         )
@@ -112,10 +121,53 @@ export const matchSpecificationOptions = {
         initialValue: '',
         help: (
           <span>
-            To use the value of the docker label <code>com.amazonaws.ecs.cluster: prod</code> in a service name, use{' '}
+            To use the value of the Docker label <code>com.amazonaws.ecs.cluster: prod</code> in a service name, use{' '}
             <code>{'{docker.label-com.amazonaws.ecs.cluster}'}</code>. When a regular expression is used to match parts
             of the value, they can be accessed with <code>{'{docker.label-com.amazonaws.ecs.cluster-1}'}</code> (for the
             first match group).
+          </span>
+        )
+      }
+    }
+  },
+  'marathon.appId': {
+    titleName: 'Marathon Application ID',
+    placeholder: '(.*)',
+    testPlaceholder: '/',
+    initialValue: '(/shop($|/))',
+    help: (
+      <span>
+        Define a regular expression to match Marathon application ids. Capture groups from matches of this regular
+        expression are available in the service name field via the prefix <code>maration.appId</code>, e.g.{' '}
+        <code>{'{marathon.appId-1}'}</code> references the first capture group.
+      </span>
+    )
+  },
+  'marathon.label': {
+    titleName: 'Marathon Label',
+    type: 'kv',
+    typeArgs: {
+      key: {
+        placeholder: 'Marathon label key',
+        testPlaceholder: '',
+        initialValue: '',
+        help: (
+          <span>
+            This value needs to be an exact case sensitive match. No wildcards or regular expressions allowed. For the
+            Marathon label <code>HAPROXY-GROUP: shop</code> just provide <code>HAPROXY-GROUP</code>.
+          </span>
+        )
+      },
+      value: {
+        placeholder: 'Marathon label value',
+        testPlaceholder: '',
+        initialValue: '',
+        help: (
+          <span>
+            To use the value of the Marathon label <code>HAPROXY-GROUP: shop</code> in a service name, use{' '}
+            <code>{'{marathon.label-HAPROXY-GROUP}'}</code>. When a regular expression is used to match parts of the
+            value, they can be accessed with <code>{'{marathon.label-HAPROXY-GROUP-1}'}</code> (for the first match
+            group).
           </span>
         )
       }
