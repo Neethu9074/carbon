@@ -1,21 +1,25 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 
-import './Badge.less';
+import locals from './Badge.mless';
 
-const block = 'in-badge';
-
-export default function Badge({ children, className, size }) {
+export default Badge;
+function Badge({ children, size }) {
   return (
     <span
       className={evaluateClassNames({
-        [block]: true,
-        [`${block}--${size}`]: size,
-        [className]: className
+        [locals.badge]: true,
+        [locals[size]]: size
       })}
     >
       {children}
     </span>
   );
 }
+
+Badge.propTypes = {
+  children: rpt.node.isRequired,
+  size: rpt.oneOf(['sm'])
+};
