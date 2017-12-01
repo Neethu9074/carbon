@@ -19,7 +19,7 @@ export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = onlyInternally;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
-export const alertingEnabled = loadTu || monitoringTu || testTu || __DEV__;
+export const alertingEnabled = releaseTu || loadTu || monitoringTu || testTu || __DEV__;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
