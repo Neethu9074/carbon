@@ -5,7 +5,9 @@ import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { number, millis } from 'in-services/formatters/number';
+import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+
+const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
 const cols = [
   {
@@ -59,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Rollout duration',
+    title: 'Last Rollout Duration',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -68,7 +70,7 @@ const cols = [
       getMetricName() {
         return `duration`;
       },
-      getContent: millis.compact,
+      getContent: msFormatter,
       getTimeWindowAggregation() {
         return 'mean';
       }

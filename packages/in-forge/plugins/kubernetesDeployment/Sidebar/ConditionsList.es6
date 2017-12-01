@@ -19,7 +19,6 @@ export default function ConditionsList({ snapshot }) {
             {conditions.map(cond => (
               <DescriptionItem key={cond.get('type')} title={cond.get('type') + '=' + cond.get('status')}>
                 @ {cond.get('lastTransitionTime')}
-                <br /> {cond.get('reason')}
                 <br /> {cond.get('message')}
               </DescriptionItem>
             ))}

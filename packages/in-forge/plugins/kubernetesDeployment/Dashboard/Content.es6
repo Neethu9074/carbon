@@ -12,7 +12,34 @@ import { getLabel } from 'in-sdk/snapshot';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
-import PodsTable from './PodsTable';
+import Table from 'in-sdk/components/dashboard/Table';
+import { focusedMoment$ } from 'in-stores/timeline';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+import createPodsForDeploymentSubscription from 'in-services/subscription/podsForDeployment';
+
+const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
+
+const podCols = [
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Namespace',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.namespace;
+      }
+    }
+  }
+];
 
 export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -64,12 +91,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </KpiKeyValue>
         <KpiKeyValue label="Last Rollout">
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="duration"
-            formatter={timeByMillisTwoDecimalPlaces}
-            initialValue="0"
-          />
+          <MetricValue snapshotId={snapshotId} metric="duration" formatter={msFormatter} initialValue="0" />
         </KpiKeyValue>
       </KpiSection>
 
@@ -168,7 +190,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
               left: 80
             }}
             y1={{
-              formatter: timeByMillisTwoDecimalPlaces,
+              formatter: msFormatter,
               metrics: ['duration'],
               labels: ['Duration'],
               type: 'line'
@@ -177,7 +199,30 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <PodsTable snapshot={snapshot} timeframe={timeframe} />
+      <DashboardSection title="Pods">
+        <PodsTable snapshotId={snapshotId} />
+      </DashboardSection>
     </div>
   );
 }
+
+const PodsTable = connectTo(
+  props => ({
+    containerSnapshots: focusedMoment$
+      .flatMap(time => createPodsForDeploymentSubscription({ snapshotId: props.snapshotId, time }))
+      .flatMap(getSnapshots)
+  }),
+  function PodsTable({ snapshotId, containerSnapshots }) {
+    let rows = [];
+    if (containerSnapshots) {
+      rows = containerSnapshots.map(containerSnapshot => ({
+        key: containerSnapshot.get('id'),
+        namespace: containerSnapshot.getIn(['data', 'namespace']),
+        uid: containerSnapshot.getIn(['data', 'Id']),
+        snapshotId
+      }));
+    }
+
+    return <Table cols={podCols} rows={rows} />;
+  }
+);
