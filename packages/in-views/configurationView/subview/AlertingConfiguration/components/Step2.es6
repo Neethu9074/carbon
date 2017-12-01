@@ -69,6 +69,7 @@ export default function Step2({ form, onChange }) {
             </RuleControl>
           ) : null
       )}
+      {form.get('advancedMode').map(field => (field.value ? null : <MatchingEntitiesIndicator form={form} />))}
     </Step>
   );
 }
