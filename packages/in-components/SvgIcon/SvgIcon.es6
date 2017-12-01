@@ -68,7 +68,7 @@ export function SvgIconList({ className }) {
               alignItems: 'center'
             }}
           >
-            <SvgIcon type={key} width={16} height={16} color="#fff" spinning={key === 'spinner'} />
+            <SvgIcon type={key} width={32} height={32} color="#fff" spinning={key === 'spinner'} />
             <span style={{ marginLeft: '5px' }}>{key}</span>
           </div>
         </div>
