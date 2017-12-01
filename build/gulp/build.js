@@ -19,10 +19,8 @@ var environments = require('./environments');
 var buildUtil = require('./util');
 var paths = require('./paths');
 
-
 // will be populated with data using the identifyTryBuildTargetEnvironment task
 var tryBuildModeOptions;
-
 
 gulp.task('build', cb => {
   runSequence(
@@ -36,63 +34,51 @@ gulp.task('build', cb => {
   );
 });
 
-
 gulp.task('try-build', cb => {
   runSequence(
     'identifyTryBuildTargetEnvironment',
     'build',
-    [
-      'startTryBuildProxy',
-      'openTryBuildUrlInBrowser',
-      'writeTryBuildConfigFile',
-      'writeTryBuildServerConfigFile'
-    ],
+    ['startTryBuildProxy', 'openTryBuildUrlInBrowser', 'writeTryBuildConfigFile', 'writeTryBuildServerConfigFile'],
     'startTryBuildServer',
     cb
   );
 });
 
-
 gulp.task('try-build-without-building', cb => {
   runSequence(
     'identifyTryBuildTargetEnvironment',
     'copyServerSources',
-    [
-      'startTryBuildProxy',
-      'openTryBuildUrlInBrowser',
-      'writeTryBuildConfigFile',
-      'writeTryBuildServerConfigFile'
-    ],
-     'startTryBuildServer',
+    ['startTryBuildProxy', 'openTryBuildUrlInBrowser', 'writeTryBuildConfigFile', 'writeTryBuildServerConfigFile'],
+    'startTryBuildServer',
     cb
   );
 });
-
 
 gulp.task('copyServerSources', () => {
   return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
 });
 
-
 gulp.task('minifyCss', () => {
-  return gulp.src(paths.allCssAssets)
-    .pipe(nano({
-      zindex: false
-    }))
+  return gulp
+    .src(paths.allCssAssets)
+    .pipe(
+      nano({
+        zindex: false
+      })
+    )
     .pipe(gulp.dest(paths.bundleDir));
 });
 
-
 gulp.task('printFileStatistics', () => {
-  return gulp.src([paths.allCssAssets, paths.allJsAssets])
-    .pipe(size({
+  return gulp.src([paths.allCssAssets, paths.allJsAssets]).pipe(
+    size({
       showFiles: true,
       gzip: true
-    }));
+    })
+  );
 });
 
-
-gulp.task('webpack:build', (callback) => {
+gulp.task('webpack:build', callback => {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
 
@@ -106,7 +92,7 @@ gulp.task('webpack:build', (callback) => {
     new webpack.DefinePlugin({
       'process.env': {
         // This has effect on the react lib size
-        'NODE_ENV': JSON.stringify('production')
+        NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -122,14 +108,16 @@ gulp.task('webpack:build', (callback) => {
       throw new gutil.PluginError('webpack:build', err);
     }
 
-    gutil.log('[webpack:build]', stats.toString({
-      colors: true
-    }));
+    gutil.log(
+      '[webpack:build]',
+      stats.toString({
+        colors: true
+      })
+    );
 
     callback();
   });
 });
-
 
 gulp.task('identifyTryBuildTargetEnvironment', cb => {
   var questions = [
@@ -151,13 +139,9 @@ gulp.task('identifyTryBuildTargetEnvironment', cb => {
   });
 });
 
-
 gulp.task('writeTryBuildConfigFile', () => {
-  buildUtil.writeDevModeConfig(
-    environments[tryBuildModeOptions.environment]
-  );
+  buildUtil.writeDevModeConfig(environments[tryBuildModeOptions.environment]);
 });
-
 
 gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
@@ -174,27 +158,16 @@ gulp.task('writeTryBuildServerConfigFile', () => {
       apiKey: '',
       domain: ''
     }
-
   };
-  fs.writeFileSync(
-    path.join(paths.targetDir, 'serverConfig.json'),
-    JSON.stringify(config, 0, 2)
-  );
+  fs.writeFileSync(path.join(paths.targetDir, 'serverConfig.json'), JSON.stringify(config, 0, 2));
 });
-
 
 gulp.task('startTryBuildServer', () => {
   gutil.log(path.join(paths.targetDir, 'index.js'));
-  execSync(
-    'node "' +
-    path.join(paths.targetDir, 'index.js') +
-    '"',
-    {
-      stdio: 'inherit'
-    }
-  );
+  execSync('node "' + path.join(paths.targetDir, 'index.js') + '"', {
+    stdio: 'inherit'
+  });
 });
-
 
 gulp.task('startTryBuildProxy', () => {
   var envConfig = environments[tryBuildModeOptions.environment];
@@ -231,7 +204,6 @@ gulp.task('startTryBuildProxy', () => {
 
   buildUtil.startProxrox(config);
 });
-
 
 gulp.task('openTryBuildUrlInBrowser', () => {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');

@@ -3,7 +3,6 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
-import { toggleDevPanel } from 'in-components/DeveloperPanel/stores/visibilityStore';
 import { configurationViewLink$ } from 'in-stores/navigation/configuration';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
@@ -75,12 +74,6 @@ export default connectTo(
           {!isOnPremise() ? (
             <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
               Release Notes
-            </Link>
-          ) : null}
-
-          {__DEV__ ? (
-            <Link className={linkElement} onClick={toggleDevPanel}>
-              Developer Panel
             </Link>
           ) : null}
 

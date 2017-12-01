@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { groups } from 'in-map/stores/physical/groupsStore';
 import services from 'in-map/stores/logical/servicesStore';
@@ -103,4 +104,8 @@ if (__DEV__) {
   };
 
   setInterval(callback, 1000);
+
+  window.instana.dev.getMapStatistics = () => {
+    statistics.stream.once(_statistics => console.log(_statistics));
+  };
 }

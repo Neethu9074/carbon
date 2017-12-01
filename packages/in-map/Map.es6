@@ -14,6 +14,7 @@ import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import 'in-map/stores/statisticsStore';
 
 import 'in-map/Map.less';
 

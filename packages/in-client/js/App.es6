@@ -1,4 +1,3 @@
-/* global require:false */
 import React from 'react';
 
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -48,16 +47,9 @@ export default function App() {
 
         {/* all the different dialogs e.g. in the settings */}
         <DialogPresenter />
-
-        {__DEV__ ? getDevPanel() : null}
       </ErrorBoundary>
 
       <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
     </ErrorBoundary>
   );
-}
-
-function getDevPanel() {
-  const DeveloperPanel = require('in-components/DeveloperPanel/DeveloperPanel.es6').default;
-  return <DeveloperPanel />;
 }
