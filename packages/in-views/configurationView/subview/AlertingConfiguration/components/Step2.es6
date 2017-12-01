@@ -125,8 +125,8 @@ function MatchingEntitiesIndicator({ form }) {
 function QueryHelpComponent() {
   return (
     <div className={`${block}__event-help`}>
-      Only events that match the advanced filter will enter the notification stream. When empty, no filter is applied.
-      For more information on syntax, please see our&nbsp;
+      Only events that match the event types and the advanced filter will enter the notification stream. When empty, no
+      filter is applied. For more information on syntax, please see our&nbsp;
       <Link className={`${block}__link`} href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
         documentation
       </Link>

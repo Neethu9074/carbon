@@ -147,7 +147,7 @@ function eventTypeValidator(eventType) {
     return [
       {
         severity: 'error',
-        message: `Please define at least one event type`
+        message: `Please select at least one event type`
       }
     ];
   }
