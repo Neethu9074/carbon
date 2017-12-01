@@ -22,15 +22,6 @@ const containerCols = [
     }
   },
   {
-    title: 'Image',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.image;
-      }
-    }
-  },
-  {
     title: 'State',
     type: 'string',
     typeArgs: {
@@ -73,7 +64,7 @@ export default function KubernetesPodDashboard({ snapshot }) {
       </KpiSection>
 
       <DashboardSection title="Containers">
-        <ContainerTable snapshot={snapshot} />
+        <ContainerTable snapshotId={snapshotId} />
       </DashboardSection>
     </div>
   );
@@ -82,18 +73,17 @@ export default function KubernetesPodDashboard({ snapshot }) {
 const ContainerTable = connectTo(
   props => ({
     containerSnapshots: focusedMoment$
-      .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshot.get('id'), time }))
+      .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
-  function ContainerTable({ snapshot, containerSnapshots }) {
+  function ContainerTable({ snapshotId, containerSnapshots }) {
     let rows = [];
     if (containerSnapshots) {
       rows = containerSnapshots.map(containerSnapshot => ({
         key: containerSnapshot.get('id'),
-        image: containerSnapshot.getIn(['data', 'scheduling', `image`], ''),
         state: containerSnapshot.getIn(['data', 'scheduling', `state`], ''),
-        snapshotId: snapshot.get('id'),
-        uid: containerSnapshot.getIn(['data', 'scheduling', 'uid'])
+        uid: containerSnapshot.getIn(['data', 'Id']),
+        snapshotId
       }));
     }
 
