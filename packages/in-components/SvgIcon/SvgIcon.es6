@@ -56,10 +56,10 @@ export default function SvgIcon({ type, width, height, className, color, onClick
   );
 }
 
-export function SvgIconList({ className }) {
+export function SvgIconList() {
   const iconNames = Object.keys(icons).sort();
   return (
-    <div className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div className={`${block}__icons`} style={{ display: 'flex', flexWrap: 'wrap' }}>
       {iconNames.map(key => (
         <div key={key} style={{ listStyle: 'none', margin: '0 2rem 1rem 0' }}>
           <div
