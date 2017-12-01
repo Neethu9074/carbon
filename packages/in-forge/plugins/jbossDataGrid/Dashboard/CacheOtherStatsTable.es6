@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, percentage } from 'in-services/formatters/number';
+import { number, hitRate } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
@@ -43,9 +43,9 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cachesStatistics.${row.key}.readWriteRatio`;
+        return `cachesStatistics.${row.key}.readWriteRatioV2`;
       },
-      getContent: percentage.compact,
+      getContent: hitRate.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -134,9 +134,9 @@ function getRowDetails(row) {
           left: 80
         }}
         y1={{
-          formatter: percentage.compact,
-          tooltipFormatter: percentage.detailed,
-          metrics: ['cachesStatistics.' + row.key + '.readWriteRatio'],
+          formatter: hitRate.compact,
+          tooltipFormatter: hitRate.detailed,
+          metrics: ['cachesStatistics.' + row.key + '.readWriteRatioV2'],
           labels: ['Read/Write Ratio'],
           type: 'line'
         }}

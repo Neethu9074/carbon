@@ -1,4 +1,4 @@
-import { percentage, millis, number } from 'in-services/formatters/number';
+import { millis, number, hitRate } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -10,10 +10,10 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('cachesStatistics', 'hitRatio'),
+    metric: getMetricMatch('cachesStatistics', 'hitRatioV2'),
     label: 'Hit Ratio',
     min: 0,
-    formatter: percentage
+    formatter: hitRate
   },
   {
     metric: getMetricMatch('cachesStatistics', 'hits'),
@@ -70,10 +70,10 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('cachesStatistics', 'readWriteRatio'),
+    metric: getMetricMatch('cachesStatistics', 'readWriteRatioV2'),
     label: 'Read/Write Ratio',
     min: 0,
-    formatter: percentage
+    formatter: hitRate
   },
   {
     metric: getMetricMatch('cachesStatistics', 'numberOfEntries'),

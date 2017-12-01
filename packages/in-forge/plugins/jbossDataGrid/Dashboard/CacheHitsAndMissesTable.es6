@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, hitRate } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
@@ -27,9 +27,9 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cachesStatistics.${row.key}.hitRatio`;
+        return `cachesStatistics.${row.key}.hitRatioV2`;
       },
-      getContent: percentage.compact,
+      getContent: hitRate.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -137,9 +137,9 @@ function getRowDetails(row) {
           left: 80
         }}
         y1={{
-          formatter: percentage.compact,
-          tooltipFormatter: percentage.detailed,
-          metrics: ['cachesStatistics.' + row.key + '.hitRatio'],
+          formatter: hitRate.compact,
+          tooltipFormatter: hitRate.detailed,
+          metrics: ['cachesStatistics.' + row.key + '.hitRatioV2'],
           labels: ['Hit Ratio'],
           type: 'line'
         }}
