@@ -80,7 +80,7 @@ export default connectTo(
         .startWith([])
     };
   },
-  function DeploymenList({ snapshot, deployments }) {
+  function DeploymentList({ snapshot, deployments }) {
     const deploymentRows = deployments
       .filter(deployment => deployment.get('plugin') == 'kubernetesDeployment')
       .map(deployment => deployment.get('data'))

@@ -57,6 +57,7 @@ import './kubernetesCluster';
 import './kubernetesPod';
 import './kubernetesNode';
 import './kubernetesReplicaSet';
+import './kubernetesDeployment';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
