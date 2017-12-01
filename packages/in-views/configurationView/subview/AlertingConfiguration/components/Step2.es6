@@ -111,8 +111,8 @@ function MatchingEntitiesIndicator({ form }) {
 
         return (
           <div className={`${block}__matching-text`}>
-            {matchingEntities >= 1000 ? '>' : ''}
-            {matchingEntities} {matchingEntities === 1 ? 'event' : 'events'} match over the past week
+            {matchingEntities >= 10000 ? '>' : ''}
+            {matchingEntities} {matchingEntities === 1 ? 'event' : 'events'} match over the past 2 weeks
           </div>
         );
       })}
