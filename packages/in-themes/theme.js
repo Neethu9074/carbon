@@ -27,12 +27,17 @@ module.exports = {
     subMenu: zIndex++,
     messageFlyout: zIndex++
   },
-  common: {
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif'
+  fontColor: '#0C1415',
+  fontFamilySansSerif: ' -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  fontFamilyMonospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  links: {
+    fontColor: '#2d4048',
+    decoration: 'underline',
+    hover: {
+      fontColor: '#8c969a',
+      decoration: 'underline',
+    }
   },
-  fontFamilySansSerif: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-  fontFamilySerif: 'Georgia, "Times New Roman", Times, serif',
-  fontFamilyMonospace: 'Menlo, Monaco, Consolas, "Courier New", monospace',
   chart: {
     strokeColors: [
       '#5da6da',

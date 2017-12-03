@@ -1,9 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+
   .button {
     color: black;
-    font-family: @common__font-family;
+    font-family: @font-family-sans-serif;
     font-weight: bold;
     text-decoration: none;
     text-align: center;

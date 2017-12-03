@@ -1,3 +1,5 @@
+import 'in-themes/foundation.less';
+
 import './ButtonStory';
 import './SvgIconStory';
 import './Badge';
