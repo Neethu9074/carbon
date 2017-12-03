@@ -1,3 +1,4 @@
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
@@ -6,13 +7,22 @@ import { kinds, sizes } from 'in-components/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Button from 'in-components/Button';
 
+const onClick = action('click');
+
 storiesOf('Button', module)
+  .addDecorator(withKnobs)
   .add('Kinds', () => <Kinds />)
   .add('Sizes', () => <Sizes />)
   .add('Groups', () => <Groups />);
 
 
 function Kinds() {
+  let href;
+
+  if (boolean('Render as link?', false)) {
+    href = 'http://example.com';
+  }
+
   return (
     <div>
 
@@ -21,7 +31,7 @@ function Kinds() {
         {kinds.map(kind =>
           <Button kind={kind}
                   key={kind}
-                  onClick={action('click')}>
+                  onClick={onClick}>
             {kind}
           </Button>
         )}
@@ -41,7 +51,8 @@ function Kinds() {
         {kinds.map(kind =>
           <Button kind={kind}
                   key={kind}
-                  onClick={action('click')}
+                  onClick={onClick}
+                  href={href}
                   outlineOnly>
             {kind}
           </Button>
@@ -53,7 +64,8 @@ function Kinds() {
         {kinds.map(kind =>
           <Button kind={kind}
                   key={kind}
-                  onClick={action('click')}
+                  onClick={onClick}
+                  href={href}
                   outlineOnly
                   disabled>
             {kind}
@@ -69,7 +81,7 @@ function Sizes() {
   return (
     <div>
       {sizes.map(size =>
-        <Button size={size} onClick={action('click')} key={size}>
+        <Button size={size} onClick={onClick} key={size}>
           {size}
         </Button>
       )}
