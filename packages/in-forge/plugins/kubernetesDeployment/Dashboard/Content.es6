@@ -7,16 +7,16 @@ import {
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import createPodsForDeploymentSubscription from 'in-services/subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
+import MetricValue from 'in-components/MetricValue';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import createPodsForDeploymentSubscription from 'in-services/subscription/podsForDeployment';
+import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
@@ -199,9 +199,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Pods">
-        <PodsTable snapshotId={snapshotId} />
-      </DashboardSection>
+      <PodsTable snapshotId={snapshotId} />
     </div>
   );
 }
@@ -212,17 +210,19 @@ const PodsTable = connectTo(
       .flatMap(time => createPodsForDeploymentSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
-  function PodsTable({ snapshotId, containerSnapshots }) {
+  function PodsTable({ containerSnapshots }) {
     let rows = [];
     if (containerSnapshots) {
       rows = containerSnapshots.map(containerSnapshot => ({
         key: containerSnapshot.get('id'),
-        namespace: containerSnapshot.getIn(['data', 'namespace']),
-        uid: containerSnapshot.getIn(['data', 'Id']),
-        snapshotId
+        namespace: containerSnapshot.getIn(['data', 'namespace'])
       }));
     }
 
-    return <Table cols={podCols} rows={rows} />;
+    return (
+      <DashboardSection title={`Pods (${rows.length})`}>
+        <Table cols={podCols} rows={rows} />
+      </DashboardSection>
+    );
   }
 );

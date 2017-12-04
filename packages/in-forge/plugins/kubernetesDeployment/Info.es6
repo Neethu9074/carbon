@@ -29,9 +29,6 @@ export default connectTo(
           ) : null}
           <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
-          <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
-          <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
           <KeyValuePopup header="Labels" data={data.get('labels')} />
         </DescriptionList>
       </div>

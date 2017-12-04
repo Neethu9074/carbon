@@ -1,11 +1,12 @@
 import React from 'react';
 
+import createDeploymentsForClusterSubscription from 'in-services/subscription/deploymentsForCluster';
+import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
+import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
@@ -79,28 +80,22 @@ const cols = [
 ];
 
 export default connectTo(
-  props => {
-    return {
-      deployments: getClusterMembers(props.snapshot.get('id')).flatMap(deploymentIds =>
-        getSnapshots(deploymentIds.toArray())
-      )
-    };
-  },
+  props => ({
+    deploymentSnapshots: focusedMoment$
+      .flatMap(time => createDeploymentsForClusterSubscription({ snapshotId: props.snapshot.get('id'), time }))
+      .flatMap(getSnapshots)
+  }),
 
-  function DeploymentsTable({ snapshot, deployments = [], timeframe }) {
-    const rows = deployments
-      .filter(deployment => deployment.get('plugin') == 'kubernetesDeployment')
-      .map(deployment => {
-        const data = deployment.get('data');
-        return {
-          key: deployment.get('id'),
-          name: data.get('name'),
-          namespace: data.get('namespace'),
-          labels: data.get('labels'),
-          snapshotId: snapshot.get('id'),
-          timeframe
-        };
-      });
+  function DeploymentsTable({ deploymentSnapshots }) {
+    let rows = [];
+
+    if (deploymentSnapshots) {
+      rows = deploymentSnapshots.map(deploymentSnapshot => ({
+        key: deploymentSnapshot.get('id'),
+        name: deploymentSnapshot.getIn(['data', 'name']),
+        namespace: deploymentSnapshot.getIn(['data', 'namespace'])
+      }));
+    }
 
     return (
       <DashboardSection title={`Deployments (${rows.length})`}>
