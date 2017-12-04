@@ -31,7 +31,7 @@ export function removeMetric(metric) {
     }
     const result = metrics.slice();
     result.splice(i, 1);
-    setOrDeleteMatrixKey('metrics', metrics.join(','));
+    setOrDeleteMatrixKey('metrics', result.join(','));
   });
 }
 
