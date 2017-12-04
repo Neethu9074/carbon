@@ -5,3 +5,4 @@ import './SvgIconStory';
 import './Badge';
 import './StickyStory';
 import './Collapsible';
+import './ComboBox';
