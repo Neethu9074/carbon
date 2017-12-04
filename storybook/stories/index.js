@@ -4,3 +4,4 @@ import './ButtonStory';
 import './SvgIconStory';
 import './Badge';
 import './StickyStory';
+import './Collapsible';
