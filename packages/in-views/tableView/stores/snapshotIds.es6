@@ -31,8 +31,7 @@ export const selectedType$ = createTrackingStore({
       };
     })
     .filter(selectedType => entityTypeToFullyQualifiedPlugin[selectedType.type])
-    .distinct()
-}).observable;
+}).observable.distinct((current, next) => current.type !== next.type || current.view !== next.view);
 
 export function setSelectedType(type) {
   setOrDeleteMatrixKey('plugin', type);
