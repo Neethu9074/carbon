@@ -11,6 +11,7 @@ import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
 import { tryFocusSearch } from 'in-components/SearchBar/stores/focus';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import { applyTransform } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
@@ -283,15 +284,17 @@ export default getElementDimensions(
 
       render() {
         return (
-          <div className={block}>
-            <div ref={input => (this.input = input)} />
-            <Suggestions
-              searchbarWidth={this.props.width}
-              eventEmitter={this.state.eventEmitter}
-              onSelectSuggestion={this.onSelectSuggestion}
-              config={this.state.suggestionConfig}
-            />
-          </div>
+          <ErrorBoundary name="search-bar">
+            <div className={block}>
+              <div ref={input => (this.input = input)} />
+              <Suggestions
+                searchbarWidth={this.props.width}
+                eventEmitter={this.state.eventEmitter}
+                onSelectSuggestion={this.onSelectSuggestion}
+                config={this.state.suggestionConfig}
+              />
+            </div>
+          </ErrorBoundary>
         );
       }
 

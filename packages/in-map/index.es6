@@ -3,12 +3,14 @@ import React from 'react';
 import Controls from 'in-components/MapOverlayControls';
 import EventSidebar from 'in-components/EventSidebar';
 import MapSidebar from 'in-components/MapSidebar';
+import SearchBar from 'in-components/SearchBar';
 import MapNotes from 'in-components/MapNotes';
+import Sticky from 'in-components/Sticky';
 import Map from 'in-map/Map';
 
 export default function MapHandler(props) {
   return (
-    <div>
+    <Sticky header={<SearchBar />}>
       <section>
         <Map />
         <Controls />
@@ -17,6 +19,6 @@ export default function MapHandler(props) {
         <MapNotes />
       </section>
       {props.children}
-    </div>
+    </Sticky>
   );
 }
