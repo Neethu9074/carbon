@@ -1,7 +1,7 @@
 @import '~in-themes/mixins.less';
 
-.in-collapsible {
-  &__header {
+:local {
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,26 +16,17 @@
     &:hover {
       color: lighten(#6b8088, 20%);
 
-      .in-collapsible__toggle {
+      .toggle {
         fill: lighten(#6b8088, 20%);
       }
     }
   }
 
-  &__content {
+  .content {
     margin: 0.438rem 0 0 0.625rem;
-
-    & > .in-clickable-list {
-      margin-left: -0.625rem;
-    }
-
-    & > :first-child > .in-sidebar-separator,
-    & > .in-sidebar-separator {
-      display: none;
-    }
   }
 
-  &__toggle {
+  .toggle {
     position: relative;
 
     transition: fill 0.25s ease-in-out;

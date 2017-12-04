@@ -6,9 +6,7 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
-import './Collapsible.less';
-
-const block = 'in-collapsible';
+import locals from './Collapsible.mless';
 
 class Collapsible extends React.PureComponent {
   static propTypes = {
@@ -31,7 +29,6 @@ class Collapsible extends React.PureComponent {
     return (
       <div
         className={evaluateClassNames({
-          [block]: true,
           [this.props.className]: this.props.className
         })}
       >
@@ -53,28 +50,14 @@ class Collapsible extends React.PureComponent {
 
 export default Collapsible;
 
-function Header({ isOpen, toggle, style, children, className }) {
-  let classNames = evaluateClassNames({
-    [`${block}__header`]: true,
-    [`${className}__header`]: className
-  });
-
-  if (!open) {
-    classNames = evaluateClassNames({
-      [`${block}__header`]: true,
-      [`${className}__header`]: className,
-      [`${block}__header__closed`]: true,
-      [`${className}__header__closed`]: className
-    });
-  }
-
+function Header({ isOpen, toggle, style, children }) {
   return (
-    <div onClick={toggle} className={classNames} style={style}>
+    <div onClick={toggle} className={locals.header} style={style}>
       <span>{children}</span>
 
       <SvgIcon
         type={isOpen ? 'triangle_down' : 'triangle_right'}
-        className={block + '__toggle'}
+        className={locals.toggle}
         color="#6B8088"
         height={6}
         width={6}
@@ -85,21 +68,12 @@ function Header({ isOpen, toggle, style, children, className }) {
 
 Collapsible.Header = Header;
 
-function Content({ isOpen, className, children }) {
+function Content({ isOpen, children }) {
   if (!isOpen) {
     return null;
   }
 
-  return (
-    <div
-      className={evaluateClassNames({
-        [`${block}__content`]: true,
-        [className]: className
-      })}
-    >
-      {children}
-    </div>
-  );
+  return <div className={locals.content}>{children}</div>;
 }
 
 Collapsible.Content = Content;
