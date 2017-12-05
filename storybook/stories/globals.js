@@ -9,6 +9,7 @@ window.instana = {
   },
   config: {
     tenant: 'instana',
+    tenantUnit: 'test',
     environment: 'internal'
   }
 };
