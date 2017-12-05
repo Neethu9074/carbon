@@ -4,9 +4,9 @@ import { config } from 'in-services/config';
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
 const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
-const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
-const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
-const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
+// const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
+// const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
+// const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 const onlyInternally =
   __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu);
@@ -19,7 +19,7 @@ export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = onlyInternally;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
-export const alertingEnabled = releaseTu || loadTu || monitoringTu || testTu || __DEV__;
+export const alertingEnabled = true;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
