@@ -5,7 +5,6 @@ import EntityColumnContent from 'in-views/traceView/components/EntityColumnConte
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import { setSortBy, sortBy$ } from 'in-views/traceView/stores/sortBy';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
 import { selectedTraceId } from 'in-stores/traces';
@@ -80,52 +79,49 @@ const cols = [
   }
 ];
 
-export default getElementDimensions(
-  connectTo(
-    {
-      isInfiniteLoading: isLoading$,
-      selectedTraceId,
-      traces: traces$
-    },
-    function TraceTable({ traces, selectedTraceId, isInfiniteLoading, height }) {
-      if (!traces) {
-        return <LoadingIndicator type="dark" />;
-      }
+export default connectTo(
+  {
+    isInfiniteLoading: isLoading$,
+    selectedTraceId,
+    traces: traces$
+  },
+  function TraceTable({ traces, selectedTraceId, isInfiniteLoading }) {
+    if (!traces) {
+      return <LoadingIndicator type="dark" />;
+    }
 
-      if (!isInfiniteLoading && traces.length === 0) {
-        return (
-          <div className={block}>
-            <p className={`${block}__no-traces`}>There are no traces in the selected time window.</p>
-          </div>
-        );
-      }
-
-      const rows = traces.map(rawTrace => {
-        return {
-          key: rawTrace.id,
-          rawTrace,
-          isSelected: selectedTraceId === rawTrace.id
-        };
-      });
-
+    if (!isInfiniteLoading && traces.length === 0) {
       return (
         <div className={block}>
-          <LazyTable
-            cols={cols}
-            rows={rows}
-            loadMoreData={loadMoreTraces}
-            sortBy$={sortBy$}
-            sortDirection$={sortDirection$}
-            furtherDataAvailable$={furtherDataAvailable$}
-            isLoading$={isLoading$}
-            onSortingChanged={setSortBy}
-            onRowClicked={row => (row.key === selectedTraceId ? clearTraceSelection() : setSelectedTraceId(row.key))}
-            maxHeight={height}
-          />
+          <p className={`${block}__no-traces`}>There are no traces in the selected time window.</p>
         </div>
       );
     }
-  )
+
+    const rows = traces.map(rawTrace => {
+      return {
+        key: rawTrace.id,
+        rawTrace,
+        isSelected: selectedTraceId === rawTrace.id
+      };
+    });
+
+    return (
+      <div className={block}>
+        <LazyTable
+          cols={cols}
+          rows={rows}
+          loadMoreData={loadMoreTraces}
+          sortBy$={sortBy$}
+          sortDirection$={sortDirection$}
+          furtherDataAvailable$={furtherDataAvailable$}
+          isLoading$={isLoading$}
+          onSortingChanged={setSortBy}
+          onRowClicked={row => (row.key === selectedTraceId ? clearTraceSelection() : setSelectedTraceId(row.key))}
+        />
+      </div>
+    );
+  }
 );
 
 function getServiceLabelWithEndpoint(serviceLabel, endpointLabel) {

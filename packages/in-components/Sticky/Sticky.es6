@@ -37,7 +37,7 @@ export default class extends React.Component {
   render() {
     return (
       <div ref={r => this.setWrapper(r)}>
-        <div ref={r => this.setHeader(r)}>{this.props.header}</div>
+        <Header setHeader={r => this.setHeader(r)}>{this.props.header}</Header>
 
         {this.props.children}
       </div>
@@ -62,4 +62,12 @@ function getCoords(elem) {
   const left = box.left + scrollLeft - clientLeft;
 
   return { top: Math.round(top), left: Math.round(left) };
+}
+
+function Header({ children, setHeader }) {
+  if (!children) {
+    return null;
+  }
+
+  return <div ref={r => setHeader(r)}>{children}</div>;
 }
