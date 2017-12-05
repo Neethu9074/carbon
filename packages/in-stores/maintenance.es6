@@ -43,7 +43,7 @@ export function init() {
             {
               type: 'info',
               icon: 'server',
-              content: <DangerousHtmlPresenter dangerouslySetInnerHTML={{ __html: toHtml(message) }} />,
+              content: <DangerousHtmlPresenter html={toHtml(message)} />,
               onClick: markAsRead
             },
             messageId
