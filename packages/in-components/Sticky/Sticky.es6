@@ -1,15 +1,12 @@
 import React from 'react';
 
+import { debouncedResize$ } from 'in-services/browser';
+
 export default class extends React.Component {
   static displayName = 'Sticky';
 
   setHeader(node) {
     this.header = node;
-    if (this.header) {
-      this.headerCoords = getCoords(this.header);
-      this.headerHeight = this.header.clientHeight;
-      this.headerWidth = this.header.clientWidth;
-    }
     this.makeSticky();
   }
 
@@ -18,12 +15,20 @@ export default class extends React.Component {
     this.makeSticky();
   }
 
-  makeSticky() {
+  makeSticky = () => {
     if (!this.wrapper) {
       return;
     }
 
     if (this.header) {
+      this.wrapper.style.paddingTop = `0px`;
+      this.header.style.position = `static`;
+      this.header.style.width = 'auto';
+      this.headerCoords = getCoords(this.header);
+
+      this.headerHeight = this.header.clientHeight;
+      this.headerWidth = this.header.clientWidth;
+
       this.header.style.position = `fixed`;
       this.header.style.top = `${this.headerCoords.top}px`;
       this.header.style.left = `${this.headerCoords.left}px`;
@@ -31,6 +36,16 @@ export default class extends React.Component {
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
     } else {
       this.wrapper.style.paddingTop = `0px`;
+    }
+  };
+
+  componentDidMount() {
+    this.resizeSubscription = debouncedResize$.subscribe(this.makeSticky);
+  }
+
+  componentWillUnmount() {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.dispose();
     }
   }
 
