@@ -7,7 +7,6 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    viewControls: zIndex++,
     sidebar: zIndex++,
     footerTimePicker: zIndex++,
     mapNotes: zIndex++,
