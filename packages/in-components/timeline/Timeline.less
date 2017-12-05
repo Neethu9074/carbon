@@ -1,16 +1,17 @@
 @import '~in-themes/active.less';
 
 .in-timeline {
+  &__wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+  }
   @transition-duration: 0.2s;
 
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: 2.25rem;
-
   background: #2d4048;
-  z-index: @z-index__footer;
 
   transition: height @transition-duration ease-in-out;
   overflow: hidden;
@@ -37,7 +38,7 @@
     }
   }
 
-  &__wrapper {
+  &__menu {
     position: absolute;
     top: -37px;
     left: 0;

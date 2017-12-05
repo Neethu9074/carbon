@@ -26,11 +26,11 @@ export default function App() {
         }
       >
         <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-
-        <ErrorBoundary name="timeline">
-          <Timeline />
-        </ErrorBoundary>
       </Sticky>
+
+      <ErrorBoundary name="timeline">
+        <Timeline />
+      </ErrorBoundary>
 
       <ErrorBoundary name="dialogs">
         {/* for release notes */}
