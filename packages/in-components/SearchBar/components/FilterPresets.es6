@@ -44,9 +44,7 @@ export default connectTo(
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
           <LifecycleObserver onWillMount={refresh} />
-
           <MenuHeading className={`${block}__heading`}>Filters</MenuHeading>
-
           <ul className={`${block}__preset-list`}>
             {filters.size === 0 ? (
               <span className={`${block}__no-filters-help-text`}>Save filters for easy access here</span>
