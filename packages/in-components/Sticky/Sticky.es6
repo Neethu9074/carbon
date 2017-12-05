@@ -1,3 +1,4 @@
+import { create } from 'reactive-observables';
 import React from 'react';
 
 import { debouncedResize$ } from 'in-services/browser';
@@ -5,14 +6,16 @@ import { debouncedResize$ } from 'in-services/browser';
 export default class extends React.Component {
   static displayName = 'Sticky';
 
+  refresh$ = create();
+
   setHeader(node) {
     this.header = node;
-    this.makeSticky();
+    this.refresh$.emit(true);
   }
 
   setWrapper(node) {
     this.wrapper = node;
-    this.makeSticky();
+    this.refresh$.emit(true);
   }
 
   makeSticky = () => {
@@ -40,12 +43,18 @@ export default class extends React.Component {
   };
 
   componentDidMount() {
-    this.resizeSubscription = debouncedResize$.subscribe(this.makeSticky);
+    this.resizeSubscription = debouncedResize$.subscribe(() => this.refresh$.emit(true));
+    this.refreshSubscription = this.refresh$.nextFrame().subscribe(this.makeSticky);
   }
 
   componentWillUnmount() {
     if (this.resizeSubscription) {
       this.resizeSubscription.dispose();
+      this.resizeSubscription = null;
+    }
+    if (this.refreshSubscription) {
+      this.refreshSubscription.dispose();
+      this.refreshSubscription = null;
     }
   }
 

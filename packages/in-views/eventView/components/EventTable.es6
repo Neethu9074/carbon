@@ -11,7 +11,6 @@ import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/view';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { selectedEventId$ } from 'in-stores/events';
