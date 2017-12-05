@@ -1,5 +1,4 @@
 import { on, create } from 'reactive-observables';
-import invariant from 'invariant';
 
 import { setHighlightedTimeframe, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import { highlightedMoment$, clearHighlightedMoment, setHighlightedMoment } from 'in-stores/timeline';
@@ -39,37 +38,16 @@ export default function createChart(config) {
       left: 1,
       right: 1
     };
-  }
-
-  if (__DEV__) {
-    invariant(
-      config.withoutAxis || (config.margins.left != null && config.margins.left),
-      'Left margin must always be defined!'
-    );
-
-    /*  invariant(
-      config.y2 == null || config.withoutAxis || (config.margins.right != null && config.margins.right > 0),
-      'Right margin must be defined when defining a second y axis!'
-    );
-    invariant(
-      config.y2 != null || config.withoutAxis || config.margins.right == null,
-      'Right margin must not be defined when not defining a second y axis!'
-    );*/
-  }
-
-  if (!config.withoutAxis) {
-    config.margins = {
-      top: 1,
-      bottom: 31,
-      left: config.margins.left || 1,
-      right: config.margins.right || 1
-    };
-  }
-
-  //This is a hard override to make sure charts have the same width even if there are >1 yAxis.
-  if (config.margins && !config.withoutAxis && !config.avoidMarginOverrides) {
-    config.margins.left = 60;
-    config.margins.right = 60;
+  } else {
+    config.margins.top = 1;
+    config.margins.bottom = 31;
+    if (config.avoidMarginOverrides) {
+      config.margins.left = config.margins.left != null ? config.margins.left : 60;
+      config.margins.right = config.margins.right != null ? config.margins.right : 60;
+    } else {
+      config.margins.left = 60;
+      config.margins.right = 60;
+    }
   }
 
   addLowDetailModeSupport();

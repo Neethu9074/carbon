@@ -39,7 +39,7 @@ export default class extends React.Component {
     const config = {
       height: props.height,
       minRollup: props.minRollup,
-      margins: props.margins || { left: 60, right: 60 },
+      margins: props.margins || {},
       avoidMarginOverrides: props.avoidMarginOverrides,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
