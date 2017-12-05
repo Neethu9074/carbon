@@ -76,55 +76,52 @@ const cols = [
   }
 ];
 
-export default getElementDimensions(
-  connectTo(
-    {
-      events: rawEventList$,
-      isInfiniteLoading: isLoading$,
-      selectedEventId: selectedEventId$
-    },
-    function EventTable({ selectedEventId, events, isInfiniteLoading, height }) {
-      if (!events) {
-        return <LoadingIndicator type="dark" />;
-      }
+export default connectTo(
+  {
+    events: rawEventList$,
+    isInfiniteLoading: isLoading$,
+    selectedEventId: selectedEventId$
+  },
+  function EventTable({ selectedEventId, events, isInfiniteLoading }) {
+    if (!events) {
+      return <LoadingIndicator type="dark" />;
+    }
 
-      if (!isInfiniteLoading && events.length === 0) {
-        return (
-          <div className={block}>
-            <p className={`${block}__no-events`}>There are no events in the selected time window.</p>
-          </div>
-        );
-      }
-
-      const rows = events.map(rawEvent => {
-        return {
-          key: rawEvent.id,
-          rawEvent,
-          isSelected: selectedEventId === rawEvent.id
-        };
-      });
-
+    if (!isInfiniteLoading && events.length === 0) {
       return (
         <div className={block}>
-          <LazyTable
-            cols={cols}
-            rows={rows}
-            loadMoreData={loadMoreRawEvents}
-            rowSubscriptions={row => ({
-              event: getEvent(row.key)
-            })}
-            sortBy$={sortBy$}
-            sortDirection$={sortDirection$}
-            furtherDataAvailable$={furtherDataAvailable$}
-            isLoading$={isLoading$}
-            onSortingChanged={setSortBy}
-            onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
-            maxHeight={height}
-          />
+          <p className={`${block}__no-events`}>There are no events in the selected time window.</p>
         </div>
       );
     }
-  )
+
+    const rows = events.map(rawEvent => {
+      return {
+        key: rawEvent.id,
+        rawEvent,
+        isSelected: selectedEventId === rawEvent.id
+      };
+    });
+
+    return (
+      <div className={block}>
+        <LazyTable
+          cols={cols}
+          rows={rows}
+          loadMoreData={loadMoreRawEvents}
+          rowSubscriptions={row => ({
+            event: getEvent(row.key)
+          })}
+          sortBy$={sortBy$}
+          sortDirection$={sortDirection$}
+          furtherDataAvailable$={furtherDataAvailable$}
+          isLoading$={isLoading$}
+          onSortingChanged={setSortBy}
+          onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
+        />
+      </div>
+    );
+  }
 );
 
 const Icon = connectTo(
