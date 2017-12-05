@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { add, remove } from 'in-stores/cssFummler';
+import { add, remove } from 'in-components/Sticky/stores/cssFummler';
 let id = 0;
 
 export default class extends React.Component {
