@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import { bytes, number, micros } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-
-const muSecondsFormatter = muSeconds => muSeconds + ' µs';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -44,7 +42,7 @@ const cols = [
       getMetricName(row) {
         return `keyspace.${row.key}.readLatency`;
       },
-      getContent: muSecondsFormatter,
+      getContent: micros.fixedCompact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -76,7 +74,7 @@ const cols = [
       getMetricName(row) {
         return `keyspace.${row.key}.writeLatency`;
       },
-      getContent: muSecondsFormatter,
+      getContent: micros.fixedCompact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -108,7 +106,7 @@ const cols = [
       getMetricName(row) {
         return `keyspace.${row.key}.diskSize`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytes.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -147,13 +145,14 @@ function getDetails(row) {
       }}
       y1={{
         min: 0,
-        formatter: timeByMicroTwoDecimalPlaces,
+        formatter: micros.detailed,
         metrics: ['keyspace.' + row.key + '.readLatency', 'keyspace.' + row.key + '.writeLatency'],
         labels: ['Average Read Latency', 'Average Write Latency'],
         type: 'line'
       }}
       y2={{
         min: 0,
+        formatter: number.compact,
         metrics: ['keyspace.' + row.key + '.reads', 'keyspace.' + row.key + '.writes'],
         labels: ['Reads', 'Writes'],
         type: 'line'
