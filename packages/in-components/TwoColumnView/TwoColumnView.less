@@ -1,12 +1,10 @@
 .in-two-column-view {
+  display: flex;
+
   &__left,
   &__right {
-    float: left;
-    position: relative;
-    padding: 2.25rem 0 0;
-    box-sizing: border-box;
     height: 100%;
-    width: 100%;
+    flex-grow: 1;
     overflow: hidden;
   }
 }
