@@ -168,6 +168,14 @@ export default function RoleForm({ form, onChange, disabled }) {
           name="canConfigureAgents"
           label="Configuration of agents"
         />
+
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureAuthenticationMethods"
+          label="Configuration authentication methods"
+        />
       </Section>
     </fieldset>
   );
