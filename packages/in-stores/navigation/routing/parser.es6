@@ -3,7 +3,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 export function parseUrl(href) {
   href = href || '/';
 
-  let location: location = parseQueryParameters(href);
+  let location = parseQueryParameters(href);
   location = parseMatrix(location);
 
   return location;
@@ -52,13 +52,12 @@ function parseMatrix(location) {
 
 function segmentReducer(agg, pathname) {
   pathname = '/' + pathname;
-  const [pathnameSegment, matrixStr] = pathname.split(';', 2);
-
-  if (!matrixStr) {
+  const split = pathname.split(';');
+  const pathnameSegment = split[0];
+  if (split.length <= 0) {
     agg[pathnameSegment] = emptyObject;
     return agg;
   }
-
-  agg[pathnameSegment] = matrixStr.split(';').reduce(paramReducer, {});
+  agg[pathnameSegment] = split.slice(1).reduce(paramReducer, {});
   return agg;
 }

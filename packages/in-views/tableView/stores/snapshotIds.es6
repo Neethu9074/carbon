@@ -23,10 +23,10 @@ export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
   observable: navigationParameters$
     .map(params => {
-      const isPhysicalView = params.matrix.view === 'physical';
+      const isPhysicalView = params.matrix['/table'].view === 'physical';
       const defaultType = isPhysicalView ? 'host' : 'service';
       return {
-        type: params.matrix.plugin || defaultType,
+        type: params.matrix['/table'].plugin || defaultType,
         view: isPhysicalView ? 'PHYSICAL' : 'LOGICAL'
       };
     })
@@ -34,7 +34,7 @@ export const selectedType$ = createTrackingStore({
 }).observable.distinct((current, next) => current.type !== next.type || current.view !== next.view);
 
 export function setSelectedType(type) {
-  setOrDeleteMatrixKey('plugin', type);
+  setOrDeleteMatrixKey('/table', 'plugin', type);
 
   clearMetrics();
   clearSelectedSnapshots();

@@ -113,5 +113,21 @@ describe('in-stores/navigation/routing/parser', () => {
         }
       });
     });
+
+    it('must support table use case', () => {
+      expect(parseUrl('/table;view=physical;plugin=host?timeline.to&timeline.ws=600000')).to.deep.equal({
+        pathname: '/table',
+        query: {
+          'timeline.to': '',
+          'timeline.ws': '600000'
+        },
+        matrix: {
+          '/table': {
+            view: 'physical',
+            plugin: 'host'
+          }
+        }
+      });
+    });
   });
 });

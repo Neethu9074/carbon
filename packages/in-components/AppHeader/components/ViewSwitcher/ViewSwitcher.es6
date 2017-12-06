@@ -27,8 +27,8 @@ export default connectTo(
       const pathname = navigationParameters.pathname;
       const matrix = navigationParameters.matrix;
 
-      const isPhysicalTable = matrix.view === 'physical';
-      const isLogicalTable = matrix.view === 'logical';
+      const isPhysicalTable = pathname.indexOf('/table') === 0 && matrix['/table'].view === 'physical';
+      const isLogicalTable = pathname.indexOf('/table') === 0 && matrix['/table'].view === 'logical';
       const isTraceView = pathname.indexOf('/traces/search') === 0;
       const isLogicalView = pathname.indexOf('/logical') === 0;
       const isPhysicalView = pathname.indexOf('/physical') === 0;

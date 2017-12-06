@@ -242,12 +242,15 @@ export function closeHelp() {
   });
 }
 
-export function setOrDeleteMatrixKey(key, value) {
+export function setOrDeleteMatrixKey(path, key, value) {
   mutateUrl(params => {
     if (value) {
-      params.matrix[key] = value;
+      params.matrix[path] = params.matrix[path] || {};
+      params.matrix[path][key] = value;
     } else {
-      delete params.matrix[key];
+      if (params.matrix[path]) {
+        delete params.matrix[path][key];
+      }
     }
     return params;
   });
