@@ -13,14 +13,14 @@ function parseQueryParameters(href) {
   const match = href.match(/^(.*)\?([^#$]*)/);
   if (!match) {
     return {
-      path: href,
+      pathname: href,
       query: emptyObject
     };
   }
 
-  const path = match[1];
+  const pathname = match[1];
   const query = match[2].split('&').reduce(paramReducer, {});
-  return { path, query };
+  return { pathname, query };
 }
 
 function paramReducer(agg, parameter) {
@@ -36,29 +36,29 @@ function paramReducer(agg, parameter) {
 }
 
 function parseMatrix(location) {
-  location.matrix = location.path
+  location.matrix = location.pathname
     .split('/')
     .slice(1)
     .reduce(segmentReducer, {});
 
-  let path = '';
+  let pathname = '';
   for (let key in location.matrix) {
-    path += key;
+    pathname += key;
   }
-  location.path = path;
+  location.pathname = pathname;
 
   return location;
 }
 
-function segmentReducer(agg, path) {
-  path = '/' + path;
-  const [pathSegment, matrixStr] = path.split(';', 2);
+function segmentReducer(agg, pathname) {
+  pathname = '/' + pathname;
+  const [pathnameSegment, matrixStr] = pathname.split(';', 2);
 
   if (!matrixStr) {
-    agg[pathSegment] = emptyObject;
+    agg[pathnameSegment] = emptyObject;
     return agg;
   }
 
-  agg[pathSegment] = matrixStr.split(';').reduce(paramReducer, {});
+  agg[pathnameSegment] = matrixStr.split(';').reduce(paramReducer, {});
   return agg;
 }

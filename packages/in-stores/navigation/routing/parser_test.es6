@@ -1,13 +1,13 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { parseUrl } from 'in-stores/navigation/url/parser';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 
-describe('in-stores/navigation/url/parser', () => {
+describe('in-stores/navigation/routing/parser', () => {
   describe('parseUrl', () => {
     it('must extract root URL', () => {
       expect(parseUrl('/')).to.deep.equal({
-        path: '/',
+        pathname: '/',
         query: {},
         matrix: { '/': {} }
       });
@@ -15,7 +15,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must extract URL without params', () => {
       expect(parseUrl('/foo')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {},
         matrix: { '/foo': {} }
       });
@@ -23,7 +23,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must extract query parameters', () => {
       expect(parseUrl('/foo?a=b')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {
           a: 'b'
         },
@@ -33,7 +33,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must extract query parameters without values', () => {
       expect(parseUrl('/foo?a')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {
           a: ''
         },
@@ -43,7 +43,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must extract multiple query parameters', () => {
       expect(parseUrl('/foo?a&b=c')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {
           a: '',
           b: 'c'
@@ -54,7 +54,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must decode query parameters', () => {
       expect(parseUrl('/foo?b=c%2Fd')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {
           b: 'c/d'
         },
@@ -64,7 +64,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must remove trailing ?', () => {
       expect(parseUrl('/foo?')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {},
         matrix: { '/foo': {} }
       });
@@ -72,7 +72,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must support matrix parameters', () => {
       expect(parseUrl('/foo;k=v')).to.deep.equal({
-        path: '/foo',
+        pathname: '/foo',
         query: {},
         matrix: {
           '/foo': {
@@ -84,7 +84,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must support matrix parameters for sub paths', () => {
       expect(parseUrl('/first/second;k=v/third')).to.deep.equal({
-        path: '/first/second/third',
+        pathname: '/first/second/third',
         query: {},
         matrix: {
           '/first': {},
@@ -98,7 +98,7 @@ describe('in-stores/navigation/url/parser', () => {
 
     it('must support matrix parameters with query parameters', () => {
       expect(parseUrl('/first;a=b/second;k=v/third?foo=bar')).to.deep.equal({
-        path: '/first/second/third',
+        pathname: '/first/second/third',
         query: {
           foo: 'bar'
         },
