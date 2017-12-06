@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { start, stop, resetAgent, resetSensors, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogStreamer';
+import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogLevel';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import SvgIcon from 'in-components/SvgIcon';
