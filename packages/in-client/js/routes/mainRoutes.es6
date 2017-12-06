@@ -11,7 +11,6 @@ import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import GraphView from 'in-components/graphView/GraphView';
-import GlobeView from 'in-components/globeView/GlobeView';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import { Route } from 'react-router-dom';
 import AsciiMap from 'in-map/AsciiMap';
@@ -38,7 +37,6 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />
 
     <Route component={GraphView} path="/graph" />
-    <Route component={GlobeView} path="/globe" />
 
     <Route path="/config" component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)} />
 
