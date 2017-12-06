@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
-import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
+import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/new/components/ButtonSection';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogStreamer';
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
