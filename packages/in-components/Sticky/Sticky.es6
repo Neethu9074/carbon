@@ -1,6 +1,8 @@
+import withSideEffect from 'react-side-effect';
 import { create } from 'reactive-observables';
 import React from 'react';
 
+import { reduceProps, after } from 'in-components/Sticky/orderCalculation';
 import { debouncedResize$ } from 'in-services/browser';
 import theme from 'in-themes';
 
@@ -8,6 +10,11 @@ export default class extends React.Component {
   static displayName = 'Sticky';
 
   refresh$ = create();
+
+  setOrder(order) {
+    this.order = order;
+    this.refresh$.emit(true);
+  }
 
   setHeader(node) {
     this.header = node;
@@ -34,11 +41,14 @@ export default class extends React.Component {
       this.headerWidth = this.header.clientWidth;
 
       this.header.style.position = `fixed`;
-      this.header.style.zIndex = theme.zIndex.stickyHeader;
       this.header.style.top = `${this.headerCoords.top}px`;
       this.header.style.left = `${this.headerCoords.left}px`;
       this.header.style.width = `${this.headerWidth}px`;
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
+
+      if (this.order >= 0) {
+        this.header.style.zIndex = theme.zIndex.stickyHeader - this.order;
+      }
     } else {
       this.wrapper.style.paddingTop = `0px`;
     }
@@ -63,13 +73,19 @@ export default class extends React.Component {
   render() {
     return (
       <div ref={r => this.setWrapper(r)}>
-        <div ref={r => this.setHeader(r)}>{this.props.header}</div>
+        <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
+          {this.props.header}
+        </Header>
 
         {this.props.children}
       </div>
     );
   }
 }
+
+const Header = withSideEffect(reduceProps, after)(function Header({ children, setHeader }) {
+  return <div ref={r => setHeader(r)}>{children}</div>;
+});
 
 // Calculate the position of an element relative to the document root;
 function getCoords(elem) {

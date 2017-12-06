@@ -7,12 +7,7 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    header: zIndex++,
-    searchMenu: zIndex++,
-    searchBar: zIndex++,
-    searchSuggestions: zIndex++,
-    stickyHeader: zIndex++,
-    viewSwitcher: zIndex++,
+    stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
     tooltips: zIndex++,
