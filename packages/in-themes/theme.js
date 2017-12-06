@@ -7,13 +7,10 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    sidebar: zIndex++,
-    footerTimePicker: zIndex++,
-    mapNotes: zIndex++,
+    header: zIndex++,
     searchMenu: zIndex++,
     searchBar: zIndex++,
     searchSuggestions: zIndex++,
-    header: zIndex++,
     viewSwitcher: zIndex++,
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
