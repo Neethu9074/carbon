@@ -1,0 +1,66 @@
+@import '~in-themes/active.less';
+
+.in-search-suggestions {
+  position: absolute;
+  top: 2rem;
+
+  width: 30rem;
+  margin: 0 0.4rem 0 -0.563rem;
+  padding: 0.3rem 0;
+
+  border-radius: 0 0 0.188rem 0.188rem;
+  font-size: 0.813rem;
+  background: #2d4048;
+  color: #8c969a;
+
+  max-height: 15rem;
+  overflow-y: scroll;
+  z-index: @z-index__search-suggestions;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0 0.25rem 0.5rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+    color: white;
+    cursor: pointer;
+
+    &:hover,
+    &--selected {
+      background: #42565e;
+    }
+  }
+
+  &__description,
+  &__term-type {
+    margin-left: 1rem;
+    color: #6b8088;
+  }
+
+  &__term-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 0.75rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    background: #172429;
+    font-family: Monaco, Monospace;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+    text-transform: lowercase;
+  }
+
+  &__label {
+    white-space: nowrap;
+  }
+}

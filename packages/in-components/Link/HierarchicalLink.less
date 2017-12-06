@@ -1,0 +1,51 @@
+.in-hierarchical-link {
+  display: flex;
+  align-items: center;
+
+  &__dark {
+    color: #2d4048;
+
+    &:hover {
+      color: #8c969a;
+    }
+  }
+
+  &__light {
+    color: #8c969a;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &__info-icon {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+    margin: 0.125rem 0.25rem 0 0.15rem;
+    cursor: pointer;
+
+    &--dark {
+      fill: #2d4048;
+
+      &:hover {
+        fill: #8c969a;
+      }
+    }
+
+    &--light {
+      fill: #8c969a;
+
+      &:hover {
+        fill: #fff;
+      }
+    }
+  }
+
+  &__link-wrapper {
+    display: flex;
+  }
+
+  &__plugin-icon {
+    margin: 0 0.313rem 0 0;
+  }
+}

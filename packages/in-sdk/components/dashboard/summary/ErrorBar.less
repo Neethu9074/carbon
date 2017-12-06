@@ -1,0 +1,29 @@
+.in-dashboard-error-bar {
+  padding: 0.375rem;
+  margin: 0 0 0 28px;
+  font-size: 0.75rem;
+
+  &__bar {
+    position: relative;
+    background: #d5dfe4;
+    border-radius: 2px;
+    overflow: hidden;
+    height: 7px;
+    min-width: 6.25rem;
+  }
+
+  &__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #ff4229;
+  }
+
+  &__value {
+    // increase zIndex
+    position: relative;
+    margin: 4px 0 0 0;
+    display: inline-block;
+  }
+}

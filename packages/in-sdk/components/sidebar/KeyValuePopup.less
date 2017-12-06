@@ -1,0 +1,41 @@
+.in-key-value-popup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.063rem;
+
+  &__button-open,
+  &__button-close {
+    border-radius: 0.188rem;
+    padding: 0px 0.188rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    height: 1.875rem;
+  }
+
+  &__button-close {
+    background: transparent;
+    color: #4a91e4;
+  }
+
+  &__button-open,
+  &__button-close:hover {
+    background: #2b3d44;
+
+    .in-key-value-popup__icon {
+      fill: white;
+    }
+  }
+
+  &__icon {
+    margin: 0 0.313rem;
+  }
+
+  &__header {
+    font-size: 0.75rem;
+    color: #a3b1b6;
+    white-space: nowrap;
+
+    color: #6b8088;
+  }
+}

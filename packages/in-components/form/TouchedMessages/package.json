@@ -1,0 +1,6 @@
+{
+  "name": "TouchedMessages",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TouchedMessages.es6"
+}

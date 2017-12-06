@@ -1,0 +1,29 @@
+.in-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0.625rem 0 0 0.625rem;
+  padding: 0.438rem;
+
+  border-radius: 0.1875rem;
+  background: #6b8088;
+  cursor: pointer;
+
+  transition: background 0.25s ease-in-out;
+
+  &:hover,
+  &--active {
+    .in-control__icon {
+      fill: #2d4048;
+    }
+  }
+
+  &:hover {
+    background: #9fffff;
+  }
+
+  &--active {
+    background: white;
+  }
+}

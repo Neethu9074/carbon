@@ -5,17 +5,37 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
+const isDev = process.env.BUILD_DEV === 'true';
+
 const definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
+  __DEV__: JSON.stringify(JSON.parse(isDev ? 'true' : 'false')),
 
   // this is necessary for the React and Invariant modules
-  'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"',
+  'process.env.NODE_ENV': isDev ? '"development"' : '"production"',
 
   'process.env.IS_TEST': 'false'
 });
 
+// CSS naming
+let localIdentName = '[sha1:hash:base64]';
+let getLocalIdent;
+const componentPathPrefix = path.join(__dirname, 'packages');
+
+// create names in development mode that are easy to read.
+if (isDev) {
+  localIdentName = '[path]__[local]';
+  getLocalIdent = (context, localIdentName, localName) => {
+    const file = context.context
+      .substring(componentPathPrefix.length)
+      .replace(/\/|\\/g, '_')
+      .replace(/^_/, '')
+      .replace(/_$/, '');
+    return `${file}___${localName}`;
+  };
+}
+
 module.exports = {
-  entry: './in-client/js/index.es6',
+  entry: './packages/in-client/js/index.es6',
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',
@@ -28,6 +48,41 @@ module.exports = {
       {
         test: /\.(ttf|eot|obj)$/i,
         use: [{ loader: 'url-loader?limit=3000' }]
+      },
+      {
+        test: /\.mless$/i,
+        // assets will be located next to the CSS file. Thus no need to prefix the path with bundle/
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName,
+                getLocalIdent
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                ident: 'postcss',
+                plugins: () => {
+                  return [
+                    require('autoprefixer')({
+                      browsers: ['last 2 versions']
+                    })
+                  ];
+                }
+              }
+            },
+            {
+              loader: 'less-loader'
+            }
+          ],
+          publicPath: './'
+        })
       },
       {
         test: /\.(css|less)$/i,

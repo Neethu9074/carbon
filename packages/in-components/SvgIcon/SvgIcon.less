@@ -1,0 +1,20 @@
+.in-svg-icon {
+  &--spinning {
+    animation: svg-icon-spin 2s infinite linear;
+  }
+
+  &__icons {
+    .in-svg-icon {
+      fill: #000;
+    }
+  }
+}
+
+@keyframes svg-icon-spin {
+  0% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

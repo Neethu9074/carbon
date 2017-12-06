@@ -1,0 +1,294 @@
+import { format } from 'd3-format';
+import { repeat } from 'lodash';
+
+const byteBase = 1024;
+
+export const zeroDecimalPlaces = format(',.0f');
+export const twoDecimalPlaces = format(',.2f');
+export const number = {
+  compact: zeroDecimalPlaces,
+  detailed: twoDecimalPlaces,
+  perSecond: {
+    compact: v => zeroDecimalPlaces(v) + '/s',
+    detailed: v => twoDecimalPlaces(v) + '/s'
+  }
+};
+
+export const activityZeroDecimalPlaces = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
+export const activityTwoDecimalPlaces = d => (d < 0 ? 'No activity' : twoDecimalPlaces(d));
+export const activity = {
+  compact: activityZeroDecimalPlaces,
+  detailed: activityTwoDecimalPlaces
+};
+
+export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
+
+export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';
+export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
+export const percentage = {
+  compact: percentageZeroDecimalPlaces,
+  detailed: percentageTwoDecimalPlaces
+};
+
+export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
+export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
+export const bytes = {
+  compact: bytesZeroDecimalPlaces,
+  detailed: bytesTwoDecimalPlaces,
+  perSecond: {
+    compact: v => bytesZeroDecimalPlaces(v) + '/s',
+    detailed: v => bytesTwoDecimalPlaces(v) + '/s'
+  }
+};
+
+export const timeByNanoTwoDecimalPlaces = t => formatTime(t, timeNanoUnits, number.detailed);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits, number.detailed);
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits, number.detailed);
+export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
+export const micros = {
+  compact: t => formatTime(t, timeMicroUnits, number.compact),
+  fixedCompact: t => number.compact(t) + 'µs',
+  detailed: timeByMicroTwoDecimalPlaces
+};
+export const millis = {
+  compact: t => formatTime(t, timeMilliUnits, number.compact),
+  fixedCompact: t => number.compact(t) + 'ms',
+  detailed: timeByMillisTwoDecimalPlaces,
+  fixedDetailed: t => number.detailed(t) + 'ms'
+};
+export const seconds = {
+  fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',
+  fixedCompact: t => number.compact(t) + 's'
+};
+export const minutes = {
+  compact: t => formatTime(t, timeMinuteUnits, number.compact),
+  detailed: timeByMinutesTwoDecimalPlaces
+};
+
+export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
+export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
+
+export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, 0);
+export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
+export const kiloBytes = {
+  compact: kiloBytesZeroDecimalPlaces,
+  detailed: kiloBytesTwoDecimalPlaces
+};
+
+const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
+const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
+export const withSiPrefixZeroDecimalPlaces = d => {
+  if (d == null) {
+    d = 0;
+  }
+  if ((0 < d && d < 1) || (-1 < d && d < 0)) {
+    return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
+  }
+  const s = siPrefixZeroDecimalPlacesFormatRule(d);
+  const match = s.match(/^(-|\+)?(\d+)(\.(\d+))?(.*)$/i);
+
+  const sign = match[1] || '';
+  const major = match[2];
+  const prefix = match[5];
+
+  return `${sign}${major}${prefix}`;
+};
+
+const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
+export const withSiPrefixThreeDecimalPlaces = d => {
+  const s = siPrefixThreeDecimalPlacesFormatRule(d);
+  const match = s.match(/^(-|\+)?(\d+)\.(\d+)(.*)$/i);
+
+  const sign = match[1] || '';
+  const major = match[2];
+  let minor = match[3];
+  const prefix = match[4];
+
+  while (minor.length < 3) {
+    minor += '0';
+  }
+
+  if (minor.length > 3) {
+    minor = minor.substring(0, 3);
+  }
+
+  return `${sign}${major}.${minor}${prefix}`;
+};
+export const siPrefix = {
+  compact: withSiPrefixZeroDecimalPlaces,
+  detailed: withSiPrefixThreeDecimalPlaces
+};
+
+export const siPrefixPerSecond = {
+  compact: d => withSiPrefixZeroDecimalPlaces(d) + ' / sec',
+  detailed: d => withSiPrefixThreeDecimalPlaces(d) + ' / sec'
+};
+
+export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
+export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
+  if (d == null) {
+    d = 0;
+  }
+  if (d < 1) {
+    return d.toFixed(3);
+  }
+  return withSiPrefixThreeDecimalPlaces(d);
+};
+export const siMultiplyPrefix = {
+  compact: withSiMultiplyPrefixZeroDecimalPlaces,
+  detailed: withSiMultiplyPrefixThreeDecimalPlaces
+};
+
+export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
+export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
+export const ms = {
+  compact: msZeroDecimalPlaces,
+  detailed: msTwoDecimalPlaces
+};
+
+export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
+export const muSecondsTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'µs';
+export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
+export const muSecondsToMillisTwoDecimalPlaces = d => twoDecimalPlaces(d / 1000) + 'ms';
+export const muSecondsToMillis = {
+  compact: muSecondsToMillisZeroDecimalPlaces,
+  detailed: muSecondsToMillisTwoDecimalPlaces
+};
+
+export const hitRateZeroDecimalPlaces = d => (d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d));
+export const hitRateTwoDecimalPlaces = d => (d < 0 ? 'No activity' : percentageTwoDecimalPlaces(d));
+export const hitRate = {
+  compact: hitRateZeroDecimalPlaces,
+  detailed: hitRateTwoDecimalPlaces
+};
+
+export const time = _ms => {
+  if (_ms < 1) {
+    return muSecondsZeroDecimalPlaces(_ms * 1000);
+  }
+  return msZeroDecimalPlaces(_ms);
+};
+
+export const timeNs = _ns => {
+  const _ms = _ns / 1000000;
+  return time(_ms);
+};
+export const nanos = {
+  compact: timeNs,
+  detailed: timeNs
+};
+
+export const health = {
+  compact(v) {
+    if (v === 1) {
+      return 'Healthy';
+    } else if (v === 0) {
+      return 'Unhealthy';
+    }
+    return twoDecimalPlaces(v);
+  },
+  detailed(v) {
+    if (v === 1) {
+      return 'Healthy';
+    } else if (v === 0) {
+      return 'Unhealthy';
+    }
+    return twoDecimalPlaces(v);
+  }
+};
+
+/**
+ * Format a number of bytes to improve readability for humans. Turn a raw
+ * number to something like 10 Mb or 834.5 Gb.
+ *
+ * @param {number} num - The amount on bytes that should be formatted.
+ * @param {number} numberOfDecimalPlaces - The desired number of decimal places
+ * @returns {string} Human readable amount of bytes, e.g. 10 Mb
+ * @throws An error when the bytes are NaN
+ */
+function formatBytes(num, numberOfDecimalPlaces = 2) {
+  if (typeof num !== 'number' || isNaN(num)) {
+    if (numberOfDecimalPlaces > 0) {
+      return `0.${repeat('0', numberOfDecimalPlaces)} B`;
+    }
+    return '0 B';
+  }
+  let exponent;
+  let unit;
+  const neg = num < 0;
+  const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  if (neg) {
+    num = -num;
+  }
+
+  if (num < 1) {
+    return (neg ? '-' : '') + (num === 0 ? '0' : num.toFixed(numberOfDecimalPlaces)) + ' B';
+  }
+
+  exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
+  num = (num / Math.pow(byteBase, exponent)).toFixed(numberOfDecimalPlaces) * 1;
+  unit = units[exponent];
+
+  return (neg ? '-' : '') + num + ' ' + unit;
+}
+
+const timeNanoUnits = [
+  {
+    unit: 'ns',
+    range: 1000
+  },
+  {
+    unit: 'µs',
+    range: 1000
+  },
+  {
+    unit: 'ms',
+    range: 1000
+  },
+  {
+    unit: 's',
+    range: 60
+  },
+  {
+    unit: 'min',
+    range: 60
+  },
+  {
+    unit: 'h',
+    range: 24
+  },
+  {
+    unit: 'd',
+    range: Number.MAX_VALUE
+  }
+];
+const timeMicroUnits = timeNanoUnits.slice(1);
+const timeMilliUnits = timeNanoUnits.slice(2);
+const timeMinuteUnits = timeNanoUnits.slice(4);
+
+/**
+ * Format a time to improve readability for humans. Turn a raw
+ * number to something like 10 ms or 30 s.
+ *
+ * @param {number} num - The amount on bytes that should be formatted
+ * @returns {string} Human readable amount of time
+ * @throws An error when the time are NaN
+ */
+function formatTime(t, units, formatNumber) {
+  if (typeof t !== 'number' || isNaN(t)) {
+    return '0µs';
+  }
+
+  for (let i = 0; i < units.length; i++) {
+    const unit = units[i];
+
+    if (t < unit.range) {
+      return formatNumber(t) + unit.unit;
+    }
+
+    t /= unit.range;
+  }
+
+  return formatNumber(t) + units[units.length - 1].unit;
+}

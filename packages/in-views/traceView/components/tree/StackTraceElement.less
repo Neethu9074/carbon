@@ -1,0 +1,40 @@
+.in-trace-view-stack-trace {
+  font-size: 0.625rem;
+  background: #f8f8f8;
+  padding: 0.25rem 0.688rem;
+  border-radius: 0.125rem;
+  position: relative;
+
+  &--clickable {
+    cursor: pointer;
+  }
+
+  &__toggle-details {
+    position: absolute;
+    top: 0.313rem;
+    right: 0.625rem;
+    cursor: pointer;
+
+    path {
+      fill: #92a5ae;
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+  }
+
+  &__in {
+    color: #aaa;
+    margin: 0 0.3rem;
+  }
+
+  &__method {
+    font-weight: bold;
+  }
+}

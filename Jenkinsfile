@@ -52,7 +52,6 @@ stage('Node Build') {
   parallel buildSteps
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
-
 }
 
 stage ('Container Build') {
@@ -116,11 +115,31 @@ stage('Deployment') {
   parallel deployments
 }
 
+stage('Storybook build') {
+  if ( env.BRANCH_NAME == 'develop' ) {
+    node {
+      runNodeBuild(gitCommitId, 'yarn && npm run storybookBuild')
+      if ( currentBuild.currentResult == 'SUCCESS' ) {
+        stash includes: "storybookTarget/**/*", name: "ui-client-storybook-build-${gitCommitId}"
+      }
+    }
+    slackNotification('Storybook build', 'ui-client', gitCommitId, currentBuild.currentResult)
+  }
+}
+
+stage('Deploy Storybook to S3') {
+  if ( env.BRANCH_NAME == 'develop' ) {
+    node {
+      sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
+    }
+    slackNotification('Storybook S3 Deployment', 'ui-client', gitCommitId, currentBuild.currentResult)
+  }
+}
+
 def runNodeBuild(gitCommitId, buildCommands) {
   deleteDir()
   unstash name: "ui-client-checkout-${gitCommitId}"
   sh '''
-    cp ~/.npmrc-private-registry .npmrc
     if [ -z "$(which yarn)" ]; then
       npm install -g yarn
     fi

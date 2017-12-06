@@ -1,0 +1,90 @@
+/* global require:false */
+import rpt from 'prop-types';
+import React from 'react';
+
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import NotificationDialog from 'in-components/NotificationDialog';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import { closeHelp } from 'in-stores/navigation';
+
+import './HelpDialog.less';
+
+const block = 'in-help-dialog';
+
+class HelpDialog extends React.PureComponent {
+  static propTypes = {
+    id: rpt.oneOfType([rpt.string.isRequired, rpt.number.isRequired])
+  };
+
+  state = {
+    article: null
+  };
+
+  componentWillMount() {
+    this.loadArticle();
+  }
+
+  loadArticle = () => {
+    const id = this.props.id;
+
+    // can happen when unmounting
+    if (!id) {
+      return;
+    }
+
+    const self = this;
+    try {
+      require(['./articles/' + id + '.mmd'], function onModLoad(article) {
+        try {
+          self.setState({
+            article: article,
+            error: null
+          });
+        } catch (e) {
+          self.setState({
+            article: null,
+            error: e
+          });
+        }
+      });
+    } catch (e) {
+      self.setState({
+        article: null,
+        error: e
+      });
+    }
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.loadArticle();
+    }
+  }
+
+  render() {
+    let content;
+    if (this.state.article) {
+      content = (
+        <NotificationDialog title={this.state.article.meta.title} onClose={closeHelp}>
+          <DangerousHtmlPresenter className={`${block}__content`} html={this.state.article.html} />
+        </NotificationDialog>
+      );
+    } else if (this.state.error) {
+      content = (
+        <NotificationDialog title="Help Article Missing" onClose={closeHelp}>
+          <p className={`${block}__content`}>Sorry, we failed to retrieve the help article :(.</p>
+        </NotificationDialog>
+      );
+    } else {
+      content = (
+        <NotificationDialog title="Loading help text…" onClose={closeHelp}>
+          <LoadingIndicator />
+        </NotificationDialog>
+      );
+    }
+
+    return content;
+  }
+}
+
+export default HelpDialog;

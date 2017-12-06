@@ -14,14 +14,14 @@ paths.bundleDir = path.join(paths.assetDir, 'bundle');
 paths.binDir = path.join(paths.rootDir, 'node_modules', '.bin');
 
 // ## Source Files:
-paths.devIndexHtmlSrc = path.join(paths.rootDir, 'in-client', 'index.html');
-paths.faviconSrc = path.join(paths.rootDir, 'in-client', 'favicon.png');
-paths.allServerSourcesSelector = path.join(paths.rootDir, 'in-server', '**/*');
+paths.packageDir = path.join(paths.rootDir, 'packages');
+paths.themeDir = path.join(paths.packageDir, 'in-themes');
+paths.devIndexHtmlSrc = path.join(paths.packageDir, 'in-client', 'index.html');
+paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon.png');
+paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**/*');
 
 // ## Target Files:
 paths.devIndexHtmlTarget = path.join(paths.assetDir, 'index.html');
-paths.activeThemeJsonFile = path.join(paths.rootDir, 'in-themes', 'active.json');
-paths.activeThemeLessFile = path.join(paths.rootDir, 'in-themes', 'active.less');
 paths.buildInfoFileLocation = path.join(paths.assetDir, 'build.json');
 paths.javascriptEntryPointFile = path.join(paths.bundleDir, 'index.js');
 paths.allJsAssets = path.join(paths.bundleDir, '*.js');

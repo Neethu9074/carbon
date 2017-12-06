@@ -1,0 +1,37 @@
+@import '~in-themes/mixins.less';
+
+.in-clickable-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    background: #e2e9ec;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    margin-top: 0.125rem;
+    color: #2d4048;
+    font-size: 0.688rem;
+    padding: 0.25rem 0.438rem;
+    .breakWord();
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:hover {
+      color: lighten(#2d4048, 20%);
+    }
+  }
+
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      color: inherit;
+    }
+  }
+}

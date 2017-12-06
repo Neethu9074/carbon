@@ -5,8 +5,11 @@
 /target
 .npmrc
 /tmp
-/in-themes/active*
-/in-server/node_modules
-/in-server/serverConfig.json
+!/packages/in-forge/tracing/log.log4j
+!/packages/in-forge/tracing/log.log4j2
+/packages/in-themes/active*
+/packages/in-server/node_modules
+/packages/in-server/serverConfig.json
 git-env.properties
 /licenses.txt
+/storybookTarget

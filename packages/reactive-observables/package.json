@@ -1,0 +1,6 @@
+{
+  "name": "reactive-observables",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.es6"
+}
