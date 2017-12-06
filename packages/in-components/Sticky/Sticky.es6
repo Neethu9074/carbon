@@ -2,6 +2,7 @@ import { create } from 'reactive-observables';
 import React from 'react';
 
 import { debouncedResize$ } from 'in-services/browser';
+import theme from 'in-themes';
 
 export default class extends React.Component {
   static displayName = 'Sticky';
@@ -33,6 +34,7 @@ export default class extends React.Component {
       this.headerWidth = this.header.clientWidth;
 
       this.header.style.position = `fixed`;
+      this.header.style.zIndex = theme.zIndex.stickyHeader;
       this.header.style.top = `${this.headerCoords.top}px`;
       this.header.style.left = `${this.headerCoords.left}px`;
       this.header.style.width = `${this.headerWidth}px`;

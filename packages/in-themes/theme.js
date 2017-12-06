@@ -11,6 +11,7 @@ module.exports = {
     searchMenu: zIndex++,
     searchBar: zIndex++,
     searchSuggestions: zIndex++,
+    stickyHeader: zIndex++,
     viewSwitcher: zIndex++,
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
