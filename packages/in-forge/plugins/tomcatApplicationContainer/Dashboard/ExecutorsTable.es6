@@ -91,9 +91,6 @@ function getRowDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80
-      }}
       y1={{
         metrics: ['executors.' + row.key + '.active', 'executors.' + row.key + '.queueSize'],
         labels: [row.key + ' Active Threads', row.key + ' Queue Size'],

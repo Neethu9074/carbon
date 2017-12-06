@@ -16,9 +16,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['activeNodes', 'lostNodes', 'unhealthyNodes', 'decommissionedNodes'],
             labels: ['Active Nodes', 'Lost Nodes', 'Unhealthy Nodes', 'Decommissioned Nodes'],
@@ -32,9 +29,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['appsRunning', 'appsPending', 'appsFailed'],
               labels: ['Apps Running', 'Apps Pending', 'Apps Failed'],
@@ -47,9 +41,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['containersRunning'],
               labels: ['Containers Running'],
@@ -64,9 +55,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['usedMemory', 'availableMemory', 'reservedMemory'],
               labels: ['Used Memory', 'Available Memory', 'Reserved Memory'],
@@ -80,9 +68,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['usedVirtualCores', 'availableVirtualCores', 'reservedVirtualCores'],
               labels: ['Used Virtual Cores', 'Available Virtual Cores', 'Reserved Virtual Cores'],

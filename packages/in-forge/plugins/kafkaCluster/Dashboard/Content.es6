@@ -23,10 +23,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60,
-            right: 60
-          }}
           y1={{
             formatter: twoDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -47,9 +43,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -63,9 +56,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -79,9 +69,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -95,9 +82,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -127,9 +111,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageZeroDecimalPlaces,
@@ -143,10 +124,6 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60,
-            right: 40
-          }}
           y1={{
             formatter: msTwoDecimalPlaces,
             tooltipFormatter: msTwoDecimalPlaces,

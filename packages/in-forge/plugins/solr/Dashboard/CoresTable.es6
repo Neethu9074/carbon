@@ -140,9 +140,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.avg_requests'],
@@ -156,9 +153,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.avg_time_request'],
@@ -175,9 +169,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.lookups'],
@@ -191,9 +182,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.hitratio'],
@@ -210,9 +198,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.inserts'],
@@ -226,9 +211,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.evictions'],
@@ -245,9 +227,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.errors'],
@@ -261,9 +240,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={row.snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.timeouts'],
@@ -279,9 +255,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['core_stats.' + row.key + '.docs_added', 'core_stats.' + row.key + '.docs_pending'],

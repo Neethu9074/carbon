@@ -19,9 +19,6 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['requests_received', 'requests_sent'],
             labels: ['Received', 'Sent'],
@@ -34,9 +31,6 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['bytes_per_sec_received', 'bytes_per_sec_sent'],
             labels: ['Received', 'Sent'],
@@ -50,9 +44,6 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['storage.expire_count'],
               labels: ['Expire count'],
@@ -63,9 +54,6 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['storage.watchers'],
               labels: ['Watchers'],

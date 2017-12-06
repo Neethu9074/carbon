@@ -87,10 +87,6 @@ export default connectTo(
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
             y1={{
               min: 0,
               formatter: number.compact,
@@ -114,9 +110,6 @@ export default connectTo(
             snapshotId={snapshotId}
             timeframe={timeframe}
             height={200}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: msZeroDecimalPlaces,

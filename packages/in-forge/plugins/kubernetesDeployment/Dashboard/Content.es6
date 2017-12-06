@@ -100,9 +100,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: twoDecimalPlaces,
               metrics: ['pods.required_cpu', 'pods.limit_cpu'],
@@ -115,9 +112,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['pods.required_mem', 'pods.limit_mem'],
@@ -133,9 +127,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -150,9 +141,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -169,9 +157,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -186,9 +171,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: msFormatter,
               metrics: ['duration'],

@@ -96,10 +96,8 @@ const ChartWrapper = connectTo(
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
-            left: 80,
             right: 1
           }}
-          avoidMarginOverrides
           y1={{
             metrics: [metric],
             labels: [chartConfig.getLabel(snapshot, metric)],

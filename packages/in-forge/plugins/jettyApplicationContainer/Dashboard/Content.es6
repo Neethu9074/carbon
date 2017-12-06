@@ -38,9 +38,6 @@ export default function JettyDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['idleThreads', 'busyThreads', 'threads', 'threadsQueueSize'],
             labels: ['Idle Threads', 'Busy Threads', 'Total Threads', 'Threads Queue Size'],

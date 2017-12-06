@@ -117,9 +117,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.stores'],
@@ -130,9 +127,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: hitRate.compact,
           tooltipFormatter: hitRate.detailed,
@@ -144,9 +138,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.numberOfEntries'],
@@ -157,9 +148,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.evictions'],

@@ -72,10 +72,6 @@ export default function Summary({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -100,9 +96,6 @@ export default function Summary({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: millis.fixedCompact,
@@ -127,9 +120,6 @@ export default function Summary({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: number.compact,

@@ -77,9 +77,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['storage.' + row.key + '_success'],
@@ -91,9 +88,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={snapshotId}
         timeframe={timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['storage.' + row.key + '_fail'],

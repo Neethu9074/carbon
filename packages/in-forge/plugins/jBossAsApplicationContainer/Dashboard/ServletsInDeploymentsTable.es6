@@ -82,9 +82,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.avgResponseTime'],
@@ -95,9 +92,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           metrics: ['servlets.' + servletKey + '.requests'],
           labels: ['Requests'],

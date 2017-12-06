@@ -26,9 +26,6 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
             <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 metrics: ['cpu.load'],
@@ -42,10 +39,6 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100,
-              right: 100
-            }}
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.total']),
@@ -72,9 +65,6 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100
-            }}
             y1={{
               min: 0,
               formatter: bytesPerSecondTwoDecimalPlaces,
@@ -89,10 +79,6 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 100,
-              right: 100
-            }}
             y1={{
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],

@@ -14,9 +14,6 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['threadPools.webContainer.activeThreads', 'threadPools.webContainer.poolSize'],

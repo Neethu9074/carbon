@@ -130,9 +130,6 @@ function createDetailsWithConnections(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80
-      }}
       y1={{
         metrics: [
           'connectors.' + row.key + '.threads',
@@ -151,9 +148,6 @@ function createDetailsWithoutConnections(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80
-      }}
       y1={{
         metrics: ['connectors.' + row.key + '.threads', 'connectors.' + row.key + '.threadsBusy'],
         labels: [row.key + ' Threads', row.key + ' Threads Busy'],

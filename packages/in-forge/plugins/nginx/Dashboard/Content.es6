@@ -97,9 +97,6 @@ export default function NginxDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['requests'],
@@ -114,10 +111,6 @@ export default function NginxDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             metrics: ['connections.accepted', 'connections.handled', 'connections.active', 'connections.dropped'],

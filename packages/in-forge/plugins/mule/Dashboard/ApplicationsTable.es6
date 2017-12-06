@@ -96,10 +96,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 40,
-        right: 40
-      }}
       y1={{
         metrics: [
           'applications.' + row.key + '.processedEvents',

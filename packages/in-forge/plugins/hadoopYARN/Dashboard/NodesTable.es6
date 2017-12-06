@@ -139,16 +139,12 @@ export default function NodesTable({ snapshot, timeframe }) {
 }
 
 function getDetails(row) {
-  const leftMarginSize = 60;
   const id = row.node.get('id');
   return (
     <div>
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: leftMarginSize
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['nodes.' + id + '.containers'],
@@ -160,9 +156,6 @@ function getDetails(row) {
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: leftMarginSize
-          }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -174,9 +167,6 @@ function getDetails(row) {
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: leftMarginSize
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['nodes.' + id + '.virtualCoresUsed', 'nodes.' + id + '.virtualCoresAvailable'],

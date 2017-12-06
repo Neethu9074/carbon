@@ -12,10 +12,6 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -40,9 +36,6 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
