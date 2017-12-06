@@ -14,8 +14,9 @@ import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
-import Title from 'in-components/Title';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
 
 import './DashboardContent.less';
@@ -95,23 +96,25 @@ export default connectTo(
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
     return (
-      <FullscreenOverlayView className="in-dashboard">
-        <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-        <div className={block}>
-          <DetailPopupPresenter />
-          <DashboardHeader snapshotId={snapshotId} />
-          <DashboardJumpLabels snapshotId={snapshotId} />
+      <Sticky>
+        <div className="in-dashboard">
+          <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
+          <div className={block}>
+            <DetailPopupPresenter />
+            <DashboardHeader snapshotId={snapshotId} />
+            <DashboardJumpLabels snapshotId={snapshotId} />
 
-          <div className={`${block}__wrapper`}>
-            <div className={`${block}__sidebar`}>
-              <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
-            </div>
-            <div className={`${block}__content`}>
-              <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+            <div className={`${block}__wrapper`}>
+              <div className={`${block}__sidebar`}>
+                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+              </div>
+              <div className={`${block}__content`}>
+                <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+              </div>
             </div>
           </div>
         </div>
-      </FullscreenOverlayView>
+      </Sticky>
     );
   }
 );

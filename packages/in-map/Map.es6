@@ -1,7 +1,6 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
@@ -81,7 +80,6 @@ export default connectTo(
       return (
         <div>
           <Title title={this.getTitle()} />
-          {DashboardNavigationRoute}
           <div className={className}>
             <canvas
               className={`${block}__canvas`}
