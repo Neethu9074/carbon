@@ -195,7 +195,6 @@ export default class extends React.Component {
   onClone = service => {
     const clonedService = fromJS(
       createServiceRule({
-        id: '',
         name: service.get('name') + '_CLONE',
         enabled: false,
         type: service.get('type'),
