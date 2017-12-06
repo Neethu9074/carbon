@@ -5,11 +5,15 @@ import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function HttpSpanDetailView({ span }) {
   const url = span.getIn(['data', 'http', 'url']);
-  let path;
+  let path = span.getIn(['data', 'http', 'path']);
   if (url) {
-    const a = document.createElement('a');
-    a.href = url;
-    path = a.pathname;
+    try {
+      const a = document.createElement('a');
+      a.href = url;
+      path = a.pathname;
+    } catch (e) {
+      // ignore
+    }
   }
 
   return (
