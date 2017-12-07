@@ -93,6 +93,12 @@ export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanSta
     }
   });
 
+  // If deduplication results in no stack trace, then this is probably a system which is internally
+  // working via messages. In these cases, we just show the full stack trace.
+  if (result.length === 0) {
+    result = spanStackTrace.toArray();
+  }
+
   return result;
 }
 

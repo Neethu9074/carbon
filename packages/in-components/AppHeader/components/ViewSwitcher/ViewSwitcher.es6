@@ -13,6 +13,7 @@ import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-s
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
@@ -25,10 +26,9 @@ export default connectTo(
   {
     viewActiveState: navigationParameters$.map(navigationParameters => {
       const pathname = navigationParameters.pathname;
-      const matrix = navigationParameters.matrix;
 
-      const isPhysicalTable = matrix.view === 'physical';
-      const isLogicalTable = matrix.view === 'logical';
+      const isPhysicalTable = getMatrixParameter(navigationParameters, '/table', 'view') === 'physical';
+      const isLogicalTable = getMatrixParameter(navigationParameters, '/table', 'view') === 'logical';
       const isTraceView = pathname.indexOf('/traces/search') === 0;
       const isLogicalView = pathname.indexOf('/logical') === 0;
       const isPhysicalView = pathname.indexOf('/physical') === 0;

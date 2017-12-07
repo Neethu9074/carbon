@@ -67,6 +67,7 @@ function getDetails(row) {
       margins={{
         left: 90
       }}
+      avoidMarginOverrides
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
         metrics: ['metrics.counters.' + row.name],

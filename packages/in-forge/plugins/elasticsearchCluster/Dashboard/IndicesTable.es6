@@ -8,7 +8,8 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  zeroDecimalPlaces
+  zeroDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 
 const cols = [
@@ -95,6 +96,7 @@ const cols = [
       getMetricName(row) {
         return `index.${row.name}.query_total`;
       },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'max';
       }

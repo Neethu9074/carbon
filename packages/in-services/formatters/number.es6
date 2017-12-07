@@ -47,6 +47,7 @@ export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits, n
 export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
 export const micros = {
   compact: t => formatTime(t, timeMicroUnits, number.compact),
+  fixedCompact: t => number.compact(t) + 'µs',
   detailed: timeByMicroTwoDecimalPlaces
 };
 export const millis = {
