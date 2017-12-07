@@ -13,7 +13,7 @@
     "test:lint": "eslint --ext .es6 in-* gulpfile.js packages",
     "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
     "check:updates": "ncu",
-    "check:licenses": "license-checker > licenses.txt",
+    "check:licenses": "license-checker --production > licenses.txt",
     "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
@@ -39,8 +39,6 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "ansi-to-html": "^0.6.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
     "clipboard": "^1.7.1",
     "codemirror": "5.20.2",
     "d3-format": "^1.0.2",
@@ -78,10 +76,12 @@
     "semver": "^5.3.0",
     "sockjs-client": "^1.1.4",
     "three": "^0.88.0",
-    "tinygradient": "^0.3.1",
-    "webpack-dev-middleware": "^1.12.0"
+    "tinygradient": "^0.3.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "webpack-dev-middleware": "^1.12.0",
     "@storybook/addon-knobs": "^3.2.16",
     "@storybook/react": "^3.2.16",
     "autoprefixer": "^7.0.1",

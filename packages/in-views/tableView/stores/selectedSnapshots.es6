@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
-import { setOrDeleteMatrixKey, navigationParameters$ } from 'in-stores/navigation';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -8,8 +9,8 @@ import { getSnapshot } from 'in-stores/snapshot';
 export const selectedSnapshotIds$ = createTrackingStore({
   name: 'tableView/stores/selectedSnapshots/selectedSnapshotIds',
   observable: navigationParameters$
-    .map(params => {
-      const encodedMetrics = params.matrix.snapshotIds;
+    .map(location => {
+      const encodedMetrics = getMatrixParameter(location, '/table', 'snapshotIds');
       if (!encodedMetrics) {
         return [];
       }
@@ -30,12 +31,12 @@ export function toggleSnapshotId(snapshotId) {
       selectedSnapshotIds.splice(i, 1);
     }
 
-    setOrDeleteMatrixKey('snapshotIds', selectedSnapshotIds.join(','));
+    mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'snapshotIds', selectedSnapshotIds.join(',')));
   });
 }
 
 export function clearSelectedSnapshots() {
-  setOrDeleteMatrixKey('snapshotIds');
+  mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'snapshotIds'));
 }
 
 export const selectedSnapshots$ = selectedSnapshotIds$.flatMap(snapshotIds => {

@@ -6,20 +6,20 @@ import { fullyQualified } from 'in-views/configurationView/subview/Integration/c
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { openIntegrations } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Notification from 'in-components/form/Notification';
-import { extractMatrix } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
 
 export default function Integration(props) {
-  const matrix = extractMatrix(props.location.pathname);
+  const kind = getMatrixParameter(props.location, '/integration', 'kind');
   const entityId = props.match.params.id;
 
   return (
     <IntegrationForm
       title="Integration"
       entityId={entityId}
-      createDefaultEntity={() => createIntegration(null, matrix.kind)}
+      createDefaultEntity={() => createIntegration(null, kind)}
       createForm={createForm}
       getEntityFromApi={getIntegration}
       openEntities={openIntegrations}

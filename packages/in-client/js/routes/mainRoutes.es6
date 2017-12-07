@@ -29,9 +29,9 @@ export default (
     <Route path="/logical" component={Map} />
     <Route path="/container" component={Map} />
 
-    <Route component={createViewComponent(EventView)} path="/events*" />
+    <Route component={createViewComponent(EventView)} path="/events" />
 
-    <Route path="/table*" component={createViewComponent(TableView)} />
+    <Route component={createViewComponent(TableView)} path="/table" />
 
     <Route component={createViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createViewComponent(EumView)} path="/website" />

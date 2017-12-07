@@ -100,7 +100,7 @@ export default (
     ) : null}
 
     {alertingEnabled ? <Route component={createViewComponent(Integration)} path="/config/integration/:id" /> : null}
-    {alertingEnabled ? <Route component={createViewComponent(Integration)} path="/config/integration;*" /> : null}
+    {alertingEnabled ? <Route component={createViewComponent(Integration)} path="/config/integration" /> : null}
     {alertingEnabled ? <Route component={createViewComponent(Integrations)} path="/config/integrations" /> : null}
 
     <Route component={createViewComponent(AuditLogView)} path="/config/auditlog" />
