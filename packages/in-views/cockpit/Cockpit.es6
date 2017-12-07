@@ -1,5 +1,6 @@
 import React from 'react';
 
+import FullBodyHeightWrapper from 'in-components/FullBodyHeightWrapper';
 import EventMetrics from 'in-views/cockpit/components/EventMetrics';
 import TraceMetrics from 'in-views/cockpit/components/TraceMetrics';
 import SpanMetrics from 'in-views/cockpit/components/SpanMetrics';
@@ -19,49 +20,51 @@ const isPhysicalPlugin = pluginId => !isLogicalPlugin(pluginId);
 
 export default function Cockpit() {
   return (
-    <div className={block}>
-      <Title title="Cockpit" />
-      <Row>
-        <Col cols={6}>
-          <Tile header="Entities">
-            <Entities />
-          </Tile>
-        </Col>
-        <Col cols={6}>
-          <Tile header="Overall">
-            <Overall />
-          </Tile>
-        </Col>
-      </Row>
-      <Row>
-        <Col cols={4}>
-          <Tile header="Infrastructure">
-            <PluginUsage pluginIdFilter={isPhysicalPlugin} />
-          </Tile>
-        </Col>
-        <Col cols={4}>
-          <Tile header="Application">
-            <PluginUsage pluginIdFilter={isLogicalPlugin} />
-          </Tile>
-        </Col>
-        <Col cols={4}>
-          <Tile header="Events">
-            <EventMetrics />
-          </Tile>
-        </Col>
-      </Row>
-      <Row>
-        <Col cols={6}>
-          <Tile header="Traces">
-            <TraceMetrics />
-          </Tile>
-        </Col>
-        <Col cols={6}>
-          <Tile header="Spans">
-            <SpanMetrics />
-          </Tile>
-        </Col>
-      </Row>
-    </div>
+    <FullBodyHeightWrapper>
+      <div className={block}>
+        <Title title="Cockpit" />
+        <Row>
+          <Col cols={6}>
+            <Tile header="Entities">
+              <Entities />
+            </Tile>
+          </Col>
+          <Col cols={6}>
+            <Tile header="Overall">
+              <Overall />
+            </Tile>
+          </Col>
+        </Row>
+        <Row>
+          <Col cols={4}>
+            <Tile header="Infrastructure">
+              <PluginUsage pluginIdFilter={isPhysicalPlugin} />
+            </Tile>
+          </Col>
+          <Col cols={4}>
+            <Tile header="Application">
+              <PluginUsage pluginIdFilter={isLogicalPlugin} />
+            </Tile>
+          </Col>
+          <Col cols={4}>
+            <Tile header="Events">
+              <EventMetrics />
+            </Tile>
+          </Col>
+        </Row>
+        <Row>
+          <Col cols={6}>
+            <Tile header="Traces">
+              <TraceMetrics />
+            </Tile>
+          </Col>
+          <Col cols={6}>
+            <Tile header="Spans">
+              <SpanMetrics />
+            </Tile>
+          </Col>
+        </Row>
+      </div>
+    </FullBodyHeightWrapper>
   );
 }
