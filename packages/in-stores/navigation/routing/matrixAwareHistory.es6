@@ -2,10 +2,6 @@ import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { emptyObject } from 'in-services/fixedObjects';
 
-// push
-// replace
-//listen
-
 export function wrap(history) {
   // needed to resolve cases where a redirect is done via React components. This will then only
   // push via a string. In these cases, we want to potentially retain all matrix and query parameters.
