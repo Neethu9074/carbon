@@ -2,8 +2,8 @@ import { Switch } from 'react-router-dom';
 import React from 'react';
 
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import { createViewComponent } from 'in-components/routing/createAsyncComponent';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
@@ -29,25 +29,21 @@ export default (
     <Route path="/logical" component={Map} />
     <Route path="/container" component={Map} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events*" />
+    <Route component={createViewComponent(EventView)} path="/events*" />
 
-    <Route path="/table*" component={createAsyncFullscreenOverlayViewComponent(TableView)} />
+    <Route path="/table*" component={createViewComponent(TableView)} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />
+    <Route component={createViewComponent(NewWebsite)} path="/website/new" />
+    <Route component={createViewComponent(EumView)} path="/website" />
 
     <Route component={GraphView} path="/graph" />
 
-    <Route path="/config" component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)} />
+    <Route path="/config" component={createViewComponent(ConfigurationView)} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)} path="/traces" />
+    <Route component={createViewComponent(TraceView)} path="/traces" />
 
     {role.canConfigureAgents ? (
-      <Route
-        path="/agents"
-        component={createAsyncFullscreenOverlayViewComponent(AgentView)}
-        windowTitle="Instana Agents"
-      />
+      <Route path="/agents" component={createViewComponent(AgentView)} windowTitle="Instana Agents" />
     ) : null}
 
     <RedirectWithHash from="/" to="/physical" />

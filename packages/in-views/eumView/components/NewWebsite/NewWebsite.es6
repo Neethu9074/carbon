@@ -2,7 +2,6 @@ import { createField, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
 import From from 'in-views/eumView/components/NewWebsite/Form';
@@ -41,32 +40,31 @@ export default connectTo(
 
     render() {
       return (
-        <FullscreenOverlayView>
+        <div className={block}>
           <Title title="New Website" />
-          <div className={block}>
-            {this.state.saveResult == null ? (
-              <From
-                field={this.state.field}
-                loading={this.state.loading}
-                saveError={this.state.saveError}
-                onChange={this.onChange}
-                onSubmit={this.onSubmit}
-              />
-            ) : null}
-            {this.state.saveResult != null ? (
-              <Waiting
-                websiteName={this.state.saveResult.appName}
-                eumKey={this.state.saveResult.id}
-                isWaiting={this.state.snapshot == null}
-                href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
-                  to: null,
-                  focusedMoment: null,
-                  pathname: '/website/dashboard'
-                })}
-              />
-            ) : null}
-          </div>
-        </FullscreenOverlayView>
+
+          {this.state.saveResult == null ? (
+            <From
+              field={this.state.field}
+              loading={this.state.loading}
+              saveError={this.state.saveError}
+              onChange={this.onChange}
+              onSubmit={this.onSubmit}
+            />
+          ) : null}
+          {this.state.saveResult != null ? (
+            <Waiting
+              websiteName={this.state.saveResult.appName}
+              eumKey={this.state.saveResult.id}
+              isWaiting={this.state.snapshot == null}
+              href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
+                to: null,
+                focusedMoment: null,
+                pathname: '/website/dashboard'
+              })}
+            />
+          ) : null}
+        </div>
       );
     }
 

@@ -2,7 +2,6 @@ import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView/FullscreenOverlayView';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
@@ -55,19 +54,19 @@ export default connectTo(
   }) {
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
       return (
-        <FullscreenOverlayView className="in-dashboard">
+        <div className="in-dashboard">
           <LoadingIndicator type="dark" />
-        </FullscreenOverlayView>
+        </div>
       );
     } else if (!snapshot && showVersionSelector) {
       return (
-        <FullscreenOverlayView className="in-dashboard">
+        <div className="in-dashboard">
           <NotFoundDialog
             snapshotId={snapshotId}
             versionsForFocusedMoment={versionsForFocusedMoment}
             versionsForLive={versionsForLive}
           />
-        </FullscreenOverlayView>
+        </div>
       );
     }
 
@@ -85,10 +84,10 @@ export default connectTo(
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
 
       return (
-        <FullscreenOverlayView className="in-dashboard in-dashboard--without-custom-scrolling">
+        <div className="in-dashboard in-dashboard--without-custom-scrolling">
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-        </FullscreenOverlayView>
+        </div>
       );
     }
 
