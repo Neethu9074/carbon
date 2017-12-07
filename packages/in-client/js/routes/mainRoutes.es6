@@ -30,9 +30,9 @@ export default (
     <Route path="/logical" component={Map} />
     <Route path="/container" component={Map} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events*" />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="/events" />
 
-    <Route path="/table*" component={createAsyncFullscreenOverlayViewComponent(TableView)} />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TableView)} path="/table" />
 
     <Route component={createAsyncFullscreenOverlayViewComponent(NewWebsite)} path="/website/new" />
     <Route component={createAsyncFullscreenOverlayViewComponent(EumView)} path="/website" />

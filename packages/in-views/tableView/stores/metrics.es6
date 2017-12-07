@@ -1,11 +1,12 @@
-import { setOrDeleteMatrixKey, navigationParameters$ } from 'in-stores/navigation';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
 export const metrics$ = createTrackingStore({
   name: 'tableView/stores/metrics',
   observable: navigationParameters$
-    .map(params => {
-      const encodedMetrics = params.matrix.metrics;
+    .map(location => {
+      const encodedMetrics = getMatrixParameter(location, '/table', 'metrics');
       if (!encodedMetrics) {
         return [];
       }
@@ -19,7 +20,7 @@ export function addMetric(metric) {
   metrics$.once(metrics => {
     metrics = metrics.slice();
     metrics.push(metric);
-    setOrDeleteMatrixKey('metrics', metrics.join(','));
+    mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'metrics', metrics.join(',')));
   });
 }
 
@@ -31,10 +32,10 @@ export function removeMetric(metric) {
     }
     const result = metrics.slice();
     result.splice(i, 1);
-    setOrDeleteMatrixKey('metrics', result.join(','));
+    mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'metrics', result.join(',')));
   });
 }
 
 export function clearMetrics() {
-  setOrDeleteMatrixKey('metrics');
+  mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'metrics'));
 }
