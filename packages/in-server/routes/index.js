@@ -4,7 +4,6 @@ const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
 
-const searchFields = require('../services/searchFields');
 const buildInformation = require('../assets/build.json');
 const clientConfig = require('../assets/config.json');
 const checkSumMod = require('../services/checksum');
@@ -52,8 +51,12 @@ router.get('/', (req, res) => {
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0";');
 
   getCurrentUser(req)
-    .then(([statusCode, userStr]) => getUserSettings(req, res, statusCode, userStr))
-    .then(([statusCode, userStr, userSettings]) => sendIndex(req, res, statusCode, userStr, userSettings))
+    .then(([statusCode, userStr]) => Promise.all([
+      getUserSettings(req, res, statusCode, userStr),
+      getSearchFields(req, res)
+    ]))
+    .then(([[statusCode, userStr, userSettings], searchFieldsStr]) =>
+      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr))
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
       errorPages.send500(req, res);
@@ -97,7 +100,25 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
   });
 }
 
-function sendIndex(req, res, getUserStatusCode, userStr, userSettings) {
+function getSearchFields(req, res) {
+  return new Promise((resolve, reject) => {
+    sendRequest({
+      url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
+      headers: {
+        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+      },
+      timeout: 5000
+    }, (error, response, searchFields) => {
+      if (error) {
+        reject(new Error('Failed to retrieve user settings from ui-backend: ' + String(error)));
+      } else {
+        resolve(searchFields);
+      }
+    });
+  });
+}
+
+function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr) {
   if (getUserStatusCode === 401) {
     const requestedAbsoluteUrl = serverConfig.baseUrl + req.originalUrl;
     res.redirect(
@@ -148,7 +169,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings) {
     user: userStr,
     config: stringifiedClientConfig,
     build: stringifiedBuildInformation,
-    searchFields: searchFields.searchFieldsStr,
+    searchFields: searchFieldsStr,
     settings: userSettings
   }));
 }
