@@ -25,10 +25,6 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
 
   it('must set simple URL via string', () => {
     history.push('/foo?a=b');
-    expect(getCurrentHistoryLocation()).to.deep.equal({
-      pathname: '/foo',
-      search: '?a=b'
-    });
     expect(getLastEmittedLocation()).to.deep.equal({
       pathname: '/foo',
       query: { a: 'b' },
@@ -45,10 +41,6 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
         a: 'b'
       }
     });
-    expect(getCurrentHistoryLocation()).to.deep.equal({
-      pathname: '/foo',
-      search: '?a=b'
-    });
     expect(getLastEmittedLocation()).to.deep.equal({
       pathname: '/foo',
       query: { a: 'b' },
@@ -60,10 +52,6 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
 
   it('must handle matrix URL', () => {
     history.push('/first;k=a%2Fb/second?a=b');
-    expect(getCurrentHistoryLocation()).to.deep.equal({
-      pathname: '/first;k=a%2Fb/second',
-      search: '?a=b'
-    });
     expect(getLastEmittedLocation()).to.deep.equal({
       pathname: '/first/second',
       query: { a: 'b' },
@@ -85,12 +73,5 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
       return null;
     }
     return spy.getCall(spy.callCount - 1).args[0];
-  }
-
-  function getCurrentHistoryLocation() {
-    return {
-      pathname: originalHistory.location.pathname,
-      search: originalHistory.location.search
-    };
   }
 });

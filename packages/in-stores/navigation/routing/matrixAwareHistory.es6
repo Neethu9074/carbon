@@ -15,11 +15,13 @@ export function wrap(history) {
   const origReplace = history.replace;
   const origListen = history.listen;
 
+  history.location = parseUrl(window.location.hash.replace(/^#/, ''));
+
   history.listen = listener => origListen.call(history, wrapListener(listener));
   history.push = pathnameOrLocation => origPush.call(history, translate(pathnameOrLocation, currentLocation));
   history.replace = pathnameOrLocation => origReplace.call(history, translate(pathnameOrLocation, currentLocation));
 
-  history.listen(location => (currentLocation = location));
+  history.listen(location => (currentLocation = history.location = location));
 
   return history;
 }

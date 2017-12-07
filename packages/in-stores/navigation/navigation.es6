@@ -1,7 +1,6 @@
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
-import { parseUrl } from 'in-stores/navigation/routing/parser';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -17,7 +16,7 @@ export const PATH_NAMES = {
 
 const store = createStore({
   name: 'navigation',
-  initialValue: parseUrl(window.location.hash.replace(/^#/, ''))
+  initialValue: history.location
 });
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
@@ -239,19 +238,5 @@ export function closeHelp() {
   mutateUrl(navParams => {
     delete navParams.query.help;
     return navParams;
-  });
-}
-
-export function setOrDeleteMatrixKey(path, key, value) {
-  mutateUrl(params => {
-    if (value) {
-      params.matrix[path] = params.matrix[path] || {};
-      params.matrix[path][key] = value;
-    } else {
-      if (params.matrix[path]) {
-        delete params.matrix[path][key];
-      }
-    }
-    return params;
   });
 }
