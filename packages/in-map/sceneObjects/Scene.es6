@@ -129,12 +129,11 @@ export default class MainScene extends SceneObject {
     const width = window.innerWidth;
 
     const canvas = this.canvas;
-    const ratio = 1;
 
-    this.renderer.setSize(width * ratio, height * ratio);
-    setDimensions(width * ratio, height * ratio);
-    canvas.setAttribute('width', width * ratio);
-    canvas.setAttribute('height', height * ratio);
+    this.renderer.setSize(width, height);
+    setDimensions(width, height);
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height', height);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
