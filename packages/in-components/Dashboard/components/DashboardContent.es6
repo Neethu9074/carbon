@@ -84,7 +84,7 @@ export default connectTo(
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
 
       return (
-        <div className="in-dashboard in-dashboard--without-custom-scrolling">
+        <div className="in-dashboard">
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
         </div>
