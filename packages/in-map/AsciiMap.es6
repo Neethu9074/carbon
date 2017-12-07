@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import MapNoContentMessage from 'in-components/MapNoContentMessage';
@@ -75,7 +74,6 @@ class AsciiMap extends React.Component {
     return (
       <div>
         <Title title={this.getTitle()} />
-        {DashboardNavigationRoute}
         <div id="in-map" className={className}>
           <canvas
             className={`${block}__canvas`}

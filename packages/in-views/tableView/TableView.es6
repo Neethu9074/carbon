@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
@@ -8,12 +9,18 @@ import Title from 'in-components/Title';
 
 export default function TableView() {
   return (
-    <Sticky header={<SearchBar />}>
-      <Title title="Comparison Table" />
-
-      <Table />
-
+    <Switch>
       {DashboardNavigationRoute}
-    </Sticky>
+
+      <Route
+        path="/*"
+        render={() => (
+          <Sticky header={<SearchBar />}>
+            <Title title="Comparison Table" />
+            <Table />
+          </Sticky>
+        )}
+      />
+    </Switch>
   );
 }

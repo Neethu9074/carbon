@@ -11,7 +11,6 @@ import './Table.less';
 
 const block = 'in-table';
 const headerElement = `${block}__header`;
-const headerLeftSideElement = `${block}__header-left`;
 const headerRightSideElement = `${block}__header-right`;
 const tableElement = `${block}__table`;
 const cellElement = `${block}__cell`;
@@ -130,15 +129,13 @@ export default class Table extends React.Component {
     }
 
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
-    const showHeader = this.props.leftHeader || this.props.rightHeader || showPagination;
+    const showHeader = showPagination;
 
     return (
       <div className={joinClassNames(block, this.props.className)}>
         {showHeader ? (
           <div className={headerElement}>
-            <div className={headerLeftSideElement}>{this.props.leftHeader}</div>
             <div className={headerRightSideElement}>
-              {this.props.rightHeader}
               {showPagination ? (
                 <Pagination
                   onPrevPage={this.store.onPrevPage}
