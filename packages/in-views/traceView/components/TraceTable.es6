@@ -107,19 +107,17 @@ export default connectTo(
     });
 
     return (
-      <div className={block}>
-        <LazyTable
-          cols={cols}
-          rows={rows}
-          loadMoreData={loadMoreTraces}
-          sortBy$={sortBy$}
-          sortDirection$={sortDirection$}
-          furtherDataAvailable$={furtherDataAvailable$}
-          isLoading$={isLoading$}
-          onSortingChanged={setSortBy}
-          onRowClicked={row => (row.key === selectedTraceId ? clearTraceSelection() : setSelectedTraceId(row.key))}
-        />
-      </div>
+      <LazyTable
+        cols={cols}
+        rows={rows}
+        loadMoreData={loadMoreTraces}
+        sortBy$={sortBy$}
+        sortDirection$={sortDirection$}
+        furtherDataAvailable$={furtherDataAvailable$}
+        isLoading$={isLoading$}
+        onSortingChanged={setSortBy}
+        onRowClicked={row => (row.key === selectedTraceId ? clearTraceSelection() : setSelectedTraceId(row.key))}
+      />
     );
   }
 );

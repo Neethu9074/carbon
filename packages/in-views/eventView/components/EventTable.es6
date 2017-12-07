@@ -103,22 +103,20 @@ export default connectTo(
     });
 
     return (
-      <div className={block}>
-        <LazyTable
-          cols={cols}
-          rows={rows}
-          loadMoreData={loadMoreRawEvents}
-          rowSubscriptions={row => ({
-            event: getEvent(row.key)
-          })}
-          sortBy$={sortBy$}
-          sortDirection$={sortDirection$}
-          furtherDataAvailable$={furtherDataAvailable$}
-          isLoading$={isLoading$}
-          onSortingChanged={setSortBy}
-          onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
-        />
-      </div>
+      <LazyTable
+        cols={cols}
+        rows={rows}
+        loadMoreData={loadMoreRawEvents}
+        rowSubscriptions={row => ({
+          event: getEvent(row.key)
+        })}
+        sortBy$={sortBy$}
+        sortDirection$={sortDirection$}
+        furtherDataAvailable$={furtherDataAvailable$}
+        isLoading$={isLoading$}
+        onSortingChanged={setSortBy}
+        onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
+      />
     );
   }
 );
