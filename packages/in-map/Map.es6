@@ -78,20 +78,18 @@ export default connectTo(
       let className = block;
 
       return (
-        <div>
+        <div className={className}>
           <Title title={this.getTitle()} />
-          <div className={className}>
-            <canvas
-              className={`${block}__canvas`}
-              ref={canvas => {
-                this.mainCanvas = canvas;
-                this.webGlContext = getWebGLCanvasContext(canvas);
-              }}
-            />
-            <StickyNoteHoster />
-            <TooltipHoster />
-            <MapNoContentMessage />
-          </div>
+          <canvas
+            className={`${block}__canvas`}
+            ref={canvas => {
+              this.mainCanvas = canvas;
+              this.webGlContext = getWebGLCanvasContext(canvas);
+            }}
+          />
+          <StickyNoteHoster />
+          <TooltipHoster />
+          <MapNoContentMessage />
         </div>
       );
     }
