@@ -25,12 +25,14 @@ export default connectTo(
     return (
       <div className={block}>
         <Tooltip content={autoCollapseTimeline ? 'Always show timeline.' : 'Automatically hide timeline.'}>
-          <SvgIcon
-            type={autoCollapseTimeline ? 'unpin' : 'pinned'}
-            width={12}
-            className={`${block}__toggle-auto-expand`}
-            onClick={() => toggleIn('autoCollapseTimeline')}
-          />
+          <div className={`${block}__test`}>
+            <SvgIcon
+              className={`${block}__toggle-auto-expand`}
+              type={autoCollapseTimeline ? 'unpin' : 'pinned'}
+              width={12}
+              onClick={() => toggleIn('autoCollapseTimeline')}
+            />
+          </div>
         </Tooltip>
 
         <div className={block + '__heading'}>
