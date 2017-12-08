@@ -28,8 +28,6 @@ import AuditLogView from 'promise-loader?global,configView!in-views/configuratio
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
 
-import { alertingEnabled } from 'in-services/featureFlags';
-
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
@@ -98,21 +96,15 @@ export default (
     <Route component={createAsyncViewComponent(RuleBindings)} path="/config/bindings" />
     <Route component={createAsyncViewComponent(RuleBinding)} path="/config/binding" />
 
-    {alertingEnabled ? (
-      <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration/:id" />
-    ) : null}
-    {alertingEnabled ? (
-      <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration" />
-    ) : null}
-    {alertingEnabled ? (
-      <Route component={createAsyncViewComponent(AlertingConfigurations)} path="/config/alertingConfigurations" />
-    ) : null}
+    <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration/:id" />
 
-    {alertingEnabled ? (
-      <Route component={createAsyncViewComponent(Integration)} path="/config/integration/:id" />
-    ) : null}
-    {alertingEnabled ? <Route component={createAsyncViewComponent(Integration)} path="/config/integration" /> : null}
-    {alertingEnabled ? <Route component={createAsyncViewComponent(Integrations)} path="/config/integrations" /> : null}
+    <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration" />
+
+    <Route component={createAsyncViewComponent(AlertingConfigurations)} path="/config/alertingConfigurations" />
+
+    <Route component={createAsyncViewComponent(Integration)} path="/config/integration/:id" />
+    <Route component={createAsyncViewComponent(Integration)} path="/config/integration" />
+    <Route component={createAsyncViewComponent(Integrations)} path="/config/integrations" />
 
     <Route component={createAsyncViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>

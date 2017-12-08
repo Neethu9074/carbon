@@ -19,7 +19,6 @@ export const kubernetesEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = onlyInternally;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
-export const alertingEnabled = true;
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
