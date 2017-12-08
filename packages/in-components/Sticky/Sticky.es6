@@ -10,6 +10,14 @@ import theme from 'in-themes';
 export default class extends React.Component {
   static displayName = 'Sticky';
 
+  constructor(props) {
+    super(props);
+
+    if (__DEV__) {
+      invariant(this.props.header !== undefined, 'A Header must be defined for Sticky component.');
+    }
+  }
+
   refresh$ = create();
 
   setOrder(order) {
@@ -72,10 +80,6 @@ export default class extends React.Component {
   }
 
   render() {
-    if (__DEV__) {
-      invariant(this.porps.header, 'A Header must be defined.');
-    }
-
     return (
       <div ref={r => this.setWrapper(r)}>
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
