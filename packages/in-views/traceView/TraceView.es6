@@ -14,6 +14,10 @@ import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
+import './TraceView.less';
+
+const block = 'in-trace-view';
+
 const leftContent = <TraceTable />;
 const rightContent = <TraceTree />;
 
@@ -34,12 +38,14 @@ export default function TraceView() {
           />
         }
       >
-        <TwoColumnView
-          leftContent={leftContent}
-          rightContent={rightContent}
-          leftWidth="46rem"
-          expandedSide$={expandedSide$}
-        />
+        <div className={block}>
+          <TwoColumnView
+            leftContent={leftContent}
+            rightContent={rightContent}
+            leftWidth="46rem"
+            expandedSide$={expandedSide$}
+          />
+        </div>
       </Sticky>
 
       {DashboardNavigationRoute}

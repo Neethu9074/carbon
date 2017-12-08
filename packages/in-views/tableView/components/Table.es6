@@ -52,16 +52,18 @@ export default connectTo(
 
     return (
       <Sticky header={<Header />}>
-        <Table
-          cols={cols}
-          rows={rows}
-          initialSortColumn={tableDefinition.initialSortColumn}
-          initialSortDirection={tableDefinition.initialSortDirection}
-          contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
-          selectedRowKeys={selectedSnapshotIds}
-          onRowClick={row => toggleSnapshotId(row.key)}
-          maxItemsPerPage={50}
-        />
+        <div className={block}>
+          <Table
+            cols={cols}
+            rows={rows}
+            initialSortColumn={tableDefinition.initialSortColumn}
+            initialSortDirection={tableDefinition.initialSortDirection}
+            contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
+            selectedRowKeys={selectedSnapshotIds}
+            onRowClick={row => toggleSnapshotId(row.key)}
+            maxItemsPerPage={50}
+          />
+        </div>
       </Sticky>
     );
   }
