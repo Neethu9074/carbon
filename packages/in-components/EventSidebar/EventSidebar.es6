@@ -1,4 +1,3 @@
-import { on } from 'reactive-observables';
 import React from 'react';
 
 import { selectedEventId$, selectedEvent$, selectedIncident$ } from 'in-stores/events';
@@ -7,6 +6,7 @@ import EventContent from 'in-views/eventView/components/Event/Content';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import Header from 'in-components/EventSidebar/components/Header';
 import { selectedSnapshotId$ } from 'in-stores/snapshot';
+import { debouncedResize$ } from 'in-services/browser';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -21,9 +21,7 @@ export default connectTo(
     event: selectedEvent$,
     eventId: selectedEventId$,
     timelineHeight: timelineHeight$,
-    windowHeight: on(window, 'resize')
-      .map(() => window.innerHeight)
-      .startWithFn(() => window.innerHeight)
+    windowHeight: debouncedResize$.map(() => window.innerHeight).startWithFn(() => window.innerHeight)
   },
   function EventSidebar({ snapshotId, eventId, event, incident, windowHeight, timelineHeight }) {
     if ((!incident && !event) || snapshotId) {

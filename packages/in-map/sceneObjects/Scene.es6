@@ -8,11 +8,13 @@ import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullSer
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
 import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
+import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
+import { debouncedResize$ } from 'in-services/browser';
 import theme from 'in-themes';
 
 export default class MainScene extends SceneObject {
@@ -34,6 +36,7 @@ export default class MainScene extends SceneObject {
     this.enableContinousRenderingEach30Frame = chromeVersion && chromeVersion >= 53 && chromeVersion <= 54;
     this.frameCounter = 0;
 
+    this.timelineHeight = theme.footer.height;
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
@@ -55,16 +58,13 @@ export default class MainScene extends SceneObject {
     super.initEvents();
 
     const shouldRenderSceneCallback = () => (this.shouldRenderScene = true);
-    this.addSubscriptions([
-      frame$.subscribe(shouldRenderSceneCallback),
-      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
-    ]);
+    this.addSubscriptions([frame$.subscribe(shouldRenderSceneCallback), debouncedResize$.subscribe(this.onResize)]);
 
     this.handleLostContext();
     this.handleAnimationFrames(0);
 
-    // send initial resize
-    this.onWindowResize();
+    // will emit initially and therefore cause an emit window resize
+    this.addSubscriptions([timelineHeight$.subscribe(this.onTimelineHeightChange)]);
   }
 
   handleAnimationFrames(highResTimestamp) {
@@ -123,12 +123,15 @@ export default class MainScene extends SceneObject {
     this.scene = new Scene();
   }
 
-  onWindowResize() {
-    const offset = theme.footer.height + theme.header.height;
-    const height = window.innerHeight - offset;
-    const width = window.innerWidth;
+  onTimelineHeightChange = newHeight => {
+    this.timelineHeight = newHeight;
+    this.onResize();
+  };
 
+  onResize() {
     const canvas = this.canvas;
+    const height = window.innerHeight - this.timelineHeight - theme.header.height;
+    const width = window.innerWidth;
 
     this.renderer.setSize(width, height);
     setDimensions(width, height);

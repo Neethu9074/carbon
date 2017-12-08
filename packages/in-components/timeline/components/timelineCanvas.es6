@@ -1,4 +1,4 @@
-import { on, create } from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import createCombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
 import createHighlightedTimeframeRenderer from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
@@ -17,6 +17,7 @@ import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getAxisConfig } from 'in-charts/timeFormatting';
+import { debouncedResize$ } from 'in-services/browser';
 import { highlightedEvent$ } from 'in-stores/events';
 import createScale from 'in-charts/scale';
 
@@ -90,9 +91,7 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
     throttledDrawStream.emit(changeSignal);
   });
 
-  const resizeSubscription = on(window, 'resize')
-    .debounce(500)
-    .subscribe(resize);
+  const resizeSubscription = debouncedResize$.subscribe(resize);
   resize(); // initial resize
 
   const drawSubscription = throttledDrawStream.debounce(300).subscribe(draw);

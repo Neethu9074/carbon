@@ -9,7 +9,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
-import { emitResizeEvent } from 'in-services/browser';
 import Input from 'in-components/SearchBar/Input';
 import { showHelp } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
@@ -28,7 +27,6 @@ export default connectTo(
     static displayName = 'SearchBar';
 
     componentDidMount() {
-      emitResizeEvent();
       refresh();
     }
 

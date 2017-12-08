@@ -4,6 +4,7 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { debouncedResize$ } from 'in-services/browser';
 import classnames from 'in-services/util/classnames';
 
 import './DashboardJumpLabels.less';
@@ -38,9 +39,7 @@ export default class extends React.Component {
     this.scrollSubscription = on(this.scrollElement, 'scroll', { passive: true })
       .throttle(200)
       .subscribe(this.onScroll);
-    this.resizeSubscription = on(window, 'resize')
-      .throttle(200)
-      .subscribe(this.onResize);
+    this.resizeSubscription = debouncedResize$.subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
   }
 

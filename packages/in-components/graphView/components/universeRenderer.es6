@@ -1,9 +1,10 @@
-import { create, on } from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
 import { update as updateTime } from 'in-map/misc/time';
+import { debouncedResize$ } from 'in-services/browser';
 import { WebGLRenderer } from 'in-map/3DLibProvider';
 
 export default function createUniverseRenderer({ container, canvas }) {
@@ -22,9 +23,7 @@ export default function createUniverseRenderer({ container, canvas }) {
   const graphScene = new GraphScene(renderer);
   const graph = new Graph();
 
-  const resizeSubscription = on(window, 'resize')
-    .debounce(500)
-    .subscribe(resize);
+  const resizeSubscription = debouncedResize$.subscribe(resize);
 
   // initial resize
   resize();
