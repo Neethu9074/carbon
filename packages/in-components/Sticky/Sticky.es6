@@ -1,5 +1,6 @@
 import withSideEffect from 'react-side-effect';
 import { create } from 'reactive-observables';
+import invariant from 'invariant';
 import React from 'react';
 
 import { reduceProps, after } from 'in-components/Sticky/orderCalculation';
@@ -71,6 +72,10 @@ export default class extends React.Component {
   }
 
   render() {
+    if (__DEV__) {
+      invariant(this.porps.header, 'A Header must be defined.');
+    }
+
     return (
       <div ref={r => this.setWrapper(r)}>
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
