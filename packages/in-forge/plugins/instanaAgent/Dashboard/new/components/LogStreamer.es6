@@ -5,7 +5,7 @@ import React from 'react';
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import DialogNotification from 'in-components/DialogNotification';
+import DashboardNotification from 'in-components/DashboardNotification';
 import Toggle from 'in-components/form/Toggle';
 
 import './LogStreamer.less';
@@ -127,7 +127,7 @@ export default class extends React.PureComponent {
     return (
       <div className={block}>
         {this.state.error != null ? (
-          <DialogNotification type="danger">Error: {this.state.error}</DialogNotification>
+          <DashboardNotification type="danger">Error: {this.state.error}</DashboardNotification>
         ) : null}
 
         <CopyToClipboardButton targetId={logStreamTargetId} />
