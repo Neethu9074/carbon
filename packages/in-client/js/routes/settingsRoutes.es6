@@ -33,76 +33,87 @@ import { alertingEnabled } from 'in-services/featureFlags';
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
-import { createViewComponent } from 'in-components/routing/createAsyncComponent';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
 //these routes now needs ro be rendered within the parent component
 export default (
   <Switch>
     <Route
-      component={createViewComponent(ServiceExtractionRuleConfiguration)}
+      component={createAsyncViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction/:ruleId"
     />
 
     <Route
-      component={createViewComponent(ServiceExtractionRuleConfiguration)}
+      component={createAsyncViewComponent(ServiceExtractionRuleConfiguration)}
       path="/config/:ruleType/serviceExtraction"
     />
 
     <Route
-      component={createViewComponent(GeneralServiceExtractionConfiguration)}
+      component={createAsyncViewComponent(GeneralServiceExtractionConfiguration)}
       path="/config/generalServiceExtraction"
     />
-    <Route component={createViewComponent(HttpServiceExtractionConfiguration)} path="/config/httpServiceExtraction" />
-    <Route component={createViewComponent(BatchServiceExtractionConfiguration)} path="/config/batchServiceExtraction" />
-    <Route component={createViewComponent(EjbServiceExtractionConfiguration)} path="/config/ejbServiceExtraction" />
     <Route
-      component={createViewComponent(ElasticServiceExtractionConfiguration)}
+      component={createAsyncViewComponent(HttpServiceExtractionConfiguration)}
+      path="/config/httpServiceExtraction"
+    />
+    <Route
+      component={createAsyncViewComponent(BatchServiceExtractionConfiguration)}
+      path="/config/batchServiceExtraction"
+    />
+    <Route
+      component={createAsyncViewComponent(EjbServiceExtractionConfiguration)}
+      path="/config/ejbServiceExtraction"
+    />
+    <Route
+      component={createAsyncViewComponent(ElasticServiceExtractionConfiguration)}
       path="/config/elasticsearchServiceExtraction"
     />
     <Route
-      component={createViewComponent(MessageBrokerServiceExtractionConfiguration)}
+      component={createAsyncViewComponent(MessageBrokerServiceExtractionConfiguration)}
       path="/config/messageBrokerServiceExtraction"
     />
-    <Route component={createViewComponent(UiConfig)} path="/config/userInterface" />
-    <Route component={createViewComponent(EumKeys)} path="/config/eumKeys" />
+    <Route component={createAsyncViewComponent(UiConfig)} path="/config/userInterface" />
+    <Route component={createAsyncViewComponent(EumKeys)} path="/config/eumKeys" />
 
-    <Route component={createViewComponent(RolesConfig)} path="/config/rolesConfigs" />
-    <Route component={createViewComponent(RoleConfig)} path="/config/rolesConfig/:roleId" />
-    <Route component={createViewComponent(RoleConfig)} path="/config/rolesConfig" />
+    <Route component={createAsyncViewComponent(RolesConfig)} path="/config/rolesConfigs" />
+    <Route component={createAsyncViewComponent(RoleConfig)} path="/config/rolesConfig/:roleId" />
+    <Route component={createAsyncViewComponent(RoleConfig)} path="/config/rolesConfig" />
 
-    <Route component={createViewComponent(UserManagement)} path="/config/users" />
+    <Route component={createAsyncViewComponent(UserManagement)} path="/config/users" />
 
-    <Route component={createViewComponent(ApiToken)} path="/config/apiTokens/:apiTokenId" />
+    <Route component={createAsyncViewComponent(ApiToken)} path="/config/apiTokens/:apiTokenId" />
 
-    <Route component={createViewComponent(ApiTokens)} path="/config/apiTokens" />
+    <Route component={createAsyncViewComponent(ApiTokens)} path="/config/apiTokens" />
 
-    <Route component={createViewComponent(Rule)} path="/config/rule/:ruleId" />
+    <Route component={createAsyncViewComponent(Rule)} path="/config/rule/:ruleId" />
 
-    <Route component={createViewComponent(DynamicRule)} path="/config/dynamicRule/:ruleId" />
-    <Route component={createViewComponent(DynamicRules)} path="/config/dynamicRules" />
-    <Route component={createViewComponent(DynamicRule)} path="/config/dynamicRule" />
+    <Route component={createAsyncViewComponent(DynamicRule)} path="/config/dynamicRule/:ruleId" />
+    <Route component={createAsyncViewComponent(DynamicRules)} path="/config/dynamicRules" />
+    <Route component={createAsyncViewComponent(DynamicRule)} path="/config/dynamicRule" />
 
-    <Route component={createViewComponent(Rules)} path="/config/rules" />
-    <Route component={createViewComponent(Rule)} path="/config/rule" />
+    <Route component={createAsyncViewComponent(Rules)} path="/config/rules" />
+    <Route component={createAsyncViewComponent(Rule)} path="/config/rule" />
 
-    <Route component={createViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
-    <Route component={createViewComponent(RuleBindings)} path="/config/bindings" />
-    <Route component={createViewComponent(RuleBinding)} path="/config/binding" />
+    <Route component={createAsyncViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
+    <Route component={createAsyncViewComponent(RuleBindings)} path="/config/bindings" />
+    <Route component={createAsyncViewComponent(RuleBinding)} path="/config/binding" />
 
     {alertingEnabled ? (
-      <Route component={createViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration/:id" />
+      <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration/:id" />
     ) : null}
     {alertingEnabled ? (
-      <Route component={createViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration" />
+      <Route component={createAsyncViewComponent(AlertingConfiguration)} path="/config/alertingConfiguration" />
     ) : null}
     {alertingEnabled ? (
-      <Route component={createViewComponent(AlertingConfigurations)} path="/config/alertingConfigurations" />
+      <Route component={createAsyncViewComponent(AlertingConfigurations)} path="/config/alertingConfigurations" />
     ) : null}
 
-    {alertingEnabled ? <Route component={createViewComponent(Integration)} path="/config/integration/:id" /> : null}
-    {alertingEnabled ? <Route component={createViewComponent(Integration)} path="/config/integration" /> : null}
-    {alertingEnabled ? <Route component={createViewComponent(Integrations)} path="/config/integrations" /> : null}
+    {alertingEnabled ? (
+      <Route component={createAsyncViewComponent(Integration)} path="/config/integration/:id" />
+    ) : null}
+    {alertingEnabled ? <Route component={createAsyncViewComponent(Integration)} path="/config/integration" /> : null}
+    {alertingEnabled ? <Route component={createAsyncViewComponent(Integrations)} path="/config/integrations" /> : null}
 
-    <Route component={createViewComponent(AuditLogView)} path="/config/auditlog" />
+    <Route component={createAsyncViewComponent(AuditLogView)} path="/config/auditlog" />
   </Switch>
 );

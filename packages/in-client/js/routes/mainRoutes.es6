@@ -3,7 +3,7 @@ import React from 'react';
 
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
-import { createViewComponent } from 'in-components/routing/createAsyncComponent';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
@@ -29,21 +29,21 @@ export default (
     <Route path="/logical" component={Map} />
     <Route path="/container" component={Map} />
 
-    <Route component={createViewComponent(EventView)} path="/events" />
+    <Route component={createAsyncViewComponent(EventView)} path="/events" />
 
-    <Route component={createViewComponent(TableView)} path="/table" />
+    <Route component={createAsyncViewComponent(TableView)} path="/table" />
 
-    <Route component={createViewComponent(NewWebsite)} path="/website/new" />
-    <Route component={createViewComponent(EumView)} path="/website" />
+    <Route component={createAsyncViewComponent(NewWebsite)} path="/website/new" />
+    <Route component={createAsyncViewComponent(EumView)} path="/website" />
 
     <Route component={GraphView} path="/graph" />
 
-    <Route path="/config" component={createViewComponent(ConfigurationView)} />
+    <Route path="/config" component={createAsyncViewComponent(ConfigurationView)} />
 
-    <Route component={createViewComponent(TraceView)} path="/traces" />
+    <Route component={createAsyncViewComponent(TraceView)} path="/traces" />
 
     {role.canConfigureAgents ? (
-      <Route path="/agents" component={createViewComponent(AgentView)} windowTitle="Instana Agents" />
+      <Route path="/agents" component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     ) : null}
 
     <RedirectWithHash from="/" to="/physical" />

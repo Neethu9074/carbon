@@ -5,7 +5,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 
 const logger = createLogger('in-components/AsyncFullscreenView');
 
-export const createViewComponent = createAsyncComponent.bind(null, <LoadingIndicator type="dark" />);
+export const createAsyncViewComponent = createAsyncComponent.bind(null, <LoadingIndicator type="dark" />);
 
 export const createAsyncComponentWithLoadingIndicatorPlaceholder = createAsyncComponent.bind(
   null,
