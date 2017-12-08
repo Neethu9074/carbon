@@ -9,7 +9,8 @@ import 'in-forge';
 
 import './ButtonStory';
 import './SvgIconStory';
-import './Badge';
+import './BadgeStory';
 import './StickyStory';
-import './Collapsible';
-import './ComboBox';
+import './CollapsibleStory';
+import './ComboBoxStory';
+import './HeaderStory';
