@@ -14,3 +14,5 @@ import './StickyStory';
 import './CollapsibleStory';
 import './ComboBoxStory';
 import './HeaderStory';
+import './ParagraphStory';
+import './CodeStory';
