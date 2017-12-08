@@ -3,7 +3,6 @@ import { create } from 'reactive-observables';
 import invariant from 'invariant';
 import React from 'react';
 
-import { reduceProps, after } from 'in-components/Sticky/orderCalculation';
 import { debouncedResize$ } from 'in-services/browser';
 import theme from 'in-themes';
 
@@ -113,4 +112,15 @@ function getCoords(elem) {
   const left = box.left + scrollLeft - clientLeft;
 
   return { top: Math.round(top), left: Math.round(left) };
+}
+
+function after(propList) {
+  for (let i = 0, length = propList.length; i < length; i++) {
+    const header = propList[i];
+    header.setOrder(i);
+  }
+}
+
+function reduceProps(propsList) {
+  return propsList.reduce((result, props) => result.concat([props]), []);
 }
