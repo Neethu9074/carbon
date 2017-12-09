@@ -9,6 +9,7 @@ const clientConfig = require('../assets/config.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');
+const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = module.exports = express.Router();
@@ -64,24 +65,6 @@ router.get('/', (req, res) => {
 });
 
 
-function getCurrentUser(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest({
-      url: serverConfig.uiBackendBaseUrl + '/checkUserAccessPermitted',
-      headers: {
-        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-      },
-      timeout: 5000
-    }, (error, response, userStr) => {
-      if (error) {
-        reject(new Error('Failed to retrieve current user from ui-backend: ' + String(error)));
-      } else {
-        resolve([response.statusCode, userStr]);
-      }
-    });
-  });
-}
-
 function getUserSettings(req, res, getUserStatusCode, userStr) {
   return new Promise((resolve, reject) => {
     sendRequest({
@@ -100,7 +83,7 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
   });
 }
 
-function getSearchFields(req, res) {
+function getSearchFields(req) {
   return new Promise((resolve, reject) => {
     sendRequest({
       url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
