@@ -4,8 +4,8 @@ import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { homePath } from 'in-stores/navigation/paths/mainPaths';
 import { resetStoreRegistry } from 'in-stores/store';
-import { PATH_NAMES } from 'in-stores/navigation';
 import keyCodes from 'in-components/keyCodes';
 import { createStore } from 'in-stores/store';
 
@@ -85,7 +85,7 @@ describe('shortcuts/dashboard', () => {
     pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(1);
     expect(navigationParametersStub).to.have.callCount(4);
-    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal(PATH_NAMES.MAP);
+    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal(homePath);
 
     pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(2);
@@ -105,7 +105,7 @@ describe('shortcuts/dashboard', () => {
     navigationParametersStore = createStore({
       name: 'navigationTestStore',
       initialValue: {
-        pathname: PATH_NAMES.HOME,
+        pathname: homePath,
         query: {}
       }
     });
@@ -123,12 +123,12 @@ describe('shortcuts/dashboard', () => {
     navigationMock = {
       goToDashboard: () =>
         navigationParametersStore.applyStateMutation(oldParams => {
-          oldParams.pathname = PATH_NAMES.DASHBOARD;
+          oldParams.pathname = '/dashboard';
           return oldParams;
         }),
       goToRootOfView: () =>
         navigationParametersStore.applyStateMutation(oldParams => {
-          oldParams.pathname = PATH_NAMES.MAP;
+          oldParams.pathname = homePath;
           return oldParams;
         }),
       setSnapshotId: id =>
@@ -136,8 +136,7 @@ describe('shortcuts/dashboard', () => {
           id ? (oldParams.query.snapshotId = id) : delete oldParams.query.snapshotId;
           return oldParams;
         }),
-      navigationParameters$: navigationParametersStore.observable,
-      PATH_NAMES
+      navigationParameters$: navigationParametersStore.observable
     };
 
     filerDialogMock = {

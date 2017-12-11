@@ -1,19 +1,21 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
+import {
+  httpServiceExtractionView$,
+  batchServiceExtractionView$,
+  ejbServiceExtractionView$,
+  elasticsearchServiceExtractionView$,
+  messageBrokerServiceExtractionView$,
+  generalServiceExtractionPath
+} from 'in-stores/navigation/paths/settingPaths';
 import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
-import { elasticsearchServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { messageBrokerServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { batchServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { httpServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { ejbServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { generalServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import Link from 'in-components/Link';
 
 export const ruleType = 'general';
 
-export const pathname = generalServiceExtractionConfigViewPath;
+export const pathname = generalServiceExtractionPath;
 
 export const helpTexts = defaults(
   {
@@ -22,12 +24,10 @@ export const helpTexts = defaults(
         Configure how Instana uses attributes of underlying components to extract services. You can define multiple
         rules which will be executed in order, i.e. the first rule of which all match expression match, will be used to
         extract a service name. General rules are only applied when more specific rules like{' '}
-        <Link href$={httpServiceExtractionConfigurationViewLink$}>HTTP</Link>,{' '}
-        <Link href$={batchServiceExtractionConfigurationViewLink$}>Batch</Link>,{' '}
-        <Link href$={ejbServiceExtractionConfigurationViewLink$}>EJB</Link>,{' '}
-        <Link href$={elasticsearchServiceExtractionConfigurationViewLink$}>Elasticsearch</Link> or{' '}
-        <Link href$={messageBrokerServiceExtractionConfigurationViewLink$}>Message Brokers</Link> did not produce a
-        service name.
+        <Link href$={httpServiceExtractionView$}>HTTP</Link>, <Link href$={batchServiceExtractionView$}>Batch</Link>,{' '}
+        <Link href$={ejbServiceExtractionView$}>EJB</Link>,{' '}
+        <Link href$={elasticsearchServiceExtractionView$}>Elasticsearch</Link> or{' '}
+        <Link href$={messageBrokerServiceExtractionView$}>Message Brokers</Link> did not produce a service name.
         <br />
         View our{' '}
         <Link href="https://docs.instana.io/products/application_service_management/#configuration" external>

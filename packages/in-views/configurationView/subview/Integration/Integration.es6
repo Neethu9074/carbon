@@ -4,10 +4,11 @@ import React from 'react';
 import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
 import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { openIntegrations } from 'in-stores/navigation/configuration';
+import { integrationsPath } from 'in-stores/navigation/paths/settingPaths';
 import Section from 'in-views/configurationView/components/Section';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
 
@@ -22,7 +23,7 @@ export default function Integration(props) {
       createDefaultEntity={() => createIntegration(null, kind)}
       createForm={createForm}
       getEntityFromApi={getIntegration}
-      openEntities={openIntegrations}
+      openEntities={() => goToPath(integrationsPath)}
       saveEntity={save}
     />
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';

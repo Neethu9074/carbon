@@ -2,10 +2,11 @@ import { get } from 'lodash';
 import React from 'react';
 
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { websitePath } from 'in-stores/navigation/paths/mainPaths';
+import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { removeKey } from 'in-services/api/eumKeys';
-import { mutateUrl } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 
 import './Remove.less';
@@ -77,7 +78,7 @@ export default class Remove extends React.PureComponent {
             saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
           });
         } else {
-          mutateUrl(params => (params.pathname = '/website'));
+          goToPath(websitePath);
         }
       }
     );

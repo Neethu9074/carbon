@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getTraceViewFilteredBySnapshotIdAndTimeframe } from 'in-stores/navigation/paths/tracePaths';
 import { twoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getTraceViewFilteredBySnapshotIdAndTimeframe } from 'in-stores/navigation/search';
 import { getNumberOfTracesTouchingServiceOrServiceInstance } from 'in-stores/traces';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';

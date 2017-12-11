@@ -1,7 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
-import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/view';
+import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';

@@ -6,10 +6,11 @@ import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-services/
 import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/DynamicRuleForm';
 import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { openDynamicRules } from 'in-stores/navigation/configuration';
+import { dynamicRulePath } from 'in-stores/navigation/paths/settingPaths';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 
 export default function DynamicRule(props) {
@@ -22,7 +23,7 @@ export default function DynamicRule(props) {
       createDefaultEntity={createDynamicRule}
       createForm={createForm}
       getEntityFromApi={getDynamicRule}
-      openEntities={openDynamicRules}
+      openEntities={() => goToPath(dynamicRulePath)}
       saveEntity={save}
     />
   );

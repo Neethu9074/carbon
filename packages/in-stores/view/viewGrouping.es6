@@ -1,3 +1,4 @@
+import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
@@ -57,7 +58,7 @@ export const viewGroupingShort$ = createTrackingStore({
     .map(params => {
       const pathname = params.pathname;
       let grouping = 'vg-i';
-      if (pathname.indexOf('/container') === 0) {
+      if (pathname.indexOf(containerPath) === 0) {
         grouping = 'vg-c';
       }
       const queryGrouping = params.query[grouping];

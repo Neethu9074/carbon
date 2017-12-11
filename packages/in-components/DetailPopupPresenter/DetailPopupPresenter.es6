@@ -2,8 +2,8 @@ import { Iterable, Map } from 'immutable';
 import React from 'react';
 
 import { content$, contentFilter$ } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
+import { isDashboardOpen$ } from 'in-stores/navigation/paths/dashboardPaths';
 import Header from 'in-components/DetailPopupPresenter/components/Header';
-import { isDashboardOpen$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
 import './DetailPopupPresenter.less';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getDashboardLink } from 'in-stores/navigation';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 

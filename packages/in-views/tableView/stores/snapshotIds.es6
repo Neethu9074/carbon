@@ -1,10 +1,11 @@
 import { assign } from 'lodash';
 
-import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
+import { tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
 
@@ -24,10 +25,10 @@ export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
   observable: navigationParameters$
     .map(location => {
-      const isPhysicalView = getMatrixParameter(location, '/table', 'view') === 'physical';
+      const isPhysicalView = getMatrixParameter(location, tablePath, 'view') === 'physical';
       const defaultType = isPhysicalView ? 'host' : 'service';
       return {
-        type: getMatrixParameter(location, '/table', 'plugin') || defaultType,
+        type: getMatrixParameter(location, tablePath, 'plugin') || defaultType,
         view: isPhysicalView ? 'PHYSICAL' : 'LOGICAL'
       };
     })
@@ -35,7 +36,7 @@ export const selectedType$ = createTrackingStore({
 }).observable.distinct((current, next) => current.type !== next.type || current.view !== next.view);
 
 export function setSelectedType(type) {
-  mutateUrl(location => setOrDeleteMatrixKey(location, '/table', 'plugin', type));
+  mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'plugin', type));
 
   clearMetrics();
   clearSelectedSnapshots();

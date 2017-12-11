@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTraceViewFilteredByServiceEndpointStartingAtLink } from 'in-stores/navigation/search';
+import { getTraceViewFilteredByServiceEndpointStartingAtLink } from 'in-stores/navigation/paths/tracePaths';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

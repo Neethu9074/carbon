@@ -1,6 +1,23 @@
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
+import {
+  agentsPath,
+  asciiContainerPath,
+  asciiLogicalPath,
+  asciiPhysicalPath,
+  cockpitPath,
+  settingsPath,
+  containerPath,
+  eventsPath,
+  graphPath,
+  logicalPath,
+  physicalPath,
+  tablePath,
+  tracesPath,
+  websitePath,
+  newWebsitePath
+} from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -19,33 +36,25 @@ import Map from 'in-map/index';
 
 export default (
   <Switch>
-    <Route path="/cockpit" component={Cockpit} />
-
-    <Route path="/ascii/physical" component={AsciiMap} />
-    <Route path="/ascii/logical" component={AsciiMap} />
-    <Route path="/ascii/container" component={AsciiMap} />
-
-    <Route path="/physical" component={Map} />
-    <Route path="/logical" component={Map} />
-    <Route path="/container" component={Map} />
-
-    <Route component={createAsyncViewComponent(EventView)} path="/events" />
-
-    <Route component={createAsyncViewComponent(TableView)} path="/table" />
-
-    <Route component={createAsyncViewComponent(NewWebsite)} path="/website/new" />
-    <Route component={createAsyncViewComponent(EumView)} path="/website" />
-
-    <Route component={GraphView} path="/graph" />
-
-    <Route path="/config" component={createAsyncViewComponent(ConfigurationView)} />
-
-    <Route component={createAsyncViewComponent(TraceView)} path="/traces" />
-
+    <Route path={cockpitPath} component={Cockpit} />
+    <Route path={asciiPhysicalPath} component={AsciiMap} />
+    <Route path={asciiLogicalPath} component={AsciiMap} />
+    <Route path={asciiContainerPath} component={AsciiMap} />
+    <Route path={physicalPath} component={Map} />
+    <Route path={logicalPath} component={Map} />
+    <Route path={containerPath} component={Map} />
+    <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
+    <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
+    <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
+    <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
+    <Route component={GraphView} path={graphPath} />
+    <Route path={settingsPath} component={createAsyncViewComponent(ConfigurationView)} />
+    <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents ? (
-      <Route path="/agents" component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
+      <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     ) : null}
 
-    <RedirectWithHash from="/" to="/physical" />
+    {/* landing page */}
+    <RedirectWithHash from="/" to={physicalPath} />
   </Switch>
 );

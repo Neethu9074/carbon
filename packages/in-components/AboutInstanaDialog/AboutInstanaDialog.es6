@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { goToGraph } from 'in-stores/navigation';
+import { graphPath } from 'in-stores/navigation/paths/mainPaths';
+import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
 import Dialog from 'in-components/Dialog';
@@ -22,7 +23,7 @@ export default function AboutInstanaDialog() {
         <Button
           className={`${block}__button`}
           onClick={() => {
-            goToGraph();
+            goToPath(graphPath);
             setActiveDialog(null);
           }}
         >

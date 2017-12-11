@@ -9,8 +9,8 @@ import {
 } from 'in-stores/view/viewGrouping';
 import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/components/CustomContainerGroupingDialog';
 import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
-import { physicalViewLink$, containerViewLink$ } from 'in-stores/navigation/navigation';
-import { getLinkToCurrentViewWithViewGrouping } from 'in-stores/navigation/view';
+import { getLinkToCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
+import { physicalView$, containerView$ } from 'in-stores/navigation/paths/mainPaths';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -18,7 +18,7 @@ import { view$, types } from 'in-stores/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/MapOverlayControls/components/ViewGrouping.less';
+import './ViewGrouping.less';
 
 const block = 'in-controls-view-grouping';
 
@@ -35,8 +35,8 @@ export default function ViewGrouping() {
 const ViewGroupingMenu = connectTo(
   {
     view: view$,
-    physicalViewLink: physicalViewLink$,
-    containerViewLink: containerViewLink$
+    physicalViewLink: physicalView$,
+    containerViewLink: containerView$
   },
   function ViewGroupingMenu({ view, physicalViewLink, containerViewLink }) {
     return (

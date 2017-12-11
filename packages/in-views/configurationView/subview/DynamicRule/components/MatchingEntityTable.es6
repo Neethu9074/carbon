@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getDashboardLink } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getLabel } from 'in-sdk/snapshot';
 import Link from 'in-components/Link';

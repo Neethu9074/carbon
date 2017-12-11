@@ -1,0 +1,43 @@
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { tracesPath } from 'in-stores/navigation/paths/mainPaths';
+
+export function getTraceViewLinkWithQuery(query) {
+  return getModifiedUrlStream(params => {
+    params.pathname = tracesPath;
+    params.query.q = query;
+    params.query.ss = '1';
+  });
+}
+
+export function getTraceViewLinkShowingTrace(traceId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = tracesPath;
+    params.query.traceId = traceId;
+  });
+}
+
+export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
+  return getTraceViewLinkWithQuery(` trace.startingAt:"${snapshotId}"`);
+}
+
+export function getTraceViewFilteredByTouchingLink(snapshotId) {
+  return getTraceViewLinkWithQuery(` trace.touching:"${snapshotId}"`);
+}
+
+export function getTraceViewFilteredByServiceEndpointStartingAtLink(snapshotId, endpointLabel) {
+  return getTraceViewLinkWithQuery(` trace.touching:"${snapshotId}" span.endpoint.label:"${endpointLabel}"`);
+}
+
+export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
+  return getTraceViewLinkWithQuery(` trace.startingAtInstance:"${snapshotId}"`);
+}
+
+export function getTraceViewFilteredBySnapshotIdAndTimeframe({ snapshotId, from, to }) {
+  return getModifiedUrlStream(params => {
+    params.pathname = tracesPath;
+    params.query.q = ` trace.touching:"${snapshotId}"`;
+    params.query.ss = '1';
+    params.query['timeline.to'] = to;
+    params.query['timeline.ws'] = to - from;
+  });
+}

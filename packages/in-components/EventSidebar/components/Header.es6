@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getEventViewWithEvent } from 'in-stores/navigation/view';
+import { getEventViewWithEvent } from 'in-stores/navigation/paths/eventPaths';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 

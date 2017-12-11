@@ -2,10 +2,10 @@ import React from 'react';
 
 import TwoColumnDetailHeader from 'in-sdk/components/dashboard/TabView/TwoColumnDetailHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { number, millis } from 'in-services/formatters/number';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
