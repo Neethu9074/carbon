@@ -153,25 +153,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Rejected Threads">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          y1={{
-            min: 0,
-            metrics: [
-              'threads.search_rejected',
-              'threads.index_rejected',
-              'threads.bulk_rejected',
-              'threads.get_rejected'
-            ],
-            labels: ['Search', 'Index', 'Bulk', 'Get'],
-            formatter: twoDecimalPlaces,
-            type: 'stackedArea'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Queued Threads">
+      <DashboardSection title="Queued Requests">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
@@ -192,6 +174,24 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
             type: 'stackedArea'
           }}
         />
+        <DashboardSection title="Rejected Requests">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            y1={{
+              min: 0,
+              metrics: [
+                'threads.search_rejected',
+                'threads.index_rejected',
+                'threads.bulk_rejected',
+                'threads.get_rejected'
+              ],
+              labels: ['Search', 'Index', 'Bulk', 'Get'],
+              formatter: twoDecimalPlaces,
+              type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
       </DashboardSection>
     </div>
   );
