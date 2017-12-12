@@ -7,10 +7,13 @@ import {
   defaultGrouping,
   humanReadableDescriptions
 } from 'in-stores/view/viewGrouping';
+import {
+  getLinkToCurrentViewWithViewGrouping,
+  physicalPath,
+  containerPath
+} from 'in-stores/navigation/paths/mainPaths';
 import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/components/CustomContainerGroupingDialog';
 import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
-import { getLinkToCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
-import { physicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
