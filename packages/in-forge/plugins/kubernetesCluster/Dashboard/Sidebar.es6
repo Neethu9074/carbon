@@ -3,8 +3,9 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { number } from 'in-services/formatters/number';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { number } from 'in-services/formatters/number';
 import Info from '../Info';
 
 export default function KubernetesClusterSidebar({ snapshot }) {
@@ -15,18 +16,30 @@ export default function KubernetesClusterSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
-
-      <SparkChartsSection
-        snapshot={snapshot}
-        metrics={[
-          {
-            metric: 'pods.count',
-            label: 'Pods',
-            formatter: number,
-            aggregation: 'mean'
-          }
-        ]}
-      />
+      <Columize>
+        <SparkChartsSection
+          snapshot={snapshot}
+          metrics={[
+            {
+              metric: 'nodes.count',
+              label: 'Nodes',
+              formatter: number,
+              aggregation: 'mean'
+            }
+          ]}
+        />
+        <SparkChartsSection
+          snapshot={snapshot}
+          metrics={[
+            {
+              metric: 'pods.count',
+              label: 'Pods',
+              formatter: number,
+              aggregation: 'mean'
+            }
+          ]}
+        />
+      </Columize>
 
       <Separator />
 
