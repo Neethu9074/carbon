@@ -10,9 +10,10 @@ import {
 import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/components/CustomContainerGroupingDialog';
 import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
 import { getLinkToCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
-import { physicalView$, containerView$ } from 'in-stores/navigation/paths/mainPaths';
+import { physicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { getView } from 'in-stores/navigation/navigation';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { view$, types } from 'in-stores/view';
 import Button from 'in-components/Button';
@@ -34,11 +35,9 @@ export default function ViewGrouping() {
 
 const ViewGroupingMenu = connectTo(
   {
-    view: view$,
-    physicalViewLink: physicalView$,
-    containerViewLink: containerView$
+    view: view$
   },
-  function ViewGroupingMenu({ view, physicalViewLink, containerViewLink }) {
+  function ViewGroupingMenu({ view }) {
     return (
       <div className={block}>
         <div className={`${block}__left`}>
@@ -47,7 +46,7 @@ const ViewGroupingMenu = connectTo(
             <Button
               kind={view === types.physical ? 'primary' : 'secondary'}
               size="sm"
-              href={physicalViewLink}
+              href$={getView(physicalPath)}
               className={`${block}__button`}
             >
               Host
@@ -55,7 +54,7 @@ const ViewGroupingMenu = connectTo(
             <Button
               kind={view === types.container ? 'primary' : 'secondary'}
               size="sm"
-              href={containerViewLink}
+              href$={getView(containerPath)}
               className={`${block}__button`}
             >
               Container
