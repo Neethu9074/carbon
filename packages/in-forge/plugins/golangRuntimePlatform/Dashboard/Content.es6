@@ -35,9 +35,6 @@ export default function GolangDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: timeNs,
@@ -52,9 +49,6 @@ export default function GolangDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: ['metrics.goroutine'],
@@ -72,10 +66,6 @@ function renderHeapMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
@@ -98,10 +88,6 @@ function renderMemoryMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,

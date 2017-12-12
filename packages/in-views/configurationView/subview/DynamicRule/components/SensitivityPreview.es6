@@ -214,7 +214,6 @@ const PreviewChart = connectTo(
             snapshotId={snapshot.get('id')}
             timeframe$={chartTimeframe$}
             margins={{
-              left: 60,
               right: 1
             }}
             avoidMarginOverrides

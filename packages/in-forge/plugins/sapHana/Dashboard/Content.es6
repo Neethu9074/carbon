@@ -19,9 +19,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: percentageZeroDecimalPlaces,
             metrics: ['stats.cpuUsage'],
@@ -34,9 +31,6 @@ export default function Dashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['stats.usedMemory', 'stats.residentMemory'],
@@ -50,9 +44,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
@@ -66,9 +57,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -88,9 +76,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.sessionsDatabaseUsers', 'stats.sessionsApplications', 'stats.sessionsApplicationUsers'],
@@ -104,9 +89,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.threadsTotalCount', 'stats.threadsActiveCount', 'stats.threadsBlockedCount'],
@@ -120,9 +102,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -140,9 +119,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -160,9 +136,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -182,9 +155,6 @@ export default function Dashboard({ snapshot, timeframe }) {
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [

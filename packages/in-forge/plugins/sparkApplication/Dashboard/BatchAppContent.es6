@@ -21,9 +21,6 @@ export default function BatchAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['failedJobs', 'completedJobs', 'activeJobs'],
@@ -36,9 +33,6 @@ export default function BatchAppContent({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['pendingStages', 'failedStages', 'completedStages', 'activeStages'],

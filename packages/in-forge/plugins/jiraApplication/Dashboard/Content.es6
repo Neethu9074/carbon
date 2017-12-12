@@ -12,9 +12,6 @@ export default function JiraDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['instruments.http.sessions'],
             labels: ['Current Sessions'],
@@ -31,9 +28,6 @@ export default function JiraDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['instruments.dbcp.numIdle'],
             labels: ['Idle Connections'],

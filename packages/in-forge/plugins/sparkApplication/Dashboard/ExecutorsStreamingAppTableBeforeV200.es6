@@ -181,9 +181,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlacesPerSecond,
           metrics: ['executors.' + row.key + '.completedTasksDelta', 'executors.' + row.key + '.failedTasksDelta'],
@@ -194,9 +191,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['executors.' + row.key + '.rddBlocks'],
@@ -207,9 +201,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
@@ -221,9 +212,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
@@ -235,9 +223,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: bytesPerSecondZeroDecimalPlaces,
           tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
@@ -249,9 +234,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: bytesPerSecondZeroDecimalPlaces,
           tooltipFormatter: bytesPerSecondTwoDecimalPlaces,

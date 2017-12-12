@@ -18,9 +18,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['bytes_read_into_memcached', 'bytes_written_out_from_memcached', 'bytes_used_for_cache_items'],
@@ -34,9 +31,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['cas_hits', 'cas_misses', 'cas_badval'],
@@ -50,10 +44,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['cmd_flush', 'cmd_get', 'cmd_set'],
@@ -68,10 +58,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 40
-            }}
             y1={{
               min: 0,
               metrics: ['get_hits', 'get_misses', 'delete_hits', 'delete_misses'],
@@ -85,10 +71,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 40
-            }}
             y1={{
               min: 0,
               metrics: ['incr_hits', 'incr_misses', 'decr_hits', 'decr_misses'],
@@ -103,9 +85,6 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['unused_memory'],

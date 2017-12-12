@@ -15,9 +15,6 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
@@ -32,9 +29,6 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['cpu.user', 'cpu.sys'],
             labels: ['User', 'System'],

@@ -37,10 +37,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             metrics: ['http_request_count', 'http_error'],
             labels: ['Requests', 'Errors'],
@@ -61,9 +57,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['threads_core', 'threads_executed_tasks', 'threads_current_count', 'threads_current_busy'],
             labels: ['Core threads', 'Executed threads', 'Current threads', 'Busy threads'],
@@ -76,9 +69,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: [
               'connections_open',
@@ -99,9 +89,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: [
               'keep_alive_connections',
@@ -121,10 +108,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             metrics: ['file_cache_hits', 'file_cache_misses', 'file_cache_info_hits', 'file_cache_info_misses'],
             labels: ['Hits', 'Misses', 'Info Hits', 'Info Misses'],
@@ -146,9 +129,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['jdbc_connection_used', 'jdbc_connection_free'],
             labels: ['Used', 'Free'],

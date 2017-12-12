@@ -164,9 +164,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
@@ -181,9 +178,6 @@ function getRowDetails(row) {
           <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesZeroDecimalPlaces,
@@ -202,9 +196,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,

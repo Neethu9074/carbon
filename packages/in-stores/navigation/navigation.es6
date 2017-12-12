@@ -1,6 +1,5 @@
-/* global process:false */
-import qs from 'qs';
-
+import { stringify } from 'in-stores/navigation/routing/stringifier';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
@@ -15,143 +14,41 @@ export const PATH_NAMES = {
   HOME: '/'
 };
 
-let hashHistory;
-
-if (process.env.IS_TEST) {
-  hashHistory = {
-    push() {},
-    listen() {}
-  };
-} else {
-  hashHistory = history;
-}
-
 const store = createStore({
   name: 'navigation',
-  initialValue: {
-    pathname: getCurrentPath(),
-    query: getInitParams(),
-    matrix: extractMatrix(getCurrentPath())
-  }
+  initialValue: history.location
 });
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
-hashHistory.listen(location => {
-  const currentPath = getCurrentPath();
-  const pathname = currentPath;
-
-  ineum('page', pathname);
+history.listen(location => {
+  ineum('page', location.pathname);
   ineum('startSpaPageTransition');
-  store.mutateTo({
-    pathname,
-    query: qs.parse(location.search.replace('?', '')),
-    matrix: extractMatrix(currentPath)
-  });
+  store.mutateTo(cloneLocation(location));
   ineum('endSpaPageTransition', {
-    url: window.location.href,
+    url: location.pathname,
     status: 'completed'
   });
 });
 
 export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
-    const newLocation = cloneNavigationParameters(currentLocation);
+    const newLocation = cloneLocation(currentLocation);
     mutator(newLocation);
-    reApplyMatrix(newLocation);
-    newLocation.search = qs.stringify(newLocation.query);
-    if (!isEqualLocation(newLocation, currentLocation)) {
-      hashHistory.push(newLocation);
+    if (stringify(newLocation) !== stringify(currentLocation)) {
+      history.push(newLocation);
     }
   });
-}
-
-function isEqualLocation(a, b) {
-  if (a.pathname !== b.pathname) {
-    return false;
-  }
-
-  const aKeys = Object.keys(a.query);
-  const bKeys = Object.keys(b.query);
-  if (aKeys.length !== bKeys.length) {
-    return false;
-  }
-
-  for (let i = 0, length = aKeys.length; i < length; i++) {
-    const key = aKeys[i];
-    if (String(a.query[key]) !== String(b.query[key])) {
-      return false;
-    }
-  }
-
-  return true;
 }
 
 export function getModifiedUrlStream(mapParams) {
   return navigationParameters$
     .map(params => {
-      params = cloneNavigationParameters(params);
+      params = cloneLocation(params);
       mapParams(params);
-      return toUrl(params);
+      return '/#' + stringify(params);
     })
     .distinct();
-}
-
-function getCurrentPath() {
-  const hash = window.location.hash;
-  if (!hash || hash.length === 2) {
-    return '/';
-  } else {
-    if (hash.indexOf('?') !== -1) {
-      return hash.substring(hash.indexOf('#/') + 1, hash.indexOf('?'));
-    } else {
-      return hash.substring(hash.indexOf('#/') + 1, hash.length);
-    }
-  }
-}
-
-// We explicitly clone this manually for the best performance we can get.
-// We have a terribly large number of navigation object clone instructions which we
-// need to keep fast.
-function cloneNavigationParameters(params) {
-  const query = {};
-  for (let key in params.query) {
-    query[key] = params.query[key];
-  }
-
-  const matrix = {};
-  for (let key in params.matrix) {
-    matrix[key] = params.matrix[key];
-  }
-
-  const cloned = {
-    pathname: params.pathname,
-    query,
-    matrix
-  };
-
-  return cloned;
-}
-
-function reApplyMatrix(params) {
-  params.pathname = ignoreMatrix(params.pathname);
-  for (let key in params.matrix) {
-    params.pathname += `;${encodeURIComponent(key)}=${encodeURIComponent(params.matrix[key])}`;
-  }
-}
-
-function toUrl(params) {
-  return `/#${toBaseUrl(params)}`;
-}
-
-function toBaseUrl(params) {
-  let url = params.pathname;
-  const queryString = qs.stringify(params.query);
-  if (queryString.length === 0) {
-    return url;
-  } else {
-    return `${url}?${queryString}`;
-  }
 }
 
 export function buildUrlStream({ path }) {
@@ -162,15 +59,6 @@ export function buildUrlStream({ path }) {
 
 export function buildPathStartsWithStream(path) {
   return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
-}
-
-function getInitParams() {
-  const hash = window.location.hash;
-  if (!hash || hash.indexOf('?') === -1) {
-    return {};
-  } else {
-    return qs.parse(hash.substring(hash.indexOf('?') + 1, hash.length));
-  }
 }
 
 export function getActiveView(params) {
@@ -350,51 +238,5 @@ export function closeHelp() {
   mutateUrl(navParams => {
     delete navParams.query.help;
     return navParams;
-  });
-}
-
-function ignoreMatrix(path) {
-  if (!path) {
-    return path;
-  }
-
-  return path.split(';')[0];
-}
-
-export function extractMatrix(path) {
-  if (!path) {
-    return {};
-  }
-
-  const parts = decodeURIComponent(path)
-    .split(';')
-    .filter(part => part.length > 0) // remove all "" caused by ";", or "foobar" or "foobar;" etc.
-    .splice(1); // remove the first hit because it is the path before KVs
-  if (path.length === 0) {
-    return {};
-  }
-
-  const kvs = {};
-  for (let i = 0, length = parts.length; i < length; i++) {
-    const part = parts[i];
-    const kv = part.split('=').filter(part => part.length > 0);
-    if (kv.length !== 2) {
-      continue;
-    }
-
-    kvs[kv[0]] = kv[1];
-  }
-
-  return kvs;
-}
-
-export function setOrDeleteMatrixKey(key, value) {
-  mutateUrl(params => {
-    if (value) {
-      params.matrix[key] = value;
-    } else {
-      delete params.matrix[key];
-    }
-    return params;
   });
 }

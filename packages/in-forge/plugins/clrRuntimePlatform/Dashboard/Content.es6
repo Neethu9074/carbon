@@ -37,9 +37,6 @@ export default function ClrDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['mem.gen0GC', 'mem.gen1GC', 'mem.gen2GC'],
@@ -62,9 +59,6 @@ export default function ClrDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
@@ -78,9 +72,6 @@ export default function ClrDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 100
-          }}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,

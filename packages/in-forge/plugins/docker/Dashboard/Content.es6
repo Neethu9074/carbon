@@ -41,9 +41,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
@@ -55,10 +52,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             metrics: ['cpu.throttling_count'],
@@ -81,9 +74,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
@@ -95,9 +85,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
@@ -113,9 +100,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['blkio.blk_read', 'blkio.blk_write'],
@@ -130,10 +114,6 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 80
-            }}
             y1={{
               min: 0,
               formatter: bytesTwoDecimalPlaces,

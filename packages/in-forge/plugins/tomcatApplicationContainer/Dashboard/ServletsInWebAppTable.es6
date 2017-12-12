@@ -97,10 +97,6 @@ function getRowDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80,
-        right: 40
-      }}
       y1={{
         formatter: millis.detailed,
         metrics: ['servlets.' + row.servletKey + '.time'],

@@ -92,9 +92,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80
-      }}
       y1={{
         max: getMaxValue('pools.' + row.name, row.snapshot),
         formatter: bytesTwoDecimalPlaces,

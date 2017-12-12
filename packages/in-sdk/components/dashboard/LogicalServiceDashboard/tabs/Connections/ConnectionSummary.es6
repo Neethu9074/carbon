@@ -100,9 +100,6 @@ export default connectTo(
             snapshotId={snapshotId}
             timeframe={timeframe}
             height={200}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               formatter: millis.fixedCompact,

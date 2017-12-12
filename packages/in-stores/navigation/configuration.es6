@@ -1,3 +1,4 @@
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import {
   buildUrlStream,
   buildPathStartsWithStream,
@@ -67,15 +68,15 @@ export const rolesConfigViewLink$ = buildUrlStream({ path: rolesConfigViewPath }
 export const isRolesConfigView$ = buildPathStartsWithStream(roleConfigViewPath);
 
 export function getRoleConfigLink(roleId) {
-  return getModifiedUrlStream(params => (params.pathname = getRoleConfigPath(roleId)));
+  return getModifiedUrlStream(location => (location.pathname = getRoleConfigPath(roleId)));
 }
 
 export function openRoleConfig(roleId) {
-  mutateUrl(params => (params.pathname = getRoleConfigPath(roleId)));
+  mutateUrl(location => (location.pathname = getRoleConfigPath(roleId)));
 }
 
 export function openRoles() {
-  mutateUrl(params => (params.pathname = '/config/rolesConfigs'));
+  mutateUrl(location => (location.pathname = '/config/rolesConfigs'));
 }
 
 function getRoleConfigPath(roleId) {
@@ -87,15 +88,15 @@ export const apiTokensViewLink$ = buildUrlStream({ path: apiTokensViewPath });
 export const isApiTokensView$ = buildPathStartsWithStream(apiTokensViewPath);
 
 export function openApiTokenConfig(apiTokenId) {
-  mutateUrl(params => (params.pathname = getApiTokenConfigPath(apiTokenId)));
+  mutateUrl(location => (location.pathname = getApiTokenConfigPath(apiTokenId)));
 }
 
 export function openApiTokens() {
-  mutateUrl(params => (params.pathname = apiTokensViewPath));
+  mutateUrl(location => (location.pathname = apiTokensViewPath));
 }
 
 export function getApiTokenConfigLink(apiTokenId) {
-  return getModifiedUrlStream(params => (params.pathname = getApiTokenConfigPath(apiTokenId)));
+  return getModifiedUrlStream(location => (location.pathname = getApiTokenConfigPath(apiTokenId)));
 }
 
 function getApiTokenConfigPath(apiTokenId) {
@@ -118,11 +119,11 @@ function getRulePath(id) {
 }
 
 export function getRuleLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getRulePath(id)));
+  return getModifiedUrlStream(location => (location.pathname = getRulePath(id)));
 }
 
 export function openRule(id) {
-  mutateUrl(params => (params.pathname = getRulePath(id)));
+  mutateUrl(location => (location.pathname = getRulePath(id)));
 }
 
 function getRulesPath() {
@@ -130,7 +131,7 @@ function getRulesPath() {
 }
 
 export function openRules() {
-  mutateUrl(params => (params.pathname = getRulesPath()));
+  mutateUrl(location => (location.pathname = getRulesPath()));
 }
 
 // alerting config ------------------------------------
@@ -144,15 +145,15 @@ function getAlertingConfigPath(id) {
 }
 
 export function openAlertingConfiguration() {
-  mutateUrl(params => (params.pathname = alertingConfigPath));
+  mutateUrl(location => (location.pathname = alertingConfigPath));
 }
 
 export function openAlertingConfigurations() {
-  mutateUrl(params => (params.pathname = alertingConfigsPath));
+  mutateUrl(location => (location.pathname = alertingConfigsPath));
 }
 
 export function getAlertingConfigLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getAlertingConfigPath(id)));
+  return getModifiedUrlStream(location => (location.pathname = getAlertingConfigPath(id)));
 }
 
 // integrations ------------------------------------
@@ -166,22 +167,17 @@ function getIntegrationPath(id) {
 }
 
 export function openIntegration(kind) {
-  mutateUrl(params => {
-    params.pathname = integrationPath;
-    params.matrix.kind = kind;
-    return params;
+  mutateUrl(location => {
+    location.pathname = integrationPath;
+    setOrDeleteMatrixKey(location, '/integration', 'kind', kind);
   });
 }
 
 export function openIntegrations() {
-  mutateUrl(params => {
-    params.pathname = integrationsPath;
-    delete params.matrix.kind;
-    return params;
-  });
+  mutateUrl(location => (location.pathname = integrationsPath));
 }
 export function getIntegrationLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getIntegrationPath(id)));
+  return getModifiedUrlStream(location => (location.pathname = getIntegrationPath(id)));
 }
 
 // binding ------------------------------------
@@ -195,11 +191,11 @@ function getRuleBindingPath(id) {
 }
 
 export function getRuleBindingLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getRuleBindingPath(id)));
+  return getModifiedUrlStream(location => (location.pathname = getRuleBindingPath(id)));
 }
 
 export function openRuleBinding(id) {
-  mutateUrl(params => (params.pathname = getRuleBindingPath(id)));
+  mutateUrl(location => (location.pathname = getRuleBindingPath(id)));
 }
 
 function getRuleBindingsPath() {
@@ -207,7 +203,7 @@ function getRuleBindingsPath() {
 }
 
 export function openRuleBindings() {
-  mutateUrl(params => (params.pathname = getRuleBindingsPath()));
+  mutateUrl(location => (location.pathname = getRuleBindingsPath()));
 }
 
 // end custom alerting rules ------------------------------------
@@ -220,15 +216,15 @@ function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
 }
 
 export function getServiceRuleConfigLink(id, ruleType) {
-  return getModifiedUrlStream(params => (params.pathname = getServiceExtractionRuleConfigPath(id, ruleType)));
+  return getModifiedUrlStream(location => (location.pathname = getServiceExtractionRuleConfigPath(id, ruleType)));
 }
 
 export function openServiceExtractionConfig(objectiveId, ruleType) {
-  mutateUrl(params => (params.pathname = getServiceExtractionRuleConfigPath(objectiveId, ruleType)));
+  mutateUrl(location => (location.pathname = getServiceExtractionRuleConfigPath(objectiveId, ruleType)));
 }
 
 export function openServiceExtractionConfigByDefinition(definition) {
-  mutateUrl(params => (params.pathname = definition.pathname));
+  mutateUrl(location => (location.pathname = definition.pathname));
 }
 // end service extraction ------------------------------------
 
@@ -247,14 +243,14 @@ function getDynamicRulesPath() {
 }
 
 export function openDynamicRules() {
-  mutateUrl(params => (params.pathname = getDynamicRulesPath()));
+  mutateUrl(location => (location.pathname = getDynamicRulesPath()));
 }
 
 export function openDynamicRule(id) {
-  mutateUrl(params => (params.pathname = getDynamicRulePath(id)));
+  mutateUrl(location => (location.pathname = getDynamicRulePath(id)));
 }
 
 export function getDynamicRuleLink(id) {
-  return getModifiedUrlStream(params => (params.pathname = getDynamicRulePath(id)));
+  return getModifiedUrlStream(location => (location.pathname = getDynamicRulePath(id)));
 }
 // end dynamic rules ---------------------------------------------

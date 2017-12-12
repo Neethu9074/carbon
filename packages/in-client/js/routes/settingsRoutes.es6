@@ -121,7 +121,7 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
     ) : null}
     {alertingEnabled ? (
-      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration;*" />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration" />
     ) : null}
     {alertingEnabled ? (
       <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />

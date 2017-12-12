@@ -49,10 +49,6 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 80,
-              right: 60
-            }}
             y1={{
               metrics: ['requests'],
               labels: ['Requests'],
@@ -72,10 +68,6 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
-            margins={{
-              left: 50,
-              right: 40
-            }}
             y1={{
               min: 0,
               metrics: ['conns_total'],
@@ -96,9 +88,6 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -136,9 +125,6 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
             <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 metrics: ['cpu_load'],
@@ -152,9 +138,6 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
             <Chart
               snapshotId={snapshot.get('id')}
               timeframe={timeframe}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 metrics: ['bytes_per_req'],

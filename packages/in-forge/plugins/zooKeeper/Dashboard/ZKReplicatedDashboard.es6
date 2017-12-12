@@ -17,9 +17,6 @@ export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
             key={peer}
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['peers.' + peer + '.tick'],

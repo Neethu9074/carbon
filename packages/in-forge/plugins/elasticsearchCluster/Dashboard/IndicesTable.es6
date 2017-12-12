@@ -8,7 +8,8 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  zeroDecimalPlaces
+  zeroDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 
 const cols = [
@@ -95,6 +96,7 @@ const cols = [
       getMetricName(row) {
         return `index.${row.name}.query_total`;
       },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'max';
       }
@@ -164,10 +166,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeframe={row.timeframe}
-      margins={{
-        left: 80,
-        right: 80
-      }}
       y1={{
         metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
         labels: ['Documents', 'Deletions'],

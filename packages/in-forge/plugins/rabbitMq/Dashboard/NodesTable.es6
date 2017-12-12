@@ -53,9 +53,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
             labels: ['Used file descriptors', 'Total file descriptors'],
@@ -65,9 +62,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -81,9 +75,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
             labels: ['Erlang processes in use', 'Maximum number of Erlang processes'],
@@ -94,9 +85,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,

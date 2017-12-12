@@ -24,9 +24,6 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: [
               'portalStatistics.averageTime',
@@ -52,9 +49,6 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['portalStatistics.requestCount', 'portalStatistics.successCount', 'portalStatistics.errorCount'],
             labels: ['Request Count', 'Success Count', 'Error Count'],

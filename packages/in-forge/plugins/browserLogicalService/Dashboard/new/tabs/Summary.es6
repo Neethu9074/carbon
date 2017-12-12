@@ -31,10 +31,6 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
     <DashboardTile title="SPA Route Views vs Route Transition Time">
       <Chart
         snapshotId={snapshotId}
-        margins={{
-          left: 60,
-          right: 60
-        }}
         y1={{
           min: 0,
           formatter: number.compact,
@@ -111,10 +107,6 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
       <DashboardTile title="Views vs Page Load Time">
         <Chart
           snapshotId={snapshotId}
-          margins={{
-            left: 60,
-            right: 60
-          }}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -146,9 +138,6 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <DashboardTile title="Errors" href$={getSubDashboardLink('/errors')}>
           <Chart
             snapshotId={snapshotId}
-            margins={{
-              left: 60
-            }}
             y1={{
               min: 0,
               formatter: number.compact,

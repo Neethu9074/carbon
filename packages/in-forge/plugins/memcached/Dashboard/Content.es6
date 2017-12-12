@@ -35,9 +35,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['cmd_get', 'cmd_set'],
             labels: ['Gets', 'Sets'],
@@ -50,9 +47,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['bytes_read', 'bytes_write'],
             labels: ['Bytes reads', 'Bytes writes'],
@@ -65,10 +59,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 60
-          }}
           y1={{
             metrics: ['get_hits', 'get_misses'],
             labels: ['Get hits', 'Get misses'],
@@ -89,10 +79,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 60
-          }}
           y1={{
             metrics: ['delete_hits', 'delete_misses'],
             labels: ['Delete hits', 'Delete misses'],
@@ -113,9 +99,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['cmd_flush'],
             labels: ['Flush'],
@@ -128,9 +111,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['evictions'],
             labels: ['Evictions'],
@@ -143,9 +123,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             max: maxBytes,
             metrics: ['bytes'],
@@ -159,9 +136,6 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['conn_connected', 'conn_queued', 'conn_yields'],

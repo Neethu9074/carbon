@@ -89,9 +89,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['webApps.' + row.key + '.activeSessions', 'webApps.' + row.key + '.createdSessions'],

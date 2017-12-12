@@ -27,9 +27,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['sess_conn', 'client_req', 'sess_dropped'],
             labels: [
@@ -46,10 +43,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['cache_hit', 'cache_miss', 'cache_hitpass'],
@@ -71,9 +64,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['n_expired', 'n_lru_nuked'],
@@ -87,10 +77,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -118,9 +104,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -143,9 +126,6 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['mse_bytes'],
               labels: ['Used Bytes'],

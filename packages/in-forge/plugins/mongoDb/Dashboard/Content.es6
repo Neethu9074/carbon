@@ -48,9 +48,6 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['documents.returned', 'documents.inserted', 'documents.updated', 'documents.deleted'],
             labels: ['Read', 'Inserted', 'Updated', 'Deleted'],
@@ -65,9 +62,6 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['connections'],

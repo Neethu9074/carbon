@@ -1,11 +1,12 @@
-import { setOrDeleteMatrixKey, navigationParameters$ } from 'in-stores/navigation';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilter',
-  observable: navigationParameters$.map(params => params.matrix.view || null).distinct()
+  observable: navigationParameters$.map(location => getMatrixParameter(location, '/events', 'view') || null).distinct()
 }).observable;
 
 export function setEventTypeFilter(filter) {
-  setOrDeleteMatrixKey('view', filter);
+  mutateUrl(location => setOrDeleteMatrixKey(location, '/events', 'view', filter));
 }

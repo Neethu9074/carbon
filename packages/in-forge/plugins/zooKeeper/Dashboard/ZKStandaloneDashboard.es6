@@ -11,10 +11,6 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['avg_request_latency'],
@@ -35,9 +31,6 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             min: 0,
             metrics: ['outstanding_requests'],
@@ -51,9 +44,6 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             min: 0,
             metrics: ['num_alive_connections'],
@@ -67,10 +57,6 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['packets_received'],

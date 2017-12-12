@@ -32,9 +32,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['master_cluster_requests'],
             labels: ['Cluster Requests'],
@@ -48,9 +45,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['stats_active_sinks', 'stats_active_sources'],
             labels: ['Active sinks', 'Active sources'],
@@ -64,10 +58,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             metrics: ['stats_pub_ops'],
             labels: ['Publish operations'],
@@ -88,10 +78,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40,
-            right: 40
-          }}
           y1={{
             metrics: ['stats_snap_ops'],
             labels: ['Snapshot operations'],
@@ -112,9 +98,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 40
-          }}
           y1={{
             metrics: ['rs_split_request_count', 'rs_split_success_count'],
             labels: ['Split requests', 'Split success'],
@@ -129,10 +112,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 40,
-              right: 40
-            }}
             y1={{
               metrics: ['rs_comp_queue_length'],
               labels: ['Compaction Queue Length'],
@@ -153,10 +132,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 40,
-              right: 40
-            }}
             y1={{
               metrics: ['rs_flush_queue_length'],
               labels: ['Flush Queue Length'],
@@ -179,10 +154,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 40,
-              right: 40
-            }}
             y1={{
               metrics: ['rs_store_file_count'],
               labels: ['Store File Count'],
@@ -203,10 +174,6 @@ export default function HBaseDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 40,
-              right: 40
-            }}
             y1={{
               metrics: ['rs_blk_cache_hit_count', 'rs_blk_cache_miss_count'],
               labels: ['Block Cache Hit', 'Block Cache Miss'],

@@ -17,7 +17,7 @@ const leftContent = [<TraceListHeader key="0" />, <TraceTable key="2" />];
 
 const rightContent = [
   <ViewHeader key="0">
-    <ToggleViewHeader key="0" expandedSide$={expandedSide$} toggleRight={toggleRight} onClear={clearTraceSelection} />,
+    <ToggleViewHeader key="0" expandedSide$={expandedSide$} toggleRight={toggleRight} onClear={clearTraceSelection} />
   </ViewHeader>,
   <TraceTree key="1" />
 ];
