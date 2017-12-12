@@ -153,7 +153,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Queued Requests">
+      <DashboardSection title="Queued Tasks">
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
@@ -174,7 +174,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
             type: 'stackedArea'
           }}
         />
-        <DashboardSection title="Rejected Requests">
+        <DashboardSection title="Rejected Tasks">
           <Chart
             snapshotId={snapshot.get('id')}
             timeframe={timeframe}
