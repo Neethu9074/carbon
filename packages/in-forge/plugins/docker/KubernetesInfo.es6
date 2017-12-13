@@ -1,32 +1,31 @@
 import React from 'react';
 
 import createNodeForContainerSubscription from 'in-services/subscription/nodeForContainer';
+import createPodForContainerSubscription from 'in-services/subscription/podForContainer';
 import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { getZone } from 'in-stores/zone';
 
 export default connectTo(
   props => {
-    const podSnapshotId$ = getZone(props.snapshot.get('id'));
     return {
-      podSnapshot: podSnapshotId$.flatMap(getSnapshot),
-      clusterSnapshot: podSnapshotId$.flatMap(
-        snapshotId =>
-          snapshotId
-            ? focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time })).flatMap(getSnapshot)
-            : alwaysNull
-      ),
+      podSnapshot: focusedMoment$
+        .flatMap(time => createPodForContainerSubscription({ snapshotId: props.snapshot.get('id'), time }))
+        .flatMap(getSnapshot),
+
       nodeSnapshot: focusedMoment$
         .flatMap(time => createNodeForContainerSubscription({ snapshotId: props.snapshot.get('id'), time }))
+        .flatMap(getSnapshot),
+
+      clusterSnapshot: focusedMoment$
+        .flatMap(time => createClusterForPodSubscription({ snapshotId: props.snapshot.get('id'), time }))
         .flatMap(getSnapshot)
     };
   },
@@ -62,14 +61,16 @@ export default connectTo(
                   <SnapshotLink snapshotId={podSnapshot.get('id')}>{getLabel(podSnapshot)}</SnapshotLink>
                 </DescriptionItem>
               ) : null}
-              {clusterSnapshot ? (
-                <DescriptionItem title="Cluster">
-                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
-                </DescriptionItem>
-              ) : null}
+
               {nodeSnapshot ? (
                 <DescriptionItem title="Node">
                   <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
+
+              {clusterSnapshot ? (
+                <DescriptionItem title="Cluster">
+                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
                 </DescriptionItem>
               ) : null}
               <DescriptionItem title="Restart Count">
