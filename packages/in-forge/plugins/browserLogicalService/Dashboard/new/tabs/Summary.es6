@@ -2,11 +2,11 @@ import React from 'react';
 
 import PageLoadBreakdownChart from 'in-forge/plugins/browserLogicalService/Dashboard/new/components/PageLoadBreakdownChart';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { number, seconds, percentage, millis } from 'in-services/formatters/number';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
-import { number, seconds, percentage, millis } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';

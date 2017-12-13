@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTraceViewFilteredByServiceInstanceStartingAtLink } from 'in-stores/navigation/search';
+import { getTraceViewFilteredByServiceInstanceStartingAtLink } from 'in-stores/navigation/paths/tracePaths';
 import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
 import { getNumberOfTracesStartingAtServiceInstance } from 'in-stores/traces';
 

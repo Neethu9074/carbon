@@ -2,11 +2,12 @@ import { createField, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
-import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { eumKeysView$ } from 'in-stores/navigation/paths/settingPaths';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
+import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import From from 'in-views/eumView/components/NewWebsite/Form';
 import { combineDataAndError } from 'in-services/util/ro';
-import { getDashboardLink } from 'in-stores/navigation';
 import { getSnapshot } from 'in-stores/snapshot';
 import { addKey } from 'in-services/api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
@@ -17,7 +18,7 @@ import './NewWebsite.less';
 const block = 'in-new-website';
 
 export default connectTo(
-  { eumKeysViewLink: eumKeysViewLink$ },
+  { eumKeysViewLink: eumKeysView$ },
   class NewWebsite extends React.PureComponent {
     constructor(props) {
       super(props);
@@ -60,7 +61,7 @@ export default connectTo(
               href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
                 to: null,
                 focusedMoment: null,
-                pathname: '/website/dashboard'
+                pathname: `${websitePath}/dashboard`
               })}
             />
           ) : null}

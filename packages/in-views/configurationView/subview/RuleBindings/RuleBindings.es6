@@ -7,13 +7,12 @@ import {
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
 import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-services/api/ruleBindings';
+import { bindingPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRuleBindingLink } from 'in-stores/navigation/configuration';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { openRuleBinding } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { formatDateTime } from 'in-services/formatters/date';
 import { close } from 'in-components/DialogPresenter/store';
@@ -21,6 +20,7 @@ import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRule } from 'in-services/api/rules';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -30,7 +30,11 @@ import './RuleBindings.less';
 const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
-const cols = [getLinkColumn(getRuleBindingLink, 'text'), getEnableToggleColumn(), getDeleteButtonColumn('text')];
+const cols = [
+  getLinkColumn(getEntityIdPath.bind(null, bindingPath), 'text'),
+  getEnableToggleColumn(),
+  getDeleteButtonColumn('text')
+];
 
 export default class extends React.Component {
   static displayName = 'RuleBindings';
@@ -95,7 +99,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openRuleBinding();
+    goToPath(bindingPath);
   };
 
   onDelete = ruleBinding => {

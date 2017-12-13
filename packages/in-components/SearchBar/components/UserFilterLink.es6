@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getCurrentViewWithFilter } from 'in-stores/navigation/search';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Link from 'in-components/Link';
 
 import './UserFilterLink.less';
@@ -13,4 +13,11 @@ export default function UserFilterLink({ filter, onClick }) {
       {filter.get('name')}
     </Link>
   );
+}
+
+function getCurrentViewWithFilter(filter) {
+  return getModifiedUrlStream(params => {
+    params.query.q = filter;
+    params.query.ss = '1';
+  });
 }

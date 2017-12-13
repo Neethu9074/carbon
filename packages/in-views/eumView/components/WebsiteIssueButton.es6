@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getEventsViewFilteredByEntity } from 'in-stores/navigation/navigation';
+import { getEventsViewFilteredByEntity } from 'in-stores/navigation/paths/eventPaths';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

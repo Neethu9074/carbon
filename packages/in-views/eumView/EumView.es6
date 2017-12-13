@@ -4,12 +4,13 @@ import React from 'react';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
+import { newWebsitePath } from 'in-stores/navigation/paths/mainPaths';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/eumView/stores/snapshots';
-import { getLinkToPath } from 'in-stores/navigation';
 import { isBlank } from 'in-services/util/string';
 import SearchBar from 'in-components/SearchBar';
+import { getView } from 'in-stores/navigation';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -49,7 +50,7 @@ export default connectTo(
 
     if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
       // data was loaded but there is no defined website
-      return <RedirectWithHash to="/website/new" />;
+      return <RedirectWithHash to={newWebsitePath} />;
     }
 
     return (
@@ -69,7 +70,7 @@ export default connectTo(
                     </div>
                     <div className={configureElement}>
                       {role.canConfigureEumApplications ? (
-                        <Link href$={getLinkToPath('/website/new')} className={configureElement}>
+                        <Link href$={getView(newWebsitePath)} className={configureElement}>
                           Add Website
                         </Link>
                       ) : null}

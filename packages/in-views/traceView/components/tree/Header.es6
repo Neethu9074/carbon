@@ -5,9 +5,9 @@ import ServiceImplementationEntityInformation from 'in-views/traceView/component
 import { getErrorCount, getDepth, getCalls, getPerCategorySummary } from 'in-views/traceView/util';
 import ServiceEntityInformation from 'in-views/traceView/components/ServiceEntityInformation';
 import TraceDownloadView from 'in-components/DownloadButton/components/TraceDownloadView';
-import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { isShowSelfTimeForCategory } from 'in-sdk/tracing';

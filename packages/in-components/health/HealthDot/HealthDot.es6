@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getEventsViewFilteredByEntity } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import { getEventsViewFilteredByEntity } from 'in-stores/navigation/navigation';
 import EventListing from 'in-components/EventListing';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

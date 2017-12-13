@@ -5,11 +5,11 @@ import { expandedSide$, toggleRight } from 'in-views/eventView/stores/expandedSi
 import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
+import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { clearSelectedEvent } from 'in-stores/navigation/view';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';

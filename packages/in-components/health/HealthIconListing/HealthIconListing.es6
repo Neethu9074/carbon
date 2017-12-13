@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getEventsViewFilteredByEntity } from 'in-stores/navigation/navigation';
+import { getEventsViewFilteredByEntity } from 'in-stores/navigation/paths/eventPaths';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import EventListing from 'in-components/EventListing';

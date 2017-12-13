@@ -7,7 +7,7 @@ import {
   getColorForEventAtFocusedMomentAsStream
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
-import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/view';
+import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';

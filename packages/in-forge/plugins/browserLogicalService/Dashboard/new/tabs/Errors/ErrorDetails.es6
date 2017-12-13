@@ -1,12 +1,12 @@
 import React from 'react';
 
 import ErrorBreakdownTable from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Errors/ErrorBreakdownTable';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import Notification from 'in-sdk/components/dashboard/Notification';

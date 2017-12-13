@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTimelineLiveUrl, getFixedTimeframeUrl } from 'in-stores/navigation/navigation';
+import { getTimeframeLiveUrl, getFixedTimeframeUrl } from 'in-stores/navigation/navigation';
 import { to$ } from 'in-components/timeline/timelineStore';
 import { live$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +24,7 @@ export default connectTo(
             focusedMoment: to
           })
         )
-      : getTimelineLiveUrl();
+      : getTimeframeLiveUrl();
 
     return (
       <Link className={`${block}__link`} href$={href$} onClick={e => e.stopPropagation()}>

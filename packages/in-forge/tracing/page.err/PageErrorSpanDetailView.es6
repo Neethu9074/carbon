@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/paths/tracePaths';
 import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/view';
 import Notification from 'in-sdk/components/traceDetails/Notification';
 import convertHexToLong from 'in-services/subscription/hexToLong';
 import Code from 'in-sdk/components/traceDetails/Code';

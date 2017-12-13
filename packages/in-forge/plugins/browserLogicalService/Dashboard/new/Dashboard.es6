@@ -6,6 +6,7 @@ import BreadcrumbForSnapshot from 'in-sdk/components/dashboard/breadcrumb/Breadc
 import { getTabs } from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/index';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import TabView from 'in-sdk/components/dashboard/TabView';
 
@@ -21,7 +22,7 @@ export default function BrowserLogicalServiceDashboard(props) {
           const hashes = props.snapshot.getIn(['data', 'service_endpoint_hashes']);
           const index = hashes.indexOf(pageHash);
           if (index === -1) {
-            return <RedirectWithHash to={'/website/dashboard'} />;
+            return <RedirectWithHash to={`${websitePath}/dashboard`} />;
           }
           const pageName = props.snapshot.getIn(['data', 'service_endpoints']).get(index);
           const pageBreadcrumb = <Breadcrumb href$={getSubDashboardLink(`/pages/${pageHash}`)}>{pageName}</Breadcrumb>;

@@ -19,8 +19,8 @@ import {
 } from 'in-stores/timeline';
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
+import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
-import { focusEvent } from 'in-stores/navigation/view';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
 

@@ -3,12 +3,12 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
-import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/navigation/timeline';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';

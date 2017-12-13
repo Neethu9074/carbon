@@ -2,17 +2,17 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import { getEntityIdPath, dynamicRulePath } from 'in-stores/navigation/paths/settingPaths';
 import { getDynamicRules, deleteDynamicRule } from 'in-services/api/dynamicRules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getDynamicRuleLink } from 'in-stores/navigation/configuration';
-import { openDynamicRule } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { goToPath } from 'in-stores/navigation';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
 import Tooltip from 'in-components/Tooltip';
@@ -21,7 +21,7 @@ import Button from 'in-components/Button';
 const logger = createLogger('DynamicRules');
 
 const cols = [
-  getLinkColumn(getDynamicRuleLink),
+  getLinkColumn(getEntityIdPath.bind(null, dynamicRulePath)),
   {
     title: 'Entity Type',
     type: 'string',
@@ -116,7 +116,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openDynamicRule();
+    goToPath(dynamicRulePath);
   };
 
   onDelete = rule => {

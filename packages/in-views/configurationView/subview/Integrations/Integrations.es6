@@ -1,16 +1,16 @@
 import React from 'react';
 
 import IntegrationsDetails from 'in-views/configurationView/subview/Integrations/components/IntegrationsDetails';
+import { goToIntegrationView, integrationPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntitiesOverview';
-import { openIntegration, getIntegrationLink } from 'in-stores/navigation/configuration';
 import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 
 export default function AlertingConfigurations() {
-  const cols = [getLinkColumn(getIntegrationLink, 'name'), getDeleteButtonColumn()];
+  const cols = [getLinkColumn(getEntityIdPath.bind(null, integrationPath), 'name'), getDeleteButtonColumn()];
 
   return (
     <BasicEntitiesOverview
@@ -34,7 +34,7 @@ function NewIntegrationDialog() {
       <IntegrationSwitch
         onClick={type => {
           close();
-          openIntegration(type);
+          goToIntegrationView(type);
         }}
       />
     </Dialog>
