@@ -16,20 +16,18 @@ import { getZone } from 'in-stores/zone';
 
 export default connectTo(
   props => {
-    const podSnapshotId = getZone(props.snapshot.get('id'));
+    const podSnapshotId$ = getZone(props.snapshot.get('id'));
     return {
-      podSnapshot: podSnapshotId.flatMap(id => (id ? getSnapshot(id) : alwaysNull)),
-      clusterSnapshot: podSnapshotId.flatMap(
+      podSnapshot: podSnapshotId$.flatMap(getSnapshot),
+      clusterSnapshot: podSnapshotId$.flatMap(
         snapshotId =>
           snapshotId
-            ? focusedMoment$
-                .flatMap(time => createClusterForPodSubscription({ snapshotId, time }))
-                .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+            ? focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time })).flatMap(getSnapshot)
             : alwaysNull
       ),
       nodeSnapshot: focusedMoment$
         .flatMap(time => createNodeForContainerSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+        .flatMap(getSnapshot)
     };
   },
   function KubernetesInfo({ snapshot, podSnapshot, clusterSnapshot, nodeSnapshot }) {
