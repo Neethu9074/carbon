@@ -67,7 +67,8 @@ global.window.instana.user = {
         canConfigureAgentRunMode: true,
         canViewAuditLog: true,
         canConfigureObjectives: true,
-        canConfigureAgents: true
+        canConfigureAgents: true,
+        canConfigureAuthenticationMethods: true
       },
       tenantKey: 'instana',
       name: 'instana',
