@@ -6,20 +6,17 @@ import createNodeForPodSubscription from 'in-services/subscription/nodeForPod';
 import createHostForPodSubscription from 'in-services/subscription/hostForPod';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  props => {
-    return {
-      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull)),
-      node: getNodeForPod(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull)),
-      host: getHostForPod(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
-    };
-  },
+  props => ({
+    cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot),
+    node: getNodeForPod(props.snapshot.get('id')).flatMap(getSnapshot),
+    host: getHostForPod(props.snapshot.get('id')).flatMap(getSnapshot)
+  }),
   function Info({ snapshot, cluster, node, host }) {
     const data = snapshot.get('data');
     return (
