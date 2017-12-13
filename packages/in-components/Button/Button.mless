@@ -12,6 +12,7 @@
     border-radius: 0.188rem;
     cursor: pointer;
     display: inline-block;
+    line-height: 1.1;
 
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 
