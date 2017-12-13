@@ -92,6 +92,10 @@ export function clearSelectedSnapshotId() {
 }
 
 export function getSnapshot(snapshotId, time) {
+  if (!snapshotId) {
+    return alwaysNull;
+  }
+
   if (time === undefined) {
     return focusedMoment$.flatMap(focusedMoment => createSnapshotObservable({ snapshotId, time: focusedMoment }));
   }
