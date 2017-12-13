@@ -20,3 +20,4 @@ import './TableStory';
 import './LinkStory';
 import './Descriptions';
 import './CodeEditor';
+import './KeyValuePopup';
