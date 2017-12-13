@@ -12,6 +12,7 @@ import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
+import LegacyView from 'in-components/LegacyView';
 import { getSingular } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -54,12 +55,14 @@ export default connectTo(
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
       return (
         <div className="in-dashboard">
+          <LegacyView />
           <LoadingIndicator type="dark" />
         </div>
       );
     } else if (!snapshot && showVersionSelector) {
       return (
         <div className="in-dashboard">
+          <LegacyView />
           <NotFoundDialog
             snapshotId={snapshotId}
             versionsForFocusedMoment={versionsForFocusedMoment}
@@ -84,6 +87,7 @@ export default connectTo(
 
       return (
         <div className="in-dashboard">
+          <LegacyView />
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
         </div>
@@ -95,6 +99,7 @@ export default connectTo(
 
     return (
       <div className="in-dashboard">
+        <LegacyView />
         <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={block}>
           <DetailPopupPresenter />

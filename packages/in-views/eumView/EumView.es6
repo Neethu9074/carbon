@@ -8,6 +8,7 @@ import { newWebsitePath } from 'in-stores/navigation/paths/mainPaths';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/eumView/stores/snapshots';
+import LegacyView from 'in-components/LegacyView';
 import { isBlank } from 'in-services/util/string';
 import SearchBar from 'in-components/SearchBar';
 import { getView } from 'in-stores/navigation';
@@ -25,6 +26,7 @@ const configureElement = `${headerElement}__configure`;
 
 const loadingState = (
   <Sticky header={<SearchBar />}>
+    <LegacyView />
     <div className={`${block}__wrapper`}>
       <div className={block}>
         <WebsiteHeading />
@@ -63,6 +65,8 @@ export default connectTo(
             <Sticky header={<SearchBar />}>
               <div className={`${block}__fullscreen-overview`}>
                 <Title title="Websites" />
+                <LegacyView />
+
                 <div className={block}>
                   <div className={headerElement}>
                     <div>

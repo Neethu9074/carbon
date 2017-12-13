@@ -10,6 +10,7 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -24,6 +25,7 @@ const rightContent = <EventDetails />;
 export default function EventView() {
   return (
     <Sticky header={<SearchBar />}>
+      <LegacyView />
       <Title title="Events" />
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
 
