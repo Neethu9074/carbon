@@ -8,6 +8,7 @@ import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
 import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import From from 'in-views/eumView/components/NewWebsite/Form';
 import { combineDataAndError } from 'in-services/util/ro';
+import LegacyView from 'in-components/LegacyView';
 import { getSnapshot } from 'in-stores/snapshot';
 import { addKey } from 'in-services/api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
@@ -42,6 +43,7 @@ export default connectTo(
     render() {
       return (
         <div className={block}>
+          <LegacyView />
           <Title title="New Website" />
 
           {this.state.saveResult == null ? (
