@@ -14,6 +14,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
 import LegacyView from 'in-components/LegacyView';
 import { getSingular } from 'in-sdk/pluginName';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
@@ -103,17 +104,18 @@ export default connectTo(
         <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={block}>
           <DetailPopupPresenter />
-          <DashboardHeader snapshotId={snapshotId} />
-          <DashboardJumpLabels snapshotId={snapshotId} />
-
-          <div className={`${block}__wrapper`}>
-            <div className={`${block}__sidebar`}>
-              <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+          <Sticky header={<DashboardHeader snapshotId={snapshotId} />}>
+            <div className={`${block}__wrapper`}>
+              <div className={`${block}__sidebar`}>
+                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+              </div>
+              <div className={`${block}__content`}>
+                <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
+                  <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+                </Sticky>
+              </div>
             </div>
-            <div className={`${block}__content`}>
-              <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-            </div>
-          </div>
+          </Sticky>
         </div>
       </div>
     );

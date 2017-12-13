@@ -42,8 +42,9 @@ export default connectTo(
           </div>
         }
       >
-        {tabs.length > 1 ? <NavigationTabs navigationParams={navigationParams} tabs={tabs} /> : null}
-        <NavigationRoutes tabs={tabs} props={props} />
+        <Sticky header={<NavigationTabs navigationParams={navigationParams} tabs={tabs} />}>
+          <NavigationRoutes tabs={tabs} props={props} />
+        </Sticky>
       </Sticky>
     );
   }

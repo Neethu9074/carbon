@@ -29,14 +29,12 @@ export default class extends React.Component {
   };
 
   componentDidMount() {
-    this.scrollElement = document.querySelector('.in-dashboard .in-dashboard-content__wrapper');
-
     this.setState({
-      top: this.scrollElement.scrollTop,
-      height: this.scrollElement.clientHeight
+      top: window.scrollY,
+      height: window.innerHeight
     });
 
-    this.scrollSubscription = on(this.scrollElement, 'scroll', { passive: true })
+    this.scrollSubscription = on(window, 'scroll', { passive: true })
       .throttle(200)
       .subscribe(this.onScroll);
     this.resizeSubscription = debouncedResize$.subscribe(this.onResize);
@@ -87,15 +85,15 @@ export default class extends React.Component {
 
   onResize = () => {
     this.setState({
-      top: this.scrollElement.scrollTop,
-      height: this.scrollElement.clientHeight
+      top: window.scrollY,
+      height: window.innerHeight
     });
     this.checkForNewElements();
   };
 
   onScroll = () => {
     this.setState({
-      top: this.scrollElement.scrollTop
+      top: window.scrollY
     });
   };
 
@@ -107,7 +105,7 @@ export default class extends React.Component {
 
   render() {
     if (this.state.sections.length === 0) {
-      return null;
+      return <ol className={block} />;
     }
 
     const top = this.state.top + wiggleRoom;
@@ -127,7 +125,7 @@ export default class extends React.Component {
                 [`${block}__item--in-view`]: isInView
               })}
               // subtract 43 to account for padding and overlays
-              onClick={() => (this.scrollElement.scrollTop = section.top - 43)}
+              onClick={() => window.scrollBy(0, section.top - 43)}
             >
               {section.label}
             </li>
