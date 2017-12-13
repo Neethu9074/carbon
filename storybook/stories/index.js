@@ -19,3 +19,4 @@ import './CodeStory';
 import './TableStory';
 import './LinkStory';
 import './Descriptions';
+import './CodeEditor';
