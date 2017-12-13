@@ -18,3 +18,4 @@ import './ParagraphStory';
 import './CodeStory';
 import './TableStory';
 import './LinkStory';
+import './Descriptions';
