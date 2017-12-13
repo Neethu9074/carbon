@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getColorPool } from 'in-services/util/ColorGenerator';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +23,7 @@ export default connectTo(
 
     return {
       otherSnapshot: getSnapshot(otherId),
-      otherZoneSnapshot: getZone(otherId).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+      otherZoneSnapshot: getZone(otherId).flatMap(getSnapshot)
     };
   },
   function ConnectionLine({ otherSnapshot, otherZoneSnapshot, connection, nodeIdWhereConnectionsBelongTo }) {
