@@ -8,6 +8,7 @@ let zIndex = 1;
 module.exports = {
   zIndex: {
     stickyHeader: (zIndex += 20),
+    timeline: zIndex++,
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
     tooltips: zIndex++,

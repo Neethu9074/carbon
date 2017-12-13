@@ -4,6 +4,7 @@ import invariant from 'invariant';
 import React from 'react';
 
 import { debouncedResize$ } from 'in-services/browser';
+import { getCoords } from 'in-services/util/dom';
 import theme from 'in-themes';
 
 export default class extends React.Component {
@@ -94,25 +95,6 @@ export default class extends React.Component {
 const Header = withSideEffect(reduceProps, after)(function Header({ children, setHeader }) {
   return <div ref={r => setHeader(r)}>{children}</div>;
 });
-
-// Calculate the position of an element relative to the document root;
-function getCoords(elem) {
-  const box = elem.getBoundingClientRect();
-
-  const body = document.body;
-  const docEl = document.documentElement;
-
-  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-  const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-
-  const clientTop = docEl.clientTop || body.clientTop || 0;
-  const clientLeft = docEl.clientLeft || body.clientLeft || 0;
-
-  const top = box.top + scrollTop - clientTop;
-  const left = box.left + scrollLeft - clientLeft;
-
-  return { top: Math.round(top), left: Math.round(left) };
-}
 
 function after(propList) {
   for (let i = 0, length = propList.length; i < length; i++) {

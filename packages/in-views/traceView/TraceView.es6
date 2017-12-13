@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { expandedSide$, toggleRight } from 'in-views/traceView/stores/expandedSide';
 import TraceListHeader from 'in-views/traceView/components/TraceListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
@@ -19,8 +20,8 @@ import './TraceView.less';
 
 const block = 'in-trace-view';
 
-const leftContent = <TraceTable />;
-const rightContent = <TraceTree />;
+const leftContent = <HeightRestrictedView render={() => <TraceTable />} />;
+const rightContent = <HeightRestrictedView render={() => <TraceTree />} />;
 
 export default function TraceView() {
   return (

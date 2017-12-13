@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { expandedSide$, toggleRight } from 'in-views/eventView/stores/expandedSide';
 import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
@@ -19,8 +20,8 @@ import './EventView.less';
 
 const block = 'in-event-view';
 
-const leftContent = <EventTable key="EventTable" />;
-const rightContent = <EventDetails />;
+const leftContent = <HeightRestrictedView render={() => <EventTable />} />;
+const rightContent = <HeightRestrictedView render={() => <EventDetails />} />;
 
 export default function EventView() {
   return (
