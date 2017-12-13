@@ -58,7 +58,10 @@ export default class MainScene extends SceneObject {
     super.initEvents();
 
     const shouldRenderSceneCallback = () => (this.shouldRenderScene = true);
-    this.addSubscriptions([frame$.subscribe(shouldRenderSceneCallback), debouncedResize$.subscribe(this.onResize)]);
+    this.addSubscriptions([
+      frame$.subscribe(shouldRenderSceneCallback),
+      debouncedResize$.subscribe(() => this.onResize())
+    ]);
 
     this.handleLostContext();
     this.handleAnimationFrames(0);

@@ -3,12 +3,12 @@ import React from 'react';
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-views/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-views/tableView/components/ChartsForSelectedEntities';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
+import RightHeader from 'in-views/tableView/components/RightHeader';
+import LeftHeader from 'in-views/tableView/components/LeftHeader';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/tableView/stores/snapshotIds';
-import Header from 'in-views/tableView/components/Header';
 import { getPlural } from 'in-sdk/pluginName';
-import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Table from 'in-components/Table';
 
@@ -51,18 +51,20 @@ export default connectTo(
     }
 
     return (
-      <Sticky header={<Header />}>
+      <div className={block}>
         <Table
           cols={cols}
           rows={rows}
           initialSortColumn={tableDefinition.initialSortColumn}
           initialSortDirection={tableDefinition.initialSortDirection}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
+          leftHeader={<LeftHeader />}
+          rightHeader={<RightHeader />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key)}
           maxItemsPerPage={50}
         />
-      </Sticky>
+      </div>
     );
   }
 );

@@ -14,6 +14,10 @@ import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
+import './EventView.less';
+
+const block = 'in-event-view';
+
 const leftContent = <EventTable key="EventTable" />;
 const rightContent = <EventDetails />;
 
@@ -34,12 +38,14 @@ export default function EventView() {
           />
         }
       >
-        <TwoColumnView
-          leftContent={leftContent}
-          rightContent={rightContent}
-          leftWidth="46rem"
-          expandedSide$={expandedSide$}
-        />
+        <div className={block}>
+          <TwoColumnView
+            leftContent={leftContent}
+            rightContent={rightContent}
+            leftWidth="46rem"
+            expandedSide$={expandedSide$}
+          />
+        </div>
       </Sticky>
 
       {DashboardNavigationRoute}
