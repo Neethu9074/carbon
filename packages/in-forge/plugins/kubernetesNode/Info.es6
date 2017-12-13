@@ -4,7 +4,6 @@ import createHostForNodeSubscription from 'in-services/subscription/hostForNode'
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -18,7 +17,7 @@ export default connectTo(
 
       hostSnapshot: focusedMoment$
         .flatMap(time => createHostForNodeSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
+        .flatMap(getSnapshot)
     };
   },
   function Info({ snapshot, zoneSnapshot, hostSnapshot }) {

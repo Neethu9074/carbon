@@ -19,7 +19,7 @@ export default connectTo(
     );
 
     return {
-      nodeSnapshot: nodeSnapshotId.flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull)),
+      nodeSnapshot: nodeSnapshotId.flatMap(getSnapshot),
 
       clusterSnapshot: nodeSnapshotId.flatMap(
         nodeSnapshotId =>

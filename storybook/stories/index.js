@@ -16,3 +16,8 @@ import './ComboBoxStory';
 import './HeaderStory';
 import './ParagraphStory';
 import './CodeStory';
+import './TableStory';
+import './LinkStory';
+import './Descriptions';
+import './CodeEditor';
+import './KeyValuePopup';

@@ -4,7 +4,6 @@ import createClusterForPodSubscription from 'in-services/subscription/clusterFor
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -13,7 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
   function Info({ snapshot, cluster }) {

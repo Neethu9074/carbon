@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-storiesOf('Paragraph', module).add('Common', () => <Paragraph />);
-storiesOf('Paragraph', module).add('Multiple', () => <Paragraphs />);
+storiesOf('Paragraph', module)
+  .add('Common', () => <Paragraph />)
+  .add('Multiple', () => <Paragraphs />);
 
 function Paragraph() {
   return (

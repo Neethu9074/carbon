@@ -8,7 +8,6 @@ import { getClusterMembers } from 'in-stores/clusterMembers';
 import HealthDot from 'in-components/health/HealthDot';
 import { getContext, getLabel } from 'in-sdk/snapshot';
 import { focusedMoment$ } from 'in-stores/timeline';
-import { nothing } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
@@ -42,8 +41,8 @@ export default connectTo(
 
 const Item = connectTo(
   props => ({
-    snapshot: props.snapshotId ? getSnapshot(props.snapshotId) : nothing,
-    additionalContextSnapshot: props.additionalContextFrom ? getSnapshot(props.additionalContextFrom) : nothing
+    snapshot: getSnapshot(props.snapshotId),
+    additionalContextSnapshot: getSnapshot(props.additionalContextFrom)
   }),
   function Item({ snapshot, additionalContextSnapshot }) {
     if (!snapshot) {

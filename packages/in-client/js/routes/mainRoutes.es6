@@ -1,4 +1,4 @@
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import {
@@ -26,10 +26,11 @@ import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import InternalViews from 'promise-loader?global,internal!in-internal';
 import GraphView from 'in-components/graphView/GraphView';
 import Cockpit from 'in-views/cockpit/Cockpit';
-import { Route } from 'react-router-dom';
 import AsciiMap from 'in-map/AsciiMap';
 import { role } from 'in-stores/user';
 import Map from 'in-map/index';
@@ -52,6 +53,10 @@ export default (
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents ? (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
+    ) : null}
+
+    {instanaInternalFeaturesEnabled ? (
+      <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
     ) : null}
 
     {/* landing page */}

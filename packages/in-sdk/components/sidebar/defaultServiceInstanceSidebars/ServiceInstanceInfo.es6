@@ -4,7 +4,6 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
@@ -14,10 +13,10 @@ import { getZone } from 'in-stores/zone';
 export default connectTo(
   props => {
     return {
-      serviceEntity: getZone(props.snapshotId).flatMap(id => (id ? getSnapshot(id) : alwaysNull)),
+      serviceEntity: getZone(props.snapshotId).flatMap(getSnapshot),
       physicalEntity: getClusterMembers(props.snapshotId)
         .map(clusterMembers => clusterMembers.first())
-        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+        .flatMap(getSnapshot)
     };
   },
   function ServiceInstanceInfo({ serviceEntity, physicalEntity }) {

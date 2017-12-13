@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { always, alwaysNull } from 'in-services/fixedStreams';
+import { always } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,7 +18,7 @@ export default connectTo(
       return {};
     }
     return {
-      snapshot: props.snapshotId ? getSnapshot(props.snapshotId, props.time) : alwaysNull
+      snapshot: getSnapshot(props.snapshotId, props.time)
     };
   },
   function EntityInformation({

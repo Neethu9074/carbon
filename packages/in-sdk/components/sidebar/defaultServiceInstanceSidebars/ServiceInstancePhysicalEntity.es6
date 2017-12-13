@@ -3,10 +3,9 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
@@ -17,7 +16,7 @@ export default connectTo(
     return {
       snapshot: getClusterMembers(props.snapshotId)
         .map(clusterMembers => clusterMembers.first())
-        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
+        .flatMap(getSnapshot)
     };
   },
   function ServiceInstancePhysicalEntity({ snapshot }) {
