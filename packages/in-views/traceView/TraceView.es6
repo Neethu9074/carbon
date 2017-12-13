@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
@@ -25,6 +26,16 @@ const rightContent = <HeightRestrictedView render={() => <TraceTree />} />;
 
 export default function TraceView() {
   return (
+    <Switch>
+      {DashboardNavigationRoute}
+
+      <Route path="/*" component={TraceViewInternal} />
+    </Switch>
+  );
+}
+
+function TraceViewInternal() {
+  return (
     <Sticky header={<SearchBar />}>
       <LegacyView />
       <Title title="Traces" />
@@ -50,8 +61,6 @@ export default function TraceView() {
           />
         </div>
       </Sticky>
-
-      {DashboardNavigationRoute}
     </Sticky>
   );
 }

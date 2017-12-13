@@ -1,3 +1,4 @@
+import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
@@ -25,6 +26,16 @@ const rightContent = <HeightRestrictedView render={() => <EventDetails />} />;
 
 export default function EventView() {
   return (
+    <Switch>
+      {DashboardNavigationRoute}
+
+      <Route path="/*" component={EventViewInternal} />
+    </Switch>
+  );
+}
+
+function EventViewInternal() {
+  return (
     <Sticky header={<SearchBar />}>
       <LegacyView />
       <Title title="Events" />
@@ -50,8 +61,6 @@ export default function EventView() {
           />
         </div>
       </Sticky>
-
-      {DashboardNavigationRoute}
     </Sticky>
   );
 }
