@@ -15,6 +15,10 @@
 
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+
     & + .button {
       margin-left: 0.5rem;
     }
