@@ -9,7 +9,7 @@ storiesOf('Table', module)
   .add('Simple', () => <Simple />)
   .add('Column Types', () => <Columns />)
   .add('With Details', () => <Details />)
-  .add('Paginated', () => <Paginated />);
+  .add('Pages', () => <Pages />);
 
 function SampleTable({ cols, getRowDetails, maxItemsPerPage }) {
   const rows = [1, 2, 3, 4, 5, 6].map(i => ({
@@ -157,7 +157,7 @@ function getRowDetails(row) {
   return <div>{row.details}</div>;
 }
 
-function Paginated() {
+function Pages() {
   const cols = [
     {
       title: 'String',
