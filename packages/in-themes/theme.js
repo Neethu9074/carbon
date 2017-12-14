@@ -28,9 +28,9 @@ module.exports = {
     messageFlyout: zIndex++
   },
   common: {
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif'
   },
-  fontFamilySansSerif: '-apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontFamilySansSerif: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif',
   fontFamilySerif: 'Georgia, "Times New Roman", Times, serif',
   fontFamilyMonospace: 'Menlo, Monaco, Consolas, "Courier New", monospace',
   chart: {
