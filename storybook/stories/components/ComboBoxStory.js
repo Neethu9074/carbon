@@ -3,7 +3,7 @@ import React from 'react';
 
 import ComboBox from 'in-components/ComboBox';
 
-storiesOf('ComboBox', module)
+storiesOf('components/ComboBox', module)
   .add('empty', () => <StatefullComboBox options={[]} />)
   .add('with entries', () => (
     <StatefullComboBox

@@ -3,7 +3,7 @@ import React from 'react';
 
 import Code from 'in-components/Code';
 
-storiesOf('Code', module)
+storiesOf('components/Code', module)
   .add('JSON', () => (
     <Code
       lang="json"

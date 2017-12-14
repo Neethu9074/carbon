@@ -40,9 +40,26 @@
   dependencies:
     "@storybook/addons" "^3.2.16"
 
-"@storybook/addons@^3.2.16":
-  version "3.2.16"
-  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-3.2.16.tgz#cbad5d9e8222aba3d5a5d06af98a095322f62cb5"
+"@storybook/addon-notes@^3.2.17":
+  version "3.2.17"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-notes/-/addon-notes-3.2.17.tgz#8c39a46249fae47dbed1338caf93aca05aa2f4a8"
+  dependencies:
+    "@storybook/addons" "^3.2.17"
+    babel-runtime "^6.26.0"
+    prop-types "^15.6.0"
+    util-deprecate "^1.0.2"
+  optionalDependencies:
+    "@types/react" "^16.0.20"
+
+"@storybook/addon-options@^3.2.17":
+  version "3.2.17"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-options/-/addon-options-3.2.17.tgz#1ca1de1f3cf8ac7ec99bcdd534d6e034f9ee4f20"
+  dependencies:
+    "@storybook/addons" "^3.2.17"
+
+"@storybook/addons@^3.2.16", "@storybook/addons@^3.2.17":
+  version "3.2.17"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-3.2.17.tgz#5c2ece24c5f7fbf7cedf4cfe503c5e356543e62d"
 
 "@storybook/channel-postmessage@^3.2.16":
   version "3.2.16"
@@ -199,6 +216,10 @@
 "@types/react@^16.0.18":
   version "16.0.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.25.tgz#bf696b83fe480c5e0eff4335ee39ebc95884a1ed"
+
+"@types/react@^16.0.20":
+  version "16.0.30"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.30.tgz#cca9b180160004df574519c3d7c559fb181d545f"
 
 Base64@~0.2.0:
   version "0.2.1"

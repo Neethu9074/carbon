@@ -3,7 +3,9 @@ import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
 
-storiesOf('Collapsible', module).add('simple', () => <Simple />);
+storiesOf('components/sdk/Collapsible', module)
+  .add('simple', () => <Simple />)
+  .add('multiple', () => <Multiple />);
 
 function Simple() {
   return (
@@ -15,8 +17,6 @@ function Simple() {
     </div>
   );
 }
-
-storiesOf('Collapsible', module).add('multiple', () => <Multiple />);
 
 function Multiple() {
   return (

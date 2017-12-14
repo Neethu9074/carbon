@@ -17,7 +17,7 @@ function sizeGetter() {
   );
 }
 
-storiesOf('Icons', module)
+storiesOf('components/Icons', module)
   .addDecorator(withKnobs)
   .add('Common', () => <SvgIconList />)
   .add('Plugin', () => <PluginIcons />);

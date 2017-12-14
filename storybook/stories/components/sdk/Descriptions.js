@@ -3,7 +3,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-storiesOf('Descriptions', module)
+storiesOf('components/sdk/Descriptions', module)
   .add('KV', () => <KV />)
   .add('Multiple', () => <Multiple />);
 

@@ -11,7 +11,7 @@ const headerLevel2 = (
   <div style={{height: `60px`, background: '#AA6C39'}}>Header Level 2</div>
 );
 
-storiesOf('Sticky', module)
+storiesOf('layout/Sticky', module)
   .add('Single Header', () => <SingleHeader />)
   .add('Double Header', () => <DoubleHeader />)
   .add('Double Header Idention', () => <DoubleHeaderIndention />);

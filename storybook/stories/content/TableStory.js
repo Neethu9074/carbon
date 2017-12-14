@@ -5,7 +5,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { always } from 'in-services/fixedStreams';
 import Table from 'in-components/Table';
 
-storiesOf('Table', module)
+storiesOf('content/Table', module)
   .add('Simple', () => <Simple />)
   .add('Column Types', () => <Columns />)
   .add('With Details', () => <Details />)

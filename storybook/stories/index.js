@@ -7,17 +7,20 @@ import './globals';
 // load all the plugins
 import 'in-forge';
 
-import './ButtonStory';
-import './SvgIconStory';
-import './BadgeStory';
-import './StickyStory';
-import './CollapsibleStory';
-import './ComboBoxStory';
-import './HeaderStory';
-import './ParagraphStory';
-import './CodeStory';
-import './TableStory';
-import './LinkStory';
-import './Descriptions';
-import './CodeEditor';
-import './KeyValuePopup';
+// structuring and order is inspired by (see navigation)
+// https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
+import './layout/StickyStory';
+
+import './content/TypographyStory';
+import './content/TableStory';
+
+import './components/BadgeStory';
+import './components/ButtonStory';
+import './components/CodeEditor';
+import './components/CodeStory';
+import './components/ComboBoxStory';
+import './components/IconStory';
+import './components/KeyValuePopup';
+import './components/sdk/CollapsibleStory';
+import './components/sdk/Descriptions';

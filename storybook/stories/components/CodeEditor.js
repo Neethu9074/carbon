@@ -4,7 +4,7 @@ import React from 'react';
 import EditAsJsonDialog from 'in-views/configurationView/subview/ServiceExtraction/components/EditAsJsonDialog';
 import Editor from 'in-components/Editor';
 
-storiesOf('CodeEditor', module)
+storiesOf('components/CodeEditor', module)
   .add('Simple', () => <JSON />)
   .add('Dialog', () => <Dialog />);
 

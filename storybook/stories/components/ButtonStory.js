@@ -9,7 +9,7 @@ import Button from 'in-components/Button';
 
 const onClick = action('click');
 
-storiesOf('Button', module)
+storiesOf('components/Button', module)
   .addDecorator(withKnobs)
   .add('Kinds', () => <Kinds />)
   .add('Sizes', () => <Sizes />)

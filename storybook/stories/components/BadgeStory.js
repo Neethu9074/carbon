@@ -3,7 +3,7 @@ import React from 'react';
 
 import Badge from 'in-components/Badge';
 
-storiesOf('Badge', module).add('sizes', () => <Sizes />);
+storiesOf('components/Badge', module).add('sizes', () => <Sizes />);
 
 function Sizes() {
   return (

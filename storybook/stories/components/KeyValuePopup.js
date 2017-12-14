@@ -5,7 +5,7 @@ import React from 'react';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 
-storiesOf('Key-Value-Popup', module).add('Common', () => <Simple />);
+storiesOf('components/KeyValuePopup', module).add('Common', () => <Simple />);
 
 function Simple() {
   return (
