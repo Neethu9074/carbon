@@ -6,8 +6,8 @@ const axisFontColor = '#2d4048';
 const softerAxisFontColor = '#8c969a';
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
-const axisFont = '10px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
-const smallerAxisFont = '9px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+const axisFont = '10px "Helvetica Neue", Helvetica, Arial, sans-serif';
+const smallerAxisFont = '9px "Helvetica Neue", Helvetica, Arial, sans-serif';
 const axisTickColor = '#ddd';
 
 export default function createAnimatableContentRenderer(config) {
