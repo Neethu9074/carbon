@@ -37,6 +37,7 @@ export default connectTo(
       error: false,
       message: null,
       userOverview: emptyMap,
+      userNameFilter: '',
       status: {}
     };
 
@@ -120,11 +121,22 @@ export default connectTo(
 
           {users.size > 0 ? (
             <Section>
-              <SectionHeading>Users</SectionHeading>
+              <div className={`${block}__heading`}>
+                <SectionHeading>Users</SectionHeading>
 
+                <div className={`${block}__right`}>
+                  <input
+                    className={`${block}__search`}
+                    type="search"
+                    value={this.state.userNameFilter}
+                    onChange={e => this.setState({ userNameFilter: e.target.value })}
+                  />
+                </div>
+              </div>
               <ul className={`${block}__users`}>
                 {users
                   .toArray()
+                  .filter(user => user.get('fullName').indexOf(this.state.userNameFilter) >= 0)
                   .sort((a, b) => a.get('fullName').localeCompare(b.get('fullName')))
                   .map(user => (
                     <li key={user.get('id')} className={`${block}__user`}>
