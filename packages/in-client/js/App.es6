@@ -13,7 +13,7 @@ import Sticky from 'in-components/Sticky';
 
 import routes from 'in-client/js/routes/mainRoutes';
 
-import './App.less';
+import 'in-themes/foundation.less';
 
 export default function App() {
   return (

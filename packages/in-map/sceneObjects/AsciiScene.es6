@@ -111,13 +111,13 @@ export default class AsciiScene extends SceneObject {
       canvas: this.canvas
     });
     renderer.autoClearColor = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(document.body.clientWidth, window.innerHeight);
     renderer.setClearColor(0x010101);
 
     const effect = (this.asciiEffect = new AsciiEffect(renderer, undefined, {
       invert: true
     }));
-    effect.setSize(window.innerWidth, window.innerHeight);
+    effect.setSize(document.body.clientWidth, window.innerHeight);
 
     const parent = document.getElementById('in-map');
     parent.removeChild(this.canvas);
@@ -137,7 +137,7 @@ export default class AsciiScene extends SceneObject {
   onWindowResize() {
     const offset = theme.footer.height + theme.header.height;
     const height = window.innerHeight - offset;
-    const width = window.innerWidth;
+    const width = document.body.clientWidth;
     const canvas = this.canvas;
 
     this.renderer.setSize(width, height);
