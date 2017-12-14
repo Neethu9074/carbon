@@ -4,6 +4,7 @@ import React from 'react';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { always } from 'in-services/fixedStreams';
 import Table from 'in-components/Table';
+import Root from '../_helpers/Root';
 
 storiesOf('content/Table', module)
   .add('Simple', () => <Simple />)
@@ -22,7 +23,11 @@ function SampleTable({ cols, getRowDetails, maxItemsPerPage }) {
     details: 'details…'
   }));
 
-  return <Table cols={cols} rows={rows} maxItemsPerPage={maxItemsPerPage} getRowDetails={getRowDetails} />;
+  return (
+    <Root>
+      <Table cols={cols} rows={rows} maxItemsPerPage={maxItemsPerPage} getRowDetails={getRowDetails} />
+    </Root>
+  );
 }
 
 function Simple() {

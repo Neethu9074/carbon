@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ComboBox from 'in-components/ComboBox';
+import Root from '../_helpers/Root';
 
 storiesOf('components/ComboBox', module)
   .add('empty', () => <StatefullComboBox options={[]} />)
@@ -20,13 +21,13 @@ class StatefullComboBox extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 250, padding: 8 }}>
+      <Root>
         <ComboBox
           value={this.state.value}
           options={this.props.options}
           onChange={e => this.setState({ value: e.value })}
         />
-      </div>
+      </Root>
     );
   }
 }

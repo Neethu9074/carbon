@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import Root from '../../_helpers/Root';
 
 storiesOf('components/sdk/Descriptions', module)
   .add('KV', () => <KV />)
@@ -9,17 +10,17 @@ storiesOf('components/sdk/Descriptions', module)
 
 function KV() {
   return (
-    <div style={{ padding: '1rem' }}>
+    <Root>
       <DescriptionList>
         <DescriptionItem title="Title">Value</DescriptionItem>
       </DescriptionList>
-    </div>
+    </Root>
   );
 }
 
 function Multiple() {
   return (
-    <div style={{ padding: '1rem' }}>
+    <Root>
       <DescriptionList>
         <DescriptionItem title="OS">Linux 3.13.0-133-generic (amd64)</DescriptionItem>
         <DescriptionItem title="CPU">8 x Intel Xeon E5-2670 v2 @ 2.50GHz</DescriptionItem>
@@ -27,6 +28,6 @@ function Multiple() {
         <DescriptionItem title="Hostname">0254d459-9fcb-49d6-8514-ab829f290a39</DescriptionItem>
         <DescriptionItem title="Started At">2017-10-18 22:05:21 (1mo 25d 2h 33m)</DescriptionItem>
       </DescriptionList>
-    </div>
+    </Root>
   );
 }

@@ -6,6 +6,7 @@ import React from 'react';
 import { kinds, sizes } from 'in-components/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Button from 'in-components/Button';
+import Root from '../_helpers/Root';
 
 const onClick = action('click');
 
@@ -24,7 +25,7 @@ function Kinds() {
   }
 
   return (
-    <div>
+    <Root>
 
       <h2>Without Modifiers</h2>
       <p>
@@ -73,32 +74,32 @@ function Kinds() {
           </Button>
         )}
       </p>
-    </div>
+    </Root>
   );
 }
 
 
 function Sizes() {
   return (
-    <div>
+    <Root>
       {sizes.map(size =>
         <Button size={size} onClick={onClick} key={size}>
           {size}
         </Button>
       )}
-    </div>
+    </Root>
   );
 }
 
 
 function Groups() {
   return (
-    <div>
+    <Root>
       <ButtonGroup>
         <Button>First</Button>
         <Button>Second</Button>
         <Button>Third</Button>
       </ButtonGroup>
-    </div>
+    </Root>
   );
 }

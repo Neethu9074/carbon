@@ -2,14 +2,15 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import Badge from 'in-components/Badge';
+import Root from '../_helpers/Root';
 
 storiesOf('components/Badge', module).add('sizes', () => <Sizes />);
 
 function Sizes() {
   return (
-    <div>
+    <Root>
       <Badge>default</Badge>
       <Badge size="sm">sm</Badge>
-    </div>
+    </Root>
   );
 }

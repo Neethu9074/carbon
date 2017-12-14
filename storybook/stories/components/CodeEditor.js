@@ -3,6 +3,7 @@ import React from 'react';
 
 import EditAsJsonDialog from 'in-views/configurationView/subview/ServiceExtraction/components/EditAsJsonDialog';
 import Editor from 'in-components/Editor';
+import Root from '../_helpers/Root';
 
 storiesOf('components/CodeEditor', module)
   .add('Simple', () => <JSON />)
@@ -13,16 +14,18 @@ const json =
 
 function JSON() {
   return (
-    <Editor
-      value={json}
-      options={{
-        mode: 'application/json',
-        styleActiveLine: true,
-        lineNumbers: true,
-        lint: true,
-        gutters: ['CodeMirror-lint-markers']
-      }}
-    />
+    <Root>
+      <Editor
+        value={json}
+        options={{
+          mode: 'application/json',
+          styleActiveLine: true,
+          lineNumbers: true,
+          lint: true,
+          gutters: ['CodeMirror-lint-markers']
+        }}
+      />
+    </Root>
   );
 }
 
