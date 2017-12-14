@@ -125,7 +125,7 @@ export default class extends React.Component {
                 [`${block}__item--in-view`]: isInView
               })}
               // subtract 43 to account for padding and overlays
-              onClick={() => window.scrollBy(0, section.top - 43)}
+              onClick={() => window.scrollTo(0, section.top - 43)}
             >
               {section.label}
             </li>
