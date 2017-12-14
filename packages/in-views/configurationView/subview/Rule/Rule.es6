@@ -6,8 +6,9 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
 import { getRule, saveRule, createRule } from 'in-services/api/rules';
 import Section from 'in-views/configurationView/components/Section';
-import { openRules } from 'in-stores/navigation/configuration';
+import { rulesPath } from 'in-stores/navigation/paths/settingPaths';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
 
@@ -21,7 +22,7 @@ export default function Rule(props) {
       createDefaultEntity={createRule}
       createForm={createForm}
       getEntityFromApi={getRule}
-      openEntities={openRules}
+      openEntities={() => goToPath(rulesPath)}
       saveEntity={save}
     />
   );

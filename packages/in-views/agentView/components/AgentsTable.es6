@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
@@ -10,7 +11,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getDashboardLink } from 'in-stores/navigation';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';

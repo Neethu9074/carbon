@@ -7,11 +7,10 @@ import {
   getColorForEventAtFocusedMomentAsStream
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
-import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/view';
+import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { selectedEventId$ } from 'in-stores/events';
@@ -76,55 +75,50 @@ const cols = [
   }
 ];
 
-export default getElementDimensions(
-  connectTo(
-    {
-      events: rawEventList$,
-      isInfiniteLoading: isLoading$,
-      selectedEventId: selectedEventId$
-    },
-    function EventTable({ selectedEventId, events, isInfiniteLoading, height }) {
-      if (!events) {
-        return <LoadingIndicator type="dark" />;
-      }
+export default connectTo(
+  {
+    events: rawEventList$,
+    isInfiniteLoading: isLoading$,
+    selectedEventId: selectedEventId$
+  },
+  function EventTable({ selectedEventId, events, isInfiniteLoading }) {
+    if (!events) {
+      return <LoadingIndicator type="dark" />;
+    }
 
-      if (!isInfiniteLoading && events.length === 0) {
-        return (
-          <div className={block}>
-            <p className={`${block}__no-events`}>There are no events in the selected time window.</p>
-          </div>
-        );
-      }
-
-      const rows = events.map(rawEvent => {
-        return {
-          key: rawEvent.id,
-          rawEvent,
-          isSelected: selectedEventId === rawEvent.id
-        };
-      });
-
+    if (!isInfiniteLoading && events.length === 0) {
       return (
         <div className={block}>
-          <LazyTable
-            cols={cols}
-            rows={rows}
-            loadMoreData={loadMoreRawEvents}
-            rowSubscriptions={row => ({
-              event: getEvent(row.key)
-            })}
-            sortBy$={sortBy$}
-            sortDirection$={sortDirection$}
-            furtherDataAvailable$={furtherDataAvailable$}
-            isLoading$={isLoading$}
-            onSortingChanged={setSortBy}
-            onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
-            maxHeight={height}
-          />
+          <p className={`${block}__no-events`}>There are no events in the selected time window.</p>
         </div>
       );
     }
-  )
+
+    const rows = events.map(rawEvent => {
+      return {
+        key: rawEvent.id,
+        rawEvent,
+        isSelected: selectedEventId === rawEvent.id
+      };
+    });
+
+    return (
+      <LazyTable
+        cols={cols}
+        rows={rows}
+        loadMoreData={loadMoreRawEvents}
+        rowSubscriptions={row => ({
+          event: getEvent(row.key)
+        })}
+        sortBy$={sortBy$}
+        sortDirection$={sortDirection$}
+        furtherDataAvailable$={furtherDataAvailable$}
+        isLoading$={isLoading$}
+        onSortingChanged={setSortBy}
+        onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
+      />
+    );
+  }
 );
 
 const Icon = connectTo(

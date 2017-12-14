@@ -5,12 +5,10 @@ import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/Bre
 import NavigationTabs from 'in-sdk/components/dashboard/TabView/components/NavigationTabs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { navigationParameters$ } from 'in-stores/navigation';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import invariant from 'invariant';
 
-import './TabView.less';
-
-const block = 'in-dashboard-tab-view';
 export default connectTo(
   {
     navigationParams: navigationParameters$
@@ -36,16 +34,18 @@ export default connectTo(
     }
 
     return (
-      <div className={block}>
-        {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-
-        <BreadcrumbHeader />
-
-        {tabs.length > 1 ? <NavigationTabs navigationParams={navigationParams} tabs={tabs} /> : null}
-        <div className={`${block}__content`}>
+      <Sticky
+        header={
+          <div>
+            {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+            <BreadcrumbHeader />
+          </div>
+        }
+      >
+        <Sticky header={<NavigationTabs navigationParams={navigationParams} tabs={tabs} />}>
           <NavigationRoutes tabs={tabs} props={props} />
-        </div>
-      </div>
+        </Sticky>
+      </Sticky>
     );
   }
 );

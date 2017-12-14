@@ -1,29 +1,5 @@
 @import '~in-themes/active.less';
-
-body {
-  font-family: @common__font-family;
-  // We are expecting that this always stays at 16px and that other components
-  // are not interested in the exact font size. The remaining parts of the
-  // application should be layouted using the rem unit to scale relative to
-  // the base font size and the users' zoom levels.
-  font-size: 16px;
-  color: #fcfcfc;
-  background: #0d1217;
-
-  // we are a fullscreen app and have dedicated scrollable areas
-  margin: 0;
-  overflow: hidden;
-  -webkit-font-smoothing: subpixel-antialiased;
-}
-
-a {
-  color: #2d4048;
-
-  &:hover,
-  &:active {
-    color: #8c969a;
-  }
-}
+@import '~in-themes/foundation.less';
 
 code {
   font-family: Monaco, Monospace;

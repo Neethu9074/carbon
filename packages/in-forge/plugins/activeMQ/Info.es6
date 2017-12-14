@@ -2,8 +2,8 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { emptyList } from 'in-services/fixedImmutables';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

@@ -15,7 +15,7 @@ export default connectTo(
   },
   function TwoColumnView({ leftContent, rightContent, leftWidth = '40rem', expandedSide }) {
     return (
-      <section className={block}>
+      <div className={block}>
         {expandedSide !== 'right' ? (
           <div
             className={`${block}__left`}
@@ -37,7 +37,7 @@ export default connectTo(
             {rightContent}
           </div>
         ) : null}
-      </section>
+      </div>
     );
   }
 );

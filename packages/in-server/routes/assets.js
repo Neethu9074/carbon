@@ -1,5 +1,7 @@
 const express = require('express');
 
+const clientConfig = require('../assets/config.json');
+const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = module.exports = express.Router();
@@ -9,6 +11,23 @@ const sendImmutableFilesConfig = {
     'Cache-Control': immutableCacheControlHeader
   }
 };
+
+
+// do not permit access to our internal chunk
+router.use('/bundle/internal.*.js', (req, res, next) => {
+  if (clientConfig.tenant !== 'instana') {
+    res.sendStatus(403);
+    return;
+  }
+
+  getCurrentUser(req).then(([statusCode]) => {
+    if (statusCode === 200) {
+      next();
+    } else {
+      res.sendStatus(403);
+    }
+  });
+});
 
 
 // assets directory will be populated with generated JavaScript during the build process.

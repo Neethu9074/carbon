@@ -7,9 +7,10 @@ import AgentNotificationsTable from 'in-views/agentView/components/AgentNotifica
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import { agentNotificationsEnabled } from 'in-services/featureFlags';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
+import SearchBar from 'in-components/SearchBar';
+import Sticky from 'in-components/Sticky';
 
 import './AgentView.less';
 
@@ -23,7 +24,7 @@ export default function AgentView() {
       <Route
         path="/agents"
         render={() => (
-          <FullscreenOverlayView>
+          <Sticky header={<SearchBar />}>
             <MaxWidthFullscreenContainer>
               <div className={block}>
                 <SnapshotLabel actions={[]}>Agents</SnapshotLabel>
@@ -34,7 +35,7 @@ export default function AgentView() {
                 {agentNotificationsEnabled ? <AgentNotificationsTable /> : null}
               </div>
             </MaxWidthFullscreenContainer>
-          </FullscreenOverlayView>
+          </Sticky>
         )}
       />
     </Switch>

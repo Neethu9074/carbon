@@ -1,20 +1,23 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import {
-  eventViewLink$,
-  traceViewLink$,
-  physicalTableViewLink$,
-  logicalTableViewLink$,
-  websiteViewLink$,
-  kubernetesViewLink$,
-  cockpitLink$
-} from 'in-stores/navigation/view';
-import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
+  eventsPath,
+  tracesPath,
+  physicalTablePath,
+  logicalPath,
+  physicalPath,
+  logicalTablePath,
+  containerPath,
+  websitePath,
+  cockpitPath,
+  isTableView
+} from 'in-stores/navigation/paths/mainPaths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import { cockpitEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
+import { cockpitEnabled } from 'in-services/featureFlags';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,110 +25,54 @@ import './ViewSwitcher.less';
 
 const block = 'in-view-switcher';
 
-export default connectTo(
-  {
-    viewActiveState: navigationParameters$.map(navigationParameters => {
-      const pathname = navigationParameters.pathname;
+export default function ViewSwitcher() {
+  return (
+    <div className={block}>
+      <ul className={block + '__list'}>
+        {cockpitEnabled ? (
+          <View label="cockpit" icon="dashboard" isActive$={isView(containerPath)} href$={getView(cockpitPath)} />
+        ) : null}
 
-      const isPhysicalTable = getMatrixParameter(navigationParameters, '/table', 'view') === 'physical';
-      const isLogicalTable = getMatrixParameter(navigationParameters, '/table', 'view') === 'logical';
-      const isTraceView = pathname.indexOf('/traces/search') === 0;
-      const isLogicalView = pathname.indexOf('/logical') === 0;
-      const isPhysicalView = pathname.indexOf('/physical') === 0;
-      const isContainerView = pathname.indexOf('/container') === 0;
-      const isEventView = pathname.indexOf('/events') === 0;
-      const isWebsiteView = pathname.indexOf('/website') === 0;
-      const isKubernetesView = pathname.indexOf('/kubernetes') === 0;
+        <View
+          label="infrastructure"
+          icon="infrastructure"
+          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+        >
+          <SubMenuItem
+            label="Map"
+            href$={getView(physicalPath)}
+            isActive$={combine(isView(physicalPath), isView(containerPath))}
+          />
+          <SubMenuItem
+            label="Comparison Table"
+            href$={getView(physicalTablePath)}
+            isActive$={isTableView('physical')}
+          />
+        </View>
 
-      return {
-        isLogicalTable,
-        isTraceView,
-        isLogicalView,
-        isPhysicalTable,
-        isPhysicalView,
-        isContainerView,
-        isEventView,
-        isWebsiteView,
-        isKubernetesView
-      };
-    })
-  },
-  class extends React.Component {
-    static displayName = 'ViewSwitcher';
+        <View
+          label="application"
+          icon="application"
+          isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
+        >
+          <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
+          <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
+          <SubMenuItem label="Comparison Table" href$={getView(logicalTablePath)} isActive$={isTableView('logical')} />
+        </View>
 
-    shouldComponentUpdate(nextProps) {
-      const viewActiveState = this.props.viewActiveState;
-      const nextViewActiveState = nextProps.viewActiveState;
-      return (
-        viewActiveState.isLogicalTable !== nextViewActiveState.isLogicalTable ||
-        viewActiveState.isTraceView !== nextViewActiveState.isTraceView ||
-        viewActiveState.isLogicalView !== nextViewActiveState.isLogicalView ||
-        viewActiveState.isPhysicalTable !== nextViewActiveState.isPhysicalTable ||
-        viewActiveState.isPhysicalView !== nextViewActiveState.isPhysicalView ||
-        viewActiveState.isContainerView !== nextViewActiveState.isContainerView ||
-        viewActiveState.isEventView !== nextViewActiveState.isEventView ||
-        viewActiveState.isLogsView !== nextViewActiveState.isLogsView ||
-        viewActiveState.isWebsiteView !== nextViewActiveState.isWebsiteView ||
-        viewActiveState.isKubernetesView !== nextViewActiveState.isKubernetesView
-      );
-    }
+        <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
 
-    render() {
-      const { viewActiveState } = this.props;
-
-      const {
-        isLogicalTable,
-        isTraceView,
-        isLogicalView,
-        isPhysicalTable,
-        isPhysicalView,
-        isContainerView,
-        isEventView,
-        isWebsiteView,
-        isKubernetesView
-      } = viewActiveState;
-
-      return (
-        <div className={block}>
-          <ul className={block + '__list'}>
-            {cockpitEnabled ? (
-              <View label="cockpit" icon="dashboard" isActive={isContainerView} href$={cockpitLink$} />
-            ) : null}
-
-            <View
-              label="infrastructure"
-              icon="infrastructure"
-              isActive={isPhysicalView || isPhysicalTable || isContainerView}
-            >
-              <SubMenuItem label="Map" href$={physicalViewLink$} isActive={isPhysicalView || isContainerView} />
-              <SubMenuItem label="Comparison Table" href$={physicalTableViewLink$} isActive={isPhysicalTable} />
-            </View>
-
-            <View label="application" icon="application" isActive={isLogicalView || isTraceView || isLogicalTable}>
-              <SubMenuItem label="Map" href$={logicalViewLink$} isActive={isLogicalView} />
-              <SubMenuItem label="Trace" href$={traceViewLink$} isActive={isTraceView} />
-              <SubMenuItem label="Comparison Table" href$={logicalTableViewLink$} isActive={isLogicalTable} />
-            </View>
-
-            <View label="Websites" icon="globe" href$={websiteViewLink$} isActive={isWebsiteView} />
-
-            {kubernetesEnabled ? (
-              <View label="Kubernetes" icon="kubernetes" href$={kubernetesViewLink$} isActive={isKubernetesView} />
-            ) : null}
-
-            <IncidentsMenuPoint isActive={isEventView} />
-          </ul>
-        </div>
-      );
-    }
-  }
-);
+        <IncidentsMenuPoint />
+      </ul>
+    </div>
+  );
+}
 
 const IncidentsMenuPoint = connectTo(
   {
     events: openEventsAtServerTime$
   },
-  function IncidentsMenuPoint({ events, isActive }) {
+  function IncidentsMenuPoint({ events }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
     let color = '#22d8d8';
@@ -136,6 +83,14 @@ const IncidentsMenuPoint = connectTo(
       color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
     }
 
-    return <View label={title} icon="danger_sign" href$={eventViewLink$} color={color} isActive={isActive} />;
+    return (
+      <View label={title} icon="danger_sign" href$={getView(eventsPath)} color={color} isActive$={isView(eventsPath)} />
+    );
   }
 );
+
+function combine() {
+  var args = Array.from(arguments);
+  // the observable should return true, if any of the given streams returns true
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a | b, false)));
+}

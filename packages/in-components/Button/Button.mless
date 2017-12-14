@@ -1,9 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+
   .button {
     color: black;
-    font-family: @common__font-family;
+    font-family: @font-family-sans-serif;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
@@ -11,8 +12,13 @@
     border-radius: 0.188rem;
     cursor: pointer;
     display: inline-block;
+    line-height: 1.1;
 
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
 
     & + .button {
       margin-left: 0.5rem;

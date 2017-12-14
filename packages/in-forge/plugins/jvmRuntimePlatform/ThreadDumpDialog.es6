@@ -3,7 +3,7 @@ import React from 'react';
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import CenterAlignment from 'in-components/layout/CenterAlignment';
-import DialogNotification from 'in-components/DialogNotification';
+import DashboardNotification from 'in-components/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
@@ -44,7 +44,7 @@ export default connectTo(
         {!response ? <LoadingIndicator type="dark" /> : null}
 
         {response && response.error ? (
-          <DialogNotification type="danger">Error: {response.error}</DialogNotification>
+          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
         ) : null}
 
         {response && response.data ? <Code code={response.data} id={codeTargetId} /> : null}

@@ -15,11 +15,11 @@ export default class extends React.Component {
 
   render() {
     const props = this.props;
-    const { cols, rows, maxHeight } = props;
+    const { cols, rows } = props;
     this.calculateDynamicColumnDimensions(cols);
 
     return (
-      <div className={block} style={{ maxHeight }}>
+      <div className={block}>
         <Columns {...props} />
 
         <div className={`${block}__content`}>

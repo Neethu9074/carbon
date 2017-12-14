@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import { buildUrlStream } from 'in-stores/navigation';
+import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { getView } from 'in-stores/navigation/navigation';
 
 export default function WebsiteViewBreadcrumb() {
-  return <Breadcrumb href$={buildUrlStream({ path: '/agents' })}>Agents</Breadcrumb>;
+  return <Breadcrumb href$={getView(agentsPath)}>Agents</Breadcrumb>;
 }

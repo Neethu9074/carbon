@@ -1,8 +1,36 @@
 .in-two-columns-view-view-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   height: 2.25rem;
   background: #40535b;
+
+  &__left,
+  &__right {
+    height: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  &__toggle-left {
+    margin: 0.063rem 0 0 0.625rem;
+  }
+
+  &__toggle-right {
+    margin: 0.063rem 0.625rem 0 0;
+  }
+
+  &__toggle-left,
+  &__toggle-right {
+    cursor: pointer;
+
+    path {
+      fill: #d5dfe4;
+    }
+
+    &:hover path {
+      fill: #fff;
+    }
+  }
 }

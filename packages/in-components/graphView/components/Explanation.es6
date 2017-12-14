@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { goToPhysicalView } from 'in-stores/navigation';
+import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
+import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Button from 'in-components/Button';
 import Link from 'in-components/Link';
@@ -41,7 +42,7 @@ export default function Explanation() {
       </p>
 
       <p>
-        <Button onClick={goToPhysicalView}>Close Graph</Button>
+        <Button onClick={() => goToPath(physicalPath)}>Close Graph</Button>
       </p>
     </div>
   );

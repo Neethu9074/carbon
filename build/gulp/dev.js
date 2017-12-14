@@ -94,20 +94,6 @@ gulp.task('askForDevOptions', cb => {
             groundskeeperUrl: 'https://instana.io',
             butlerDomain: 'instana.io'
           }
-        },
-        {
-          name: 'demo',
-          value: {
-            groundskeeperUrl: 'https://demo-groundskeeper-instana.instana.io',
-            butlerDomain: 'demo-groundskeeper-instana.instana.io'
-          }
-        },
-        {
-          name: 'internal',
-          value: {
-            groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
-            butlerDomain: 'internal-groundskeeper-instana.instana.io'
-          }
         }
       ],
       when(answers) {

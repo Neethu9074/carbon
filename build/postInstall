@@ -19,6 +19,7 @@ linkModule in-hoc
 linkModule in-client
 linkModule in-charts
 linkModule in-views
+linkModule in-internal
 linkModule roemitter
 linkModule instalog
 linkModule reactive-observables

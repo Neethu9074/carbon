@@ -2,22 +2,22 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import { rolesConfigPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRoles, deleteRole } from 'in-services/api/roles';
-import { getRoleConfigLink } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import { openRoleConfig } from 'in-stores/navigation/configuration';
+import { getRoles, deleteRole } from 'in-services/api/roles';
 import Notification from 'in-components/form/Notification';
 import { emptySet } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
 const logger = createLogger('RolesConfig');
 
-const cols = [getLinkColumn(getRoleConfigLink), getDeleteButtonColumn()];
+const cols = [getLinkColumn(getEntityIdPath.bind(null, rolesConfigPath)), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'RolesConfig';
@@ -116,7 +116,7 @@ export default class extends React.Component {
 
   addNewRole = () => {
     this.disposeAsyncAction();
-    openRoleConfig();
+    goToPath(rolesConfigPath);
   };
 
   onDelete = role => {

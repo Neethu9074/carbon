@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
-import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh, traces$ } from 'in-views/traceView/stores/traceList';
 import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import Count from 'in-views/traceView/components/Count';
@@ -19,7 +18,7 @@ export default connectTo(
   },
   function TraceListHeader() {
     return (
-      <ViewHeader className={block}>
+      <div className={block}>
         <div className={`${block}__left-side`}>
           <strong className={`${block}__count`}>
             Traces <Count count$={totalTraceCountActiveFilter$} />
@@ -33,7 +32,7 @@ export default connectTo(
             toggleAutoUpdate={toggleAutoUpdate}
           />
         </div>
-      </ViewHeader>
+      </div>
     );
   }
 );

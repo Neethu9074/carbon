@@ -7,9 +7,9 @@ import {
   getEventType,
   EVENT_TYPES
 } from 'in-stores/events';
+import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
-import { focusEvent } from 'in-stores/navigation/view';
 import { Row, Col } from 'in-components/Grid/Grid';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

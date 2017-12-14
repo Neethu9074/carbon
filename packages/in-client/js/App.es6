@@ -8,8 +8,8 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import SearchBar from 'in-components/SearchBar';
 import AppHeader from 'in-components/AppHeader';
+import Sticky from 'in-components/Sticky';
 
 import routes from 'in-client/js/routes/mainRoutes';
 
@@ -18,13 +18,15 @@ import './App.less';
 export default function App() {
   return (
     <ErrorBoundary name="app">
-      <ErrorBoundary name="app-header">
-        <AppHeader />
-      </ErrorBoundary>
-
-      <ErrorBoundary name="search-bar">
-        <SearchBar />
-      </ErrorBoundary>
+      <Sticky
+        header={
+          <ErrorBoundary name="app-header">
+            <AppHeader />
+          </ErrorBoundary>
+        }
+      >
+        <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+      </Sticky>
 
       <ErrorBoundary name="timeline">
         <Timeline />
@@ -48,8 +50,6 @@ export default function App() {
         {/* all the different dialogs e.g. in the settings */}
         <DialogPresenter />
       </ErrorBoundary>
-
-      <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
     </ErrorBoundary>
   );
 }

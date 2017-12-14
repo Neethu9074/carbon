@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getConnectedEntities } from 'in-stores/connectedEntities';
 import EntityInformation from 'in-components/EntityInformation';
-import { getDashboardLink } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';

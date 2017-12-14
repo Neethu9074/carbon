@@ -4,11 +4,12 @@ import React from 'react';
 
 import AlertingConfigurationForm from 'in-views/configurationView/subview/AlertingConfiguration/AlertingConfigurationForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-services/api/alertingConfiguration';
+import { alertingConfigurationPath } from 'in-stores/navigation/paths/settingPaths';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { openAlertingConfigurations } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
 
@@ -22,7 +23,7 @@ export default function AlertingConfiguration(props) {
       createDefaultEntity={createAlertingConfig}
       createForm={createForm}
       getEntityFromApi={getAlertingConfig}
-      openEntities={openAlertingConfigurations}
+      openEntities={() => goToPath(alertingConfigurationPath)}
       saveEntity={save}
     />
   );

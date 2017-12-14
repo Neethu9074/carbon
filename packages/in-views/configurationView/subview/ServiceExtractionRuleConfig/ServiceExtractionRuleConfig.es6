@@ -12,11 +12,11 @@ import {
 } from 'in-services/api/serviceExtraction';
 import ServiceExtractionRuleConfigForm from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
 import { typeDefinitions } from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/types';
-import { openServiceExtractionConfigByDefinition } from 'in-stores/navigation/configuration';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
@@ -311,7 +311,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(() => openServiceExtractionConfigByDefinition(typeDefinition));
+    this.responseSubscription = result$.once(() => goToPath(typeDefinition.pathname));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save service extraction rule: ${error.message}`;

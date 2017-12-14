@@ -1,4 +1,5 @@
-import { getModifiedUrlStream, getActiveView } from 'in-stores/navigation';
+import { getActiveView } from 'in-stores/navigation/paths/mainPaths';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 
 export function getSubDashboardLink(subViewPath) {
   return getModifiedUrlStream(params => {

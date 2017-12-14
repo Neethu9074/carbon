@@ -31,7 +31,8 @@ function Kinds() {
         {kinds.map(kind =>
           <Button kind={kind}
                   key={kind}
-                  onClick={onClick}>
+                  onClick={onClick}
+                  href={href}>
             {kind}
           </Button>
         )}
@@ -40,7 +41,7 @@ function Kinds() {
       <h2>Disabled</h2>
       <p>
         {kinds.map(kind =>
-          <Button kind={kind} disabled key={kind}>
+          <Button kind={kind} disabled key={kind} href={href}>
             {kind}
           </Button>
         )}

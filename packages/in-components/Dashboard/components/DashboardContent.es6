@@ -2,7 +2,6 @@ import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView/FullscreenOverlayView';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
@@ -13,9 +12,11 @@ import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
+import LegacyView from 'in-components/LegacyView';
 import { getSingular } from 'in-sdk/pluginName';
-import Title from 'in-components/Title';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
 
 import './DashboardContent.less';
@@ -54,19 +55,21 @@ export default connectTo(
   }) {
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
       return (
-        <FullscreenOverlayView className="in-dashboard">
+        <div className="in-dashboard">
+          <LegacyView />
           <LoadingIndicator type="dark" />
-        </FullscreenOverlayView>
+        </div>
       );
     } else if (!snapshot && showVersionSelector) {
       return (
-        <FullscreenOverlayView className="in-dashboard">
+        <div className="in-dashboard">
+          <LegacyView />
           <NotFoundDialog
             snapshotId={snapshotId}
             versionsForFocusedMoment={versionsForFocusedMoment}
             versionsForLive={versionsForLive}
           />
-        </FullscreenOverlayView>
+        </div>
       );
     }
 
@@ -84,10 +87,11 @@ export default connectTo(
       const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
 
       return (
-        <FullscreenOverlayView className="in-dashboard in-dashboard--without-custom-scrolling">
+        <div className="in-dashboard">
+          <LegacyView />
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-        </FullscreenOverlayView>
+        </div>
       );
     }
 
@@ -95,23 +99,25 @@ export default connectTo(
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
     return (
-      <FullscreenOverlayView className="in-dashboard">
+      <div className="in-dashboard">
+        <LegacyView />
         <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={block}>
           <DetailPopupPresenter />
-          <DashboardHeader snapshotId={snapshotId} />
-          <DashboardJumpLabels snapshotId={snapshotId} />
-
-          <div className={`${block}__wrapper`}>
-            <div className={`${block}__sidebar`}>
-              <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+          <Sticky header={<DashboardHeader snapshotId={snapshotId} />}>
+            <div className={`${block}__wrapper`}>
+              <div className={`${block}__sidebar`}>
+                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+              </div>
+              <div className={`${block}__content`}>
+                <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
+                  <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+                </Sticky>
+              </div>
             </div>
-            <div className={`${block}__content`}>
-              <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-            </div>
-          </div>
+          </Sticky>
         </div>
-      </FullscreenOverlayView>
+      </div>
     );
   }
 );

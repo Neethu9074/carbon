@@ -1,4 +1,4 @@
-import { goToRootOfView, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen } from 'in-stores/navigation';
+import { goToRootOfView, navigationParameters$, closeCurrentHelpIfOpen } from 'in-stores/navigation';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { activeDialog$, close } from 'in-components/DialogPresenter/store';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
@@ -36,7 +36,7 @@ function checkIfDashboardisOpen() {
 }
 
 function checkIfSidebarInMapisOpen() {
-  return 'snapshotId' in navigationParameters.query && navigationParameters.pathname !== PATH_NAMES.DASHBOARD;
+  return 'snapshotId' in navigationParameters.query && navigationParameters.pathname !== '/dasboard';
 }
 
 function checkIfHelpTextIsOpen() {

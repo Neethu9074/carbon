@@ -1,7 +1,8 @@
 .in-timeline-menu-event-line {
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   align-items: center;
 
   padding: 3px 20px 5px 5px;
@@ -10,13 +11,5 @@
   background: rgba(45, 64, 72, 1);
   border-bottom: 1px solid #43565e;
   box-sizing: border-box;
-
-  &--with-additional-content {
-    justify-content: space-between;
-  }
-
-  &__counter {
-    color: #80939c;
-    margin-left: 5px;
-  }
+  color: #80939c;
 }

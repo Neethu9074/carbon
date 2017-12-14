@@ -1,6 +1,0 @@
-{
-  "name": "FullscreenOverlayView",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./FullscreenOverlayView.es6"
-}

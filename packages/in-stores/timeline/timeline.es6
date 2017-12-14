@@ -2,8 +2,8 @@ import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
 import rpt from 'prop-types';
 
+import { getModifiedUrlStream, mutateUrl, navigationParameters$ } from 'in-stores/navigation/navigation';
 import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';
@@ -174,3 +174,20 @@ export const bigBangTimestamp = createTrackingStore({
 }).observable;
 
 export const bigBangTimestamp$ = bigBangTimestamp;
+
+export function getCurrentViewWithTimelineFocusedAt(moment) {
+  return timeframe$.flatMap(({ to, windowSize }) => {
+    if (to) {
+      to = moment + windowSize / 2;
+    } else {
+      to = '';
+    }
+    moment = moment == null ? '' : String(moment);
+
+    return getModifiedUrlStream(params => {
+      params.query['timeline.to'] = to;
+      params.query['timeline.fm'] = moment;
+      params.query['timeline.ws'] = windowSize;
+    });
+  });
+}

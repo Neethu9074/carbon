@@ -1,6 +1,8 @@
+import theme from 'in-themes';
+
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
-export const font = '10px "Helvetica Neue", Helvetica, Arial, sans-serif';
+export const font = `10px ${theme.fontFamilySansSerif}`;
 
 export const darkColorTransparent = 'rgba(45, 64, 72, 0)';
 export const darkColor = '#2d4048'; // 'rgba(45, 64, 72, 1)';

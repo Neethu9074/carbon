@@ -2,7 +2,6 @@ import React from 'react';
 
 import { setEventTypeFilter, eventFilter$ } from 'in-views/eventView/stores/eventFilterStore';
 import { toggleAutoUpdate, autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
-import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import { refresh } from 'in-views/eventView/stores/rawEventListStore';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
@@ -18,7 +17,7 @@ export default connectTo(
   },
   function EventListHeader({ activeFilter }) {
     return (
-      <ViewHeader className={block}>
+      <div className={block}>
         <div className={`${block}__left-side`}>
           <EventFilter activeFilter={activeFilter}>All</EventFilter>
           <EventFilter activeFilter={activeFilter} filter="incident">
@@ -39,7 +38,7 @@ export default connectTo(
             toggleAutoUpdate={toggleAutoUpdate}
           />
         </div>
-      </ViewHeader>
+      </div>
     );
   }
 );
