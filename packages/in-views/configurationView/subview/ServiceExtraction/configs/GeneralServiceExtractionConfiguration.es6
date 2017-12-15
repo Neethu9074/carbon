@@ -39,9 +39,9 @@ export const helpTexts = defaults(
     matchesHelp: (
       <span>
         Select here which attributes should be used to match and extract a service. At least one match expression is
-        required. Currently supported is matching tags of a host, labels of Docker containers and labels and application
-        id for Marathon hosted containers. Host tags are split by <code>=</code> or <code>:</code> into a key value
-        pair.
+        required. Currently supported is matching tags of a host, labels of Docker containers, labels and application id
+        for Marathon hosted containers and task name and job name for Nomad hosted containers. Host tags are split by{' '}
+        <code>=</code> or <code>:</code> into a key value pair.
       </span>
     )
   },
@@ -64,6 +64,14 @@ export const matchSpecificationOptionsTree = [
   {
     label: 'Marathon Label',
     value: 'marathon.label'
+  },
+  {
+    label: 'Nomad Task Name',
+    value: 'nomad.taskName'
+  },
+  {
+    label: 'Nomad Job Name',
+    value: 'nomad.jobName'
   }
 ];
 
@@ -172,6 +180,32 @@ export const matchSpecificationOptions = {
         )
       }
     }
+  },
+  'nomad.taskName': {
+    titleName: 'Nomad Task Name',
+    placeholder: '(.*)',
+    testPlaceholder: 'task-name',
+    initialValue: '(.*)',
+    help: (
+      <span>
+        Define a regular expression to match Nomad task name. Capture groups from matches of this regular expression are
+        available in the service name field via the prefix <code>nomad.taskName</code>, e.g.{' '}
+        <code>{'{nomad.taskName-1}'}</code> references the first capture group.
+      </span>
+    )
+  },
+  'nomad.jobName': {
+    titleName: 'Nomad Job Name',
+    placeholder: '(.*)',
+    testPlaceholder: 'job-name',
+    initialValue: '(.*)',
+    help: (
+      <span>
+        Define a regular expression to match Nomad job name. Capture groups from matches of this regular expression are
+        available in the service name field via the prefix <code>nomad.jobName</code>, e.g.{' '}
+        <code>{'{nomad.jobName-1}'}</code> references the first capture group.
+      </span>
+    )
   }
 };
 
