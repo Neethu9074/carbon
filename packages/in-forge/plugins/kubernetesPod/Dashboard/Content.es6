@@ -64,7 +64,7 @@ export default function KubernetesPodDashboard({ snapshot }) {
       </KpiSection>
 
       <DashboardSection title="Containers">
-        <ContainerTable snapshotId={snapshotId} />
+        <ContainerTable snapshotId={snapshotId} snapshot={snapshot} />
       </DashboardSection>
     </div>
   );
@@ -76,13 +76,16 @@ const ContainerTable = connectTo(
       .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
-  function ContainerTable({ snapshotId, containerSnapshots }) {
+  function ContainerTable({ snapshotId, snapshot, containerSnapshots }) {
     let rows = [];
     if (containerSnapshots) {
       rows = containerSnapshots.map(containerSnapshot => ({
         key: containerSnapshot.get('id'),
-        state: containerSnapshot.getIn(['data', 'scheduling', `state`], ''),
         uid: containerSnapshot.getIn(['data', 'Id']),
+        state: snapshot.getIn(
+          ['data', `containers.data.docker://${containerSnapshot.getIn(['data', 'Id'])}.state`],
+          ''
+        ),
         snapshotId
       }));
     }

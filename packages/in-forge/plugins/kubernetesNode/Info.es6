@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createClusterForNodeSubscription from 'in-services/subscription/clusterForNode';
 import createHostForNodeSubscription from 'in-services/subscription/hostForNode';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
@@ -14,13 +15,13 @@ export default connectTo(
   props => {
     return {
       zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot),
-
       hostSnapshot: focusedMoment$
         .flatMap(time => createHostForNodeSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(getSnapshot)
+        .flatMap(getSnapshot),
+      clusterSnapshot: getClusterForNode(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, zoneSnapshot, hostSnapshot }) {
+  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot }) {
     const data = snapshot.get('data');
 
     return (
@@ -36,6 +37,12 @@ export default connectTo(
           </DescriptionItem>
         ) : null}
 
+        {clusterSnapshot ? (
+          <DescriptionItem title="Cluster">
+            <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+          </DescriptionItem>
+        ) : null}
+
         <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
         <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
@@ -45,3 +52,7 @@ export default connectTo(
     );
   }
 );
+
+function getClusterForNode(snapshotId) {
+  return focusedMoment$.flatMap(time => createClusterForNodeSubscription({ snapshotId, time }));
+}
