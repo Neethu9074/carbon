@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createDeploymentForPodSubscription from 'in-services/subscription/deploymentForPod';
 import createNodeForContainerSubscription from 'in-services/subscription/nodeForContainer';
 import createPodForContainerSubscription from 'in-services/subscription/podForContainer';
 import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
@@ -15,21 +16,16 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
+    const podForContainer = getPodForContainer(props.snapshot.get('id'));
     return {
-      podSnapshot: focusedMoment$
-        .flatMap(time => createPodForContainerSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(getSnapshot),
-
-      nodeSnapshot: focusedMoment$
-        .flatMap(time => createNodeForContainerSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(getSnapshot),
-
-      clusterSnapshot: focusedMoment$
-        .flatMap(time => createClusterForPodSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(getSnapshot)
+      podSnapshot: podForContainer.flatMap(getSnapshot),
+      deploymentSnapshot: podForContainer.flatMap(podId => getDeploymentForPod(podId).flatMap(getSnapshot)),
+      nodeSnapshot: getNodeForContainer(props.snapshot.get('id')).flatMap(getSnapshot),
+      clusterSnapshot: getClusterForContainer(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function KubernetesInfo({ snapshot, podSnapshot, clusterSnapshot, nodeSnapshot }) {
+
+  function KubernetesInfo({ snapshot, podSnapshot, deploymentSnapshot, nodeSnapshot, clusterSnapshot }) {
     const labels = snapshot.getIn(['data', 'Labels']);
     if (!labels || labels.size === 0) {
       return null;
@@ -62,6 +58,12 @@ export default connectTo(
                 </DescriptionItem>
               ) : null}
 
+              {deploymentSnapshot ? (
+                <DescriptionItem title="Deployment">
+                  <SnapshotLink snapshotId={deploymentSnapshot.get('id')}>{getLabel(deploymentSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
+
               {nodeSnapshot ? (
                 <DescriptionItem title="Node">
                   <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
@@ -89,3 +91,16 @@ export default connectTo(
     );
   }
 );
+
+function getPodForContainer(snapshotId) {
+  return focusedMoment$.flatMap(time => createPodForContainerSubscription({ snapshotId, time }));
+}
+function getDeploymentForPod(snapshotId) {
+  return focusedMoment$.flatMap(time => createDeploymentForPodSubscription({ snapshotId, time }));
+}
+function getNodeForContainer(snapshotId) {
+  return focusedMoment$.flatMap(time => createNodeForContainerSubscription({ snapshotId, time }));
+}
+function getClusterForContainer(snapshotId) {
+  return focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time }));
+}
