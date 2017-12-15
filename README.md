@@ -1,4 +1,4 @@
-# ui-client &nbsp; [![Build Status](https://dev-jenkins.instana.io/job/ui-client/job/develop/badge/icon)](https://dev-jenkins.instana.io/job/ui-client/job/develop/) [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+# ui-client &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
