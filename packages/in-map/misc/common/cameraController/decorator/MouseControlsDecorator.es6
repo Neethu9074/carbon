@@ -79,7 +79,7 @@ export default class MouseControlDecorator extends Decorator {
         this.zoom(15 * event.scrollSpeed * event.scrollDirection);
       }),
 
-      combineLatest([eventBus.on('zoomLevelChanged'), debouncedResize$]).subscribe(() => {
+      combineLatest([eventBus.on('zoomLevelChanged'), debouncedResize$.startWith(null)]).subscribe(() => {
         const widthInPx = domElement.width;
         const cameraWidth = camera.right - camera.left;
         eventBus.emit('worldUnitsToPx', widthInPx / cameraWidth);
