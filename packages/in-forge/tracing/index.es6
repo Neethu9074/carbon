@@ -79,6 +79,7 @@ import './py.http';
 import './quartz';
 import './rabbitmq';
 import './rack';
+import './ratpack';
 import './redis';
 import './render';
 import './resteasy';
