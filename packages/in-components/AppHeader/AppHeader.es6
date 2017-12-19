@@ -2,6 +2,8 @@ import React from 'react';
 
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
+import { homePath } from 'in-stores/navigation/paths/mainPaths';
+import { goToPath } from 'in-stores/navigation/navigation';
 import Lettering from 'in-components/Lettering';
 import Link from 'in-components/Link';
 
@@ -12,7 +14,7 @@ const block = 'in-app-header';
 export default function AppHeader() {
   return (
     <div className={block}>
-      <Link href="/" className={`${block}__lettering`}>
+      <Link onClick={() => goToPath(homePath)} className={`${block}__lettering`}>
         <Lettering />
       </Link>
 
