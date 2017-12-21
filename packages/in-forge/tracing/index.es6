@@ -33,6 +33,7 @@ import './gcd';
 import './gcs';
 import './grizzly';
 import './hc';
+import './hc.nio';
 import './hibernate';
 import './hornetq';
 import './http';
