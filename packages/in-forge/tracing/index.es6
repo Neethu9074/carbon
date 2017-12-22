@@ -13,6 +13,7 @@ import './camel';
 import './cassandra';
 import './corba';
 import './cxf.client';
+import './cxf.server';
 import './django';
 import './dynamodb';
 import './ehcache';
