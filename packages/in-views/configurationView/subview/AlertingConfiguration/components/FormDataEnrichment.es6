@@ -65,7 +65,7 @@ function search(timeOpened, eventTypes, query) {
       .map(type => `event.type:${type}`)
       .join(' OR ');
     if (query) {
-      query += ` AND (${eventTypesQueryPart})`;
+      query = `(${query}) AND (${eventTypesQueryPart})`;
     } else {
       query = eventTypesQueryPart;
     }
