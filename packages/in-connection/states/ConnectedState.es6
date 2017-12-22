@@ -1,4 +1,4 @@
-import AbstractState from 'in-services/connection/states/AbstractState';
+import AbstractState from 'in-connection/states/AbstractState';
 
 export default class ConnectedState extends AbstractState {
   onEnter() {

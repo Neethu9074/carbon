@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import SockJS from 'sockjs-client';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import AbstractState from 'in-services/connection/states/AbstractState';
+import AbstractState from 'in-connection/states/AbstractState';
 import { combineDataAndError } from 'in-services/util/ro';
 import { isSignedIn } from 'in-services/api/account';
 import { isSafari } from 'in-services/browser';

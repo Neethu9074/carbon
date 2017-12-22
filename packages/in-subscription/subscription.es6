@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { connection } from 'in-services/connection';
+import { connection } from 'in-connection';
 
 export default function({
   eventId,

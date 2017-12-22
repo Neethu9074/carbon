@@ -1,6 +1,6 @@
 import { createLogger } from 'instalog';
 
-import { AbstractState } from 'in-services/fsm';
+import { AbstractState } from 'in-connection/fsm';
 
 const logger = createLogger('connection/states/AbstractState');
 

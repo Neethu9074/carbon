@@ -85,7 +85,7 @@ global.requestAnimationFrame = fn => fn();
 global.window.requestAnimationFrame = global.requestAnimationFrame;
 
 // many tests import a whole bunch of modules and at some point this always
-// ends up in in-services/connection (which requirs WebSocket globals).
+// ends up in in-connection (which requirs WebSocket globals).
 global.window.WebSocket = function() {
   this.send = function() {};
   this.close = function() {};

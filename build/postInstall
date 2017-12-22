@@ -10,6 +10,7 @@ echo "Symlinking node modules to node_modules to enable shorter require paths"
 linkModule in-charts
 linkModule in-client
 linkModule in-components
+linkModule in-connection
 linkModule in-forge
 linkModule in-hoc
 linkModule in-internal

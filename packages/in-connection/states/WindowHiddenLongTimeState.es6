@@ -1,6 +1,6 @@
-import AbstractState from 'in-services/connection/states/AbstractState';
+import AbstractState from 'in-connection/states/AbstractState';
 
-export default class WindowHiddenState extends AbstractState {
+export default class WindowHiddenLongTimeState extends AbstractState {
   onEnter() {
     if (!window.document.hidden) {
       this.transitionTo('connected');
@@ -9,16 +9,17 @@ export default class WindowHiddenState extends AbstractState {
 
     this.on('close', this.onClose);
     window.document.addEventListener('visibilitychange', this.onVisibilityChange, false);
-    this.timerHandle = setTimeout(
-      this.onHiddenForLongTime,
-      this.sharedState.timeUntilDisposingSubscriptionsForHiddenUi
-    );
+
+    this.sharedState.subscriptions.forEach(subscriptionDescription => {
+      if (subscriptionDescription.disposeSubscriptionOnDocumentHidden) {
+        this.sendUnsubscribeWhenNecessary(subscriptionDescription);
+      }
+    });
   }
 
   onLeave() {
     this.off('close', this.onClose);
     window.document.removeEventListener('visibilitychange', this.onVisibilityChange, false);
-    clearTimeout(this.timerHandle);
   }
 
   sendSubscribeWhenNecessary(subscriptionDescription) {
@@ -35,9 +36,5 @@ export default class WindowHiddenState extends AbstractState {
     if (!window.document.hidden) {
       this.transitionTo('connected');
     }
-  };
-
-  onHiddenForLongTime = () => {
-    this.transitionTo('windowHiddenLongTime');
   };
 }

@@ -3,16 +3,14 @@
 !/packages/in-forge/tracing/log.log4j
 !/packages/in-forge/tracing/log.log4j2
 
-node_modules
+/node_modules
 /target
 /storybookTarget
 /tmp
-
-.npmrc
-git-env.properties
-
 /packages/in-themes/active*
 /packages/in-server/node_modules
 /packages/in-server/serverConfig.json
 
+.npmrc
+git-env.properties
 /licenses.txt
