@@ -3,7 +3,7 @@ import { createLogger } from 'instalog';
 import rpt from 'prop-types';
 
 import { getModifiedUrlStream, mutateUrl, navigationParameters$ } from 'in-stores/navigation/navigation';
-import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
+import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';

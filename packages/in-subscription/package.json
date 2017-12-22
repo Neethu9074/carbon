@@ -1,0 +1,9 @@
+{
+  "name": "in-subscription",
+  "version": "1.0.0",
+  "description": "Subscription mechanism",
+  "main": "index.es6",
+  "author": "Ben Ripkens <ben@instana.com>",
+  "license": "UNLICENSED",
+  "private": true
+}

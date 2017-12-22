@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 
 import { clearExpansionState } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/expandedNodes';
-import subscribeToAgentResponse from 'in-services/subscription/agentResponse';
+import subscribeToAgentResponse from 'in-subscription/agentResponse';
 import { selectedSnapshotId$ } from 'in-stores/snapshot';
 import { createStore } from 'in-stores/store';
 

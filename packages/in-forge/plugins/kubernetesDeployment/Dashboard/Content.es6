@@ -7,7 +7,7 @@ import {
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import createPodsForDeploymentSubscription from 'in-services/subscription/podsForDeployment';
+import createPodsForDeploymentSubscription from 'in-subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';

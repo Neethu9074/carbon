@@ -1,8 +1,8 @@
-import createDynamicAggregatedMetricObservable from 'in-services/subscription/dynamicAggregatedMetric';
-import createTimeWindowMetricAggregation from 'in-services/subscription/timeWindowMetricAggregation';
-import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
-import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
-import createLiveMetricObservable from 'in-services/subscription/liveMetric';
+import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
+import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
+import createHistoricMetricsObservable from 'in-subscription/historicMetrics';
+import createHistoricMetricObservable from 'in-subscription/historicMetric';
+import createLiveMetricObservable from 'in-subscription/liveMetric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';

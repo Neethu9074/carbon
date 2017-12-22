@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { containerPath, logicalPath } from 'in-stores/navigation/paths/mainPaths';
-import createViewStructureObservable from 'in-services/subscription/view';
+import createViewStructureObservable from 'in-subscription/view';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { createTrackingStore } from 'in-stores/store';

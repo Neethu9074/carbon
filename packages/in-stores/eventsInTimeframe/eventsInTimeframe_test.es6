@@ -22,7 +22,7 @@ describe('in-stores/eventsInTimeframe', () => {
     timeframe$ = create();
     query$ = create();
     mod = proxyquire('in-stores/eventsInTimeframe/eventsInTimeframe', {
-      'in-services/subscription/eventsInTimeframe': {
+      'in-subscription/eventsInTimeframe': {
         default: () => eventsInTimeframeFromBackend$
       },
       'in-stores/timeline': {

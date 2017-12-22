@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getAgentSnapshotId from 'in-services/subscription/getAgentSnapshotId';
+import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';

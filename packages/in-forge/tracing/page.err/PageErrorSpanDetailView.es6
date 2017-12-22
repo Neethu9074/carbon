@@ -4,7 +4,7 @@ import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/paths/tracePa
 import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Notification from 'in-sdk/components/traceDetails/Notification';
-import convertHexToLong from 'in-services/subscription/hexToLong';
+import convertHexToLong from 'in-subscription/hexToLong';
 import Code from 'in-sdk/components/traceDetails/Code';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { physicalPath, logicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
-import createSearchSubscription from 'in-services/subscription/search';
+import createSearchSubscription from 'in-subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { isView } from 'in-stores/navigation/navigation';
 import { debouncedQuery$ } from 'in-stores/search/query';

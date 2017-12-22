@@ -1,6 +1,6 @@
-import getDockerSnapshotIdByContainerIdInternal from 'in-services/subscription/getDockerSnapshotIdByContainerId';
-import getProcessCompanionsInternal from 'in-services/subscription/getProcessCompanions';
-import getHostCompanionsInternal from 'in-services/subscription/getHostCompanions';
+import getDockerSnapshotIdByContainerIdInternal from 'in-subscription/getDockerSnapshotIdByContainerId';
+import getProcessCompanionsInternal from 'in-subscription/getProcessCompanions';
+import getHostCompanionsInternal from 'in-subscription/getHostCompanions';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 
 export function getHostCompanions(snapshotId) {

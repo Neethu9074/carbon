@@ -1,6 +1,6 @@
 import React from 'react';
 
-import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
 
 export function supportsCodeView() {

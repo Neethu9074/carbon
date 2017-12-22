@@ -1,4 +1,4 @@
-import getLogicalConnectionsInternal from 'in-services/subscription/getLogicalConnections';
+import getLogicalConnectionsInternal from 'in-subscription/getLogicalConnections';
 import { focusedMoment$ } from 'in-stores/timeline';
 
 export default function getLogicalConnections({ snapshotId }) {

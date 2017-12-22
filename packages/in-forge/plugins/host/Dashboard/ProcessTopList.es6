@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import getProcessSnapshotIdForPid from 'in-services/subscription/processSnapshotIdForPid';
+import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';

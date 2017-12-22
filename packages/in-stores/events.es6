@@ -1,9 +1,9 @@
 import { Map } from 'immutable';
 
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
-import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
-import createHealthInfoSubscription from 'in-services/subscription/healthInfo';
-import createEventObservable from 'in-services/subscription/event';
+import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
+import createHealthInfoSubscription from 'in-subscription/healthInfo';
+import createEventObservable from 'in-subscription/event';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { emptyList } from 'in-services/fixedImmutables';

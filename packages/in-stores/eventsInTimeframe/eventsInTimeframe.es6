@@ -1,6 +1,6 @@
 import { create, combineLatest } from 'reactive-observables';
 
-import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
+import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';

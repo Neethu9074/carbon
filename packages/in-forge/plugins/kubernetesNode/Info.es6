@@ -1,7 +1,7 @@
 import React from 'react';
 
-import createClusterForNodeSubscription from 'in-services/subscription/clusterForNode';
-import createHostForNodeSubscription from 'in-services/subscription/hostForNode';
+import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
+import createHostForNodeSubscription from 'in-subscription/hostForNode';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';

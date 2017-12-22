@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import createContainersForPodSubscription from 'in-services/subscription/containersForPod';
+import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';

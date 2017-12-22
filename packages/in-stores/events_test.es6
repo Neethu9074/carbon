@@ -54,7 +54,7 @@ describe('in-stores/events', () => {
     getEventUpdatesResult = create();
     getEventUpdates.returns(getEventUpdatesResult);
     mod = proxyquire('in-stores/events', {
-      'in-services/subscription/event': { default: () => getEvent$ },
+      'in-subscription/event': { default: () => getEvent$ },
       'in-stores/timeline': {
         timeframe$,
         from$,
@@ -62,9 +62,9 @@ describe('in-stores/events', () => {
         focusedMoment$,
         resolvedFocusedMoment$
       },
-      'in-services/subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
-      'in-services/subscription/events': { default: getEvents },
-      'in-services/subscription/healthInfo': { default: () => healthInfo$ },
+      'in-subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
+      'in-subscription/events': { default: getEvents },
+      'in-subscription/healthInfo': { default: () => healthInfo$ },
       'in-stores/serverTime': { serverTime$ },
       'in-services/stores/highlightedEntityId': {
         setHighlightedEntityId() {},

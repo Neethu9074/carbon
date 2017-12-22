@@ -1,9 +1,9 @@
 import React from 'react';
 
-import createDeploymentForPodSubscription from 'in-services/subscription/deploymentForPod';
-import createNodeForContainerSubscription from 'in-services/subscription/nodeForContainer';
-import createPodForContainerSubscription from 'in-services/subscription/podForContainer';
-import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
+import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
+import createNodeForContainerSubscription from 'in-subscription/nodeForContainer';
+import createPodForContainerSubscription from 'in-subscription/podForContainer';
+import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';

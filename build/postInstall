@@ -7,19 +7,20 @@ linkModule() {
 }
 
 echo "Symlinking node modules to node_modules to enable shorter require paths"
-linkModule in-services
-linkModule in-sdk
-linkModule in-forge
-linkModule in-map
-linkModule in-themes
-linkModule in-components
-linkModule in-test
-linkModule in-stores
-linkModule in-hoc
-linkModule in-client
 linkModule in-charts
-linkModule in-views
+linkModule in-client
+linkModule in-components
+linkModule in-forge
+linkModule in-hoc
 linkModule in-internal
+linkModule in-map
+linkModule in-sdk
+linkModule in-services
+linkModule in-stores
+linkModule in-subscription
+linkModule in-test
+linkModule in-themes
+linkModule in-views
 linkModule roemitter
 linkModule instalog
 linkModule reactive-observables

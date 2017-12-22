@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 import React from 'react';
 
-import getEventsInTimeframeSubscription from 'in-services/subscription/eventsInTimeframe';
+import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';

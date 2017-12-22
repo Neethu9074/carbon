@@ -1,8 +1,8 @@
 import React from 'react';
 
-import createClusterForPodSubscription from 'in-services/subscription/clusterForPod';
+import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import createNodeForHostSubscription from 'in-services/subscription/nodeForHost';
+import createNodeForHostSubscription from 'in-subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';

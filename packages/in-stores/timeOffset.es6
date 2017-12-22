@@ -1,4 +1,4 @@
-import createTimestampObservable from 'in-services/subscription/timestamp';
+import createTimestampObservable from 'in-subscription/timestamp';
 import { connection } from 'in-services/connection';
 import { createStore } from 'in-stores/store';
 

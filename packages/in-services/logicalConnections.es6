@@ -1,4 +1,4 @@
-import createLogicalConnectionsSubscription from 'in-services/subscription/logicalConnections';
+import createLogicalConnectionsSubscription from 'in-subscription/logicalConnections';
 import { focusedMoment$ } from 'in-stores/timeline';
 
 export function getLogicalConnections(snapshotId) {

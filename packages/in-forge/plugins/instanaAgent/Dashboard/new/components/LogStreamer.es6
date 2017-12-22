@@ -2,7 +2,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';

@@ -1,6 +1,6 @@
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
-import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 
 export default {
   initialSortColumn: 0,

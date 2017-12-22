@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import getUiDebuggingInstructions from 'in-services/subscription/getUiDebuggingInstructions';
+import getUiDebuggingInstructions from 'in-subscription/getUiDebuggingInstructions';
 import { connection, getDebuggingData } from 'in-services/connection';
 import { allStates } from 'in-stores/store';
 

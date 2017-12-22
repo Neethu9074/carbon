@@ -1,6 +1,6 @@
 import React from 'react';
 
-import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import CenterAlignment from 'in-components/layout/CenterAlignment';
 import DashboardNotification from 'in-components/DashboardNotification';

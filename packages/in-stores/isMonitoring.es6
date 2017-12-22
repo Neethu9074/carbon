@@ -1,4 +1,4 @@
-import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
+import createIsMonitoringObservable from 'in-subscription/isMonitoring';
 import { createTrackingStore } from 'in-stores/store';
 
 export const isMonitoring$ = createTrackingStore({

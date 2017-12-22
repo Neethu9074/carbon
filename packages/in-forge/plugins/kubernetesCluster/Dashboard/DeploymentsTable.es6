@@ -1,6 +1,6 @@
 import React from 'react';
 
-import createDeploymentsForClusterSubscription from 'in-services/subscription/deploymentsForCluster';
+import createDeploymentsForClusterSubscription from 'in-subscription/deploymentsForCluster';
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';

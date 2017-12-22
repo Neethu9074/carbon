@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ContextPopup from 'in-sdk/components/dashboard/context/PhysicalContext/ContextPopup';
-import getPhysicalContext from 'in-services/subscription/getPhysicalContext';
+import getPhysicalContext from 'in-subscription/getPhysicalContext';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';

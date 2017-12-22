@@ -1,4 +1,4 @@
-import createConnectedEntitiesObservable from 'in-services/subscription/connectedEntities';
+import createConnectedEntitiesObservable from 'in-subscription/connectedEntities';
 import { focusedMoment$ } from 'in-stores/timeline';
 
 export function getConnectedEntities(snapshotId, time) {

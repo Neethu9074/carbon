@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
+import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalEndpointImplementation';
 import ShowCodeButton from 'in-views/traceView/components/tree/ShowCodeButton';
 import { alwaysNull, alwaysFalse } from 'in-services/fixedStreams';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
