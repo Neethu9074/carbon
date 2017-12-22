@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getTenantsWithUnits } from 'in-services/api/account';
+import { getTenantsWithUnits } from 'in-api/account';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { emptyArray } from 'in-services/fixedObjects';
 import classnames from 'in-services/util/classnames';

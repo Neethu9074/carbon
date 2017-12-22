@@ -5,7 +5,7 @@ import React from 'react';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
-import { getRoles } from 'in-services/api/roles';
+import { getRoles } from 'in-api/roles';
 import { fallbackRoleId } from 'in-stores/user';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';

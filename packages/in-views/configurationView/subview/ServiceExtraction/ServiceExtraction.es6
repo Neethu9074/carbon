@@ -17,7 +17,7 @@ import {
   deleteServiceRule,
   setEnabled,
   createServiceRule
-} from 'in-services/api/serviceExtraction';
+} from 'in-api/serviceExtraction';
 import { getServiceExtractionRuleConfigPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';

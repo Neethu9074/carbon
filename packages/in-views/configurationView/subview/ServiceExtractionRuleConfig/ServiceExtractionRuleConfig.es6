@@ -4,12 +4,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import ServiceExtractionEndpointRuleConfigSubForm from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionEndpointRuleConfigSubForm';
-import {
-  getServiceRule,
-  saveServiceRule,
-  createServiceRule,
-  createEndpointRule
-} from 'in-services/api/serviceExtraction';
+import { getServiceRule, saveServiceRule, createServiceRule, createEndpointRule } from 'in-api/serviceExtraction';
 import ServiceExtractionRuleConfigForm from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
 import { typeDefinitions } from 'in-views/configurationView/subview/ServiceExtractionRuleConfig/types';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';

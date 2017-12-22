@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
 
-import { saveSettings } from 'in-services/api/settings';
+import { saveSettings } from 'in-api/settings';
 const logger = createLogger('SearchBar/stores/filers');
 
 export const settingsStore = create({ emitLatestOnSubscribe: true });

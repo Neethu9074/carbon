@@ -5,7 +5,7 @@ import React from 'react';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
 import { rolesConfigPath } from 'in-stores/navigation/paths/settingPaths';
-import { getRole, saveRole, createRole } from 'in-services/api/roles';
+import { getRole, saveRole, createRole } from 'in-api/roles';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';

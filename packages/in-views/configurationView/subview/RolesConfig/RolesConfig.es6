@@ -7,7 +7,7 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import { getRoles, deleteRole } from 'in-services/api/roles';
+import { getRoles, deleteRole } from 'in-api/roles';
 import Notification from 'in-components/form/Notification';
 import { emptySet } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

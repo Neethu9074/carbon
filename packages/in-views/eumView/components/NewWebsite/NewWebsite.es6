@@ -10,7 +10,7 @@ import From from 'in-views/eumView/components/NewWebsite/Form';
 import { combineDataAndError } from 'in-services/util/ro';
 import LegacyView from 'in-components/LegacyView';
 import { getSnapshot } from 'in-stores/snapshot';
-import { addKey } from 'in-services/api/eumKeys';
+import { addKey } from 'in-api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 

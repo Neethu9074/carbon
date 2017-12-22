@@ -4,7 +4,7 @@ import React from 'react';
 
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
-import { getRule, saveRule, createRule } from 'in-services/api/rules';
+import { getRule, saveRule, createRule } from 'in-api/rules';
 import Section from 'in-views/configurationView/components/Section';
 import { rulesPath } from 'in-stores/navigation/paths/settingPaths';
 import Notification from 'in-components/form/Notification';

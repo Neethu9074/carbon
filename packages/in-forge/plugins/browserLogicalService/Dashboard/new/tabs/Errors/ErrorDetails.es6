@@ -6,7 +6,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
-import { getErrorBreakdownForWebsite } from 'in-services/api/eumErrors';
+import { getErrorBreakdownForWebsite } from 'in-api/eumErrors';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import Notification from 'in-sdk/components/dashboard/Notification';

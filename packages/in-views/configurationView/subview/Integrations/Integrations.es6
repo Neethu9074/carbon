@@ -5,7 +5,7 @@ import { goToIntegrationView, integrationPath, getEntityIdPath } from 'in-stores
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntitiesOverview';
-import { getIntegrations, deleteIntegration } from 'in-services/api/integrations';
+import { getIntegrations, deleteIntegration } from 'in-api/integrations';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 

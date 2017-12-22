@@ -3,7 +3,7 @@ import { fromJS, List } from 'immutable';
 import React from 'react';
 
 import AlertingConfigurationForm from 'in-views/configurationView/subview/AlertingConfiguration/AlertingConfigurationForm';
-import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-services/api/alertingConfiguration';
+import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import { alertingConfigurationPath } from 'in-stores/navigation/paths/settingPaths';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';

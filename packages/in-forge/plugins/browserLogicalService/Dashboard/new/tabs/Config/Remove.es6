@@ -6,7 +6,7 @@ import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
-import { removeKey } from 'in-services/api/eumKeys';
+import { removeKey } from 'in-api/eumKeys';
 import Button from 'in-components/Button';
 
 import './Remove.less';

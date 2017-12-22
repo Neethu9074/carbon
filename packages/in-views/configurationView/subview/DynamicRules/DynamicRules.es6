@@ -3,7 +3,7 @@ import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import { getEntityIdPath, dynamicRulePath } from 'in-stores/navigation/paths/settingPaths';
-import { getDynamicRules, deleteDynamicRule } from 'in-services/api/dynamicRules';
+import { getDynamicRules, deleteDynamicRule } from 'in-api/dynamicRules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';

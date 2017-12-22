@@ -2,7 +2,7 @@ import React from 'react';
 
 import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { getIntegrationsByIds } from 'in-services/api/integrations';
+import { getIntegrationsByIds } from 'in-api/integrations';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 

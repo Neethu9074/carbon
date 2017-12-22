@@ -2,7 +2,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-services/api/dynamicRules';
+import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-api/dynamicRules';
 import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/DynamicRuleForm';
 import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';

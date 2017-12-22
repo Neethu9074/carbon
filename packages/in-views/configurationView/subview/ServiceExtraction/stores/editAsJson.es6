@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EditAsJsonDialog from 'in-views/configurationView/subview/ServiceExtraction/components/EditAsJsonDialog';
-import { createEndpointRule, createServiceRule } from 'in-services/api/serviceExtraction';
+import { createEndpointRule, createServiceRule } from 'in-api/serviceExtraction';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 
 export function openEditor(serviceRules, save, type) {

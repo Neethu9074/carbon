@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { getIntegration, saveIntegration, createIntegration } from 'in-services/api/integrations';
+import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
 import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { integrationsPath } from 'in-stores/navigation/paths/settingPaths';

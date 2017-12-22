@@ -1,7 +1,7 @@
 import { parse } from 'lucene';
 
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { validate } from 'in-services/api/search';
+import { validate } from 'in-api/search';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 

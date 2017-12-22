@@ -8,7 +8,7 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import { getRules, deleteRule } from 'in-services/api/rules';
+import { getRules, deleteRule } from 'in-api/rules';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';

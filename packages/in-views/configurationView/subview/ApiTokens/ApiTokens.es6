@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import { apiTokensPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
-import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
+import { getApiTokens, saveApiToken, deleteApiToken } from 'in-api/apiTokens';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';

@@ -6,7 +6,7 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
-import { getSystemRules } from 'in-services/api/rules';
+import { getSystemRules } from 'in-api/rules';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';

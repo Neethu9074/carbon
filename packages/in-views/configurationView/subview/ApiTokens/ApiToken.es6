@@ -7,7 +7,7 @@ import ApiTokenForm from 'in-views/configurationView/subview/ApiTokens/ApiTokenF
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { apiTokensPath } from 'in-stores/navigation/paths/settingPaths';
-import { getApiToken, saveApiToken } from 'in-services/api/apiTokens';
+import { getApiToken, saveApiToken } from 'in-api/apiTokens';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
 import { goToPath } from 'in-stores/navigation';
