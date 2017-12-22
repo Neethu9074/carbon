@@ -48,7 +48,7 @@ echo "" > .git/hooks/pre-commit
 npm install -g yarn
 
 # install global tools
-yarn global add ec2c proxrox tldr commitizen diff-so-fancy
+yarn global add ec2c proxrox tldr diff-so-fancy
 
 # and install all the dependencies
 yarn
