@@ -23,6 +23,12 @@ export const sortedRecentEvents$ = createTrackingStore({
         .get('recentEvents', emptyList)
         .toArray()
         .map(getEvent)
+    ).map(ids =>
+      ids.sort(
+        (a, b) =>
+          incident.getIn(['issueOrderMap', a.get('id')], a.get('start')) -
+          incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
+      )
     );
   })
 }).observable;
