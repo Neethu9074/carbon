@@ -11,7 +11,7 @@ import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import Section from 'in-views/configurationView/components/Section';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getAuditLog } from 'in-services/auditLog';
+import { getAuditLog } from 'in-services/api/auditLog';
 import Gravatar from 'in-components/Gravatar';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

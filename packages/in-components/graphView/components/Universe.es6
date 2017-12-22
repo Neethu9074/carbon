@@ -4,7 +4,6 @@ import React from 'react';
 import createUniverseRenderer from 'in-components/graphView/components/universeRenderer';
 import { markAsLoading, markAsFinished } from 'in-components/graphView/graphViewStore';
 import { isWebGLSupported } from 'in-map/services/webGL';
-import { getClassName } from 'in-services/util/react';
 
 import './Universe.less';
 
@@ -36,7 +35,7 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <div className={getClassName(this, block)} ref={container => (this.container = container)}>
+      <div className={`${block} ${this.props.className || ''}`} ref={container => (this.container = container)}>
         <canvas ref={canvas => (this.canvas = canvas)} className={block + '__canvas'} />
       </div>
     );
