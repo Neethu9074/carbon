@@ -104,6 +104,7 @@ import './spring-web';
 import './sqs';
 import './tabex';
 import './url';
+import './urllib3';
 import './vaadin';
 import './vertx.client';
 import './vertx.cluster';
