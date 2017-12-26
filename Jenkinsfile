@@ -75,7 +75,7 @@ stage('Deployment') {
       node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
 
-        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
+        build job: '/deployment/consul-template/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion)
         ]
