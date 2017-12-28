@@ -6,16 +6,12 @@ import ZKStandaloneDashboard from './ZKStandaloneDashboard';
 import ZKReplicatedDashboard from './ZKReplicatedDashboard';
 
 export default function ZooKeeperDashboard({ snapshot, timeframe }) {
-  const version = snapshot.getIn(['data', 'version']);
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
 
   return (
     <div>
       <ZKStandaloneDashboard snapshot={snapshot} timeframe={timeframe} />
-      { peerNames.size > 0 ?
-        <ZKReplicatedDashboard snapshot={snapshot} timeframe={timeframe} />
-        : null
-      }
+      {peerNames.size > 0 ? <ZKReplicatedDashboard snapshot={snapshot} timeframe={timeframe} /> : null}
     </div>
   );
 }

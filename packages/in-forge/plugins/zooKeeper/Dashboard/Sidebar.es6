@@ -4,11 +4,9 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import StandaloneInfo from 'in-forge/plugins/zooKeeper/StandaloneInfo';
 import ReplicatedInfo from 'in-forge/plugins/zooKeeper/ReplicatedInfo';
-import ModeInfo from 'in-forge/plugins/zooKeeper/ModeInfo';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ZooKeeperSidebar({ snapshot }) {
-  const version = snapshot.getIn(['data', 'version']);
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
 
   return (
