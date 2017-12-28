@@ -11,42 +11,28 @@ export default function ZooKeeperSidebar({ snapshot }) {
   const version = snapshot.getIn(['data', 'version']);
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
 
-  if (version) {
-    return (
-      <div>
-        <Separator />
+  return (
+    <div>
+      <Separator />
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>ZooKeeper Info</Collapsible.Header>
+        <Collapsible.Content>
+          <StandaloneInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
 
-        <ModeInfo snapshot={snapshot} />
+      {peerNames.map(peerName => (
+        <div key={peerName}>
+          <Separator />
 
-        <Collapsible initiallyOpen>
-          <Collapsible.Header>ZooKeeper Info</Collapsible.Header>
-          <Collapsible.Content>
-            <StandaloneInfo snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-      </div>
-    );
-  } else if (peerNames.size > 0) {
-    return (
-      <div>
-        <Separator />
-
-        <ModeInfo snapshot={snapshot} />
-
-        {peerNames.map(peerName => (
-          <div key={peerName}>
-            <Separator />
-
-            <Collapsible initiallyOpen={false}>
-              <Collapsible.Header>Peer: {peerName}</Collapsible.Header>
-              <Collapsible.Content>
-                <ReplicatedInfo snapshot={snapshot} peer={peerName} />
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  return null;
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Peer: {peerName}</Collapsible.Header>
+            <Collapsible.Content>
+              <ReplicatedInfo snapshot={snapshot} peer={peerName} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ))}
+    </div>
+  );
 }
