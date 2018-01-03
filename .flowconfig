@@ -1,0 +1,17 @@
+[ignore]
+.*/build/.*
+.*/deployment/.*
+.*/node_modules/.*
+.*/target/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.file_ext=.es6
+module.file_ext=.js
+
+[strict]

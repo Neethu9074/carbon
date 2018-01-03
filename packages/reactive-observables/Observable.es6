@@ -1,14 +1,15 @@
+// @flow
 import { reportUnhandledError } from './unhandledErrorSink';
 
 export default {
-  _init(observableSpec) {
+  _init(observableSpec: any) {
     this._observableSpec = observableSpec;
     this._children = [];
     this._lastEmittedValue = undefined;
     this._didEmit = false;
   },
 
-  _addChild(child) {
+  _addChild(child: any) {
     this._children.push(child);
 
     this._didEmit = false;
@@ -22,7 +23,7 @@ export default {
     }
   },
 
-  _removeChild(child) {
+  _removeChild(child: any) {
     this._children.splice(this._children.indexOf(child), 1);
 
     if (this._children.length === 0) {
@@ -32,7 +33,7 @@ export default {
     }
   },
 
-  emit(data) {
+  emit(data: any) {
     this._didEmit = true;
     this._lastEmittedValue = data;
 
@@ -53,7 +54,7 @@ export default {
     return this;
   },
 
-  emitError(error) {
+  emitError(error: any) {
     let errorHandled = false;
     for (let i = 0, len = this._children.length; i < len; i++) {
       errorHandled = errorHandled || this._children[i]._emitError(error, false);
