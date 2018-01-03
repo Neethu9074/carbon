@@ -204,7 +204,11 @@ gulp.task('startDevProxy', function startDevProxy() {
 });
 
 gulp.task('openDevUrlInBrowser', () => {
-  buildUtil.openBrowser('https://local-instana.instana.io:4000');
+  // set environment variable DONT_OPEN_BROWSER to some non-empty string to
+  // avoid having Gulp opening a browser every time you start the build.
+  if (!process.env.DONT_OPEN_BROWSER) {
+    buildUtil.openBrowser('https://local-instana.instana.io:4000');
+  }
 });
 
 gulp.task('webpack:dev', () => {
