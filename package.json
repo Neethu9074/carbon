@@ -134,7 +134,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.1",
     "flow-bin": "^0.62.0",
-    "flow-webpack-plugin": "^1.2.0",
+    "flow-webpack-plugin": "basti1302/flow-webpack-plugin#v1.2.0-fix-watch-mode",
     "gulp": "^3.8.10",
     "gulp-cssnano": "^2.1.2",
     "gulp-size": "^2.0.0",
