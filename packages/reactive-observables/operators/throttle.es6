@@ -1,40 +1,42 @@
 // @flow
-import {clearTimeoutFn, setTimeoutFn} from '../timers';
-import type {DebounceOptions} from './debounce';
+import { clearTimeoutFn, setTimeoutFn } from '../timers';
+import type { DebounceOptions } from './debounce';
 import { debounceImpl } from './debounce';
 import Observer from '../Observer';
 
 export interface ThrottleOptions {
-  leading: boolean,
-  trailing: boolean,
-  setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number,
-  clearTimeout: (timeoutId?: any) => void
+  leading: boolean;
+  trailing: boolean;
+  setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number;
+  clearTimeout: (timeoutId?: any) => void;
 }
 
 export default function throttle(millis: number, opts: ThrottleOptions): Observer {
   const observer = new Observer(this, this._observableSpec);
-  return observer._setOnNext(
-    millis <= 0 ?
-      data => observer._emit(data) :
-      throttleImpl(
+  return observer
+    ._setOnNext(
+      millis <= 0
+        ? data => observer._emit(data)
+        : throttleImpl(
+            data => {
+              observer._emit(data);
+            },
+            millis,
+            opts
+          )
+    )
+    ._setReset(function reset() {
+      observer._onNext = throttleImpl(
         data => {
           observer._emit(data);
         },
         millis,
         opts
-      )
-  )._setReset(function reset() {
-    observer._onNext = throttleImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  });
+      );
+    });
 }
 
-function throttleImpl(func: Function, wait:number, options: ThrottleOptions): (data: any) => void {
+function throttleImpl(func: Function, wait: number, options: ThrottleOptions): (data: any) => void {
   let leading = true;
   let trailing = true;
   let setTimeout;

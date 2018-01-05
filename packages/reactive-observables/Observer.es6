@@ -4,10 +4,10 @@ import { reportUnhandledError } from './unhandledErrorSink';
 import type { ObservableSpec } from './Observable';
 import TerminalObserver from './TerminalObserver';
 
+// TODO export default class Observer<T> {
 export default class Observer {
-
   _parent: any;
-  _children: (Observer|TerminalObserver)[] = [];
+  _children: (Observer | TerminalObserver)[] = [];
   _lastEmittedValue: any;
   _observableSpec: ObservableSpec;
   _onNext: ?(data: any) => void;
@@ -17,10 +17,9 @@ export default class Observer {
   // The _originaXxx properties are for operators/delayedStop, which attaches these two properties to the observers it
   // creates.
   _originalAddChild: (child: any) => void;
-  _originalRemoveChild : (child: any) => void;
+  _originalRemoveChild: (child: any) => void;
 
-  constructor(parent: any,
-              observableSpec: ObservableSpec) {
+  constructor(parent: any, observableSpec: ObservableSpec) {
     this._parent = parent;
     this._children = [];
     this._lastEmittedValue = undefined;
@@ -128,4 +127,4 @@ export default class Observer {
 
     return errorHandled;
   }
-};
+}
