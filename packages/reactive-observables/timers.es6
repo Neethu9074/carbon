@@ -1,24 +1,27 @@
 /* global global:false */
+// @flow
 
-const originalSetTimeout = getGlobal('setTimeout');
-const originalClearTimeout = getGlobal('clearTimeout');
+// these signatures might change with future flow updates, they can be copied from
+// https://github.com/facebook/flow/blob/v{x.y.z}/lib/core.js (after substituting x, y, z, of course).
+const originalSetTimeout: (callback: any, ms?: number, ...args: Array<any>) => number = getGlobal('setTimeout');
+const originalClearTimeout: (timeoutId?: any) => void = getGlobal('clearTimeout');
 
 let chosenSetTimeout = originalSetTimeout;
 let chosenClearTimeout = originalClearTimeout;
 
-export function setTimeoutFn() {
+export function setTimeoutFn(...args: Array<any>): number { // eslint-disable-line no-unused-vars
   return chosenSetTimeout.apply(this, arguments);
 }
 
-export function setSetTimeoutFn(_setTimeoutFn) {
+export function setSetTimeoutFn(_setTimeoutFn: (callback: any, ms?: number, ...args: Array<any>) => number) {
   chosenSetTimeout = _setTimeoutFn;
 }
 
-export function clearTimeoutFn() {
+export function clearTimeoutFn(...args: Array<any>): void { // eslint-disable-line no-unused-vars
   return chosenClearTimeout.apply(this, arguments);
 }
 
-export function setClearTimeoutFn(_clearTimeoutFn) {
+export function setClearTimeoutFn(_clearTimeoutFn: (timeoutId?: any) => void) {
   chosenClearTimeout = _clearTimeoutFn;
 }
 

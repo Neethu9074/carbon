@@ -1,10 +1,11 @@
+// @flow
 import Observer from '../Observer';
 
-export default function scan(accumulator, seed) {
-  const observer = Object.create(Observer);
-
+export default function scan<SourceType, TargetType>(accumulator: (?TargetType, SourceType) => TargetType,
+                                                      seed: ?TargetType): Observer {
   let accumulatedValue = seed;
-  observer._init(this, this._observableSpec, data => {
+  const observer = new Observer(this, this._observableSpec);
+  return observer._setOnNext((data: SourceType) => {
     let val;
 
     try {
@@ -18,6 +19,4 @@ export default function scan(accumulator, seed) {
       observer._emit(accumulatedValue);
     }
   });
-
-  return observer;
 }

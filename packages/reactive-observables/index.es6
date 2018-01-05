@@ -1,4 +1,5 @@
-import Observable from './Observable';
+// @flow
+import Observable, { ObservableSpec } from './Observable';
 import Observer from './Observer';
 import { applyOperators } from './operators';
 import { setHandler } from './unhandledErrorSink';
@@ -8,35 +9,41 @@ applyOperators(Observable);
 
 export const setUnhandledErrorHandler = setHandler;
 
-export function create(observableSpec) {
-  observableSpec = observableSpec || {};
+export function create(observableSpec: ?ObservableSpec) {
+  if (!observableSpec) {
+    observableSpec = {
+      start: () => {},
+      stop: () => {},
+      emitLatestOnSubscribe: true
+    };
+  }
   if (observableSpec.emitLatestOnSubscribe !== false) {
     observableSpec.emitLatestOnSubscribe = true;
   }
-  const observable = Object.create(Observable);
-  observable._init(observableSpec);
-  return observable;
+  return new Observable(observableSpec);
 }
 
-export function interval(millis) {
+export function interval(millis: number) {
   let localTimeIntervalHandle;
   return create({
-    start(observable) {
+    start(observable: Observable): void {
       localTimeIntervalHandle = setInterval(() => {
         observable.emit(Date.now());
       }, millis);
     },
 
-    stop() {
+    stop(): void {
       clearInterval(localTimeIntervalHandle);
-    }
+    },
+
+    emitLatestOnSubscribe: true
   });
 }
 
-export function timeout(millis) {
+export function timeout(millis: number) {
   let handle;
   return create({
-    start(observable) {
+    start(observable: Observable) {
       handle = setTimeout(() => {
         observable.emit(Date.now());
       }, millis);
@@ -44,11 +51,13 @@ export function timeout(millis) {
 
     stop() {
       clearTimeout(handle);
-    }
+    },
+
+    emitLatestOnSubscribe: true
   });
 }
 
-export function combineLatest(observables, waitForAll = true) {
+export function combineLatest(observables: Observable[], waitForAll: boolean = true) {
   if (observables.length === 0) {
     const emptyArrayObservable = create();
     emptyArrayObservable.emit([]);
@@ -60,7 +69,7 @@ export function combineLatest(observables, waitForAll = true) {
   let subscriptions = [];
   let emitted = [];
 
-  combinedObservables = create({ start, stop });
+  combinedObservables = create({ start, stop, emitLatestOnSubscribe: true });
   return combinedObservables;
 
   function start() {
@@ -89,8 +98,8 @@ export function combineLatest(observables, waitForAll = true) {
   }
 }
 
-export function on(target, event, options) {
-  const observable = create({ start, stop });
+export function on(target: any, event: any, options: any) {
+  const observable = create({ start, stop, emitLatestOnSubscribe: true });
   return observable;
 
   function listener(e) {

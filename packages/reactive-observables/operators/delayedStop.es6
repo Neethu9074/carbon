@@ -1,3 +1,4 @@
+// @flow
 import { setTimeoutFn, clearTimeoutFn } from '../timers';
 import Observer from '../Observer';
 
@@ -5,19 +6,22 @@ const dummyChild = {
   _onNext() {}
 };
 
-export default function delayedStop(millis, stopObserver, setTimeout = setTimeoutFn, clearTimeout = clearTimeoutFn) {
-  const observer = Object.create(Observer);
-  let delayedStopHandle;
-  let dummyChildAdded = false;
-
-  observer._init(this, this._observableSpec, v => {
+export default function delayedStop(millis: number,
+                                    stopObserver: () => void,
+                                    setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
+                                    clearTimeout: (timeoutId?: any) => void = clearTimeoutFn): Observer {
+  const observer = new Observer(this, this._observableSpec);
+  observer._setOnNext(v => {
     observer._emit(v);
   });
 
   observer._originalAddChild = observer._addChild;
   observer._originalRemoveChild = observer._removeChild;
 
-  observer._addChild = function delayCancelingAddChild(child) {
+  let delayedStopHandle;
+  let dummyChildAdded = false;
+
+  observer._addChild = function delayCancelingAddChild(child: any) {
     if (!dummyChildAdded) {
       dummyChildAdded = true;
       observer._originalAddChild(dummyChild);

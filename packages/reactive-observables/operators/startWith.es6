@@ -1,7 +1,11 @@
+// @flow
 import Observer from '../Observer';
 
-export default function startWith(initialValue) {
-  const observer = Object.create(Observer);
+export default function startWith<T>(initialValue: T): Observer {
+  const observer = new Observer(this, this._observableSpec);
+  observer._setOnNext(data => {
+    observer._emit(data);
+  });
 
   observer._addChild = child => {
     observer._children.push(child);
@@ -18,10 +22,6 @@ export default function startWith(initialValue) {
       observer._lastEmittedValue = initialValue;
     }
   };
-
-  observer._init(this, this._observableSpec, data => {
-    observer._emit(data);
-  });
 
   return observer;
 }

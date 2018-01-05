@@ -1,14 +1,14 @@
+// @flow
 import Observable from '../Observable';
 
-export default function transform(transformer) {
+export default function transform(transformer: any): Observable {
   const sourceObservable = this;
 
   let previousSourceValue;
   let sourceObservableSubscription;
   let intermediateObservableSubscription;
 
-  const targetObservable = Object.create(Observable);
-  targetObservable._init({
+  const targetObservable = new Observable({
     emitLatestOnSubscribe: transformer.emitLatestOnSubscribe !== false,
     start,
     stop

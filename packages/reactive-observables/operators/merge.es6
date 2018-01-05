@@ -1,12 +1,12 @@
+// @flow
 import Observable from '../Observable';
 
-export default function merge() {
+export default function merge(): Observable {
   const args = arguments;
   const subscriptions = [];
   const sourceObservable = this;
 
-  const targetObservable = Object.create(Observable);
-  targetObservable._init({
+  const targetObservable = new Observable({
     start,
     stop,
     emitLatestOnSubscribe: this._observableSpec.emitLatestOnSubscribe

@@ -1,16 +1,52 @@
+// @flow
 import { reportUnhandledError } from './unhandledErrorSink';
 
-export default {
-  _init(parent, observableSpec, onNext, onError) {
+import type { ObservableSpec } from './Observable';
+import TerminalObserver from './TerminalObserver';
+
+export default class Observer {
+
+  _parent: any;
+  _children: (Observer|TerminalObserver)[] = [];
+  _lastEmittedValue: any;
+  _observableSpec: ObservableSpec;
+  _onNext: ?(data: any) => void;
+  _onError: ?(error: any) => void;
+  _reset: ?() => void;
+
+  // The _originaXxx properties are for operators/delayedStop, which attaches these two properties to the observers it
+  // creates.
+  _originalAddChild: (child: any) => void;
+  _originalRemoveChild : (child: any) => void;
+
+  constructor(parent: any,
+              observableSpec: ObservableSpec) {
     this._parent = parent;
     this._children = [];
     this._lastEmittedValue = undefined;
     this._observableSpec = observableSpec;
-    this._onNext = onNext;
-    this._onError = onError;
-  },
+  }
 
-  _addChild(child) {
+  _setOnNext(onNext: (data: any) => void): Observer {
+    this._onNext = onNext;
+    return this;
+  }
+
+  _setOnError(onError: (error: any) => void): Observer {
+    this._onError = onError;
+    return this;
+  }
+
+  _setReset(reset: () => void): Observer {
+    this._reset = reset;
+    return this;
+  }
+
+  // an additional declaration like this is required when the method needs to be overridden someplace else (like in
+  // operators/delayedStop).
+  _addChild: (child: any) => void;
+
+  _addChild(child: any): void {
     this._children.push(child);
 
     if (this._children.length === 1) {
@@ -18,21 +54,26 @@ export default {
     }
 
     this._emitInitialValue(child);
-  },
+  }
 
-  _emitInitialValue(child) {
+  _emitInitialValue(child: any): void {
     if (
       this._observableSpec.emitLatestOnSubscribe &&
       this._lastEmittedValue !== undefined &&
       // when there is only one child, we will have reattached to parent and
       // parent will scheduled a resend of the latest value
-      this._children.length > 1
+      this._children.length > 1 &&
+      child._onNext
     ) {
       child._onNext(this._lastEmittedValue);
     }
-  },
+  }
 
-  _removeChild(child) {
+  // an additional declaration like this is required when the method needs to be overridden someplace else (like in
+  // operators/delayedStop).
+  _removeChild: (child: any) => void;
+
+  _removeChild(child: any): void {
     this._children.splice(this._children.indexOf(child), 1);
 
     if (this._children.length === 0) {
@@ -42,15 +83,15 @@ export default {
         this._reset();
       }
     }
-  },
+  }
 
-  _emit(data) {
+  _emit(data: any): void {
     this._lastEmittedValue = data;
 
     const len = this._children.length;
-    if (len === 1) {
+    if (len === 1 && this._children[0]._onNext) {
       this._children[0]._onNext(data);
-      return this;
+      return;
     }
 
     // the children array can be modified during iteration. We need to protect
@@ -58,11 +99,13 @@ export default {
     const children = this._children.slice();
     for (let i = 0; i < len; i++) {
       const child = children[i];
-      child._onNext(data);
+      if (child._onNext) {
+        child._onNext(data);
+      }
     }
-  },
+  }
 
-  _emitError(error, doReportUnhandledError) {
+  _emitError(error: any, doReportUnhandledError: ?boolean): boolean {
     if (arguments.length === 1) {
       doReportUnhandledError = true;
     }

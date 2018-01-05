@@ -18,24 +18,26 @@ import tap from './tap';
 import throttle from './throttle';
 import transform from './transform';
 
-export function applyOperators(prototype) {
-  prototype.debounce = debounce;
-  prototype.delayedStop = delayedStop;
-  prototype.distinct = distinct;
-  prototype.errors = errors;
-  prototype.filter = filter;
-  prototype.flatMap = flatMap;
-  prototype.freeze = freeze;
-  prototype.map = map;
-  prototype.merge = merge;
-  prototype.nextFrame = nextFrame;
-  prototype.once = once;
-  prototype.scan = scan;
-  prototype.skipFirst = skipFirst;
-  prototype.startWith = startWith;
-  prototype.startWithFn = startWithFn;
-  prototype.subscribe = subscribe;
-  prototype.tap = tap;
-  prototype.throttle = throttle;
-  prototype.transform = transform;
+export function applyOperators(constructorFunction) {
+  // Fetch the prototype from the class constructor and monkey patch it with our reactive observable operators.
+  const proto = constructorFunction.prototype;
+  proto.debounce = debounce;
+  proto.delayedStop = delayedStop;
+  proto.distinct = distinct;
+  proto.errors = errors;
+  proto.filter = filter;
+  proto.flatMap = flatMap;
+  proto.freeze = freeze;
+  proto.map = map;
+  proto.merge = merge;
+  proto.nextFrame = nextFrame;
+  proto.once = once;
+  proto.scan = scan;
+  proto.skipFirst = skipFirst;
+  proto.startWith = startWith;
+  proto.startWithFn = startWithFn;
+  proto.subscribe = subscribe;
+  proto.tap = tap;
+  proto.throttle = throttle;
+  proto.transform = transform;
 }

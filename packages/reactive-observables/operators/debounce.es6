@@ -1,37 +1,41 @@
-import { setTimeoutFn, clearTimeoutFn } from '../timers';
+// @flow
+import {clearTimeoutFn, setTimeoutFn} from '../timers';
 import Observer from '../Observer';
 
-export default function debounce(millis, opts) {
-  const observer = Object.create(Observer);
-
-  let onNext;
-  if (millis <= 0) {
-    onNext = data => observer._emit(data);
-  } else {
-    onNext = debounceImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  }
-
-  observer._init(this, this._observableSpec, onNext);
-  observer._reset = function reset() {
-    observer._onNext = onNext = debounceImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  };
-
-  return observer;
+export interface DebounceOptions {
+  leading: boolean,
+  trailing: boolean,
+  maxWait: number,
+  setTimeout: ?(callback: any, ms?: number, ...args: Array<any>) => number,
+  clearTimeout: ?(timeoutId?: any) => void
 }
 
-export function debounceImpl(func, wait, options) {
+export default function debounce(millis: number, opts: DebounceOptions): Observer {
+  const observer = new Observer(this, this._observableSpec);
+  return observer._setOnNext(
+    millis <= 0 ?
+      // if the delay is zero or negative, the onNext implementation just passes the data to emit directly
+      data => observer._emit(data) :
+      // we only do the actual debouncing for onNext if millis is positive and greater than zero
+      debounceImpl(
+        data => {
+          observer._emit(data);
+        },
+        millis,
+        opts
+      )
+  )._setReset(function reset() {
+    observer._onNext = debounceImpl(
+      data => {
+        observer._emit(data);
+      },
+      millis,
+      opts
+    );
+  });
+}
+
+export function debounceImpl(func: Function, wait: number, options: DebounceOptions): (data: any) => void {
   const setTimeout = options && options.setTimeout ? options.setTimeout : setTimeoutFn;
   const clearTimeout = options && options.clearTimeout ? options.clearTimeout : clearTimeoutFn;
 
@@ -53,8 +57,8 @@ export function debounceImpl(func, wait, options) {
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
 
-  function invokeFunc(time) {
-    const args = lastArgs;
+  function invokeFunc(time): any {
+    const args: any = lastArgs;
     const thisArg = lastThis;
 
     lastArgs = lastThis = undefined;
@@ -73,15 +77,15 @@ export function debounceImpl(func, wait, options) {
   }
 
   function remainingWait(time) {
-    const timeSinceLastCall = time - lastCallTime;
+    const timeSinceLastCall = time - (lastCallTime: any);
     const timeSinceLastInvoke = time - lastInvokeTime;
     const _result = wait - timeSinceLastCall;
 
-    return maxing ? Math.min(_result, maxWait - timeSinceLastInvoke) : _result;
+    return maxing ? Math.min(_result, (maxWait: any) - timeSinceLastInvoke) : _result;
   }
 
   function shouldInvoke(time) {
-    const timeSinceLastCall = time - lastCallTime;
+    const timeSinceLastCall = time - (lastCallTime: any);
     const timeSinceLastInvoke = time - lastInvokeTime;
 
     // Either this is the first call, activity has stopped and we're at the
@@ -91,7 +95,7 @@ export function debounceImpl(func, wait, options) {
       lastCallTime === undefined ||
       timeSinceLastCall >= wait ||
       timeSinceLastCall < 0 ||
-      (maxing && timeSinceLastInvoke >= maxWait)
+      (maxing && (timeSinceLastInvoke: any) >= maxWait)
     );
   }
 

@@ -1,16 +1,13 @@
+// @flow
 import Observer from '../Observer';
 
-export default function errors() {
-  const observer = Object.create(Observer);
-
-  observer._init(
-    this,
-    this._observableSpec,
-    () => {},
-    error => {
-      observer._emit(error);
-    }
-  );
-
-  return observer;
+export default function errors(): Observer {
+  const observer = new Observer(this, this._observableSpec);
+  return observer
+    ._setOnNext(() => {
+    })
+    ._setOnError(error => {
+        observer._emit(error);
+      }
+    );
 }
