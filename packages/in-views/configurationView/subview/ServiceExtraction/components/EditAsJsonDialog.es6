@@ -16,7 +16,8 @@ export default class extends React.Component {
   static propTypes = {
     initialValue: rpt.string.isRequired,
     onSaveAndClose: rpt.func.isRequired,
-    onClose: rpt.func.isRequired
+    onClose: rpt.func.isRequired,
+    title: rpt.string.isRequired
   };
 
   state = {
@@ -34,7 +35,7 @@ export default class extends React.Component {
 
     const header = (
       <CenterAlignment>
-        <span>HTTP Rules</span>
+        <span>{this.props.title}</span>
 
         <Button
           disabled={!!parseError}

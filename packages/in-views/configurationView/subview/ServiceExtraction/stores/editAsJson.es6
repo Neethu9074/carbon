@@ -4,7 +4,7 @@ import EditAsJsonDialog from 'in-views/configurationView/subview/ServiceExtracti
 import { createEndpointRule, createServiceRule } from 'in-api/serviceExtraction';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 
-export function openEditor(serviceRules, save, type) {
+export function openEditor(serviceRules, save, type, title) {
   function saveAndClose(rules) {
     close();
     save(enrichValuesWhichWhereMeaninglessToUsers(rules, type));
@@ -12,6 +12,7 @@ export function openEditor(serviceRules, save, type) {
 
   setActiveDialog(
     <EditAsJsonDialog
+      title={title}
       initialValue={JSON.stringify(removeValuesWhichAreMeaninglessToUsers(serviceRules), 0, 2)}
       onSaveAndClose={saveAndClose}
       onClose={close}

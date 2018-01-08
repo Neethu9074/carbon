@@ -307,7 +307,7 @@ export default class extends React.Component {
           </Button>
           <Button
             kind="info"
-            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
+            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType, this.props.title)}
             className={`${block}__button`}
           >
             Edit as JSON
