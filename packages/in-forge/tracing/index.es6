@@ -87,6 +87,7 @@ import './rpc-server';
 import './rpc';
 import './s3';
 import './sdk';
+import './sdk.database';
 import './sdk.http.entry';
 import './sdk.http.exit';
 import './servlet';
