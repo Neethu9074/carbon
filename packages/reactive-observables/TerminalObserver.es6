@@ -1,14 +1,21 @@
 // @flow
+import Observer from './Observer';
+
 const noop = () => {};
 
-export default class TerminalObserver {
-
-  _parent: any;
+/**
+ * The final target of an observable-/observer chain. This is what a call to subscribe() returns.
+ *
+ * Type parameters:
+ * - C: The type of values this terminal observer *consumes*.
+ */
+export default class TerminalObserver<C> {
+  _parent: Observer<any, C>;
   _disposed: boolean;
-  _onNext: (data: any) => void;
+  _onNext: (data: ?C) => void;
   _onError: ?(error: any) => void;
 
-  constructor(parent: any) {
+  constructor(parent: Observer<any, C>) {
     this._parent = parent;
     this._disposed = false;
   }
@@ -19,7 +26,7 @@ export default class TerminalObserver {
    * @param onError the optional onError handler
    * @returns {TerminalObserver}
    */
-  _init(onNext: (data: any) => void, onError: ?(error: any) => void): TerminalObserver {
+  _init(onNext: (data: ?C) => void, onError: ?(error: any) => void): TerminalObserver<C> {
     // Splitting initialization between the constructor and the _init function is necessary due to the facts,
     // 1. that clients often refer to the observer object in the onNext handler they pass in (see once.es6 for
     //    an example, which calls observer.dispose() in its onNext handler, and
@@ -42,7 +49,8 @@ export default class TerminalObserver {
     }
   }
 
-  _emitError(error: any, _: ?boolean): boolean { // eslint-disable-line no-unused-vars
+  _emitError(error: any, _: ?boolean): boolean {
+    // eslint-disable-line no-unused-vars
     if (this._onError) {
       this._onError(error);
       return true;
@@ -50,4 +58,4 @@ export default class TerminalObserver {
 
     return false;
   }
-};
+}

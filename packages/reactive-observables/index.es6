@@ -9,7 +9,7 @@ applyOperators(Observable);
 
 export const setUnhandledErrorHandler = setHandler;
 
-export function create(observableSpec: ?ObservableSpec) {
+export function create<T>(observableSpec: ?ObservableSpec<T>) {
   if (!observableSpec) {
     observableSpec = {
       start: () => {},
@@ -26,7 +26,7 @@ export function create(observableSpec: ?ObservableSpec) {
 export function interval(millis: number) {
   let localTimeIntervalHandle;
   return create({
-    start(observable: Observable): void {
+    start(observable): void {
       localTimeIntervalHandle = setInterval(() => {
         observable.emit(Date.now());
       }, millis);
@@ -43,7 +43,7 @@ export function interval(millis: number) {
 export function timeout(millis: number) {
   let handle;
   return create({
-    start(observable: Observable) {
+    start(observable) {
       handle = setTimeout(() => {
         observable.emit(Date.now());
       }, millis);
@@ -57,7 +57,7 @@ export function timeout(millis: number) {
   });
 }
 
-export function combineLatest(observables: Observable[], waitForAll: boolean = true) {
+export function combineLatest<T>(observables: Observable<T>[], waitForAll: boolean = true) {
   if (observables.length === 0) {
     const emptyArrayObservable = create();
     emptyArrayObservable.emit([]);
@@ -98,11 +98,11 @@ export function combineLatest(observables: Observable[], waitForAll: boolean = t
   }
 }
 
-export function on(target: any, event: any, options: any) {
-  const observable = create({ start, stop, emitLatestOnSubscribe: true });
+export function on(target: any, event: any, options: any): Observable<any> {
+  const observable: Observable<any> = create({ start, stop, emitLatestOnSubscribe: true });
   return observable;
 
-  function listener(e) {
+  function listener(e: any) {
     observable.emit(e);
   }
 

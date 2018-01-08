@@ -8,11 +8,11 @@ export interface ThrottleOptions {
   leading: boolean;
   trailing: boolean;
   setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number;
-  clearTimeout: (timeoutId?: any) => void;
+  clearTimeout: (timeoutId?: number) => void;
 }
 
-export default function throttle(millis: number, opts: ThrottleOptions): Observer {
-  const observer = new Observer(this, this._observableSpec);
+export default function throttle<T>(millis: number, opts: ThrottleOptions): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
   return observer
     ._setOnNext(
       millis <= 0
@@ -36,7 +36,7 @@ export default function throttle(millis: number, opts: ThrottleOptions): Observe
     });
 }
 
-function throttleImpl(func: Function, wait: number, options: ThrottleOptions): (data: any) => void {
+function throttleImpl<T>(func: Function, wait: number, options: ThrottleOptions): (data: ?T) => void {
   let leading = true;
   let trailing = true;
   let setTimeout;

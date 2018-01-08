@@ -1,41 +1,43 @@
 // @flow
-import {clearTimeoutFn, setTimeoutFn} from '../timers';
+import { clearTimeoutFn, setTimeoutFn } from '../timers';
 import Observer from '../Observer';
 
 export interface DebounceOptions {
-  leading: boolean,
-  trailing: boolean,
-  maxWait: number,
-  setTimeout: ?(callback: any, ms?: number, ...args: Array<any>) => number,
-  clearTimeout: ?(timeoutId?: any) => void
+  leading: boolean;
+  trailing: boolean;
+  maxWait: number;
+  setTimeout: ?(callback: any, ms?: number, ...args: Array<any>) => number;
+  clearTimeout: ?(timeoutId?: number) => void;
 }
 
-export default function debounce(millis: number, opts: DebounceOptions): Observer {
-  const observer = new Observer(this, this._observableSpec);
-  return observer._setOnNext(
-    millis <= 0 ?
-      // if the delay is zero or negative, the onNext implementation just passes the data to emit directly
-      data => observer._emit(data) :
-      // we only do the actual debouncing for onNext if millis is positive and greater than zero
-      debounceImpl(
+export default function debounce<T>(millis: number, opts: ?DebounceOptions): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  return observer
+    ._setOnNext(
+      millis <= 0
+        ? // if the delay is zero or negative, the onNext implementation just passes the data to emit directly
+          data => observer._emit(data)
+        : // we only do the actual debouncing for onNext if millis is positive and greater than zero
+          debounceImpl(
+            (data: ?T) => {
+              observer._emit(data);
+            },
+            millis,
+            opts
+          )
+    )
+    ._setReset(function reset() {
+      observer._onNext = debounceImpl(
         data => {
           observer._emit(data);
         },
         millis,
         opts
-      )
-  )._setReset(function reset() {
-    observer._onNext = debounceImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  });
+      );
+    });
 }
 
-export function debounceImpl(func: Function, wait: number, options: DebounceOptions): (data: any) => void {
+export function debounceImpl<T>(func: Function, wait: number, options: ?DebounceOptions): (data: ?T) => void {
   const setTimeout = options && options.setTimeout ? options.setTimeout : setTimeoutFn;
   const clearTimeout = options && options.clearTimeout ? options.clearTimeout : clearTimeoutFn;
 
@@ -53,6 +55,7 @@ export function debounceImpl(func: Function, wait: number, options: DebounceOpti
   if (options) {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
+    // TODO the else part seems to be a bug?!?
     maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }

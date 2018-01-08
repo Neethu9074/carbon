@@ -2,11 +2,10 @@
 // @flow
 import Observer from '../Observer';
 
-export default function nextFrame(): Observer {
-
+export default function nextFrame<T>(): Observer<T, T> {
   let rafId;
   let latestData;
-  const observer = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
   return observer._setOnNext(data => {
     latestData = data;
 

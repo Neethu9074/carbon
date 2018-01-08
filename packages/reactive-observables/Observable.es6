@@ -4,37 +4,44 @@ import type Observer from './Observer';
 import { DebounceOptions } from './operators/debounce';
 import { ThrottleOptions } from './operators/throttle';
 import TerminalObserver from './TerminalObserver';
+import { Transformer } from './operators/transform';
 
-export interface ObservableSpec {
-  start(Observable): void;
-  stop(Observable): void;
+export interface ObservableSpec<E> {
+  start(Observable<E>): void;
+  stop(Observable<E>): void;
   emitLatestOnSubscribe: boolean;
 }
 
-export default class Observable {
-  _observableSpec: ObservableSpec;
-  _children: Observer[] = [];
-  _lastEmittedValue: ?any = undefined;
+/**
+ * A source observable, that is, the start of a chain of observables/observers.
+ *
+ * Type parameters:
+ * - E: the type of value this source observable *emits*.
+ */
+export default class Observable<E> {
+  _observableSpec: ObservableSpec<E>;
+  _children: Observer<E, any>[] = [];
+  _lastEmittedValue: ?E = undefined;
   _didEmit = false;
 
   // The operator methods are added via monkey patching in reactive-observables/operators/index#applyOperators.
   // To get type checking support, we add their method signatures here as class properties.
   // (See https://flow.org/en/docs/types/classes/#toc-class-fields-properties.)
-  debounce: (millis: number, opts: DebounceOptions) => Observable;
+  debounce: (millis: number, opts: ?DebounceOptions) => Observer<E, E>;
   delayedStop: (
     millis: number,
     stopObserver: () => void,
     setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number,
-    clearTimeout: (timeoutId?: any) => void
-  ) => Observable;
-  distinct: <T>((a: T, b: ?T) => boolean) => Observer;
-  errors: () => Observer;
-  filter: <T>(predicate: (T) => boolean) => Observer;
-  flatMap: <T>(flatMapper: (T) => T) => Observable;
-  freeze: () => Observer;
-  map: <T>(mapper: (data: T) => T) => Observer;
-  merge: (...argsParam: Array<Observable>) => Observable;
-  nextFrame: () => Observer;
+    clearTimeout: (timeoutId?: number) => void
+  ) => Observer<E, E>;
+  distinct: ((a: ?E, b: ?E) => boolean) => Observer<E, E>;
+  errors: () => Observer<any>;
+  filter: (predicate: (?E) => boolean) => Observer<E, E>;
+  flatMap: <R>(flatMapper: (?E) => Observable<R>) => Observer<E, R>;
+  freeze: () => Observer<E, E>;
+  map: <R>(mapper: (data: ?E) => R) => Observer<E, R>;
+  merge: (...argsParam: Array<Observable<E>>) => Observable<E>;
+  nextFrame: () => Observer<E, E>;
   once: (
     onData: Function,
     onError: Function,
@@ -44,11 +51,11 @@ export default class Observable {
     arg3: any,
     arg4: any,
     arg5: any
-  ) => TerminalObserver;
-  scan: <SourceType, TargetType>(accumulator: (?TargetType, SourceType) => TargetType, seed: ?TargetType) => Observer;
-  skipFirst: () => Observer;
-  startWith: <T>(initialValue: T) => Observer;
-  startWithFn: <T>(initialValueProvider: () => T) => Observer;
+  ) => TerminalObserver<E>;
+  scan: <R>(accumulator: (?R, ?E) => R, seed: ?R) => Observer<E, R>;
+  skipFirst: () => Observer<E, E>;
+  startWith: (initialValue: E) => Observer<E, E>;
+  startWithFn: (initialValueProvider: () => E) => Observer<E, E>;
   subscribe: (
     onData: Function,
     onError: ?Function,
@@ -58,16 +65,16 @@ export default class Observable {
     arg3: ?any,
     arg4: ?any,
     arg5: ?any
-  ) => TerminalObserver;
-  tap: (tapper: (data: any) => any) => Observer;
-  throttle: (millis: number, opts: ThrottleOptions) => Observer;
-  transform: (transformer: any) => Observable;
+  ) => TerminalObserver<E>;
+  tap: (tapper: (data: ?E) => E) => Observer<E, E>;
+  throttle: (millis: number, opts: ThrottleOptions) => Observer<E, E>;
+  transform: <Target>(transformer: Transformer<E, Target>) => Observable<Target>;
 
-  constructor(observableSpec: ObservableSpec) {
+  constructor(observableSpec: ObservableSpec<E>) {
     this._observableSpec = observableSpec;
   }
 
-  _addChild(child: Observer) {
+  _addChild<R>(child: Observer<E, R>): void {
     this._children.push(child);
 
     this._didEmit = false;
@@ -86,7 +93,7 @@ export default class Observable {
     }
   }
 
-  _removeChild(child: Observer) {
+  _removeChild<R>(child: Observer<E, R>) {
     this._children.splice(this._children.indexOf(child), 1);
 
     if (this._children.length === 0) {
@@ -96,7 +103,7 @@ export default class Observable {
     }
   }
 
-  emit(data: any) {
+  emit(data: E) {
     this._didEmit = true;
     this._lastEmittedValue = data;
 

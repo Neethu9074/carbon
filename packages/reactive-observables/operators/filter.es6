@@ -1,9 +1,9 @@
 // @flow
 import Observer from '../Observer';
 
-export default function filter<T>(predicate: T => boolean): Observer {
-  const observer = new Observer(this, this._observableSpec);
-  return observer._setOnNext(data => {
+export default function filter<T>(predicate: (?T) => boolean): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  return observer._setOnNext((data: ?T) => {
     let val;
 
     try {

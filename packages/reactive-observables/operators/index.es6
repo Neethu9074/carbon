@@ -1,3 +1,4 @@
+// @flow
 import debounce from './debounce';
 import delayedStop from './delayedStop';
 import distinct from './distinct';
@@ -18,7 +19,7 @@ import tap from './tap';
 import throttle from './throttle';
 import transform from './transform';
 
-export function applyOperators(constructorFunction) {
+export function applyOperators(constructorFunction: Function) {
   // Fetch the prototype from the class constructor and monkey patch it with our reactive observable operators.
   const proto = constructorFunction.prototype;
   proto.debounce = debounce;

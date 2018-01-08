@@ -4,12 +4,13 @@
 // these signatures might change with future flow updates, they can be copied from
 // https://github.com/facebook/flow/blob/v{x.y.z}/lib/core.js (after substituting x, y, z, of course).
 const originalSetTimeout: (callback: any, ms?: number, ...args: Array<any>) => number = getGlobal('setTimeout');
-const originalClearTimeout: (timeoutId?: any) => void = getGlobal('clearTimeout');
+const originalClearTimeout: (timeoutId?: number) => void = getGlobal('clearTimeout');
 
 let chosenSetTimeout = originalSetTimeout;
 let chosenClearTimeout = originalClearTimeout;
 
-export function setTimeoutFn(...args: Array<any>): number { // eslint-disable-line no-unused-vars
+export function setTimeoutFn(...args: Array<any>): number {
+  // eslint-disable-line no-unused-vars
   return chosenSetTimeout.apply(this, arguments);
 }
 
@@ -17,11 +18,12 @@ export function setSetTimeoutFn(_setTimeoutFn: (callback: any, ms?: number, ...a
   chosenSetTimeout = _setTimeoutFn;
 }
 
-export function clearTimeoutFn(...args: Array<any>): void { // eslint-disable-line no-unused-vars
+export function clearTimeoutFn(...args: Array<any>): void {
+  // eslint-disable-line no-unused-vars
   return chosenClearTimeout.apply(this, arguments);
 }
 
-export function setClearTimeoutFn(_clearTimeoutFn: (timeoutId?: any) => void) {
+export function setClearTimeoutFn(_clearTimeoutFn: (timeoutId?: number) => void) {
   chosenClearTimeout = _clearTimeoutFn;
 }
 

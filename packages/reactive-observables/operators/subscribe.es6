@@ -2,7 +2,7 @@
 import TerminalObserver from '../TerminalObserver';
 import { reportUnhandledError } from '../unhandledErrorSink';
 
-export default function subscribe(
+export default function subscribe<C>(
   onData: Function,
   onError: ?Function,
   arg0: ?any,
@@ -11,10 +11,10 @@ export default function subscribe(
   arg3: ?any,
   arg4: ?any,
   arg5: ?any
-): TerminalObserver {
-  const observer = new TerminalObserver(this);
+): TerminalObserver<C> {
+  const observer: TerminalObserver<C> = new TerminalObserver(this);
 
-  const internalOnNext = data => {
+  const internalOnNext = (data: ?C) => {
     try {
       onData(data, arg0, arg1, arg2, arg3, arg4, arg5);
     } catch (e) {

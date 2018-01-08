@@ -29,7 +29,7 @@ module.exports = {
 
   plugins: [
     'flowtype',
-    'flowtype-errors',
+    // 'flowtype-errors',
     'react',
     'mocha'
   ],
@@ -74,7 +74,7 @@ module.exports = {
 
     // editor integration for flow errors, see
     // https://www.npmjs.com/package/eslint-plugin-flowtype-errors
-    'flowtype-errors/show-errors': 2,
+    // 'flowtype-errors/show-errors': 2,
 
     // ###########################################################
     // ### Mocha
