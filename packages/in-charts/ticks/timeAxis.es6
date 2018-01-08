@@ -75,7 +75,7 @@ export function getAxisTickPositions(scale, formatter) {
 }
 
 function removeCloseIndices(ticks) {
-  const minSpaceBetweenTicksInPx = 10;
+  const minSpaceBetweenTicksInPx = 16;
   for (let i = ticks.length - 1; i > 1; i--) {
     const tick = ticks[i];
     const nextTick = ticks[i - 1];

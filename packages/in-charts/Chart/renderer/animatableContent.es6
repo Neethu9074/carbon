@@ -247,7 +247,6 @@ export default function createAnimatableContentRenderer(config) {
 
       const rangeBeforeOverride = max - min;
       min = Math.max(0, min - rangeBeforeOverride * 0.1); // when expanding the scale, don't go to negative values
-      max += rangeBeforeOverride * 0.1;
 
       if (axisConfig.min != null) {
         min = axisConfig.min;
@@ -297,7 +296,7 @@ export default function createAnimatableContentRenderer(config) {
       const tick = ticks[i];
       staticCtx.rect(tickX, tick.range, 5, 1);
       staticCtx.fillStyle = axisFontColor;
-      staticCtx.fillText(formatter(tick.domain), textX, tick.range - 4);
+      staticCtx.fillText(formatter(tick.domain), textX, tick.range);
     }
 
     staticCtx.fillStyle = axisTickColor;
