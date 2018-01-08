@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 
@@ -33,6 +34,7 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
         {getCustomHeaders(span)}
         <DescriptionItem title="Error">{span.getIn(['data', 'http', 'error'])}</DescriptionItem>
+        <CustomDataDescriptionItem span={span} />
       </DescriptionList>
     </div>
   );
