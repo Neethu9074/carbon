@@ -28,7 +28,7 @@ export default function IntegrationSwitch({ onClick, selectedType }) {
 function IntegrationButton({ type, selectedType, onClick }) {
   return (
     <Col cols={4}>
-      <Button className={`${block}__button`} disabled={selectedType === type} outlineOnly onClick={() => onClick(type)}>
+      <Button className={`${block}__button`} disabled={selectedType === type} kind="info" onClick={() => onClick(type)}>
         {configs[type].label}
       </Button>
     </Col>
