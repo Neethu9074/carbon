@@ -12,7 +12,7 @@ export default function CustomDataDescriptionItem({ span }) {
   }
 
   return (
-    <DescriptionItem title="Custom Data">
+    <DescriptionItem title="Data">
       <Code code={JSON.stringify(custom.toJS(), 0, 2)} lang="json" />
     </DescriptionItem>
   );
