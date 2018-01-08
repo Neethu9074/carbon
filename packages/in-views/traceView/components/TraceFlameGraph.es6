@@ -92,12 +92,7 @@ export default function TraceFlameGraph({ trace }) {
   const tickPositions = getTickPositions(x, axisConfig, true);
 
   return (
-    <div
-      style={{
-        height: `${chartHeight + timeAxisOffset}px`
-      }}
-      className={block}
-    >
+    <div className={block}>
       <div className={`${block}__element-wrapper`}>
         <TimeAxis tickPositions={tickPositions} axisConfig={axisConfig} start={start} chartHeight={chartHeight} />
 
