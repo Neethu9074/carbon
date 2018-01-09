@@ -1,0 +1,10 @@
+:local {
+  .wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .link {
+    margin: 0.25rem 0.5rem;
+  }
+}
