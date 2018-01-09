@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   agentsPath,
+  applicationsPath,
   asciiContainerPath,
   asciiLogicalPath,
   asciiPhysicalPath,
@@ -20,6 +21,7 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import ApplicationView from 'promise-loader?global!in-views/applicationView/ApplicationView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
