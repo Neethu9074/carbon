@@ -20,6 +20,7 @@ import './components/ButtonStory';
 import './components/CodeEditor';
 import './components/CodeStory';
 import './components/ComboBoxStory';
+import './components/TopListStory';
 import './components/IconStory';
 import './components/KeyValuePopup';
 import './components/sdk/CollapsibleStory';
