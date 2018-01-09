@@ -4,17 +4,14 @@ import ToplistRow from 'in-components/TopList/TopListRow';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Button from 'in-components/Button';
 
-import './TopList.less';
+import locals from './TopList.mless';
 
 export default function TopList({ dummyData, header }) {
-  const block = 'in-toplist';
-  const headerClass = `${block}__header`;
-
   return (
-    <div className={block}>
-      <div className={headerClass}>
+    <div className={`${locals.topList}`}>
+      <div className={`${locals.header}`}>
         <h3>{header}</h3>
-        <ButtonGroup className={`${headerClass}__buttons`} horizontal>
+        <ButtonGroup className={`${locals.buttons}`} horizontal>
           <Button kind={'secondary'}>Latency</Button>
           <Button kind={'secondary'} outlineOnly={true}>
             Calls

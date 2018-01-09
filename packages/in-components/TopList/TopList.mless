@@ -1,0 +1,23 @@
+:local {
+
+  .topList {
+    width: 100%;
+    padding: 0 .4rem;
+
+    & ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    margin-right: 1rem;
+  }
+
+}

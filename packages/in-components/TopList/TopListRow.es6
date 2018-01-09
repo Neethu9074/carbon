@@ -3,15 +3,12 @@ import React from 'react';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
-import './TopListRow.less';
+import locals from './TopListRow.mless';
 
 export default function TopListRow({ label, value, maxValue, unit, traces }) {
-  const block = 'in-toplist-row';
-  const tracesClass = `${block}__traces`;
-
   return (
-    <li className={block}>
-      <div className={`${block}__titles`}>
+    <li className={`${locals.topListRow}`}>
+      <div className={`${locals.titles}`}>
         <div>
           <span>{label}</span>
         </div>
@@ -20,9 +17,9 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
         </div>
       </div>
 
-      <div className={`${block}__bar`}>
+      <div className={`${locals.bar}`}>
         <div
-          className={`${block}__bar-inner`}
+          className={`${locals.barInner}`}
           style={{
             width: `${value / maxValue * 100}%`,
             background: '#38f7ff'
@@ -30,10 +27,10 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
         />
       </div>
 
-      <div className={tracesClass}>
-        <SvgIcon className={`${tracesClass}__trace`} type={'traces'} width={16} height={16} />
+      <div className={`${locals.traces}`}>
+        <SvgIcon className={`${locals['traces-row-item']}`} type={'traces'} width={16} height={16} />
         {traces.map(trace => (
-          <Link className={`${tracesClass}__trace`} href={'#'}>
+          <Link className={`${locals.tracesRowItem} ${locals.trace}`} href={'#'}>
             {trace}
           </Link>
         ))}
