@@ -9,7 +9,7 @@ applyOperators(Observable);
 
 export const setUnhandledErrorHandler = setHandler;
 
-export function create<T>(observableSpec: ?ObservableSpec<T>) {
+export function create<T>(observableSpec: ?ObservableSpec<T>): Observable<T> {
   if (!observableSpec) {
     observableSpec = {
       start: () => {},
@@ -23,7 +23,7 @@ export function create<T>(observableSpec: ?ObservableSpec<T>) {
   return new Observable(observableSpec);
 }
 
-export function interval(millis: number) {
+export function interval(millis: number): Observable<number> {
   let localTimeIntervalHandle;
   return create({
     start(observable): void {
@@ -40,10 +40,10 @@ export function interval(millis: number) {
   });
 }
 
-export function timeout(millis: number) {
-  let handle;
+export function timeout(millis: number): Observable<number> {
+  let handle: number;
   return create({
-    start(observable) {
+    start(observable: Observable<number>) {
       handle = setTimeout(() => {
         observable.emit(Date.now());
       }, millis);
@@ -57,19 +57,17 @@ export function timeout(millis: number) {
   });
 }
 
-export function combineLatest<T>(observables: Observable<T>[], waitForAll: boolean = true) {
+export function combineLatest<T>(observables: Observable<T>[], waitForAll: boolean = true): Observable<Array<T>> {
   if (observables.length === 0) {
-    const emptyArrayObservable = create();
+    const emptyArrayObservable: Observable<Array<T>> = create();
     emptyArrayObservable.emit([]);
     return emptyArrayObservable;
   }
 
   const numberOfObservables = observables.length;
-  let combinedObservables;
   let subscriptions = [];
   let emitted = [];
-
-  combinedObservables = create({ start, stop, emitLatestOnSubscribe: true });
+  let combinedObservables: Observable<Array<T>> = create({ start, stop, emitLatestOnSubscribe: true });
   return combinedObservables;
 
   function start() {

@@ -73,7 +73,7 @@ export default class Observer<C, E> {
     arg4: ?any,
     arg5: ?any
   ) => TerminalObserver<E>;
-  tap: (tapper: (data: ?E) => E) => Observer<E, E>;
+  tap: (tapper: (data: ?E) => void) => Observer<E, E>;
   throttle: (millis: number, opts: ThrottleOptions) => Observer<E, E>;
   transform: <Target>(transformer: Transformer<E, Target>) => Observable<Target>;
 

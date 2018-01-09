@@ -55,7 +55,6 @@ export function debounceImpl<T>(func: Function, wait: number, options: ?Debounce
   if (options) {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
-    // TODO the else part seems to be a bug?!?
     maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
