@@ -1,7 +1,12 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import ApplicationsTable from 'in-views/applicationView/components/ApplicationsTable';
 
 export default function Applications() {
-  return <MaxWidthFullscreenContainer>Applications</MaxWidthFullscreenContainer>;
+  return (
+    <MaxWidthFullscreenContainer>
+      <ApplicationsTable />
+    </MaxWidthFullscreenContainer>
+  );
 }
