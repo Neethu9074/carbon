@@ -1,20 +1,39 @@
 import React from 'react';
 
 import { applicationsPath, servicesPath } from 'in-stores/navigation/paths/mainPaths';
-import { getView } from 'in-stores/navigation/navigation';
+import { isView, getView } from 'in-stores/navigation/navigation';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './ViewSwitcher.mless';
 
-export default function ViewSwitcher() {
+export default connectTo(
+  {
+    isServiceViewActive: isView(servicesPath)
+  },
+  function ViewSwitcher({ isServiceViewActive }) {
+    return (
+      <ul className={locals.wrapper}>
+        <ViewLink path={applicationsPath} isActive={!isServiceViewActive}>
+          Applications
+        </ViewLink>
+        <ViewLink path={servicesPath} isActive={isServiceViewActive}>
+          Services
+        </ViewLink>
+      </ul>
+    );
+  }
+);
+
+function ViewLink({ children, path, isActive }) {
+  let classes = locals.link;
+  if (isActive) {
+    classes += ` ${locals.active}`;
+  }
+
   return (
-    <div className={locals.wrapper}>
-      <Link className={locals.link} href$={getView(applicationsPath)}>
-        Applications
-      </Link>
-      <Link className={locals.link} href$={getView(servicesPath)}>
-        Services
-      </Link>
-    </div>
+    <Link className={classes} href$={getView(path)}>
+      <li>{children}</li>
+    </Link>
   );
 }

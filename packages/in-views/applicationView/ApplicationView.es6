@@ -22,26 +22,13 @@ export default function ApplicationView() {
         </div>
       }
     >
-      <Sticky header={<ViewSwitcher />}>
+      <MaxWidthFullscreenContainer>
+        <ViewSwitcher />
         <Switch>
-          <Route
-            path="*/services"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <Services />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
-          <Route
-            path="/"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <Applications />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
+          <Route path="*/services" render={() => <Services />} />
+          <Route path="/" render={() => <Applications />} />
         </Switch>
-      </Sticky>
+      </MaxWidthFullscreenContainer>
     </Sticky>
   );
 }
