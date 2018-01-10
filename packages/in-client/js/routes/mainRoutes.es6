@@ -20,6 +20,7 @@ import {
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
+import { application_2_0_Enabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import ApplicationView from 'promise-loader?global!in-views/applicationView/ApplicationView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -28,7 +29,6 @@ import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import GraphView from 'in-components/graphView/GraphView';
@@ -60,6 +60,10 @@ export default (
 
     {instanaInternalFeaturesEnabled ? (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
+    ) : null}
+
+    {application_2_0_Enabled ? (
+      <Route path={applicationsPath} component={createAsyncViewComponent(ApplicationView)} />
     ) : null}
 
     {/* landing page */}
