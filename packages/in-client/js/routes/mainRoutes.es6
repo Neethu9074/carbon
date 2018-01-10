@@ -44,12 +44,13 @@ export default (
     <Route path={physicalPath} component={Map} />
     <Route path={logicalPath} component={Map} />
     <Route path={containerPath} component={Map} />
+
     <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
     <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
     <Route component={GraphView} path={graphPath} />
-    <Route path={settingsPath} component={createAsyncViewComponent(ConfigurationView)} />
+    <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents ? (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
