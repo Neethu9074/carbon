@@ -1,8 +1,7 @@
 :local {
-
   .topList {
     width: 100%;
-    padding: 0 .4rem;
+    padding: 0 0.4rem;
 
     & ol {
       list-style: none;
@@ -19,5 +18,4 @@
   .buttons {
     margin-right: 1rem;
   }
-
 }

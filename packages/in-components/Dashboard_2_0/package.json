@@ -1,5 +1,5 @@
 {
-  "name": "Dashboard",
+  "name": "Dashboard_2_0",
   "version": "0.0.0",
   "private": true,
   "main": "./components/DashboardContent.es6"
