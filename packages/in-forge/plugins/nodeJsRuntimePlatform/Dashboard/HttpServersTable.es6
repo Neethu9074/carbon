@@ -7,7 +7,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Heap Space',
+    title: 'Type',
     type: 'string',
     typeArgs: {
       getValue(row) {
