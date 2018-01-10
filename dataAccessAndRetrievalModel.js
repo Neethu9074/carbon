@@ -53,16 +53,32 @@ export type LogicalEntity = {
 //          Queries
 // ===========================================================
 
-// Get services
+export type GetApplicationsOpts = {
+  service: ?Id,
+  endpoint: ?Id,
+  timeframe: Timeframe
+};
+export type GetApplications = (opts: GetApplicationsOpts) => Try<[Id]>;
+
+
 export type GetServicesOpts = {
-  timeframe: Timeframe,
   application: ?Id,
+  endpoint: ?Id,
+  timeframe: Timeframe
 };
 export type GetServices = (opts: GetServicesOpts) => Try<[Id]>;
 
 
+export type GetEndpointsOpts = {
+  application: ?Id,
+  service: ?Id,
+  timeframe: Timeframe
+};
+export type GetEndpoints = (opts: GetEndpointsOpts) => Try<[Id]>;
+
+
 export type GetLogicalEntityOpts = {
-  id: Id,
+  service: ?Id,
   timeframe: Timeframe
 };
 export type GetLogicalEntity = (opts: GetLogicalEntityOpts) => Try<LogicalEntity>;
@@ -72,6 +88,8 @@ export type GetMetricsOpts = {
   application: ?Id,
   service: ?Id,
   endpoint: ?Id,
+  timeframe: Timeframe,
+
   metric: string,
   // It can be that we only want to show one large number in the UI which is supposed
   desiredNumberOfDataPoints: number,
