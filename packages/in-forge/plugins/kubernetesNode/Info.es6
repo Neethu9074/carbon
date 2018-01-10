@@ -1,10 +1,10 @@
 import React from 'react';
 
-import createHostForNodeSubscription from 'in-services/subscription/hostForNode';
+import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
+import createHostForNodeSubscription from 'in-subscription/hostForNode';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -15,13 +15,13 @@ export default connectTo(
   props => {
     return {
       zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot),
-
       hostSnapshot: focusedMoment$
         .flatMap(time => createHostForNodeSubscription({ snapshotId: props.snapshot.get('id'), time }))
-        .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
+        .flatMap(getSnapshot),
+      clusterSnapshot: getClusterForNode(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, zoneSnapshot, hostSnapshot }) {
+  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot }) {
     const data = snapshot.get('data');
 
     return (
@@ -37,6 +37,12 @@ export default connectTo(
           </DescriptionItem>
         ) : null}
 
+        {clusterSnapshot ? (
+          <DescriptionItem title="Cluster">
+            <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+          </DescriptionItem>
+        ) : null}
+
         <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
         <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
@@ -46,3 +52,7 @@ export default connectTo(
     );
   }
 );
+
+function getClusterForNode(snapshotId) {
+  return focusedMoment$.flatMap(time => createClusterForNodeSubscription({ snapshotId, time }));
+}

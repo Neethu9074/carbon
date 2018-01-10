@@ -1,4 +1,4 @@
-import createMessageObservable from 'in-services/subscription/message';
+import createMessageObservable from 'in-subscription/message';
 import { createStore } from 'in-stores/store';
 
 /*

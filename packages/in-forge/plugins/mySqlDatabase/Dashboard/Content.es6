@@ -49,9 +49,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: [
@@ -72,9 +69,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
@@ -89,9 +83,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               min: 0,
               metrics: ['status.DB_QUERY_LATENCY'],
@@ -106,9 +97,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
@@ -123,9 +111,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               min: 0,
               metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
@@ -140,10 +125,6 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60,
-            right: 60
-          }}
           y1={{
             min: 0,
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],

@@ -3,7 +3,7 @@ import { markAsFinished } from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
-import getGraph from 'in-services/subscription/graph';
+import getGraph from 'in-subscription/graph';
 import { focusedMoment$ } from 'in-stores/timeline';
 
 export default class Graph {

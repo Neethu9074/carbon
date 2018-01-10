@@ -1,5 +1,3 @@
-import { on } from 'reactive-observables';
-
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import { clear as clearRenderingStore, requestRendering, frame$ } from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
@@ -11,6 +9,7 @@ import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
+import { debouncedResize$ } from 'in-services/browser';
 import { setCanvas } from 'in-map/stores/indexStore';
 import { Scene } from 'in-map/3DLibProvider';
 import theme from 'in-themes';
@@ -58,7 +57,7 @@ export default class AsciiScene extends SceneObject {
     const shouldRenderSceneCallback = () => (this.shouldRenderScene = true);
     this.addSubscriptions([
       frame$.subscribe(shouldRenderSceneCallback),
-      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
+      debouncedResize$.subscribe(this.onWindowResize.bind(this))
     ]);
 
     this.handleAnimationFrames(0);
@@ -112,13 +111,13 @@ export default class AsciiScene extends SceneObject {
       canvas: this.canvas
     });
     renderer.autoClearColor = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(document.body.clientWidth, window.innerHeight);
     renderer.setClearColor(0x010101);
 
     const effect = (this.asciiEffect = new AsciiEffect(renderer, undefined, {
       invert: true
     }));
-    effect.setSize(window.innerWidth, window.innerHeight);
+    effect.setSize(document.body.clientWidth, window.innerHeight);
 
     const parent = document.getElementById('in-map');
     parent.removeChild(this.canvas);
@@ -138,7 +137,7 @@ export default class AsciiScene extends SceneObject {
   onWindowResize() {
     const offset = theme.footer.height + theme.header.height;
     const height = window.innerHeight - offset;
-    const width = window.innerWidth;
+    const width = document.body.clientWidth;
     const canvas = this.canvas;
 
     this.renderer.setSize(width, height);

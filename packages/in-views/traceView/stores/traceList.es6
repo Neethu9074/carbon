@@ -2,7 +2,7 @@ import { combineLatest, create } from 'reactive-observables';
 
 import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
-import createTracesObservable from 'in-services/subscription/traces';
+import createTracesObservable from 'in-subscription/traces';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';

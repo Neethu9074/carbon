@@ -1,6 +1,6 @@
 import React from 'react';
 
-import createViewStructureObservable from 'in-services/subscription/view';
+import createViewStructureObservable from 'in-subscription/view';
 import { alwaysTrue } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { types, view$ } from 'in-stores/view';

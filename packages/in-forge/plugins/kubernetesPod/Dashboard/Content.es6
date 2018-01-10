@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import createContainersForPodSubscription from 'in-services/subscription/containersForPod';
+import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -64,7 +64,7 @@ export default function KubernetesPodDashboard({ snapshot }) {
       </KpiSection>
 
       <DashboardSection title="Containers">
-        <ContainerTable snapshotId={snapshotId} />
+        <ContainerTable snapshotId={snapshotId} snapshot={snapshot} />
       </DashboardSection>
     </div>
   );
@@ -76,13 +76,16 @@ const ContainerTable = connectTo(
       .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
-  function ContainerTable({ snapshotId, containerSnapshots }) {
+  function ContainerTable({ snapshotId, snapshot, containerSnapshots }) {
     let rows = [];
     if (containerSnapshots) {
       rows = containerSnapshots.map(containerSnapshot => ({
         key: containerSnapshot.get('id'),
-        state: containerSnapshot.getIn(['data', 'scheduling', `state`], ''),
         uid: containerSnapshot.getIn(['data', 'Id']),
+        state: snapshot.getIn(
+          ['data', `containers.data.docker://${containerSnapshot.getIn(['data', 'Id'])}.state`],
+          ''
+        ),
         snapshotId
       }));
     }

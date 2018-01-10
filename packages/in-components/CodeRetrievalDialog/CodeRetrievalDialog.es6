@@ -1,8 +1,8 @@
 import React from 'react';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import DashboardNotification from 'in-components/DashboardNotification';
 import CenterAlignment from 'in-components/layout/CenterAlignment';
-import DialogNotification from 'in-components/DialogNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
@@ -42,7 +42,7 @@ export default connectTo(
         {!response ? <LoadingIndicator type="dark" /> : null}
 
         {response && response.error ? (
-          <DialogNotification type="danger">Error: {response.error}</DialogNotification>
+          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
         ) : null}
 
         {response && response.data ? (

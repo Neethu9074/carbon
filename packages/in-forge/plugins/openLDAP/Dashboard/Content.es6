@@ -27,9 +27,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['ops_completed', 'ops_initiated'],
             labels: ['Completed', 'Initiated'],
@@ -42,9 +39,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['conn_total', 'conn_current'],
             labels: ['Total', 'Current'],
@@ -57,9 +51,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['bytes'],
             labels: ['Bytes'],
@@ -72,9 +63,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['entries', 'pdus', 'referrals'],
             labels: ['Entries', 'Pdus', 'Referrals'],
@@ -87,9 +75,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['waiter_read', 'waiter_write'],
             labels: ['Read', 'Write'],
@@ -102,9 +87,6 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['threads_active', 'threads_pending'],
             labels: ['Active', 'Pending'],

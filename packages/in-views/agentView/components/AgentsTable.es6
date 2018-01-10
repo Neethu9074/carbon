@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
-import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
@@ -10,8 +11,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getDashboardLink } from 'in-stores/navigation';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -35,7 +34,7 @@ const cols = [
           const to = row.snapshot.get('to') || Date.now();
           const reportingWindowSize = to - row.snapshot.get('from');
           const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
-          return hostId ? getSnapshot(hostId, reportingCenterTime) : alwaysNull;
+          return getSnapshot(hostId, reportingCenterTime);
         });
         return hostSnapshot$.flatMap(hostSnapshot =>
           getDashboardLink(row.key).map(href => {

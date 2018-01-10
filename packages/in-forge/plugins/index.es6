@@ -101,6 +101,7 @@ import './msiis';
 import './msSqlDatabase';
 import './mule';
 import './mySqlDatabase';
+import './netCoreRuntimePlatform';
 import './nginx';
 import './nodeJsRuntimePlatform';
 import './nova';

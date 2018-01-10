@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
-import getUiDebuggingInstructions from 'in-services/subscription/getUiDebuggingInstructions';
-import { connection, getDebuggingData } from 'in-services/connection';
+import getUiDebuggingInstructions from 'in-subscription/getUiDebuggingInstructions';
+import { connection, getDebuggingData } from 'in-connection';
 import { allStates } from 'in-stores/store';
 
 export function init() {

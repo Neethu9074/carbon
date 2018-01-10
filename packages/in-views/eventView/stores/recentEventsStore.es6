@@ -6,22 +6,29 @@ import { getEvent, selectedIncident$ } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createTrackingStore } from 'in-stores/store';
-import { alwaysNull } from 'in-services/fixedStreams';
+import { always } from 'in-services/fixedStreams';
 
-export const recentEvents$ = createTrackingStore({
+export const sortedRecentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
   observable: selectedIncident$.flatMap(incident => {
     restoreInitialVisibilityState();
     restoreInitialExpandedState();
 
-    let eventIds = null;
-    if (incident) {
-      eventIds = incident.get('recentEvents', emptyList);
+    if (!incident) {
+      return always(emptyArray);
     }
-    return eventIds ? combineLatest(eventIds.toArray().map(id => getEvent(id))) : alwaysNull;
+
+    return combineLatest(
+      incident
+        .get('recentEvents', emptyList)
+        .toArray()
+        .map(getEvent)
+    ).map(ids =>
+      ids.sort(
+        (a, b) =>
+          incident.getIn(['issueOrderMap', a.get('id')], a.get('start')) -
+          incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
+      )
+    );
   })
 }).observable;
-
-export const sortedRecentEvents$ = recentEvents$.map(
-  events => (events ? events.slice().sort((a, b) => a.get('start') - b.get('start')) : emptyArray)
-);

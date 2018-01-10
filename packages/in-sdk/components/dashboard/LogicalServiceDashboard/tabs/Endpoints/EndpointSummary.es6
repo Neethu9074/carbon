@@ -2,10 +2,10 @@ import React from 'react';
 
 import TwoColumnDetailHeader from 'in-sdk/components/dashboard/TabView/TwoColumnDetailHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { number, millis } from 'in-services/formatters/number';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
@@ -68,10 +68,6 @@ export default function EndpointSummary({ snapshot, endpoint, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 80
-          }}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -96,9 +92,6 @@ export default function EndpointSummary({ snapshot, endpoint, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           height={200}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             formatter: millis.fixedCompact,

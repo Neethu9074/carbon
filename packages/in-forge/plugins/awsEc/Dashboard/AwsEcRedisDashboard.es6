@@ -14,9 +14,6 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_cache'],
@@ -30,9 +27,6 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['cache_hits', 'cache_misses'],
@@ -46,10 +40,6 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80,
-            right: 40
-          }}
           y1={{
             min: 0,
             metrics: ['replication_bytes'],
@@ -71,9 +61,6 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['get_type_cmds', 'hash_based_cmds', 'key_based_cmds', 'list_based_cmds'],
@@ -87,9 +74,6 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               min: 0,
               metrics: ['set_based_cmds', 'sorted_set_based_cmds', 'string_based_cmds', 'hyper_log_log_based_cmds'],

@@ -3,22 +3,22 @@ import { Map } from 'immutable';
 import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
-import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
+import { apiTokensPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
+import { getApiTokens, saveApiToken, deleteApiToken } from 'in-api/apiTokens';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getApiTokenConfigLink } from 'in-stores/navigation/configuration';
-import { openApiTokenConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
 const logger = createLogger('ApiTokenManagement');
 
-const cols = [getLinkColumn(getApiTokenConfigLink), getDeleteButtonColumn()];
+const cols = [getLinkColumn(getEntityIdPath.bind(null, apiTokensPath)), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'ApiTokens';
@@ -131,9 +131,7 @@ export default class extends React.Component {
     });
 
     const result$ = saveApiToken(newApiToken);
-    this.responseSubscription = result$.once(() => {
-      openApiTokenConfig(newApiToken.get('id'));
-    });
+    this.responseSubscription = result$.once(() => goToPath(apiTokensPath, newApiToken.get('id')));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save new API token: ${error.message}`;

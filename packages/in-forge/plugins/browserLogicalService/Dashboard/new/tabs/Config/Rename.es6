@@ -8,7 +8,7 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
-import { renameKey } from 'in-services/api/eumKeys';
+import { renameKey } from 'in-api/eumKeys';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';

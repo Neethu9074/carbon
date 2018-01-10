@@ -88,10 +88,6 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
               snapshotId={connection.connectionSnapshotId}
               timeframe={timeframe}
               height={200}
-              margins={{
-                left: 60,
-                right: 60
-              }}
               y1={{
                 min: 0,
                 formatter: number.compact,
@@ -117,9 +113,6 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
               snapshotId={connection.connectionSnapshotId}
               timeframe={timeframe}
               height={200}
-              margins={{
-                left: 60
-              }}
               y1={{
                 min: 0,
                 formatter: millis.fixedCompact,

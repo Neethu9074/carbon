@@ -1,4 +1,3 @@
-import { on } from 'reactive-observables';
 import React from 'react';
 
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
@@ -7,6 +6,7 @@ import MapSidebarHeader from 'in-components/MapSidebar/components/MapSidebarHead
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import getForgeComponent from 'in-services/getForgeComponent';
+import { debouncedResize$ } from 'in-services/browser';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -18,9 +18,7 @@ const block = 'in-map-sidebar';
 export default connectTo(
   {
     snapshot: selectedSnapshot$,
-    windowHeight: on(window, 'resize')
-      .map(() => window.innerHeight)
-      .startWithFn(() => window.innerHeight),
+    windowHeight: debouncedResize$.map(() => window.innerHeight).startWithFn(() => window.innerHeight),
     timelineHeight: timelineHeight$
   },
   function MapSidebar({ snapshot, windowHeight, timelineHeight }) {

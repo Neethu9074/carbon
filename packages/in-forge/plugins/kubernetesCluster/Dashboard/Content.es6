@@ -44,9 +44,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: twoDecimalPlaces,
               metrics: ['nodes.allocatable_cpu', 'nodes.capacity_cpu'],
@@ -59,9 +56,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['nodes.allocatable_mem', 'nodes.capacity_mem'],
@@ -77,9 +71,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['pods.count'],
@@ -92,9 +83,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['nodes.allocatable_pods', 'nodes.capacity_pods'],
@@ -109,9 +97,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['availableReplicas', 'desiredReplicas'],

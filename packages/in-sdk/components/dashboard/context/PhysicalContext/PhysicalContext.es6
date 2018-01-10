@@ -1,14 +1,13 @@
 import React from 'react';
 
 import ContextPopup from 'in-sdk/components/dashboard/context/PhysicalContext/ContextPopup';
-import getPhysicalContext from 'in-services/subscription/getPhysicalContext';
+import getPhysicalContext from 'in-subscription/getPhysicalContext';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import HealthDot from 'in-components/health/HealthDot';
 import { getContext, getLabel } from 'in-sdk/snapshot';
 import { focusedMoment$ } from 'in-stores/timeline';
-import { nothing } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
@@ -42,8 +41,8 @@ export default connectTo(
 
 const Item = connectTo(
   props => ({
-    snapshot: props.snapshotId ? getSnapshot(props.snapshotId) : nothing,
-    additionalContextSnapshot: props.additionalContextFrom ? getSnapshot(props.additionalContextFrom) : nothing
+    snapshot: getSnapshot(props.snapshotId),
+    additionalContextSnapshot: getSnapshot(props.additionalContextFrom)
   }),
   function Item({ snapshot, additionalContextSnapshot }) {
     if (!snapshot) {

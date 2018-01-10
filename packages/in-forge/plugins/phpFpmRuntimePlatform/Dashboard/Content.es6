@@ -39,10 +39,6 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 90,
-            right: 60
-          }}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -71,10 +67,6 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 90,
-            right: 60
-          }}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -99,9 +91,6 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 90
-          }}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,

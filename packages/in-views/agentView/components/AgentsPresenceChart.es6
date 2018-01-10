@@ -22,9 +22,6 @@ export default connectTo(
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeframe={timeframe}
           withoutLegend
-          margins={{
-            left: 40
-          }}
           height={120}
           y1={{
             min: 0,

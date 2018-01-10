@@ -3,7 +3,7 @@ import React from 'react';
 
 import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
 import { number, percentage } from 'in-services/formatters/number';
-import ChartLegend from 'in-components/Chart/components/Legend';
+import ChartLegend from 'in-charts/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
 
 export default class extends React.Component {
@@ -40,7 +40,6 @@ export default class extends React.Component {
       height: props.height,
       minRollup: props.minRollup,
       margins: props.margins || {},
-      avoidMarginOverrides: props.avoidMarginOverrides,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
       snapshotIds: props.snapshotIds,

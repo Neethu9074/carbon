@@ -1,7 +1,7 @@
 import { Set } from 'immutable';
 
 import { setField, removeField, containsField, getFieldTerms } from 'in-stores/search/manipulation';
-import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
+import createFilterableTagsObservable from 'in-subscription/filterableTags';
 import { query$, mutateQuery } from 'in-stores/search/query';
 import { focusedMoment$ } from 'in-stores/timeline';
 

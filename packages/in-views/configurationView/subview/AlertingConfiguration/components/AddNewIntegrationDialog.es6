@@ -3,7 +3,7 @@ import React from 'react';
 
 import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import configs from 'in-views/configurationView/subview/Integration/configs';
-import { saveIntegration } from 'in-services/api/integrations';
+import { saveIntegration } from 'in-api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import StepByStepDialog from 'in-components/StepByStepDialog';
 import { close } from 'in-components/DialogPresenter/store';

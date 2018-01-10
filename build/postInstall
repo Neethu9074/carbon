@@ -7,25 +7,25 @@ linkModule() {
 }
 
 echo "Symlinking node modules to node_modules to enable shorter require paths"
-linkModule in-services
-linkModule in-sdk
-linkModule in-forge
-linkModule in-map
-linkModule in-themes
-linkModule in-components
-linkModule in-test
-linkModule in-stores
-linkModule in-hoc
-linkModule in-client
+linkModule in-api
 linkModule in-charts
+linkModule in-client
+linkModule in-components
+linkModule in-connection
+linkModule in-forge
+linkModule in-hoc
+linkModule in-internal
+linkModule in-map
+linkModule in-sdk
+linkModule in-services
+linkModule in-stores
+linkModule in-subscription
+linkModule in-test
+linkModule in-themes
 linkModule in-views
 linkModule roemitter
 linkModule instalog
 linkModule reactive-observables
-
-# Try to install nginx for supported systems
-echo "Trying to install nginx for supported systems"
-nice -19 proxrox install
 
 echo "Install commit hooks"
 rm -f .git/hooks/pre-commit

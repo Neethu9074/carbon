@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getDashboardLink } from 'in-stores/navigation';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import Link from 'in-components/Link';

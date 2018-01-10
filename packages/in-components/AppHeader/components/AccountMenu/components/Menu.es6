@@ -3,12 +3,12 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
-import { configurationViewLink$ } from 'in-stores/navigation/configuration';
+import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { getView } from 'in-stores/navigation/navigation';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
-import { agentsViewLink$ } from 'in-stores/navigation/view';
 import { config, isOnPremise } from 'in-services/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -61,12 +61,12 @@ export default connectTo(
 
           {!isOnPremise() ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
 
-          <Link className={linkElement} href$={configurationViewLink$} onClick={closeMenu}>
+          <Link className={linkElement} href$={getView(settingsPath)} onClick={closeMenu}>
             Settings
           </Link>
 
           {role.canConfigureAgents ? (
-            <Link className={linkElement} href$={agentsViewLink$} onClick={closeMenu}>
+            <Link className={linkElement} href$={getView(agentsPath)} onClick={closeMenu}>
               Agents
             </Link>
           ) : null}

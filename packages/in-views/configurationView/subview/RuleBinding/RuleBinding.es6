@@ -4,15 +4,16 @@ import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-services/api/ruleBindings';
+import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-api/ruleBindings';
 import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/RuleBindingForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import { rulesPath } from 'in-stores/navigation/paths/settingPaths';
 import Section from 'in-views/configurationView/components/Section';
-import { openRuleBindings } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
-import { getRules } from 'in-services/api/rules';
+import { getRules } from 'in-api/rules';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
@@ -200,7 +201,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(openRuleBindings);
+    this.responseSubscription = result$.once(() => goToPath(rulesPath));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save custom issue: ${error.message}`;

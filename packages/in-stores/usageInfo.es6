@@ -3,7 +3,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import createUsageInfoSubscription from 'in-services/subscription/usageInfo';
+import createUsageInfoSubscription from 'in-subscription/usageInfo';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { createTrackingStore, createStore } from 'in-stores/store';
 import { toHtml } from 'in-services/formatters/markdown';

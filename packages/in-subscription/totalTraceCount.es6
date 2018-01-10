@@ -1,0 +1,20 @@
+import { fromJS } from 'immutable';
+
+import createSubscription from 'in-subscription/subscription';
+
+export default createSubscription({
+  eventId: 'subscribe-trace-count',
+
+  getId: ({ timeframe, focusedMoment, query }) => timeframe.to + timeframe.windowSize + focusedMoment + query,
+
+  getData: (subscriptionId, { timeframe, focusedMoment, query }) => {
+    return {
+      subscriptionId,
+      time: focusedMoment,
+      timeframe,
+      query
+    };
+  },
+
+  transformData: countResult => fromJS(countResult)
+});

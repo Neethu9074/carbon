@@ -1,25 +1,31 @@
 import React from 'react';
 
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
-import { closeDashboardLink$ } from 'in-stores/navigation';
+import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import './DashboardHeader.less';
 
 const block = 'in-dashboard-header';
 
-export default function DashboardHeader({ snapshotId }) {
-  return (
-    <header className={block}>
-      <div>
-        <Button href$={closeDashboardLink$} size="sm">
-          close
-        </Button>
+export default connectTo(
+  {
+    closeDashboardLink: getCloseDashboardLink()
+  },
+  function DashboardHeader({ snapshotId, closeDashboardLink }) {
+    return (
+      <header className={block}>
+        <div>
+          <Button href={closeDashboardLink} size="sm">
+            close
+          </Button>
 
-        <span className={`${block}__title`}>Dashboard</span>
-      </div>
+          <span className={`${block}__title`}>Dashboard</span>
+        </div>
 
-      <DashboardBreadcrumb snapshotId={snapshotId} />
-    </header>
-  );
-}
+        <DashboardBreadcrumb snapshotId={snapshotId} />
+      </header>
+    );
+  }
+);

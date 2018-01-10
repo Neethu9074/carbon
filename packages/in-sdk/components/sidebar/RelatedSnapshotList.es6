@@ -36,7 +36,7 @@ export default connectTo(
             <Separator />
 
             <Collapsible initiallyOpen={initiallyOpen}>
-              <Collapsible.Header className={block + '__header'}>
+              <Collapsible.Header>
                 <div className={block + '__header'}>
                   <PluginIcon className={block + '__plugin-icon'} snapshot={groups[plugin][0]} />
                   <span>

@@ -2,14 +2,15 @@ import { createField, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import { eumKeysViewLink$ } from 'in-stores/navigation/configuration';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { eumKeysView$ } from 'in-stores/navigation/paths/settingPaths';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
+import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import From from 'in-views/eumView/components/NewWebsite/Form';
 import { combineDataAndError } from 'in-services/util/ro';
-import { getDashboardLink } from 'in-stores/navigation';
+import LegacyView from 'in-components/LegacyView';
 import { getSnapshot } from 'in-stores/snapshot';
-import { addKey } from 'in-services/api/eumKeys';
+import { addKey } from 'in-api/eumKeys';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -18,7 +19,7 @@ import './NewWebsite.less';
 const block = 'in-new-website';
 
 export default connectTo(
-  { eumKeysViewLink: eumKeysViewLink$ },
+  { eumKeysViewLink: eumKeysView$ },
   class NewWebsite extends React.PureComponent {
     constructor(props) {
       super(props);
@@ -41,32 +42,32 @@ export default connectTo(
 
     render() {
       return (
-        <FullscreenOverlayView>
+        <div className={block}>
+          <LegacyView />
           <Title title="New Website" />
-          <div className={block}>
-            {this.state.saveResult == null ? (
-              <From
-                field={this.state.field}
-                loading={this.state.loading}
-                saveError={this.state.saveError}
-                onChange={this.onChange}
-                onSubmit={this.onSubmit}
-              />
-            ) : null}
-            {this.state.saveResult != null ? (
-              <Waiting
-                websiteName={this.state.saveResult.appName}
-                eumKey={this.state.saveResult.id}
-                isWaiting={this.state.snapshot == null}
-                href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
-                  to: null,
-                  focusedMoment: null,
-                  pathname: '/website/dashboard'
-                })}
-              />
-            ) : null}
-          </div>
-        </FullscreenOverlayView>
+
+          {this.state.saveResult == null ? (
+            <From
+              field={this.state.field}
+              loading={this.state.loading}
+              saveError={this.state.saveError}
+              onChange={this.onChange}
+              onSubmit={this.onSubmit}
+            />
+          ) : null}
+          {this.state.saveResult != null ? (
+            <Waiting
+              websiteName={this.state.saveResult.appName}
+              eumKey={this.state.saveResult.id}
+              isWaiting={this.state.snapshot == null}
+              href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
+                to: null,
+                focusedMoment: null,
+                pathname: `${websitePath}/dashboard`
+              })}
+            />
+          ) : null}
+        </div>
       );
     }
 

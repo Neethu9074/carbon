@@ -1,9 +1,10 @@
 import { combineLatest } from 'reactive-observables';
 
-import createSearchSubscription from 'in-services/subscription/search';
+import { physicalPath, logicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
+import createSearchSubscription from 'in-subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
+import { isView } from 'in-stores/navigation/navigation';
 import { debouncedQuery$ } from 'in-stores/search/query';
-import { isMapView$ } from 'in-stores/navigation/view';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { view$ } from 'in-stores/view';
@@ -11,8 +12,17 @@ import { role } from 'in-stores/user';
 
 export const searchMatches$ = createTrackingStore({
   name: 'search/searchMatches',
-  observable: combineLatest([debouncedQuery$, focusedMoment$, isMapView$, view$, timeframe$])
-    .flatMap(([query, focusedMoment, isMapView, view, timeframe]) => {
+  observable: combineLatest([
+    debouncedQuery$,
+    focusedMoment$,
+    isView(physicalPath),
+    isView(logicalPath),
+    isView(containerPath),
+    view$,
+    timeframe$
+  ])
+    .flatMap(([query, focusedMoment, isPhysicalView, isLogicalView, isContainerView, view, timeframe]) => {
+      const isMapView = isPhysicalView || isLogicalView || isContainerView;
       if (
         !isMapView ||
         ((query == null || query.length === 0) &&

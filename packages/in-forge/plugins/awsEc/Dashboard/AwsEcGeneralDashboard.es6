@@ -13,9 +13,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['cpu_utilization'],
             labels: ['CPU Utilization'],
@@ -28,9 +25,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['freeable_memory'],
             labels: ['Freeable memory'],
@@ -43,9 +37,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['net_bytes_in', 'net_bytes_out'],
             labels: ['Bytes In', 'Bytes out'],
@@ -58,9 +49,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['swap_usage'],
             labels: ['Swap usage'],
@@ -73,9 +61,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['curr_connections', 'new_connections'],
             labels: ['Current', 'New'],
@@ -88,9 +73,6 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: ['curr_items', 'evictions', 'reclaimed'],
             labels: ['Current', 'Evicted', 'Reclaimed'],

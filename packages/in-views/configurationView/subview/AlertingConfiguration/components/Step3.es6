@@ -3,7 +3,7 @@ import React from 'react';
 import AddNewIntegrationDialog from 'in-views/configurationView/subview/AlertingConfiguration/components/AddNewIntegrationDialog';
 import IntegrationsDetails from 'in-views/configurationView/subview/Integrations/components/IntegrationsDetails';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { getIntegrations } from 'in-services/api/integrations';
+import { getIntegrations } from 'in-api/integrations';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import RuleControl from 'in-components/form/RuleControl';

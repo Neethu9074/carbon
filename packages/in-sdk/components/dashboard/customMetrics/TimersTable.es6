@@ -86,7 +86,6 @@ function getDetails(row) {
         left: 90,
         right: 90
       }}
-      avoidMarginOverrides
       y1={{
         formatter: rateFormatter,
         metrics: ['metrics.timers.' + row.name + '.rate'],

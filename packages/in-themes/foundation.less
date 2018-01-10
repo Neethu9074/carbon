@@ -1,0 +1,109 @@
+@import '~in-themes/active.less';
+@import '~in-themes/reboot.less';
+
+html {
+  overflow-y: scroll;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: Monaco, Monospace;
+}
+
+.pull-right {
+  float: right;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+input[type='search'] {
+  -webkit-appearance: textfield;
+
+  // Padding will cause the clear button to be hidden.
+  // https://github.com/zurb/foundation-sites/issues/5755
+  .in-browser-safari & {
+    padding-right: 0 !important;
+  }
+}
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+}
+
+// this style belongs to the items shown in the index.html when loading isntana or showing that JS is loading
+// therefore there is no component with this class
+.in-index-centered-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  color: #fff;
+  background: #43565e;
+
+  background: radial-gradient(#5d7883 0%, #43565e 70%);
+
+  &__loading-spinner {
+    width: 64px;
+    height: 64px;
+    animation: loading_spinner 0.75s infinite linear;
+  }
+
+  @keyframes loading_spinner {
+    0%,
+    12.49999% {
+      transform: rotate(-0deg);
+    }
+
+    12.5%,
+    24.9999% {
+      transform: rotate(-45deg);
+    }
+
+    25%,
+    37.4999% {
+      transform: rotate(-90deg);
+    }
+
+    37.5%,
+    49.9999% {
+      transform: rotate(-135deg);
+    }
+
+    50%,
+    62.49999% {
+      transform: rotate(-180deg);
+    }
+
+    62.5%,
+    74.9999% {
+      transform: rotate(-225deg);
+    }
+
+    75%,
+    87.4999% {
+      transform: rotate(-270deg);
+    }
+
+    99.9999%,
+    87.5% {
+      transform: rotate(-315deg);
+    }
+
+    100% {
+      transform: rotate(-359deg);
+    }
+  }
+}

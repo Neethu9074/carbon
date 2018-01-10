@@ -2,7 +2,7 @@ import React from 'react';
 
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';

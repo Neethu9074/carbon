@@ -1,17 +1,11 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 
 const logger = createLogger('in-components/AsyncFullscreenView');
 
-export const createAsyncFullscreenOverlayViewComponent = createAsyncComponent.bind(
-  null,
-  <FullscreenOverlayView>
-    <LoadingIndicator type="dark" />
-  </FullscreenOverlayView>
-);
+export const createAsyncViewComponent = createAsyncComponent.bind(null, <LoadingIndicator type="dark" />);
 
 export const createAsyncComponentWithLoadingIndicatorPlaceholder = createAsyncComponent.bind(
   null,

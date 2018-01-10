@@ -7,19 +7,8 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    viewControls: zIndex++,
-    sidebar: zIndex++,
-    fullscreenView: zIndex++,
-    footer: zIndex++,
-    fullscreenViewOverlayTimeline: zIndex++,
-    footerTimePicker: zIndex++,
-    mapNotes: zIndex++,
-    searchMenu: zIndex++,
-    searchBar: zIndex++,
-    searchSuggestions: zIndex++,
-    fullscreenViewOverlaySearchBar: zIndex++,
-    header: zIndex++,
-    viewSwitcher: zIndex++,
+    stickyHeader: (zIndex += 20),
+    timeline: zIndex++,
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
     tooltips: zIndex++,
@@ -27,12 +16,18 @@ module.exports = {
     subMenu: zIndex++,
     messageFlyout: zIndex++
   },
-  common: {
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif'
+  fontColor: '#0C1415',
+  fontFamilySansSerif:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  fontFamilyMonospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  links: {
+    fontColor: '#2d4048',
+    decoration: 'underline',
+    hover: {
+      fontColor: '#8c969a',
+      decoration: 'underline'
+    }
   },
-  fontFamilySansSerif: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif',
-  fontFamilySerif: 'Georgia, "Times New Roman", Times, serif',
-  fontFamilyMonospace: 'Menlo, Monaco, Consolas, "Courier New", monospace',
   chart: {
     strokeColors: [
       '#5da6da',

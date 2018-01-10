@@ -54,9 +54,6 @@ function auctioneerCharts(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -71,9 +68,6 @@ function auctioneerCharts(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
@@ -100,9 +94,6 @@ function stagerCharts(row) {
           <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
@@ -117,9 +108,6 @@ function stagerCharts(row) {
           <Chart
             snapshotId={snapshotId}
             timeframe={row.timeframe}
-            margins={{
-              left: 60
-            }}
             y1={{
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesZeroDecimalPlaces,
@@ -138,9 +126,6 @@ function stagerCharts(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -162,9 +147,6 @@ function fileserverCharts(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -179,9 +161,6 @@ function fileserverCharts(row) {
         <Chart
           snapshotId={snapshotId}
           timeframe={row.timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,

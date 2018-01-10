@@ -13,6 +13,7 @@ import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
 import { copyCanvasInto } from 'in-charts/Chart/buffer';
+import { debouncedResize$ } from 'in-services/browser';
 import { toServerTime } from 'in-stores/timeOffset';
 import { getSetting$ } from 'in-services/settings';
 
@@ -38,16 +39,15 @@ export default function createChart(config) {
       left: 1,
       right: 1
     };
-  } else {
-    config.margins.top = 1;
-    config.margins.bottom = 31;
-    if (config.avoidMarginOverrides) {
-      config.margins.left = config.margins.left != null ? config.margins.left : 60;
-      config.margins.right = config.margins.right != null ? config.margins.right : 60;
-    } else {
-      config.margins.left = 60;
-      config.margins.right = 60;
-    }
+  }
+
+  if (!config.withoutAxis) {
+    config.margins = {
+      top: 1,
+      bottom: 31,
+      left: config.margins.left || 80,
+      right: config.margins.right || 80
+    };
   }
 
   addLowDetailModeSupport();
@@ -157,11 +157,7 @@ export default function createChart(config) {
   }
 
   function addWindowResizeSupport() {
-    config.subscriptions.push(
-      on(window, 'resize')
-        .debounce(500)
-        .subscribe(onResize)
-    );
+    config.subscriptions.push(debouncedResize$.subscribe(onResize));
   }
 
   function onResize() {

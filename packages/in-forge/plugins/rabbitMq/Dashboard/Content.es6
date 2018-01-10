@@ -36,9 +36,6 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['overview.publish_rate', 'overview.deliver_rate', 'overview.ack_rate'],
             labels: ['Published per 5 seconds', 'Delivered per 5 seconds', 'Acknowledged per 5 seconds'],
@@ -52,9 +49,6 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: ['overview.messages_ready', 'overview.messages_unacknowledged', 'overview.messages'],
               labels: ['Messages ready', 'Messages unacknowledged', 'Messages total'],
@@ -65,9 +59,6 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
-            margins={{
-              left: 80
-            }}
             y1={{
               metrics: [
                 'overview.messages_ready_rate',
@@ -86,9 +77,6 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             min: 0,
             metrics: ['overview.consumers', 'overview.connections'],

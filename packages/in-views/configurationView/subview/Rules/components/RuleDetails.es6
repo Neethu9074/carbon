@@ -5,7 +5,7 @@ import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
-import { getRule } from 'in-services/api/rules';
+import { getRule } from 'in-api/rules';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
 import connectTo from 'in-hoc/connectTo';

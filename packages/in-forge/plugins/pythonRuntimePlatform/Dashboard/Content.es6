@@ -45,10 +45,6 @@ function renderTimeMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: timeByMillisTwoDecimalPlaces,
@@ -65,10 +61,6 @@ function renderMemoryMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
@@ -85,10 +77,6 @@ function renderGcMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -112,10 +100,6 @@ function renderPagingMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -132,10 +116,6 @@ function renderThreadsMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -152,10 +132,6 @@ function renderIoMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -172,10 +148,6 @@ function renderEventsMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -192,10 +164,6 @@ function renderContextMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60,
-        right: 60
-      }}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,

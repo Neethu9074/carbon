@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getTraceViewFilteredByTouchingLink } from 'in-stores/navigation/paths/tracePaths';
 import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
-import { getTraceViewFilteredByTouchingLink } from 'in-stores/navigation/search';
 import { getNumberOfTracesTouchingService } from 'in-stores/traces';
 
 export default function JumpToTracesTouchingServiceButton({ snapshotId }) {

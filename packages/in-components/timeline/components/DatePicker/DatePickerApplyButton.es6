@@ -7,6 +7,7 @@ import { isDateTimeValid$ as fromValid$ } from 'in-components/timeline/component
 import { isDateTimeValid$ as toValid$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
+import { selectedMomentPlacedViaTimeSelector } from 'in-services/tracking';
 import { closeTimeSelector } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -103,4 +104,5 @@ export default connectTo(
 function stopAndCloseDialog(e) {
   e.stopPropagation();
   closeTimeSelector();
+  selectedMomentPlacedViaTimeSelector();
 }

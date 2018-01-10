@@ -1,8 +1,8 @@
 import React from 'react';
 
 import configs from 'in-views/configurationView/subview/Integration/configs';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { Row, Col } from 'in-components/Grid/Grid';
+import Button from 'in-components/Button';
 
 import './IntegrationSwitch.less';
 
@@ -28,15 +28,9 @@ export default function IntegrationSwitch({ onClick, selectedType }) {
 function IntegrationButton({ type, selectedType, onClick }) {
   return (
     <Col cols={4}>
-      <div
-        className={evaluateClassNames({
-          [`${block}__button`]: true,
-          [`${block}__button--selected`]: selectedType === type
-        })}
-        onClick={() => onClick(type)}
-      >
+      <Button className={`${block}__button`} disabled={selectedType === type} kind="info" onClick={() => onClick(type)}>
         {configs[type].label}
-      </div>
+      </Button>
     </Col>
   );
 }

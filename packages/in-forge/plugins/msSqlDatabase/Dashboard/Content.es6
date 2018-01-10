@@ -18,9 +18,6 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: [
               'waitstats.PAGEIOLATCH_EX.wait_time_ms',
@@ -38,9 +35,6 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: [
               'perfcounters.sqlserver:general statistics\\logins/sec',

@@ -43,9 +43,6 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
             labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
@@ -57,9 +54,6 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
             labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
@@ -71,9 +65,6 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
             labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
@@ -85,9 +76,6 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['memoryPercentUsage', 'storePercentUsage'],
             labels: ['Memory Usage', 'Store Usage'],

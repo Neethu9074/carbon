@@ -6,10 +6,11 @@ import React from 'react';
 import ApiTokenForm from 'in-views/configurationView/subview/ApiTokens/ApiTokenForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getApiToken, saveApiToken } from 'in-services/api/apiTokens';
+import { apiTokensPath } from 'in-stores/navigation/paths/settingPaths';
+import { getApiToken, saveApiToken } from 'in-api/apiTokens';
 import Section from 'in-views/configurationView/components/Section';
-import { openApiTokens } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
@@ -136,7 +137,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(openApiTokens);
+    this.responseSubscription = result$.once(() => goToPath(apiTokensPath));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save API token: ${error.message}`;

@@ -6,14 +6,8 @@ MAINTAINER Ben Ripkens "ben@instana.com"
 # the number of copy operations (and thus layers).
 COPY . /opt/all
 
-RUN mkdir -p /etc/service/in-server && \
-
-    mv /opt/all/target                             /opt/www && \
-    mv /opt/all/deployment/config.json.j2          /opt/www/config.json.j2 && \
-    mv /opt/all/deployment/serverConfig.json.j2    /opt/www/serverConfig.json.j2 && \
-    mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
-    mv /opt/all/deployment/discovery               /opt/discovery && \
-    mv /opt/all/ext-discovery/*                    /opt/discovery/ && \
+RUN mv /opt/all/target                    /opt/www && \
+    mv /opt/all/deployment/ui-client.sh   /usr/bin/ui-client.sh && \
 
     # Install dependencies inside the container. We need to do this to compile
     # native extensions against the image's operating system. This makes the
@@ -36,8 +30,6 @@ ENV COM_INSTANA_COMMIT_ID="{{GIT_COMMIT}}" \
 
 LABEL com.instana.commit.id="{{GIT_COMMIT}}" \
       com.instana.branch="{{GIT_BRANCH}}" \
-      com.instana.commit.author="{{COMMIT_AUTHOR}}" \
-      com.instana.image.tag="{{INSTANA_CONTAINER_TAG}}" \
-      com.instana.build.url="{{BUILD_URL}}"
+      com.instana.image.tag="{{INSTANA_CONTAINER_TAG}}"
 
-CMD ["/sbin/my_init"]
+CMD ["/usr/bin/ui-client.sh"]

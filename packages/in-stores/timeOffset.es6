@@ -1,5 +1,5 @@
-import createTimestampObservable from 'in-services/subscription/timestamp';
-import { connection } from 'in-services/connection';
+import createTimestampObservable from 'in-subscription/timestamp';
+import { connection } from 'in-connection';
 import { createStore } from 'in-stores/store';
 
 // This is an attempt to "synchronize" the time between client (browser) and

@@ -1,19 +1,18 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
-import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
-import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
 import {
   matchSpecificationOptions as generalMatchSpecificationOptions,
   matchSpecificationOptionsTree as generalMatchSpecificationOptionsTree
 } from 'in-views/configurationView/subview/ServiceExtraction/configs/GeneralServiceExtractionConfiguration';
-import { generalServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { httpServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
+import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
+import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
+import { httpServiceExtractionPath, generalServiceExtractionView$ } from 'in-stores/navigation/paths/settingPaths';
 import Link from 'in-components/Link';
 
 export const ruleType = 'webapp';
 
-export const pathname = httpServiceExtractionConfigViewPath;
+export const pathname = httpServiceExtractionPath;
 
 export const helpTexts = defaults(
   {
@@ -22,8 +21,8 @@ export const helpTexts = defaults(
         Configure how Instana uses HTTP request attributes to extract services. You can define multiple rules which will
         be executed in order, i.e. the first rule of which all match expression match, will be used to extract a service
         name. Should no rule match, the defaults from the{' '}
-        <Link href$={generalServiceExtractionConfigurationViewLink$}>General config</Link> apply. Should these not match
-        as well, a default service name consisting of the first URL segment is used.
+        <Link href$={generalServiceExtractionView$}>General config</Link> apply. Should these not match as well, a
+        default service name consisting of the first URL segment is used.
         <br />
         View our{' '}
         <Link href="https://docs.instana.io/products/application_service_management/#configuration" external>

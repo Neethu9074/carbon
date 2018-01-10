@@ -4,12 +4,13 @@ import React from 'react';
 
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
-import { getRole, saveRole, createRole } from 'in-services/api/roles';
+import { rolesConfigPath } from 'in-stores/navigation/paths/settingPaths';
+import { getRole, saveRole, createRole } from 'in-api/roles';
 import Section from 'in-views/configurationView/components/Section';
-import { openRoles } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import { ownerRoleId, fallbackRoleId } from 'in-stores/user';
 import Notification from 'in-components/form/Notification';
+import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import Button from 'in-components/Button';
 
@@ -23,7 +24,7 @@ export default function AlertingConfiguration(props) {
       createDefaultEntity={createRole}
       createForm={createForm}
       getEntityFromApi={getRole}
-      openEntities={openRoles}
+      openEntities={() => goToPath(rolesConfigPath)}
       saveEntity={save}
     />
   );
@@ -91,5 +92,6 @@ function createForm(role) {
     .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }));
+    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }))
+    .put('canConfigureAuthenticationMethods', createField({ value: role.get('canConfigureAuthenticationMethods') }));
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import EventMetrics from 'in-views/cockpit/components/EventMetrics';
 import TraceMetrics from 'in-views/cockpit/components/TraceMetrics';
 import SpanMetrics from 'in-views/cockpit/components/SpanMetrics';
@@ -20,7 +19,7 @@ const isPhysicalPlugin = pluginId => !isLogicalPlugin(pluginId);
 
 export default function Cockpit() {
   return (
-    <FullscreenOverlayView className={block} overlayTimeline>
+    <div className={block}>
       <Title title="Cockpit" />
       <Row>
         <Col cols={6}>
@@ -63,6 +62,6 @@ export default function Cockpit() {
           </Tile>
         </Col>
       </Row>
-    </FullscreenOverlayView>
+    </div>
   );
 }

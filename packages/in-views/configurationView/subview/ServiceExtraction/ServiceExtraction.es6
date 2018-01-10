@@ -17,20 +17,20 @@ import {
   deleteServiceRule,
   setEnabled,
   createServiceRule
-} from 'in-services/api/serviceExtraction';
+} from 'in-api/serviceExtraction';
+import { getServiceExtractionRuleConfigPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import { openEditor } from 'in-views/configurationView/subview/ServiceExtraction/stores/editAsJson';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
-import { openServiceExtractionConfig } from 'in-stores/navigation/configuration';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getServiceRuleConfigLink } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { compare } from 'in-services/util/number';
+import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
@@ -84,7 +84,11 @@ export default class extends React.Component {
     super(props);
 
     // because each table differs by the ruleType, we need to create the column once the component is mounting
-    const linkColumn = getLinkColumn(getServiceRuleConfigLink, 'name', props.link);
+    const linkColumn = getLinkColumn(
+      (key, params) => getEntityIdPath(getServiceExtractionRuleConfigPath(key, params)),
+      'name',
+      props.link
+    );
     linkColumn.disableSorting = true;
     const ruleTypeSpecificColumns = [linkColumn].concat(cols);
     this.cols = ruleTypeSpecificColumns;
@@ -159,7 +163,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openServiceExtractionConfig(null, this.props.link);
+    goToPath(getServiceExtractionRuleConfigPath(null, this.props.link));
   };
 
   onDelete = service => {
@@ -195,7 +199,6 @@ export default class extends React.Component {
   onClone = service => {
     const clonedService = fromJS(
       createServiceRule({
-        id: '',
         name: service.get('name') + '_CLONE',
         enabled: false,
         type: service.get('type'),
@@ -304,7 +307,7 @@ export default class extends React.Component {
           </Button>
           <Button
             kind="info"
-            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType)}
+            onClick={() => openEditor(this.state.serviceRules, this.saveJson, this.props.ruleType, this.props.title)}
             className={`${block}__button`}
           >
             Edit as JSON

@@ -93,7 +93,7 @@ export function createStore({
   }
 
   function dispose() {
-    data.clear();
+    data.forEach((d, key) => remove(key));
   }
 
   function setSort(column, direction) {

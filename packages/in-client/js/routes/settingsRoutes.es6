@@ -1,3 +1,38 @@
+import {
+  newServiceExtractionPath,
+  serviceExtractionPath,
+  generalServiceExtractionPath,
+  httpServiceExtractionPath,
+  batchServiceExtractionPath,
+  ejbServiceExtractionPath,
+  elasticsearchServiceExtractionPath,
+  messageBrokerServiceExtractionPath,
+  userInterfacePath,
+  eumKeysPath,
+  rolesConfigsPath,
+  newRolesConfigPath,
+  rolesConfigPath,
+  usersPath,
+  apiTokensPath,
+  newApiTokenPath,
+  newDynamicRulePath,
+  dynamicRulesPath,
+  dynamicRulePath,
+  rulesPath,
+  newRulePath,
+  rulePath,
+  bindingsPath,
+  newBindingPath,
+  bindingPath,
+  alertingConfigurationsPath,
+  newAlertingConfigurationPath,
+  alertingConfigurationPath,
+  integrationsPath,
+  integrationPath,
+  newIntegrationPath,
+  auditlogPath
+} from 'in-stores/navigation/paths/settingPaths';
+
 import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
 import ElasticServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
 import GeneralServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/GeneralServiceExtractionConfiguration';
@@ -28,105 +63,69 @@ import AuditLogView from 'promise-loader?global,configView!in-views/configuratio
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
 
-import { alertingEnabled } from 'in-services/featureFlags';
-
 import { Switch } from 'react-router-dom';
 import React from 'react';
 
-import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
 //these routes now needs ro be rendered within the parent component
 export default (
   <Switch>
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-      path="/config/:ruleType/serviceExtraction/:ruleId"
-    />
+    <Route component={createAsyncViewComponent(ServiceExtractionRuleConfiguration)} path={newServiceExtractionPath} />
+
+    <Route component={createAsyncViewComponent(ServiceExtractionRuleConfiguration)} path={serviceExtractionPath} />
 
     <Route
-      component={createAsyncFullscreenOverlayViewComponent(ServiceExtractionRuleConfiguration)}
-      path="/config/:ruleType/serviceExtraction"
+      component={createAsyncViewComponent(GeneralServiceExtractionConfiguration)}
+      path={generalServiceExtractionPath}
     />
-
+    <Route component={createAsyncViewComponent(HttpServiceExtractionConfiguration)} path={httpServiceExtractionPath} />
     <Route
-      component={createAsyncFullscreenOverlayViewComponent(GeneralServiceExtractionConfiguration)}
-      path="/config/generalServiceExtraction"
+      component={createAsyncViewComponent(BatchServiceExtractionConfiguration)}
+      path={batchServiceExtractionPath}
     />
+    <Route component={createAsyncViewComponent(EjbServiceExtractionConfiguration)} path={ejbServiceExtractionPath} />
     <Route
-      component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
-      path="/config/httpServiceExtraction"
-    />
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(BatchServiceExtractionConfiguration)}
-      path="/config/batchServiceExtraction"
+      component={createAsyncViewComponent(ElasticServiceExtractionConfiguration)}
+      path={elasticsearchServiceExtractionPath}
     />
     <Route
-      component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
-      path="/config/ejbServiceExtraction"
+      component={createAsyncViewComponent(MessageBrokerServiceExtractionConfiguration)}
+      path={messageBrokerServiceExtractionPath}
     />
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
-      path="/config/elasticsearchServiceExtraction"
-    />
-    <Route
-      component={createAsyncFullscreenOverlayViewComponent(MessageBrokerServiceExtractionConfiguration)}
-      path="/config/messageBrokerServiceExtraction"
-    />
-    <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)} path="/config/userInterface" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)} path="/config/eumKeys" />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)} path="/config/rolesConfigs" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)} path="/config/rolesConfig/:roleId" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)} path="/config/rolesConfig" />
+    <Route component={createAsyncViewComponent(UiConfig)} path={userInterfacePath} />
+    <Route component={createAsyncViewComponent(EumKeys)} path={eumKeysPath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)} path="/config/users" />
+    <Route component={createAsyncViewComponent(RoleConfig)} path={newRolesConfigPath} />
+    <Route component={createAsyncViewComponent(RolesConfig)} path={rolesConfigsPath} />
+    <Route component={createAsyncViewComponent(RoleConfig)} path={rolesConfigPath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(ApiToken)} path="/config/apiTokens/:apiTokenId" />
+    <Route component={createAsyncViewComponent(UserManagement)} path={usersPath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(ApiTokens)} path="/config/apiTokens" />
+    <Route component={createAsyncViewComponent(ApiToken)} path={newApiTokenPath} />
+    <Route component={createAsyncViewComponent(ApiTokens)} path={apiTokensPath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule/:ruleId" />
+    <Route component={createAsyncViewComponent(DynamicRule)} path={newDynamicRulePath} />
+    <Route component={createAsyncViewComponent(DynamicRules)} path={dynamicRulesPath} />
+    <Route component={createAsyncViewComponent(DynamicRule)} path={dynamicRulePath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule/:ruleId" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRules)} path="/config/dynamicRules" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(DynamicRule)} path="/config/dynamicRule" />
+    <Route component={createAsyncViewComponent(Rule)} path={newRulePath} />
+    <Route component={createAsyncViewComponent(Rules)} path={rulesPath} />
+    <Route component={createAsyncViewComponent(Rule)} path={rulePath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="/config/rules" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="/config/rule" />
+    <Route component={createAsyncViewComponent(RuleBinding)} path={newBindingPath} />
+    <Route component={createAsyncViewComponent(RuleBindings)} path={bindingsPath} />
+    <Route component={createAsyncViewComponent(RuleBinding)} path={bindingPath} />
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding/:ruleBindingId" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)} path="/config/bindings" />
-    <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)} path="/config/binding" />
+    <Route component={createAsyncViewComponent(AlertingConfiguration)} path={newAlertingConfigurationPath} />
+    <Route component={createAsyncViewComponent(AlertingConfigurations)} path={alertingConfigurationsPath} />
+    <Route component={createAsyncViewComponent(AlertingConfiguration)} path={alertingConfigurationPath} />
 
-    {alertingEnabled ? (
-      <Route
-        component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
-        path="/config/alertingConfiguration/:id"
-      />
-    ) : null}
-    {alertingEnabled ? (
-      <Route
-        component={createAsyncFullscreenOverlayViewComponent(AlertingConfiguration)}
-        path="/config/alertingConfiguration"
-      />
-    ) : null}
-    {alertingEnabled ? (
-      <Route
-        component={createAsyncFullscreenOverlayViewComponent(AlertingConfigurations)}
-        path="/config/alertingConfigurations"
-      />
-    ) : null}
+    <Route component={createAsyncViewComponent(Integration)} path={newIntegrationPath} />
+    <Route component={createAsyncViewComponent(Integrations)} path={integrationsPath} />
+    <Route component={createAsyncViewComponent(Integration)} path={integrationPath} />
 
-    {alertingEnabled ? (
-      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration/:id" />
-    ) : null}
-    {alertingEnabled ? (
-      <Route component={createAsyncFullscreenOverlayViewComponent(Integration)} path="/config/integration" />
-    ) : null}
-    {alertingEnabled ? (
-      <Route component={createAsyncFullscreenOverlayViewComponent(Integrations)} path="/config/integrations" />
-    ) : null}
-
-    <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)} path="/config/auditlog" />
+    <Route component={createAsyncViewComponent(AuditLogView)} path={auditlogPath} />
   </Switch>
 );

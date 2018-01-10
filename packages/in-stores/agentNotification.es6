@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
-import createAgentNotificationsForHostSubscription from 'in-services/subscription/agentNotificationsForHost';
-import createAgentNotificationsSubscription from 'in-services/subscription/agentNotifications';
+import createAgentNotificationsForHostSubscription from 'in-subscription/agentNotificationsForHost';
+import createAgentNotificationsSubscription from 'in-subscription/agentNotifications';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { debouncedQuery$ } from 'in-stores/search/query';
 

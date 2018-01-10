@@ -1,10 +1,15 @@
 /* eslint-env node */
 
+import { setOptions } from '@storybook/addon-options';
 import { configure } from '@storybook/react';
+
+setOptions({
+  name: 'Instana',
+  url: '#'
+});
 
 function loadStories() {
   require('../stories/index.js');
-  // You can require as many stories as you need.
 }
 
 configure(loadStories, module);

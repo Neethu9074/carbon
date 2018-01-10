@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths';
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { getTraceViewLinkWithQuery } from 'in-stores/navigation/view';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';

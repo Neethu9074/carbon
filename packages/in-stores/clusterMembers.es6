@@ -1,4 +1,4 @@
-import createClusterMembersObservable from 'in-services/subscription/clusterMembers';
+import createClusterMembersObservable from 'in-subscription/clusterMembers';
 import { focusedMoment$ } from 'in-stores/timeline';
 
 export function getClusterMembers(snapshotId) {

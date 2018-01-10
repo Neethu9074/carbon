@@ -48,9 +48,6 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: time,
@@ -69,9 +66,6 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -97,10 +91,6 @@ function renderGcMetrics(snapshot, timeframe) {
       <Chart
         snapshotId={snapshot.get('id')}
         timeframe={timeframe}
-        margins={{
-          left: 60,
-          right: 60
-        }}
         y1={{
           min: 0,
           formatter: bytesTwoDecimalPlaces,
@@ -123,9 +113,6 @@ function renderGcMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60
-      }}
       y1={{
         min: 0,
         formatter: bytesZeroDecimalPlaces,
@@ -144,10 +131,6 @@ function renderEventLoopMetrics(snapshot, timeframe) {
       <Chart
         snapshotId={snapshot.get('id')}
         timeframe={timeframe}
-        margins={{
-          left: 60,
-          right: 60
-        }}
         y1={{
           min: 0,
           formatter: time,
@@ -170,9 +153,6 @@ function renderEventLoopMetrics(snapshot, timeframe) {
     <Chart
       snapshotId={snapshot.get('id')}
       timeframe={timeframe}
-      margins={{
-        left: 60
-      }}
       y1={{
         min: 0,
         formatter: time,

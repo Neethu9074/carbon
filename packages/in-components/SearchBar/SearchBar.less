@@ -1,16 +1,7 @@
-@import '~in-themes/active.less';
-
 .in-searchbar {
-  position: absolute;
-  top: 2.5rem;
-  left: 0;
-  right: 0;
   padding: 0.313rem 0.9rem 0.313rem 0.9rem;
 
-  z-index: @z-index__search-bar;
-
   background: #172429;
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
 
   display: flex;
   align-items: center;
@@ -19,9 +10,9 @@
   &__delete-query-button,
   &__filter-menu-button,
   &__save-button {
-    height: 1.75rem;
+    height: 1.875rem;
     border: 1px solid #2d4048;
-    padding: 0 0.5rem;
+    padding: 0 0.625rem;
 
     display: flex;
     align-items: center;
@@ -48,16 +39,8 @@
     border-bottom: 1px solid #2d4048;
   }
 
-  &__filter-menu-button {
-    font-size: 12px;
-  }
-
   &__icon {
     margin-left: 5px;
-  }
-
-  &__save-button {
-    font-size: 12px;
   }
 
   &__input-wrapper {

@@ -1,15 +1,14 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import MapNoContentMessage from 'in-components/MapNoContentMessage';
-import { view$, types as views } from 'in-stores/view';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
+import { view$, types as views } from 'in-stores/view';
 import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
@@ -79,21 +78,18 @@ export default connectTo(
       let className = block;
 
       return (
-        <div>
+        <div className={className}>
           <Title title={this.getTitle()} />
-          {DashboardNavigationRoute}
-          <div className={className}>
-            <canvas
-              className={`${block}__canvas`}
-              ref={canvas => {
-                this.mainCanvas = canvas;
-                this.webGlContext = getWebGLCanvasContext(canvas);
-              }}
-            />
-            <StickyNoteHoster />
-            <TooltipHoster />
-            <MapNoContentMessage />
-          </div>
+          <canvas
+            className={`${block}__canvas`}
+            ref={canvas => {
+              this.mainCanvas = canvas;
+              this.webGlContext = getWebGLCanvasContext(canvas);
+            }}
+          />
+          <StickyNoteHoster />
+          <TooltipHoster />
+          <MapNoContentMessage />
         </div>
       );
     }

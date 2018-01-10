@@ -13,9 +13,6 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             metrics: [
               'num_of_msg_delayed',
@@ -36,9 +33,6 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['age_of_oldest_msg'],
             labels: ['Age of oldest message'],
@@ -52,9 +46,6 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
-          margins={{
-            left: 80
-          }}
           y1={{
             metrics: ['sent_message_size'],
             labels: ['Sent message size'],

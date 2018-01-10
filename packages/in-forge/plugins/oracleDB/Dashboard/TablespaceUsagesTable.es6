@@ -101,9 +101,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           formatter: bytes.detailed,
           metrics: ['stats.tablespaceStats.' + row.key + '.usedSpace'],
@@ -114,9 +111,6 @@ function getRowDetails(row) {
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
-        margins={{
-          left: 80
-        }}
         y1={{
           min: 0,
           max: 1,

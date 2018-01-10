@@ -1,11 +1,11 @@
 import { combineLatest } from 'reactive-observables';
 
-import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
+import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalEndpointImplementation';
 import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation';
-import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
+import createTotalTraceCountObservable from 'in-subscription/totalTraceCount';
 import { timeframe as timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import getTrace from 'in-services/subscription/getTrace';
+import getTrace from 'in-subscription/getTrace';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';

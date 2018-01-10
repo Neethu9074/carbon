@@ -1,7 +1,7 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getUsers, setRole, removeUserFromTenant, revokeInvitation, sendInvitation } from 'in-services/api/users';
+import { getUsers, setRole, removeUserFromTenant, revokeInvitation, sendInvitation } from 'in-api/users';
 import UserInvitationDialog from 'in-views/configurationView/subview/UserManagement/UserInvitationDialog';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -12,7 +12,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Section from 'in-views/configurationView/components/Section';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import Notification from 'in-components/form/Notification';
-import { getRoles } from 'in-services/api/roles';
+import { getRoles } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
 import { fallbackRoleId } from 'in-stores/user';
 import { config } from 'in-services/config';
@@ -37,6 +37,7 @@ export default connectTo(
       error: false,
       message: null,
       userOverview: emptyMap,
+      userNameFilter: '',
       status: {}
     };
 
@@ -120,11 +121,22 @@ export default connectTo(
 
           {users.size > 0 ? (
             <Section>
-              <SectionHeading>Users</SectionHeading>
+              <div className={`${block}__heading`}>
+                <SectionHeading>Users</SectionHeading>
 
+                <div className={`${block}__right`}>
+                  <input
+                    className={`${block}__search`}
+                    type="search"
+                    value={this.state.userNameFilter}
+                    onChange={e => this.setState({ userNameFilter: e.target.value })}
+                  />
+                </div>
+              </div>
               <ul className={`${block}__users`}>
                 {users
                   .toArray()
+                  .filter(user => user.get('fullName').indexOf(this.state.userNameFilter) >= 0)
                   .sort((a, b) => a.get('fullName').localeCompare(b.get('fullName')))
                   .map(user => (
                     <li key={user.get('id')} className={`${block}__user`}>

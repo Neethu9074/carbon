@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import { getDashboardLink } from 'in-stores/navigation';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';

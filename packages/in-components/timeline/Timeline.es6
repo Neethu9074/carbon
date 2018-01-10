@@ -22,7 +22,7 @@ export default connectTo(
   },
   function Timeline({ showTimeSelector, isCollapsed, autoCollapseTimeline }) {
     return (
-      <div>
+      <div className={`${block}__wrapper`}>
         <EventTooltip />
 
         {showTimeSelector ? <DateTimePickerPopup openInView={showTimeSelector} /> : null}
@@ -34,7 +34,7 @@ export default connectTo(
             [`${block}--no-auto-collapse`]: !autoCollapseTimeline || showTimeSelector
           })}
         >
-          <div className={`${block}__wrapper`}>
+          <div className={`${block}__menu`}>
             <TimelineMenu />
             <TimelineCanvasReactWrapper />
           </div>

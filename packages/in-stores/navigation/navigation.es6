@@ -1,18 +1,8 @@
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
-
-export const PATH_NAMES = {
-  DASHBOARD: '/dashboard',
-  TRACES: '/traces',
-  EVENTS: '/events',
-  GRAPH: '/graph',
-  MAP: '/',
-  HOME: '/'
-};
 
 const store = createStore({
   name: 'navigation',
@@ -51,70 +41,13 @@ export function getModifiedUrlStream(mapParams) {
     .distinct();
 }
 
-export function buildUrlStream({ path }) {
-  return getModifiedUrlStream(params => {
-    params.pathname = path;
-  });
-}
-
 export function buildPathStartsWithStream(path) {
   return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }
 
-export function getActiveView(params) {
-  return params.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
-}
-
-export function getLinkToPath(pathname) {
-  return getModifiedUrlStream(params => (params.pathname = pathname));
-}
-
-export function goToDashboard(snapshotId) {
-  mutateUrl(params => {
-    const view = getActiveView(params);
-    params.pathname = `/${view}/dashboard`;
-    params.query.snapshotId = snapshotId;
-    return params;
-  });
-}
-
-export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname } = {}) {
-  return getModifiedUrlStream(params => {
-    if (pathname) {
-      params.pathname = pathname;
-    } else {
-      const view = getActiveView(params);
-      params.pathname = `/${view}/dashboard`;
-    }
-    if (windowSize != null) {
-      params.query['timeline.ws'] = windowSize;
-    }
-    if (to !== undefined) {
-      params.query['timeline.to'] = to == null ? '' : to;
-    }
-    if (focusedMoment !== undefined) {
-      params.query['timeline.fm'] = focusedMoment == null ? '' : focusedMoment;
-    }
-    params.query.snapshotId = snapshotId;
-  });
-}
-
-export const isDashboardOpen$ = navigationParameters$
-  .map(params => {
-    return /\/[a-z]+\/dashboard/i.test(params.pathname);
-  })
-  .distinct();
-
 export function getLinkToSnapshotInCurrentView(snapshotId) {
   return getModifiedUrlStream(params => {
     params.query.snapshotId = snapshotId;
-  });
-}
-
-export function closeDashboard() {
-  mutateUrl(navParams => {
-    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
-    return navParams;
   });
 }
 
@@ -138,7 +71,7 @@ export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighl
   });
 }
 
-export function getTimelineLiveUrl() {
+export function getTimeframeLiveUrl() {
   return getModifiedUrlStream(navParams => {
     delete navParams.query.fm;
     navParams.query['timeline.to'] = '';
@@ -146,66 +79,10 @@ export function getTimelineLiveUrl() {
   });
 }
 
-export const closeDashboardLink$ = getModifiedUrlStream(params => {
-  params.pathname = params.pathname.replace(/\/dashboard/i, '');
-});
-
-export function goToLogicalView() {
-  mutateUrl(navParams => {
-    navParams.pathname = '/logical';
-    return navParams;
-  });
-}
-
-export const logicalViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/logical';
-});
-
-export function goToPhysicalView() {
-  mutateUrl(navParams => {
-    navParams.pathname = '/physical';
-    return navParams;
-  });
-}
-
-export const physicalViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/physical';
-});
-
-export const websiteViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/website';
-});
-
-export const kubernetesViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/kubernetes';
-});
-
-export const containerViewLink$ = getModifiedUrlStream(params => {
-  params.pathname = '/container';
-});
-
 export function goToRootOfView() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
     return navParams;
-  });
-}
-
-export function goToGraph() {
-  mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.GRAPH;
-    return navParams;
-  });
-}
-
-export function getEventsViewFilteredByEntity(entityId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = '/events';
-    if (params.query.q) {
-      params.query.q += ` entity.id:"${luceneEscapeString(entityId)}"`;
-    } else {
-      params.query.q = `entity.id:"${luceneEscapeString(entityId)}"`;
-    }
   });
 }
 
@@ -234,9 +111,16 @@ export function closeCurrentHelpIfOpen() {
   });
 }
 
-export function closeHelp() {
-  mutateUrl(navParams => {
-    delete navParams.query.help;
-    return navParams;
+export function goToPath(path) {
+  mutateUrl(location => (location.pathname = path));
+}
+
+export function getView(path) {
+  return getModifiedUrlStream(params => {
+    params.pathname = path;
   });
+}
+
+export function isView(path) {
+  return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }

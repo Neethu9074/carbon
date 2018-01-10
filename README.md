@@ -1,6 +1,4 @@
-# ui-client aka. the stuff that runs in the browser
-
-[![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+# ui-client &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -51,6 +49,8 @@ bash
 
 #### Nginx
 You will also need to have Nginx installed and its CLI on the path. Instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
+
+As alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container.
 
 
 ### Setting up local domains

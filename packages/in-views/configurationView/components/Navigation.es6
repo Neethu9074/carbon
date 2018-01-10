@@ -2,44 +2,34 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import {
-  generalServiceExtractionConfigurationViewLink$,
-  isGeneralServiceExtractionConfigurationView$,
-  httpServiceExtractionConfigurationViewLink$,
-  isHttpServiceExtractionConfigurationView$,
-  batchServiceExtractionConfigurationViewLink$,
-  isBatchServiceExtractionConfigurationView$,
-  ejbServiceExtractionConfigurationViewLink$,
-  isEjbServiceExtractionConfigurationView$,
-  elasticsearchServiceExtractionConfigurationViewLink$,
-  isElasticsearchServiceExtractionConfigurationView$,
-  messageBrokerServiceExtractionConfigurationViewLink$,
-  isMessageBrokerServiceExtractionConfigurationView$,
-  userInterfaceConfigViewLink$,
-  isUserInterfaceConfigView$,
-  eumKeysViewLink$,
-  isEumKeysView$,
-  rolesConfigViewLink$,
-  isRolesConfigView$,
-  userManagementViewLink$,
-  isUserManagementView$,
-  apiTokensViewLink$,
-  isApiTokensView$,
-  auditLogViewLink$,
-  isAuditLogView$,
-  dynamicRulesViewLink$,
-  isDynamicRulesView$,
-  rulesViewLink$,
-  isRulesViewLink$,
-  ruleBindingsViewLink$,
-  isRuleBindingsViewLink$,
-  isIntegrationLink$,
-  integrationsViewLink$,
-  isAlertingConfigLink$,
-  alertingConfigsViewLink$
-} from 'in-stores/navigation/configuration';
-import { alertingEnabled, forecastsEnabled } from 'in-services/featureFlags';
+  generalServiceExtractionPath,
+  httpServiceExtractionPath,
+  batchServiceExtractionPath,
+  ejbServiceExtractionPath,
+  elasticsearchServiceExtractionPath,
+  messageBrokerServiceExtractionPath,
+  userInterfacePath,
+  alertingConfigurationsPath,
+  eumKeysPath,
+  dynamicRulesPath,
+  rolesConfigPath,
+  usersPath,
+  apiTokensPath,
+  dynamicRulePath,
+  rulePath,
+  rolesConfigsPath,
+  bindingPath,
+  alertingConfigurationPath,
+  rulesPath,
+  integrationsPath,
+  bindingsPath,
+  integrationPath,
+  auditlogPath
+} from 'in-stores/navigation/paths/settingPaths';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import { getView, isView } from 'in-stores/navigation/navigation';
+import { forecastsEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
@@ -52,7 +42,7 @@ export default function Navigation() {
     <nav className={block}>
       <h2 className={`${block}__heading`}>User Settings</h2>
       <NavItems>
-        <NavItem title="User Interface" href$={userInterfaceConfigViewLink$} isActive$={isUserInterfaceConfigView$} />
+        <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
       </NavItems>
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
@@ -61,94 +51,100 @@ export default function Navigation() {
           <NavItem
             title="Service Mapper"
             isActive$={combine(
-              isGeneralServiceExtractionConfigurationView$,
-              isHttpServiceExtractionConfigurationView$,
-              isEjbServiceExtractionConfigurationView$,
-              isElasticsearchServiceExtractionConfigurationView$,
-              isMessageBrokerServiceExtractionConfigurationView$
+              isView(generalServiceExtractionPath),
+              isView(httpServiceExtractionPath),
+              isView(ejbServiceExtractionPath),
+              isView(elasticsearchServiceExtractionPath),
+              isView(messageBrokerServiceExtractionPath)
             )}
           >
             <NavItem
               title="General Rules"
-              href$={generalServiceExtractionConfigurationViewLink$}
-              isActive$={isGeneralServiceExtractionConfigurationView$}
+              href$={getView(generalServiceExtractionPath)}
+              isActive$={isView(generalServiceExtractionPath)}
               borderless
             />
             <NavItem
               title="HTTP Rules"
-              href$={httpServiceExtractionConfigurationViewLink$}
-              isActive$={isHttpServiceExtractionConfigurationView$}
+              href$={getView(httpServiceExtractionPath)}
+              isActive$={isView(httpServiceExtractionPath)}
               borderless
             />
             <NavItem
               title="Batch Rules"
-              href$={batchServiceExtractionConfigurationViewLink$}
-              isActive$={isBatchServiceExtractionConfigurationView$}
+              href$={getView(batchServiceExtractionPath)}
+              isActive$={isView(batchServiceExtractionPath)}
               borderless
             />
             <NavItem
               title="EJB Rules"
-              href$={ejbServiceExtractionConfigurationViewLink$}
-              isActive$={isEjbServiceExtractionConfigurationView$}
+              href$={getView(ejbServiceExtractionPath)}
+              isActive$={isView(ejbServiceExtractionPath)}
               borderless
             />
             <NavItem
               title="Elasticsearch Rules"
-              href$={elasticsearchServiceExtractionConfigurationViewLink$}
-              isActive$={isElasticsearchServiceExtractionConfigurationView$}
+              href$={getView(elasticsearchServiceExtractionPath)}
+              isActive$={isView(elasticsearchServiceExtractionPath)}
               borderless
             />
             <NavItem
               title="Message Broker Rules"
-              href$={messageBrokerServiceExtractionConfigurationViewLink$}
-              isActive$={isMessageBrokerServiceExtractionConfigurationView$}
+              href$={getView(messageBrokerServiceExtractionPath)}
+              isActive$={isView(messageBrokerServiceExtractionPath)}
               borderless
             />
           </NavItem>
         ) : null}
 
         {role.canConfigureEumApplications && config.tenant === 'edmunds' ? (
-          <NavItem title="Website Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
+          <NavItem title="Website Monitoring" href$={getView(eumKeysPath)} isActive$={isView(eumKeysPath)} />
         ) : null}
 
         {role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens ? (
           <NavItem
             title="Access Control"
-            isActive$={combine(isUserManagementView$, isRolesConfigView$, isApiTokensView$)}
+            isActive$={combine(isView(usersPath), isView(rolesConfigPath), isView(apiTokensPath))}
           >
             {role.canConfigureUsers ? (
-              <NavItem title="Users" href$={userManagementViewLink$} isActive$={isUserManagementView$} borderless />
+              <NavItem title="Users" href$={getView(usersPath)} isActive$={isView(usersPath)} borderless />
             ) : null}
 
             {role.canConfigureRoles ? (
-              <NavItem title="Roles" href$={rolesConfigViewLink$} isActive$={isRolesConfigView$} borderless />
+              <NavItem title="Roles" href$={getView(rolesConfigsPath)} isActive$={isView(rolesConfigPath)} borderless />
             ) : null}
 
             {role.canConfigureApiTokens ? (
-              <NavItem title="API Tokens" href$={apiTokensViewLink$} isActive$={isApiTokensView$} borderless />
+              <NavItem title="API Tokens" href$={getView(apiTokensPath)} isActive$={isView(apiTokensPath)} borderless />
             ) : null}
           </NavItem>
         ) : null}
 
         {role.canConfigureCustomAlerts ? (
-          <NavItem title="Knowledge Management" isActive$={combine(isRulesViewLink$, isRuleBindingsViewLink$)}>
-            <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
-            <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
+          <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
+            <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
+            <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
             {forecastsEnabled ? (
-              <NavItem title="Custom Dynamic Rules" href$={dynamicRulesViewLink$} isActive$={isDynamicRulesView$} />
+              <NavItem
+                title="Custom Dynamic Rules"
+                href$={getView(dynamicRulesPath)}
+                isActive$={isView(dynamicRulePath)}
+              />
             ) : null}
           </NavItem>
         ) : null}
 
-        {alertingEnabled ? (
-          <NavItem title="Alerting" isActive$={combine(isAlertingConfigLink$, isIntegrationLink$)}>
-            <NavItem title="Configurations" href$={alertingConfigsViewLink$} isActive$={isAlertingConfigLink$} />
-            <NavItem title="Integrations" href$={integrationsViewLink$} isActive$={isIntegrationLink$} />
-          </NavItem>
-        ) : null}
+        <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
+          <NavItem
+            title="Configurations"
+            href$={getView(alertingConfigurationsPath)}
+            isActive$={isView(alertingConfigurationPath)}
+          />
+          <NavItem title="Integrations" href$={getView(integrationsPath)} isActive$={isView(integrationPath)} />
+        </NavItem>
 
         {role.canViewAuditLog ? (
-          <NavItem title="Audit Log" href$={auditLogViewLink$} isActive$={isAuditLogView$} />
+          <NavItem title="Audit Log" href$={getView(auditlogPath)} isActive$={isView(auditlogPath)} />
         ) : null}
       </NavItems>
     </nav>

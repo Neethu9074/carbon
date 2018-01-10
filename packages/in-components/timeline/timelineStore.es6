@@ -72,6 +72,8 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
   })
   .distinct();
 
+timelineHeight$.subscribe(height => (document.body.style.paddingBottom = `${height}px`));
+
 // the height of the timeline in the various states in an interactable mode
 export const interactableTimelineHeight$ = isCollapsed$
   .map(isCollapsed => {

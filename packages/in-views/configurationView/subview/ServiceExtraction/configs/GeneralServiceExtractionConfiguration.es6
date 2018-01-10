@@ -1,19 +1,21 @@
 import { defaults } from 'lodash';
 import React from 'react';
 
+import {
+  httpServiceExtractionView$,
+  batchServiceExtractionView$,
+  ejbServiceExtractionView$,
+  elasticsearchServiceExtractionView$,
+  messageBrokerServiceExtractionView$,
+  generalServiceExtractionPath
+} from 'in-stores/navigation/paths/settingPaths';
 import GenericServiceExtractionConfiguration from 'in-views/configurationView/subview/ServiceExtraction/ServiceExtraction';
 import commonHelpTexts from 'in-views/configurationView/subview/ServiceExtraction/configs/serviceExtractionHelpTexts';
-import { elasticsearchServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { messageBrokerServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { batchServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { httpServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { ejbServiceExtractionConfigurationViewLink$ } from 'in-stores/navigation/configuration';
-import { generalServiceExtractionConfigViewPath } from 'in-stores/navigation/configuration';
 import Link from 'in-components/Link';
 
 export const ruleType = 'general';
 
-export const pathname = generalServiceExtractionConfigViewPath;
+export const pathname = generalServiceExtractionPath;
 
 export const helpTexts = defaults(
   {
@@ -22,12 +24,10 @@ export const helpTexts = defaults(
         Configure how Instana uses attributes of underlying components to extract services. You can define multiple
         rules which will be executed in order, i.e. the first rule of which all match expression match, will be used to
         extract a service name. General rules are only applied when more specific rules like{' '}
-        <Link href$={httpServiceExtractionConfigurationViewLink$}>HTTP</Link>,{' '}
-        <Link href$={batchServiceExtractionConfigurationViewLink$}>Batch</Link>,{' '}
-        <Link href$={ejbServiceExtractionConfigurationViewLink$}>EJB</Link>,{' '}
-        <Link href$={elasticsearchServiceExtractionConfigurationViewLink$}>Elasticsearch</Link> or{' '}
-        <Link href$={messageBrokerServiceExtractionConfigurationViewLink$}>Message Brokers</Link> did not produce a
-        service name.
+        <Link href$={httpServiceExtractionView$}>HTTP</Link>, <Link href$={batchServiceExtractionView$}>Batch</Link>,{' '}
+        <Link href$={ejbServiceExtractionView$}>EJB</Link>,{' '}
+        <Link href$={elasticsearchServiceExtractionView$}>Elasticsearch</Link> or{' '}
+        <Link href$={messageBrokerServiceExtractionView$}>Message Brokers</Link> did not produce a service name.
         <br />
         View our{' '}
         <Link href="https://docs.instana.io/products/application_service_management/#configuration" external>
@@ -39,9 +39,9 @@ export const helpTexts = defaults(
     matchesHelp: (
       <span>
         Select here which attributes should be used to match and extract a service. At least one match expression is
-        required. Currently supported is matching tags of a host, labels of Docker containers and labels and application
-        id for Marathon hosted containers. Host tags are split by <code>=</code> or <code>:</code> into a key value
-        pair.
+        required. Currently supported is matching tags of a host, labels of Docker containers, labels and application id
+        for Marathon hosted containers and task name and job name for Nomad hosted containers. Host tags are split by{' '}
+        <code>=</code> or <code>:</code> into a key value pair.
       </span>
     )
   },
@@ -64,6 +64,14 @@ export const matchSpecificationOptionsTree = [
   {
     label: 'Marathon Label',
     value: 'marathon.label'
+  },
+  {
+    label: 'Nomad Task Name',
+    value: 'nomad.taskName'
+  },
+  {
+    label: 'Nomad Job Name',
+    value: 'nomad.jobName'
   }
 ];
 
@@ -172,6 +180,32 @@ export const matchSpecificationOptions = {
         )
       }
     }
+  },
+  'nomad.taskName': {
+    titleName: 'Nomad Task Name',
+    placeholder: '(.*)',
+    testPlaceholder: 'task-name',
+    initialValue: '(.*)',
+    help: (
+      <span>
+        Define a regular expression to match Nomad task name. Capture groups from matches of this regular expression are
+        available in the service name field via the prefix <code>nomad.taskName</code>, e.g.{' '}
+        <code>{'{nomad.taskName-1}'}</code> references the first capture group.
+      </span>
+    )
+  },
+  'nomad.jobName': {
+    titleName: 'Nomad Job Name',
+    placeholder: '(.*)',
+    testPlaceholder: 'job-name',
+    initialValue: '(.*)',
+    help: (
+      <span>
+        Define a regular expression to match Nomad job name. Capture groups from matches of this regular expression are
+        available in the service name field via the prefix <code>nomad.jobName</code>, e.g.{' '}
+        <code>{'{nomad.jobName-1}'}</code> references the first capture group.
+      </span>
+    )
   }
 };
 

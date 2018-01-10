@@ -3,23 +3,23 @@ import React from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
+import { rulePath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import { getRuleLink } from 'in-stores/navigation/configuration';
-import { openRule } from 'in-stores/navigation/configuration';
-import { getRules, deleteRule } from 'in-services/api/rules';
+import { getRules, deleteRule } from 'in-api/rules';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
 const logger = createLogger('Rules');
 
-const cols = [getLinkColumn(getRuleLink), getDeleteButtonColumn()];
+const cols = [getLinkColumn(getEntityIdPath.bind(null, rulePath)), getDeleteButtonColumn()];
 
 export default class extends React.Component {
   static displayName = 'Rules';
@@ -84,7 +84,7 @@ export default class extends React.Component {
     this.disposeAsyncAction();
 
     // just open the rule dialog without an id will create a new one in the dialog
-    openRule();
+    goToPath(rulePath);
   };
 
   onDelete = rule => {

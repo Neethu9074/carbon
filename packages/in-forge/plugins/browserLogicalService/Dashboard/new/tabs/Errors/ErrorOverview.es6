@@ -16,9 +16,6 @@ export default function ErrorOverview(props) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeframe={timeframe}
-          margins={{
-            left: 60
-          }}
           y1={{
             min: 0,
             formatter: number.compact,

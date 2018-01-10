@@ -1,25 +1,30 @@
 @import '~in-themes/active.less';
 
 .in-timeline {
-  @transition-duration: 0.2s;
+  &__wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: @z-index__timeline;
 
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    overflow: hidden;
+    &:hover {
+      overflow: visible;
+    }
+  }
+
   height: 2.25rem;
-
   background: #2d4048;
-  z-index: @z-index__footer;
 
+  @transition-duration: 0.2s;
   transition: height @transition-duration ease-in-out;
-  overflow: hidden;
 
   &:hover,
   &--no-auto-collapse {
     height: 6.063rem;
 
-    .in-timeline__wrapper {
+    .in-timeline__menu {
       top: 0;
     }
   }
@@ -28,7 +33,7 @@
   &--no-auto-collapse.in-timeline--expanded {
     height: 10.688rem;
 
-    .in-timeline__wrapper {
+    .in-timeline__menu {
       top: 0px;
     }
 
@@ -37,7 +42,7 @@
     }
   }
 
-  &__wrapper {
+  &__menu {
     position: absolute;
     top: -37px;
     left: 0;

@@ -1,7 +1,7 @@
 import { combineLatest, create } from 'reactive-observables';
 import React from 'react';
 
-import createSearchObservable from 'in-services/subscription/search';
+import createSearchObservable from 'in-subscription/search';
 import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
