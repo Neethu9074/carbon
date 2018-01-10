@@ -2,46 +2,15 @@ import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import ApplicationViewBreadcrumb from 'in-views/applicationView/breadcrumbs/ApplicationViewBreadcrumb';
-import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import ViewSwitcher from 'in-views/applicationView/components/ViewSwitcher';
-import Applications from 'in-views/applicationView/tabs/Applications';
-import Services from 'in-views/applicationView/tabs/Services';
-import Sticky from 'in-components/Sticky';
+import { getTabs } from 'in-views/applicationView/tabs/index';
+import TabView from 'in-sdk/components/dashboard/TabView';
 
-export default function ApplicationView() {
+export default function ApplicationView(props) {
   const breadcrumbs = [<ApplicationViewBreadcrumb />];
 
   return (
-    <Sticky
-      header={
-        <div>
-          {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-          <BreadcrumbHeader />
-        </div>
-      }
-    >
-      <Sticky header={<ViewSwitcher />}>
-        <Switch>
-          <Route
-            path="*/services"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <Services />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
-          <Route
-            path="/"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <Applications />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
-        </Switch>
-      </Sticky>
-    </Sticky>
+    <Switch>
+      <Route path="/*" render={() => <TabView tabs={getTabs()} props={{ ...props }} breadcrumbs={breadcrumbs} />} />
+    </Switch>
   );
 }
