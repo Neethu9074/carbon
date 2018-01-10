@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
-import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import DashboardNotification from 'in-components/DashboardNotification';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { getErrorsForWebsite } from 'in-api/eumErrors';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { combineDataAndError } from 'in-services/util/ro';
-import { getErrorsForWebsite } from 'in-api/eumErrors';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getLabel } from 'in-sdk/snapshot';

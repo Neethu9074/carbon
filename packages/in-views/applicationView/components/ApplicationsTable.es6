@@ -1,87 +1,19 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { percentageTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import SearchableTable from 'in-components/SearchableTable';
 import { always } from 'in-services/fixedStreams';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
     title: 'Name',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
-        return getLabel(row.snapshot);
+        return row.label;
       }
-    }
-  },
-  {
-    title: 'Services',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return (Math.random() * 10) | 0;
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: 'Endpoints',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return (Math.random() * 10) | 0;
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: 'Calls',
-    type: 'metric',
-    width: 150,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'unknown_metric';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'sum';
-      }
-    }
-  },
-  {
-    title: 'Latency',
-    type: 'metric',
-    width: 150,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'unknown_metric';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Errors',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return Math.random();
-      },
-      getContent: percentageTwoDecimalPlaces
     }
   }
 ];
@@ -89,19 +21,22 @@ const cols = [
 export default connectTo(
   {
     applications: always(
-      fromJS(
-        [1, 2, 3, 4, 5].map(i => ({
-          id: `${i}`,
-          label: `Application ${i}`,
-          plugin: 'application'
-        }))
-      )
+      fromJS([
+        {
+          id: '1',
+          label: 'Application 1'
+        },
+        {
+          id: '2',
+          label: 'Application 2'
+        }
+      ])
     )
   },
   function ApplicationsTable({ applications }) {
-    const rows = applications.toArray().map(snapshot => ({
-      key: snapshot.get('id'),
-      snapshot
+    const rows = applications.toArray().map(application => ({
+      key: application.get('id'),
+      label: application.get('label')
     }));
 
     return <SearchableTable maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />;

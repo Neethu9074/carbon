@@ -1,96 +1,19 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { percentageTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import SearchableTable from 'in-components/SearchableTable';
 import { always } from 'in-services/fixedStreams';
-import { getSingular } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
     title: 'Name',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshotId() {
-        return 'nJZIZ_jyBqYsrxOrAJFFw7KfMog';
-      }
-    }
-  },
-  {
-    title: 'Type',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
-        return getSingular(row.snapshot.get('plugin'));
+        return row.label;
       }
-    }
-  },
-  {
-    title: 'Applications',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return (Math.random() * 10) | 0;
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: 'Endpoints',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return (Math.random() * 10) | 0;
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: 'Calls',
-    type: 'metric',
-    width: 150,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'unknown_metric';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'sum';
-      }
-    }
-  },
-  {
-    title: 'Latency',
-    type: 'metric',
-    width: 150,
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'unknown_metric';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Errors',
-    type: 'number',
-    width: 100,
-    typeArgs: {
-      getValue() {
-        return Math.random();
-      },
-      getContent: percentageTwoDecimalPlaces
     }
   }
 ];
@@ -98,27 +21,23 @@ const cols = [
 export default connectTo(
   {
     services: always(
-      fromJS(
-        [
-          'defaultLogicalService',
-          'ejbLogicalService',
-          'defaultLogicalService',
-          'defaultLogicalService',
-          'shellLogicalService',
-          'browserLogicalService',
-          'defaultLogicalService',
-          'defaultLogicalService',
-          'defaultLogicalService'
-        ].map((plugin, i) => ({
-          id: `${i}`,
-          label: `Service ${i}`,
-          plugin
-        }))
-      )
+      fromJS([
+        {
+          id: '1',
+          label: 'Services 1'
+        },
+        {
+          id: '2',
+          label: 'Services 2'
+        }
+      ])
     )
   },
   function ServicesTable({ services }) {
-    const rows = services.toArray().map(snapshot => ({ key: snapshot.get('id'), snapshot }));
+    const rows = services.toArray().map(application => ({
+      key: application.get('id'),
+      label: application.get('label')
+    }));
 
     return <SearchableTable maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />;
   }

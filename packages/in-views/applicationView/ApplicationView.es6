@@ -3,7 +3,6 @@ import React from 'react';
 
 import ApplicationViewBreadcrumb from 'in-views/applicationView/breadcrumbs/ApplicationViewBreadcrumb';
 import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute_2_0';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-views/applicationView/components/ViewSwitcher';
@@ -23,28 +22,13 @@ export default function ApplicationView() {
         </div>
       }
     >
-      <Switch>
-        {DashboardNavigationRoute}
-
-        <Route
-          path="*/services"
-          render={() => (
-            <MaxWidthFullscreenContainer>
-              <ViewSwitcher />
-              <Services />
-            </MaxWidthFullscreenContainer>
-          )}
-        />
-        <Route
-          path="/"
-          render={() => (
-            <MaxWidthFullscreenContainer>
-              <ViewSwitcher />
-              <Applications />
-            </MaxWidthFullscreenContainer>
-          )}
-        />
-      </Switch>
+      <MaxWidthFullscreenContainer>
+        <ViewSwitcher />
+        <Switch>
+          <Route path="*/services" render={() => <Services />} />
+          <Route path="/" render={() => <Applications />} />
+        </Switch>
+      </MaxWidthFullscreenContainer>
     </Sticky>
   );
 }
