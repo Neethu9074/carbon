@@ -78,45 +78,9 @@ export default connectTo(
     // the selectedSnapshot store is not.
     snapshotId = snapshot.get('id');
 
-    //check if new dashboard implementation is needed
-    const plugin = snapshot.get('plugin');
-
-    const dashboardTitle = `${getSingular(plugin)} Dashboard`;
-
-    if (isNewDashboard(plugin)) {
-      const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
-
-      return (
-        <div className="in-dashboard">
-          <LegacyView />
-          <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-          <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-        </div>
-      );
-    }
-
-    const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
-    const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
-
     return (
-      <div className="in-dashboard">
-        <LegacyView />
-        <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-        <div className={block}>
-          <DetailPopupPresenter />
-          <Sticky header={<DashboardHeader snapshotId={snapshotId} />}>
-            <div className={`${block}__wrapper`}>
-              <div className={`${block}__sidebar`}>
-                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
-              </div>
-              <div className={`${block}__content`}>
-                <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
-                  <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
-                </Sticky>
-              </div>
-            </div>
-          </Sticky>
-        </div>
+      <div className={block}>
+        `hello new dashboard for ${snapshotId} at ${timeframe.to}`
       </div>
     );
   }
