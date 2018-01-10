@@ -1,0 +1,6 @@
+{
+  "name": "FlowMap",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FlowMap.es6"
+}
