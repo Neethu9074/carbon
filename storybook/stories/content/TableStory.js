@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import SearchableTable from 'in-components/SearchableTable';
 import { always } from 'in-services/fixedStreams';
 import Table from 'in-components/Table';
 import Root from '../_helpers/Root';
@@ -11,8 +10,7 @@ storiesOf('content/Table', module)
   .add('Simple', () => <Simple />)
   .add('Column Types', () => <Columns />)
   .add('With Details', () => <Details />)
-  .add('Pages', () => <Pages />)
-  .add('Searchable', () => <Searchable />);
+  .add('Pages', () => <Pages />);
 
 function SampleTable({ cols, getRowDetails, maxItemsPerPage }) {
   const rows = [1, 2, 3, 4, 5, 6].map(i => ({
@@ -178,29 +176,4 @@ function Pages() {
   ];
 
   return <SampleTable cols={cols} maxItemsPerPage={3} />;
-}
-
-function Searchable() {
-  const cols = [
-    {
-      title: 'String',
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.label;
-        }
-      }
-    }
-  ];
-
-  const rows = [1, 2, 3, 4, 5, 6].map(i => ({
-    key: String(i),
-    label: `item ${i}`
-  }));
-
-  return (
-    <Root>
-      <SearchableTable cols={cols} rows={rows} />
-    </Root>
-  );
 }
