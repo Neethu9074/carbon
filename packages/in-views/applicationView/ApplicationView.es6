@@ -12,6 +12,31 @@ import Services from 'in-views/applicationView/tabs/Services';
 import Sticky from 'in-components/Sticky';
 
 export default function ApplicationView() {
+  return (
+    <Switch>
+      {DashboardNavigationRoute}
+
+      <Route
+        path="*/services"
+        render={() => (
+          <Overview>
+            <Services />
+          </Overview>
+        )}
+      />
+      <Route
+        path="/"
+        render={() => (
+          <Overview>
+            <Applications />
+          </Overview>
+        )}
+      />
+    </Switch>
+  );
+}
+
+function Overview({ children }) {
   const breadcrumbs = [<ApplicationViewBreadcrumb />];
 
   return (
@@ -23,28 +48,10 @@ export default function ApplicationView() {
         </div>
       }
     >
-      <Switch>
-        {DashboardNavigationRoute}
-
-        <Route
-          path="*/services"
-          render={() => (
-            <MaxWidthFullscreenContainer>
-              <ViewSwitcher />
-              <Services />
-            </MaxWidthFullscreenContainer>
-          )}
-        />
-        <Route
-          path="/"
-          render={() => (
-            <MaxWidthFullscreenContainer>
-              <ViewSwitcher />
-              <Applications />
-            </MaxWidthFullscreenContainer>
-          )}
-        />
-      </Switch>
+      <MaxWidthFullscreenContainer>
+        <ViewSwitcher />
+        {children}
+      </MaxWidthFullscreenContainer>
     </Sticky>
   );
 }
