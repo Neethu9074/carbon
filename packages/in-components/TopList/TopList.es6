@@ -14,7 +14,7 @@ export default function TopList({ dummyData, header }) {
     <div className={block}>
       <div className={headerClass}>
         <h3>{header}</h3>
-        <ButtonGroup className={`${headerClass}__buttons`}>
+        <ButtonGroup className={`${headerClass}__buttons`} horizontal>
           <Button kind={'secondary'}>Latency</Button>
           <Button kind={'secondary'} outlineOnly={true}>
             Calls
