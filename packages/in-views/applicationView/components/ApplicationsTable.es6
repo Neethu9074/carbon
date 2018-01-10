@@ -2,18 +2,26 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SearchableTable from 'in-components/SearchableTable';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { always } from 'in-services/fixedStreams';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'custom',
     typeArgs: {
-      getValue(row) {
-        return getLabel(row.snapshot);
+      comparator: compareIgnoreCase,
+
+      get(row) {
+        return {
+          value: getLabel(row.snapshot),
+          content: <Link href$={getSubDashboardLink('/')}>{getLabel(row.snapshot)}</Link>
+        };
       }
     }
   },
