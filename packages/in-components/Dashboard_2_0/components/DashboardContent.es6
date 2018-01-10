@@ -11,7 +11,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import './DashboardContent.less';
 
-// const block = 'in-dashboard-content';
+const block = 'in-dashboard-content';
 
 export default connectTo(
   {
@@ -69,7 +69,11 @@ export default connectTo(
     snapshotId = snapshot.get('id');
 
     //check if new dashboard implementation is needed
-    return `hello new dashboard for ${snapshotId} at ${timeframe.to}`;
+    return (
+      <div className={block}>
+        `hello new dashboard for ${snapshotId} at ${timeframe.to}`{' '}
+      </div>
+    );
   }
 );
 
