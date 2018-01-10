@@ -9,6 +9,7 @@ import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
 import { agentNotificationsEnabled } from 'in-services/featureFlags';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
+import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 
@@ -27,6 +28,7 @@ export default function AgentView() {
           <Sticky header={<SearchBar />}>
             <MaxWidthFullscreenContainer>
               <div className={block}>
+                <LegacyView />
                 <SnapshotLabel actions={[]}>Agents</SnapshotLabel>
 
                 <AgentViewKpis />
