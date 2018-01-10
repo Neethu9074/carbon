@@ -13,19 +13,15 @@ export default function TopList({ dummyData, header }) {
   return (
     <div className={block}>
       <div className={headerClass}>
-        <div>
-          <h3>{header}</h3>
-        </div>
-        <div>
-          <ButtonGroup className={`${headerClass}__buttons`}>
-            <Button kind={'secondary'}>Latency</Button>
-            <Button kind={'secondary'} outlineOnly={true}>
-              Calls
-            </Button>
-          </ButtonGroup>
-        </div>
+        <h3>{header}</h3>
+        <ButtonGroup className={`${headerClass}__buttons`}>
+          <Button kind={'secondary'}>Latency</Button>
+          <Button kind={'secondary'} outlineOnly={true}>
+            Calls
+          </Button>
+        </ButtonGroup>
       </div>
-      <div>{dummyData.map(data => <ToplistRow {...data} />)}</div>
+      <ol>{dummyData.map(data => <ToplistRow {...data} />)}</ol>
     </div>
   );
 }

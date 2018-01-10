@@ -10,13 +10,13 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
   const tracesClass = `${block}__traces`;
 
   return (
-    <div className={block}>
+    <li className={block}>
       <div className={`${block}__titles`}>
         <div>
-          <h4>{label}</h4>
+          <span>{label}</span>
         </div>
         <div>
-          <h4>{`${value}${unit}`}</h4>
+          <span>{`${value}${unit}`}</span>
         </div>
       </div>
 
@@ -38,6 +38,6 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
           </Link>
         ))}
       </div>
-    </div>
+    </li>
   );
 }
