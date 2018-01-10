@@ -7,8 +7,8 @@ import locals from './TopListRow.mless';
 
 export default function TopListRow({ label, value, maxValue, unit, traces }) {
   return (
-    <li className={`${locals.topListRow}`}>
-      <div className={`${locals.titles}`}>
+    <li className={locals.topListRow}>
+      <div className={locals.titles}>
         <div>
           <span>{label}</span>
         </div>
@@ -17,9 +17,9 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
         </div>
       </div>
 
-      <div className={`${locals.bar}`}>
+      <div className={locals.bar}>
         <div
-          className={`${locals.barInner}`}
+          className={locals.barInner}
           style={{
             width: `${value / maxValue * 100}%`,
             background: '#38f7ff'
@@ -28,7 +28,7 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
       </div>
 
       <div className={`${locals.traces}`}>
-        <SvgIcon className={`${locals['traces-row-item']}`} type={'traces'} width={16} height={16} />
+        <SvgIcon className={locals.tracesRowItem} type="traces" width={16} height={16} />
         {traces.map(trace => (
           <Link className={`${locals.tracesRowItem} ${locals.trace}`} href={'#'}>
             {trace}

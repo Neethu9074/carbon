@@ -8,10 +8,10 @@ import locals from './TopList.mless';
 
 export default function TopList({ dummyData, header }) {
   return (
-    <div className={`${locals.topList}`}>
-      <div className={`${locals.header}`}>
+    <div className={locals.topList}>
+      <div className={locals.header}>
         <h3>{header}</h3>
-        <ButtonGroup className={`${locals.buttons}`} horizontal>
+        <ButtonGroup className={locals.buttons} horizontal>
           <Button kind={'secondary'}>Latency</Button>
           <Button kind={'secondary'} outlineOnly={true}>
             Calls
