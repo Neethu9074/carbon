@@ -13,7 +13,7 @@ export default function TopList({ dummyData, header }) {
         <h3>{header}</h3>
         <ButtonGroup className={locals.buttons} horizontal>
           <Button kind={'secondary'}>Latency</Button>
-          <Button kind={'secondary'} outlineOnly={true}>
+          <Button kind={'secondary'} outlineOnly>
             Calls
           </Button>
         </ButtonGroup>
