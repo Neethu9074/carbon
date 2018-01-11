@@ -19,8 +19,46 @@ export type Timeframe = {
   windowSize: Millis
 }
 
+// Error
+export type ErrorCode =
+  // invalid user input, typically recoverable by user interaction
+  'notFound' |
+  // invalid user input, typically recoverable by user interaction
+  'validation' |
+  // invalid call, e.g. wrong call parameters - technical error
+  'client' |
+  // problem in server logical - technical error
+  'server';
+export type Error = {
+  message: string,
+  type: ErrorCode
+}
+
+// Results
+export type Progress {
+  // All of these values can be used to represent different loading indicators (and combinations thereof)
+  // Indeterminate, when loading && estimatedTime == null && estimatedPercentage == null
+  // Countdown, when     loading && estimatedTime > 0
+
+  loading: bool,
+  // estimated wait time in millis
+  time: ?Millis,
+  // estimated progress as percentage, value between 0-1
+  percentage: ?number
+}
+export type Result<T> {
+  data: ?T,
+  errors: [Error],
+  progress: Progress
+}
+
+// placeholder for the full Observable typings
+export type Observable<T> {
+  subscribe(fn: (v : T) => void)
+};
+
 // Metrics
-export type Aggregations = 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75' | 'p90' | 'p95' | 'p98' | 'p99';
+export type Aggregations = 'sum' | 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75' | 'p90' | 'p95' | 'p98' | 'p99';
 export type MetricValue = number;
 export type TimestampedMetric = [Timestamp, MetricValue];
 export type TimestampedMetrics = [TimestampedMetric];
@@ -40,17 +78,6 @@ export type PaginatedOpts = {
 export type PaginatedResult<T> = {
   totalHits: number,
   items: [T]
-};
-
-// Error
-export type ErrorCode = 'notFound' | 'serverError';
-export type Error = {
-  message: string,
-  type: ErrorCode
-}
-export type Try<T> = {
-  value: T,
-  errors: Error
 };
 
 // Application 2.0 specific types
@@ -103,29 +130,29 @@ export type GetApplicationsItem = {
     [name: string]: TimestampedMetrics
   }
 };
-export type GetApplications = (opts: GetApplicationsOpts) => Try<PaginatedResult<GetApplicationsItem>>;
+export type GetApplications = (opts: GetApplicationsOpts) => Observable<Result<PaginatedResult<GetApplicationsItem>>>;
 
 
 export type GetApplicationOpts = {
   filter: Filter
 };
-export type GetApplication = (opts: GetApplicationOpts) => Try<Application>;
+export type GetApplication = (opts: GetApplicationOpts) => Observable<Result<Application>>;
 
 
 export type GetServiceOpts = {
   filter: Filter
 };
-export type GetService = (opts: GetServiceOpts) => Try<Service>;
+export type GetService = (opts: GetServiceOpts) => Observable<Result<Service>>;
 
 
 export type GetEndpointOpts = {
   filter: Filter
 };
-export type GetEndpoint = (opts: GetEndpointOpts) => Try<Endpoint>;
+export type GetEndpoint = (opts: GetEndpointOpts) => Observable<Result<Endpoint>>;
 
 
 export type GetMetricsOpts = {
   filter: Filter,
   config: MetricConfiguration
 }
-export type GetMetrics = (opts: GetMetricsOpts) => Try<TimestampedMetrics>;
+export type GetMetrics = (opts: GetMetricsOpts) => Observable<Result<TimestampedMetrics>>;
