@@ -1,23 +1,30 @@
+// @flow
 import { setTimeoutFn, clearTimeoutFn } from '../timers';
 import Observer from '../Observer';
+import TerminalObserver from '../TerminalObserver';
 
-const dummyChild = {
+const dummyChild: any = {
   _onNext() {}
 };
 
-export default function delayedStop(millis, stopObserver, setTimeout = setTimeoutFn, clearTimeout = clearTimeoutFn) {
-  const observer = Object.create(Observer);
-  let delayedStopHandle;
-  let dummyChildAdded = false;
-
-  observer._init(this, this._observableSpec, v => {
+export default function delayedStop<T>(
+  millis: number,
+  stopObserver: () => void,
+  setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
+  clearTimeout: (timeoutId?: number) => void = clearTimeoutFn
+): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  observer._setOnNext((v: ?T) => {
     observer._emit(v);
   });
 
   observer._originalAddChild = observer._addChild;
   observer._originalRemoveChild = observer._removeChild;
 
-  observer._addChild = function delayCancelingAddChild(child) {
+  let delayedStopHandle;
+  let dummyChildAdded: boolean = false;
+
+  observer._addChild = function delayCancelingAddChild<R>(child: Observer<T, R> | TerminalObserver<T>): void {
     if (!dummyChildAdded) {
       dummyChildAdded = true;
       observer._originalAddChild(dummyChild);
@@ -31,7 +38,7 @@ export default function delayedStop(millis, stopObserver, setTimeout = setTimeou
     }
   };
 
-  observer._removeChild = function delayedRemoveChild(child) {
+  observer._removeChild = function delayedRemoveChild<R>(child: Observer<T, R> | TerminalObserver<T>): void {
     observer._originalRemoveChild(child);
 
     if (observer._children.length === 1) {

@@ -1,15 +1,43 @@
+// @flow
 import { create } from 'reactive-observables';
+import Observer from 'reactive-observables/Observer';
+import Observable from 'reactive-observables/Observable';
 import invariant from 'invariant';
+
+declare var __DEV__: any;
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
-export const allStates = {};
+export const allStates: { [key: string]: any } = {};
 
-export function createStore({ name, initialValue = null, reducers = null }) {
-  invariant(!(name in allStates), 'Store (' + name + ') already exists');
+export interface StoreSpec<T> {
+  name: string;
+  initialValue: ?T;
+  reducers: ?any;
+}
 
-  let currentState = (allStates[name] = initialValue);
-  const observable = create();
+export interface Store<T> {
+  observable: Observable<T> | Observer<any, T>;
+  applyStateMutation: ?Function;
+  mutateTo: ?Function;
+}
+
+export interface TrackingStoreSpec<T> {
+  name: string;
+  observable: Observable<T>;
+}
+
+export interface TrackingStore<T> {
+  observable: Observable<T> | Observer<any, T>;
+}
+
+export function createStore<T>(spec: StoreSpec<T>): Store<T> {
+  invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
+  nullToUndefined(spec, 'initialValue');
+  nullToUndefined(spec, 'reducers');
+
+  let currentState = (allStates[spec.name] = spec.initialValue);
+  const observable: Observable<T> = create();
   observable.emit(currentState);
 
   return {
@@ -22,41 +50,47 @@ export function createStore({ name, initialValue = null, reducers = null }) {
   };
 
   function applyStateMutation(action) {
-    if (reducers == null) {
+    if (spec.reducers == null) {
       mutateTo(action(currentState));
     } else {
-      const reducer = reducers[action.type];
+      const reducer = spec.reducers[action.type];
       if (__DEV__) {
         invariant(
           typeof reducer === 'function',
           `Unsupported action type ${action.type}. Did you forget to specify a reducer?`
         );
       }
-      mutateTo(reducer(currentState, action));
+      mutateTo(spec.reducers(currentState, action));
     }
   }
 
   function mutateTo(newValue) {
-    currentState = allStates[name] = newValue;
+    currentState = allStates[spec.name] = newValue;
     observable.emit(currentState);
   }
 }
 
-export function createTrackingStore({ name, observable }) {
-  invariant(!(name in allStates), 'Store (' + name + ') already exists');
-  invariant(observable != null, 'Observable must be provided');
+export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStore<T> {
+  invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
+  invariant(spec.observable != null, 'Observable must be provided');
 
-  allStates[name] = undefined;
+  allStates[spec.name] = undefined;
 
   return {
-    observable: observable.tap(v => {
-      allStates[name] = v;
+    observable: spec.observable.tap((v: ?T) => {
+      allStates[spec.name] = v;
     })
   };
 }
 
 // only use this for testing purposes to clear the store registry. This
 // is required when using proxyquire with stores.
-export function resetStoreRegistry() {
+export function resetStoreRegistry(): void {
   Object.keys(allStates).forEach(key => delete allStates[key]);
+}
+
+function nullToUndefined(object: any, property: string): void {
+  if (object[property] === undefined) {
+    object[property] = null;
+  }
 }

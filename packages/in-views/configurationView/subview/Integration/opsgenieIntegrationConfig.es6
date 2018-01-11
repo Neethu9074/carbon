@@ -23,14 +23,12 @@ export default {
   enrichIntegrationObject(integration) {
     integration.apiKey = '';
     integration.tags = '';
-    integration.email = '';
   },
 
   createDetails(integration) {
     return (
       <DescriptionList>
         <DescriptionItem title="Api Key">{integration.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title="Email">{integration.get('email')}</DescriptionItem>
         <DescriptionItem title="Tags">{integration.get('tags')}</DescriptionItem>
       </DescriptionList>
     );
@@ -64,13 +62,6 @@ export default {
           value: integration ? integration.get('tags') : '',
           validator: notBlankValidator
         })
-      )
-      .put(
-        'email',
-        createField({
-          value: integration ? integration.get('email') : '',
-          validator: notBlankValidator
-        })
       );
   },
 
@@ -80,8 +71,7 @@ export default {
       kind: form.get('kind').value,
       name: form.get('name').value,
       apiKey: form.get('apiKey').value,
-      tags: form.get('tags').value,
-      email: form.get('email').value
+      tags: form.get('tags').value
     };
   },
 
@@ -123,23 +113,6 @@ function Form({ form, onChange }) {
               placeholder="API Key"
               value={field.value}
               onChange={e => onChange('apiKey', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-
-        {form.get('email').map(field => (
-          <FormGroup>
-            <Label htmlFor="email" hasError={!field.valid && field.touched}>
-              Email
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="email"
-              type="email"
-              placeholder="ops@company.org"
-              value={field.value}
-              onChange={e => onChange('email', e.target.value)}
             />
             <TouchedMessages field={field} />
           </FormGroup>

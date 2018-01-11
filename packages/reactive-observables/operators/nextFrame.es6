@@ -1,14 +1,12 @@
 /*global requestAnimationFrame:false*/
-
+// @flow
 import Observer from '../Observer';
 
-export default function nextFrame() {
-  const observer = Object.create(Observer);
-
+export default function nextFrame<T>(): Observer<T, T> {
   let rafId;
   let latestData;
-
-  const onNext = data => {
+  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  return observer._setOnNext(data => {
     latestData = data;
 
     if (rafId == null) {
@@ -17,9 +15,5 @@ export default function nextFrame() {
         observer._emit(latestData);
       });
     }
-  };
-
-  observer._init(this, this._observableSpec, onNext);
-
-  return observer;
+  });
 }

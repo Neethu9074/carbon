@@ -644,7 +644,7 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-babel-cli@^6.0.0:
+babel-cli@^6.0.0, babel-cli@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-cli/-/babel-cli-6.26.0.tgz#502ab54874d7db88ad00b887a06383ce03d002f1"
   dependencies:
@@ -3414,6 +3414,19 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
+eslint-plugin-flowtype-errors@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype-errors/-/eslint-plugin-flowtype-errors-3.3.6.tgz#e9fc9aed13df6615240b6c28faea40768a4d37ec"
+  dependencies:
+    babel-runtime "^6.26.0"
+    slash "^1.0.0"
+
+eslint-plugin-flowtype@^2.40.1:
+  version "2.40.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.40.1.tgz#f78a8e6a4cc6da831dd541eb61e803ff0279b796"
+  dependencies:
+    lodash "^4.15.0"
+
 eslint-plugin-mocha@^4.7.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.11.0.tgz#91193a2f55e20a5e35974054a0089d30198ee578"
@@ -3970,6 +3983,16 @@ flat-cache@^1.2.1:
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
+
+flow-bin@^0.62.0:
+  version "0.62.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
+
+flow-webpack-plugin@basti1302/flow-webpack-plugin#v1.2.0-fix-watch-mode:
+  version "1.2.0"
+  resolved "https://codeload.github.com/basti1302/flow-webpack-plugin/tar.gz/f9ab5c8116dfe80331f3574d8ca8d1bc5d3865d5"
+  dependencies:
+    babel-cli "^6.26.0"
 
 for-in@^0.1.3:
   version "0.1.8"
