@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import HttpFilterSelect from 'in-components/HttpFilterSelect';
 import { number } from 'in-services/formatters/number';
@@ -81,7 +82,7 @@ export default function Performance({ snapshot, timeframe }) {
   ];
 
   return (
-    <div>
+    <MaxWidthFullscreenContainer>
       <DashboardSection>
         <h2>Http Status Code Breakdown</h2>
         <Chart
@@ -103,6 +104,6 @@ export default function Performance({ snapshot, timeframe }) {
         </div>
         <Table cols={tableColumns} rows={dummyTableRows} />
       </DashboardSection>
-    </div>
+    </MaxWidthFullscreenContainer>
   );
 }

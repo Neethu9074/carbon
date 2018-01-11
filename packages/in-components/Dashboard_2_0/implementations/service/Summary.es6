@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
@@ -52,7 +53,7 @@ export default function Summary({ snapshot, timeframe }) {
   ];
 
   return (
-    <div>
+    <MaxWidthFullscreenContainer>
       <Columize>
         <DashboardSection title="Some Chart">
           <Chart
@@ -87,6 +88,6 @@ export default function Summary({ snapshot, timeframe }) {
           <TopList dummyData={topListDummyData} header="Endpoints" />
         </Columize>
       </DashboardSection>
-    </div>
+    </MaxWidthFullscreenContainer>
   );
 }
