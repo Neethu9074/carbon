@@ -30,7 +30,7 @@ export default function TopListRow({ label, value, maxValue, unit, traces }) {
       <div className={`${locals.traces}`}>
         <SvgIcon className={locals.tracesRowItem} type="traces" width={16} height={16} />
         {traces.map(trace => (
-          <Link className={`${locals.tracesRowItem} ${locals.trace}`} href={'#'}>
+          <Link key={trace} className={`${locals.tracesRowItem} ${locals.trace}`} href={'#'}>
             {trace}
           </Link>
         ))}
