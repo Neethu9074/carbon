@@ -1,9 +1,15 @@
 // @flow
 
+// TODO how to push queing / progress information to the UI?
+// TODO how to handle data retrieval retries?
+
+
 // ===========================================================
 //          Common Types
 // ===========================================================
 export type Id = string;
+// a string that would typically used in a string like operator
+export type LikeString = string;
 
 // Time
 export type Millis = number;
@@ -14,9 +20,17 @@ export type Timeframe = {
 }
 
 // Metrics
+export type Aggregations = 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75' | 'p90' | 'p95' | 'p98' | 'p99';
 export type MetricValue = number;
 export type TimestampedMetric = [Timestamp, MetricValue];
-export type TimestampedMetrics = Array<TimestampedMetric>;
+export type TimestampedMetrics = [TimestampedMetric];
+export type MetricConfiguration = {
+  metric: string,
+  // TODO How do we express that we only want one number?
+  rollup: number,
+  // aggregation to use to reduce the available number of data points to the desired number of data points
+  aggregation: Aggregations
+};
 
 // Pagination
 export type PaginatedOpts = {
@@ -40,13 +54,31 @@ export type Try<T> = {
 };
 
 // Application 2.0 specific types
-export type LogicalEntityType = 'application' | 'service' | 'endpoint';
-export type LogicalPluginType = 'web' | 'rpc' | 'batch' | 'sdk' | 'messaging' | 'database';
-export type LogicalEntity = {
+export type Filter = {
+  // TODO document why this is filter object that is used everywhere
+
+  application: ?Id,
+  applicationName: ?LikeString,
+  service: ?Id,
+  serviceName: ?LikeString,
+  endpoint: ?Id,
+  endpointName: ?LikeString,
+  timeframe: Timeframe
+};
+export type Type = 'web' | 'rpc' | 'batch' | 'sdk' | 'messaging' | 'database' | 'website';
+export type Application = {
+  id: Id,
+  label: string
+};
+export type Service = {
   id: Id,
   label: string,
-  entityType: LogicalEntityType,
-  pluginType: [LogicalPluginType]
+  types: [Type]
+};
+export type Endpoint = {
+  id: Id,
+  label: string,
+  types: Type
 };
 
 // ===========================================================
@@ -54,47 +86,46 @@ export type LogicalEntity = {
 // ===========================================================
 
 export type GetApplicationsOpts = {
-  service: ?Id,
-  endpoint: ?Id,
-  timeframe: Timeframe
+  filter: Filter,
+  pagination: PaginatedOpts,
+  // TODO how to we express the following?
+  // must be a metric that returns only one data point or endpoint count, services count or application name
+  orderBy: string,
+  metrics: {
+    [name: string]: MetricConfiguration
+  }
 };
-export type GetApplications = (opts: GetApplicationsOpts) => Try<[Id]>;
-
-
-export type GetServicesOpts = {
-  application: ?Id,
-  endpoint: ?Id,
-  timeframe: Timeframe
+export type GetApplicationsItem = {
+  application: Application,
+  services: number,
+  endpoints: number,
+  metrics: {
+    [name: string]: TimestampedMetrics
+  }
 };
-export type GetServices = (opts: GetServicesOpts) => Try<[Id]>;
+export type GetApplications = (opts: GetApplicationsOpts) => Try<PaginatedResult<GetApplicationsItem>>;
 
 
-export type GetEndpointsOpts = {
-  application: ?Id,
-  service: ?Id,
-  timeframe: Timeframe
+export type GetApplicationOpts = {
+  filter: Filter
 };
-export type GetEndpoints = (opts: GetEndpointsOpts) => Try<[Id]>;
+export type GetApplication = (opts: GetApplicationOpts) => Try<Application>;
 
 
-export type GetLogicalEntityOpts = {
-  service: ?Id,
-  timeframe: Timeframe
+export type GetServiceOpts = {
+  filter: Filter
 };
-export type GetLogicalEntity = (opts: GetLogicalEntityOpts) => Try<LogicalEntity>;
+export type GetService = (opts: GetServiceOpts) => Try<Service>;
+
+
+export type GetEndpointOpts = {
+  filter: Filter
+};
+export type GetEndpoint = (opts: GetEndpointOpts) => Try<Endpoint>;
 
 
 export type GetMetricsOpts = {
-  application: ?Id,
-  service: ?Id,
-  endpoint: ?Id,
-  timeframe: Timeframe,
-
-  metric: string,
-  // It can be that we only want to show one large number in the UI which is supposed
-  desiredNumberOfDataPoints: number,
-  // aggregation to use to reduce the available number of data points to the desired number of data points
-  aggregation: 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75' | 'p90' | 'p95' | 'p98' | 'p99',
-  timeframe: Timeframe
+  filter: Filter,
+  config: MetricConfiguration
 }
 export type GetMetrics = (opts: GetMetricsOpts) => Try<TimestampedMetrics>;
