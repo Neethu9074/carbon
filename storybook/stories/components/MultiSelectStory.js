@@ -3,5 +3,4 @@ import React from 'react';
 
 import HttpFilterSelect from 'in-components/HttpFilterSelect';
 
-storiesOf('components/MultiSelect', module)
-  .add('Http Filters', () => <HttpFilterSelect />);
+storiesOf('components/MultiSelect', module).add('Http Filters', () => <HttpFilterSelect />);

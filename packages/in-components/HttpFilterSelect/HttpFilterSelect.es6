@@ -24,15 +24,15 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      statuses: [],
+      statusCodes: [],
       verbs: []
     };
   }
 
-  handleSelectedStatusChange = statuses => {
+  handleSelectedStatusChange = statusCodes => {
     this.setState(previousState => {
       return {
-        statuses: statuses,
+        statusCodes: statusCodes,
         verbs: previousState.verbs
       };
     });
@@ -41,7 +41,7 @@ export default class extends React.Component {
   handleSelectedVerbChange = verbs => {
     this.setState(previousState => {
       return {
-        statuses: previousState.statuses,
+        statusCodes: previousState.statusCodes,
         verbs: verbs
       };
     });
@@ -51,7 +51,7 @@ export default class extends React.Component {
     return (
       <span>
         <span className={locals.filterGroup}>
-          <span>Status</span>
+          <span>Status Code</span>
           <span className={locals.selectWrapper}>
             <Select
               closeOnSelect={false}
@@ -60,7 +60,7 @@ export default class extends React.Component {
               options={HTTP_STATUS_CODES}
               placeholder="Filter HTTP status codes"
               simpleValue
-              value={this.state.statuses}
+              value={this.state.statusCodes}
             />
           </span>
         </span>
