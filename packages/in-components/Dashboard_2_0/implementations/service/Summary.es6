@@ -83,8 +83,8 @@ export default function Summary({ snapshot, timeframe }) {
       </Columize>
       <DashboardSection>
         <Columize>
-          <TopList dummyData={topListDummyData} header="Services" />
-          <TopList dummyData={topListDummyData} header="Foobarbaz" />
+          <TopList dummyData={topListDummyData} header="Traces" />
+          <TopList dummyData={topListDummyData} header="Endpoints" />
         </Columize>
       </DashboardSection>
     </div>
