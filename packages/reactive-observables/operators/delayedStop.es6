@@ -10,7 +10,7 @@ const dummyChild: any = {
 export default function delayedStop<T>(
   millis: number,
   stopObserver: () => void,
-  setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
+  setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
   clearTimeout: (timeoutId?: number) => void = clearTimeoutFn
 ): Observer<T, T> {
   const observer: Observer<T, T> = new Observer(this, this._observableSpec);

@@ -9,6 +9,11 @@ applyOperators(Observable);
 
 export const setUnhandledErrorHandler = setHandler;
 
+// TODO Create common interfaces Observable, Observer
+// - Observable => Subject
+// - Observer => ?
+// - TerminalObserver => Subscriber
+
 export function create<T>(observableSpec: ?ObservableSpec<T>): Observable<T> {
   if (!observableSpec) {
     observableSpec = {
@@ -96,7 +101,8 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
   }
 }
 
-export function on(target: any, event: any, options: any): Observable<any> {
+export function on(target: EventTarget, event: string, capture: EventListenerOptionsOrUseCapture): Observable<any> {
+  // see https://github.com/facebook/flow/blob/master/lib/dom.js, class EventTarget
   const observable: Observable<any> = create({ start, stop, emitLatestOnSubscribe: true });
   return observable;
 
@@ -105,10 +111,10 @@ export function on(target: any, event: any, options: any): Observable<any> {
   }
 
   function start() {
-    target.addEventListener(event, listener, options);
+    target.addEventListener(event, listener, capture);
   }
 
   function stop() {
-    target.removeEventListener(event, listener, options);
+    target.removeEventListener(event, listener, capture);
   }
 }

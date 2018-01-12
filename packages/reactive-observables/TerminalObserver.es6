@@ -49,8 +49,8 @@ export default class TerminalObserver<C> {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   _emitError(error: any, _: ?boolean): boolean {
-    // eslint-disable-line no-unused-vars
     if (this._onError) {
       this._onError(error);
       return true;

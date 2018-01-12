@@ -7,7 +7,7 @@ import Observer from '../Observer';
 export interface ThrottleOptions {
   leading: boolean;
   trailing: boolean;
-  setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number;
+  setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number;
   clearTimeout: (timeoutId?: number) => void;
 }
 
