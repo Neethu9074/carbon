@@ -7,13 +7,15 @@
 //          Common Types
 // ===========================================================
 export type Id = string;
-// a string that would typically used in a string like operator
+// a string that would typically be used in a string like operator
 export type LikeString = string;
 
 // Time
 export type Millis = number;
 export type Timestamp = Millis;
 export type Timeframe = {
+  // BK: we specify the end and the size of the frame? That's quite unusual.
+  // How about "from" and "to" or "from" and "windowSize"
   to: ?Timestamp,
   windowSize: Millis
 };
@@ -33,12 +35,19 @@ export type Error = {
   type: ErrorCode
 };
 
+// BK: I think for the 'validation' case we need more information. We need to tell the user what exactly was invalid.
+// Do we need to render invalid inputs differently (think red border around input fields etc.)? If so, UI and backend
+// need to use shared identifiers for input fields.
 
 // Results
 export type Progress = {
   // All of these values can be used to represent different loading indicators (and combinations thereof)
-  // Indeterminate, when loading && estimatedTime == null && estimatedPercentage == null
+  // Indeterminate, when loading && (estimated) time == null && (estimated) percentage == null
   // Countdown, when     loading && estimatedTime > 0
+
+  // BK: I think for now we should agree on and only support either estimated remaining time or estimated percentage,
+  // not both. Also, I'm a bit sceptical if there is real benefit in showing the queue position (a feature that we
+  // have been discussing). For now, I would not support it.
 
   loading: boolean,
   // estimated wait time in millis
@@ -54,7 +63,7 @@ export type Result<T> = {
 
 // placeholder for the full Observable typings
 export type Observable<T> = {
-  subscribe: (v: T) => void
+  subscribe: (v: ?T) => void
 };
 
 // Metrics
@@ -62,28 +71,36 @@ export type Aggregations = 'sum' | 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75
 export type MetricValue = number;
 export type TimestampedMetric = [Timestamp, MetricValue];
 export type TimestampedMetrics = [TimestampedMetric];
+
+// BK: RollupType and the two sub-types are an attempt to answer Ben's question "How do we express that we only want
+// one number?". Not sure if this is very pracictal, in particular, how would the back end deserialize this union type?
+export type NumericalRollup = number;
+export type SingleElementRollup = 'no-rollup';
+export type RollupType = NumericalRollup | SingleElementRollup;
+
 export type MetricConfiguration = {
   metric: string,
   // TODO How do we express that we only want one number?
-  rollup: number,
+  rollup: RollupType,
   // aggregation to use to reduce the available number of data points to the desired number of data points
   aggregation: Aggregations
 };
 
 // Pagination
-export type PaginatedOpts = {
+export type PagintedQuery = {
   pageSize: number,
   page: number
 };
 export type PaginatedResult<T> = {
+  // BK: I think the pagination result also needs to know which page it is.
+  page: number,
   totalHits: number,
   items: [T]
 };
 
 // Application 2.0 specific types
 export type Filter = {
-  // TODO document why this is filter object that is used everywhere
-
+  // TODO document why this is a filter object that is used everywhere.
   application: ?Id,
   applicationName: ?LikeString,
   service: ?Id,
@@ -112,9 +129,9 @@ export type Endpoint = {
 //          Queries
 // ===========================================================
 
-export type GetApplicationsOpts = {
+export type GetApplicationsQuery = {
   filter: Filter,
-  pagination: PaginatedOpts,
+  pagination: PagintedQuery,
   // TODO how to we express the following?
   // must be a metric that returns only one data point or endpoint count, services count or application name
   orderBy: string,
@@ -122,6 +139,9 @@ export type GetApplicationsOpts = {
     [name: string]: MetricConfiguration
   }
 };
+// BK What exactly is an GetApplicationsItem? One item of the result of the GetApplicationsQuery?
+// Do we need such a type? Or does it represent one row in an application table? In this case the operation that
+// yielded should not be encoded into the type's name, it should simply be called ApplicationTableRow or similar.
 export type GetApplicationsItem = {
   application: Application,
   services: number,
@@ -130,25 +150,25 @@ export type GetApplicationsItem = {
     [name: string]: TimestampedMetrics
   }
 };
-export type GetApplications = (opts: GetApplicationsOpts) => Observable<Result<PaginatedResult<GetApplicationsItem>>>;
+export type GetApplications = (query: GetApplicationsQuery) => Observable<Result<PaginatedResult<GetApplicationsItem>>>;
 
-export type GetApplicationOpts = {
+export type GetApplicationQuery = {
   filter: Filter
 };
-export type GetApplication = (opts: GetApplicationOpts) => Observable<Result<Application>>;
+export type GetApplication = (query: GetApplicationQuery) => Observable<Result<Application>>;
 
-export type GetServiceOpts = {
+export type GetServiceQuery = {
   filter: Filter
 };
-export type GetService = (opts: GetServiceOpts) => Observable<Result<Service>>;
+export type GetService = (query: GetServiceQuery) => Observable<Result<Service>>;
 
-export type GetEndpointOpts = {
+export type GetEndpointQuery = {
   filter: Filter
 };
-export type GetEndpoint = (opts: GetEndpointOpts) => Observable<Result<Endpoint>>;
+export type GetEndpoint = (query: GetEndpointQuery) => Observable<Result<Endpoint>>;
 
-export type GetMetricsOpts = {
+export type GetMetricsQuery = {
   filter: Filter,
   config: MetricConfiguration
 };
-export type GetMetrics = (opts: GetMetricsOpts) => Observable<Result<TimestampedMetrics>>;
+export type GetMetrics = (query: GetMetricsQuery) => Observable<Result<TimestampedMetrics>>;
