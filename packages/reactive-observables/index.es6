@@ -9,11 +9,6 @@ applyOperators(Observable);
 
 export const setUnhandledErrorHandler = setHandler;
 
-// TODO Create common interfaces Observable, Observer
-// - Observable => Subject
-// - Observer => ?
-// - TerminalObserver => Subscriber
-
 export function create<T>(observableSpec: ?ObservableSpec<T>): Observable<T> {
   if (!observableSpec) {
     observableSpec = {
