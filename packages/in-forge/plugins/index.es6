@@ -128,6 +128,7 @@ import './shellLogicalConnection';
 import './shellLogicalService';
 import './solr';
 import './sparkApplication';
+import './sparkStandalone';
 import './springbootApplicationContainer';
 import './statsd';
 import './tomcatApplicationContainer';
