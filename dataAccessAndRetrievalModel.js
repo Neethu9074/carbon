@@ -3,7 +3,6 @@
 // TODO how to push queing / progress information to the UI?
 // TODO how to handle data retrieval retries?
 
-
 // ===========================================================
 //          Common Types
 // ===========================================================
@@ -17,44 +16,45 @@ export type Timestamp = Millis;
 export type Timeframe = {
   to: ?Timestamp,
   windowSize: Millis
-}
+};
 
 // Error
 export type ErrorCode =
   // invalid user input, typically recoverable by user interaction
-  'notFound' |
+  | 'notFound'
   // invalid user input, typically recoverable by user interaction
-  'validation' |
+  | 'validation'
   // invalid call, e.g. wrong call parameters - technical error
-  'client' |
+  | 'client'
   // problem in server logical - technical error
-  'server';
+  | 'server';
 export type Error = {
   message: string,
   type: ErrorCode
-}
+};
+
 
 // Results
-export type Progress {
+export type Progress = {
   // All of these values can be used to represent different loading indicators (and combinations thereof)
   // Indeterminate, when loading && estimatedTime == null && estimatedPercentage == null
   // Countdown, when     loading && estimatedTime > 0
 
-  loading: bool,
+  loading: boolean,
   // estimated wait time in millis
   time: ?Millis,
   // estimated progress as percentage, value between 0-1
   percentage: ?number
-}
-export type Result<T> {
+};
+export type Result<T> = {
   data: ?T,
   errors: [Error],
   progress: Progress
-}
+};
 
 // placeholder for the full Observable typings
-export type Observable<T> {
-  subscribe(fn: (v : T) => void)
+export type Observable<T> = {
+  subscribe: (v: T) => void
 };
 
 // Metrics
@@ -132,27 +132,23 @@ export type GetApplicationsItem = {
 };
 export type GetApplications = (opts: GetApplicationsOpts) => Observable<Result<PaginatedResult<GetApplicationsItem>>>;
 
-
 export type GetApplicationOpts = {
   filter: Filter
 };
 export type GetApplication = (opts: GetApplicationOpts) => Observable<Result<Application>>;
-
 
 export type GetServiceOpts = {
   filter: Filter
 };
 export type GetService = (opts: GetServiceOpts) => Observable<Result<Service>>;
 
-
 export type GetEndpointOpts = {
   filter: Filter
 };
 export type GetEndpoint = (opts: GetEndpointOpts) => Observable<Result<Endpoint>>;
 
-
 export type GetMetricsOpts = {
   filter: Filter,
   config: MetricConfiguration
-}
+};
 export type GetMetrics = (opts: GetMetricsOpts) => Observable<Result<TimestampedMetrics>>;
