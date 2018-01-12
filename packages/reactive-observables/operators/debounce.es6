@@ -6,7 +6,7 @@ export interface DebounceOptions {
   leading: boolean;
   trailing: boolean;
   maxWait: number;
-  setTimeout: ?(callback: any, ms?: number, ...args: Array<any>) => number;
+  setTimeout: ?(callback: Function, ms?: number, ...args: Array<any>) => number;
   clearTimeout: ?(timeoutId?: number) => void;
 }
 

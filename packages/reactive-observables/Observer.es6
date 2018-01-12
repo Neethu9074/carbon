@@ -38,7 +38,7 @@ export default class Observer<C, E> {
   delayedStop: (
     millis: number,
     stopObserver: () => void,
-    setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number,
+    setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number,
     clearTimeout: (timeoutId?: number) => void
   ) => Observer<E, E>;
   distinct: ((a: ?E, b: ?E) => boolean) => Observer<E, E>;
