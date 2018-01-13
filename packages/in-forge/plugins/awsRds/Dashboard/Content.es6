@@ -33,8 +33,8 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: ['disk_queue_depth'],
-            labels: ['Disk queue depth'],
+            metrics: ['disk_queue_depth', 'free_storage_space'],
+            labels: ['Disk queue depth', 'Available storage space'],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -65,8 +65,8 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: ['freeable_memory', 'free_storage_space', 'swap_usage'],
-            labels: ['Freeable RAM', 'Available storage space', 'Swap usage'],
+            metrics: ['freeable_memory', 'swap_usage'],
+            labels: ['Freeable RAM', 'Swap usage'],
             formatter: bytes.compact,
             type: 'line'
           }}

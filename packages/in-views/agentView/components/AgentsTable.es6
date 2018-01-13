@@ -36,21 +36,23 @@ const cols = [
           const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
           return getSnapshot(hostId, reportingCenterTime);
         });
-        return hostSnapshot$.flatMap(hostSnapshot =>
+        return hostSnapshot$.startWith(null).flatMap(hostSnapshot =>
           getDashboardLink(row.key).map(href => {
-            const label = getLabel(hostSnapshot);
+            const label = hostSnapshot ? getLabel(hostSnapshot) : getLabel(row.snapshot);
             return {
               value: label,
               content: (
                 <Link href={href} className={`${block}__link`}>
-                  <HealthyPluginIcon
-                    plugin={plugins.instanaAgent}
-                    overrideSnapshot
-                    snapshot={hostSnapshot}
-                    dimension={12}
-                    fallbackColor={'#000'}
-                    className={`${block}__plugin-icon`}
-                  />
+                  {hostSnapshot && (
+                    <HealthyPluginIcon
+                      plugin={plugins.instanaAgent}
+                      overrideSnapshot
+                      snapshot={hostSnapshot}
+                      dimension={12}
+                      fallbackColor={'#000'}
+                      className={`${block}__plugin-icon`}
+                    />
+                  )}
                   {label}
                 </Link>
               )
