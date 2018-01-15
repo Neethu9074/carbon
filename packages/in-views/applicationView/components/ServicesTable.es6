@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import getServices from 'in-subscription/application/getServices';
 import SearchableTable from 'in-components/SearchableTable';
 import { always } from 'in-services/fixedStreams';
 import { getSingular } from 'in-sdk/pluginName';
@@ -115,9 +116,13 @@ export default connectTo(
           plugin
         }))
       )
-    )
+    ),
+
+    dummySubscription: getServices()
   },
-  function ServicesTable({ services }) {
+  function ServicesTable({ services, dummySubscription }) {
+    // eslint-disable-next-line no-console
+    console.log('dummySubscription', dummySubscription);
     const rows = services.toArray().map(snapshot => ({ key: snapshot.get('id'), snapshot }));
 
     return <SearchableTable maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />;

@@ -22,6 +22,7 @@ linkModule in-stores
 linkModule in-subscription
 linkModule in-test
 linkModule in-themes
+linkModule in-types
 linkModule in-views
 linkModule roemitter
 linkModule instalog

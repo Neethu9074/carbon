@@ -1,84 +1,9 @@
 // @flow
 
-// ===========================================================
-//          Common Types
-// ===========================================================
-export type Id = string;
-// a string that would typically be used in a string like operator
-export type LikeString = string;
+/*
+ * Application 2.0 specific types
+ */
 
-// Time
-export type Millis = number;
-export type Timestamp = Millis;
-export type Timeframe = {
-  to: ?Timestamp,
-  windowSize: Millis
-};
-
-// Error
-export type ErrorCode =
-  // invalid user input, typically recoverable by user interaction
-  | 'notFound'
-  // invalid user input, typically recoverable by user interaction
-  | 'validation'
-  // invalid call, e.g. wrong call parameters - technical error
-  | 'client'
-  // problem in server logical - technical error
-  | 'server';
-export type Error = {
-  message: string,
-  code: ErrorCode
-};
-
-// Results
-export type Progress = {
-  // All of these values can be used to represent different loading indicators (and combinations thereof)
-  // Indeterminate, when loading && (estimated) time == null && (estimated) percentage == null
-  // Countdown, when     loading && estimatedTime > 0
-  loading: boolean,
-  // estimated wait time in millis
-  time: ?Millis,
-  // estimated progress as percentage, value between 0-1
-  percentage: ?number
-};
-export type Result<T> = {
-  data: ?T,
-  errors: Error[],
-  progress: Progress
-};
-
-// placeholder for the full Observable typings
-export type Observable<T> = {
-  subscribe: (v: ?T) => void
-};
-
-// Metrics
-export type Aggregations = 'sum' | 'mean' | 'max' | 'min' | 'p25' | 'p50' | 'p75' | 'p90' | 'p95' | 'p98' | 'p99';
-export type MetricValue = number;
-export type TimestampedMetric = [Timestamp, MetricValue];
-export type TimestampedMetrics = TimestampedMetric[];
-
-export type MetricConfiguration = {
-  metric: string,
-  granularity: ?number,
-  // aggregation to use to reduce the available number of data points to the desired number of data points
-  aggregation: Aggregations
-};
-
-// Pagination
-export type PaginatedQuery = {
-  pageSize: number,
-  page: number
-};
-
-export type PaginatedResult<T> = {
-  page: number,
-  pageSize: number,
-  totalHits: number,
-  items: T[]
-};
-
-// Application 2.0 specific types
 export type Filter = {
   application: ?Id,
   applicationName: ?LikeString,
@@ -89,7 +14,7 @@ export type Filter = {
   timeframe: Timeframe
 };
 
-export type Type = 'web' | 'rpc' | 'batch' | 'sdk' | 'messaging' | 'database' | 'website';
+export type Type = 'WEB' | 'RPC' | 'BATCH' | 'SDK' | 'MESSAGING' | 'DATABASE' | 'WEBSITE';
 
 export type Application = {
   id: Id,
@@ -107,10 +32,6 @@ export type Endpoint = {
   label: string,
   types: Type
 };
-
-// ===========================================================
-//          Queries
-// ===========================================================
 
 /* A query specification that yields a list of applications. */
 export type GetApplicationsQuery = {
