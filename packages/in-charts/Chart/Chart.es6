@@ -154,6 +154,7 @@ export default function createChart(config) {
     stopRendering();
 
     config.subscriptions.forEach(s => s.dispose());
+    config.subscriptions = [];
   }
 
   function addWindowResizeSupport() {
