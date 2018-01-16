@@ -15,11 +15,12 @@ import { generateUniqueShortId } from 'in-services/util/id';
 export default class FlowMap {
   constructor(canvas, overlayReactComponent) {
     this.canvas = canvas;
+    this.overlayReactComponent = overlayReactComponent;
 
     this.initServiceLocator();
-    this.initScene(overlayReactComponent);
+    this.initScene();
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter(overlayReactComponent);
+    this.initOverlayReactComponentMounter();
 
     this.handleLostContext();
 
@@ -35,9 +36,9 @@ export default class FlowMap {
     );
   }
 
-  initScene(overlayReactComponent) {
+  initScene() {
     if (!this.scene) {
-      this.scene = new Scene(this.serviceLocatorUid, this.canvas, overlayReactComponent);
+      this.scene = new Scene(this.serviceLocatorUid, this.canvas, this.overlayReactComponent);
 
       getServiceLocators(this.serviceLocatorUid).sceneServiceLocator.provide(createSceneService(this.scene));
 
@@ -49,8 +50,11 @@ export default class FlowMap {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid, this.data);
   }
 
-  initOverlayReactComponentMounter(overlayReactComponent) {
-    this.overlayReactComponentMounter = new OverlayReactComponentMounter(overlayReactComponent, this.serviceLocatorUid);
+  initOverlayReactComponentMounter() {
+    this.overlayReactComponentMounter = new OverlayReactComponentMounter(
+      this.overlayReactComponent,
+      this.serviceLocatorUid
+    );
   }
 
   setSize(width, height) {
