@@ -58,7 +58,8 @@ export function registerMetricDefinition(plugin, metricDefinition) {
       category: metricDefinition.category || [],
       getMin: getMin(metricDefinition),
       getMax: getMax(metricDefinition),
-      formatter: metricDefinition.formatter || number
+      formatter: metricDefinition.formatter || number,
+      isPercentile: metricDefinition.isPercentile
     });
   }
 }
@@ -195,7 +196,8 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
       label: metricDefinitionForPlugin.label,
       metric: metricDefinitionForPlugin.metric,
       formatter: metricDefinitionForPlugin.formatter,
-      type: 'metric'
+      type: 'metric',
+      isPercentile: metricDefinitionForPlugin.isPercentile
     });
     return;
   }

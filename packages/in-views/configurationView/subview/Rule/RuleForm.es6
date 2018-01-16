@@ -29,6 +29,42 @@ const pluginsWithMetricDefinitions = Object.keys(plugins)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
 export default function RuleForm({ form, onChange }) {
+  function isPercentile() {
+    if (
+      form &&
+      form.get('entityType') &&
+      form.get('entityType').value &&
+      form.get('metricName') &&
+      form.get('metricName').value
+    ) {
+      const categories = getCategories(form.get('entityType').value);
+      const metricName = form.get('metricName').value;
+      if (!categories) {
+        return false;
+      }
+
+      let isPercentile = false;
+      categories.forEach(category => {
+        if (category.children) {
+          category.children.forEach(child => {
+            if (metricName === child.metric && child.isPercentile) {
+              isPercentile = true;
+              return;
+            }
+          });
+        } else if (metricName === category.metric && category.isPercentile) {
+          isPercentile = true;
+        }
+
+        if (isPercentile) {
+          return;
+        }
+      });
+      return isPercentile;
+    }
+    return false;
+  }
+
   return (
     <fieldset>
       <Section>
@@ -96,50 +132,78 @@ export default function RuleForm({ form, onChange }) {
                 ))
               : null}
           </Col>
-          <Col cols={2}>
-            {form.get('window').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
-                  Time window
-                </Label>
-                <ComboBox
-                  name="rule-window"
-                  value={field.value}
-                  options={[
-                    { value: '', label: 'Please select' },
-                    { value: '1000', label: '1s' },
-                    { value: '5000', label: '5s' },
-                    { value: '10000', label: '10s' },
-                    { value: '60000', label: '1min' },
-                    { value: '300000', label: '5min' },
-                    { value: '600000', label: '10min' }
-                  ]}
-                  onChange={e => onChange('window', e ? e.value : '')}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-          <Col cols={2}>
-            {form.get('aggregation').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
-                  Aggregation
-                </Label>
-                <ComboBox
-                  name="rule-aggregation"
-                  value={field.value}
-                  options={[
-                    { value: '', label: 'Please select' },
-                    { value: 'avg', label: 'avg' },
-                    { value: 'sum', label: 'sum' }
-                  ]}
-                  onChange={e => onChange('aggregation', e ? e.value : e)}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
+          {!isPercentile() ? (
+            <Col cols={2}>
+              {form.get('window').map(field => (
+                <FormGroup>
+                  <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
+                    Time window
+                  </Label>
+                  <ComboBox
+                    name="rule-window"
+                    value={field.value}
+                    options={[
+                      { value: '', label: 'Please select' },
+                      { value: '1000', label: '1 s' },
+                      { value: '5000', label: '5 s' },
+                      { value: '10000', label: '10 s' },
+                      { value: '60000', label: '1 min' },
+                      { value: '300000', label: '5 min' },
+                      { value: '600000', label: '10 min' }
+                    ]}
+                    onChange={e => onChange('window', e ? e.value : '')}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          ) : null}
+          {isPercentile() ? (
+            <Col cols={2}>
+              {form.get('rollup').map(field => (
+                <FormGroup>
+                  <Label htmlFor="rule-rollup" hasError={!field.valid && field.touched}>
+                    Window Size
+                  </Label>
+                  <ComboBox
+                    name="rule-rollup"
+                    value={field.value}
+                    options={[
+                      { value: '', label: 'Please select' },
+                      { value: '5000', label: '5s' },
+                      { value: '60000', label: '1 min' },
+                      { value: '300000', label: '5 min' },
+                      { value: '3600000', label: '1 hour' }
+                    ]}
+                    onChange={e => onChange('rollup', e ? e.value : '')}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          ) : null}
+          {!isPercentile() ? (
+            <Col cols={2}>
+              {form.get('aggregation').map(field => (
+                <FormGroup>
+                  <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
+                    Aggregation
+                  </Label>
+                  <ComboBox
+                    name="rule-aggregation"
+                    value={field.value}
+                    options={[
+                      { value: '', label: 'Please select' },
+                      { value: 'avg', label: 'avg' },
+                      { value: 'sum', label: 'sum' }
+                    ]}
+                    onChange={e => onChange('aggregation', e ? e.value : e)}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          ) : null}
           <Col cols={2}>
             {form.get('conditionOperator').map(field => (
               <FormGroup>
