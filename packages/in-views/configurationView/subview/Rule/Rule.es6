@@ -60,7 +60,7 @@ function save(rule, form) {
         form.get('name').value,
         form.get('entityType').value,
         form.get('metricName').value,
-        1000, // 1s
+        Number(form.get('rollup').value),
         Number(form.get('window').value),
         form.get('aggregation').value,
         form.get('conditionOperator').value,
@@ -106,6 +106,13 @@ function createForm(rule) {
       'window',
       createField({
         value: String(rule.get('window')),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'rollup',
+      createField({
+        value: String(rule.get('rollup')),
         validator: notBlankValidator
       })
     )
