@@ -22,11 +22,19 @@ export default connectTo(
           left: `${screenPosition.x * 100}%`
         }}
       >
-        <div className={`${locals.node} ${locals[size]}`}>{getContent(node, size)}</div>
+        <div className={`${getNodeClasses(node)} ${locals[size]}`}>{getContent(node, size)}</div>
       </div>
     );
   }
 );
+
+function getNodeClasses(node) {
+  let classes = locals.node;
+  if (node.data.isCentral) {
+    return `${classes} ${locals.selected}`;
+  }
+  return classes;
+}
 
 function getContent(node, size) {
   if (size === 'sm') {

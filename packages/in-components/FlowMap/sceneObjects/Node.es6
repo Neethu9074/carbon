@@ -5,9 +5,10 @@ import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Node extends SceneObject {
-  constructor(serviceLocatorUid, object) {
-    super(object.id, serviceLocatorUid);
+  constructor(serviceLocatorUid, data) {
+    super(data.id, serviceLocatorUid);
 
+    this.data = data;
     this.screenPosition = this.position;
 
     const serviceLocators = getServiceLocators(serviceLocatorUid);
