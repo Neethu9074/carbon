@@ -3,6 +3,7 @@ import React from 'react';
 
 import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
 import { number, percentage } from 'in-services/formatters/number';
+import { generateUniqueShortId } from 'in-services/util/id';
 import ChartLegend from 'in-charts/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
 
@@ -117,6 +118,8 @@ function processChartProps(props) {
 }
 
 function processAxis(axis) {
+  determineSeriesIds(axis);
+
   if (axis.type === 'countErrorBar') {
     axis.colors = ['#5da6da', '#d03035'];
     axis.aggregation = ['sum', 'mean'];
@@ -162,5 +165,12 @@ function processAxis(axis) {
       tooltipFormatterArray[i] = axis.tooltipFormatter;
     }
     axis.tooltipFormatter = tooltipFormatterArray;
+  }
+}
+
+function determineSeriesIds(axis) {
+  axis.uids = axis.uids || [];
+  for (let i = 0; i < axis.labels.length; i++) {
+    axis.uids[i] = generateUniqueShortId();
   }
 }
