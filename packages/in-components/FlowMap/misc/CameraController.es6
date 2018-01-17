@@ -1,6 +1,7 @@
 import Hammer from 'hammerjs';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { onWheel } from 'in-services/util/reactiveMouseEvents';
 
 export default class CameraController {
   constructor(serviceLocatorUid, camera, overlayDomElement) {
@@ -8,6 +9,7 @@ export default class CameraController {
     this.camera = camera;
     this.overlayDomElement = overlayDomElement;
 
+    this.unitsToZoomPerCall = 5;
     this.targetCameraSize = 30;
     this.minZoomLevel = 1;
     this.maxZoomLevel = 10000;
@@ -30,6 +32,11 @@ export default class CameraController {
       .eventBusServiceLocator.on('update')
       .subscribe(update);
 
+    this.addPanSupport();
+    this.addScrollSupport();
+  }
+
+  addPanSupport() {
     const eventHandler = (this.eventHandler = new Hammer(this.overlayDomElement));
     eventHandler.on('panstart', this.onPanStart.bind(this));
     eventHandler.get('pan').set({
@@ -37,6 +44,25 @@ export default class CameraController {
       threshold: 5 // in px
     });
     eventHandler.on('pan', this.onPan.bind(this));
+  }
+
+  addScrollSupport() {
+    this.onWheelSubscription = onWheel(this.overlayDomElement, event => {
+      // Because we listen to onwheel, the e.deltaY "should be" in a range of
+      // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
+      // events. Our map prefers values in the range of
+      // +/- 0 .. 50. Because we cannot prevent buffering (browser seems not to)
+      // react to user scroll, we at least prevent zooming way to much by capping
+      // the value.
+
+      // Touchy devices tend to send more frequent smaller scrolls, while "old"
+      // mice send stable large ticks.
+
+      // we erased the browsers deltaY completely, because it is to dynamic across all browsers / OS.
+      // the only thing we extract is the scroll direction. To get the same feeling as before, a factor
+      // is multiplied (15 here) which was found heuristically.
+      this.zoom(3 * event.scrollSpeed * event.scrollDirection);
+    });
   }
 
   onPan(event) {
@@ -65,11 +91,15 @@ export default class CameraController {
     this.camera.update();
   }
 
-  zoomIn(units) {
-    this.targetCameraSize = Math.max(this.minZoomLevel, this.targetCameraSize - units);
+  zoomInOneStep() {
+    this.zoom(-this.unitsToZoomPerCall);
   }
 
-  zoomOut(units) {
+  zoomOutOneStep() {
+    this.zoom(this.unitsToZoomPerCall);
+  }
+
+  zoom(units) {
     this.targetCameraSize = Math.min(this.maxZoomLevel, this.targetCameraSize + units);
   }
 
@@ -99,6 +129,9 @@ export default class CameraController {
 
     this.updateSubscription.dispose();
     this.updateSubscription = null;
+
+    this.onWheelSubscription.dispose();
+    this.onWheelSubscription = null;
   }
 
   dispose() {

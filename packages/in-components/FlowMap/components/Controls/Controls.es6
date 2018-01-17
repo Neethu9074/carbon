@@ -22,11 +22,11 @@ function toggleParticles(serviceLocatorUid) {
 function zoomIn(serviceLocatorUid) {
   getServiceLocators(serviceLocatorUid)
     .sceneServiceLocator.getScene()
-    .cameraController.zoomIn(5);
+    .cameraController.zoomInOneStep();
 }
 
 function zoomOut(serviceLocatorUid) {
   getServiceLocators(serviceLocatorUid)
     .sceneServiceLocator.getScene()
-    .cameraController.zoomOut(5);
+    .cameraController.zoomOutOneStep();
 }
