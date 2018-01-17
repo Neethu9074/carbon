@@ -5,7 +5,10 @@ import { highlightedMoment$, clearHighlightedMoment, setHighlightedMoment } from
 import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlightedTimeframe';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
-import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
+import {
+  allowedMultiplesOfRollupSizeMissingInCharts,
+  allowedMillisGapsInOneSecondResolution
+} from 'in-services/featureFlags';
 import createForecastController from 'in-charts/Chart/controller/foreCastController';
 import createApplyTimeButton from 'in-charts/Chart/renderer/applyTimeButtonRenderer';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
@@ -243,8 +246,12 @@ export default function createChart(config) {
 
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
-    const expectedNextPoint =
-      config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
+    let expectedNextPoint;
+    if (!config.rollupSize) {
+      expectedNextPoint = config.scales.x.getDomainFrom() + allowedMillisGapsInOneSecondResolution;
+    } else {
+      expectedNextPoint = config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
+    }
     config.maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
   }
 
