@@ -55,15 +55,16 @@ export default connectTo(
             const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
             const color = axis.colors != null ? axis.colors[i] : colors[(themeMetricOffset + i) % colors.length];
             const label = axis.labels[i];
+            const uid = axis.uids[i];
 
             return (
               <div
                 className={classnames({
                   [block + '__metric']: true,
-                  [block + '__metric--disabled']: props.activeFilters[label]
+                  [block + '__metric--disabled']: props.activeFilters[uid]
                 })}
                 key={i}
-                onClick={() => props.filterStore.toggleFilter(label)}
+                onClick={() => props.filterStore.toggleFilter(uid)}
                 style={{
                   background: toBackground(color)
                 }}
