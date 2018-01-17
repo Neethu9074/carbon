@@ -126,8 +126,8 @@ export default function createAxisController(config) {
     const activeSeries = {};
 
     for (let i = 0, len = config[axisName].numberOfSeries; i < len; i++) {
-      const label = config[axisName].labels[i];
-      activeSeries[i] = hiddenSeries[label] !== true;
+      const uid = config[axisName].uids[i];
+      activeSeries[i] = hiddenSeries[uid] !== true;
     }
 
     return activeSeries;
