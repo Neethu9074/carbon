@@ -247,7 +247,7 @@ export default function createChart(config) {
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
     let expectedNextPoint;
-    if (!config.rollupSize) {
+    if (rollupSize === 1000) {
       expectedNextPoint = config.scales.x.getDomainFrom() + allowedMillisGapsInOneSecondResolution;
     } else {
       expectedNextPoint = config.scales.x.getDomainFrom() + rollupSize * allowedMultiplesOfRollupSizeMissingInCharts;
