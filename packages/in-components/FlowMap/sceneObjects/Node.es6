@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
+import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Node extends SceneObject {
   constructor(serviceLocatorUid, object) {
@@ -16,10 +17,13 @@ export default class Node extends SceneObject {
   }
 
   initSubscriptions() {
-    this.updateSubscription = combineLatest([
-      getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate'),
-      this.events$.on('transform')
-    ]).subscribe(() => this.updateScreenPosition());
+    this.subscriber = new Subscriber();
+    this.subscriber.addSubscription(
+      combineLatest([
+        getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate'),
+        this.events$.on('transform')
+      ]).subscribe(() => this.updateScreenPosition())
+    );
   }
 
   updateScreenPosition() {
@@ -37,8 +41,8 @@ export default class Node extends SceneObject {
   }
 
   disposeSubscriptions() {
-    this.updateSubscription.dispose();
-    this.updateSubscription = null;
+    this.subscriber.dispose();
+    this.subscriber = null;
   }
 
   dispose() {

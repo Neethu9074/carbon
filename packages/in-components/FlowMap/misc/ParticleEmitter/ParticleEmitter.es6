@@ -14,6 +14,7 @@ import {
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { loadImage } from 'in-map/services/imageLoader';
+import Subscriber from 'in-map/misc/Subscriber';
 
 const START_POS = 100000;
 const MAX_PARTICLES = 150;
@@ -70,16 +71,19 @@ export default class ParticleEmitter {
   }
 
   initStartSubscription() {
-    this.startSubscription = getServiceLocators(this.serviceLocatorUid)
-      .eventBusServiceLocator.on('toggle_particles')
-      .subscribe(() => {
-        const wasRunning = this.isRunning;
-        this.stop();
+    this.subscriber = new Subscriber();
+    this.subscriber.addSubscription(
+      getServiceLocators(this.serviceLocatorUid)
+        .eventBusServiceLocator.on('toggle_particles')
+        .subscribe(() => {
+          const wasRunning = this.isRunning;
+          this.stop();
 
-        if (!wasRunning) {
-          this.start();
-        }
-      });
+          if (!wasRunning) {
+            this.start();
+          }
+        })
+    );
   }
 
   setFromAndToPositions(fromPos, toPos) {
@@ -254,8 +258,8 @@ export default class ParticleEmitter {
   }
 
   dispose() {
-    this.startSubscription.dispose();
-    this.startSubscription = null;
+    this.subscriber.dispose();
+    this.subscriber = null;
 
     // stop the emitter to make sure everything is disposed well
     this.stop();

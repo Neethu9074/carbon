@@ -6,6 +6,7 @@ import Camera from 'in-components/FlowMap/sceneObjects/OrthographicCamera';
 import Renderer from 'in-components/FlowMap/sceneObjects/Renderer';
 import TimeTracker from 'in-components/FlowMap/misc/TimeTracker';
 import { Scene } from 'in-map/3DLibProvider';
+import Subscriber from 'in-map/misc/Subscriber';
 
 export default class MainScene {
   constructor(serviceLocatorUid, canvas, overlayDomElement) {
@@ -28,19 +29,22 @@ export default class MainScene {
   }
 
   initSubscriptions() {
-    this.resizeSubscription = getServiceLocators(this.serviceLocatorUid)
-      .eventBusServiceLocator.on('resize')
-      .subscribe(dimensions => this.setSize(dimensions.width, dimensions.height));
+    this.subscriber = new Subscriber();
+    this.subscriber.addSubscriptions([
+      getServiceLocators(this.serviceLocatorUid)
+        .eventBusServiceLocator.on('resize')
+        .subscribe(dimensions => this.setSize(dimensions.width, dimensions.height)),
 
-    this.pixelUnitSubscription = combineLatest([
-      getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('resize'),
-      getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate')
-    ])
-      .map(([windowDimensions, camera]) => ({
-        pixelsPer3DUnit: (windowDimensions.width / camera.getCameraSize()) | 0,
-        unitsPerPixel: camera.getCameraSize() / windowDimensions.width
-      }))
-      .subscribe(units => getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('worldUnits', units));
+      combineLatest([
+        getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('resize'),
+        getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate')
+      ])
+        .map(([windowDimensions, camera]) => ({
+          pixelsPer3DUnit: (windowDimensions.width / camera.getCameraSize()) | 0,
+          unitsPerPixel: camera.getCameraSize() / windowDimensions.width
+        }))
+        .subscribe(units => getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('worldUnits', units))
+    ]);
   }
 
   startRendering() {
@@ -96,11 +100,8 @@ export default class MainScene {
   }
 
   disposeSubscriptions() {
-    this.resizeSubscription.dispose();
-    this.resizeSubscription = null;
-
-    this.pixelUnitSubscription.dispose();
-    this.pixelUnitSubscription = null;
+    this.subscriber.dispose();
+    this.subscriber = null;
   }
 
   disposeCameraController() {
@@ -112,8 +113,8 @@ export default class MainScene {
     // break the browser update routine
     this.isDisposed = true;
 
-    this.disposeCameraController();
     this.disposeSubscriptions();
+    this.disposeCameraController();
 
     this.overlayDomElement = null;
     this.renderTarget = null;

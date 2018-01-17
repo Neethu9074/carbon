@@ -11,6 +11,7 @@ import OverlayReactComponentMounter from 'in-components/FlowMap/misc/OverlayReac
 import SceneGraph from 'in-components/FlowMap/SceneGraph/SceneGraph';
 import Scene from 'in-components/FlowMap/sceneObjects/Scene';
 import { generateUniqueShortId } from 'in-services/util/id';
+import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
   constructor(canvas, overlayReactComponent) {
@@ -66,35 +67,28 @@ export default class FlowMap {
   }
 
   initSubscriptions() {
-    // the GPU is a shared resource and as such there are times when it might be taken away from the app.
-    // examples: another page does something that takes the GPU too long and the browser
-    // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
-    this.contextLostSubscription = on(this.canvas, 'webglcontextlost').subscribe(event => {
-      event.preventDefault();
-      this.disposeSceneGraph();
-      this.disposeScene();
-    });
+    this.subscriber = new Subscriber();
 
-    this.contextRestoredSubscription = on(this.canvas, 'webglcontextrestored').subscribe(() => {
-      // at the point that this method is called the browser has reset all state
-      // to the default WebGL state and all previously allocated resources are invalid.
-      // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
-      // and setup your state (clearColor, blendFunc, depthFunc, etc...)
-      // to make it short... recreate the scene
-      this.initScene();
-      this.initSceneGraph();
-    });
-  }
+    this.subscriber.addSubscriptions([
+      // the GPU is a shared resource and as such there are times when it might be taken away from the app.
+      // examples: another page does something that takes the GPU too long and the browser
+      // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
+      on(this.canvas, 'webglcontextlost').subscribe(event => {
+        event.preventDefault();
+        this.disposeSceneGraph();
+        this.disposeScene();
+      }),
 
-  disposeSubscriptions() {
-    if (this.contextLostSubscription) {
-      this.contextLostSubscription.dispose();
-      this.contextLostSubscription = null;
-    }
-    if (this.contextRestoredSubscription) {
-      this.contextRestoredSubscription.dispose();
-      this.contextRestoredSubscription = null;
-    }
+      on(this.canvas, 'webglcontextrestored').subscribe(() => {
+        // at the point that this method is called the browser has reset all state
+        // to the default WebGL state and all previously allocated resources are invalid.
+        // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
+        // and setup your state (clearColor, blendFunc, depthFunc, etc...)
+        // to make it short... recreate the scene
+        this.initScene();
+        this.initSceneGraph();
+      })
+    ]);
   }
 
   disposeSceneGraph() {
@@ -115,6 +109,11 @@ export default class FlowMap {
   disposeServiceLocator() {
     removeServiceLocators(this.serviceLocatorUid);
     this.serviceLocatorUid = null;
+  }
+
+  disposeSubscriptions() {
+    this.subscriber.dispose();
+    this.subscriber = null;
   }
 
   disposeOverlayReactComponentMounter() {
