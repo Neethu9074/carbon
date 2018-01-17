@@ -28,9 +28,11 @@ export const blackListedSearchFieldValues = {
   'entity.type': ['agent']
 };
 
+export const allowedMillisGapsInOneSecondResolution =
+  onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2300 : 20000;
 // Charts will hide small gaps in timeseries data to account for infrastructure hiccups and delays.
-// For example, the following configuration will hide up to 2.3s of missing data points.
-// rollup = 1s
+// For example, the following configuration will hide up to 11.5s of missing data points.
+// rollup = 5s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
