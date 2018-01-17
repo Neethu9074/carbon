@@ -21,8 +21,7 @@ export default class FlowMap {
     this.initScene();
     this.initSceneGraph();
     this.initOverlayReactComponentMounter();
-
-    this.handleLostContext();
+    this.initSubscriptions();
 
     this.scene.startRendering();
   }
@@ -66,10 +65,10 @@ export default class FlowMap {
     getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('resize', { width, height });
   }
 
-  // the GPU is a shared resource and as such there are times when it might be taken away from the app.
-  // examples: another page does something that takes the GPU too long and the browser
-  // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
-  handleLostContext() {
+  initSubscriptions() {
+    // the GPU is a shared resource and as such there are times when it might be taken away from the app.
+    // examples: another page does something that takes the GPU too long and the browser
+    // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
     this.contextLostSubscription = on(this.canvas, 'webglcontextlost').subscribe(event => {
       event.preventDefault();
       this.disposeSceneGraph();

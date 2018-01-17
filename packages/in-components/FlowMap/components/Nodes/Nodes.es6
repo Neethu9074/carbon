@@ -1,4 +1,3 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { DISTANCE_BETWEEN_NODES_X } from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
@@ -9,12 +8,9 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => ({
     nodes: getServiceLocators(props.serviceLocatorUid).nodesServiceLocator.getNodes().stream,
-    nodesSize: combineLatest([
-      getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('resize'),
-      getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate')
-    ])
-      .map(([windowDimensions, camera]) => {
-        const pixelsPer3DUnit = (windowDimensions.width / camera.getCameraSize()) | 0;
+    nodesSize: getServiceLocators(props.serviceLocatorUid)
+      .eventBusServiceLocator.on('worldUnits')
+      .map(({ pixelsPer3DUnit }) => {
         const columnGapSizeInPx = pixelsPer3DUnit * DISTANCE_BETWEEN_NODES_X;
         if (columnGapSizeInPx < 200) {
           return 'sm';

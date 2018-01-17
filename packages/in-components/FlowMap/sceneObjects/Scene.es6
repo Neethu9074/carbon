@@ -1,3 +1,5 @@
+import { combineLatest } from 'reactive-observables';
+
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import CameraController from 'in-components/FlowMap/misc/CameraController';
 import Camera from 'in-components/FlowMap/sceneObjects/OrthographicCamera';
@@ -29,6 +31,16 @@ export default class MainScene {
     this.resizeSubscription = getServiceLocators(this.serviceLocatorUid)
       .eventBusServiceLocator.on('resize')
       .subscribe(dimensions => this.setSize(dimensions.width, dimensions.height));
+
+    this.pixelUnitSubscription = combineLatest([
+      getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('resize'),
+      getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate')
+    ])
+      .map(([windowDimensions, camera]) => ({
+        pixelsPer3DUnit: (windowDimensions.width / camera.getCameraSize()) | 0,
+        unitsPerPixel: camera.getCameraSize() / windowDimensions.width
+      }))
+      .subscribe(units => getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('worldUnits', units));
   }
 
   startRendering() {
@@ -86,6 +98,9 @@ export default class MainScene {
   disposeSubscriptions() {
     this.resizeSubscription.dispose();
     this.resizeSubscription = null;
+
+    this.pixelUnitSubscription.dispose();
+    this.pixelUnitSubscription = null;
   }
 
   disposeCameraController() {
