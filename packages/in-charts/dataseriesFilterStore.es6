@@ -1,27 +1,38 @@
-import rpt from 'prop-types';
-
-import { create } from 'reactive-observables';
-
-export const filterStoreShape = rpt.shape({
-  activeFilters$: rpt.object.isRequired,
-  toggleFilter: rpt.func.isRequired
-});
+import { generateUniqueShortId } from 'in-services/util/id';
+import { createStore } from 'in-stores/store';
 
 export default function createDataSeriesFilterStore() {
-  const filterChanges$ = create();
-  const activeFilters$ = filterChanges$
-    .scan((filters, toggeledFilter) => {
-      if (filters[toggeledFilter]) {
-        delete filters[toggeledFilter];
-      } else {
-        filters[toggeledFilter] = true;
-      }
-      return filters;
-    }, Object.create(null))
-    .startWith(Object.create(null));
+  const store = createStore({
+    name: `chart/dataseriesFilterStore__` + generateUniqueShortId(),
+    initialValue: {}
+  });
 
   return {
-    activeFilters$,
-    toggleFilter: filterChanges$.emit.bind(filterChanges$)
+    activeFilters$: store.observable,
+    toggleFilter: toggeledFilter =>
+      store.applyStateMutation(filters => {
+        if (filters[toggeledFilter]) {
+          delete filters[toggeledFilter];
+        } else {
+          filters[toggeledFilter] = true;
+        }
+        return filters;
+      }),
+    reduceTo: ids =>
+      store.applyStateMutation(currentFilters => {
+        const filteredResult = {};
+        const keys = Object.keys(currentFilters);
+
+        for (let iK = 0; iK < keys.length; iK++) {
+          const key = keys[iK];
+          for (let i = 0; i < ids.length; i++) {
+            if (key.indexOf(ids[i]) === 0) {
+              filteredResult[key] = true;
+            }
+          }
+        }
+
+        return filteredResult;
+      })
   };
 }
