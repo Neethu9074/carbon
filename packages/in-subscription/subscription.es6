@@ -33,7 +33,7 @@ export type CreateSubscriptionArgs<Param> = {
  * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
  *   transformData.
  */
-export default function<Param, ServerResult, Result>({
+export default function<Param, Result>({
   eventId,
   getId,
   getData,
@@ -41,7 +41,7 @@ export default function<Param, ServerResult, Result>({
   memoizeFor = 10000,
   disposeSubscriptionOnDocumentHidden = true,
   getScanner
-}: CreateSubscriptionArgs<Param, ServerResult, Result>): Param => Observable<Result> {
+}: CreateSubscriptionArgs<Param>): Param => Observable<Result> {
   if (getScanner === undefined) {
     getScanner = null;
   }

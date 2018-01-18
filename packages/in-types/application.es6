@@ -5,30 +5,30 @@
  */
 
 export type Filter = {
-  application: ?Id,
-  applicationName: ?LikeString,
-  service: ?Id,
-  serviceName: ?LikeString,
-  endpoint: ?Id,
-  endpointName: ?LikeString,
+  application: ?string,
+  applicationName: ?string,
+  service: ?string,
+  serviceName: ?string,
+  endpoint: ?string,
+  endpointName: ?string,
   timeframe: Timeframe
 };
 
 export type Type = 'WEB' | 'RPC' | 'BATCH' | 'SDK' | 'MESSAGING' | 'DATABASE' | 'WEBSITE';
 
 export type Application = {
-  id: Id,
+  id: string,
   label: string
 };
 
 export type Service = {
-  id: Id,
+  id: string,
   label: string,
   types: Type[]
 };
 
 export type Endpoint = {
-  id: Id,
+  id: string,
   label: string,
   types: Type
 };
@@ -60,7 +60,7 @@ export type GetApplications = (query: GetApplicationsQuery) => Observable<Result
  * the filter needs to include the timeframe.
  */
 export type GetApplicationQuery = {
-  id: Id,
+  id: string,
   filter: ?Filter
 };
 
@@ -94,7 +94,7 @@ export type GetServices = (query: GetServicesQuery) => Observable<Result<Paginat
  * the filter needs to include the timeframe.
  */
 export type GetServiceQuery = {
-  id: Id,
+  id: string,
   filter: ?Filter
 };
 
