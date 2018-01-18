@@ -12,6 +12,7 @@ import './browserLogicalService';
 import './cassandraCluster';
 import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
+import './clickHouseDatabase';
 import './clrRuntimePlatform';
 import './cloudFoundry';
 import './crystalRuntimePlatform';
