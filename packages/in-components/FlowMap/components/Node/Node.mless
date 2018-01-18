@@ -22,6 +22,11 @@
     }
   }
 
+  .selected {
+    border: 1px solid #1fb7b9;
+    border-left: 4px solid #1fb7b9;
+  }
+
   .sm {
     left: -20px;
     top: -12px;

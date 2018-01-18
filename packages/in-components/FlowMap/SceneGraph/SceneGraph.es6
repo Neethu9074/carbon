@@ -12,6 +12,7 @@ export default class SceneGraph {
     this.data = {
       object: {
         id: 'Shop',
+        isCentral: true,
         incoming: [
           { id: 'www.website.com' },
           {
