@@ -3,7 +3,6 @@ import React from 'react';
 
 import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
 import { number, percentage } from 'in-services/formatters/number';
-import { generateUniqueShortId } from 'in-services/util/id';
 import ChartLegend from 'in-charts/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
 
@@ -24,9 +23,11 @@ export default class extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      chartProps: processChartProps(nextProps)
-    });
+    const chartProps = processChartProps(nextProps);
+
+    this.setState({ chartProps });
+    removeVanishedSnapshotIdsFromFilterstore(chartProps, this.filterStore);
+
     this.chart.update(nextProps);
   }
 
@@ -92,7 +93,6 @@ export default class extends React.Component {
 
   dispose() {
     if (this.chart) {
-      this.filterStore = createDataSeriesFilterStore();
       this.chart.dispose();
       this.chart = null;
     }
@@ -118,8 +118,6 @@ function processChartProps(props) {
 }
 
 function processAxis(axis) {
-  determineSeriesIds(axis);
-
   if (axis.type === 'countErrorBar') {
     axis.colors = ['#5da6da', '#d03035'];
     axis.aggregation = ['sum', 'mean'];
@@ -168,9 +166,7 @@ function processAxis(axis) {
   }
 }
 
-function determineSeriesIds(axis) {
-  axis.uids = axis.uids || [];
-  for (let i = 0; i < axis.labels.length; i++) {
-    axis.uids[i] = generateUniqueShortId();
-  }
+function removeVanishedSnapshotIdsFromFilterstore(config, filterStore) {
+  const snapshotIds = config.snapshotIds || [config.snapshotId];
+  filterStore.reduceTo(snapshotIds);
 }

@@ -44,7 +44,7 @@ export default connectTo(
       );
     }
 
-    renderList = (axis, modifier, themeMetricOffset) => {
+    renderList = (axis, modifier, metricOffset) => {
       const classname = block + '__metrics';
       const props = this.props;
       const colors = theme.chart.strokeColors;
@@ -52,10 +52,11 @@ export default connectTo(
       return (
         <dl className={classname + ' ' + classname + '--' + modifier}>
           {axis.metrics.map((metric, i) => {
-            const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
-            const color = axis.colors != null ? axis.colors[i] : colors[(themeMetricOffset + i) % colors.length];
+            const color = axis.colors != null ? axis.colors[i] : colors[(metricOffset + i) % colors.length];
             const label = axis.labels[i];
-            const uid = axis.uids[i];
+
+            const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + metricOffset];
+            const uid = `${snapshotId}__${axis.metrics[i]}`;
 
             return (
               <div
