@@ -17,7 +17,7 @@ export default createSubscription({
     };
   },
 
-  transformData(companions) {
-    return fromJS(companions);
+  transform(observable) {
+    return observable.map(fromJS);
   }
 });

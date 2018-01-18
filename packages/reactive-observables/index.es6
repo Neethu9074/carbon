@@ -1,27 +1,29 @@
 // @flow
-import Observable from './Observable';
-import type { ObservableSpec } from './Observable';
-import Observer from './Observer';
-import { applyOperators } from './operators';
 import { setHandler } from './unhandledErrorSink';
+import type { Observable } from './Observable';
+export type { Observable } from './Observable';
+import type { SubjectSpec } from './Subject';
+import { applyOperators } from './operators';
+import Observer from './Observer';
+import Subject from './Subject';
 
 applyOperators(Observer);
-applyOperators(Observable);
+applyOperators(Subject);
 
 export const setUnhandledErrorHandler = setHandler;
 
-export function create<T>(observableSpec: ?ObservableSpec<T>): Observable<T> {
-  if (!observableSpec) {
-    observableSpec = {
-      start: () => {},
-      stop: () => {}
+export function create<T>(subjectSpec: ?SubjectSpec<T>): Subject<T> {
+  if (!subjectSpec) {
+    subjectSpec = {
+      start: noop,
+      stop: noop
     };
   }
-  if (observableSpec.emitLatestOnSubscribe !== false) {
+  if (subjectSpec.emitLatestOnSubscribe !== false) {
     // $FlowFixMe: No clue why the write access does not type check although the read access one line above does.
-    observableSpec.emitLatestOnSubscribe = true;
+    subjectSpec.emitLatestOnSubscribe = true;
   }
-  return new Observable(observableSpec);
+  return new Subject(subjectSpec);
 }
 
 export function interval(millis: number): Observable<number> {
@@ -42,7 +44,7 @@ export function interval(millis: number): Observable<number> {
 export function timeout(millis: number): Observable<number> {
   let handle: number;
   return create({
-    start(observable: Observable<number>) {
+    start(observable: Subject<number>) {
       handle = setTimeout(() => {
         observable.emit(Date.now());
       }, millis);
@@ -56,7 +58,7 @@ export function timeout(millis: number): Observable<number> {
 
 export function combineLatest<T>(observables: Observable<T>[], waitForAll: boolean = true): Observable<Array<T>> {
   if (observables.length === 0) {
-    const emptyArrayObservable: Observable<Array<T>> = create();
+    const emptyArrayObservable: Subject<Array<T>> = create();
     emptyArrayObservable.emit([]);
     return emptyArrayObservable;
   }
@@ -64,7 +66,7 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
   const numberOfObservables = observables.length;
   let subscriptions = [];
   let emitted = [];
-  let combinedObservables: Observable<Array<T>> = create({ start, stop });
+  let combinedObservables: Subject<Array<T>> = create({ start, stop });
   return combinedObservables;
 
   function start() {
@@ -94,8 +96,7 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
 }
 
 export function on(target: EventTarget, event: string, capture: EventListenerOptionsOrUseCapture): Observable<any> {
-  // see https://github.com/facebook/flow/blob/master/lib/dom.js, class EventTarget
-  const observable: Observable<any> = create({ start, stop });
+  const observable: Subject<Event> = create({ start, stop });
   return observable;
 
   function listener(e: any) {
@@ -109,4 +110,8 @@ export function on(target: EventTarget, event: string, capture: EventListenerOpt
   function stop() {
     target.removeEventListener(event, listener, capture);
   }
+}
+
+function noop() {
+  // noop
 }

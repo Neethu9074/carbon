@@ -3,14 +3,14 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'timestamp',
 
-  getId: ({ originate }) => originate,
+  getId({ originate }) {
+    return originate;
+  },
 
-  getData: (subscriptionId, { originate }) => {
+  getData(subscriptionId, { originate }) {
     return {
       subscriptionId,
       originate
     };
-  },
-
-  transformData: reply => reply
+  }
 });

@@ -1,6 +1,7 @@
 // @flow
-import Observable from '../Observable';
 import TerminalObserver from '../TerminalObserver';
+import type { Observable } from '../Observable';
+import Subject from '../Subject';
 
 export interface Transformer<Source, Target> {
   emitLatestOnSubscribe: boolean;
@@ -15,7 +16,7 @@ export default function transform<Source, Target>(transformer: Transformer<Sourc
   let sourceObservableSubscription: ?TerminalObserver<Source>;
   let intermediateObservableSubscription: ?TerminalObserver<Target>;
 
-  const targetObservable: Observable<Target> = new Observable({
+  const targetObservable: Subject<Target> = new Subject({
     emitLatestOnSubscribe: transformer.emitLatestOnSubscribe !== false,
     start,
     stop

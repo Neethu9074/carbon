@@ -1,5 +1,7 @@
 // @flow
 
+import type { Observable } from 'reactive-observables';
+
 /*
  * Application 2.0 specific types
  */

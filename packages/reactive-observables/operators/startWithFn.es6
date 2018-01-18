@@ -3,7 +3,7 @@ import Observer from '../Observer';
 import TerminalObserver from '../TerminalObserver';
 
 export default function startWith<T>(initialValueProvider: () => T): Observer<T, T> {
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   observer._setOnNext((data: ?T) => {
     observer._emit(data);
   });

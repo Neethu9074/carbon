@@ -6,6 +6,9 @@ declare type Timeframe = {
   windowSize: Millis
 };
 
+// comparing / sorting
+declare type Comparator<T> = (a: ?T, b: ?T) => number;
+
 // Error
 declare type ErrorCode =
   | 'NOT_FOUND' // invalid user input, typically recoverable by user interaction
@@ -33,11 +36,6 @@ declare type Result<T> = {
   data: ?T,
   errors: ErrorDTO[],
   progress: Progress
-};
-
-// placeholder for the full Observable typings
-declare type Observable<T> = {
-  subscribe: (v: ?T) => void
 };
 
 // Metrics

@@ -5,9 +5,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-health-info',
 
-  getId: ({ snapshotId, focusedMoment }) => snapshotId + focusedMoment,
+  getId({ snapshotId, focusedMoment }) {
+    return snapshotId + focusedMoment;
+  },
 
-  getData: (subscriptionId, { snapshotId, focusedMoment }) => {
+  getData(subscriptionId, { snapshotId, focusedMoment }) {
     return {
       subscriptionId,
       snapshotId,
@@ -15,5 +17,7 @@ export default createSubscription({
     };
   },
 
-  transformData: healthInfo => fromJS(healthInfo)
+  transform(observable) {
+    return observable.map(fromJS);
+  }
 });
