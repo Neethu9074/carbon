@@ -2,19 +2,28 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import getServices from 'in-subscription/application/getServices';
 import SearchableTable from 'in-components/SearchableTable';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { always } from 'in-services/fixedStreams';
 import { getSingular } from 'in-sdk/pluginName';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 const cols = [
   {
     title: 'Name',
-    type: 'snapshotLink',
+    type: 'custom',
     typeArgs: {
-      getSnapshotId() {
-        return 'nJZIZ_jyBqYsrxOrAJFFw7KfMog';
+      comparator: compareIgnoreCase,
+
+      get(row) {
+        return {
+          value: getLabel(row.snapshot),
+          content: <Link href$={getSubDashboardLink('/')}>{getLabel(row.snapshot)}</Link>
+        };
       }
     }
   },
