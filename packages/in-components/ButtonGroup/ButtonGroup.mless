@@ -1,17 +1,23 @@
 :local {
   .group {
     display: inline-flex;
-    flex-direction: column;
     justify-content: center;
 
     & > * {
       display: block;
-      margin-top: 1px;
       border-radius: 0;
 
       & + * {
         margin-left: 0 !important;
       }
+    }
+  }
+
+  .vertical {
+    flex-direction: column;
+
+    & > * {
+      margin-top: 1px;
 
       &:first-child {
         margin-top: 0;
@@ -21,6 +27,25 @@
 
       &:last-child {
         border-bottom-left-radius: 0.188rem;
+        border-bottom-right-radius: 0.188rem;
+      }
+    }
+  }
+
+  .horizontal {
+    flex-direction: row;
+
+    & > * {
+      margin-left: 1px !important;
+
+      &:first-child {
+        margin-left: 0 !important;
+        border-top-left-radius: 0.188rem;
+        border-bottom-left-radius: 0.188rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.188rem;
         border-bottom-right-radius: 0.188rem;
       }
     }

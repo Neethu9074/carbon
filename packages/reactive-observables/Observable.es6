@@ -1,16 +1,16 @@
 // @flow
 import { reportUnhandledError } from './unhandledErrorSink';
-import type Observer from './Observer';
 import { DebounceOptions } from './operators/debounce';
 import { ThrottleOptions } from './operators/throttle';
-import TerminalObserver from './TerminalObserver';
 import { Transformer } from './operators/transform';
+import TerminalObserver from './TerminalObserver';
+import type Observer from './Observer';
 
-export interface ObservableSpec<E> {
-  start(Observable<E>): void;
-  stop(Observable<E>): void;
-  emitLatestOnSubscribe: boolean;
-}
+export type ObservableSpec<E> = {
+  start(Observable<E>): void,
+  stop(Observable<E>): void,
+  emitLatestOnSubscribe?: boolean
+};
 
 /**
  * A source observable, that is, the start of a chain of observables/observers.

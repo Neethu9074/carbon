@@ -1,5 +1,6 @@
 // @flow
-import Observable, { ObservableSpec } from './Observable';
+import Observable from './Observable';
+import type { ObservableSpec } from './Observable';
 import Observer from './Observer';
 import { applyOperators } from './operators';
 import { setHandler } from './unhandledErrorSink';
@@ -13,11 +14,11 @@ export function create<T>(observableSpec: ?ObservableSpec<T>): Observable<T> {
   if (!observableSpec) {
     observableSpec = {
       start: () => {},
-      stop: () => {},
-      emitLatestOnSubscribe: true
+      stop: () => {}
     };
   }
   if (observableSpec.emitLatestOnSubscribe !== false) {
+    // $FlowFixMe: No clue why the write access does not type check although the read access one line above does.
     observableSpec.emitLatestOnSubscribe = true;
   }
   return new Observable(observableSpec);
@@ -34,9 +35,7 @@ export function interval(millis: number): Observable<number> {
 
     stop(): void {
       clearInterval(localTimeIntervalHandle);
-    },
-
-    emitLatestOnSubscribe: true
+    }
   });
 }
 
@@ -51,9 +50,7 @@ export function timeout(millis: number): Observable<number> {
 
     stop() {
       clearTimeout(handle);
-    },
-
-    emitLatestOnSubscribe: true
+    }
   });
 }
 
@@ -67,7 +64,7 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
   const numberOfObservables = observables.length;
   let subscriptions = [];
   let emitted = [];
-  let combinedObservables: Observable<Array<T>> = create({ start, stop, emitLatestOnSubscribe: true });
+  let combinedObservables: Observable<Array<T>> = create({ start, stop });
   return combinedObservables;
 
   function start() {
@@ -98,7 +95,7 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
 
 export function on(target: EventTarget, event: string, capture: EventListenerOptionsOrUseCapture): Observable<any> {
   // see https://github.com/facebook/flow/blob/master/lib/dom.js, class EventTarget
-  const observable: Observable<any> = create({ start, stop, emitLatestOnSubscribe: true });
+  const observable: Observable<any> = create({ start, stop });
   return observable;
 
   function listener(e: any) {

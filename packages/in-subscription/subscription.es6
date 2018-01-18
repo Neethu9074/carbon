@@ -1,17 +1,51 @@
-import { create } from 'reactive-observables';
-
+// @flow
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import Observable from 'reactive-observables/Observable';
+import { create } from 'reactive-observables';
 import { connection } from 'in-connection';
 
-export default function({
+/**
+ * A type for the arguments to createSubscription.
+ *
+ * Type params:
+ * - Param: the type of object this subscription needs for getId and getData
+ * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
+ *   transformData.
+ */
+// TODO Remove transformData, getScanner and replace by simple .map and .scan calls on the resulting observable
+// TODO The resulting observable should be correctly typed. How?
+export type CreateSubscriptionArgs<Param> = {
+  eventId: string,
+  getId: Param => string,
+  getData: (subscriptionId: number, param: Param) => any,
+  transformData?: Function, // ServerResult => Result,
+  memoizeFor?: number,
+  disposeSubscriptionOnDocumentHidden?: boolean,
+  getScanner?: ?Function
+};
+
+/**
+ * Returns a function (Param => Observable<Result>) that, when called, yields an observable of Result values.
+ *
+ * Type params:
+ * - Param: the type of object this subscription needs for getId and getData
+ * - ServerResult: the type of values the back end emits
+ * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
+ *   transformData.
+ */
+export default function<Param, ServerResult, Result>({
   eventId,
   getId,
   getData,
   transformData = identity,
   memoizeFor = 10000,
   disposeSubscriptionOnDocumentHidden = true,
-  getScanner = null
-}) {
+  getScanner
+}: CreateSubscriptionArgs<Param, ServerResult, Result>): Param => Observable<Result> {
+  if (getScanner === undefined) {
+    getScanner = null;
+  }
+
   return memoize(
     createObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden, getScanner),
     getId,
@@ -19,7 +53,14 @@ export default function({
   );
 }
 
-function createObservable(event, getData, transformData, disposeSubscriptionOnDocumentHidden, getScanner, opts) {
+function createObservable<Result>(
+  event,
+  getData,
+  transformData,
+  disposeSubscriptionOnDocumentHidden,
+  getScanner,
+  opts
+): Observable<Result> {
   const subscriptionId = connection.getNewSubscriptionId();
   const subscriptionDescription = {
     subscriptionId,

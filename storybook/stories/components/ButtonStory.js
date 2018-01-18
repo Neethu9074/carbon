@@ -93,9 +93,15 @@ function Sizes() {
 
 
 function Groups() {
+  let horizontal;
+
+  if (boolean('Lay out horizontally?', false)) {
+    horizontal = true;
+  }
+
   return (
     <Root>
-      <ButtonGroup>
+      <ButtonGroup horizontal={horizontal}>
         <Button>First</Button>
         <Button>Second</Button>
         <Button>Third</Button>
