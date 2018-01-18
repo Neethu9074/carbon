@@ -5,10 +5,16 @@ import invariant from 'invariant';
 // be used for debugging purposes in the future.
 export const allStates = {};
 
-export function createStore({ name, initialValue = null, reducers = null }) {
-  invariant(!(name in allStates), 'Store (' + name + ') already exists');
+export function createStore({ name, isGlobal = true, initialValue = null, reducers = null }) {
+  if (isGlobal) {
+    invariant(!(name in allStates), 'Store (' + name + ') already exists');
+  }
 
-  let currentState = (allStates[name] = initialValue);
+  let currentState = initialValue;
+  if (isGlobal) {
+    allStates[name] = currentState;
+  }
+
   const observable = create();
   observable.emit(currentState);
 
@@ -37,7 +43,10 @@ export function createStore({ name, initialValue = null, reducers = null }) {
   }
 
   function mutateTo(newValue) {
-    currentState = allStates[name] = newValue;
+    currentState = newValue;
+    if (isGlobal) {
+      allStates[name] = currentState;
+    }
     observable.emit(currentState);
   }
 }

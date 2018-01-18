@@ -1,9 +1,8 @@
-import { generateUniqueShortId } from 'in-services/util/id';
 import { createStore } from 'in-stores/store';
 
 export default function createDataSeriesFilterStore() {
   const store = createStore({
-    name: `chart/dataseriesFilterStore__` + generateUniqueShortId(),
+    isGlobal: false,
     initialValue: {},
     reducers: {
       reduceTo(currentFilters, action) {
