@@ -1,12 +1,11 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import RuleForm, { ruleFormDefinition } from 'in-views/configurationView/subview/Rule/RuleForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
-import { getRule, saveRule, createRule } from 'in-api/rules';
 import Section from 'in-views/configurationView/components/Section';
 import { rulesPath } from 'in-stores/navigation/paths/settingPaths';
+import { getRule, saveRule, createRule } from 'in-api/rules';
 import Notification from 'in-components/form/Notification';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -60,9 +59,9 @@ function save(rule, form) {
         form.get('name').value,
         form.get('entityType').value,
         form.get('metricName').value,
-        Number(form.get('rollup').value),
-        Number(form.get('window').value),
-        form.get('aggregation').value,
+        form.get('rollup') ? Number(form.get('rollup').value) : -1,
+        form.get('window') ? Number(form.get('window').value) : -1,
+        form.get('aggregation') ? form.get('aggregation').value : null,
         form.get('conditionOperator').value,
         Number(form.get('conditionValue').value)
       )
@@ -71,81 +70,5 @@ function save(rule, form) {
 }
 
 function createForm(rule) {
-  return createMapForm()
-    .put(
-      'name',
-      createField({
-        value: rule ? rule.get('name') : '',
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'entityType',
-      createField({
-        value: rule ? rule.get('entityType') : undefined,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'metricName',
-      createField({
-        value: rule ? rule.get('metricName') : '',
-        validator: metricName => {
-          return metricName && metricName != '-1' && metricName.length > 0
-            ? null
-            : [
-                {
-                  severity: 'error',
-                  message: `Please enter a valid metric.`
-                }
-              ];
-        }
-      })
-    )
-    .put(
-      'window',
-      createField({
-        value: String(rule.get('window')),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'rollup',
-      createField({
-        value: String(rule.get('rollup')),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'aggregation',
-      createField({
-        value: rule.get('aggregation'),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'conditionOperator',
-      createField({
-        value: rule.get('conditionOperator'),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'conditionValue',
-      createField({
-        value: String(rule.get('conditionValue')),
-        validator(value) {
-          const n = Number(value);
-          if (isNaN(n)) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please enter a number (use . as a decimal separator).'
-              }
-            ];
-          }
-          return null;
-        }
-      })
-    );
+  return ruleFormDefinition(rule);
 }

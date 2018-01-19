@@ -232,3 +232,33 @@ function sortCategories(node) {
 export function getMetricMatch(pre, post) {
   return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
 }
+
+export function isMetricPercentile(plugin, metricName) {
+  if (!plugin || !metricName) {
+    return false;
+  }
+
+  const categories = getCategories(plugin);
+  if (!categories) {
+    return false;
+  }
+
+  let isPercentile = false;
+  categories.forEach(category => {
+    if (category.children) {
+      category.children.forEach(child => {
+        if (metricName === child.metric && child.isPercentile) {
+          isPercentile = true;
+          return;
+        }
+      });
+    } else if (metricName === category.metric && category.isPercentile) {
+      isPercentile = true;
+    }
+
+    if (isPercentile) {
+      return;
+    }
+  });
+  return isPercentile;
+}
