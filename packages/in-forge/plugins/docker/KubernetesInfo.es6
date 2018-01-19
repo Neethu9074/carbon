@@ -16,12 +16,18 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
-    const podForContainer = getPodForContainer(props.snapshot.get('id'));
+    const containerSnapshotId = props.snapshot.get('id');
+    const podForContainer = getPodForContainer(containerSnapshotId);
+
     return {
       podSnapshot: podForContainer.flatMap(getSnapshot),
-      deploymentSnapshot: podForContainer.flatMap(podId => getDeploymentForPod(podId).flatMap(getSnapshot)),
-      nodeSnapshot: getNodeForContainer(props.snapshot.get('id')).flatMap(getSnapshot),
-      clusterSnapshot: getClusterForContainer(props.snapshot.get('id')).flatMap(getSnapshot)
+      deploymentSnapshot: podForContainer
+        .filter(podId => podId != null)
+        .flatMap(getDeploymentForPod)
+        .filter(deploymentId => deploymentId != null)
+        .flatMap(getSnapshot),
+      nodeSnapshot: getNodeForContainer(containerSnapshotId).flatMap(getSnapshot),
+      clusterSnapshot: getClusterForContainer(containerSnapshotId).flatMap(getSnapshot)
     };
   },
 
