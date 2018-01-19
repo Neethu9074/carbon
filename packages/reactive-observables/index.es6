@@ -85,7 +85,7 @@ export function combineLatest(observables, waitForAll = true) {
         }
       }
     }
-    combinedObservables.emit(emitted);
+    combinedObservables.emit(emitted.slice());
   }
 }
 
