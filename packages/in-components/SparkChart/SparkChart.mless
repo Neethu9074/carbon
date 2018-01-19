@@ -1,4 +1,17 @@
 :local {
   .sparkChart {
+    display: flex;
+    align-items: flex-end;
+
+    width: 9.375rem;
+    height: 1.875rem;
+  }
+
+  .canvas {
+    display: block;
+  }
+
+  .number {
+    margin-left: 0.5rem;
   }
 }
