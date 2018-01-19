@@ -42,6 +42,7 @@ export function createStore<T>(spec: StoreSpec<T>): Store<T> {
   if (spec.isGlobal) {
     allStates[spec.name] = currentState;
   }
+
   const observable = create();
   observable.emit(currentState);
 

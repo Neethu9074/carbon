@@ -1,4 +1,4 @@
-import { isInstanaEmployee } from 'in-stores/user';
+import { isInstanaEngineer } from 'in-stores/user';
 import { config } from 'in-services/config';
 
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
@@ -29,10 +29,11 @@ export const blackListedSearchFieldValues = {
 };
 
 export const allowedMillisGapsInOneSecondResolution =
-  onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2300 : 20000;
+  onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2300 : 20000;
+
 // Charts will hide small gaps in timeseries data to account for infrastructure hiccups and delays.
 // For example, the following configuration will hide up to 11.5s of missing data points.
 // rollup = 5s
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
-  onlyInternally || (isInstanaEmployee() && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
+  onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;

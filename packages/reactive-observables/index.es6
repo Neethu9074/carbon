@@ -89,7 +89,7 @@ export function combineLatest<T>(observables: Observable<T>[], waitForAll: boole
         }
       }
     }
-    combinedObservables.emit(emitted);
+    combinedObservables.emit(emitted.slice());
   }
 }
 
