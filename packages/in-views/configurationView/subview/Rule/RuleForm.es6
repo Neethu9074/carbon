@@ -1,12 +1,13 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
+import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
-import { getCategories } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
@@ -28,41 +29,136 @@ const pluginsWithMetricDefinitions = Object.keys(plugins)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
+function putWindowField(form, rule) {
+  return form.put(
+    'window',
+    createField({
+      value: String(rule.get('window')),
+      validator: notBlankValidator
+    })
+  );
+}
+
+function putRollupField(form, rule) {
+  return form.put(
+    'rollup',
+    createField({
+      value: String(rule.get('rollup')),
+      validator: notBlankValidator
+    })
+  );
+}
+
+function putAggregationField(form, rule) {
+  return form.put(
+    'aggregation',
+    createField({
+      value: rule.get('aggregation'),
+      validator: notBlankValidator
+    })
+  );
+}
+
+export function ruleFormDefinition(rule) {
+  let form = createMapForm()
+    .put(
+      'name',
+      createField({
+        value: rule ? rule.get('name') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'entityType',
+      createField({
+        value: rule ? rule.get('entityType') : undefined,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'metricName',
+      createField({
+        value: rule ? rule.get('metricName') : '',
+        validator: metricName => {
+          return metricName && metricName != '-1' && metricName.length > 0
+            ? null
+            : [
+                {
+                  severity: 'error',
+                  message: `Please enter a valid metric.`
+                }
+              ];
+        }
+      })
+    );
+  form = putWindowField(form, rule);
+  form = putRollupField(form, rule);
+  form = putAggregationField(form, rule);
+
+  return form
+    .put(
+      'window',
+      createField({
+        value: String(rule.get('window')),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'rollup',
+      createField({
+        value: String(rule.get('rollup')),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'aggregation',
+      createField({
+        value: rule.get('aggregation'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionOperator',
+      createField({
+        value: rule.get('conditionOperator'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionValue',
+      createField({
+        value: String(rule.get('conditionValue')),
+        validator(value) {
+          const n = Number(value);
+          if (isNaN(n)) {
+            return [
+              {
+                severity: 'error',
+                message: 'Please enter a number (use . as a decimal separator).'
+              }
+            ];
+          }
+          return null;
+        }
+      })
+    );
+}
+
 export default function RuleForm({ form, onChange }) {
-  function isPercentile() {
+  function isPercentile(localForm = form) {
     if (
-      form &&
-      form.get('entityType') &&
-      form.get('entityType').value &&
-      form.get('metricName') &&
-      form.get('metricName').value
+      !localForm ||
+      !localForm.get('entityType') ||
+      !localForm.get('entityType').value ||
+      !localForm.get('metricName') ||
+      !localForm.get('metricName').value
     ) {
-      const categories = getCategories(form.get('entityType').value);
-      const metricName = form.get('metricName').value;
-      if (!categories) {
-        return false;
-      }
-
-      let isPercentile = false;
-      categories.forEach(category => {
-        if (category.children) {
-          category.children.forEach(child => {
-            if (metricName === child.metric && child.isPercentile) {
-              isPercentile = true;
-              return;
-            }
-          });
-        } else if (metricName === category.metric && category.isPercentile) {
-          isPercentile = true;
-        }
-
-        if (isPercentile) {
-          return;
-        }
-      });
-      return isPercentile;
+      return false;
     }
-    return false;
+
+    let metricName = localForm.get('metricName').value;
+    let entityType = localForm.get('entityType').value;
+    return isMetricPercentile(entityType, metricName);
   }
 
   return (
@@ -125,7 +221,24 @@ export default function RuleForm({ form, onChange }) {
                       plugin={form.get('entityType').value}
                       value={form.get('metricName').value}
                       useComboBox
-                      onChange={e => onChange('metricName', e ? e.value : '')}
+                      onChange={e =>
+                        onChange(
+                          'metricName', //
+                          e ? e.value : '', //
+                          (updatedForm, rule) => {
+                            if (isPercentile(updatedForm)) {
+                              updatedForm = updatedForm.remove('window').remove('aggregation');
+                              updatedForm = putRollupField(updatedForm, rule);
+                              return updatedForm;
+                            } else {
+                              updatedForm = updatedForm.remove('rollup');
+                              updatedForm = putWindowField(updatedForm, rule);
+                              updatedForm = putAggregationField(updatedForm, rule);
+                              return updatedForm;
+                            }
+                          }
+                        )
+                      }
                     />
                     <TouchedMessages field={field} />
                   </FormGroup>
