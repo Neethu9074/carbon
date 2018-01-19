@@ -34,6 +34,11 @@ export interface TrackingStore<T> {
 
 export function createStore<T>(spec: StoreSpec<T>): Store<T> {
   spec.isGlobal = spec.isGlobal !== false;
+
+  if (spec.initialValue === undefined) {
+    spec.initialValue = null;
+  }
+
   if (spec.isGlobal) {
     invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   }
