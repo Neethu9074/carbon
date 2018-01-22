@@ -71,7 +71,7 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
       url: serverConfig.uiBackendBaseUrl + '/api/ui/settings',
       headers: {
         'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`,
-        'Origin': req.headers.origin
+        'Origin': 'https://instana.io' // pass through CORS filter
       },
       timeout: 5000
     }, (error, response, userSettings) => {
@@ -90,7 +90,7 @@ function getSearchFields(req) {
       url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
       headers: {
         'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`,
-        'Origin': req.headers.origin
+        'Origin': 'https://instana.io' // pass through CORS filter
       },
       timeout: 5000
     }, (error, response, searchFields) => {
