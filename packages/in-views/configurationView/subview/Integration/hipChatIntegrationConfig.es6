@@ -149,7 +149,7 @@ function Form({ form, onChange }) {
         {form.get('roomId').map(field => (
           <FormGroup>
             <Label htmlFor="roomId" hasError={!field.valid && field.touched}>
-              Room ID
+              Room ID/Name
             </Label>
             <Input
               className={`${block}__input`}
