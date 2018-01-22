@@ -31,7 +31,7 @@ export default {
       <DescriptionList>
         <DescriptionItem title="Base URL">{integration.get('baseUrl')}</DescriptionItem>
         <DescriptionItem title="Auth Token">{integration.get('authToken')}</DescriptionItem>
-        <DescriptionItem title="Room ID">{integration.get('roomId')}</DescriptionItem>
+        <DescriptionItem title="Room ID/Name">{integration.get('roomId')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -155,7 +155,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="roomId"
               type="text"
-              placeholder="Room ID"
+              placeholder="Room ID/Name"
               value={field.value}
               onChange={e => onChange('roomId', e.target.value)}
             />
