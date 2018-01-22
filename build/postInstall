@@ -8,6 +8,7 @@ linkModule() {
 
 echo "Symlinking node modules to node_modules to enable shorter require paths"
 linkModule in-api
+linkModule in-applications
 linkModule in-charts
 linkModule in-client
 linkModule in-components
