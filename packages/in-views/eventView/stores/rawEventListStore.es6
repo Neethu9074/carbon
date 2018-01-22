@@ -128,10 +128,7 @@ export function loadMoreRawEvents() {
       ? maxTimestamp
       : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
-    let filterQuery = query ? `(${query}) AND ` : '';
-    if (eventFilter) {
-      filterQuery = `${filterQuery} (event.type:${eventFilter})`;
-    }
+    const backendReadyFilterQuery = concatQueries(query, eventFilter);
 
     disposeExistingLoad();
     loadSubscription = createRawEventsObservable({
@@ -140,11 +137,22 @@ export function loadMoreRawEvents() {
       minTimestamp,
       sortByField,
       sortMode: sortDirection,
-      query: filterQuery,
+      query: backendReadyFilterQuery,
       offset,
       size: MAX_PAGE_SIZE
     }).once(addNewEvents);
   });
+}
+
+function concatQueries(userQuery, eventFilter) {
+  if (userQuery && eventFilter) {
+    return `(${userQuery}) AND (event.type:${eventFilter})`;
+  } else if (!userQuery && eventFilter) {
+    return `event.type:${eventFilter}`;
+  } else if (userQuery && !eventFilter) {
+    return userQuery;
+  }
+  return '';
 }
 
 function getMaxStartMillis(events, fallback) {
