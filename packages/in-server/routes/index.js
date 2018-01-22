@@ -70,7 +70,8 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
     sendRequest({
       url: serverConfig.uiBackendBaseUrl + '/api/ui/settings',
       headers: {
-        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`,
+        'Origin': req.headers.origin
       },
       timeout: 5000
     }, (error, response, userSettings) => {
@@ -88,7 +89,8 @@ function getSearchFields(req) {
     sendRequest({
       url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
       headers: {
-        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`,
+        'Origin': req.headers.origin
       },
       timeout: 5000
     }, (error, response, searchFields) => {
