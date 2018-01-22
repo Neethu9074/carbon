@@ -3,13 +3,13 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-message',
 
-  getId: () => 'messageSubscription',
+  getId() {
+    return 'messageSubscription';
+  },
 
-  getData: subscriptionId => {
+  getData(subscriptionId) {
     return {
       subscriptionId
     };
-  },
-
-  transformData: message => message
+  }
 });

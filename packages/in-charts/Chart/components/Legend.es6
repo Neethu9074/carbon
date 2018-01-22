@@ -44,7 +44,7 @@ export default connectTo(
       );
     }
 
-    renderList = (axis, modifier, themeMetricOffset) => {
+    renderList = (axis, modifier, metricOffset) => {
       const classname = block + '__metrics';
       const props = this.props;
       const colors = theme.chart.strokeColors;
@@ -52,18 +52,20 @@ export default connectTo(
       return (
         <dl className={classname + ' ' + classname + '--' + modifier}>
           {axis.metrics.map((metric, i) => {
-            const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
-            const color = axis.colors != null ? axis.colors[i] : colors[(themeMetricOffset + i) % colors.length];
+            const color = axis.colors != null ? axis.colors[i] : colors[(metricOffset + i) % colors.length];
             const label = axis.labels[i];
+
+            const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + metricOffset];
+            const uid = `${snapshotId}__${axis.metrics[i]}`;
 
             return (
               <div
                 className={classnames({
                   [block + '__metric']: true,
-                  [block + '__metric--disabled']: props.activeFilters[label]
+                  [block + '__metric--disabled']: props.activeFilters[uid]
                 })}
                 key={i}
-                onClick={() => props.filterStore.toggleFilter(label)}
+                onClick={() => props.filterStore.toggleFilter(uid)}
                 style={{
                   background: toBackground(color)
                 }}

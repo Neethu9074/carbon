@@ -1,7 +1,7 @@
 // @flow
+import type { Observable } from 'reactive-observables/Observable';
+import Subject from 'reactive-observables/Subject';
 import { create } from 'reactive-observables';
-import Observer from 'reactive-observables/Observer';
-import Observable from 'reactive-observables/Observable';
 import invariant from 'invariant';
 
 declare var __DEV__: any;
@@ -13,11 +13,12 @@ export const allStates: { [key: string]: any } = {};
 export interface StoreSpec<T> {
   name: string;
   initialValue: ?T;
+  isGlobal?: boolean;
   reducers: ?any;
 }
 
 export interface Store<T> {
-  observable: Observable<T> | Observer<any, T>;
+  observable: Observable<T>;
   applyStateMutation: ?Function;
   mutateTo: ?Function;
 }
@@ -28,16 +29,25 @@ export interface TrackingStoreSpec<T> {
 }
 
 export interface TrackingStore<T> {
-  observable: Observable<T> | Observer<any, T>;
+  observable: Observable<T>;
 }
 
 export function createStore<T>(spec: StoreSpec<T>): Store<T> {
-  invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
-  nullToUndefined(spec, 'initialValue');
-  nullToUndefined(spec, 'reducers');
+  spec.isGlobal = spec.isGlobal !== false;
 
-  let currentState = (allStates[spec.name] = spec.initialValue);
-  const observable: Observable<T> = create();
+  if (spec.initialValue === undefined) {
+    spec.initialValue = null;
+  }
+
+  if (spec.isGlobal) {
+    invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
+  }
+
+  let currentState = spec.initialValue;
+  if (spec.isGlobal) {
+    allStates[spec.name] = currentState;
+  }
+  const observable: Subject<T> = create();
   observable.emit(currentState);
 
   return {
@@ -60,12 +70,15 @@ export function createStore<T>(spec: StoreSpec<T>): Store<T> {
           `Unsupported action type ${action.type}. Did you forget to specify a reducer?`
         );
       }
-      mutateTo(spec.reducers(currentState, action));
+      mutateTo(reducer(currentState, action));
     }
   }
 
   function mutateTo(newValue) {
-    currentState = allStates[spec.name] = newValue;
+    currentState = newValue;
+    if (spec.isGlobal) {
+      allStates[spec.name] = currentState;
+    }
     observable.emit(currentState);
   }
 }
@@ -87,10 +100,4 @@ export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStor
 // is required when using proxyquire with stores.
 export function resetStoreRegistry(): void {
   Object.keys(allStates).forEach(key => delete allStates[key]);
-}
-
-function nullToUndefined(object: any, property: string): void {
-  if (object[property] === undefined) {
-    object[property] = null;
-  }
 }

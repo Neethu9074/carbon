@@ -72,6 +72,7 @@ export const nonServicePlugins = {
   sapHana: 'sapHana',
   solr: 'solr',
   sparkApplication: 'sparkApplication',
+  sparkStandalone: 'sparkStandalone',
   springboot: 'springbootApplicationContainer',
   statsd: 'statsd',
   tomcat: 'tomcatApplicationContainer',
@@ -287,6 +288,7 @@ export const fullyQualifiedPlugins = {
   springbootApplicationContainer:
     'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
   sparkApplication: 'com.instana.forge.infrastructure.dataanalytics.sparkapplication.SparkApplication',
+  sparkStandalone: 'com.instana.forge.infrastructure.dataanalytics.sparkstandalone.SparkStandalone',
   statsd: 'com.instana.forge.common.Statsd',
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   unknownService: 'com.instana.forge.connection.UnknownService',

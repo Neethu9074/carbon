@@ -5,9 +5,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-snapshots-in-timeframe',
 
-  getId: ({ timeframe, query, focusedMoment }) => query + timeframe.windowSize + timeframe.to + focusedMoment,
+  getId({ timeframe, query, focusedMoment }) {
+    return query + timeframe.windowSize + timeframe.to + focusedMoment;
+  },
 
-  getData: (subscriptionId, { timeframe, query, focusedMoment }) => {
+  getData(subscriptionId, { timeframe, query, focusedMoment }) {
     return {
       subscriptionId,
       focusedMoment,
@@ -16,5 +18,7 @@ export default createSubscription({
     };
   },
 
-  transformData: data => fromJS(data)
+  transform(observable) {
+    return observable.map(fromJS);
+  }
 });

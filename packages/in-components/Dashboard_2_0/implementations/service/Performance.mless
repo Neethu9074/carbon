@@ -1,0 +1,11 @@
+:local {
+
+  .inlineHeaderWrapper {
+    margin-bottom: .5rem;
+  }
+
+  .inlineHeader {
+    display: inline-block;
+    margin-right: 2rem;
+  }
+}

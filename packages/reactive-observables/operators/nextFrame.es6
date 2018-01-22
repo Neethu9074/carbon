@@ -5,7 +5,7 @@ import Observer from '../Observer';
 export default function nextFrame<T>(): Observer<T, T> {
   let rafId;
   let latestData;
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   return observer._setOnNext(data => {
     latestData = data;
 

@@ -1,15 +1,16 @@
 // @flow
-import Observable from '../Observable';
+import type { Observable } from '../Observable';
+import Subject from '../Subject';
 
 export default function merge<E>(): Observable<E> {
   const args: Array<Observable<E>> = arguments;
   const subscriptions = [];
   const sourceObservable: Observable<E> = this;
 
-  const targetObservable: Observable<E> = new Observable({
+  const targetObservable: Subject<E> = new Subject({
     start,
     stop,
-    emitLatestOnSubscribe: this._observableSpec.emitLatestOnSubscribe
+    emitLatestOnSubscribe: this._subjectSpec.emitLatestOnSubscribe
   });
   return targetObservable;
 

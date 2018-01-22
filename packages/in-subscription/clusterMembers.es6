@@ -5,9 +5,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-cluster-members',
 
-  getId: ({ snapshotId, time }) => snapshotId + time,
+  getId({ snapshotId, time }) {
+    return snapshotId + time;
+  },
 
-  getData: (subscriptionId, { snapshotId, time }) => {
+  getData(subscriptionId, { snapshotId, time }) {
     return {
       subscriptionId,
       snapshotId,
@@ -15,5 +17,7 @@ export default createSubscription({
     };
   },
 
-  transformData: data => Set(data)
+  transform(observable) {
+    return observable.map(Set);
+  }
 });

@@ -44,6 +44,9 @@ export default class Table extends React.Component {
         this.store.onSelectedRowKeyChange(nextProps.selectedRowKeys);
       }
     }
+    if (this.props.filter !== nextProps.filter) {
+      this.store.setFilter(nextProps.filter);
+    }
   }
 
   newStore(props) {
