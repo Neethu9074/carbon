@@ -1,8 +1,7 @@
 import LineMetricRenderer from 'in-components/SparkChart/LineMetricRenderer';
-import createScale from 'in-charts/scale';
 
 export default class SparkChart {
-  constructor(canvas, timeframe, metrics) {
+  constructor(canvas) {
     this.canvas = canvas;
 
     const width = 100;
@@ -13,21 +12,17 @@ export default class SparkChart {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    this.scale = createScale();
-    this.scale.setRangeFrom(0);
-    this.scale.setRangeTo(width - 2);
-    this.scale.setDomainFrom(timeframe.to - timeframe.windowSize);
-    this.scale.setDomainTo(timeframe.to);
-
-    this.lineMetricRenderer = new LineMetricRenderer(canvas, this.scale);
-    this.lineMetricRenderer.render(metrics);
+    this.lineMetricRenderer = new LineMetricRenderer(canvas, {
+      paddingLeft: 1,
+      paddingRight: 1,
+      paddingTop: 1,
+      paddingBottom: 1
+    });
   }
 
-  update(timeframe, metrics) {
-    this.scale.setDomainFrom(timeframe.to - timeframe.windowSize);
-    this.scale.setDomainTo(timeframe.to);
-
-    this.lineMetricRenderer.render(metrics);
+  update(props) {
+    this.lineMetricRenderer.update(props);
+    this.lineMetricRenderer.render();
   }
 
   dispose() {

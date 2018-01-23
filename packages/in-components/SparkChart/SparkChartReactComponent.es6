@@ -9,11 +9,12 @@ export default class extends React.Component {
   static displayName = 'SparkChart';
 
   componentDidMount() {
-    this.sparkChart = new SparkChart(this.canvas, this.props.timeframe, this.props.metrics);
+    this.sparkChart = new SparkChart(this.canvas);
+    this.sparkChart.update(this.props);
   }
 
   componentWillUpdate(nextProps) {
-    this.sparkChart.update(nextProps.timeframe, nextProps.metrics);
+    this.sparkChart.update(nextProps);
   }
 
   componentWillUnmount() {
