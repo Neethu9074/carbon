@@ -9,16 +9,15 @@ import 'in-subscription/subscription';
 const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
   eventId: 'get-services',
 
-  getId() {
-    return 'some-weird-string';
+  getId(params) {
+    // TODO generate an ID that does not depend on order within parameter
+    return JSON.stringify(params);
   },
 
-  getData(subscriptionId) {
+  getData(subscriptionId, params) {
     return {
       subscriptionId,
-      pagination: null,
-      orderBy: null,
-      metrics: null
+      ...params
     };
   },
 
