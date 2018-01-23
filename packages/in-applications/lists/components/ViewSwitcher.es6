@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { applicationsPath, servicesPath } from 'in-stores/navigation/paths/mainPaths';
+import { applicationsList, servicesList } from 'in-applications/navigation/paths';
 import { isView, getView } from 'in-stores/navigation/navigation';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -9,15 +9,15 @@ import locals from './ViewSwitcher.mless';
 
 export default connectTo(
   {
-    isServiceViewActive: isView(servicesPath)
+    isServiceViewActive: isView(servicesList)
   },
   function ViewSwitcher({ isServiceViewActive }) {
     return (
       <ul className={locals.wrapper}>
-        <ViewLink path={applicationsPath} isActive={!isServiceViewActive}>
+        <ViewLink path={applicationsList} isActive={!isServiceViewActive}>
           Applications
         </ViewLink>
-        <ViewLink path={servicesPath} isActive={isServiceViewActive}>
+        <ViewLink path={servicesList} isActive={isServiceViewActive}>
           Services
         </ViewLink>
       </ul>

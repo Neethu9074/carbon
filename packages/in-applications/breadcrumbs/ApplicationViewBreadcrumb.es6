@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import { applicationsPath } from 'in-stores/navigation/paths/mainPaths';
+import { applicationsList } from 'in-applications/navigation/paths';
 import { getView } from 'in-stores/navigation';
 
 export default function ApplicationViewBreadcrumb() {
-  return <Breadcrumb href$={getView(applicationsPath)}>Applications</Breadcrumb>;
+  return <Breadcrumb href$={getView(applicationsList)}>Applications</Breadcrumb>;
 }

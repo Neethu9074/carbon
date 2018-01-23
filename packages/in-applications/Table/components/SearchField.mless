@@ -1,0 +1,11 @@
+:local {
+  .searchField {
+    width: 10rem;
+    height: 2rem;
+    margin: 1rem 0;
+    background: #f1f6f9;
+    color: #58717a;
+    border: 1px solid #d5dfe4;
+    border-radius: 3px;
+  }
+}

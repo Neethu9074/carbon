@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ApplicationServiceViewBreadcrumb from 'in-views/applicationView/breadcrumbs/ApplicationServiceViewBreadcrumb';
-import ApplicationViewBreadcrumb from 'in-views/applicationView/breadcrumbs/ApplicationViewBreadcrumb';
+import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
+import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 import Infrastructure from 'in-components/Dashboard_2_0/implementations/service/Infrastructure';
 import Performance from 'in-components/Dashboard_2_0/implementations/service/Performance';
 import Endpoints from 'in-components/Dashboard_2_0/implementations/service/Endpoints';

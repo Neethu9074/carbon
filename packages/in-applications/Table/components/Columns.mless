@@ -1,0 +1,17 @@
+:local {
+  .columns {
+    height: 1.875rem;
+  }
+
+  .column {
+    display: flex;
+
+    font-weight: lighter;
+    color: #58717a;
+    cursor: pointer;
+  }
+
+  .icon {
+    margin-left: 0.25rem;
+  }
+}
