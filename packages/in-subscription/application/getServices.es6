@@ -1,12 +1,10 @@
 // @flow
 
+import type { ServiceItem, GetServicesQuery } from 'in-types/application';
 import createSubscription from 'in-subscription/subscription';
-import type { ServiceItem } from 'in-types/application';
 import type { Observable } from 'reactive-observables';
 import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
-
-export type GetServicesQuery = {};
 
 const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
   eventId: 'get-services',
