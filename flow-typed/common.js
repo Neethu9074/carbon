@@ -27,10 +27,8 @@ declare type Progress = {
   // Indeterminate, when loading && (estimated) time == null && (estimated) percentage == null
   // Countdown, when     loading && estimatedTime > 0
   loading: boolean,
-  // estimated wait time in millis
-  time: ?Millis,
-  // estimated progress as percentage, value between 0-1
-  percentage: ?number
+  // an explanation as to why the user has to wait
+  note: ?string
 };
 declare type Result<T> = {
   data: ?T,
