@@ -41,7 +41,7 @@ stage('Node Build') {
   buildSteps['build'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
-      if ( currentBuild.currentResult == 'SUCCESS' ) {
+      if ( currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master' ) {
         uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
