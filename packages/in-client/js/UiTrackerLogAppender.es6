@@ -20,6 +20,7 @@ export default class UiTrackerLogAppender {
             {
               type: 'error',
               message: part.message,
+              name: part.name,
               stack: part.stack
             },
             0,
@@ -53,6 +54,7 @@ export default class UiTrackerLogAppender {
     if (error) {
       message.error = {
         message: error.message,
+        name: error.name,
         stack: error.stack
       };
     }
