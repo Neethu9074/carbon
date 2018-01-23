@@ -14,6 +14,7 @@ import './layout/StickyStory';
 
 import './content/TypographyStory';
 import './content/TableStory';
+import './content/ApplicationTableStory';
 
 import './components/BadgeStory';
 import './components/ButtonStory';

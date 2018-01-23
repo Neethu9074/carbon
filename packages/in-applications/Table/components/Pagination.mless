@@ -1,0 +1,14 @@
+:local {
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #58717a;
+  }
+
+  .icon {
+    margin: 0.25rem 0.5rem;
+    cursor: pointer;
+  }
+}
