@@ -41,8 +41,10 @@ stage('Node Build') {
   buildSteps['build'] = {
     node {
       runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
-      if ( currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master' ) {
-        uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+      if ( currentBuild.currentResult == 'SUCCESS' ) {
+        if ( env.BRANCH_NAME == 'master' ) {
+          uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+        }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
       }
@@ -54,15 +56,24 @@ stage('Node Build') {
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
+def deliveryBranches = [
+  'develop',
+  'master',
+  'release',
+  'prerelease'
+]
+
 stage ('Container Build') {
 
-  containerBuild {
-    component    = 'ui-client'
-    commitId     = gitCommitId
-    commitAuthor = gitCommitAuthor
-    version      = instanaVersion
+  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+    containerBuild {
+      component    = 'ui-client'
+      commitId     = gitCommitId
+      commitAuthor = gitCommitAuthor
+      version      = instanaVersion
+    }
   }
-
+  
   slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
