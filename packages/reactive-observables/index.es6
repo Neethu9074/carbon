@@ -26,6 +26,12 @@ export function create<T>(subjectSpec: ?SubjectSpec<T>): Subject<T> {
   return new Subject(subjectSpec);
 }
 
+export function just<T>(v: T): Observable<T> {
+  return create()
+    .emit(v)
+    .freeze();
+}
+
 export function interval(millis: number): Observable<number> {
   let localTimeIntervalHandle;
   return create({

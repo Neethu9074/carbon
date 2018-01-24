@@ -104,7 +104,7 @@ export default class Subject<E> implements Observable<E> {
     }
   }
 
-  emit(data: ?E) {
+  emit(data: ?E): Subject<E> {
     this._didEmit = true;
     this._lastEmittedValue = data;
 
