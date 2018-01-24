@@ -12,15 +12,15 @@ export const allStates: { [key: string]: any } = {};
 
 export interface StoreSpec<T> {
   name: string;
-  initialValue: ?T;
+  initialValue?: ?T;
   isGlobal?: boolean;
-  reducers: ?any;
+  reducers?: ?any;
 }
 
 export interface Store<T> {
   observable: Observable<T>;
-  applyStateMutation: ?Function;
-  mutateTo: ?Function;
+  applyStateMutation: Function;
+  mutateTo: (?T) => void;
 }
 
 export interface TrackingStoreSpec<T> {

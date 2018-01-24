@@ -1,3 +1,5 @@
+declare var __DEV__: boolean;
+
 // Time
 declare type Millis = number;
 declare type Timestamp = Millis;
@@ -13,6 +15,7 @@ declare type Comparator<T> = (a: ?T, b: ?T) => number;
 declare type ErrorCode =
   | 'NOT_FOUND' // invalid user input, typically recoverable by user interaction
   | 'VALIDATION' // invalid user input, typically recoverable by user interaction
+  | 'AUTH' // Operation not permitted due to lack of authorization
   | 'CLIENT' // invalid call, e.g. wrong call parameters - technical error
   | 'SERVER'; // problem in server logical - technical error
 
