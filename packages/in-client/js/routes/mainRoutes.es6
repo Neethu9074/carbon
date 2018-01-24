@@ -1,10 +1,8 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-
 import {
   agentsPath,
-  applicationsPath,
   asciiContainerPath,
   asciiLogicalPath,
   asciiPhysicalPath,
@@ -23,7 +21,6 @@ import {
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import { application_2_0_Enabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
-import ApplicationView from 'promise-loader?global!in-views/applicationView/ApplicationView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
@@ -66,10 +63,6 @@ export default (
     ) : null}
 
     {application_2_0_Enabled && applicationRoutes}
-
-    {application_2_0_Enabled ? (
-      <Route path={applicationsPath} component={createAsyncViewComponent(ApplicationView)} />
-    ) : null}
 
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />
