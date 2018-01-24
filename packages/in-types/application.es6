@@ -114,3 +114,50 @@ export type GetMetricsQuery = {
   config: MetricConfiguration
 };
 export type GetMetrics = (query: GetMetricsQuery) => Observable<Result<TimestampedMetrics>>;
+
+/* Flow Map Data retrieval */
+
+export type Direction = 'incoming' | 'outgoing';
+export type Id = 'string';
+
+export type ServiceFlowNode = {
+  service: Service,
+  serviceMetrics: Map<string, number[][]>,
+
+  // metrics for the connection between the last element in the path and the service
+  // denoted by this node
+  connectionMetrics: Map<string, number[][]>,
+
+  relatedNodesCount: number,
+
+  // the array length can be smaller than `relatedNodesCount` when expanding
+  // the tree by critical path. The array can be empty when there are no
+  // related nodes or when the related nodes haven't been retrieved.
+  relatedNodes: ServiceFlowNode[]
+};
+
+export type TraversalConfiguration = {
+  // restrict the number of (children) levels that should be returned. Can be optional
+  // to denote that all levels should be returned.
+  maxDepth: ?number,
+
+  // optional name of a requested metric. Only those related nodes will be returned which
+  // have the maximum (TBD) metric value within their siblings.
+  //
+  // This is expand by critical path feature.
+  byMetric: ?string
+};
+
+/* a query to get the related nodes of a currently focused flow map node */
+export type GetServiceFlowArgs = {
+  metrics: Map<string, MetricConfiguration>,
+
+  filter: Filter,
+  traversal: TraversalConfiguration,
+
+  // the first element within this array is always the focused service.
+  path: Id[],
+  direction: Direction
+};
+
+export type getServiceFlow = (args: GetServiceFlowArgs) => ServiceFlowNode[];
