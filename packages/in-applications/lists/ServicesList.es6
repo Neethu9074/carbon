@@ -45,13 +45,15 @@ export default class extends React.Component {
         <MaxWidthFullscreenContainer>
           <ViewSwitcher />
 
-          <DataRetrievalAwareTable get={getTableData} />
+          <DataRetrievalAwareTable
+            get={getTableData}
+            pageSize={10}
+            columnDefinitions={columnDefinitions} />
 
           <Table
             pageSize={10}
+            result
             onStateChanged={this.update}
-            items={this.state.items}
-            totalHits={this.state.totalHits}
             columnDefinitions={columnDefinitions}
           />
         </MaxWidthFullscreenContainer>
