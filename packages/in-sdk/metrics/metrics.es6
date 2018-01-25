@@ -6,7 +6,12 @@ export {
   getMinValue,
   getFormattedValue
 } from 'in-sdk/metrics/legacy';
-export { registerMetricDefinition, getMetricDefinition, getCategories } from 'in-sdk/metrics/metricDefinitions';
+export {
+  registerMetricDefinition,
+  getMetricDefinition,
+  getCategories,
+  isMetricPercentile
+} from 'in-sdk/metrics/metricDefinitions';
 
 import { getCategories } from 'in-sdk/metrics';
 
