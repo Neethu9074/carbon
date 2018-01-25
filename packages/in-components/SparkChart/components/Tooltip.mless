@@ -1,5 +1,15 @@
 :local {
   .tooltip {
     position: absolute;
+    top: 0;
+  }
+
+  .line {
+    position: absolute;
+    top: 0;
+
+    border-left: 1px solid red;
+    height: 1.875rem;
+    margin-left: -5px;
   }
 }

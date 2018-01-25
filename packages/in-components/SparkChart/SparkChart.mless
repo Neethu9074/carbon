@@ -11,8 +11,10 @@
 
   .glassPane {
     position: absolute;
-    height: 1.875rem;
-    width: 6.25rem;
+    left: 2px;
+    top: 2px;
+    height: 26px;
+    width: 96px;
   }
 
   .canvas {
