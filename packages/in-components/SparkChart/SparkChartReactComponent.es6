@@ -31,17 +31,11 @@ export default class extends React.Component {
 
     return (
       <div className={locals.sparkChart}>
-        <Tooltip glassPane={this.glassPane} metrics={metrics} timeframe={timeframe} formatter={formatter} />
+        <Tooltip metrics={metrics} timeframe={timeframe} formatter={formatter} />
         <canvas
           className={locals.canvas}
           ref={canvas => {
             this.canvas = canvas;
-          }}
-        />
-        <div
-          className={locals.glassPane}
-          ref={glassPane => {
-            this.glassPane = glassPane;
           }}
         />
         <span className={locals.number}>{formatter.detailed(metrics[metrics.length - 1][1])}</span>

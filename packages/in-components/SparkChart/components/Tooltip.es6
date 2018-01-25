@@ -15,57 +15,53 @@ export default class extends React.Component {
     nearestDataPoint: null
   };
 
-  componentWillUpdate(nextProps) {
-    if (this.props.glassPane !== nextProps.glassPane) {
-      this.disposeSubscriptions();
-      this.onMouseMoveSubscription = on(nextProps.glassPane, 'mousemove').subscribe(this.onMouseMove);
-      this.onMouseLeaveSubscription = on(nextProps.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
+  componentDidMount() {
+    this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
+    this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
 
-      this.xScale.setDomainFrom(nextProps.timeframe.to - nextProps.timeframe.windowSize);
-      this.xScale.setDomainTo(nextProps.timeframe.to);
-      this.xScale.setRangeFrom(2);
-      this.xScale.setRangeTo(98);
-    }
+    this.xScale.setDomainFrom(this.props.timeframe.to - this.props.timeframe.windowSize);
+    this.xScale.setDomainTo(this.props.timeframe.to);
+    this.xScale.setRangeFrom(2);
+    this.xScale.setRangeTo(98);
   }
 
   componentWillUnmount() {
-    this.disposeSubscriptions();
+    this.onMouseMoveSubscription.dispose();
+    this.onMouseMoveSubscription = null;
+    this.onMouseLeaveSubscription.dispose();
+    this.onMouseLeaveSubscription = null;
   }
 
   render() {
-    if (!this.state.isVisible) {
-      return null;
-    }
-
     return (
-      <div
-        className={locals.tooltip}
-        style={{
-          left: this.state.xPositionOnCanvas
-        }}
-      >
-        <div className={locals.line} />
+      <div>
         <div
+          className={locals.tooltip}
           style={{
-            marginTop: this.state.yPositionOnCanvas
+            left: this.state.xPositionOnCanvas
           }}
         >
-          <Badge>{this.props.formatter.detailed(this.state.nearestDataPoint[1])}</Badge>
+          {this.state.isVisible ? <div className={locals.line} /> : null}
+          {this.state.isVisible ? (
+            <div
+              style={{
+                marginTop: this.state.yPositionOnCanvas
+              }}
+            >
+              <Badge>{this.props.formatter.detailed(this.state.nearestDataPoint[1])}</Badge>
+            </div>
+          ) : null}
         </div>
+
+        <div
+          className={locals.glassPane}
+          ref={glassPane => {
+            this.glassPane = glassPane;
+          }}
+        />
       </div>
     );
   }
-
-  disposeSubscriptions = () => {
-    if (this.onMouseMoveSubscription) {
-      this.onMouseMoveSubscription.dispose();
-      this.onMouseMoveSubscription = null;
-    }
-    if (this.onMouseLeaveSubscription) {
-      this.onMouseLeaveSubscription.dispose();
-      this.onMouseLeaveSubscription = null;
-    }
-  };
 
   onMouseMove = e => {
     const nearestDataPoint = this.getNearestDataPointForXPosition(e.offsetX);
