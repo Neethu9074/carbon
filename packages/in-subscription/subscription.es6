@@ -1,6 +1,7 @@
 // @flow
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { generateStableHash } from 'in-services/util/id';
 import type { Observable } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import { connection } from 'in-connection';
@@ -14,7 +15,7 @@ import { connection } from 'in-connection';
  */
 export type CreateSubscriptionArgs<PARAM, RESULT> = {
   eventId: string,
-  getId: PARAM => string,
+  getId?: PARAM => string,
   getData: (subscriptionId: number, param: PARAM) => any,
   memoizeFor?: number,
   disposeSubscriptionOnDocumentHidden?: boolean,
@@ -32,7 +33,7 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
  */
 export default function<PARAM, RESULT>({
   eventId,
-  getId,
+  getId = generateStableHash,
   getData,
   memoizeFor = 10000,
   disposeSubscriptionOnDocumentHidden = true,
