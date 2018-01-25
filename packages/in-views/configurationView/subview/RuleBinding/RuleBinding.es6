@@ -8,7 +8,7 @@ import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-api/ruleB
 import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/RuleBindingForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { rulesPath } from 'in-stores/navigation/paths/settingPaths';
+import { bindingsPath } from 'in-stores/navigation/paths/settingPaths';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
@@ -201,7 +201,7 @@ export default class extends React.Component {
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(() => goToPath(rulesPath));
+    this.responseSubscription = result$.once(() => goToPath(bindingsPath));
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save custom issue: ${error.message}`;
