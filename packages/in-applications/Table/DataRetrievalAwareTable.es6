@@ -1,13 +1,27 @@
 // @flow
 
-import { compose, withState } from 'recompose';
+import { compose, withPropsOnChange } from 'recompose';
+import { defaults, debounce } from 'lodash';
 
+import withPropDependingState from 'in-hoc/withPropDependingState';
 import Table from 'in-applications/Table';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
-  withState('tableState', 'onStateChanged', null),
-  connect(({tableState, get}) => ({
-    result: tableState != null ? get(tableState) : null
+  withPropDependingState(
+    ['columnDefinitions', 'defaultOrderBy', 'defaultOrderDirection', 'defaultPageSize', 'defaultQuery'],
+    ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
+      orderBy: defaultOrderBy || columnDefinitions[0].id,
+      orderDirection: defaultOrderDirection || 'ASC',
+      page: 1,
+      pageSize: defaultPageSize || 10,
+      query: defaultQuery || ''
+    }),
+    'onChange',
+    (prevState, change) => defaults({}, change, prevState)
+  ),
+  withPropsOnChange(['onChange'], ({ onChange }) => ({ onChange: debounce(onChange, 500) })),
+  connect(props => ({
+    result: props.get(props)
   }))
 )(Table);

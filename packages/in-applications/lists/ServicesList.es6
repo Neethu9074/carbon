@@ -11,117 +11,56 @@ import getServices from 'in-subscription/application/getServices';
 import { ms, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
-import Table from 'in-applications/Table';
 import Sticky from 'in-components/Sticky';
+import Link from 'in-components/Link';
 
-export default class extends React.Component {
-  static displayName = 'ServicesList';
+export default function ServicesList() {
+  const breadcrumbs = [<ApplicationServiceViewBreadcrumb />];
 
-  dataSubscription = null;
+  return (
+    <Sticky
+      header={
+        <div>
+          {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+          <BreadcrumbHeader />
+        </div>
+      }
+    >
+      <MaxWidthFullscreenContainer>
+        <ViewSwitcher />
 
-  state = {
-    items: []
-  };
-
-  componentWillUnmount() {
-    if (this.dataSubscription) {
-      this.dataSubscription.dispose();
-      this.dataSubscription = null;
-    }
-  }
-
-  render() {
-    const breadcrumbs = [<ApplicationServiceViewBreadcrumb />];
-
-    return (
-      <Sticky
-        header={
-          <div>
-            {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-            <BreadcrumbHeader />
-          </div>
-        }
-      >
-        <MaxWidthFullscreenContainer>
-          <ViewSwitcher />
-
-          <DataRetrievalAwareTable
-            get={getTableData}
-            pageSize={10}
-            columnDefinitions={columnDefinitions} />
-
-          <Table
-            pageSize={10}
-            result
-            onStateChanged={this.update}
-            columnDefinitions={columnDefinitions}
-          />
-        </MaxWidthFullscreenContainer>
-      </Sticky>
-    );
-  }
-
-  update = ({ query, page, pageSize, orderBy, orderDirection }) => {
-    if (this.dataSubscription) {
-      this.dataSubscription.dispose();
-    }
-
-    this.dataSubscription = timeframe$
-      .flatMap(timeframe =>
-        getServices({
-          pagination: {
-            page,
-            pageSize
-          },
-          order: {
-            by: orderBy,
-            direction: orderDirection
-          },
-          metrics: {},
-          filter: {
-            serviceName: query,
-            timeframe
-          }
-        })
-      )
-      .subscribe(res => {
-        const data = res.data;
-        const items = data.items;
-        const totalHits = data.totalHits;
-        this.setState({ items, totalHits });
-      });
-  };
+        <DataRetrievalAwareTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} />
+      </MaxWidthFullscreenContainer>
+    </Sticky>
+  );
 }
-
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
-  return timeframe$
-    .flatMap(timeframe =>
-      getServices({
-        pagination: {
-          page,
-          pageSize
-        },
-        order: {
-          by: orderBy,
-          direction: orderDirection
-        },
-        metrics: {},
-        filter: {
-          serviceName: query,
-          timeframe
-        }
-      }));
+  return timeframe$.flatMap(timeframe =>
+    getServices({
+      pagination: {
+        page,
+        pageSize
+      },
+      order: {
+        by: orderBy,
+        direction: orderDirection
+      },
+      metrics: {},
+      filter: {
+        serviceName: query,
+        timeframe
+      }
+    })
+  );
 }
-
 
 const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: 'Name',
-    getHref$: item => getServiceDashboard(item.service.id),
     getContent(item) {
-      return item.service.label;
+      return <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>;
     }
   },
   {
