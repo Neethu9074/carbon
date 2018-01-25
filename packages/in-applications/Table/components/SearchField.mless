@@ -1,8 +1,9 @@
 :local {
   .searchField {
-    width: 10rem;
+    width: 11rem;
     height: 2rem;
-    margin: 1rem 0;
+    margin: 1rem;
+    padding: 0 0.5rem;
     background: #f1f6f9;
     color: #58717a;
     border: 1px solid #d5dfe4;
