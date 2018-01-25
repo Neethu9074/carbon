@@ -1,75 +1,77 @@
-import { create } from 'reactive-observables';
 import React from 'react';
 
 import SearchField from 'in-applications/Table/components/SearchField';
 import Pagination from 'in-applications/Table/components/Pagination';
 import Columns from 'in-applications/Table/components/Columns';
+import { pendingResult } from 'in-services/fixedObjects';
 import Row from 'in-applications/Table/components/Row';
+import Progress from 'in-components/Progress';
 
 import locals from './Table.mless';
 
-export default class extends React.Component {
-  static displayName = 'Application-Table';
+export default function Application20Table({
+  // values configurable via the table
+  query,
+  page,
+  orderBy,
+  orderDirection,
+  pageSize,
 
-  constructor(props) {
-    super(props);
+  // values that define the content
+  columnDefinitions,
+  result = pendingResult,
 
-    this.state = {
-      query: '',
-      orderBy: props.columnDefinitions[props.initialSortingColumn || 0].id,
-      orderDirection: props.initialSortingDirection || 'ASC',
-      page: 1
-    };
-  }
+  // events
+  onChange
+}) {
+  const isLoading = result.progress.loading;
+  const hasErrors = result.errors.length > 0;
 
-  change$ = create();
-
-  componentWillMount() {
-    this.changeSubscription = this.change$
-      .debounce(500)
-      .subscribe(state => this.props.onStateChanged({ ...state, pageSize: this.props.pageSize }));
-    this.change$.emit(this.state);
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (
-      this.state.query !== nextState.query ||
-      this.state.orderBy !== nextState.orderBy ||
-      this.state.orderDirection !== nextState.orderDirection ||
-      this.state.page !== nextState.page
-    ) {
-      this.change$.emit(nextState);
-    }
-  }
-
-  componentWillUnmount() {
-    this.changeSubscription.dispose();
-  }
-
-  render() {
-    const { items, totalHits, pageSize, columnDefinitions } = this.props;
-    const { page, orderBy, orderDirection } = this.state;
-
-    return (
-      <div>
-        <div className={locals.header}>
-          <Pagination page={page} pageSize={pageSize} totalHits={totalHits} setPage={page => this.setState({ page })} />
-          <SearchField onChange={query => this.setState({ query })} />
-        </div>
-        <table className={locals.table}>
-          <thead>
-            <Columns
-              setOrder={(orderBy, orderDirection) => this.setState({ orderBy, orderDirection })}
-              columnDefinitions={columnDefinitions}
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-            />
-          </thead>
-          <tbody>
-            {items.map((item, i) => <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} />)}
-          </tbody>
-        </table>
-      </div>
+  let body = null;
+  if (isLoading) {
+    body = (
+      <tr>
+        <td colSpan={columnDefinitions.length}>
+          <Progress progress={result.progress} />
+        </td>
+      </tr>
     );
+  } else if (hasErrors) {
+    body = (
+      <tr>
+        <td colSpan={columnDefinitions.length}>Errors</td>
+      </tr>
+    );
+  } else {
+    body = result.data.items.map((item, i) => (
+      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} />
+    ));
   }
+
+  return (
+    <div>
+      <div className={locals.header}>
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          totalHits={!isLoading && !hasErrors ? result.data.totalHits : null}
+          setPage={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+        />
+        <SearchField onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
+      </div>
+
+      <table className={locals.table}>
+        <thead>
+          <Columns
+            setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page, pageSize })}
+            columnDefinitions={columnDefinitions}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+          />
+        </thead>
+
+        <tbody>{body}</tbody>
+      </table>
+    </div>
+  );
 }
