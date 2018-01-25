@@ -8,7 +8,7 @@ import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
 
 const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
-  eventId: 'getServices',
+  eventId: 'getService',
 
   getData(subscriptionId, params) {
     return {
