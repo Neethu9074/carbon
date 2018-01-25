@@ -23,6 +23,7 @@ import './components/ComboBoxStory';
 import './components/IconStory';
 import './components/KeyValuePopup';
 import './components/MultiSelectStory';
+import './components/SparkChart';
 import './components/ProgressStory';
 import './components/TopListStory';
 import './components/sdk/CollapsibleStory';
