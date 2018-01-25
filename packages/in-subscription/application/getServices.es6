@@ -9,11 +9,6 @@ import 'in-subscription/subscription';
 const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
   eventId: 'getServices',
 
-  getId(params) {
-    // TODO generate an ID that does not depend on order within parameter
-    return JSON.stringify(params);
-  },
-
   getData(subscriptionId, params) {
     return {
       subscriptionId,
