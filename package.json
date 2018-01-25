@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "clean": "gulp clean",
+    "cleanup-flow": "flow stop && rimraf /tmp/flow",
     "build": "export BUILD_DEV='false' && gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "try-build-without-building": "export BUILD_DEV='false' && gulp try-build-without-building",
@@ -168,6 +169,7 @@
     "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
     "react-dev-utils": "^0.5.2",
+    "rimraf": "^2.6.2",
     "run-sequence": "^1.1.2",
     "sinon": "^2.2.0",
     "sinon-chai": "^2.8.0",
