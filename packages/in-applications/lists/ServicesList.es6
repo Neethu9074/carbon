@@ -6,6 +6,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import DataRetrievalAwareTable from 'in-applications/Table/DataRetrievalAwareTable';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import getServices from 'in-subscription/application/getServices';
 import { ms, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
@@ -116,6 +117,7 @@ const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: 'Name',
+    getHref$: item => getServiceDashboard(item.service.id),
     getContent(item) {
       return item.service.label;
     }
