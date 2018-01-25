@@ -9,14 +9,6 @@
     height: 1.875rem;
   }
 
-  .glassPane {
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    height: 26px;
-    width: 96px;
-  }
-
   .canvas {
     display: block;
   }

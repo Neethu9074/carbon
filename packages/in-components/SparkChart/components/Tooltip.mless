@@ -4,6 +4,14 @@
     top: 0;
   }
 
+  .glassPane {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    height: 26px;
+    width: 96px;
+  }
+
   .line {
     position: absolute;
     top: 0;
