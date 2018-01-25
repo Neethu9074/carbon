@@ -11,7 +11,7 @@ export interface DebounceOptions {
 }
 
 export default function debounce<T>(millis: number, opts: ?DebounceOptions): Observer<T, T> {
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   return observer
     ._setOnNext(
       millis <= 0

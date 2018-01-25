@@ -13,7 +13,7 @@ export default function delayedStop<T>(
   setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
   clearTimeout: (timeoutId?: number) => void = clearTimeoutFn
 ): Observer<T, T> {
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   observer._setOnNext((v: ?T) => {
     observer._emit(v);
   });

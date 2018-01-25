@@ -1,23 +1,29 @@
 // @flow
+
+import type { ServiceItem, GetServicesQuery } from 'in-types/application';
 import createSubscription from 'in-subscription/subscription';
-import Observable from 'reactive-observables/Observable';
-import type { ServiceItem } from 'in-types/application';
+import type { Observable } from 'reactive-observables';
+import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
 
-const subscriptionFactory: void => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
+const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult<ServiceItem>>> = createSubscription({
   eventId: 'get-services',
 
-  getId() {
-    return 'some-weird-string';
+  getId(params) {
+    // TODO generate an ID that does not depend on order within parameter
+    return JSON.stringify(params);
   },
 
-  getData(subscriptionId) {
+  getData(subscriptionId, params) {
     return {
       subscriptionId,
-      pagination: null,
-      orderBy: null,
-      metrics: null
+      ...params
     };
+  },
+
+  transform(observable): Observable<Result<PaginatedResult<ServiceItem>>> {
+    const result = observable.map(deepFreeze);
+    return (result: Observable<any>);
   }
 });
 

@@ -3,13 +3,13 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-is-monitoring',
 
-  getId: () => 'isMonitoring',
+  getId() {
+    return 'isMonitoring';
+  },
 
-  getData: subscriptionId => {
+  getData(subscriptionId) {
     return {
       subscriptionId
     };
-  },
-
-  transformData: monitoring => monitoring
+  }
 });

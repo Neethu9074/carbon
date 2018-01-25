@@ -3,7 +3,7 @@ import Observer from '../Observer';
 
 export default function distinct<T>(comparisonFunction: (a: ?T, b: ?T) => boolean = notSame): Observer<T, T> {
   let previousValue: ?T;
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   return observer
     ._setOnNext((data: ?T) => {
       if (previousValue === undefined || comparisonFunction(data, previousValue)) {

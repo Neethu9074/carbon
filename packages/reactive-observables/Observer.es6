@@ -1,12 +1,12 @@
 // @flow
 import { reportUnhandledError } from './unhandledErrorSink';
 
-import type { ObservableSpec } from './Observable';
-import TerminalObserver from './TerminalObserver';
 import { DebounceOptions } from './operators/debounce';
-import Observable from './Observable';
 import { ThrottleOptions } from './operators/throttle';
 import { Transformer } from './operators/transform';
+import TerminalObserver from './TerminalObserver';
+import type { Observable } from './Observable';
+import type { SubjectSpec } from './Subject';
 
 /**
  * An intermediate observable, that is, something that consumes data from another observable (either an Observable<S>
@@ -17,11 +17,11 @@ import { Transformer } from './operators/transform';
  * - C: the type of value this intermediary *consumes*.
  * - E: the type of value this intermediary *emits*.
  */
-export default class Observer<C, E> {
+export default class Observer<C, E> implements Observable<E> {
   _parent: Observer<any, C>;
   _children: (Observer<E, any> | TerminalObserver<E>)[] = [];
   _lastEmittedValue: ?E;
-  _observableSpec: ObservableSpec<E>;
+  _subjectSpec: SubjectSpec<E>;
   _onNext: ?(data: ?C) => void;
   _onError: ?(error: any) => void;
   _reset: ?() => void;
@@ -34,21 +34,21 @@ export default class Observer<C, E> {
   // The operator methods are added via monkey patching in reactive-observables/operators/index#applyOperators.
   // To get type checking support, we add their method signatures here as class properties.
   // (See https://flow.org/en/docs/types/classes/#toc-class-fields-properties.)
-  debounce: (millis: number, opts: ?DebounceOptions) => Observer<E, E>;
+  debounce: (millis: number, opts: ?DebounceOptions) => Observable<E>;
   delayedStop: (
     millis: number,
-    stopObserver: () => void,
+    stopObservable: () => void,
     setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number,
     clearTimeout: (timeoutId?: number) => void
-  ) => Observer<E, E>;
-  distinct: ((a: ?E, b: ?E) => boolean) => Observer<E, E>;
-  errors: () => Observer<any>;
-  filter: (predicate: (?E) => boolean) => Observer<E, E>;
-  flatMap: <R>(flatMapper: (?E) => Observable<R>) => Observer<E, R>;
-  freeze: () => Observer<E, E>;
-  map: <R>(mapper: (data: ?E) => R) => Observer<E, R>;
+  ) => Observable<E>;
+  distinct: ((a: ?E, b: ?E) => boolean) => Observable<E>;
+  errors: () => Observable<any>;
+  filter: (predicate: (?E) => boolean) => Observable<E>;
+  flatMap: <R>(flatMapper: (?E) => Observable<R>) => Observable<R>;
+  freeze: () => Observable<E>;
+  map: <R>(mapper: (data: ?E) => R) => Observable<R>;
   merge: (...argsParam: Array<Observable<E>>) => Observable<E>;
-  nextFrame: () => Observer<E, E>;
+  nextFrame: () => Observable<E>;
   once: (
     onData: Function,
     onError: Function,
@@ -59,10 +59,10 @@ export default class Observer<C, E> {
     arg4: any,
     arg5: any
   ) => TerminalObserver<E>;
-  scan: <R>(accumulator: (?R, ?E) => R, seed: ?R) => Observer<E, R>;
-  skipFirst: () => Observer<E, E>;
-  startWith: (initialValue: E) => Observer<E, E>;
-  startWithFn: (initialValueProvider: () => E) => Observer<E, E>;
+  scan: <R>(accumulator: (?R, ?E) => R, seed: ?R) => Observable<R>;
+  skipFirst: () => Observable<E>;
+  startWith: (initialValue: E) => Observable<E>;
+  startWithFn: (initialValueProvider: () => E) => Observable<E>;
   subscribe: (
     onData: Function,
     onError: ?Function,
@@ -73,15 +73,15 @@ export default class Observer<C, E> {
     arg4: ?any,
     arg5: ?any
   ) => TerminalObserver<E>;
-  tap: (tapper: (data: ?E) => void) => Observer<E, E>;
-  throttle: (millis: number, opts: ThrottleOptions) => Observer<E, E>;
+  tap: (tapper: (data: ?E) => void) => Observable<E>;
+  throttle: (millis: number, opts: ThrottleOptions) => Observable<E>;
   transform: <Target>(transformer: Transformer<E, Target>) => Observable<Target>;
 
-  constructor(parent: Observer<any, C>, observableSpec: ObservableSpec<E>) {
+  constructor(parent: Observer<any, C>, subjectSpec: SubjectSpec<E>) {
     this._parent = parent;
     this._children = [];
     this._lastEmittedValue = undefined;
-    this._observableSpec = observableSpec;
+    this._subjectSpec = subjectSpec;
   }
 
   _setOnNext(onNext: (data: ?C) => void): Observer<C, E> {
@@ -115,7 +115,7 @@ export default class Observer<C, E> {
 
   _emitInitialValue<R>(child: Observer<E, R> | TerminalObserver<E>): void {
     if (
-      this._observableSpec.emitLatestOnSubscribe &&
+      this._subjectSpec.emitLatestOnSubscribe &&
       this._lastEmittedValue !== undefined &&
       // when there is only one child, we will have reattached to parent and
       // parent will scheduled a resend of the latest value

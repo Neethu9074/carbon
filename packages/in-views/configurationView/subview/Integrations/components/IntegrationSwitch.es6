@@ -21,6 +21,9 @@ export default function IntegrationSwitch({ onClick, selectedType }) {
         <IntegrationButton type="office365" selectedType={selectedType} onClick={onClick} />
         <IntegrationButton type="webhook" selectedType={selectedType} onClick={onClick} />
       </Row>
+      <Row>
+        <IntegrationButton type="hipChat" selectedType={selectedType} onClick={onClick} />
+      </Row>
     </div>
   );
 }

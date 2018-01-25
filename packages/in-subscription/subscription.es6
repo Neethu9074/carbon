@@ -1,6 +1,7 @@
 // @flow
+
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import Observable from 'reactive-observables/Observable';
+import type { Observable } from 'reactive-observables';
 import { create } from 'reactive-observables';
 import { connection } from 'in-connection';
 
@@ -9,19 +10,15 @@ import { connection } from 'in-connection';
  *
  * Type params:
  * - Param: the type of object this subscription needs for getId and getData
- * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
- *   transformData.
+ * - Result: the type of values the new subscription will emit
  */
-// TODO Remove transformData, getScanner and replace by simple .map and .scan calls on the resulting observable
-// TODO The resulting observable should be correctly typed. How?
-export type CreateSubscriptionArgs<Param> = {
+export type CreateSubscriptionArgs<PARAM, RESULT> = {
   eventId: string,
-  getId: Param => string,
-  getData: (subscriptionId: number, param: Param) => any,
-  transformData?: Function, // ServerResult => Result,
+  getId: PARAM => string,
+  getData: (subscriptionId: number, param: PARAM) => any,
   memoizeFor?: number,
   disposeSubscriptionOnDocumentHidden?: boolean,
-  getScanner?: ?Function
+  transform?: (Observable<any>, PARAM) => Observable<RESULT>
 };
 
 /**
@@ -33,34 +30,28 @@ export type CreateSubscriptionArgs<Param> = {
  * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
  *   transformData.
  */
-export default function<Param, Result>({
+export default function<PARAM, RESULT>({
   eventId,
   getId,
   getData,
-  transformData = identity,
   memoizeFor = 10000,
   disposeSubscriptionOnDocumentHidden = true,
-  getScanner
-}: CreateSubscriptionArgs<Param>): Param => Observable<Result> {
-  if (getScanner === undefined) {
-    getScanner = null;
-  }
-
+  transform
+}: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
   return memoize(
-    createObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden, getScanner),
+    createObservable.bind(null, eventId, getData, disposeSubscriptionOnDocumentHidden, transform),
     getId,
     memoizeFor
   );
 }
 
-function createObservable<Result>(
-  event,
-  getData,
-  transformData,
-  disposeSubscriptionOnDocumentHidden,
-  getScanner,
-  opts
-): Observable<Result> {
+function createObservable<PARAM, RESULT>(
+  event: string,
+  getData: (subscriptionId: number, param: PARAM) => any,
+  disposeSubscriptionOnDocumentHidden?: boolean,
+  transform?: (Observable<any>, PARAM) => Observable<RESULT>,
+  opts: PARAM
+): Observable<RESULT> {
   const subscriptionId = connection.getNewSubscriptionId();
   const subscriptionDescription = {
     subscriptionId,
@@ -70,29 +61,24 @@ function createObservable<Result>(
     listener: onData
   };
 
-  const scan = getScanner != null ? getScanner(opts) : null;
-  let scannedValue = null;
   const observable = create({
     start() {
       connection.subscribe(subscriptionDescription);
     },
 
     stop() {
-      scannedValue = null;
       connection.unsubscribe(subscriptionId);
     }
   });
 
-  return observable;
+  if (transform) {
+    return transform(observable, opts);
+  }
+
+  // $FlowFixMe: Just blindly pass the server result to the client. No additional validation is happening
+  return (observable: Observable<RESULT>);
 
   function onData(data) {
-    if (scan) {
-      data = scannedValue = scan(scannedValue, data);
-    }
-    observable.emit(transformData(data));
+    observable.emit(data);
   }
-}
-
-function identity(e) {
-  return e;
 }

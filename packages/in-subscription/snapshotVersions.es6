@@ -17,7 +17,7 @@ export default createSubscription({
     };
   },
 
-  transformData(versions) {
-    return fromJS(versions);
+  transform(observable) {
+    return observable.map(fromJS);
   }
 });

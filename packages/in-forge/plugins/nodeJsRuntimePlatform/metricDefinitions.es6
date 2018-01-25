@@ -112,28 +112,32 @@ export default [
     label: 'Response Time 50th',
     min: 0,
     category: ['Http'],
-    formatter: millis
+    formatter: millis,
+    isPercentile: true
   },
   {
     metric: getMetricMatch('http', 'responseTime90'),
     label: 'Response Time 90th',
     min: 0,
     category: ['Http'],
-    formatter: millis
+    formatter: millis,
+    isPercentile: true
   },
   {
     metric: getMetricMatch('http', 'responseTime95'),
     label: 'Response Time 95th',
     min: 0,
     category: ['Http'],
-    formatter: millis
+    formatter: millis,
+    isPercentile: true
   },
   {
     metric: getMetricMatch('http', 'responseTime99'),
     label: 'Response Time 99th',
     min: 0,
     category: ['Http'],
-    formatter: millis
+    formatter: millis,
+    isPercentile: true
   },
   {
     metric: 'healthcheckResult',

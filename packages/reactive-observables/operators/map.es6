@@ -2,7 +2,7 @@
 import Observer from '../Observer';
 
 export default function map<C, E>(mapper: (data: ?C) => E): Observer<C, E> {
-  const observer: Observer<C, E> = new Observer(this, this._observableSpec);
+  const observer: Observer<C, E> = new Observer(this, this._subjectSpec);
   return observer._setOnNext((data: ?C) => {
     try {
       let val: E = mapper(data);

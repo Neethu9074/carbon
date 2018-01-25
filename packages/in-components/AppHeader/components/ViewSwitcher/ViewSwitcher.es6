@@ -9,7 +9,6 @@ import {
   physicalPath,
   logicalTablePath,
   containerPath,
-  applicationsPath,
   websitePath,
   cockpitPath,
   isTableView
@@ -17,6 +16,7 @@ import {
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { application_2_0_Enabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -57,7 +57,7 @@ export default function ViewSwitcher() {
           isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
         >
           {application_2_0_Enabled ? (
-            <SubMenuItem label="Application" href$={getView(applicationsPath)} isActive$={isView(applicationsPath)} />
+            <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
           ) : null}
           <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
           <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />

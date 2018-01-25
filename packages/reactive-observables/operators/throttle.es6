@@ -12,7 +12,7 @@ export interface ThrottleOptions {
 }
 
 export default function throttle<T>(millis: number, opts: ThrottleOptions): Observer<T, T> {
-  const observer: Observer<T, T> = new Observer(this, this._observableSpec);
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   return observer
     ._setOnNext(
       millis <= 0

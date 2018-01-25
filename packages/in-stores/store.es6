@@ -1,7 +1,7 @@
 // @flow
+import type { Observable } from 'reactive-observables/Observable';
+import Subject from 'reactive-observables/Subject';
 import { create } from 'reactive-observables';
-import Observer from 'reactive-observables/Observer';
-import Observable from 'reactive-observables/Observable';
 import invariant from 'invariant';
 
 declare var __DEV__: any;
@@ -12,15 +12,15 @@ export const allStates: { [key: string]: any } = {};
 
 export interface StoreSpec<T> {
   name: string;
-  initialValue: ?T;
+  initialValue?: ?T;
   isGlobal?: boolean;
-  reducers: ?any;
+  reducers?: ?any;
 }
 
 export interface Store<T> {
-  observable: Observable<T> | Observer<any, T>;
-  applyStateMutation: ?Function;
-  mutateTo: ?Function;
+  observable: Observable<T>;
+  applyStateMutation: Function;
+  mutateTo: (?T) => void;
 }
 
 export interface TrackingStoreSpec<T> {
@@ -29,7 +29,7 @@ export interface TrackingStoreSpec<T> {
 }
 
 export interface TrackingStore<T> {
-  observable: Observable<T> | Observer<any, T>;
+  observable: Observable<T>;
 }
 
 export function createStore<T>(spec: StoreSpec<T>): Store<T> {
@@ -47,8 +47,7 @@ export function createStore<T>(spec: StoreSpec<T>): Store<T> {
   if (spec.isGlobal) {
     allStates[spec.name] = currentState;
   }
-
-  const observable = create();
+  const observable: Subject<T> = create();
   observable.emit(currentState);
 
   return {

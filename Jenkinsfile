@@ -54,15 +54,24 @@ stage('Node Build') {
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
+def deliveryBranches = [
+  'develop',
+  'master',
+  'release',
+  'prerelease'
+]
+
 stage ('Container Build') {
 
-  containerBuild {
-    component    = 'ui-client'
-    commitId     = gitCommitId
-    commitAuthor = gitCommitAuthor
-    version      = instanaVersion
+  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+    containerBuild {
+      component    = 'ui-client'
+      commitId     = gitCommitId
+      commitAuthor = gitCommitAuthor
+      version      = instanaVersion
+    }
   }
-
+  
   slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 

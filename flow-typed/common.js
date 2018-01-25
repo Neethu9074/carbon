@@ -1,3 +1,5 @@
+declare var __DEV__: boolean;
+
 // Time
 declare type Millis = number;
 declare type Timestamp = Millis;
@@ -6,10 +8,14 @@ declare type Timeframe = {
   windowSize: Millis
 };
 
+// comparing / sorting
+declare type Comparator<T> = (a: ?T, b: ?T) => number;
+
 // Error
 declare type ErrorCode =
   | 'NOT_FOUND' // invalid user input, typically recoverable by user interaction
   | 'VALIDATION' // invalid user input, typically recoverable by user interaction
+  | 'AUTH' // Operation not permitted due to lack of authorization
   | 'CLIENT' // invalid call, e.g. wrong call parameters - technical error
   | 'SERVER'; // problem in server logical - technical error
 
@@ -24,20 +30,13 @@ declare type Progress = {
   // Indeterminate, when loading && (estimated) time == null && (estimated) percentage == null
   // Countdown, when     loading && estimatedTime > 0
   loading: boolean,
-  // estimated wait time in millis
-  time: ?Millis,
-  // estimated progress as percentage, value between 0-1
-  percentage: ?number
+  // an explanation as to why the user has to wait
+  note: ?string
 };
 declare type Result<T> = {
   data: ?T,
   errors: ErrorDTO[],
   progress: Progress
-};
-
-// placeholder for the full Observable typings
-declare type Observable<T> = {
-  subscribe: (v: ?T) => void
 };
 
 // Metrics
