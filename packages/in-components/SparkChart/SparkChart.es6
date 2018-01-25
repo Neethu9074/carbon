@@ -5,7 +5,7 @@ export default class SparkChart {
     this.canvas = canvas;
 
     const width = 100;
-    const height = 28;
+    const height = 30;
 
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
@@ -13,10 +13,10 @@ export default class SparkChart {
     canvas.style.height = `${height}px`;
 
     this.lineMetricRenderer = new LineMetricRenderer(canvas, {
-      paddingLeft: 1,
-      paddingRight: 1,
-      paddingTop: 1,
-      paddingBottom: 1
+      paddingLeft: 2,
+      paddingRight: 2,
+      paddingTop: 2,
+      paddingBottom: 2
     });
   }
 

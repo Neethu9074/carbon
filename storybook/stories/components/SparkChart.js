@@ -10,8 +10,8 @@ storiesOf('components/SparkChart', module)
 
 function Simple() {
   const lotsOfMetrics = [];
-  for (let i = 0; i < 40; i++) {
-    lotsOfMetrics.push([i / 40 * 6000, Math.random() * 100]);
+  for (let i = 0; i < 20; i++) {
+    lotsOfMetrics.push([i / 20 * 6000, Math.random() * 100]);
   }
 
   return (

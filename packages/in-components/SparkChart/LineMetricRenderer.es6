@@ -87,7 +87,7 @@ export default class LineMetricRenderer {
     }
 
     this.ctx.clearRect(0, 0, this.width, this.height);
-    this.ctx.lineWidth = 1;
+    this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = '#1fb7b9';
 
     this.renderBlocks();
@@ -124,16 +124,15 @@ export default class LineMetricRenderer {
   }
 
   renderDataPoints() {
-    this.ctx.beginPath();
+    this.ctx.fillStyle = '#1fb7b9';
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
       for (let iB = 0; iB < block.length; iB++) {
         const dataPoint = block[iB];
-        this.ctx.rect(dataPoint.x - 1, dataPoint.y - 1, 2, 2);
+        this.ctx.beginPath();
+        this.ctx.arc(dataPoint.x, dataPoint.y, 2, 0, 2 * Math.PI, false);
+        this.ctx.fill();
       }
     }
-
-    this.ctx.fillStyle = '#1fb7b9';
-    this.ctx.fill();
   }
 }
