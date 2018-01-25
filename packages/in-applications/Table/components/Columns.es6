@@ -15,7 +15,7 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
             onClick={() => setOrder(columnDefinition.id, getOrderDirection(isSortedByThisColumn, orderDirection))}
           >
             <div className={locals.column}>
-              {columnDefinition.id}
+              {columnDefinition.label || columnDefinition.id}
               {isSortedByThisColumn ? (
                 <SvgIcon
                   className={locals.icon}

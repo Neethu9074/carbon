@@ -87,6 +87,7 @@ export default class extends React.Component {
 const columnDefinitions = [
   {
     id: 'serviceLabel',
+    label: 'Name',
     getContent(item) {
       return item.service.label;
     }
