@@ -1,10 +1,18 @@
 :local {
   .sparkChart {
+    position: relative;
+
     display: flex;
     align-items: flex-end;
 
     width: 9.375rem;
     height: 1.875rem;
+  }
+
+  .glassPane {
+    position: absolute;
+    height: 1.875rem;
+    width: 6.25rem;
   }
 
   .canvas {
