@@ -2,6 +2,7 @@
 
 import type { ServiceItem, GetServicesQuery } from 'in-types/application';
 import createSubscription from 'in-subscription/subscription';
+import { pendingResult } from 'in-services/fixedObjects';
 import type { Observable } from 'reactive-observables';
 import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
@@ -17,7 +18,8 @@ const subscriptionFactory: GetServicesQuery => Observable<Result<PaginatedResult
   },
 
   transform(observable): Observable<Result<PaginatedResult<ServiceItem>>> {
-    const result = observable.map(deepFreeze);
+    const result = observable.map(deepFreeze)
+      .startWith(pendingResult);
     return (result: Observable<any>);
   }
 });

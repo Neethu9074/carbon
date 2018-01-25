@@ -3,6 +3,7 @@ import React from 'react';
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import DataRetrievalAwareTable from 'in-applications/Table/DataRetrievalAwareTable';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import getServices from 'in-subscription/application/getServices';
@@ -42,6 +43,9 @@ export default class extends React.Component {
       >
         <MaxWidthFullscreenContainer>
           <ViewSwitcher />
+
+          <DataRetrievalAwareTable get={getTableData} />
+
           <Table
             pageSize={10}
             onStateChanged={this.update}
@@ -85,6 +89,28 @@ export default class extends React.Component {
       });
   };
 }
+
+
+function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
+  return timeframe$
+    .flatMap(timeframe =>
+      getServices({
+        pagination: {
+          page,
+          pageSize
+        },
+        order: {
+          by: orderBy,
+          direction: orderDirection
+        },
+        metrics: {},
+        filter: {
+          serviceName: query,
+          timeframe
+        }
+      }));
+}
+
 
 const columnDefinitions = [
   {
