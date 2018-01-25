@@ -3,9 +3,9 @@ import React from 'react';
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import createGetServicesSubscription from 'in-subscription/application/getServices';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import getServices from 'in-subscription/application/getServices';
 import { timeframe$ } from 'in-stores/timeline';
 import Table from 'in-applications/Table';
 import Sticky from 'in-components/Sticky';
@@ -59,7 +59,7 @@ export default class extends React.Component {
 
     this.dataSubscription = timeframe$
       .flatMap(timeframe =>
-        createGetServicesSubscription({
+        getServices({
           pagination: {
             page,
             pageSize
@@ -86,7 +86,7 @@ export default class extends React.Component {
 
 const columnDefinitions = [
   {
-    id: 'Name',
+    id: 'serviceLabel',
     getContent(item) {
       return item.service.label;
     }
