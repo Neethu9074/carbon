@@ -23,8 +23,8 @@ export default class extends React.Component {
 
       this.xScale.setDomainFrom(nextProps.timeframe.to - nextProps.timeframe.windowSize);
       this.xScale.setDomainTo(nextProps.timeframe.to);
-      this.xScale.setRangeFrom(0);
-      this.xScale.setRangeTo(100);
+      this.xScale.setRangeFrom(2);
+      this.xScale.setRangeTo(98);
     }
   }
 
@@ -41,11 +41,17 @@ export default class extends React.Component {
       <div
         className={locals.tooltip}
         style={{
-          left: this.state.xPositionOnCanvas,
-          top: this.state.yPositionOnCanvas
+          left: this.state.xPositionOnCanvas
         }}
       >
-        <Badge>{this.props.formatter.detailed(this.state.nearestDataPoint[1])}</Badge>
+        <div className={locals.line} />
+        <div
+          style={{
+            marginTop: this.state.yPositionOnCanvas
+          }}
+        >
+          <Badge>{this.props.formatter.detailed(this.state.nearestDataPoint[1])}</Badge>
+        </div>
       </div>
     );
   }
