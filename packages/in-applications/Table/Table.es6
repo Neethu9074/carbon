@@ -11,12 +11,16 @@ import locals from './Table.mless';
 export default class extends React.Component {
   static displayName = 'Application-Table';
 
-  state = {
-    query: '',
-    orderBy: 'id',
-    orderDirection: 'ASC',
-    page: 1
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      query: '',
+      orderBy: props.columnDefinitions[props.initialSortingColumn || 0].id,
+      orderDirection: props.initialSortingDirection || 'ASC',
+      page: 1
+    };
+  }
 
   change$ = create();
 
@@ -44,15 +48,12 @@ export default class extends React.Component {
 
   render() {
     const { items, totalHits, pageSize, columnDefinitions } = this.props;
+    const { page, orderBy, orderDirection } = this.state;
+
     return (
       <div>
         <div className={locals.header}>
-          <Pagination
-            page={this.state.page}
-            pageSize={pageSize}
-            totalHits={totalHits}
-            setPage={page => this.setState({ page })}
-          />
+          <Pagination page={page} pageSize={pageSize} totalHits={totalHits} setPage={page => this.setState({ page })} />
           <SearchField onChange={query => this.setState({ query })} />
         </div>
         <table className={locals.table}>
@@ -60,8 +61,8 @@ export default class extends React.Component {
             <Columns
               setOrder={(orderBy, orderDirection) => this.setState({ orderBy, orderDirection })}
               columnDefinitions={columnDefinitions}
-              orderBy={this.state.orderBy}
-              orderDirection={this.state.orderDirection}
+              orderBy={orderBy}
+              orderDirection={orderDirection}
             />
           </thead>
           <tbody>

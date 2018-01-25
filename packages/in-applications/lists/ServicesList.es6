@@ -84,35 +84,41 @@ export default class extends React.Component {
   };
 }
 
-const columnDefinitions = {
-  Name: {
+const columnDefinitions = [
+  {
+    id: 'Name',
     getContent(item) {
       return item.service.label;
     }
   },
-  Type: {
+  {
+    id: 'Type',
     getContent(item) {
       return item.service.types.join(', ');
     }
   },
-  Endpoints: {
+  {
+    id: 'Endpoints',
     getContent() {
       return 42;
     }
   },
-  Calls: {
+  {
+    id: 'Calls',
     getContent() {
       return 42;
     }
   },
-  Latency: {
+  {
+    id: 'Latency',
     getContent() {
       return 42;
     }
   },
-  Errors: {
+  {
+    id: 'Errors',
     getContent() {
       return 42;
     }
   }
-};
+];
