@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'HibernateSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'hibernate', 'type']) + span.getIn(['data', 'hibernate', 'sort']);
+    return span.getIn(['data', 'hibernate', 'type'], '') + span.getIn(['data', 'hibernate', 'sort'], '');
   }
 });
