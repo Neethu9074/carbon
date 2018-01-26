@@ -12,9 +12,9 @@ import 'in-forge';
 
 import './layout/StickyStory';
 
+import './content/ServerTableStory';
 import './content/TypographyStory';
 import './content/TableStory';
-import './content/ApplicationTableStory';
 
 import './components/BadgeStory';
 import './components/ButtonStory';

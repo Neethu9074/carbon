@@ -1,0 +1,46 @@
+@import '~in-themes/active.less';
+
+:local {
+  .outer {
+    position: relative;
+    overflow: hidden;
+
+    height: 3px;
+    width: 100%;
+
+    background: #dbd1f5;
+  }
+
+  .rounded {
+    border-radius: 2px;
+  }
+
+  .inner {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    background: #5328BD;
+    transition: width .5s ease-out;
+  }
+
+  .indeterminate {
+    background: linear-gradient(90deg, #5328BD, #9fffff, #5328BD);
+    background-size: 200% 100%;
+    animation: indeterminate 5s ease infinite;
+  }
+
+  @keyframes indeterminate {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+}

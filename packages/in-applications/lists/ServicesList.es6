@@ -3,12 +3,12 @@ import React from 'react';
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import DataRetrievalAwareTable from 'in-applications/Table/DataRetrievalAwareTable';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import getServices from 'in-subscription/application/getServices';
 import { ms, percentage } from 'in-services/formatters/number';
+import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
 import Sticky from 'in-components/Sticky';
@@ -28,8 +28,7 @@ export default function ServicesList() {
     >
       <MaxWidthFullscreenContainer>
         <ViewSwitcher />
-
-        <DataRetrievalAwareTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} />
+        <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} />
       </MaxWidthFullscreenContainer>
     </Sticky>
   );
