@@ -10,18 +10,9 @@ import Link from 'in-components/Link';
 import locals from './Header.mless';
 
 export default function Header({ tabs, result, baseDashboardUrl }) {
-  const hasErrors = result.errors.length > 0;
-
-  let content = null;
-  if (hasErrors) {
-    content = 'Errors';
-  } else {
-    content = null;
-  }
-
   return (
     <div className={locals.header}>
-      {content}
+      <div style={{ height: 59 }} />
       <ul className={locals.tabList}>
         {tabs.map(tab => <Tab key={tab.label} baseDashboardUrl={baseDashboardUrl} tab={tab} />)}
       </ul>

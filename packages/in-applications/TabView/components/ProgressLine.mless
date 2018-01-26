@@ -16,4 +16,8 @@
     background: #5229bd;
     transition: width 0.125s ease-in-out;
   }
+
+  .errorLine {
+    background: #ff4229;
+  }
 }
