@@ -2,6 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import { compareTabsForRoutingPreference } from 'in-sdk/components/dashboard/TabView/components/paths';
+import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import Title from 'in-components/Title';
 
 export default function TabSwitch({ tabs, result }) {
@@ -15,7 +16,7 @@ export default function TabSwitch({ tabs, result }) {
             <Route
               key={`route_${tab.path}`}
               path={`*${tab.path}`}
-              render={() => <View ChildComponent={tab.component} label={tab.label} props={{ result }} />}
+              render={() => <View ChildComponent={tab.component} label={tab.label} result={result} />}
             />
           );
         })}
@@ -23,11 +24,23 @@ export default function TabSwitch({ tabs, result }) {
   );
 }
 
-function View({ ChildComponent, label, props }) {
+function View({ ChildComponent, label, result }) {
+  const isLoading = result.progress.loading;
+  const hasErrors = result.errors.length > 0;
+
+  let content = null;
+  if (hasErrors) {
+    content = 'Errors';
+  } else if (isLoading) {
+    content = <DefaultLoadingDashboard />;
+  } else {
+    content = <ChildComponent result={result} />;
+  }
+
   return (
     <div>
       <Title title={label} />
-      <ChildComponent {...props} />
+      {content}
     </div>
   );
 }
