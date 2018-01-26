@@ -125,7 +125,7 @@ const items = [
   'Shenlong',
   'BB-8',
   'R2-D2'
-];
+].sort();
 
 const columnDefinitions = [
   {
