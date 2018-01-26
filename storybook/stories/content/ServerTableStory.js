@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ms, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
 import Root from '../_helpers/Root';
 
@@ -129,9 +130,15 @@ const items = [
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Label',
+    label: 'Name',
     getContent(item) {
       return <span>{item}</span>;
+    }
+  },
+  {
+    id: 'Endpoints',
+    getContent() {
+      return 42;
     }
   },
   {
@@ -141,6 +148,30 @@ const columnDefinitions = [
         <SparkChart
           timeframe={{ windowSize: 6000, to: 6000 }}
           metrics={[[0, 10], [1000, 15], [2000, 4], [3000, 3], [4000, 13], [5000, 20], [6000, 16]]}
+        />
+      );
+    }
+  },
+  {
+    id: 'Latency',
+    getContent() {
+      return (
+        <SparkChart
+          timeframe={{ windowSize: 6000, to: 6000 }}
+          metrics={[[0, 100], [1000, 105], [2000, 400], [3000, 30], [4000, 130], [5000, 200], [6000, 160]]}
+          formatter={ms}
+        />
+      );
+    }
+  },
+  {
+    id: 'Errors',
+    getContent() {
+      return (
+        <SparkChart
+          timeframe={{ windowSize: 6000, to: 6000 }}
+          metrics={[[0, 0.1], [1000, 0.05], [2000, 0.25], [3000, 0.1], [4000, 0.3], [5000, 0], [6000, 0.1]]}
+          formatter={percentage}
         />
       );
     }
