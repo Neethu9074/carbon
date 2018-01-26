@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import Skeleton from 'in-components/Progress/Skeleton';
 
 import locals from './LoadingTableRows.mless';
 
@@ -18,15 +19,11 @@ export default function LoadingTableRows({ progress, columnDefinitions }) {
         <tr key={i}>
           {columnDefinitions.map((columnDefinition, i) => (
             <td key={columnDefinition.id} className={locals.skeletonRow}>
-              <SkeletonCellContent width={dimensions[i % dimensions.length]} />
+              <Skeleton className={locals.skeleton} style={{ width: `${dimensions[i % dimensions.length] * 100}%` }} />
             </td>
           ))}
         </tr>
       ))}
     </Fragment>
   );
-}
-
-function SkeletonCellContent({ width }) {
-  return <span className={locals.skeleton} style={{ width: `${width * 100}%` }} />;
 }
