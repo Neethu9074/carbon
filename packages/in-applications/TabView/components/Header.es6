@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ProgressLine from 'in-applications/TabView/components/ProgressLine';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/HorizontalIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { isView } from 'in-stores/navigation/navigation';
@@ -16,7 +16,7 @@ export default function Header({ tabs, result, baseDashboardUrl }) {
       <ul className={locals.tabList}>
         {tabs.map(tab => <Tab key={tab.label} baseDashboardUrl={baseDashboardUrl} tab={tab} />)}
       </ul>
-      <ProgressLine result={result} />
+      <HorizontalIndicator progress={result.progress} />
     </div>
   );
 }

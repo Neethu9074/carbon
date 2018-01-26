@@ -4,6 +4,9 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './HorizontalIndicator.mless';
 
 export default function HorizontalIndicator({ progress, rounded = false }) {
+  if (!progress.loading) {
+    return null;
+  }
   const innerStyle = {};
   if (progress.percentage != null) {
     innerStyle.width = `${progress.percentage * 100}%`;
