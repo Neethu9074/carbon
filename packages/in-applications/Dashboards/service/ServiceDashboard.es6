@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DataRetrievalAwareDashboard from 'in-applications/Dashboards/DataRetrievalAwareDashboard';
-import serviceDashboardTabsAndBreadcrumb from 'in-applications/Dashboards/service/tabs/index';
+import TabsAndBreadcrumb from 'in-applications/Dashboards/service/tabs/index';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getService from 'in-subscription/application/getService';
@@ -22,14 +22,7 @@ export default function ServiceDashboard({ location }) {
         })
       }
       render={({ data }) => {
-        return (
-          <TabView
-            subPath=""
-            tabs={serviceDashboardTabsAndBreadcrumb.tabs}
-            props={data}
-            breadcrumbs={serviceDashboardTabsAndBreadcrumb.breadcrumbs}
-          />
-        );
+        return <TabView tabs={TabsAndBreadcrumb.tabs} props={data} breadcrumbs={TabsAndBreadcrumb.breadcrumbs} />;
       }}
     />
   );
