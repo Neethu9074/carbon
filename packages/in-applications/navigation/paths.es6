@@ -15,5 +15,6 @@ export function getServiceDashboard(serviceId) {
     setOrDeleteMatrixKey(params, serviceDashboard, 'serviceId', serviceId);
     setOrDeleteMatrixKey(params, serviceDashboard, 'applicationId', 42);
     setOrDeleteMatrixKey(params, serviceDashboard, 'endpointId', 42);
+    params.pathname += '/dashboard';
   });
 }
