@@ -6,22 +6,5 @@
   .skeleton {
     height: 10px;
     display: block;
-
-    background: #f2f2f2;
-    background: linear-gradient(90deg, #f2f2f2, #f9f9f9, #f2f2f2);
-    background-size: 200% 100%;
-    animation: indeterminate 5s ease infinite;
-  }
-
-  @keyframes indeterminate {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
   }
 }
