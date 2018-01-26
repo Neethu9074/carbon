@@ -1,8 +1,8 @@
 import React from 'react';
 
+import LoadingTableRows from 'in-components/tables/ServerTable/components/LoadingTableRows';
 import SearchField from 'in-components/tables/ServerTable/components/SearchField';
 import Pagination from 'in-components/tables/ServerTable/components/Pagination';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Columns from 'in-components/tables/ServerTable/components/Columns';
 import Row from 'in-components/tables/ServerTable/components/Row';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -29,17 +29,17 @@ export default function ServerTablePresenter({
 
   let body = null;
   if (isLoading) {
-    body = (
-      <tr>
-        <td colSpan={columnDefinitions.length}>
-          <HorizontalIndicator progress={result.progress} />
-        </td>
-      </tr>
-    );
+    body = <LoadingTableRows progress={result.progress} columnDefinitions={columnDefinitions} />;
   } else if (hasErrors) {
     body = (
       <tr>
         <td colSpan={columnDefinitions.length}>Errors</td>
+      </tr>
+    );
+  } else if (result.data.totalHits === 0) {
+    body = (
+      <tr>
+        <td colSpan={columnDefinitions.length}>No data found</td>
       </tr>
     );
   } else {
