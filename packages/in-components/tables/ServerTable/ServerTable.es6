@@ -3,8 +3,8 @@
 import { compose, withPropsOnChange } from 'recompose';
 import { defaults, debounce } from 'lodash';
 
+import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import Table from 'in-applications/Table';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -24,4 +24,4 @@ export default compose(
   connect(props => ({
     result: props.get(props)
   }))
-)(Table);
+)(ServerTablePresenter);

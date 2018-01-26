@@ -1,15 +1,15 @@
 import React from 'react';
 
-import SearchField from 'in-applications/Table/components/SearchField';
-import Pagination from 'in-applications/Table/components/Pagination';
-import Columns from 'in-applications/Table/components/Columns';
+import SearchField from 'in-components/tables/ServerTable/components/SearchField';
+import Pagination from 'in-components/tables/ServerTable/components/Pagination';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import Columns from 'in-components/tables/ServerTable/components/Columns';
+import Row from 'in-components/tables/ServerTable/components/Row';
 import { pendingResult } from 'in-services/fixedObjects';
-import Row from 'in-applications/Table/components/Row';
-import Progress from 'in-components/Progress';
 
-import locals from './Table.mless';
+import locals from './ServerTablePresenter.mless';
 
-export default function Application20Table({
+export default function ServerTablePresenter({
   // values configurable via the table
   query,
   page,
@@ -32,7 +32,7 @@ export default function Application20Table({
     body = (
       <tr>
         <td colSpan={columnDefinitions.length}>
-          <Progress progress={result.progress} />
+          <HorizontalIndicator progress={result.progress} />
         </td>
       </tr>
     );

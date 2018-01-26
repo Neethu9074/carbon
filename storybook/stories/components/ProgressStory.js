@@ -2,6 +2,7 @@ import { withKnobs, boolean, text, number } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Progress from 'in-components/Progress';
 import Root from '../_helpers/Root';
 
@@ -16,7 +17,8 @@ const done = {
 storiesOf('components/Progress', module)
   .addDecorator(withKnobs)
   .add('States', () => <States />)
-  .add('Delayed Presentation', () => <DelayedPresentation />);
+  .add('Delayed Presentation', () => <DelayedPresentation />)
+  .add('Horizontal', () => <HorizontalIndicatorStory />);
 
 
 function States() {
@@ -64,6 +66,29 @@ function DelayedPresentation() {
       {!isLoading && <p style={{color: 'darkred'}}>
         Done Loading! Use the knobs to control the loading state!
       </p>}
+    </Root>
+  );
+}
+
+
+function HorizontalIndicatorStory() {
+  return (
+    <Root>
+      <h2>Indeterminate</h2>
+      <HorizontalIndicator progress={{
+        loading: true
+      }} />
+
+      <h2>Determinate</h2>
+      <HorizontalIndicator progress={{
+        loading: true,
+        percentage: number('Percentage', 0.5, {
+           range: true,
+           min: 0,
+           max: 1,
+           step: 0.01
+        })
+      }} />
     </Root>
   );
 }
