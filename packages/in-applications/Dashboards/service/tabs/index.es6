@@ -2,11 +2,11 @@ import React from 'react';
 
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
-import Infrastructure from 'in-components/Dashboard_2_0/implementations/service/Infrastructure';
-import Performance from 'in-components/Dashboard_2_0/implementations/service/Performance';
-import Endpoints from 'in-components/Dashboard_2_0/implementations/service/Endpoints';
-import FlowMap from 'in-components/Dashboard_2_0/implementations/service/FlowMap';
-import Summary from 'in-components/Dashboard_2_0/implementations/service/Summary';
+import Infrastructure from 'in-applications/Dashboards/service/tabs/Infrastructure';
+import Performance from 'in-applications/Dashboards/service/tabs/Performance';
+import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
+import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
+import Summary from 'in-applications/Dashboards/service/tabs/Summary';
 
 export default {
   breadcrumbs: [<ApplicationViewBreadcrumb />, <ApplicationServiceViewBreadcrumb />],
