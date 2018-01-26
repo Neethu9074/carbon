@@ -1,9 +1,8 @@
-import { Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import { compareTabsForRoutingPreference } from 'in-sdk/components/dashboard/TabView/components/paths';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { Route } from 'react-router-dom';
 import Title from 'in-components/Title';
 import './NavigationRoutes.less';
 

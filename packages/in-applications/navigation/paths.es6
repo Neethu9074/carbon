@@ -11,10 +11,7 @@ export const endpointDashboard = '/endpoint';
 
 export function getServiceDashboard(serviceId) {
   return getModifiedUrlStream(params => {
-    params.pathname = serviceDashboard;
+    params.pathname = `${serviceDashboard}/summary`;
     setOrDeleteMatrixKey(params, serviceDashboard, 'serviceId', serviceId);
-    setOrDeleteMatrixKey(params, serviceDashboard, 'applicationId', 42);
-    setOrDeleteMatrixKey(params, serviceDashboard, 'endpointId', 42);
-    params.pathname += '/dashboard';
   });
 }
