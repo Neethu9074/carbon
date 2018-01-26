@@ -12,7 +12,7 @@ export default connectTo(
   props => ({
     result: props.get()
   }),
-  function TabView({ result, breadcrumbs, tabs, baseDashboardUrl }) {
+  function TabView({ result, breadcrumbs, tabs, dashboardBasedUrl }) {
     return (
       <Sticky
         header={
@@ -23,8 +23,8 @@ export default connectTo(
         }
       >
         <MaxWidthFullscreenContainer>
-          <Sticky header={<Header tabs={tabs} result={result} baseDashboardUrl={baseDashboardUrl} />}>
-            <Switch tabs={tabs} result={result} baseDashboardUrl={baseDashboardUrl} />
+          <Sticky header={<Header tabs={tabs} result={result} dashboardBasedUrl={dashboardBasedUrl} />}>
+            <Switch tabs={tabs} result={result} />
           </Sticky>
         </MaxWidthFullscreenContainer>
       </Sticky>

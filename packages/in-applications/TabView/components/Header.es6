@@ -4,17 +4,18 @@ import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/Hori
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { isView } from 'in-stores/navigation/navigation';
+import Skeleton from 'in-components/Progress/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ tabs, result, baseDashboardUrl }) {
+export default function Header({ tabs, result, dashboardBasedUrl }) {
   return (
     <div className={locals.header}>
-      <div style={{ height: 59 }} />
+      <Skeleton style={{ height: 59, width: 100 }} />
       <ul className={locals.tabList}>
-        {tabs.map(tab => <Tab key={tab.label} baseDashboardUrl={baseDashboardUrl} tab={tab} />)}
+        {tabs.map(tab => <Tab key={tab.label} dashboardBasedUrl={dashboardBasedUrl} tab={tab} />)}
       </ul>
       <HorizontalIndicator progress={result.progress} />
     </div>
@@ -23,9 +24,9 @@ export default function Header({ tabs, result, baseDashboardUrl }) {
 
 const Tab = connectTo(
   props => ({
-    isActive: isView(`${props.baseDashboardUrl}${props.tab.path}`)
+    isActive: isView(`${props.dashboardBasedUrl}${props.tab.path}`)
   }),
-  function Tab({ baseDashboardUrl, tab, isActive }) {
+  function Tab({ dashboardBasedUrl, tab, isActive }) {
     return (
       <li
         key={tab.label}
@@ -37,7 +38,7 @@ const Tab = connectTo(
         <Link
           className={locals.link}
           href$={getModifiedUrlStream(params => {
-            params.pathname = `${baseDashboardUrl}${tab.path}`;
+            params.pathname = `${dashboardBasedUrl}${tab.path}`;
           })}
         >
           {tab.label}

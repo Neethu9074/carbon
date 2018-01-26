@@ -1,7 +1,7 @@
 :local {
-  .skeletonChart {
-    height: 150px;
-    width: 500px;
-    background: #f2f2f2;
+  .skeleton {
+    height: 9.375rem;
+    width: 31.25rem;
+    display: block;
   }
 }
