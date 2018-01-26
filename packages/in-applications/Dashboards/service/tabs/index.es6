@@ -14,7 +14,7 @@ export default {
   tabs: [
     {
       label: 'Summary',
-      path: '/',
+      path: '/summary',
       component: Summary
     },
     {
