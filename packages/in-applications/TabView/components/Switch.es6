@@ -32,15 +32,10 @@ function View({ ChildComponent, label, result }) {
   if (hasErrors) {
     content = 'Errors';
   } else if (isLoading) {
-    content = <DefaultLoadingDashboard />;
+    content = <DefaultLoadingDashboard key="default_loading_dashboard" />;
   } else {
-    content = <ChildComponent result={result} />;
+    content = <ChildComponent key="content" result={result} />;
   }
 
-  return (
-    <div>
-      <Title title={label} />
-      {content}
-    </div>
-  );
+  return [<Title key="title" title={label} />, { content }];
 }

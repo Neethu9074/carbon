@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TabsAndBreadcrumb from 'in-applications/Dashboards/service/tabs/index';
+import tabsAndBreadcrumbs from 'in-applications/Dashboards/service/tabs/index';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getService from 'in-subscription/application/getService';
@@ -20,9 +20,8 @@ export default function ServiceDashboard({ location }) {
           }
         })
       }
-      tabs={TabsAndBreadcrumb.tabs}
-      breadcrumbs={TabsAndBreadcrumb.breadcrumbs}
-      baseDashboardUrl={serviceDashboard}
+      dashboardBasedUrl={serviceDashboard}
+      {...tabsAndBreadcrumbs}
     />
   );
 }

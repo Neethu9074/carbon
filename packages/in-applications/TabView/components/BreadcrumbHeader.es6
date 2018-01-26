@@ -6,17 +6,13 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './BreadcrumbHeader.mless';
 
-const separator = (
-  <span className={locals.chevron}>
-    <SvgIcon type="chevron_right" height={9} color="#E2E9EC" />
-  </span>
-);
+const separator = <SvgIcon className={locals.chevron} type="chevron_right" height={9} color="#E2E9EC" />;
 
 export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function SwitchableViewHeader({ breadcrumbs }) {
+  function BreadcrumbHeader({ breadcrumbs }) {
     if (breadcrumbs.length === 0) {
       return null;
     }
