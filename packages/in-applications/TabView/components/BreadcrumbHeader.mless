@@ -5,16 +5,12 @@
 
     height: 3.125rem;
     padding: 0 0.625rem;
+    margin: 0;
+    list-style: none;
 
     background: #5229bd;
     color: #fff;
-
     overflow: hidden;
-  }
-
-  .container {
-    margin-left: 0.9rem;
-    display: flex;
   }
 
   .chevron {
