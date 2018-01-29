@@ -24,14 +24,10 @@ export default class extends React.Component {
   }
 
   render() {
-    const { metrics, formatter = number, timeframe } = this.props;
-    if (!metrics || metrics.length === 0) {
-      return null;
-    }
-
+    const { metrics, tooltipFormatter = number.detailed, timeframe } = this.props;
     return (
       <div className={locals.sparkChart}>
-        <Tooltip metrics={metrics} timeframe={timeframe} formatter={formatter} />
+        <Tooltip metrics={metrics} timeframe={timeframe} tooltipFormatter={tooltipFormatter} />
         <canvas
           className={locals.canvas}
           ref={canvas => {

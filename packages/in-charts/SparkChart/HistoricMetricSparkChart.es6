@@ -39,7 +39,7 @@ export default connectTo(
 
     updateDatasource = props => {
       props = Object.create(props);
-      props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
+      props.rollup = getPixelAwareRollupSize(props.timeframe, 100);
 
       if (props.aggregation) {
         props.blockSizeMillis = getBlockSizeMillis({
@@ -56,12 +56,13 @@ export default connectTo(
       }
 
       this.setState({
-        datasource: getMetricsForTimeframe(props)
+        datasource: getMetricsForTimeframe(props),
+        rollup: props.rollup
       });
     };
 
     render() {
-      return <SparkChart {...this.props} datasource={this.state.datasource} />;
+      return <SparkChart {...this.props} datasource={this.state.datasource} rollup={this.state.rollup} />;
     }
   }
 );

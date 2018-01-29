@@ -48,24 +48,22 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
     });
 
     it('should extract blocks according to the given rollup', () => {
-      let blocks = lineMetricRenderer.calculateBlocks([
-        [0, 0],
-        [1000, 1],
-        [2000, 5],
-        [3000, 10],
-        [4000, 10],
-        [5000, 9],
-        [6000, 0]
-      ]);
+      let blocks = lineMetricRenderer.calculateBlocks(
+        [[0, 0], [1000, 1], [2000, 5], [3000, 10], [4000, 10], [5000, 9], [6000, 0]],
+        1000
+      );
       expect(blocks).to.have.length(1);
 
-      blocks = lineMetricRenderer.calculateBlocks([[0, 0], [1000, 1], [3000, 10], [4000, 10], [5000, 9], [7000, 0]]);
+      blocks = lineMetricRenderer.calculateBlocks(
+        [[0, 0], [1000, 1], [3000, 10], [4000, 10], [5000, 9], [7000, 0]],
+        1000
+      );
       expect(blocks).to.have.length(3);
       expect(blocks[0].map(d => d.xDomain)).to.deep.equal([0, 1000]);
       expect(blocks[1].map(d => d.xDomain)).to.deep.equal([3000, 4000, 5000]);
       expect(blocks[2].map(d => d.xDomain)).to.deep.equal([7000]);
 
-      expect(lineMetricRenderer.calculateBlocks([])).to.have.length(0);
+      expect(lineMetricRenderer.calculateBlocks([], 1000)).to.have.length(0);
     });
   });
 });
