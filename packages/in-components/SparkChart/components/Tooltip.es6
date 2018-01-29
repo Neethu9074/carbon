@@ -87,8 +87,10 @@ export default connectTo(
     }
 
     calculateNearestDataPoint() {
-      const nearestDataPoint = this.getNearestDataPointForXPosition(this.xScale.getRange(this.props.highlightedMoment));
-      return nearestDataPoint;
+      if (!this.props.highlightedMoment) {
+        return null;
+      }
+      return this.getNearestDataPointForXPosition(this.xScale.getRange(this.props.highlightedMoment));
     }
 
     onMouseMove = e => {
