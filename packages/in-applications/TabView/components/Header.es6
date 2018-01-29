@@ -36,7 +36,10 @@ const Tab = connectTo(
         })}
       >
         <Link
-          className={locals.link}
+          className={evaluateClassNames({
+            [locals.link]: true,
+            [locals.selectedLink]: isActive
+          })}
           href$={getModifiedUrlStream(params => {
             params.pathname = `${dashboardBasedUrl}${tab.path}`;
           })}

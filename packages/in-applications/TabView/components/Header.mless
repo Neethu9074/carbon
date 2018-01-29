@@ -10,10 +10,12 @@
   .tabList {
     display: flex;
 
-    font-size: 14px;
     list-style: none;
     margin: 0;
     padding: 0;
+
+    border-bottom: 2px solid #cbd6dc;
+    font-size: 14px;
   }
 
   .link {
@@ -28,11 +30,16 @@
 
   .tab {
     margin-right: 1rem;
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: -2px;
     cursor: pointer;
   }
 
   .selected {
-    border-bottom: 1px solid #293a3b;
+    border-bottom: 2px solid #5229bd;
+  }
+
+  .selectedLink {
+    color: #5229bd;
   }
 }

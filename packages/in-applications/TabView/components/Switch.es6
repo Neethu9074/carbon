@@ -3,7 +3,7 @@ import React from 'react';
 
 import { compareTabsForRoutingPreference } from 'in-sdk/components/dashboard/TabView/components/paths';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
-import Title from 'in-components/Title';
+import ViewWrapper from 'in-applications/TabView/components/View';
 
 export default function TabSwitch({ tabs, result }) {
   return (
@@ -37,10 +37,5 @@ function View({ ChildComponent, label, result }) {
     content = <ChildComponent key="content" result={result} />;
   }
 
-  return (
-    <div>
-      <Title title={label} />
-      {content}
-    </div>
-  );
+  return <ViewWrapper title={label}>{content}</ViewWrapper>;
 }
