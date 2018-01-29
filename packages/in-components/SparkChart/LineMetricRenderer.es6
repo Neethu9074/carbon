@@ -25,18 +25,21 @@ export default class LineMetricRenderer {
     this.xScale.setDomainTo(timeframe.to);
 
     // inverse this since canvas has y direction from top(0) to bottom(100%)
-    this.yScale.setDomainFrom(this.calculateMaxMetricValue(metrics));
-    this.yScale.setDomainTo(0);
+    const { minMetricValue, maxMetricValue } = this.calculateMetricStatistics(metrics);
+    this.yScale.setDomainFrom(maxMetricValue);
+    this.yScale.setDomainTo(minMetricValue);
 
     this.blocks = this.calculateBlocks(metrics, rollup);
   }
 
-  calculateMaxMetricValue(metrics) {
+  calculateMetricStatistics(metrics) {
     let maxMetricValue = 0;
+    let minMetricValue = Number.MAX_VALUE;
     for (let i = 0; i < metrics.length; i++) {
+      minMetricValue = Math.min(minMetricValue, metrics[i][1]);
       maxMetricValue = Math.max(maxMetricValue, metrics[i][1]);
     }
-    return maxMetricValue;
+    return { minMetricValue, maxMetricValue };
   }
 
   calculateBlocks(metrics, rollup) {

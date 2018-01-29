@@ -36,15 +36,25 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
     });
   });
 
-  describe('calculateMaxMetricValue', () => {
+  describe('calculateMetricStatistics', () => {
     it('should extract the maximum metric value', () => {
       expect(
-        lineMetricRenderer.calculateMaxMetricValue([[42, 0], [1000, 1], [6000, 0], [3000, 10], [2000, 5], [5000, 9]])
+        lineMetricRenderer.calculateMetricStatistics([[42, 0], [1000, 1], [6000, 0], [3000, 10], [2000, 5], [5000, 9]])
+          .maxMetricValue
       ).to.equal(10);
 
-      expect(lineMetricRenderer.calculateMaxMetricValue([])).to.equal(0);
+      expect(lineMetricRenderer.calculateMetricStatistics([]).maxMetricValue).to.equal(0);
 
-      expect(lineMetricRenderer.calculateMaxMetricValue([[42, 1], [1000, -1]])).to.equal(1);
+      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).maxMetricValue).to.equal(1);
+    });
+
+    it('should extract the minimum metric value', () => {
+      expect(
+        lineMetricRenderer.calculateMetricStatistics([[42, 0], [1000, 1], [6000, 0], [3000, 10], [2000, 5], [5000, 9]])
+          .minMetricValue
+      ).to.equal(0);
+
+      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).minMetricValue).to.equal(-1);
     });
 
     it('should extract blocks according to the given rollup', () => {

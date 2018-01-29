@@ -19,10 +19,11 @@ export default class extends React.Component {
     this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
     this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
 
-    this.xScale.setDomainFrom(this.props.timeframe.to - this.props.timeframe.windowSize);
-    this.xScale.setDomainTo(this.props.timeframe.to);
-    this.xScale.setRangeFrom(2);
-    this.xScale.setRangeTo(98);
+    this.updateScaleFromProps(this.props);
+  }
+
+  componentWillUpdate(nextProps) {
+    this.updateScaleFromProps(nextProps);
   }
 
   componentWillUnmount() {
@@ -38,12 +39,13 @@ export default class extends React.Component {
         <div
           className={locals.tooltip}
           style={{
-            left: this.state.xPositionOnCanvas
+            left: this.getXPositionOnCanvasForNearestDataPoint()
           }}
         >
           {this.state.isVisible ? <div className={locals.line} /> : null}
           {this.state.isVisible ? (
             <div
+              className={locals.value}
               style={{
                 marginTop: this.state.yPositionOnCanvas
               }}
@@ -63,6 +65,13 @@ export default class extends React.Component {
     );
   }
 
+  updateScaleFromProps(props) {
+    this.xScale.setRangeFrom(2);
+    this.xScale.setRangeTo(98);
+    this.xScale.setDomainFrom(props.timeframe.to - props.timeframe.windowSize);
+    this.xScale.setDomainTo(props.timeframe.to);
+  }
+
   onMouseMove = e => {
     const nearestDataPoint = this.getNearestDataPointForXPosition(e.offsetX);
     if (!nearestDataPoint) {
@@ -74,7 +83,6 @@ export default class extends React.Component {
 
     this.setState({
       isVisible: true,
-      xPositionOnCanvas: this.xScale.getRange(nearestDataPoint[0]) + 4,
       yPositionOnCanvas: e.offsetY - 14,
       nearestDataPoint
     });
@@ -105,4 +113,8 @@ export default class extends React.Component {
 
     return nearestDataPoint;
   };
+
+  getXPositionOnCanvasForNearestDataPoint() {
+    return this.state.nearestDataPoint ? this.xScale.getRange(this.state.nearestDataPoint[0]) : Number.MAX_VALUE;
+  }
 }
