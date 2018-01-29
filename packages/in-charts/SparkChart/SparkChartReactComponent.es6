@@ -8,22 +8,23 @@ import React from 'react';
 
 export default connectTo(
   props => {
-    const observables = {
-      metrics: props.datasource
-    };
-    const timeframe = {
-      windowSize: props.timeframe.windowSize + props.wiggleRoom,
-      to: props.timeframe.to
-    };
-    if (!timeframe.to) {
-      observables.timeframe = serverTime$.map(serverTime => ({
-        windowSize: timeframe.windowSize,
-        to: serverTime - props.wiggleRoom
-      }));
-    } else {
-      observables.timeframe = always(timeframe);
+    if (props.timeframe.to) {
+      return {
+        metrics: props.datasource,
+        timeframe: always({
+          windowSize: props.timeframe.windowSize + props.wiggleRoom,
+          to: props.timeframe.to
+        })
+      };
     }
-    return observables;
+
+    return {
+      metrics: props.datasource,
+      timeframe: serverTime$.map(serverTime => ({
+        windowSize: props.timeframe.windowSize + props.wiggleRoom,
+        to: serverTime - props.wiggleRoom
+      }))
+    };
   },
   function(props) {
     const { timeframe, metrics } = props;

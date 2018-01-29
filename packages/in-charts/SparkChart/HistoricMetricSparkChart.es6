@@ -49,6 +49,7 @@ export default connectTo(
           width: 100,
           rollup: props.rollup
         });
+        props.rollup = props.blockSizeMillis;
         props.isDynamicAggregated = true;
         props.metricBaseMillis = 1000;
       } else if (__DEV__) {
