@@ -35,8 +35,8 @@ export default class extends React.Component {
     this.disposeSparkChart();
 
     this.chart = createSparkChart({
-      width: props.width,
-      height: props.height,
+      width: 100,
+      height: 30,
       datasource: props.datasource,
       container: this.container,
       timeframe: {
@@ -44,8 +44,7 @@ export default class extends React.Component {
         to: props.timeframe.to
       },
       tooltipFormatter: props.tooltipFormatter,
-      wiggleRoom: props.wiggleRoom,
-      metric: props.metric
+      wiggleRoom: props.wiggleRoom
     });
   };
 

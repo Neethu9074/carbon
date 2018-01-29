@@ -46,7 +46,7 @@ export default connectTo(
           windowSize: props.timeframe.windowSize,
           maxDataPoints: 100,
           minPixelsPerBlock: 10,
-          width: props.width,
+          width: 100,
           rollup: props.rollup
         });
         props.isDynamicAggregated = true;
