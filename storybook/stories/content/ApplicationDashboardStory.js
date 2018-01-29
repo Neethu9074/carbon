@@ -16,7 +16,13 @@ function Pending() {
   return (
     <Root>
       <BasicApplicationDashboardWrapper
-        get={({ serviceId }) => createMockResult(serviceId)}
+        get={({ serviceId }) =>
+          createMockResult(serviceId).map(result => {
+            result.progress.loading = true;
+            result.progress.percent = 0.4;
+            return result;
+          })
+        }
         HeaderComponent={Header}
         location={locationMock}
         dashboardBasedUrl="/"
@@ -34,6 +40,7 @@ function Error() {
         get={({ serviceId }) =>
           createMockResult(serviceId).map(result => {
             result.errors.push('much errors ahead');
+            result.data = { id: result.data.id };
             return result;
           })
         }
@@ -77,10 +84,7 @@ const locationMock = {
 function createMockResult(serviceId) {
   return always({
     errors: [],
-    progress: {
-      loading: true,
-      percent: 0.4
-    },
+    progress: {},
     data: {
       id: serviceId,
       label: 'foobar'
