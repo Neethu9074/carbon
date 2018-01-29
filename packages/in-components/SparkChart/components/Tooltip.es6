@@ -1,6 +1,7 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-charts/scale';
 import Badge from 'in-components/Badge';
 import locals from './Tooltip.mless';
@@ -45,7 +46,10 @@ export default class extends React.Component {
           {this.state.isVisible ? <div className={locals.line} /> : null}
           {this.state.isVisible ? (
             <div
-              className={locals.value}
+              className={evaluateClassNames({
+                [locals.value]: true,
+                [locals.leftAligned]: this.cursorHasCrossedHalfOfTheCanvas()
+              })}
               style={{
                 marginTop: this.state.yPositionOnCanvas
               }}
@@ -116,5 +120,11 @@ export default class extends React.Component {
 
   getXPositionOnCanvasForNearestDataPoint() {
     return this.state.nearestDataPoint ? this.xScale.getRange(this.state.nearestDataPoint[0]) : Number.MAX_VALUE;
+  }
+
+  cursorHasCrossedHalfOfTheCanvas() {
+    const cursorXPosition = this.getXPositionOnCanvasForNearestDataPoint();
+    const fullWidth = this.xScale.getRangeTo() - this.xScale.getRangeFrom();
+    return cursorXPosition > fullWidth / 2;
   }
 }
