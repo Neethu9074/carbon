@@ -6,6 +6,15 @@ import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDa
 import ViewWrapper from 'in-applications/TabView/components/View';
 
 export default function TabSwitch({ tabs, result }) {
+  const isLoading = result.progress.loading;
+  const hasErrors = result.errors.length > 0;
+
+  if (hasErrors) {
+    return 'Errors';
+  } else if (isLoading) {
+    return <DefaultLoadingDashboard key="default_loading_dashboard" />;
+  }
+
   return (
     <Switch>
       {tabs
@@ -25,17 +34,9 @@ export default function TabSwitch({ tabs, result }) {
 }
 
 function View({ ChildComponent, label, result }) {
-  const isLoading = result.progress.loading;
-  const hasErrors = result.errors.length > 0;
-
-  let content = null;
-  if (hasErrors) {
-    content = 'Errors';
-  } else if (isLoading) {
-    content = <DefaultLoadingDashboard key="default_loading_dashboard" />;
-  } else {
-    content = <ChildComponent key="content" result={result} />;
-  }
-
-  return <ViewWrapper title={label}>{content}</ViewWrapper>;
+  return (
+    <ViewWrapper title={label}>
+      <ChildComponent result={result} />
+    </ViewWrapper>
+  );
 }
