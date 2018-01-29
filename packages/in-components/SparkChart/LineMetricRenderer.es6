@@ -20,7 +20,7 @@ export default class LineMetricRenderer {
     this.ctx = canvas.getContext('2d');
   }
 
-  update({ metrics, rollup, timeframe }) {
+  update({ metrics = [], rollup = 1000, timeframe }) {
     this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
     this.xScale.setDomainTo(timeframe.to);
 
@@ -39,7 +39,7 @@ export default class LineMetricRenderer {
     return maxMetricValue;
   }
 
-  calculateBlocks(metrics, rollup = 1000) {
+  calculateBlocks(metrics, rollup) {
     const blocks = [];
     if (metrics.length === 0) {
       return blocks;

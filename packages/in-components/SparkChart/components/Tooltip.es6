@@ -48,7 +48,7 @@ export default class extends React.Component {
                 marginTop: this.state.yPositionOnCanvas
               }}
             >
-              <Badge>{this.props.formatter.detailed(this.state.nearestDataPoint[1])}</Badge>
+              <Badge>{this.props.tooltipFormatter(this.state.nearestDataPoint[1])}</Badge>
             </div>
           ) : null}
         </div>
