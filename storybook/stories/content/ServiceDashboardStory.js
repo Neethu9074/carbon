@@ -8,7 +8,7 @@ import { always } from 'in-services/fixedStreams';
 
 import Root from '../_helpers/Root';
 
-storiesOf('content/ApplicationDashboardStory', module)
+storiesOf('content/Service Dashboard', module)
   .add('Pending', () => <Pending />)
   .add('Error', () => <Error />);
 
