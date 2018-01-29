@@ -37,5 +37,10 @@ function View({ ChildComponent, label, result }) {
     content = <ChildComponent key="content" result={result} />;
   }
 
-  return [<Title key="title" title={label} />, { content }];
+  return (
+    <div>
+      <Title title={label} />
+      {content}
+    </div>
+  );
 }
