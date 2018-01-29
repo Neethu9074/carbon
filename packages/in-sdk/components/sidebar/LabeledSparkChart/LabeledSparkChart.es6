@@ -13,7 +13,7 @@ export default connectTo(
   {
     timeframe: timeframe$
   },
-  function LabeledSparkChart({ snapshotId, timeframe, metric, className, design }) {
+  function LabeledSparkChart({ snapshotId, timeframe, metric, className }) {
     const { label, formatter, aggregation } = metric;
     const metricName = metric.metric;
 
@@ -24,11 +24,8 @@ export default connectTo(
     return (
       <div className={classes}>
         <HistoricMetricSparkChart
-          width={115}
-          height={30}
           timeframe={timeframe}
           snapshotId={snapshotId}
-          design={design ? design : 'light'}
           metric={metricName}
           tooltipFormatter={formatter.detailed}
           aggregation={aggregation}

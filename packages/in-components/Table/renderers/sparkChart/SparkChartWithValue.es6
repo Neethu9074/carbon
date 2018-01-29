@@ -24,8 +24,6 @@ export default connectTo({ timeframe: timeframe$ }, function SparkChartWithValue
   return (
     <div className={block}>
       <HistoricMetricSparkChart
-        width={100}
-        height={30}
         timeframe={timeframe}
         snapshotId={snapshotId}
         metric={metric}

@@ -38,7 +38,6 @@ export default class extends React.Component {
             this.canvas = canvas;
           }}
         />
-        <span className={locals.number}>{formatter.detailed(metrics[metrics.length - 1][1])}</span>
       </div>
     );
   }
