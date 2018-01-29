@@ -6,13 +6,14 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import TabView from 'in-applications/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
 
-export default function BaseApplicationDashboard({ location, breadcrumbs, tabs, dashboardBasedUrl, get }) {
+export default function BasicApplicationDashboard(props) {
+  const { get, location } = props;
   const applicationIdFromMatrix = getMatrixParameter(location, applicationDashboard, applicationId);
   const serviceIdFromMatrix = getMatrixParameter(location, serviceDashboard, serviceId);
   const endpointIdFromMatrix = getMatrixParameter(location, endpointDashboard, endpointId);
-
   return (
     <TabView
+      {...props}
       get={() =>
         timeframe$.flatMap(timeframe =>
           get({
@@ -23,9 +24,6 @@ export default function BaseApplicationDashboard({ location, breadcrumbs, tabs, 
           })
         )
       }
-      dashboardBasedUrl={dashboardBasedUrl}
-      breadcrumbs={breadcrumbs}
-      tabs={tabs}
     />
   );
 }

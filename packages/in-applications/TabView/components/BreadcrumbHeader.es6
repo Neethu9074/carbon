@@ -13,7 +13,7 @@ export default connectTo(
     breadcrumbs: breadcrumbs$
   },
   function BreadcrumbHeader({ breadcrumbs }) {
-    if (breadcrumbs.length === 0) {
+    if (!breadcrumbs || breadcrumbs.length === 0) {
       return null;
     }
 
