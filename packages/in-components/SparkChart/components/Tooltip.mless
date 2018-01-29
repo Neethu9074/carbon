@@ -23,4 +23,8 @@
   .value {
     margin-left: 5px;
   }
+
+  .leftAligned {
+    margin-left: ~'calc(-100% - 5px)';
+  }
 }
