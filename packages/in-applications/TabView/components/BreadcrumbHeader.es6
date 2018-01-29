@@ -25,14 +25,6 @@ export default connectTo(
       return agg;
     }, []);
 
-    // we do not want to require crumb elements to define keys. Therefore we work around React's key check
-    // by explicitly stating that these items can only be verified using their index. This also cleans
-    // up the HTML structure so that crumb elements can check for :last-child to identify the active
-    // crumb element.
-    crumbs.unshift({ className: locals.container });
-    crumbs.unshift('div');
-    const crumbsElement = React.createElement.apply(React, crumbs);
-
-    return <header className={locals.breadcrumbHeader}>{crumbsElement}</header>;
+    return <ul className={locals.breadcrumbHeader}>{crumbs.map((crumb, i) => <li key={i}>{crumb}</li>)}</ul>;
   }
 );

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
-import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
