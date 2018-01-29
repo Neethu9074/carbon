@@ -4,16 +4,15 @@ import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/Hori
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { isView } from 'in-stores/navigation/navigation';
-import Skeleton from 'in-components/Progress/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ tabs, result, dashboardBasedUrl }) {
+export default function Header({ tabs, result, dashboardBasedUrl, HeaderComponent }) {
   return (
     <div className={locals.header}>
-      <Skeleton style={{ height: 59, width: 100 }} />
+      <HeaderComponent result={result} />
       <ul className={locals.tabList}>
         {tabs.map(tab => <Tab key={tab.label} dashboardBasedUrl={dashboardBasedUrl} tab={tab} />)}
       </ul>
