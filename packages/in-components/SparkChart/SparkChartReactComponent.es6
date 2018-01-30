@@ -3,10 +3,19 @@ import React from 'react';
 import Tooltip from 'in-components/SparkChart/components/Tooltip';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { number } from 'in-services/formatters/number';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SparkChart.mless';
 
-export default class extends React.Component {
+export default function(props) {
+  const { timeframe, metrics } = props;
+  if (!timeframe || !metrics) {
+    return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;
+  }
+  return <SparkChartReactWrapper {...props} />;
+}
+
+class SparkChartReactWrapper extends React.Component {
   static displayName = 'SparkChart';
 
   static defaultProps = {

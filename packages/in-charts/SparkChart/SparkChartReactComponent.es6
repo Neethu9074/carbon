@@ -3,11 +3,8 @@
 import { serverTime$ } from 'in-stores/serverTime';
 import { always } from 'in-services/fixedStreams';
 import SparkChart from 'in-components/SparkChart';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import React from 'react';
-
-import locals from './SparkChartReactComponent.mless';
 
 export default connectTo(
   props => {
@@ -30,10 +27,6 @@ export default connectTo(
     };
   },
   function(props) {
-    const { timeframe, metrics } = props;
-    if (!timeframe || !metrics) {
-      return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;
-    }
     return <SparkChart {...props} />;
   }
 );
