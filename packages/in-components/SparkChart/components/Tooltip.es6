@@ -20,11 +20,13 @@ export default connectTo(
 
     state = { yPositionOnCanvas: 0 };
 
+    componentWillMount() {
+      this.updateScaleFromProps(this.props);
+    }
+
     componentDidMount() {
       this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
       this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
-
-      this.updateScaleFromProps(this.props);
     }
 
     componentWillUpdate(nextProps) {
@@ -47,13 +49,7 @@ export default connectTo(
 
       return (
         <div>
-          <div
-            className={locals.tooltip}
-            style={{
-              left: xPositionOnCanvas
-            }}
-          >
-            {nearestDataPoint ? <div className={locals.line} /> : null}
+          <div className={locals.tooltip} style={{ left: xPositionOnCanvas }}>
             {nearestDataPoint ? (
               <div
                 className={evaluateClassNames({
@@ -70,18 +66,21 @@ export default connectTo(
           </div>
 
           <div
+            style={{ width: this.xScale.getRangeTo() - this.xScale.getRangeFrom() }}
             className={locals.glassPane}
             ref={glassPane => {
               this.glassPane = glassPane;
             }}
-          />
+          >
+            {nearestDataPoint ? <div className={locals.line} style={{ left: xPositionOnCanvas }} /> : null}
+          </div>
         </div>
       );
     }
 
-    updateScaleFromProps({ timeframe }) {
+    updateScaleFromProps({ timeframe, width }) {
       this.xScale.setRangeFrom(2);
-      this.xScale.setRangeTo(98);
+      this.xScale.setRangeTo(width - 2);
       this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
       this.xScale.setDomainTo(timeframe.to);
     }
@@ -94,6 +93,9 @@ export default connectTo(
     }
 
     onMouseMove = e => {
+      if (e.offsetX < this.xScale.getRangeFrom() || e.offsetX > this.xScale.getRangeTo()) {
+        return;
+      }
       setHighlightedMoment(this.xScale.getDomain(e.offsetX));
       this.setState({ yPositionOnCanvas: e.offsetY - 14 });
     };
