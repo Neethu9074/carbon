@@ -9,8 +9,13 @@ import locals from './SparkChart.mless';
 export default class extends React.Component {
   static displayName = 'SparkChart';
 
+  static defaultProps = {
+    height: 30,
+    width: 100
+  };
+
   componentDidMount() {
-    this.sparkChart = new SparkChart(this.canvas);
+    this.sparkChart = new SparkChart(this.canvas, this.props.width, this.props.height);
     this.sparkChart.update(this.props);
   }
 
@@ -24,10 +29,16 @@ export default class extends React.Component {
   }
 
   render() {
-    const { metrics, tooltipFormatter = number.detailed, timeframe } = this.props;
+    const { metrics, tooltipFormatter = number.detailed, timeframe, width, height } = this.props;
     return (
       <div className={locals.sparkChart}>
-        <Tooltip metrics={metrics} timeframe={timeframe} tooltipFormatter={tooltipFormatter} />
+        <Tooltip
+          metrics={metrics}
+          timeframe={timeframe}
+          tooltipFormatter={tooltipFormatter}
+          width={width}
+          height={height}
+        />
         <canvas
           className={locals.canvas}
           ref={canvas => {

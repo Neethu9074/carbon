@@ -23,6 +23,11 @@ export default connectTo(
   class extends React.Component {
     static displayName = 'HistoricMetricSparkChart';
 
+    static defaultProps = {
+      height: 30,
+      width: 100
+    };
+
     state = {
       datasource: null
     };
@@ -39,14 +44,14 @@ export default connectTo(
 
     updateDatasource = props => {
       props = Object.create(props);
-      props.rollup = getPixelAwareRollupSize(props.timeframe, 100);
+      props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
 
       if (props.aggregation) {
         props.blockSizeMillis = getBlockSizeMillis({
           windowSize: props.timeframe.windowSize,
           maxDataPoints: 100,
           minPixelsPerBlock: 10,
-          width: 100,
+          width: props.width,
           rollup: props.rollup
         });
         props.rollup = props.blockSizeMillis;
