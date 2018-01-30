@@ -4,11 +4,14 @@ import Skeleton from 'in-components/Progress/Skeleton';
 
 import locals from './BasicApplicationDashboardHeader.mless';
 
-export default function BasicApplicationDashboardHeader({ type, label }) {
+export default function BasicApplicationDashboardHeader({ type, result }) {
+  const isLoading = result.progress.loading;
+  const label = isLoading ? null : result.data.label;
+
   return (
     <div className={locals.basicDashboardHeader}>
       {type ? <span className={locals.type}>{type}</span> : 'unknown'}
-      {label ? <span className={locals.label}>{label}</span> : <Skeleton style={{ height: 12, width: 100 }} />}
+      {!isLoading ? <span className={locals.label}>{label}</span> : <Skeleton style={{ height: 18, width: 100 }} />}
     </div>
   );
 }

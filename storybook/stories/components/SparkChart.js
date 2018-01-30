@@ -5,22 +5,25 @@ import SparkChart from 'in-components/SparkChart';
 import Root from '../_helpers/Root';
 
 storiesOf('components/SparkChart', module)
-  .add('simple', () => <Simple />)
-  .add('missing datapoints', () => <Missing />);
+  .add('Simple', () => <Simple />)
+  .add('Missing Datapoints', () => <Missing />)
+  .add('Sizes', () => <Sizes />)
+  .add('Missing Data', () => <MissingData />);
 
 function Simple() {
   const lotsOfMetrics = [];
   for (let i = 0; i < 20; i++) {
-    lotsOfMetrics.push([i / 20 * 6000, Math.random() * 100]);
+    lotsOfMetrics.push([i / 20 * 60000, Math.random() * 100]);
   }
 
   return (
     <Root>
       <SparkChart
-        timeframe={{ windowSize: 6000, to: 6000 }}
-        metrics={[[0, 1], [1000, 1], [2000, 0], [3000, 2], [4000, 1], [5000, 2], [6000, 0.5]]}
+        rollup={10000}
+        timeframe={{ windowSize: 60000, to: 60000 }}
+        metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
       />
-      <SparkChart timeframe={{ windowSize: 6000, to: 6000 }} metrics={lotsOfMetrics} />
+      <SparkChart rollup={5000} timeframe={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />
     </Root>
   );
 }
@@ -30,9 +33,36 @@ function Missing() {
     <Root>
       <SparkChart
         rollup={1000}
-        timeframe={{ windowSize: 6000, to: 6000 }}
-        metrics={[[0, 1], [1000, 1], [3000, 1], [5000, 2], [6000, 1]]}
+        timeframe={{ windowSize: 8000, to: 8000 }}
+        metrics={[[0, 1], [1000, 1], [4000, 1], [5000, 2], [8000, 1]]}
       />
+    </Root>
+  );
+}
+
+function Sizes() {
+  return (
+    <Root>
+      <SparkChart
+        rollup={10000}
+        timeframe={{ windowSize: 60000, to: 60000 }}
+        metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
+      />
+      <SparkChart
+        rollup={10000}
+        timeframe={{ windowSize: 60000, to: 60000 }}
+        metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
+        width={200}
+        height={100}
+      />
+    </Root>
+  );
+}
+
+function MissingData() {
+  return (
+    <Root>
+      <SparkChart />
     </Root>
   );
 }

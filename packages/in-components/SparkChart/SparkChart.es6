@@ -1,11 +1,8 @@
 import LineMetricRenderer from 'in-components/SparkChart/LineMetricRenderer';
 
 export default class SparkChart {
-  constructor(canvas) {
+  constructor(canvas, width, height) {
     this.canvas = canvas;
-
-    const width = 100;
-    const height = 30;
 
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);

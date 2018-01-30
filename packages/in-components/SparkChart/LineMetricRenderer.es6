@@ -1,5 +1,10 @@
 import createScale from 'in-charts/scale';
 
+import {
+  allowedMultiplesOfRollupSizeMissingInCharts,
+  allowedMillisGapsInOneSecondResolution
+} from 'in-services/featureFlags';
+
 export default class LineMetricRenderer {
   constructor(canvas, props = {}) {
     this.canvas = canvas;
@@ -20,30 +25,35 @@ export default class LineMetricRenderer {
     this.ctx = canvas.getContext('2d');
   }
 
-  update({ metrics, rollup, timeframe }) {
+  update({ metrics = [], rollup = 1000, timeframe }) {
     this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
     this.xScale.setDomainTo(timeframe.to);
 
     // inverse this since canvas has y direction from top(0) to bottom(100%)
-    this.yScale.setDomainFrom(this.calculateMaxMetricValue(metrics));
-    this.yScale.setDomainTo(0);
+    const { minMetricValue, maxMetricValue } = this.calculateMetricStatistics(metrics);
+    this.yScale.setDomainFrom(maxMetricValue);
+    this.yScale.setDomainTo(minMetricValue);
 
     this.blocks = this.calculateBlocks(metrics, rollup);
   }
 
-  calculateMaxMetricValue(metrics) {
+  calculateMetricStatistics(metrics) {
     let maxMetricValue = 0;
+    let minMetricValue = Number.MAX_VALUE;
     for (let i = 0; i < metrics.length; i++) {
+      minMetricValue = Math.min(minMetricValue, metrics[i][1]);
       maxMetricValue = Math.max(maxMetricValue, metrics[i][1]);
     }
-    return maxMetricValue;
+    return { minMetricValue, maxMetricValue };
   }
 
-  calculateBlocks(metrics, rollup = 1000) {
+  calculateBlocks(metrics, rollup) {
     const blocks = [];
     if (metrics.length === 0) {
       return blocks;
     }
+
+    const maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints(rollup);
 
     let currentBlock = [];
     blocks.push(currentBlock);
@@ -54,7 +64,7 @@ export default class LineMetricRenderer {
       currentBlock.push(dataPoint);
 
       const nextDataPoint = i + 1 < metrics.length ? metrics[i + 1] : dataPoint;
-      const isEndOfBlock = nextDataPoint.xDomain - dataPoint.xDomain > rollup;
+      const isEndOfBlock = nextDataPoint.xDomain - dataPoint.xDomain > maxDistanceBetweenDatapointsInMillis;
       if (isEndOfBlock) {
         currentBlock = [];
         blocks.push(currentBlock);
@@ -62,6 +72,13 @@ export default class LineMetricRenderer {
     }
 
     return blocks;
+  }
+
+  calculateMaxMillisBetweenDatapoints(rollup) {
+    if (rollup === 1000) {
+      return allowedMillisGapsInOneSecondResolution;
+    }
+    return rollup * allowedMultiplesOfRollupSizeMissingInCharts;
   }
 
   mapMetricsToAStructureWhichIsEasyToConsume(metrics) {
