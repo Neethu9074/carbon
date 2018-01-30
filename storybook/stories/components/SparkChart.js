@@ -7,7 +7,8 @@ import Root from '../_helpers/Root';
 storiesOf('components/SparkChart', module)
   .add('Simple', () => <Simple />)
   .add('Missing Datapoints', () => <Missing />)
-  .add('Sizes', () => <Sizes />);
+  .add('Sizes', () => <Sizes />)
+  .add('Missing Data', () => <MissingData />);
 
 function Simple() {
   const lotsOfMetrics = [];
@@ -54,6 +55,14 @@ function Sizes() {
         width={200}
         height={100}
       />
+    </Root>
+  );
+}
+
+function MissingData() {
+  return (
+    <Root>
+      <SparkChart />
     </Root>
   );
 }
