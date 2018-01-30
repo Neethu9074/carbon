@@ -32,8 +32,8 @@ function Missing() {
     <Root>
       <SparkChart
         rollup={1000}
-        timeframe={{ windowSize: 6000, to: 6000 }}
-        metrics={[[0, 1], [1000, 1], [3000, 1], [5000, 2], [6000, 1]]}
+        timeframe={{ windowSize: 8000, to: 8000 }}
+        metrics={[[0, 1], [1000, 1], [4000, 1], [5000, 2], [8000, 1]]}
       />
     </Root>
   );
