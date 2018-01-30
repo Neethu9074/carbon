@@ -1,5 +1,10 @@
 import createScale from 'in-charts/scale';
 
+import {
+  allowedMultiplesOfRollupSizeMissingInCharts,
+  allowedMillisGapsInOneSecondResolution
+} from 'in-services/featureFlags';
+
 export default class LineMetricRenderer {
   constructor(canvas, props = {}) {
     this.canvas = canvas;
@@ -48,6 +53,8 @@ export default class LineMetricRenderer {
       return blocks;
     }
 
+    const maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints(rollup);
+
     let currentBlock = [];
     blocks.push(currentBlock);
 
@@ -57,7 +64,7 @@ export default class LineMetricRenderer {
       currentBlock.push(dataPoint);
 
       const nextDataPoint = i + 1 < metrics.length ? metrics[i + 1] : dataPoint;
-      const isEndOfBlock = nextDataPoint.xDomain - dataPoint.xDomain > rollup;
+      const isEndOfBlock = nextDataPoint.xDomain - dataPoint.xDomain > maxDistanceBetweenDatapointsInMillis;
       if (isEndOfBlock) {
         currentBlock = [];
         blocks.push(currentBlock);
@@ -65,6 +72,13 @@ export default class LineMetricRenderer {
     }
 
     return blocks;
+  }
+
+  calculateMaxMillisBetweenDatapoints(rollup) {
+    if (rollup === 1000) {
+      return allowedMillisGapsInOneSecondResolution;
+    }
+    return rollup * allowedMultiplesOfRollupSizeMissingInCharts;
   }
 
   mapMetricsToAStructureWhichIsEasyToConsume(metrics) {

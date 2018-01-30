@@ -65,13 +65,13 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
       expect(blocks).to.have.length(1);
 
       blocks = lineMetricRenderer.calculateBlocks(
-        [[0, 0], [1000, 1], [3000, 10], [4000, 10], [5000, 9], [7000, 0]],
+        [[0, 0], [2000, 1], [5000, 10], [6000, 10], [7000, 9], [10000, 0]],
         1000
       );
       expect(blocks).to.have.length(3);
-      expect(blocks[0].map(d => d.xDomain)).to.deep.equal([0, 1000]);
-      expect(blocks[1].map(d => d.xDomain)).to.deep.equal([3000, 4000, 5000]);
-      expect(blocks[2].map(d => d.xDomain)).to.deep.equal([7000]);
+      expect(blocks[0].map(d => d.xDomain)).to.deep.equal([0, 2000]);
+      expect(blocks[1].map(d => d.xDomain)).to.deep.equal([5000, 6000, 7000]);
+      expect(blocks[2].map(d => d.xDomain)).to.deep.equal([10000]);
 
       expect(lineMetricRenderer.calculateBlocks([], 1000)).to.have.length(0);
     });
