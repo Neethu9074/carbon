@@ -11,16 +11,17 @@ storiesOf('components/SparkChart', module)
 function Simple() {
   const lotsOfMetrics = [];
   for (let i = 0; i < 20; i++) {
-    lotsOfMetrics.push([i / 20 * 6000, Math.random() * 100]);
+    lotsOfMetrics.push([i / 20 * 60000, Math.random() * 100]);
   }
 
   return (
     <Root>
       <SparkChart
-        timeframe={{ windowSize: 6000, to: 6000 }}
-        metrics={[[0, 1], [1000, 1], [2000, 0], [3000, 2], [4000, 1], [5000, 2], [6000, 0.5]]}
+        rollup={10000}
+        timeframe={{ windowSize: 60000, to: 60000 }}
+        metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
       />
-      <SparkChart timeframe={{ windowSize: 6000, to: 6000 }} metrics={lotsOfMetrics} />
+      <SparkChart rollup={5000} timeframe={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />
     </Root>
   );
 }

@@ -95,27 +95,23 @@ export default connectTo(
 
     onMouseMove = e => {
       setHighlightedMoment(this.xScale.getDomain(e.offsetX));
-      this.setState({
-        yPositionOnCanvas: e.offsetY - 14
-      });
+      this.setState({ yPositionOnCanvas: e.offsetY - 14 });
     };
 
     onMouseLeave = () => {
-      this.setState({
-        yPositionOnCanvas: 0
-      });
+      this.setState({ yPositionOnCanvas: 0 });
       clearHighlightedMoment();
     };
 
     getNearestDataPointForXPosition = xPositionOnCanvas => {
       const metrics = this.props.metrics;
-      if (!metrics || metrics.length === 0) {
+      if (metrics.length === 0) {
         return null;
       }
 
       const xPositionOnCanvasAsDomain = this.xScale.getDomain(xPositionOnCanvas);
-      let nearestDataPoint = null;
       let distanceToNearestDataPoint = Number.MAX_VALUE;
+      let nearestDataPoint = null;
 
       for (let i = 0; i < metrics.length; i++) {
         const dataPoint = metrics[i];
