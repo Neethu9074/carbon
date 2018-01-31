@@ -15,3 +15,10 @@ export function getServiceDashboard(serviceId) {
     setOrDeleteMatrixKey(params, serviceDashboard, 'serviceId', serviceId);
   });
 }
+
+export function getApplicationDashboard(appId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${applicationDashboard}`;
+    setOrDeleteMatrixKey(params, applicationDashboard, 'appId', appId);
+  });
+}
