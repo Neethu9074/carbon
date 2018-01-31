@@ -18,7 +18,7 @@ export function getServiceDashboard(serviceId) {
 
 export function getApplicationDashboard(appId) {
   return getModifiedUrlStream(params => {
-    params.pathname = `${applicationDashboard}`;
+    params.pathname = `${applicationDashboard}/summary`;
     setOrDeleteMatrixKey(params, applicationDashboard, 'appId', appId);
   });
 }
