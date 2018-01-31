@@ -22,6 +22,19 @@ export default function NetCoreDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Contentions">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['metrics.contentionCount'],
+            labels: ['Contentions'],
+            type: 'point',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
       <DashboardSection title="Garbage Collection">
         <Chart
           snapshotId={snapshotId}

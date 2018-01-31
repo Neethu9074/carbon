@@ -2,8 +2,8 @@ import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: ['metrics.gcCount', 'metrics.exceptionThrownCount'],
-    labels: ['GC Count', 'Exceptions Thrown'],
+    metrics: ['metrics.gcCount', 'metrics.exceptionThrownCount', 'metrics.contentionCount'],
+    labels: ['GC Count', 'Exceptions Thrown', 'Contention Count'],
     min: 0,
     category: ['Counters'],
     formatter: number
