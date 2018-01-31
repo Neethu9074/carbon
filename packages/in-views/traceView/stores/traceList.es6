@@ -195,7 +195,13 @@ function addNewTraces(newTraces, totalTraceCount) {
     };
   });
   tracesStore.applyStateMutation(existingTraces => {
-    furtherDataAvailable.mutateTo(newTraces.size + existingTraces.length < totalTraceCount);
+    // we know that there are no more traces if the total received number of traces is smaller than the trace count
+    // for "span." queries we do not calculate a total count so it's Number.MAX_VALUE
+    // for this reason we also guess that there are no more traces when we receive way less traces than we requested (#requestedTraces / 2).
+    // It can happen that we receive less than requested but it should be only in a 5% range, not 50%.
+    furtherDataAvailable.mutateTo(
+      newTraces.size + existingTraces.length < totalTraceCount && newTraces.size > MAX_PAGE_SIZE / 2
+    );
 
     // There may be multiple successive traces requests with the same data. Protect against
     // this.
