@@ -131,8 +131,9 @@ export default class extends React.Component {
     });
 
     const result$ = saveApiToken(newApiToken);
-    this.responseSubscription = result$.once(() => goToPath(apiTokensPath, newApiToken.get('id')));
-
+    this.responseSubscription = result$.once(() =>
+      goToPath(`${apiTokensPath}/${encodeURIComponent(newApiToken.get('id'))}`)
+    );
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save new API token: ${error.message}`;
       logger.error(message, error);
