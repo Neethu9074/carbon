@@ -3,6 +3,7 @@
 import './activeMQ';
 import './availabilityZone';
 import './awsEc';
+import './awsKinesis';
 import './awsRds';
 import './awsSqs';
 import './azure';
