@@ -19,9 +19,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Node Count">
-          <MetricValue snapshotId={snapshotId} initialValue={String(nodeIds.length)} formatter={zeroDecimalPlaces} />
-        </KpiKeyValue>
+        <KpiKeyValue label="Node Count">{nodeIds.length}</KpiKeyValue>
         <KpiKeyValue label="Pod count">
           <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
