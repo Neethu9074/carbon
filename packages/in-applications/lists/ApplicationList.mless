@@ -1,0 +1,9 @@
+:local {
+  .createApplication {
+    position: fixed;
+    margin-top: 0.9rem;
+    height: 2rem;
+  }
+}
+
+
