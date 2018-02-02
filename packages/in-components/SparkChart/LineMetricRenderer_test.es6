@@ -7,7 +7,7 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
   let lineMetricRenderer;
 
   beforeEach(() => {
-    lineMetricRenderer = new LineMetricRenderer(getCanvasMock());
+    lineMetricRenderer = new LineMetricRenderer(getCanvasMock(), { width: 100, height: 50 });
     lineMetricRenderer.update({
       timeframe: { windowSize: 6000, to: 6000 },
       rollup: 1000,
