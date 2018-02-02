@@ -91,7 +91,7 @@ function Error() {
 }
 
 function Header({ result }) {
-  return <BasicApplicationDashboardHeader type="service" result={result} />;
+  return <BasicApplicationDashboardHeader result={result} />;
 }
 
 const tabMock = [

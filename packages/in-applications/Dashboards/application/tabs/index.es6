@@ -1,5 +1,6 @@
 import React from 'react';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary';
+import Services from 'in-applications/Dashboards/application/tabs/Services';
 
 const tabs = [
   {
@@ -10,7 +11,7 @@ const tabs = [
   {
     label: 'Services',
     path: '/services',
-    component: () => <div />
+    component: Services
   },
   {
     label: 'Performance',
