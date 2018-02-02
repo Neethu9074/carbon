@@ -13,7 +13,7 @@ export default function NoPagesConfigured({ snapshot }) {
     key: snapshot.getIn(['data', 'eumKey']),
     additionalScript: `
 // set the name of a page on which this load/errors/calls happened
-// ineum('page', 'product-details');`
+ineum('page', 'product-details');`
   });
   return (
     <div className={block}>

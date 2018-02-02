@@ -17,7 +17,7 @@ const height = 7;
 const timeAxisOffset = 16;
 const tooltipAlignment = 'topMiddle';
 
-function FlameGraphElement({ span, currentDepth, scale }) {
+function FlameGraphElement({ span, currentDepth, scale, parentSpan }) {
   const top = (currentDepth - 1) * (margin + height);
   const left = scale.getRange(span.get('start'));
   // reduce by 0.1 to give it some wiggle room between two adjacent spans
@@ -38,12 +38,16 @@ function FlameGraphElement({ span, currentDepth, scale }) {
           <FlameGraphElement
             key={childSpan.get('spanId')}
             span={childSpan}
+            parentSpan={span}
             currentDepth={currentDepth + 1}
             scale={scale}
           />
         ))}
 
-      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1 ? (
+      {span.get('kind') === SPAN_KINDS.ENTRY &&
+      currentDepth > 1 &&
+      parentSpan != null &&
+      parentSpan.get('kind') === SPAN_KINDS.EXIT ? (
         <Tooltip content="Network and Serialization" align={tooltipAlignment}>
           <div
             className={`${block}__network`}

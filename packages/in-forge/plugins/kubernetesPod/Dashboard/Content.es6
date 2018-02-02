@@ -5,7 +5,6 @@ import createContainersForPodSubscription from 'in-subscription/containersForPod
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import MetricValue from 'in-components/MetricValue';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -55,12 +54,8 @@ export default function KubernetesPodDashboard({ snapshot }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Namespace">
-          <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'namespace'], null)} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Host IP">
-          <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'hostIp'], null)} />
-        </KpiKeyValue>
+        <KpiKeyValue label="Namespace">{snapshot.getIn(['data', 'namespace'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Host IP">{snapshot.getIn(['data', 'hostIp'], null)}</KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title="Containers">
