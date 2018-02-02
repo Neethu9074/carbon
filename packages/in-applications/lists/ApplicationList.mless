@@ -1,8 +1,7 @@
 :local {
   .createApplication {
     position: fixed;
-    margin-top: 0.9rem;
-    height: 2rem;
+    margin-top: 1.3rem;
   }
 }
 

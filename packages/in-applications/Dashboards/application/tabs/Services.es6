@@ -1,55 +1,27 @@
 import React from 'react';
 
-import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import getApplications from 'in-subscription/application/getApplications';
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
+import getServices from 'in-subscription/application/getServices';
 import { ms, percentage } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
-import Sticky from 'in-components/Sticky';
-import Button from 'in-components/Button';
 import Link from 'in-components/Link';
 
-import locals from './ApplicationList.mless';
-
-export default function ApplicationsList() {
-  const breadcrumbs = [<ApplicationViewBreadcrumb />];
+export default function ServicesList({ result }) {
+  const { id } = result.data;
 
   return (
-    <Sticky
-      header={
-        <div>
-          {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-          <BreadcrumbHeader />
-        </div>
-      }
-    >
-      <MaxWidthFullscreenContainer>
-        <ViewSwitcher />
-        <Button
-          kind="default"
-          key="createApplication"
-          onClick={() => {}}
-          className={locals.createApplication}
-          size="sm"
-          outlineOnly
-        >
-          Create Application
-        </Button>
-        <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} />
-      </MaxWidthFullscreenContainer>
-    </Sticky>
+    <MaxWidthFullscreenContainer>
+      <ServerTable get={getTableData} defaultQuery={id} pageSize={10} columnDefinitions={columnDefinitions} />
+    </MaxWidthFullscreenContainer>
   );
 }
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
   return timeframe$.flatMap(timeframe =>
-    getApplications({
+    getServices({
       pagination: {
         page,
         pageSize
@@ -69,22 +41,22 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
 
 const columnDefinitions = [
   {
-    id: 'applicationLabel',
+    id: 'serviceLabel',
     label: 'Name',
     getContent(item) {
-      return <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>;
+      return <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>;
     }
   },
   {
-    id: 'Services',
-    getContent() {
-      return Math.round(Math.random() * 1000);
+    id: 'Type',
+    getContent(item) {
+      return item.service.types.join(', ');
     }
   },
   {
     id: 'Endpoints',
     getContent() {
-      return Math.round(Math.random() * 1000);
+      return 42;
     }
   },
   {

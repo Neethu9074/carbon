@@ -1,0 +1,12 @@
+:local {
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .configuration {
+    text-decoration: none;
+    color: #06b7ba;
+   }
+}
+
+

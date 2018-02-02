@@ -29,5 +29,5 @@ export default function ServiceDashboard({ location }) {
 }
 
 function Header({ result }) {
-  return <BasicApplicationDashboardHeader type="service" result={result} />;
+  return <BasicApplicationDashboardHeader result={result} />;
 }
