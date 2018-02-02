@@ -12,7 +12,10 @@ import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
 import Sticky from 'in-components/Sticky';
+import Button from 'in-components/Button';
 import Link from 'in-components/Link';
+
+import locals from './ApplicationList.mless';
 
 export default function ApplicationsList() {
   const breadcrumbs = [<ApplicationViewBreadcrumb />];
@@ -28,6 +31,15 @@ export default function ApplicationsList() {
     >
       <MaxWidthFullscreenContainer>
         <ViewSwitcher />
+        <Button
+          kind="default"
+          key="createApplication"
+          onClick={() => {}}
+          className={locals.createApplication}
+          outlineOnly
+        >
+          Create Application
+        </Button>
         <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} />
       </MaxWidthFullscreenContainer>
     </Sticky>
