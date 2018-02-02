@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
 
+import invariant from 'invariant';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -30,6 +31,10 @@ export default class extends React.PureComponent {
   getStream = props => {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId).distinct();
+    }
+
+    if (__DEV__) {
+      invariant(!!props.metric, 'A metric property or createMetricValueStream must be provided to MetricValue.');
     }
 
     if (props.timeWindowAggregation) {

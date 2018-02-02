@@ -4,7 +4,6 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -54,21 +53,13 @@ export default connectTo(
       };
     });
 
-    const snapshotId = snapshot.get('id');
-
     return (
       <div>
         <KpiSection>
           <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-          <KpiKeyValue label="Hostname">
-            <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'hostname'], null)} />
-          </KpiKeyValue>
-          <KpiKeyValue label="Internal IP">
-            <MetricValue snapshotId={snapshotId} initialValue={snapshot.getIn(['data', 'internalIp'], null)} />
-          </KpiKeyValue>
-          <KpiKeyValue label="Ready">
-            <MetricValue snapshotId={snapshotId} initialValue={ready} />
-          </KpiKeyValue>
+          <KpiKeyValue label="Hostname">{snapshot.getIn(['data', 'hostname'], null)}</KpiKeyValue>
+          <KpiKeyValue label="Internal IP">{snapshot.getIn(['data', 'internalIp'], null)}</KpiKeyValue>
+          <KpiKeyValue label="Ready">{ready}</KpiKeyValue>
         </KpiSection>
 
         <DashboardSection title={`Pods (${rows.length})`}>
