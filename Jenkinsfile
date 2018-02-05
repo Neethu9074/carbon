@@ -25,6 +25,13 @@ stage('Checkout') {
   }
 }
 
+def deliveryBranches = [
+  'develop',
+  'master',
+  'release',
+  'prerelease'
+]
+
 stage('Node Build') {
   def buildSteps = [:]
 
@@ -42,7 +49,7 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        if ( env.BRANCH_NAME == 'master' ) {
+        if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
@@ -55,13 +62,6 @@ stage('Node Build') {
 
   slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
-
-def deliveryBranches = [
-  'develop',
-  'master',
-  'release',
-  'prerelease'
-]
 
 stage ('Container Build') {
 
