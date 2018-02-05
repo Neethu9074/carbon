@@ -107,7 +107,7 @@ import './mySqlDatabase';
 import './netCoreRuntimePlatform';
 import './nginx';
 import './nodeJsRuntimePlatform';
-import './nomad';
+import './nomadScheduler';
 import './nova';
 import './oracleDB';
 import './openLDAP';
