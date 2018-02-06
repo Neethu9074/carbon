@@ -331,5 +331,8 @@ module.exports = {
       beforeSelfClosing: 'always',
       afterOpening: 'never'
     }],
+
+    // prettier formats this for us
+    'flowtype/generic-spacing': 0
   }
 };
