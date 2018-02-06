@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Infrastructure from 'in-applications/Dashboards/application/tabs/Infrastructure';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary';
 import { applicationDashboard } from 'in-applications/navigation/paths';
@@ -23,6 +24,6 @@ export default [
   {
     label: 'Infrastructure',
     path: `${applicationDashboard}/infrastructure`,
-    component: () => <div />
+    component: Infrastructure
   }
 ];
