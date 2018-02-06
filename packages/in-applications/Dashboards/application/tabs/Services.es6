@@ -1,25 +1,25 @@
 import React from 'react';
 
+import { applicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import getServices from 'in-subscription/application/getServices';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { ms, percentage } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
 import { timeframe$ } from 'in-stores/timeline';
 import Link from 'in-components/Link';
 
-export default function ServicesList({ result }) {
-  const { id } = result.data;
-
+export default function ServiceList({ data: { id }, location }) {
   return (
     <MaxWidthFullscreenContainer>
-      <ServerTable get={getTableData} defaultQuery={id} pageSize={10} columnDefinitions={getColumnDefinitions(id)} />
+      <ServerTable get={getTableData} pageSize={10} columnDefinitions={getColumnDefinitions(id)} location={location} />
     </MaxWidthFullscreenContainer>
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, location }) {
   return timeframe$.flatMap(timeframe =>
     getServices({
       pagination: {
@@ -32,7 +32,10 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
       },
       metrics: {},
       filter: {
-        applicationName: query,
+        application: getMatrixParameter(location, applicationDashboard, applicationId),
+        service: getMatrixParameter(location, applicationDashboard, serviceId),
+        serviceName: query,
+        endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
         timeframe
       }
     })

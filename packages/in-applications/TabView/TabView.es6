@@ -10,9 +10,9 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    result: props.get()
+    result: props.result$
   }),
-  function TabView({ result, breadcrumbs, tabs, dashboardBasedUrl, HeaderComponent }) {
+  function TabView({ result, breadcrumbs, tabs, HeaderComponent, location }) {
     return (
       <Sticky
         header={
@@ -23,17 +23,8 @@ export default connectTo(
         }
       >
         <MaxWidthFullscreenContainer>
-          <Sticky
-            header={
-              <Header
-                tabs={tabs}
-                result={result}
-                dashboardBasedUrl={dashboardBasedUrl}
-                HeaderComponent={HeaderComponent}
-              />
-            }
-          >
-            <Switch tabs={tabs} result={result} />
+          <Sticky header={<Header location={location} tabs={tabs} result={result} HeaderComponent={HeaderComponent} />}>
+            <Switch tabs={tabs} result={result} location={location} />
           </Sticky>
         </MaxWidthFullscreenContainer>
       </Sticky>

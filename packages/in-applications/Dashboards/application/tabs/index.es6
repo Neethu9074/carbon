@@ -1,27 +1,28 @@
 import React from 'react';
-import Summary from 'in-applications/Dashboards/application/tabs/Summary';
-import Services from 'in-applications/Dashboards/application/tabs/Services';
 
-const tabs = [
+import Services from 'in-applications/Dashboards/application/tabs/Services';
+import Summary from 'in-applications/Dashboards/application/tabs/Summary';
+import { applicationDashboard } from 'in-applications/navigation/paths';
+
+export default [
   {
     label: 'Summary',
-    path: '/summary',
+    path: `${applicationDashboard}/summary`,
     component: Summary
   },
   {
     label: 'Services',
-    path: '/services',
+    path: `${applicationDashboard}/services`,
     component: Services
   },
   {
     label: 'Performance',
-    path: '/performance',
+    path: `${applicationDashboard}/performance`,
     component: () => <div />
   },
   {
     label: 'Infrastructure',
-    path: '/infrastructure',
+    path: `${applicationDashboard}/infrastructure`,
     component: () => <div />
   }
 ];
-export default tabs;

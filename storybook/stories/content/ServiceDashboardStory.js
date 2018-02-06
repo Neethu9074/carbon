@@ -41,7 +41,6 @@ function Tabs() {
       <DashboardHeader
         tabs={tabMock}
         result={createMockResult('foobar')}
-        dashboardBasedUrl="/"
         HeaderComponent={() => null}
       />
     </Root>
@@ -61,7 +60,6 @@ function Pending() {
         }
         HeaderComponent={Header}
         location={locationMock}
-        dashboardBasedUrl="/"
         breadcrumbs={breadcrumbs}
         tabs={tabMock}
       />
@@ -82,7 +80,6 @@ function Error() {
         }
         HeaderComponent={Header}
         location={locationMock}
-        dashboardBasedUrl="/"
         breadcrumbs={breadcrumbs}
         tabs={tabMock}
       />

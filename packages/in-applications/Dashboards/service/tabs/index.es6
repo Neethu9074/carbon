@@ -3,32 +3,32 @@ import Performance from 'in-applications/Dashboards/service/tabs/Performance';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
+import { serviceDashboard } from 'in-applications/navigation/paths';
 
-const tabs = [
+export default [
   {
     label: 'Summary',
-    path: '/summary',
+    path: `${serviceDashboard}/summary`,
     component: Summary
   },
   {
     label: 'FlowMap',
-    path: '/flowMap',
+    path: `${serviceDashboard}/flowMap`,
     component: FlowMap
   },
   {
     label: 'Endpoints',
-    path: '/endpoints',
+    path: `${serviceDashboard}/endpoints`,
     component: Endpoints
   },
   {
     label: 'Performance',
-    path: '/performance',
+    path: `${serviceDashboard}/performance`,
     component: Performance
   },
   {
     label: 'Infrastructure',
-    path: '/infrastructure',
+    path: `${serviceDashboard}/infrastructure`,
     component: Infrastructure
   }
 ];
-export default tabs;

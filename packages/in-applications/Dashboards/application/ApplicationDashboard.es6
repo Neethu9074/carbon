@@ -1,12 +1,14 @@
 import React from 'react';
 
-import BasicApplicationDashboardWrapper from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardWrapper';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
-
+import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import breadcrumbs from 'in-applications/Dashboards/application/breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import TabView from 'in-applications/TabView/TabView';
+import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -14,22 +16,27 @@ import locals from './ApplicationDashboard.mless';
 
 export default function ApplicationDashboard({ location }) {
   return (
-    <BasicApplicationDashboardWrapper
-      get={({ timeframe, applicationId }) =>
-        getApplication({
-          id: applicationId,
-          filter: {
-            applicationName: applicationId,
-            timeframe
-          }
-        })
-      }
+    <TabView
+      result$={getData(location)}
       HeaderComponent={Header}
       location={location}
-      dashboardBasedUrl={applicationDashboard}
       breadcrumbs={breadcrumbs}
       tabs={tabs}
     />
+  );
+}
+
+function getData(location) {
+  return timeframe$.flatMap(timeframe =>
+    getApplication({
+      id: getMatrixParameter(location, applicationDashboard, applicationId),
+      filter: {
+        application: getMatrixParameter(location, applicationDashboard, applicationId),
+        service: getMatrixParameter(location, applicationDashboard, serviceId),
+        endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
+        timeframe
+      }
+    })
   );
 }
 
