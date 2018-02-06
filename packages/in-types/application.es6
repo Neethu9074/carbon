@@ -94,6 +94,7 @@ export type GetServices = (query: GetServicesQuery) => Observable<Result<Paginat
 /* A query specification that yields a single service.
  * The filter might result in a subset of the data for the service being returned, also
  * the filter needs to include the timeframe.
+ *
  */
 export type GetServiceQuery = {
   id: string,

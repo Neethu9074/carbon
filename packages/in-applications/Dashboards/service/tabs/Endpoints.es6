@@ -1,5 +1,95 @@
 import React from 'react';
 
-export default function Endpoints() {
-  return <div>Endpoints</div>;
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { applicationId, serviceId } from 'in-applications/navigation/matrix';
+import getEndpoints from 'in-subscription/application/getEndpoints';
+import { serviceDashboard } from 'in-applications/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { ms, percentage } from 'in-services/formatters/number';
+import ServerTable from 'in-components/tables/ServerTable';
+import SparkChart from 'in-components/SparkChart';
+import { timeframe$ } from 'in-stores/timeline';
+
+export default function Endpoints({ location }) {
+  const applicationName = getMatrixParameter(location, serviceDashboard, applicationId);
+  const serviceName = getMatrixParameter(location, serviceDashboard, serviceId);
+
+  return (
+    <MaxWidthFullscreenContainer>
+      <ServerTable
+        get={getTableData}
+        defaultQuery={{ applicationName, serviceName }}
+        pageSize={10}
+        columnDefinitions={getColumnDefinitions()}
+      />
+    </MaxWidthFullscreenContainer>
+  );
+}
+
+function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
+  return timeframe$.flatMap(timeframe =>
+    getEndpoints({
+      pagination: {
+        page,
+        pageSize
+      },
+      order: {
+        by: orderBy,
+        direction: orderDirection
+      },
+      metrics: {},
+      filter: {
+        applicationName: query.applicationName,
+        serviceName: query.serviceName,
+        timeframe
+      }
+    })
+  );
+}
+
+function getColumnDefinitions() {
+  return [
+    {
+      id: 'endpointLabel',
+      label: 'Name',
+      getContent(item) {
+        return item.service.label;
+      }
+    },
+    {
+      id: 'Calls',
+      getContent() {
+        return (
+          <SparkChart
+            timeframe={{ windowSize: 6000, to: 6000 }}
+            metrics={[[0, 10], [1000, 15], [2000, 4], [3000, 3], [4000, 13], [5000, 20], [6000, 16]]}
+          />
+        );
+      }
+    },
+    {
+      id: 'Latency',
+      getContent() {
+        return (
+          <SparkChart
+            timeframe={{ windowSize: 6000, to: 6000 }}
+            metrics={[[0, 100], [1000, 105], [2000, 400], [3000, 30], [4000, 130], [5000, 200], [6000, 160]]}
+            formatter={ms}
+          />
+        );
+      }
+    },
+    {
+      id: 'Errors',
+      getContent() {
+        return (
+          <SparkChart
+            timeframe={{ windowSize: 6000, to: 6000 }}
+            metrics={[[0, 0.1], [1000, 0.05], [2000, 0.25], [3000, 0.1], [4000, 0.3], [5000, 0], [6000, 0.1]]}
+            formatter={percentage}
+          />
+        );
+      }
+    }
+  ];
 }
