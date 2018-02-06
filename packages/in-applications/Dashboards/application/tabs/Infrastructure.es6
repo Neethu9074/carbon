@@ -5,12 +5,13 @@ import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastruct
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
-export default function Infrastructure({ location }) {
+export default function Infrastructure({ location, timeframe }) {
   return (
     <InfrastructureTab
       applicationId={getMatrixParameter(location, applicationDashboard, applicationId)}
       serviceId={getMatrixParameter(location, applicationDashboard, serviceId)}
       endpointId={getMatrixParameter(location, applicationDashboard, endpointId)}
+      timeframe={timeframe}
     />
   );
 }

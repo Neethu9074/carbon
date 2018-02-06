@@ -10,11 +10,12 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import TabView from 'in-applications/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './ApplicationDashboard.mless';
 
-export default function ApplicationDashboard({ location }) {
+export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
   return (
     <TabView
       result$={getData(location)}
@@ -22,9 +23,10 @@ export default function ApplicationDashboard({ location }) {
       location={location}
       breadcrumbs={breadcrumbs}
       tabs={tabs}
+      props={{ timeframe }}
     />
   );
-}
+});
 
 function getData(location) {
   return timeframe$.flatMap(timeframe =>

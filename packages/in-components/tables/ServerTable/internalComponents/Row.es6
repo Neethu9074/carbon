@@ -2,10 +2,12 @@ import React from 'react';
 
 import locals from './Row.mless';
 
-export default function Row({ item, columnDefinitions }) {
+export default function Row({ item, columnDefinitions, cellOpts }) {
   const keys = Object.keys(columnDefinitions);
 
   return (
-    <tr className={locals.row}>{keys.map(key => <td key={key}>{columnDefinitions[key].getContent(item)}</td>)}</tr>
+    <tr className={locals.row}>
+      {keys.map(key => <td key={key}>{columnDefinitions[key].getContent(item, cellOpts)}</td>)}
+    </tr>
   );
 }

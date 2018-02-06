@@ -9,8 +9,9 @@ import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import TabView from 'in-applications/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
+import connectTo from 'in-hoc/connectTo';
 
-export default function ServiceDashboard({ location }) {
+export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ location, timeframe }) {
   return (
     <TabView
       HeaderComponent={Header}
@@ -18,9 +19,10 @@ export default function ServiceDashboard({ location }) {
       breadcrumbs={breadcrumbs}
       tabs={tabs}
       result$={getData(location)}
+      props={{ timeframe }}
     />
   );
-}
+});
 
 function getData(location) {
   return timeframe$.flatMap(timeframe =>

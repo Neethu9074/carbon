@@ -43,8 +43,9 @@ export default function ServerTablePresenter({
       </tr>
     );
   } else {
+    const cellOpts = { result };
     body = result.data.items.map((item, i) => (
-      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} />
+      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} cellOpts={cellOpts} />
     ));
   }
 
