@@ -1,10 +1,10 @@
 import React from 'react';
 
-import LoadingTableRows from 'in-components/tables/ServerTable/components/LoadingTableRows';
-import SearchField from 'in-components/tables/ServerTable/components/SearchField';
-import Pagination from 'in-components/tables/ServerTable/components/Pagination';
-import Columns from 'in-components/tables/ServerTable/components/Columns';
-import Row from 'in-components/tables/ServerTable/components/Row';
+import LoadingTableRows from 'in-components/tables/ServerTable/internalComponents/LoadingTableRows';
+import SearchField from 'in-components/tables/ServerTable/internalComponents/SearchField';
+import Pagination from 'in-components/tables/ServerTable/internalComponents/Pagination';
+import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
+import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { pendingResult } from 'in-services/fixedObjects';
 
 import locals from './ServerTablePresenter.mless';

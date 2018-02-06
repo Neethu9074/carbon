@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
@@ -49,19 +50,15 @@ function getColumnDefinitions() {
       id: 'label',
       label: 'Process',
       getContent(item) {
-        return <LinkToSnapshot snapshotId={item.physicalContext.host} />;
+        return <SnapshotLink snapshotId={item.physicalContext.process} />;
       }
     },
     {
       id: 'host',
       label: 'Host',
       getContent(item) {
-        return <LinkToSnapshot snapshotId={item.physicalContext.process} />;
+        return <SnapshotLink snapshotId={item.physicalContext.host} />;
       }
     }
   ];
-}
-
-function LinkToSnapshot({ snapshotId }) {
-  return <span>{snapshotId}</span>;
 }
