@@ -103,10 +103,32 @@ export type GetServiceQuery = {
 /* The operation that executes the query for a single service and returns the result as an observable. */
 export type GetService = (query: GetServiceQuery) => Observable<Result<Service>>;
 
-export type GetEndpointQuery = {
-  filter: Filter
+/* A query specification that yields a list of applications. */
+export type GetEndpointsQuery = {
+  filter: Filter,
+  pagination: PaginatedQuery,
+  // the orderBy attribute refers to the ID of a metric, which must be a single data point metric
+  orderBy: string,
+  metrics: {
+    [name: string]: MetricConfiguration
+  }
 };
 
+/* An item/a row in a list or table of applications. */
+export type EndpointItem = {
+  endpoint: Endpoint,
+  metrics: {
+    [name: string]: TimestampedMetrics
+  }
+};
+
+/* The operation that executes the query for a list of applications and returns the result as an observable. */
+export type GetEndpoints = (query: GetEndpointsQuery) => Observable<Result<PaginatedResult<EndpointItem>>>;
+
+export type GetEndpointQuery = {
+  id: string,
+  filter: Filter
+};
 export type GetEndpoint = (query: GetEndpointQuery) => Observable<Result<Endpoint>>;
 
 export type GetMetricsQuery = {
