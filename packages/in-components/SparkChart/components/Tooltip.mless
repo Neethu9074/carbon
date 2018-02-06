@@ -4,12 +4,26 @@
     top: 0;
   }
 
+  .glassPane {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 0;
+  }
+
   .line {
     position: absolute;
     top: 0;
+    bottom: 0;
 
     border-left: 1px solid red;
-    height: 1.875rem;
-    margin-left: -5px;
+  }
+
+  .value {
+    margin-left: 5px;
+  }
+
+  .leftAligned {
+    margin-left: ~'calc(-100% - 5px)';
   }
 }

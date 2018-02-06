@@ -1,0 +1,77 @@
+import React from 'react';
+
+import LoadingTableRows from 'in-components/tables/ServerTable/components/LoadingTableRows';
+import SearchField from 'in-components/tables/ServerTable/components/SearchField';
+import Pagination from 'in-components/tables/ServerTable/components/Pagination';
+import Columns from 'in-components/tables/ServerTable/components/Columns';
+import Row from 'in-components/tables/ServerTable/components/Row';
+import { pendingResult } from 'in-services/fixedObjects';
+
+import locals from './ServerTablePresenter.mless';
+
+export default function ServerTablePresenter({
+  // values configurable via the table
+  query,
+  page,
+  orderBy,
+  orderDirection,
+  pageSize,
+
+  // values that define the content
+  columnDefinitions,
+  result = pendingResult,
+
+  // events
+  onChange
+}) {
+  const isLoading = result.progress.loading;
+  const hasErrors = result.errors.length > 0;
+
+  let body = null;
+  if (isLoading) {
+    body = <LoadingTableRows progress={result.progress} columnDefinitions={columnDefinitions} />;
+  } else if (hasErrors) {
+    body = (
+      <tr>
+        <td colSpan={columnDefinitions.length}>Errors</td>
+      </tr>
+    );
+  } else if (result.data.totalHits === 0) {
+    body = (
+      <tr>
+        <td colSpan={columnDefinitions.length}>No data found</td>
+      </tr>
+    );
+  } else {
+    body = result.data.items.map((item, i) => (
+      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} />
+    ));
+  }
+
+  return (
+    <div>
+      <div className={locals.header}>
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          totalHits={!isLoading && !hasErrors ? result.data.totalHits : null}
+          setPage={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+        />
+        <SearchField onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
+      </div>
+
+      <table className={locals.table}>
+        <thead>
+          <Columns
+            setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page, pageSize })}
+            columnDefinitions={columnDefinitions}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+          />
+        </thead>
+
+        <tbody>{body}</tbody>
+      </table>
+    </div>
+  );
+}

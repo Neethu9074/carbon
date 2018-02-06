@@ -1,0 +1,10 @@
+:local {
+  .skeletonRow {
+    padding: 4px 0;
+  }
+
+  .skeleton {
+    height: 10px;
+    display: block;
+  }
+}

@@ -1,24 +1,46 @@
 import React from 'react';
 
-import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import BasicApplicationDashboardWrapper from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardWrapper';
+import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+
+import breadcrumbs from 'in-applications/Dashboards/application/breadcrumbs';
+import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import tabs from 'in-applications/Dashboards/application/tabs/index';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
+
+import locals from './ApplicationDashboard.mless';
 
 export default function ApplicationDashboard({ location }) {
   return (
-    <div>
-      <p>Hello from ApplicationDashboard!</p>
+    <BasicApplicationDashboardWrapper
+      get={({ timeframe, applicationId }) =>
+        getApplication({
+          id: applicationId,
+          filter: {
+            applicationName: applicationId,
+            timeframe
+          }
+        })
+      }
+      HeaderComponent={Header}
+      location={location}
+      dashboardBasedUrl={applicationDashboard}
+      breadcrumbs={breadcrumbs}
+      tabs={tabs}
+    />
+  );
+}
 
-      <dl>
-        <dt>Application ID:</dt>
-        <dd>{getMatrixParameter(location, applicationDashboard, applicationId)}</dd>
-
-        <dt>Service ID:</dt>
-        <dd>{getMatrixParameter(location, applicationDashboard, serviceId)}</dd>
-
-        <dt>Endpoint ID:</dt>
-        <dd>{getMatrixParameter(location, applicationDashboard, endpointId)}</dd>
-      </dl>
-    </div>
+function Header({ result }) {
+  return (
+    <BasicApplicationDashboardHeader type="application" result={result} className={locals.header}>
+      <div>
+        <Link href={'#'} className={locals.configuration}>
+          Configuration <SvgIcon type="gear" width={16} height={16} color="#06b7ba" />
+        </Link>
+      </div>
+    </BasicApplicationDashboardHeader>
   );
 }

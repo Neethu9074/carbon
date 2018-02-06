@@ -8,6 +8,13 @@ const defaultOptions = {
 };
 
 export default function connectTo(createObservables, ComposedComponent, opts) {
+  if (arguments.length === 1) {
+    return doCreateConnectedComponent.bind(null, createObservables);
+  }
+  return doCreateConnectedComponent(createObservables, ComposedComponent, opts);
+}
+
+function doCreateConnectedComponent(createObservables, ComposedComponent, opts) {
   const needsToCreateObservables = typeof createObservables === 'function';
   opts = defaultsDeep(opts || {}, defaultOptions);
 
@@ -49,8 +56,10 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
         }
 
         const oldSubscription = this.subscriptions.get(property);
-        this.observables.set(property, newObservable);
-        this.subscriptions.set(property, newObservable.subscribe(this.onNewValue, null, property));
+        if (newObservable) {
+          this.observables.set(property, newObservable);
+          this.subscriptions.set(property, newObservable.subscribe(this.onNewValue, null, property));
+        }
 
         // dispose previous subscriptions only after new subscriptions were
         // established to ensure that the connection to the backend does not
