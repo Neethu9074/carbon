@@ -115,6 +115,34 @@ export type GetMetricsQuery = {
 };
 export type GetMetrics = (query: GetMetricsQuery) => Observable<Result<TimestampedMetrics>>;
 
+export type PhysicalContext = {
+  process: ?string,
+  container: ?string,
+  host: ?string,
+  zone: ?string
+};
+
+export type InfrastructureFilter = Filter & {
+  infrastructureName: string
+};
+export type InfrastructureItem = {
+  physicalContext: PhysicalContext,
+  metrics: {
+    [name: string]: TimestampedMetrics
+  }
+};
+export type GetInfrastructureQuery = {
+  filter: InfrastructureFilter,
+  pagination: PaginatedQuery,
+  orderBy: string,
+  metrics: {
+    [name: string]: MetricConfiguration
+  }
+};
+export type GetInfrastructure = (
+  query: GetInfrastructureQuery
+) => Observable<Result<PaginatedResult<InfrastructureItem>>>;
+
 /* Flow Map Data retrieval */
 
 export type Direction = 'incoming' | 'outgoing';
