@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
@@ -12,23 +12,31 @@ import SparkChart from 'in-components/SparkChart';
 import Link from 'in-components/Link';
 
 export default function Endpoints({ location, timeframe, data }) {
+  const { types } = data;
   const appId = getMatrixParameter(location, serviceDashboard, applicationId);
   const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
+
   return (
     <MaxWidthFullscreenContainer>
-      <ServerTable
-        get={getTableData}
-        applicationId={appId}
-        serviceId={serviceID}
-        pageSize={10}
-        timeframe={timeframe}
-        columnDefinitions={getColumnDefinitions(timeframe, data.label, appId, serviceID)}
-      />
+      {types.map(endpointType => (
+        <Fragment key={endpointType}>
+          <h3>{endpointType}</h3>
+          <ServerTable
+            get={getTableData}
+            applicationId={appId}
+            serviceId={serviceID}
+            endpointType={endpointType}
+            pageSize={10}
+            timeframe={timeframe}
+            columnDefinitions={getColumnDefinitions(timeframe, data.label, appId, serviceID)}
+          />
+        </Fragment>
+      ))}
     </MaxWidthFullscreenContainer>
   );
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, timeframe }) {
+function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointType, timeframe }) {
   return getEndpoints({
     pagination: {
       page,
@@ -41,6 +49,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
     filter: {
       application: applicationId,
       service: serviceId,
+      endpointType,
       timeframe
     },
     metrics: {
