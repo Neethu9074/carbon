@@ -1,92 +1,106 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
-import getEndpoints from 'in-subscription/application/getEndpoints';
+import { number, ms, percentage } from 'in-services/formatters/number';
 import { serviceDashboard } from 'in-applications/navigation/paths';
+import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { ms, percentage } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
-import { timeframe$ } from 'in-stores/timeline';
 
-export default function Endpoints({ location }) {
-  const applicationName = getMatrixParameter(location, serviceDashboard, applicationId);
-  const serviceName = getMatrixParameter(location, serviceDashboard, serviceId);
-
+export default function Endpoints({ location, timeframe }) {
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
         get={getTableData}
-        defaultQuery={{ applicationName, serviceName }}
+        applicationId={getMatrixParameter(location, serviceDashboard, applicationId)}
+        serviceId={getMatrixParameter(location, serviceDashboard, serviceId)}
         pageSize={10}
-        columnDefinitions={getColumnDefinitions()}
+        timeframe={timeframe}
+        columnDefinitions={getColumnDefinitions(timeframe)}
       />
     </MaxWidthFullscreenContainer>
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
-  return timeframe$.flatMap(timeframe =>
-    getEndpoints({
-      pagination: {
-        page,
-        pageSize
+function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, timeframe }) {
+  return getEndpoints({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      application: applicationId,
+      service: serviceId,
+      timeframe
+    },
+    metrics: {
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeframe)
       },
-      order: {
-        by: orderBy,
-        direction: orderDirection
+      latency: {
+        metric: 'latency',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeframe)
       },
-      metrics: {},
-      filter: {
-        applicationName: query.applicationName,
-        serviceName: query.serviceName,
-        timeframe
+      errors: {
+        metric: 'errors',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeframe)
       }
-    })
-  );
+    }
+  });
 }
 
-function getColumnDefinitions() {
+function getColumnDefinitions(timeframe) {
   return [
     {
       id: 'endpointLabel',
       label: 'Name',
       getContent(item) {
-        return item.service.label;
+        return item.endpoint.label;
       }
     },
     {
       id: 'Calls',
-      getContent() {
+      getContent(item, { result }) {
         return (
           <SparkChart
-            timeframe={{ windowSize: 6000, to: 6000 }}
-            metrics={[[0, 10], [1000, 15], [2000, 4], [3000, 3], [4000, 13], [5000, 20], [6000, 16]]}
+            timeframe={getResolvedTimeframe(timeframe, result)}
+            metrics={item.metrics.calls}
+            tooltipFormatter={number.compact}
           />
         );
       }
     },
     {
       id: 'Latency',
-      getContent() {
+      getContent(item, { result }) {
         return (
           <SparkChart
-            timeframe={{ windowSize: 6000, to: 6000 }}
-            metrics={[[0, 100], [1000, 105], [2000, 400], [3000, 30], [4000, 130], [5000, 200], [6000, 160]]}
-            formatter={ms}
+            timeframe={getResolvedTimeframe(timeframe, result)}
+            metrics={item.metrics.latency}
+            tooltipFormatter={ms.compact}
           />
         );
       }
     },
     {
       id: 'Errors',
-      getContent() {
+      getContent(item, { result }) {
         return (
           <SparkChart
-            timeframe={{ windowSize: 6000, to: 6000 }}
-            metrics={[[0, 0.1], [1000, 0.05], [2000, 0.25], [3000, 0.1], [4000, 0.3], [5000, 0], [6000, 0.1]]}
-            formatter={percentage}
+            timeframe={getResolvedTimeframe(timeframe, result)}
+            metrics={item.metrics.errors}
+            tooltipFormatter={percentage.compact}
           />
         );
       }
