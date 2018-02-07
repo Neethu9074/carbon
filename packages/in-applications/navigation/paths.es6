@@ -20,7 +20,7 @@ export function getServiceDashboard(serviceId, { appId, endpointId } = {}) {
 
 export function getEndpointDashboard(endpointId, { appId, serviceId } = {}) {
   return getModifiedUrlStream(params => {
-    params.pathname = `${endpointDashboard}`;
+    params.pathname = `${endpointDashboard}/summary`;
     setOrDeleteMatrixKey(params, endpointDashboard, 'serviceId', serviceId);
     setOrDeleteMatrixKey(params, endpointDashboard, 'appId', appId);
     setOrDeleteMatrixKey(params, endpointDashboard, 'endpointId', endpointId);

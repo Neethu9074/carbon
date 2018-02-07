@@ -60,7 +60,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection }) {
       },
       metrics: {},
       filter: {
-        applicationName: query,
+        application: query,
         timeframe
       }
     })
