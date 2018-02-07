@@ -9,21 +9,23 @@ import { pendingResult } from 'in-services/fixedObjects';
 
 import locals from './ServerTablePresenter.mless';
 
-export default function ServerTablePresenter({
-  // values configurable via the table
-  query,
-  page,
-  orderBy,
-  orderDirection,
-  pageSize,
+export default function ServerTablePresenter(props) {
+  const {
+    // values configurable via the table
+    query,
+    page,
+    orderBy,
+    orderDirection,
+    pageSize,
 
-  // values that define the content
-  columnDefinitions,
-  result = pendingResult,
+    // values that define the content
+    columnDefinitions,
+    result = pendingResult,
 
-  // events
-  onChange
-}) {
+    // events
+    onChange
+  } = props;
+
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
 
@@ -43,9 +45,8 @@ export default function ServerTablePresenter({
       </tr>
     );
   } else {
-    const cellOpts = { result };
     body = result.data.items.map((item, i) => (
-      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} cellOpts={cellOpts} />
+      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} cellOpts={props} />
     ));
   }
 
