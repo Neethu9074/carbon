@@ -1,25 +1,28 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
 import { number, ms, percentage } from 'in-services/formatters/number';
-import { serviceDashboard } from 'in-applications/navigation/paths';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
+import Link from 'in-components/Link';
 
 export default function Endpoints({ location, timeframe, data }) {
+  const appId = getMatrixParameter(location, serviceDashboard, applicationId);
+  const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
         get={getTableData}
-        applicationId={getMatrixParameter(location, serviceDashboard, applicationId)}
-        serviceId={getMatrixParameter(location, serviceDashboard, serviceId)}
+        applicationId={appId}
+        serviceId={serviceID}
         pageSize={10}
         timeframe={timeframe}
-        columnDefinitions={getColumnDefinitions(timeframe, data.label)}
+        columnDefinitions={getColumnDefinitions(timeframe, data.label, appId, serviceID)}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -72,13 +75,13 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
   });
 }
 
-function getColumnDefinitions(timeframe, serviceLabel) {
+function getColumnDefinitions(timeframe, serviceLabel, appId, serviceId) {
   return [
     {
       id: 'endpointLabel',
       label: 'Method',
       getContent(item) {
-        return item.endpoint.label;
+        return <Link href$={getEndpointDashboard(item.endpoint.id, { appId, serviceId })}>{item.endpoint.label}</Link>;
       }
     },
     {

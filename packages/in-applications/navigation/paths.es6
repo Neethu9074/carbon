@@ -18,6 +18,15 @@ export function getServiceDashboard(serviceId, { appId, endpointId } = {}) {
   });
 }
 
+export function getEndpointDashboard(endpointId, { appId, serviceId } = {}) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${endpointDashboard}`;
+    setOrDeleteMatrixKey(params, endpointDashboard, 'serviceId', serviceId);
+    setOrDeleteMatrixKey(params, endpointDashboard, 'appId', appId);
+    setOrDeleteMatrixKey(params, endpointDashboard, 'endpointId', endpointId);
+  });
+}
+
 export function getApplicationDashboard(appId) {
   return getModifiedUrlStream(params => {
     params.pathname = `${applicationDashboard}/summary`;
