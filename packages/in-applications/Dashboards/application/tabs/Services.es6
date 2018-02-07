@@ -19,7 +19,7 @@ export default function ServiceList({ data: { id }, location }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, location }) {
+function getTableData({ page, pageSize, orderBy, orderDirection, location }) {
   return timeframe$.flatMap(timeframe =>
     getServices({
       pagination: {
@@ -34,7 +34,6 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, location
       filter: {
         application: getMatrixParameter(location, applicationDashboard, applicationId),
         service: getMatrixParameter(location, applicationDashboard, serviceId),
-        serviceName: query,
         endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
         timeframe
       }
