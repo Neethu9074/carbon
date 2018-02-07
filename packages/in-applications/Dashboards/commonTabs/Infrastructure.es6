@@ -74,7 +74,7 @@ function getTableData({
       }
     },
     filter: {
-      infrastructureName: query,
+      label: query,
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
@@ -86,7 +86,7 @@ function getTableData({
 function getColumnDefinitions(timeframe) {
   return [
     {
-      id: 'label',
+      id: 'process',
       label: 'Process',
       getContent(item) {
         return <SnapshotLink snapshotId={item.physicalContext.process} />;
