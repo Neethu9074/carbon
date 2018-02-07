@@ -3,10 +3,10 @@ import React from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
-import SparkChart from 'in-components/SparkChart';
 
 export default function Infrastructure({ applicationId, serviceId, endpointId, timeframe }) {
   return (
@@ -105,8 +105,10 @@ function getColumnDefinitions(timeframe) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.calls}
+            metric={item.metrics.callsAgg}
             tooltipFormatter={number.compact}
           />
         );
@@ -118,8 +120,10 @@ function getColumnDefinitions(timeframe) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.latency}
+            metric={item.metrics.latencyAgg}
             tooltipFormatter={ms.compact}
           />
         );
@@ -131,8 +135,10 @@ function getColumnDefinitions(timeframe) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.errors}
+            metric={item.metrics.errorsAgg}
             tooltipFormatter={percentage.compact}
           />
         );
