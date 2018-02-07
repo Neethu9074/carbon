@@ -32,9 +32,9 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, location
       },
       metrics: {},
       filter: {
+        label: query,
         application: getMatrixParameter(location, applicationDashboard, applicationId),
         service: getMatrixParameter(location, applicationDashboard, serviceId),
-        serviceName: query,
         endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
         timeframe
       }
