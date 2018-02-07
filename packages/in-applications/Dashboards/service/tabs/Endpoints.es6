@@ -10,7 +10,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
 import SparkChart from 'in-components/SparkChart';
 
-export default function Endpoints({ location, timeframe }) {
+export default function Endpoints({ location, timeframe, data }) {
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
@@ -19,7 +19,7 @@ export default function Endpoints({ location, timeframe }) {
         serviceId={getMatrixParameter(location, serviceDashboard, serviceId)}
         pageSize={10}
         timeframe={timeframe}
-        columnDefinitions={getColumnDefinitions(timeframe)}
+        columnDefinitions={getColumnDefinitions(timeframe, data.label)}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -41,15 +41,27 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
       timeframe
     },
     metrics: {
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeframe)
       },
+      latencyAgg: {
+        metric: 'latency',
+        aggregation: 'MEAN'
+      },
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeframe)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'MEAN'
       },
       errors: {
         metric: 'errors',
@@ -60,17 +72,25 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
   });
 }
 
-function getColumnDefinitions(timeframe) {
+function getColumnDefinitions(timeframe, serviceLabel) {
   return [
     {
       id: 'endpointLabel',
-      label: 'Name',
+      label: 'Method',
       getContent(item) {
         return item.endpoint.label;
       }
     },
     {
-      id: 'Calls',
+      id: 'serviceLabel',
+      label: 'Service',
+      getContent() {
+        return serviceLabel;
+      }
+    },
+    {
+      id: 'callsAgg',
+      label: 'Calls',
       getContent(item, { result }) {
         return (
           <SparkChart
@@ -82,7 +102,8 @@ function getColumnDefinitions(timeframe) {
       }
     },
     {
-      id: 'Latency',
+      id: 'latencyAgg',
+      label: 'Latency',
       getContent(item, { result }) {
         return (
           <SparkChart
@@ -94,7 +115,8 @@ function getColumnDefinitions(timeframe) {
       }
     },
     {
-      id: 'Errors',
+      id: 'errorsAgg',
+      label: 'Errors',
       getContent(item, { result }) {
         return (
           <SparkChart
