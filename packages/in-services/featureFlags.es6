@@ -16,7 +16,7 @@ export const instanaInternalFeaturesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
 export const cockpitEnabled = false;
 export const agentNotificationsEnabled = false;
-export const newServiceDashboardsEnabled = onlyInternally;
+export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 export const application_2_0_Enabled = onlyInternally;
 
