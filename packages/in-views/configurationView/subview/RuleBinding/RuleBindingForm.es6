@@ -130,7 +130,8 @@ export default connectTo(
                         { value: '5000', label: '5s' },
                         { value: '10000', label: '10s' },
                         { value: '60000', label: '1min' },
-                        { value: '300000', label: '5min' }
+                        { value: '300000', label: '5min' },
+                        { value: '3600000', label: '60min' }
                       ]}
                       onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
                     />
