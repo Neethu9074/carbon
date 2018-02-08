@@ -7,7 +7,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SparkChart.mless';
 
-export default function SparkChartLoadingWrapper(props) {
+export default function SparkChartReactComponent(props) {
   const { timeframe, metrics } = props;
   if (!timeframe || !metrics) {
     return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;

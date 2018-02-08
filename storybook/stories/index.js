@@ -19,6 +19,7 @@ import './content/ServiceDashboardStory';
 
 import './components/BadgeStory';
 import './components/ButtonStory';
+import './components/Chart';
 import './components/CodeEditor';
 import './components/CodeStory';
 import './components/ComboBoxStory';

@@ -16,7 +16,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-export default connectTo({ timeframe: timeframe$ }, function ServicesList({timeframe}) {
+export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe }) {
   const breadcrumbs = [<ApplicationServiceViewBreadcrumb />];
 
   return (

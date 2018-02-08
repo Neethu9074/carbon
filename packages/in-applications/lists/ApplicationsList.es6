@@ -19,7 +19,7 @@ import Link from 'in-components/Link';
 
 import locals from './ApplicationList.mless';
 
-export default connectTo({ timeframe: timeframe$ }, function ApplicationsList({timeframe}) {
+export default connectTo({ timeframe: timeframe$ }, function ApplicationsList({ timeframe }) {
   const breadcrumbs = [<ApplicationViewBreadcrumb />];
 
   return (

@@ -3,7 +3,7 @@ import React from 'react';
 import SparkChart from 'in-components/SparkChart';
 
 export default function TableSparkChart(props) {
-  const {metric, tooltipFormatter} = props;
+  const { metric, tooltipFormatter } = props;
   let aggregationContent = '';
   if (typeof metric === 'number') {
     aggregationContent = tooltipFormatter(metric);
