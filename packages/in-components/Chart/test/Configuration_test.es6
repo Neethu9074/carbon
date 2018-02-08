@@ -74,7 +74,7 @@ describe('in-components/Chart/Configuration', () => {
         formatter: [number, percentage],
         renderer: Renderer.countErrorBar,
         numOfSeries: 0,
-        colors: [],
+        colors: ['#5da6da', '#ff4229'],
         valuesDependOnEachOther: true
       });
     });

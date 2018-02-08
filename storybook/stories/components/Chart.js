@@ -213,7 +213,6 @@ function CountErrorBar() {
         y1={{
           renderer: Renderer.countErrorBar,
           labels: ['Count', 'Error'],
-          colors: ['#5da6da', '#ff4229'],
           metrics: [generateMetrics(10, 20, oneMinute), generateMetrics(10, 0.7, oneMinute)],
           aggregation: 'awesomeAggregation'
         }}

@@ -23,6 +23,7 @@ export default {
     axis.valuesDependOnEachOther = true;
     config.addBlockSizeMillisForAxis(axis);
     axis.formatter = [number, percentage];
+    axis.colors = ['#5da6da', '#ff4229'];
   }
 };
 
