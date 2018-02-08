@@ -1,24 +1,42 @@
-import React from 'react';
+import { compose } from 'recompose';
 
-import ToplistRow from 'in-components/TopList/TopListRow';
-import ButtonGroup from 'in-components/ButtonGroup';
-import Button from 'in-components/Button';
+import withPropDependingState from 'in-hoc/withPropDependingState';
+import connect from 'in-hoc/connectTo';
 
-import locals from './TopList.mless';
+// Sample Usage
+// <TopList metrics={['latency', 'selfLatency', 'calls', 'errors']}
+//          labels={['Elapsed Latency', 'Self Latency', 'Calls', 'Errors']}
+//          aggregations={['MEAN', 'MEAN', 'SUM', 'MEAN']}
+//          formatters={[ms.compact, ms.compact, number.compact, percentage.compact]}
+//          getList={()}
+//          render={({result, selectedMetric, selectedMetricFormatter}) => <span />}/>
 
-export default function TopList({ dummyData, header }) {
-  return (
-    <div className={locals.topList}>
-      <div className={locals.header}>
-        <h3>{header}</h3>
-        <ButtonGroup className={locals.buttons} horizontal>
-          <Button kind={'secondary'}>Latency</Button>
-          <Button kind={'secondary'} outlineOnly>
-            Calls
-          </Button>
-        </ButtonGroup>
-      </div>
-      <ol>{dummyData.map(data => <ToplistRow {...data} />)}</ol>
-    </div>
-  );
+export default compose(
+  withPropDependingState(
+    ['metrics', 'formatters', 'aggregations'],
+    ({ metrics, formatters, aggregations }) => ({
+      selectedMetric: metrics[0],
+      selectedMetricFormatter: formatters[0],
+      selectedMetricAggregation: aggregations[0]
+    }),
+    'onChangeMetric',
+    (prevState, newSelectedMetric, { metrics, formatters, aggregations }) => {
+      let i = metrics.indexOf(newSelectedMetric);
+      if (i === -1) {
+        i = 0;
+      }
+      return {
+        selectedMetric: metrics[i],
+        selectedMetricFormatter: formatters[i],
+        selectedMetricAggregation: aggregations[i]
+      };
+    }
+  ),
+  connect(props => ({
+    result: props.getList(props)
+  }))
+)(TopList);
+
+function TopList(props) {
+  return props.render(props);
 }
