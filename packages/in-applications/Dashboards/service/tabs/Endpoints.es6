@@ -5,6 +5,7 @@ import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigati
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import translation from 'in-applications/typesTranslation/service';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -20,7 +21,7 @@ export default function Endpoints({ location, timeframe, data }) {
     <MaxWidthFullscreenContainer>
       {types.map(endpointType => (
         <Fragment key={endpointType}>
-          <h3>{endpointType}</h3>
+          <h3>{translation(endpointType)}</h3>
           <ServerTable
             get={getTableData}
             applicationId={appId}
