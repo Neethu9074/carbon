@@ -84,10 +84,16 @@ export default function Performance({ timeframe }) {
           timeframe={timeframe}
           y1={{
             renderer: Renderer.stackedArea,
-            labels: ['Self', 'Http', 'RPC'],
-            colors: ['#57a7f0', '#6a8bdf', '#b9b3ff'],
+            labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+            colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
             formatter: millis,
-            metrics: [generateMetrics(timeframe), generateMetrics(timeframe), generateMetrics(timeframe)]
+            metrics: [
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe)
+            ]
           }}
         />
       </DashboardSection>
