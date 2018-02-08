@@ -1,41 +1,54 @@
 import React from 'react';
 
-import { hexToRGB } from 'in-services/formatters/color';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './Legend.mless';
 
-export default function Legend({ chart }) {
-  return (
-    <div className={locals.legend}>
-      <MetricSeries axis={chart.config.y1} />
-      <MetricSeries axis={chart.config.y2} />
-    </div>
-  );
-}
+export default connectTo(
+  props => ({
+    filteredDataSeries: props.chart.config.signals.on('filteredDataSeriesChanged')
+  }),
+  function Legend({ chart, filteredDataSeries }) {
+    return (
+      <div className={locals.legend}>
+        <MetricSeries axis={chart.config.y1} filteredDataSeries={filteredDataSeries} config={chart.config} />
+        <MetricSeries axis={chart.config.y2} filteredDataSeries={filteredDataSeries} config={chart.config} />
+      </div>
+    );
+  }
+);
 
-function MetricSeries({ axis }) {
+function MetricSeries({ axis, config, filteredDataSeries }) {
   if (!axis) {
     return null;
   }
   return (
     <ul className={locals.metricList}>
-      {axis.labels.map((label, i) => (
-        <li
-          key={label}
-          className={locals.metric}
-          style={{
-            background: toBackground(axis.colors[i]),
-            color: axis.colors[i]
-          }}
-        >
-          {label}
-        </li>
-      ))}
+      {axis.labels.map((label, i) => {
+        const isDisabled = filteredDataSeries && filteredDataSeries.has(label);
+        return (
+          <li
+            key={label}
+            className={evaluateClassNames({
+              [locals.metric]: true,
+              [locals.disabledMetric]: isDisabled
+            })}
+            onClick={() => config.toggleDataSeries(label)}
+          >
+            <div
+              className={evaluateClassNames({
+                [locals.dot]: true,
+                [locals.disabledDot]: isDisabled
+              })}
+              style={{
+                background: axis.colors[i]
+              }}
+            />
+            {label}
+          </li>
+        );
+      })}
     </ul>
   );
-}
-
-function toBackground(hexColor) {
-  const color = hexToRGB(hexColor);
-  return `rgba(${color.r}, ${color.g}, ${color.b}, 0.1)`;
 }

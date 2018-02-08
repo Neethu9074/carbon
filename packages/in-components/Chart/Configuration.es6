@@ -20,11 +20,14 @@ export default class Config {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.signals = new RoEmitter();
+    this.filteredDataSeries = new Map();
 
     this.renderingSubscription = this.signals
       .on('render')
       .debounce(1000 / MAX_FPS)
       .subscribe(renderCallback);
+
+    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
   }
 
   requestRender() {
@@ -189,6 +192,16 @@ export default class Config {
     }
 
     return blocks;
+  }
+
+  toggleDataSeries(label) {
+    if (this.filteredDataSeries.has(label)) {
+      this.filteredDataSeries.delete(label);
+    } else {
+      this.filteredDataSeries.set(label, true);
+    }
+    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+    this.requestRender();
   }
 
   dispose() {

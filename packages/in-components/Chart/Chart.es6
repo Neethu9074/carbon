@@ -5,6 +5,8 @@ import renderTicks from 'in-components/Chart/renderer/ticks';
 import clearRender from 'in-components/Chart/renderer/clear';
 import renderAxis from 'in-components/Chart/renderer/axis';
 
+const emptyDataSeries = [];
+
 export default class Chart {
   constructor(canvas) {
     this.config = new Config(canvas, this.render.bind(this));
@@ -40,24 +42,26 @@ export default class Chart {
       return;
     }
 
+    const metrics = this.filterDataSeries(axis);
+
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther) {
       axis.renderer.render({
         axis,
-        metrics: axis.metrics,
+        metrics,
         colors: axis.colors,
         scale: config.scales[axisName],
         config
       });
     } else {
-      for (let i = 0; i < axis.metrics.length; i++) {
-        const dataSeries = axis.metrics[i];
+      for (let i = 0; i < metrics.length; i++) {
+        const dataSeries = metrics[i];
         if (dataSeries.length === 0) {
           continue;
         }
         axis.renderer.render({
           axis,
           index: i,
-          dataSeries: axis.metrics[i],
+          dataSeries: metrics[i],
           color: axis.colors[i],
           scale: config.scales[axisName],
           config
@@ -130,6 +134,18 @@ export default class Chart {
         return dataPoint;
       }
     }
+  }
+
+  filterDataSeries(axis) {
+    const validMetrics = [];
+    for (let i = 0; i < axis.metrics.length; i++) {
+      validMetrics.push(this.isLabelFilteredByUser(axis.labels[i]) ? emptyDataSeries : axis.metrics[i]);
+    }
+    return validMetrics;
+  }
+
+  isLabelFilteredByUser(label) {
+    return this.config.filteredDataSeries.has(label);
   }
 
   timeIsNotDefined(timestamp) {
