@@ -3,8 +3,8 @@
     position: absolute;
     top: 1.5rem;
     bottom: 0;
-    left: 5rem;
-    right: 5rem;
+    left: 2.5rem;
+    right: 2.5rem;
   }
 
   .glassPane {

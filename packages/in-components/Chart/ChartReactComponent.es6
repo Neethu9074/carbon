@@ -15,8 +15,8 @@ export default class ChartReactComponent extends React.Component {
   static displayName = 'ChartReactComponent';
 
   static defaultProps = {
-    height: 140,
-    width: 500
+    height: 160,
+    width: 550
   };
 
   render() {
