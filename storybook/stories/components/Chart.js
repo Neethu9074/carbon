@@ -49,6 +49,15 @@ function Simple() {
           metrics: [generateMetrics(75, 20, oneHour)]
         }}
       />
+      <Chart
+        minRollup={oneHour / 20}
+        timeframe={generateTimeframe(oneHour)}
+        y1={{
+          renderer: Renderer.line,
+          labels: ['Calls'],
+          metrics: [generateMetrics(200, 20, oneHour)]
+        }}
+      />
     </Root>
   );
 }
