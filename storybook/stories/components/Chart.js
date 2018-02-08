@@ -257,17 +257,18 @@ const Resize = connectTo(
   function Resize({ size, metrics }) {
     return (
       <Root>
-        <Chart
-          width={size.width}
-          height={size.height}
-          timeframe={generateTimeframe(oneHour)}
-          minRollup={oneHour / 20}
-          y1={{
-            renderer: Renderer.line,
-            labels: ['Calls'],
-            metrics: [metrics]
-          }}
-        />
+        <div style={{ width: size.width }}>
+          <Chart
+            customHeight={size.height}
+            timeframe={generateTimeframe(oneHour)}
+            minRollup={oneHour / 20}
+            y1={{
+              renderer: Renderer.line,
+              labels: ['Calls'],
+              metrics: [metrics]
+            }}
+          />
+        </div>
       </Root>
     );
   }
