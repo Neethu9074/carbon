@@ -13,7 +13,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      instances: getServiceInstances(props.snapshotId)
+      instances: getServiceInstances(props.snapshot.get('id'))
         // Always start with an empty set to avoid inconsistent view,
         // displaying running components for a previously selected snapshot.
         .startWith(emptySet)

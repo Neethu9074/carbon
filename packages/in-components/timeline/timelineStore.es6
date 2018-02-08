@@ -11,6 +11,7 @@ import {
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
+import { withoutTimeline } from 'in-services/featureFlags';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
@@ -24,6 +25,8 @@ let currentBigBangTimestamp;
 let currentServerTime;
 
 export function init() {
+  timelineHeight$.subscribe(height => (document.body.style.paddingBottom = `${height}px`));
+
   combineLatest([bigBangTimestamp$, serverTime$]).subscribe(props => {
     currentBigBangTimestamp = props[0];
     currentServerTime = props[1];
@@ -63,7 +66,9 @@ export const isCollapsed$ = isCollapsedStore.observable;
 
 export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
   .map(([isCollapsed, autoCollapseTimeline]) => {
-    if (autoCollapseTimeline) {
+    if (withoutTimeline) {
+      return 0;
+    } else if (autoCollapseTimeline) {
       return theme.footer.height;
     } else if (!isCollapsed) {
       return theme.footer.heightOpen;
@@ -71,8 +76,6 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
     return theme.footer.heightExpanded;
   })
   .distinct();
-
-timelineHeight$.subscribe(height => (document.body.style.paddingBottom = `${height}px`));
 
 // the height of the timeline in the various states in an interactable mode
 export const interactableTimelineHeight$ = isCollapsed$

@@ -1,0 +1,6 @@
+{
+  "name": "ServiceInstancesList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ServiceInstancesList.es6"
+}

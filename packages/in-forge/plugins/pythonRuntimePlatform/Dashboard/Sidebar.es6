@@ -21,7 +21,7 @@ export default function PythonDashboardSidebar({ snapshot }) {
 
       <KeyValuePopup header="Loaded Modules" data={snapshot.getIn(['data', 'snapshot.versions'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function WebSphereSidebar({ snapshot }) {
       <Apps snapshot={snapshot} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

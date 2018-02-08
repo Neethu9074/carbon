@@ -38,7 +38,7 @@ export default function ProcessSidebar({ snapshot }) {
 
       <KeyValuePopup header="Environment Variables" data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

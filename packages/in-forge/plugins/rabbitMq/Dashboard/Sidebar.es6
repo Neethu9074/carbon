@@ -21,7 +21,7 @@ export default function RabbitMqSidebar({ snapshot }) {
 
       <KeyValuePopup header="Queues" data={snapshot.getIn(['data', 'queues'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

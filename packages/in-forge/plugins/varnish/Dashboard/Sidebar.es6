@@ -37,7 +37,7 @@ export default function VarnishSidebar({ snapshot }) {
         </div>
       ))}
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

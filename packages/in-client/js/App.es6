@@ -4,6 +4,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
+import { withoutTimeline } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
@@ -28,9 +29,11 @@ export default function App() {
         <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
       </Sticky>
 
-      <ErrorBoundary name="timeline">
-        <Timeline />
-      </ErrorBoundary>
+      {!withoutTimeline && (
+        <ErrorBoundary name="timeline">
+          <Timeline />
+        </ErrorBoundary>
+      )}
 
       <ErrorBoundary name="dialogs">
         {/* for release notes */}
