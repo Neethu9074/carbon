@@ -25,6 +25,7 @@ storiesOf('components/Chart', module)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
   .add('Integral', () => <Integral />)
+  .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
   .add('Resize', () => <Resize />);
 
@@ -215,6 +216,21 @@ function CountErrorBar() {
           colors: ['#5da6da', '#ff4229'],
           metrics: [generateMetrics(10, 20, oneMinute), generateMetrics(10, 0.7, oneMinute)],
           aggregation: 'awesomeAggregation'
+        }}
+      />
+    </Root>
+  );
+}
+
+function Points() {
+  return (
+    <Root>
+      <Chart
+        timeframe={generateTimeframe(oneMinute)}
+        y1={{
+          renderer: Renderer.point,
+          labels: ['Count'],
+          metrics: [generateMetrics(30, 4, oneMinute)]
         }}
       />
     </Root>
