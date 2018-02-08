@@ -32,6 +32,8 @@ export default getElementDimensions(
     }
 
     render() {
+      console.log('map props:', this.props);
+
       return (
         <div className={locals.wrapper}>
           <div className={locals.overlay} ref={overlay => (this.overlayReactComponent = overlay)} />
