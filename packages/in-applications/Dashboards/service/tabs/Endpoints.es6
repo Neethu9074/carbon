@@ -106,8 +106,10 @@ function getColumnDefinitions(timeframe, serviceLabel, appId, serviceId) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.calls}
+            metric={item.metrics.callsAgg}
             tooltipFormatter={number.compact}
           />
         );
@@ -119,8 +121,10 @@ function getColumnDefinitions(timeframe, serviceLabel, appId, serviceId) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.latency}
+            metric={item.metrics.latencyAgg}
             tooltipFormatter={ms.compact}
           />
         );
@@ -132,8 +136,10 @@ function getColumnDefinitions(timeframe, serviceLabel, appId, serviceId) {
       getContent(item, { result }) {
         return (
           <SparkChart
+            rollup={getSparkChartGranularity(timeframe)}
             timeframe={getResolvedTimeframe(timeframe, result)}
             metrics={item.metrics.errors}
+            metric={item.metrics.errorsAgg}
             tooltipFormatter={percentage.compact}
           />
         );
