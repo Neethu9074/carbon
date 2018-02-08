@@ -136,7 +136,7 @@ function Bar() {
           renderer: Renderer.bar,
           labels: ['Calls'],
           metrics: [generateMetrics(12, 100, oneMinute)],
-          aggregation: true
+          aggregation: 'awesomeAggregation'
         }}
       />
     </Root>
@@ -214,7 +214,7 @@ function CountErrorBar() {
           labels: ['Count', 'Error'],
           colors: ['#5da6da', '#ff4229'],
           metrics: [generateMetrics(10, 20, oneMinute), generateMetrics(10, 0.7, oneMinute)],
-          aggregation: true
+          aggregation: 'awesomeAggregation'
         }}
       />
     </Root>

@@ -38,7 +38,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime }) {
             >
               {label}
             </span>{' '}
-            <span>{dataPoint ? axis.formatter.detailed(dataPoint[1]) : '--'}</span>
+            <span>{dataPoint ? axis.formatter[i].detailed(dataPoint[1]) : '--'}</span>
           </li>
         );
       })}

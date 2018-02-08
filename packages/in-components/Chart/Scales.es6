@@ -52,7 +52,7 @@ export default class Scales {
     scale.setDomainFrom(minValue);
     scale.setDomainTo(maxValue);
 
-    scale.tickPositions = getAxisTickPositions(scale, axis.formatter.detailed);
+    scale.tickPositions = getAxisTickPositions(scale, axis.formatter[0].detailed);
   }
 
   getMinMaxValueForDataSeries(dataSeries) {

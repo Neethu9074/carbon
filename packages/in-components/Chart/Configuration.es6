@@ -69,13 +69,26 @@ export default class Config {
     if (!axis) {
       return;
     }
-    axis.formatter = axis.formatter || number;
     axis.numOfSeries = axis.labels ? axis.labels.length : 0;
+    axis.formatter = this.getFormatterForAxis(axis);
     axis.renderer = axis.renderer || Renderer.line;
 
     if (axis.renderer.enrich) {
       axis.renderer.enrich(this, axis);
     }
+  }
+
+  getFormatterForAxis(axis) {
+    if (axis.numOfSeries === 0) {
+      return [number];
+    } else if (Array.isArray(axis.formatter)) {
+      return axis.formatter;
+    }
+    const formatter = [];
+    for (let i = 0; i < axis.numOfSeries; i++) {
+      formatter.push(axis.formatter || number);
+    }
+    return formatter;
   }
 
   addBlockSizeMillisForAxis(axis) {
