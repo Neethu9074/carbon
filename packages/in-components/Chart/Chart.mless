@@ -1,0 +1,10 @@
+:local {
+  .chart {
+    position: relative;
+    width: fit-content;
+  }
+
+  .canvas {
+    display: block;
+  }
+}

@@ -1,5 +1,3 @@
-/* eslint-disable  react/no-unused-prop-types */
-
 import { serverTime$ } from 'in-stores/serverTime';
 import { always } from 'in-services/fixedStreams';
 import SparkChart from 'in-components/SparkChart';

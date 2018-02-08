@@ -1,0 +1,32 @@
+:local {
+  .tooltipContent {
+    width: 13rem;
+    padding: 0.25rem 0.438rem;
+    background: #21282e;
+    border-radius: 0.188rem;
+    font-size: 0.688rem;
+    color: #6b8088;
+  }
+
+  .time {
+    margin-bottom: 0.25rem;
+    color: #dfdfdf;
+  }
+
+  .metricListing {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tooltipMetricList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .metricValue {
+    padding: 0.125rem 0.25rem;
+    margin: 0 0.125rem;
+    font-weight: bold;
+  }
+}
