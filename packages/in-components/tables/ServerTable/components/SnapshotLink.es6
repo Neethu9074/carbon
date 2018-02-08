@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -7,27 +8,44 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+// Sample usage:
+//   <SnapshotLink snapshot={?snapshot} />
+//   <SnapshotLink snapshotPreview={?snapshotPreview} />
+
 export default connectTo(
   props => {
-    const snapshot$ = getSnapshot(props.snapshotId);
-    return {
-      snapshot: snapshot$,
-      href: snapshot$.flatMap(snapshot => {
-        if (!snapshot) {
-          return alwaysNull;
-        }
-        return getModifiedUrlStream(params => {
+    if (props.snapshot) {
+      const snapshot$ = getSnapshot(props.snapshotId);
+      return {
+        label: snapshot$.map(s => s != null && getLabel(s)),
+
+        href: snapshot$.flatMap(snapshot => {
+          if (!snapshot) {
+            return alwaysNull;
+          }
+          return getModifiedUrlStream(params => {
+            params.pathname = physicalDashboardPath;
+            params.query.snapshotId = snapshot.get('id');
+          });
+        })
+      };
+    } else if (props.snapshotPreview) {
+      return {
+        label: just(props.snapshotPreview.label),
+
+        href: getModifiedUrlStream(params => {
           params.pathname = physicalDashboardPath;
-          params.query.snapshotId = snapshot.get('id');
-        });
-      })
-    };
+          params.query.snapshotId = props.snapshotPreview.id;
+        })
+      };
+    }
+    return {};
   },
-  function SnapshotLink({ snapshot, href }) {
-    if (!snapshot || !href) {
+  function SnapshotLink({ label, href }) {
+    if (!label || !href) {
       return null;
     }
 
-    return <a href={href}>{getLabel(snapshot)}</a>;
+    return <a href={href}>{label}</a>;
   }
 );
