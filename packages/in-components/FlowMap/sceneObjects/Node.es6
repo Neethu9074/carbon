@@ -36,6 +36,14 @@ export default class Node extends SceneObject {
     this.events$.emit('screenPosition', screenPosition);
   }
 
+  setLoadingOutgoingData(isLoading) {
+    this.events$.emit('isLoadingOutgoingData', isLoading);
+  }
+
+  setLoadingIncomingData(isLoading) {
+    this.events$.emit('isLoadingIncomingData', isLoading);
+  }
+
   expandRight() {
     getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForNodeId(this.id);
   }
