@@ -5,15 +5,10 @@ import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Node extends SceneObject {
-  constructor(serviceLocatorUid, data) {
-    super(data.id, serviceLocatorUid);
+  constructor(serviceLocatorUid, id) {
+    super(id, serviceLocatorUid);
 
-    this.data = data;
     this.screenPosition = this.position;
-
-    const serviceLocators = getServiceLocators(serviceLocatorUid);
-    serviceLocators.nodesServiceLocator.addNode(this.id, this);
-
     this.initSubscriptions();
   }
 
@@ -41,7 +36,20 @@ export default class Node extends SceneObject {
     this.events$.emit('screenPosition', screenPosition);
   }
 
+  expandRight() {
+    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+    dataFetchingServiceLocator.getDataForNode(this.id, 'outgoing');
+  }
+
+  expandLeft() {
+    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+    dataFetchingServiceLocator.getDataForNode(this.id, 'left');
+  }
+
   disposeSubscriptions() {
+    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+    dataFetchingServiceLocator.disposeDataForNode(this.id);
+
     this.subscriber.dispose();
     this.subscriber = null;
   }

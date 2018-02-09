@@ -1,27 +1,45 @@
 import React from 'react';
 
 import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
-import { serviceDashboard } from 'in-applications/navigation/paths';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import ServerFlowMap from 'in-components/FlowMap/ServerFlowMap';
-import { serviceId } from 'in-applications/navigation/matrix';
 import { timeframe$ } from 'in-stores/timeline';
+import FlowMap from 'in-components/FlowMap';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ timeframe: timeframe$ }, function FlowMap({ location, timeframe }) {
-  const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
+export default connectTo({ timeframe: timeframe$ }, function ServiceFlowMap({ data }) {
   return (
-    <ServerFlowMap
-      serviceId={serviceID}
-      get={props => {
-        return getTableData(props);
-      }}
-      timeframe={timeframe}
+    <FlowMap
+      rootNodeId={data.id}
+      createDataFetchingService={createNodeCallback => createDataFetchingService(createNodeCallback, data)}
     />
   );
 });
 
-function getTableData({ serviceId, query, timeframe }) {
+function createDataFetchingService(createNodeCallback, rootNodeData) {
+  return {
+    init,
+    getDataForNode,
+    disposeDataForNode,
+    dispose
+  };
+
+  function init() {
+    const rootNode = createNodeCallback(rootNodeData);
+    rootNode.expandRight();
+    rootNode.expandLeft();
+  }
+
+  function getDataForNode(id, direction) {
+    console.log('fetch data for', id, direction);
+  }
+
+  function disposeDataForNode(id) {
+    console.log('dispose open subscriptions for', id);
+  }
+
+  function dispose() {}
+}
+
+function getNodeData({ nodeId, query, timeframe }) {
   return getServiceFlowNodes({
     metrics: {
       endpoints: {
@@ -47,10 +65,10 @@ function getTableData({ serviceId, query, timeframe }) {
     },
 
     traversal: {
-      maxDepth: 2
+      maxDepth: 1
     },
 
-    path: [serviceId],
+    path: [nodeId],
 
     direction: 'INCOMING'
   });

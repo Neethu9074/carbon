@@ -21,7 +21,7 @@ export default connectTo(
       })
       .distinct()
   }),
-  function Nodes({ nodes, nodesSize }) {
+  function Nodes({ nodes, nodesSize, rootNodeId }) {
     if (!nodes || !nodes.size === 0) {
       return null;
     }
@@ -32,6 +32,8 @@ export default connectTo(
       nodesArray.push(node);
     }
 
-    return nodesArray.map(node => <Node key={node.id} node={node} size={nodesSize} />);
+    return nodesArray.map(node => (
+      <Node key={node.id} node={node} size={nodesSize} isRootNode={node.id === rootNodeId} />
+    ));
   }
 );

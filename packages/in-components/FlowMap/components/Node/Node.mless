@@ -10,7 +10,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
     background: white;
     font-weight: 500;
     border-radius: 3px;
@@ -28,9 +28,9 @@
   }
 
   .sm {
-    left: -20px;
+    left: -23px;
     top: -12px;
-    width: 40px;
+    width: 46px;
     height: 24px;
   }
 
@@ -65,5 +65,37 @@
     &:hover {
       fill: #479bcc;
     }
+  }
+
+  .expandButtonRight,
+  .expandButtonLeft {
+    position: absolute;
+    top: ~'calc(50% - 10px)';
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    background: #1fb7b9;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    &:hover {
+      background: #5bdee0;
+    }
+  }
+
+  .expandButtonRight {
+    right: -10px;
+  }
+
+  .expandButtonLeft {
+    left: -12px;
+  }
+
+  .expandNodeIcon {
   }
 }

@@ -1,4 +1,4 @@
-import createNullService from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsNullService';
+import createNullService from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/NullService';
 import BaseServiceLocator from 'in-components/FlowMap/serviceLocator/BaseServiceLocator';
 
 export default class ConnectionsServiceLocator extends BaseServiceLocator {
