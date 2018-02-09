@@ -245,7 +245,7 @@ export default function RuleForm({ form, onChange }) {
                 ))
               : null}
           </Col>
-          {!isPercentile() ? (
+          {!isPercentile() && (
             <Col cols={2}>
               {form.get('window').map(field => (
                 <FormGroup>
@@ -270,8 +270,8 @@ export default function RuleForm({ form, onChange }) {
                 </FormGroup>
               ))}
             </Col>
-          ) : null}
-          {isPercentile() ? (
+          )}
+          {isPercentile() && (
             <Col cols={2}>
               {form.get('rollup').map(field => (
                 <FormGroup>
@@ -294,8 +294,8 @@ export default function RuleForm({ form, onChange }) {
                 </FormGroup>
               ))}
             </Col>
-          ) : null}
-          {!isPercentile() ? (
+          )}
+          {!isPercentile() && (
             <Col cols={2}>
               {form.get('aggregation').map(field => (
                 <FormGroup>
@@ -316,7 +316,7 @@ export default function RuleForm({ form, onChange }) {
                 </FormGroup>
               ))}
             </Col>
-          ) : null}
+          )}
           <Col cols={2}>
             {form.get('conditionOperator').map(field => (
               <FormGroup>

@@ -1,86 +1,17 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import HttpFilterSelect from 'in-components/HttpFilterSelect';
-import locals from './Performance.mless';
-import Table from 'in-components/Table';
+import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
+import { serviceDashboard } from 'in-applications/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
-export default function Performance() {
-  // dummy data
-  const dummyTableRows = [1, 2, 3, 4, 5, 6].map(i => ({
-    key: String(i),
-    verb: 'GET',
-    url: '/article/id',
-    service: 'Shop'
-  }));
-
-  const tableColumns = [
-    {
-      title: 'Method',
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.verb + row.url;
-        }
-      }
-    },
-    {
-      title: 'Service',
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.service;
-        }
-      }
-    },
-    {
-      title: 'Calls',
-      type: 'string',
-      typeArgs: {
-        getValue() {
-          return 'TODO';
-        }
-      }
-    },
-    {
-      title: 'Latency',
-      type: 'string',
-      typeArgs: {
-        getValue() {
-          return 'TODO';
-        }
-      }
-    },
-    {
-      title: 'Errors',
-      type: 'health',
-      typeArgs: {
-        getSnapshotId(row) {
-          return row.key;
-        }
-      }
-    },
-    {
-      title: 'Incidents',
-      type: 'string',
-      typeArgs: {
-        getValue() {
-          return '';
-        }
-      }
-    }
-  ];
-
+export default function Performance({ location, timeframe }) {
   return (
-    <MaxWidthFullscreenContainer>
-      <DashboardSection>
-        <div className={locals.inlineHeaderWrapper}>
-          <h2 className={locals.inlineHeader}>Http Endpoints</h2>
-          <HttpFilterSelect />
-        </div>
-        <Table cols={tableColumns} rows={dummyTableRows} />
-      </DashboardSection>
-    </MaxWidthFullscreenContainer>
+    <PerformanceTab
+      applicationId={getMatrixParameter(location, serviceDashboard, applicationId)}
+      serviceId={getMatrixParameter(location, serviceDashboard, serviceId)}
+      endpointId={getMatrixParameter(location, serviceDashboard, endpointId)}
+      timeframe={timeframe}
+    />
   );
 }
