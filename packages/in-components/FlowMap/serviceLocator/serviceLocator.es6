@@ -6,13 +6,13 @@ import NodesServiceLocator from 'in-components/FlowMap/serviceLocator/NodesServi
 
 const locatorMap = new Map();
 
-export function createNewServiceLocators(id) {
+export function createNewServiceLocators(id, sceneGraph) {
   locatorMap.set(id, {
     sceneServiceLocator: new SceneServiceLocator(),
     nodesServiceLocator: new NodesServiceLocator(),
     eventBusServiceLocator: new EventBusServiceLocator(id),
     connectionsServiceLocator: new ConnectionsServiceLocator(),
-    dataFetchingServiceLocator: new DataFetchingServiceLocator()
+    dataFetchingServiceLocator: new DataFetchingServiceLocator(sceneGraph)
   });
 }
 

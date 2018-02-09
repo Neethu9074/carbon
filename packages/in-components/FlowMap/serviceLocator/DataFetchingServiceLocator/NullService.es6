@@ -1,9 +1,8 @@
 function noop() {}
 
 const nullService = {
-  init: noop,
-  getDataForNode: noop,
-  disposeDataForNode: noop,
+  fetchIncomingDataForNodeId: noop,
+  fetchOutgoingDataForNodeId: noop,
   dispose: noop
 };
 export default function createNullService() {

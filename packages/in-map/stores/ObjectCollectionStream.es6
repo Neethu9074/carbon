@@ -16,6 +16,15 @@ export default function createCollection() {
     objects$.emit(collection);
   }
 
+  function clear() {
+    const items = collection.values();
+    for (const item of items) {
+      item.dispose();
+    }
+
+    collection.clear();
+  }
+
   function get(id) {
     return collection.get(id);
   }
@@ -24,6 +33,7 @@ export default function createCollection() {
     add,
     get,
     remove,
+    clear,
     stream: objects$,
     objects: collection
   };
