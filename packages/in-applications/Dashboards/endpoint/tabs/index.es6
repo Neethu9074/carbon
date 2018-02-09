@@ -20,23 +20,8 @@ export default [
     component: () => <div>Performance</div>
   },
   {
-    label: 'Business',
-    path: `${endpointDashboard}/business`,
-    component: () => <div>Business</div>
-  },
-  {
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
     component: () => <div>Infrastructure</div>
-  },
-  {
-    label: 'Errors',
-    path: `${endpointDashboard}/errors`,
-    component: () => <div>Errors</div>
-  },
-  {
-    label: 'Events',
-    path: `${endpointDashboard}/events`,
-    component: () => <div>Events</div>
   }
 ];

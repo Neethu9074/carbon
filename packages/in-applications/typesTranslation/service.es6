@@ -1,18 +1,19 @@
+import invariant from 'invariant';
+
 const endpointTranslation = {
   BATCH: 'Batch Methods',
   DATABASE: 'Database Endpoints',
   WEB: 'HTTP Endpoints',
-  MESSAGING: 'Messaging Endpoints',
-  RPC: 'RPC Methods',
+  MESSAGING: 'Topics',
+  RPC: 'Methods',
   SDK: 'SDK Endpoints',
-  WEBSITE: 'Website Endpoints'
+  WEBSITE: 'Pages'
 };
 
 export default function translate(type) {
-  const translation = endpointTranslation[type];
-  if (translation == null) {
-    return 'TRANSLATION NOT FOUND';
-  } else {
-    return translation;
+  if (__DEV__) {
+    invariant(endpointTranslation[type], `Unknown service type ${type}`);
   }
+
+  return endpointTranslation[type] || `${type} Endpoints`;
 }

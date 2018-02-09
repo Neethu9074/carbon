@@ -9,26 +9,16 @@ export default connectTo(
   props => ({
     result: getMetrics(props.metricsConfiguration)
   }),
-  class ChartWrapper extends React.Component {
-    static displayName = 'ChartWrapper';
-
-    render() {
-      const { result } = this.props;
-
-      if (result == null) {
-        return 'Result was null';
-      }
-
-      if (result.errors.length > 0) {
-        return result.errors.join(',');
-      }
-
-      if (result.progress.loading) {
-        return 'Loading...';
-      }
-
-      return <Chart {...wrapProps(this.props)} />;
+  function ChartWrapper({ result }) {
+    if (result.errors.length > 0) {
+      return result.errors.join(',');
     }
+
+    if (result.progress.loading) {
+      return 'Loading...';
+    }
+
+    return <Chart {...wrapProps(this.props)} />;
   }
 );
 
