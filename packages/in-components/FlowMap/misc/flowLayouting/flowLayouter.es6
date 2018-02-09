@@ -1,15 +1,15 @@
 export const DISTANCE_BETWEEN_NODES_X = 6;
 export const DISTANCE_BETWEEN_NODES_Y = 3;
 
-export default function layout(startingNodeObject, nodesMap, connectionsMap) {
-  setStartingNodeToCenter(startingNodeObject);
+export default function layout(rootNode, nodesMap, connectionsMap) {
+  setStartingNodeToCenter(rootNode);
 
-  layoutNodesRecursively(startingNodeObject.incoming, 'incoming', -DISTANCE_BETWEEN_NODES_X);
-  layoutNodesRecursively(startingNodeObject.outgoing, 'outgoing', DISTANCE_BETWEEN_NODES_X);
+  layoutNodesRecursively(rootNode.incoming, 'incoming', -DISTANCE_BETWEEN_NODES_X);
+  layoutNodesRecursively(rootNode.outgoing, 'outgoing', DISTANCE_BETWEEN_NODES_X);
   layoutConnections();
 
-  function setStartingNodeToCenter(startingNode) {
-    const startingNodeSceneObject = nodesMap.get(startingNode.id);
+  function setStartingNodeToCenter(rootNode) {
+    const startingNodeSceneObject = nodesMap.get(rootNode.id);
     startingNodeSceneObject.setPosition(0, 0);
   }
 

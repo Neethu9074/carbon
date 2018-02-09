@@ -9,7 +9,7 @@ export default connectTo(
   props => ({
     screenPosition: props.node.events$.on('screenPosition')
   }),
-  function Node({ node, screenPosition, size }) {
+  function Node({ node, screenPosition, size, isRootNode }) {
     if (!screenPosition) {
       return null;
     }
@@ -22,15 +22,23 @@ export default connectTo(
           left: `${screenPosition.x * 100}%`
         }}
       >
-        <div className={`${getNodeClasses(node)} ${locals[size]}`}>{getContent(node, size)}</div>
+        <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
+          {getContent(node, size)}
+          <div className={locals.expandButtonRight} onClick={() => node.expandRight()}>
+            <SvgIcon className={locals.expandNodeIcon} type="plus_without_frame" height={10} color="#ffffff" />
+          </div>
+          <div className={locals.expandButtonLeft} onClick={() => node.expandLeft()}>
+            <SvgIcon className={locals.expandNodeIcon} type="plus_without_frame" height={10} color="#ffffff" />
+          </div>
+        </div>
       </div>
     );
   }
 );
 
-function getNodeClasses(node) {
+function getNodeClasses(isRootNode) {
   let classes = locals.node;
-  if (node.data.isCentral) {
+  if (isRootNode) {
     return `${classes} ${locals.selected}`;
   }
   return classes;
