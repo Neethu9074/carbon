@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
@@ -42,16 +42,16 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
           y1={{
             min: 0,
             metrics: ['get_records_age_ms'],
-            labels: ['Get Records age(ms)'],
+            labels: ['Get Records age'],
             type: 'line',
-            formatter: number.compact
+            formatter: millis.compact
           }}
           y2={{
             min: 0,
             metrics: ['get_records_latency'],
             labels: ['Get Records Latency'],
             type: 'line',
-            formatter: number.compact
+            formatter: millis.compact
           }}
         />
       </DashboardSection>
@@ -97,7 +97,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
             metrics: ['put_records_latency'],
             labels: ['Put Records Latency'],
             type: 'line',
-            formatter: number.compact
+            formatter: millis.compact
           }}
           y2={{
             min: 0,

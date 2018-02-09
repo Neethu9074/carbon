@@ -1,4 +1,4 @@
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -29,17 +29,17 @@ export default [
   },
   {
     metric: 'get_records_age_ms',
-    label: 'Get Records age(ms)',
+    label: 'Get Records age',
     category: ['Records'],
     min: 0,
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'get_records_latency',
     label: 'Get Records Latency',
     category: ['Records'],
     min: 0,
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'get_records_bytes',
@@ -67,7 +67,7 @@ export default [
     label: 'Put Records Latency',
     category: ['Records'],
     min: 0,
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'put_records_bytes',
