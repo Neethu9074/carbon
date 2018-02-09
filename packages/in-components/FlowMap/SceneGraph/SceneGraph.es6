@@ -51,10 +51,6 @@ export default class SceneGraph {
   processResult(nodeId, direction, result) {
     const nodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
     const node = nodes.get(nodeId);
-    if (!node) {
-      console.log('this should not happen');
-      return;
-    }
 
     const isLoading = result.progress.loading;
     const hasErrors = result.errors.length > 0;
