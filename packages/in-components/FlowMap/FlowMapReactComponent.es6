@@ -20,7 +20,9 @@ export default getElementDimensions(
     }
 
     componentWillUpdate(nextProps) {
-      this.flowMap.setSize(nextProps.width, nextProps.height);
+      if (this.props.width !== nextProps.width || this.props.height !== nextProps.height) {
+        this.flowMap.setSize(nextProps.width, nextProps.height);
+      }
     }
 
     componentWillUnmount() {
@@ -30,6 +32,8 @@ export default getElementDimensions(
     }
 
     render() {
+      console.log('map props:', this.props);
+
       return (
         <div className={locals.wrapper}>
           <div className={locals.overlay} ref={overlay => (this.overlayReactComponent = overlay)} />
