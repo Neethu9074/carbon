@@ -67,7 +67,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
           </Collapsible>
         </div>
       ))}
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

@@ -19,7 +19,7 @@ import {
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-import { application_2_0_Enabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import { newApplicationMonitoringEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -62,7 +62,7 @@ export default (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
     ) : null}
 
-    {application_2_0_Enabled && applicationRoutes}
+    {newApplicationMonitoringEnabled && applicationRoutes}
 
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />

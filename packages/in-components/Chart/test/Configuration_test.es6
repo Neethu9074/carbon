@@ -7,8 +7,8 @@ import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
+import { number, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { number } from 'in-services/formatters/number';
 
 describe('in-components/Chart/Configuration', () => {
   let renderCallback;
@@ -36,7 +36,7 @@ describe('in-components/Chart/Configuration', () => {
       config.update({ y1: {}, timeframe: { windowSize: 60000, to: null }, foo: 'bar' });
       expect(config.y1).to.deep.equal({
         renderer: Renderer.line,
-        formatter: number,
+        formatter: [number],
         numOfSeries: 0,
         colors: []
       });
@@ -53,7 +53,7 @@ describe('in-components/Chart/Configuration', () => {
         timeframe: { windowSize: 60000, to: null }
       });
       expect(config.y1).to.deep.equal({
-        formatter: number,
+        formatter: [number],
         renderer: Renderer.stackedArea,
         numOfSeries: 0,
         colors: [],
@@ -62,7 +62,7 @@ describe('in-components/Chart/Configuration', () => {
       });
     });
 
-    it('should mark that metrics depend on each other for countErrorBar', () => {
+    it('should mark the metrics and set the formatter depend on each other for countErrorBar', () => {
       const config = new Config(getCanvasMock(), renderCallback);
       config.update({
         y1: {
@@ -71,10 +71,10 @@ describe('in-components/Chart/Configuration', () => {
         timeframe: { windowSize: 60000, to: null }
       });
       expect(config.y1).to.deep.equal({
-        formatter: number,
+        formatter: [number, percentage],
         renderer: Renderer.countErrorBar,
         numOfSeries: 0,
-        colors: [],
+        colors: ['#5da6da', '#ff4229'],
         valuesDependOnEachOther: true
       });
     });
@@ -89,7 +89,6 @@ describe('in-components/Chart/Configuration', () => {
         config.update({ y1: {}, timeframe: { windowSize: 60000, to: null } });
         expect(config.rollup).to.equal(1000);
         expect(config.rollupLabel).to.equal('1s');
-        expect(config.y1.formatter).to.equal(number);
       });
     });
   });
@@ -158,6 +157,34 @@ describe('in-components/Chart/Configuration', () => {
       expect(blocks[2].map(d => d[0])).to.deep.equal([10000]);
 
       expect(config.calculateBlocks([])).to.have.length(0);
+    });
+  });
+
+  describe('getFormatterForAxis', () => {
+    it('should split formatter according to number of data series', () => {
+      const config = new Config(getCanvasMock(), renderCallback);
+
+      let formatter = config.getFormatterForAxis({
+        numOfSeries: 4
+      });
+      expect(formatter).to.have.length(4);
+
+      formatter = config.getFormatterForAxis({
+        numOfSeries: 2,
+        formatter: 'test'
+      });
+      expect(formatter).to.have.length(2);
+      expect(formatter).to.deep.equal(['test', 'test']);
+    });
+
+    it('should keep formatter series if configured', () => {
+      const config = new Config(getCanvasMock(), renderCallback);
+
+      let formatter = config.getFormatterForAxis({
+        formatter: [42, 'foobar']
+      });
+      expect(formatter).to.have.length(2);
+      expect(formatter).to.deep.equal([42, 'foobar']);
     });
   });
 });

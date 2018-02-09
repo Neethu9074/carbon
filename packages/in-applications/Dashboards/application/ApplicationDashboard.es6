@@ -16,26 +16,30 @@ import Link from 'in-components/Link';
 import locals from './ApplicationDashboard.mless';
 
 export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
+  const application = getMatrixParameter(location, applicationDashboard, applicationId);
+  const service = getMatrixParameter(location, applicationDashboard, serviceId);
+  const endpoint = getMatrixParameter(location, applicationDashboard, endpointId);
+
   return (
     <TabView
-      result$={getData(location)}
+      result$={getData(location, application, service, endpoint)}
       HeaderComponent={Header}
       location={location}
       breadcrumbs={breadcrumbs}
       tabs={tabs}
-      props={{ timeframe }}
+      props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
     />
   );
 });
 
-function getData(location) {
+function getData(location, application, service, endpoint) {
   return timeframe$.flatMap(timeframe =>
     getApplication({
       id: getMatrixParameter(location, applicationDashboard, applicationId),
       filter: {
-        application: getMatrixParameter(location, applicationDashboard, applicationId),
-        service: getMatrixParameter(location, applicationDashboard, serviceId),
-        endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
+        application,
+        service,
+        endpoint,
         timeframe
       }
     })

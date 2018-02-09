@@ -23,7 +23,7 @@ export default function CrystalDashboardSidebar({ snapshot }) {
 
       <KeyValuePopup header="Shards" data={snapshot.getIn(['data', 'versions'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

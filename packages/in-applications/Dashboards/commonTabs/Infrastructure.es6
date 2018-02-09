@@ -88,14 +88,14 @@ const columnDefinitions = [
     id: 'process',
     label: 'Process',
     getContent(item) {
-      return <SnapshotLink snapshotId={item.physicalContext.process} />;
+      return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
     }
   },
   {
     id: 'host',
     label: 'Host',
     getContent(item) {
-      return <SnapshotLink snapshotId={item.physicalContext.host} />;
+      return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
     }
   },
   {

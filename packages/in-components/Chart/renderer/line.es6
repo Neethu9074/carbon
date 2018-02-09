@@ -1,9 +1,7 @@
 import point from 'in-components/Chart/renderer/point';
 
 export default {
-  render: params => {
-    const { dataSeries, color, scale, config } = params;
-
+  render: ({ dataSeries, color, scale, config }) => {
     config.ctx.beginPath();
 
     let previousDataPoint = dataSeries[0];
@@ -26,7 +24,7 @@ export default {
     config.ctx.stroke();
 
     // we want to highlight the exact datapoints when drawing lines to show where they exactly are.
-    point.render(params);
+    point.render({ dataSeries, color, scale, config, minSpaceBetweenPoints: 4 });
 
     function distanceToPreviousDataPointIsToBig(dataPoint, previousDataPoint) {
       return dataPoint[0] - previousDataPoint[0] > config.maxDistanceBetweenDatapointsInMillis;

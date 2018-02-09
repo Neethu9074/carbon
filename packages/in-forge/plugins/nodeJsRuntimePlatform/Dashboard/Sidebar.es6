@@ -26,7 +26,7 @@ export default function NodejsDashboardSidebar({ snapshot }) {
 
       <KeyValuePopup header="Runtime Versions" data={snapshot.getIn(['data', 'versions'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

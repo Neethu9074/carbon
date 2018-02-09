@@ -18,7 +18,7 @@ export default function PostgreSqlSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
       <DeployedUnitList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

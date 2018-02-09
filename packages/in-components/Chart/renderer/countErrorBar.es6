@@ -1,3 +1,4 @@
+import { number, percentage } from 'in-services/formatters/number';
 import bar from 'in-components/Chart/renderer/bar';
 
 export default {
@@ -21,6 +22,8 @@ export default {
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
     config.addBlockSizeMillisForAxis(axis);
+    axis.formatter = [number, percentage];
+    axis.colors = ['#5da6da', '#ff4229'];
   }
 };
 

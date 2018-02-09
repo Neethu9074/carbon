@@ -19,7 +19,7 @@ export default function NginxSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
       <PhpSnapshot snapshotId={snapshot.get('id')} />
     </div>
   );

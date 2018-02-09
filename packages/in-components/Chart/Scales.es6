@@ -5,7 +5,7 @@ import createScale from 'in-charts/scale';
 // export for tests
 export const MARGIN_BOTTOM = 25;
 export const MARGIN_TOP = 2;
-export const MARGIN_VERTICAL_AXIS = 80;
+export const MARGIN_VERTICAL_AXIS = 40;
 
 export default class Scales {
   constructor(config) {
@@ -52,7 +52,7 @@ export default class Scales {
     scale.setDomainFrom(minValue);
     scale.setDomainTo(maxValue);
 
-    scale.tickPositions = getAxisTickPositions(scale, axis.formatter.detailed);
+    scale.tickPositions = getAxisTickPositions(scale, axis.formatter[0].detailed);
   }
 
   getMinMaxValueForDataSeries(dataSeries) {

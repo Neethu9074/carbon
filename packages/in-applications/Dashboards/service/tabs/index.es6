@@ -1,4 +1,4 @@
-import Infrastructure from 'in-applications/Dashboards/service/tabs/Infrastructure';
+import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Performance from 'in-applications/Dashboards/service/tabs/Performance';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
@@ -29,6 +29,6 @@ export default [
   {
     label: 'Infrastructure',
     path: `${serviceDashboard}/infrastructure`,
-    component: Infrastructure
+    component: InfrastructureTab
   }
 ];

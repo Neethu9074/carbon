@@ -53,7 +53,7 @@ export default function CassandraClusterSidebar({ snapshot }) {
 
       <ClusterMemberList snapshotId={snapshotId} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

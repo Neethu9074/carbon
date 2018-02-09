@@ -3,6 +3,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import NoContentIcon from 'in-components/Chart/components/NoContentIcon';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Chart/components/Tooltip';
 import Legend from 'in-components/Chart/components/Legend';
 import { getSetting$ } from 'in-services/settings';
@@ -11,22 +12,18 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Chart.mless';
 
-export default class ChartReactComponent extends React.Component {
-  static displayName = 'ChartReactComponent';
+export default getElementDimensions(function ChartReactComponent(props) {
+  let { timeframe, y1, width, customHeight } = props;
+  const height = customHeight || 160;
 
-  static defaultProps = {
-    height: 140,
-    width: 500
-  };
-
-  render() {
-    const { timeframe, y1, width, height } = this.props;
-    if (!timeframe || !y1 || !y1.metrics) {
-      return <NoContentIcon width={width} height={height} />;
-    }
-    return <ChartReactWrapper {...this.props} />;
+  let content;
+  if (!timeframe || !y1 || !y1.metrics) {
+    content = <NoContentIcon width={width} height={height} />;
+  } else {
+    content = <ChartReactWrapper {...props} width={width} height={height} />;
   }
-}
+  return <div className={locals.wrapper}>{content}</div>;
+});
 
 const enhance = withState('chart', 'setChart', null);
 const ChartReactWrapper = enhance(

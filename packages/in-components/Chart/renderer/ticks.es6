@@ -85,7 +85,7 @@ export default function ticks(config) {
       const tick = config.scales[axisName].tickPositions[i];
 
       drawText(
-        config[axisName].formatter.compact(tick.domain),
+        config[axisName].formatter[0].compact(tick.domain),
         xPos + textOffset,
         tick.range,
         alignment,

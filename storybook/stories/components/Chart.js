@@ -25,6 +25,7 @@ storiesOf('components/Chart', module)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
   .add('Integral', () => <Integral />)
+  .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
   .add('Resize', () => <Resize />);
 
@@ -46,6 +47,15 @@ function Simple() {
           renderer: Renderer.line,
           labels: ['Calls'],
           metrics: [generateMetrics(75, 20, oneHour)]
+        }}
+      />
+      <Chart
+        minRollup={oneHour / 20}
+        timeframe={generateTimeframe(oneHour)}
+        y1={{
+          renderer: Renderer.line,
+          labels: ['Calls'],
+          metrics: [generateMetrics(200, 20, oneHour)]
         }}
       />
     </Root>
@@ -136,7 +146,7 @@ function Bar() {
           renderer: Renderer.bar,
           labels: ['Calls'],
           metrics: [generateMetrics(12, 100, oneMinute)],
-          aggregation: true
+          aggregation: 'awesomeAggregation'
         }}
       />
     </Root>
@@ -212,9 +222,23 @@ function CountErrorBar() {
         y1={{
           renderer: Renderer.countErrorBar,
           labels: ['Count', 'Error'],
-          colors: ['#5da6da', '#ff4229'],
           metrics: [generateMetrics(10, 20, oneMinute), generateMetrics(10, 0.7, oneMinute)],
-          aggregation: true
+          aggregation: 'awesomeAggregation'
+        }}
+      />
+    </Root>
+  );
+}
+
+function Points() {
+  return (
+    <Root>
+      <Chart
+        timeframe={generateTimeframe(oneMinute)}
+        y1={{
+          renderer: Renderer.point,
+          labels: ['Count'],
+          metrics: [generateMetrics(30, 4, oneMinute)]
         }}
       />
     </Root>
@@ -233,17 +257,18 @@ const Resize = connectTo(
   function Resize({ size, metrics }) {
     return (
       <Root>
-        <Chart
-          width={size.width}
-          height={size.height}
-          timeframe={generateTimeframe(oneHour)}
-          minRollup={oneHour / 20}
-          y1={{
-            renderer: Renderer.line,
-            labels: ['Calls'],
-            metrics: [metrics]
-          }}
-        />
+        <div style={{ width: size.width }}>
+          <Chart
+            customHeight={size.height}
+            timeframe={generateTimeframe(oneHour)}
+            minRollup={oneHour / 20}
+            y1={{
+              renderer: Renderer.line,
+              labels: ['Calls'],
+              metrics: [metrics]
+            }}
+          />
+        </div>
       </Root>
     );
   }

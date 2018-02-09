@@ -52,7 +52,7 @@ export default function ElasticsearchSidebar({ snapshot }) {
         ]}
       />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

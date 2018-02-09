@@ -20,7 +20,7 @@ export default function MariaDbSidebar({ snapshot }) {
       </Collapsible>
       <TagList snapshot={snapshot} />
       <DeployedUnitList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

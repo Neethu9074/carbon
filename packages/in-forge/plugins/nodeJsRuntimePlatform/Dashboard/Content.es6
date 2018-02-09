@@ -8,8 +8,10 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
 export default function NodejsDashboard({ snapshot, timeframe }) {
@@ -40,6 +42,11 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="Event loop lag">
           <MetricValue snapshotId={snapshotId} metric="libuv.lag" formatter={time} />
         </KpiKeyValue>
+        {__DEV__ && (
+          <Button onClick={() => getSource(snapshot)} kind="secondary">
+            Get source for arbitrary file
+          </Button>
+        )}
       </KpiSection>
 
       <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeframe)}</DashboardSection>
@@ -189,4 +196,12 @@ function getNativeExtensionHint(snapshot) {
       <a href="https://github.com/instana/nodejs-sensor">Node.js sensor installation instructions</a>.
     </DashboardNotification>
   );
+}
+
+function getSource(snapshot) {
+  const filename = prompt('Please provide the absolute path to the JS file');
+  if (!filename) {
+    return;
+  }
+  setActiveDialog(getCodeView(snapshot, filename));
 }

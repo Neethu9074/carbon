@@ -22,7 +22,7 @@ export default function HttpdSidebar({ snapshot }) {
 
       <KeyValuePopup header="Modules" data={snapshot.getIn(['data', 'modules'])} />
       <PhpSnapshot snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

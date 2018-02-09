@@ -1,56 +1,103 @@
+import { action } from '@storybook/addon-actions';
 import {storiesOf} from '@storybook/react';
 import React from 'react';
 
-import TopList from 'in-components/TopList';
+import TopListPresenter from 'in-components/TopList/TopListPresenter';
+import { ms } from 'in-services/formatters/number';
+import Link from 'in-components/Link';
 import Root from '../_helpers/Root';
 
+const onChangeMetric = action('onChangeMetric');
+
+const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
+const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
+
 storiesOf('components/TopList', module)
-  .add('TopList', () => <TopListComponent options={[]}/>);
+  .add('pending', () => <DefaultTopListConfig result={{
+    progress: {
+      loading: true
+    },
+    errors: []
+  }} />)
+  .add('error', () => <DefaultTopListConfig result={{
+    progress: {
+      loading: false
+    },
+    errors: [{
+      message: 'Unexpected server error',
+      code: 'SERVER'
+    }]
+  }} />)
+  .add('no data', () => <DefaultTopListConfig result={{
+    progress: {
+      loading: false
+    },
+    errors: [],
+    data: {
+      items: [],
+      page: 1,
+      pageSize: 5,
+      totalHits: 0
+    }
+  }} />)
+  .add('with data', () => <DefaultTopListConfig result={{
+    progress: {
+      loading: false
+    },
+    errors: [],
+    data: {
+      items: [
+        {
+          label: 'productdb',
+          metrics: {
+            metric: [[0, 234]]
+          }
+        },
+        {
+          label: 'shop',
+          metrics: {
+            metric: [[0, 128]]
+          }
+        },
+        {
+          label: 'recommendations',
+          metrics: {
+            metric: [[0, 64]]
+          }
+        }
+      ],
+      page: 1,
+      pageSize: 5,
+      totalHits: 3
+    }
+  }} />);
 
-class TopListComponent extends React.Component {
-  static displayName = 'TopList';
+function DefaultTopListConfig({result}) {
+  return (
+    <Root>
+      <TopListPresenter
+        result={result}
+        metrics={metrics}
+        labels={labels}
+        onChangeMetric={onChangeMetric}
+        selectedMetric="selfLatency"
+        selectedMetricFormatter={ms.compact}
+        renderViewAll={ViewAll}
+        renderLabel={Label}
+        renderMetric={Metric}
+      />
+    </Root>
+  );
+}
 
-  state = {
-    value: null
-  };
+function ViewAll() {
+  return <Link href="https://instana.com">View All</Link>;
+}
 
-  render() {
-    return (
-      <Root>
-        <TopList
-          dummyData={[
-            {
-              label: 'shop',
-              unit: 'ms',
-              value: 812,
-              maxValue: 812,
-              traces: ['6.2s', '5.0s', '4.7', '4.3s', '2.1s']
-            },
-            {
-              label: 'cart',
-              unit: 'ms',
-              value: 756,
-              maxValue: 812,
-              traces: ['6.2s', '5.0s', '4.7', '4.3s', '2.1s']
-            },
-            {
-              label: 'products',
-              unit: 'ms',
-              value: 682,
-              maxValue: 812,
-              traces: ['6.2s', '5.0s', '4.7', '4.3s', '2.1s']
-            },
-            {
-              label: 'authentication',
-              unit: 'ms',
-              value: 413,
-              maxValue: 812,
-              traces: ['6.2s', '5.0s', '4.7', '4.3s', '2.1s']
-            }
-          ]}
-          header="Services"
-        />
-      </Root>
-    );
-  }
+function Label({ item }) {
+  return <Link href="https://instana.com">{item.label}</Link>;
+}
+
+function Metric({ formattedMetricValue }) {
+  return formattedMetricValue;
 }

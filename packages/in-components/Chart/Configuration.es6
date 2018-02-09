@@ -20,11 +20,14 @@ export default class Config {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.signals = new RoEmitter();
+    this.filteredDataSeries = new Map();
 
     this.renderingSubscription = this.signals
       .on('render')
       .debounce(1000 / MAX_FPS)
       .subscribe(renderCallback);
+
+    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
   }
 
   requestRender() {
@@ -69,13 +72,26 @@ export default class Config {
     if (!axis) {
       return;
     }
-    axis.formatter = axis.formatter || number;
     axis.numOfSeries = axis.labels ? axis.labels.length : 0;
+    axis.formatter = this.getFormatterForAxis(axis);
     axis.renderer = axis.renderer || Renderer.line;
 
     if (axis.renderer.enrich) {
       axis.renderer.enrich(this, axis);
     }
+  }
+
+  getFormatterForAxis(axis) {
+    if (axis.numOfSeries === 0) {
+      return [number];
+    } else if (Array.isArray(axis.formatter)) {
+      return axis.formatter;
+    }
+    const formatter = [];
+    for (let i = 0; i < axis.numOfSeries; i++) {
+      formatter.push(axis.formatter || number);
+    }
+    return formatter;
   }
 
   addBlockSizeMillisForAxis(axis) {
@@ -176,6 +192,16 @@ export default class Config {
     }
 
     return blocks;
+  }
+
+  toggleDataSeries(label) {
+    if (this.filteredDataSeries.has(label)) {
+      this.filteredDataSeries.delete(label);
+    } else {
+      this.filteredDataSeries.set(label, true);
+    }
+    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+    this.requestRender();
   }
 
   dispose() {

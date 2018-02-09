@@ -32,8 +32,8 @@ describe('in-components/Chart/Scales', () => {
   describe('update', () => {
     it('should update axis according to the given config', () => {
       const scales = new Scales({
-        y1: { formatter: number },
-        y2: { metrics: [[[0, 1], [1000, 20]]], formatter: number },
+        y1: { formatter: [number] },
+        y2: { metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
         timeframe: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
@@ -63,14 +63,14 @@ describe('in-components/Chart/Scales', () => {
             [[0, 1], [1000, 20]], // series 1
             [[0, -1], [1000, 0]] // series 2
           ],
-          formatter: number
+          formatter: [number]
         },
         y2: {
           metrics: [
             [[0, 1], [1000, 20]], // series 1
             [[0, 4], [1000, 10]] // series 2
           ],
-          formatter: number
+          formatter: [number]
         },
         timeframe: { windowSize: 20000, to: 60000 },
         width: 100,
@@ -87,7 +87,7 @@ describe('in-components/Chart/Scales', () => {
 
     it('should update tick positions on update', () => {
       const scales = new Scales({
-        y1: { formatter: number },
+        y1: { formatter: [number] },
         timeframe: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
