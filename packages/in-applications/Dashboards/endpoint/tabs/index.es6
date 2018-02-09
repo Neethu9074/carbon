@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
+import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 
 export default [
@@ -22,6 +23,6 @@ export default [
   {
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
-    component: () => <div>Infrastructure</div>
+    component: Infrastructure
   }
 ];
