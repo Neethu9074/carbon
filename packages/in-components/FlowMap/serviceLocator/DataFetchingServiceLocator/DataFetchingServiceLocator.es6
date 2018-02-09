@@ -2,19 +2,20 @@ import createNullService from 'in-components/FlowMap/serviceLocator/DataFetching
 import BaseServiceLocator from 'in-components/FlowMap/serviceLocator/BaseServiceLocator';
 
 export default class DataFetchingServiceLocator extends BaseServiceLocator {
-  constructor() {
+  constructor(sceneGraph) {
     super(createNullService);
+    this.sceneGraph = sceneGraph;
   }
 
-  init() {
-    return this.service.init();
+  fetchIncomingDataForNodeId(id) {
+    this.sceneGraph.fetchIncomingDataForNodeId(id, this.service.getIncomingDataForNodeId);
   }
 
-  getDataForNode(id, direction) {
-    return this.service.getDataForNode(id, direction);
+  fetchOutgoingDataForNodeId(id) {
+    this.sceneGraph.fetchOutgoingDataForNodeId(id, this.service.getOutgoingDataForNodeId);
   }
 
-  disposeDataForNode(id) {
-    return this.service.disposeDataForNode(id);
+  disposeOpenDataSubscriptionsForNodeId(id) {
+    this.sceneGraph.disposeOpenDataSubscriptionsForNodeId(id);
   }
 }

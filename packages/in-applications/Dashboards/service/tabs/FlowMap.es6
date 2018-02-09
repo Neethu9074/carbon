@@ -3,43 +3,30 @@ import React from 'react';
 import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
 import { timeframe$ } from 'in-stores/timeline';
 import FlowMap from 'in-components/FlowMap';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ timeframe: timeframe$ }, function ServiceFlowMap({ data }) {
-  return (
-    <FlowMap
-      rootNodeId={data.id}
-      createDataFetchingService={createNodeCallback => createDataFetchingService(createNodeCallback, data)}
-    />
-  );
-});
+export default function ServiceFlowMap({ data }) {
+  return <FlowMap rootNodeData={data} createDataFetchingService={createDataFetchingService} />;
+}
 
-function createDataFetchingService(createNodeCallback, rootNodeData) {
+function createDataFetchingService() {
   return {
-    init,
-    getDataForNode,
-    disposeDataForNode,
+    getIncomingDataForNodeId,
+    getOutgoingDataForNodeId,
     dispose
   };
 
-  function init() {
-    const rootNode = createNodeCallback(rootNodeData);
-    rootNode.expandRight();
-    rootNode.expandLeft();
+  function getIncomingDataForNodeId(id) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, 'INCOMING', timeframe));
   }
 
-  function getDataForNode(id, direction) {
-    console.log('fetch data for', id, direction);
-  }
-
-  function disposeDataForNode(id) {
-    console.log('dispose open subscriptions for', id);
+  function getOutgoingDataForNodeId(id) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, 'OUTGOING', timeframe));
   }
 
   function dispose() {}
 }
 
-function getNodeData({ nodeId, query, timeframe }) {
+function getNodeData(nodeId, direction, timeframe) {
   return getServiceFlowNodes({
     metrics: {
       endpoints: {
@@ -60,7 +47,7 @@ function getNodeData({ nodeId, query, timeframe }) {
       }
     },
     filter: {
-      label: query,
+      label: '',
       timeframe
     },
 
@@ -70,6 +57,6 @@ function getNodeData({ nodeId, query, timeframe }) {
 
     path: [nodeId],
 
-    direction: 'INCOMING'
+    direction
   });
 }

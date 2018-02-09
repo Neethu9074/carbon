@@ -37,18 +37,16 @@ export default class Node extends SceneObject {
   }
 
   expandRight() {
-    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-    dataFetchingServiceLocator.getDataForNode(this.id, 'outgoing');
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForNodeId(this.id);
   }
 
   expandLeft() {
-    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-    dataFetchingServiceLocator.getDataForNode(this.id, 'left');
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchIncomingDataForNodeId(this.id);
   }
 
   disposeSubscriptions() {
     const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-    dataFetchingServiceLocator.disposeDataForNode(this.id);
+    dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(this.id);
 
     this.subscriber.dispose();
     this.subscriber = null;
