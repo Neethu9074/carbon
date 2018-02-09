@@ -1,0 +1,41 @@
+:local {
+  .topListRow {
+    margin: 1rem 0;
+  }
+
+  .titles {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+
+  .bar {
+    position: relative;
+    width: 100%;
+    height: 0.25rem;
+    margin-right: 1rem;
+    background: #d5dfe4;
+    overflow: hidden;
+    margin: 0.3rem 0;
+  }
+
+  .barInner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .traces {
+    padding: 0 0.7rem;
+    line-height: 1rem;
+  }
+
+  .tracesRowItem {
+    vertical-align: middle;
+  }
+
+  .trace {
+    margin-left: 0.5rem;
+  }
+}

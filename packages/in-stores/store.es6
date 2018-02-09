@@ -1,21 +1,53 @@
+// @flow
+import type { Observable } from 'reactive-observables/Observable';
+import Subject from 'reactive-observables/Subject';
 import { create } from 'reactive-observables';
 import invariant from 'invariant';
 
+declare var __DEV__: any;
+
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
-export const allStates = {};
+export const allStates: { [key: string]: any } = {};
 
-export function createStore({ name, isGlobal = true, initialValue = null, reducers = null }) {
-  if (isGlobal) {
-    invariant(!(name in allStates), 'Store (' + name + ') already exists');
+export interface StoreSpec<T> {
+  name: string;
+  initialValue?: ?T;
+  isGlobal?: boolean;
+  reducers?: ?any;
+}
+
+export interface Store<T> {
+  observable: Observable<T>;
+  applyStateMutation: Function;
+  mutateTo: (?T) => void;
+}
+
+export interface TrackingStoreSpec<T> {
+  name: string;
+  observable: Observable<T>;
+}
+
+export interface TrackingStore<T> {
+  observable: Observable<T>;
+}
+
+export function createStore<T>(spec: StoreSpec<T>): Store<T> {
+  spec.isGlobal = spec.isGlobal !== false;
+
+  if (spec.initialValue === undefined) {
+    spec.initialValue = null;
   }
 
-  let currentState = initialValue;
-  if (isGlobal) {
-    allStates[name] = currentState;
+  if (spec.isGlobal) {
+    invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   }
 
-  const observable = create();
+  let currentState = spec.initialValue;
+  if (spec.isGlobal) {
+    allStates[spec.name] = currentState;
+  }
+  const observable: Subject<T> = create();
   observable.emit(currentState);
 
   return {
@@ -28,10 +60,10 @@ export function createStore({ name, isGlobal = true, initialValue = null, reduce
   };
 
   function applyStateMutation(action) {
-    if (reducers == null) {
+    if (spec.reducers == null) {
       mutateTo(action(currentState));
     } else {
-      const reducer = reducers[action.type];
+      const reducer = spec.reducers[action.type];
       if (__DEV__) {
         invariant(
           typeof reducer === 'function',
@@ -44,28 +76,28 @@ export function createStore({ name, isGlobal = true, initialValue = null, reduce
 
   function mutateTo(newValue) {
     currentState = newValue;
-    if (isGlobal) {
-      allStates[name] = currentState;
+    if (spec.isGlobal) {
+      allStates[spec.name] = currentState;
     }
     observable.emit(currentState);
   }
 }
 
-export function createTrackingStore({ name, observable }) {
-  invariant(!(name in allStates), 'Store (' + name + ') already exists');
-  invariant(observable != null, 'Observable must be provided');
+export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStore<T> {
+  invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
+  invariant(spec.observable != null, 'Observable must be provided');
 
-  allStates[name] = undefined;
+  allStates[spec.name] = undefined;
 
   return {
-    observable: observable.tap(v => {
-      allStates[name] = v;
+    observable: spec.observable.tap((v: ?T) => {
+      allStates[spec.name] = v;
     })
   };
 }
 
 // only use this for testing purposes to clear the store registry. This
 // is required when using proxyquire with stores.
-export function resetStoreRegistry() {
+export function resetStoreRegistry(): void {
   Object.keys(allStates).forEach(key => delete allStates[key]);
 }

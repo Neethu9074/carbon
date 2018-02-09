@@ -3,10 +3,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-historic-metric',
 
-  getId: ({ snapshotId, metric, timeframe, rollup, focusedMoment }) =>
-    snapshotId + metric + timeframe.windowSize + timeframe.to + rollup + focusedMoment,
+  getId({ snapshotId, metric, timeframe, rollup, focusedMoment }) {
+    return snapshotId + metric + timeframe.windowSize + timeframe.to + rollup + focusedMoment;
+  },
 
-  getData: (subscriptionId, { snapshotId, metric, timeframe, rollup, focusedMoment }) => {
+  getData(subscriptionId, { snapshotId, metric, timeframe, rollup, focusedMoment }) {
     return {
       subscriptionId,
       snapshotId,
@@ -17,12 +18,13 @@ export default createSubscription({
     };
   },
 
-  // data transformation on onData
-  transformData: dataPoints => {
-    for (let i = 0, len = dataPoints.length; i < len; i++) {
-      dataPoints[i].time = dataPoints[i][0];
-    }
-    return dataPoints;
+  transform(observable) {
+    return observable.map(dataPoints => {
+      for (let i = 0, len = dataPoints.length; i < len; i++) {
+        dataPoints[i].time = dataPoints[i][0];
+      }
+      return dataPoints;
+    });
   },
 
   memoizeFor: 100

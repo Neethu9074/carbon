@@ -1,38 +1,42 @@
-import { setTimeoutFn, clearTimeoutFn } from '../timers';
+// @flow
+import { clearTimeoutFn, setTimeoutFn } from '../timers';
+import type { DebounceOptions } from './debounce';
 import { debounceImpl } from './debounce';
 import Observer from '../Observer';
 
-export default function throttle(millis, opts) {
-  const observer = Object.create(Observer);
-
-  let onNext;
-  if (millis <= 0) {
-    onNext = data => observer._emit(data);
-  } else {
-    onNext = throttleImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  }
-
-  observer._init(this, this._observableSpec, onNext);
-  observer._reset = function reset() {
-    onNext = observer._onNext = throttleImpl(
-      data => {
-        observer._emit(data);
-      },
-      millis,
-      opts
-    );
-  };
-
-  return observer;
+export interface ThrottleOptions {
+  leading: boolean;
+  trailing: boolean;
+  setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number;
+  clearTimeout: (timeoutId?: number) => void;
 }
 
-function throttleImpl(func, wait, options) {
+export default function throttle<T>(millis: number, opts: ThrottleOptions): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
+  return observer
+    ._setOnNext(
+      millis <= 0
+        ? data => observer._emit(data)
+        : throttleImpl(
+            data => {
+              observer._emit(data);
+            },
+            millis,
+            opts
+          )
+    )
+    ._setReset(function reset() {
+      observer._onNext = throttleImpl(
+        data => {
+          observer._emit(data);
+        },
+        millis,
+        opts
+      );
+    });
+}
+
+function throttleImpl<T>(func: Function, wait: number, options: ThrottleOptions): (data: ?T) => void {
   let leading = true;
   let trailing = true;
   let setTimeout;
@@ -47,11 +51,12 @@ function throttleImpl(func, wait, options) {
     setTimeout = options.setTimeout || setTimeoutFn;
     clearTimeout = options.clearTimeout || clearTimeoutFn;
   }
-  return debounceImpl(func, wait, {
+  const debounceOptions: DebounceOptions = {
     leading: leading,
-    maxWait: wait,
     trailing: trailing,
+    maxWait: wait,
     setTimeout,
     clearTimeout
-  });
+  };
+  return debounceImpl(func, wait, debounceOptions);
 }

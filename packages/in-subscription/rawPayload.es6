@@ -5,9 +5,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-raw-payload',
 
-  getId: ({ snapshotId, time, payloadName }) => snapshotId + payloadName + time,
+  getId({ snapshotId, time, payloadName }) {
+    return snapshotId + payloadName + time;
+  },
 
-  getData: (subscriptionId, { snapshotId, payloadName, time }) => {
+  getData(subscriptionId, { snapshotId, payloadName, time }) {
     return {
       subscriptionId,
       snapshotId,
@@ -16,5 +18,7 @@ export default createSubscription({
     };
   },
 
-  transformData: rawPayload => fromJS(rawPayload)
+  transform(observable) {
+    return observable.map(fromJS);
+  }
 });

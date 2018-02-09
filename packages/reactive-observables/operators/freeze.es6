@@ -1,11 +1,9 @@
+// @flow
 import Observer from '../Observer';
 
-export default function freeze() {
-  const observer = Object.create(Observer);
-
-  observer._init(this, this._observableSpec, data => {
+export default function freeze<T>(): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
+  return observer._setOnNext((data: ?T) => {
     observer._emit(data);
   });
-
-  return observer;
 }

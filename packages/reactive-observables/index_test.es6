@@ -8,11 +8,11 @@ import sinon from 'sinon';
 import { create, combineLatest, setUnhandledErrorHandler, interval } from './index';
 
 describe('reactive-observables', () => {
-  let fullObservableSpec;
+  let fullSubjectSpec;
   let reemitSpec;
 
   beforeEach(() => {
-    fullObservableSpec = {
+    fullSubjectSpec = {
       start: sinon.stub(),
       stop: sinon.stub(),
       emitLatestOnSubscribe: false
@@ -22,12 +22,12 @@ describe('reactive-observables', () => {
   });
 
   it('should create observable instances', () => {
-    const ro = create(fullObservableSpec);
+    const ro = create(fullSubjectSpec);
     expect(ro.subscribe).to.be.a('function');
   });
 
   it('subscribe should return a disposable', () => {
-    const disposable = create(fullObservableSpec).subscribe(() => {});
+    const disposable = create(fullSubjectSpec).subscribe(() => {});
     expect(disposable.dispose).to.be.a('function');
   });
 
@@ -38,25 +38,25 @@ describe('reactive-observables', () => {
 
   describe('startEvents', () => {
     it('should call `start` when the first observer registers', () => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       observable.subscribe(() => {});
-      expect(fullObservableSpec.start.calledOnce).to.equal(true);
+      expect(fullSubjectSpec.start.calledOnce).to.equal(true);
     });
 
     it('should not call `start` for successive subscriptions', () => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       observable.subscribe(() => {});
       observable.subscribe(() => {});
-      expect(fullObservableSpec.start.calledOnce).to.equal(true);
+      expect(fullSubjectSpec.start.calledOnce).to.equal(true);
     });
 
     it('should only call `start` when at least one terminal observer is registered', () => {
-      const observer = create(fullObservableSpec).map(() => {});
-      expect(fullObservableSpec.start.calledOnce).to.equal(false);
+      const observer = create(fullSubjectSpec).map(() => {});
+      expect(fullSubjectSpec.start.calledOnce).to.equal(false);
       const terminalObserver = observer.subscribe(() => {});
-      expect(fullObservableSpec.start.calledOnce).to.equal(true);
+      expect(fullSubjectSpec.start.calledOnce).to.equal(true);
       terminalObserver.dispose();
-      expect(fullObservableSpec.stop.calledOnce).to.equal(true);
+      expect(fullSubjectSpec.stop.calledOnce).to.equal(true);
     });
 
     it('should not emit twice and immediately emitting as part of start event', () => {
@@ -77,21 +77,21 @@ describe('reactive-observables', () => {
 
   describe('disposing', () => {
     it('should call stop when the last subscription is disposed', () => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       const observer1 = observable.subscribe(() => {});
       const observer2 = observable.subscribe(() => {});
-      expect(fullObservableSpec.stop.called).to.equal(false);
+      expect(fullSubjectSpec.stop.called).to.equal(false);
       observer2.dispose();
-      expect(fullObservableSpec.stop.called).to.equal(false);
+      expect(fullSubjectSpec.stop.called).to.equal(false);
       observer1.dispose();
-      expect(fullObservableSpec.stop.called).to.equal(true);
+      expect(fullSubjectSpec.stop.called).to.equal(true);
     });
 
     it('should handle unsubscribe during iteration over children', () => {
       const stub = sinon.stub();
       let observer1Called = false;
 
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       const observer1 = observable.subscribe(() => {
         observer1.dispose();
         observer1Called = true;
@@ -109,7 +109,7 @@ describe('reactive-observables', () => {
       const handler = sinon.stub();
       setUnhandledErrorHandler(handler);
 
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
 
       observable.errors().subscribe(error => {
         expect(error).to.be.an.instanceof(TypeError);
@@ -121,7 +121,7 @@ describe('reactive-observables', () => {
     });
 
     it('should handle errors emitted by intermediate steps', done => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
 
       observable
         .map(() => {
@@ -140,7 +140,7 @@ describe('reactive-observables', () => {
       const handler = sinon.stub();
       setUnhandledErrorHandler(handler);
 
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
 
       observable
         .map(() => {
@@ -156,7 +156,7 @@ describe('reactive-observables', () => {
       const handler = sinon.stub();
       setUnhandledErrorHandler(handler);
 
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       const mapped = observable.map(v => v * v);
 
       mapped.filter(v => v % 2 === 0).subscribe(() => {});
@@ -174,11 +174,11 @@ describe('reactive-observables', () => {
 
   describe('emitting latest on subscribe', () => {
     beforeEach(() => {
-      fullObservableSpec.emitLatestOnSubscribe = true;
+      fullSubjectSpec.emitLatestOnSubscribe = true;
     });
 
     it('root observable should emit on subscribe', () => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       observable.emit(42);
 
       const handler = sinon.stub();
@@ -189,7 +189,7 @@ describe('reactive-observables', () => {
     });
 
     it('child observables should emit on subscribe', () => {
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
 
       const childObservable = observable.map(i => i * 2);
       observable.emit(21);
@@ -205,7 +205,7 @@ describe('reactive-observables', () => {
   describe('operators', () => {
     describe('subscribe', () => {
       it('should call subscribe handlers', () => {
-        const observable = create(fullObservableSpec);
+        const observable = create(fullSubjectSpec);
         const fn = sinon.stub();
         observable.subscribe(fn);
         observable.emit('42');
@@ -218,7 +218,7 @@ describe('reactive-observables', () => {
       it('should calculate max values', done => {
         let call = 0;
 
-        const observable = create(fullObservableSpec);
+        const observable = create(fullSubjectSpec);
         observable.scan((accumulated, value) => Math.max(accumulated, value), 0).subscribe(data => {
           if (call === 0) {
             expect(data).to.equal(5);
@@ -270,7 +270,7 @@ describe('reactive-observables', () => {
       it('should map by multiplying by 2', done => {
         let call = 0;
 
-        const observable = create(fullObservableSpec);
+        const observable = create(fullSubjectSpec);
         observable.map(v => v * 2).subscribe(data => {
           if (call === 0) {
             expect(data).to.equal(6);
@@ -293,7 +293,7 @@ describe('reactive-observables', () => {
       it('should filter values', done => {
         let call = 0;
 
-        const observable = create(fullObservableSpec);
+        const observable = create(fullSubjectSpec);
         observable.filter(v => v % 2 === 0).subscribe(data => {
           if (call === 0) {
             expect(data).to.equal(2);
@@ -356,9 +356,9 @@ describe('reactive-observables', () => {
     });
 
     it('should combine latest values', () => {
-      const o1 = create(fullObservableSpec);
-      const o2 = create(fullObservableSpec);
-      const o3 = create(fullObservableSpec);
+      const o1 = create(fullSubjectSpec);
+      const o2 = create(fullSubjectSpec);
+      const o3 = create(fullSubjectSpec);
 
       const observer = sinon.stub();
       const combinedSubscriptions = combineLatest([o1, o2, o3]).subscribe(observer);
@@ -378,9 +378,9 @@ describe('reactive-observables', () => {
       expect(observer.calledTwice).to.equal(true);
       expect(observer.getCall(1).args[0]).to.deep.equal(['1.1', '2.2', '3.1']);
 
-      expect(fullObservableSpec.stop.called).to.equal(false);
+      expect(fullSubjectSpec.stop.called).to.equal(false);
       combinedSubscriptions.dispose();
-      expect(fullObservableSpec.stop.calledThrice).to.equal(true);
+      expect(fullSubjectSpec.stop.calledThrice).to.equal(true);
     });
 
     it('should fire immediately when the data is immediately available', () => {
@@ -397,7 +397,7 @@ describe('reactive-observables', () => {
   describe('throttle', () => {
     it('should reduce the number of messages', done => {
       let call = 0;
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       observable.throttle(50, { setTimeout, clearTimeout }).subscribe(data => {
         if (call === 0) {
           expect(data).to.equal(1);
@@ -418,7 +418,7 @@ describe('reactive-observables', () => {
 
     it('should not throttle for values of 0 millis', () => {
       const onNext = sinon.stub();
-      const observable = create(fullObservableSpec);
+      const observable = create(fullSubjectSpec);
       observable.throttle(0).subscribe(onNext);
 
       observable.emit(1);
@@ -617,10 +617,10 @@ describe('reactive-observables', () => {
     });
 
     it('should only subscribe and call transformation functions when neccessary', () => {
-      const sourceObservableSpec = createReemitSpec();
-      const sourceObservable = create(sourceObservableSpec);
-      const thirdPartyObservableSpec = createReemitSpec();
-      const thirdPartyObservable = create(thirdPartyObservableSpec);
+      const sourceSubjectSpec = createReemitSpec();
+      const sourceObservable = create(sourceSubjectSpec);
+      const thirdPartySubjectSpec = createReemitSpec();
+      const thirdPartyObservable = create(thirdPartySubjectSpec);
       const transformer = sinon.stub();
       transformer.returns(thirdPartyObservable);
       const targetObservable = sourceObservable.transform({
@@ -629,24 +629,24 @@ describe('reactive-observables', () => {
       });
 
       // check that nothing happens as so long as nobody subscribes
-      expect(sourceObservableSpec.start.callCount).to.equal(0);
-      expect(thirdPartyObservableSpec.start.callCount).to.equal(0);
+      expect(sourceSubjectSpec.start.callCount).to.equal(0);
+      expect(thirdPartySubjectSpec.start.callCount).to.equal(0);
       expect(transformer.callCount).to.equal(0);
 
       // once someone subscribes, the source observable should be observed
       const subscriber = sinon.stub();
       const subscription = targetObservable.subscribe(subscriber);
-      expect(sourceObservableSpec.start.callCount).to.equal(1);
-      expect(thirdPartyObservableSpec.start.callCount).to.equal(0);
+      expect(sourceSubjectSpec.start.callCount).to.equal(1);
+      expect(thirdPartySubjectSpec.start.callCount).to.equal(0);
       expect(transformer.callCount).to.equal(0);
 
       // and when the source observable emits, the transformer will create
       // a new target observable
       sourceObservable.emit(5);
-      expect(sourceObservableSpec.start.callCount).to.equal(1);
+      expect(sourceSubjectSpec.start.callCount).to.equal(1);
       expect(transformer.callCount).to.equal(1);
       expect(transformer.getCall(0).args[0]).to.equal(5);
-      expect(thirdPartyObservableSpec.start.callCount).to.equal(1);
+      expect(thirdPartySubjectSpec.start.callCount).to.equal(1);
 
       // once the target observable fires, the subscriber should get that
       // value
@@ -656,8 +656,8 @@ describe('reactive-observables', () => {
 
       // when the subscriber unsubscribes, everything should be stopped
       subscription.dispose();
-      expect(sourceObservableSpec.stop.callCount).to.equal(1);
-      expect(thirdPartyObservableSpec.stop.callCount).to.equal(1);
+      expect(sourceSubjectSpec.stop.callCount).to.equal(1);
+      expect(thirdPartySubjectSpec.stop.callCount).to.equal(1);
     });
 
     it('should be possible to avoid retransforms', () => {
@@ -695,8 +695,8 @@ describe('reactive-observables', () => {
     });
 
     it('should handle stop before source observable emit', () => {
-      const sourceObservableSpec = createReemitSpec();
-      const sourceObservable = create(sourceObservableSpec);
+      const sourceSubjectSpec = createReemitSpec();
+      const sourceObservable = create(sourceSubjectSpec);
       const transformer = sinon.stub();
       const onNext = sinon.stub();
 

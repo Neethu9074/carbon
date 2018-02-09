@@ -20,7 +20,7 @@ export default createSubscription({
     };
   },
 
-  transformData(data) {
-    return List(data);
+  transform(observable) {
+    return observable.map(List);
   }
 });

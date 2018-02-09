@@ -14,5 +14,7 @@ export default createSubscription({
     };
   },
 
-  transformData: trace => fromJS(trace)
+  transform(observable) {
+    return observable.map(fromJS);
+  }
 });

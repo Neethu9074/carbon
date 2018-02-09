@@ -7,7 +7,7 @@ export default createSubscription({
     return snapshotId + time;
   },
 
-  getData: (subscriptionId, { snapshotId, time }) => {
+  getData(subscriptionId, { snapshotId, time }) {
     return {
       subscriptionId,
       snapshotId,

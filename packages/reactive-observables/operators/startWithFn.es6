@@ -1,16 +1,23 @@
+// @flow
 import Observer from '../Observer';
+import TerminalObserver from '../TerminalObserver';
 
-export default function startWith(initialValueProvider) {
-  const observer = Object.create(Observer);
+export default function startWith<T>(initialValueProvider: () => T): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
+  observer._setOnNext((data: ?T) => {
+    observer._emit(data);
+  });
 
-  observer._addChild = child => {
+  observer._addChild = <R>(child: Observer<T, R> | TerminalObserver<T>): void => {
     observer._children.push(child);
 
     const isFirstChild = observer._children.length === 1;
-    let initialValue;
+    let initialValue: T;
     if (isFirstChild) {
       initialValue = initialValueProvider();
-      child._onNext(initialValue);
+      if (child._onNext) {
+        child._onNext(initialValue);
+      }
       observer._parent._addChild(observer);
     }
 
@@ -20,10 +27,6 @@ export default function startWith(initialValueProvider) {
       observer._lastEmittedValue = initialValue;
     }
   };
-
-  observer._init(this, this._observableSpec, data => {
-    observer._emit(data);
-  });
 
   return observer;
 }

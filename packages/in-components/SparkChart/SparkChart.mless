@@ -1,0 +1,27 @@
+:local {
+  .sparkChart {
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+
+    width: 9.375rem;
+    height: 1.875rem;
+  }
+
+  .glassPane {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    height: 26px;
+    width: 96px;
+  }
+
+  .canvas {
+    display: block;
+  }
+
+  .number {
+    margin-left: 0.5rem;
+  }
+}

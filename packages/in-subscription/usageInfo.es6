@@ -5,19 +5,24 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-usage-info',
 
-  getId: () => '',
+  getId() {
+    return '';
+  },
 
-  getData: subscriptionId => {
+  getData(subscriptionId) {
     return {
       subscriptionId
     };
   },
 
-  transformData: usageInfo =>
-    usageInfo
-      ? Map({
-          type: usageInfo.type.toLowerCase(),
-          note: usageInfo.note
-        })
-      : null
+  transform(observable) {
+    return observable.map(usageInfo => {
+      return usageInfo
+        ? Map({
+            type: usageInfo.type.toLowerCase(),
+            note: usageInfo.note
+          })
+        : null;
+    });
+  }
 });

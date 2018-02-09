@@ -1,18 +1,14 @@
-import { create } from 'reactive-observables';
+import { create, just } from 'reactive-observables';
 
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import { emptyArray } from 'in-services/fixedObjects';
 
 export const nothing = create().freeze();
-export const alwaysNull = always(null);
-export const alwaysFalse = always(false);
-export const alwaysTrue = always(true);
-export const alwaysEmptyArray = always(emptyArray);
-export const alwaysEmptyImmutableMap = always(emptyMap);
-export const alwaysEmptyImmutableList = always(emptyList);
+export const alwaysNull = just(null);
+export const alwaysFalse = just(false);
+export const alwaysTrue = just(true);
+export const alwaysEmptyArray = just(emptyArray);
+export const alwaysEmptyImmutableMap = just(emptyMap);
+export const alwaysEmptyImmutableList = just(emptyList);
 
-export function always(v) {
-  return create()
-    .emit(v)
-    .freeze();
-}
+export const always = just;

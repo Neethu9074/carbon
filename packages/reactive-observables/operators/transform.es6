@@ -1,14 +1,22 @@
-import Observable from '../Observable';
+// @flow
+import TerminalObserver from '../TerminalObserver';
+import type { Observable } from '../Observable';
+import Subject from '../Subject';
 
-export default function transform(transformer) {
-  const sourceObservable = this;
+export interface Transformer<Source, Target> {
+  emitLatestOnSubscribe: boolean;
+  shouldRetransform: (?Source, ?Source) => boolean;
+  transform: (?Source) => Observable<Target>;
+}
 
-  let previousSourceValue;
-  let sourceObservableSubscription;
-  let intermediateObservableSubscription;
+export default function transform<Source, Target>(transformer: Transformer<Source, Target>): Observable<Target> {
+  const sourceObservable: Observable<Source> = this;
 
-  const targetObservable = Object.create(Observable);
-  targetObservable._init({
+  let previousSourceValue: ?Source;
+  let sourceObservableSubscription: ?TerminalObserver<Source>;
+  let intermediateObservableSubscription: ?TerminalObserver<Target>;
+
+  const targetObservable: Subject<Target> = new Subject({
     emitLatestOnSubscribe: transformer.emitLatestOnSubscribe !== false,
     start,
     stop
@@ -16,7 +24,7 @@ export default function transform(transformer) {
   return targetObservable;
 
   function start() {
-    sourceObservableSubscription = sourceObservable.subscribe(value => {
+    sourceObservableSubscription = sourceObservable.subscribe((value: ?Source): void => {
       // Reset last emitted value on every source observable change to avoid
       // sending stable data to subscribers on emit on subscribe.
       targetObservable._lastEmittedValue = undefined;
@@ -41,7 +49,7 @@ export default function transform(transformer) {
       // observable. Restarting it can be a potentially expensive operation.
       const previousIntermediateObservableSubscription = intermediateObservableSubscription;
 
-      const intermediateObservable = transformer.transform(value);
+      const intermediateObservable: Observable<Target> = transformer.transform(value);
       intermediateObservableSubscription = intermediateObservable.subscribe(v => targetObservable.emit(v));
 
       if (previousIntermediateObservableSubscription) {

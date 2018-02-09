@@ -58,7 +58,8 @@ export function registerMetricDefinition(plugin, metricDefinition) {
       category: metricDefinition.category || [],
       getMin: getMin(metricDefinition),
       getMax: getMax(metricDefinition),
-      formatter: metricDefinition.formatter || number
+      formatter: metricDefinition.formatter || number,
+      isPercentile: metricDefinition.isPercentile
     });
   }
 }
@@ -195,7 +196,8 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
       label: metricDefinitionForPlugin.label,
       metric: metricDefinitionForPlugin.metric,
       formatter: metricDefinitionForPlugin.formatter,
-      type: 'metric'
+      type: 'metric',
+      isPercentile: metricDefinitionForPlugin.isPercentile
     });
     return;
   }
@@ -229,4 +231,34 @@ function sortCategories(node) {
 
 export function getMetricMatch(pre, post) {
   return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
+}
+
+export function isMetricPercentile(plugin, metricName) {
+  if (!plugin || !metricName) {
+    return false;
+  }
+
+  const categories = getCategories(plugin);
+  if (!categories) {
+    return false;
+  }
+
+  let isPercentile = false;
+  categories.forEach(category => {
+    if (category.children) {
+      category.children.forEach(child => {
+        if (metricName === child.metric && child.isPercentile) {
+          isPercentile = true;
+          return;
+        }
+      });
+    } else if (metricName === category.metric && category.isPercentile) {
+      isPercentile = true;
+    }
+
+    if (isPercentile) {
+      return;
+    }
+  });
+  return isPercentile;
 }

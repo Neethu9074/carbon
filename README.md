@@ -1,4 +1,4 @@
-# ui-client &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+# 🚀 ui-client 🏂 &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -122,3 +122,14 @@ Object.keys(instana.dev.storeStates).forEach(key => {
 
 ### How can I get a list of metrics?
 You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+
+### I am getting flow type checking errors even though everything should be fine?
+This can happen when switching between two branches with a lot of changes while the development server is running. To fix this, stop the development server and then execute the following:
+
+```
+cd ui-client
+./node_modules/.bin/flow stop
+rm -rf /tmp/flow
+```
+
+If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.

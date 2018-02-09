@@ -1,0 +1,7 @@
+:local {
+  .controls {
+    position: absolute;
+    left: 1.25rem;
+    bottom: 1rem;
+  }
+}

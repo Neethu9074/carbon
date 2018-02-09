@@ -1,30 +1,31 @@
-/* eslint-disable no-console */
+// @flow
 
-import createMessageObservable from 'in-subscription/message';
-import { isInstanaEngineer } from 'in-stores/user';
+import getClientMessages from 'in-subscription/getClientMessages';
+import type { Message } from 'in-subscription/getClientMessages';
+import { isTechnicalError } from 'in-types/error';
 import { createStore } from 'in-stores/store';
+import { createLogger } from 'instalog';
 
-/*
-*/
+const logger = createLogger('MessageDialogStores');
+
 const messageStore = createStore({
-  name: 'messageStore',
-  initialValue: null
+  name: 'messages'
 });
 
 export const message$ = messageStore.observable;
 
 export function clearMessage() {
-  messageStore.applyStateMutation(() => null);
+  messageStore.mutateTo(null);
 }
 
 export function init() {
-  createMessageObservable().subscribe(msg => {
-    if (msg.errorCode === 'CLIENT' || msg.errorCode === 'SERVER') {
-      if (isInstanaEngineer) {
-        console.error(msg);
-      }
-    } else {
-      messageStore.applyStateMutation(() => msg);
-    }
-  });
+  getClientMessages().subscribe(onNewMessage);
+}
+
+function onNewMessage(msg: Message) {
+  if (isTechnicalError(msg.errorCode)) {
+    logger.error('Technical error received from backend', msg);
+  } else {
+    messageStore.mutateTo(msg);
+  }
 }

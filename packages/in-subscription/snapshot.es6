@@ -22,7 +22,7 @@ export default createSubscription({
     };
   },
 
-  transformData(data) {
-    return fromJS(data);
+  transform(observable) {
+    return observable.map(fromJS);
   }
 });
