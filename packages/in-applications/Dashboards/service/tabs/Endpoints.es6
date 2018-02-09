@@ -18,24 +18,29 @@ export default function Endpoints({ location, timeframe, data }) {
   const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
 
   return (
-    <MaxWidthFullscreenContainer>
-      {types.map(endpointType => (
-        <Fragment key={endpointType}>
-          <h3>{translation(endpointType)}</h3>
-          <ServerTable
-            get={getTableData}
-            applicationId={appId}
-            serviceId={serviceID}
-            endpointType={endpointType}
-            serviceLabel={data.label}
-            pageSize={10}
-            timeframe={timeframe}
-            columnDefinitions={columnDefinitions}
-          />
-        </Fragment>
-      ))}
-    </MaxWidthFullscreenContainer>
+    <MaxWidthFullscreenContainer>{showTypes(types, appId, serviceID, timeframe, data)}</MaxWidthFullscreenContainer>
   );
+}
+
+function showTypes(types, appId, serviceID, timeframe, data) {
+  if (types.length === 0) {
+    return 'No Endpoint types found';
+  }
+  return types.map(endpointType => (
+    <Fragment key={endpointType}>
+      <h3>{translation(endpointType)}</h3>
+      <ServerTable
+        get={getTableData}
+        applicationId={appId}
+        serviceId={serviceID}
+        endpointType={endpointType}
+        serviceLabel={data.label}
+        pageSize={10}
+        timeframe={timeframe}
+        columnDefinitions={columnDefinitions}
+      />
+    </Fragment>
+  ));
 }
 
 function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointType, timeframe }) {
