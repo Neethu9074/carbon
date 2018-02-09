@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import translation from 'in-applications/typesTranslation/service';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -12,23 +13,37 @@ import SparkChart from 'in-components/SparkChart';
 import Link from 'in-components/Link';
 
 export default function Endpoints({ location, timeframe, data }) {
+  const { types } = data;
   const appId = getMatrixParameter(location, serviceDashboard, applicationId);
   const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
+
   return (
-    <MaxWidthFullscreenContainer>
+    <MaxWidthFullscreenContainer>{showTypes(types, appId, serviceID, timeframe, data)}</MaxWidthFullscreenContainer>
+  );
+}
+
+function showTypes(types, appId, serviceID, timeframe, data) {
+  if (types.length === 0) {
+    return 'No Endpoint types found';
+  }
+  return types.map(endpointType => (
+    <Fragment key={endpointType}>
+      <h3>{translation(endpointType)}</h3>
       <ServerTable
         get={getTableData}
         applicationId={appId}
         serviceId={serviceID}
+        endpointType={endpointType}
+        serviceLabel={data.label}
         pageSize={10}
         timeframe={timeframe}
-        columnDefinitions={getColumnDefinitions(timeframe, data.label, appId, serviceID)}
+        columnDefinitions={columnDefinitions}
       />
-    </MaxWidthFullscreenContainer>
-  );
+    </Fragment>
+  ));
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, timeframe }) {
+function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointType, timeframe }) {
   return getEndpoints({
     pagination: {
       page,
@@ -41,6 +56,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
     filter: {
       application: applicationId,
       service: serviceId,
+      endpointType,
       timeframe
     },
     metrics: {
@@ -75,60 +91,66 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
   });
 }
 
-function getColumnDefinitions(timeframe, serviceLabel, appId, serviceId) {
-  return [
-    {
-      id: 'endpointLabel',
-      label: 'Method',
-      getContent(item) {
-        return <Link href$={getEndpointDashboard(item.endpoint.id, { appId, serviceId })}>{item.endpoint.label}</Link>;
-      }
-    },
-    {
-      id: 'serviceLabel',
-      label: 'Service',
-      getContent() {
-        return serviceLabel;
-      }
-    },
-    {
-      id: 'callsAgg',
-      label: 'Calls',
-      getContent(item, { result }) {
-        return (
-          <SparkChart
-            timeframe={getResolvedTimeframe(timeframe, result)}
-            metrics={item.metrics.calls}
-            tooltipFormatter={number.compact}
-          />
-        );
-      }
-    },
-    {
-      id: 'latencyAgg',
-      label: 'Latency',
-      getContent(item, { result }) {
-        return (
-          <SparkChart
-            timeframe={getResolvedTimeframe(timeframe, result)}
-            metrics={item.metrics.latency}
-            tooltipFormatter={ms.compact}
-          />
-        );
-      }
-    },
-    {
-      id: 'errorsAgg',
-      label: 'Errors',
-      getContent(item, { result }) {
-        return (
-          <SparkChart
-            timeframe={getResolvedTimeframe(timeframe, result)}
-            metrics={item.metrics.errors}
-            tooltipFormatter={percentage.compact}
-          />
-        );
-      }
+const columnDefinitions = [
+  {
+    id: 'endpointLabel',
+    label: 'Method',
+    getContent(item, { applicationId, serviceId }) {
+      return (
+        <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+      );
     }
-  ];
-}
+  },
+  {
+    id: 'serviceLabel',
+    label: 'Service',
+    getContent(item, { serviceLabel }) {
+      return serviceLabel;
+    }
+  },
+  {
+    id: 'callsAgg',
+    label: 'Calls',
+    getContent(item, { result, timeframe }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeframe)}
+          timeframe={getResolvedTimeframe(timeframe, result)}
+          metrics={item.metrics.calls}
+          metric={item.metrics.callsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'latencyAgg',
+    label: 'Latency',
+    getContent(item, { result, timeframe }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeframe)}
+          timeframe={getResolvedTimeframe(timeframe, result)}
+          metrics={item.metrics.latency}
+          metric={item.metrics.latencyAgg}
+          tooltipFormatter={ms.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'errorsAgg',
+    label: 'Errors',
+    getContent(item, { result, timeframe }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeframe)}
+          timeframe={getResolvedTimeframe(timeframe, result)}
+          metrics={item.metrics.errors}
+          metric={item.metrics.errorsAgg}
+          tooltipFormatter={percentage.compact}
+        />
+      );
+    }
+  }
+];

@@ -1,14 +1,14 @@
 // @flow
 
-import type { EndpointItem, GetEndpointsQuery } from 'in-types/application';
+import type { Endpoint, GetEndpointsQuery } from 'in-types/application';
 import createSubscription from 'in-subscription/subscription';
 import { pendingResult } from 'in-services/fixedObjects';
 import type { Observable } from 'reactive-observables';
 import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
 
-const subscriptionFactory: GetEndpointsQuery => Observable<Result<PaginatedResult<EndpointItem>>> = createSubscription({
-  eventId: 'getEndpoints',
+const subscriptionFactory: GetEndpointsQuery => Observable<Result<Endpoint>> = createSubscription({
+  eventId: 'getEndpoint',
 
   getData(subscriptionId, params) {
     return {
@@ -17,7 +17,7 @@ const subscriptionFactory: GetEndpointsQuery => Observable<Result<PaginatedResul
     };
   },
 
-  transform(observable): Observable<Result<PaginatedResult<EndpointItem>>> {
+  transform(observable): Observable<Result<Endpoint>> {
     const result = observable.map(deepFreeze).startWith(pendingResult);
     return (result: Observable<any>);
   }
