@@ -1,12 +1,13 @@
 import React from 'react';
 
+import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 
 export default [
   {
     label: 'Summary',
     path: `${endpointDashboard}/summary`,
-    component: () => <div>Summary</div>
+    component: Summary
   },
   {
     label: 'Flow Map',
