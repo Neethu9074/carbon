@@ -24,11 +24,11 @@ export function getServiceDashboard(serviceId, { appId, endpointId, tab = '/summ
   });
 }
 
-export function getEndpointDashboard(endpointId, { appId, serviceId } = {}) {
+export function getEndpointDashboard(endpointId, { applicationId, serviceId } = {}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${endpointDashboard}/summary`;
     setOrDeleteMatrixKey(params, endpointDashboard, matrixServiceId, serviceId);
-    setOrDeleteMatrixKey(params, endpointDashboard, matrixApplicationId, appId);
+    setOrDeleteMatrixKey(params, endpointDashboard, matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, endpointDashboard, matrixEndpointId, endpointId);
   });
 }

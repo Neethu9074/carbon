@@ -12,6 +12,10 @@ import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({ location, timeframe }) {
+  const application = getMatrixParameter(location, endpointDashboard, applicationId);
+  const service = getMatrixParameter(location, endpointDashboard, serviceId);
+  const endpoint = getMatrixParameter(location, endpointDashboard, endpointId);
+
   return (
     <TabView
       result$={getData(location)}
@@ -19,7 +23,7 @@ export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({
       location={location}
       breadcrumbs={breadcrumbs}
       tabs={tabs}
-      props={{ timeframe }}
+      props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
     />
   );
 });
