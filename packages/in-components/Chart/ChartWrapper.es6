@@ -27,7 +27,21 @@ export default connectTo(
         return 'Loading...';
       }
 
-      return <Chart timeframe={getResolvedTimeframe(this.props.timeframe, result)} {...this.props} />;
+      return <Chart {...wrapProps(this.props)} />;
     }
   }
 );
+
+function wrapProps(props) {
+  const propsClone = Object.assign({}, props);
+
+  propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, propsClone.result);
+
+  propsClone.y1.metrics = propsClone.y1.metricIds.map(id => props.result.data[id]);
+
+  if (propsClone.y2 != null) {
+    propsClone.y2.metrics = propsClone.y2.metricIds.map(id => props.result.data[id]);
+  }
+
+  return propsClone;
+}

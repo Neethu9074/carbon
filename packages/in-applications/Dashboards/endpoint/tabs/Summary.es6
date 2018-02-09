@@ -7,7 +7,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 
-export default function Summary({ timeframe, result, data }) {
+export default function Summary({ timeframe, data }) {
   return (
     <MaxWidthFullscreenContainer>
       <Columize>
@@ -18,7 +18,7 @@ export default function Summary({ timeframe, result, data }) {
             y1={{
               renderer: Renderer.line,
               labels: ['Calls'],
-              metrics: [result.data['calls']]
+              metricIds: ['calls']
             }}
             metricsConfiguration={{
               filter: {
