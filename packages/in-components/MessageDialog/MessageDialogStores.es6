@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
+
 import createMessageObservable from 'in-subscription/message';
+import { isInstanaEngineer } from 'in-stores/user';
 import { createStore } from 'in-stores/store';
 
 /*
@@ -15,5 +18,13 @@ export function clearMessage() {
 }
 
 export function init() {
-  createMessageObservable().subscribe(msg => messageStore.applyStateMutation(() => msg));
+  createMessageObservable().subscribe(msg => {
+    if (msg.errorCode === 'CLIENT' || msg.errorCode === 'SERVER') {
+      if (isInstanaEngineer) {
+        console.error(msg);
+      }
+    } else {
+      messageStore.applyStateMutation(() => msg);
+    }
+  });
 }
