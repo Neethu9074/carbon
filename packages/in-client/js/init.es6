@@ -23,6 +23,7 @@ import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
+import { withoutTimeline } from 'in-services/featureFlags';
 import { init as initConnection } from 'in-connection';
 import history from 'in-stores/navigation/history';
 
@@ -68,7 +69,11 @@ initGlyphTexture();
 initLayouterStorage();
 initBrowserIdentification();
 initTimeOffsetStore();
-initTimelineStore();
+
+if (!withoutTimeline) {
+  initTimelineStore();
+}
+
 initMessageStore();
 initShortcuts();
 initNotMonitoringPresenter();

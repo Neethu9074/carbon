@@ -21,7 +21,7 @@ export default function Sidebar({ snapshot }) {
       </Collapsible>
       <KeyValuePopup header="Spark Conf" data={conf} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

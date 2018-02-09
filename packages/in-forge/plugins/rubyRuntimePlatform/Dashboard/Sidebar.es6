@@ -23,7 +23,7 @@ export default function RubyDashboardSidebar({ snapshot }) {
 
       <KeyValuePopup header="Gem Bundle" data={snapshot.getIn(['data', 'versions'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

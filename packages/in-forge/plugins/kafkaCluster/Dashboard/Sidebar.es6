@@ -23,7 +23,7 @@ export default function KafkaClusterSidebar({ snapshot }) {
 
       <KeyValuePopup header="Topics/Partitions" data={snapshot.getIn(['data', 'partitions'])} />
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

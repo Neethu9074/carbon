@@ -98,7 +98,7 @@ export default function TomcatSidebar({ snapshot }) {
         </div>
       ) : null}
       <RunningComponentsList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

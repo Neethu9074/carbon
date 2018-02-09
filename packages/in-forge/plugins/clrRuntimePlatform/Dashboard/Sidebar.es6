@@ -19,7 +19,7 @@ export default function ClrRuntimeSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
       <RunningComponentsList snapshotId={snapshotId} />
-      <ServiceInstancesList snapshotId={snapshotId} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

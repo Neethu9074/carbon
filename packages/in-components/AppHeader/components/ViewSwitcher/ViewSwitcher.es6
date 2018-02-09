@@ -14,7 +14,7 @@ import {
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import { application_2_0_Enabled, cockpitEnabled } from 'in-services/featureFlags';
+import { newApplicationMonitoringEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
@@ -56,7 +56,7 @@ export default function ViewSwitcher() {
           icon="application"
           isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
         >
-          {application_2_0_Enabled ? (
+          {newApplicationMonitoringEnabled ? (
             <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
           ) : null}
           <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />

@@ -26,7 +26,7 @@ export default function JettySidebar({ snapshot }) {
       <JettyConnectors snapshot={snapshot} />
       <JettyWebApps snapshot={snapshot} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }
