@@ -95,7 +95,4 @@
   .expandButtonLeft {
     left: -12px;
   }
-
-  .expandNodeIcon {
-  }
 }

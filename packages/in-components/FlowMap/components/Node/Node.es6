@@ -24,13 +24,35 @@ export default connectTo(
       >
         <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
           {getContent(node, size)}
-          <div className={locals.expandButtonRight} onClick={() => node.expandRight()}>
-            <SvgIcon className={locals.expandNodeIcon} type="plus_without_frame" height={10} color="#ffffff" />
-          </div>
-          <div className={locals.expandButtonLeft} onClick={() => node.expandLeft()}>
-            <SvgIcon className={locals.expandNodeIcon} type="plus_without_frame" height={10} color="#ffffff" />
-          </div>
+          <IncomingExpandIcon node={node} />
+          <OutgoingExpandIcon node={node} />
         </div>
+      </div>
+    );
+  }
+);
+
+const OutgoingExpandIcon = connectTo(
+  props => ({
+    isLoading: props.node.events$.on('isLoadingOutgoingData').distinct()
+  }),
+  function IncomingExpandIcon({ node, isLoading }) {
+    return (
+      <div className={locals.expandButtonRight} onClick={() => node.expandRight()}>
+        <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
+      </div>
+    );
+  }
+);
+
+const IncomingExpandIcon = connectTo(
+  props => ({
+    isLoading: props.node.events$.on('isLoadingIncomingData').distinct()
+  }),
+  function IncomingExpandIcon({ node, isLoading }) {
+    return (
+      <div className={locals.expandButtonLeft} onClick={() => node.expandLeft()}>
+        <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
       </div>
     );
   }

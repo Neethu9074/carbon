@@ -13,29 +13,10 @@ export default class SceneGraph {
   }
 
   init(rootNodeData) {
-    const rootNode = this.addNode(rootNodeData);
-    rootNode.expandRight();
-    rootNode.expandLeft();
-  }
-
-  fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
-    this.setupSubscriptionIfAbsent(id, 'incoming', getIncomingDataForNodeIdCallback, result => {
-      console.log('result in', result);
-    });
-  }
-
-  fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
-    this.setupSubscriptionIfAbsent(id, 'outgoing', getOutgoingDataForNodeIdCallback, result => {
-      console.log('result out', result);
-    });
-  }
-
-  setupSubscriptionIfAbsent(id, direction, fetchData, callback) {
-    if (!this.containsSubscription(id, direction)) {
-      const directionSubscriptions = this.subscriptions.get(id) || {};
-      directionSubscriptions[direction] = fetchData(id).subscribe(callback);
-      this.subscriptions.set(id, directionSubscriptions);
-    }
+    this.addNode(rootNodeData);
+    // const rootNode = this.addNode(rootNodeData);
+    // rootNode.expandRight();
+    // rootNode.expandLeft();
   }
 
   addNode(data) {
@@ -44,6 +25,56 @@ export default class SceneGraph {
 
     this.relayout();
     return node;
+  }
+
+  fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
+    this.setupSubscriptionIfAbsent(id, 'incoming', getIncomingDataForNodeIdCallback);
+  }
+
+  fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
+    this.setupSubscriptionIfAbsent(id, 'outgoing', getOutgoingDataForNodeIdCallback);
+  }
+
+  setupSubscriptionIfAbsent(id, direction, fetchData) {
+    if (!this.containsSubscription(id, direction)) {
+      const directionSubscriptions = this.subscriptions.get(id) || {};
+      directionSubscriptions[direction] = fetchData(id).subscribe(result => this.processResult(id, direction, result));
+      this.subscriptions.set(id, directionSubscriptions);
+    }
+  }
+
+  containsSubscription(id, direction) {
+    const directionSubscriptions = this.subscriptions.get(id);
+    return directionSubscriptions && directionSubscriptions[direction] ? true : false;
+  }
+
+  processResult(nodeId, direction, result) {
+    const nodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    const node = nodes.get(nodeId);
+    if (!node) {
+      console.log('this should not happen');
+      return;
+    }
+
+    const isLoading = result.progress.loading;
+    const hasErrors = result.errors.length > 0;
+    if (isLoading) {
+      if (direction === 'incoming') {
+        node.setLoadingOutgoingData(false);
+        node.setLoadingIncomingData(true);
+      } else {
+        node.setLoadingIncomingData(false);
+        node.setLoadingOutgoingData(true);
+      }
+      return;
+    } else {
+      node.setLoadingOutgoingData(false);
+      node.setLoadingIncomingData(false);
+    }
+
+    if (hasErrors) {
+      return;
+    }
   }
 
   relayout() {
@@ -56,11 +87,6 @@ export default class SceneGraph {
     getServiceLocators(this.serviceLocatorUid)
       .sceneServiceLocator.getScene()
       .requestRendering();
-  }
-
-  containsSubscription(id, direction) {
-    const directionSubscriptions = this.subscriptions.get(id);
-    return directionSubscriptions && directionSubscriptions[direction] ? true : false;
   }
 
   disposeMap(map) {
