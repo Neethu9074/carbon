@@ -18,8 +18,7 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],
-              metricIds: ['calls', 'errors'],
-              aggregation: 'sum'
+              metricIds: ['calls', 'errors']
             }}
             y2={{
               renderer: Renderer.line,

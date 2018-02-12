@@ -14,8 +14,7 @@ import invariant from 'invariant';
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],
-              metricIds: ['calls', 'errors'],  <-- theses ids will be referenced in the metricsConfiguration down below
-              aggregation: 'sum'
+              metricIds: ['calls', 'errors']  <-- theses ids will be referenced in the metricsConfiguration down below
             }}
             y2={{
               renderer: Renderer.line,
@@ -72,6 +71,14 @@ function wrapProps(result, props) {
         invariant(Object.keys(props.metricsConfiguration.config).indexOf(id) !== -1, `Metric id ${id} not found.`);
       });
     }
+
+    const keys = props.metricsConfiguration.config;
+    for (let i = 1; i < keys.length; i++) {
+      if (this[i] !== this[0]) {
+        invariant(false, 'All aggregation types for one axis must have the same value.');
+        break;
+      }
+    }
   }
 
   if (result.errors.length > 0 || result.progress.loading) {
@@ -79,8 +86,12 @@ function wrapProps(result, props) {
   }
 
   const propsClone = deepCopy(props);
+
   propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
+
+  //copying over the aggregation types
+  propsClone.y1.aggregation = propsClone.metricsConfiguration.config[propsClone.y1.metricIds[0]].aggregation;
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id]);

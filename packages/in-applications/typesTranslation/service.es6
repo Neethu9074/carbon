@@ -4,6 +4,7 @@ const endpointTranslation = {
   BATCH: 'Batch Methods',
   DATABASE: 'Database Endpoints',
   WEB: 'HTTP Endpoints',
+  HTTP: 'HTTP Endpoints',
   MESSAGING: 'Topics',
   RPC: 'Methods',
   SDK: 'SDK Endpoints',
