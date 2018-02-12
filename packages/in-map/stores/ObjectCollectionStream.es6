@@ -11,6 +11,10 @@ export default function createCollection() {
     objects$.emit(collection);
   }
 
+  function has(id) {
+    return collection.has(id);
+  }
+
   function remove(id) {
     collection.delete(id);
     objects$.emit(collection);
@@ -31,6 +35,7 @@ export default function createCollection() {
 
   return {
     add,
+    has,
     get,
     remove,
     clear,

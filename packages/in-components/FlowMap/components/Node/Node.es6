@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SparkChart from 'in-components/SparkChart';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -24,34 +25,35 @@ export default connectTo(
       >
         <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
           {getContent(node, size)}
-          <IncomingExpandIcon node={node} />
-          <OutgoingExpandIcon node={node} />
+          <ExpandIcon
+            className={locals.expandButtonLeft}
+            direction="incoming"
+            events$={node.events$}
+            onClick={() => node.expandLeft()}
+          />
+          <ExpandIcon
+            className={locals.expandButtonRight}
+            direction="outgoing"
+            events$={node.events$}
+            onClick={() => node.expandRight()}
+          />
         </div>
       </div>
     );
   }
 );
 
-const OutgoingExpandIcon = connectTo(
+const ExpandIcon = connectTo(
   props => ({
-    isLoading: props.node.events$.on('isLoadingOutgoingData').distinct()
+    isLoading: props.events$.on(`isLoadingData_${props.direction}`).distinct(),
+    isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct()
   }),
-  function IncomingExpandIcon({ node, isLoading }) {
+  function ExpandIcon({ isLoading, isExpanded, onClick, className }) {
+    if (isExpanded) {
+      return null;
+    }
     return (
-      <div className={locals.expandButtonRight} onClick={() => node.expandRight()}>
-        <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
-      </div>
-    );
-  }
-);
-
-const IncomingExpandIcon = connectTo(
-  props => ({
-    isLoading: props.node.events$.on('isLoadingIncomingData').distinct()
-  }),
-  function IncomingExpandIcon({ node, isLoading }) {
-    return (
-      <div className={locals.expandButtonLeft} onClick={() => node.expandLeft()}>
+      <div className={className} onClick={onClick}>
         <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
       </div>
     );
@@ -83,7 +85,7 @@ function MidNodeContent({ node }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id}
+      {node.id.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>{`719 18ms 0%`}</div>
@@ -94,11 +96,11 @@ function LargeNodeContent({ node }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id}
+      {node.id.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>
-      <SvgIcon type="crossed_circle" height={32} color="#BECCD2" />
+      <SparkChart />
     </div>,
     <div key={3} className={locals.line}>{`719 18ms 0%`}</div>
   ];

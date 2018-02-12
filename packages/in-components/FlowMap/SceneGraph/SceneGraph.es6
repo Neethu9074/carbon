@@ -1,6 +1,6 @@
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import layout from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
-// import Connection from 'in-components/FlowMap/sceneObjects/Connection';
+import Connection from 'in-components/FlowMap/sceneObjects/Connection';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
 
 export default class SceneGraph {
@@ -13,32 +13,47 @@ export default class SceneGraph {
   }
 
   init(rootNodeData) {
-    this.addNode(rootNodeData);
-    // const rootNode = this.addNode(rootNodeData);
+    this.addNode(this.rootNodeId, rootNodeData);
+    // const rootNode = this.addNode(this.rootNodeId, rootNodeData);
     // rootNode.expandRight();
     // rootNode.expandLeft();
+    this.relayout();
   }
 
-  addNode(data) {
-    const node = new Node(this.serviceLocatorUid, data.id);
-    getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.addNode(node.id, node);
+  addNode(id) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const nodes = nodesServiceLocator.getNodes();
+    if (nodes.has(id)) {
+      console.log('dont duplicate', id);
+      return nodes.get(id);
+    }
 
-    this.relayout();
+    const node = new Node(this.serviceLocatorUid, id);
+    nodesServiceLocator.addNode(node.id, node);
+
     return node;
   }
 
   fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
-    this.setupSubscriptionIfAbsent(id, 'incoming', getIncomingDataForNodeIdCallback);
+    const direction = 'incoming';
+    this.setupSubscriptionIfAbsent(id, direction, getIncomingDataForNodeIdCallback, (nodeId, result) => {
+      this.processResult(nodeId, result, direction);
+      this.relayout();
+    });
   }
 
   fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
-    this.setupSubscriptionIfAbsent(id, 'outgoing', getOutgoingDataForNodeIdCallback);
+    const direction = 'outgoing';
+    this.setupSubscriptionIfAbsent(id, direction, getOutgoingDataForNodeIdCallback, (nodeId, result) => {
+      this.processResult(nodeId, result, direction);
+      this.relayout();
+    });
   }
 
-  setupSubscriptionIfAbsent(id, direction, fetchData) {
+  setupSubscriptionIfAbsent(id, direction, fetchData, processResult) {
     if (!this.containsSubscription(id, direction)) {
       const directionSubscriptions = this.subscriptions.get(id) || {};
-      directionSubscriptions[direction] = fetchData(id).subscribe(result => this.processResult(id, direction, result));
+      directionSubscriptions[direction] = fetchData(id).subscribe(result => processResult(id, result));
       this.subscriptions.set(id, directionSubscriptions);
     }
   }
@@ -48,35 +63,113 @@ export default class SceneGraph {
     return directionSubscriptions && directionSubscriptions[direction] ? true : false;
   }
 
-  processResult(nodeId, direction, result) {
-    const nodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
-    const node = nodes.get(nodeId);
+  processResult(nodeId, result, direction) {
+    const currentNode = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    const node = currentNode.get(nodeId);
+
+    const hasErrors = result.errors.length > 0;
+    if (hasErrors) {
+      // TODO: what should happen on error here?
+      return;
+    }
 
     const isLoading = result.progress.loading;
-    const hasErrors = result.errors.length > 0;
+    node.setIsLoadingData(isLoading, direction);
     if (isLoading) {
-      if (direction === 'incoming') {
-        node.setLoadingOutgoingData(false);
-        node.setLoadingIncomingData(true);
-      } else {
-        node.setLoadingIncomingData(false);
-        node.setLoadingOutgoingData(true);
-      }
       return;
-    } else {
-      node.setLoadingOutgoingData(false);
-      node.setLoadingIncomingData(false);
     }
 
-    if (hasErrors) {
-      return;
+    const nodesMap = this.getNodesAsMap(result.data);
+    let { newNodes, presentNodes, removedNodes } = this.getNewDeletedAndPresentNodesFromLists(
+      node[direction].map(node => node.id),
+      Array.from(nodesMap.keys())
+    );
+
+    // TODO: remove until we have proper backend data in place
+    newNodes = newNodes.filter(id => id !== node.id);
+
+    // TODOS #################################################################################
+    // - create proper data in the backend with more than 1 level
+    // - create connections on the fly while layouting and create geometry there
+
+    this.addNewNodes(node, newNodes, nodesMap, direction);
+    node.setConnected(newNodes, direction);
+
+    this.updatePresentNodes(presentNodes);
+    this.removeNodes(removedNodes);
+  }
+
+  getNodesAsMap(nodes) {
+    const dataFetchingService = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+
+    const nodesMap = new Map();
+    for (let i = 0; i < nodes.length; i++) {
+      const nodeData = nodes[i];
+      nodesMap.set(dataFetchingService.getIdFromData(nodeData), nodeData);
     }
+    return nodesMap;
+  }
+
+  getNewDeletedAndPresentNodesFromLists(currentNodes, nextNodes) {
+    const result = {
+      newNodes: [],
+      presentNodes: [],
+      removedNodes: []
+    };
+
+    for (let i = 0; i < currentNodes.length; i++) {
+      const currentNode = currentNodes[i];
+      if (nextNodes.indexOf(currentNode) === -1) {
+        result.removedNodes.push(currentNode);
+      } else {
+        result.presentNodes.push(currentNode);
+      }
+    }
+
+    for (let i = 0; i < nextNodes.length; i++) {
+      const nextNode = nextNodes[i];
+      if (currentNodes.indexOf(nextNode) === -1) {
+        result.newNodes.push(nextNode);
+      }
+    }
+
+    return result;
+  }
+
+  addNewNodes(node, newNodes, nodesMap, direction) {
+    for (let i = 0; i < newNodes.length; i++) {
+      const nodeSceneObject = this.addNode(newNodes[i]);
+
+      let connection;
+      if (direction === 'incoming') {
+        nodeSceneObject.setIsExpanded(true, 'outgoing');
+        connection = new Connection(this.serviceLocatorUid, nodeSceneObject, node);
+      } else {
+        nodeSceneObject.setIsExpanded(true, 'incoming');
+        connection = new Connection(this.serviceLocatorUid, node, nodeSceneObject);
+      }
+
+      this.connectionsMap.set(connection.id, connection);
+    }
+  }
+
+  updatePresentNodes() {
+    // TODO: discuss what happens here
+  }
+
+  removeNodes(nodeIds) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    for (let i = 0; i < nodeIds.length; i++) {
+      nodesServiceLocator.removeNode(nodeIds[i]);
+    }
+
+    // TODO: remove connections touching this node
   }
 
   relayout() {
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);
-    const nodes = serviceLocators.nodesServiceLocator.getNodes();
-    layout(nodes.get(this.rootNodeId), nodes, this.connectionsMap);
+    const nodesMpa = serviceLocators.nodesServiceLocator.getNodes();
+    layout(nodesMpa.get(this.rootNodeId), nodesMpa, this.connectionsMap);
 
     getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update();
 
@@ -101,7 +194,7 @@ export default class SceneGraph {
 
   disposeSubscription(id, direction) {
     const directionSubscriptions = this.subscriptions.get(id);
-    if (directionSubscriptions[direction]) {
+    if (directionSubscriptions && directionSubscriptions[direction]) {
       directionSubscriptions[direction].dispose();
       delete directionSubscriptions[direction];
     }
