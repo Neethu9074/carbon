@@ -3,14 +3,10 @@ import React from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import HttpFilterSelect from 'in-components/HttpFilterSelect';
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import Chart from 'in-components/Chart/ChartReactComponent';
-import { millis } from 'in-services/formatters/number';
-import { compare } from 'in-services/util/number';
 import locals from './Performance.mless';
 import Table from 'in-components/Table';
 
-export default function Performance({ timeframe }) {
+export default function Performance() {
   // dummy data
   const dummyTableRows = [1, 2, 3, 4, 5, 6].map(i => ({
     key: String(i),
@@ -79,25 +75,6 @@ export default function Performance({ timeframe }) {
   return (
     <MaxWidthFullscreenContainer>
       <DashboardSection>
-        <h2>Http Status Code Breakdown</h2>
-        <Chart
-          timeframe={timeframe}
-          y1={{
-            renderer: Renderer.stackedArea,
-            labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-            colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
-            formatter: millis,
-            metrics: [
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe)
-            ]
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection>
         <div className={locals.inlineHeaderWrapper}>
           <h2 className={locals.inlineHeader}>Http Endpoints</h2>
           <HttpFilterSelect />
@@ -106,14 +83,4 @@ export default function Performance({ timeframe }) {
       </DashboardSection>
     </MaxWidthFullscreenContainer>
   );
-}
-
-function generateMetrics(timeframe, maxValue = 100, numMetrics) {
-  const metrics = [];
-  numMetrics = numMetrics || timeframe.windowSize / 5000;
-  for (let i = numMetrics; i >= 0; i--) {
-    metrics[i] = [timeframe.to - i * (timeframe.windowSize / numMetrics), ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
 }

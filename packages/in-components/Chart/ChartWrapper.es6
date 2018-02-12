@@ -1,32 +1,85 @@
 import React from 'react';
 
+import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { getResolvedTimeframe } from 'in-applications/metrics';
-import Chart from 'in-components/Chart/ChartReactComponent';
-import connectTo from 'in-hoc/connectTo';
 import { deepCopy } from 'in-services/util/object';
+import connectTo from 'in-hoc/connectTo';
+import invariant from 'invariant';
 
+// Sample Usage
+/*
+<ChartWrapper
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.countErrorBar,
+              labels: ['Calls', 'Errors'],
+              metricIds: ['calls', 'errors'],  <-- theses ids will be referenced in the metricsConfiguration down below
+              aggregation: 'sum'
+            }}
+            y2={{
+              renderer: Renderer.line,
+              labels: ['Latency'],
+              colors: ['#57a7f0'],
+              formatter: millis,
+              metricIds: ['latency']
+            }}
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                endpointType: data.type,
+                endpoint: data.id,
+                application: applicationId,
+                service: serviceId
+              },
+              config: {
+                calls: {
+                  metric: 'calls',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+ */
 export default connectTo(
   props => ({
     result: getMetrics(props.metricsConfiguration)
   }),
   function ChartWrapper({ result, ...props }) {
-    if (result.errors.length > 0) {
-      return result.errors.join(',');
-    }
-
-    if (result.progress.loading) {
-      return 'Loading...';
-    }
-    return <Chart {...wrapProps(result, props)} />;
+    return <ChartWrapperPresenter result={result} config={wrapProps(result, props)} />;
   }
 );
 
 function wrapProps(result, props) {
+  if (__DEV__) {
+    props.y1.metricIds.forEach(id => {
+      invariant(Object.keys(props.metricsConfiguration.config).indexOf(id) !== -1, `Metric id ${id} not found.`);
+    });
+
+    if (props.y2 != null) {
+      props.y2.metricIds.forEach(id => {
+        invariant(Object.keys(props.metricsConfiguration.config).indexOf(id) !== -1, `Metric id ${id} not found.`);
+      });
+    }
+  }
+
+  if (result.errors.length > 0 || result.progress.loading) {
+    return {};
+  }
+
   const propsClone = deepCopy(props);
-
   propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
-
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
 
   if (propsClone.y2 != null) {

@@ -4,21 +4,20 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart/ChartReactComponent';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
-import { compare } from 'in-services/util/number';
 
-export default function Summary({ timeframe }) {
+export default function Summary({ timeframe, data, applicationId, serviceId }) {
   return (
     <MaxWidthFullscreenContainer>
       <Columize>
         <DashboardSection title="Some Chart">
-          <Chart
+          <ChartWrapper
             timeframe={timeframe}
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],
-              metrics: [generateMetrics(timeframe, 100, 20), generateMetrics(timeframe, 0.5, 20)],
+              metricIds: ['calls', 'errors'],
               aggregation: 'sum'
             }}
             y2={{
@@ -26,33 +25,37 @@ export default function Summary({ timeframe }) {
               labels: ['Latency'],
               colors: ['#57a7f0'],
               formatter: millis,
-              metrics: [generateMetrics(timeframe, 2000)]
+              metricIds: ['latency']
             }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Technology Breakdown">
-          <Chart
-            timeframe={timeframe}
-            y1={{
-              renderer: Renderer.stackedArea,
-              labels: ['Self', 'Http', 'RPC'],
-              colors: ['#57a7f0', '#6a8bdf', '#b9b3ff'],
-              formatter: millis,
-              metrics: [generateMetrics(timeframe), generateMetrics(timeframe), generateMetrics(timeframe)]
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                endpointType: data.type,
+                endpoint: data.id,
+                application: applicationId,
+                service: serviceId
+              },
+              config: {
+                calls: {
+                  metric: 'calls',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                }
+              }
             }}
           />
         </DashboardSection>
       </Columize>
     </MaxWidthFullscreenContainer>
   );
-}
-
-function generateMetrics(timeframe, maxValue = 100, numMetrics) {
-  const metrics = [];
-  numMetrics = numMetrics || timeframe.windowSize / 5000;
-  for (let i = numMetrics; i >= 0; i--) {
-    metrics[i] = [timeframe.to - i * (timeframe.windowSize / numMetrics), ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
 }
