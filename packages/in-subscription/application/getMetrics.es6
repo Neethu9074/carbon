@@ -9,6 +9,7 @@ import 'in-subscription/subscription';
 
 const subscriptionFactory: GetMetricsQuery => Observable<Result<TimestampedMetrics>> = createSubscription({
   eventId: 'getMetrics',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {

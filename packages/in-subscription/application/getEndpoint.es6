@@ -9,6 +9,7 @@ import 'in-subscription/subscription';
 
 const subscriptionFactory: GetEndpointsQuery => Observable<Result<Endpoint>> = createSubscription({
   eventId: 'getEndpoint',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {

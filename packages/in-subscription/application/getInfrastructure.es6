@@ -11,6 +11,7 @@ const subscriptionFactory: GetInfrastructureQuery => Observable<
   Result<PaginatedResult<InfrastructureItem>>
 > = createSubscription({
   eventId: 'getInfrastructure',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {
