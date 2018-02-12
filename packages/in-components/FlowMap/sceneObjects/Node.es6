@@ -9,7 +9,11 @@ export default class Node extends SceneObject {
     super(id, serviceLocatorUid);
 
     this.screenPosition = this.position;
+    this.outgoing = [];
+    this.incoming = [];
     this.initSubscriptions();
+    this.setIsExpanded(false, 'incoming');
+    this.setIsExpanded(false, 'outgoing');
   }
 
   initSubscriptions() {
@@ -36,12 +40,17 @@ export default class Node extends SceneObject {
     this.events$.emit('screenPosition', screenPosition);
   }
 
-  setLoadingOutgoingData(isLoading) {
-    this.events$.emit('isLoadingOutgoingData', isLoading);
+  setIsLoadingData(isLoading, direction) {
+    this.events$.emit(`isLoadingData_${direction}`, isLoading);
   }
 
-  setLoadingIncomingData(isLoading) {
-    this.events$.emit('isLoadingIncomingData', isLoading);
+  setIsExpanded(isIncomingExpanded, direction) {
+    this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
+  }
+
+  setConnected(newNodes, direction) {
+    this[direction] = newNodes;
+    this.setIsExpanded(true, direction);
   }
 
   expandRight() {
@@ -61,6 +70,9 @@ export default class Node extends SceneObject {
   }
 
   dispose() {
+    this.outgoing = null;
+    this.incoming = null;
+
     this.disposeSubscriptions();
 
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);

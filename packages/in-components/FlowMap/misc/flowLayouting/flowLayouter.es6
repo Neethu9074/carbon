@@ -24,9 +24,10 @@ export default function layout(rootNode, nodesMap, connectionsMap) {
     if (nodesAvailable(nodes)) {
       let nextColumnNodes = [];
       for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
-        nodesMap.get(node.id).setPosition(xPosition, getNodesYPosition(i, nodes.length));
+        const nodeId = nodes[i];
+        nodesMap.get(nodeId).setPosition(xPosition, getNodesYPosition(i, nodes.length));
 
+        const node = nodesMap.get(nodeId);
         if (node[direction]) {
           nextColumnNodes = nextColumnNodes.concat(node[direction]);
         }
