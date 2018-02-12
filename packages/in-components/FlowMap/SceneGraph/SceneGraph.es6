@@ -24,7 +24,6 @@ export default class SceneGraph {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const nodes = nodesServiceLocator.getNodes();
     if (nodes.has(id)) {
-      console.log('dont duplicate', id);
       return nodes.get(id);
     }
 
@@ -85,12 +84,13 @@ export default class SceneGraph {
       Array.from(nodesMap.keys())
     );
 
-    // TODO: remove until we have proper backend data in place
+    // TODO: remove until we have proper backend data in place. This avoids that we receive the node itself on subscribe for incoming/outgoing data
     newNodes = newNodes.filter(id => id !== node.id);
 
     // TODOS #################################################################################
-    // - create proper data in the backend with more than 1 level
+    // - create proper data in the backend with more than 1 depth
     // - create connections on the fly while layouting and create geometry there
+    // - debounce layouting
 
     this.addNewNodes(node, newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
