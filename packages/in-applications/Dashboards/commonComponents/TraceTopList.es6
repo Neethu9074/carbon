@@ -12,7 +12,7 @@ const labels = ['Elapsed Latency', 'Self Latency', 'Calls'];
 const aggregations = ['MEAN', 'MEAN', 'SUM'];
 const formatters = [ms.compact, ms.compact, number.compact];
 
-export default function TraceTopList({ application, timeframe }) {
+export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
       metrics={metrics}
@@ -27,7 +27,9 @@ export default function TraceTopList({ application, timeframe }) {
       renderLabel={Label}
       renderMetric={Metric}
       timeframe={timeframe}
-      application={application}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
     />
   );
 }
@@ -40,14 +42,16 @@ function getMetricValueFromItem(item) {
   return item.metricValue;
 }
 
-function getList({ application, timeframe, selectedMetric, selectedMetricAggregation }) {
+function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetric, selectedMetricAggregation }) {
   return getTraceTopList({
     metric: {
       metric: selectedMetric,
       aggregation: selectedMetricAggregation
     },
     filter: {
-      application: application.id,
+      application: applicationId,
+      service: serviceId,
+      endpoint: endpointId,
       timeframe
     }
   });
@@ -57,12 +61,14 @@ function ViewAll() {
   return null;
 }
 
-function Label({ item, application }) {
+function Label({ item, applicationId }) {
   return (
     <Fragment>
-      <Link href$={getServiceDashboard(item.service.id, { appId: application.id })}>{item.service.label}</Link>
-      {' / '}
-      <Link href$={getEndpointDashboard(item.endpoint.id, { appId: application.id, serviceId: item.service.id })}>
+      <Fragment>
+        <Link href$={getServiceDashboard(item.service.id, { applicationId })}>{item.service.label}</Link>
+        {' / '}
+      </Fragment>
+      <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId: item.service.id })}>
         {item.endpoint.label}
       </Link>
     </Fragment>

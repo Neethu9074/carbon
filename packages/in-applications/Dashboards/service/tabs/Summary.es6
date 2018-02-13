@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -55,6 +56,10 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
           />
         </DashboardSection>
       </Columize>
+
+      <DashboardSection title="Top Traces">
+        <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+      </DashboardSection>
     </MaxWidthFullscreenContainer>
   );
 }
