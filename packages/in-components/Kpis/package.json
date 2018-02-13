@@ -1,0 +1,6 @@
+{
+  "name": "Kpis",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Kpis.es6"
+}

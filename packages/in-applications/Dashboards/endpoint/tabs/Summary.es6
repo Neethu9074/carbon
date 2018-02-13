@@ -7,12 +7,65 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
+import { getChartGranularity } from 'in-applications/metrics';
+
+import Kpis from 'in-components/Kpis';
+import App20Kpi from 'in-components/Kpis/App20Kpi';
+import { number, ms, percentage } from 'in-services/formatters/number';
 
 export default function Summary({ timeframe, data, applicationId, serviceId }) {
+  const filter = {
+    timeframe,
+    endpoint: data.id,
+    application: applicationId,
+    service: serviceId
+  };
+
   return (
     <MaxWidthFullscreenContainer>
       <Columize>
         <DashboardSection>
+          <Kpis>
+            <App20Kpi
+              label="Calls"
+              formatter={number}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  calls: {
+                    metric: 'calls',
+                    aggregation: 'SUM'
+                  }
+                }
+              }}
+            />
+            <App20Kpi
+              label="Latency"
+              formatter={ms}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  latency: {
+                    metric: 'latency',
+                    aggregation: 'SUM'
+                  }
+                }
+              }}
+            />
+            <App20Kpi
+              label="Errors"
+              formatter={percentage}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  errors: {
+                    metric: 'errors',
+                    aggregation: 'SUM'
+                  }
+                }
+              }}
+            />
+          </Kpis>
           <ChartWrapper
             timeframe={timeframe}
             y1={{
@@ -28,27 +81,21 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
               metricIds: ['latency']
             }}
             metricsConfiguration={{
-              filter: {
-                timeframe,
-                endpointType: data.type,
-                endpoint: data.id,
-                application: applicationId,
-                service: serviceId
-              },
-              config: {
+              filter,
+              metrics: {
                 calls: {
                   metric: 'calls',
-                  granularity: 60000,
+                  granularity: getChartGranularity(timeframe),
                   aggregation: 'SUM'
                 },
                 errors: {
                   metric: 'errors',
-                  granularity: 60000,
+                  granularity: getChartGranularity(timeframe),
                   aggregation: 'SUM'
                 },
                 latency: {
                   metric: 'latency',
-                  granularity: 60000,
+                  granularity: getChartGranularity(timeframe),
                   aggregation: 'SUM'
                 }
               }

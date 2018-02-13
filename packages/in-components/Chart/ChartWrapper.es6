@@ -31,7 +31,7 @@ import invariant from 'invariant';
                 application: applicationId,
                 service: serviceId
               },
-              config: {
+              metrics: {
                 calls: {
                   metric: 'calls',
                   granularity: 60000,
@@ -63,16 +63,16 @@ export default connectTo(
 function wrapProps(result, props) {
   if (__DEV__) {
     props.y1.metricIds.forEach(id => {
-      invariant(Object.keys(props.metricsConfiguration.config).indexOf(id) !== -1, `Metric id ${id} not found.`);
+      invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
     });
 
     if (props.y2 != null) {
       props.y2.metricIds.forEach(id => {
-        invariant(Object.keys(props.metricsConfiguration.config).indexOf(id) !== -1, `Metric id ${id} not found.`);
+        invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
       });
     }
 
-    const keys = props.metricsConfiguration.config;
+    const keys = props.metricsConfiguration.metrics;
     for (let i = 1; i < keys.length; i++) {
       if (this[i] !== this[0]) {
         invariant(false, 'All aggregation types for one axis must have the same value.');
@@ -91,7 +91,7 @@ function wrapProps(result, props) {
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
 
   //copying over the aggregation types
-  propsClone.y1.aggregation = propsClone.metricsConfiguration.config[propsClone.y1.metricIds[0]].aggregation;
+  propsClone.y1.aggregation = propsClone.metricsConfiguration.metrics[propsClone.y1.metricIds[0]].aggregation;
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id]);
