@@ -1,15 +1,7 @@
-import {
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  kiloBytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import getTickPositionsPercentage from 'in-charts/ticks/percentage';
 import getTickPositionsDefault from 'in-charts/ticks/default';
 import getTickPositionsNumber from 'in-charts/ticks/number';
-import getTickPositionsBytes from 'in-charts/ticks/bytes';
 
 export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAligned = false) {
   // special case: Trace with 0 time.
@@ -45,10 +37,6 @@ export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAli
 const tickPositionStrategies = {};
 tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
 tickPositionStrategies[percentageZeroDecimalPlaces] = getTickPositionsPercentage;
-tickPositionStrategies[bytesZeroDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[bytesTwoDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[kiloBytesZeroDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[kiloBytesTwoDecimalPlaces] = getTickPositionsBytes;
 
 export function getAxisTickPositions(scale, formatter) {
   const rangeFrom = scale.getRangeFrom();
@@ -62,10 +50,10 @@ export function getAxisTickPositions(scale, formatter) {
   }
 
   const strategy = tickPositionStrategies[formatter] || getTickPositionsNumber;
-  const ticks = strategy(rangeFrom, rangeTo, domainFrom, domainTo, scale);
+  let ticks = strategy(rangeFrom, rangeTo, domainFrom, domainTo, scale);
 
   // remove close data points, skip first and last
-  removeCloseIndices(ticks);
+  ticks = removeCloseTicks(ticks);
 
   if (ticks.length < 2) {
     return getTickPositionsDefault(rangeFrom, rangeTo, domainFrom, domainTo);
@@ -74,16 +62,32 @@ export function getAxisTickPositions(scale, formatter) {
   return ticks;
 }
 
-function removeCloseIndices(ticks) {
+function removeCloseTicks(ticks) {
+  if (ticks.length < 2) {
+    return ticks;
+  }
+
+  const filteredTicks = [];
   const minSpaceBetweenTicksInPx = 16;
-  for (let i = ticks.length - 1; i > 1; i--) {
+  let previousRange = Number.MAX_VALUE;
+  for (let i = 0; i < ticks.length - 1; i++) {
     const tick = ticks[i];
-    const nextTick = ticks[i - 1];
-    if (Math.abs(tick.range - nextTick.range) < minSpaceBetweenTicksInPx) {
-      // remove that single element
-      // stop iteration over mutated array and start the check again with the mutated array
-      ticks.splice(i - 1, 1);
-      return removeCloseIndices(ticks);
+    if (Math.abs(previousRange - tick.range) > minSpaceBetweenTicksInPx) {
+      filteredTicks.push(tick);
+      previousRange = tick.range;
     }
   }
+
+  if (filteredTicks.length === 0) {
+    return filteredTicks;
+  }
+
+  const lastTick = ticks[ticks.length - 1];
+  if (Math.abs(lastTick.range - filteredTicks[filteredTicks.length - 1].range) < minSpaceBetweenTicksInPx) {
+    filteredTicks[filteredTicks.length - 1] = lastTick;
+  } else {
+    filteredTicks.push(lastTick);
+  }
+
+  return filteredTicks;
 }
