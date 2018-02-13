@@ -35,7 +35,7 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
                 application: applicationId,
                 service: serviceId
               },
-              config: {
+              metrics: {
                 calls: {
                   metric: 'calls',
                   granularity: 60000,
