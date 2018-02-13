@@ -106,6 +106,21 @@ export default function CpuTable({ region, nodes }) {
   );
 }
 
-function getRowDetails() {
-  return <div>Details coming soon…</div>;
+function getRowDetails(row) {
+  const baseAdminUrl = `http://${row.hostLabel}:2998`;
+
+  return (
+    <ul style={{ margin: '2rem' }}>
+      <li>
+        <a href={`${baseAdminUrl}/admin/config.json`} target="_blank" rel="noopener noreferrer">
+          Config
+        </a>
+      </li>
+      <li>
+        <a href={`${baseAdminUrl}/admin/keys`} target="_blank" rel="noopener noreferrer">
+          Configured EUM keys
+        </a>
+      </li>
+    </ul>
+  );
 }
