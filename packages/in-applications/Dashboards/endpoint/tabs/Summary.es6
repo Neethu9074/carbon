@@ -9,8 +9,7 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-applications/metrics';
 
-import Kpis from 'in-components/Kpis';
-import App20Kpi from 'in-components/Kpis/App20Kpi';
+import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
 import { number, ms, percentage } from 'in-services/formatters/number';
 
 export default function Summary({ timeframe, data, applicationId, serviceId }) {
@@ -25,8 +24,8 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
     <MaxWidthFullscreenContainer>
       <Columize>
         <DashboardSection>
-          <Kpis>
-            <App20Kpi
+          <KpiSection>
+            <AppKpi
               label="Calls"
               formatter={number}
               metricsConfig={{
@@ -39,7 +38,7 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
                 }
               }}
             />
-            <App20Kpi
+            <AppKpi
               label="Latency"
               formatter={ms}
               metricsConfig={{
@@ -52,7 +51,7 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
                 }
               }}
             />
-            <App20Kpi
+            <AppKpi
               label="Errors"
               formatter={percentage}
               metricsConfig={{
@@ -65,7 +64,7 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
                 }
               }}
             />
-          </Kpis>
+          </KpiSection>
           <ChartWrapper
             timeframe={timeframe}
             y1={{
