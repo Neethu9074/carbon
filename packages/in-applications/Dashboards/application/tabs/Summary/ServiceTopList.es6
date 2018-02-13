@@ -12,7 +12,7 @@ const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 const aggregations = ['MEAN', 'MEAN', 'SUM', 'MEAN'];
 const formatters = [ms.compact, ms.compact, number.compact, percentage.compact];
 
-export default function ServiceTopList({ application, timeframe }) {
+export default function ServiceTopList({ applicationId, timeframe }) {
   return (
     <TopList
       metrics={metrics}
@@ -25,12 +25,12 @@ export default function ServiceTopList({ application, timeframe }) {
       renderLabel={Label}
       renderMetric={Metric}
       timeframe={timeframe}
-      application={application}
+      applicationId={applicationId}
     />
   );
 }
 
-function getList({ application, timeframe, selectedMetric, selectedMetricAggregation }) {
+function getList({ applicationId, timeframe, selectedMetric, selectedMetricAggregation }) {
   return getServices({
     pagination: {
       page: 1,
@@ -47,18 +47,18 @@ function getList({ application, timeframe, selectedMetric, selectedMetricAggrega
       }
     },
     filter: {
-      application: application.id,
+      application: applicationId,
       timeframe
     }
   });
 }
 
-function ViewAll({ application }) {
-  return <Link href$={getApplicationDashboard(application.id, { tab: '/services' })}>View All</Link>;
+function ViewAll({ applicationId }) {
+  return <Link href$={getApplicationDashboard(applicationId, { tab: '/services' })}>View All</Link>;
 }
 
-function Label({ item, application }) {
-  return <Link href$={getServiceDashboard(item.service.id, { appId: application.id })}>{item.service.label}</Link>;
+function Label({ item, applicationId }) {
+  return <Link href$={getServiceDashboard(item.service.id, { applicationId })}>{item.service.label}</Link>;
 }
 
 function Metric({ formattedMetricValue }) {

@@ -11,6 +11,7 @@ const subscriptionFactory: GetServiceFlowArgs => Observable<
   Result<PaginatedResult<ServiceFlowNode>>
 > = createSubscription({
   eventId: 'getServiceFlowNodes',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {

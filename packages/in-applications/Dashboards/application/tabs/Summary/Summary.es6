@@ -2,15 +2,18 @@ import React from 'react';
 
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
-export default function Summary({ data, timeframe }) {
-  const application = data;
-
+export default function Summary({ timeframe, applicationId }) {
   return (
     <MaxWidthFullscreenContainer>
       <DashboardSection title="Top Services">
-        <ServiceTopList application={application} timeframe={timeframe} />
+        <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
+      </DashboardSection>
+
+      <DashboardSection title="Top Traces">
+        <TraceTopList applicationId={applicationId} timeframe={timeframe} />
       </DashboardSection>
     </MaxWidthFullscreenContainer>
   );

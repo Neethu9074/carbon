@@ -11,6 +11,7 @@ const subscriptionFactory: GetServicesQuery => Observable<
   Result<PaginatedResult<ApplicationItem>>
 > = createSubscription({
   eventId: 'getApplications',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {

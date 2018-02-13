@@ -1,8 +1,8 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -12,7 +12,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
 import { number, ms, percentage } from 'in-services/formatters/number';
 
-export default function Summary({ timeframe, data, applicationId, serviceId }) {
+export default function Summary({ timeframe, data, applicationId, serviceId, endpointId }) {
   const filter = {
     timeframe,
     endpoint: data.id,
@@ -102,6 +102,15 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
           />
         </DashboardSection>
       </Columize>
+
+      <DashboardSection title="Top Traces">
+        <TraceTopList
+          applicationId={applicationId}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          timeframe={timeframe}
+        />
+      </DashboardSection>
     </MaxWidthFullscreenContainer>
   );
 }

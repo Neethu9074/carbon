@@ -12,7 +12,9 @@ export default function TopListPresenter(props) {
     selectedMetricFormatter,
     renderViewAll,
     renderLabel,
-    renderMetric
+    renderMetric,
+    getItemsFromResult = getItemsFromPaginatedResult,
+    getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
   } = props;
 
   if (result.progress.loading) {
@@ -40,8 +42,8 @@ export default function TopListPresenter(props) {
       </ul>
 
       <ol>
-        {result.data.items.map((item, i) => {
-          const metricValue = item.metrics.metric[0][1];
+        {getItemsFromResult(result).map((item, i) => {
+          const metricValue = getMetricValueFromItem(item);
           const formattedMetricValue = selectedMetricFormatter(metricValue);
           const renderProps = {
             ...props,
@@ -62,4 +64,12 @@ export default function TopListPresenter(props) {
       {renderViewAll && renderViewAll(props)}
     </div>
   );
+}
+
+function getItemsFromPaginatedResult(result) {
+  return result.data.items;
+}
+
+function getMetricValueFromItemWithMetricsHash(item) {
+  return item.metrics.metric[0][1];
 }

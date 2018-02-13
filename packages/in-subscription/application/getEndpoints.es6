@@ -9,6 +9,7 @@ import 'in-subscription/subscription';
 
 const subscriptionFactory: GetEndpointsQuery => Observable<Result<PaginatedResult<EndpointItem>>> = createSubscription({
   eventId: 'getEndpoints',
+  disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {
     return {
