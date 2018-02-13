@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -54,6 +55,10 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
               }
             }}
           />
+        </DashboardSection>
+
+        <DashboardSection title="Downstream Breakdown">
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </DashboardSection>
       </Columize>
 

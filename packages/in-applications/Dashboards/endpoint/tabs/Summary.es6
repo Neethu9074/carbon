@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -12,10 +13,10 @@ import { getChartGranularity } from 'in-applications/metrics';
 import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
 import { number, ms, percentage } from 'in-services/formatters/number';
 
-export default function Summary({ timeframe, data, applicationId, serviceId, endpointId }) {
+export default function Summary({ timeframe, applicationId, serviceId, endpointId }) {
   const filter = {
     timeframe,
-    endpoint: data.id,
+    endpoint: endpointId,
     application: applicationId,
     service: serviceId
   };
@@ -99,6 +100,15 @@ export default function Summary({ timeframe, data, applicationId, serviceId, end
                 }
               }
             }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Downstream Breakdown">
+          <TechnologyBreakdown
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
           />
         </DashboardSection>
       </Columize>
