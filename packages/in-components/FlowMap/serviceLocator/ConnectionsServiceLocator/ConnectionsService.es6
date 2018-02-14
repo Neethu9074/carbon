@@ -3,7 +3,10 @@ import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { LineSegments, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
+import { createConnectionId } from 'in-components/FlowMap/sceneObjects/Connection';
+import Connection from 'in-components/FlowMap/sceneObjects/Connection';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { diff } from 'in-services/arrayUtils';
 
 export default function createConnectionsService(serviceLocatorUid) {
   const connections = new Map();
@@ -25,12 +28,46 @@ export default function createConnectionsService(serviceLocatorUid) {
   const line = new LineSegments(geometry, material);
   line.frustumCulled = false;
 
-  function addOrSet(id, connection) {
-    connections.set(id, connection);
+  function set(nextConnectionConfigs) {
+    nextConnectionConfigs = nextConnectionConfigs.map(config => {
+      config.id = createConnectionId(config.from, config.to);
+      return config;
+    });
+
+    const difference = diff(Array.from(connections.keys()), nextConnectionConfigs.map(config => config.id));
+    remove(difference.uniqueItemsA);
+    add(nextConnectionConfigs);
+    updateAllConnectionPositions();
   }
 
-  function remove(id) {
-    connections.delete(id);
+  function add(newItems) {
+    for (let i = 0; i < newItems.length; i++) {
+      const connectionConfig = newItems[i];
+      if (connections.has(connectionConfig.id)) {
+        continue;
+      }
+      connections.set(
+        connectionConfig.id,
+        new Connection(serviceLocatorUid, connectionConfig.from, connectionConfig.to)
+      );
+    }
+  }
+
+  function remove(ids) {
+    for (let i = 0; i < ids.length; i++) {
+      const connection = connections.get(ids[i]);
+      if (connection) {
+        connection.dispose();
+        connections.delete(connection.id);
+      }
+    }
+  }
+
+  function updateAllConnectionPositions() {
+    const iterator = connections.values();
+    for (const connection of iterator) {
+      connection.updatePosition();
+    }
   }
 
   function update() {
@@ -38,19 +75,19 @@ export default function createConnectionsService(serviceLocatorUid) {
     const colors = [];
 
     let currentArrayIndex = 0;
-    const connectionVertices = connections.values();
-    for (const v of connectionVertices) {
-      vertices[currentArrayIndex] = v[0];
+    const iterator = connections.values();
+    for (const connection of iterator) {
+      vertices[currentArrayIndex] = connection.from.position.x;
       colors[currentArrayIndex++] = 0.745;
-      vertices[currentArrayIndex] = v[1];
+      vertices[currentArrayIndex] = connection.from.position.y;
       colors[currentArrayIndex++] = 0.8;
-      vertices[currentArrayIndex] = v[2];
+      vertices[currentArrayIndex] = connection.from.position.z;
       colors[currentArrayIndex++] = 0.823;
-      vertices[currentArrayIndex] = v[3];
+      vertices[currentArrayIndex] = connection.to.position.x;
       colors[currentArrayIndex++] = 0.745;
-      vertices[currentArrayIndex] = v[4];
+      vertices[currentArrayIndex] = connection.to.position.y;
       colors[currentArrayIndex++] = 0.8;
-      vertices[currentArrayIndex] = v[5];
+      vertices[currentArrayIndex] = connection.to.position.z;
       colors[currentArrayIndex++] = 0.823;
     }
 
@@ -66,10 +103,16 @@ export default function createConnectionsService(serviceLocatorUid) {
     getServiceLocators(serviceLocatorUid)
       .sceneServiceLocator.getScene()
       .removeSceneObject(line);
+
+    const iterator = connections.values();
+    for (const connection of iterator) {
+      connection.dispose();
+    }
+    connections.clear();
   }
 
   return {
-    addOrSet,
+    set,
     remove,
     update,
     dispose

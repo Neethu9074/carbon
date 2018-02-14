@@ -119,6 +119,5 @@ export default class MainScene {
     this.overlayDomElement = null;
     this.renderTarget = null;
     this.canvas = null;
-    this.scene = null;
   }
 }
