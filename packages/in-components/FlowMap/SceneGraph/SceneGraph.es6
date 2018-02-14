@@ -4,6 +4,7 @@ import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/service
 import layout from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
 import Connection from 'in-components/FlowMap/sceneObjects/Connection';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
+import { diff } from 'in-services/arrayUtils';
 
 export default class SceneGraph {
   constructor(serviceLocatorUid, rootNodeId) {
@@ -90,13 +91,12 @@ export default class SceneGraph {
     }
 
     const nodesMap = this.getNodesAsMap(result.data);
-    let { newNodes, presentNodes, removedNodes } = this.getNewDeletedAndPresentNodesFromLists(
-      node[direction].map(node => node.id),
-      Array.from(nodesMap.keys())
-    );
 
+    const difference = diff(node[direction].map(node => node.id), Array.from(nodesMap.keys()));
     // TODO: remove until we have proper backend data in place. This avoids that we receive the node itself on subscribe for incoming/outgoing data
-    newNodes = newNodes.filter(id => id !== node.id);
+    const newNodes = difference.uniqueItemsB.filter(id => id !== node.id);
+    const presentNodes = difference.sharedItems;
+    const removedNodes = difference.uniqueItemsA;
 
     // TODOS #################################################################################
     // - create proper data in the backend with more than 1 depth
@@ -118,32 +118,6 @@ export default class SceneGraph {
       nodesMap.set(dataFetchingService.getIdFromData(nodeData), nodeData);
     }
     return nodesMap;
-  }
-
-  getNewDeletedAndPresentNodesFromLists(currentNodes, nextNodes) {
-    const result = {
-      newNodes: [],
-      presentNodes: [],
-      removedNodes: []
-    };
-
-    for (let i = 0; i < currentNodes.length; i++) {
-      const currentNode = currentNodes[i];
-      if (nextNodes.indexOf(currentNode) === -1) {
-        result.removedNodes.push(currentNode);
-      } else {
-        result.presentNodes.push(currentNode);
-      }
-    }
-
-    for (let i = 0; i < nextNodes.length; i++) {
-      const nextNode = nextNodes[i];
-      if (currentNodes.indexOf(nextNode) === -1) {
-        result.newNodes.push(nextNode);
-      }
-    }
-
-    return result;
   }
 
   addNewNodes(node, newNodes, nodesMap, direction) {
