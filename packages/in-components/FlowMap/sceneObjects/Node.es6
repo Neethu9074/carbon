@@ -53,6 +53,11 @@ export default class Node extends SceneObject {
     this.setIsExpanded(true, direction);
   }
 
+  resetConnected(direction) {
+    this[direction] = [];
+    this.setIsExpanded(false, direction);
+  }
+
   expandRight() {
     getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForNodeId(this.id);
   }
