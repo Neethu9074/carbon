@@ -3,6 +3,7 @@ import React from 'react';
 import ApplicationEndpointViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationEndpointViewBreadcrumb';
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import ApplicationsViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationsViewBreadcrumb';
+import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BreadcrumbHeader.mless';
@@ -24,10 +25,12 @@ export default function BreadcrumbHeader({ location, applicationId, serviceId, e
 function breadcrumbs(location, applicationId, serviceId, endpointId, timeframe) {
   const breadcrumbInfos = [];
 
-  breadcrumbInfos.push(<ApplicationsViewBreadcrumb />);
+  breadcrumbInfos.push(<ApplicationViewBreadcrumb />);
 
   if (applicationId != null) {
-    breadcrumbInfos.push('Application');
+    breadcrumbInfos.push(
+      <ApplicationsViewBreadcrumb applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+    );
   }
   if (serviceId != null) {
     breadcrumbInfos.push(

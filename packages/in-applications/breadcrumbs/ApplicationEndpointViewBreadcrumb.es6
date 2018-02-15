@@ -5,6 +5,8 @@ import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './Breadcrumps.mless';
+
 export default connectTo(
   props => ({
     endpoint: getEndpoint({
@@ -23,7 +25,10 @@ export default connectTo(
     } else {
       return (
         <Breadcrumb href$={getEndpointDashboard(endpointId, { applicationId, serviceId })}>
-          Endpoint ({endpoint.data.label})
+          <div className={locals.breadcrumb}>
+            <div className={locals.label}>Endpoint</div>
+            <div className={locals.entityLabel}>{endpoint.data.label}</div>
+          </div>
         </Breadcrumb>
       );
     }
