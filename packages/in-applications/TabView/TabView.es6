@@ -18,7 +18,7 @@ export default connectTo(
         header={
           <div>
             {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-            <BreadcrumbHeader />
+            <BreadcrumbHeader location={location} {...props} />
           </div>
         }
       >

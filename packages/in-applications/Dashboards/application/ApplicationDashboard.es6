@@ -2,7 +2,6 @@ import React from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
-import breadcrumbs from 'in-applications/Dashboards/application/breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
@@ -25,7 +24,6 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
       result$={getData(location, application, service, endpoint)}
       HeaderComponent={Header}
       location={location}
-      breadcrumbs={breadcrumbs}
       tabs={tabs}
       props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
     />

@@ -1,11 +1,9 @@
 import React from 'react';
 
-import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplications from 'in-subscription/application/getApplications';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -19,15 +17,12 @@ import Link from 'in-components/Link';
 
 import locals from './ApplicationList.mless';
 
-export default connectTo({ timeframe: timeframe$ }, function ApplicationsList({ timeframe }) {
-  const breadcrumbs = [<ApplicationViewBreadcrumb />];
-
+export default connectTo({ timeframe: timeframe$ }, function ApplicationsList({ timeframe, location }) {
   return (
     <Sticky
       header={
         <div>
-          {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-          <BreadcrumbHeader />
+          <BreadcrumbHeader location={location} timeframe={timeframe} />
         </div>
       }
     >
