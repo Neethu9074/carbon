@@ -6,7 +6,6 @@ import MessagingSections from './MessagingSections';
 import DatabaseSections from './DatabaseSections';
 import LoggingSections from './LoggingSections';
 import HttpSections from './HttpSections';
-import EndpointList from './EndpointList';
 
 export default class extends React.Component {
   static displayName = 'PerformanceTab';
@@ -68,12 +67,6 @@ export default class extends React.Component {
             timeframe={this.props.timeframe}
           />
         )}
-        <EndpointList
-          applicationId={this.props.applicationId}
-          serviceId={this.props.serviceId}
-          timeframe={this.props.timeframe}
-          httpOnly={this.hasHttpEndpoints()}
-        />
         {this.hasDatabaseEndpoints() && (
           <DatabaseSections
             applicationId={this.props.applicationId}
