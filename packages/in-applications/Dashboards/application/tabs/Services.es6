@@ -86,7 +86,7 @@ const columnDefinitions = [
       return (
         <Link
           href$={getServiceDashboard(item.service.id, {
-            applocationId: getMatrixParameter(location, applicationDashboard, applicationId)
+            applicationId: getMatrixParameter(location, applicationDashboard, applicationId)
           })}
         >
           {item.service.label}
