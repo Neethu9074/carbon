@@ -16,12 +16,12 @@ function createDataFetchingService() {
     dispose
   };
 
-  function getIncomingDataForNodeId(id) {
-    return timeframe$.flatMap(timeframe => getNodeData(id, 'INCOMING', timeframe));
+  function getIncomingDataForNodeId(id, path) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, path, 'INCOMING', timeframe));
   }
 
-  function getOutgoingDataForNodeId(id) {
-    return timeframe$.flatMap(timeframe => getNodeData(id, 'OUTGOING', timeframe));
+  function getOutgoingDataForNodeId(id, path) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
   }
 
   function getIdFromData(data) {
@@ -31,7 +31,7 @@ function createDataFetchingService() {
   function dispose() {}
 }
 
-function getNodeData(nodeId, direction, timeframe) {
+function getNodeData(nodeId, path, direction, timeframe) {
   return getServiceFlowNodes({
     metrics: {
       endpoints: {
@@ -60,8 +60,7 @@ function getNodeData(nodeId, direction, timeframe) {
       maxDepth: 1
     },
 
-    path: [nodeId],
-
+    path,
     direction
   });
 }

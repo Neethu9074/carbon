@@ -12,8 +12,11 @@ export default class Node extends SceneObject {
     this.outgoing = [];
     this.incoming = [];
     this.initSubscriptions();
-    this.setIsExpanded(false, 'incoming');
-    this.setIsExpanded(false, 'outgoing');
+
+    this.events$.emit('isExpanded_incoming', false);
+    this.events$.emit('isExpanded_outgoing', false);
+    this.events$.emit('isLoadingData_incoming', false);
+    this.events$.emit('isLoadingData_outgoing', false);
   }
 
   initSubscriptions() {
@@ -48,8 +51,8 @@ export default class Node extends SceneObject {
     this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
   }
 
-  setConnected(newNodes, direction) {
-    this[direction] = newNodes;
+  setConnected(ids, direction) {
+    this[direction] = ids;
     this.setIsExpanded(true, direction);
   }
 

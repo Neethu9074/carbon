@@ -2,6 +2,7 @@ import RoEmitter from 'roemitter';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import layout from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
+import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
 import { diff } from 'in-services/arrayUtils';
 
@@ -11,6 +12,7 @@ export default class SceneGraph {
     this.rootNodeId = rootNodeId;
     this.subscriptions = new Map();
     this.signals = new RoEmitter('sceneGraphSignals');
+    this.pathFinder = new PathFinder(serviceLocatorUid, rootNodeId);
 
     this.initSubscriptions();
   }
@@ -62,7 +64,9 @@ export default class SceneGraph {
   setupSubscriptionIfAbsent(id, direction, fetchData, processResult) {
     if (!this.containsSubscription(id, direction)) {
       const directionSubscriptions = this.subscriptions.get(id) || {};
-      directionSubscriptions[direction] = fetchData(id).subscribe(result => processResult(id, result));
+      directionSubscriptions[direction] = fetchData(id, this.pathFinder.find(id, direction)).subscribe(result =>
+        processResult(id, result)
+      );
       this.subscriptions.set(id, directionSubscriptions);
     }
   }
@@ -73,13 +77,12 @@ export default class SceneGraph {
   }
 
   processResult(nodeId, result, direction) {
-    const currentNode = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
-    const node = currentNode.get(nodeId);
+    const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    const node = currentNodes.get(nodeId);
 
     const hasErrors = result.errors.length > 0;
     if (hasErrors) {
       node.resetConnected(direction);
-      // TODO: what should happen on error here?
       return;
     }
 
@@ -99,6 +102,8 @@ export default class SceneGraph {
 
     // TODOS #################################################################################
     // - create proper data in the backend with more than 1 depth
+    // - what should happen on error
+    // - discuss what happens on update
 
     this.addNewNodes(node, newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
@@ -130,9 +135,7 @@ export default class SceneGraph {
     }
   }
 
-  updatePresentNodes() {
-    // TODO: discuss what happens here
-  }
+  updatePresentNodes() {}
 
   removeNodes(nodeIds) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
