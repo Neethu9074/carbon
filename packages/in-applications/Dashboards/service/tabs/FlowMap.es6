@@ -12,7 +12,7 @@ function createDataFetchingService() {
   return {
     getIncomingDataForNodeId,
     getOutgoingDataForNodeId,
-    getIdFromData,
+    getDataFromResult,
     dispose
   };
 
@@ -24,8 +24,8 @@ function createDataFetchingService() {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
   }
 
-  function getIdFromData(data) {
-    return data.service.id;
+  function getDataFromResult(data) {
+    return data.service;
   }
 
   function dispose() {}

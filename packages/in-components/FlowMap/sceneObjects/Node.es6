@@ -43,6 +43,10 @@ export default class Node extends SceneObject {
     this.events$.emit('screenPosition', screenPosition);
   }
 
+  setData(data) {
+    this.events$.emit('data', data);
+  }
+
   setIsLoadingData(isLoading, direction) {
     this.events$.emit(`isLoadingData_${direction}`, isLoading);
   }

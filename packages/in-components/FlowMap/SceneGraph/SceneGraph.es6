@@ -32,7 +32,7 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addNode(id) {
+  addNode(id, data) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const nodes = nodesServiceLocator.getNodes();
     if (nodes.has(id)) {
@@ -40,6 +40,8 @@ export default class SceneGraph {
     }
 
     const node = new Node(this.serviceLocatorUid, id);
+    node.setData(data);
+
     nodesServiceLocator.addNode(node.id, node);
 
     return node;
@@ -118,14 +120,18 @@ export default class SceneGraph {
     const nodesMap = new Map();
     for (let i = 0; i < nodes.length; i++) {
       const nodeData = nodes[i];
-      nodesMap.set(dataFetchingService.getIdFromData(nodeData), nodeData);
+      nodesMap.set(dataFetchingService.getDataFromResult(nodeData).id, nodeData);
     }
     return nodesMap;
   }
 
   addNewNodes(node, newNodes, nodesMap, direction) {
+    const dataFetchingService = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+
     for (let i = 0; i < newNodes.length; i++) {
-      const nodeSceneObject = this.addNode(newNodes[i]);
+      const nodeId = newNodes[i];
+      const nodesData = dataFetchingService.getDataFromResult(nodesMap.get(nodeId));
+      const nodeSceneObject = this.addNode(nodeId, nodesData);
 
       if (direction === 'incoming') {
         nodeSceneObject.setIsExpanded(true, 'outgoing');

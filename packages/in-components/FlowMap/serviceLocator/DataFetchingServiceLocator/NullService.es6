@@ -1,7 +1,7 @@
 function noop() {}
 
 const nullService = {
-  getIdFromData: data => JSON.stringify(data),
+  getDataFromResult: data => ({ id: JSON.stringify(data) }),
   fetchIncomingDataForNodeId: noop,
   fetchOutgoingDataForNodeId: noop,
   dispose: noop

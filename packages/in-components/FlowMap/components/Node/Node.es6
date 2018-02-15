@@ -8,9 +8,10 @@ import locals from './Node.mless';
 
 export default connectTo(
   props => ({
-    screenPosition: props.node.events$.on('screenPosition')
+    screenPosition: props.node.events$.on('screenPosition'),
+    data: props.node.events$.on('data')
   }),
-  function Node({ node, screenPosition, size, isRootNode }) {
+  function Node({ node, screenPosition, data, size, isRootNode }) {
     if (!screenPosition) {
       return null;
     }
@@ -24,7 +25,7 @@ export default connectTo(
         }}
       >
         <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
-          {getContent(node, size)}
+          {getContent(data, size)}
           <ExpandIcon
             className={locals.expandButtonLeft}
             direction="incoming"
@@ -68,35 +69,35 @@ function getNodeClasses(isRootNode) {
   return classes;
 }
 
-function getContent(node, size) {
+function getContent(data, size) {
   if (size === 'sm') {
-    return <SmallNodeContent node={node} />;
+    return <SmallNodeContent data={data} />;
   } else if (size === 'mid') {
-    return <MidNodeContent node={node} />;
+    return <MidNodeContent data={data} />;
   }
-  return <LargeNodeContent node={node} />;
+  return <LargeNodeContent data={data} />;
 }
 
 function SmallNodeContent() {
   return <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />;
 }
 
-function MidNodeContent({ node }) {
+function MidNodeContent({ data }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id.slice(0, 20)}
+      {data.label.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>{`719 18ms 0%`}</div>
   ];
 }
 
-function LargeNodeContent({ node }) {
+function LargeNodeContent({ data }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id.slice(0, 20)}
+      {data.label.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>
