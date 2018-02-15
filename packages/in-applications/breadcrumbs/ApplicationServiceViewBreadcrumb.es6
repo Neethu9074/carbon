@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import { servicesList } from 'in-applications/navigation/paths';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import getService from 'in-subscription/application/getService';
-import { getView } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -18,11 +17,15 @@ export default connectTo(
       }
     })
   }),
-  function ApplicationServiceViewBreadcrumb({ service }) {
+  function ApplicationServiceViewBreadcrumb({ service, serviceId, applicationId, endpointId }) {
     if (service.progress.loading || service.errors.length > 0) {
-      return <Breadcrumb href$={getView(servicesList)}>Services</Breadcrumb>;
+      return <Breadcrumb href$={getServiceDashboard(serviceId, { applicationId, endpointId })}>Services</Breadcrumb>;
     } else {
-      return <Breadcrumb href$={getView(servicesList)}>Services ({service.data.label})</Breadcrumb>;
+      return (
+        <Breadcrumb href$={getServiceDashboard(serviceId, { applicationId, endpointId })}>
+          Services ({service.data.label})
+        </Breadcrumb>
+      );
     }
   }
 );
