@@ -12,8 +12,7 @@ function createDataFetchingService() {
   return {
     getIncomingDataForNodeId,
     getOutgoingDataForNodeId,
-    getDataFromResult,
-    dispose
+    getDataFromResult
   };
 
   function getIncomingDataForNodeId(id, path) {
@@ -27,8 +26,6 @@ function createDataFetchingService() {
   function getDataFromResult(data) {
     return data.service;
   }
-
-  function dispose() {}
 }
 
 function getNodeData(nodeId, path, direction, timeframe) {
