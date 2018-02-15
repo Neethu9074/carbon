@@ -1,38 +1,14 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DatabaseStatementTopList from './database/DatabaseStatementTopList';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
-import SqlTopList from './SqTopList/SqlTopList';
 
 // eslint-disable-next-line no-unused-vars
 export default function DatabaseSections({ applicationId, serviceId, timeframe }) {
-  const topListSqlDummyData = [
-    {
-      key: 'q1',
-      label: 'SELECT * FROM DB1.HUMONGOUS_TABLE',
-      avgMs: 812,
-      times: 347,
-      maxMs: 812
-    },
-    {
-      key: 'q2',
-      label: 'UPDATE DB1.HUMONGOUS_TABLE SET FOO=$1 WHERE BAR=$2',
-      avgMs: 756,
-      times: 245,
-      maxMs: 812
-    },
-    {
-      key: 'q3',
-      label: 'SELECT * FROM schema.whatever',
-      avgMs: 682,
-      times: 245,
-      maxMs: 812
-    }
-  ];
-
   return (
     <div>
       <DashboardSection>
@@ -49,8 +25,8 @@ export default function DatabaseSections({ applicationId, serviceId, timeframe }
           }}
         />
       </DashboardSection>
-      <DashboardSection>
-        <SqlTopList data={topListSqlDummyData} header="Slow Queries" />
+      <DashboardSection title="Slow Statements">
+        <DatabaseStatementTopList applicationId={applicationId} timeframe={timeframe} />
       </DashboardSection>
     </div>
   );
