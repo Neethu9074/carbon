@@ -1,0 +1,14 @@
+:local {
+  .wrapper {
+    width: 100%;
+  }
+
+  .chart {
+    position: relative;
+    width: fit-content;
+  }
+
+  .canvas {
+    display: block;
+  }
+}

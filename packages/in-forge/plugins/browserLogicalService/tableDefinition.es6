@@ -38,7 +38,7 @@ export default [
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },

@@ -1,12 +1,10 @@
+// @flow
 import Observer from '../Observer';
 
-export default function tap(tapper) {
-  const observer = Object.create(Observer);
-
-  observer._init(this, this._observableSpec, data => {
+export default function tap<T>(tapper: (data: ?T) => void): Observer<T, T> {
+  const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
+  return observer._setOnNext((data: ?T) => {
     tapper(data);
     observer._emit(data);
   });
-
-  return observer;
 }

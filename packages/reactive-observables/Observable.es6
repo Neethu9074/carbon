@@ -1,68 +1,72 @@
-import { reportUnhandledError } from './unhandledErrorSink';
+// @flow
 
-export default {
-  _init(observableSpec) {
-    this._observableSpec = observableSpec;
-    this._children = [];
-    this._lastEmittedValue = undefined;
-    this._didEmit = false;
-  },
+import { DebounceOptions } from './operators/debounce';
+import { ThrottleOptions } from './operators/throttle';
+import { Transformer } from './operators/transform';
+import TerminalObserver from './TerminalObserver';
 
-  _addChild(child) {
-    this._children.push(child);
+// The operator methods are added via monkey patching in reactive-observables/operators/index#applyOperators.
+// To get type checking support, we add their method signatures here as class properties.
+// (See https://flow.org/en/docs/types/classes/#toc-class-fields-properties.)
+export interface Observable<T> {
+  debounce: (millis: number, opts: ?DebounceOptions) => Observable<T>;
 
-    this._didEmit = false;
+  delayedStop: (
+    millis: number,
+    stopObserver: () => void,
+    setTimeout: (callback: any, ms?: number, ...args: Array<any>) => number,
+    clearTimeout: (timeoutId?: number) => void
+  ) => Observable<T>;
 
-    if (this._children.length === 1 && this._observableSpec.start) {
-      this._observableSpec.start(this);
-    }
+  distinct: ((a: ?T, b: ?T) => boolean) => Observable<T>;
 
-    if (this._observableSpec.emitLatestOnSubscribe && this._lastEmittedValue !== undefined && !this._didEmit) {
-      child._onNext(this._lastEmittedValue);
-    }
-  },
+  errors: () => Observable<any>;
 
-  _removeChild(child) {
-    this._children.splice(this._children.indexOf(child), 1);
+  filter: (predicate: (?T) => boolean) => Observable<T>;
 
-    if (this._children.length === 0) {
-      if (this._observableSpec.stop) {
-        this._observableSpec.stop(this);
-      }
-    }
-  },
+  flatMap: <R>(flatMapper: (?T) => Observable<R>) => Observable<R>;
 
-  emit(data) {
-    this._didEmit = true;
-    this._lastEmittedValue = data;
+  freeze: () => Observable<T>;
 
-    const len = this._children.length;
-    if (len === 1) {
-      this._children[0]._onNext(data);
-      return this;
-    }
+  map: <R>(mapper: (data: ?T) => R) => Observable<R>;
 
-    // the children array can be modified during iteration. We need to protect
-    // against this case.
-    const children = this._children.slice();
-    for (let i = 0; i < len; i++) {
-      const child = children[i];
-      child._onNext(data);
-    }
+  merge: (...argsParam: Array<Observable<T>>) => Observable<T>;
 
-    return this;
-  },
+  nextFrame: () => Observable<T>;
 
-  emitError(error) {
-    let errorHandled = false;
-    for (let i = 0, len = this._children.length; i < len; i++) {
-      errorHandled = errorHandled || this._children[i]._emitError(error, false);
-    }
+  once: (
+    onData: Function,
+    onError: Function,
+    arg0: any,
+    arg1: any,
+    arg2: any,
+    arg3: any,
+    arg4: any,
+    arg5: any
+  ) => TerminalObserver<T>;
 
-    if (!errorHandled) {
-      reportUnhandledError(error);
-    }
+  scan: <R>(accumulator: (?R, ?T) => R, seed: ?R) => Observable<R>;
 
-    return this;
-  }
-};
+  skipFirst: () => Observable<T>;
+
+  startWith: (initialValue: T) => Observable<T>;
+
+  startWithFn: (initialValueProvider: () => T) => Observable<T>;
+
+  subscribe: (
+    onData: Function,
+    onError: ?Function,
+    arg0: ?any,
+    arg1: ?any,
+    arg2: ?any,
+    arg3: ?any,
+    arg4: ?any,
+    arg5: ?any
+  ) => TerminalObserver<T>;
+
+  tap: (tapper: (data: ?T) => void) => Observable<T>;
+
+  throttle: (millis: number, opts: ThrottleOptions) => Observable<T>;
+
+  transform: <Target>(transformer: Transformer<T, Target>) => Observable<Target>;
+}

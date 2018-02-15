@@ -1,0 +1,19 @@
+:local {
+  .breadcrumbHeader {
+    display: flex;
+    align-items: center;
+
+    height: 3.125rem;
+    padding: 0 0.625rem;
+    margin: 0;
+    list-style: none;
+
+    background: #5229bd;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .chevron {
+    margin: 0 0.5rem;
+  }
+}

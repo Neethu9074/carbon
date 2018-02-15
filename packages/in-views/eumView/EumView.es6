@@ -25,15 +25,14 @@ const headerElement = `${block}__header`;
 const configureElement = `${headerElement}__configure`;
 
 const loadingState = (
-  <Sticky header={<SearchBar />}>
-    <LegacyView />
+  <Wrapper>
     <div className={`${block}__wrapper`}>
       <div className={block}>
         <WebsiteHeading />
         <LoadingIndicator type="dark" />
       </div>
     </div>
-  </Sticky>
+  </Wrapper>
 );
 
 export default connectTo(
@@ -56,13 +55,13 @@ export default connectTo(
     }
 
     return (
-      <Switch>
-        {DashboardNavigationRoute}
+      <Wrapper>
+        <Switch>
+          {DashboardNavigationRoute}
 
-        <Route
-          path="/website"
-          render={() => (
-            <Sticky header={<SearchBar />}>
+          <Route
+            path="/website"
+            render={() => (
               <div className={`${block}__fullscreen-overview`}>
                 <Title title="Websites" />
                 <LegacyView />
@@ -83,10 +82,19 @@ export default connectTo(
                   <WebsiteTable snapshots={snapshots} />
                 </div>
               </div>
-            </Sticky>
-          )}
-        />
-      </Switch>
+            )}
+          />
+        </Switch>
+      </Wrapper>
     );
   }
 );
+
+function Wrapper({ children }) {
+  return (
+    <Sticky header={<SearchBar />}>
+      <LegacyView />
+      {children}
+    </Sticky>
+  );
+}

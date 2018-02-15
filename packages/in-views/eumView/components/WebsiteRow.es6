@@ -21,6 +21,8 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
   const metrics = `${block}__metrics`;
   const nameElement = `${block}__name`;
   const kpis = `${block}__kpis`;
+  // due to floating arithmetic, we could end up with a call count of 0.996 or similar
+  const pageLoadCount = Math.round(data.rawPageLoad);
 
   return (
     <div key={data.name} className={block}>
@@ -32,18 +34,18 @@ export default function WebsiteRow({ snapshot, data, isPage, metricPrefix, pageH
       <div className={metrics}>
         {data.rawPageLoad == null ? <LoadingIndicator type="dark" inline className={`${block}__loading`} /> : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad < 1 ? (
+        {data.rawPageLoad != null && pageLoadCount < 1 ? (
           <NoXMessage className={`${block}__no-data`}>No views in the given time window</NoXMessage>
         ) : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad >= 1 ? (
+        {data.rawPageLoad != null && pageLoadCount >= 1 ? (
           <div className={kpis}>
             <WebsiteKpiSection snapshotId={snapshotId} data={data} />
             {isPage ? <WebsiteIssueButton snapshotId={snapshotId} /> : null}
           </div>
         ) : null}
 
-        {data.rawPageLoad != null && data.rawPageLoad >= 1 ? (
+        {data.rawPageLoad != null && pageLoadCount >= 1 ? (
           <Chart
             snapshotId={snapshotId}
             withoutAxis

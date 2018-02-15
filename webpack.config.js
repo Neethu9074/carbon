@@ -2,6 +2,7 @@
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FlowWebpackPlugin = require('flow-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -187,9 +188,12 @@ module.exports = {
       disable: false,
       allChunks: true
     }),
-    new CaseSensitivePathsPlugin()
+    new CaseSensitivePathsPlugin(),
+    new FlowWebpackPlugin({
+      failOnError: true
+    }),
   ],
   resolve: {
-    extensions: ['.js', '.es6', '.ts']
+    extensions: ['.js', '.es6']
   }
 };

@@ -23,9 +23,11 @@ export default class extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      chartProps: processChartProps(nextProps)
-    });
+    const chartProps = processChartProps(nextProps);
+
+    this.setState({ chartProps });
+    removeVanishedSnapshotIdsFromFilterstore(chartProps, this.filterStore);
+
     this.chart.update(nextProps);
   }
 
@@ -91,7 +93,6 @@ export default class extends React.Component {
 
   dispose() {
     if (this.chart) {
-      this.filterStore = createDataSeriesFilterStore();
       this.chart.dispose();
       this.chart = null;
     }
@@ -163,4 +164,9 @@ function processAxis(axis) {
     }
     axis.tooltipFormatter = tooltipFormatterArray;
   }
+}
+
+function removeVanishedSnapshotIdsFromFilterstore(config, filterStore) {
+  const snapshotIds = config.snapshotIds || [config.snapshotId];
+  filterStore.reduceTo(snapshotIds);
 }

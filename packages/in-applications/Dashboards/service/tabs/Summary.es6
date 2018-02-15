@@ -1,0 +1,70 @@
+import React from 'react';
+
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { millis } from 'in-services/formatters/number';
+
+export default function Summary({ timeframe, data, applicationId, serviceId }) {
+  return (
+    <MaxWidthFullscreenContainer>
+      <Columize>
+        <DashboardSection title="Some Chart">
+          <ChartWrapper
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.countErrorBar,
+              labels: ['Calls', 'Errors'],
+              metricIds: ['calls', 'errors']
+            }}
+            y2={{
+              renderer: Renderer.line,
+              labels: ['Latency'],
+              colors: ['#57a7f0'],
+              formatter: millis,
+              metricIds: ['latency']
+            }}
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                endpointType: data.type,
+                endpoint: data.id,
+                application: applicationId,
+                service: serviceId
+              },
+              metrics: {
+                calls: {
+                  metric: 'calls',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Downstream Breakdown">
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        </DashboardSection>
+      </Columize>
+
+      <DashboardSection title="Top Traces">
+        <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+      </DashboardSection>
+    </MaxWidthFullscreenContainer>
+  );
+}

@@ -38,7 +38,7 @@ export default function SolrSidebar({ snapshot }) {
         </div>
       ))}
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

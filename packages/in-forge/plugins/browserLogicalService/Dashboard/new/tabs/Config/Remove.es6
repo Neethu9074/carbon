@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import HelpParagraph from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Config/HelpParagraph';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import { goToPath } from 'in-stores/navigation/navigation';
@@ -35,14 +36,14 @@ export default class Remove extends React.PureComponent {
 
     return (
       <DashboardTile title="Remove Website">
-        <p className={`${block}__help`}>
+        <HelpParagraph>
           If you no longer wish to monitor the website <strong>{snapshot.getIn(['data', 'eumKeyName'])}</strong> using
           Instana, please use this form to remove it. Removing a website is an eventually consistent action. For this
           reason, removing a website may take <em>up to a few hours</em> until it has been completely removed.
-        </p>
-        <p className={`${block}__help`}>
+        </HelpParagraph>
+        <HelpParagraph>
           <strong>Please note that neither you nor the Instana support can undo this action!</strong>
-        </p>
+        </HelpParagraph>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
         {removeError && <SaveError>{removeError}</SaveError>}

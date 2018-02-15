@@ -1,0 +1,13 @@
+:local {
+  .table {
+    width: 100%;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0.25rem 0.5rem;
+  }
+}

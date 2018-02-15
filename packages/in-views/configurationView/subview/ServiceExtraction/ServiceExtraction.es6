@@ -319,7 +319,7 @@ export default class extends React.Component {
             </Notification>
           ) : null}
 
-          <p>{this.props.helpTexts.viewHelp}</p>
+          <p className={`${block}__view-help`}>{this.props.helpTexts.viewHelp}</p>
         </Section>
 
         {servicesAvailable ? (

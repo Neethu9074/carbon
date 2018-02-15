@@ -1,6 +1,0 @@
-{
-  "name": "ConnectionSankey",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./ConnectionSankey.es6"
-}

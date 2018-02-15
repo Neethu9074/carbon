@@ -1,0 +1,6 @@
+{
+  "name": "EumStats",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EumStats.es6"
+}

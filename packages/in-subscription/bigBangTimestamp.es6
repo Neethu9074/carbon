@@ -3,13 +3,13 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-big-bang-timestamp',
 
-  getId: () => 'big-bang-timestamp',
+  getId() {
+    return 'big-bang-timestamp';
+  },
 
-  getData: subscriptionId => {
+  getData(subscriptionId) {
     return {
       subscriptionId
     };
-  },
-
-  transformData: timestamp => timestamp
+  }
 });

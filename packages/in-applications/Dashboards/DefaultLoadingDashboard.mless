@@ -1,0 +1,7 @@
+:local {
+  .skeleton {
+    height: 9.375rem;
+    width: 31.25rem;
+    display: block;
+  }
+}

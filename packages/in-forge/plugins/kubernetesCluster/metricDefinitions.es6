@@ -1,92 +1,136 @@
-import { ms, number, percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: 'count',
-    label: 'Views',
-    category: [],
+    metric: 'availableReplicas',
+    label: 'Available replicas',
     min: 0,
     formatter: number
   },
   {
-    metrics: [
-      'duration.mean',
-      'duration.min',
-      'duration.25th',
-      'duration.50th',
-      'duration.75th',
-      'duration.95th',
-      'duration.98th',
-      'duration.99th',
-      'duration.max'
-    ],
-    labels: [
-      'Avg. Latency',
-      'Min Latency',
-      'Latency 25th',
-      'Latency 50th',
-      'Latency 75th',
-      'Latency 95th',
-      'Latency 98th',
-      'Latency 99th',
-      'Max Latency'
-    ],
-    category: ['Latency'],
-    min: 0,
-    formatter: ms
-  },
-  {
-    metric: 'error_rate',
-    label: '(deprecated) Error Rate',
-    category: [],
-    min: 0,
-    formatter: percentage
-  },
-  {
-    metric: 'uncaughtErrors',
-    label: 'Uncaught errors',
-    category: [],
+    metric: 'desiredReplicas',
+    label: 'Desired replicas',
     min: 0,
     formatter: number
   },
   {
-    metric: 'xhrCalls',
-    label: 'XHR Calls',
-    category: [],
+    metric: 'pods.count',
+    label: 'Pods count',
     min: 0,
     formatter: number
   },
   {
-    metric: 'xhrErrors',
-    label: 'XHR Errors',
-    category: [],
+    metric: 'conditions.PodScheduled.False',
+    label: 'Unscheduled pods',
     min: 0,
     formatter: number
   },
   {
-    metric: 'instances',
-    label: 'Instances',
-    category: [],
+    metric: 'conditions.Ready.False',
+    label: 'Unready pods',
     min: 0,
     formatter: number
   },
   {
-    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'pro', 'loa', 'fp'],
-    labels: [
-      'Unload Time',
-      'Redirect Time',
-      'AppCache Time',
-      'DNS Time',
-      'TCP Time',
-      'SSL Time',
-      'Request Time',
-      'Response Time',
-      'Processing Time',
-      'Load Time',
-      'First Paint Time'
-    ],
-    category: ['Page Load Breakdown'],
+    metric: 'events.FailedScheduling.count',
+    label: 'FailedScheduling events',
     min: 0,
-    formatter: ms
+    formatter: number
+  },
+  {
+    metric: 'events.Failed.count',
+    label: 'Failed events',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'events.BackOff.count',
+    label: 'BackOff events',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.OutOfDisk.True',
+    label: 'OutOfDisk nodes',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.MemoryPressure.True',
+    label: 'MemoryPressure nodes',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.DiskPressure.True',
+    label: 'DiskPressure nodes',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.KubeletReady.False',
+    label: 'KubeletNotReady nodes',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.allocatable_cpu',
+    label: 'Allocatable CPU',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.allocatable_mem',
+    label: 'Allocatable memory',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.allocatable_pods',
+    label: 'Allocatable pods',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.capacity_cpu',
+    label: 'CPU capacity',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.capacity_mem',
+    label: 'Memory capacity',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'nodes.capacity_pods',
+    label: 'Nodes pods capacity',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'pods.required_cpu',
+    label: 'Pods required CPU',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'pods.required_mem',
+    label: 'Pods required memory',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'pods.limit_cpu',
+    label: 'Pods CPU limit',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'pods.limit_mem',
+    label: 'Pods memory limit',
+    min: 0,
+    formatter: number
   }
 ];

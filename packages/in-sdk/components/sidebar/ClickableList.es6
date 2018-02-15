@@ -16,7 +16,7 @@ export function ClickableSnapshotListItem({ snapshotId, children }) {
   return <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>{children}</ClickableListItem>;
 }
 
-function ClickableListItem({ onClick, href$, children }) {
+export function ClickableListItem({ onClick, href$, children }) {
   onClick = onClick || stopPropagation;
 
   if (href$) {

@@ -9,25 +9,50 @@ export default function NetCoreDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-      <DashboardSection title="Garbage Collections">
+      <DashboardSection title="Exceptions">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
             min: 0,
-            metrics: ['mem.heapSizeGen0', 'mem.heapSizeGen1', 'mem.heapSizeGen2', 'mem.heapSizeGen3'],
-            labels: ['Generation 0', 'Generation 1', 'Generation 2', 'Generation 3'],
+            metrics: ['metrics.exceptionThrownCount'],
+            labels: ['Exceptions Thrown'],
             type: 'point',
             formatter: zeroDecimalPlaces
-          }} /*
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Contentions">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['metrics.contentionCount'],
+            labels: ['Contentions'],
+            type: 'point',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Garbage Collection">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['metrics.heapSizeGen0', 'metrics.heapSizeGen1', 'metrics.heapSizeGen2', 'metrics.heapSizeGen3'],
+            labels: ['Generation 0', 'Generation 1', 'Generation 2', 'Generation 3'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
           y2={{
             min: 0,
-            max: 100,
-            metrics: ['mem.time_in_gc'],
-            labels: ['Time spent in GC (%)'],
-            type: 'line',
-            formatter: twoDecimalPlaces
-          }}*/
+            metrics: ['metrics.gcCount'],
+            labels: ['GC Count'],
+            type: 'point',
+            formatter: zeroDecimalPlaces
+          }}
         />
       </DashboardSection>
     </div>

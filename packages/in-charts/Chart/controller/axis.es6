@@ -114,20 +114,21 @@ export default function createAxisController(config) {
   function onActiveFiltersChange(hiddenSeries) {
     config.hasActiveFilters = Object.keys(hiddenSeries).length > 0;
     config.activeSeries = {};
-    config.activeSeries.y1 = getActiveSeries(hiddenSeries, 'y1');
+    config.activeSeries.y1 = getActiveSeries(hiddenSeries, 'y1', 0);
     if (config.y2) {
-      config.activeSeries.y2 = getActiveSeries(hiddenSeries, 'y2');
+      config.activeSeries.y2 = getActiveSeries(hiddenSeries, 'y2', config.y1.metrics.length);
     }
     config.processDataColumnsAgain = true;
     config.signals.restartRendering$.emit(true);
   }
 
-  function getActiveSeries(hiddenSeries, axisName) {
+  function getActiveSeries(hiddenSeries, axisName, metricOffset) {
     const activeSeries = {};
 
     for (let i = 0, len = config[axisName].numberOfSeries; i < len; i++) {
-      const label = config[axisName].labels[i];
-      activeSeries[i] = hiddenSeries[label] !== true;
+      const snapshotId = config.snapshotId || config.snapshotIds[i + metricOffset];
+      const uid = `${snapshotId}__${config[axisName].metrics[i]}`;
+      activeSeries[i] = hiddenSeries[uid] !== true;
     }
 
     return activeSeries;

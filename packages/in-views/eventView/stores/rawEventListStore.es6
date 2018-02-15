@@ -1,12 +1,12 @@
 import { combineLatest, create } from 'reactive-observables';
 
 import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
-import createRawEventsObservable from 'in-subscription/rawEvents';
 import { eventFilter$ } from 'in-views/eventView/stores/eventFilterStore';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { setIsLoading } from 'in-views/eventView/stores/isLoadingStore';
 import { autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
+import createRawEventsObservable from 'in-subscription/rawEvents';
 import { sortBy$ } from 'in-views/eventView/stores/sortBy';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
@@ -128,10 +128,7 @@ export function loadMoreRawEvents() {
       ? maxTimestamp
       : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
-    let filterQuery = query || '';
-    if (eventFilter) {
-      filterQuery = `${filterQuery} event.type:${eventFilter}`;
-    }
+    const backendReadyFilterQuery = concatQueries(query, eventFilter);
 
     disposeExistingLoad();
     loadSubscription = createRawEventsObservable({
@@ -140,11 +137,22 @@ export function loadMoreRawEvents() {
       minTimestamp,
       sortByField,
       sortMode: sortDirection,
-      query: filterQuery,
+      query: backendReadyFilterQuery,
       offset,
       size: MAX_PAGE_SIZE
     }).once(addNewEvents);
   });
+}
+
+function concatQueries(userQuery, eventFilter) {
+  if (userQuery && eventFilter) {
+    return `(${userQuery}) AND (event.type:${eventFilter})`;
+  } else if (!userQuery && eventFilter) {
+    return `event.type:${eventFilter}`;
+  } else if (userQuery && !eventFilter) {
+    return userQuery;
+  }
+  return '';
 }
 
 function getMaxStartMillis(events, fallback) {

@@ -2,7 +2,7 @@ import { setUnhandledErrorHandler } from 'reactive-observables';
 import { createLogger } from 'instalog';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { isInstanaEmployee } from 'in-stores/user';
+import { isInstanaEngineer } from 'in-stores/user';
 import { config } from 'in-services/config';
 
 const unhandledLogger = createLogger('in-services/unhandledErrors');
@@ -11,7 +11,7 @@ export function init() {
   setUnhandledErrorHandler(e => {
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
 
-    if (isInstanaEmployee() && !(config.tenant === 'instana' && config.tenantUnit === 'current')) {
+    if (isInstanaEngineer && !(config.tenant === 'instana' && config.tenantUnit === 'current')) {
       showUnhandledErrorMessage(e);
     }
   });
@@ -28,7 +28,7 @@ function onUnhandledError(e) {
     unhandledLogger.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`, e.error);
   }
 
-  if (isInstanaEmployee()) {
+  if (isInstanaEngineer) {
     showUnhandledErrorMessage(e);
   }
 }

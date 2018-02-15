@@ -1,0 +1,19 @@
+:local {
+
+  .kpis {
+    display: flex;
+  }
+
+  .kpi {
+    width: 6rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metric {
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+
+

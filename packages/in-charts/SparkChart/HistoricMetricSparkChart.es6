@@ -23,6 +23,11 @@ export default connectTo(
   class extends React.Component {
     static displayName = 'HistoricMetricSparkChart';
 
+    static defaultProps = {
+      height: 30,
+      width: 100
+    };
+
     state = {
       datasource: null
     };
@@ -49,6 +54,7 @@ export default connectTo(
           width: props.width,
           rollup: props.rollup
         });
+        props.rollup = props.blockSizeMillis;
         props.isDynamicAggregated = true;
         props.metricBaseMillis = 1000;
       } else if (__DEV__) {
@@ -56,12 +62,13 @@ export default connectTo(
       }
 
       this.setState({
-        datasource: getMetricsForTimeframe(props)
+        datasource: getMetricsForTimeframe(props),
+        rollup: props.rollup
       });
     };
 
     render() {
-      return <SparkChart {...this.props} datasource={this.state.datasource} />;
+      return <SparkChart {...this.props} datasource={this.state.datasource} rollup={this.state.rollup} />;
     }
   }
 );

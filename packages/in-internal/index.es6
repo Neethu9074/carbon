@@ -3,12 +3,14 @@ import React from 'react';
 
 import TuStatistics from 'in-internal/TuStatistics';
 import DevDashboard from 'in-internal/DevDashboard';
+import EumStats from 'in-internal/EumStats';
 
 export default function Internal() {
   return (
     <Switch>
       <Route path="/internal/devDashboard" component={DevDashboard} />
       <Route path="/internal/tuStatistics" component={TuStatistics} />
+      <Route path="/internal/eumStats" component={EumStats} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );

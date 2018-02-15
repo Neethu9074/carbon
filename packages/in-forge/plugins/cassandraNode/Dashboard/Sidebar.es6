@@ -59,7 +59,7 @@ export default function CassandraSidebar({ snapshot }) {
         </div>
       ) : null}
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

@@ -14,10 +14,11 @@ import {
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { newApplicationMonitoringEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import { cockpitEnabled } from 'in-services/featureFlags';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -55,6 +56,9 @@ export default function ViewSwitcher() {
           icon="application"
           isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
         >
+          {newApplicationMonitoringEnabled ? (
+            <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
+          ) : null}
           <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
           <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
           <SubMenuItem label="Comparison Table" href$={getView(logicalTablePath)} isActive$={isTableView('logical')} />

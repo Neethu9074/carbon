@@ -7,6 +7,7 @@ module.exports = {
 
   extends: [
     'eslint:recommended',
+    'plugin:flowtype/recommended',
     'prettier',
     'prettier/react'
   ],
@@ -27,9 +28,18 @@ module.exports = {
 
 
   plugins: [
+    'flowtype',
+    // 'flowtype-errors',
     'react',
     'mocha'
   ],
+
+
+  settings: {
+    flowtype: {
+      onlyFilesWithFlowAnnotation: true
+    }
+  },
 
 
   globals: (function(){
@@ -61,6 +71,10 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
     semi: ['error', 'always'],
+
+    // editor integration for flow errors, see
+    // https://www.npmjs.com/package/eslint-plugin-flowtype-errors
+    // 'flowtype-errors/show-errors': 2,
 
     // ###########################################################
     // ### Mocha
@@ -317,5 +331,8 @@ module.exports = {
       beforeSelfClosing: 'always',
       afterOpening: 'never'
     }],
+
+    // prettier formats this for us
+    'flowtype/generic-spacing': 0
   }
 };

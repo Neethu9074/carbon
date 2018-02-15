@@ -2,6 +2,7 @@ import { createField, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
+import HelpParagraph from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Config/HelpParagraph';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -41,11 +42,11 @@ export default class Rename extends React.PureComponent {
 
             {saveError && <SaveError>{saveError}</SaveError>}
 
-            <p className={`${block}__help`}>
+            <HelpParagraph>
               Renaming a website is an eventually consistent action within the Instana system. For this reason, a change
               to a website name may take <em>up to a few minutes</em> until it has populated throughout the whole
               system.
-            </p>
+            </HelpParagraph>
 
             <div className={`${block}__action-wrapper`}>
               <Input

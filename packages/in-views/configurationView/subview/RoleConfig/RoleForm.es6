@@ -174,7 +174,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAuthenticationMethods"
-          label="Configuration authentication methods"
+          label="Configuration of authentication methods"
         />
       </Section>
     </fieldset>

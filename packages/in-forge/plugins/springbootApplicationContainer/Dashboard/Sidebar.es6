@@ -48,7 +48,7 @@ export default function SpringbootSidebar({ snapshot }) {
         </div>
       ) : null}
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

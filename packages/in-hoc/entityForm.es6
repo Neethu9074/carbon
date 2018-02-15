@@ -140,7 +140,8 @@ export default function entityForm(ComposedComponent) {
       });
     };
 
-    onChange = (fieldName, value) => {
+    onChange = (fieldName, value, updateFormDefinition) => {
+      const { entity } = this.state;
       let updatedForm = this.state.form;
       if (Array.isArray(fieldName)) {
         for (let i = 0, length = fieldName.length; i < length; i++) {
@@ -148,6 +149,10 @@ export default function entityForm(ComposedComponent) {
         }
       } else {
         updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+      }
+
+      if (updateFormDefinition) {
+        updatedForm = updateFormDefinition(updatedForm, entity);
       }
 
       this.setState({

@@ -1,0 +1,101 @@
+import React from 'react';
+
+import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import getMetrics from 'in-subscription/application/getMetrics';
+import { getResolvedTimeframe } from 'in-applications/metrics';
+import { deepCopy } from 'in-services/util/object';
+import connectTo from 'in-hoc/connectTo';
+import invariant from 'invariant';
+
+// Sample Usage
+/*
+<ChartWrapper
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.countErrorBar,
+              labels: ['Calls', 'Errors'],
+              metricIds: ['calls', 'errors']  <-- theses ids will be referenced in the metricsConfiguration down below
+            }}
+            y2={{
+              renderer: Renderer.line,
+              labels: ['Latency'],
+              colors: ['#57a7f0'],
+              formatter: millis,
+              metricIds: ['latency']
+            }}
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                endpointType: data.type,
+                endpoint: data.id,
+                application: applicationId,
+                service: serviceId
+              },
+              metrics: {
+                calls: {
+                  metric: 'calls',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity: 60000,
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+ */
+export default connectTo(
+  props => ({
+    result: getMetrics(props.metricsConfiguration)
+  }),
+  function ChartWrapper({ result, ...props }) {
+    return <ChartWrapperPresenter result={result} config={wrapProps(result, props)} />;
+  }
+);
+
+function wrapProps(result, props) {
+  if (__DEV__) {
+    props.y1.metricIds.forEach(id => {
+      invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
+    });
+
+    if (props.y2 != null) {
+      props.y2.metricIds.forEach(id => {
+        invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
+      });
+    }
+
+    const keys = props.metricsConfiguration.metrics;
+    for (let i = 1; i < keys.length; i++) {
+      if (this[i] !== this[0]) {
+        invariant(false, 'All aggregation types for one axis must have the same value.');
+        break;
+      }
+    }
+  }
+
+  if (result.errors.length > 0 || result.progress.loading) {
+    return {};
+  }
+
+  const propsClone = deepCopy(props);
+
+  propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
+  propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
+
+  //copying over the aggregation types
+  propsClone.y1.aggregation = propsClone.metricsConfiguration.metrics[propsClone.y1.metricIds[0]].aggregation;
+
+  if (propsClone.y2 != null) {
+    propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id]);
+  }
+
+  return propsClone;
+}

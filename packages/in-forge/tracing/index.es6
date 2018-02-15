@@ -38,6 +38,7 @@ import './hc.nio';
 import './hibernate';
 import './hornetq';
 import './http';
+import './httpkit.server';
 import './ibmdb2';
 import './ios.error';
 import './jdbc';

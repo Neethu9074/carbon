@@ -3,6 +3,7 @@ import React from 'react';
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Code from 'in-components/Code';
 
 export default function HttpSpanDetailView({ span }) {
   const url = span.getIn(['data', 'http', 'url']);
@@ -16,6 +17,8 @@ export default function HttpSpanDetailView({ span }) {
       // ignore
     }
   }
+
+  const error = span.getIn(['data', 'http', 'error']);
 
   return (
     <div>
@@ -33,7 +36,12 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
         <DescriptionItem title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
         {getCustomHeaders(span)}
-        <DescriptionItem title="Error">{span.getIn(['data', 'http', 'error'])}</DescriptionItem>
+
+        {error && (
+          <DescriptionItem title="Error">
+            <Code code={error} lang="plain" />
+          </DescriptionItem>
+        )}
         <CustomDataDescriptionItem span={span} />
       </DescriptionList>
     </div>

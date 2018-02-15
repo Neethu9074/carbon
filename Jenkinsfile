@@ -25,6 +25,13 @@ stage('Checkout') {
   }
 }
 
+def deliveryBranches = [
+  'develop',
+  'master',
+  'release',
+  'prerelease'
+]
+
 stage('Node Build') {
   def buildSteps = [:]
 
@@ -42,7 +49,9 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+        if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+          uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+        }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
       }
@@ -56,13 +65,15 @@ stage('Node Build') {
 
 stage ('Container Build') {
 
-  containerBuild {
-    component    = 'ui-client'
-    commitId     = gitCommitId
-    commitAuthor = gitCommitAuthor
-    version      = instanaVersion
+  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+    containerBuild {
+      component    = 'ui-client'
+      commitId     = gitCommitId
+      commitAuthor = gitCommitAuthor
+      version      = instanaVersion
+    }
   }
-
+  
   slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
@@ -75,7 +86,7 @@ stage('Deployment') {
       node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
 
-        build job: '/deployment/consul-template/fullstack-deploy-ui-client', parameters: [
+        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion)
         ]
@@ -102,7 +113,7 @@ stage('Deployment') {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
-        build job: '/deployment/consul-template/fullstack-deploy-ui-client', parameters: [
+        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'release'),
           string(name: 'VERSION', value: instanaVersion)
         ]

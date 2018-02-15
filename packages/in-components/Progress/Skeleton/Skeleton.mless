@@ -1,0 +1,20 @@
+:local {
+  .skeleton {
+    background: #F2F2F2;
+    background: linear-gradient(90deg, #F2F2F2, #F9F9F9, #F2F2F2);
+    background-size: 200% 100%;
+    animation: indeterminate 5s ease infinite;
+  }
+
+  @keyframes indeterminate {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+}

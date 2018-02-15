@@ -2,6 +2,7 @@ import { create, on } from 'reactive-observables';
 
 export const resize$ = create();
 export const debouncedResize$ = on(window, 'resize').debounce(300);
+export const debouncedScroll$ = on(window, 'scroll').debounce(300);
 
 export function init() {
   const browser = getBrowser();

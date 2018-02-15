@@ -18,7 +18,7 @@ export default function LiferaySidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <ServiceInstancesList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

@@ -10,6 +10,7 @@ export default function JmsSpanDetailView({ span }) {
         <DescriptionItem title="Message">{span.getIn(['data', 'jms', 'message'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'jms', 'type'])}</DescriptionItem>
         <DescriptionItem title="Selector">{span.getIn(['data', 'jms', 'selector'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'jms', 'error'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );

@@ -1,42 +1,56 @@
-import Observable from './Observable';
-import Observer from './Observer';
-import { applyOperators } from './operators';
+// @flow
 import { setHandler } from './unhandledErrorSink';
+import type { Observable } from './Observable';
+export type { Observable } from './Observable';
+import type { SubjectSpec } from './Subject';
+import { applyOperators } from './operators';
+import Observer from './Observer';
+import Subject from './Subject';
 
 applyOperators(Observer);
-applyOperators(Observable);
+applyOperators(Subject);
 
 export const setUnhandledErrorHandler = setHandler;
 
-export function create(observableSpec) {
-  observableSpec = observableSpec || {};
-  if (observableSpec.emitLatestOnSubscribe !== false) {
-    observableSpec.emitLatestOnSubscribe = true;
+export function create<T>(subjectSpec: ?SubjectSpec<T>): Subject<T> {
+  if (!subjectSpec) {
+    subjectSpec = {
+      start: noop,
+      stop: noop
+    };
   }
-  const observable = Object.create(Observable);
-  observable._init(observableSpec);
-  return observable;
+  if (subjectSpec.emitLatestOnSubscribe !== false) {
+    // $FlowFixMe: No clue why the write access does not type check although the read access one line above does.
+    subjectSpec.emitLatestOnSubscribe = true;
+  }
+  return new Subject(subjectSpec);
 }
 
-export function interval(millis) {
+export function just<T>(v: T): Observable<T> {
+  return create()
+    .emit(v)
+    .freeze();
+}
+
+export function interval(millis: number): Observable<number> {
   let localTimeIntervalHandle;
   return create({
-    start(observable) {
+    start(observable): void {
       localTimeIntervalHandle = setInterval(() => {
         observable.emit(Date.now());
       }, millis);
     },
 
-    stop() {
+    stop(): void {
       clearInterval(localTimeIntervalHandle);
     }
   });
 }
 
-export function timeout(millis) {
-  let handle;
+export function timeout(millis: number): Observable<number> {
+  let handle: number;
   return create({
-    start(observable) {
+    start(observable: Subject<number>) {
       handle = setTimeout(() => {
         observable.emit(Date.now());
       }, millis);
@@ -48,19 +62,17 @@ export function timeout(millis) {
   });
 }
 
-export function combineLatest(observables, waitForAll = true) {
+export function combineLatest<T>(observables: Observable<T>[], waitForAll: boolean = true): Observable<Array<T>> {
   if (observables.length === 0) {
-    const emptyArrayObservable = create();
+    const emptyArrayObservable: Subject<Array<T>> = create();
     emptyArrayObservable.emit([]);
     return emptyArrayObservable;
   }
 
   const numberOfObservables = observables.length;
-  let combinedObservables;
   let subscriptions = [];
   let emitted = [];
-
-  combinedObservables = create({ start, stop });
+  let combinedObservables: Subject<Array<T>> = create({ start, stop });
   return combinedObservables;
 
   function start() {
@@ -85,23 +97,27 @@ export function combineLatest(observables, waitForAll = true) {
         }
       }
     }
-    combinedObservables.emit(emitted);
+    combinedObservables.emit(emitted.slice());
   }
 }
 
-export function on(target, event, options) {
-  const observable = create({ start, stop });
+export function on(target: EventTarget, event: string, capture: EventListenerOptionsOrUseCapture): Observable<any> {
+  const observable: Subject<Event> = create({ start, stop });
   return observable;
 
-  function listener(e) {
+  function listener(e: any) {
     observable.emit(e);
   }
 
   function start() {
-    target.addEventListener(event, listener, options);
+    target.addEventListener(event, listener, capture);
   }
 
   function stop() {
-    target.removeEventListener(event, listener, options);
+    target.removeEventListener(event, listener, capture);
   }
+}
+
+function noop() {
+  // noop
 }

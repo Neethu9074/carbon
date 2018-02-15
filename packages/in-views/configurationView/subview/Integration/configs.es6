@@ -4,6 +4,7 @@ import opsgenieIntegrationConfig from 'in-views/configurationView/subview/Integr
 import webhookIntegrationConfig from 'in-views/configurationView/subview/Integration/webhookIntegrationConfig';
 import slackIntegrationConfig from 'in-views/configurationView/subview/Integration/slackIntegrationConfig';
 import emailIntegrationConfig from 'in-views/configurationView/subview/Integration/emailIntegrationConfig';
+import hipChatIntegrationConfig from 'in-views/configurationView/subview/Integration/hipChatIntegrationConfig';
 
 export const configs = {
   email: emailIntegrationConfig,
@@ -11,7 +12,8 @@ export const configs = {
   opsgenie: opsgenieIntegrationConfig,
   pagerduty: PagerdutyIntegrationConfig,
   office365: office365IntegrationConfig,
-  webhook: webhookIntegrationConfig
+  webhook: webhookIntegrationConfig,
+  hipChat: hipChatIntegrationConfig
 };
 
 export const fullyQualified = {};
@@ -21,5 +23,6 @@ fullyQualified[configs.opsgenie.name] = configs.opsgenie;
 fullyQualified[configs.pagerduty.name] = configs.pagerduty;
 fullyQualified[configs.slack.name] = configs.slack;
 fullyQualified[configs.webhook.name] = configs.webhook;
+fullyQualified[configs.hipChat.name] = configs.hipChat;
 
 export default configs;

@@ -2,5 +2,5 @@
   "name": "Chart",
   "version": "0.0.0",
   "private": true,
-  "main": "./Chart.es6"
+  "main": "./ChartLegacyImplementation.es6"
 }

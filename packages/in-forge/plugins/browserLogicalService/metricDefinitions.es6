@@ -1,92 +1,62 @@
-import { ms, number, percentage } from 'in-services/formatters/number';
+import { ms, number } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'count',
-    label: 'Views',
-    category: [],
+    label: 'Page Loads',
+    category: ['Page Loads'],
     min: 0,
     formatter: number
   },
   {
-    metrics: [
-      'duration.mean',
-      'duration.min',
-      'duration.25th',
-      'duration.50th',
-      'duration.75th',
-      'duration.95th',
-      'duration.98th',
-      'duration.99th',
-      'duration.max'
-    ],
-    labels: [
-      'Avg. Latency',
-      'Min Latency',
-      'Latency 25th',
-      'Latency 50th',
-      'Latency 75th',
-      'Latency 95th',
-      'Latency 98th',
-      'Latency 99th',
-      'Max Latency'
-    ],
-    category: ['Latency'],
+    metric: 'duration.mean',
+    label: 'Mean Load Time',
+    category: ['Page Loads'],
     min: 0,
     formatter: ms
   },
+
   {
-    metric: 'error_rate',
-    label: '(deprecated) Error Rate',
-    category: [],
+    metrics: ['duration.50th', 'duration.90th', 'duration.95th', 'duration.98th', 'duration.99th'],
+    labels: ['Load Time 50th', 'Load Time 90th', 'Load Time 95th', 'Load Time 98th', 'Load Time 99th'],
+    category: ['Page Loads'],
     min: 0,
-    formatter: percentage
+    formatter: ms,
+    isPercentile: true
   },
   {
-    metric: 'uncaughtErrors',
-    label: 'Errors',
-    category: [],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'xhrCalls',
-    label: 'XHR Calls',
-    category: [],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'xhrErrors',
-    label: 'XHR Errors',
-    category: [],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'instances',
-    label: 'Instances',
-    category: [],
-    min: 0,
-    formatter: number
-  },
-  {
-    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi', 'fp'],
+    metrics: ['unl', 'red', 'apc', 'dns', 'tcp', 'ssl', 'req', 'rsp', 'dom', 'chi', 'bac', 'fro', 'fp'],
     labels: [
-      'Unload Time',
-      'Redirect Time',
-      'AppCache Time',
-      'DNS Time',
-      'TCP Time',
-      'SSL Time',
-      'Request Time',
-      'Response Time',
-      'DOM',
-      'Children',
-      'First Paint Time'
+      'Unload Time ',
+      'Redirect Time ',
+      'AppCache Time ',
+      'DNS Time ',
+      'TCP Time ',
+      'SSL Time ',
+      'Request Time ',
+      'Response Time ',
+      'DOM Processing Time ',
+      'Children Time ',
+      'Backend Time ',
+      'Frontend Time ',
+      'First Paint Time '
     ],
     category: ['Page Load Breakdown'],
     min: 0,
     formatter: ms
+  },
+  {
+    metric: 'uncaughtErrors',
+    label: 'Errors',
+    category: ['Errors'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['xhrCalls', 'xhrErrors'],
+    labels: ['Calls', 'Errors'],
+    category: ['AJAX / XMLHttpRequest'],
+    min: 0,
+    formatter: number
   }
 ];

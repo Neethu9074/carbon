@@ -26,6 +26,7 @@
   ],
   "presets": [
     "react",
-    "stage-2"
+    "stage-2",
+    "flow"
   ]
 }
