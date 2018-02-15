@@ -4,14 +4,13 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import { number, ms, percentage } from 'in-services/formatters/number';
+import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
+import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { millis } from 'in-services/formatters/number';
-import { getChartGranularity } from 'in-applications/metrics';
-
-import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
-import { number, ms, percentage } from 'in-services/formatters/number';
 
 export default function Summary({ timeframe, applicationId, serviceId, endpointId }) {
   const filter = {
@@ -23,49 +22,50 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
 
   return (
     <MaxWidthFullscreenContainer>
+      <KpiSection>
+        <AppKpi
+          label="Calls"
+          formatter={number}
+          metricsConfig={{
+            filter,
+            metrics: {
+              calls: {
+                metric: 'calls',
+                aggregation: 'SUM'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Latency"
+          formatter={ms}
+          metricsConfig={{
+            filter,
+            metrics: {
+              latency: {
+                metric: 'latency',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Errors"
+          formatter={percentage}
+          metricsConfig={{
+            filter,
+            metrics: {
+              errors: {
+                metric: 'errors',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+      </KpiSection>
+
       <Columize>
         <DashboardSection>
-          <KpiSection>
-            <AppKpi
-              label="Calls"
-              formatter={number}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  calls: {
-                    metric: 'calls',
-                    aggregation: 'SUM'
-                  }
-                }
-              }}
-            />
-            <AppKpi
-              label="Latency"
-              formatter={ms}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  latency: {
-                    metric: 'latency',
-                    aggregation: 'SUM'
-                  }
-                }
-              }}
-            />
-            <AppKpi
-              label="Errors"
-              formatter={percentage}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  errors: {
-                    metric: 'errors',
-                    aggregation: 'SUM'
-                  }
-                }
-              }}
-            />
-          </KpiSection>
           <ChartWrapper
             timeframe={timeframe}
             y1={{
@@ -91,12 +91,12 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
                 errors: {
                   metric: 'errors',
                   granularity: getChartGranularity(timeframe),
-                  aggregation: 'SUM'
+                  aggregation: 'MEAN'
                 },
                 latency: {
                   metric: 'latency',
                   granularity: getChartGranularity(timeframe),
-                  aggregation: 'SUM'
+                  aggregation: 'MEAN'
                 }
               }
             }}
