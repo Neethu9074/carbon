@@ -62,11 +62,11 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
     metrics: {
       services: {
         metric: 'services',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       endpoints: {
         metric: 'endpoints',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       callsAgg: {
         metric: 'calls',
