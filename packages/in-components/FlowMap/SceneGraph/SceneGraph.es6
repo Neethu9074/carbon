@@ -86,6 +86,7 @@ export default class SceneGraph {
     const hasErrors = result.errors.length > 0;
     if (hasErrors) {
       node.resetConnected(direction);
+      // TODO: what should happen on error?
       return;
     }
 
@@ -102,15 +103,13 @@ export default class SceneGraph {
     const presentNodes = difference.sharedItems;
     const removedNodes = difference.uniqueItemsA;
 
-    // TODOS #################################################################################
-    // - what should happen on error
-    // - take related nodes count or sub children into account
-
     this.addNewNodes(node, newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
 
     this.updatePresentNodes(presentNodes, nodesMap);
     this.removeNodes(removedNodes);
+
+    // TODO: take related nodes count or sub children into account
   }
 
   getNodesAsMap(nodes) {
