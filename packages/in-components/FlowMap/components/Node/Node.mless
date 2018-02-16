@@ -95,4 +95,8 @@
   .expandButtonLeft {
     left: -12px;
   }
+
+  .errorneousExpandIcon {
+    background: #ff4229;
+  }
 }

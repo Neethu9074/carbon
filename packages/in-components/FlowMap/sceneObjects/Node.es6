@@ -15,8 +15,6 @@ export default class Node extends SceneObject {
 
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
-    this.events$.emit('isLoadingData_incoming', false);
-    this.events$.emit('isLoadingData_outgoing', false);
   }
 
   initSubscriptions() {
@@ -58,6 +56,14 @@ export default class Node extends SceneObject {
   setConnected(ids, direction) {
     this[direction] = ids;
     this.setIsExpanded(true, direction);
+  }
+
+  hasErrorsInDirection(hasErrors, direction) {
+    if (hasErrors) {
+      this.resetConnected(direction);
+    }
+    this.setIsLoadingData(false, direction);
+    this.events$.emit(`hasErrors_${direction}`, hasErrors);
   }
 
   resetConnected(direction) {

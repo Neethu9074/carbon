@@ -84,9 +84,8 @@ export default class SceneGraph {
     const node = currentNodes.get(nodeId);
 
     const hasErrors = result.errors.length > 0;
+    node.hasErrorsInDirection(hasErrors, direction);
     if (hasErrors) {
-      node.resetConnected(direction);
-      // TODO: what should happen on error?
       return;
     }
 

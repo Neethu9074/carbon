@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SparkChart from 'in-components/SparkChart';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -47,16 +49,25 @@ export default connectTo(
 const ExpandIcon = connectTo(
   props => ({
     isLoading: props.events$.on(`isLoadingData_${props.direction}`).distinct(),
-    isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct()
+    isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct(),
+    hasErrors: props.events$.on(`hasErrors_${props.direction}`).distinct()
   }),
-  function ExpandIcon({ isLoading, isExpanded, onClick, className }) {
+  function ExpandIcon({ isLoading, isExpanded, hasErrors, onClick, className }) {
     if (isExpanded) {
       return null;
     }
     return (
-      <div className={className} onClick={onClick}>
-        <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
-      </div>
+      <Tooltip content={hasErrors ? 'shit happens ¯\\_(ツ)_/¯' : null}>
+        <div
+          className={evaluateClassNames({
+            [className]: true,
+            [locals.errorneousExpandIcon]: hasErrors
+          })}
+          onClick={onClick}
+        >
+          <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
+        </div>
+      </Tooltip>
     );
   }
 );
