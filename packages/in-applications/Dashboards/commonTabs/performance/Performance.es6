@@ -14,7 +14,10 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = { types: [] };
-    this.subscribeToTypes(props);
+  }
+
+  componentDidMount() {
+    this.subscribeToTypes(this.props);
   }
 
   subscribeToTypes({ applicationId, serviceId, timeframe }) {
@@ -24,18 +27,16 @@ export default class extends React.Component {
         service: serviceId,
         timeframe
       }
-    })
-      .skipFirst()
-      .subscribe(
-        result => {
-          if (result.data) {
-            this.setState({ types: result.data });
-          } else {
-            this.reset();
-          }
-        },
-        () => this.reset()
-      );
+    }).subscribe(
+      result => {
+        if (result.data) {
+          this.setState({ types: result.data });
+        } else {
+          this.reset();
+        }
+      },
+      () => this.reset()
+    );
   }
 
   reset() {

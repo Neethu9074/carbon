@@ -25,7 +25,7 @@ export default function DatabaseSections({ applicationId, serviceId, timeframe }
         />
       </DashboardSection>
       <DashboardSection title="Slow Statements">
-        <DatabaseStatementTopList applicationId={applicationId} timeframe={timeframe} />
+        <DatabaseStatementTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
       </DashboardSection>
     </div>
   );
