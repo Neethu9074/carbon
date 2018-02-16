@@ -60,39 +60,20 @@ export default class extends React.Component {
   }
 
   render() {
+    const { applicationId, serviceId, timeframe, data } = this.props;
     return (
       <MaxWidthFullscreenContainer>
-        <CommonPerformanceSections
-          applicationId={this.props.applicationId}
-          serviceId={this.props.serviceId}
-          timeframe={this.props.timeframe}
-        />
+        <CommonPerformanceSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         {this.hasHttpEndpoints() && (
-          <HttpSections
-            applicationId={this.props.applicationId}
-            serviceId={this.props.serviceId}
-            timeframe={this.props.timeframe}
-          />
+          <HttpSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         )}
         {this.hasDatabaseEndpoints() && (
-          <DatabaseSections
-            applicationId={this.props.applicationId}
-            serviceId={this.props.serviceId}
-            timeframe={this.props.timeframe}
-          />
+          <DatabaseSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         )}
         {this.hasMessagingEndpoints() && (
-          <MessagingSections
-            applicationId={this.props.applicationId}
-            serviceId={this.props.serviceId}
-            timeframe={this.props.timeframe}
-          />
+          <MessagingSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         )}
-        <LoggingSections
-          applicationId={this.props.applicationId}
-          serviceId={this.props.serviceId}
-          timeframe={this.props.timeframe}
-        />
+        <LoggingSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} data={data} />
       </MaxWidthFullscreenContainer>
     );
   }

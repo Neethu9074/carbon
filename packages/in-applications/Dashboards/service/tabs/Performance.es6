@@ -5,12 +5,13 @@ import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Pe
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
-export default function Performance({ location, timeframe }) {
+export default function Performance({ location, timeframe, data }) {
   return (
     <PerformanceTab
       applicationId={getMatrixParameter(location, serviceDashboard, applicationId)}
       serviceId={getMatrixParameter(location, serviceDashboard, serviceId)}
       endpointId={getMatrixParameter(location, serviceDashboard, endpointId)}
+      data={data}
       timeframe={timeframe}
     />
   );
