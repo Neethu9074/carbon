@@ -25,7 +25,7 @@
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{es6,less}\"",
     "postinstall": "./build/postInstall",
-    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && lint-staged"
+    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && markdown-toc -i README.md && git add README.md && lint-staged"
   },
   "lint-staged": {
     "*.es6": [
@@ -157,6 +157,7 @@
     "license-checker": "5.0.1",
     "lint-staged": "^3.4.0",
     "markdown-loader": "^2.0.0",
+    "markdown-toc": "^1.2.0",
     "meta-marked-loader": "^1.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.3.0",

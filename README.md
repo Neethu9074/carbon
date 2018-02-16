@@ -1,22 +1,24 @@
 # 🚀 ui-client 🏂 &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
 
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- toc -->
 
 - [Branching Model](#branching-model)
 - [Getting Started](#getting-started)
-	- [Installation of required software](#installation-of-required-software)
-		- [Node.js and Yarn](#nodejs-and-yarn)
-		- [Nginx](#nginx)
-	- [Setting up local domains](#setting-up-local-domains)
-	- [Executing tasks](#executing-tasks)
-	- [Upgrading Node.js](#upgrading-nodejs)
+  * [Installation of required software](#installation-of-required-software)
+    + [Node.js and Yarn](#nodejs-and-yarn)
+    + [Nginx](#nginx)
+    + [Additional UI Engineer Software](#additional-ui-engineer-software)
+  * [Setting up local domains](#setting-up-local-domains)
+  * [Executing tasks](#executing-tasks)
+  * [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
-	- [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
-	- [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
-	- [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
-	- [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
+  * [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
+  * [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
+  * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
+  * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
+  * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
 
-<!-- /TOC -->
+<!-- tocstop -->
 
 ## Branching Model
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
@@ -52,6 +54,12 @@ You will also need to have Nginx installed and its CLI on the path. Instructions
 
 As alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container.
 
+#### Additional UI Engineer Software
+So, you are a UI engineer? Then you will also need the following awesome software for your awesome work!
+
+ - [Sketch](https://www.sketchapp.com/): This is our tool of choice for mockups and designs. You have to hit the `Free Trial` button to download it. You can get a license from Michael Krumm (just ask via Slack).
+ - [SFPro font](https://developer.apple.com/fonts/downloads/SFPro.zip): This is the default MacOS system font that we are using in our product. Unfortunately, this font can only be used in Sketch when installed separately.
+
 
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
@@ -74,24 +82,7 @@ From time to time we are upgrading the Node.js version that we are using for bui
 
 Once executed, verify that it was successful via the usual `yarn run test`.
 
-### Whitelisting the SSL certificate (Chrome & macOS)
-By default Chrome and other browsers won't accept self-signed SSL certificates.
-To overcome this, we use pre-generated certificates, which you can whitelist in Chrome.
-Described here are the steps to whitelist the local certificate:
 
-1. Double click the `server.crt` file inside the `build/cert` directory.
-2. You should get a prompt asking you if you want to add the certificate to a keychain. Select the Keychain `System` and press "Add".
-3. You should now see the newly added certificate (local-instana.instana.io) in the list. Double click it.
-4. In the new window inside the `Trust` section, set `When using this certificate` to `Always Trust`. You may need to reauthenticate after this step.
-5. You're done! Close the window and restart Chrome and when you enter the local environment Chrome should display `Secure` next to the URL.
-
-For Linux, you'd have to update the `ca-certificates`. Chrome and Firefox have their own certificate stores and the site just needs to be whitelisted there.
-To add the certificate to Linux, follow these steps (as `root` user):
-
-1. Create a certificate directory `mkdir /usr/share/ca-certificates/instana`
-2. Copy the certificate `cp <ui-client dir>/build/cert/server.crt /usr/share/ca-certificates/instana`
-3. Re-build the certificate store `dpkg-reconfigure ca-certificates`
-4. Choose `ask` when rebuilding and include the Instana certificate to be trusted
 
 ## Troubleshooting
 
