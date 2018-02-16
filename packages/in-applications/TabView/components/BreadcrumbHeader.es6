@@ -5,6 +5,7 @@ import ApplicationEndpointViewBreadcrumb from 'in-applications/breadcrumbs/Appli
 import ApplicationServiceViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationServiceViewBreadcrumb';
 import ApplicationsViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationsViewBreadcrumb';
 import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
+
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BreadcrumbHeader.mless';
@@ -35,8 +36,10 @@ function breadcrumbs(location, applicationId, serviceId, endpointId, timeframe) 
       breadcrumbInfos.push(
         <ApplicationsViewBreadcrumbWithSwitcher
           applicationId={applicationId}
+          endpointId={endpointId}
           serviceId={serviceId}
           timeframe={timeframe}
+          location={location}
         />
       );
     } else {
