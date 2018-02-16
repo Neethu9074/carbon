@@ -43,5 +43,5 @@ export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({
 });
 
 function Header({ result }) {
-  return <BasicApplicationDashboardHeader type="endpoint" result={result} />;
+  return <BasicApplicationDashboardHeader result={result} />;
 }

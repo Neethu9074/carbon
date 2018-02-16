@@ -49,7 +49,7 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
 
 function Header({ result }) {
   return (
-    <BasicApplicationDashboardHeader type="application" result={result} className={locals.header}>
+    <BasicApplicationDashboardHeader result={result} className={locals.header}>
       <div>
         <Link href={'#'} className={locals.configuration}>
           Configuration <SvgIcon type="gear" width={16} height={16} color="#06b7ba" />
