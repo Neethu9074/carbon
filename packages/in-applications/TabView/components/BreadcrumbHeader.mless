@@ -13,6 +13,11 @@
     overflow: hidden;
   }
 
+  .container {
+       margin-left: 0.9rem;
+       display: flex;
+     }
+
   .chevron {
     margin: 0 0.5rem;
   }

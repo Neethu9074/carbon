@@ -1,9 +1,11 @@
 import React from 'react';
 
+import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -19,10 +21,12 @@ export default connectTo({ timeframe: timeframe$ }, function ServicesList({ time
     <Sticky
       header={
         <div>
-          <BreadcrumbHeader location={location} timeframe={timeframe} />
+          <BreadcrumbHeader />
         </div>
       }
     >
+      <Breadcrumbs items={applicationBreadcrumbs(location)} />
+
       <MaxWidthFullscreenContainer>
         <ViewSwitcher />
         <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />

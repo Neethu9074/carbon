@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
@@ -11,6 +11,8 @@ import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 
 import locals from './ApplicationDashboard.mless';
 
@@ -20,13 +22,18 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
   const endpoint = getMatrixParameter(location, applicationDashboard, endpointId);
 
   return (
-    <TabView
-      result$={getData(location, application, service, endpoint)}
-      HeaderComponent={Header}
-      location={location}
-      tabs={tabs}
-      props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
-    />
+    <Fragment>
+      <Breadcrumbs
+        items={[<ApplicationViewBreadcrumb location={location} timeframe={timeframe} view="application" />]}
+      />
+      <TabView
+        result$={getData(location, application, service, endpoint)}
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
+      />
+    </Fragment>
   );
 });
 
