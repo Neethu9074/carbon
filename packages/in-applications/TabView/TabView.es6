@@ -23,7 +23,11 @@ export default connectTo(
         }
       >
         <MaxWidthFullscreenContainer>
-          <Sticky header={<Header location={location} tabs={tabs} result={result} HeaderComponent={HeaderComponent} />}>
+          <Sticky
+            header={
+              <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
+            }
+          >
             <Switch tabs={tabs} result={result} location={location} props={props} />
           </Sticky>
         </MaxWidthFullscreenContainer>

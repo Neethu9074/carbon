@@ -2,18 +2,70 @@ import React from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis, percentage } from 'in-services/formatters/number';
+import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
+import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { millis } from 'in-services/formatters/number';
 
-export default function Summary({ timeframe, data, applicationId, serviceId }) {
+export default function Summary({ timeframe, endpointId, applicationId, serviceId }) {
+  const filter = {
+    timeframe,
+    endpoint: endpointId,
+    application: applicationId,
+    service: serviceId
+  };
+
   return (
     <MaxWidthFullscreenContainer>
+      <KpiSection>
+        <AppKpi
+          label="Calls"
+          formatter={number}
+          metricsConfig={{
+            filter,
+            metrics: {
+              calls: {
+                metric: 'calls',
+                aggregation: 'SUM'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Latency"
+          formatter={millis}
+          metricsConfig={{
+            filter,
+            metrics: {
+              latency: {
+                metric: 'latency',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Errors"
+          formatter={percentage}
+          metricsConfig={{
+            filter,
+            metrics: {
+              errors: {
+                metric: 'errors',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+      </KpiSection>
+
       <Columize>
-        <DashboardSection title="Some Chart">
+        <DashboardSection title="Calls vs. Latency">
           <ChartWrapper
             timeframe={timeframe}
             y1={{
@@ -29,28 +81,22 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
               metricIds: ['latency']
             }}
             metricsConfiguration={{
-              filter: {
-                timeframe,
-                endpointType: data.type,
-                endpoint: data.id,
-                application: applicationId,
-                service: serviceId
-              },
+              filter,
               metrics: {
                 calls: {
                   metric: 'calls',
-                  granularity: 60000,
+                  granularity: getChartGranularity(timeframe),
                   aggregation: 'SUM'
                 },
                 errors: {
                   metric: 'errors',
-                  granularity: 60000,
-                  aggregation: 'SUM'
+                  granularity: getChartGranularity(timeframe),
+                  aggregation: 'MEAN'
                 },
                 latency: {
                   metric: 'latency',
-                  granularity: 60000,
-                  aggregation: 'SUM'
+                  granularity: getChartGranularity(timeframe),
+                  aggregation: 'MEAN'
                 }
               }
             }}
@@ -64,6 +110,10 @@ export default function Summary({ timeframe, data, applicationId, serviceId }) {
 
       <DashboardSection title="Top Traces">
         <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+      </DashboardSection>
+
+      <DashboardSection title="Top Endpoints">
+        <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
       </DashboardSection>
     </MaxWidthFullscreenContainer>
   );

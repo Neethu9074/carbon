@@ -8,6 +8,7 @@ import getApplications from 'in-subscription/application/getApplications';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import getMetrics from 'in-subscription/application/getMetrics';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
 import Sticky from 'in-components/Sticky';
@@ -17,32 +18,48 @@ import Link from 'in-components/Link';
 
 import locals from './ApplicationList.mless';
 
-export default connectTo({ timeframe: timeframe$ }, function ApplicationsList({ timeframe, location }) {
-  return (
-    <Sticky
-      header={
-        <div>
-          <BreadcrumbHeader location={location} timeframe={timeframe} />
-        </div>
-      }
-    >
-      <MaxWidthFullscreenContainer>
-        <ViewSwitcher />
-        <Button
-          kind="default"
-          key="createApplication"
-          onClick={() => {}}
-          className={locals.createApplication}
-          size="sm"
-          outlineOnly
-        >
-          Create Application
-        </Button>
-        <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
-      </MaxWidthFullscreenContainer>
-    </Sticky>
-  );
-});
+export default connectTo(
+  {
+    timeframe: timeframe$,
+    showNoApplicationsDefinedIndicator: timeframe$
+      .flatMap(timeframe =>
+        getMetrics({
+          filter: {
+            timeframe
+          },
+          metrics: {
+            appCount: {
+              metric: 'applications',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        })
+      )
+      .map(result => result.data != null && result.data.appCount[0][1] < 1)
+  },
+  function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
+    return (
+      <Sticky header={<BreadcrumbHeader location={location} timeframe={timeframe} />}>
+        <MaxWidthFullscreenContainer>
+          <ViewSwitcher />
+          <Button
+            kind="default"
+            key="createApplication"
+            onClick={() => {}}
+            className={locals.createApplication}
+            size="sm"
+            outlineOnly
+          >
+            Create Application
+          </Button>
+
+          {showNoApplicationsDefinedIndicator && <div>You got no applications, sorry bro!</div>}
+          <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
+        </MaxWidthFullscreenContainer>
+      </Sticky>
+    );
+  }
+);
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeframe }) {
   return getApplications({
@@ -57,11 +74,11 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
     metrics: {
       services: {
         metric: 'services',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       endpoints: {
         metric: 'endpoints',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       callsAgg: {
         metric: 'calls',

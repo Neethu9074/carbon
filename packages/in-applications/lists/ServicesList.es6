@@ -44,7 +44,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
     metrics: {
       endpoints: {
         metric: 'endpoints',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       callsAgg: {
         metric: 'calls',
