@@ -108,8 +108,6 @@ export default class SceneGraph {
 
     this.updatePresentNodes(presentNodes, nodesMap);
     this.removeNodes(removedNodes);
-
-    // TODO: take related nodes count or sub children into account
   }
 
   getNodesAsMap(nodes) {
