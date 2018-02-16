@@ -10,6 +10,8 @@ import Link from 'in-components/Link';
 
 import locals from './Breadcrumps.mless';
 
+import breadcrumbLocals from './ApplicationViewBreadcrumbWithSwitcher.mless';
+
 export default connectTo(
   props => ({
     application: getApplication({
@@ -67,7 +69,7 @@ export default connectTo(
                 <div className={locals.label}>{`Applications (${applications.data.items.length})`} </div>
                 <div className={locals.entityLabel}>
                   {application.data.label}
-                  <span onClick={this.toggleSubMenu}>
+                  <span onClick={this.toggleSubMenu} className={breadcrumbLocals.chevron}>
                     <SvgIcon type="triangle_down" width={10} height={10} color={'#fff'} />
                   </span>
                 </div>

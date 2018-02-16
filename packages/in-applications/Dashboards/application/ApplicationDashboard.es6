@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
@@ -11,8 +13,6 @@ import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import ApplicationViewBreadcrumb from 'in-applications/breadcrumbs/ApplicationViewBreadcrumb';
 
 import locals from './ApplicationDashboard.mless';
 
@@ -23,9 +23,7 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={[<ApplicationViewBreadcrumb location={location} timeframe={timeframe} view="application" />]}
-      />
+      <Breadcrumbs items={applicationBreadcrumbs(location, timeframe)} />
       <TabView
         result$={getData(location, application, service, endpoint)}
         HeaderComponent={Header}

@@ -42,7 +42,7 @@ export default connectTo(
   function ApplicationsList({ timeframe, location, showNoApplicationsDefinedIndicator }) {
     return (
       <Sticky header={<BreadcrumbHeader />}>
-        <Breadcrumbs items={applicationBreadcrumbs(location)} />
+        <Breadcrumbs items={applicationBreadcrumbs(location, { timeframe })} />
         <MaxWidthFullscreenContainer>
           <ViewSwitcher />
           <Button

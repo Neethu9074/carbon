@@ -18,14 +18,8 @@ import Link from 'in-components/Link';
 
 export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe, location }) {
   return (
-    <Sticky
-      header={
-        <div>
-          <BreadcrumbHeader />
-        </div>
-      }
-    >
-      <Breadcrumbs items={applicationBreadcrumbs(location)} />
+    <Sticky header={<BreadcrumbHeader />}>
+      <Breadcrumbs items={applicationBreadcrumbs(location, { timeframe })} />
 
       <MaxWidthFullscreenContainer>
         <ViewSwitcher />

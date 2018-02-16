@@ -19,7 +19,7 @@ export default connectTo(
       }
     })
   }),
-  function ApplicationListViewBreadcrumb({ application, applicationId }) {
+  function ApplicationViewBreadcrumb({ application, applicationId }) {
     if (application.progress.loading || application.errors.length > 0) {
       return <Breadcrumb href$={getApplicationDashboard(applicationId)}>Applications</Breadcrumb>;
     } else {

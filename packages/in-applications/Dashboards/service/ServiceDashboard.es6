@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
@@ -16,13 +18,16 @@ export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ 
   const endpoint = getMatrixParameter(location, serviceDashboard, endpointId);
 
   return (
-    <TabView
-      HeaderComponent={Header}
-      location={location}
-      tabs={tabs}
-      result$={getData(location, application, service, endpoint)}
-      props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
-    />
+    <Fragment>
+      <Breadcrumbs items={applicationBreadcrumbs(location, timeframe, true)} />
+      <TabView
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        result$={getData(location, application, service, endpoint)}
+        props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
+      />
+    </Fragment>
   );
 });
 
