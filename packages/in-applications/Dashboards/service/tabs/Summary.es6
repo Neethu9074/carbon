@@ -2,6 +2,7 @@ import React from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis, percentage } from 'in-services/formatters/number';
@@ -109,6 +110,10 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
 
       <DashboardSection title="Top Traces">
         <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+      </DashboardSection>
+
+      <DashboardSection title="Top Endpoints">
+        <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
       </DashboardSection>
     </MaxWidthFullscreenContainer>
   );
