@@ -14,6 +14,8 @@ export const servicesList = '/services';
 export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 
+export const databaseStatementDetailsPath = `/statements/:statementId`;
+
 export function getServiceDashboard(serviceId, { applicationId, endpointId, tab = '/summary' } = {}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${serviceDashboard}${tab}`;

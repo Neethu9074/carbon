@@ -59,7 +59,7 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
 function Label({ item }) {
   return (
     <Fragment>
-      <Link href="https://google.com">{item.statement}</Link>
+      <Link href={`#/statements/${item.id}`}>{item.statement}</Link>
     </Fragment>
   );
 }
