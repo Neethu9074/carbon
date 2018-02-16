@@ -9,25 +9,27 @@ import { compare } from 'in-services/util/number';
 // eslint-disable-next-line no-unused-vars
 export default function HttpSections({ applicationId, serviceId, timeframe }) {
   return (
-    <DashboardSection>
-      <h2>Http Status Code Breakdown</h2>
-      <Chart
-        timeframe={timeframe}
-        y1={{
-          renderer: Renderer.stackedArea,
-          labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-          colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
-          formatter: millis,
-          metrics: [
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe)
-          ]
-        }}
-      />
-    </DashboardSection>
+    <div>
+      <h2>HTTP</h2>
+      <DashboardSection title="Http Status Code Breakdown">
+        <Chart
+          timeframe={timeframe}
+          y1={{
+            renderer: Renderer.stackedArea,
+            labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+            colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
+            formatter: millis,
+            metrics: [
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe),
+              generateMetrics(timeframe)
+            ]
+          }}
+        />
+      </DashboardSection>
+    </div>
   );
 }
 

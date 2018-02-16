@@ -2,10 +2,11 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
-import MessagingSections from './MessagingSections';
-import DatabaseSections from './DatabaseSections';
-import LoggingSections from './LoggingSections';
-import HttpSections from './HttpSections';
+import CommonPerformanceSections from './common/CommonPerformanceSections';
+import MessagingSections from './messaging/MessagingSections';
+import DatabaseSections from './database/DatabaseSections';
+import LoggingSections from './logging/LoggingSections';
+import HttpSections from './http/HttpSections';
 
 export default class extends React.Component {
   static displayName = 'PerformanceTab';
@@ -60,6 +61,11 @@ export default class extends React.Component {
   render() {
     return (
       <MaxWidthFullscreenContainer>
+        <CommonPerformanceSections
+          applicationId={this.props.applicationId}
+          serviceId={this.props.serviceId}
+          timeframe={this.props.timeframe}
+        />
         {this.hasHttpEndpoints() && (
           <HttpSections
             applicationId={this.props.applicationId}

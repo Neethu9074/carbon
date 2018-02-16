@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DatabaseStatementTopList from './database/DatabaseStatementTopList';
+import DatabaseStatementTopList from './DatabaseStatementTopList';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
@@ -11,9 +11,8 @@ import { compare } from 'in-services/util/number';
 export default function DatabaseSections({ applicationId, serviceId, timeframe }) {
   return (
     <div>
-      <DashboardSection>
-        <h2>Database</h2>
-        <h3>Reads versus Writes</h3>
+      <h2>Database</h2>
+      <DashboardSection title="Reads versus Writes">
         <Chart
           timeframe={timeframe}
           y1={{
