@@ -124,12 +124,18 @@ export default class SceneGraph {
   addNewNodes(node, newNodes, nodesMap, direction) {
     for (let i = 0; i < newNodes.length; i++) {
       const nodeId = newNodes[i];
-      const nodesData = nodesMap.get(nodeId).entity;
-      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData);
+      const nodesData = nodesMap.get(nodeId);
+      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData.entity);
 
       if (direction === 'incoming') {
         nodeSceneObject.setIsExpanded(true, 'outgoing');
+        if (nodesData.relatedNodesCount === 0) {
+          nodeSceneObject.setIsExpanded(true, direction);
+        }
       } else {
+        if (nodesData.relatedNodesCount === 0) {
+          nodeSceneObject.setIsExpanded(true, direction);
+        }
         nodeSceneObject.setIsExpanded(true, 'incoming');
       }
     }
