@@ -18,7 +18,7 @@ export default class SceneGraph {
   }
 
   init(rootNodeData) {
-    const rootNode = this.addNode(this.rootNodeId, rootNodeData);
+    const rootNode = this.addOrUpdateNode(this.rootNodeId, rootNodeData);
     rootNode.expandRight();
     rootNode.expandLeft();
     this.requestLayout();
@@ -31,11 +31,13 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addNode(id, data) {
+  addOrUpdateNode(id, data) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const nodes = nodesServiceLocator.getNodes();
     if (nodes.has(id)) {
-      return nodes.get(id);
+      const node = nodes.get(id);
+      node.setData(data);
+      return node;
     }
 
     const node = new Node(this.serviceLocatorUid, id);
@@ -102,14 +104,12 @@ export default class SceneGraph {
 
     // TODOS #################################################################################
     // - what should happen on error
-    // - discuss what happens on update
     // - take related nodes count or sub children into account
-    // - x distance o ndeeper nodes is wrong
 
     this.addNewNodes(node, newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
 
-    this.updatePresentNodes(presentNodes);
+    this.updatePresentNodes(presentNodes, nodesMap);
     this.removeNodes(removedNodes);
   }
 
@@ -126,7 +126,7 @@ export default class SceneGraph {
     for (let i = 0; i < newNodes.length; i++) {
       const nodeId = newNodes[i];
       const nodesData = nodesMap.get(nodeId).entity;
-      const nodeSceneObject = this.addNode(nodeId, nodesData);
+      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData);
 
       if (direction === 'incoming') {
         nodeSceneObject.setIsExpanded(true, 'outgoing');
@@ -136,7 +136,13 @@ export default class SceneGraph {
     }
   }
 
-  updatePresentNodes() {}
+  updatePresentNodes(presentNodes, nodesMap) {
+    for (let i = 0; i < presentNodes.length; i++) {
+      const nodeId = presentNodes[i];
+      const nodesData = nodesMap.get(nodeId).entity;
+      this.addOrUpdateNode(nodeId, nodesData);
+    }
+  }
 
   removeNodes(nodeIds) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
