@@ -7,10 +7,6 @@ export default class DataFetchingServiceLocator extends BaseServiceLocator {
     this.sceneGraph = sceneGraph;
   }
 
-  getDataFromResult(result) {
-    return this.service.getDataFromResult(result);
-  }
-
   fetchIncomingDataForNodeId(id) {
     this.sceneGraph.fetchIncomingDataForNodeId(id, this.service.getIncomingDataForNodeId);
   }

@@ -11,8 +11,7 @@ export default function ServiceFlowMap({ data }) {
 function createDataFetchingService() {
   return {
     getIncomingDataForNodeId,
-    getOutgoingDataForNodeId,
-    getDataFromResult
+    getOutgoingDataForNodeId
   };
 
   function getIncomingDataForNodeId(id, path) {
@@ -21,10 +20,6 @@ function createDataFetchingService() {
 
   function getOutgoingDataForNodeId(id, path) {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
-  }
-
-  function getDataFromResult(data) {
-    return data.service;
   }
 }
 

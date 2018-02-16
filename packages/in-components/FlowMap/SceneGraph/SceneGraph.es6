@@ -18,10 +18,9 @@ export default class SceneGraph {
   }
 
   init(rootNodeData) {
-    this.addNode(this.rootNodeId, rootNodeData);
-    // const rootNode = this.addNode(this.rootNodeId, rootNodeData);
-    // rootNode.expandRight();
-    // rootNode.expandLeft();
+    const rootNode = this.addNode(this.rootNodeId, rootNodeData);
+    rootNode.expandRight();
+    rootNode.expandLeft();
     this.requestLayout();
   }
 
@@ -97,15 +96,15 @@ export default class SceneGraph {
     const nodesMap = this.getNodesAsMap(result.data);
 
     const difference = diff(node[direction].map(node => node.id), Array.from(nodesMap.keys()));
-    // TODO: remove until we have proper backend data in place. This avoids that we receive the node itself on subscribe for incoming/outgoing data
-    const newNodes = difference.uniqueItemsB.filter(id => id !== node.id);
+    const newNodes = difference.uniqueItemsB;
     const presentNodes = difference.sharedItems;
     const removedNodes = difference.uniqueItemsA;
 
     // TODOS #################################################################################
-    // - create proper data in the backend with more than 1 depth
     // - what should happen on error
     // - discuss what happens on update
+    // - take related nodes count or sub children into account
+    // - x distance o ndeeper nodes is wrong
 
     this.addNewNodes(node, newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
@@ -115,22 +114,18 @@ export default class SceneGraph {
   }
 
   getNodesAsMap(nodes) {
-    const dataFetchingService = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-
     const nodesMap = new Map();
     for (let i = 0; i < nodes.length; i++) {
       const nodeData = nodes[i];
-      nodesMap.set(dataFetchingService.getDataFromResult(nodeData).id, nodeData);
+      nodesMap.set(nodeData.entity.id, nodeData);
     }
     return nodesMap;
   }
 
   addNewNodes(node, newNodes, nodesMap, direction) {
-    const dataFetchingService = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-
     for (let i = 0; i < newNodes.length; i++) {
       const nodeId = newNodes[i];
-      const nodesData = dataFetchingService.getDataFromResult(nodesMap.get(nodeId));
+      const nodesData = nodesMap.get(nodeId).entity;
       const nodeSceneObject = this.addNode(nodeId, nodesData);
 
       if (direction === 'incoming') {
