@@ -15,11 +15,11 @@ export const serviceDashboard = '/service';
 
 export const endpointDashboard = '/endpoint';
 
-export function getServiceDashboard(serviceId, { appId, endpointId, tab = '/summary' } = {}) {
+export function getServiceDashboard(serviceId, { applicationId, endpointId, tab = '/summary' } = {}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${serviceDashboard}${tab}`;
+    setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, serviceDashboard, matrixServiceId, serviceId);
-    setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, appId);
     setOrDeleteMatrixKey(params, serviceDashboard, matrixEndpointId, endpointId);
   });
 }
@@ -27,8 +27,8 @@ export function getServiceDashboard(serviceId, { appId, endpointId, tab = '/summ
 export function getEndpointDashboard(endpointId, { applicationId, serviceId } = {}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${endpointDashboard}/summary`;
-    setOrDeleteMatrixKey(params, endpointDashboard, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, endpointDashboard, matrixApplicationId, applicationId);
+    setOrDeleteMatrixKey(params, endpointDashboard, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, endpointDashboard, matrixEndpointId, endpointId);
   });
 }

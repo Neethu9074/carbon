@@ -7,18 +7,21 @@ import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ tabs, result, HeaderComponent, location }) {
+export default function Header({ tabs, result, HeaderComponent, location, props }) {
   return (
     <div className={locals.header}>
       <HeaderComponent result={result} />
-      <ul className={locals.tabList}>{tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} />)}</ul>
+      <ul className={locals.tabList}>
+        {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
+      </ul>
       <HorizontalIndicator progress={result.progress} />
     </div>
   );
 }
 
-function Tab({ tab, location }) {
+function Tab({ tab, location, props }) {
   const isActive = location.pathname === tab.path;
+  const Header = tab.header || DefaultHeader;
   return (
     <li
       key={tab.label}
@@ -36,8 +39,12 @@ function Tab({ tab, location }) {
           params.pathname = tab.path;
         })}
       >
-        {tab.label}
+        <Header tab={tab} {...props} />
       </Link>
     </li>
   );
+}
+
+function DefaultHeader({ tab }) {
+  return tab.label;
 }

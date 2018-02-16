@@ -1,3 +1,4 @@
+import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Performance from 'in-applications/Dashboards/service/tabs/Performance';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
@@ -19,7 +20,25 @@ export default [
   {
     label: 'Endpoints',
     path: `${serviceDashboard}/endpoints`,
-    component: Endpoints
+    component: Endpoints,
+    header: getTabHeaderWithAppDataMetricCount({
+      getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
+        return {
+          filter: {
+            timeframe,
+            application: applicationId,
+            service: serviceId,
+            endpoint: endpointId
+          },
+          metrics: {
+            count: {
+              metric: 'endpoints',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        };
+      }
+    })
   },
   {
     label: 'Performance',
@@ -29,6 +48,24 @@ export default [
   {
     label: 'Infrastructure',
     path: `${serviceDashboard}/infrastructure`,
-    component: InfrastructureTab
+    component: InfrastructureTab,
+    header: getTabHeaderWithAppDataMetricCount({
+      getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
+        return {
+          filter: {
+            timeframe,
+            application: applicationId,
+            service: serviceId,
+            endpoint: endpointId
+          },
+          metrics: {
+            count: {
+              metric: 'processes',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        };
+      }
+    })
   }
 ];

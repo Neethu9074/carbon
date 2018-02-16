@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { millis, percentage, number } from 'in-services/formatters/number';
 import TopListPresenter from 'in-components/TopList/TopListPresenter';
-import getServices from 'in-subscription/application/getServices';
+import getEndpoints from 'in-subscription/application/getEndpoints';
 import TopList from 'in-components/TopList';
 import Link from 'in-components/Link';
 
@@ -12,7 +12,7 @@ const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 const aggregations = ['MEAN', 'MEAN', 'SUM', 'MEAN'];
 const formatters = [millis.fixedCompact, millis.fixedCompact, number.compact, percentage.compact];
 
-export default function ServiceTopList({ applicationId, timeframe }) {
+export default function EndpointTopList({ applicationId, serviceId, timeframe }) {
   return (
     <TopList
       metrics={metrics}
@@ -26,12 +26,13 @@ export default function ServiceTopList({ applicationId, timeframe }) {
       renderMetric={Metric}
       timeframe={timeframe}
       applicationId={applicationId}
+      serviceId={serviceId}
     />
   );
 }
 
-function getList({ applicationId, timeframe, selectedMetric, selectedMetricAggregation }) {
-  return getServices({
+function getList({ applicationId, serviceId, timeframe, selectedMetric, selectedMetricAggregation }) {
+  return getEndpoints({
     pagination: {
       page: 1,
       pageSize: 5
@@ -48,17 +49,20 @@ function getList({ applicationId, timeframe, selectedMetric, selectedMetricAggre
     },
     filter: {
       application: applicationId,
+      service: serviceId,
       timeframe
     }
   });
 }
 
-function ViewAll({ applicationId }) {
-  return <Link href$={getApplicationDashboard(applicationId, { tab: '/services' })}>View All</Link>;
+function ViewAll({ applicationId, serviceId }) {
+  return <Link href$={getServiceDashboard(serviceId, { applicationId, tab: '/endpoints' })}>View All</Link>;
 }
 
-function Label({ item, applicationId }) {
-  return <Link href$={getServiceDashboard(item.service.id, { applicationId })}>{item.service.label}</Link>;
+function Label({ item, applicationId, serviceId }) {
+  return (
+    <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+  );
 }
 
 function Metric({ formattedMetricValue }) {

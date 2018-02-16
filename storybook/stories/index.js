@@ -22,6 +22,7 @@ import './components/ButtonStory';
 import './components/Chart';
 import './components/CodeEditor';
 import './components/CodeStory';
+import './components/KpiStory';
 import './components/ComboBoxStory';
 import './components/IconStory';
 import './components/KeyValuePopup';

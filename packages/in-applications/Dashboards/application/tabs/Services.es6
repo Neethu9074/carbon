@@ -1,17 +1,15 @@
 import React from 'react';
 
-import { applicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
 import Link from 'in-components/Link';
 
-export default function ServiceList({ location, timeframe }) {
+export default function ServiceList({ location, timeframe, applicationId, serviceId, endpointId }) {
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
@@ -20,12 +18,25 @@ export default function ServiceList({ location, timeframe }) {
         columnDefinitions={columnDefinitions}
         location={location}
         timeframe={timeframe}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
       />
     </MaxWidthFullscreenContainer>
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, location, timeframe }) {
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  applicationId,
+  serviceId,
+  endpointId,
+  timeframe
+}) {
   return getServices({
     pagination: {
       page,
@@ -70,9 +81,9 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, location
     },
     filter: {
       label: query,
-      application: getMatrixParameter(location, applicationDashboard, applicationId),
-      service: getMatrixParameter(location, applicationDashboard, serviceId),
-      endpoint: getMatrixParameter(location, applicationDashboard, endpointId),
+      application: applicationId,
+      service: serviceId,
+      endpoint: endpointId,
       timeframe
     }
   });
@@ -82,11 +93,12 @@ const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: 'Name',
-    getContent(item, { location }) {
+    getContent(item, { applicationId, endpointId }) {
       return (
         <Link
           href$={getServiceDashboard(item.service.id, {
-            appId: getMatrixParameter(location, applicationDashboard, applicationId)
+            applicationId,
+            endpointId
           })}
         >
           {item.service.label}

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import { endpointDashboard } from 'in-applications/navigation/paths';
@@ -23,6 +24,24 @@ export default [
   {
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
-    component: Infrastructure
+    component: Infrastructure,
+    header: getTabHeaderWithAppDataMetricCount({
+      getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
+        return {
+          filter: {
+            timeframe,
+            application: applicationId,
+            service: serviceId,
+            endpoint: endpointId
+          },
+          metrics: {
+            count: {
+              metric: 'processes',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        };
+      }
+    })
   }
 ];

@@ -1,16 +1,119 @@
 import React from 'react';
 
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis, percentage } from 'in-services/formatters/number';
+import { KpiSection, AppKpi } from 'in-components/Kpis/KpiSection';
+import { getChartGranularity } from 'in-applications/metrics';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
 
-export default function Summary({ data, timeframe }) {
-  const application = data;
+export default function Summary({ timeframe, applicationId, endpointId, serviceId }) {
+  const filter = {
+    timeframe,
+    endpoint: endpointId,
+    application: applicationId,
+    service: serviceId
+  };
 
   return (
     <MaxWidthFullscreenContainer>
+      <KpiSection>
+        <AppKpi
+          label="Calls"
+          formatter={number}
+          metricsConfig={{
+            filter,
+            metrics: {
+              calls: {
+                metric: 'calls',
+                aggregation: 'SUM'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Latency"
+          formatter={millis}
+          metricsConfig={{
+            filter,
+            metrics: {
+              latency: {
+                metric: 'latency',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+        <AppKpi
+          label="Errors"
+          formatter={percentage}
+          metricsConfig={{
+            filter,
+            metrics: {
+              errors: {
+                metric: 'errors',
+                aggregation: 'MEAN'
+              }
+            }
+          }}
+        />
+      </KpiSection>
+
+      <Columize>
+        <DashboardSection title="Calls vs. Latency">
+          <ChartWrapper
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.countErrorBar,
+              labels: ['Calls', 'Errors'],
+              metricIds: ['calls', 'errors']
+            }}
+            y2={{
+              renderer: Renderer.line,
+              labels: ['Latency'],
+              colors: ['#57a7f0'],
+              formatter: millis,
+              metricIds: ['latency']
+            }}
+            metricsConfiguration={{
+              filter,
+              metrics: {
+                calls: {
+                  metric: 'calls',
+                  granularity: getChartGranularity(timeframe),
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity: getChartGranularity(timeframe),
+                  aggregation: 'MEAN'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity: getChartGranularity(timeframe),
+                  aggregation: 'MEAN'
+                }
+              }
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Performance Breakdown">
+          <TechnologyBreakdown applicationId={applicationId} timeframe={timeframe} />
+        </DashboardSection>
+      </Columize>
+
       <DashboardSection title="Top Services">
-        <ServiceTopList application={application} timeframe={timeframe} />
+        <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
+      </DashboardSection>
+
+      <DashboardSection title="Top Traces">
+        <TraceTopList applicationId={applicationId} timeframe={timeframe} />
       </DashboardSection>
     </MaxWidthFullscreenContainer>
   );
