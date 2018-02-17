@@ -38,14 +38,3 @@ export function getApplicationDashboard(appId, { tab = '/summary' } = {}) {
     setOrDeleteMatrixKey(params, applicationDashboard, matrixApplicationId, appId);
   });
 }
-
-export function getMatchingDashboard(location, { applicationId, serviceId, endpointId }) {
-  switch (true) {
-    case location.pathname.indexOf(serviceDashboard) !== -1:
-      return getServiceDashboard(serviceId, { applicationId, endpointId });
-    case location.pathname.indexOf(endpointDashboard) !== -1:
-      return getEndpointDashboard(endpointId, { applicationId, serviceId });
-    default:
-      return getApplicationDashboard(applicationId);
-  }
-}

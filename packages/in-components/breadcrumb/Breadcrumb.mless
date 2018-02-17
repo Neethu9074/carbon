@@ -1,0 +1,19 @@
+:local {
+  .breadcrumb {
+    text-decoration: none;
+    color: #e2e9ec;
+
+    &:last-child {
+      color: #fff;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .label {
+    display: block;
+  }
+
+}

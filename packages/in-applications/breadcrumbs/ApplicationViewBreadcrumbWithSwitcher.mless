@@ -1,7 +1,19 @@
 :local {
-
   .chevron {
     margin-left: .3rem;
+  }
+
+  .submenu {
+    position: absolute;
+    list-style: none;
+    background-color: #fff;
+    padding: 1rem;
+    margin-top: .5rem;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  .submenuItem {
+    color: #000;
   }
 
 }

@@ -4,8 +4,6 @@ import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import './BreadcrumbHeader.mless';
-
 import locals from './BreadcrumbHeader.mless';
 
 const separator = (
@@ -40,6 +38,6 @@ export default connectTo(
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 
-    return <header className={locals.breadcrumbHeader}>{crumbsElement}</header>;
+    return <div className={locals.breadcrumbHeader}>{crumbsElement}</div>;
   }
 );

@@ -17,37 +17,35 @@ import Link from 'in-components/Link';
 import locals from './ApplicationDashboard.mless';
 
 export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
-  const application = getMatrixParameter(location, applicationDashboard, applicationId);
-  const service = getMatrixParameter(location, applicationDashboard, serviceId);
-  const endpoint = getMatrixParameter(location, applicationDashboard, endpointId);
+  const props = {
+    applicationId: getMatrixParameter(location, applicationDashboard, applicationId),
+    serviceId: getMatrixParameter(location, applicationDashboard, serviceId),
+    endpointId: getMatrixParameter(location, applicationDashboard, endpointId),
+    viewPath: applicationDashboard,
+    timeframe
+  };
 
   return (
     <Fragment>
-      <Breadcrumbs items={applicationBreadcrumbs(location, timeframe)} />
+      <Breadcrumbs items={applicationBreadcrumbs(props)} />
       <TabView
-        result$={getData(location, application, service, endpoint)}
+        result$={getApplication({
+          id: props.applicationId,
+          filter: {
+            application: props.applicationId,
+            service: props.serviceId,
+            endpoint: props.endpointId,
+            timeframe
+          }
+        })}
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
+        props={props}
       />
     </Fragment>
   );
 });
-
-function getData(location, application, service, endpoint) {
-  return timeframe$.flatMap(timeframe =>
-    getApplication({
-      id: getMatrixParameter(location, applicationDashboard, applicationId),
-      filter: {
-        application,
-        service,
-        endpoint,
-        timeframe
-      }
-    })
-  );
-}
 
 function Header({ result }) {
   return (

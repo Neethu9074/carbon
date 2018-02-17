@@ -2,13 +2,12 @@ import React from 'react';
 
 import Link from 'in-components/Link';
 
-import './Breadcrumb.less';
+import locals from './Breadcrumb.mless';
 
-const block = 'in-breadcrumb';
-
-export default function Breadcrumb({ children, href, href$ }) {
+export default function Breadcrumb({ children, href, href$, label }) {
   return (
-    <Link href={href} href$={href$} className={block}>
+    <Link href={href} href$={href$} className={locals.breadcrumb}>
+      {label && <span className={locals.label}>{label}</span>}
       {children}
     </Link>
   );
