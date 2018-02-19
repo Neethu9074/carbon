@@ -1,7 +1,8 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import { defaultsDeep } from 'lodash';
 import React from 'react';
 
-import { defaultsDeep } from 'lodash';
+import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 
 const defaultOptions = {
   pure: true
@@ -19,7 +20,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
   opts = defaultsDeep(opts || {}, defaultOptions);
 
   return class extends React.Component {
-    static displayName = 'connectTo hoc for ' + (ComposedComponent.displayName || ComposedComponent.name);
+    static displayName = getDisplayName('connect', ComposedComponent);
     state = {};
 
     componentWillMount() {

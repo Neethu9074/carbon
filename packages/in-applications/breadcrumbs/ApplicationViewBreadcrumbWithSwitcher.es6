@@ -19,8 +19,6 @@ export default connectTo(
       id: props.applicationId,
       filter: {
         application: props.applicationId,
-        service: props.serviceId,
-        endpoint: props.endpointId,
         timeframe: props.timeframe
       }
     }),

@@ -3,11 +3,12 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { debouncedResize$ } from 'in-services/browser';
 
 export default function getElementDimensions(ComposedComponent) {
   return class extends React.Component {
-    static displayName = 'ElementDimensionHoc';
+    static displayName = getDisplayName(ComposedComponent, 'ElementDimensionHoc');
 
     state = {
       height: null

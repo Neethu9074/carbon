@@ -2,6 +2,8 @@ import shallowEquals from 'fbjs/lib/shallowEqual';
 import { createFactory, Component } from 'react';
 import { pick } from 'lodash';
 
+import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+
 // Sample usage
 // withPropDependingState(
 //   ['defaultOrderBy', 'defaultOrderDirection'],
@@ -16,7 +18,7 @@ import { pick } from 'lodash';
 export default (propNamesWhichResultInReset, onReset, reducerName, reducer) => BaseComponent => {
   const factory = createFactory(BaseComponent);
   return class WithPropDependingState extends Component {
-    static displayName = 'WithPropDependingState for ' + (BaseComponent.displayName || BaseComponent.name);
+    static displayName = getDisplayName(BaseComponent, 'WithPropDependingState');
 
     constructor(props) {
       super(props);

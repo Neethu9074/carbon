@@ -2,12 +2,13 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Title from 'in-components/Title';
 
 export default function entityForm(ComposedComponent) {
   return class extends React.Component {
-    static displayName = 'EntityFormHoc';
+    static displayName = getDisplayName(ComposedComponent, 'EntityFormHoc');
 
     state = {
       loading: true,
