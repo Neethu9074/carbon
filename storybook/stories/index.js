@@ -36,3 +36,4 @@ import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
 import './newComponents/BadgeStory';
+import './newComponents/CounterStory';
