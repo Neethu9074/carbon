@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -20,7 +20,7 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
           timeframe={timeframe}
           y1={{
             renderer: Renderer.stackedArea,
-            labels: ['ERROR', 'WARN'],
+            labels: ['Error', 'Warn'],
             colors: ['#f00', '#f90'],
             formatter: number,
             metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]

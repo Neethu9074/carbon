@@ -6,8 +6,7 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 
-// eslint-disable-next-line no-unused-vars
-export default function HttpSections({ applicationId, serviceId, timeframe }) {
+export default function HttpSections({ timeframe }) {
   return (
     <div>
       <h2>HTTP</h2>

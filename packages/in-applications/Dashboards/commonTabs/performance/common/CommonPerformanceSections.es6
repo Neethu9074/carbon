@@ -5,8 +5,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 
-// eslint-disable-next-line no-unused-vars
-export default function LoggingSections({ applicationId, serviceId, timeframe }) {
+export default function CommonPerformanceSection({ applicationId, serviceId, timeframe }) {
   const filter = {
     timeframe,
     application: applicationId,
