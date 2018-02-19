@@ -1,0 +1,25 @@
+:local {
+  .pagination {
+    display: flex;
+  }
+
+  .action {
+    color: #1FB7B9;
+    text-decoration: none;
+  }
+
+  .disabledAction, .disabledAction:hover {
+    color: #698189;
+    cursor: default;
+    text-decoration: none;
+  }
+
+  .center {
+    margin: 0 1rem;
+  }
+
+  .current, .separator, .last {
+    color: #16363E;
+    font-weight: bold;
+  }
+}
