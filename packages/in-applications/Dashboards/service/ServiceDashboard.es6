@@ -13,37 +13,35 @@ import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ location, timeframe }) {
-  const application = getMatrixParameter(location, serviceDashboard, applicationId);
-  const service = getMatrixParameter(location, serviceDashboard, serviceId);
-  const endpoint = getMatrixParameter(location, serviceDashboard, endpointId);
+  const props = {
+    applicationId: getMatrixParameter(location, serviceDashboard, applicationId),
+    serviceId: getMatrixParameter(location, serviceDashboard, serviceId),
+    endpointId: getMatrixParameter(location, serviceDashboard, endpointId),
+    viewPath: serviceDashboard,
+    timeframe
+  };
 
   return (
     <Fragment>
-      <Breadcrumbs items={applicationBreadcrumbs(location, timeframe, true)} />
+      <Breadcrumbs items={applicationBreadcrumbs(props)} />
       <TabView
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        result$={getData(location, application, service, endpoint)}
-        props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
+        result$={getService({
+          id: props.serviceId,
+          filter: {
+            application: props.applicationId,
+            service: props.serviceId,
+            endpoint: props.endpointId,
+            timeframe
+          }
+        })}
+        props={props}
       />
     </Fragment>
   );
 });
-
-function getData(location, application, service, endpoint) {
-  return timeframe$.flatMap(timeframe =>
-    getService({
-      id: getMatrixParameter(location, serviceDashboard, serviceId),
-      filter: {
-        application,
-        service,
-        endpoint,
-        timeframe
-      }
-    })
-  );
-}
 
 function Header({ result }) {
   return <BasicApplicationDashboardHeader result={result} />;

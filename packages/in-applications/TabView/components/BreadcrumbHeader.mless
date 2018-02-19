@@ -14,13 +14,12 @@
   }
 
   .container {
-       margin-left: 0.9rem;
-       display: flex;
-     }
+    margin-left: 0.9rem;
+    display: flex;
+    align-items: center;
+   }
 
   .chevron {
     margin: 0 0.5rem;
-    display: flex;
-    align-items:center;
   }
 }
