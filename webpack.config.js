@@ -25,8 +25,8 @@ const componentPathPrefix = path.join(__dirname, 'packages');
 // create names in development mode that are easy to read.
 if (isDev) {
   localIdentName = '[path]__[local]';
-  getLocalIdent = (context, localIdentName, localName) => {
-    const file = context.context
+  getLocalIdent = function(context, localIdentName, localName) {
+    const file = (context.resourcePath || context.context)
       .substring(componentPathPrefix.length)
       .replace(/\/|\\/g, '_')
       .replace(/^_/, '')

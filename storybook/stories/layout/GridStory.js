@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import {Row, Col} from 'in-new-components/layout/Grid';
-import theme from 'in-themes/active.json';
 
 storiesOf('layout/Grid', module)
   .add('Grid', () => <MixedGrid />)
@@ -81,8 +80,7 @@ function ExampleCol(props) {
           background: '#a8ecff',
           fontWeight: 'bold',
           textAlign: 'center',
-          padding: '10px',
-          marginTop: `${theme.grid.gutter}px`
+          padding: '10px'
         }}>
         {label}
       </div>
