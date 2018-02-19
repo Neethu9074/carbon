@@ -33,3 +33,5 @@ import './components/SparkChart';
 import './components/TopListStory';
 import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
+
+import './newComponents/BadgeStory';

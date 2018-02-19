@@ -4,8 +4,8 @@ import React from 'react';
 import BasicApplicationDashboardWrapper from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardWrapper';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import breadcrumbs from 'in-applications/Dashboards/service/breadcrumbs';
+// import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+// import breadcrumbs from 'in-applications/Dashboards/service/breadcrumbs';
 import DashboardHeader from 'in-applications/TabView/components/Header';
 import { always } from 'in-services/fixedStreams';
 
@@ -21,7 +21,7 @@ storiesOf('content/Service Dashboard', module)
 function Breadcrumb() {
   return (
     <Root>
-      {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+      {/* {breadcrumbs && <Breadcrumbs items={breadcrumbs} />} */}
       <BreadcrumbHeader />
     </Root>
   );
@@ -38,11 +38,7 @@ function HeaderStory() {
 function Tabs() {
   return (
     <Root>
-      <DashboardHeader
-        tabs={tabMock}
-        result={createMockResult('foobar')}
-        HeaderComponent={() => null}
-      />
+      <DashboardHeader tabs={tabMock} result={createMockResult('foobar')} HeaderComponent={() => null} />
     </Root>
   );
 }
@@ -60,7 +56,7 @@ function Pending() {
         }
         HeaderComponent={Header}
         location={locationMock}
-        breadcrumbs={breadcrumbs}
+        // breadcrumbs={breadcrumbs}
         tabs={tabMock}
       />
     </Root>

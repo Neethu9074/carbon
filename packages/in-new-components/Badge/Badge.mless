@@ -1,0 +1,15 @@
+:local {
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.4em;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 3px;
+
+    border: 1px solid;
+  }
+}
