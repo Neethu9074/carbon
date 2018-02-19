@@ -1,9 +1,25 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import { servicesList } from 'in-applications/navigation/paths';
-import { getView } from 'in-stores/navigation';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
+import getService from 'in-subscription/application/getService';
+import connectTo from 'in-hoc/connectTo';
 
-export default function ApplicationServiceViewBreadcrumb() {
-  return <Breadcrumb href$={getView(servicesList)}>Services</Breadcrumb>;
-}
+export default connectTo(
+  props => ({
+    service: getService({
+      id: props.serviceId,
+      filter: {
+        service: props.serviceId,
+        timeframe: props.timeframe
+      }
+    })
+  }),
+  function ApplicationServiceViewBreadcrumb({ service, serviceId, applicationId }) {
+    return (
+      <Breadcrumb href$={getServiceDashboard(serviceId, { applicationId })} label="Service">
+        {service.data && service.data.label}
+      </Breadcrumb>
+    );
+  }
+);

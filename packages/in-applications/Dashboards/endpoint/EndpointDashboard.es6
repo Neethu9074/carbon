@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
-import breadcrumbs from 'in-applications/Dashboards/endpoint/breadcrumbs';
-import getEndpoint from 'in-subscription/application/getEndpoint';
+import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
+import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import TabView from 'in-applications/TabView/TabView';
@@ -12,35 +13,34 @@ import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({ location, timeframe }) {
-  const application = getMatrixParameter(location, endpointDashboard, applicationId);
-  const service = getMatrixParameter(location, endpointDashboard, serviceId);
-  const endpoint = getMatrixParameter(location, endpointDashboard, endpointId);
-
+  const props = {
+    applicationId: getMatrixParameter(location, endpointDashboard, applicationId),
+    serviceId: getMatrixParameter(location, endpointDashboard, serviceId),
+    endpointId: getMatrixParameter(location, endpointDashboard, endpointId),
+    viewPath: endpointDashboard,
+    timeframe
+  };
   return (
-    <TabView
-      result$={getData(location)}
-      HeaderComponent={Header}
-      location={location}
-      breadcrumbs={breadcrumbs}
-      tabs={tabs}
-      props={{ timeframe, applicationId: application, serviceId: service, endpointId: endpoint }}
-    />
+    <Fragment>
+      <Breadcrumbs items={applicationBreadcrumbs(props)} />
+      <TabView
+        result$={getEndpoint({
+          id: props.endpointId,
+          filter: {
+            application: props.applicationId,
+            service: props.serviceId,
+            endpoint: props.endpointId,
+            timeframe
+          }
+        })}
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={props}
+      />
+    </Fragment>
   );
 });
-
-function getData(location) {
-  return timeframe$.flatMap(timeframe =>
-    getEndpoint({
-      id: getMatrixParameter(location, endpointDashboard, endpointId),
-      filter: {
-        application: getMatrixParameter(location, endpointDashboard, applicationId),
-        service: getMatrixParameter(location, endpointDashboard, serviceId),
-        endpoint: getMatrixParameter(location, endpointDashboard, endpointId),
-        timeframe
-      }
-    })
-  );
-}
 
 function Header({ result }) {
   return <BasicApplicationDashboardHeader type="endpoint" result={result} />;
