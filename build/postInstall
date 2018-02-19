@@ -17,6 +17,7 @@ linkModule in-forge
 linkModule in-hoc
 linkModule in-internal
 linkModule in-map
+linkModule in-new-components
 linkModule in-sdk
 linkModule in-services
 linkModule in-stores
