@@ -4,8 +4,7 @@ import React from 'react';
 import locals from './Badge.mless';
 
 export default Badge;
-function Badge({ children, color }) {
-  color = color || '#A5B6BE';
+function Badge({ children, color = '#a5b6be' }) {
   return (
     <span
       className={locals.badge}
