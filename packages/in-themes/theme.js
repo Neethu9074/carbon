@@ -42,6 +42,10 @@ module.exports = {
       '#965742'
     ]
   },
+  grid: {
+    gutter: 24,
+    columns: 12
+  },
   footer: {
     height: 36,
     heightExpanded: 97,

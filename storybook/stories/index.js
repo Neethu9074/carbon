@@ -10,12 +10,13 @@ import 'in-forge';
 // structuring and order is inspired by (see navigation)
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
+import './layout/GridStory';
 import './layout/StickyStory';
 
 import './content/ServerTableStory';
 import './content/TypographyStory';
 import './content/TableStory';
-import './content/ServiceDashboardStory';
+// import './content/ServiceDashboardStory';
 
 import './components/BadgeStory';
 import './components/ButtonStory';
