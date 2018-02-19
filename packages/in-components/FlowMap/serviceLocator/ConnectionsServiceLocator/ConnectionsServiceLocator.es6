@@ -1,4 +1,4 @@
-import createNullService from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsNullService';
+import createNullService from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/NullService';
 import BaseServiceLocator from 'in-components/FlowMap/serviceLocator/BaseServiceLocator';
 
 export default class ConnectionsServiceLocator extends BaseServiceLocator {
@@ -6,12 +6,12 @@ export default class ConnectionsServiceLocator extends BaseServiceLocator {
     super(createNullService);
   }
 
-  addOrSet(id, connection) {
-    return this.service.addOrSet(id, connection);
+  set(ids) {
+    return this.service.set(ids);
   }
 
-  remove(id) {
-    return this.service.remove(id);
+  remove(ids) {
+    return this.service.remove(ids);
   }
 
   update() {

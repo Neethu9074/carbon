@@ -5,16 +5,16 @@ import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Node extends SceneObject {
-  constructor(serviceLocatorUid, data) {
-    super(data.id, serviceLocatorUid);
+  constructor(serviceLocatorUid, id) {
+    super(id, serviceLocatorUid);
 
-    this.data = data;
     this.screenPosition = this.position;
-
-    const serviceLocators = getServiceLocators(serviceLocatorUid);
-    serviceLocators.nodesServiceLocator.addNode(this.id, this);
-
+    this.outgoing = [];
+    this.incoming = [];
     this.initSubscriptions();
+
+    this.events$.emit('isExpanded_incoming', false);
+    this.events$.emit('isExpanded_outgoing', false);
   }
 
   initSubscriptions() {
@@ -41,12 +41,56 @@ export default class Node extends SceneObject {
     this.events$.emit('screenPosition', screenPosition);
   }
 
+  setData(data) {
+    this.events$.emit('data', data);
+  }
+
+  setIsLoadingData(isLoading, direction) {
+    this.events$.emit(`isLoadingData_${direction}`, isLoading);
+  }
+
+  setIsExpanded(isIncomingExpanded, direction) {
+    this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
+  }
+
+  setConnected(ids, direction) {
+    this[direction] = ids;
+    this.setIsExpanded(true, direction);
+  }
+
+  hasErrorsInDirection(hasErrors, direction) {
+    if (hasErrors) {
+      this.resetConnected(direction);
+    }
+    this.setIsLoadingData(false, direction);
+    this.events$.emit(`hasErrors_${direction}`, hasErrors);
+  }
+
+  resetConnected(direction) {
+    this[direction] = [];
+    this.setIsExpanded(false, direction);
+  }
+
+  expandRight() {
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForNodeId(this.id);
+  }
+
+  expandLeft() {
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchIncomingDataForNodeId(this.id);
+  }
+
   disposeSubscriptions() {
+    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+    dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(this.id);
+
     this.subscriber.dispose();
     this.subscriber = null;
   }
 
   dispose() {
+    this.outgoing = null;
+    this.incoming = null;
+
     this.disposeSubscriptions();
 
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);

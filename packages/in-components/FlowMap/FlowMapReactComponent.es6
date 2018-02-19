@@ -13,13 +13,13 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
-
-      if (isWebGLSupported() && this.webGlContext) {
-        this.flowMap = new FlowMap(this.canvas, this.overlayReactComponent);
-      }
+      this.initFlowMap(this.props.rootNodeData);
     }
 
     componentWillUpdate(nextProps) {
+      if (this.props.rootNodeData.id !== nextProps.rootNodeData.id) {
+        this.initFlowMap(nextProps.rootNodeData);
+      }
       if (this.props.width !== nextProps.width || this.props.height !== nextProps.height) {
         this.flowMap.setSize(nextProps.width, nextProps.height);
       }
@@ -28,6 +28,20 @@ export default getElementDimensions(
     componentWillUnmount() {
       if (this.flowMap) {
         this.flowMap.dispose();
+      }
+    }
+
+    initFlowMap(rootNodeData) {
+      if (isWebGLSupported() && this.webGlContext) {
+        if (this.flowMap) {
+          this.flowMap.dispose();
+        }
+        this.flowMap = new FlowMap({
+          canvas: this.canvas,
+          overlayReactComponent: this.overlayReactComponent,
+          rootNodeData,
+          createDataFetchingService: this.props.createDataFetchingService
+        });
       }
     }
 

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
+import SparkChart from 'in-components/SparkChart';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -7,9 +10,10 @@ import locals from './Node.mless';
 
 export default connectTo(
   props => ({
-    screenPosition: props.node.events$.on('screenPosition')
+    screenPosition: props.node.events$.on('screenPosition'),
+    data: props.node.events$.on('data')
   }),
-  function Node({ node, screenPosition, size }) {
+  function Node({ node, screenPosition, data, size, isRootNode }) {
     if (!screenPosition) {
       return null;
     }
@@ -22,53 +26,93 @@ export default connectTo(
           left: `${screenPosition.x * 100}%`
         }}
       >
-        <div className={`${getNodeClasses(node)} ${locals[size]}`}>{getContent(node, size)}</div>
+        <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
+          {getContent(data, size)}
+          <ExpandIcon
+            className={locals.expandButtonLeft}
+            direction="incoming"
+            events$={node.events$}
+            onClick={() => node.expandLeft()}
+          />
+          <ExpandIcon
+            className={locals.expandButtonRight}
+            direction="outgoing"
+            events$={node.events$}
+            onClick={() => node.expandRight()}
+          />
+        </div>
       </div>
     );
   }
 );
 
-function getNodeClasses(node) {
+const ExpandIcon = connectTo(
+  props => ({
+    isLoading: props.events$.on(`isLoadingData_${props.direction}`).distinct(),
+    isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct(),
+    hasErrors: props.events$.on(`hasErrors_${props.direction}`).distinct()
+  }),
+  function ExpandIcon({ isLoading, isExpanded, hasErrors, onClick, className }) {
+    if (isExpanded) {
+      return null;
+    }
+    return (
+      <Tooltip content={hasErrors ? 'shit happens ¯\\_(ツ)_/¯' : null}>
+        <div
+          className={evaluateClassNames({
+            [className]: true,
+            [locals.errorneousExpandIcon]: hasErrors
+          })}
+          onClick={onClick}
+        >
+          <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
+        </div>
+      </Tooltip>
+    );
+  }
+);
+
+function getNodeClasses(isRootNode) {
   let classes = locals.node;
-  if (node.data.isCentral) {
+  if (isRootNode) {
     return `${classes} ${locals.selected}`;
   }
   return classes;
 }
 
-function getContent(node, size) {
+function getContent(data, size) {
   if (size === 'sm') {
-    return <SmallNodeContent node={node} />;
+    return <SmallNodeContent data={data} />;
   } else if (size === 'mid') {
-    return <MidNodeContent node={node} />;
+    return <MidNodeContent data={data} />;
   }
-  return <LargeNodeContent node={node} />;
+  return <LargeNodeContent data={data} />;
 }
 
 function SmallNodeContent() {
   return <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />;
 }
 
-function MidNodeContent({ node }) {
+function MidNodeContent({ data }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id}
+      {data.label.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>{`719 18ms 0%`}</div>
   ];
 }
 
-function LargeNodeContent({ node }) {
+function LargeNodeContent({ data }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {node.id}
+      {data.label.slice(0, 20)}
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>
-      <SvgIcon type="crossed_circle" height={32} color="#BECCD2" />
+      <SparkChart />
     </div>,
     <div key={3} className={locals.line}>{`719 18ms 0%`}</div>
   ];

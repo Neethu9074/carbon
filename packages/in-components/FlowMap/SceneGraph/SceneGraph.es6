@@ -1,98 +1,211 @@
+import RoEmitter from 'roemitter';
+
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import layout from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
-import Connection from 'in-components/FlowMap/sceneObjects/Connection';
+import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
+import { diff } from 'in-services/arrayUtils';
 
 export default class SceneGraph {
-  constructor(serviceLocatorUid, data) {
+  constructor(serviceLocatorUid, rootNodeId) {
     this.serviceLocatorUid = serviceLocatorUid;
-    this.data = data;
+    this.rootNodeId = rootNodeId;
+    this.subscriptions = new Map();
+    this.signals = new RoEmitter('sceneGraphSignals');
+    this.pathFinder = new PathFinder(serviceLocatorUid, rootNodeId);
 
-    // apply test data
-    this.data = {
-      object: {
-        id: 'Shop',
-        isCentral: true,
-        incoming: [
-          { id: 'www.website.com' },
-          {
-            id: 'products',
-            incoming: [{ id: 'eum 1' }, { id: 'eum 2' }]
-          }
-        ],
-        outgoing: [
-          {
-            id: 'Web Service 1',
-            outgoing: [{ id: 'Database' }]
-          },
-          { id: 'Web Service 2' },
-          { id: 'Web Service 3' }
-        ]
-      }
-    };
-
-    this.nodesMap = new Map();
-    this.connectionsMap = new Map();
-
-    this.addNodeAndStructure(this.data.object);
-    this.relayout();
+    this.initSubscriptions();
   }
 
-  addNodeAndStructure(node) {
-    this.nodesMap.set(node.id, new Node(this.serviceLocatorUid, node));
-
-    node.incoming = node.incoming || [];
-    node.outgoing = node.outgoing || [];
-
-    this.addConnectedNodes(node, 'incoming', this.createIncomingConnection.bind(this));
-    this.addConnectedNodes(node, 'outgoing', this.createOutgoingConnection.bind(this));
+  init(rootNodeData) {
+    const rootNode = this.addOrUpdateNode(this.rootNodeId, rootNodeData);
+    rootNode.expandRight();
+    rootNode.expandLeft();
+    this.requestLayout();
   }
 
-  addConnectedNodes(node, direction, createNode) {
-    for (let i = 0; i < node[direction].length; i++) {
-      const connectedNode = node[direction][i];
-      this.addNodeAndStructure(connectedNode);
+  initSubscriptions() {
+    this.layoutSubscription = this.signals
+      .on('layout')
+      .debounce(200)
+      .subscribe(() => this.relayout());
+  }
 
-      const connection = createNode(node, connectedNode);
-      this.connectionsMap.set(connection.id, connection);
+  addOrUpdateNode(id, data) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const nodes = nodesServiceLocator.getNodes();
+    if (nodes.has(id)) {
+      const node = nodes.get(id);
+      node.setData(data);
+      return node;
+    }
+
+    const node = new Node(this.serviceLocatorUid, id);
+    node.setData(data);
+
+    nodesServiceLocator.addNode(node.id, node);
+
+    return node;
+  }
+
+  fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
+    const direction = 'incoming';
+    this.setupSubscriptionIfAbsent(id, direction, getIncomingDataForNodeIdCallback, (nodeId, result) => {
+      this.processResult(nodeId, result, direction);
+      this.requestLayout();
+    });
+  }
+
+  fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
+    const direction = 'outgoing';
+    this.setupSubscriptionIfAbsent(id, direction, getOutgoingDataForNodeIdCallback, (nodeId, result) => {
+      this.processResult(nodeId, result, direction);
+      this.requestLayout();
+    });
+  }
+
+  setupSubscriptionIfAbsent(id, direction, fetchData, processResult) {
+    if (!this.containsSubscription(id, direction)) {
+      const directionSubscriptions = this.subscriptions.get(id) || {};
+      directionSubscriptions[direction] = fetchData(id, this.pathFinder.find(id, direction)).subscribe(result =>
+        processResult(id, result)
+      );
+      this.subscriptions.set(id, directionSubscriptions);
     }
   }
 
-  createIncomingConnection(node, other) {
-    return new Connection(this.serviceLocatorUid, other, node);
+  containsSubscription(id, direction) {
+    const directionSubscriptions = this.subscriptions.get(id);
+    return directionSubscriptions && directionSubscriptions[direction] ? true : false;
   }
 
-  createOutgoingConnection(node, other) {
-    return new Connection(this.serviceLocatorUid, node, other);
+  processResult(nodeId, result, direction) {
+    const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    const node = currentNodes.get(nodeId);
+
+    const hasErrors = result.errors.length > 0;
+    node.hasErrorsInDirection(hasErrors, direction);
+    if (hasErrors) {
+      return;
+    }
+
+    const isLoading = result.progress.loading;
+    node.setIsLoadingData(isLoading, direction);
+    if (isLoading) {
+      return;
+    }
+
+    const nodesMap = this.getNodesAsMap(result.data);
+
+    const difference = diff(node[direction].map(node => node.id), Array.from(nodesMap.keys()));
+    const newNodes = difference.uniqueItemsB;
+    const presentNodes = difference.sharedItems;
+    const removedNodes = difference.uniqueItemsA;
+
+    this.addNewNodes(node, newNodes, nodesMap, direction);
+    node.setConnected(newNodes, direction);
+
+    this.updatePresentNodes(presentNodes, nodesMap);
+    this.removeNodes(removedNodes);
+  }
+
+  getNodesAsMap(nodes) {
+    const nodesMap = new Map();
+    for (let i = 0; i < nodes.length; i++) {
+      const nodeData = nodes[i];
+      nodesMap.set(nodeData.entity.id, nodeData);
+    }
+    return nodesMap;
+  }
+
+  addNewNodes(node, newNodes, nodesMap, direction) {
+    for (let i = 0; i < newNodes.length; i++) {
+      const nodeId = newNodes[i];
+      const nodesData = nodesMap.get(nodeId);
+      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData.entity);
+
+      if (direction === 'incoming') {
+        nodeSceneObject.setIsExpanded(true, 'outgoing');
+        if (nodesData.relatedNodesCount === 0) {
+          nodeSceneObject.setIsExpanded(true, direction);
+        }
+      } else {
+        if (nodesData.relatedNodesCount === 0) {
+          nodeSceneObject.setIsExpanded(true, direction);
+        }
+        nodeSceneObject.setIsExpanded(true, 'incoming');
+      }
+    }
+  }
+
+  updatePresentNodes(presentNodes, nodesMap) {
+    for (let i = 0; i < presentNodes.length; i++) {
+      const nodeId = presentNodes[i];
+      const nodesData = nodesMap.get(nodeId).entity;
+      this.addOrUpdateNode(nodeId, nodesData);
+    }
+  }
+
+  removeNodes(nodeIds) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    for (let i = 0; i < nodeIds.length; i++) {
+      nodesServiceLocator.removeNode(nodeIds[i]);
+    }
+  }
+
+  requestLayout() {
+    this.signals.emit('layout', true);
   }
 
   relayout() {
-    layout(this.data.object, this.nodesMap, this.connectionsMap);
+    const serviceLocators = getServiceLocators(this.serviceLocatorUid);
+    const nodesMap = serviceLocators.nodesServiceLocator.getNodes();
+    layout(nodesMap.get(this.rootNodeId), nodesMap);
 
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update();
+    this.updateConnections(nodesMap);
 
     getServiceLocators(this.serviceLocatorUid)
       .sceneServiceLocator.getScene()
       .requestRendering();
   }
 
-  disposeMap(map) {
-    const items = map.values();
-    for (const item of items) {
-      item.dispose();
+  updateConnections(nodesMap) {
+    const nodes = nodesMap.objects.values();
+    const connections = [];
+    for (const node of nodes) {
+      for (let i = 0; i < node.incoming.length; i++) {
+        connections.push({ from: nodesMap.get(node.incoming[i]), to: node });
+      }
+      for (let i = 0; i < node.outgoing.length; i++) {
+        connections.push({ from: node, to: nodesMap.get(node.outgoing[i]) });
+      }
     }
+    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.set(connections);
+    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update();
+  }
 
-    map.clear();
+  disposeOpenDataSubscriptionsForNodeId(id) {
+    this.disposeSubscription(id, 'incoming');
+    this.disposeSubscription(id, 'outgoing');
+  }
+
+  disposeSubscription(id, direction) {
+    const directionSubscriptions = this.subscriptions.get(id);
+    if (directionSubscriptions && directionSubscriptions[direction]) {
+      directionSubscriptions[direction].dispose();
+      delete directionSubscriptions[direction];
+    }
   }
 
   dispose() {
-    this.disposeMap(this.connectionsMap);
-    this.connectionsMap = null;
+    this.layoutSubscription.dispose();
+    this.layoutSubscription = null;
 
-    this.disposeMap(this.nodesMap);
-    this.nodesMap = null;
+    this.signals.dispose();
+    this.signals = null;
 
     this.serviceLocatorUid = null;
+    this.rootNodeId = null;
     this.data = null;
   }
 }

@@ -1,3 +1,4 @@
+import DataFetchingServiceLocator from 'in-components/FlowMap/serviceLocator/DataFetchingServiceLocator/DataFetchingServiceLocator';
 import ConnectionsServiceLocator from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsServiceLocator';
 import EventBusServiceLocator from 'in-components/FlowMap/serviceLocator/EventBusServiceLocator/EventBusServiceLocator';
 import SceneServiceLocator from 'in-components/FlowMap/serviceLocator/SceneServiceLocator/SceneServiceLocator';
@@ -5,12 +6,13 @@ import NodesServiceLocator from 'in-components/FlowMap/serviceLocator/NodesServi
 
 const locatorMap = new Map();
 
-export function createNewServiceLocators(id) {
+export function createNewServiceLocators(id, sceneGraph) {
   locatorMap.set(id, {
     sceneServiceLocator: new SceneServiceLocator(),
     nodesServiceLocator: new NodesServiceLocator(),
     eventBusServiceLocator: new EventBusServiceLocator(id),
-    connectionsServiceLocator: new ConnectionsServiceLocator()
+    connectionsServiceLocator: new ConnectionsServiceLocator(),
+    dataFetchingServiceLocator: new DataFetchingServiceLocator(sceneGraph)
   });
 }
 
@@ -25,6 +27,7 @@ export function removeServiceLocators(id) {
   locators.nodesServiceLocator.dispose();
   locators.eventBusServiceLocator.dispose();
   locators.connectionsServiceLocator.dispose();
+  locators.dataFetchingServiceLocator.dispose();
 
   locatorMap.delete(id);
 }

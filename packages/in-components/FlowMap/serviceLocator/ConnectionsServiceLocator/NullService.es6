@@ -1,7 +1,7 @@
 function noop() {}
 
 const nullService = {
-  addOrSet: noop,
+  set: noop,
   remove: noop,
   update: noop,
   dispose: noop

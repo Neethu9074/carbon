@@ -1,4 +1,3 @@
-import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import ParticleEmitter from 'in-components/FlowMap/misc/ParticleEmitter';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 
@@ -14,21 +13,14 @@ export default class Connection extends SceneObject {
 
   setFromAndToPositions(fromPosition, toPosition) {
     this.particleEmitter.setFromAndToPositions(fromPosition, toPosition);
+  }
 
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.addOrSet(this.id, [
-      fromPosition.x,
-      fromPosition.y,
-      fromPosition.z,
-      toPosition.x,
-      toPosition.y,
-      toPosition.z
-    ]);
+  updatePosition() {
+    this.setFromAndToPositions(this.from.position, this.to.position);
   }
 
   dispose() {
     super.dispose();
-
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.remove(this.id);
 
     this.particleEmitter.dispose();
     this.particleEmitter = null;

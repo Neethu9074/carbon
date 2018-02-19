@@ -15,7 +15,9 @@ export default function createNodesService() {
     return nodes;
   }
 
-  function dispose() {}
+  function dispose() {
+    nodes.clear();
+  }
 
   return {
     addNode,

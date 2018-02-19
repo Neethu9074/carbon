@@ -5,7 +5,9 @@ export default class BaseServiceLocator {
   }
 
   dispose() {
-    return this.service.dispose();
+    if (this.service.dispose) {
+      return this.service.dispose();
+    }
   }
 
   provide(_service) {

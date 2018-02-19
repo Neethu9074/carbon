@@ -1,27 +1,29 @@
 import React from 'react';
 
 import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
-import { serviceDashboard } from 'in-applications/navigation/paths';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import ServerFlowMap from 'in-components/FlowMap/ServerFlowMap';
-import { serviceId } from 'in-applications/navigation/matrix';
 import { timeframe$ } from 'in-stores/timeline';
-import connectTo from 'in-hoc/connectTo';
+import FlowMap from 'in-components/FlowMap';
 
-export default connectTo({ timeframe: timeframe$ }, function FlowMap({ location, timeframe }) {
-  const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
-  return (
-    <ServerFlowMap
-      serviceId={serviceID}
-      get={props => {
-        return getTableData(props);
-      }}
-      timeframe={timeframe}
-    />
-  );
-});
+export default function ServiceFlowMap({ data }) {
+  return <FlowMap rootNodeData={data} createDataFetchingService={createDataFetchingService} />;
+}
 
-function getTableData({ serviceId, query, timeframe }) {
+function createDataFetchingService() {
+  return {
+    getIncomingDataForNodeId,
+    getOutgoingDataForNodeId
+  };
+
+  function getIncomingDataForNodeId(id, path) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, path, 'INCOMING', timeframe));
+  }
+
+  function getOutgoingDataForNodeId(id, path) {
+    return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
+  }
+}
+
+function getNodeData(nodeId, path, direction, timeframe) {
   return getServiceFlowNodes({
     metrics: {
       endpoints: {
@@ -42,16 +44,15 @@ function getTableData({ serviceId, query, timeframe }) {
       }
     },
     filter: {
-      label: query,
+      label: '',
       timeframe
     },
 
     traversal: {
-      maxDepth: 2
+      maxDepth: 1
     },
 
-    path: [serviceId],
-
-    direction: 'INCOMING'
+    path,
+    direction
   });
 }
