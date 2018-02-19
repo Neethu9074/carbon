@@ -20,6 +20,8 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
     service: serviceId
   };
 
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <MaxWidthFullscreenContainer>
       <KpiSection>
@@ -85,17 +87,17 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
               metrics: {
                 calls: {
                   metric: 'calls',
-                  granularity: getChartGranularity(timeframe),
+                  granularity,
                   aggregation: 'SUM'
                 },
                 errors: {
                   metric: 'errors',
-                  granularity: getChartGranularity(timeframe),
+                  granularity,
                   aggregation: 'MEAN'
                 },
                 latency: {
                   metric: 'latency',
-                  granularity: getChartGranularity(timeframe),
+                  granularity,
                   aggregation: 'MEAN'
                 }
               }

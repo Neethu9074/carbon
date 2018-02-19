@@ -98,15 +98,17 @@ export default class Config {
     if (!axis.aggregation) {
       return;
     }
-    axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
-      getBlockSizeMillis({
-        windowSize: this.timeframe.windowSize,
-        maxDataPoints: axis.maxDataPoints,
-        minPixelPerBlock: axis.minPixelPerBlock,
-        width: this.width,
-        rollup: this.rollup
-      })
-    );
+    axis.dynamicCalculatedBlockSizeMillis =
+      this.minRollup ||
+      getPredefinedBlockSizeMillisForBlockSize(
+        getBlockSizeMillis({
+          windowSize: this.timeframe.windowSize,
+          maxDataPoints: axis.maxDataPoints,
+          minPixelsPerBlock: axis.minPixelsPerBlock || 1,
+          width: this.width,
+          rollup: this.rollup
+        })
+      );
   }
 
   determineSeriesColors() {

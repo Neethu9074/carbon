@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import getMetrics from 'in-subscription/application/getMetrics';
-import { getResolvedTimeframe } from 'in-applications/metrics';
 import { deepCopy } from 'in-services/util/object';
 import connectTo from 'in-hoc/connectTo';
 import invariant from 'invariant';
@@ -89,6 +89,7 @@ function wrapProps(result, props) {
 
   propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
+  propsClone.minRollup = propsClone.minRollup || getChartGranularity(propsClone.timeframe);
 
   //copying over the aggregation types
   propsClone.y1.aggregation = propsClone.metricsConfiguration.metrics[propsClone.y1.metricIds[0]].aggregation;
