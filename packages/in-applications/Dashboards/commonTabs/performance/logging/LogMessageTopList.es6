@@ -56,7 +56,11 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
 }
 
 function Label({ item }) {
-  return <Fragment>{item.message}</Fragment>;
+  return (
+    <Fragment>
+      {item.level}: {item.message}
+    </Fragment>
+  );
 }
 
 function Metric({ formattedMetricValue }) {

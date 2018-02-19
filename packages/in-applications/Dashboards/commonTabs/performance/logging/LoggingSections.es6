@@ -11,7 +11,6 @@ import LogMessageTopList from './LogMessageTopList';
 import { compare } from 'in-services/util/number';
 import Link from 'in-components/Link';
 
-// eslint-disable-next-line no-unused-vars
 export default function LoggingSections({ applicationId, serviceId, timeframe, data }) {
   return (
     <div>
@@ -21,10 +20,10 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
           timeframe={timeframe}
           y1={{
             renderer: Renderer.stackedArea,
-            labels: ['CRITICAL', 'ERROR', 'WARN'],
-            colors: ['#f00', '#f80', '#ee0'],
+            labels: ['ERROR', 'WARN'],
+            colors: ['#f00', '#f90'],
             formatter: number,
-            metrics: [generateMetrics(timeframe), generateMetrics(timeframe), generateMetrics(timeframe)]
+            metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]
           }}
         />
       </DashboardSection>

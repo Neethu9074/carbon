@@ -48,15 +48,15 @@ export default class extends React.Component {
         <KpiSection>
           {/* DOM structure and CSS yoinked from packages/in-components/Kpis/AppKpiPresenter for now */}
           <div className={locals.kpi}>
-            <div className={locals.metric}>{number.detailed(statmentData.calls)}</div>
+            <div className={locals.metric}>{number.detailed(statmentData.metrics.calls)}</div>
             <div>Calls</div>
           </div>
           <div className={locals.kpi}>
-            <div className={locals.metric}>{millis.detailed(statmentData.latency)}</div>
+            <div className={locals.metric}>{millis.detailed(statmentData.metrics.latency)}</div>
             <div>Latency</div>
           </div>
           <div className={locals.kpi}>
-            <div className={locals.metric}>{percentage.detailed(statmentData.errors)}</div>
+            <div className={locals.metric}>{percentage.detailed(statmentData.metrics.errors)}</div>
             <div>Errors</div>
           </div>
         </KpiSection>
