@@ -43,3 +43,4 @@ import './newComponents/DotStory';
 import './newComponents/KpiCardStory';
 import './newComponents/PaginationStory';
 import './newComponents/TopListCardStory';
+import './newComponents/ViewSwitcherStory';

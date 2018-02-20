@@ -1,11 +1,8 @@
 import React from 'react';
 
-import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
-import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -16,13 +13,10 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe, location }) {
+export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe }) {
   return (
-    <Sticky header={<BreadcrumbHeader />}>
-      <Breadcrumbs items={applicationBreadcrumbs(location, { timeframe })} />
-
+    <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer>
-        <ViewSwitcher />
         <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
       </MaxWidthFullscreenContainer>
     </Sticky>

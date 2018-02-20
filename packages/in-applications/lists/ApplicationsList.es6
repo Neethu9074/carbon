@@ -2,12 +2,9 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
-import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
-import getApplications from 'in-subscription/application/getApplications';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import getApplications from 'in-subscription/application/getApplications';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import getMetrics from 'in-subscription/application/getMetrics';
@@ -39,12 +36,10 @@ export default connectTo(
       )
       .map(result => result.data != null && result.data.appCount[0][1] < 1)
   },
-  function ApplicationsList({ timeframe, location, showNoApplicationsDefinedIndicator }) {
+  function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
     return (
-      <Sticky header={<BreadcrumbHeader />}>
-        <Breadcrumbs items={applicationBreadcrumbs(location, { timeframe })} />
+      <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
-          <ViewSwitcher />
           <Button
             kind="default"
             key="createApplication"
