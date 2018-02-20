@@ -16,7 +16,19 @@ export type Filter = {
   timeframe: Timeframe
 };
 
-export type Type = 'WEB' | 'RPC' | 'BATCH' | 'SDK' | 'MESSAGING' | 'DATABASE' | 'WEBSITE';
+/* The front end equivalent of com.instana.ui.model.application.EndpointType in backend/ui-model. */
+export type Type =
+  // Application
+  | 'RPC'
+  | 'BATCH'
+  | 'SDK'
+  | 'HTTP'
+  // Middleware
+  | 'DATABASE'
+  | 'MESSAGING'
+  // Website monitoring
+  | 'PAGE'
+  | 'PAGE_RESOURCE';
 
 export type Application = {
   id: string,
@@ -104,7 +116,12 @@ export type GetServiceQuery = {
 /* The operation that executes the query for a single service and returns the result as an observable. */
 export type GetService = (query: GetServiceQuery) => Observable<Result<Service>>;
 
-/* A query specification that yields a list of applications. */
+/* A query specification that yields the list of endpoint types (for a given service or application). */
+export type GetEndpointTypesQuery = {
+  filter: Filter
+};
+
+/* A query specification that yields a list of endpoints. */
 export type GetEndpointsQuery = {
   filter: Filter,
   pagination: PaginatedQuery,

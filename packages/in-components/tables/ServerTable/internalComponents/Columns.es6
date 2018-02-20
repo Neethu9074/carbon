@@ -8,6 +8,7 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
   return (
     <tr className={locals.columns}>
       {columnDefinitions.map(columnDefinition => {
+        const isSortableColumn = columnDefinition.sortable !== false;
         const isSortedByThisColumn = orderBy === columnDefinition.id;
         return (
           <th
@@ -16,16 +17,17 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
           >
             <div className={locals.column}>
               {columnDefinition.label || columnDefinition.id}
-              {isSortedByThisColumn ? (
-                <SvgIcon
-                  className={locals.icon}
-                  type={orderDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
-                  height={6}
-                  color="#16363E"
-                />
-              ) : (
-                <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
-              )}
+              {isSortableColumn &&
+                (isSortedByThisColumn ? (
+                  <SvgIcon
+                    className={locals.icon}
+                    type={orderDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
+                    height={6}
+                    color="#16363E"
+                  />
+                ) : (
+                  <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
+                ))}
             </div>
           </th>
         );

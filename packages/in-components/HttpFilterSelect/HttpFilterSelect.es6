@@ -10,7 +10,7 @@ const HTTP_STATUS_CODES = [
   { label: '4xx', value: '4xx' },
   { label: '5xx', value: '5xx' }
 ];
-const HTTP_VERBS = [
+const HTTP_METHODS = [
   { label: 'GET', value: 'GET' },
   { label: 'POST', value: 'POST' },
   { label: 'PUT', value: 'PUT' },
@@ -25,7 +25,7 @@ export default class extends React.Component {
     super(props);
     this.state = {
       statusCodes: [],
-      verbs: []
+      methods: []
     };
   }
 
@@ -33,19 +33,39 @@ export default class extends React.Component {
     this.setState(previousState => {
       return {
         statusCodes: statusCodes,
-        verbs: previousState.verbs
+        methods: previousState.methods
       };
     });
+    if (typeof this.props.onSelectedStatusChange === 'function') {
+      this.props.onSelectedStatusChange(this.preProcessForListeners(statusCodes));
+    }
   };
 
-  handleSelectedVerbChange = verbs => {
+  handleSelectedMethodsChange = methods => {
     this.setState(previousState => {
       return {
         statusCodes: previousState.statusCodes,
-        verbs: verbs
+        methods: methods
       };
     });
+    if (typeof this.props.onSelectedMethodsChange === 'function') {
+      this.props.onSelectedMethodsChange(this.preProcessForListeners(methods));
+    }
   };
+
+  preProcessForListeners(value) {
+    if (typeof value === 'string') {
+      if (value.trim().length === 0) {
+        // currently no option is selected, send null to listener to reset associated filter
+        return null;
+      } else {
+        // send selected options as an array of strings
+        return value.split(',');
+      }
+    } else {
+      return value;
+    }
+  }
 
   render() {
     return (
@@ -70,11 +90,11 @@ export default class extends React.Component {
             <Select
               closeOnSelect
               multi
-              onChange={this.handleSelectedVerbChange}
-              options={HTTP_VERBS}
+              onChange={this.handleSelectedMethodsChange}
+              options={HTTP_METHODS}
               placeholder="Filter HTTP methods"
               simpleValue
-              value={this.state.verbs}
+              value={this.state.methods}
             />
           </span>
         </span>
