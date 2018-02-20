@@ -1,0 +1,9 @@
+:local {
+  .value {
+    font-size: 2.938rem;
+  }
+
+  .suffix {
+    font-size: 1.5rem;
+  }
+}
