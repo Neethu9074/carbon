@@ -1,0 +1,171 @@
+import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
+
+import TopListCard from 'in-new-components/TopListCard';
+import { millis } from 'in-services/formatters/number';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import Link from 'in-components/Link';
+import Root from '../_helpers/Root';
+
+const onChangeMetric = action('onChangeMetric');
+
+const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
+const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
+
+storiesOf('newComponents/TopListcard', module).add('default', () => <Default />);
+
+function Default() {
+  return (
+    <Root>
+      <Row>
+        <Col lg={6}>
+          <TopListItem
+            title="Indeterminate loading"
+            result={{
+              progress: {
+                loading: true
+              },
+              errors: []
+            }}
+          />
+        </Col>
+        <Col lg={6}>
+          <TopListItem
+            title="Determinate loading"
+            result={{
+              progress: {
+                loading: true,
+                percentage: 0.7
+              },
+              errors: []
+            }}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <TopListItem
+            title="Server error"
+            result={{
+              progress: {
+                loading: false
+              },
+              errors: [
+                {
+                  message: 'Unexpected server error',
+                  code: 'SERVER'
+                }, {
+                  message: 'There was a weird validation error: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium voluptates eius commodi aut, hic amet porro ab, nostrum id tenetur, repellat repellendus aliquid totam a facere. Officiis labore, aspernatur dolor.',
+                  code: 'VALIDATION'
+                }
+              ]
+            }}
+          />
+        </Col>
+        <Col lg={6}>
+          <TopListItem
+            title="Client error"
+            result={{
+              progress: {
+                loading: false
+              },
+              errors: [
+                {
+                  message: 'Unexpected client error',
+                  code: 'CLIENT'
+                }
+              ]
+            }}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <TopListItem
+            title="No data found"
+            result={{
+              progress: {
+                loading: false
+              },
+              errors: [],
+              data: {
+                items: [],
+                page: 1,
+                pageSize: 5,
+                totalHits: 0
+              }
+            }}
+          />
+        </Col>
+        <Col lg={6}>
+          <TopListItem
+            title="Top Endpoints"
+            result={{
+              progress: {
+                loading: false
+              },
+              errors: [],
+              data: {
+                items: [
+                  {
+                    label: 'productdb',
+                    metrics: {
+                      metric: [[0, 234]]
+                    }
+                  },
+                  {
+                    label: 'shop',
+                    metrics: {
+                      metric: [[0, 128]]
+                    }
+                  },
+                  {
+                    label: 'recommendations',
+                    metrics: {
+                      metric: [[0, 64]]
+                    }
+                  }
+                ],
+                page: 1,
+                pageSize: 5,
+                totalHits: 3
+              }
+            }}
+          />
+        </Col>
+      </Row>
+    </Root>
+  );
+}
+
+function TopListItem({ title = 'Top Something', result }) {
+  return (
+    <TopListCard
+      title={title}
+      result={result}
+      metrics={metrics}
+      labels={labels}
+      onChangeMetric={onChangeMetric}
+      selectedMetric="selfLatency"
+      selectedMetricFormatter={millis.compact}
+      renderViewAll={ViewAll}
+      renderLabel={Label}
+      renderMetric={Metric}
+    />
+  );
+}
+
+function ViewAll() {
+  return <Link href="https://instana.com">View All</Link>;
+}
+
+function Label({ item }) {
+  return <Link href="https://instana.com">{item.label}</Link>;
+}
+
+function Metric({ formattedMetricValue }) {
+  return formattedMetricValue;
+}

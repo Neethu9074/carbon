@@ -23,4 +23,8 @@
   .body {
     padding: 16px;
   }
+
+  .bodyWithoutPadding {
+    padding: 0;
+  }
 }

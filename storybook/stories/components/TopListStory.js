@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react';
 import React from 'react';
 
 import TopListPresenter from 'in-components/TopList/TopListPresenter';
-import { ms } from 'in-services/formatters/number';
+import { millis } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 import Root from '../_helpers/Root';
 
@@ -81,7 +81,7 @@ function DefaultTopListConfig({result}) {
         labels={labels}
         onChangeMetric={onChangeMetric}
         selectedMetric="selfLatency"
-        selectedMetricFormatter={ms.compact}
+        selectedMetricFormatter={millis.compact}
         renderViewAll={ViewAll}
         renderLabel={Label}
         renderMetric={Metric}

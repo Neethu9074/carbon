@@ -28,7 +28,7 @@ if (isDev) {
   getLocalIdent = function(context, localIdentName, localName) {
     const file = (context.resourcePath || context.context)
       .substring(componentPathPrefix.length)
-      .replace(/\/|\\/g, '_')
+      .replace(/\/|\\|\./g, '_')
       .replace(/^_/, '')
       .replace(/_$/, '');
     return `${file}___${localName}`;

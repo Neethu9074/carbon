@@ -41,3 +41,4 @@ import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
 import './newComponents/DotStory';
 import './newComponents/PaginationStory';
+import './newComponents/TopListCardStory';
