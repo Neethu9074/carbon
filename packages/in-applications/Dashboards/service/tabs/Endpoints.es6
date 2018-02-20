@@ -4,8 +4,8 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
+import { getEndpointsLabel } from 'in-applications/typesTranslation/service';
 import { number, ms, percentage } from 'in-services/formatters/number';
-import translation from 'in-applications/typesTranslation/service';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -28,7 +28,7 @@ function showTypes(types, appId, serviceID, timeframe, data) {
   }
   return types.map(endpointType => (
     <Fragment key={endpointType}>
-      <h3>{translation(endpointType)}</h3>
+      <h3>{getEndpointsLabel(endpointType)}</h3>
       <ServerTable
         get={getTableData}
         applicationId={appId}

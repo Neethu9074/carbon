@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -44,5 +45,9 @@ export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ 
 });
 
 function Header({ result }) {
-  return <BasicApplicationDashboardHeader result={result} />;
+  return <BasicApplicationDashboardHeader type="Service" result={result} renderSubTypes={SubTypes} />;
+}
+
+function SubTypes({ result }) {
+  return <EndpointTypeBadgeList types={result.data.types} />;
 }

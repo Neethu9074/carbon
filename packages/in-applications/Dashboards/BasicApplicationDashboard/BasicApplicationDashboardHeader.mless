@@ -1,24 +1,40 @@
 :local {
-  .basicDashboardHeader {
-    display: flex;
-
-    align-items: center;
-    min-height: 3.375rem;
-    max-height: 3.375rem;
-    overflow: hidden;
-
-    padding-top: 0.5rem;
+  .header {
+    padding: 1.65rem 0 1.175rem;
   }
 
   .type {
-    margin-bottom: 0.5rem;
-    color: #5229bd;
-    font-weight: bold;
-    text-transform: uppercase;
+    display: block;
+    margin: 0 0 4px;
+
+    font-size: .875rem;
+    color: #16363E;
+    font-weight: 600;
   }
 
   .label {
-    font-weight: bold;
-    font-size: 1rem;
+    margin: 0 1rem 0 0;
+
+    font-weight: 600;
+    font-size: 1.625rem;
+    color: #0C2227;
+  }
+
+  .labelAligned {
+    display: flex;
+    align-items: center;
+  }
+
+  .typeSkeleton {
+    width: 6.25rem;
+    height: 1rem;
+    margin: 0 0 .25rem;
+    display: block;
+  }
+
+  .labelSkeleton {
+    width: 12.5rem;
+    height: 1.813rem;
+    display: block;
   }
 }

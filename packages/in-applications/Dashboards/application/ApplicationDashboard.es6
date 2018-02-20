@@ -14,8 +14,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import locals from './ApplicationDashboard.mless';
-
 export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
   const props = {
     applicationId: getMatrixParameter(location, applicationDashboard, applicationId),
@@ -49,12 +47,10 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
 
 function Header({ result }) {
   return (
-    <BasicApplicationDashboardHeader result={result} className={locals.header}>
-      <div>
-        <Link href={'#'} className={locals.configuration}>
-          Configuration <SvgIcon type="gear" width={16} height={16} color="#06b7ba" />
-        </Link>
-      </div>
+    <BasicApplicationDashboardHeader type="Application" result={result}>
+      <Link href={'#'}>
+        Configuration <SvgIcon type="gear" width={16} height={16} color="#06b7ba" />
+      </Link>
     </BasicApplicationDashboardHeader>
   );
 }

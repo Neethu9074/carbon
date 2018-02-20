@@ -13,18 +13,20 @@ export default connectTo(
   }),
   function TabView({ result, tabs, HeaderComponent, location, props }) {
     return (
-      <Sticky
-        header={
-          <div>
-            <BreadcrumbHeader />
-            <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
-          </div>
-        }
-      >
-        <MaxWidthFullscreenContainer>
-          <Switch tabs={tabs} result={result} location={location} props={props} />
-        </MaxWidthFullscreenContainer>
-      </Sticky>
+      <section>
+        <Sticky
+          header={
+            <div>
+              <BreadcrumbHeader />
+              <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
+            </div>
+          }
+        >
+          <MaxWidthFullscreenContainer>
+            <Switch tabs={tabs} result={result} location={location} props={props} />
+          </MaxWidthFullscreenContainer>
+        </Sticky>
+      </section>
     );
   }
 );

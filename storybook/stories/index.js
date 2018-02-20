@@ -39,6 +39,7 @@ import './newComponents/BadgeStory';
 import './newComponents/CardStory';
 import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
+import './newComponents/DashboardHeaderStory';
 import './newComponents/DotStory';
 import './newComponents/KpiCardStory';
 import './newComponents/PaginationStory';

@@ -11,10 +11,26 @@ const endpointTranslation = {
   WEBSITE: 'Pages'
 };
 
-export default function translate(type) {
-  if (__DEV__) {
-    invariant(endpointTranslation[type], `Unknown service type ${type}`);
-  }
+const colorTranslation = {
+  BATCH: '#45d1f7',
+  DATABASE: '#eb731e',
+  HTTP: '#318af6',
+  MESSAGING: '#89ef15',
+  RPC: '#4e94c6',
+  SDK: '#ecbb18',
+  WEBSITE: '#f054f2'
+};
 
+export function getEndpointsLabel(type) {
+  if (__DEV__) {
+    invariant(endpointTranslation[type], `Unknown endpoint type ${type}`);
+  }
   return endpointTranslation[type] || `${type} Endpoints`;
+}
+
+export function getColor(type) {
+  if (__DEV__) {
+    invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
+  }
+  return colorTranslation[type] || colorTranslation.sdk;
 }

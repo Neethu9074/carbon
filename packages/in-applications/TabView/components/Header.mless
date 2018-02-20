@@ -1,7 +1,7 @@
 :local {
   .header {
     background: white;
-    border-bottom: 2px solid #cbd6dc;
+    border-bottom: 1px solid #D5DFE4;
   }
 
   .tabList {
@@ -16,7 +16,11 @@
 
   .link {
     text-decoration: none;
-    color: #4d5c5d;
+    color: #698189;
+    padding-bottom: 0.5rem;
+    display: block;
+    font-weight: 500;
+    cursor: pointer;
 
     &:hover {
       color: black;
@@ -26,16 +30,14 @@
 
   .tab {
     margin-right: 1rem;
-    padding-bottom: 0.5rem;
     margin-bottom: -2px;
-    cursor: pointer;
   }
 
   .selected {
-    border-bottom: 2px solid #5229bd;
+    border-bottom: 3px solid #1FB7B9;
   }
 
   .selectedLink {
-    color: #5229bd;
+    color: #16363E;
   }
 }
