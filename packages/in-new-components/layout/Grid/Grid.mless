@@ -19,6 +19,9 @@
     min-height: 1px;
     padding-right: @grid__gutter / 2px;
     padding-left: @grid__gutter / 2px;
+
+    // ensure that there is vertical space between columns when no grid styles applies (due to media queries)
+    margin-top: @grid__gutter * 1px;
   }
 
   .xs--auto { .auto(); }
@@ -55,6 +58,9 @@
     flex-basis: 0;
     flex-grow: 1;
     max-width: 100%;
+
+    // cell style applies - disable vertical margin
+    margin-top: 0;
   }
 
   .cell(@i) {
@@ -62,6 +68,9 @@
     flex-shrink: 0;
     flex-basis: (@i * 100% / @grid__columns);
     max-width: (@i * 100% / @grid__columns);
+
+    // cell style applies - disable vertical margin
+    margin-top: 0;
   }
 
 
