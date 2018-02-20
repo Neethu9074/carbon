@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
 import TopListPresenter from 'in-components/TopList/TopListPresenter';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { ms, number } from 'in-services/formatters/number';
-import { rebuildUrlAndAppend } from './rebuildUrl';
 import TopList from 'in-components/TopList';
 import Link from 'in-components/Link';
 
@@ -12,7 +12,7 @@ const labels = ['Latency', 'Calls', 'Error Rate'];
 const aggregations = ['MEAN', 'MEAN', 'MEAN'];
 const formatters = [ms.compact, number.compact, number.compact];
 
-export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeframe, location }) {
+export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
       metrics={metrics}
@@ -24,7 +24,7 @@ export default function DatabaseStatementTopList({ applicationId, serviceId, end
       getMetricValueFromItem={getMetricValueFromItem}
       render={TopListPresenter}
       renderViewAll={false}
-      renderLabel={label(location)}
+      renderLabel={Label}
       renderMetric={Metric}
       timeframe={timeframe}
       applicationId={applicationId}
@@ -57,14 +57,18 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
   });
 }
 
-function label(location) {
-  return function Label({ item }) {
-    return (
-      <Fragment>
-        <Link href={rebuildUrlAndAppend(location, `database/statements/${item.id}`)}>{item.statement}</Link>
-      </Fragment>
-    );
-  };
+function Label({ item }) {
+  return (
+    <Fragment>
+      <Link
+        href$={getModifiedUrlStream(params => {
+          params.pathname += `/database/statements/${item.id}`;
+        })}
+      >
+        {item.statement}
+      </Link>
+    </Fragment>
+  );
 }
 
 function Metric({ formattedMetricValue }) {

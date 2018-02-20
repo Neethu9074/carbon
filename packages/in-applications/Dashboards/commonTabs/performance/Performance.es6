@@ -64,12 +64,12 @@ export default class extends React.Component {
           />
           <Route
             path={`*/performance`}
-            render={routeProps => {
+            render={() => {
               return (
                 <div>
                   <CommonPerformanceSections {...props} />
                   {hasHttpEndpoints(types) && <HttpSections {...props} />}
-                  {hasDatabaseEndpoints(types) && <DatabaseSections {...props} {...routeProps} />}
+                  {hasDatabaseEndpoints(types) && <DatabaseSections {...props} />}
                   <LoggingSections {...props} />
                 </div>
               );

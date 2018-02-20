@@ -5,8 +5,8 @@ import getDatabaseStatement from 'in-subscription/application/getDatabaseStateme
 import { millis, number, percentage } from 'in-services/formatters/number';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { KpiSection } from 'in-components/Kpis/KpiSection';
-import { rebuildUrlAndReplace } from './rebuildUrl';
 import Title from 'in-components/Title';
 
 import connectTo from 'in-hoc/connectTo';
@@ -17,24 +17,26 @@ export default connectTo(
   props => ({
     statementResult: getDatabaseStatement({ id: props.match.params.statementId })
   }),
-  function DatabaseStatementDetail({ statementResult, location }) {
+  function DatabaseStatementDetail({ statementResult }) {
     return (
       <div>
         {(!statementResult || statementResult.loading) && 'Loading...'}
         {statementResult && !!statementResult.error && `Error: ${statementResult.error}`}
-        {statementResult && !!statementResult.data && renderStatementData(statementResult.data, location)}
+        {statementResult && !!statementResult.data && renderStatementData(statementResult.data)}
       </div>
     );
   }
 );
 
-function renderStatementData(statmentData, location) {
+function renderStatementData(statmentData) {
   return (
     <MaxWidthFullscreenContainer>
       <Title title="Database Statement Details" />
       <BackButton
         label="Back"
-        href={rebuildUrlAndReplace(location, path => path.replace(/\/database\/statements\/.*/, ''))}
+        href$={getModifiedUrlStream(params => {
+          params.pathname = params.pathname.replace(/\/database\/statements\/.*/, '');
+        })}
       />
 
       <DashboardTile title="Statement Metrics">
