@@ -2,6 +2,8 @@ import React from 'react';
 
 import Button from 'in-components/Button';
 
+// TODO Use in-new-components/TopList everywhere and delete this! There is no 1.0 TopList.
+
 export default function TopListPresenter(props) {
   const {
     result,

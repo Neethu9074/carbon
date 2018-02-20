@@ -3,6 +3,8 @@ import { compose } from 'recompose';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import connect from 'in-hoc/connectTo';
 
+// TODO Use in-new-components/TopList everywhere and delete this! There is no 1.0 TopList.
+
 // Sample Usage
 // <TopList metrics={['latency', 'selfLatency', 'calls', 'errors']}
 //          labels={['Elapsed Latency', 'Self Latency', 'Calls', 'Errors']}

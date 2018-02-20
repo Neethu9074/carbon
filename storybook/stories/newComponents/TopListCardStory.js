@@ -2,9 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
+import { Row, Col } from 'in-new-components/layout/Grid';
 import TopListCard from 'in-new-components/TopListCard';
 import { millis } from 'in-services/formatters/number';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 import Root from '../_helpers/Root';
 
@@ -102,7 +103,7 @@ function Default() {
         </Col>
         <Col lg={6}>
           <TopListItem
-            title="Top Endpoints"
+            title={"Top Endpoints"}
             result={{
               progress: {
                 loading: false
@@ -163,7 +164,12 @@ function ViewAll() {
 }
 
 function Label({ item }) {
-  return <Link href="https://instana.com">{item.label}</Link>;
+  return (
+    <span>
+      <SvgIcon type="application" width={16} height={16} /> &nbsp;
+      <Link href="https://instana.com">{item.label}</Link>
+    </span>
+  );
 }
 
 function Metric({ formattedMetricValue }) {

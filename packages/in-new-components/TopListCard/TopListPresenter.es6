@@ -1,7 +1,6 @@
 import React from 'react';
 import { chain } from 'lodash';
 
-import Button from 'in-components/Button';
 import TopListRow from './TopListRow';
 
 import locals from './TopListPresenter.mless';
@@ -9,10 +8,6 @@ import locals from './TopListPresenter.mless';
 export default function TopListPresenter(props) {
   const {
     result,
-    metrics,
-    labels,
-    onChangeMetric,
-    selectedMetric,
     selectedMetricFormatter,
     renderViewAll,
     renderLabel,
@@ -33,22 +28,17 @@ export default function TopListPresenter(props) {
     .map(getMetricValueFromItem)
     .max();
 
+  /*
+  TODOs:
+  - Font
+  - Dimensions, margins etc.
+  - Put selectors in card header
+  - Style view all link
+  - Rounded corners for bars
+  */
+
   return (
     <div>
-      <ul>
-        {metrics.map((metric, i) => (
-          <li key={metric}>
-            <Button
-              size="xs"
-              kind={selectedMetric === metric ? 'primary' : 'secondary'}
-              onClick={() => onChangeMetric(metric)}
-            >
-              {labels[i]}
-            </Button>
-          </li>
-        ))}
-      </ul>
-
       <div className={locals.topList}>
         <ol>
           {getItemsFromResult(result).map((item, i) => {

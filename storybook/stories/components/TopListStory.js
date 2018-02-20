@@ -12,6 +12,7 @@ const onChangeMetric = action('onChangeMetric');
 const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
 const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 
+// TODO Delete completely? There's no 1.0 TopList component.
 storiesOf('components/TopList', module)
   .add('pending', () => <DefaultTopListConfig result={{
     progress: {

@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
+import SearchField from 'in-components/tables/ServerTable/internalComponents/SearchField';
 import {Row, Col} from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import Root from '../_helpers/Root';
@@ -14,6 +15,7 @@ const exampleCard = (
 
 storiesOf('newComponents/Card', module)
   .add('Single Card', () => <SingleCard />)
+  .add('With additional header content', () => <WithAdditionalHeaderContent />)
   .add('Cards in a Grid', () => <GridCard />);
 
 function SingleCard() {
@@ -23,6 +25,18 @@ function SingleCard() {
     </Root>
   );
 }
+
+function WithAdditionalHeaderContent() {
+  const searchField = <SearchField/>;
+  return (
+    <Root>
+      <Card title="A Card" header={searchField} withoutPadding>
+        {lorem}
+      </Card>
+    </Root>
+  );
+}
+
 function GridCard() {
   return (
     <Root>
