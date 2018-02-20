@@ -17,17 +17,12 @@ export default connectTo(
         header={
           <div>
             <BreadcrumbHeader />
+            <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
           </div>
         }
       >
         <MaxWidthFullscreenContainer>
-          <Sticky
-            header={
-              <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
-            }
-          >
-            <Switch tabs={tabs} result={result} location={location} props={props} />
-          </Sticky>
+          <Switch tabs={tabs} result={result} location={location} props={props} />
         </MaxWidthFullscreenContainer>
       </Sticky>
     );

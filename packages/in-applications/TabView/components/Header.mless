@@ -1,10 +1,7 @@
 :local {
   .header {
-    display: flex;
-    flex-direction: column;
     background: white;
-
-    height: 5rem;
+    border-bottom: 2px solid #cbd6dc;
   }
 
   .tabList {
@@ -14,7 +11,6 @@
     margin: 0;
     padding: 0;
 
-    border-bottom: 2px solid #cbd6dc;
     font-size: 14px;
   }
 

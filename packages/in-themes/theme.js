@@ -42,6 +42,7 @@ module.exports = {
       '#965742'
     ]
   },
+  maxWidth: 1400,
   grid: {
     gutter: 24,
     columns: 12

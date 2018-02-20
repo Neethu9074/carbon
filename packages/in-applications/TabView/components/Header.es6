@@ -1,6 +1,7 @@
 import React from 'react';
 
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/HorizontalIndicator';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Link from 'in-components/Link';
@@ -10,10 +11,12 @@ import locals from './Header.mless';
 export default function Header({ tabs, result, HeaderComponent, location, props }) {
   return (
     <div className={locals.header}>
-      <HeaderComponent result={result} />
-      <ul className={locals.tabList}>
-        {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
-      </ul>
+      <MaxWidthFullscreenContainer>
+        <HeaderComponent result={result} />
+        <ul className={locals.tabList}>
+          {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
+        </ul>
+      </MaxWidthFullscreenContainer>
       <HorizontalIndicator progress={result.progress} />
     </div>
   );

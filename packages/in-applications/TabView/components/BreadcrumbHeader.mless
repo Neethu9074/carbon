@@ -1,22 +1,19 @@
+@import '~in-themes/active.less';
+
 :local {
   .breadcrumbHeader {
-    display: flex;
-    align-items: center;
-
-    height: 3.125rem;
-    padding: 0 0.625rem;
-    margin: 0;
-    list-style: none;
-
     background: #5229bd;
     color: #fff;
     overflow: hidden;
   }
 
   .container {
-    margin-left: 0.9rem;
+    max-width: @max-width * 1px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     align-items: center;
+    height: 3.125rem;
    }
 
   .chevron {
