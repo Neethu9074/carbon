@@ -8,7 +8,7 @@ import locals from './BreadcrumbHeader.mless';
 
 const separator = (
   <span className={locals.chevron}>
-    <SvgIcon type="chevron_right" height={9} color="#E2E9EC" />
+    <SvgIcon type="chevron_right" height={9} color="#698189" />
   </span>
 );
 
