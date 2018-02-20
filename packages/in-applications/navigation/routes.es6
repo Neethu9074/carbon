@@ -5,7 +5,6 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 
 // the following components are all part of the same bundle.
 // Bundle Name: applications
-import DatabaseStatementDetail from 'promise-loader?global,applications!in-applications/Dashboards/commonTabs/performance/database/DatabaseStatementDetail.es6';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
@@ -17,8 +16,7 @@ import {
   applicationDashboard,
   servicesList,
   serviceDashboard,
-  endpointDashboard,
-  databaseStatementDetailsPath
+  endpointDashboard
 } from 'in-applications/navigation/paths';
 
 export default (
@@ -28,6 +26,5 @@ export default (
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
-    <Route path={databaseStatementDetailsPath} component={createAsyncViewComponent(DatabaseStatementDetail)} />
   </Fragment>
 );

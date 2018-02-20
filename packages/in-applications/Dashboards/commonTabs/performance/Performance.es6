@@ -1,8 +1,11 @@
+import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
+import DatabaseStatementDetail from './database/DatabaseStatementDetail';
 import DatabaseSections from './database/DatabaseSections';
 import LoggingSections from './logging/LoggingSections';
 import HttpSections from './http/HttpSections';
@@ -47,31 +50,45 @@ export default class extends React.Component {
     this.setState({ types: [] });
   }
 
-  hasHttpEndpoints() {
-    return this.hasType('HTTP');
-  }
-
-  hasDatabaseEndpoints() {
-    return this.hasType('DATABASE');
-  }
-
-  hasType(type) {
-    return this.state.types.indexOf(type) >= 0;
-  }
-
   render() {
-    const { applicationId, serviceId, timeframe, data } = this.props;
+    const props = this.props;
+    const types = this.state.types;
     return (
       <MaxWidthFullscreenContainer>
-        <CommonPerformanceSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-        {this.hasHttpEndpoints() && (
-          <HttpSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-        )}
-        {this.hasDatabaseEndpoints() && (
-          <DatabaseSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-        )}
-        <LoggingSections applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} data={data} />
+        <Switch>
+          <Route
+            path={`*/performance/database/statements/:statementId`}
+            render={routeProps => {
+              return <DatabaseStatementDetail {...props} {...routeProps} />;
+            }}
+          />
+          <Route
+            path={`*/performance`}
+            render={routeProps => {
+              return (
+                <div>
+                  <CommonPerformanceSections {...props} />
+                  {hasHttpEndpoints(types) && <HttpSections {...props} />}
+                  {hasDatabaseEndpoints(types) && <DatabaseSections {...props} {...routeProps} />}
+                  <LoggingSections {...props} />
+                </div>
+              );
+            }}
+          />
+        </Switch>
       </MaxWidthFullscreenContainer>
     );
   }
+}
+
+function hasHttpEndpoints(types) {
+  return hasType('HTTP', types);
+}
+
+function hasDatabaseEndpoints(types) {
+  return hasType('DATABASE', types);
+}
+
+function hasType(type, types) {
+  return types.indexOf(type) >= 0;
 }

@@ -7,24 +7,24 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 
-export default function DatabaseSections({ applicationId, serviceId, timeframe }) {
+export default function DatabaseSections(props) {
   return (
     <div>
       <h2>Database</h2>
       <DashboardSection title="Reads versus Writes">
         <Chart
-          timeframe={timeframe}
+          timeframe={props.timeframe}
           y1={{
             renderer: Renderer.stackedArea,
             labels: ['Reads', 'Writes'],
             colors: ['#00f', '#0f0'],
             formatter: millis,
-            metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]
+            metrics: [generateMetrics(props.timeframe), generateMetrics(props.timeframe)]
           }}
         />
       </DashboardSection>
       <DashboardSection title="Slow Statements">
-        <DatabaseStatementTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        <DatabaseStatementTopList {...props} />
       </DashboardSection>
     </div>
   );
