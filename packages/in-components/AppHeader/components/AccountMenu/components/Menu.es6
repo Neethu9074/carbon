@@ -5,6 +5,7 @@ import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/c
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { withoutInstana1Features } from 'in-services/featureFlags';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { getView } from 'in-stores/navigation/navigation';
@@ -65,7 +66,7 @@ export default connectTo(
             Settings
           </Link>
 
-          {role.canConfigureAgents ? (
+          {!withoutInstana1Features && role.canConfigureAgents ? (
             <Link className={linkElement} href$={getView(agentsPath)} onClick={closeMenu}>
               Agents
             </Link>

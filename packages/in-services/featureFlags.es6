@@ -27,8 +27,9 @@ export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 
 // 2.0 features
+export const withoutInstana1Features = __DEV__;
 export const newApplicationMonitoringEnabled = __DEV__ || testTu;
-export const withoutTimeline = __DEV__;
+export const withoutTimeline = __DEV__ || withoutInstana1Features;
 
 // ########################################################################################
 // Dynamic focus keywords
