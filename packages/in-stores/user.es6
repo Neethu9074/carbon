@@ -4,6 +4,7 @@ import { config } from 'in-services/config';
 
 export const ownerRoleId = '-1';
 export const fallbackRoleId = '-2';
+export const defaultRole = '-3';
 
 export const user = window.instana.user;
 export const tenant = find(user.tenants, tenant => tenant.tenantKey === config.tenant);
