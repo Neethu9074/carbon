@@ -2,6 +2,7 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import TopListPresenter from './TopListPresenter';
 import Card from 'in-new-components/Card';
 
 // Usage
@@ -29,7 +30,7 @@ export default function TopListCard(props) {
   } else if (result.data.totalHits === 0) {
     content = <NoDataFoundState {...props} />;
   } else {
-    content = <DataFoundState {...props} />;
+    content = <TopListPresenter {...props} />;
   }
 
   return (
@@ -40,9 +41,6 @@ export default function TopListCard(props) {
 }
 
 function NoDataFoundState() {
+  // TODO Fix
   return <div>No data…</div>;
-}
-
-function DataFoundState() {
-  return <div>Got data!</div>;
 }
