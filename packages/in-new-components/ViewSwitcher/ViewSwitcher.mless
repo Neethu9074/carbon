@@ -2,12 +2,14 @@
   .switcher {
     display: flex;
     justify-content: center;
+    align-items: center;
     background: #47626A;
+    height: 3.125rem;
   }
 
   .item {
     display: block;
-    padding: 1.25rem;
+    padding: 0 1rem;
   }
 
   .link {

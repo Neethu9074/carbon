@@ -2,7 +2,7 @@
 
 :local {
   .breadcrumbHeader {
-    background: #5229bd;
+    background: #47626A;
     color: #fff;
     overflow: hidden;
   }
