@@ -7,7 +7,7 @@ import Root from '../_helpers/Root';
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate iure, possimus cumque quis. Ducimus nisi aspernatur, aperiam eius tempora facilis, architecto id ullam esse repellat, fugit sint optio dolores corporis.';
 const exampleCard = (
-  <Card title="Card in a card">
+  <Card title="A Card">
     {lorem}
   </Card>
 );
