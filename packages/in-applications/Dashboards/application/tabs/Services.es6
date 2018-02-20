@@ -21,6 +21,7 @@ export default function ServiceList({ location, timeframe, applicationId, servic
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        cardTitle="Services"
       />
     </MaxWidthFullscreenContainer>
   );

@@ -28,7 +28,6 @@ function showTypes(types, appId, serviceID, timeframe, data) {
   }
   return types.map(endpointType => (
     <Fragment key={endpointType}>
-      <h3>{getEndpointsLabel(endpointType)}</h3>
       <ServerTable
         get={getTableData}
         applicationId={appId}
@@ -38,6 +37,7 @@ function showTypes(types, appId, serviceID, timeframe, data) {
         pageSize={10}
         timeframe={timeframe}
         columnDefinitions={columnDefinitions}
+        cardTitle={getEndpointsLabel(endpointType)}
       />
     </Fragment>
   ));

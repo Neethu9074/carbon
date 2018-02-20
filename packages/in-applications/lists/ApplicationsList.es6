@@ -15,7 +15,13 @@ import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import locals from './ApplicationList.mless';
+import locals from './ApplicationsList.mless';
+
+const leftHeader = (
+  <Button kind="default" key="createApplication" onClick={() => {}} size="sm" outlineOnly>
+    Create Application
+  </Button>
+);
 
 export default connectTo(
   {
@@ -39,20 +45,15 @@ export default connectTo(
   function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
     return (
       <Sticky header={<ViewSwitcher />}>
-        <MaxWidthFullscreenContainer>
-          <Button
-            kind="default"
-            key="createApplication"
-            onClick={() => {}}
-            className={locals.createApplication}
-            size="sm"
-            outlineOnly
-          >
-            Create Application
-          </Button>
-
+        <MaxWidthFullscreenContainer className={locals.block}>
           {showNoApplicationsDefinedIndicator && <div>You got no applications, sorry bro!</div>}
-          <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
+          <ServerTable
+            get={getTableData}
+            pageSize={10}
+            columnDefinitions={columnDefinitions}
+            timeframe={timeframe}
+            leftHeader={leftHeader}
+          />
         </MaxWidthFullscreenContainer>
       </Sticky>
     );

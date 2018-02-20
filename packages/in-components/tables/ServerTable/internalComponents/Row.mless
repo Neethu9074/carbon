@@ -1,10 +1,20 @@
 :local {
   .row {
-    border-top: 1px solid #d5dfe4;
-    height: 3.125rem;
-
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background: #F4F7F8;
+    }
+
+    &:nth-child(even) {
+      background: #F4F7F8;
+    }
+  }
+
+  .cell {
+    border-top: 1px solid #d5dfe4;
+    padding: .75rem 0;
+
+    &:first-child {
+      padding-left: 1rem;
     }
   }
 }

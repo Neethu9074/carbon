@@ -1,4 +1,4 @@
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
@@ -46,7 +46,8 @@ function WrappedTable({result}) {
       orderBy="label"
       orderDirection="ASC"
       pageSize={10}
-      result={result} />
+      result={result}
+      cardTitle={boolean('Render as card?', false) ? text('Card title?', 'Top Something') : null} />
   );
 }
 
@@ -112,7 +113,7 @@ function WithData() {
             items,
             page: 1,
             pageSize: 10,
-            totalHits: items.length
+            totalHits: 42
           }
         }} />
     </Root>

@@ -7,7 +7,11 @@ export default function Row({ item, columnDefinitions, cellOpts }) {
 
   return (
     <tr className={locals.row}>
-      {keys.map(key => <td key={key}>{columnDefinitions[key].getContent(item, cellOpts)}</td>)}
+      {keys.map(key => (
+        <td key={key} className={locals.cell}>
+          {columnDefinitions[key].getContent(item, cellOpts)}
+        </td>
+      ))}
     </tr>
   );
 }

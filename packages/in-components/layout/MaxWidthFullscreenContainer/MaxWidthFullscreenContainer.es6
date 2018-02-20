@@ -1,9 +1,9 @@
 import React from 'react';
 
-import './MaxWidthFullscreenContainer.less';
+import { joinClassNames } from 'in-services/util/classnames';
 
-const block = 'in-max-width-container';
+import locals from './MaxWidthFullscreenContainer.mless';
 
-export default function MaxWidthFullscreenContainer({ children }) {
-  return <div className={block}>{children}</div>;
+export default function MaxWidthFullscreenContainer({ children, className }) {
+  return <div className={joinClassNames(locals.wrapper, className)}>{children}</div>;
 }

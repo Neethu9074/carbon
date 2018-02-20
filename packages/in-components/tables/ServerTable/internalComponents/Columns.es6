@@ -14,21 +14,20 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
           <th
             key={columnDefinition.id}
             onClick={() => setOrder(columnDefinition.id, getOrderDirection(isSortedByThisColumn, orderDirection))}
+            className={locals.column}
           >
-            <div className={locals.column}>
-              {columnDefinition.label || columnDefinition.id}
-              {isSortableColumn &&
-                (isSortedByThisColumn ? (
-                  <SvgIcon
-                    className={locals.icon}
-                    type={orderDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
-                    height={6}
-                    color="#16363E"
-                  />
-                ) : (
-                  <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
-                ))}
-            </div>
+            {columnDefinition.label || columnDefinition.id}
+            {isSortableColumn &&
+              (isSortedByThisColumn ? (
+                <SvgIcon
+                  className={locals.icon}
+                  type={orderDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
+                  height={6}
+                  color="#16363E"
+                />
+              ) : (
+                <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
+              ))}
           </th>
         );
       })}

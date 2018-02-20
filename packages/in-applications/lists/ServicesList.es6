@@ -13,10 +13,12 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
+import locals from './ServicesList.mless';
+
 export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe }) {
   return (
     <Sticky header={<ViewSwitcher />}>
-      <MaxWidthFullscreenContainer>
+      <MaxWidthFullscreenContainer className={locals.block}>
         <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
       </MaxWidthFullscreenContainer>
     </Sticky>

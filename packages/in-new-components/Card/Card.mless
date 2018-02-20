@@ -9,13 +9,15 @@
   }
 
   .header {
-    padding: .5rem 1rem;
+    display: flex;
+    justify-content: space-between;
     background: #F4F7F8;
     border-top-left-radius: @border-radius;
     border-top-right-radius: @border-radius;
   }
 
   .title {
+    margin: .5rem 1rem;
     font-size: 1rem;
     color: #698189;
   }
