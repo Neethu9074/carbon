@@ -1,6 +1,5 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
 import Switch from 'in-applications/TabView/components/Switch';
 import Header from 'in-applications/TabView/components/Header';
@@ -22,9 +21,7 @@ export default connectTo(
             </div>
           }
         >
-          <MaxWidthFullscreenContainer>
-            <Switch tabs={tabs} result={result} location={location} props={props} />
-          </MaxWidthFullscreenContainer>
+          <Switch tabs={tabs} result={result} location={location} props={props} />
         </Sticky>
       </section>
     );

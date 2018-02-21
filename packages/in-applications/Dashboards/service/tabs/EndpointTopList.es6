@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
-import { millis, percentage, number } from 'in-services/formatters/number';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { millis, percentage, number } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
@@ -14,21 +15,23 @@ const formatters = [millis.fixedCompact, millis.fixedCompact, number.compact, pe
 
 export default function EndpointTopList({ applicationId, serviceId, timeframe }) {
   return (
-    <TopList
-      title="Top Endpoints"
-      metrics={metrics}
-      labels={labels}
-      aggregations={aggregations}
-      formatters={formatters}
-      getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
-      timeframe={timeframe}
-      applicationId={applicationId}
-      serviceId={serviceId}
-    />
+    <MaxWidthFullscreenContainer>
+      <TopList
+        title="Top Endpoints"
+        metrics={metrics}
+        labels={labels}
+        aggregations={aggregations}
+        formatters={formatters}
+        getList={getList}
+        render={TopListCardPresenter}
+        renderViewAll={ViewAll}
+        renderLabel={Label}
+        renderMetric={Metric}
+        timeframe={timeframe}
+        applicationId={applicationId}
+        serviceId={serviceId}
+      />
+    </MaxWidthFullscreenContainer>
   );
 }
 
