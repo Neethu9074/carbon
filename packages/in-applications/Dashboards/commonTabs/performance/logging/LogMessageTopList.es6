@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getLogMessageTopList from 'in-subscription/application/getLogMessageTopList';
-import TopListPresenter from 'in-components/TopList/TopListPresenter';
 import { number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
 
@@ -13,6 +13,7 @@ const formatters = [number.compact];
 export default function LogMessageTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
+      title="Top Log Messages"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -20,8 +21,7 @@ export default function LogMessageTopList({ applicationId, serviceId, endpointId
       getList={getList}
       getItemsFromResult={getItemsFromResult}
       getMetricValueFromItem={getMetricValueFromItem}
-      render={TopListPresenter}
-      renderViewAll={false}
+      render={TopListCardPresenter}
       renderLabel={Label}
       renderMetric={Metric}
       timeframe={timeframe}

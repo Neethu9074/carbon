@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
-import TopListPresenter from 'in-components/TopList/TopListPresenter';
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { ms, number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
@@ -15,6 +15,7 @@ const formatters = [ms.compact, number.compact, number.compact];
 export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
+      title="Top Database Statements"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -22,8 +23,7 @@ export default function DatabaseStatementTopList({ applicationId, serviceId, end
       getList={getList}
       getItemsFromResult={getItemsFromResult}
       getMetricValueFromItem={getMetricValueFromItem}
-      render={TopListPresenter}
-      renderViewAll={false}
+      render={TopListCardPresenter}
       renderLabel={Label}
       renderMetric={Metric}
       timeframe={timeframe}
