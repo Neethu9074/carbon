@@ -65,6 +65,5 @@ export default function TopListCard(props) {
 }
 
 function NoDataFoundState() {
-  // TODO Fix layout for no data found state
-  return <div>No data…</div>;
+  return <div className={locals.noDataFound}>No data available.</div>;
 }
