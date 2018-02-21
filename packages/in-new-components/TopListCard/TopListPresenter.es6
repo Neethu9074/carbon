@@ -1,7 +1,7 @@
-import React from 'react';
 import { chain } from 'lodash';
+import React from 'react';
 
-import TopListRow from './TopListRow';
+import TopListRow from 'in-new-components/TopListCard/TopListRow';
 
 import locals from './TopListPresenter.mless';
 
@@ -30,35 +30,33 @@ export default function TopListPresenter(props) {
 
   return (
     <div>
-      <div className={locals.topList}>
-        <ol>
-          {getItemsFromResult(result).map((item, i) => {
-            const metricValue = getMetricValueFromItem(item);
-            const formattedMetricValue = selectedMetricFormatter(metricValue);
-            const renderProps = {
-              ...props,
-              item,
-              metricValue,
-              formattedMetricValue
-            };
-            const label = renderLabel(renderProps);
-            const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
-            return (
-              <TopListRow
-                key={i}
-                renderedMetric={renderedMetric}
-                metricValue={metricValue}
-                maxValue={maxValue}
-                label={label}
-              />
-            );
-          })}
-        </ol>
-      </div>
+      <ol className={locals.topList}>
+        {getItemsFromResult(result).map((item, i) => {
+          const metricValue = getMetricValueFromItem(item);
+          const formattedMetricValue = selectedMetricFormatter(metricValue);
+          const renderProps = {
+            ...props,
+            item,
+            metricValue,
+            formattedMetricValue
+          };
+          const label = renderLabel(renderProps);
+          const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
+          return (
+            <TopListRow
+              key={i}
+              renderedMetric={renderedMetric}
+              metricValue={metricValue}
+              maxValue={maxValue}
+              label={label}
+            />
+          );
+        })}
+      </ol>
 
       {renderViewAll && (
         <div className={locals.viewAll}>
-          <span className={locals.viewAllInner}>{renderViewAll(props)}</span>
+          {renderViewAll(props)}
         </div>
       )}
     </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import TopListPresenter from 'in-new-components/TopListCard/TopListPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import TopListPresenter from './TopListPresenter';
-import Button from 'in-components/Button';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Card from 'in-new-components/Card';
 
 import locals from './TopListCard.mless';
@@ -37,20 +37,24 @@ export default function TopListCard(props) {
     const { metrics, labels, onChangeMetric, selectedMetric } = props;
 
     metricSelection = (
-      <ul className={locals.topListCardActions}>
-        <span>
-          {metrics.map((metric, i) => (
-            <li key={metric}>
-              <Button
-                onClick={() => onChangeMetric(metric)}
-                className={locals.tabLikeButton}
-                style={selectedMetric === metric ? { textDecoration: 'underline' } : { textDecoration: 'none' }}
-              >
-                {labels[i]}
-              </Button>
-            </li>
-          ))}
-        </span>
+      <ul className={locals.metrics}>
+        {metrics.map((metric, i) => (
+          <li key={metric} className={locals.metric}>
+            <a
+              href="#"
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChangeMetric(metric);
+              }}
+              className={evaluateClassNames({
+                [locals.metricLink]: true,
+                [locals.active]: selectedMetric === metric
+              })}>
+              {labels[i]}
+            </a>
+          </li>
+        ))}
       </ul>
     );
 

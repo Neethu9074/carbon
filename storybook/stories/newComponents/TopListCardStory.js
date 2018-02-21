@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { Row, Col } from 'in-new-components/layout/Grid';
 import TopListCard from 'in-new-components/TopListCard';
@@ -109,7 +109,7 @@ function Default() {
         <Col lg={6}>
           <h3>Endpoints Loaded Successfully</h3>
           <TopListItem
-            title={"Top Endpoints"}
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: false
@@ -171,9 +171,10 @@ function ViewAll() {
 
 function Label({ item }) {
   return (
-    <span>
-      <SvgIcon type="application" width={16} height={16} style={{ marginRight: '0.5rem' }} /><Link href="https://instana.com">{item.label}</Link>
-    </span>
+    <Fragment>
+      <SvgIcon type="application" width={16} height={16} style={{ marginRight: '0.5rem' }} />
+      <Link href="https://instana.com">{item.label}</Link>
+    </Fragment>
   );
 }
 

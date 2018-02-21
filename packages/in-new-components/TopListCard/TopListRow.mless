@@ -8,6 +8,15 @@
     justify-content: space-between;
   }
 
+  .title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #16363E;
+    font-weight: 600;
+    font-size: .875rem;
+  }
+
   .bar {
     position: relative;
     width: 100%;
@@ -23,10 +32,13 @@
     top: 0;
     left: 0;
     bottom: 0;
-    height: 0.25rem;
-    background: #00aed9;
-    opacity: 0.5;
-    border: 1px solid #979797;
+    background: #5DD8EF;
     border-radius: 2px 0 0 2px;
+  }
+
+  .metric {
+    color: #16363E;
+    font-weight: 600;
+    font-size: .875rem;
   }
 }
