@@ -35,7 +35,7 @@ Make sure that you have Git and cURL installed before starting with the followin
 ```
 # ensure that you have build and compiler tools available on your system:
 # ubuntu
-sudo apt-get build-essential
+sudo apt-get install build-essential
 # os x
 xcode-select --install
 
