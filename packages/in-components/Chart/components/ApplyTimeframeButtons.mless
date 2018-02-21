@@ -1,0 +1,6 @@
+:local {
+  .applyTimeframeButtons {
+    position: absolute;
+    top: 0;
+  }
+}

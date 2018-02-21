@@ -18,11 +18,6 @@ export default class Chart {
   }
 
   render() {
-    /* eslint-disable strict, no-console */
-    // console.log('------ render ------------------------------------');
-    // console.log(this.config);
-    /* eslint-enable strict, no-console */
-
     clearRender(this.config);
     renderTickLines(this.config);
 

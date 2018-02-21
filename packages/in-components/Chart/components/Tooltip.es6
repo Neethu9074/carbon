@@ -2,6 +2,8 @@ import { on } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
+import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
+import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-charts/scale';
@@ -16,7 +18,10 @@ export default connectTo(
   class extends React.Component {
     static displayName = 'Tooltip';
 
-    xScale = createScale();
+    state = {
+      xScale: createScale(),
+      shouldRenderButtons: false
+    };
 
     componentDidMount() {
       this.updateScale();
@@ -33,6 +38,11 @@ export default connectTo(
 
       return (
         <div className={locals.tooltip}>
+          <HighlightedTimeframe
+            xScale={this.state.xScale}
+            glassPane={this.glassPane}
+            shouldRenderButtons={this.shouldRenderButtons}
+          />
           {cursorXPositionOnCanvas ? (
             <div
               className={locals.line}
@@ -56,13 +66,14 @@ export default connectTo(
             }}
             className={locals.glassPane}
           />
+          {this.state.shouldRenderButtons && <ApplyTimeframeButtons xScale={this.state.xScale} />}
         </div>
       );
     }
 
     setupSubsriptions = () => {
-      this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
-      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
+      this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove.bind(this));
+      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
     };
 
     disposeSubscriptions = () => {
@@ -74,15 +85,16 @@ export default connectTo(
 
     updateScale() {
       const config = this.props.chart.config;
-      this.xScale.setRangeFrom(0);
-      this.xScale.setRangeTo(this.glassPane.clientWidth);
-      this.xScale.setDomainFrom(config.timeframe.to - config.timeframe.windowSize);
-      this.xScale.setDomainTo(config.timeframe.to);
+      this.state.xScale.setRangeFrom(0);
+      this.state.xScale.setRangeTo(this.glassPane.clientWidth);
+      this.state.xScale.setDomainFrom(config.timeframe.to - config.timeframe.windowSize);
+      this.state.xScale.setDomainTo(config.timeframe.to);
+      this.setState({ xScale: this.state.xScale });
     }
 
     onMouseMove = e => {
-      if (e.offsetX >= this.xScale.getRangeFrom() && e.offsetX <= this.xScale.getRangeTo()) {
-        setHighlightedMoment(this.xScale.getDomain(e.offsetX));
+      if (e.offsetX >= this.state.xScale.getRangeFrom() && e.offsetX <= this.state.xScale.getRangeTo()) {
+        setHighlightedMoment(this.state.xScale.getDomain(e.offsetX));
       }
     };
 
@@ -90,7 +102,7 @@ export default connectTo(
 
     getNearestDomain = () => {
       const time = this.props.highlightedMoment;
-      if (time < this.xScale.getDomainFrom() || time > this.xScale.getDomainTo()) {
+      if (time < this.state.xScale.getDomainFrom() || time > this.state.xScale.getDomainTo()) {
         return null;
       }
 
@@ -98,12 +110,20 @@ export default connectTo(
     };
 
     getNearestDomainXPosition = nearestTimeInMetrics => {
-      return nearestTimeInMetrics ? this.xScale.getRange(nearestTimeInMetrics) - this.xScale.getRangeFrom() : null;
+      return nearestTimeInMetrics
+        ? this.state.xScale.getRange(nearestTimeInMetrics) - this.state.xScale.getRangeFrom()
+        : null;
     };
 
     cursorHasCrossedHalfOfTheCanvas(cursorXPosition) {
-      const fullWidth = this.xScale.getRangeTo() - this.xScale.getRangeFrom();
+      const fullWidth = this.state.xScale.getRangeTo() - this.state.xScale.getRangeFrom();
       return cursorXPosition > fullWidth / 2;
     }
+
+    shouldRenderButtons = b => {
+      if (this.state.shouldRenderButtons !== b) {
+        this.setState({ shouldRenderButtons: b });
+      }
+    };
   }
 );
