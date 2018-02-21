@@ -37,6 +37,7 @@ import './components/sdk/Descriptions';
 
 import './newComponents/BadgeStory';
 import './newComponents/CardStory';
+import './newComponents/ButtonStory';
 import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
 import './newComponents/DashboardHeaderStory';

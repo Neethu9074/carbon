@@ -1,0 +1,100 @@
+@import '~in-themes/active.less';
+
+:local {
+  .button {
+    color: black;
+    font-family: @font-family-sans-serif;
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-decoration: none;
+    text-align: center;
+    border: 0;
+    border-radius: 0.188rem;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1.1;
+
+    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    & + .button {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .primary {
+    .buttonStyle(
+      // bg
+      #00babb,
+      // hover bg
+      #00a1a3,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      );;
+  }
+
+  .secondary {
+    .buttonStyle(
+      // bg
+      #e7eef0,
+      // hover bg
+      #dde7ec,
+      // font
+      #47626a,
+      // hover font
+      #47626a);;
+  }
+
+  .normal {
+    padding: 0.875rem 1.25rem;
+  }
+
+  .compact {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .disabled {
+    .buttonStyle(
+      // bg
+      #fff,
+      // hover bg
+      #fff,
+      // font
+      #D5DFE4,
+      // hover font
+      #D5DFE4);;
+
+    border: 1px solid #d5dfe4;
+  }
+
+  .link {
+    color: #1fb7b9;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      color: #178587;
+      text-decoration: none;
+    }
+  }
+}
+
+.buttonStyle(@bg, @hoverBg, @font, @hoverFont) {
+  &,
+  &.disabled:hover {
+    background: @bg;
+    color: @font;
+  }
+
+  &:hover {
+    color: @hoverFont;
+    background: @hoverBg;
+  }
+}
