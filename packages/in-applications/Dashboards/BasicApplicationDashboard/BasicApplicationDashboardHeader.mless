@@ -9,13 +9,13 @@
 
     font-size: 0.875rem;
     color: #16363e;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .label {
     margin: 0 1rem 0 0;
 
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1.625rem;
     color: #0c2227;
   }

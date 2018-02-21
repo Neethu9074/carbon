@@ -60,8 +60,10 @@ function Default() {
                 {
                   message: 'Unexpected server error',
                   code: 'SERVER'
-                }, {
-                  message: 'There was a weird validation error: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium voluptates eius commodi aut, hic amet porro ab, nostrum id tenetur, repellat repellendus aliquid totam a facere. Officiis labore, aspernatur dolor.',
+                },
+                {
+                  message:
+                    'There was a weird validation error: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium voluptates eius commodi aut, hic amet porro ab, nostrum id tenetur, repellat repellendus aliquid totam a facere. Officiis labore, aspernatur dolor.',
                   code: 'VALIDATION'
                 }
               ]

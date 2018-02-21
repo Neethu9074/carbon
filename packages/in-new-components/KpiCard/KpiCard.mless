@@ -1,4 +1,9 @@
 :local {
+  .major,
+  .minor {
+    color: #16363e;
+  }
+
   .major {
     font-size: 2.938rem;
   }
