@@ -21,8 +21,9 @@ function Default() {
     <Root>
       <Row>
         <Col lg={6}>
+          <h3>Indeterminate Loading</h3>
           <TopListItem
-            title="Indeterminate loading"
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: true
@@ -32,8 +33,9 @@ function Default() {
           />
         </Col>
         <Col lg={6}>
+          <h3>Determinate Loading</h3>
           <TopListItem
-            title="Determinate loading"
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: true,
@@ -47,8 +49,9 @@ function Default() {
 
       <Row>
         <Col lg={6}>
+          <h3>Server Error</h3>
           <TopListItem
-            title="Server error"
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: false
@@ -66,8 +69,9 @@ function Default() {
           />
         </Col>
         <Col lg={6}>
+          <h3>Client Error</h3>
           <TopListItem
-            title="Client error"
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: false
@@ -85,8 +89,9 @@ function Default() {
 
       <Row>
         <Col lg={6}>
+          <h3>No Data Found</h3>
           <TopListItem
-            title="No data found"
+            title="Top Endpoints"
             result={{
               progress: {
                 loading: false
@@ -102,6 +107,7 @@ function Default() {
           />
         </Col>
         <Col lg={6}>
+          <h3>Endpoints Loaded Successfully</h3>
           <TopListItem
             title={"Top Endpoints"}
             result={{
