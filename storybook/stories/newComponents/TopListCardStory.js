@@ -166,8 +166,7 @@ function ViewAll() {
 function Label({ item }) {
   return (
     <span>
-      <SvgIcon type="application" width={16} height={16} /> &nbsp;
-      <Link href="https://instana.com">{item.label}</Link>
+      <SvgIcon type="application" width={16} height={16} style={{ marginRight: '0.5rem' }} /><Link href="https://instana.com">{item.label}</Link>
     </span>
   );
 }

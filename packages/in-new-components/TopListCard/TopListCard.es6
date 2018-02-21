@@ -6,6 +6,8 @@ import TopListPresenter from './TopListPresenter';
 import Button from 'in-components/Button';
 import Card from 'in-new-components/Card';
 
+import locals from './TopListCard.mless';
+
 // Usage
 // <TopListCard result,
 //   metrics,
@@ -33,21 +35,25 @@ export default function TopListCard(props) {
     content = <NoDataFoundState {...props} />;
   } else {
     const { metrics, labels, onChangeMetric, selectedMetric } = props;
+
     metricSelection = (
-      <ul>
-        {metrics.map((metric, i) => (
-          <li key={metric}>
-            <Button
-              size="xs"
-              kind={selectedMetric === metric ? 'primary' : 'secondary'}
-              onClick={() => onChangeMetric(metric)}
-            >
-              {labels[i]}
-            </Button>
-          </li>
-        ))}
+      <ul className={locals.topListCardActions}>
+        <span>
+          {metrics.map((metric, i) => (
+            <li key={metric}>
+              <Button
+                onClick={() => onChangeMetric(metric)}
+                className={locals.tabLikeButton}
+                style={selectedMetric === metric ? { textDecoration: 'underline' } : { textDecoration: 'none' }}
+              >
+                {labels[i]}
+              </Button>
+            </li>
+          ))}
+        </span>
       </ul>
     );
+
     content = <TopListPresenter {...props} />;
   }
 
@@ -59,6 +65,6 @@ export default function TopListCard(props) {
 }
 
 function NoDataFoundState() {
-  // TODO Fix
+  // TODO Fix layout for no data found state
   return <div>No data…</div>;
 }

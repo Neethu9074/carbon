@@ -28,15 +28,6 @@ export default function TopListPresenter(props) {
     .map(getMetricValueFromItem)
     .max();
 
-  /*
-  TODOs:
-  - Font
-  - Dimensions, margins etc.
-  - Put selectors in card header
-  - Style view all link
-  - Rounded corners for bars
-  */
-
   return (
     <div>
       <div className={locals.topList}>
@@ -65,7 +56,11 @@ export default function TopListPresenter(props) {
         </ol>
       </div>
 
-      {renderViewAll && renderViewAll(props)}
+      {renderViewAll && (
+        <div className={locals.viewAll}>
+          <span className={locals.viewAllInner}>{renderViewAll(props)}</span>
+        </div>
+      )}
     </div>
   );
 }
