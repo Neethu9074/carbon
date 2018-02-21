@@ -21,3 +21,7 @@ export function isOnPremise() {
 export function isInstanaTenant() {
   return config.tenant === 'instana';
 }
+
+export function isFeatureFlagEnabled(ff) {
+  return config[ff] === true;
+}

@@ -1,5 +1,5 @@
+import { config, isFeatureFlagEnabled } from 'in-services/config';
 import { isInstanaEngineer } from 'in-stores/user';
-import { config } from 'in-services/config';
 
 // ########################################################################################
 // Reusable helpers for feature (de-) activation
@@ -8,7 +8,7 @@ const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging'
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
 const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
 // const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
-const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
+// const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
 // const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 
@@ -27,8 +27,8 @@ export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 
 // 2.0 features
-export const withoutInstana1Features = __DEV__;
-export const newApplicationMonitoringEnabled = __DEV__ || testTu;
+export const withoutInstana1Features = __DEV__ || isFeatureFlagEnabled('withoutInstana1Features');
+export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 
 // ########################################################################################
