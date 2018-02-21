@@ -18,7 +18,7 @@ export default {
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
 
-      const xPos = config.scales.x.getRange(dataPoint[0]) - barWidth + MARGIN_BETWEEN_BARS;
+      const xPos = config.scales.x.getRange(dataPoint[0]) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
 
       // 2px minimum bar height so make them visible
       const yPos = scale.getRange(dataPoint[1]);
