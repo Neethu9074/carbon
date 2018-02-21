@@ -7,9 +7,11 @@ import FlowMap from 'in-components/FlowMap';
 
 export default function ServiceFlowMap({ data }) {
   return (
-    <FullHeightWrapper>
-      <FlowMap rootNodeData={data} createDataFetchingService={createDataFetchingService} />
-    </FullHeightWrapper>
+    <FullHeightWrapper
+      render={height => (
+        <FlowMap customHeight={height} rootNodeData={data} createDataFetchingService={createDataFetchingService} />
+      )}
+    />
   );
 }
 

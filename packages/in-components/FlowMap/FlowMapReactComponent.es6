@@ -21,8 +21,13 @@ export default getElementDimensions(
       if (!idsAreEqual) {
         this.initFlowMap(nextProps.rootNodeData);
       }
-      if (this.props.width !== nextProps.width || this.props.height !== nextProps.height || !idsAreEqual) {
-        this.flowMap.setSize(nextProps.width, nextProps.height);
+      if (
+        this.props.width !== nextProps.width ||
+        this.props.height !== nextProps.height ||
+        this.props.customHeight !== nextProps.customHeight ||
+        !idsAreEqual
+      ) {
+        this.flowMap.setSize(nextProps.width, nextProps.customHeight || nextProps.height);
       }
     }
 

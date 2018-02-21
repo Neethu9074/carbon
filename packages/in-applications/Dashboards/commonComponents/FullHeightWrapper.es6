@@ -9,7 +9,7 @@ export default class extends React.Component {
   signal$ = create();
 
   state = {
-    height: '100%'
+    height: null
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class extends React.Component {
   render() {
     return (
       <div style={{ height: this.state.height }} ref={r => (this.wrapper = r)}>
-        {this.props.children}
+        {this.props.render(this.state.height)}
       </div>
     );
   }
