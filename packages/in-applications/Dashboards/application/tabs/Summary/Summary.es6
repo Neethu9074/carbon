@@ -86,7 +86,7 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
               y2={{
                 renderer: Renderer.line,
                 labels: ['Latency'],
-                colors: ['#57a7f0'],
+                colors: ['#9d96ff'],
                 formatter: millis,
                 metricIds: ['latency']
               }}

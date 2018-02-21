@@ -20,7 +20,6 @@ import './content/TableStory';
 
 import './components/BadgeStory';
 import './components/ButtonStory';
-import './components/Chart';
 import './components/CodeEditor';
 import './components/CodeStory';
 import './components/KpiStory';
@@ -36,8 +35,9 @@ import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
 import './newComponents/BadgeStory';
-import './newComponents/CardStory';
 import './newComponents/ButtonStory';
+import './newComponents/CardStory';
+import './newComponents/Chart';
 import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
 import './newComponents/DashboardHeaderStory';

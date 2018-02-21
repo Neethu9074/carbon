@@ -12,7 +12,7 @@ export default {
     const chartHeight = scale.getRangeFrom();
 
     config.ctx.beginPath();
-    config.ctx.globalAlpha = 0.3;
+    // config.ctx.globalAlpha = 0.3;
     config.ctx.fillStyle = color;
 
     for (let i = 0; i < dataSeries.length; i++) {

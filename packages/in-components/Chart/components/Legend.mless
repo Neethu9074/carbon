@@ -33,7 +33,7 @@
     width: 0.4375rem;
     height: 0.4375rem;
     margin-right: 0.25rem;
-    border-radius: 0.125rem;
+    border-radius: 50%;
   }
 
   .disabledDot {

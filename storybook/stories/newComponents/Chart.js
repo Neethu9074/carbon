@@ -1,12 +1,11 @@
-import {storiesOf} from '@storybook/react';
+import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import Chart from 'in-components/Chart/ChartReactComponent';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
-import {percentage} from 'in-services/formatters/number';
-import {just, interval} from 'reactive-observables';
-import {compare} from 'in-services/util/number';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import { percentage } from 'in-services/formatters/number';
+import { just, interval } from 'reactive-observables';
+import { compare } from 'in-services/util/number';
 import connectTo from 'in-hoc/connectTo';
 import Root from '../_helpers/Root';
 
@@ -15,26 +14,26 @@ const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
 const now = Date.now();
 
-storiesOf('components/Chart', module)
-  .add('Missing Data', () => <MissingData/>)
-  .add('Simple', () => <Simple/>)
-  .add('Error / Loading', () => <States/>)
-  .add('Multiple Series', () => <MultipleSeries/>)
-  .add('Dual Axis', () => <DualAxis/>)
-  .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount/>)
-  .add('Gaps', () => <Gaps/>)
-  .add('Bar', () => <Bar/>)
-  .add('Area', () => <Area/>)
-  .add('StackedArea', () => <StackedArea/>)
-  .add('Integral', () => <Integral/>)
-  .add('Points', () => <Points/>)
-  .add('CountErrorBar', () => <CountErrorBar/>)
-  .add('Resize', () => <Resize/>);
+storiesOf('newComponents/Chart', module)
+  .add('Missing Data', () => <MissingData />)
+  .add('Simple', () => <Simple />)
+  .add('Error / Loading', () => <States />)
+  .add('Multiple Series', () => <MultipleSeries />)
+  .add('Dual Axis', () => <DualAxis />)
+  .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
+  .add('Gaps', () => <Gaps />)
+  .add('Bar', () => <Bar />)
+  .add('Area', () => <Area />)
+  .add('StackedArea', () => <StackedArea />)
+  .add('Integral', () => <Integral />)
+  .add('Points', () => <Points />)
+  .add('CountErrorBar', () => <CountErrorBar />)
+  .add('Resize', () => <Resize />);
 
 function MissingData() {
   return (
     <Root>
-      <ChartWrapperPresenter data={{}} result={{errors: [], progress: {loading: false}}}/>
+      <ChartWrapperPresenter data={{}} result={{ errors: [], progress: { loading: false } }} />
     </Root>
   );
 }
@@ -73,15 +72,9 @@ function Simple() {
 function States() {
   return (
     <Root>
-      <ChartWrapperPresenter
-        result={constructResult('Some error happened.', false)}
-        config={{}}
-      />
-      <br/>
-      <ChartWrapperPresenter
-        result={constructResult(null, true)}
-        config={{}}
-      />
+      <ChartWrapperPresenter result={constructResult('Some error happened.', false)} config={{}} />
+      <br />
+      <ChartWrapperPresenter result={constructResult(null, true)} config={{}} />
     </Root>
   );
 }
@@ -310,14 +303,14 @@ const Resize = connectTo(
     return {
       metrics: just(generateMetrics(20, 10, oneHour)),
       size: interval(1000)
-        .map(() => ({width: Math.max(200, Math.random() * 700) | 0, height: Math.max(60, (Math.random() * 200) | 0)}))
-        .startWith({width: 400, height: 150})
+        .map(() => ({ width: Math.max(200, Math.random() * 700) | 0, height: Math.max(60, (Math.random() * 200) | 0) }))
+        .startWith({ width: 400, height: 150 })
     };
   },
-  function Resize({size, metrics}) {
+  function Resize({ size, metrics }) {
     return (
       <Root>
-        <div style={{width: size.width}}>
+        <div style={{ width: size.width }}>
           <ChartWrapperPresenter
             result={constructResult(null, false)}
             config={{
