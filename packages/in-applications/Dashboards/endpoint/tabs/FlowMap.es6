@@ -1,11 +1,16 @@
 import React from 'react';
 
+import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNodes';
 import { timeframe$ } from 'in-stores/timeline';
 import FlowMap from 'in-components/FlowMap';
 
 export default function EndpointFlowMap({ data }) {
-  return <FlowMap rootNodeData={data} createDataFetchingService={createDataFetchingService} />;
+  return (
+    <FullHeightWrapper>
+      <FlowMap rootNodeData={data} createDataFetchingService={createDataFetchingService} />
+    </FullHeightWrapper>
+  );
 }
 
 function createDataFetchingService() {

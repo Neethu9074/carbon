@@ -1,0 +1,43 @@
+import { on, create } from 'reactive-observables';
+import React from 'react';
+
+import { getCoords } from 'in-services/util/dom';
+
+export default class extends React.Component {
+  static displayName = 'FullHeightWrapper';
+
+  signal$ = create();
+
+  state = {
+    height: '100%'
+  };
+
+  componentDidMount() {
+    this.resizeSubscription = on(window, 'resize')
+      .debounce(100)
+      .subscribe(() => this.signal$.emit(true));
+    this.refreshSubscription = this.signal$.startWith(true).subscribe(() => this.refresh());
+  }
+
+  refresh() {
+    this.setState({
+      height: window.innerHeight - getCoords(this.wrapper).top
+    });
+  }
+
+  componentWillUnmount() {
+    this.resizeSubscription.dispose();
+    this.resizeSubscription = null;
+
+    this.refreshSubscription.dispose();
+    this.refreshSubscription = null;
+  }
+
+  render() {
+    return (
+      <div style={{ height: this.state.height }} ref={r => (this.wrapper = r)}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
