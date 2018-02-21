@@ -5,6 +5,7 @@ export default theConfig;
 export const config = theConfig;
 export const baseUrl = window.location.origin;
 export const build = window.instana.build;
+export const region = theConfig.region;
 
 export function isInternalEnvironment() {
   return theConfig.environment === 'internal';

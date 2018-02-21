@@ -1,4 +1,4 @@
-import { isOnPremise } from 'in-services/config';
+import { isOnPremise, region } from 'in-services/config';
 
 export function ineum() {
   if (typeof window !== 'undefined' && window.ineum) {
@@ -29,6 +29,10 @@ export function getEumSnippet({ key, additionalScript = null }) {
     );
   } else {
     lines.push(`  })(window,document,'script','//eum.instana.io/eum.min.js','ineum');`);
+
+    if (region) {
+      lines.push(`  ineum('reportingUrl', 'https://eum-${region}.instana.io');`);
+    }
   }
 
   lines.push(`  ineum('apiKey', '${key}');`);
