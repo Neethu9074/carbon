@@ -24,5 +24,5 @@ export function isInstanaTenant() {
 }
 
 export function isFeatureFlagEnabled(ff) {
-  return config[ff] === true;
+  return config.featureFlags != null && config.featureFlags[ff] === true;
 }
