@@ -7,17 +7,17 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    nodes: getServiceLocators(props.serviceLocatorUid).nodesServiceLocator.getNodes().stream,
+    nodes: getServiceLocators(props.serviceLocatorUid)
+      .nodesServiceLocator.getNodes()
+      .stream.throttle(100),
     nodesSize: getServiceLocators(props.serviceLocatorUid)
       .eventBusServiceLocator.on('worldUnits')
       .map(({ pixelsPer3DUnit }) => {
         const columnGapSizeInPx = pixelsPer3DUnit * DISTANCE_BETWEEN_NODES_X;
         if (columnGapSizeInPx < 200) {
           return 'sm';
-        } else if (columnGapSizeInPx < 300) {
-          return 'mid';
         }
-        return 'lg';
+        return 'mid';
       })
       .distinct()
   }),

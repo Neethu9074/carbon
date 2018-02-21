@@ -17,10 +17,11 @@ export default getElementDimensions(
     }
 
     componentWillUpdate(nextProps) {
-      if (this.props.rootNodeData.id !== nextProps.rootNodeData.id) {
+      const idsAreEqual = this.props.rootNodeData.id === nextProps.rootNodeData.id;
+      if (!idsAreEqual) {
         this.initFlowMap(nextProps.rootNodeData);
       }
-      if (this.props.width !== nextProps.width || this.props.height !== nextProps.height) {
+      if (this.props.width !== nextProps.width || this.props.height !== nextProps.height || !idsAreEqual) {
         this.flowMap.setSize(nextProps.width, nextProps.height);
       }
     }

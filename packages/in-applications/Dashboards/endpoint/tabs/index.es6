@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
-import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
+import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
+import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 
 export default [
@@ -14,7 +15,7 @@ export default [
   {
     label: 'Flow Map',
     path: `${endpointDashboard}/flow`,
-    component: () => <div>Flow Map</div>
+    component: FlowMap
   },
   {
     label: 'Performance',

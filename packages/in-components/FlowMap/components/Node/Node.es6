@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { serviceId as matrixServiceId } from 'in-applications/navigation/matrix';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import SparkChart from 'in-components/SparkChart';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import locals from './Node.mless';
 
@@ -83,10 +86,8 @@ function getNodeClasses(isRootNode) {
 function getContent(data, size) {
   if (size === 'sm') {
     return <SmallNodeContent data={data} />;
-  } else if (size === 'mid') {
-    return <MidNodeContent data={data} />;
   }
-  return <LargeNodeContent data={data} />;
+  return <MidNodeContent data={data} />;
 }
 
 function SmallNodeContent() {
@@ -97,23 +98,16 @@ function MidNodeContent({ data }) {
   return [
     <div key={1} className={locals.line}>
       <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {data.label.slice(0, 20)}
+      <Link href$={getLinkToEntitiesFlowMap(data.id)}>{data.label}</Link>
       <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
     </div>,
     <div key={2} className={locals.line}>{`719 18ms 0%`}</div>
   ];
 }
 
-function LargeNodeContent({ data }) {
-  return [
-    <div key={1} className={locals.line}>
-      <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      {data.label.slice(0, 20)}
-      <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
-    </div>,
-    <div key={2} className={locals.line}>
-      <SparkChart />
-    </div>,
-    <div key={3} className={locals.line}>{`719 18ms 0%`}</div>
-  ];
+function getLinkToEntitiesFlowMap(id) {
+  return getModifiedUrlStream(params => {
+    const view = params.pathname.replace(/\/flowMap/, '');
+    setOrDeleteMatrixKey(params, view, matrixServiceId, id);
+  });
 }
