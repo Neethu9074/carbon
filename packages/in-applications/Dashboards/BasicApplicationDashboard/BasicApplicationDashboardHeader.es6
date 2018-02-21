@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 
+import LifecycleObserver from 'in-components/LifecycleObserver';
+import { setResult } from 'in-applications/stores/resultStore';
 import Skeleton from 'in-components/Progress/Skeleton';
 
 import locals from './BasicApplicationDashboardHeader.mless';
@@ -13,7 +15,16 @@ export default function BasicApplicationDashboardHeader(props) {
     content = <SuccessState {...props} />;
   }
 
-  return <header className={locals.header}>{content}</header>;
+  if (__DEV__) {
+    setResult(result);
+  }
+
+  return (
+    <header className={locals.header}>
+      {__DEV__ && <LifecycleObserver onWillUnmount={() => setResult(null)} />}
+      {content}
+    </header>
+  );
 }
 
 function LoadingState() {
