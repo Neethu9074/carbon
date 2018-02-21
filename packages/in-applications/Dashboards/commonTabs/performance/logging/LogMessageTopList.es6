@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import getLogMessageTopList from 'in-subscription/application/getLogMessageTopList';
 import TopListPresenter from 'in-components/TopList/TopListPresenter';
 import { number } from 'in-services/formatters/number';
-import TopList from 'in-components/TopList';
+import TopList from 'in-new-components/TopList';
 
 const metrics = ['calls'];
 const labels = ['Message Count'];

@@ -4,7 +4,7 @@ import getDatabaseStatementTopList from 'in-subscription/application/getDatabase
 import TopListPresenter from 'in-components/TopList/TopListPresenter';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { ms, number } from 'in-services/formatters/number';
-import TopList from 'in-components/TopList';
+import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];

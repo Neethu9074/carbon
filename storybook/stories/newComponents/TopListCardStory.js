@@ -2,8 +2,8 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React, { Fragment } from 'react';
 
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import TopListCard from 'in-new-components/TopListCard';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
@@ -14,7 +14,7 @@ const onChangeMetric = action('onChangeMetric');
 const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
 const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 
-storiesOf('newComponents/TopListcard', module).add('default', () => <Default />);
+storiesOf('newComponents/TopListCard', module).add('default', () => <Default />);
 
 function Default() {
   return (
@@ -150,7 +150,7 @@ function Default() {
 
 function TopListItem({ title = 'Top Something', result }) {
   return (
-    <TopListCard
+    <TopListCardPresenter
       title={title}
       result={result}
       metrics={metrics}

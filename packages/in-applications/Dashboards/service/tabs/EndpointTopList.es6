@@ -2,9 +2,9 @@ import React from 'react';
 
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { millis, percentage, number } from 'in-services/formatters/number';
-import TopListPresenter from 'in-components/TopList/TopListPresenter';
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getEndpoints from 'in-subscription/application/getEndpoints';
-import TopList from 'in-components/TopList';
+import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
@@ -15,12 +15,13 @@ const formatters = [millis.fixedCompact, millis.fixedCompact, number.compact, pe
 export default function EndpointTopList({ applicationId, serviceId, timeframe }) {
   return (
     <TopList
+      title="Top Endpoints"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListPresenter}
+      render={TopListCardPresenter}
       renderViewAll={ViewAll}
       renderLabel={Label}
       renderMetric={Metric}

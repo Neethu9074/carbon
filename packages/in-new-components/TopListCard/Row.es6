@@ -1,6 +1,6 @@
 import React from 'react';
 
-import locals from './TopListRow.mless';
+import locals from './Row.mless';
 
 export default function TopListRow({ label, metricValue, maxValue, renderedMetric }) {
   return (

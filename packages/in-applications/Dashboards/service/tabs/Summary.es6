@@ -121,14 +121,10 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
 
       <Row>
         <Col lg={6}>
-          <Card title="Top Traces">
-            <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-          </Card>
+          <TraceTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
         <Col lg={6}>
-          <Card title="Top Endpoints">
-            <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-          </Card>
+          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
     </MaxWidthFullscreenContainer>

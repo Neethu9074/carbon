@@ -4,7 +4,6 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -122,14 +121,10 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
 
       <Row>
         <Col lg={6}>
-          <DashboardSection title="Top Services">
-            <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
-          </DashboardSection>
+          <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
         </Col>
         <Col lg={6}>
-          <DashboardSection title="Top Traces">
-            <TraceTopList applicationId={applicationId} timeframe={timeframe} />
-          </DashboardSection>
+          <TraceTopList applicationId={applicationId} timeframe={timeframe} />
         </Col>
       </Row>
     </MaxWidthFullscreenContainer>

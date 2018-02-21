@@ -1,9 +1,9 @@
 import { chain } from 'lodash';
 import React from 'react';
 
-import TopListRow from 'in-new-components/TopListCard/TopListRow';
+import Row from 'in-new-components/TopListCard/Row';
 
-import locals from './TopListPresenter.mless';
+import locals from './List.mless';
 
 export default function TopListPresenter(props) {
   const {
@@ -15,14 +15,6 @@ export default function TopListPresenter(props) {
     getItemsFromResult = getItemsFromPaginatedResult,
     getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
   } = props;
-
-  if (result.progress.loading) {
-    return <span>Loading…</span>;
-  } else if (result.errors.length > 0) {
-    return <span>Errors…</span>;
-  } else if (result.data.totalHits === 0) {
-    return <span>Nothing found…</span>;
-  }
 
   const maxValue = chain(getItemsFromResult(result))
     .map(getMetricValueFromItem)
@@ -43,22 +35,12 @@ export default function TopListPresenter(props) {
           const label = renderLabel(renderProps);
           const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
           return (
-            <TopListRow
-              key={i}
-              renderedMetric={renderedMetric}
-              metricValue={metricValue}
-              maxValue={maxValue}
-              label={label}
-            />
+            <Row key={i} renderedMetric={renderedMetric} metricValue={metricValue} maxValue={maxValue} label={label} />
           );
         })}
       </ol>
 
-      {renderViewAll && (
-        <div className={locals.viewAll}>
-          {renderViewAll(props)}
-        </div>
-      )}
+      {renderViewAll && <div className={locals.viewAll}>{renderViewAll(props)}</div>}
     </div>
   );
 }

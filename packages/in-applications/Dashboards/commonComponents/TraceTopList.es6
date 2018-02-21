@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getTraceTopList from 'in-subscription/application/getTraceTopList';
-import TopListPresenter from 'in-components/TopList/TopListPresenter';
 import { ms, number } from 'in-services/formatters/number';
-import TopList from 'in-components/TopList';
+import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'selfLatency', 'calls'];
@@ -15,6 +15,7 @@ const formatters = [ms.compact, ms.compact, number.compact];
 export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
+      title="Top Traces"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -22,7 +23,7 @@ export default function TraceTopList({ applicationId, serviceId, endpointId, tim
       getList={getList}
       getItemsFromResult={getItemsFromResult}
       getMetricValueFromItem={getMetricValueFromItem}
-      render={TopListPresenter}
+      render={TopListCardPresenter}
       renderViewAll={ViewAll}
       renderLabel={Label}
       renderMetric={Metric}
