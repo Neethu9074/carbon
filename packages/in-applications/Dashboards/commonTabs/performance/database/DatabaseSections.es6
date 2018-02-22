@@ -12,7 +12,7 @@ export default function DatabaseSections(props) {
   return (
     <Fragment>
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <Card key={0} title="Reads versus Writes">
             <Chart
               timeframe={props.timeframe}
@@ -25,9 +25,7 @@ export default function DatabaseSections(props) {
             />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <DatabaseStatementTopList key={1} {...props} />
         </Col>
       </Row>
