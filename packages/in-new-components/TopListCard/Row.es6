@@ -6,8 +6,8 @@ export default function TopListRow({ label, metricValue, maxValue, renderedMetri
   return (
     <li className={locals.topListRow}>
       <div className={locals.titles}>
-        <span className={locals.title}>{label}</span>
-        <span className={locals.metric}>{renderedMetric}</span>
+        {label}
+        {renderedMetric}
       </div>
 
       <div className={locals.bar}>

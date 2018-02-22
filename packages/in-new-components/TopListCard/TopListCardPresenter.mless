@@ -14,9 +14,12 @@
 
   .metricLink {
     text-decoration: none;
+    color: #47626a;
+    font-size: 0.875rem;
   }
 
   .active {
+    color: #0c1415;
     text-decoration: underline;
   }
 
