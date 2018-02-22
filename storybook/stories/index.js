@@ -43,5 +43,7 @@ import './newComponents/DashboardHeaderStory';
 import './newComponents/DotStory';
 import './newComponents/KpiCardStory';
 import './newComponents/PaginationStory';
+import './newComponents/time/TimePresenterStory';
+import './newComponents/time/TimeSelectionDialogPresenterStory';
 import './newComponents/TopListCardStory';
 import './newComponents/ViewSwitcherStory';

@@ -1,0 +1,36 @@
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+
+      .timeIcon, .toggleIcon {
+        fill: #fff;
+      }
+
+      .timeSetting {
+        color: #fff;
+      }
+    }
+  }
+
+  .timeIcon, .toggleIcon {
+    fill: #698189;
+  }
+  .timeIconExpanded, .toggleIconExpanded {
+    fill: #fff;
+  }
+
+  .timeSetting {
+    color: #698189;
+    margin: 0 .5rem;
+    font-size: .875rem;
+    font-weight: 500;
+  }
+  .timeSettingExpanded {
+    color: #fff;
+  }
+}

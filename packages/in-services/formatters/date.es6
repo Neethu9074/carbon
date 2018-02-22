@@ -68,18 +68,18 @@ export function formatDuration(millis) {
   return moment.duration(millis).humanize();
 }
 
+// 30.38 days per average per month
+export const daysPerMonth = 30.38;
 const times = [
   {
     long: 'year',
     short: 'y',
-    // 30.38 days per average per month
-    millis: 12 * 30.38 * 24 * 60 * 60 * 1000
+    millis: 12 * daysPerMonth * 24 * 60 * 60 * 1000
   },
   {
     long: 'month',
     short: 'mo',
-    // 30.38 days per average per month
-    millis: 30.38 * 24 * 60 * 60 * 1000
+    millis: daysPerMonth * 24 * 60 * 60 * 1000
   },
   {
     long: 'day',

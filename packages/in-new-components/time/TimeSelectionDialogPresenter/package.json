@@ -1,0 +1,6 @@
+{
+  "name": "TimeSelectionDialogPresenter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TimeSelectionDialogPresenter.es6"
+}

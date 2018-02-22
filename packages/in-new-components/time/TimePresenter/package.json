@@ -1,0 +1,6 @@
+{
+  "name": "TimePresenter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TimePresenter.es6"
+}

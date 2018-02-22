@@ -2,19 +2,26 @@
   height: 2.5rem;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
   background: #172429;
+  position: relative;
 
   &__right {
+    position: absolute;
+    top: 5px;
+    right: .5rem;
+
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   &__lettering {
-    margin: 0 1rem 0 1rem;
     cursor: pointer;
+    position: absolute;
+    top: .813rem;
+    left: 1rem;
   }
 }

@@ -1,0 +1,12 @@
+:local {
+  .time {
+    margin: 0 1rem;
+  }
+
+  .dialog {
+    position: absolute;
+    width: 27.5rem;
+    top: 1.9rem;
+    right: 4.6rem;
+  }
+}
