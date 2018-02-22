@@ -21,15 +21,18 @@ export default connectTo(
     static displayName = 'Node';
 
     componentDidMount() {
-      this.screenPositionSubscription = this.props.node.events$.on('screenPosition').subscribe(screenPosition => {
-        if (!screenPosition) {
-          this.nodeDomComponent.style.display = 'none';
-          return;
-        }
-        this.nodeDomComponent.style.display = '';
+      this.screenPositionSubscription = this.props.node.events$
+        .on('screenPosition')
+        .startWith(null)
+        .subscribe(screenPosition => {
+          if (!screenPosition) {
+            this.nodeDomComponent.style.display = 'none';
+            return;
+          }
+          this.nodeDomComponent.style.display = '';
 
-        applyTransform(this.nodeDomComponent, `translate3d(${screenPosition.x}px,${screenPosition.y}px,0)`);
-      });
+          applyTransform(this.nodeDomComponent, `translate3d(${screenPosition.x}px,${screenPosition.y}px,0)`);
+        });
     }
 
     componentWillUnmount() {
