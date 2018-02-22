@@ -9,7 +9,6 @@ export default function Card({ title, children, withoutPadding, header }) {
     <div className={locals.card}>
       <div className={locals.header}>
         <div className={locals.title}>{title}</div>
-
         {header}
       </div>
 
