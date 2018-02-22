@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getColor } from 'in-applications/typesTranslation/service';
+import { getColor } from 'in-applications/endpointTypes';
 
 import locals from './VerticalTypesIndicator.mless';
 

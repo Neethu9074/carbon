@@ -9,7 +9,14 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   withPropDependingState(
-    ['columnDefinitions', 'defaultOrderBy', 'defaultOrderDirection', 'defaultPageSize', 'defaultQuery'],
+    [
+      'columnDefinitions',
+      'defaultOrderBy',
+      'defaultOrderDirection',
+      'defaultPageSize',
+      'defaultQuery',
+      'paginationResettingProps'
+    ],
     ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
       orderBy: defaultOrderBy || columnDefinitions[0].id,
       orderDirection: defaultOrderDirection || 'ASC',

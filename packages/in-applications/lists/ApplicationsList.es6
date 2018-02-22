@@ -51,10 +51,11 @@ export default connectTo(
           {showNoApplicationsDefinedIndicator && <div>You got no applications, yet.</div>}
           <ServerTable
             get={getTableData}
-            pageSize={10}
+            pageSize={25}
             columnDefinitions={columnDefinitions}
             timeframe={timeframe}
             leftHeader={leftHeader}
+            paginationResettingProps={{ timeframe }}
           />
         </MaxWidthFullscreenContainer>
       </Sticky>

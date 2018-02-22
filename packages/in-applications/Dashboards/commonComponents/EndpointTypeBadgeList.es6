@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { getColor } from 'in-applications/typesTranslation/service';
+import { getColor } from 'in-applications/endpointTypes';
 import Badge from 'in-new-components/Badge';
 
 import locals from './EndpointTypeBadgeList.mless';

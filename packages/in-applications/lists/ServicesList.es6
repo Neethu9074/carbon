@@ -1,31 +1,56 @@
+import { compose, withState } from 'recompose';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
+import ComboBox from 'in-components/ComboBox';
 import Sticky from 'in-components/Sticky';
-import connectTo from 'in-hoc/connectTo';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './ServicesList.mless';
 
-export default connectTo({ timeframe: timeframe$ }, function ServicesList({ timeframe }) {
+export default compose(connect({ timeframe: timeframe$ }), withState('endpointTypes', 'setEndpointTypes', []))(
+  ServicesList
+);
+
+function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
+  const rightHeader = (
+    <ComboBox
+      value={endpointTypes}
+      onChange={t => setEndpointTypes(t.map(a => a.value))}
+      placeholder="Type…"
+      multi
+      options={getEndpointTypesComboBoxItems()}
+      className={locals.filter}
+    />
+  );
   return (
     <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer className={locals.block}>
-        <ServerTable get={getTableData} pageSize={10} columnDefinitions={columnDefinitions} timeframe={timeframe} />
+        <ServerTable
+          get={getTableData}
+          pageSize={25}
+          columnDefinitions={columnDefinitions}
+          timeframe={timeframe}
+          endpointTypes={endpointTypes}
+          paginationResettingProps={{ endpointTypes, timeframe }}
+          rightHeader={rightHeader}
+        />
       </MaxWidthFullscreenContainer>
     </Sticky>
   );
-});
+}
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeframe }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeframe, endpointTypes }) {
   return getServices({
     pagination: {
       page,
@@ -74,7 +99,8 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
     },
     filter: {
       label: query,
-      timeframe
+      timeframe,
+      endpointTypes
     }
   });
 }

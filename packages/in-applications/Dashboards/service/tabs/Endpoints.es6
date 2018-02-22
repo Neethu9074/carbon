@@ -3,7 +3,7 @@ import React from 'react';
 import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
-import { getEndpointsLabel } from 'in-applications/typesTranslation/service';
+import { getEndpointsLabel } from 'in-applications/endpointTypes';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -48,7 +48,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
     filter: {
       application: applicationId,
       service: serviceId,
-      endpointType,
+      endpointTypes: [endpointType],
       timeframe
     },
     metrics: {

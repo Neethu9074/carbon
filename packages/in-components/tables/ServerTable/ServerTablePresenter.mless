@@ -20,6 +20,12 @@
     padding: 0.25rem 0.5rem;
   }
 
+  .rightHeader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
   .noData {
     padding: 1rem;
   }
