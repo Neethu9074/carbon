@@ -92,13 +92,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'host',
-    label: 'Host',
-    getContent(item) {
-      return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
-    }
-  },
-  {
     id: 'callsAgg',
     label: 'Calls',
     getContent(item, { result, timeframe }) {
