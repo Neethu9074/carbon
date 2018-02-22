@@ -8,27 +8,24 @@ import Card from 'in-new-components/Card';
 
 export default function HttpSections({ timeframe }) {
   return (
-    <div>
-      <h2>HTTP</h2>
-      <Card title="Http Status Code Breakdown">
-        <Chart
-          timeframe={timeframe}
-          y1={{
-            renderer: Renderer.stackedArea,
-            labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-            colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
-            formatter: millis,
-            metrics: [
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe),
-              generateMetrics(timeframe)
-            ]
-          }}
-        />
-      </Card>
-    </div>
+    <Card title="Http Status Code Breakdown">
+      <Chart
+        timeframe={timeframe}
+        y1={{
+          renderer: Renderer.stackedArea,
+          labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+          colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
+          formatter: millis,
+          metrics: [
+            generateMetrics(timeframe),
+            generateMetrics(timeframe),
+            generateMetrics(timeframe),
+            generateMetrics(timeframe),
+            generateMetrics(timeframe)
+          ]
+        }}
+      />
+    </Card>
   );
 }
 
