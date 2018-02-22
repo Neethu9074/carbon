@@ -13,7 +13,7 @@ const formatters = [number.compact];
 export default function LogMessageTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
-      title="Top Log Messages"
+      title="Most Frequent Messages"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}

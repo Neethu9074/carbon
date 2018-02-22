@@ -1,16 +1,16 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
+import Card from 'in-new-components/Card';
 
 export default function HttpSections({ timeframe }) {
   return (
     <div>
       <h2>HTTP</h2>
-      <DashboardSection title="Http Status Code Breakdown">
+      <Card title="Http Status Code Breakdown">
         <Chart
           timeframe={timeframe}
           y1={{
@@ -27,7 +27,7 @@ export default function HttpSections({ timeframe }) {
             ]
           }}
         />
-      </DashboardSection>
+      </Card>
     </div>
   );
 }

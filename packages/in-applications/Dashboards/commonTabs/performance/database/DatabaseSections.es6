@@ -1,32 +1,38 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DatabaseStatementTopList from './DatabaseStatementTopList';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
+import Card from 'in-new-components/Card';
 
 export default function DatabaseSections(props) {
   return (
-    <div>
-      <h2>Database</h2>
-      <DashboardSection title="Reads versus Writes">
-        <Chart
-          timeframe={props.timeframe}
-          y1={{
-            renderer: Renderer.stackedArea,
-            labels: ['Reads', 'Writes'],
-            colors: ['#00f', '#0f0'],
-            formatter: millis,
-            metrics: [generateMetrics(props.timeframe), generateMetrics(props.timeframe)]
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Slow Statements">
-        <DatabaseStatementTopList {...props} />
-      </DashboardSection>
-    </div>
+    <Fragment>
+      <Row>
+        <Col lg={12}>
+          <Card key={0} title="Reads versus Writes">
+            <Chart
+              timeframe={props.timeframe}
+              y1={{
+                renderer: Renderer.stackedArea,
+                labels: ['Reads', 'Writes'],
+                colors: ['#00f', '#0f0'],
+                formatter: millis,
+                metrics: [generateMetrics(props.timeframe), generateMetrics(props.timeframe)]
+              }}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <DatabaseStatementTopList key={1} {...props} />
+        </Col>
+      </Row>
+    </Fragment>
   );
 }
 

@@ -1,48 +1,84 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import ServerTable from 'in-components/tables/ServerTable';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import LogMessageTopList from './LogMessageTopList';
 import { compare } from 'in-services/util/number';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+
+const columnDefinitions = [
+  {
+    id: 'endpointLabel',
+    label: 'Endpoint',
+    getContent(item, { applicationId, serviceId }) {
+      return (
+        <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+      );
+    }
+  },
+  {
+    id: 'serviceLabel',
+    label: 'Service',
+    getContent(item, { serviceLabel }) {
+      return serviceLabel;
+    }
+  },
+  {
+    id: 'logMessages',
+    label: 'Messages',
+    getContent(item) {
+      return item.metrics.logMessages;
+    }
+  }
+];
 
 export default function LoggingSections({ applicationId, serviceId, timeframe, data }) {
   return (
-    <div>
-      <h2>Logging</h2>
-      <DashboardSection title="Log Level Breakdown">
-        <Chart
-          timeframe={timeframe}
-          y1={{
-            renderer: Renderer.stackedArea,
-            labels: ['Error', 'Warn'],
-            colors: ['#f00', '#f90'],
-            formatter: number,
-            metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Most Frequent Messages">
-        <LogMessageTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
-      </DashboardSection>
-      <DashboardSection title="Top Endpoints by Log Volume">
-        {/* TODO Filter by log level */}
-        <ServerTable
-          get={getTableData}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          serviceLabel={data.label}
-          pageSize={10}
-          timeframe={timeframe}
-          columnDefinitions={columnDefinitions}
-        />
-      </DashboardSection>
-    </div>
+    <Fragment>
+      <Row>
+        <Col lg={12}>
+          <Card title="Log Level Breakdown">
+            <Chart
+              timeframe={timeframe}
+              y1={{
+                renderer: Renderer.stackedArea,
+                labels: ['Error', 'Warn'],
+                colors: ['#f00', '#f90'],
+                formatter: number,
+                metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]
+              }}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <LogMessageTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title="Top Endpoints by Log Volume">
+            {/* TODO Filter by log level */}
+            <ServerTable
+              get={getTableData}
+              applicationId={applicationId}
+              serviceId={serviceId}
+              serviceLabel={data.label}
+              pageSize={10}
+              timeframe={timeframe}
+              columnDefinitions={columnDefinitions}
+            />
+          </Card>
+        </Col>
+      </Row>
+    </Fragment>
   );
 }
 
@@ -79,29 +115,3 @@ function getTableData({ page, pageSize, applicationId, serviceId, timeframe }) {
     }
   });
 }
-
-const columnDefinitions = [
-  {
-    id: 'endpointLabel',
-    label: 'Endpoint',
-    getContent(item, { applicationId, serviceId }) {
-      return (
-        <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
-      );
-    }
-  },
-  {
-    id: 'serviceLabel',
-    label: 'Service',
-    getContent(item, { serviceLabel }) {
-      return serviceLabel;
-    }
-  },
-  {
-    id: 'logMessages',
-    label: 'Messages',
-    getContent(item) {
-      return item.metrics.logMessages;
-    }
-  }
-];
