@@ -49,7 +49,6 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['Error', 'Warn'],
-                colors: ['#f00', '#f90'],
                 formatter: number,
                 metrics: [generateMetrics(timeframe), generateMetrics(timeframe)]
               }}

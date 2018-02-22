@@ -19,7 +19,6 @@ export default function DatabaseSections(props) {
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['Reads', 'Writes'],
-                colors: ['#00f', '#0f0'],
                 formatter: millis,
                 metrics: [generateMetrics(props.timeframe), generateMetrics(props.timeframe)]
               }}
