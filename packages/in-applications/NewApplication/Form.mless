@@ -1,0 +1,12 @@
+:local {
+  .removeWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+}

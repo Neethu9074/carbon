@@ -8,6 +8,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
+import NewApplication from 'promise-loader?global,applications!in-applications/NewApplication/NewApplication';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 
@@ -16,11 +17,13 @@ import {
   applicationDashboard,
   servicesList,
   serviceDashboard,
-  endpointDashboard
+  endpointDashboard,
+  newApplicationView
 } from 'in-applications/navigation/paths';
 
 export default (
   <Fragment>
+    <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
