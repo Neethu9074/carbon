@@ -31,17 +31,19 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addOrUpdateNode(id, data) {
+  addOrUpdateNode(id, data, metricValues) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const nodes = nodesServiceLocator.getNodes();
     if (nodes.has(id)) {
       const node = nodes.get(id);
       node.setData(data);
+      node.setMetricValues(metricValues);
       return node;
     }
 
     const node = new Node(this.serviceLocatorUid, id);
     node.setData(data);
+    node.setMetricValues(metricValues);
 
     nodesServiceLocator.addNode(node.id, node);
 
@@ -122,7 +124,7 @@ export default class SceneGraph {
     for (let i = 0; i < newNodes.length; i++) {
       const nodeId = newNodes[i];
       const nodesData = nodesMap.get(nodeId);
-      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData.entity);
+      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData.entity, nodesData.metrics);
 
       if (direction === 'incoming') {
         nodeSceneObject.setIsExpanded(true, 'outgoing');
@@ -141,8 +143,8 @@ export default class SceneGraph {
   updatePresentNodes(presentNodes, nodesMap) {
     for (let i = 0; i < presentNodes.length; i++) {
       const nodeId = presentNodes[i];
-      const nodesData = nodesMap.get(nodeId).entity;
-      this.addOrUpdateNode(nodeId, nodesData);
+      const nodesData = nodesMap.get(nodeId);
+      this.addOrUpdateNode(nodeId, nodesData.entity, nodesData.metrics);
     }
   }
 

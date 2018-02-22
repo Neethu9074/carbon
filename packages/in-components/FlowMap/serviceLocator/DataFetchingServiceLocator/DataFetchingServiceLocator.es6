@@ -15,6 +15,10 @@ export default class DataFetchingServiceLocator extends BaseServiceLocator {
     this.sceneGraph.fetchOutgoingDataForNodeId(id, this.service.getOutgoingDataForNodeId);
   }
 
+  fetchMetricsForNodeId(id) {
+    return this.service.fetchMetricsForNodeId(id);
+  }
+
   disposeOpenDataSubscriptionsForNodeId(id) {
     this.sceneGraph.disposeOpenDataSubscriptionsForNodeId(id);
   }

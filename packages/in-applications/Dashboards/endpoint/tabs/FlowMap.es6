@@ -2,23 +2,29 @@ import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNodes';
+import getMetrics from 'in-subscription/application/getMetrics';
 import { timeframe$ } from 'in-stores/timeline';
 import FlowMap from 'in-components/FlowMap';
 
-export default function EndpointFlowMap({ data }) {
+export default function EndpointFlowMap({ data, applicationId, serviceId, timeframe }) {
   return (
     <FullHeightWrapper
       render={height => (
-        <FlowMap customHeight={height} rootNodeData={data} createDataFetchingService={createDataFetchingService} />
+        <FlowMap
+          customHeight={height}
+          rootNodeData={data}
+          createDataFetchingService={() => createDataFetchingService(applicationId, serviceId, timeframe)}
+        />
       )}
     />
   );
 }
 
-function createDataFetchingService() {
+function createDataFetchingService(applicationId, serviceId, timeframe) {
   return {
     getIncomingDataForNodeId,
-    getOutgoingDataForNodeId
+    getOutgoingDataForNodeId,
+    fetchMetricsForNodeId
   };
 
   function getIncomingDataForNodeId(id, path) {
@@ -27,6 +33,31 @@ function createDataFetchingService() {
 
   function getOutgoingDataForNodeId(id, path) {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
+  }
+
+  function fetchMetricsForNodeId(nodeId) {
+    return getMetrics({
+      filter: {
+        application: applicationId,
+        service: serviceId,
+        endpoint: nodeId,
+        timeframe
+      },
+      metrics: {
+        callsAgg: {
+          metric: 'calls',
+          aggregation: 'SUM'
+        },
+        latencyAgg: {
+          metric: 'latency',
+          aggregation: 'MEAN'
+        },
+        errorsAgg: {
+          metric: 'errors',
+          aggregation: 'MEAN'
+        }
+      }
+    });
   }
 }
 

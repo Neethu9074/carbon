@@ -1,12 +1,13 @@
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import EntityLink from 'in-components/FlowMap/components/Node/EntityLink';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MediumContent.mless';
 
-export default function MediumContent({ data }) {
+export default function MediumContent({ data, metrics }) {
   return (
     <div className={locals.mediumContent}>
       <div className={locals.header}>
@@ -18,11 +19,18 @@ export default function MediumContent({ data }) {
         </div>
       </div>
       <div className={locals.line} />
-      <div className={locals.metrics}>
-        <Metric type="change2" value="719" />
-        <Metric type="time" value="10ms" />
-        <Metric type="error" value="1%" />
-      </div>
+      <MetricList metrics={metrics} />
+    </div>
+  );
+}
+
+function MetricList({ metrics }) {
+  metrics = metrics || {};
+  return (
+    <div className={locals.metrics}>
+      <Metric type="change2" value={metrics.callsAgg ? number.detailed(metrics.callsAgg[0][1]) : '--'} />
+      <Metric type="time" value={metrics.latencyAgg ? millis.detailed(metrics.latencyAgg[0][1]) : '--'} />
+      <Metric type="error" value={metrics.errorsAgg ? percentage.detailed(metrics.errorsAgg[0][1]) : '--'} />
     </div>
   );
 }

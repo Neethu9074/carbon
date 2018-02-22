@@ -65,6 +65,10 @@ export default class Node extends SceneObject {
     this.events$.emit('data', data);
   }
 
+  setMetricValues(metricValues) {
+    this.events$.emit('metricValues', metricValues || null);
+  }
+
   setIsLoadingData(isLoading, direction) {
     this.events$.emit(`isLoadingData_${direction}`, isLoading);
   }
