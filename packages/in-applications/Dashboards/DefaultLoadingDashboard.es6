@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Skeleton from 'in-components/Progress/Skeleton';
 
@@ -7,7 +8,7 @@ import locals from './DefaultLoadingDashboard.mless';
 
 export default function DefaultLoadingDashboard() {
   return (
-    <Fragment>
+    <MaxWidthFullscreenContainer>
       <Row className={locals.firstRow}>
         <Col lg={4}>
           <Skeleton className={locals.skeletonKpi} />
@@ -28,6 +29,6 @@ export default function DefaultLoadingDashboard() {
           <Skeleton className={locals.skeletonChart} />
         </Col>
       </Row>
-    </Fragment>
+    </MaxWidthFullscreenContainer>
   );
 }
