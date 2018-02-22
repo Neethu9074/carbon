@@ -11,19 +11,23 @@ const topBoundary = -0.1;
 const bottomBoundary = 1.1;
 
 export default class Node extends SceneObject {
-  constructor(serviceLocatorUid, id) {
+  constructor(serviceLocatorUid, id, metricValues) {
     super(id, serviceLocatorUid);
 
     this.outgoing = [];
     this.incoming = [];
-    this.initSubscriptions();
+    this.initSubscriptions(metricValues);
     this.screenPosition = null;
 
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
+
+    if (metricValues) {
+      this.events$.emit('metricValues', metricValues);
+    }
   }
 
-  initSubscriptions() {
+  initSubscriptions(metricValues) {
     this.subscriber = new Subscriber();
     this.subscriber.addSubscription(
       combineLatest([
@@ -31,6 +35,22 @@ export default class Node extends SceneObject {
         this.events$.on('transform')
       ]).subscribe(() => this.updateScreenPosition())
     );
+
+    if (!metricValues) {
+      this.subscriber.addSubscription(
+        getServiceLocators(this.serviceLocatorUid)
+          .dataFetchingServiceLocator.fetchMetricsForNodeId(this.id)
+          .map(result => {
+            if (!result.progress.loading) {
+              return result.data;
+            }
+            return null;
+          })
+          .subscribe(metrics => {
+            this.events$.emit('metricValues', metrics || null);
+          })
+      );
+    }
   }
 
   updateScreenPosition() {
@@ -63,10 +83,6 @@ export default class Node extends SceneObject {
 
   setData(data) {
     this.events$.emit('data', data);
-  }
-
-  setMetricValues(metricValues) {
-    this.events$.emit('metricValues', metricValues || null);
   }
 
   setIsLoadingData(isLoading, direction) {

@@ -21,12 +21,13 @@ const MAX_PARTICLES = 150;
 const TIME_TO_LIFE_PER_UNIT = 0.2;
 
 export default class ParticleEmitter {
-  constructor(serviceLocatorUid) {
-    this.setNumparticlesPerSecond(0);
+  constructor(fromNode, serviceLocatorUid) {
+    this.setNumparticlesPerSecond(0, 0);
 
     // the current index in the ringbuffer array for the next spawning particle
     this.currentIndex = 0;
 
+    this.fromNode = fromNode;
     this.isRunning = false;
     this.length = 0;
 
@@ -84,6 +85,13 @@ export default class ParticleEmitter {
           }
         })
     );
+    this.subscriber.addSubscription(
+      this.fromNode.events$.on('metricValues').subscribe(metrics => {
+        const calls = metrics.callsAgg ? metrics.callsAgg[0][1] / 50 : 0;
+        const errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
+        this.setNumparticlesPerSecond(calls, errors);
+      })
+    );
   }
 
   setFromAndToPositions(fromPos, toPos) {
@@ -121,9 +129,6 @@ export default class ParticleEmitter {
       .subscribe(dt => this.update(dt));
 
     this.isRunning = true;
-
-    // TODO: bind to metric
-    this.setNumparticlesPerSecond(Math.ceil(Math.random() * 10), Math.random() * 0.25);
   }
 
   update(dt) {

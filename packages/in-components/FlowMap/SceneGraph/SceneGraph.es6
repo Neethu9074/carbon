@@ -37,13 +37,11 @@ export default class SceneGraph {
     if (nodes.has(id)) {
       const node = nodes.get(id);
       node.setData(data);
-      node.setMetricValues(metricValues);
       return node;
     }
 
-    const node = new Node(this.serviceLocatorUid, id);
+    const node = new Node(this.serviceLocatorUid, id, metricValues);
     node.setData(data);
-    node.setMetricValues(metricValues);
 
     nodesServiceLocator.addNode(node.id, node);
 

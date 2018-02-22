@@ -1,14 +1,12 @@
 import React from 'react';
 
 import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
-import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallContent';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
-import { always } from 'in-services/fixedStreams';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -18,19 +16,7 @@ import locals from './Node.mless';
 export default connectTo(
   props => ({
     data: props.node.events$.on('data'),
-    metrics: props.node.events$.on('metricValues').flatMap(metrics => {
-      if (!metrics) {
-        return getServiceLocators(props.node.serviceLocatorUid)
-          .dataFetchingServiceLocator.fetchMetricsForNodeId(props.node.id)
-          .map(result => {
-            if (!result.progress.loading) {
-              return result.data;
-            }
-            return null;
-          });
-      }
-      return always(metrics);
-    })
+    metrics: props.node.events$.on('metricValues')
   }),
   class extends React.Component {
     static displayName = 'Node';
