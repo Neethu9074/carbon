@@ -2,30 +2,35 @@ import React from 'react';
 
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 import Card from 'in-new-components/Card';
 
 export default function HttpSections({ timeframe }) {
   return (
-    <Card title="Http Status Code Breakdown">
-      <Chart
-        timeframe={timeframe}
-        y1={{
-          renderer: Renderer.stackedArea,
-          labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-          colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
-          formatter: millis,
-          metrics: [
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe),
-            generateMetrics(timeframe)
-          ]
-        }}
-      />
-    </Card>
+    <Row>
+      <Col lg={12}>
+        <Card title="Http Status Code Breakdown">
+          <Chart
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.stackedArea,
+              labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+              colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
+              formatter: millis,
+              metrics: [
+                generateMetrics(timeframe),
+                generateMetrics(timeframe),
+                generateMetrics(timeframe),
+                generateMetrics(timeframe),
+                generateMetrics(timeframe)
+              ]
+            }}
+          />
+        </Card>
+      </Col>
+    </Row>
   );
 }
 
