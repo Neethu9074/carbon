@@ -59,7 +59,10 @@ export default class OrthographicCameraWrapper {
   }
 
   setSize(width, height) {
+    this.width = width;
+    this.height = height;
     this.aspect = height / width;
+
     this.updateCameraFromSize();
 
     getServiceLocators(this.serviceLocatorUid)

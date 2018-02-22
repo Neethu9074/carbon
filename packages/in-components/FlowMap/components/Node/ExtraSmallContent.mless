@@ -1,0 +1,7 @@
+:local {
+  .entityLink {
+    margin-left: 0.4375rem;
+    font-size: 0.6875rem;
+    max-width: 1.5625rem;
+  }
+}

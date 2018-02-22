@@ -1,36 +1,56 @@
 import React from 'react';
 
-import { serviceId as matrixServiceId } from 'in-applications/navigation/matrix';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
+import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallContent';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
+import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getModifiedUrlStream } from 'in-stores/navigation';
+import { applyTransform } from 'in-services/util/dom';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 import locals from './Node.mless';
 
 export default connectTo(
   props => ({
-    screenPosition: props.node.events$.on('screenPosition'),
     data: props.node.events$.on('data')
   }),
-  function Node({ node, screenPosition, data, size, isRootNode }) {
-    if (!screenPosition) {
-      return null;
+  class extends React.Component {
+    static displayName = 'Node';
+
+    componentDidMount() {
+      this.screenPositionSubscription = this.props.node.events$.on('screenPosition').subscribe(screenPosition => {
+        if (!screenPosition) {
+          this.nodeDomComponent.style.display = 'none';
+          return;
+        }
+        this.nodeDomComponent.style.display = '';
+
+        applyTransform(this.nodeDomComponent, `translate3d(${screenPosition.x}px,${screenPosition.y}px,0)`);
+      });
     }
 
-    return (
-      <div
-        className={locals.wrapper}
-        style={{
-          top: `${screenPosition.y * 100}%`,
-          left: `${screenPosition.x * 100}%`
-        }}
-      >
-        <div className={`${getNodeClasses(isRootNode)} ${locals[size]}`}>
+    componentWillUnmount() {
+      this.screenPositionSubscription.dispose();
+      this.screenPositionSubscription = null;
+    }
+
+    render() {
+      const { node, data, size, isRootNode } = this.props;
+
+      return (
+        <div
+          ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
+          className={getNodeClasses(isRootNode, size)}
+        >
+          {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>THIS ENTITY</div>}
+
+          <VerticalTypesIndicator type={data.type} types={data.types} />
+
           {getContent(data, size)}
+
           <ExpandIcon
             className={locals.expandButtonLeft}
             direction="incoming"
@@ -44,8 +64,8 @@ export default connectTo(
             onClick={() => node.expandRight()}
           />
         </div>
-      </div>
-    );
+      );
+    }
   }
 );
 
@@ -53,18 +73,19 @@ const ExpandIcon = connectTo(
   props => ({
     isLoading: props.events$.on(`isLoadingData_${props.direction}`).distinct(),
     isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct(),
-    hasErrors: props.events$.on(`hasErrors_${props.direction}`).distinct()
+    errors: props.events$.on(`errors_${props.direction}`).distinct()
   }),
-  function ExpandIcon({ isLoading, isExpanded, hasErrors, onClick, className }) {
+  function ExpandIcon({ isLoading, isExpanded, errors, onClick, className }) {
     if (isExpanded) {
       return null;
     }
+    const hasErrors = errors && errors.length > 0;
     return (
-      <Tooltip content={hasErrors ? 'shit happens ¯\\_(ツ)_/¯' : null}>
+      <Tooltip content={hasErrors ? <ErroneousResultPresenter errors={errors} /> : null}>
         <div
           className={evaluateClassNames({
             [className]: true,
-            [locals.errorneousExpandIcon]: hasErrors
+            [locals.errorneousExpandIcon]: errors && errors.length > 0
           })}
           onClick={onClick}
         >
@@ -75,8 +96,8 @@ const ExpandIcon = connectTo(
   }
 );
 
-function getNodeClasses(isRootNode) {
-  let classes = locals.node;
+function getNodeClasses(isRootNode, size) {
+  let classes = `${locals.node} ${locals[size]}`;
   if (isRootNode) {
     return `${classes} ${locals.selected}`;
   }
@@ -84,30 +105,10 @@ function getNodeClasses(isRootNode) {
 }
 
 function getContent(data, size) {
-  if (size === 'sm') {
-    return <SmallNodeContent data={data} />;
+  if (size === 'mid') {
+    return <MediumContent data={data} />;
+  } else if (size === 'sm') {
+    return <SmallContent data={data} />;
   }
-  return <MidNodeContent data={data} />;
-}
-
-function SmallNodeContent() {
-  return <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />;
-}
-
-function MidNodeContent({ data }) {
-  return [
-    <div key={1} className={locals.line}>
-      <SvgIcon className={locals.pluginIcon} type="popup" height={12} color="#172429" />
-      <Link href$={getLinkToEntitiesFlowMap(data.id)}>{data.label}</Link>
-      <SvgIcon className={locals.expandIcon} type="triangle_right" height={8} color="#BECCD2" />
-    </div>,
-    <div key={2} className={locals.line}>{`719 18ms 0%`}</div>
-  ];
-}
-
-function getLinkToEntitiesFlowMap(id) {
-  return getModifiedUrlStream(params => {
-    const view = params.pathname.replace(/\/flowMap/, '');
-    setOrDeleteMatrixKey(params, view, matrixServiceId, id);
-  });
+  return <ExtraSmallContent data={data} />;
 }

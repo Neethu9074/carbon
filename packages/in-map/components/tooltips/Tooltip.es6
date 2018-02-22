@@ -33,6 +33,7 @@ export default function Tooltip(ComposedComponent) {
 
       // set starting position into the nimbus, to avoid that tootltips are hosted without a position to set
       applyTransform(this.tooltip, `translate3d(${-1000}px,${0}px,0)`);
+      applyTransform(this.tooltip, `translate3d(${-1000}px,${0}px,0)`);
     }
 
     componentWillUnmount() {

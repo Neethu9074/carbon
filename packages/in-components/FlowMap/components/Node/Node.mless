@@ -1,83 +1,57 @@
 :local {
-  .wrapper {
-    position: absolute;
-  }
-
   .node {
     position: absolute;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
 
-    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
     background: white;
     font-weight: 500;
     border-radius: 3px;
-    border: 1px solid transparent;
-    border-left: 4px solid #479bcc;
+    box-shadow: 0px 0px 0.875rem 0px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 0px 0.125rem 0px rgba(0, 0, 0, 0.1);
     }
   }
 
   .selected {
     border: 1px solid #1fb7b9;
-    border-left: 4px solid #1fb7b9;
+  }
+
+  .xs {
+    left: -1.125rem;
+    top: -0.625rem;
+    height: 1.25rem;
+    width: 2.25rem;
   }
 
   .sm {
-    left: -23px;
-    top: -12px;
-    width: 46px;
-    height: 24px;
+    left: -3.125rem;
+    top: -0.9375rem;
+    height: 1.875rem;
+    width: 6.25rem;
   }
 
   .mid {
-    left: -90px;
-    top: -25px;
-    width: 180px;
-    height: 50px;
-  }
-
-  .lg {
-    left: -125px;
-    top: -50px;
-    width: 250px;
-    height: 100px;
-  }
-
-  .line {
-    display: flex;
-    align-items: center;
-  }
-
-  .pluginIcon {
-    margin-right: 0.5rem;
-  }
-
-  .expandIcon {
-    padding: 0.25rem;
-    margin-left: 0.25rem;
-    cursor: pointer;
-
-    &:hover {
-      fill: #479bcc;
-    }
+    left: -7.8125rem;
+    top: -2.8125rem;
+    width: 15.625rem;
+    height: 5.625rem;
   }
 
   .expandButtonRight,
   .expandButtonLeft {
     position: absolute;
-    top: ~'calc(50% - 10px)';
+    top: ~'calc(50% - 11px)';
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 20px;
-    height: 20px;
+    width: 1.375rem;
+    height: 1.375rem;
     background: #1fb7b9;
     border-radius: 50%;
 
@@ -89,14 +63,33 @@
   }
 
   .expandButtonRight {
-    right: -10px;
+    right: -1.875rem;
   }
 
   .expandButtonLeft {
-    left: -12px;
+    left: -1.875rem;
   }
 
   .errorneousExpandIcon {
     background: #ff4229;
+  }
+
+  .rootLabel {
+    position: absolute;
+    top: -0.8125rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 5.3125rem;
+    height: 0.8125rem;
+
+    background: #1fb7b9;
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 300;
+    border-radius: 0.25rem 0.25rem 0 0;
+    left: ~'calc(50% - 5.3125rem / 2)';
   }
 }

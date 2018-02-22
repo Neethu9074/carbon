@@ -1,8 +1,9 @@
 import { uniq } from 'lodash';
 import React from 'react';
 
-import locals from './ErroneousResultPresenter.mless';
 import { isTechnicalError } from 'in-types/error';
+
+import locals from './ErroneousResultPresenter.mless';
 
 // Usage
 // <ErrorneousResultPresenter errors={[
@@ -19,7 +20,7 @@ export default function ErrorneousResultPresenter({ errors }) {
 
   return (
     <ul className={locals.errors}>
-      {uniq(errors.map(getMessage)).map((error, i) => (
+      {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.error}>
           {error}
         </li>
@@ -28,9 +29,13 @@ export default function ErrorneousResultPresenter({ errors }) {
   );
 }
 
+function getUniqueErrors(errors = []) {
+  return uniq(errors.map(getMessage));
+}
+
 function getMessage(error) {
   if (isTechnicalError(error.code)) {
-    return 'An unexpected error occurred. Please refrehs the page or try again later.';
+    return 'An unexpected error occurred. Please refresh the page or try again later.';
   }
   return error.message;
 }

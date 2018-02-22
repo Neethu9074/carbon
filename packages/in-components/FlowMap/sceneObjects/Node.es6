@@ -4,14 +4,20 @@ import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/service
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';
 
+// 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
+const leftBoundary = -0.1;
+const rightBoundary = 1.1;
+const topBoundary = -0.1;
+const bottomBoundary = 1.1;
+
 export default class Node extends SceneObject {
   constructor(serviceLocatorUid, id) {
     super(id, serviceLocatorUid);
 
-    this.screenPosition = this.position;
     this.outgoing = [];
     this.incoming = [];
     this.initSubscriptions();
+    this.screenPosition = null;
 
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
@@ -37,8 +43,22 @@ export default class Node extends SceneObject {
     screenPosition.x = (screenPosition.x + 1) / 2;
     screenPosition.y = -(screenPosition.y - 1) / 2;
 
-    this.screenPosition = screenPosition;
-    this.events$.emit('screenPosition', screenPosition);
+    if (
+      screenPosition.x > leftBoundary &&
+      screenPosition.x < rightBoundary &&
+      screenPosition.y > topBoundary &&
+      screenPosition.y < bottomBoundary
+    ) {
+      screenPosition.x *= scene.camera.width;
+      screenPosition.y *= scene.camera.height;
+      this.events$.emit('screenPosition', screenPosition);
+      this.screenPosition = screenPosition;
+    } else {
+      if (this.screenPosition != null) {
+        this.screenPosition = null;
+        this.events$.emit('screenPosition', null);
+      }
+    }
   }
 
   setData(data) {
@@ -58,12 +78,12 @@ export default class Node extends SceneObject {
     this.setIsExpanded(true, direction);
   }
 
-  hasErrorsInDirection(hasErrors, direction) {
-    if (hasErrors) {
+  setErrorsInDirection(errors = [], direction) {
+    if (errors.length > 0) {
       this.resetConnected(direction);
     }
     this.setIsLoadingData(false, direction);
-    this.events$.emit(`hasErrors_${direction}`, hasErrors);
+    this.events$.emit(`errors_${direction}`, errors);
   }
 
   resetConnected(direction) {

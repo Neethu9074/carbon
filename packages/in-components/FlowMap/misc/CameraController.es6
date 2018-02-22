@@ -11,9 +11,9 @@ export default class CameraController {
     this.overlayDomElement = overlayDomElement;
 
     this.unitsToZoomPerCall = 5;
-    this.targetCameraSize = 30;
-    this.minZoomLevel = 1;
-    this.maxZoomLevel = 10000;
+    this.targetCameraSize = 25;
+    this.minZoomLevel = 15;
+    this.maxZoomLevel = 180;
     this.cameraMoveSpeed = 4;
 
     // holds the mouse/touch position in pixel coordinates
@@ -107,7 +107,7 @@ export default class CameraController {
   }
 
   zoom(units) {
-    this.targetCameraSize = Math.min(this.maxZoomLevel, this.targetCameraSize + units);
+    this.targetCameraSize = Math.max(this.minZoomLevel, Math.min(this.maxZoomLevel, this.targetCameraSize + units));
   }
 
   update(dt) {
