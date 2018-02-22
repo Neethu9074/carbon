@@ -21,6 +21,7 @@ export default function Endpoints({ location, timeframe, data }) {
   }
   return types.map(endpointType => (
     <ServerTable
+      key={endpointType}
       get={getTableData}
       applicationId={appId}
       serviceId={serviceID}

@@ -36,6 +36,10 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       direction: orderDirection
     },
     metrics: {
+      applications: {
+        metric: 'applications',
+        aggregation: 'DISTINCT_COUNT'
+      },
       endpoints: {
         metric: 'endpoints',
         aggregation: 'DISTINCT_COUNT'
@@ -87,6 +91,13 @@ const columnDefinitions = [
     id: 'Type',
     getContent(item) {
       return item.service.types.join(', ');
+    }
+  },
+  {
+    id: 'applications',
+    label: 'Applications',
+    getContent(item) {
+      return number.compact(item.metrics.applications[0][1]);
     }
   },
   {
