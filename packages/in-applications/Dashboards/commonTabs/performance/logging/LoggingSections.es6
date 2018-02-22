@@ -42,7 +42,7 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
   return (
     <Fragment>
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <Card title="Log Level Breakdown">
             <Chart
               timeframe={timeframe}
@@ -55,9 +55,7 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
             />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <LogMessageTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
