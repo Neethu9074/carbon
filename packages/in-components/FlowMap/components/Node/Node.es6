@@ -107,7 +107,12 @@ const ExpandIcon = connectTo(
           })}
           onClick={onClick}
         >
-          <SvgIcon type={isLoading ? 'spinner' : 'plus_without_frame'} height={isLoading ? 14 : 10} color="#ffffff" />
+          <SvgIcon
+            type={isLoading ? 'spinner' : 'plus_without_frame'}
+            height={isLoading ? 14 : 10}
+            color="#ffffff"
+            spinning={isLoading}
+          />
         </div>
       </Tooltip>
     );
