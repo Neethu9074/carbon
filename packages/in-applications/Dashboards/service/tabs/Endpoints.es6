@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import { applicationId, serviceId } from 'in-applications/navigation/matrix';
@@ -17,29 +16,21 @@ export default function Endpoints({ location, timeframe, data }) {
   const appId = getMatrixParameter(location, serviceDashboard, applicationId);
   const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
 
-  return (
-    <MaxWidthFullscreenContainer>{showTypes(types, appId, serviceID, timeframe, data)}</MaxWidthFullscreenContainer>
-  );
-}
-
-function showTypes(types, appId, serviceID, timeframe, data) {
   if (types.length === 0) {
     return 'No Endpoint types found';
   }
   return types.map(endpointType => (
-    <Fragment key={endpointType}>
-      <ServerTable
-        get={getTableData}
-        applicationId={appId}
-        serviceId={serviceID}
-        endpointType={endpointType}
-        serviceLabel={data.label}
-        pageSize={10}
-        timeframe={timeframe}
-        columnDefinitions={columnDefinitions}
-        cardTitle={getEndpointsLabel(endpointType)}
-      />
-    </Fragment>
+    <ServerTable
+      get={getTableData}
+      applicationId={appId}
+      serviceId={serviceID}
+      endpointType={endpointType}
+      serviceLabel={data.label}
+      pageSize={10}
+      timeframe={timeframe}
+      columnDefinitions={columnDefinitions}
+      cardTitle={getEndpointsLabel(endpointType)}
+    />
   ));
 }
 

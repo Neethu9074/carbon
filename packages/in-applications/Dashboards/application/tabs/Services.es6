@@ -1,29 +1,26 @@
 import React from 'react';
 
-import { getServiceDashboard } from 'in-applications/navigation/paths';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, percentage, number } from 'in-services/formatters/number';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import Link from 'in-components/Link';
 
 export default function ServiceList({ location, timeframe, applicationId, serviceId, endpointId }) {
   return (
-    <MaxWidthFullscreenContainer>
-      <ServerTable
-        get={getTableData}
-        pageSize={10}
-        columnDefinitions={columnDefinitions}
-        location={location}
-        timeframe={timeframe}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        cardTitle="Services"
-      />
-    </MaxWidthFullscreenContainer>
+    <ServerTable
+      get={getTableData}
+      pageSize={10}
+      columnDefinitions={columnDefinitions}
+      location={location}
+      timeframe={timeframe}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      cardTitle="Services"
+    />
   );
 }
 

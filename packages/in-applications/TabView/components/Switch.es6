@@ -1,8 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
-import ViewWrapper from 'in-applications/TabView/components/View';
+import Title from 'in-components/Title';
 
 export default function TabSwitch({ tabs, result, location, props }) {
   const isLoading = result.progress.loading;
@@ -21,15 +22,7 @@ export default function TabSwitch({ tabs, result, location, props }) {
           <Route
             key={tab.path}
             path={tab.path}
-            render={() => (
-              <View
-                ChildComponent={tab.component}
-                label={tab.label}
-                data={result.data}
-                location={location}
-                props={props}
-              />
-            )}
+            render={() => <ViewWrapper tab={tab} data={result.data} location={location} props={props} />}
           />
         );
       })}
@@ -37,10 +30,26 @@ export default function TabSwitch({ tabs, result, location, props }) {
   );
 }
 
-function View({ ChildComponent, label, data, location, props }) {
+function ViewWrapper({ tab, data, location, props }) {
+  let content = <tab.component data={data} location={location} {...props} />;
+
+  if (!tab.isFullWidth) {
+    content = <MaxWidthFullscreenContainer>{content}</MaxWidthFullscreenContainer>;
+  }
+
+  if (!tab.stickToHeader) {
+    content = (
+      <Fragment>
+        <div style={{ height: 16 }} />
+        {content}
+      </Fragment>
+    );
+  }
+
   return (
-    <ViewWrapper title={label}>
-      <ChildComponent data={data} location={location} {...props} />
-    </ViewWrapper>
+    <Fragment>
+      <Title title={tab.label} />
+      {content}
+    </Fragment>
   );
 }

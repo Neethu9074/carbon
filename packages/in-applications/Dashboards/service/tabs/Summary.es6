@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
@@ -23,7 +22,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <MaxWidthFullscreenContainer>
+    <Fragment>
       <Row>
         <Col lg={4}>
           <AppDataKpiCard
@@ -127,6 +126,6 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
           <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
-    </MaxWidthFullscreenContainer>
+    </Fragment>
   );
 }

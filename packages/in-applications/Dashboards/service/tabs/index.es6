@@ -15,7 +15,9 @@ export default [
   {
     label: 'Flow Map',
     path: `${serviceDashboard}/flowMap`,
-    component: FlowMap
+    component: FlowMap,
+    stickToHeader: true,
+    isFullWidth: true
   },
   {
     label: 'Endpoints',

@@ -14,7 +14,9 @@ export default [
   {
     label: 'Flow Map',
     path: `${endpointDashboard}/flowMap`,
-    component: FlowMap
+    component: FlowMap,
+    stickToHeader: true,
+    isFullWidth: true
   },
   {
     label: 'Performance',
