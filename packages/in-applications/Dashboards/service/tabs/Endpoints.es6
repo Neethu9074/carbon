@@ -94,18 +94,11 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
 const columnDefinitions = [
   {
     id: 'endpointLabel',
-    label: 'Method',
+    label: 'Name',
     getContent(item, { applicationId, serviceId }) {
       return (
         <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
       );
-    }
-  },
-  {
-    id: 'serviceLabel',
-    label: 'Service',
-    getContent(item, { serviceLabel }) {
-      return serviceLabel;
     }
   },
   {

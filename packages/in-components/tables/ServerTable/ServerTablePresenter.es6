@@ -3,6 +3,7 @@ import invariant from 'invariant';
 
 import LoadingTableRows from 'in-components/tables/ServerTable/internalComponents/LoadingTableRows';
 import SearchField from 'in-components/tables/ServerTable/internalComponents/SearchField';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -41,13 +42,17 @@ export default function ServerTablePresenter(props) {
   } else if (hasErrors) {
     body = (
       <tr>
-        <td colSpan={columnDefinitions.length}>Errors</td>
+        <td colSpan={columnDefinitions.length}>
+          <ErroneousResultPresenter errors={result.errors} />
+        </td>
       </tr>
     );
   } else if (result.data.totalHits === 0) {
     body = (
       <tr>
-        <td colSpan={columnDefinitions.length}>No data found</td>
+        <td colSpan={columnDefinitions.length} className={locals.noData}>
+          No data found
+        </td>
       </tr>
     );
   } else {

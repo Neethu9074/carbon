@@ -19,4 +19,8 @@
 
     padding: 0.25rem 0.5rem;
   }
+
+  .noData {
+    padding: 1rem;
+  }
 }

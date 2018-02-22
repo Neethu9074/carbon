@@ -6,6 +6,7 @@ import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLi
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import { withoutInstana1Features } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
 
 export default function Infrastructure({ applicationId, serviceId, endpointId, timeframe }) {
@@ -88,6 +89,9 @@ const columnDefinitions = [
     id: 'process',
     label: 'Process',
     getContent(item) {
+      if (withoutInstana1Features) {
+        return item.physicalContext.process.label;
+      }
       return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
     }
   },

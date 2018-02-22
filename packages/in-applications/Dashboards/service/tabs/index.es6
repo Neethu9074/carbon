@@ -1,6 +1,6 @@
 import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
+import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
-import Performance from 'in-applications/Dashboards/service/tabs/Performance';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
@@ -13,7 +13,7 @@ export default [
     component: Summary
   },
   {
-    label: 'FlowMap',
+    label: 'Flow Map',
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap
   },
@@ -43,7 +43,7 @@ export default [
   {
     label: 'Performance',
     path: `${serviceDashboard}/performance`,
-    component: Performance
+    component: PerformanceTab
   },
   {
     label: 'Infrastructure',

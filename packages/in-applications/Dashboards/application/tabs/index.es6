@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
+import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
@@ -38,7 +37,7 @@ export default [
   {
     label: 'Performance',
     path: `${applicationDashboard}/performance`,
-    component: () => <div />
+    component: PerformanceTab
   },
   {
     label: 'Infrastructure',
