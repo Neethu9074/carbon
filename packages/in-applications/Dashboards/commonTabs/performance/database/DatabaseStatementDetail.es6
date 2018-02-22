@@ -2,29 +2,33 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getDatabaseStatement from 'in-subscription/application/getDatabaseStatement';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import { KpiSection } from 'in-components/Kpis/KpiSection';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Skeleton from 'in-components/Progress/Skeleton';
+import Card from 'in-new-components/Card';
+import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
-import connectTo from 'in-hoc/connectTo';
-
-import locals from 'in-components/Kpis/Kpis.mless';
+import locals from './DatabaseStatementDetail.mless';
 
 export default connectTo(
   props => ({
     statementResult: getDatabaseStatement({ id: props.match.params.statementId })
   }),
   function DatabaseStatementDetail({ statementResult }) {
-    return (
-      <div>
-        {(!statementResult || statementResult.loading) && 'Loading...'}
-        {statementResult && !!statementResult.error && `Error: ${statementResult.error}`}
-        {statementResult && !!statementResult.data && renderStatementData(statementResult.data)}
-      </div>
-    );
+    if (!statementResult) {
+      return null;
+    }
+    if (statementResult.progress.loading) {
+      return <DashboardSkeleton />;
+    } else if (statementResult.errors && statementResult.errors.length > 0) {
+      return <ErroneousResultPresenter errors={statementResult.errors} />;
+    }
+    return renderStatementData(statementResult.data);
   }
 );
 
@@ -39,27 +43,53 @@ function renderStatementData(statmentData) {
         })}
       />
 
-      <DashboardTile title="Statement Metrics">
-        <KpiSection>
-          {/* DOM structure and CSS yoinked from packages/in-components/Kpis/AppKpiPresenter for now */}
-          <div className={locals.kpi}>
-            <div className={locals.metric}>{number.detailed(statmentData.metrics.calls)}</div>
-            <div>Calls</div>
-          </div>
-          <div className={locals.kpi}>
-            <div className={locals.metric}>{millis.detailed(statmentData.metrics.latency)}</div>
-            <div>Latency</div>
-          </div>
-          <div className={locals.kpi}>
-            <div className={locals.metric}>{percentage.detailed(statmentData.metrics.errors)}</div>
-            <div>Errors</div>
-          </div>
-        </KpiSection>
-      </DashboardTile>
+      <Row>
+        <Col lg={4}>
+          <KpiCard title="Calls" value={number.detailed(statmentData.metrics.calls)} />
+        </Col>
+        <Col lg={4}>
+          <KpiCard title="Latency" value={millis.detailed(statmentData.metrics.latency)} />
+        </Col>
+        <Col lg={4}>
+          <KpiCard title="Errors" value={percentage.detailed(statmentData.metrics.errors)} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title="Statement">{statmentData.statement}</Card>
+        </Col>
+      </Row>
+    </MaxWidthFullscreenContainer>
+  );
+}
 
-      <DashboardTile title="Statement">
-        <div>{statmentData.statement}</div>
-      </DashboardTile>
+function DashboardSkeleton() {
+  return (
+    <MaxWidthFullscreenContainer>
+      <Title title="Database Statement Details" />
+      <BackButton
+        label="Back"
+        href$={getModifiedUrlStream(params => {
+          params.pathname = params.pathname.replace(/\/database\/statements\/.*/, '');
+        })}
+      />
+
+      <Row>
+        <Col lg={4}>
+          <Skeleton className={locals.kpiSkeleton} />
+        </Col>
+        <Col lg={4}>
+          <Skeleton className={locals.kpiSkeleton} />
+        </Col>
+        <Col lg={4}>
+          <Skeleton className={locals.kpiSkeleton} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Skeleton className={locals.statementSkeleton} />
+        </Col>
+      </Row>
     </MaxWidthFullscreenContainer>
   );
 }
