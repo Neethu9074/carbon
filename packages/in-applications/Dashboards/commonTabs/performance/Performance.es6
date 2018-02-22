@@ -9,50 +9,21 @@ import DatabaseStatementDetail from './database/DatabaseStatementDetail';
 import DatabaseSections from './database/DatabaseSections';
 import LoggingSections from './logging/LoggingSections';
 import HttpSections from './http/HttpSections';
+import connectTo from 'in-hoc/connectTo';
 
-export default class extends React.Component {
-  static displayName = 'PerformanceTab';
-
-  state = { types: [] };
-  typeSubscription;
-
-  componentDidMount() {
-    this.typeSubscription = this.subscribeToTypes(this.props);
-  }
-
-  componentWillUnmount() {
-    if (this.typeSubscription) {
-      this.typeSubscription.dispose();
-      this.typeSubscription = null;
-    }
-  }
-
-  subscribeToTypes({ applicationId, serviceId, timeframe }) {
-    return getEndpointTypes({
+export default connectTo(
+  props => ({
+    types: getEndpointTypes({
       filter: {
-        application: applicationId,
-        service: serviceId,
-        timeframe
+        application: props.applicationId,
+        service: props.serviceId,
+        timeframe: props.timeframe
       }
-    }).subscribe(
-      result => {
-        if (result.data) {
-          this.setState({ types: result.data });
-        } else {
-          this.reset();
-        }
-      },
-      () => this.reset()
-    );
-  }
+    }).map(result => result.data || null)
+  }),
+  function PerformanceTab(props) {
+    const types = props.types || [];
 
-  reset() {
-    this.setState({ types: [] });
-  }
-
-  render() {
-    const props = this.props;
-    const types = this.state.types;
     return (
       <MaxWidthFullscreenContainer>
         <Switch>
@@ -79,7 +50,7 @@ export default class extends React.Component {
       </MaxWidthFullscreenContainer>
     );
   }
-}
+);
 
 function hasHttpEndpoints(types) {
   return hasType('HTTP', types);
