@@ -61,18 +61,17 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
       </Row>
       <Row>
         <Col lg={12}>
-          <Card title="Top Endpoints by Log Volume">
-            {/* TODO Filter by log level */}
-            <ServerTable
-              get={getTableData}
-              applicationId={applicationId}
-              serviceId={serviceId}
-              serviceLabel={data.label}
-              pageSize={10}
-              timeframe={timeframe}
-              columnDefinitions={columnDefinitions}
-            />
-          </Card>
+          {/* TODO Filter by log level */}
+          <ServerTable
+            cardTitle="Top Endpoints by Log Volume"
+            get={getTableData}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            serviceLabel={data.label}
+            pageSize={10}
+            timeframe={timeframe}
+            columnDefinitions={columnDefinitions}
+          />
         </Col>
       </Row>
     </Fragment>
