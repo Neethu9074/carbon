@@ -6,6 +6,7 @@ import React from 'react';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { millis, percentage, number } from 'in-services/formatters/number';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import Root from '../_helpers/Root';
 
 const onChange = action('onChange');
@@ -139,7 +140,7 @@ const columnDefinitions = [
   {
     id: 'Endpoints',
     getContent() {
-      return 42;
+      return <Counter>42</Counter>;
     }
   },
   {

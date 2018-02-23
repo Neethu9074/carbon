@@ -1,13 +1,16 @@
 import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import { getColor } from 'in-applications/endpointTypes';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { ms, percentage, number } from 'in-services/formatters/number';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
@@ -117,21 +120,32 @@ const columnDefinitions = [
     id: 'Type',
     sortable: false,
     getContent(item) {
-      return item.service.types.join(', ');
+      return (
+        <Fragment>
+          {item.service.types
+            .slice()
+            .sort()
+            .map(type => (
+              <Badge size="sm" color={getColor(type)} key={type}>
+                {type}
+              </Badge>
+            ))}
+        </Fragment>
+      );
     }
   },
   {
     id: 'applications',
     label: 'Applications',
     getContent(item) {
-      return number.compact(item.metrics.applications[0][1]);
+      return <Counter>{number.compact(item.metrics.applications[0][1])}</Counter>;
     }
   },
   {
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return number.compact(item.metrics.endpoints[0][1]);
+      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
     }
   },
   {
