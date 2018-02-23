@@ -1,6 +1,6 @@
 :local {
   .header {
-    padding: 1.65rem 0 1.175rem;
+    padding: 1.65rem 0;
     position: relative;
   }
 
