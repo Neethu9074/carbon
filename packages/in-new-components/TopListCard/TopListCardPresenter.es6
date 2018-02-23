@@ -11,7 +11,7 @@ import locals from './TopListCardPresenter.mless';
 export default function TopListCard(props) {
   const { result, title, metrics, labels, onChangeMetric, selectedMetric } = props;
 
-  const header = (
+  const header = metrics.length > 1 && (
     <ul className={locals.metrics}>
       {metrics.map((metric, i) => (
         <li key={metric} className={locals.metric}>
