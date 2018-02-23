@@ -11,7 +11,7 @@ export default function LoadingTableRows({ progress, columnDefinitions }) {
   return (
     <Fragment>
       <tr>
-        <td colSpan={columnDefinitions.length}>
+        <td colSpan={columnDefinitions.length} className={locals.indicatorCell}>
           <HorizontalIndicator progress={progress} />
         </td>
       </tr>

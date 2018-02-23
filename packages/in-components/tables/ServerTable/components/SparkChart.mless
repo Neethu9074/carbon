@@ -1,10 +1,13 @@
 :local {
-  .sparkChart {
+  .wrapper {
     display: flex;
     align-items: center;
   }
 
-  .value {
-    margin-left: 0.5rem;
+  .metric {
+    font-size: .875rem;
+    font-weight: 500;
+    color: #16363E;
+    margin: 0px 0 0 1rem;
   }
 }

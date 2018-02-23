@@ -4,25 +4,29 @@
     font-size: 0.875rem;
     font-weight: 400;
 
-    &:hover {
-      background: #f4f7f8;
+    &:nth-child(even) {
+      background: #FAFBFC;
     }
 
-    &:nth-child(even) {
-      background: #fafbfc;
-
-      &:hover {
-        background: #f4f7f8;
-      }
+    &:hover {
+      background: #F4F7F8;
     }
   }
 
   .cell {
-    border-top: 1px solid #e8eef0;
-    height: 3rem;
+    border-top: 1px solid #E4EBED;
+    padding: .75rem 0;
 
     &:first-child {
       padding-left: 1rem;
     }
+  }
+
+  .row:first-child > .cell {
+    border-top: 0;
+  }
+
+  .row:last-child > .cell {
+    border-bottom: 1px solid #E4EBED;
   }
 }

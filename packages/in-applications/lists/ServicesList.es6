@@ -115,6 +115,7 @@ const columnDefinitions = [
   },
   {
     id: 'Type',
+    sortable: false,
     getContent(item) {
       return item.service.types.join(', ');
     }

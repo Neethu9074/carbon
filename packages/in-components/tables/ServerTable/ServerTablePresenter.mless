@@ -17,6 +17,8 @@
 
   .tableAsCard {
     border-radius: 0;
+    box-shadow: none;
+    border: 0;
   }
 
   .header {
@@ -35,5 +37,14 @@
 
   .noData {
     padding: 1rem;
+  }
+
+  .pagination {
+    justify-content: center;
+    margin: 1rem 0 0;
+  }
+
+  .paginationInCard {
+    margin-bottom: 1rem;
   }
 }

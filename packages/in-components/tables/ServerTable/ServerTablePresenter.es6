@@ -94,6 +94,10 @@ export default function ServerTablePresenter(props) {
       current={page}
       last={lastPage}
       onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+      className={evaluateClassNames({
+        [locals.pagination]: true,
+        [locals.paginationInCard]: cardTitle != null
+      })}
     />
   );
 

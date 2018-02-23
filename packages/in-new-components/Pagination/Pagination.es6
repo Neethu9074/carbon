@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import locals from './Pagination.mless';
 
-export default function Pagination({ current, last, onChange }) {
+export default function Pagination({ current, last, onChange, className }) {
   const prevDisabled = current < 2;
   const nextDisabled = current >= last;
 
   return (
-    <div className={locals.pagination}>
+    <div className={joinClassNames(locals.pagination, className)}>
       <a
         href="#"
         className={evaluateClassNames({
