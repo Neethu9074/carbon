@@ -26,7 +26,7 @@ export default connectTo(
 
     componentDidMount() {
       this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
-      // this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
+      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
     }
 
     componentWillUpdate(nextProps) {
