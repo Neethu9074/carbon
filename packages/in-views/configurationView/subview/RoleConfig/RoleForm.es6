@@ -1,10 +1,10 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
+import { newApplicationMonitoringEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { roleViewFilterEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import { isOnPremise } from 'in-services/config';
@@ -176,6 +176,16 @@ export default function RoleForm({ form, onChange, disabled }) {
           name="canConfigureAuthenticationMethods"
           label="Configuration of authentication methods"
         />
+
+        {newApplicationMonitoringEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureApplications"
+            label="Configuration of applications"
+          />
+        )}
       </Section>
     </fieldset>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
+import { newApplicationMonitoringEnabled } from 'in-services/featureFlags';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -149,6 +150,16 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           name="canConfigureAgents"
           label="Configuration of agents"
         />
+
+        {newApplicationMonitoringEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureApplications"
+            label="Configuration of applications"
+          />
+        )}
       </Section>
     </fieldset>
   );
