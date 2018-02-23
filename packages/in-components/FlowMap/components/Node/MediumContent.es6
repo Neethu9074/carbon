@@ -37,7 +37,7 @@ function MetricList({ metrics }) {
 
 function Metric({ type, value }) {
   return (
-    <div>
+    <div className={locals.metric}>
       <SvgIcon className={locals.metricIcon} type={type} height={11} color="#16363e" />
       {value}
     </div>

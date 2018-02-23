@@ -39,6 +39,11 @@
     font-weight: 400;
   }
 
+  .metric {
+    display: flex;
+    align-items: center;
+  }
+
   .metricIcon {
     margin-right: 0.3125rem;
   }
