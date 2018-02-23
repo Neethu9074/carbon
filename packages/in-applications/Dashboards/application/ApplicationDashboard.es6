@@ -7,12 +7,11 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
+import TracesButton from 'in-applications/components/TracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import TabView from 'in-applications/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
   const props = {
@@ -45,12 +44,19 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
   );
 });
 
-function Header({ result }) {
+function Header(props) {
+  return <BasicApplicationDashboardHeader type="Application" renderActions={Actions} {...props} />;
+}
+
+function Actions({ applicationId, serviceId, endpointId, timeframe }) {
   return (
-    <BasicApplicationDashboardHeader type="Application" result={result}>
-      <Link href={'#'}>
-        Configuration <SvgIcon type="gear" width={16} height={16} color="#06b7ba" />
-      </Link>
-    </BasicApplicationDashboardHeader>
+    <TracesButton
+      filter={{
+        application: applicationId,
+        service: serviceId,
+        endpoint: endpointId,
+        timeframe: timeframe
+      }}
+    />
   );
 }

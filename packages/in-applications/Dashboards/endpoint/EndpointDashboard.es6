@@ -6,6 +6,7 @@ import { applicationId, serviceId, endpointId } from 'in-applications/navigation
 import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
+import TracesButton from 'in-applications/components/TracesButton';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -43,8 +44,23 @@ export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({
   );
 });
 
-function Header({ result }) {
-  return <BasicApplicationDashboardHeader type="Endpoint" result={result} renderSubTypes={SubTypes} />;
+function Header(props) {
+  return (
+    <BasicApplicationDashboardHeader type="Endpoint" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+  );
+}
+
+function Actions({ applicationId, serviceId, endpointId, timeframe }) {
+  return (
+    <TracesButton
+      filter={{
+        application: applicationId,
+        service: serviceId,
+        endpoint: endpointId,
+        timeframe: timeframe
+      }}
+    />
+  );
 }
 
 function SubTypes({ result }) {
