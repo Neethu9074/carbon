@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
 
@@ -9,37 +9,49 @@ export default function TooltipContent({ timestamp, chart }) {
 
   return (
     <div className={locals.tooltipContent}>
-      <div className={locals.time}>{formatDateTime(timestamp)}</div>
+      <div className={locals.heading}>
+        {formatDateTime(timestamp)} <span className={locals.rollupLabel}>{chart.config.rollupLabel}</span>
+      </div>
       <MetricSeries config={chart.config} axisName="y1" dataPointsAtTime={dataPointsAtTime} />
-      <MetricSeries config={chart.config} axisName="y2" dataPointsAtTime={dataPointsAtTime} />
+      <MetricSeries config={chart.config} axisName="y2" dataPointsAtTime={dataPointsAtTime} addSpacer />
     </div>
   );
 }
 
-function MetricSeries({ config, axisName, dataPointsAtTime }) {
+function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
   const axis = config[axisName];
   if (!axis) {
     return null;
   }
 
   return (
-    <ul className={locals.tooltipMetricList}>
-      {axis.labels.map((label, i) => {
-        const dataPointsForAxis = dataPointsAtTime[axisName];
-        const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
-        return (
-          <li key={label} className={locals.metricValue}>
-            <span
-              style={{
-                color: axis.colors[i]
-              }}
-            >
-              {label}
-            </span>{' '}
-            <span>{dataPoint ? axis.formatter[i].detailed(dataPoint[1]) : '--'}</span>
-          </li>
-        );
-      })}
-    </ul>
+    <Fragment>
+      {addSpacer && <div className={locals.spacer} />}
+
+      <ul className={locals.tooltipMetricList}>
+        {axis.labels.map((label, i) => {
+          const dataPointsForAxis = dataPointsAtTime[axisName];
+          const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
+          const aggregations = axis.aggregations || [];
+          const aggregation = aggregations[i];
+
+          return (
+            <li key={label} className={locals.metricValue}>
+              <div>
+                <span
+                  style={{
+                    color: axis.colors[i]
+                  }}
+                >
+                  {label}
+                </span>{' '}
+                <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
+              </div>
+              <span>{dataPoint ? axis.formatter[i].detailed(dataPoint[1]) : '--'}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </Fragment>
   );
 }

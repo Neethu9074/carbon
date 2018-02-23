@@ -8,28 +8,43 @@
     color: #6b8088;
   }
 
-  .time {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+
     width: 100%;
     margin-bottom: 0.25rem;
+
     color: #dfdfdf;
     border-bottom: 1px solid #525252;
     padding-bottom: 0.1875rem;
   }
 
-  .tooltipMetricList {
-    &:nth-child(3) {
-      border-top: 1px dashed #525252;
-    }
+  .rollupLabel {
+    color: #6b8088;
+  }
 
+  .aggregation {
+    color: #6b8088;
+    text-transform: lowercase;
+    font-weight: bold;
+  }
+
+  .tooltipMetricList {
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
+  .spacer {
+    width: 100%;
+    border-top: 1px dashed #525252;
+  }
+
   .metricValue {
     display: flex;
     justify-content: space-between;
-    padding: 0.125rem 0.25rem 0.125rem 0;
+    padding: 0.125rem 0;
     margin: 0 0.125rem;
     font-weight: bold;
   }

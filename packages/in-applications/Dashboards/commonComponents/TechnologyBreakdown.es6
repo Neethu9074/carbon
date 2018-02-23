@@ -8,7 +8,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 export default connect(({ applicationId, serviceId, endpointId, timeframe }) => ({
   outgoingResult: getPerEndpointTypeSummary({
@@ -53,13 +52,11 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe })
   }
 
   const dataSeries = outgoingResult.data.slice().sort((a, b) => compareIgnoreCase(a.type, b.type));
-  const colors = ['#8379ff', '#bdb8ff'].concat(theme.chart.strokeColors);
 
   const config = {
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     minRollup: getChartGranularity(timeframe),
     y1: {
-      colors: ['#0096f2'].concat(colors.slice(0, dataSeries.length)),
       renderer: Renderer.stackedArea,
       labels: ['SELF'].concat(dataSeries.map(s => s.type)),
       metrics: [selfResult.data.selfLatency].concat(dataSeries.map(s => s.metrics.latency)),

@@ -88,14 +88,14 @@ function wrapProps(result, props) {
   const propsClone = deepCopy(props);
 
   propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
-  propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
   propsClone.minRollup = propsClone.minRollup || getChartGranularity(propsClone.timeframe);
 
-  //copying over the aggregation types
-  propsClone.y1.aggregation = propsClone.metricsConfiguration.metrics[propsClone.y1.metricIds[0]].aggregation;
+  propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
+  propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id]);
+    propsClone.y2.aggregations = propsClone.y2.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
   }
 
   return propsClone;
