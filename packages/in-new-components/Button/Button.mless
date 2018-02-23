@@ -7,11 +7,12 @@
     font-weight: bold;
     font-size: 0.875rem;
     text-decoration: none;
-    text-align: center;
     border: 0;
     border-radius: 0.188rem;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1.1;
 
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
@@ -36,7 +37,7 @@
       #fff,
       // hover font
       #fff,
-      );;
+      );
   }
 
   .secondary {
@@ -48,7 +49,7 @@
       // font
       #47626a,
       // hover font
-      #47626a);;
+      #47626a);
   }
 
   .normal {
@@ -59,30 +60,39 @@
     padding: 0.5rem 0.75rem;
   }
 
-  .disabled {
-    .buttonStyle(
-      // bg
-      #fff,
-      // hover bg
-      #fff,
-      // font
-      #D5DFE4,
-      // hover font
-      #D5DFE4);;
+  .icon {
+    margin: 0 0.5rem 0 0;
+  }
 
+  .disabled, .disabled:focus, .disabled:hover {
+    background: #fff;
+    color: #D5DFE4;
+    cursor: not-allowed;
+    outline: 0;
     border: 1px solid #d5dfe4;
+
+    svg {
+      fill: #D5DFE4;
+    }
   }
 }
 
 .buttonStyle(@bg, @hoverBg, @font, @hoverFont) {
-  &,
-  &.disabled:hover {
+  & {
     background: @bg;
     color: @font;
+
+    svg {
+      fill: @font;
+    }
   }
 
   &:hover {
     color: @hoverFont;
     background: @hoverBg;
+
+    svg {
+      fill: @hoverFont;
+    }
   }
 }

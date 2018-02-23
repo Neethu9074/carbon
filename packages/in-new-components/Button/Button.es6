@@ -3,12 +3,18 @@ import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { emptyObject } from 'in-services/fixedObjects';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Button.mless';
 
 export const kinds = ['primary', 'secondary'];
 export const sizes = ['normal', 'compact'];
+
+const iconDimensions = {
+  normal: 14,
+  compact: 14
+};
 
 export default connectTo(props => {
   if (props.href$) {
@@ -19,7 +25,7 @@ export default connectTo(props => {
   return emptyObject;
 }, Button);
 
-function Button({ className, kind = 'primary', size = 'normal', onClick, style, children, href, disabled }) {
+function Button({ icon, className, kind = 'primary', size = 'normal', onClick, style, children, href, disabled }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
     classes = `${classes} ${className}`;
@@ -35,22 +41,25 @@ function Button({ className, kind = 'primary', size = 'normal', onClick, style, 
     onClick = stopPropagationAndPreventDefault;
   }
 
+  const iconElement = icon && <SvgIcon type={icon} maxHeight={iconDimensions[size]} className={locals.icon} />;
+
   if (!href) {
     return (
       <button className={classes} onClick={onClick} style={style}>
-        {children}
+        {iconElement} {children}
       </button>
     );
   }
 
   return (
     <a href={href} className={classes} onClick={onClick ? onClick : stopPropagation} style={style}>
-      {children}
+      {iconElement} {children}
     </a>
   );
 }
 
 Button.propTypes = {
+  icon: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

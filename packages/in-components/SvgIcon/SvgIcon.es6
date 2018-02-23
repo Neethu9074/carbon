@@ -7,7 +7,18 @@ import './SvgIcon.less';
 
 const block = 'in-svg-icon';
 
-export default function SvgIcon({ type, width, height, className, color, onClick, style, spinning }) {
+export default function SvgIcon({
+  type,
+  width,
+  height,
+  maxWidth,
+  maxHeight,
+  className,
+  color,
+  onClick,
+  style,
+  spinning
+}) {
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {
@@ -17,15 +28,25 @@ export default function SvgIcon({ type, width, height, className, color, onClick
   }
 
   let iconWidth;
-  if (width) {
-    iconWidth = width;
-  } else if (height) {
-    iconWidth = height * icon.ratio;
+  let iconHeight;
+
+  if (maxWidth == null && maxHeight == null) {
+    if (width) {
+      iconWidth = width;
+    } else if (height) {
+      iconWidth = height * icon.ratio;
+    } else {
+      iconWidth = 1;
+    }
+    iconHeight = height ? height : iconWidth / icon.ratio;
+  } else if (maxHeight != null) {
+    iconHeight = maxHeight;
+    iconWidth = maxWidth * icon.ratio;
   } else {
-    iconWidth = 1;
+    iconWidth = maxWidth;
+    iconHeight = maxWidth / icon.ratio;
   }
 
-  const iconHeight = height ? height : iconWidth / icon.ratio;
   style = style || {};
   style.width = `${iconWidth}px`;
   style.height = `${iconHeight}px`;

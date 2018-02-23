@@ -1,4 +1,4 @@
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
@@ -15,18 +15,16 @@ storiesOf('newComponents/Button', module)
   .add('Sizes', () => <Sizes />);
 
 function Kinds() {
-  let href;
-
-  if (boolean('Render as link?', false)) {
-    href = 'http://example.com';
-  }
+  const href = boolean('Render as link?', false) ? 'http://example.com' : null;
+  const icon = boolean('With icon?', false) ? 'traces' : null;
+  const size = select('Size?', sizes, 'normal');
 
   return (
     <Root>
       <h2>Without Modifiers</h2>
       <p>
         {kinds.map(kind => (
-          <Button kind={kind} key={kind} onClick={onClick} href={href}>
+          <Button kind={kind} size={size} key={kind} onClick={onClick} href={href} icon={icon}>
             {kind}
           </Button>
         ))}
@@ -35,7 +33,7 @@ function Kinds() {
       <h2>Disabled</h2>
       <p>
         {kinds.map(kind => (
-          <Button kind={kind} disabled key={kind} href={href}>
+          <Button kind={kind} size={size} disabled key={kind} href={href} icon={icon}>
             {kind}
           </Button>
         ))}
