@@ -75,13 +75,12 @@ export default class ParticleEmitter {
     this.subscriber = new Subscriber();
     this.subscriber.addSubscription(
       getServiceLocators(this.serviceLocatorUid)
-        .eventBusServiceLocator.on('toggle_particles')
-        .subscribe(() => {
-          const wasRunning = this.isRunning;
-          this.stop();
-
-          if (!wasRunning) {
+        .eventBusServiceLocator.on('particles')
+        .subscribe(particlesAreOn => {
+          if (particlesAreOn) {
             this.start();
+          } else {
+            this.stop();
           }
         })
     );

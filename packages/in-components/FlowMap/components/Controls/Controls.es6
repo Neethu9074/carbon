@@ -6,6 +6,8 @@ import Button from 'in-components/FlowMap/components/Controls/Button';
 import locals from './Controls.mless';
 
 export default function Controls({ serviceLocatorUid }) {
+  let particlesAreOn = false;
+
   return (
     <div className={locals.controls}>
       <Button onClick={() => toggleParticles(serviceLocatorUid)} iconType="particles" />
@@ -13,20 +15,21 @@ export default function Controls({ serviceLocatorUid }) {
       <Button onClick={() => zoomOut(serviceLocatorUid)} iconType="minus" />
     </div>
   );
-}
 
-function toggleParticles(serviceLocatorUid) {
-  getServiceLocators(serviceLocatorUid).eventBusServiceLocator.emit('toggle_particles', true);
-}
+  function toggleParticles(serviceLocatorUid) {
+    particlesAreOn = !particlesAreOn;
+    getServiceLocators(serviceLocatorUid).eventBusServiceLocator.emit('particles', particlesAreOn);
+  }
 
-function zoomIn(serviceLocatorUid) {
-  getServiceLocators(serviceLocatorUid)
-    .sceneServiceLocator.getScene()
-    .cameraController.zoomInOneStep();
-}
+  function zoomIn(serviceLocatorUid) {
+    getServiceLocators(serviceLocatorUid)
+      .sceneServiceLocator.getScene()
+      .cameraController.zoomInOneStep();
+  }
 
-function zoomOut(serviceLocatorUid) {
-  getServiceLocators(serviceLocatorUid)
-    .sceneServiceLocator.getScene()
-    .cameraController.zoomOutOneStep();
+  function zoomOut(serviceLocatorUid) {
+    getServiceLocators(serviceLocatorUid)
+      .sceneServiceLocator.getScene()
+      .cameraController.zoomOutOneStep();
+  }
 }
