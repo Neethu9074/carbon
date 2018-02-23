@@ -3,6 +3,6 @@
     position: absolute;
     top: 0;
     bottom: 1.5625rem;
-    background: #dcdcdc44;
+    background: #00000033;
   }
 }
