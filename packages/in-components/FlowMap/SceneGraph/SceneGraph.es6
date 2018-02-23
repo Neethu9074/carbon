@@ -18,7 +18,7 @@ export default class SceneGraph {
   }
 
   init(rootNodeData) {
-    const rootNode = this.addOrUpdateNode(this.rootNodeId, rootNodeData);
+    const rootNode = this.addNode(this.rootNodeId, rootNodeData);
     rootNode.expandRight();
     rootNode.expandLeft();
     this.requestLayout();
@@ -31,16 +31,10 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addOrUpdateNode(id, data, metricValues) {
+  addNode(id, data, metricValues) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
-    const nodes = nodesServiceLocator.getNodes();
-    if (nodes.has(id)) {
-      const node = nodes.get(id);
-      node.setData(data);
-      return node;
-    }
-
     const node = new Node(this.serviceLocatorUid, id, metricValues);
+    node.__originalId = data.id;
     node.setData(data);
 
     nodesServiceLocator.addNode(node.id, node);
@@ -48,18 +42,26 @@ export default class SceneGraph {
     return node;
   }
 
+  updateNode(id, data) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const nodes = nodesServiceLocator.getNodes();
+    if (nodes.has(id)) {
+      nodes.get(id).setData(data);
+    }
+  }
+
   fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
     const direction = 'incoming';
-    this.setupSubscriptionIfAbsent(id, direction, getIncomingDataForNodeIdCallback, (nodeId, result) => {
-      this.processResult(nodeId, result, direction);
+    this.setupSubscriptionIfAbsent(id, direction, getIncomingDataForNodeIdCallback, (nodeId, result, path) => {
+      this.processResult(nodeId, result, direction, path);
       this.requestLayout();
     });
   }
 
   fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
     const direction = 'outgoing';
-    this.setupSubscriptionIfAbsent(id, direction, getOutgoingDataForNodeIdCallback, (nodeId, result) => {
-      this.processResult(nodeId, result, direction);
+    this.setupSubscriptionIfAbsent(id, direction, getOutgoingDataForNodeIdCallback, (nodeId, result, path) => {
+      this.processResult(nodeId, result, direction, path);
       this.requestLayout();
     });
   }
@@ -67,9 +69,10 @@ export default class SceneGraph {
   setupSubscriptionIfAbsent(id, direction, fetchData, processResult) {
     if (!this.containsSubscription(id, direction)) {
       const directionSubscriptions = this.subscriptions.get(id) || {};
-      directionSubscriptions[direction] = fetchData(id, this.pathFinder.find(id, direction)).subscribe(result =>
-        processResult(id, result)
-      );
+      const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+      const path = this.pathFinder.find(id, direction).map(id => currentNodes.get(id).__originalId);
+
+      directionSubscriptions[direction] = fetchData(id, path).subscribe(result => processResult(id, result, path));
       this.subscriptions.set(id, directionSubscriptions);
     }
   }
@@ -79,7 +82,7 @@ export default class SceneGraph {
     return directionSubscriptions && directionSubscriptions[direction] ? true : false;
   }
 
-  processResult(nodeId, result, direction) {
+  processResult(nodeId, result, direction, path) {
     const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
     const node = currentNodes.get(nodeId);
 
@@ -95,34 +98,50 @@ export default class SceneGraph {
       return;
     }
 
-    const nodesMap = this.getNodesAsMap(result.data);
+    const nodes = (result.data || []).map(n => ({
+      id: this.toUid(n.entity.id, path, direction),
+      entity: n.entity,
+      relatedNodesCount: n.relatedNodesCount,
+      metrics: n.metrics
+    }));
+    const nodesMap = this.getNodesAsMap(nodes);
 
     const difference = diff(node[direction].map(node => node.id), Array.from(nodesMap.keys()));
     const newNodes = difference.uniqueItemsB;
     const presentNodes = difference.sharedItems;
     const removedNodes = difference.uniqueItemsA;
 
-    this.addNewNodes(node, newNodes, nodesMap, direction);
+    this.addNewNodes(newNodes, nodesMap, direction);
     node.setConnected(newNodes, direction);
 
     this.updatePresentNodes(presentNodes, nodesMap);
     this.removeNodes(removedNodes);
   }
 
+  toUid(id, previousNodesPath, direction) {
+    let path;
+    if (direction === 'incoming') {
+      path = [id].concat(previousNodesPath);
+    } else {
+      path = previousNodesPath.concat([id]);
+    }
+    return path.join('__');
+  }
+
   getNodesAsMap(nodes) {
     const nodesMap = new Map();
     for (let i = 0; i < nodes.length; i++) {
       const nodeData = nodes[i];
-      nodesMap.set(nodeData.entity.id, nodeData);
+      nodesMap.set(nodeData.id, nodeData);
     }
     return nodesMap;
   }
 
-  addNewNodes(node, newNodes, nodesMap, direction) {
+  addNewNodes(newNodes, nodesMap, direction) {
     for (let i = 0; i < newNodes.length; i++) {
       const nodeId = newNodes[i];
       const nodesData = nodesMap.get(nodeId);
-      const nodeSceneObject = this.addOrUpdateNode(nodeId, nodesData.entity, nodesData.metrics);
+      const nodeSceneObject = this.addNode(nodeId, nodesData.entity, nodesData.metrics);
 
       if (direction === 'incoming') {
         nodeSceneObject.setIsExpanded(true, 'outgoing');
@@ -142,7 +161,7 @@ export default class SceneGraph {
     for (let i = 0; i < presentNodes.length; i++) {
       const nodeId = presentNodes[i];
       const nodesData = nodesMap.get(nodeId);
-      this.addOrUpdateNode(nodeId, nodesData.entity, nodesData.metrics);
+      this.updateNode(nodeId, nodesData.entity);
     }
   }
 
