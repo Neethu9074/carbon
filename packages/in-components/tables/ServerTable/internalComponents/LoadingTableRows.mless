@@ -1,6 +1,14 @@
 :local {
   .skeletonRow {
     padding: 4px 0;
+
+    &:first-child {
+      padding-left: 1rem;
+    }
+
+    &:last-child {
+      padding-right: 1rem;
+    }
   }
 
   .skeleton {
