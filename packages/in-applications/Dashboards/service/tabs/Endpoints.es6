@@ -8,6 +8,7 @@ import { number, ms, percentage } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ServerTable from 'in-components/tables/ServerTable';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import SparkChart from 'in-components/SparkChart';
 import Link from 'in-components/Link';
 
@@ -20,18 +21,21 @@ export default function Endpoints({ location, timeframe, data }) {
     return 'No Endpoint types found';
   }
   return types.map(endpointType => (
-    <ServerTable
-      key={endpointType}
-      get={getTableData}
-      applicationId={appId}
-      serviceId={serviceID}
-      endpointType={endpointType}
-      serviceLabel={data.label}
-      pageSize={10}
-      timeframe={timeframe}
-      columnDefinitions={columnDefinitions}
-      cardTitle={getEndpointsLabel(endpointType)}
-    />
+    <Row key={endpointType}>
+      <Col xs={12}>
+        <ServerTable
+          get={getTableData}
+          applicationId={appId}
+          serviceId={serviceID}
+          endpointType={endpointType}
+          serviceLabel={data.label}
+          pageSize={10}
+          timeframe={timeframe}
+          columnDefinitions={columnDefinitions}
+          cardTitle={getEndpointsLabel(endpointType)}
+        />
+      </Col>
+    </Row>
   ));
 }
 
