@@ -1,14 +1,17 @@
 :local {
   .pagination {
     display: flex;
+    font-size: 0.875rem;
+    font-weight: 400;
   }
 
   .action {
-    color: #1FB7B9;
+    color: #1fb7b9;
     text-decoration: none;
   }
 
-  .disabledAction, .disabledAction:hover {
+  .disabledAction,
+  .disabledAction:hover {
     color: #698189;
     cursor: default;
     text-decoration: none;
@@ -18,8 +21,9 @@
     margin: 0 1rem;
   }
 
-  .current, .separator, .last {
-    color: #16363E;
-    font-weight: bold;
+  .current,
+  .separator,
+  .last {
+    color: #16363e;
   }
 }

@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
 import LoadingTableRows from 'in-components/tables/ServerTable/internalComponents/LoadingTableRows';
+import SearchInput from 'in-components/tables/ServerTable/internalComponents/SearchInput';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import Pagination from 'in-new-components/Pagination';
-import Input from 'in-components/form/Input';
 import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
@@ -66,11 +66,7 @@ export default function ServerTablePresenter(props) {
   let header = (
     <div className={locals.rightHeader}>
       {rightHeader}
-      <Input
-        type="search"
-        placeholder="Search…"
-        onChange={e => onChange({ query: e.target.value, orderBy, orderDirection, page, pageSize })}
-      />
+      <SearchInput onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
     </div>
   );
   let content = (
@@ -122,7 +118,7 @@ export default function ServerTablePresenter(props) {
         {header}
       </div>
       {content}
-      {pagination}
+      <div className={locals.paginationWrapper}>{pagination}</div>
     </Fragment>
   );
 }

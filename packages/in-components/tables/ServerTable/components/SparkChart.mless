@@ -1,0 +1,10 @@
+:local {
+  .sparkChart {
+    display: flex;
+    align-items: center;
+  }
+
+  .value {
+    margin-left: 0.5rem;
+  }
+}

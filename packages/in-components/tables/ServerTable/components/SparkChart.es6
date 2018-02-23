@@ -2,6 +2,8 @@ import React from 'react';
 
 import SparkChart from 'in-components/SparkChart';
 
+import locals from './SparkChart.mless';
+
 export default function TableSparkChart(props) {
   const { metric, tooltipFormatter } = props;
   let aggregationContent = '';
@@ -12,9 +14,9 @@ export default function TableSparkChart(props) {
   }
 
   return (
-    <div>
+    <div className={locals.sparkChart}>
       <SparkChart {...props} />
-      <span>{aggregationContent}</span>
+      <span className={locals.value}>{aggregationContent}</span>
     </div>
   );
 }
