@@ -3,8 +3,8 @@ import React from 'react';
 
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { formatDateTime } from 'in-services/formatters/date';
 import createScale from 'in-charts/scale';
-import Badge from 'in-components/Badge';
 import locals from './Tooltip.mless';
 
 import connectTo from 'in-hoc/connectTo';
@@ -26,7 +26,7 @@ export default connectTo(
 
     componentDidMount() {
       this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
-      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
+      // this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
     }
 
     componentWillUpdate(nextProps) {
@@ -60,7 +60,10 @@ export default connectTo(
                   marginTop: this.state.yPositionOnCanvas
                 }}
               >
-                <Badge>{this.props.tooltipFormatter(nearestDataPoint[1])}</Badge>
+                <div className={locals.content}>
+                  <div className={locals.time}>{formatDateTime(nearestDataPoint[0])}</div>
+                  <span className={locals.value}>{this.props.tooltipFormatter(nearestDataPoint[1])}</span>
+                </div>
               </div>
             ) : null}
           </div>

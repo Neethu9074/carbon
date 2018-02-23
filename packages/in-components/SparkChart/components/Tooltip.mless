@@ -19,8 +19,25 @@
     border-left: 1px solid red;
   }
 
+  .content {
+    width: 7.5rem;
+    max-width: 7.5rem;
+
+    padding: 0.125rem 0.438rem;
+    background: #21282e;
+    color: white;
+    border-radius: 0.188rem;
+  }
+
+  .time {
+    border-bottom: 1px dashed #525252;
+    font-size: 0.625rem;
+    font-weight: 200;
+    margin-bottom: 0.125rem;
+  }
+
   .value {
-    margin-left: 5px;
+    font-weight: bold;
   }
 
   .leftAligned {
