@@ -118,9 +118,9 @@ export default connectTo(
               {form.get('expirationTime').map(field => (
                 <FormGroup>
                   <Label htmlFor="ruleBinding-expirationTime" hasError={!field.valid && field.touched}>
-                    Expiration time
+                    Grace period
                   </Label>
-                  <Helpify helpText="Grace time an issue stays open.">
+                  <Helpify helpText="Period to wait before closing the issue once conditions are no longer met.">
                     <ComboBox
                       name="ruleBinding-expirationTime"
                       value={field.value}

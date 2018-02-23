@@ -251,7 +251,7 @@ const Details = connectTo(
         <DescriptionList>
           <DescriptionItem title="Text">{ruleBinding.get('text')}</DescriptionItem>
           <DescriptionItem title="Description">{ruleBinding.get('description')}</DescriptionItem>
-          <DescriptionItem title="Expiration time">
+          <DescriptionItem title="Grace period">
             {formatDurationAccurately(ruleBinding.get('expirationTime'), 1000)}
           </DescriptionItem>
           <DescriptionItem title="Severity" className={`${block}__severity`}>
