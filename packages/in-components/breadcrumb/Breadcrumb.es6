@@ -5,10 +5,20 @@ import Link from 'in-components/Link';
 import locals from './Breadcrumb.mless';
 
 export default function Breadcrumb({ children, href, href$, label }) {
-  return (
+  const link = (
     <Link href={href} href$={href$} className={locals.breadcrumb}>
-      {label && <span className={locals.label}>{label}</span>}
       {children}
     </Link>
   );
+
+  if (label) {
+    return (
+      <div className={locals.twoRowWrapper}>
+        <div className={locals.label}>{label}</div>
+        {link}
+      </div>
+    );
+  }
+
+  return link;
 }

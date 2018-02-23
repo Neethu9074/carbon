@@ -1,7 +1,17 @@
 :local {
+  .twoRowWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    margin-bottom: 0.125rem;
+  }
+
   .breadcrumb {
     text-decoration: none;
-    color: #A5B6BE;
+    color: #a5b6be;
 
     &:last-child {
       color: #fff;
@@ -10,9 +20,5 @@
     &:hover {
       color: #fff;
     }
-  }
-
-  .label {
-    display: block;
   }
 }

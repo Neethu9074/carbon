@@ -2,9 +2,11 @@
 
 :local {
   .breadcrumbHeader {
-    background: #47626A;
+    background: #47626a;
     color: #fff;
     overflow: hidden;
+    font-size: 0.875rem;
+    font-weight: lighter;
   }
 
   .container {
@@ -14,9 +16,9 @@
     display: flex;
     align-items: center;
     height: 3.125rem;
-   }
+  }
 
   .chevron {
-    margin: 0 0.5rem;
+    margin: 0 1rem;
   }
 }
