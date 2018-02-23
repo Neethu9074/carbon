@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatDateShort, formatTime } from 'in-services/formatters/date';
+import { formatDateTime } from 'in-services/formatters/date';
 
 import locals from './TooltipContent.mless';
 
@@ -9,11 +9,9 @@ export default function TooltipContent({ timestamp, chart }) {
 
   return (
     <div className={locals.tooltipContent}>
-      <span className={locals.time}>{`${formatTime(timestamp)} - ${formatDateShort(timestamp)}`}</span>
-      <div className={locals.metricListing}>
-        <MetricSeries config={chart.config} axisName="y1" dataPointsAtTime={dataPointsAtTime} />
-        <MetricSeries config={chart.config} axisName="y2" dataPointsAtTime={dataPointsAtTime} />
-      </div>
+      <div className={locals.time}>{formatDateTime(timestamp)}</div>
+      <MetricSeries config={chart.config} axisName="y1" dataPointsAtTime={dataPointsAtTime} />
+      <MetricSeries config={chart.config} axisName="y2" dataPointsAtTime={dataPointsAtTime} />
     </div>
   );
 }
