@@ -6,6 +6,7 @@ import { applicationId, serviceId, endpointId } from 'in-applications/navigation
 import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { serviceDashboard } from 'in-applications/navigation/paths';
+import TracesButton from 'in-applications/components/TracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
@@ -44,8 +45,23 @@ export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ 
   );
 });
 
-function Header({ result }) {
-  return <BasicApplicationDashboardHeader type="Service" result={result} renderSubTypes={SubTypes} />;
+function Header(props) {
+  return (
+    <BasicApplicationDashboardHeader type="Service" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+  );
+}
+
+function Actions({ applicationId, serviceId, endpointId, timeframe }) {
+  return (
+    <TracesButton
+      filter={{
+        application: applicationId,
+        service: serviceId,
+        endpoint: endpointId,
+        timeframe: timeframe
+      }}
+    />
+  );
 }
 
 function SubTypes({ result }) {

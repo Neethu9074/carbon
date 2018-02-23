@@ -1,0 +1,6 @@
+{
+  "name": "TracesButton",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TracesButton.es6"
+}

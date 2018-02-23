@@ -7,7 +7,7 @@ import Skeleton from 'in-components/Progress/Skeleton';
 import locals from './BasicApplicationDashboardHeader.mless';
 
 export default function BasicApplicationDashboardHeader(props) {
-  const { result } = props;
+  const { result, renderActions } = props;
   let content;
   if (result.data == null) {
     content = <LoadingState {...props} />;
@@ -22,6 +22,7 @@ export default function BasicApplicationDashboardHeader(props) {
   return (
     <header className={locals.header}>
       {__DEV__ && <LifecycleObserver onWillUnmount={() => setResult(null)} />}
+      {renderActions && <div className={locals.actions}>{renderActions(props)}</div>}
       {content}
     </header>
   );

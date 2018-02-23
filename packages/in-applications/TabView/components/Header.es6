@@ -12,7 +12,7 @@ export default function Header({ tabs, result, HeaderComponent, location, props 
   return (
     <div className={locals.header}>
       <MaxWidthFullscreenContainer>
-        <HeaderComponent result={result} />
+        <HeaderComponent result={result} {...props} />
         <ul className={locals.tabList}>
           {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
         </ul>

@@ -68,7 +68,6 @@ export default function ServerTablePresenter(props) {
       {rightHeader}
       <Input
         type="search"
-        initialValue={query}
         placeholder="Search…"
         onChange={e => onChange({ query: e.target.value, orderBy, orderDirection, page, pageSize })}
       />

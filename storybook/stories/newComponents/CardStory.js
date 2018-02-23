@@ -1,8 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import SearchField from 'in-components/tables/ServerTable/internalComponents/SearchField';
 import {Row, Col} from 'in-new-components/layout/Grid';
+import Input from 'in-components/form/Input';
 import Card from 'in-new-components/Card';
 import Root from '../_helpers/Root';
 
@@ -27,7 +27,7 @@ function SingleCard() {
 }
 
 function WithAdditionalHeaderContent() {
-  const searchField = <SearchField/>;
+  const searchField = <Input placeholder="Waaazzz uuuuppp?" />;
   return (
     <Root>
       <Card title="A Card" header={searchField} withoutPadding>
