@@ -44,7 +44,7 @@ function Button({ className, kind = 'primary', size = 'normal', onClick, style, 
   }
 
   return (
-    <a href={href} className={locals.link} onClick={onClick ? onClick : stopPropagation} style={style}>
+    <a href={href} className={classes} onClick={onClick ? onClick : stopPropagation} style={style}>
       {children}
     </a>
   );

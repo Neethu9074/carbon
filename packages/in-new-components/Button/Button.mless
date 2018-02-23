@@ -72,18 +72,6 @@
 
     border: 1px solid #d5dfe4;
   }
-
-  .link {
-    color: #1fb7b9;
-    font-size: 0.875rem;
-    font-weight: bold;
-    text-decoration: none;
-
-    &:hover {
-      color: #178587;
-      text-decoration: none;
-    }
-  }
 }
 
 .buttonStyle(@bg, @hoverBg, @font, @hoverFont) {
