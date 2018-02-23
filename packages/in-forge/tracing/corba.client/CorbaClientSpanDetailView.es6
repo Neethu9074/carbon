@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-export default function CorbaSpanDetailView({ span }) {
+export default function CorbaClientSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
