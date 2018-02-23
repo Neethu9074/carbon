@@ -11,6 +11,7 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
+import calculate from 'in-components/FlowMap/misc/ParticleEmitter/callsToParticlesCalculator';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { loadImage } from 'in-map/services/imageLoader';
@@ -86,7 +87,7 @@ export default class ParticleEmitter {
     );
     this.subscriber.addSubscription(
       this.fromNode.events$.on('metricValues').subscribe(metrics => {
-        const calls = metrics.callsAgg ? metrics.callsAgg[0][1] / 50 : 0;
+        const calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
         const errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
         this.setNumparticlesPerSecond(calls, errors);
       })
@@ -246,8 +247,8 @@ export default class ParticleEmitter {
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(particlesPerSecond = 0, errorRate = 0) {
-    // clamp number of spawning particles to max number of particles during lifetime
+  setNumparticlesPerSecond(calls = 0, errorRate = 0) {
+    let particlesPerSecond = calculate(calls);
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (MAX_PARTICLES / 3));
 
     this.particlesPerSecond = particlesPerSecond;
