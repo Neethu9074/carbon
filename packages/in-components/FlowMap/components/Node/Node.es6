@@ -45,29 +45,31 @@ export default connectTo(
       const { node, metrics, data, size, isRootNode } = this.props;
 
       return (
-        <div
-          ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
-          className={getNodeClasses(isRootNode, size)}
-        >
-          {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>THIS ENTITY</div>}
+        <Tooltip content={size !== 'mid' ? data.label : null}>
+          <div
+            ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
+            className={getNodeClasses(isRootNode, size)}
+          >
+            {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>THIS ENTITY</div>}
 
-          <VerticalTypesIndicator type={data.type} types={data.types} />
+            <VerticalTypesIndicator type={data.type} types={data.types} />
 
-          {getContent(metrics, data, size)}
+            {getContent(metrics, data, size)}
 
-          <ExpandIcon
-            className={locals.expandButtonLeft}
-            direction="incoming"
-            events$={node.events$}
-            onClick={() => node.expandLeft()}
-          />
-          <ExpandIcon
-            className={locals.expandButtonRight}
-            direction="outgoing"
-            events$={node.events$}
-            onClick={() => node.expandRight()}
-          />
-        </div>
+            <ExpandIcon
+              className={locals.expandButtonLeft}
+              direction="incoming"
+              events$={node.events$}
+              onClick={() => node.expandLeft()}
+            />
+            <ExpandIcon
+              className={locals.expandButtonRight}
+              direction="outgoing"
+              events$={node.events$}
+              onClick={() => node.expandRight()}
+            />
+          </div>
+        </Tooltip>
       );
     }
   }
