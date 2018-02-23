@@ -73,7 +73,7 @@ export default connectTo(
 
     setupSubsriptions = () => {
       this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove.bind(this));
-      // this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
+      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
     };
 
     disposeSubscriptions = () => {
