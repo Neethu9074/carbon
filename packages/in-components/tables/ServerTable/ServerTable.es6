@@ -1,7 +1,7 @@
 // @flow
 
-import { compose, withPropsOnChange } from 'recompose';
-import { defaults, debounce } from 'lodash';
+import { compose } from 'recompose';
+import { defaults } from 'lodash';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
@@ -15,6 +15,7 @@ export default compose(
       'defaultOrderDirection',
       'defaultPageSize',
       'defaultQuery',
+      'get',
       'paginationResettingProps'
     ],
     ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
@@ -27,7 +28,6 @@ export default compose(
     'onChange',
     (prevState, change) => defaults({}, change, prevState)
   ),
-  withPropsOnChange(['onChange'], ({ onChange }) => ({ onChange: debounce(onChange, 500) })),
   connect(props => ({
     result: props.get(props)
   }))

@@ -66,7 +66,7 @@ export default function ServerTablePresenter(props) {
   let header = (
     <div className={locals.rightHeader}>
       {rightHeader}
-      <SearchInput onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
+      <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
     </div>
   );
   let content = (
