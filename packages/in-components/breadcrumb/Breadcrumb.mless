@@ -2,20 +2,29 @@
   .twoRowWrapper {
     display: flex;
     flex-direction: column;
+
+    &:last-child {
+      & > .breadcrumb {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      & > .label {
+        color: #fff;
+      }
+    }
   }
 
   .label {
     font-size: 0.75rem;
     margin-bottom: 0.125rem;
+    color: #a5b6be;
   }
 
   .breadcrumb {
     text-decoration: none;
     color: #a5b6be;
-
-    &:last-child {
-      color: #fff;
-    }
+    font-weight: 400;
 
     &:hover {
       color: #fff;

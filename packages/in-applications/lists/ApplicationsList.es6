@@ -5,6 +5,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 // import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
@@ -129,14 +130,14 @@ const columnDefinitions = [
     id: 'services',
     label: 'Services',
     getContent(item) {
-      return number.compact(item.metrics.services[0][1]);
+      return <Counter>{number.compact(item.metrics.services[0][1])}</Counter>;
     }
   },
   {
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return number.compact(item.metrics.endpoints[0][1]);
+      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
     }
   },
   {

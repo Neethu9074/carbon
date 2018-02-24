@@ -1,7 +1,6 @@
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { getColor } from 'in-applications/endpointTypes';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -13,6 +12,7 @@ import { ms, percentage, number } from 'in-services/formatters/number';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
+import { getColor } from 'in-applications/endpointTypes';
 import { timeframe$ } from 'in-stores/timeline';
 import ComboBox from 'in-components/ComboBox';
 import Sticky from 'in-components/Sticky';

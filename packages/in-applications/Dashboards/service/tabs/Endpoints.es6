@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getEndpointsLabel } from 'in-applications/endpointTypes';
 import ServerTable from 'in-components/tables/ServerTable';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import SparkChart from 'in-components/SparkChart';
 import Link from 'in-components/Link';
 
 export default function Endpoints({ timeframe, data, applicationId, serviceId }) {

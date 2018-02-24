@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
+import { getColor } from 'in-applications/endpointTypes';
 import Link from 'in-components/Link';
 
 export default function ServiceList({ timeframe, applicationId, serviceId, endpointId }) {
@@ -107,14 +110,25 @@ const columnDefinitions = [
   {
     id: 'Type',
     getContent(item) {
-      return item.service.types.join(', ');
+      return (
+        <Fragment>
+          {item.service.types
+            .slice()
+            .sort()
+            .map(type => (
+              <Badge size="sm" color={getColor(type)} key={type}>
+                {type}
+              </Badge>
+            ))}
+        </Fragment>
+      );
     }
   },
   {
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return number.compact(item.metrics.endpoints[0][1]);
+      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
     }
   },
   {
