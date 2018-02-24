@@ -14,12 +14,13 @@ export default function Infrastructure({ applicationId, serviceId, endpointId, t
     <MaxWidthFullscreenContainer>
       <ServerTable
         get={getTableData}
-        pageSize={10}
+        pageSize={25}
         columnDefinitions={columnDefinitions}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         timeframe={timeframe}
+        paginationResettingProps={{ applicationId, serviceId, endpointId, timeframe }}
       />
     </MaxWidthFullscreenContainer>
   );

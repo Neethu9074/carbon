@@ -1,21 +1,17 @@
 import React from 'react';
 
-import { serviceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
-import { applicationId, serviceId } from 'in-applications/navigation/matrix';
-import { getEndpointsLabel } from 'in-applications/endpointTypes';
+import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { getEndpointsLabel } from 'in-applications/endpointTypes';
 import ServerTable from 'in-components/tables/ServerTable';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SparkChart from 'in-components/SparkChart';
 import Link from 'in-components/Link';
 
-export default function Endpoints({ location, timeframe, data }) {
+export default function Endpoints({ timeframe, data, applicationId, serviceId }) {
   const { types } = data;
-  const appId = getMatrixParameter(location, serviceDashboard, applicationId);
-  const serviceID = getMatrixParameter(location, serviceDashboard, serviceId);
 
   if (types.length === 0) {
     return 'No Endpoint types found';
@@ -25,14 +21,14 @@ export default function Endpoints({ location, timeframe, data }) {
       <Col xs={12}>
         <ServerTable
           get={getTableData}
-          applicationId={appId}
-          serviceId={serviceID}
+          applicationId={applicationId}
+          serviceId={serviceId}
           endpointType={endpointType}
-          serviceLabel={data.label}
-          pageSize={10}
+          pageSize={25}
           timeframe={timeframe}
           columnDefinitions={columnDefinitions}
           cardTitle={getEndpointsLabel(endpointType)}
+          paginationResettingProps={{ applicationId, serviceId, timeframe }}
         />
       </Col>
     </Row>

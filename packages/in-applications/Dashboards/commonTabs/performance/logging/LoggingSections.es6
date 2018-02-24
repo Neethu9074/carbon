@@ -71,6 +71,7 @@ export default function LoggingSections({ applicationId, serviceId, timeframe, d
             pageSize={10}
             timeframe={timeframe}
             columnDefinitions={columnDefinitions}
+            paginationResettingProps={{ applicationId, serviceId, timeframe }}
           />
         </Col>
       </Row>

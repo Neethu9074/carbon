@@ -14,14 +14,14 @@ import Button from 'in-components/Button';
 import locals from './Form.mless';
 
 export default compose(
-  withPropDependingState(
-    ['application'],
-    ({ application }) => ({
+  withPropDependingState({
+    resettingProps: ['application'],
+    onReset: ({ application }) => ({
       form: getInitialForm(application)
     }),
-    'updateForm',
-    (_, newForm) => ({ form: newForm })
-  )
+    reducerName: 'updateForm',
+    reducer: (_, newForm) => ({ form: newForm })
+  })
 )(NewApplicationForm);
 
 function NewApplicationForm({ form, updateForm, onSubmit }) {

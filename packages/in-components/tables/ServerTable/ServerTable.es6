@@ -8,8 +8,8 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
-  withPropDependingState(
-    [
+  withPropDependingState({
+    resettingProps: [
       'columnDefinitions',
       'defaultOrderBy',
       'defaultOrderDirection',
@@ -18,16 +18,17 @@ export default compose(
       'get',
       'paginationResettingProps'
     ],
-    ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
+    onReset: ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
       orderBy: defaultOrderBy || columnDefinitions[0].id,
       orderDirection: defaultOrderDirection || 'ASC',
       page: 1,
       pageSize: defaultPageSize || 10,
       query: defaultQuery || ''
     }),
-    'onChange',
-    (prevState, change) => defaults({}, change, prevState)
-  ),
+    reducerName: 'onChange',
+    reducer: (prevState, change) => defaults({}, change, prevState)
+  }),
+
   connect(props => ({
     result: props.get(props)
   }))

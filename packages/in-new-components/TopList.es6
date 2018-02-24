@@ -14,15 +14,15 @@ import connect from 'in-hoc/connectTo';
 //          render={({result, selectedMetric, selectedMetricFormatter}) => <span />}/>
 
 export default compose(
-  withPropDependingState(
-    ['metrics', 'formatters', 'aggregations'],
-    ({ metrics, formatters, aggregations }) => ({
+  withPropDependingState({
+    withPropDependingState: ['metrics', 'formatters', 'aggregations'],
+    onReset: ({ metrics, formatters, aggregations }) => ({
       selectedMetric: metrics[0],
       selectedMetricFormatter: formatters[0],
       selectedMetricAggregation: aggregations[0]
     }),
-    'onChangeMetric',
-    (prevState, newSelectedMetric, { metrics, formatters, aggregations }) => {
+    reducerName: 'onChangeMetric',
+    reducer: (prevState, newSelectedMetric, { metrics, formatters, aggregations }) => {
       let i = metrics.indexOf(newSelectedMetric);
       if (i === -1) {
         i = 0;
@@ -33,7 +33,7 @@ export default compose(
         selectedMetricAggregation: aggregations[i]
       };
     }
-  ),
+  }),
   connect(props => ({
     result: props.getList(props)
   }))

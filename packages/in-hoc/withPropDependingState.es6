@@ -1,21 +1,34 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { createFactory, Component } from 'react';
-import { pick } from 'lodash';
+import { pick, curryRight } from 'lodash';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { identity } from 'in-services/util/function';
 
 // Sample usage
-// withPropDependingState(
-//   ['defaultOrderBy', 'defaultOrderDirection'],
-//   ({defaultOrderBy, defaultOrderDirection}) => ({
-//     orderBy: defaultOrderBy,
-//     orderDirection: defaultOrderDirection,
-//     page: 1
+// withPropDependingState({
+//   resettingProps: [
+//     'columnDefinitions',
+//     'defaultOrderBy',
+//     'defaultOrderDirection',
+//     'defaultPageSize',
+//     'defaultQuery',
+//     'get',
+//     'paginationResettingProps'
+//   ],
+//   onReset: ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
+//     orderBy: defaultOrderBy || columnDefinitions[0].id,
+//     orderDirection: defaultOrderDirection || 'ASC',
+//     page: 1,
+//     pageSize: defaultPageSize || 10,
+//     query: defaultQuery || ''
 //   }),
-//   'onChange',
-//   (prevState, change) => default({}, changedTableConfig, change)
-// )
-export default (propNamesWhichResultInReset, onReset, reducerName, reducer) => BaseComponent => {
+//   reducerName: 'onChange',
+//   reducer: (prevState, change) => defaults({}, change, prevState)
+// })(AnotherReactComponent)
+export default ({ resettingProps = [], onReset, reducerName, reducer }) => BaseComponent => {
+  const pickResettingProps = resettingProps.length > 0 ? curryRight(pick, 2)(resettingProps) : identity;
+
   const factory = createFactory(BaseComponent);
   return class WithPropDependingState extends Component {
     static displayName = getDisplayName(BaseComponent, 'WithPropDependingState');
@@ -28,7 +41,7 @@ export default (propNamesWhichResultInReset, onReset, reducerName, reducer) => B
     }
 
     componentWillReceiveProps(nextProps) {
-      if (!shallowEquals(pick(this.props), pick(nextProps))) {
+      if (!shallowEquals(pickResettingProps(this.props), pickResettingProps(nextProps))) {
         this.setState({
           propDependingState: onReset(nextProps)
         });

@@ -11,14 +11,14 @@ export default compose(
   withPropsOnChange(['onChange'], ({ onChange }) => ({
     onChange: debounce(onChange, 500)
   })),
-  withPropDependingState(
-    ['query'],
-    ({ query }) => ({
+  withPropDependingState({
+    resettingProps: ['query'],
+    onReset: ({ query }) => ({
       queryInternal: query
     }),
-    'setQuery',
-    (prevState, newQuery) => defaults({}, { queryInternal: newQuery }, prevState)
-  )
+    reducerName: 'setQuery',
+    reducer: (prevState, newQuery) => defaults({}, { queryInternal: newQuery }, prevState)
+  })
 )(SearchInput);
 
 function SearchInput({ setQuery, onChange, queryInternal }) {

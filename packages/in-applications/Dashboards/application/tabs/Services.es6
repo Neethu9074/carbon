@@ -8,18 +8,18 @@ import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import Link from 'in-components/Link';
 
-export default function ServiceList({ location, timeframe, applicationId, serviceId, endpointId }) {
+export default function ServiceList({ timeframe, applicationId, serviceId, endpointId }) {
   return (
     <ServerTable
       get={getTableData}
-      pageSize={10}
+      pageSize={25}
       columnDefinitions={columnDefinitions}
-      location={location}
       timeframe={timeframe}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
       cardTitle="Services"
+      paginationResettingProps={{ applicationId, serviceId, endpointId, timeframe }}
     />
   );
 }
