@@ -3,6 +3,7 @@ import { defaultsDeep } from 'lodash';
 import React from 'react';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { emptyObject } from 'in-services/fixedObjects';
 
 const defaultOptions = {
   pure: true
@@ -29,7 +30,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
 
       let observables;
       if (needsToCreateObservables) {
-        observables = createObservables(this.props);
+        observables = createObservables(this.props, emptyObject);
       } else {
         observables = createObservables;
       }
@@ -38,7 +39,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
 
     componentWillReceiveProps(nextProps) {
       if (needsToCreateObservables && (!opts.pure || !shallowEquals(this.props, nextProps))) {
-        this.subscribe(createObservables(nextProps));
+        this.subscribe(createObservables(nextProps, this.props));
       }
     }
 
