@@ -71,6 +71,7 @@ export default class Overlay extends React.Component {
             }}
             relativeTo={this.wrapper}
             kind={kind}
+            close={this.close}
             withoutArrow={withoutArrow}
           />
         )}

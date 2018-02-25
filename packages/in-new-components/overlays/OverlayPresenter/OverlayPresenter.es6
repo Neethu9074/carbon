@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RootCloseWrapper from 'in-new-components/overlays/RootCloseWrapper';
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import { overlays$ } from 'in-new-components/overlays/overlayStore';
 import toPx from 'in-services/formatters/toPx';
@@ -68,9 +69,11 @@ class SingleOverlayPresenter extends React.PureComponent {
   render() {
     const { content: Content, props } = this.props;
     return (
-      <div ref={r => (this.tooltipElement = r)}>
-        <Content {...props} />
-      </div>
+      <RootCloseWrapper onRootClose={this.props.close}>
+        <div ref={r => (this.tooltipElement = r)}>
+          <Content {...props} />
+        </div>
+      </RootCloseWrapper>
     );
   }
 }
