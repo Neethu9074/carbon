@@ -1,0 +1,25 @@
+:local {
+  .wrapper {
+    width: 20rem;
+    border-right: 1px solid #D3DFE5;
+  }
+
+  .from {
+    margin: 1rem;
+    border-bottom: 1px solid #E8EEF0;
+  }
+
+  .to {
+    margin: 0.3rem 1rem;
+  }
+
+  .errors {
+    margin: .3rem 1rem;
+  }
+
+  .buttons {
+    margin: 0 1rem 1rem 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

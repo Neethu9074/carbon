@@ -1,8 +1,8 @@
 import React from 'react';
 
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
+import { timeframe$, setTimeframe, setFocusedMoment } from 'in-stores/timeline';
 import TimePresenter from 'in-new-components/time/TimePresenter';
-import { timeframe$, setTimeframe } from 'in-stores/timeline';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connect from 'in-hoc/connectTo';
 
@@ -38,5 +38,6 @@ function TimeSelectionDialogPresenterWrapper({ timeframe, close }) {
   function onChange(timeframe) {
     close();
     setTimeframe(timeframe.windowSize, timeframe.to);
+    setFocusedMoment(timeframe.to);
   }
 }

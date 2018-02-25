@@ -70,7 +70,7 @@ export default class RootCloseWrapper extends React.Component {
 
   handleMouseCapture = e => {
     this.preventMouseRootClose =
-      isModifiedEvent(e) || !isLeftClickEvent(e) || ReactDOM.findDOMNode(this).contains(e.target);
+      isModifiedEvent(e) || !isLeftClickEvent(e) || ReactDOM.findDOMNode(this).parentNode.contains(e.target);
   };
 
   handleMouse = e => {

@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { regularExpressionValidator } from 'in-services/validators/regexp';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -136,20 +137,6 @@ function matchSpecificationValidator(items) {
   return null;
 }
 
-function validRegularExpressionValidator(v) {
-  try {
-    new RegExp(v);
-    return null;
-  } catch (e) {
-    return [
-      {
-        severity: 'error',
-        message: `Invalid regular expression: ${e.message}`
-      }
-    ];
-  }
-}
-
 function setValue(path, value, form, updateForm) {
   updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
 }
@@ -172,7 +159,7 @@ function getMatchSpecificationForm(matchSpecification = {}) {
       'value',
       createField({
         value: get(matchSpecification, 'value', ''),
-        validator: composeValidators(notBlankValidator, validRegularExpressionValidator)
+        validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );
 }

@@ -1,0 +1,45 @@
+:local {
+  .wrapper {
+    width: 24.75rem;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1rem;
+
+    & + .row {
+      margin-top: .25rem;
+    }
+
+    &:first-child {
+      margin-top: .5rem;
+    }
+
+    &:last-child {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .item {
+    padding: .313rem .438rem;
+    color: #47626A;
+    font-size: .875rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: block;
+    flex-basis: 48%;
+    border-radius: .188rem;
+
+    & + .item {
+      // margin-left: 10px;
+    }
+  }
+
+  .item:hover, .activeItem {
+    background: #16363E;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}
