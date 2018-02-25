@@ -130,5 +130,5 @@ function validateForm({ from: fromForm, to: toForm }) {
 }
 
 function getTime(form) {
-  return parseDateTime(`${form.get('date').value} ${form.get('time').value}`);
+  return parseDateTime(`${form.get('date').value} ${form.get('time').value}`).getTime();
 }
