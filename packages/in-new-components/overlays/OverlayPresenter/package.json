@@ -1,0 +1,6 @@
+{
+  "name": "OverlayPresenter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./OverlayPresenter.es6"
+}

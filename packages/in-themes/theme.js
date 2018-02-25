@@ -11,6 +11,7 @@ module.exports = {
     timeline: zIndex++,
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
+    overlays: zIndex++,
     tooltips: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,

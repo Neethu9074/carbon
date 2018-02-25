@@ -1,37 +1,42 @@
-import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { timeframe$, setTimeframe } from 'in-stores/timeline';
+import Overlay from 'in-new-components/overlays/Overlay';
 import connect from 'in-hoc/connectTo';
 
 import locals from './AppHeaderTimeSelection.mless';
 
-export default compose(
-  withState('dialogVisible', 'setDialogVisibility', false),
-  connect({
-    timeframe: timeframe$
-  })
-)(AppHeaderTimeSelection);
+export default connect({
+  timeframe: timeframe$
+})(AppHeaderTimeSelection);
 
-function AppHeaderTimeSelection({ timeframe, dialogVisible, setDialogVisibility }) {
+function AppHeaderTimeSelection({ timeframe }) {
   return (
-    <Fragment>
-      <TimePresenter
-        expanded={dialogVisible}
-        timeframe={timeframe}
-        className={locals.time}
-        onClick={() => setDialogVisibility(!dialogVisible)}
-      />
-      {dialogVisible && (
-        <TimeSelectionDialogPresenter timeframe={timeframe} className={locals.dialog} onChange={onChange} />
-      )}
-    </Fragment>
+    <Overlay props={{ timeframe }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
+      {TimePresenterWrapper}
+    </Overlay>
   );
+}
+
+function TimePresenterWrapper({ isOpen, toggle, timeframe, refSetter }) {
+  return (
+    <TimePresenter
+      expanded={isOpen}
+      timeframe={timeframe}
+      className={locals.time}
+      onClick={toggle}
+      refSetter={refSetter}
+    />
+  );
+}
+
+function TimeSelectionDialogPresenterWrapper({ timeframe, close }) {
+  return <TimeSelectionDialogPresenter timeframe={timeframe} onChange={onChange} />;
 
   function onChange(timeframe) {
-    setDialogVisibility(false);
+    close();
     setTimeframe(timeframe.windowSize, timeframe.to);
   }
 }

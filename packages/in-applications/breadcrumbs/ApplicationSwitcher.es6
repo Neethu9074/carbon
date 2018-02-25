@@ -7,21 +7,13 @@ import Link from 'in-components/Link';
 
 import locals from './ApplicationSwitcher.mless';
 
-// width of the popup
-const width = 400;
-
-export default function ApplicationSwitcher({ applications, viewPath, onClose, coords }) {
+export default function ApplicationSwitcher({ applications, viewPath, close }) {
   return (
-    <ul
-      className={locals.menu}
-      style={{
-        left: `${Math.max(0, coords.x - width / 2)}px`
-      }}
-    >
+    <ul className={locals.menu}>
       {applications.data.items.map(item => (
         <li key={item.application.id} className={locals.row}>
           <Link
-            onClick={onClose}
+            onClick={close}
             href$={getModifiedUrlStream(params =>
               setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
             )}

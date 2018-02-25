@@ -6,7 +6,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimePresenter.mless';
 
-export default function TimePresenter({ onClick, timeframe, className, expanded }) {
+export default function TimePresenter({ onClick, timeframe, className, expanded, refSetter }) {
   return (
     <a
       className={joinClassNames(locals.wrapper, className)}
@@ -16,6 +16,7 @@ export default function TimePresenter({ onClick, timeframe, className, expanded 
         e.preventDefault();
         onClick();
       }}
+      ref={refSetter}
     >
       <SvgIcon
         width={16}

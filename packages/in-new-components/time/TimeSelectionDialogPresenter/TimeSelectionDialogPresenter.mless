@@ -1,12 +1,4 @@
 :local {
-  .wrapper {
-    background: #FFFFFF;
-    border: 1px solid #DFE7EB;
-    box-shadow: 0 0 20px 0 rgba(0,0,0,0.20);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
   .header {
     background: #F4F7F8;
     font-size: 1rem;

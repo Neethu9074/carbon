@@ -1,5 +1,6 @@
 import React from 'react';
 
+import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
@@ -46,6 +47,8 @@ export default function App() {
         <HelpPresenter />
 
         <TooltipPresenter />
+
+        <OverlayPresenter />
 
         {/* the flyouts on the top right corner */}
         <MessageFlyout />
