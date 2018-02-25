@@ -27,6 +27,7 @@ export default function DateTimeInput({ title, form, path, setValue, className }
             onChange={v => setValue(form, [path, 'date'], v)}
             hasError={!dateField.valid && dateField.touched}
             className={locals.field}
+            overlayPosition="fixed"
           />
         </FormGroup>
         <FormGroup>

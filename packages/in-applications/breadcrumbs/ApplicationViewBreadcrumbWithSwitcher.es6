@@ -46,7 +46,7 @@ function ApplicationListViewBreadcrumb(props) {
     return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
   } else {
     return (
-      <Overlay content={ApplicationSwitcher} props={props} withoutWrapper>
+      <Overlay content={ApplicationSwitcher} props={props} withoutWrapper position="fixed">
         {OverlayActivator}
       </Overlay>
     );

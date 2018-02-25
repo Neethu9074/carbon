@@ -11,7 +11,8 @@ import locals from './OverlayPresenter.mless';
 export default connect({
   overlays: overlays$
 })(function OverlayPresenter({ overlays }) {
-  return overlays.map((props, i) => <SingleOverlayPresenter key={i} {...props} />);
+  // a wrapper div is necessary so that the RootCloseWrapper correctly works
+  return <div>{overlays.map((props, i) => <SingleOverlayPresenter key={i} {...props} />)}</div>;
 });
 
 class SingleOverlayPresenter extends React.PureComponent {
@@ -60,6 +61,7 @@ class SingleOverlayPresenter extends React.PureComponent {
     set(tooltipElement, 'top', result.top);
     set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
     set(tooltipElement, 'bottom', result.bottom !== null ? windowHeight - result.bottom : null);
+    tooltipElement.style.position = this.props.position;
 
     if (!this.props.withoutArrow) {
       tooltipElement.classList.add(locals[`align--${tooltip.align}`]);

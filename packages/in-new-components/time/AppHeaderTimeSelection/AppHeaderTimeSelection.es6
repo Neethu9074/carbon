@@ -14,7 +14,13 @@ export default connect({
 
 function AppHeaderTimeSelection({ timeframe }) {
   return (
-    <Overlay props={{ timeframe }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
+    <Overlay
+      props={{ timeframe }}
+      content={TimeSelectionDialogPresenterWrapper}
+      withoutWrapper
+      withoutArrow
+      position="fixed"
+    >
       {TimePresenterWrapper}
     </Overlay>
   );

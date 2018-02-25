@@ -46,6 +46,7 @@ export default class Overlay extends React.Component {
       wrapperClassName,
       withoutWrapper,
       withoutArrow,
+      position = 'absolute',
       kind,
       children: Content,
       props = emptyObject,
@@ -89,6 +90,7 @@ export default class Overlay extends React.Component {
               close: this.close
             }}
             relativeTo={this.wrapper}
+            position={position}
             kind={kind}
             close={this.close}
             withoutArrow={withoutArrow}
