@@ -1,3 +1,4 @@
+import {withState} from 'recompose';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
@@ -7,11 +8,14 @@ import Root from '../../_helpers/Root';
 
 storiesOf('components/form/DateInput', module).add('default', () => <Default />);
 
-function Default() {
+const Default = withState(
+  'value',
+  'onChange',
+  '')(function Default({value, onChange}) {
   return (
     <Root>
-      <DateInput />
+      <DateInput value={value} onChange={onChange} />
       <OverlayPresenter />
     </Root>
   );
-}
+});

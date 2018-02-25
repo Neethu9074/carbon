@@ -15,6 +15,7 @@ export default function FormInput(props) {
     [props.className]: props.className
   });
   delete inputProps.hasError;
+  delete inputProps.refSetter;
 
-  return <input {...inputProps} />;
+  return <input {...inputProps} ref={props.refSetter} />;
 }
