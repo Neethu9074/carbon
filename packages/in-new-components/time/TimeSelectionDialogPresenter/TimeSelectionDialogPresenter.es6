@@ -12,7 +12,7 @@ export default function TimeSelectionDialogPresenter({ timeframe, onChange }) {
   const column2 = getFixedTimePresets();
 
   return (
-    <section>
+    <section className={locals.wrapper}>
       <h1 className={locals.header}>Presets</h1>
 
       {range(0, Math.max(column1.length, column2.length)).map(i => (

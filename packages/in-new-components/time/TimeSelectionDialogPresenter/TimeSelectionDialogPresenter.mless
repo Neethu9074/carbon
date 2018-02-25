@@ -1,4 +1,8 @@
 :local {
+  .wrapper {
+    width: 24.75rem;
+  }
+
   .header {
     background: #F4F7F8;
     font-size: 1rem;
@@ -33,6 +37,7 @@
     text-decoration: none;
     display: block;
     flex-basis: 48%;
+    border-radius: .188rem;
 
     & + .item {
       // margin-left: 10px;
@@ -41,7 +46,6 @@
 
   .item:hover, .activeItem {
     background: #16363E;
-    border-radius: .188rem;
     color: #FFFFFF;
     text-decoration: none;
   }
