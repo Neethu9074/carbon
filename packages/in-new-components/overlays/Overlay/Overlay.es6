@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { throttle } from 'lodash';
 
 import OverlayMounter from 'in-new-components/overlays/OverlayMounter';
 
@@ -14,9 +15,27 @@ export default class Overlay extends React.Component {
     isOpen: false
   };
 
-  toggle = () => this.setState({ isOpen: !this.state.isOpen });
-  open = () => this.setState({ isOpen: true });
-  close = () => this.setState({ isOpen: false });
+  toggle = () => this.setOpen(!this.state.isOpen);
+  open = () => this.setOpen(true);
+  close = () => this.setOpen(false);
+
+  /*
+   * Avoid competing changes when toggling the menu. This issue occurs when the overlay
+   * is open and a toggle button outside the overlay is clicked. Following this, two things
+   * are happening.
+   *
+   * 1. The RootCloseWrapper click event will fire. Since the click is outside the overlay,
+   *    this will close the overlay.
+   * 2. The toggle click event fires. This will now invert the state. Since the overlay is
+   *    already closed, this in turn makes it visible again.
+   *
+   * As a result of this, toggling would have no effect. To counteract this, we apply a
+   * throttling with a very short duration. The only intention is to avoid these high
+   * frequency competing updates.
+   */
+  setOpen = throttle(open => this.setState({ isOpen: open }), 10, {
+    trailing: false
+  });
 
   refSetter = r => (this.wrapper = r);
 
