@@ -5,16 +5,21 @@ import Controls from 'in-components/FlowMap/components/Controls/Controls';
 import Nodes from 'in-components/FlowMap/components/Nodes/Nodes';
 
 export default class OverlayReactComponentMounter {
-  constructor(nodesReactComponentWrapper, serviceLocatorUid, rootNodeId) {
+  constructor(nodesReactComponentWrapper, serviceLocatorUid, iconType) {
     this.nodesReactComponentWrapper = nodesReactComponentWrapper;
     this.serviceLocatorUid = serviceLocatorUid;
-    this.update(rootNodeId);
+    this.iconType = iconType;
   }
 
   update(rootNodeId) {
     ReactDOM.render(
       [
-        <Nodes key="nodesOverlay" serviceLocatorUid={this.serviceLocatorUid} rootNodeId={rootNodeId} />,
+        <Nodes
+          key="nodesOverlay"
+          serviceLocatorUid={this.serviceLocatorUid}
+          rootNodeId={rootNodeId}
+          iconType={this.iconType}
+        />,
         <Controls key="controls" serviceLocatorUid={this.serviceLocatorUid} />
       ],
       this.nodesReactComponentWrapper

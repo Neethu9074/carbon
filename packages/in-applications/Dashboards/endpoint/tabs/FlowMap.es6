@@ -12,6 +12,7 @@ export default function EndpointFlowMap({ data, applicationId, serviceId, timefr
       render={height => (
         <FlowMap
           customHeight={height}
+          iconType="app_endpoint"
           createDataFetchingService={() => createDataFetchingService(data, applicationId, serviceId, timeframe)}
         />
       )}

@@ -13,13 +13,15 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
-      this.initFlowMap();
+      this.initFlowMap(this.props.iconType);
     }
 
     componentWillUpdate(nextProps) {
-      const propsAreEqual = this.props.createDataFetchingService === nextProps.createDataFetchingService;
+      const propsAreEqual =
+        this.props.createDataFetchingService === nextProps.createDataFetchingService &&
+        this.props.iconType === nextProps.iconType;
       if (!propsAreEqual) {
-        this.initFlowMap();
+        this.initFlowMap(nextProps.iconType);
       }
       if (
         this.props.width !== nextProps.width ||
@@ -36,12 +38,13 @@ export default getElementDimensions(
       }
     }
 
-    initFlowMap() {
+    initFlowMap(iconType) {
       if (isWebGLSupported() && this.webGlContext) {
         if (this.flowMap) {
           this.flowMap.dispose();
         }
         this.flowMap = new FlowMap({
+          iconType,
           canvas: this.canvas,
           overlayReactComponent: this.overlayReactComponent,
           createDataFetchingService: this.props.createDataFetchingService
