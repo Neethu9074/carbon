@@ -89,6 +89,7 @@ import './ratpack';
 import './redis';
 import './render';
 import './resteasy';
+import './resteasy.client';
 import './rpc-client';
 import './rpc-server';
 import './rpc';
