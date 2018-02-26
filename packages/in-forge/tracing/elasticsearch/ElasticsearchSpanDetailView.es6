@@ -8,6 +8,7 @@ export default function ElasticsearchSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
+        <DescriptionItem title="Endpoint">{span.getIn(['data', 'elasticsearch', 'endpoint'])}</DescriptionItem>
         <DescriptionItem title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</DescriptionItem>
         <DescriptionItem title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</DescriptionItem>
