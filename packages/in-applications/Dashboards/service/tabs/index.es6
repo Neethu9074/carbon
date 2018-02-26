@@ -52,6 +52,7 @@ export default [
     label: 'Infrastructure',
     path: `${serviceDashboard}/infrastructure`,
     component: InfrastructureTab,
+    icon: 'app_infrastructure',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
         return {
