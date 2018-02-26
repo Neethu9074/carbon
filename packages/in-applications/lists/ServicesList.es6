@@ -15,6 +15,7 @@ import ServerTable from 'in-components/tables/ServerTable';
 import { getColor } from 'in-applications/endpointTypes';
 import { timeframe$ } from 'in-stores/timeline';
 import ComboBox from 'in-components/ComboBox';
+import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
@@ -140,14 +141,24 @@ const columnDefinitions = [
     id: 'applications',
     label: 'Applications',
     getContent(item) {
-      return <Counter>{number.compact(item.metrics.applications[0][1])}</Counter>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_application" width={20} height={20} color="#6c8a91" />
+          <Counter>{number.compact(item.metrics.applications[0][1])}</Counter>
+        </div>
+      );
     }
   },
   {
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_endpoint" width={20} height={20} color="#6c8a91" />
+          <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>
+        </div>
+      );
     }
   },
   {

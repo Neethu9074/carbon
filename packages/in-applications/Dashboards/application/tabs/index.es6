@@ -15,6 +15,7 @@ export default [
     label: 'Services',
     path: `${applicationDashboard}/services`,
     component: Services,
+    icon: 'app_service',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
         return {

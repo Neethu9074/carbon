@@ -29,7 +29,7 @@ export default connect(
     }
 
     return (
-      <Button kind={kind} size={size} icon="traces" onClick={() => alert('Coming soon!')}>
+      <Button kind={kind} size={size} icon="app_trace" onClick={() => alert('Coming soon!')}>
         {number.compact(metricValue)} Traces
       </Button>
     );

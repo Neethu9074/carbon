@@ -2,4 +2,13 @@
   .block {
     margin-top: 2rem;
   }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .entityIcon {
+    margin-right: 0.75rem;
+  }
 }

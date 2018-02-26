@@ -40,4 +40,9 @@
   .selectedLink {
     color: #16363e;
   }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

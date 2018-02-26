@@ -12,6 +12,7 @@ import { number, ms, percentage } from 'in-services/formatters/number';
 import getMetrics from 'in-subscription/application/getMetrics';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
+import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -137,14 +138,24 @@ const columnDefinitions = [
     id: 'services',
     label: 'Services',
     getContent(item) {
-      return <Counter>{number.compact(item.metrics.services[0][1])}</Counter>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_service" width={18} height={20} color="#6c8a91" />
+          <Counter>{number.compact(item.metrics.services[0][1])}</Counter>
+        </div>
+      );
     }
   },
   {
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_endpoint" width={20} height={20} color="#6c8a91" />
+          <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>
+        </div>
+      );
     }
   },
   {

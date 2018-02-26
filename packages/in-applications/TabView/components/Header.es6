@@ -4,6 +4,7 @@ import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/Hori
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Header.mless';
@@ -42,7 +43,10 @@ function Tab({ tab, location, props }) {
           params.pathname = tab.path;
         })}
       >
-        <Header tab={tab} {...props} />
+        <div className={locals.flexWrapper}>
+          {tab.icon && <SvgIcon type={tab.icon} width={16} height={16} color="#6c8a91" />}
+          <Header tab={tab} {...props} />
+        </div>
       </Link>
     </li>
   );

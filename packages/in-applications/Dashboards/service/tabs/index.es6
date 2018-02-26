@@ -23,6 +23,7 @@ export default [
     label: 'Endpoints',
     path: `${serviceDashboard}/endpoints`,
     component: Endpoints,
+    icon: 'app_endpoint',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
         return {

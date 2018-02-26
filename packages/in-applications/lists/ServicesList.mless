@@ -6,4 +6,13 @@
   .filter {
     margin: 0 0.5rem 0 0;
   }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .entityIcon {
+    margin-right: 0.75rem;
+  }
 }
