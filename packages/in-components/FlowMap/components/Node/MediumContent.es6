@@ -1,13 +1,16 @@
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import EntityLink from 'in-components/FlowMap/components/Node/EntityLink';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MediumContent.mless';
 
-export default function MediumContent({ data, metrics, iconType }) {
+export default function MediumContent({ data, metrics, serviceLocatorUid }) {
+  const iconType = getServiceLocators(serviceLocatorUid).dataFetchingServiceLocator.getIconTypeForNodeId(data.id);
+
   return (
     <div className={locals.mediumContent}>
       <div className={locals.header}>

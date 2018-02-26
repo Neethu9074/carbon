@@ -23,7 +23,7 @@ export default connectTo(
       })
       .distinct()
   }),
-  function Nodes({ nodes, nodesSize, iconType, rootNodeId }) {
+  function Nodes({ nodes, nodesSize, rootNodeId, serviceLocatorUid }) {
     if (!nodes || !nodes.size === 0) {
       return null;
     }
@@ -35,7 +35,13 @@ export default connectTo(
     }
 
     return nodesArray.map(node => (
-      <Node key={node.id} node={node} iconType={iconType} size={nodesSize} isRootNode={node.id === rootNodeId} />
+      <Node
+        key={node.id}
+        node={node}
+        size={nodesSize}
+        isRootNode={node.id === rootNodeId}
+        serviceLocatorUid={serviceLocatorUid}
+      />
     ));
   }
 );

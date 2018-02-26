@@ -14,13 +14,13 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
-  constructor({ canvas, iconType, overlayReactComponent, createDataFetchingService }) {
+  constructor({ canvas, overlayReactComponent, createDataFetchingService }) {
     this.canvas = canvas;
     this.overlayReactComponent = overlayReactComponent;
     this.serviceLocatorUid = generateUniqueShortId();
 
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter(iconType);
+    this.initOverlayReactComponentMounter();
     this.initServiceLocator(createDataFetchingService);
     this.initScene();
     this.initSubscriptions();
@@ -63,11 +63,10 @@ export default class FlowMap {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
   }
 
-  initOverlayReactComponentMounter(iconType) {
+  initOverlayReactComponentMounter() {
     this.overlayReactComponentMounter = new OverlayReactComponentMounter(
       this.overlayReactComponent,
-      this.serviceLocatorUid,
-      iconType
+      this.serviceLocatorUid
     );
   }
 

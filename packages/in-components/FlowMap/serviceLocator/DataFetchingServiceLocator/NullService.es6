@@ -6,6 +6,7 @@ const nullService = {
   getIncomingDataForNodeId: () => nothing,
   getOutgoingDataForNodeId: () => nothing,
   fetchMetricsForNodeId: () => nothing,
+  getIconTypeForNodeId: noop,
   dispose: noop
 };
 export default function createNullService() {

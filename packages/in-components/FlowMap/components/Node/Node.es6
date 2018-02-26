@@ -42,7 +42,7 @@ export default connectTo(
     }
 
     render() {
-      const { node, metrics, data, size, isRootNode, iconType } = this.props;
+      const { node, metrics, data, size, isRootNode, serviceLocatorUid } = this.props;
 
       return (
         <Tooltip content={size !== 'mid' ? data.label : null}>
@@ -54,7 +54,7 @@ export default connectTo(
 
             <VerticalTypesIndicator type={data.type} types={data.types} />
 
-            {getContent(metrics, data, size, iconType)}
+            {getContent(metrics, data, size, serviceLocatorUid)}
 
             <ExpandIcon
               className={locals.expandButtonLeft}
@@ -115,9 +115,9 @@ function getNodeClasses(isRootNode, size) {
   return classes;
 }
 
-function getContent(metrics, data, size, iconType) {
+function getContent(metrics, data, size, serviceLocatorUid) {
   if (size === 'mid') {
-    return <MediumContent metrics={metrics} data={data} iconType={iconType} />;
+    return <MediumContent metrics={metrics} data={data} serviceLocatorUid={serviceLocatorUid} />;
   } else if (size === 'sm') {
     return <SmallContent data={data} />;
   }

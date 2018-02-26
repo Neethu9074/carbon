@@ -11,7 +11,6 @@ export default function ServiceFlowMap({ data, applicationId, endpointId, timefr
       render={height => (
         <FlowMap
           customHeight={height}
-          iconType="app_service"
           createDataFetchingService={() => createDataFetchingService(data, applicationId, endpointId, timeframe)}
         />
       )}
@@ -24,11 +23,16 @@ function createDataFetchingService(rootNodeData, applicationId, endpointId, time
     getIncomingDataForNodeId,
     getOutgoingDataForNodeId,
     fetchMetricsForNodeId,
+    getIconTypeForNodeId,
     getRootNodeData
   };
 
   function getRootNodeData() {
     return rootNodeData;
+  }
+
+  function getIconTypeForNodeId() {
+    return 'app_service';
   }
 
   function getIncomingDataForNodeId(id, path) {
