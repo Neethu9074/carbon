@@ -2,6 +2,7 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './availabilityZone';
+import './awsDynamoDb';
 import './awsEc';
 import './awsKinesis';
 import './awsRds';

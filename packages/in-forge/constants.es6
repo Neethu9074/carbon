@@ -7,6 +7,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const nonServicePlugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  awsDynamoDb: 'awsDynamoDb',
   awsEc: 'awsEc',
   awsKinesis: 'awsKinesis',
   awsRds: 'awsRds',
@@ -157,6 +158,7 @@ export const plugins = assign({}, servicePlugins, nonServicePlugins);
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
   awsKinesis: 'com.instana.forge.hardware.virtual.aws.kinesis.AwsKinesis',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
