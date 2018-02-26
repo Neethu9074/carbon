@@ -131,7 +131,12 @@ const columnDefinitions = [
     id: 'applicationLabel',
     label: 'Name',
     getContent(item) {
-      return <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_application" width={24} height={24} color="#6c8a91" />
+          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
+        </div>
+      );
     }
   },
   {

@@ -116,7 +116,12 @@ const columnDefinitions = [
     id: 'serviceLabel',
     label: 'Name',
     getContent(item) {
-      return <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="app_service" width={20} height={20} color="#6c8a91" />
+          <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
+        </div>
+      );
     }
   },
   {
