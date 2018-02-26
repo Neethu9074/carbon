@@ -1,35 +1,30 @@
 import React from 'react';
 
-import Form from 'in-applications/NewApplication/Form';
+import NewApplicationPresenter from 'in-applications/NewApplication/NewApplicationPresenter';
 import Title from 'in-components/Title';
 
 export default class NewApplication extends React.Component {
   state = {
-    loading: true,
-    error: false,
-    form: null,
-    entity: null,
-    message: 'Loading…'
+    loading: false,
+    error: null
   };
-
-  // componentWillMount() {
-  //   this.load(this.props.entityId);
-  // }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //
-  // }
-
-  // componentWillUnmount() {
-  //   this.disposeAsyncAction();
-  // }
 
   render() {
     return (
-      <div>
+      <section>
         <Title title="New application" />
-        <Form />
-      </div>
+
+        <NewApplicationPresenter
+          onSubmit={this.onSubmit}
+          loading={this.state.loading}
+          loadingStateName="Saving…"
+          error={this.state.error}
+        />
+      </section>
     );
   }
+
+  onSubmit = appConfig => {
+    window.console.dir(appConfig);
+  };
 }

@@ -1,0 +1,6 @@
+{
+  "name": "HelpText",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HelpText.es6"
+}

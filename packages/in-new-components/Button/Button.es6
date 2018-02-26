@@ -27,6 +27,7 @@ export default connectTo(props => {
 
 function Button({
   icon,
+  iconSpinning,
   className,
   kind = 'primary',
   size = 'normal',
@@ -52,7 +53,9 @@ function Button({
     onClick = stopPropagationAndPreventDefault;
   }
 
-  const iconElement = icon && <SvgIcon type={icon} maxHeight={iconDimensions[size]} className={locals.icon} />;
+  const iconElement = icon && (
+    <SvgIcon type={icon} spinning={iconSpinning} maxHeight={iconDimensions[size]} className={locals.icon} />
+  );
 
   if (!href) {
     return (
@@ -71,6 +74,7 @@ function Button({
 
 Button.propTypes = {
   icon: rpt.string,
+  iconSpinning: rpt.bool,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

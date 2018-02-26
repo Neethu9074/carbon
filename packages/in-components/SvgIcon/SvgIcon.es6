@@ -78,6 +78,10 @@ export default function SvgIcon({
     classNames += ` ${block}--spinning`;
   }
 
+  if (onClick) {
+    classNames += ` ${block}--clickable`;
+  }
+
   return (
     <svg
       className={classNames}
