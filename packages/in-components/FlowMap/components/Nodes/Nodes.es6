@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DISTANCE_BETWEEN_NODES_X } from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { DISTANCE_BETWEEN_NODES_X } from 'in-components/FlowMap/misc/layouting/config';
 import Node from 'in-components/FlowMap/components/Node/Node';
 import connectTo from 'in-hoc/connectTo';
 

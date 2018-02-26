@@ -14,17 +14,17 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
-  constructor({ canvas, overlayReactComponent, rootNodeData, createDataFetchingService }) {
+  constructor({ canvas, overlayReactComponent, createDataFetchingService }) {
     this.canvas = canvas;
     this.overlayReactComponent = overlayReactComponent;
     this.serviceLocatorUid = generateUniqueShortId();
 
-    this.createSceneGraph(rootNodeData.id);
+    this.initSceneGraph();
+    this.initOverlayReactComponentMounter();
     this.initServiceLocator(createDataFetchingService);
-    this.initSceneGraph(rootNodeData);
     this.initScene();
-    this.initOverlayReactComponentMounter(rootNodeData.id);
     this.initSubscriptions();
+    this.addRootNodeIfPresent();
 
     this.scene.startRendering();
   }
@@ -41,6 +41,14 @@ export default class FlowMap {
     }
   }
 
+  addRootNodeIfPresent() {
+    const rootNodeData = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getRootNodeData();
+    if (rootNodeData) {
+      this.sceneGraph.addRootNode(rootNodeData.id, rootNodeData);
+      this.overlayReactComponentMounter.update(rootNodeData.id);
+    }
+  }
+
   initScene() {
     if (!this.scene) {
       this.scene = new Scene(this.serviceLocatorUid, this.canvas, this.overlayReactComponent);
@@ -51,12 +59,8 @@ export default class FlowMap {
     }
   }
 
-  createSceneGraph(rootNodeId) {
-    this.sceneGraph = new SceneGraph(this.serviceLocatorUid, rootNodeId);
-  }
-
-  initSceneGraph(rootNodeData) {
-    this.sceneGraph.init(rootNodeData);
+  initSceneGraph() {
+    this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
   }
 
   initOverlayReactComponentMounter(rootNodeId) {

@@ -28,7 +28,7 @@ export default function createConnectionsService(serviceLocatorUid) {
   const line = new LineSegments(geometry, material);
   line.frustumCulled = false;
 
-  function set(nextConnectionConfigs) {
+  function setConnections(nextConnectionConfigs) {
     nextConnectionConfigs = nextConnectionConfigs.map(config => {
       config.id = createConnectionId(config.from, config.to);
       return config;
@@ -70,7 +70,7 @@ export default function createConnectionsService(serviceLocatorUid) {
     }
   }
 
-  function update() {
+  function updateVertices() {
     const vertices = [];
     const colors = [];
 
@@ -99,6 +99,21 @@ export default function createConnectionsService(serviceLocatorUid) {
       .addSceneObject(line);
   }
 
+  function update(nodesMap) {
+    const nodes = nodesMap.objects.values();
+    const connections = [];
+    for (const node of nodes) {
+      for (let i = 0; i < node.incoming.length; i++) {
+        connections.push({ from: nodesMap.get(node.incoming[i]), to: node });
+      }
+      for (let i = 0; i < node.outgoing.length; i++) {
+        connections.push({ from: node, to: nodesMap.get(node.outgoing[i]) });
+      }
+    }
+    setConnections(connections);
+    updateVertices();
+  }
+
   function dispose() {
     getServiceLocators(serviceLocatorUid)
       .sceneServiceLocator.getScene()
@@ -112,7 +127,6 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   return {
-    set,
     remove,
     update,
     dispose

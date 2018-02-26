@@ -7,13 +7,17 @@ import Nodes from 'in-components/FlowMap/components/Nodes/Nodes';
 export default class OverlayReactComponentMounter {
   constructor(nodesReactComponentWrapper, serviceLocatorUid, rootNodeId) {
     this.nodesReactComponentWrapper = nodesReactComponentWrapper;
+    this.serviceLocatorUid = serviceLocatorUid;
+    this.update(rootNodeId);
+  }
 
+  update(rootNodeId) {
     ReactDOM.render(
       [
-        <Nodes key="nodesOverlay" serviceLocatorUid={serviceLocatorUid} rootNodeId={rootNodeId} />,
-        <Controls key="controls" serviceLocatorUid={serviceLocatorUid} />
+        <Nodes key="nodesOverlay" serviceLocatorUid={this.serviceLocatorUid} rootNodeId={rootNodeId} />,
+        <Controls key="controls" serviceLocatorUid={this.serviceLocatorUid} />
       ],
-      nodesReactComponentWrapper
+      this.nodesReactComponentWrapper
     );
   }
 

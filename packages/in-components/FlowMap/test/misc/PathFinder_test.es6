@@ -13,7 +13,8 @@ describe('in-components/FlowMap/misc/PathFinder', () => {
       })
     }
   }).default;
-  const pathFinder = new PathFinder('', 'root');
+  const pathFinder = new PathFinder('');
+  pathFinder.setRootNodeId('root');
 
   beforeEach(() => {
     const nodesMock = new Map();

@@ -10,7 +10,7 @@ import 'in-subscription/subscription';
 const subscriptionFactory: GetServiceFlowArgs => Observable<
   Result<PaginatedResult<ServiceFlowNode>>
 > = createSubscription({
-  eventId: 'getServiceFlowNodes',
+  eventId: 'getEndpointFlowNodes',
   disposeSubscriptionOnDocumentHidden: false,
 
   getData(subscriptionId, params) {

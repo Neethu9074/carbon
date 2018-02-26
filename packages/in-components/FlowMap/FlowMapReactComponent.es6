@@ -13,19 +13,18 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
-      this.initFlowMap(this.props.rootNodeData);
+      this.initFlowMap();
     }
 
     componentWillUpdate(nextProps) {
-      const idsAreEqual = this.props.rootNodeData.id === nextProps.rootNodeData.id;
-      if (!idsAreEqual) {
-        this.initFlowMap(nextProps.rootNodeData);
+      const propsAreEqual = this.props.createDataFetchingService === nextProps.createDataFetchingService;
+      if (!propsAreEqual) {
+        this.initFlowMap();
       }
       if (
         this.props.width !== nextProps.width ||
         this.props.height !== nextProps.height ||
-        this.props.customHeight !== nextProps.customHeight ||
-        !idsAreEqual
+        this.props.customHeight !== nextProps.customHeight
       ) {
         this.flowMap.setSize(nextProps.width, nextProps.customHeight || nextProps.height);
       }
@@ -37,7 +36,7 @@ export default getElementDimensions(
       }
     }
 
-    initFlowMap(rootNodeData) {
+    initFlowMap() {
       if (isWebGLSupported() && this.webGlContext) {
         if (this.flowMap) {
           this.flowMap.dispose();
@@ -45,7 +44,6 @@ export default getElementDimensions(
         this.flowMap = new FlowMap({
           canvas: this.canvas,
           overlayReactComponent: this.overlayReactComponent,
-          rootNodeData,
           createDataFetchingService: this.props.createDataFetchingService
         });
       }

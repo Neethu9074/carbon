@@ -1,27 +1,20 @@
 import RoEmitter from 'roemitter';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import layout from 'in-components/FlowMap/misc/flowLayouting/flowLayouter';
+import looseLayout from 'in-components/FlowMap/misc/layouting/looseLayouter';
+import flowLayout from 'in-components/FlowMap/misc/layouting/flowLayouter';
 import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
 import { diff } from 'in-services/arrayUtils';
 
 export default class SceneGraph {
-  constructor(serviceLocatorUid, rootNodeId) {
+  constructor(serviceLocatorUid) {
     this.serviceLocatorUid = serviceLocatorUid;
-    this.rootNodeId = rootNodeId;
     this.subscriptions = new Map();
     this.signals = new RoEmitter('sceneGraphSignals');
-    this.pathFinder = new PathFinder(serviceLocatorUid, rootNodeId);
+    this.pathFinder = new PathFinder(serviceLocatorUid);
 
     this.initSubscriptions();
-  }
-
-  init(rootNodeData) {
-    const rootNode = this.addNode(this.rootNodeId, rootNodeData);
-    rootNode.expandRight();
-    rootNode.expandLeft();
-    this.requestLayout();
   }
 
   initSubscriptions() {
@@ -29,6 +22,17 @@ export default class SceneGraph {
       .on('layout')
       .debounce(200)
       .subscribe(() => this.relayout());
+  }
+
+  addRootNode(id, data) {
+    this.rootNodeId = id;
+    this.pathFinder.setRootNodeId(id);
+
+    const rootNode = this.addNode(id, data);
+    rootNode.expandRight();
+    rootNode.expandLeft();
+
+    this.requestLayout();
   }
 
   addNode(id, data, metricValues) {
@@ -179,7 +183,12 @@ export default class SceneGraph {
   relayout() {
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);
     const nodesMap = serviceLocators.nodesServiceLocator.getNodes();
-    layout(nodesMap.get(this.rootNodeId), nodesMap);
+
+    if (this.rootNodeId) {
+      flowLayout(nodesMap.get(this.rootNodeId), nodesMap);
+    } else {
+      looseLayout(nodesMap);
+    }
 
     this.updateConnections(nodesMap);
 
@@ -189,18 +198,7 @@ export default class SceneGraph {
   }
 
   updateConnections(nodesMap) {
-    const nodes = nodesMap.objects.values();
-    const connections = [];
-    for (const node of nodes) {
-      for (let i = 0; i < node.incoming.length; i++) {
-        connections.push({ from: nodesMap.get(node.incoming[i]), to: node });
-      }
-      for (let i = 0; i < node.outgoing.length; i++) {
-        connections.push({ from: node, to: nodesMap.get(node.outgoing[i]) });
-      }
-    }
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.set(connections);
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update();
+    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update(nodesMap);
   }
 
   disposeOpenDataSubscriptionsForNodeId(id) {

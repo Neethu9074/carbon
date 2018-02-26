@@ -6,15 +6,11 @@ export default class ConnectionsServiceLocator extends BaseServiceLocator {
     super(createNullService);
   }
 
-  set(ids) {
-    return this.service.set(ids);
-  }
-
   remove(ids) {
     return this.service.remove(ids);
   }
 
-  update() {
-    return this.service.update();
+  update(nodesMap) {
+    return this.service.update(nodesMap);
   }
 }

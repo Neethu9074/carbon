@@ -12,20 +12,24 @@ export default function EndpointFlowMap({ data, applicationId, serviceId, timefr
       render={height => (
         <FlowMap
           customHeight={height}
-          rootNodeData={data}
-          createDataFetchingService={() => createDataFetchingService(applicationId, serviceId, timeframe)}
+          createDataFetchingService={() => createDataFetchingService(data, applicationId, serviceId, timeframe)}
         />
       )}
     />
   );
 }
 
-function createDataFetchingService(applicationId, serviceId, timeframe) {
+function createDataFetchingService(rootNodeData, applicationId, serviceId, timeframe) {
   return {
     getIncomingDataForNodeId,
     getOutgoingDataForNodeId,
-    fetchMetricsForNodeId
+    fetchMetricsForNodeId,
+    getRootNodeData
   };
+
+  function getRootNodeData() {
+    return rootNodeData;
+  }
 
   function getIncomingDataForNodeId(id, path) {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'INCOMING', timeframe));

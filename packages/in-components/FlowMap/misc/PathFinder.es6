@@ -1,9 +1,12 @@
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 
 export default class PathFinder {
-  constructor(serviceLocatorUid, rootNodeId) {
+  constructor(serviceLocatorUid) {
     this.serviceLocatorUid = serviceLocatorUid;
-    this.rootNodeId = rootNodeId;
+  }
+
+  setRootNodeId(id) {
+    this.rootNodeId = id;
   }
 
   find(id, direction) {

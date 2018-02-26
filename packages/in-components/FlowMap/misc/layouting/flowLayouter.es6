@@ -1,5 +1,4 @@
-export const DISTANCE_BETWEEN_NODES_X = 6;
-export const DISTANCE_BETWEEN_NODES_Y = 3;
+import { DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_Y } from 'in-components/FlowMap/misc/layouting/config';
 
 export default function layout(rootNode, nodesMap) {
   setStartingNodeToCenter(rootNode);
