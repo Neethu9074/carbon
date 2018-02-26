@@ -13,7 +13,6 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
-      this.initFlowMap();
     }
 
     componentWillUpdate(nextProps) {
