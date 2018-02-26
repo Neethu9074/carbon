@@ -14,7 +14,7 @@ export default function MediumContent({ data, metrics, serviceLocatorUid }) {
   return (
     <div className={locals.mediumContent}>
       <div className={locals.header}>
-        <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />
+        {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
         <div>
           <EntityLink className={locals.entityLink} data={data} />
           <div className={locals.spacer} />
