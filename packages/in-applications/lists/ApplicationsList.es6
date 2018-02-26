@@ -1,30 +1,36 @@
 import React from 'react';
 
-import { getApplicationDashboard /*, newApplicationView */ } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-// import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import getMetrics from 'in-subscription/application/getMetrics';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
 import Sticky from 'in-components/Sticky';
-// import Button from 'in-components/Button';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 
 import locals from './ApplicationsList.mless';
 
-// const leftHeader = (
-//   <Button kind="default" key="createApplication" href$={getModifiedUrlStream(p => p.pathname = newApplicationView)} size="sm" outlineOnly>
-//     Create Application
-//   </Button>
-// );
-const leftHeader = null;
+const leftHeader = (
+  <Button
+    kind="default"
+    key="createApplication"
+    href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+    size="sm"
+    outlineOnly
+  >
+    Create Application
+  </Button>
+);
 
 export default connectTo(
   {
@@ -49,6 +55,7 @@ export default connectTo(
     return (
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer className={locals.block}>
+          <Title title="Applications" />
           {showNoApplicationsDefinedIndicator && <div>You got no applications, yet.</div>}
           <ServerTable
             get={getTableData}

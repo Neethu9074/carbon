@@ -16,6 +16,7 @@ import { getColor } from 'in-applications/endpointTypes';
 import { timeframe$ } from 'in-stores/timeline';
 import ComboBox from 'in-components/ComboBox';
 import Sticky from 'in-components/Sticky';
+import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -39,6 +40,7 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
   return (
     <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer className={locals.block}>
+        <Title title="Services" />
         <ServerTable
           get={getTableData}
           pageSize={25}

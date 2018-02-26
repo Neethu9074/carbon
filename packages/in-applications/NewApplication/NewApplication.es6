@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Form from 'in-applications/NewApplication/Form';
+import Title from 'in-components/Title';
 
 export default class NewApplication extends React.Component {
   state = {
@@ -11,23 +12,22 @@ export default class NewApplication extends React.Component {
     message: 'Loading…'
   };
 
-  componentWillMount() {
-    this.load(this.props.entityId);
-  }
+  // componentWillMount() {
+  //   this.load(this.props.entityId);
+  // }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.entityId !== nextProps.entityId) {
-      this.load(nextProps.entityId);
-    }
-  }
-
-  componentWillUnmount() {
-    this.disposeAsyncAction();
-  }
+  // componentWillUnmount() {
+  //   this.disposeAsyncAction();
+  // }
 
   render() {
     return (
       <div>
+        <Title title="New application" />
         <Form />
       </div>
     );
