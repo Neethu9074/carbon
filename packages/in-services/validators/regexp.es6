@@ -12,7 +12,7 @@ export function regularExpressionValidator(v) {
     return [
       {
         severity: 'error',
-        message: `Invalid regular expression: ${e.message}`
+        message: e.message
       }
     ];
   }

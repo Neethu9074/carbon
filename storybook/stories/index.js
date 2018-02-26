@@ -35,6 +35,7 @@ import './components/SparkChart';
 import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
+import './newComponents/application/NewApplicationStory';
 import './newComponents/BadgeStory';
 import './newComponents/ButtonStory';
 import './newComponents/CardStory';
@@ -44,9 +45,9 @@ import './newComponents/CounterStory';
 import './newComponents/DashboardHeaderStory';
 import './newComponents/DotStory';
 import './newComponents/KpiCardStory';
+import './newComponents/overlays/OverlayStory';
 import './newComponents/PaginationStory';
 import './newComponents/time/TimePresenterStory';
 import './newComponents/time/TimeSelectionDialogPresenterStory';
 import './newComponents/TopListCardStory';
-import './newComponents/overlays/OverlayStory';
 import './newComponents/ViewSwitcherStory';

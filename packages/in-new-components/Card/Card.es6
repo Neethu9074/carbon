@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
 import locals from './Card.mless';
 
-export default function Card({ title, children, withoutPadding, header }) {
+export default function Card({ title, children, withoutPadding, header, className }) {
   return (
-    <div className={locals.card}>
+    <div className={joinClassNames(locals.card, className)}>
       <div className={locals.header}>
         <div className={locals.title}>{title}</div>
         {header}

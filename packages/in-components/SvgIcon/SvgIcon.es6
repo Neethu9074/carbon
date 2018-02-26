@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
 
+import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import icons from 'in-components/SvgIcon/registry.json';
 
 import './SvgIcon.less';
@@ -17,8 +18,25 @@ export default function SvgIcon({
   color,
   onClick,
   style,
-  spinning
+  spinning,
+  tabIndex,
+  role,
+  'aria-label': ariaLabel
 }) {
+  if (__DEV__) {
+    if (onClick) {
+      if (ariaLabel == null) {
+        console.warn('Clickable SvgIcons should get a aria-label property which describe their usage.');
+      }
+      if (tabIndex == null) {
+        console.warn('Clickable SvgIcons should get a tabIndex property which describe their usage.');
+      }
+    }
+  }
+  ariaLabel = ariaLabel || type;
+  role = role || (onClick ? 'button' : undefined);
+  tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;
+
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {
@@ -69,6 +87,10 @@ export default function SvgIcon({
       viewBox={'0 0 ' + icon.width + ' ' + icon.height}
       fill={color}
       onClick={onClick}
+      onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
+      role={role}
+      tabIndex={tabIndex}
+      aria-label={ariaLabel}
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
       <rect width="100%" height="100%" fill="rgba(0, 0, 0, 0)" />

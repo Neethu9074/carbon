@@ -1,12 +1,31 @@
+@import '~in-themes/active.less';
+
 :local {
-  .removeWrapper {
+  .matchSpecification {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  .formGroup {
+    margin: 0;
+    width: 100%;
+  }
+
+  .removeMatchRule {
+
+  }
+
+  .generalCard {
+
+  }
+
+  .matchingCard {
+    margin: @grid__gutter * 1px 0 0;
   }
 
   .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    margin: @grid__gutter * 1px 0 0;
   }
 }

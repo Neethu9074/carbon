@@ -25,7 +25,18 @@ export default connectTo(props => {
   return emptyObject;
 }, Button);
 
-function Button({ icon, className, kind = 'primary', size = 'normal', onClick, style, children, href, disabled }) {
+function Button({
+  icon,
+  className,
+  kind = 'primary',
+  size = 'normal',
+  type = 'button',
+  onClick,
+  style,
+  children,
+  href,
+  disabled
+}) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
     classes = `${classes} ${className}`;
@@ -45,7 +56,7 @@ function Button({ icon, className, kind = 'primary', size = 'normal', onClick, s
 
   if (!href) {
     return (
-      <button className={classes} onClick={onClick} style={style}>
+      <button className={classes} onClick={onClick} style={style} type={type}>
         {iconElement} {children}
       </button>
     );
@@ -65,6 +76,7 @@ Button.propTypes = {
   children: rpt.node.isRequired,
   kind: rpt.oneOf(kinds),
   size: rpt.oneOf(sizes),
+  type: rpt.string,
   onClick: rpt.func,
   href: rpt.string,
   // eslint-disable-next-line react/no-unused-prop-types

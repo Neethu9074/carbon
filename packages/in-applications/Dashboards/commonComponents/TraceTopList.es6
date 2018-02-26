@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getTraceTopList from 'in-subscription/application/getTraceTopList';
 import { ms, number } from 'in-services/formatters/number';
@@ -62,14 +61,16 @@ function ViewAll() {
   return null;
 }
 
-function Label({ item, applicationId }) {
+function Label({ item }) {
   return (
     <Fragment>
-      <Fragment>
-        <Link href$={getServiceDashboard(item.service.id, { applicationId })}>{item.service.label}</Link>
-        {' / '}
-      </Fragment>
-      <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId: item.service.id })}>
+      <Link
+        href=""
+        onClick={e => {
+          e.preventDefault();
+          alert('Coming soon!');
+        }}
+      >
         {item.endpoint.label}
       </Link>
     </Fragment>
