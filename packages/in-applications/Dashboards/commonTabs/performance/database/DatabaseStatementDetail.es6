@@ -45,7 +45,7 @@ function renderStatementData(statmentData) {
 
       <Row>
         <Col lg={4}>
-          <KpiCard title="Calls" value={number.detailed(statmentData.metrics.calls)} />
+          <KpiCard title="Calls" value={number.compact(statmentData.metrics.calls)} />
         </Col>
         <Col lg={4}>
           <KpiCard title="Latency" value={millis.detailed(statmentData.metrics.latency)} />
