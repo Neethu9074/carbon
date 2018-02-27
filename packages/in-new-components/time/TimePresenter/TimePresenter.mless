@@ -33,4 +33,11 @@
   .timeSettingExpanded {
     color: #fff;
   }
+
+  .tooltip {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+  }
 }
