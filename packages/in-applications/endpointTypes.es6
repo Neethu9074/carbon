@@ -8,7 +8,8 @@ const endpointTranslation = {
   MESSAGING: 'Topics',
   RPC: 'Methods',
   SDK: 'SDK Endpoints',
-  WEBSITE: 'Pages'
+  WEBSITE: 'Pages',
+  UNKNOWN: 'Unknown'
 };
 
 const colorTranslation = {
@@ -18,7 +19,8 @@ const colorTranslation = {
   MESSAGING: '#89ef15',
   RPC: '#4e94c6',
   SDK: '#ecbb18',
-  WEBSITE: '#f054f2'
+  WEBSITE: '#f054f2',
+  UNKNOWN: 'red'
 };
 
 export function getEndpointsLabel(type) {
