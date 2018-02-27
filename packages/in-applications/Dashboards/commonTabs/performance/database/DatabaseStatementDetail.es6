@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getDatabaseStatement from 'in-subscription/application/getDatabaseStatement';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Skeleton from 'in-components/Progress/Skeleton';
+import { shorten } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -23,12 +26,28 @@ export default connectTo(
     if (!statementResult) {
       return null;
     }
+
+    let content;
     if (statementResult.progress.loading) {
-      return <DashboardSkeleton />;
+      content = <DashboardSkeleton />;
     } else if (statementResult.errors && statementResult.errors.length > 0) {
-      return <ErroneousResultPresenter errors={statementResult.errors} />;
+      content = <ErroneousResultPresenter errors={statementResult.errors} />;
+    } else {
+      content = renderStatementData(statementResult.data);
     }
-    return renderStatementData(statementResult.data);
+
+    return (
+      <Fragment>
+        <Breadcrumbs
+          items={[
+            <Breadcrumb label="Database Statement">
+              {statementResult.data && shorten(statementResult.data.statement, 32)}
+            </Breadcrumb>
+          ]}
+        />
+        {content}
+      </Fragment>
+    );
   }
 );
 

@@ -8,3 +8,14 @@ export const compareIgnoreCase = new Intl.Collator('en-US', { sensitivity: 'base
 export function containsIgnoreCase(s, search) {
   return s.toLowerCase().indexOf(search.toLowerCase()) !== -1;
 }
+
+export function shorten(s, maxLength = 64) {
+  if (!s) {
+    return s;
+  }
+
+  if (s.length <= maxLength) {
+    return s;
+  }
+  return s.substring(0, maxLength) + '…';
+}

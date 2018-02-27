@@ -24,7 +24,7 @@ export default function Header({ tabs, result, HeaderComponent, location, props 
 }
 
 function Tab({ tab, location, props }) {
-  const isActive = location.pathname === tab.path;
+  const isActive = location.pathname.indexOf(tab.path) === 0;
   const Header = tab.header || DefaultHeader;
   return (
     <li
