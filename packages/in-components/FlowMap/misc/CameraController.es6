@@ -29,8 +29,8 @@ export default class CameraController {
 
   initSubscriptions() {
     this.subscriber = new Subscriber();
-
     const update = this.update.bind(this);
+
     this.subscriber.addSubscription(
       getServiceLocators(this.serviceLocatorUid)
         .eventBusServiceLocator.on('update')
@@ -120,7 +120,8 @@ export default class CameraController {
     // stop at some point to avoid unlimited updates caused by very small changes users can't see
     if (Math.abs(deltaSizes) > 0.1) {
       const step = deltaSizes * dt * this.cameraMoveSpeed;
-      this.camera.setCameraSize(currentCameraSize + step);
+      const newSize = currentCameraSize + step;
+      this.camera.setCameraSize(newSize);
       cameraNeedsUpdate = true;
     }
 

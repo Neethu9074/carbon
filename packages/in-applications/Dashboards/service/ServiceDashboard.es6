@@ -53,14 +53,7 @@ function Header(props) {
 
 function Actions({ applicationId, serviceId, endpointId, timeframe }) {
   return (
-    <TracesButton
-      filter={{
-        application: applicationId,
-        service: serviceId,
-        endpoint: endpointId,
-        timeframe: timeframe
-      }}
-    />
+    <TracesButton applicationId={applicationId} serviceId={serviceId} endpointId={endpointId} timeframe={timeframe} />
   );
 }
 

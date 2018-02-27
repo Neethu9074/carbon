@@ -1,0 +1,26 @@
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .entityIcon {
+    margin-right: 0.5rem;
+  }
+
+  .type {
+    margin-bottom: 0.25rem;
+    color: #16363e;
+    font-size: 0.75rem;
+  }
+
+  .labelWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .label {
+    color: #16363e;
+    font-size: 0.875rem;
+  }
+}
