@@ -28,6 +28,7 @@ import {
 } from 'in-stores/navigation/paths/settingPaths';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import { withoutInstana1Features } from 'in-services/featureFlags';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { forecastsEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
@@ -47,7 +48,7 @@ export default function Navigation() {
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
-        {role.canConfigureServiceMapping ? (
+        {role.canConfigureServiceMapping && !withoutInstana1Features ? (
           <NavItem
             title="Service Mapper"
             isActive$={combine(
@@ -97,7 +98,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureEumApplications && config.tenant === 'edmunds' ? (
+        {role.canConfigureEumApplications && !withoutInstana1Features && config.tenant === 'edmunds' ? (
           <NavItem title="Website Monitoring" href$={getView(eumKeysPath)} isActive$={isView(eumKeysPath)} />
         ) : null}
 
@@ -120,7 +121,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureCustomAlerts ? (
+        {role.canConfigureCustomAlerts && !withoutInstana1Features ? (
           <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
             <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
             <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
@@ -134,16 +135,18 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
-          <NavItem
-            title="Configurations"
-            href$={getView(alertingConfigurationsPath)}
-            isActive$={isView(alertingConfigurationPath)}
-          />
-          <NavItem title="Integrations" href$={getView(integrationsPath)} isActive$={isView(integrationPath)} />
-        </NavItem>
+        {!withoutInstana1Features ? (
+          <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
+            <NavItem
+              title="Configurations"
+              href$={getView(alertingConfigurationsPath)}
+              isActive$={isView(alertingConfigurationPath)}
+            />
+            <NavItem title="Integrations" href$={getView(integrationsPath)} isActive$={isView(integrationPath)} />
+          </NavItem>
+        ) : null}
 
-        {role.canViewAuditLog ? (
+        {role.canViewAuditLog && !withoutInstana1Features ? (
           <NavItem title="Audit Log" href$={getView(auditlogPath)} isActive$={isView(auditlogPath)} />
         ) : null}
       </NavItems>
