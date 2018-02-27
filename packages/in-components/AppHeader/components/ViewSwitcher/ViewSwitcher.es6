@@ -14,9 +14,8 @@ import {
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import { newApplicationMonitoringEnabled, cockpitEnabled, withoutInstana1Features } from 'in-services/featureFlags';
+import { cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -34,53 +33,36 @@ export default function ViewSwitcher() {
           <View label="cockpit" icon="dashboard" isActive$={isView(containerPath)} href$={getView(cockpitPath)} />
         ) : null}
 
-        {!withoutInstana1Features && (
-          <View
-            label="infrastructure"
-            icon="infrastructure"
-            isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-          >
-            <SubMenuItem
-              label="Map"
-              href$={getView(physicalPath)}
-              isActive$={combine(isView(physicalPath), isView(containerPath))}
-            />
-            <SubMenuItem
-              label="Comparison Table"
-              href$={getView(physicalTablePath)}
-              isActive$={isTableView('physical')}
-            />
-          </View>
-        )}
+        <View
+          label="infrastructure"
+          icon="infrastructure"
+          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+        >
+          <SubMenuItem
+            label="Map"
+            href$={getView(physicalPath)}
+            isActive$={combine(isView(physicalPath), isView(containerPath))}
+          />
+          <SubMenuItem
+            label="Comparison Table"
+            href$={getView(physicalTablePath)}
+            isActive$={isTableView('physical')}
+          />
+        </View>
 
         <View
           label="application"
           icon="application"
           isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
         >
-          {newApplicationMonitoringEnabled ? (
-            <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
-          ) : null}
-          {!withoutInstana1Features && (
-            <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
-          )}
-          {!withoutInstana1Features && (
-            <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
-          )}
-          {!withoutInstana1Features && (
-            <SubMenuItem
-              label="Comparison Table"
-              href$={getView(logicalTablePath)}
-              isActive$={isTableView('logical')}
-            />
-          )}
+          <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
+          <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
+          <SubMenuItem label="Comparison Table" href$={getView(logicalTablePath)} isActive$={isTableView('logical')} />
         </View>
 
-        {!withoutInstana1Features && (
-          <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
-        )}
+        <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
 
-        {!withoutInstana1Features && <IncidentsMenuPoint />}
+        <IncidentsMenuPoint />
       </ul>
     </div>
   );

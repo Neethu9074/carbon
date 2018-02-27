@@ -28,7 +28,7 @@ export default function AppHeader() {
         </Badge>
       )}
 
-      <ViewSwitcher />
+      {!withoutInstana1Features && <ViewSwitcher />}
 
       <div className={`${block}__right`}>
         {newTimePickerEnabled && <AppHeaderTimeSelection />}
