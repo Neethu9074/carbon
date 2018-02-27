@@ -13,7 +13,6 @@ export default function NomadInfo({ snapshot }) {
   return (
     <div>
       <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Nomad</Collapsible.Header>
         <Collapsible.Content>
