@@ -16,14 +16,15 @@ export default function TopListPresenter(props) {
     getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
   } = props;
 
-  const maxValue = chain(getItemsFromResult(result))
+  const items = getItemsFromResult(result);
+  const maxValue = chain(items)
     .map(getMetricValueFromItem)
     .max();
 
   return (
-    <div>
+    <div className={locals.topListWrapper}>
       <ol className={locals.topList}>
-        {getItemsFromResult(result).map((item, i) => {
+        {items.map((item, i) => {
           const metricValue = getMetricValueFromItem(item);
           const formattedMetricValue = selectedMetricFormatter(metricValue);
           const renderProps = {
@@ -32,7 +33,7 @@ export default function TopListPresenter(props) {
             metricValue,
             formattedMetricValue
           };
-          const label = renderLabel(renderProps);
+          const label = renderLabel(renderProps, item);
           const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
           return (
             <Row key={i} renderedMetric={renderedMetric} metricValue={metricValue} maxValue={maxValue} label={label} />

@@ -1,4 +1,8 @@
 :local {
+  .topListWrapper {
+    width: 100%;
+  }
+
   .topList {
     list-style: none;
     padding: 0;
