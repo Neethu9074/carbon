@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number } from 'in-services/formatters/number';
-import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function NomadDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -33,12 +33,6 @@ export default function NomadDashboard({ snapshot, timeframe }) {
       <div>
         <KpiSection>
           <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-          <KpiKeyValue label="Uptime">
-            <MetricValue snapshotId={snapshotId} metric="nomad.uptime" />
-          </KpiKeyValue>
-          <KpiKeyValue label="Heartbeat active">
-            <MetricValue snapshotId={snapshotId} metric="nomad.nomad.heartbeat.active" />
-          </KpiKeyValue>
           <KpiKeyValue label="Running">
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.running" formatter={number.compact} />
           </KpiKeyValue>
@@ -61,6 +55,9 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           </KpiKeyValue>
           <KpiKeyValue label="Blocked">
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.blocked" formatter={number.compact} />
+          </KpiKeyValue>
+          <KpiKeyValue label="Heartbeat active">
+            <MetricValue snapshotId={snapshotId} metric="nomad.nomad.heartbeat.active" />
           </KpiKeyValue>
         </KpiSection>
         <Columize>
@@ -165,13 +162,9 @@ export default function NomadDashboard({ snapshot, timeframe }) {
               timeframe={timeframe}
               y1={{
                 min: 0,
-                metrics: [
-                  'nomad.runtime.total_gc_pause_ns',
-                  'nomad.runtime.total_gc_runs',
-                  'nomad.runtime.free_count',
-                  'nomad.runtime.malloc_count'
-                ],
-                labels: ['Total gc pause (ns)', 'Total gc runs', 'Free count', 'Malloc count'],
+                metrics: ['nomad.runtime.total_gc_pause_ns'],
+                formatter: timeByNanoTwoDecimalPlaces,
+                labels: ['Total gc pause'],
                 type: 'line'
               }}
             />
@@ -200,6 +193,9 @@ export default function NomadDashboard({ snapshot, timeframe }) {
         </Columize>
         {
           // Further available metrics:
+          // nomad.runtime.total_gc_runs
+          // nomad.runtime.free_count
+          // nomad.runtime.malloc_count
           // nomad.client.allocated.iops
           // nomad.nomad.plan.queue_depth
           // nomad.client.host.disk.used
