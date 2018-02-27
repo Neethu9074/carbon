@@ -1,12 +1,15 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
+import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallContent';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
+import Subscriber from 'in-map/misc/Subscriber';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -21,24 +24,31 @@ export default connectTo(
   class extends React.Component {
     static displayName = 'Node';
 
+    subscriber = new Subscriber();
+
     componentDidMount() {
-      this.screenPositionSubscription = this.props.node.events$
-        .on('screenPosition')
-        .startWith(null)
-        .subscribe(screenPosition => {
+      this.subscriber.addSubscription(
+        combineLatest([
+          this.props.node.events$.on('screenPosition').startWith(null),
+          getServiceLocators(this.props.serviceLocatorUid).eventBusServiceLocator.on('worldUnits')
+        ]).subscribe(([screenPosition, worldUnits]) => {
           if (!screenPosition) {
             this.nodeDomComponent.style.display = 'none';
             return;
           }
           this.nodeDomComponent.style.display = '';
 
-          applyTransform(this.nodeDomComponent, `translate3d(${screenPosition.x}px,${screenPosition.y}px,0)`);
-        });
+          applyTransform(
+            this.nodeDomComponent,
+            `translate3d(${screenPosition.x}px,${screenPosition.y}px,0) scale(${worldUnits.targetNodeSizeInPx / 250})`
+          );
+        })
+      );
     }
 
     componentWillUnmount() {
-      this.screenPositionSubscription.dispose();
-      this.screenPositionSubscription = null;
+      this.subscriber.dispose();
+      this.subscriber = null;
     }
 
     render() {

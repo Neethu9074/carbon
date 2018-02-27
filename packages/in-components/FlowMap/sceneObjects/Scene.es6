@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { DISTANCE_BETWEEN_NODES_X } from 'in-components/FlowMap/misc/layouting/config';
 import CameraController from 'in-components/FlowMap/misc/CameraController';
 import Camera from 'in-components/FlowMap/sceneObjects/OrthographicCamera';
 import Renderer from 'in-components/FlowMap/sceneObjects/Renderer';
@@ -39,10 +40,20 @@ export default class MainScene {
         getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('resize'),
         getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate')
       ])
-        .map(([windowDimensions, camera]) => ({
-          pixelsPer3DUnit: (windowDimensions.width / camera.getCameraSize()) | 0,
-          unitsPerPixel: camera.getCameraSize() / windowDimensions.width
-        }))
+        .map(([windowDimensions, camera]) => {
+          const worldUnits = {
+            pixelsPer3DUnit: windowDimensions.width / camera.getCameraSize(),
+            unitsPerPixel: camera.getCameraSize() / windowDimensions.width
+          };
+
+          const distanceBetweenNodesInPx = DISTANCE_BETWEEN_NODES_X * worldUnits.pixelsPer3DUnit;
+          const wantedGapInPx = 1.254 * worldUnits.pixelsPer3DUnit;
+          const remainingInPx = distanceBetweenNodesInPx - wantedGapInPx;
+          const targetNodeSizeInPx = remainingInPx;
+
+          worldUnits.targetNodeSizeInPx = targetNodeSizeInPx;
+          return worldUnits;
+        })
         .subscribe(units => getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('worldUnits', units))
     ]);
   }
