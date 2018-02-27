@@ -24,7 +24,6 @@ export default function NginxDashboard({ snapshot, timeframe }) {
     return (
       <DashboardNotification type="warning">
         <strong>Nginx configuration file not accessible.</strong>
-
         <p>
           The config file could either not be located or could not be accessed. The agent tries to automatically{' '}
           identify the location of the configuration file. It does so by analyzing the command line of the nginx master
