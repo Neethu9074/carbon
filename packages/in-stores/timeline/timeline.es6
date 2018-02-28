@@ -3,7 +3,7 @@ import { createLogger } from 'instalog';
 import rpt from 'prop-types';
 
 import { getModifiedUrlStream, mutateUrl, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { withoutInstana1Features } from 'in-services/featureFlags';
+import { newTimePickerEnabled } from 'in-services/featureFlags';
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { serverTime$ } from 'in-stores/serverTime';
@@ -35,10 +35,10 @@ export const timeframe$ = createTrackingStore({
 
       let windowSize;
       //if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
-      if (!withoutInstana1Features) {
-        windowSize = 1000 * 60 * 10;
-      } else {
+      if (newTimePickerEnabled) {
         windowSize = 1000 * 60 * 60;
+      } else {
+        windowSize = 1000 * 60 * 10;
       }
 
       const windowSizeQuery = params.query['timeline.ws'];

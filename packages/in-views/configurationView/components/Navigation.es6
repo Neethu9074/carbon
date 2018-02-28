@@ -31,7 +31,6 @@ import NavItem from 'in-views/configurationView/components/NavItem';
 import { withoutInstana1Features } from 'in-services/featureFlags';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { forecastsEnabled } from 'in-services/featureFlags';
-import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -98,7 +97,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureEumApplications && !withoutInstana1Features && config.tenant === 'edmunds' ? (
+        {role.canConfigureEumApplications && !withoutInstana1Features ? (
           <NavItem title="Website Monitoring" href$={getView(eumKeysPath)} isActive$={isView(eumKeysPath)} />
         ) : null}
 
@@ -146,7 +145,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canViewAuditLog && !withoutInstana1Features ? (
+        {role.canViewAuditLog ? (
           <NavItem title="Audit Log" href$={getView(auditlogPath)} isActive$={isView(auditlogPath)} />
         ) : null}
       </NavItems>
