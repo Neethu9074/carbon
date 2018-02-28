@@ -8,6 +8,8 @@ import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { withoutInstana1Features } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
+import Tooltip from 'in-components/Tooltip';
+import Link from 'in-components/Link';
 
 export default function Infrastructure({ applicationId, serviceId, endpointId, timeframe }) {
   return (
@@ -91,7 +93,13 @@ const columnDefinitions = [
     label: 'Process',
     getContent(item) {
       if (withoutInstana1Features) {
-        return item.physicalContext.process.label;
+        return (
+          <Tooltip content="Coming soon">
+            <Link href="" onClick={e => e.preventDefault()}>
+              {item.physicalContext.process.label}
+            </Link>
+          </Tooltip>
+        );
       }
       return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
     }

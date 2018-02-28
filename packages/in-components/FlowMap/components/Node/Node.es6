@@ -60,7 +60,7 @@ export default connectTo(
             ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
             className={getNodeClasses(isRootNode, size)}
           >
-            {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>THIS ENTITY</div>}
+            {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>In Focus</div>}
 
             <VerticalTypesIndicator type={data.type} types={data.types} />
 

@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getTraceTopList from 'in-subscription/application/getTraceTopList';
 import { ms, number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'selfLatency', 'calls'];
@@ -63,17 +64,11 @@ function ViewAll() {
 
 function Label({ item }) {
   return (
-    <Fragment>
-      <Link
-        href=""
-        onClick={e => {
-          e.preventDefault();
-          alert('Coming soon!');
-        }}
-      >
+    <Tooltip content="Coming soon" align="topMiddle">
+      <Link href="" onClick={e => e.preventDefault()}>
         {item.endpoint.label}
       </Link>
-    </Fragment>
+    </Tooltip>
   );
 }
 

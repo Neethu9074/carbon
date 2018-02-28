@@ -87,10 +87,6 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
         metric: 'services',
         aggregation: 'DISTINCT_COUNT'
       },
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
-      },
       callsAgg: {
         metric: 'calls',
         aggregation: 'SUM'
@@ -147,18 +143,6 @@ const columnDefinitions = [
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.entityIcon} type="app_service" width={18} height={20} color="#6c8a91" />
           <Counter>{number.compact(item.metrics.services[0][1])}</Counter>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'endpoints',
-    label: 'Endpoints',
-    getContent(item) {
-      return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="app_endpoint" width={20} height={20} color="#6c8a91" />
-          <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>
         </div>
       );
     }
