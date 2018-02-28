@@ -4,7 +4,7 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 
 export default function ChartWrapperPresenter({ result, config }) {
   if (result.errors.length > 0) {
-    return result.errors.join(',');
+    return result.errors.map(error => error.message).join(',');
   }
 
   if (result.progress.loading) {
