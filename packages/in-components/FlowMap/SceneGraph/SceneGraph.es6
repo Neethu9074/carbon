@@ -29,12 +29,12 @@ export default class SceneGraph {
     const id = service.id;
     this.rootNodeId = id;
     this.pathFinder.setRootNodeId(id);
+    this.endpointPathfinder.setRootNodeId(id);
 
     const rootNode = this.addNode(id, service);
 
     if (endpoint) {
       const child = rootNode.addChild(endpoint);
-      this.endpointPathfinder.setRootNodeId(child.id);
       child.expandRight();
       child.expandLeft();
     } else {
