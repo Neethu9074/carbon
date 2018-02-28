@@ -1,9 +1,13 @@
 import React from 'react';
 
-import EntityLink from 'in-components/FlowMap/components/Node/EntityLink';
+import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 
 import locals from './ExtraSmallContent.mless';
 
 export default function ExtraSmallContent({ data }) {
-  return <EntityLink className={locals.entityLink} data={data} />;
+  return (
+    <ServiceLink className={locals.entityLink} serviceId={data.id}>
+      {data.label}
+    </ServiceLink>
+  );
 }

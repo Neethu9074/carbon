@@ -4,9 +4,10 @@ import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/service
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 
 export default class Child extends SceneObject {
-  constructor(serviceLocatorUid, nodeId, id) {
+  constructor(serviceLocatorUid, nodeId, nodeOriginalId, id) {
     super(id, serviceLocatorUid);
     this.nodeId = nodeId;
+    this.nodeOriginalId = nodeOriginalId;
     this.outgoing = [];
     this.incoming = [];
   }

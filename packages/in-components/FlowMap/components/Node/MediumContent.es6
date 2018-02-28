@@ -2,8 +2,8 @@ import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import { number, millis, percentage } from 'in-services/formatters/number';
-import EntityLink from 'in-components/FlowMap/components/Node/EntityLink';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MediumContent.mless';
@@ -16,7 +16,9 @@ export default function MediumContent({ data, metrics, serviceLocatorUid }) {
       <div className={locals.header}>
         {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
         <div>
-          <EntityLink className={locals.entityLink} data={data} />
+          <ServiceLink className={locals.entityLink} serviceId={data.id}>
+            {data.label}
+          </ServiceLink>
           <div className={locals.spacer} />
           <EndpointTypeBadgeList type={data.type} types={data.types} size="sm" />
         </div>

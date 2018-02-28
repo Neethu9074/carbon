@@ -1,26 +1,27 @@
 import React from 'react';
 
+import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
+import { EndpointLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Children.mless';
 
-export default function Children({ node }) {
-  if (node.children.size === 0) {
+export default function Children({ childList }) {
+  if (!childList || childList.size === 0) {
     return null;
   }
 
-  const children = [];
-  const items = node.children.values();
+  const childrenAsArray = [];
+  const items = childList.values();
   for (const child of items) {
-    children.push(child);
+    childrenAsArray.push(child);
   }
 
   return (
     <ul className={locals.children}>
-      {children.map(child => (
-        <li key={child.id} className={locals.child}>
+      {childrenAsArray.map(child => (
+        <li key={child.id}>
           <Child child={child} />
-          {child.label}
         </li>
       ))}
     </ul>
@@ -31,10 +32,17 @@ const Child = connectTo(
   props => ({
     data: props.child.events$.on('data')
   }),
-  function Child({ data }) {
+  function Child({ child, data }) {
     if (!data) {
       return null;
     }
-    return <span>{data.label}</span>;
+    return (
+      <div className={locals.child}>
+        <VerticalTypesIndicator type={data.type} />
+        <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
+          {data.label}
+        </EndpointLink>
+      </div>
+    );
   }
 );

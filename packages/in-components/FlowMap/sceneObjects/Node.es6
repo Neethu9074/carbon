@@ -85,20 +85,7 @@ export default class Node extends SceneObject {
   }
 
   setData(data) {
-    // if (!data.children) {
-    //   const numChildren = Math.floor(Math.random() * 5);
-    //   const children = [];
-    //   for (let i = 0; i < numChildren; i++) {
-    //     children.push({
-    //       id: `${data.id}__endpoint__${i}`,
-    //       label: `endpoint__${i}`,
-    //       types: i % 2 === 0 ? 'http' : 'batch'
-    //     });
-    //   }
-    //   data = Object.assign({}, data, { children });
-    // }
     this.events$.emit('data', data);
-    // this.children = data.children;
   }
 
   addChild(child) {
@@ -106,12 +93,11 @@ export default class Node extends SceneObject {
       return this.children.get(child.id);
     }
 
-    const newChild = new Child(this.serviceLocatorUid, this.id, child.id);
+    const newChild = new Child(this.serviceLocatorUid, this.id, this.__originalId, child.id);
     newChild.setData(child);
 
     this.children.set(child.id, newChild);
-
-    // TODO: emit to stream
+    this.events$.emit('children', this.children);
 
     return newChild;
   }

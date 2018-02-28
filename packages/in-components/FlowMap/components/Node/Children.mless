@@ -16,11 +16,23 @@
   }
 
   .child {
+    width: 100%;
     padding: 0.25rem 0.5rem;
-    border-top: 1px solid black;
 
-    // &:first-child {
-    //   border-top: 0;
-    // }
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    border-top: 1px dashed #e8eef0;
+    font-weight: 200;
+
+    &:first-child {
+      border-top: 1px solid #e8eef0;
+    }
+  }
+
+  .entityLink {
+    font-size: 0.875rem;
+    max-width: 12rem;
   }
 }

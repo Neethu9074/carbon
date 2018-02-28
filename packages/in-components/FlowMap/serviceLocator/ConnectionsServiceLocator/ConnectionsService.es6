@@ -1,5 +1,5 @@
-import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
-import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
+import fragmentShader from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
+import vertexShader from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { LineSegments, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
@@ -115,6 +115,8 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   function createConnectionsForNodes(nodesMap, from, to, connections) {
+    const xOffset = 2.38;
+    const yOffset = 0.41;
     if (from.children.size === 0 && to.children.size === 0) {
       connections.push({ from, to });
     } else if (from.children.size > 0 && to.children.size > 0) {
@@ -122,16 +124,16 @@ export default function createConnectionsService(serviceLocatorUid) {
       for (const fromChild of from.children.values()) {
         const cSource = fromChild;
         let sourcePos = nodesMap.get(cSource.nodeId).position.clone();
-        sourcePos.x -= 2.4;
-        sourcePos.y -= 1.1 + iFrom * 0.41;
+        sourcePos.x -= xOffset;
+        sourcePos.y -= 1.1 + iFrom * yOffset;
         iFrom++;
 
         for (let i = 0; i < fromChild.incoming.length; i++) {
           const cFrom = nodesMap.get(fromChild.incoming[i].nodeId).children.get(fromChild.incoming[i].id);
           const iChild = indexOf(cFrom, nodesMap.get(fromChild.incoming[i].nodeId).children);
           const fromPos = nodesMap.get(cFrom.nodeId).position.clone();
-          fromPos.y -= 1.1 + iChild * 0.41;
-          fromPos.x += 2.4;
+          fromPos.y -= 1.1 + iChild * yOffset;
+          fromPos.x += xOffset;
           connections.push({
             from: {
               id: cFrom.id,
@@ -147,13 +149,13 @@ export default function createConnectionsService(serviceLocatorUid) {
         }
 
         sourcePos = sourcePos.clone();
-        sourcePos.x += 2 * 2.4;
+        sourcePos.x += 2 * xOffset;
         for (let i = 0; i < fromChild.outgoing.length; i++) {
           const cTo = nodesMap.get(fromChild.outgoing[i].nodeId).children.get(fromChild.outgoing[i].id);
           const iChild = indexOf(cTo, nodesMap.get(fromChild.outgoing[i].nodeId).children);
           const toPos = nodesMap.get(cTo.nodeId).position.clone();
-          toPos.y -= 1.1 + iChild * 0.41;
-          toPos.x -= 2.4;
+          toPos.y -= 1.1 + iChild * yOffset;
+          toPos.x -= xOffset;
 
           connections.push({
             from: {

@@ -20,7 +20,8 @@ import locals from './Node.mless';
 export default connectTo(
   props => ({
     data: props.node.events$.on('data'),
-    metrics: props.node.events$.on('metricValues')
+    metrics: props.node.events$.on('metricValues'),
+    childList: props.node.events$.on('children')
   }),
   class extends React.Component {
     static displayName = 'Node';
@@ -53,7 +54,7 @@ export default connectTo(
     }
 
     render() {
-      const { node, metrics, data, size, isRootNode, serviceLocatorUid } = this.props;
+      const { node, metrics, data, size, isRootNode, serviceLocatorUid, childList } = this.props;
 
       return (
         <Tooltip content={size !== 'mid' ? data.label : null}>
@@ -67,20 +68,24 @@ export default connectTo(
 
             {getContent(metrics, data, size, serviceLocatorUid)}
 
-            <ExpandIcon
-              className={locals.expandButtonLeft}
-              direction="incoming"
-              events$={node.events$}
-              onClick={() => node.expandLeft()}
-            />
-            <ExpandIcon
-              className={locals.expandButtonRight}
-              direction="outgoing"
-              events$={node.events$}
-              onClick={() => node.expandRight()}
-            />
+            {!childList && (
+              <ExpandIcon
+                className={locals.expandButtonLeft}
+                direction="incoming"
+                events$={node.events$}
+                onClick={() => node.expandLeft()}
+              />
+            )}
+            {!childList && (
+              <ExpandIcon
+                className={locals.expandButtonRight}
+                direction="outgoing"
+                events$={node.events$}
+                onClick={() => node.expandRight()}
+              />
+            )}
 
-            <Children node={node} />
+            <Children childList={childList} />
           </div>
         </Tooltip>
       );
