@@ -2,13 +2,12 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import DatabaseSections from 'in-applications/Dashboards/commonTabs/performance/database/DatabaseSections';
+import HttpSections from 'in-applications/Dashboards/commonTabs/performance/http/HttpSections';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 import DatabaseStatementDetail from './database/DatabaseStatementDetail';
-import DatabaseSections from './database/DatabaseSections';
-import LoggingSections from './logging/LoggingSections';
-import HttpSections from './http/HttpSections';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -17,6 +16,7 @@ export default connectTo(
       filter: {
         application: props.applicationId,
         service: props.serviceId,
+        endpoint: props.endpointId,
         timeframe: props.timeframe
       }
     }).map(result => result.data || null)
@@ -41,7 +41,6 @@ export default connectTo(
                   <CommonPerformanceSections {...props} />
                   {hasHttpEndpoints(types) && <HttpSections {...props} />}
                   {hasDatabaseEndpoints(types) && <DatabaseSections {...props} />}
-                  <LoggingSections {...props} />
                 </div>
               );
             }}

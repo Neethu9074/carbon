@@ -1,6 +1,7 @@
 import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
+import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
@@ -22,6 +23,11 @@ export default [
     label: 'Performance',
     path: `${endpointDashboard}/performance`,
     component: PerformanceTab
+  },
+  {
+    label: 'Errors',
+    path: `${endpointDashboard}/errors`,
+    component: ErrorsTab
   },
   {
     label: 'Infrastructure',

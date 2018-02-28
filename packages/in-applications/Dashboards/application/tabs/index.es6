@@ -2,6 +2,7 @@ import { getTabHeaderWithAppDataMetricCount } from 'in-applications/TabView/tabs
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
+import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 
@@ -39,6 +40,11 @@ export default [
     label: 'Performance',
     path: `${applicationDashboard}/performance`,
     component: PerformanceTab
+  },
+  {
+    label: 'Errors',
+    path: `${applicationDashboard}/errors`,
+    component: ErrorsTab
   },
   {
     label: 'Infrastructure',
