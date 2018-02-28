@@ -111,7 +111,7 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Downstream Breakdown">
+          <Card title="Contribution Breakdown">
             <TechnologyBreakdown
               applicationId={applicationId}
               serviceId={serviceId}
