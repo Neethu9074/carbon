@@ -64,7 +64,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
 
       <Card
         title="Matching"
-        header={
+        /*header={
           <Button
             disabled={disabled}
             kind="secondary"
@@ -73,7 +73,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
           >
             Add condition
           </Button>
-        }
+        }*/
         className={locals.matchingCard}
       >
         <HelpText className={locals.matchHelp}>
@@ -145,7 +145,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
           </ValidationBlock>
         )}
         <Button
-          icon={loading && 'spinner'}
+          icon={loading ? 'spinner' : null}
           iconSpinning
           kind="primary"
           type="submit"
@@ -213,12 +213,12 @@ function matchSpecificationValidator(items) {
 function setValue(path, value, form, updateForm) {
   updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
 }
-
+/*
 function addMatchSpecification(form, updateForm) {
   const additionalSubForm = getMatchSpecificationForm();
   updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
 }
-
+*/
 function getMatchSpecificationForm(matchSpecification = {}) {
   return createMapForm()
     .put(
