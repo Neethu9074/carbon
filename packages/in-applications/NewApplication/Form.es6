@@ -224,7 +224,7 @@ function getMatchSpecificationForm(matchSpecification = {}) {
     .put(
       'key',
       createField({
-        value: get(matchSpecification, 'key', ''),
+        value: get(matchSpecification, 'key', 'host.zone'),
         validator: notBlankValidator
       })
     )
