@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { throttle } from 'lodash';
 
+import { identifyOverlay } from 'in-new-components/overlays/dom';
 import OverlayMounter from 'in-new-components/overlays/OverlayMounter';
+import { generateUniqueShortId } from 'in-services/util/id';
 
 import { emptyObject } from 'in-services/fixedObjects';
 
@@ -12,7 +14,8 @@ import { emptyObject } from 'in-services/fixedObjects';
 
 export default class Overlay extends React.Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    id: generateUniqueShortId()
   };
 
   toggle = () => this.setOpen(!this.state.isOpen);
@@ -37,7 +40,13 @@ export default class Overlay extends React.Component {
     trailing: false
   });
 
-  refSetter = r => (this.wrapper = r);
+  refSetter = r => {
+    this.wrapper = r;
+    const parentOverlayDomNode = identifyOverlay(r);
+    if (parentOverlayDomNode) {
+      this.parentOverlay = parentOverlayDomNode.dataset.overlayId;
+    }
+  };
 
   render() {
     const {
@@ -52,7 +61,7 @@ export default class Overlay extends React.Component {
       props = emptyObject,
       content: OverlayContent
     } = this.props;
-    const { isOpen } = this.state;
+    const { isOpen, id } = this.state;
 
     let content;
     if (withoutWrapper) {
@@ -82,20 +91,23 @@ export default class Overlay extends React.Component {
 
     return (
       <Fragment>
-        {isOpen && (
-          <OverlayMounter
-            content={OverlayContent}
-            props={{
-              ...props,
-              close: this.close
-            }}
-            relativeTo={this.wrapper}
-            position={position}
-            kind={kind}
-            close={this.close}
-            withoutArrow={withoutArrow}
-          />
-        )}
+        {isOpen &&
+          this.wrapper && (
+            <OverlayMounter
+              id={id}
+              content={OverlayContent}
+              props={{
+                ...props,
+                close: this.close
+              }}
+              relativeTo={this.wrapper}
+              parentOverlay={this.parentOverlay}
+              position={position}
+              kind={kind}
+              close={this.close}
+              withoutArrow={withoutArrow}
+            />
+          )}
         {content}
       </Fragment>
     );

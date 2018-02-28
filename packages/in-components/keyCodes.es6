@@ -19,10 +19,10 @@ export default {
   d: 68,
   p: 80,
   c: 67,
-  isModifierPressed: e => {
-    return e.ctrlKey || e.shiftKey || e.altKey || e.metaKey;
-  }
+  isModifierPressed: e => !!(e.ctrlKey || e.shiftKey || e.altKey || e.metaKey),
+  isLeftClick: e => e.button === 0
 };
+
 /*
 Key                 Code
 backspace           8
