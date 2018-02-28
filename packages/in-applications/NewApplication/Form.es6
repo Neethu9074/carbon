@@ -12,6 +12,7 @@ import HelpText from 'in-components/form/HelpText';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
@@ -90,15 +91,16 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
                 <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
                   Key
                 </Label>
-                <Input
-                  type="text"
+                <Select
                   id={`match-${i}-key`}
                   value={field.value}
                   onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
                   autoComplete="off"
                   hasError={!field.valid && field.touched}
                   disabled={disabled}
-                />
+                >
+                  {getFakedEdmundsValues()}
+                </Select>
                 <TouchedMessages field={field} />
               </FormGroup>
             ))}
@@ -154,6 +156,21 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
       </div>
     </form>
   );
+}
+
+function getFakedEdmundsValues() {
+  return [
+    'host.zone',
+    'docker.label.com.amazonaws.ecs.cluster',
+    'docker.label.ARTIFACT_ID ',
+    'docker.label.ARTIFACT_VERSION '
+  ].map(tag => {
+    return (
+      <option value={tag} key={tag}>
+        {tag}
+      </option>
+    );
+  });
 }
 
 function getInitialForm(application = {}) {
