@@ -16,6 +16,10 @@ export default class Child extends SceneObject {
     this.events$.emit('data', data);
   }
 
+  setIsExpanded(isIncomingExpanded, direction) {
+    this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
+  }
+
   expandRight() {
     getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForChildId(
       this.nodeId,

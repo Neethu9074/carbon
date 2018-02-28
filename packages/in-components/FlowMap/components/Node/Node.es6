@@ -4,15 +4,13 @@ import React from 'react';
 import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallContent';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
+import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
 import Children from 'in-components/FlowMap/components/Node/Children';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
 import Subscriber from 'in-map/misc/Subscriber';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Node.mless';
@@ -69,20 +67,10 @@ export default connectTo(
             {getContent(metrics, data, size, serviceLocatorUid)}
 
             {!childList && (
-              <ExpandIcon
-                className={locals.expandButtonLeft}
-                direction="incoming"
-                events$={node.events$}
-                onClick={() => node.expandLeft()}
-              />
+              <ExpandButton direction="incoming" events$={node.events$} onClick={() => node.expandLeft()} />
             )}
             {!childList && (
-              <ExpandIcon
-                className={locals.expandButtonRight}
-                direction="outgoing"
-                events$={node.events$}
-                onClick={() => node.expandRight()}
-              />
+              <ExpandButton direction="outgoing" events$={node.events$} onClick={() => node.expandRight()} />
             )}
 
             <Children childList={childList} />
@@ -90,38 +78,6 @@ export default connectTo(
         </Tooltip>
       );
     }
-  }
-);
-
-const ExpandIcon = connectTo(
-  props => ({
-    isLoading: props.events$.on(`isLoadingData_${props.direction}`).distinct(),
-    isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct(),
-    errors: props.events$.on(`errors_${props.direction}`).distinct()
-  }),
-  function ExpandIcon({ isLoading, isExpanded, errors, onClick, className }) {
-    if (isExpanded) {
-      return null;
-    }
-    const hasErrors = errors && errors.length > 0;
-    return (
-      <Tooltip content={hasErrors ? <ErroneousResultPresenter errors={errors} /> : null}>
-        <div
-          className={evaluateClassNames({
-            [className]: true,
-            [locals.errorneousExpandIcon]: errors && errors.length > 0
-          })}
-          onClick={onClick}
-        >
-          <SvgIcon
-            type={isLoading ? 'spinner' : 'plus_without_frame'}
-            height={isLoading ? 14 : 10}
-            color="#ffffff"
-            spinning={isLoading}
-          />
-        </div>
-      </Tooltip>
-    );
   }
 );
 

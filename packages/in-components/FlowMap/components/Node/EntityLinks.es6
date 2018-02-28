@@ -26,8 +26,10 @@ export function EndpointLink({ serviceId, endpointId, className, children }) {
 
 function EntityLink({ className, getLink, children }) {
   return (
-    <div className={`${locals.entityLink} ${className}`}>
-      <Link href$={getLink()}>{children}</Link>
+    <div className={`${locals.entityLinkWrapper} ${className}`}>
+      <Link className={`${locals.entityLink}`} href$={getLink()}>
+        {children}
+      </Link>
     </div>
   );
 }

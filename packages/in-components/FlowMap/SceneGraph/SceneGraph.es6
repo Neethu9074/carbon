@@ -1,11 +1,11 @@
 import RoEmitter from 'roemitter';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import EndpointPathFinder from 'in-components/FlowMap/misc/EndpointPathFinder';
 import looseLayout from 'in-components/FlowMap/misc/layouting/looseLayouter';
 import flowLayout from 'in-components/FlowMap/misc/layouting/flowLayouter';
 import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
-// import { diff } from 'in-services/arrayUtils';
 
 export default class SceneGraph {
   constructor(serviceLocatorUid) {
@@ -13,6 +13,7 @@ export default class SceneGraph {
     this.subscriptions = new Map();
     this.signals = new RoEmitter('sceneGraphSignals');
     this.pathFinder = new PathFinder(serviceLocatorUid);
+    this.endpointPathfinder = new EndpointPathFinder(serviceLocatorUid);
 
     this.initSubscriptions();
   }
@@ -33,6 +34,7 @@ export default class SceneGraph {
 
     if (endpoint) {
       const child = rootNode.addChild(endpoint);
+      this.endpointPathfinder.setRootNodeId(child.id);
       child.expandRight();
       child.expandLeft();
     } else {
@@ -64,27 +66,37 @@ export default class SceneGraph {
 
   fetchIncomingDataForChildId(nodeId, endpointId, getIncomingDataForNodeIdCallback) {
     const direction = 'incoming';
-    this.setupSubscriptionIfAbsent2(nodeId, endpointId, direction, getIncomingDataForNodeIdCallback, (result, path) => {
-      this.processEndpointResult(nodeId, endpointId, result, direction, path);
-      this.requestLayout();
-    });
+    this.setupChildSubscriptionIfAbsent(
+      nodeId,
+      endpointId,
+      direction,
+      getIncomingDataForNodeIdCallback,
+      (result, path) => {
+        this.processEndpointResult(nodeId, endpointId, result, direction, path);
+        this.requestLayout();
+      }
+    );
   }
 
   fetchOutgoingDataForChildId(nodeId, endpointId, getOutgoingDataForNodeIdCallback) {
     const direction = 'outgoing';
-    this.setupSubscriptionIfAbsent2(nodeId, endpointId, direction, getOutgoingDataForNodeIdCallback, (result, path) => {
-      this.processEndpointResult(nodeId, endpointId, result, direction, path);
-      this.requestLayout();
-    });
+    this.setupChildSubscriptionIfAbsent(
+      nodeId,
+      endpointId,
+      direction,
+      getOutgoingDataForNodeIdCallback,
+      (result, path) => {
+        this.processEndpointResult(nodeId, endpointId, result, direction, path);
+        this.requestLayout();
+      }
+    );
   }
 
-  setupSubscriptionIfAbsent2(nodeId, endpointId, direction, fetchData, processResult) {
+  setupChildSubscriptionIfAbsent(nodeId, endpointId, direction, fetchData, processResult) {
     const id = `${nodeId}__${endpointId}`;
     if (!this.containsSubscription(id, direction)) {
       const directionSubscriptions = this.subscriptions.get(id) || {};
-      const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
-      const path = this.pathFinder.find(nodeId, direction).map(id => currentNodes.get(id).__originalId);
-
+      const path = this.endpointPathfinder.find(nodeId, endpointId, direction);
       directionSubscriptions[direction] = fetchData(endpointId, path).subscribe(result => processResult(result, path));
       this.subscriptions.set(id, directionSubscriptions);
     }
@@ -184,6 +196,8 @@ export default class SceneGraph {
     const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
     const node = currentNodes.get(nodeId);
     const child = node.children.get(endpointId);
+    child.setIsExpanded(true, direction);
+
     const nodes = (result.data || []).map(n => {
       return {
         id: this.toUid(n.service.id, path, direction),
@@ -200,13 +214,16 @@ export default class SceneGraph {
         ? currentNodes.get(newNode.id)
         : this.addNode(newNode.id, newNode.service, newNode.metrics);
 
+      const newChild = serviceNode.addChild(newNode.endpoint);
+
       if (direction === 'incoming') {
         serviceNode.setIsExpanded(true, 'outgoing');
+        newChild.setIsExpanded(true, 'outgoing');
       } else {
         serviceNode.setIsExpanded(true, 'incoming');
+        newChild.setIsExpanded(true, 'incoming');
       }
 
-      const newChild = serviceNode.addChild(newNode.endpoint);
       child.addConnected(
         [
           {

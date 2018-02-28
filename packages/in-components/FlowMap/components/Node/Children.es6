@@ -2,6 +2,7 @@ import React from 'react';
 
 import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
 import { EndpointLink } from 'in-components/FlowMap/components/Node/EntityLinks';
+import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Children.mless';
@@ -42,6 +43,8 @@ const Child = connectTo(
         <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
           {data.label}
         </EndpointLink>
+        <ExpandButton direction="incoming" events$={child.events$} onClick={() => child.expandLeft()} />
+        <ExpandButton direction="outgoing" events$={child.events$} onClick={() => child.expandRight()} />
       </div>
     );
   }

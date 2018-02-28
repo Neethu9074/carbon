@@ -1,10 +1,13 @@
 :local {
-  .entityLink {
+  .entityLinkWrapper {
     color: #16363e;
-    text-decoration: none;
     font-weight: 300;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .entityLink {
+    text-decoration: none;
   }
 }
