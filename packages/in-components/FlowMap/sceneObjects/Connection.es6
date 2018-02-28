@@ -11,6 +11,11 @@ export default class Connection extends SceneObject {
     this.particleEmitter = new ParticleEmitter(from, serviceLocatorUid);
   }
 
+  setFromAndTo(from, to) {
+    this.from = from;
+    this.to = to;
+  }
+
   updatePosition() {
     this.particleEmitter.setFromAndToPositions(this.from.position, this.to.position);
   }

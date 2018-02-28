@@ -44,6 +44,8 @@ export default function createConnectionsService(serviceLocatorUid) {
     for (let i = 0; i < newItems.length; i++) {
       const connectionConfig = newItems[i];
       if (connections.has(connectionConfig.id)) {
+        const existingConnection = connections.get(connectionConfig.id);
+        existingConnection.setFromAndTo(connectionConfig.from, connectionConfig.to);
         continue;
       }
       connections.set(

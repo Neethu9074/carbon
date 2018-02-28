@@ -97,7 +97,10 @@ export default class SceneGraph {
     if (!this.containsSubscription(id, direction)) {
       const directionSubscriptions = this.subscriptions.get(id) || {};
       const path = this.endpointPathfinder.find(nodeId, endpointId, direction);
-      directionSubscriptions[direction] = fetchData(endpointId, path).subscribe(result => processResult(result, path));
+      const servicePath = this.pathFinder.find(nodeId, direction);
+      directionSubscriptions[direction] = fetchData(endpointId, path).subscribe(result =>
+        processResult(result, servicePath)
+      );
       this.subscriptions.set(id, directionSubscriptions);
     }
   }
