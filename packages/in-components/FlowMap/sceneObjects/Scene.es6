@@ -52,6 +52,7 @@ export default class MainScene {
           const targetNodeSizeInPx = remainingInPx;
 
           worldUnits.targetNodeSizeInPx = targetNodeSizeInPx;
+
           return worldUnits;
         })
         .subscribe(units => getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit('worldUnits', units))

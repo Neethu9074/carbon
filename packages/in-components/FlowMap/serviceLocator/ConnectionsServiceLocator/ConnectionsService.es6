@@ -104,14 +104,83 @@ export default function createConnectionsService(serviceLocatorUid) {
     const connections = [];
     for (const node of nodes) {
       for (let i = 0; i < node.incoming.length; i++) {
-        connections.push({ from: nodesMap.get(node.incoming[i]), to: node });
+        createConnectionsForNodes(nodesMap, nodesMap.get(node.incoming[i]), node, connections);
       }
       for (let i = 0; i < node.outgoing.length; i++) {
-        connections.push({ from: node, to: nodesMap.get(node.outgoing[i]) });
+        createConnectionsForNodes(nodesMap, node, nodesMap.get(node.outgoing[i]), connections);
       }
     }
     setConnections(connections);
     updateVertices();
+  }
+
+  function createConnectionsForNodes(nodesMap, from, to, connections) {
+    if (from.children.size === 0 && to.children.size === 0) {
+      connections.push({ from, to });
+    } else if (from.children.size > 0 && to.children.size > 0) {
+      let iFrom = 0;
+      for (const fromChild of from.children.values()) {
+        const cSource = fromChild;
+        let sourcePos = nodesMap.get(cSource.nodeId).position.clone();
+        sourcePos.x -= 2.4;
+        sourcePos.y -= 1.1 + iFrom * 0.41;
+        iFrom++;
+
+        for (let i = 0; i < fromChild.incoming.length; i++) {
+          const cFrom = nodesMap.get(fromChild.incoming[i].nodeId).children.get(fromChild.incoming[i].id);
+          const iChild = indexOf(cFrom, nodesMap.get(fromChild.incoming[i].nodeId).children);
+          const fromPos = nodesMap.get(cFrom.nodeId).position.clone();
+          fromPos.y -= 1.1 + iChild * 0.41;
+          fromPos.x += 2.4;
+          connections.push({
+            from: {
+              id: cFrom.id,
+              position: fromPos,
+              events$: cFrom.events$
+            },
+            to: {
+              id: cSource.id,
+              position: sourcePos,
+              events$: cSource.events$
+            }
+          });
+        }
+
+        sourcePos = sourcePos.clone();
+        sourcePos.x += 2 * 2.4;
+        for (let i = 0; i < fromChild.outgoing.length; i++) {
+          const cTo = nodesMap.get(fromChild.outgoing[i].nodeId).children.get(fromChild.outgoing[i].id);
+          const iChild = indexOf(cTo, nodesMap.get(fromChild.outgoing[i].nodeId).children);
+          const toPos = nodesMap.get(cTo.nodeId).position.clone();
+          toPos.y -= 1.1 + iChild * 0.41;
+          toPos.x -= 2.4;
+
+          connections.push({
+            from: {
+              id: cSource.id,
+              position: sourcePos,
+              events$: cSource.events$
+            },
+            to: {
+              id: cTo.id,
+              position: toPos,
+              events$: cTo.events$
+            }
+          });
+        }
+      }
+    }
+  }
+
+  function indexOf(childToFind, children) {
+    let i = 0;
+    for (const child of children.values()) {
+      if (child.id === childToFind.id) {
+        return i;
+      }
+      i++;
+    }
+    return 0;
   }
 
   function dispose() {

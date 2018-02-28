@@ -23,12 +23,19 @@ export default function layout(rootNode, nodesMap) {
   }
 
   function layoutColumn(nodes, xPosition, direction) {
-    let nextColumnNodes = [];
-    for (let i = 0; i < nodes.length; i++) {
-      const nodeId = nodes[i];
-      nodesMap.get(nodeId).setPosition(xPosition, getNodesYPosition(i, nodes.length));
+    nodes = nodes.map(id => nodesMap.get(id));
+    const totalColumnHeight = getTotalColumnHeight(nodes);
 
-      const node = nodesMap.get(nodeId);
+    let nextColumnNodes = [];
+    let previousYPosition = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const nodeId = node.id;
+      const yPosition = previousYPosition;
+
+      nodesMap.get(nodeId).setPosition(xPosition, yPosition + totalColumnHeight / 2);
+      previousYPosition -= node.__height || 0;
+
       if (node[direction]) {
         nextColumnNodes = nextColumnNodes.concat(node[direction]);
       }
@@ -36,7 +43,20 @@ export default function layout(rootNode, nodesMap) {
     return nextColumnNodes;
   }
 
-  function getNodesYPosition(index, numTotalNodesInThisColumn) {
-    return -index * DISTANCE_BETWEEN_NODES_Y + DISTANCE_BETWEEN_NODES_Y * (numTotalNodesInThisColumn - 1) / 2;
+  function getTotalColumnHeight(nodes) {
+    let totalColumnHeight = 0;
+    if (nodes.length <= 1) {
+      return totalColumnHeight;
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (0.018982536066818528 * 21);
+
+      if (i < nodes.length - 1) {
+        totalColumnHeight += node.__height;
+      }
+    }
+    return totalColumnHeight;
   }
 }

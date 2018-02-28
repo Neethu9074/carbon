@@ -15,12 +15,20 @@ export default class DataFetchingServiceLocator extends BaseServiceLocator {
     return this.service.getIconTypeForNodeId(id);
   }
 
-  fetchIncomingDataForNodeId(id) {
-    this.sceneGraph.fetchIncomingDataForNodeId(id, this.service.getIncomingDataForNodeId);
+  fetchIncomingDataForNodeId(nodeId) {
+    this.sceneGraph.fetchIncomingDataForNodeId(nodeId, this.service.getIncomingDataForNodeId);
   }
 
-  fetchOutgoingDataForNodeId(id) {
-    this.sceneGraph.fetchOutgoingDataForNodeId(id, this.service.getOutgoingDataForNodeId);
+  fetchOutgoingDataForNodeId(nodeId) {
+    this.sceneGraph.fetchOutgoingDataForNodeId(nodeId, this.service.getOutgoingDataForNodeId);
+  }
+
+  fetchOutgoingDataForChildId(nodeId, childId) {
+    this.sceneGraph.fetchOutgoingDataForChildId(nodeId, childId, this.service.getOutgoingDataForNodeId);
+  }
+
+  fetchIncomingDataForChildId(nodeId, childId) {
+    this.sceneGraph.fetchIncomingDataForChildId(nodeId, childId, this.service.getIncomingDataForNodeId);
   }
 
   fetchMetricsForNodeId(id) {

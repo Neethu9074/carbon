@@ -5,7 +5,7 @@ import looseLayout from 'in-components/FlowMap/misc/layouting/looseLayouter';
 import flowLayout from 'in-components/FlowMap/misc/layouting/flowLayouter';
 import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
-import { diff } from 'in-services/arrayUtils';
+// import { diff } from 'in-services/arrayUtils';
 
 export default class SceneGraph {
   constructor(serviceLocatorUid) {
@@ -24,13 +24,21 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addRootNode(id, data) {
+  addRootNode({ service, endpoint }) {
+    const id = service.id;
     this.rootNodeId = id;
     this.pathFinder.setRootNodeId(id);
 
-    const rootNode = this.addNode(id, data);
-    rootNode.expandRight();
-    rootNode.expandLeft();
+    const rootNode = this.addNode(id, service);
+
+    if (endpoint) {
+      const child = rootNode.addChild(endpoint);
+      child.expandRight();
+      child.expandLeft();
+    } else {
+      rootNode.expandRight();
+      rootNode.expandLeft();
+    }
 
     this.requestLayout();
   }
@@ -54,10 +62,38 @@ export default class SceneGraph {
     }
   }
 
+  fetchIncomingDataForChildId(nodeId, endpointId, getIncomingDataForNodeIdCallback) {
+    const direction = 'incoming';
+    this.setupSubscriptionIfAbsent2(nodeId, endpointId, direction, getIncomingDataForNodeIdCallback, (result, path) => {
+      this.processEndpointResult(nodeId, endpointId, result, direction, path);
+      this.requestLayout();
+    });
+  }
+
+  fetchOutgoingDataForChildId(nodeId, endpointId, getOutgoingDataForNodeIdCallback) {
+    const direction = 'outgoing';
+    this.setupSubscriptionIfAbsent2(nodeId, endpointId, direction, getOutgoingDataForNodeIdCallback, (result, path) => {
+      this.processEndpointResult(nodeId, endpointId, result, direction, path);
+      this.requestLayout();
+    });
+  }
+
+  setupSubscriptionIfAbsent2(nodeId, endpointId, direction, fetchData, processResult) {
+    const id = `${nodeId}__${endpointId}`;
+    if (!this.containsSubscription(id, direction)) {
+      const directionSubscriptions = this.subscriptions.get(id) || {};
+      const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+      const path = this.pathFinder.find(nodeId, direction).map(id => currentNodes.get(id).__originalId);
+
+      directionSubscriptions[direction] = fetchData(endpointId, path).subscribe(result => processResult(result, path));
+      this.subscriptions.set(id, directionSubscriptions);
+    }
+  }
+
   fetchIncomingDataForNodeId(id, getIncomingDataForNodeIdCallback) {
     const direction = 'incoming';
     this.setupSubscriptionIfAbsent(id, direction, getIncomingDataForNodeIdCallback, (nodeId, result, path) => {
-      this.processResult(nodeId, result, direction, path);
+      this.processServiceResult(nodeId, result, direction, path);
       this.requestLayout();
     });
   }
@@ -65,7 +101,7 @@ export default class SceneGraph {
   fetchOutgoingDataForNodeId(id, getOutgoingDataForNodeIdCallback) {
     const direction = 'outgoing';
     this.setupSubscriptionIfAbsent(id, direction, getOutgoingDataForNodeIdCallback, (nodeId, result, path) => {
-      this.processResult(nodeId, result, direction, path);
+      this.processServiceResult(nodeId, result, direction, path);
       this.requestLayout();
     });
   }
@@ -86,7 +122,7 @@ export default class SceneGraph {
     return directionSubscriptions && directionSubscriptions[direction] ? true : false;
   }
 
-  processResult(nodeId, result, direction, path) {
+  processServiceResult(nodeId, result, direction, path) {
     const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
     const node = currentNodes.get(nodeId);
 
@@ -102,24 +138,87 @@ export default class SceneGraph {
       return;
     }
 
-    const nodes = (result.data || []).map(n => ({
-      id: this.toUid(n.entity.id, path, direction),
-      entity: n.entity,
-      relatedNodesCount: n.relatedNodesCount,
-      metrics: n.metrics
-    }));
-    const nodesMap = this.getNodesAsMap(nodes);
+    const nodes = (result.data || []).map(n => {
+      return {
+        id: this.toUid(n.service.id, path, direction),
+        service: n.service,
+        endpoint: n.endpoint,
+        relatedNodesCount: n.relatedNodesCount,
+        metrics: n.metrics
+      };
+    });
 
-    const difference = diff(node[direction].map(node => node.id), Array.from(nodesMap.keys()));
-    const newNodes = difference.uniqueItemsB;
-    const presentNodes = difference.sharedItems;
-    const removedNodes = difference.uniqueItemsA;
+    for (let i = 0; i < nodes.length; i++) {
+      const newNode = nodes[i];
+      const serviceNode = currentNodes.has(newNode.id)
+        ? currentNodes.get(newNode.id)
+        : this.addNode(newNode.id, newNode.service, newNode.metrics);
 
-    this.addNewNodes(newNodes, nodesMap, direction);
-    node.setConnected(newNodes, direction);
+      if (direction === 'incoming') {
+        serviceNode.setIsExpanded(true, 'outgoing');
+        if (newNode.relatedNodesCount === 0) {
+          serviceNode.setIsExpanded(true, direction);
+        }
+      } else {
+        serviceNode.setIsExpanded(true, 'incoming');
+        if (newNode.relatedNodesCount === 0) {
+          serviceNode.setIsExpanded(true, direction);
+        }
+      }
+    }
 
-    this.updatePresentNodes(presentNodes, nodesMap);
-    this.removeNodes(removedNodes);
+    node.addConnected(nodes.map(n => n.id), direction);
+  }
+
+  processEndpointResult(nodeId, endpointId, result, direction, path) {
+    const hasErrors = result.errors.length > 0;
+    if (hasErrors) {
+      return;
+    }
+
+    const isLoading = result.progress.loading;
+    if (isLoading) {
+      return;
+    }
+
+    const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    const node = currentNodes.get(nodeId);
+    const child = node.children.get(endpointId);
+    const nodes = (result.data || []).map(n => {
+      return {
+        id: this.toUid(n.service.id, path, direction),
+        service: n.service,
+        endpoint: n.endpoint,
+        relatedNodesCount: n.relatedNodesCount,
+        metrics: n.metrics
+      };
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      const newNode = nodes[i];
+      const serviceNode = currentNodes.has(newNode.id)
+        ? currentNodes.get(newNode.id)
+        : this.addNode(newNode.id, newNode.service, newNode.metrics);
+
+      if (direction === 'incoming') {
+        serviceNode.setIsExpanded(true, 'outgoing');
+      } else {
+        serviceNode.setIsExpanded(true, 'incoming');
+      }
+
+      const newChild = serviceNode.addChild(newNode.endpoint);
+      child.addConnected(
+        [
+          {
+            nodeId: newChild.nodeId,
+            id: newChild.id
+          }
+        ],
+        direction
+      );
+
+      node.addConnected([serviceNode.id], direction);
+    }
   }
 
   toUid(id, previousNodesPath, direction) {
@@ -139,41 +238,6 @@ export default class SceneGraph {
       nodesMap.set(nodeData.id, nodeData);
     }
     return nodesMap;
-  }
-
-  addNewNodes(newNodes, nodesMap, direction) {
-    for (let i = 0; i < newNodes.length; i++) {
-      const nodeId = newNodes[i];
-      const nodesData = nodesMap.get(nodeId);
-      const nodeSceneObject = this.addNode(nodeId, nodesData.entity, nodesData.metrics);
-
-      if (direction === 'incoming') {
-        nodeSceneObject.setIsExpanded(true, 'outgoing');
-        if (nodesData.relatedNodesCount === 0) {
-          nodeSceneObject.setIsExpanded(true, direction);
-        }
-      } else {
-        if (nodesData.relatedNodesCount === 0) {
-          nodeSceneObject.setIsExpanded(true, direction);
-        }
-        nodeSceneObject.setIsExpanded(true, 'incoming');
-      }
-    }
-  }
-
-  updatePresentNodes(presentNodes, nodesMap) {
-    for (let i = 0; i < presentNodes.length; i++) {
-      const nodeId = presentNodes[i];
-      const nodesData = nodesMap.get(nodeId);
-      this.updateNode(nodeId, nodesData.entity);
-    }
-  }
-
-  removeNodes(nodeIds) {
-    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
-    for (let i = 0; i < nodeIds.length; i++) {
-      nodesServiceLocator.removeNode(nodeIds[i]);
-    }
   }
 
   requestLayout() {

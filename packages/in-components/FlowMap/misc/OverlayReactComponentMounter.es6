@@ -20,7 +20,5 @@ export default class OverlayReactComponentMounter {
     );
   }
 
-  dispose() {
-    ReactDOM.unmountComponentAtNode(this.nodesReactComponentWrapper);
-  }
+  dispose() {}
 }

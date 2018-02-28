@@ -28,7 +28,10 @@ function createDataFetchingService(rootNodeData, applicationId, endpointId, time
   };
 
   function getRootNodeData() {
-    return rootNodeData;
+    return {
+      service: rootNodeData,
+      endpoint: null
+    };
   }
 
   function getIconTypeForNodeId() {

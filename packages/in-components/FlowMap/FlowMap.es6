@@ -44,7 +44,7 @@ export default class FlowMap {
   addRootNodeIfPresent() {
     const rootNodeData = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getRootNodeData();
     if (rootNodeData) {
-      this.sceneGraph.addRootNode(rootNodeData.id, rootNodeData);
+      this.sceneGraph.addRootNode(rootNodeData);
       this.overlayReactComponentMounter.update(rootNodeData.id);
     }
   }

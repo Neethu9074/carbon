@@ -13,10 +13,11 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
+      this.initFlowMap();
     }
 
     componentWillUpdate(nextProps) {
-      const propsAreEqual = this.props.createDataFetchingService === nextProps.createDataFetchingService;
+      const propsAreEqual = true;
       if (!propsAreEqual) {
         this.initFlowMap();
       }

@@ -7,6 +7,7 @@ import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallC
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
+import Children from 'in-components/FlowMap/components/Node/Children';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -78,6 +79,8 @@ export default connectTo(
               events$={node.events$}
               onClick={() => node.expandRight()}
             />
+
+            <Children node={node} />
           </div>
         </Tooltip>
       );

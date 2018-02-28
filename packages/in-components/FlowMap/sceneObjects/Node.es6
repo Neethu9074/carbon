@@ -1,7 +1,9 @@
+import { uniq } from 'lodash';
 import { combineLatest } from 'reactive-observables';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
+import Child from 'in-components/FlowMap/sceneObjects/Child';
 import Subscriber from 'in-map/misc/Subscriber';
 
 // 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
@@ -18,6 +20,7 @@ export default class Node extends SceneObject {
     this.incoming = [];
     this.initSubscriptions(metricValues);
     this.screenPosition = null;
+    this.children = new Map();
 
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
@@ -82,7 +85,35 @@ export default class Node extends SceneObject {
   }
 
   setData(data) {
+    // if (!data.children) {
+    //   const numChildren = Math.floor(Math.random() * 5);
+    //   const children = [];
+    //   for (let i = 0; i < numChildren; i++) {
+    //     children.push({
+    //       id: `${data.id}__endpoint__${i}`,
+    //       label: `endpoint__${i}`,
+    //       types: i % 2 === 0 ? 'http' : 'batch'
+    //     });
+    //   }
+    //   data = Object.assign({}, data, { children });
+    // }
     this.events$.emit('data', data);
+    // this.children = data.children;
+  }
+
+  addChild(child) {
+    if (this.children.has(child.id)) {
+      return this.children.get(child.id);
+    }
+
+    const newChild = new Child(this.serviceLocatorUid, this.id, child.id);
+    newChild.setData(child);
+
+    this.children.set(child.id, newChild);
+
+    // TODO: emit to stream
+
+    return newChild;
   }
 
   setIsLoadingData(isLoading, direction) {
@@ -93,8 +124,8 @@ export default class Node extends SceneObject {
     this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
   }
 
-  setConnected(ids, direction) {
-    this[direction] = ids;
+  addConnected(ids, direction) {
+    this[direction] = uniq(this[direction].concat(ids));
     this.setIsExpanded(true, direction);
   }
 

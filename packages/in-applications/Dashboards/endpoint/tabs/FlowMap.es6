@@ -29,7 +29,13 @@ function createDataFetchingService(rootNodeData, applicationId, serviceId, timef
   };
 
   function getRootNodeData() {
-    return rootNodeData;
+    return {
+      service: {
+        id: serviceId,
+        label: 'foobar'
+      },
+      endpoint: rootNodeData
+    };
   }
 
   function getIconTypeForNodeId() {
