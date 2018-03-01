@@ -59,7 +59,7 @@ const ChartReactWrapper = enhance(
             {chart && legendAlignment === 'top' ? (
               <Legend alignment={legendAlignment} chart={this.props.chart} />
             ) : null}
-            {chart && <Tooltip chart={this.props.chart} />}
+            {chart && <Tooltip alignment={legendAlignment} chart={this.props.chart} />}
             <canvas
               className={locals.canvas}
               ref={canvas => {

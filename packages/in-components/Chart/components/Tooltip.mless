@@ -1,10 +1,17 @@
 :local {
   .tooltip {
     position: absolute;
-    top: 1.5rem;
     bottom: 0;
     left: 3rem;
     right: 3rem;
+  }
+
+  .top {
+    top: 1.5rem;
+  }
+
+  .bottom {
+    top: 0;
   }
 
   .glassPane {

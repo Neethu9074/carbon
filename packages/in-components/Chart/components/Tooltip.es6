@@ -37,7 +37,7 @@ export default connectTo(
       const cursorXPositionOnCanvas = this.getNearestDomainXPosition(nearestTimeInMetrics);
 
       return (
-        <div className={locals.tooltip}>
+        <div className={`${locals.tooltip} ${this.props.alignment === 'top' ? locals.top : locals.bottom}`}>
           <HighlightedTimeframe
             xScale={this.state.xScale}
             glassPane={this.glassPane}
