@@ -118,7 +118,7 @@ export default function createConnectionsService(serviceLocatorUid) {
 
   function createConnectionsForNodes(nodesMap, from, to, connections) {
     const xOffset = 2.38;
-    const yOffset = 0.41;
+    const yOffset = 0.475;
     if (from.children.size === 0 && to.children.size === 0) {
       connections.push({ from, to });
     } else if (from.children.size > 0 && to.children.size > 0) {
