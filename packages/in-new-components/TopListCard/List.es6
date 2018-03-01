@@ -1,4 +1,4 @@
-import { chain, curry, isNil } from 'lodash';
+import { chain } from 'lodash';
 import React from 'react';
 
 import Row from 'in-new-components/TopListCard/Row';
@@ -19,7 +19,7 @@ export default function TopListPresenter(props) {
 
   const items = getItemsFromResult(result);
   const maxValue = chain(items)
-    .map(curry(getMetricValueFromItem)(selectedMetric))
+    .map(getMetricValueFromItem.bind(null, selectedMetric))
     .max();
 
   return (
@@ -28,11 +28,11 @@ export default function TopListPresenter(props) {
         {items.map((item, i) => {
           let metricValue = getMetricValueFromItem(selectedMetric, item);
           let formattedMetricValue;
-          if (!isNil(metricValue)) {
+          if (metricValue != null) {
             formattedMetricValue = selectedMetricFormatter(metricValue);
           } else {
             metricValue = 0;
-            formattedMetricValue = '-';
+            formattedMetricValue = '––';
           }
           const renderProps = {
             ...props,
