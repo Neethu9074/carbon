@@ -36,7 +36,7 @@ function getItemsFromResult(result) {
   return result.data;
 }
 
-function getMetricValueFromItem(item) {
+function getMetricValueFromItem(metricId, item) {
   return item.metricValue;
 }
 
