@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number } from 'in-services/formatters/number';
-import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces } from 'in-services/formatters/number';
+import GaugesTable from './GaugesTable';
 
 export default function NomadDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
@@ -24,7 +24,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           higher to receive metrics in this dashboard.
         </p>
         <p>
-          Current Nomad Version: <code>{nomadVersion}</code>.
+          Current Nomad Version: <code>{nomadVersion}</code>
         </p>
       </DashboardNotification>
     );
@@ -156,69 +156,8 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title="Runtime">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              y1={{
-                min: 0,
-                metrics: ['nomad.runtime.total_gc_pause_ns'],
-                formatter: timeByNanoTwoDecimalPlaces,
-                labels: ['Total gc pause'],
-                type: 'line'
-              }}
-            />
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              y1={{
-                min: 0,
-                metrics: ['nomad.runtime.alloc_bytes', 'nomad.runtime.sys_bytes'],
-                formatter: bytesZeroDecimalPlaces,
-                labels: ['Alloc bytes', 'System bytes'],
-                type: 'line'
-              }}
-            />
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              y1={{
-                min: 0,
-                metrics: ['nomad.runtime.heap_objects'],
-                labels: ['Heap objects'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
+          <GaugesTable snapshot={snapshot} timeframe={timeframe} />
         </Columize>
-        {
-          // Further available metrics:
-          // nomad.runtime.total_gc_runs
-          // nomad.runtime.free_count
-          // nomad.runtime.malloc_count
-          // nomad.client.allocated.iops
-          // nomad.nomad.plan.queue_depth
-          // nomad.client.host.disk.used
-          // nomad.client.allocated.disk
-          // nomad.client.host.disk.size
-          // nomad.client.host.disk.available
-          // nomad.client.host.cpu.user
-          // nomad.client.host.cpu.idle
-          // nomad.client.host.disk.used_percent
-          // nomad.client.host.disk.inodes_percent
-          // nomad.client.host.memory.free
-          // nomad.client.allocated.memory
-          // nomad.client.unallocated.iops
-          // nomad.nomad.heartbeat.active
-          // nomad.client.host.memory.used
-          // nomad.client.host.cpu.total
-          // nomad.client.unallocated.disk
-          // nomad.client.unallocated.memory
-          // nomad.client.host.memory.available
-          // nomad.nomad.vault.distributed_tokens_revoking
-          // nomad.client.host.cpu.system
-          // nomad.client.host.memory.total
-        }
       </div>
     );
   }
