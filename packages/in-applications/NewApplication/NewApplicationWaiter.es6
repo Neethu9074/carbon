@@ -3,8 +3,8 @@ import React from 'react';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getApplication from 'in-subscription/application/getApplication';
+import { Redirect } from 'react-router-dom';
 import { interval, just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -25,7 +25,7 @@ export default connectTo(
   }),
   function NewApplicationWaiter({ result, label }) {
     if (typeof result === 'string') {
-      return <RedirectWithHash to={result} />;
+      return <Redirect to={result.substring(2)} />;
     }
 
     return (
