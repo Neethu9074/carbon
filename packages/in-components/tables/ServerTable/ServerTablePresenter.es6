@@ -43,7 +43,7 @@ export default function ServerTablePresenter(props) {
   } else if (hasErrors) {
     body = (
       <tr>
-        <td colSpan={columnDefinitions.length}>
+        <td colSpan={columnDefinitions.length} className={locals.error}>
           <ErroneousResultPresenter errors={result.errors} />
         </td>
       </tr>

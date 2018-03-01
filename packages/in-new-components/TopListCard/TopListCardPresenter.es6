@@ -35,8 +35,10 @@ export default function TopListCard(props) {
   );
 
   let content;
+  let withoutPadding = false;
   if (result.progress.loading) {
     content = <HorizontalIndicator progress={result.progress} />;
+    withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <ErroneousResultPresenter errors={result.errors} />;
   } else if (result.data.totalHits === 0) {
@@ -46,7 +48,7 @@ export default function TopListCard(props) {
   }
 
   return (
-    <Card title={title} header={header}>
+    <Card title={title} header={header} withoutPadding={withoutPadding}>
       {content}
     </Card>
   );
