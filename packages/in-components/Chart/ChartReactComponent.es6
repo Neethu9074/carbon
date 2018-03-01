@@ -52,18 +52,23 @@ const ChartReactWrapper = enhance(
       }
 
       render() {
-        const { chart } = this.props;
+        const { chart, legendAlignment = 'top' } = this.props;
 
         return (
           <div className={locals.chart}>
-            {chart ? <Legend chart={this.props.chart} /> : null}
-            {chart ? <Tooltip chart={this.props.chart} /> : null}
+            {chart && legendAlignment === 'top' ? (
+              <Legend alignment={legendAlignment} chart={this.props.chart} />
+            ) : null}
+            {chart && <Tooltip chart={this.props.chart} />}
             <canvas
               className={locals.canvas}
               ref={canvas => {
                 this.canvas = canvas;
               }}
             />
+            {chart && legendAlignment !== 'top' ? (
+              <Legend alignment={legendAlignment} chart={this.props.chart} />
+            ) : null}
           </div>
         );
       }
