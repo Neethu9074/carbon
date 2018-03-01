@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
+import dummyHeatMap from 'in-applications/Dashboards/service/tabs/time-distribution.png';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -117,6 +119,16 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
           </Card>
         </Col>
       </Row>
+
+      {newApplicationMonitoringFeaturePlaceholdersEnabled && (
+        <Row>
+          <Col lg={12}>
+            <Card title="Latency Distribution">
+              <img src={dummyHeatMap} alt="Dummy heat map" />
+            </Card>
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col lg={6}>
