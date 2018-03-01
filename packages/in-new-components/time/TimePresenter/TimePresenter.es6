@@ -60,9 +60,9 @@ function getTooltipContent(timeframe) {
 
   return (
     <div className={locals.tooltip}>
-      <div>{fromDate}</div>
-      <div>to</div>
-      <div>{toDate}</div>
+      <div className={locals.tooltipFrom}>{fromDate}</div>
+      <div className={locals.tooltipLabel}>to</div>
+      <div className={locals.tooltipTo}>{toDate}</div>
     </div>
   );
 }

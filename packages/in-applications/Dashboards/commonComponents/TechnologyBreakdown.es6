@@ -6,10 +6,11 @@ import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import getMetrics from 'in-subscription/application/getMetrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { getColor } from 'in-applications/endpointTypes';
 import { millis } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
 
-export default connect(({ applicationId, serviceId, endpointId, timeframe }) => ({
+export default connect(({ applicationId, serviceId, endpointId, timeframe, withoutSelf }) => ({
   outgoingResult: getPerEndpointTypeSummary({
     direction: 'OUTGOING',
     filter: {
@@ -26,40 +27,54 @@ export default connect(({ applicationId, serviceId, endpointId, timeframe }) => 
       }
     }
   }),
-  selfResult: getMetrics({
-    filter: {
-      application: applicationId,
-      service: serviceId,
-      endpoint: endpointId,
-      timeframe
-    },
-    metrics: {
-      selfLatency: {
-        metric: 'selfLatency',
-        granularity: getChartGranularity(timeframe),
-        aggregation: 'MEAN'
-      }
-    }
-  })
+  selfResult: withoutSelf
+    ? undefined
+    : getMetrics({
+        filter: {
+          application: applicationId,
+          service: serviceId,
+          endpoint: endpointId,
+          timeframe
+        },
+        metrics: {
+          selfLatency: {
+            metric: 'selfLatency',
+            granularity: getChartGranularity(timeframe),
+            aggregation: 'MEAN'
+          }
+        }
+      })
 }))(TechnologyBreakdownPresenter);
 
-function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe }) {
+function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, withoutSelf }) {
   // error or loading case
   if (outgoingResult.data == null) {
     return <ChartWrapperPresenter result={outgoingResult} />;
-  } else if (selfResult.data == null) {
+  } else if (!withoutSelf && selfResult.data == null) {
     return <ChartWrapperPresenter result={selfResult} />;
   }
 
   const dataSeries = outgoingResult.data.slice().sort((a, b) => compareIgnoreCase(a.type, b.type));
 
+  const labels = dataSeries.map(s => s.type);
+  const metrics = dataSeries.map(s => s.metrics.latency);
+  const colors = dataSeries.map(s => getColor(s.type));
+
+  if (!withoutSelf) {
+    labels.unshift('SELF');
+    metrics.unshift(selfResult.data.selfLatency);
+    colors.unshift('#a1b7bf');
+  }
+
   const config = {
+    renderXAxis: false,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     minRollup: getChartGranularity(timeframe),
     y1: {
       renderer: Renderer.stackedArea,
-      labels: ['SELF'].concat(dataSeries.map(s => s.type)),
-      metrics: [selfResult.data.selfLatency].concat(dataSeries.map(s => s.metrics.latency)),
+      labels,
+      metrics,
+      colors,
       formatter: millis
     }
   };

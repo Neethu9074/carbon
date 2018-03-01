@@ -8,7 +8,7 @@ const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging'
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
 const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
 // const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
-// const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
+const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
 // const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 
@@ -31,6 +31,7 @@ export const withoutInstana1Features = __DEV__ || isFeatureFlagEnabled('withoutI
 export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;
+export const newApplicationMonitoringFeaturePlaceholdersEnabled = __DEV__ || testTu;
 
 // ########################################################################################
 // Dynamic focus keywords

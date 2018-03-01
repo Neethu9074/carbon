@@ -7,10 +7,10 @@ import getEndpoints from 'in-subscription/application/getEndpoints';
 import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
-const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
-const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
-const aggregations = ['MEAN', 'MEAN', 'SUM', 'MEAN'];
-const formatters = [millis.fixedCompact, millis.fixedCompact, number.compact, percentage.compact];
+const metrics = ['latency', 'calls', 'errors'];
+const labels = ['Latency', 'Calls', 'Errors'];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [millis.fixedCompact, number.compact, percentage.compact];
 
 export default function EndpointTopList({ applicationId, serviceId, timeframe }) {
   return (

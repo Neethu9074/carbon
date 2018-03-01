@@ -12,7 +12,7 @@ const endpointTranslation = {
   UNKNOWN: 'Unknown'
 };
 
-const colorTranslation = {
+export const colorTranslation = {
   BATCH: '#45d1f7',
   DATABASE: '#eb731e',
   HTTP: '#318af6',

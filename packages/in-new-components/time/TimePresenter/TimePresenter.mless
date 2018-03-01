@@ -38,6 +38,14 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+  }
 
+  .tooltipFrom, .tooltipTo {
+
+  }
+
+  .tooltipLabel {
+    color: #698189;
+    margin: .3rem 0 0.5rem;
   }
 }

@@ -7,10 +7,10 @@ import TopList from 'in-new-components/TopList';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
-const metrics = ['latency', 'selfLatency', 'calls'];
-const labels = ['Elapsed Latency', 'Self Latency', 'Calls'];
-const aggregations = ['MEAN', 'MEAN', 'SUM'];
-const formatters = [ms.compact, ms.compact, number.compact];
+const metrics = ['latency', 'calls'];
+const labels = ['Latency', 'Calls'];
+const aggregations = ['MEAN', 'SUM'];
+const formatters = [ms.compact, number.compact];
 
 export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
@@ -39,7 +39,7 @@ function getItemsFromResult(result) {
   return result.data;
 }
 
-function getMetricValueFromItem(item) {
+function getMetricValueFromItem(metricId, item) {
   return item.metricValue;
 }
 

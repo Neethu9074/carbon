@@ -1,6 +1,6 @@
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 
-const maximumNumberOfUsefulDataPoints = 60;
+const maximumNumberOfUsefulDataPoints = 80;
 
 const second = 1000;
 const minute = 60 * second;
@@ -23,7 +23,7 @@ const sensibleGranularities = [
 
 export function getChartGranularity({ windowSize }) {
   const granularity = sensibleGranularities.find(
-    granularity => granularity * maximumNumberOfUsefulDataPoints >= windowSize
+    granularity => windowSize / granularity <= maximumNumberOfUsefulDataPoints
   );
   return granularity || sensibleGranularities[sensibleGranularities.length - 1];
 }

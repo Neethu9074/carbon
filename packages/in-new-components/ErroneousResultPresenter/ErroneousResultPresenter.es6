@@ -34,7 +34,7 @@ function getUniqueErrors(errors = []) {
 }
 
 function getMessage(error) {
-  if (isTechnicalError(error.code)) {
+  if (isTechnicalError(error.code) && !__DEV__) {
     return 'An unexpected error occurred. Please refresh the page or try again later.';
   }
   return error.message;

@@ -12,7 +12,10 @@ export default function ticks(config) {
 
   ctx.beginPath();
 
-  drawXAxisText();
+  if (config.renderXAxis !== false) {
+    drawXAxisText();
+  }
+
   config.clearLeftOverdraw();
   config.clearRightOverdraw();
 
@@ -24,7 +27,9 @@ export default function ticks(config) {
   ctx.beginPath();
   ctx.fillStyle = tickColor;
 
-  drawXAxis();
+  if (config.renderXAxis !== false) {
+    drawXAxis();
+  }
 
   ctx.fill();
 
