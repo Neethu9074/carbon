@@ -14,9 +14,7 @@ export default connectTo(
       .eventBusServiceLocator.on('worldUnits')
       .map(({ pixelsPer3DUnit }) => {
         const columnGapSizeInPx = pixelsPer3DUnit * DISTANCE_BETWEEN_NODES_X;
-        if (columnGapSizeInPx < 10) {
-          return 'xs';
-        } else if (columnGapSizeInPx < 100) {
+        if (columnGapSizeInPx < 170) {
           return 'sm';
         }
         return 'mid';

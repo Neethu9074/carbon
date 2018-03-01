@@ -1,9 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import ExtraSmallContent from 'in-components/FlowMap/components/Node/ExtraSmallContent';
 import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
@@ -62,8 +60,6 @@ export default connectTo(
           >
             {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>In Focus</div>}
 
-            <VerticalTypesIndicator type={data.type} types={data.types} />
-
             {getContent(metrics, data, size, serviceLocatorUid)}
 
             {!childList && (
@@ -92,8 +88,6 @@ function getNodeClasses(isRootNode, size) {
 function getContent(metrics, data, size, serviceLocatorUid) {
   if (size === 'mid') {
     return <MediumContent metrics={metrics} data={data} serviceLocatorUid={serviceLocatorUid} />;
-  } else if (size === 'sm') {
-    return <SmallContent data={data} />;
   }
-  return <ExtraSmallContent data={data} />;
+  return <SmallContent data={data} />;
 }

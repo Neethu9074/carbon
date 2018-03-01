@@ -6,6 +6,20 @@ import locals from './Badge.mless';
 
 export default Badge;
 function Badge({ className, children, color = '#a5b6be', size = 'mid' }) {
+  if (size === 'xs') {
+    return (
+      <span
+        style={{
+          background: color,
+          color
+        }}
+        className={joinClassNames(locals.badge, className, locals.xs)}
+      >
+        {children}
+      </span>
+    );
+  }
+
   return (
     <span
       className={joinClassNames(locals.badge, className, `${locals[size]}`)}

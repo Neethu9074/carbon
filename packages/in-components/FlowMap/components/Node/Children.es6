@@ -1,6 +1,5 @@
 import React from 'react';
 
-import VerticalTypesIndicator from 'in-components/FlowMap/components/Node/VerticalTypesIndicator';
 import { EndpointLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import connectTo from 'in-hoc/connectTo';
@@ -39,7 +38,6 @@ const Child = connectTo(
     }
     return (
       <div className={locals.child}>
-        <VerticalTypesIndicator type={data.type} />
         <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
           {data.label}
         </EndpointLink>

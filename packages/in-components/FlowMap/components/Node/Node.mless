@@ -20,21 +20,8 @@
     border: 1px solid #1fb7b9;
   }
 
-  .xs {
-    left: -1.125rem;
-    top: -0.625rem;
-    height: 1.25rem;
-    width: 2.25rem;
-  }
-
+  .mid,
   .sm {
-    left: -3.125rem;
-    top: -0.9375rem;
-    height: 1.875rem;
-    width: 6.25rem;
-  }
-
-  .mid {
     left: -7.8125rem;
     top: -2.8125rem;
     width: 15.625rem;

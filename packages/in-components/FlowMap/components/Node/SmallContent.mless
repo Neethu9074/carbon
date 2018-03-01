@@ -1,7 +1,14 @@
 :local {
+  .smallContent {
+    padding: 0.25rem 0.5rem;
+  }
+
   .entityLink {
-    margin-left: 0.7rem;
-    font-size: 0.6875rem;
-    max-width: 4.75rem;
+    font-size: 20px;
+    max-width: 14.75rem;
+  }
+
+  .spacer {
+    height: 0.3125rem;
   }
 }
