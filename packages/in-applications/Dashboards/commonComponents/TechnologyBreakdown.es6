@@ -6,6 +6,7 @@ import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import getMetrics from 'in-subscription/application/getMetrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { getColor } from 'in-applications/endpointTypes';
 import { millis } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
 
@@ -57,10 +58,12 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
 
   const labels = dataSeries.map(s => s.type);
   const metrics = dataSeries.map(s => s.metrics.latency);
+  const colors = dataSeries.map(s => getColor(s.type));
 
   if (!withoutSelf) {
     labels.unshift('SELF');
     metrics.unshift(selfResult.data.selfLatency);
+    colors.unshift('#a1b7bf');
   }
 
   const config = {
@@ -72,6 +75,7 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
       renderer: Renderer.stackedArea,
       labels,
       metrics,
+      colors,
       formatter: millis
     }
   };
