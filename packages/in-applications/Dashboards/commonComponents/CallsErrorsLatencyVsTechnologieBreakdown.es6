@@ -4,27 +4,26 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { millis } from 'in-services/formatters/number';
 
 export default function CallsErrorsLatencyVsTechnologieBreakdown({ timeframe, endpointId, applicationId, serviceId }) {
   const granularity = getChartGranularity(timeframe);
 
   return (
     <div>
+      <TechnologyBreakdown
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeframe={timeframe}
+      />
       <ChartWrapper
-        renderXAxis={false}
+        legendAlignment="bottom"
+        customHeight={100}
         timeframe={timeframe}
         y1={{
           renderer: Renderer.countErrorBar,
           labels: ['Calls', 'Errors'],
           metricIds: ['calls', 'errors']
-        }}
-        y2={{
-          renderer: Renderer.line,
-          labels: ['Latency'],
-          colors: ['#9d96ff'],
-          formatter: millis,
-          metricIds: ['latency']
         }}
         metricsConfiguration={{
           filter: {
@@ -43,20 +42,9 @@ export default function CallsErrorsLatencyVsTechnologieBreakdown({ timeframe, en
               metric: 'errors',
               granularity,
               aggregation: 'MEAN'
-            },
-            latency: {
-              metric: 'latency',
-              granularity,
-              aggregation: 'MEAN'
             }
           }
         }}
-      />
-      <TechnologyBreakdown
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        timeframe={timeframe}
       />
     </div>
   );

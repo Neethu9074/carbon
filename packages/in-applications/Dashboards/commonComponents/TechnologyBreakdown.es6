@@ -67,8 +67,7 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
   }
 
   const config = {
-    legendAlignment: 'bottom',
-    customHeight: 100,
+    renderXAxis: false,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     minRollup: getChartGranularity(timeframe),
     y1: {
