@@ -4,8 +4,8 @@ import { getSetting$ } from 'in-services/settings';
 
 export function onWheel(domElement, callback) {
   return combineLatest([
-    getSetting$('map_scrollSpeed'),
-    getSetting$('map_scrollDirection'),
+    getSetting$('map_scrollSpeed').startWith(1),
+    getSetting$('map_scrollDirection').startWith(1),
     on(domElement, 'wheel', { passive: true }).throttle(50)
   ]).subscribe(props => {
     const event = props[2];
