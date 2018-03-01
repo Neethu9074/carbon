@@ -117,8 +117,9 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   function createConnectionsForNodes(nodesMap, from, to, connections) {
-    const xOffset = 2.38;
-    const yOffset = 0.475;
+    const xOffset = 3;
+    const yOffset = 1.4;
+    const yOffsetStep = 0.575;
     if (from.children.size === 0 && to.children.size === 0) {
       connections.push({ from, to });
     } else if (from.children.size > 0 && to.children.size > 0) {
@@ -127,14 +128,14 @@ export default function createConnectionsService(serviceLocatorUid) {
         const cSource = fromChild;
         let sourcePos = nodesMap.get(cSource.nodeId).position.clone();
         sourcePos.x -= xOffset;
-        sourcePos.y -= 1.1 + iFrom * yOffset;
+        sourcePos.y -= yOffset + iFrom * yOffsetStep;
         iFrom++;
 
         for (let i = 0; i < fromChild.incoming.length; i++) {
           const cFrom = nodesMap.get(fromChild.incoming[i].nodeId).children.get(fromChild.incoming[i].id);
           const iChild = indexOf(cFrom, nodesMap.get(fromChild.incoming[i].nodeId).children);
           const fromPos = nodesMap.get(cFrom.nodeId).position.clone();
-          fromPos.y -= 1.1 + iChild * yOffset;
+          fromPos.y -= yOffset + iChild * yOffsetStep;
           fromPos.x += xOffset;
           connections.push({
             from: {
@@ -156,7 +157,7 @@ export default function createConnectionsService(serviceLocatorUid) {
           const cTo = nodesMap.get(fromChild.outgoing[i].nodeId).children.get(fromChild.outgoing[i].id);
           const iChild = indexOf(cTo, nodesMap.get(fromChild.outgoing[i].nodeId).children);
           const toPos = nodesMap.get(cTo.nodeId).position.clone();
-          toPos.y -= 1.1 + iChild * yOffset;
+          toPos.y -= yOffset + iChild * yOffsetStep;
           toPos.x -= xOffset;
 
           connections.push({

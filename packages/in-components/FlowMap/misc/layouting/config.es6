@@ -1,2 +1,2 @@
-export const DISTANCE_BETWEEN_NODES_X = 6;
+export const DISTANCE_BETWEEN_NODES_X = 10;
 export const DISTANCE_BETWEEN_NODES_Y = 3;

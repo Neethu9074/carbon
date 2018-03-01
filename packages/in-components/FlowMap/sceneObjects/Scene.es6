@@ -47,7 +47,7 @@ export default class MainScene {
           };
 
           const distanceBetweenNodesInPx = DISTANCE_BETWEEN_NODES_X * worldUnits.pixelsPer3DUnit;
-          const wantedGapInPx = 1.254 * worldUnits.pixelsPer3DUnit;
+          const wantedGapInPx = 4 * worldUnits.pixelsPer3DUnit;
           const remainingInPx = distanceBetweenNodesInPx - wantedGapInPx;
           const targetNodeSizeInPx = remainingInPx;
 

@@ -51,7 +51,7 @@ export default function layout(rootNode, nodesMap) {
 
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
-      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (0.018982536066818528 * 21);
+      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (0.029940119760479042 * 21);
 
       if (i < nodes.length - 1) {
         totalColumnHeight += node.__height;
