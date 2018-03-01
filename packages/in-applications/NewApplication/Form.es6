@@ -231,7 +231,7 @@ function getMatchSpecificationForm(matchSpecification = {}) {
     .put(
       'value',
       createField({
-        value: get(matchSpecification, 'value', ''),
+        value: get(matchSpecification, 'value', '.*'),
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );
