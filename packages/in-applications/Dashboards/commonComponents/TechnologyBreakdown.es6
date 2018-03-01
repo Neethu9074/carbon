@@ -69,7 +69,7 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
   const config = {
     renderXAxis: false,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
-    minRollup: getChartGranularity(timeframe),
+    granularity: getChartGranularity(timeframe),
     y1: {
       renderer: Renderer.stackedArea,
       labels,

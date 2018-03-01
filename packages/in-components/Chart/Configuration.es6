@@ -6,6 +6,7 @@ import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { updateCanvasDimensions } from 'in-charts/canvas';
@@ -54,9 +55,14 @@ export default class Config {
   }
 
   enrichConfig() {
-    const { rollup, label } = getDefaultMetricRollupDuration(this.timeframe, this.minRollup);
-    this.rollup = rollup || 1000;
-    this.rollupLabel = label;
+    if (this.granularity) {
+      this.rollup = this.granularity;
+      this.rollupLabel = formatDurationAccurately(this.rollup, 100);
+    } else {
+      const { rollup, label } = getDefaultMetricRollupDuration(this.timeframe);
+      this.rollup = rollup || 1000;
+      this.rollupLabel = label;
+    }
 
     this.maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints();
 
@@ -99,7 +105,7 @@ export default class Config {
       return;
     }
     axis.dynamicCalculatedBlockSizeMillis =
-      this.minRollup ||
+      this.granularity ||
       getPredefinedBlockSizeMillisForBlockSize(
         getBlockSizeMillis({
           windowSize: this.timeframe.windowSize,
