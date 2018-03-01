@@ -60,12 +60,10 @@ export default connectTo(
         });
       });
 
-      result$.errors().once(error => {
-        const message = `Failed to save: ${error.message}`;
+      result$.errors().once(() => {
         this.setState({
           loading: false,
-          error: true,
-          message
+          error: true
         });
       });
     };

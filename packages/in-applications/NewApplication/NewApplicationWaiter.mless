@@ -22,7 +22,7 @@
 
      .spinner {
           margin-right: 1rem;
-          fill: #fff;
+          fill: #000;
       }
 
 
