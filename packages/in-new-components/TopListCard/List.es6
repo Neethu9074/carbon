@@ -1,4 +1,4 @@
-import { chain } from 'lodash';
+import { chain, curry, isNil } from 'lodash';
 import React from 'react';
 
 import Row from 'in-new-components/TopListCard/Row';
@@ -8,6 +8,7 @@ import locals from './List.mless';
 export default function TopListPresenter(props) {
   const {
     result,
+    selectedMetric,
     selectedMetricFormatter,
     renderViewAll,
     renderLabel,
@@ -18,15 +19,21 @@ export default function TopListPresenter(props) {
 
   const items = getItemsFromResult(result);
   const maxValue = chain(items)
-    .map(getMetricValueFromItem)
+    .map(curry(getMetricValueFromItem)(selectedMetric))
     .max();
 
   return (
     <div className={locals.topListWrapper}>
       <ol className={locals.topList}>
         {items.map((item, i) => {
-          const metricValue = getMetricValueFromItem(item);
-          const formattedMetricValue = selectedMetricFormatter(metricValue);
+          let metricValue = getMetricValueFromItem(selectedMetric, item);
+          let formattedMetricValue;
+          if (!isNil(metricValue)) {
+            formattedMetricValue = selectedMetricFormatter(metricValue);
+          } else {
+            metricValue = 0;
+            formattedMetricValue = '-';
+          }
           const renderProps = {
             ...props,
             item,
@@ -50,6 +57,10 @@ function getItemsFromPaginatedResult(result) {
   return result.data.items;
 }
 
-function getMetricValueFromItemWithMetricsHash(item) {
-  return item.metrics.metric[0][1];
+function getMetricValueFromItemWithMetricsHash(metricId, item) {
+  if (item.metrics[metricId]) {
+    return item.metrics[metricId][0][1];
+  } else {
+    return null;
+  }
 }
