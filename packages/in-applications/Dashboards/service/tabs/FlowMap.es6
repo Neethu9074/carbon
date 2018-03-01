@@ -29,8 +29,8 @@ function createDataFetchingService(rootNodeData, applicationId, endpointId, time
 
   function getRootNodeData() {
     return {
-      service: rootNodeData,
-      endpoint: null
+      id: rootNodeData.id,
+      service: rootNodeData
     };
   }
 

@@ -51,9 +51,10 @@ export default connectTo(
 
     render() {
       const { node, metrics, data, size, isRootNode, serviceLocatorUid, childList } = this.props;
+      const label = data ? data.label : '';
 
       return (
-        <Tooltip content={size !== 'mid' ? data.label : null}>
+        <Tooltip content={size !== 'mid' ? label : null}>
           <div
             ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
             className={getNodeClasses(isRootNode, size)}

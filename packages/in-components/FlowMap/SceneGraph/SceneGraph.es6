@@ -25,8 +25,7 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addRootNode({ service, endpoint }) {
-    const id = service.id;
+  addRootNode({ id, service, endpoint }) {
     this.rootNodeId = id;
     this.pathFinder.setRootNodeId(id);
     this.endpointPathfinder.setRootNodeId(id);
@@ -47,21 +46,12 @@ export default class SceneGraph {
 
   addNode(id, data, metricValues) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
-    const node = new Node(this.serviceLocatorUid, id, metricValues);
-    node.__originalId = data.id;
-    node.setData(data);
+    const node = new Node(this.serviceLocatorUid, id, data, metricValues);
+    node.__originalId = data ? data.id : id;
 
     nodesServiceLocator.addNode(node.id, node);
 
     return node;
-  }
-
-  updateNode(id, data) {
-    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
-    const nodes = nodesServiceLocator.getNodes();
-    if (nodes.has(id)) {
-      nodes.get(id).setData(data);
-    }
   }
 
   fetchIncomingDataForChildId(nodeId, endpointId, getIncomingDataForNodeIdCallback) {
@@ -217,7 +207,7 @@ export default class SceneGraph {
         ? currentNodes.get(newNode.id)
         : this.addNode(newNode.id, newNode.service, newNode.metrics);
 
-      const newChild = serviceNode.addChild(newNode.endpoint);
+      const newChild = serviceNode.addChild(newNode.endpoint, newNode.metrics);
 
       if (direction === 'incoming') {
         serviceNode.setIsExpanded(true, 'outgoing');

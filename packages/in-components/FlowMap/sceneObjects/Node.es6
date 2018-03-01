@@ -1,5 +1,5 @@
-import { uniq } from 'lodash';
 import { combineLatest } from 'reactive-observables';
+import { uniq } from 'lodash';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
@@ -13,12 +13,11 @@ const topBoundary = -0.1;
 const bottomBoundary = 1.1;
 
 export default class Node extends SceneObject {
-  constructor(serviceLocatorUid, id, metricValues) {
+  constructor(serviceLocatorUid, id, data, metricValues) {
     super(id, serviceLocatorUid);
 
     this.outgoing = [];
     this.incoming = [];
-    this.initSubscriptions(metricValues);
     this.screenPosition = null;
     this.children = new Map();
 
@@ -28,9 +27,13 @@ export default class Node extends SceneObject {
     if (metricValues) {
       this.events$.emit('metricValues', metricValues);
     }
+    if (data) {
+      this.events$.emit('data', data);
+    }
+    this.initSubscriptions(metricValues, data);
   }
 
-  initSubscriptions(metricValues) {
+  initSubscriptions(metricValues, data) {
     this.subscriber = new Subscriber();
     this.subscriber.addSubscription(
       combineLatest([
@@ -43,17 +46,26 @@ export default class Node extends SceneObject {
       this.subscriber.addSubscription(
         getServiceLocators(this.serviceLocatorUid)
           .dataFetchingServiceLocator.fetchMetricsForNodeId(this.id)
-          .map(result => {
-            if (!result.progress.loading) {
-              return result.data;
-            }
-            return null;
-          })
-          .subscribe(metrics => {
-            this.events$.emit('metricValues', metrics || null);
-          })
+          .map(this.mapResult)
+          .subscribe(metrics => this.events$.emit('metricValues', metrics))
       );
     }
+
+    if (!data) {
+      this.subscriber.addSubscription(
+        getServiceLocators(this.serviceLocatorUid)
+          .dataFetchingServiceLocator.fetchNodeById(this.id)
+          .map(this.mapResult)
+          .subscribe(data => this.events$.emit('data', data))
+      );
+    }
+  }
+
+  mapResult(result) {
+    if (!result.progress.loading) {
+      return result.data;
+    }
+    return null;
   }
 
   updateScreenPosition() {
@@ -84,16 +96,12 @@ export default class Node extends SceneObject {
     }
   }
 
-  setData(data) {
-    this.events$.emit('data', data);
-  }
-
-  addChild(child) {
+  addChild(child, metrics) {
     if (this.children.has(child.id)) {
       return this.children.get(child.id);
     }
 
-    const newChild = new Child(this.serviceLocatorUid, this.id, this.__originalId, child.id);
+    const newChild = new Child(this.serviceLocatorUid, this.id, this.__originalId, child.id, metrics);
     newChild.setData(child);
 
     this.children.set(child.id, newChild);

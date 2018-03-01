@@ -9,22 +9,32 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './MediumContent.mless';
 
 export default function MediumContent({ data, metrics, serviceLocatorUid }) {
+  return (
+    <div className={locals.mediumContent}>
+      <Header data={data} serviceLocatorUid={serviceLocatorUid} />
+      <div className={locals.line} />
+      <MetricList metrics={metrics} />
+    </div>
+  );
+}
+
+function Header({ data, serviceLocatorUid }) {
+  if (!data) {
+    return null;
+  }
+
   const iconType = getServiceLocators(serviceLocatorUid).dataFetchingServiceLocator.getIconTypeForNodeId(data.id);
 
   return (
-    <div className={locals.mediumContent}>
-      <div className={locals.header}>
-        {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
-        <div>
-          <ServiceLink className={locals.entityLink} serviceId={data.id}>
-            {data.label}
-          </ServiceLink>
-          <div className={locals.spacer} />
-          <EndpointTypeBadgeList type={data.type} types={data.types} size="sm" />
-        </div>
+    <div className={locals.header}>
+      {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
+      <div>
+        <ServiceLink className={locals.entityLink} serviceId={data.id}>
+          {data.label}
+        </ServiceLink>
+        <div className={locals.spacer} />
+        <EndpointTypeBadgeList type={data.type} types={data.types} size="sm" />
       </div>
-      <div className={locals.line} />
-      <MetricList metrics={metrics} />
     </div>
   );
 }

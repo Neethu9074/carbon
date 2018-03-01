@@ -2,6 +2,7 @@ import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNodes';
+import getService from 'in-subscription/application/getService';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { timeframe$ } from 'in-stores/timeline';
 import FlowMap from 'in-components/FlowMap';
@@ -23,19 +24,28 @@ function createDataFetchingService(rootNodeData, applicationId, serviceId, timef
   return {
     getIncomingDataForNodeId,
     getOutgoingDataForNodeId,
+    fetchMetricsForChildId,
     fetchMetricsForNodeId,
     getIconTypeForNodeId,
-    getRootNodeData
+    getRootNodeData,
+    fetchNodeById
   };
 
   function getRootNodeData() {
     return {
-      service: {
-        id: serviceId,
-        label: 'foobar'
-      },
+      id: serviceId,
       endpoint: rootNodeData
     };
+  }
+
+  function fetchNodeById(id) {
+    return getService({
+      id,
+      filter: {
+        service: id,
+        timeframe: timeframe
+      }
+    });
   }
 
   function getIconTypeForNodeId() {
@@ -54,8 +64,32 @@ function createDataFetchingService(rootNodeData, applicationId, serviceId, timef
     return getMetrics({
       filter: {
         application: applicationId,
+        service: nodeId,
+        timeframe
+      },
+      metrics: {
+        callsAgg: {
+          metric: 'calls',
+          aggregation: 'SUM'
+        },
+        latencyAgg: {
+          metric: 'latency',
+          aggregation: 'MEAN'
+        },
+        errorsAgg: {
+          metric: 'errors',
+          aggregation: 'MEAN'
+        }
+      }
+    });
+  }
+
+  function fetchMetricsForChildId(childId) {
+    return getMetrics({
+      filter: {
+        application: applicationId,
         service: serviceId,
-        endpoint: nodeId,
+        endpoint: childId,
         timeframe
       },
       metrics: {
