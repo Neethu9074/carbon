@@ -1,12 +1,14 @@
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
+import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
 import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-subscription/application/getApplication';
-import { Redirect } from 'react-router-dom';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { interval, just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
+import { Redirect } from 'react-router-dom';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NewApplicationWaiter.mless';
@@ -36,12 +38,33 @@ export default connectTo(
               Working…
             </FullscreenViewHeading>
 
-            <p>
-              <span>
-                <SvgIcon spinning type="spinner" width={20} className={locals.spinner} /> <br />
-                We are preparing everything to monitor your application <strong>{label}</strong>. Please wait.
-              </span>
-            </p>
+            {(result == null || result.progress.loading) && (
+              <p>
+                <span>
+                  <SvgIcon spinning type="spinner" width={20} className={locals.spinner} /> <br />
+                  We are preparing everything to monitor your application <strong>{label}</strong>. Please wait.
+                </span>
+              </p>
+            )}
+
+            {result != null &&
+              result.errors.length > 0 && (
+                <p>
+                  <span>
+                    <SvgIcon spinning type="spinner" width={20} className={locals.spinner} /> <br />
+                    An error occurred while creating your application <strong>{label}</strong>. <br />
+                    <Button
+                      kind="default"
+                      key="createApplication"
+                      href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+                      size="sm"
+                      outlineOnly
+                    >
+                      Try again
+                    </Button>
+                  </span>
+                </p>
+              )}
           </div>
         )}
       />
