@@ -17,15 +17,7 @@ export default function Children({ childList }) {
     childrenAsArray.push(child);
   }
 
-  return (
-    <ul className={locals.children}>
-      {childrenAsArray.map(child => (
-        <li key={child.id}>
-          <Child child={child} />
-        </li>
-      ))}
-    </ul>
-  );
+  return <ul className={locals.children}>{childrenAsArray.map(child => <Child key={child.id} child={child} />)}</ul>;
 }
 
 const Child = connectTo(
@@ -37,13 +29,13 @@ const Child = connectTo(
       return null;
     }
     return (
-      <div className={locals.child}>
+      <li className={locals.child}>
         <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
           {data.label}
         </EndpointLink>
         <ExpandButton direction="incoming" events$={child.events$} onClick={() => child.expandLeft()} />
         <ExpandButton direction="outgoing" events$={child.events$} onClick={() => child.expandRight()} />
-      </div>
+      </li>
     );
   }
 );
