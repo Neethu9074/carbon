@@ -48,9 +48,9 @@ export default connect(({ applicationId, serviceId, endpointId, timeframe, witho
 function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, withoutSelf }) {
   // error or loading case
   if (outgoingResult.data == null) {
-    return <ChartWrapperPresenter legendAlignment="bottom" result={outgoingResult} />;
+    return <ChartWrapperPresenter result={outgoingResult} />;
   } else if (!withoutSelf && selfResult.data == null) {
-    return <ChartWrapperPresenter legendAlignment="bottom" result={selfResult} />;
+    return <ChartWrapperPresenter result={selfResult} />;
   }
 
   const dataSeries = outgoingResult.data.slice().sort((a, b) => compareIgnoreCase(a.type, b.type));
@@ -64,6 +64,8 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
   }
 
   const config = {
+    legendAlignment: 'bottom',
+    customHeight: 100,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     minRollup: getChartGranularity(timeframe),
     y1: {
@@ -74,5 +76,5 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
     }
   };
 
-  return <ChartWrapperPresenter legendAlignment="bottom" result={outgoingResult} config={config} />;
+  return <ChartWrapperPresenter result={outgoingResult} config={config} />;
 }
