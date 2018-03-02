@@ -1,69 +1,41 @@
-import { uniq } from 'lodash';
-
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
-import Subscriber from 'in-map/misc/Subscriber';
+import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
 
-export default class Child extends SceneObject {
-  constructor(serviceLocatorUid, nodeId, nodeOriginalId, id, metricValues) {
-    super(id, serviceLocatorUid);
-    this.nodeId = nodeId;
-    this.nodeOriginalId = nodeOriginalId;
-    this.outgoing = [];
-    this.incoming = [];
+export default class Child extends FlowMapBaseEntity {
+  constructor(parentNode, id, metricValues) {
+    super(parentNode.serviceLocatorUid, id, metricValues);
 
-    if (metricValues) {
-      this.events$.emit('metricValues', metricValues);
-    }
+    this.parentNode = parentNode;
+
     this.initSubscriptions(metricValues);
   }
 
-  initSubscriptions(metricValues) {
-    this.subscriber = new Subscriber();
-    if (!metricValues) {
-      this.subscriber.addSubscription(
-        getServiceLocators(this.serviceLocatorUid)
-          .dataFetchingServiceLocator.fetchMetricsForChildId(this.id)
-          .map(result => {
-            if (!result.progress.loading) {
-              return result.data;
-            }
-            return null;
-          })
-          .subscribe(metrics => {
-            this.events$.emit('metricValues', metrics || null);
-          })
-      );
-    }
-  }
-
-  setData(data) {
-    this.events$.emit('data', data);
-  }
-
-  setIsExpanded(isIncomingExpanded, direction) {
-    this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
+  getMetrics(dataFetchingServiceLocator) {
+    return dataFetchingServiceLocator.getMetrics$(this.parentNode.id, this.id);
   }
 
   expandRight() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForChildId(
-      this.nodeId,
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getOutgoingFlowNodesForChild$(
+      this.parentNode.id,
       this.id
     );
   }
 
   expandLeft() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchIncomingDataForChildId(
-      this.nodeId,
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getIncomingFlowNodesForChild$(
+      this.parentNode.id,
       this.id
     );
   }
 
-  addConnected(ids, direction) {
-    this[direction] = uniq(this[direction].concat(ids));
+  disposeSubscriptions() {
+    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
+    dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(`${this.parentNode.id}__${this.id}`);
   }
 
   dispose() {
     super.dispose();
+
+    this.disposeSubscriptions();
   }
 }

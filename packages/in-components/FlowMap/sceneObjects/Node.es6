@@ -1,10 +1,8 @@
 import { combineLatest } from 'reactive-observables';
-import { uniq } from 'lodash';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
+import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
 import Child from 'in-components/FlowMap/sceneObjects/Child';
-import Subscriber from 'in-map/misc/Subscriber';
 
 // 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
 const leftBoundary = -0.1;
@@ -12,29 +10,23 @@ const rightBoundary = 1.1;
 const topBoundary = -0.1;
 const bottomBoundary = 1.1;
 
-export default class Node extends SceneObject {
+export default class Node extends FlowMapBaseEntity {
   constructor(serviceLocatorUid, id, data, metricValues) {
-    super(id, serviceLocatorUid);
+    super(serviceLocatorUid, id, metricValues);
 
-    this.outgoing = [];
-    this.incoming = [];
     this.screenPosition = null;
     this.children = new Map();
 
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
 
-    if (metricValues) {
-      this.events$.emit('metricValues', metricValues);
-    }
-    if (data) {
-      this.events$.emit('data', data);
-    }
+    this.setData(data);
     this.initSubscriptions(metricValues, data);
   }
 
   initSubscriptions(metricValues, data) {
-    this.subscriber = new Subscriber();
+    super.initSubscriptions(metricValues);
+
     this.subscriber.addSubscription(
       combineLatest([
         getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on('cameraUpdate'),
@@ -42,30 +34,14 @@ export default class Node extends SceneObject {
       ]).subscribe(() => this.updateScreenPosition())
     );
 
-    if (!metricValues) {
-      this.subscriber.addSubscription(
-        getServiceLocators(this.serviceLocatorUid)
-          .dataFetchingServiceLocator.fetchMetricsForNodeId(this.id)
-          .map(this.mapResult)
-          .subscribe(metrics => this.events$.emit('metricValues', metrics))
-      );
-    }
-
     if (!data) {
       this.subscriber.addSubscription(
         getServiceLocators(this.serviceLocatorUid)
-          .dataFetchingServiceLocator.fetchNodeById(this.id)
+          .dataFetchingServiceLocator.getNode$(this.id)
           .map(this.mapResult)
           .subscribe(data => this.events$.emit('data', data))
       );
     }
-  }
-
-  mapResult(result) {
-    if (!result.progress.loading) {
-      return result.data;
-    }
-    return null;
   }
 
   updateScreenPosition() {
@@ -101,7 +77,7 @@ export default class Node extends SceneObject {
       return this.children.get(child.id);
     }
 
-    const newChild = new Child(this.serviceLocatorUid, this.id, this.__originalId, child.id, metrics);
+    const newChild = new Child(this, child.id, metrics);
     newChild.setData(child);
 
     this.children.set(child.id, newChild);
@@ -110,52 +86,20 @@ export default class Node extends SceneObject {
     return newChild;
   }
 
-  setIsLoadingData(isLoading, direction) {
-    this.events$.emit(`isLoadingData_${direction}`, isLoading);
-  }
-
-  setIsExpanded(isIncomingExpanded, direction) {
-    this.events$.emit(`isExpanded_${direction}`, isIncomingExpanded);
-  }
-
-  addConnected(ids, direction) {
-    this[direction] = uniq(this[direction].concat(ids));
-    this.setIsExpanded(true, direction);
-  }
-
-  setErrorsInDirection(errors = [], direction) {
-    if (errors.length > 0) {
-      this.resetConnected(direction);
-    }
-    this.setIsLoadingData(false, direction);
-    this.events$.emit(`errors_${direction}`, errors);
-  }
-
-  resetConnected(direction) {
-    this[direction] = [];
-    this.setIsExpanded(false, direction);
-  }
-
   expandRight() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchOutgoingDataForNodeId(this.id);
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getOutgoingFlowNodes$(this.id);
   }
 
   expandLeft() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.fetchIncomingDataForNodeId(this.id);
+    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getIncomingFlowNodes$(this.id);
   }
 
   disposeSubscriptions() {
     const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
     dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(this.id);
-
-    this.subscriber.dispose();
-    this.subscriber = null;
   }
 
   dispose() {
-    this.outgoing = null;
-    this.incoming = null;
-
     this.disposeSubscriptions();
 
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);

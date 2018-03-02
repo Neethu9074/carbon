@@ -8,39 +8,35 @@ export default class DataFetchingServiceLocator extends BaseServiceLocator {
   }
 
   getRootNodeData() {
-    return this.service.getRootNodeData ? this.service.getRootNodeData() : null;
+    return this.service.getRootNodeData();
   }
 
   getIconTypeForNodeId(id) {
     return this.service.getIconTypeForNodeId(id);
   }
 
-  fetchIncomingDataForNodeId(nodeId) {
-    this.sceneGraph.fetchIncomingDataForNodeId(nodeId, this.service.getIncomingDataForNodeId);
+  getIncomingFlowNodes$(nodeId) {
+    this.sceneGraph.getFlowNodes$(nodeId, 'incoming', this.service.getIncomingFlowNodes$);
   }
 
-  fetchOutgoingDataForNodeId(nodeId) {
-    this.sceneGraph.fetchOutgoingDataForNodeId(nodeId, this.service.getOutgoingDataForNodeId);
+  getOutgoingFlowNodes$(nodeId) {
+    this.sceneGraph.getFlowNodes$(nodeId, 'outgoing', this.service.getOutgoingFlowNodes$);
   }
 
-  fetchOutgoingDataForChildId(nodeId, childId) {
-    this.sceneGraph.fetchOutgoingDataForChildId(nodeId, childId, this.service.getOutgoingDataForNodeId);
+  getOutgoingFlowNodesForChild$(nodeId, childId) {
+    this.sceneGraph.getFlowNodesForChild$(nodeId, childId, 'outgoing', this.service.getOutgoingFlowNodes$);
   }
 
-  fetchIncomingDataForChildId(nodeId, childId) {
-    this.sceneGraph.fetchIncomingDataForChildId(nodeId, childId, this.service.getIncomingDataForNodeId);
+  getIncomingFlowNodesForChild$(nodeId, childId) {
+    this.sceneGraph.getFlowNodesForChild$(nodeId, childId, 'incoming', this.service.getIncomingFlowNodes$);
   }
 
-  fetchMetricsForNodeId(id) {
-    return this.service.fetchMetricsForNodeId(id);
+  getMetrics$(nodeId, childId) {
+    return this.service.getMetrics$(nodeId, childId);
   }
 
-  fetchMetricsForChildId(id) {
-    return this.service.fetchMetricsForChildId(id);
-  }
-
-  fetchNodeById(id) {
-    return this.service.fetchNodeById(id);
+  getNode$(id) {
+    return this.service.getNode$(id);
   }
 
   disposeOpenDataSubscriptionsForNodeId(id) {

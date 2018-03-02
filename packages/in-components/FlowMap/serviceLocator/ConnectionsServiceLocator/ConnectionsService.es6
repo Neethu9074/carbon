@@ -106,17 +106,17 @@ export default function createConnectionsService(serviceLocatorUid) {
     const connections = [];
     for (const node of nodes) {
       for (let i = 0; i < node.incoming.length; i++) {
-        createConnectionsForNodes(nodesMap, nodesMap.get(node.incoming[i]), node, connections);
+        createConnectionsForNodes(node.incoming[i], node, connections);
       }
       for (let i = 0; i < node.outgoing.length; i++) {
-        createConnectionsForNodes(nodesMap, node, nodesMap.get(node.outgoing[i]), connections);
+        createConnectionsForNodes(node, node.outgoing[i], connections);
       }
     }
     setConnections(connections);
     updateVertices();
   }
 
-  function createConnectionsForNodes(nodesMap, from, to, connections) {
+  function createConnectionsForNodes(from, to, connections) {
     const xOffset = 3;
     const yOffset = 1.4;
     const yOffsetStep = 0.575;
@@ -126,15 +126,15 @@ export default function createConnectionsService(serviceLocatorUid) {
       let iFrom = 0;
       for (const fromChild of from.children.values()) {
         const cSource = fromChild;
-        let sourcePos = nodesMap.get(cSource.nodeId).position.clone();
+        let sourcePos = cSource.parentNode.position.clone();
         sourcePos.x -= xOffset;
         sourcePos.y -= yOffset + iFrom * yOffsetStep;
         iFrom++;
 
         for (let i = 0; i < fromChild.incoming.length; i++) {
-          const cFrom = nodesMap.get(fromChild.incoming[i].nodeId).children.get(fromChild.incoming[i].id);
-          const iChild = indexOf(cFrom, nodesMap.get(fromChild.incoming[i].nodeId).children);
-          const fromPos = nodesMap.get(cFrom.nodeId).position.clone();
+          const cFrom = fromChild.incoming[i];
+          const fromPos = cFrom.parentNode.position.clone();
+          const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
           fromPos.y -= yOffset + iChild * yOffsetStep;
           fromPos.x += xOffset;
           connections.push({
@@ -154,9 +154,9 @@ export default function createConnectionsService(serviceLocatorUid) {
         sourcePos = sourcePos.clone();
         sourcePos.x += 2 * xOffset;
         for (let i = 0; i < fromChild.outgoing.length; i++) {
-          const cTo = nodesMap.get(fromChild.outgoing[i].nodeId).children.get(fromChild.outgoing[i].id);
-          const iChild = indexOf(cTo, nodesMap.get(fromChild.outgoing[i].nodeId).children);
-          const toPos = nodesMap.get(cTo.nodeId).position.clone();
+          const cTo = fromChild.outgoing[i];
+          const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
+          const toPos = cTo.parentNode.position.clone();
           toPos.y -= yOffset + iChild * yOffsetStep;
           toPos.x -= xOffset;
 

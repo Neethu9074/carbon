@@ -20,36 +20,49 @@ export default class PathFinder {
     }
 
     const rootNode = currentNodes.get(this.rootNodeId);
-
-    return direction === 'incoming'
-      ? this.searchLeft(currentNodes, rootNode, id)
-      : this.searchRight(currentNodes, rootNode, id);
+    return direction === 'incoming' ? this.searchLeft(rootNode, id) : this.searchRight(rootNode, id);
   }
 
-  searchLeft(currentNodes, node, idToFind) {
-    if (idToFind === node.id) {
+  findChild(nodeId, childId, direction) {
+    if (!this.rootNodeId) {
+      return [childId];
+    }
+
+    const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
+    if (!currentNodes.has(nodeId)) {
+      return [childId];
+    }
+
+    const rootChild = currentNodes
+      .get(this.rootNodeId)
+      .children.values()
+      .next().value;
+
+    return direction === 'incoming' ? this.searchLeft(rootChild, childId) : this.searchRight(rootChild, childId);
+  }
+
+  searchLeft(item, idToFind) {
+    if (idToFind === item.id) {
       return [idToFind];
     }
 
-    for (let i = 0; i < node.incoming.length; i++) {
-      const outgoingNode = currentNodes.get(node.incoming[i]);
-      const match = this.searchLeft(currentNodes, outgoingNode, idToFind);
+    for (let i = 0; i < item.incoming.length; i++) {
+      const match = this.searchLeft(item.incoming[i], idToFind);
       if (match) {
-        return match.concat(node.id);
+        return match.concat(item.id);
       }
     }
   }
 
-  searchRight(currentNodes, node, idToFind) {
-    if (idToFind === node.id) {
+  searchRight(item, idToFind) {
+    if (idToFind === item.id) {
       return [idToFind];
     }
 
-    for (let i = 0; i < node.outgoing.length; i++) {
-      const outgoingNode = currentNodes.get(node.outgoing[i]);
-      const match = this.searchRight(currentNodes, outgoingNode, idToFind);
+    for (let i = 0; i < item.outgoing.length; i++) {
+      const match = this.searchRight(item.outgoing[i], idToFind);
       if (match) {
-        return [node.id].concat(match);
+        return [item.id].concat(match);
       }
     }
   }

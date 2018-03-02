@@ -20,9 +20,9 @@ export default function ServiceFlowMap({ data, applicationId, endpointId, timefr
 
 function createDataFetchingService(rootNodeData, applicationId, endpointId, timeframe) {
   return {
-    getIncomingDataForNodeId,
-    getOutgoingDataForNodeId,
-    fetchMetricsForNodeId,
+    getIncomingFlowNodes$,
+    getOutgoingFlowNodes$,
+    getMetrics$,
     getIconTypeForNodeId,
     getRootNodeData
   };
@@ -38,15 +38,15 @@ function createDataFetchingService(rootNodeData, applicationId, endpointId, time
     return 'app_service';
   }
 
-  function getIncomingDataForNodeId(id, path) {
+  function getIncomingFlowNodes$(id, path) {
     return getNodeData(id, path, 'INCOMING', timeframe);
   }
 
-  function getOutgoingDataForNodeId(id, path) {
+  function getOutgoingFlowNodes$(id, path) {
     return getNodeData(id, path, 'OUTGOING', timeframe);
   }
 
-  function fetchMetricsForNodeId(nodeId) {
+  function getMetrics$(nodeId) {
     return getMetrics({
       filter: {
         application: applicationId,

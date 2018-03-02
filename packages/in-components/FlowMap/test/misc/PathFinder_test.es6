@@ -16,11 +16,6 @@ describe('in-components/FlowMap/misc/PathFinder', () => {
   const pathFinder = new PathFinder('');
   pathFinder.setRootNodeId('root');
 
-  beforeEach(() => {
-    const nodesMock = new Map();
-    nodesMock.set('root', { id: 'root', outgoing: ['in1', 'in2'], incoming: ['out1', 'out2'] });
-  });
-
   describe('findPath', () => {
     it('should return given id if the id is not in the graph', () => {
       expect(pathFinder.find('foobar')).to.deep.equal(['foobar']);
@@ -53,18 +48,49 @@ in1.2 --/         /         \---> out2 ----> out2.1 ----> out2.1.1
 */
 function getNodesMock() {
   const nodesMock = new Map();
-  nodesMock.set('root', { id: 'root', outgoing: ['out1', 'out2'], incoming: ['in1', 'in2'] });
+  nodesMock.set('root', {
+    id: 'root',
+    outgoing: [
+      { id: 'out1', incoming: [], outgoing: [] },
+      {
+        id: 'out2',
+        outgoing: [{ id: 'out2.1', outgoing: [{ id: 'out2.1.1', incoming: [], outgoing: [] }] }],
+        incoming: []
+      }
+    ],
+    incoming: [
+      {
+        id: 'in1',
+        outgoing: [],
+        incoming: [{ id: 'in1.1', incoming: [], outgoing: [] }, { id: 'in1.2', incoming: [], outgoing: [] }]
+      },
+      { id: 'in2', incoming: [], outgoing: [] }
+    ]
+  });
 
-  nodesMock.set('in1', { id: 'in1', outgoing: [], incoming: ['in1.1', 'in1.2'] });
-  nodesMock.set('in2', { id: 'in2', outgoing: [], incoming: [] });
+  nodesMock.set('out1', true);
+  nodesMock.set('out2', true);
+  nodesMock.set('out2.1', true);
+  nodesMock.set('out2.1.1', true);
+  nodesMock.set('in1', true);
+  nodesMock.set('in2', true);
+  nodesMock.set('in1.1', true);
+  nodesMock.set('in1.2', true);
 
-  nodesMock.set('out1', { id: 'out1', outgoing: [], incoming: [] });
-  nodesMock.set('out2', { id: 'out2', outgoing: ['out2.1'], incoming: [] });
+  // nodesMock.set('in1', {
+  //   id: 'in1',
+  //   outgoing: [],
+  //   incoming: [{ id: 'in1.1', incoming: [], outgoing: [] }, { id: 'in1.2', incoming: [], outgoing: [] }]
+  // });
+  // nodesMock.set('in2', { id: 'in2', outgoing: [], incoming: [] });
 
-  nodesMock.set('in1.1', { id: 'in1.1', outgoing: [], incoming: [] });
-  nodesMock.set('in1.2', { id: 'in1.2', outgoing: [], incoming: [] });
+  // nodesMock.set('out1', { id: 'out1', outgoing: [], incoming: [] });
+  // nodesMock.set('out2', { id: 'out2', outgoing: [{ id: 'out2.1', incoming: [], outgoing: [] }], incoming: [] });
 
-  nodesMock.set('out2.1', { id: 'out2.1', outgoing: ['out2.1.1'], incoming: [] });
-  nodesMock.set('out2.1.1', { id: 'out2.1.1', outgoing: [], incoming: [] });
+  // nodesMock.set('in1.1', { id: 'in1.1', outgoing: [], incoming: [] });
+  // nodesMock.set('in1.2', { id: 'in1.2', outgoing: [], incoming: [] });
+
+  // nodesMock.set('out2.1', { id: 'out2.1', outgoing: [{ id: 'out2.1.1', incoming: [], outgoing: [] }], incoming: [] });
+  // nodesMock.set('out2.1.1', { id: 'out2.1.1', outgoing: [], incoming: [] });
   return nodesMock;
 }

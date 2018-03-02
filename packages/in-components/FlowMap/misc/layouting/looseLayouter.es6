@@ -1,3 +1,3 @@
-export default function layout(/*nodesMap*/) {
+export default function layout() {
   //TODO: impl
 }

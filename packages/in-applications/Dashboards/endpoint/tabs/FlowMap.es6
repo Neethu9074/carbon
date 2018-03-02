@@ -22,13 +22,12 @@ export default function EndpointFlowMap({ data, applicationId, serviceId, timefr
 
 function createDataFetchingService(rootNodeData, applicationId, serviceId, timeframe) {
   return {
-    getIncomingDataForNodeId,
-    getOutgoingDataForNodeId,
-    fetchMetricsForChildId,
-    fetchMetricsForNodeId,
+    getIncomingFlowNodes$,
+    getOutgoingFlowNodes$,
+    getMetrics$,
     getIconTypeForNodeId,
     getRootNodeData,
-    fetchNodeById
+    getNode$
   };
 
   function getRootNodeData() {
@@ -38,7 +37,7 @@ function createDataFetchingService(rootNodeData, applicationId, serviceId, timef
     };
   }
 
-  function fetchNodeById(id) {
+  function getNode$(id) {
     return getService({
       id,
       filter: {
@@ -52,43 +51,19 @@ function createDataFetchingService(rootNodeData, applicationId, serviceId, timef
     return 'app_endpoint';
   }
 
-  function getIncomingDataForNodeId(id, path) {
+  function getIncomingFlowNodes$(id, path) {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'INCOMING', timeframe));
   }
 
-  function getOutgoingDataForNodeId(id, path) {
+  function getOutgoingFlowNodes$(id, path) {
     return timeframe$.flatMap(timeframe => getNodeData(id, path, 'OUTGOING', timeframe));
   }
 
-  function fetchMetricsForNodeId(nodeId) {
+  function getMetrics$(nodeId, childId) {
     return getMetrics({
       filter: {
         application: applicationId,
         service: nodeId,
-        timeframe
-      },
-      metrics: {
-        callsAgg: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
-        }
-      }
-    });
-  }
-
-  function fetchMetricsForChildId(childId) {
-    return getMetrics({
-      filter: {
-        application: applicationId,
-        service: serviceId,
         endpoint: childId,
         timeframe
       },
