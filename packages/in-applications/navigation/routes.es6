@@ -9,6 +9,7 @@ import ApplicationDashboard from 'promise-loader?global,applications!in-applicat
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import NewApplication from 'promise-loader?global,applications!in-applications/NewApplication/NewApplication';
+import EditApplication from 'promise-loader?global,applications!in-applications/EditApplication/EditApplication';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 
@@ -18,12 +19,14 @@ import {
   servicesList,
   serviceDashboard,
   endpointDashboard,
-  newApplicationView
+  newApplicationView,
+  editApplicationView
 } from 'in-applications/navigation/paths';
 
 export default (
   <Fragment>
     <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
+    <Route path={editApplicationView} component={createAsyncViewComponent(EditApplication)} />
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />

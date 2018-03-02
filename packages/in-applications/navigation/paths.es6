@@ -10,6 +10,7 @@ import {
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
 export const newApplicationView = '/application/new';
+export const editApplicationView = '/application/edit';
 
 export const servicesList = '/services';
 export const serviceDashboard = '/service';
@@ -36,6 +37,13 @@ export function getEndpointDashboard(endpointId, { applicationId, serviceId } = 
 export function getApplicationDashboard(appId, { tab = '/summary' } = {}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${applicationDashboard}${tab}`;
+    setOrDeleteMatrixKey(params, applicationDashboard, matrixApplicationId, appId);
+  });
+}
+
+export function getEditApplicationDashboard(appId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = editApplicationView;
     setOrDeleteMatrixKey(params, applicationDashboard, matrixApplicationId, appId);
   });
 }
