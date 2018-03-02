@@ -2,21 +2,52 @@ import React from 'react';
 
 import NewApplicationPresenter from 'in-applications/NewApplication/NewApplicationPresenter';
 import NewApplicationWaiter from 'in-applications/NewApplication/NewApplicationWaiter';
+import getApplication from 'in-subscription/application/getApplication';
+import { applicationDashboard } from 'in-applications/navigation/paths';
+import { applicationId } from 'in-applications/navigation/matrix';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { addApplicationConfig } from 'in-api/applicationConfigs';
 import { timeframe$ } from 'in-stores/timeline';
+import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
 export default connectTo(
-  {
-    timeframe: timeframe$
-  },
+  props => ({
+    timeframe: timeframe$,
+    appToEdit: timeframe$.flatMap(timeframe => {
+      const appId = getMatrixParameter(props.location, applicationDashboard, applicationId);
+      if (appId == null) {
+        return just(null);
+      } else {
+        return getApplication({
+          id: appId,
+          filter: {
+            application: appId,
+            timeframe: timeframe
+          }
+        });
+      }
+    })
+  }),
   class NewApplication extends React.Component {
     state = {
       loading: false,
       error: null,
       app: null
     };
+
+    getAppToEdit() {
+      if (this.props.appToEdit == null) {
+        return {};
+      }
+
+      if (this.props.appToEdit.errors.length > 0 || this.props.appToEdit.progress.loading) {
+        return {};
+      }
+
+      return this.props.appToEdit.data;
+    }
 
     render() {
       return (
@@ -29,6 +60,7 @@ export default connectTo(
               loading={this.state.loading}
               loadingStateName="Saving…"
               error={this.state.error}
+              application={this.getAppToEdit()}
             />
           ) : null}
 

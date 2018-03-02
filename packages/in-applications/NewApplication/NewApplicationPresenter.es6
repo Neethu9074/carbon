@@ -4,7 +4,7 @@ import Form from 'in-applications/NewApplication/Form';
 
 import locals from './NewApplicationPresenter.mless';
 
-export default function NewApplicationPresenter({ onSubmit, loading, loadingStateName, error }) {
+export default function NewApplicationPresenter({ application, onSubmit, loading, loadingStateName, error }) {
   return (
     <div className={locals.wrapper}>
       <h1 className={locals.heading}>New Application</h1>
@@ -15,7 +15,13 @@ export default function NewApplicationPresenter({ onSubmit, loading, loadingStat
         </div>
       )}
 
-      <Form onSubmit={onSubmit} loading={loading} loadingStateName={loadingStateName} error={error} />
+      <Form
+        onSubmit={onSubmit}
+        application={application}
+        loading={loading}
+        loadingStateName={loadingStateName}
+        error={error}
+      />
     </div>
   );
 }
