@@ -1,5 +1,6 @@
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
@@ -146,10 +147,11 @@ const columnDefinitions = [
     id: 'applications',
     label: 'Applications',
     getContent(item) {
+      const count = get(item, ['metrics', 'applications', 0, 1], 0);
       return (
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.entityIcon} type="app_application" width={20} height={20} color="#6c8a91" />
-          <Counter>{number.compact(item.metrics.applications[0][1])}</Counter>
+          <Counter>{number.compact(count)}</Counter>
         </div>
       );
     }
@@ -158,10 +160,11 @@ const columnDefinitions = [
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
+      const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
       return (
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.entityIcon} type="app_endpoint" width={20} height={20} color="#6c8a91" />
-          <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>
+          <Counter>{number.compact(count)}</Counter>
         </div>
       );
     }

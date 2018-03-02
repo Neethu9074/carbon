@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -128,7 +129,8 @@ const columnDefinitions = [
     id: 'endpoints',
     label: 'Endpoints',
     getContent(item) {
-      return <Counter>{number.compact(item.metrics.endpoints[0][1])}</Counter>;
+      const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
+      return <Counter>{number.compact(count)}</Counter>;
     }
   },
   {

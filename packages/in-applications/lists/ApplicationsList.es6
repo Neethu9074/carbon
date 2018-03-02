@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
@@ -139,10 +140,11 @@ const columnDefinitions = [
     id: 'services',
     label: 'Services',
     getContent(item) {
+      const count = get(item, ['metrics', 'services', 0, 1], 0);
       return (
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.entityIcon} type="app_service" width={18} height={20} color="#6c8a91" />
-          <Counter>{number.compact(item.metrics.services[0][1])}</Counter>
+          <Counter>{number.compact(count)}</Counter>
         </div>
       );
     }
