@@ -2,11 +2,10 @@ import React from 'react';
 
 import NewApplicationPresenter from 'in-applications/NewApplication/NewApplicationPresenter';
 import NewApplicationWaiter from 'in-applications/NewApplication/NewApplicationWaiter';
-import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { applicationId } from 'in-applications/navigation/matrix';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { addApplicationConfig } from 'in-api/applicationConfigs';
+import { addApplicationConfig, updateApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { timeframe$ } from 'in-stores/timeline';
 import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
@@ -15,18 +14,12 @@ import Title from 'in-components/Title';
 export default connectTo(
   props => ({
     timeframe: timeframe$,
-    appToEdit: timeframe$.flatMap(timeframe => {
+    appToEdit: timeframe$.flatMap(() => {
       const appId = getMatrixParameter(props.location, applicationDashboard, applicationId);
       if (appId == null) {
         return just(null);
       } else {
-        return getApplication({
-          id: appId,
-          filter: {
-            application: appId,
-            timeframe: timeframe
-          }
-        });
+        return getApplicationConfig(appId);
       }
     })
   }),
@@ -42,11 +35,7 @@ export default connectTo(
         return {};
       }
 
-      if (this.props.appToEdit.errors.length > 0 || this.props.appToEdit.progress.loading) {
-        return {};
-      }
-
-      return this.props.appToEdit.data;
+      return this.props.appToEdit;
     }
 
     render() {
@@ -67,6 +56,7 @@ export default connectTo(
           {this.state.app != null ? (
             <NewApplicationWaiter
               applicationId={this.state.app.id}
+              applicationToEdit={this.props.appToEdit}
               label={this.state.app.label}
               timeframe={this.props.timeframe}
             />
@@ -76,7 +66,8 @@ export default connectTo(
     }
 
     onSubmit = appConfig => {
-      const result$ = addApplicationConfig(appConfig);
+      const result$ =
+        this.props.appToEdit == null ? addApplicationConfig(appConfig) : updateApplicationConfig(appConfig);
       this.setState({
         loading: true,
         error: false,

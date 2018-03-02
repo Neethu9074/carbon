@@ -23,7 +23,7 @@ export default connectTo(
         }
       })
   }),
-  function NewApplicationWaiter({ result, label }) {
+  function NewApplicationWaiter({ result, label, applicationToEdit }) {
     if (typeof result === 'string') {
       return <Redirect to={result.substring(2)} />;
     }
@@ -33,26 +33,45 @@ export default connectTo(
         render={() => (
           <div className={locals.wrapper}>
             <FullscreenViewHeading iconClassName={locals.headingIcon} iconType={'app_application'}>
-              Application is being created…
+              {applicationToEdit == null ? 'Application is being created…' : 'Application is being adjusted…'}
             </FullscreenViewHeading>
 
-            {(result == null || result.progress.loading) && (
-              <div className={locals.loading}>
-                <div>
-                  We are preparing everything to monitor your application <strong>{label}</strong>.
-                </div>
-                <div>Please wait.</div>
-                <div>
-                  <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
-                </div>
-              </div>
-            )}
+            {(result == null || result.progress.loading) &&
+              (applicationToEdit == null ? waitForNewApp(label) : waitForEditedApp(label))}
           </div>
         )}
       />
     );
   }
 );
+
+function waitForNewApp(label) {
+  return (
+    <div className={locals.loading}>
+      <div>
+        We are preparing everything to monitor your application <strong>{label}</strong>.
+      </div>
+      <div>Please wait.</div>
+      <div>
+        <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
+      </div>
+    </div>
+  );
+}
+
+function waitForEditedApp(label) {
+  return (
+    <div className={locals.loading}>
+      <div>
+        We are adjusting your application <strong>{label}</strong>.
+      </div>
+      <div>Please wait.</div>
+      <div>
+        <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
+      </div>
+    </div>
+  );
+}
 
 function getApp(props) {
   return getApplication({
