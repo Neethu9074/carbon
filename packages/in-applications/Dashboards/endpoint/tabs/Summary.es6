@@ -68,7 +68,7 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
       </Row>
 
       <Row>
-        <Col lg={12}>
+        <Col lg={newApplicationMonitoringFeaturePlaceholdersEnabled ? 6 : 12}>
           <Card title="Calls vs Latency">
             <CallsErrorsLatencyVsTechnologieBreakdown
               applicationId={applicationId}
@@ -78,17 +78,15 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
             />
           </Card>
         </Col>
-      </Row>
 
-      {newApplicationMonitoringFeaturePlaceholdersEnabled && (
-        <Row>
-          <Col lg={12}>
+        {newApplicationMonitoringFeaturePlaceholdersEnabled && (
+          <Col lg={6}>
             <Card title="Latency Distribution">
-              <img src={dummyHeatMap} alt="Dummy heat map" />
+              <img src={dummyHeatMap} alt="Dummy heat map" style={{ width: '100%' }} />
             </Card>
           </Col>
-        </Row>
-      )}
+        )}
+      </Row>
 
       <Row>
         <Col lg={6}>

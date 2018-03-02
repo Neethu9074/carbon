@@ -2,10 +2,12 @@
   .tooltip {
     position: absolute;
     top: 0;
+    z-index: 1;
   }
 
   .glassPane {
     position: absolute;
+    z-index: 2;
     top: 2px;
     bottom: 2px;
     left: 0;
@@ -20,9 +22,6 @@
   }
 
   .content {
-    width: 7.5rem;
-    max-width: 7.5rem;
-
     padding: 0.125rem 0.438rem;
     background: #21282e;
     color: white;
@@ -31,16 +30,26 @@
 
   .time {
     border-bottom: 1px dashed #525252;
+    padding-bottom: .25rem;
     font-size: 0.625rem;
     font-weight: 200;
-    margin-bottom: 0.125rem;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+  }
+
+  .to {
+    margin: 0 0.5rem;
+    color: #698189;
   }
 
   .value {
     font-weight: bold;
   }
 
-  .leftAligned {
-    margin-left: ~'calc(-100% - 5px)';
+  .aggregation {
+    text-transform: lowercase;
+    color: #698189;
+    font-weight: 600;
+    margin: 0 0 0 5px;
   }
 }

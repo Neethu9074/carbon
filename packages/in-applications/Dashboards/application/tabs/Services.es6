@@ -139,6 +139,7 @@ const columnDefinitions = [
         <SparkChart
           rollup={getSparkChartGranularity(timeframe)}
           timeframe={getResolvedTimeframe(timeframe, result)}
+          aggregation="SUM"
           metrics={item.metrics.calls}
           metric={item.metrics.callsAgg}
           tooltipFormatter={number.compact}
@@ -154,6 +155,7 @@ const columnDefinitions = [
         <SparkChart
           rollup={getSparkChartGranularity(timeframe)}
           timeframe={getResolvedTimeframe(timeframe, result)}
+          aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
           tooltipFormatter={ms.compact}
@@ -169,6 +171,7 @@ const columnDefinitions = [
         <SparkChart
           rollup={getSparkChartGranularity(timeframe)}
           timeframe={getResolvedTimeframe(timeframe, result)}
+          aggregation="MEAN"
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.compact}

@@ -1,138 +1,151 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import createScale from 'in-charts/scale';
+
 import locals from './Tooltip.mless';
 
-import connectTo from 'in-hoc/connectTo';
+const tooltipToFocusedMomentMargin = 10;
 
-export default connectTo(
-  {
-    highlightedMoment: highlightedMoment$
-  },
-  class extends React.Component {
-    static displayName = 'Tooltip';
+export default class Tooltip extends React.Component {
+  xScale = createScale();
 
-    xScale = createScale();
+  state = {
+    highlightedMoment: null
+  };
 
-    state = { yPositionOnCanvas: 0 };
-
-    componentWillMount() {
-      this.updateScaleFromProps(this.props);
-    }
-
-    componentDidMount() {
-      this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
-      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
-    }
-
-    componentWillUpdate(nextProps) {
-      this.updateScaleFromProps(nextProps);
-    }
-
-    componentWillUnmount() {
-      this.onMouseMoveSubscription.dispose();
-      this.onMouseMoveSubscription = null;
-      this.onMouseLeaveSubscription.dispose();
-      this.onMouseLeaveSubscription = null;
-    }
-
-    render() {
-      const nearestDataPoint = this.calculateNearestDataPoint();
-      let xPositionOnCanvas = null;
-      if (nearestDataPoint) {
-        xPositionOnCanvas = this.xScale.getRange(nearestDataPoint[0]);
-      }
-
-      return (
-        <div>
-          <div className={locals.tooltip} style={{ left: xPositionOnCanvas }}>
-            {nearestDataPoint ? (
-              <div
-                className={evaluateClassNames({
-                  [locals.value]: true,
-                  [locals.leftAligned]: this.cursorHasCrossedHalfOfTheCanvas(xPositionOnCanvas)
-                })}
-                style={{
-                  marginTop: this.state.yPositionOnCanvas
-                }}
-              >
-                <div className={locals.content}>
-                  <div className={locals.time}>{formatDateTime(nearestDataPoint[0])}</div>
-                  <span className={locals.value}>{this.props.tooltipFormatter(nearestDataPoint[1])}</span>
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          <div
-            style={{ width: this.xScale.getRangeTo() - this.xScale.getRangeFrom() }}
-            className={locals.glassPane}
-            ref={glassPane => {
-              this.glassPane = glassPane;
-            }}
-          >
-            {nearestDataPoint ? <div className={locals.line} style={{ left: xPositionOnCanvas }} /> : null}
-          </div>
-        </div>
-      );
-    }
-
-    updateScaleFromProps({ timeframe, width }) {
-      this.xScale.setRangeFrom(2);
-      this.xScale.setRangeTo(width - 2);
-      this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
-      this.xScale.setDomainTo(timeframe.to);
-    }
-
-    calculateNearestDataPoint() {
-      if (!this.props.highlightedMoment) {
-        return null;
-      }
-      return this.getNearestDataPointForXPosition(this.xScale.getRange(this.props.highlightedMoment));
-    }
-
-    onMouseMove = e => {
-      if (e.offsetX < this.xScale.getRangeFrom() || e.offsetX > this.xScale.getRangeTo()) {
-        return;
-      }
-      setHighlightedMoment(this.xScale.getDomain(e.offsetX));
-      this.setState({ yPositionOnCanvas: e.offsetY - 14 });
-    };
-
-    onMouseLeave = () => {
-      this.setState({ yPositionOnCanvas: 0 });
-      clearHighlightedMoment();
-    };
-
-    getNearestDataPointForXPosition = xPositionOnCanvas => {
-      const metrics = this.props.metrics;
-      if (metrics.length === 0) {
-        return null;
-      }
-
-      const xPositionOnCanvasAsDomain = this.xScale.getDomain(xPositionOnCanvas);
-      let distanceToNearestDataPoint = Number.MAX_VALUE;
-      let nearestDataPoint = null;
-
-      for (let i = 0; i < metrics.length; i++) {
-        const dataPoint = metrics[i];
-        const distanceToDataPoint = Math.abs(xPositionOnCanvasAsDomain - dataPoint[0]);
-        if (distanceToDataPoint < distanceToNearestDataPoint) {
-          nearestDataPoint = dataPoint;
-          distanceToNearestDataPoint = distanceToDataPoint;
-        }
-      }
-
-      return nearestDataPoint;
-    };
-
-    cursorHasCrossedHalfOfTheCanvas(cursorXPosition) {
-      const fullWidth = this.xScale.getRangeTo() - this.xScale.getRangeFrom();
-      return cursorXPosition > fullWidth / 2;
-    }
+  componentWillMount() {
+    this.updateScaleFromProps(this.props);
   }
-);
+
+  componentDidMount() {
+    this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
+    this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
+  }
+
+  componentWillUpdate(nextProps) {
+    this.updateScaleFromProps(nextProps);
+  }
+
+  componentWillUnmount() {
+    this.onMouseMoveSubscription.dispose();
+    this.onMouseMoveSubscription = null;
+    this.onMouseLeaveSubscription.dispose();
+    this.onMouseLeaveSubscription = null;
+  }
+
+  render() {
+    const nearestDataPoint = this.calculateNearestDataPoint();
+    let xPositionOnCanvas = null;
+    let tooltipStyle;
+    if (nearestDataPoint) {
+      xPositionOnCanvas = this.xScale.getRange(nearestDataPoint[0]);
+
+      if (this.cursorHasCrossedHalfOfTheCanvas(xPositionOnCanvas)) {
+        tooltipStyle = {
+          top: this.state.highlightedMoment.y,
+          right: this.props.width - xPositionOnCanvas + tooltipToFocusedMomentMargin
+        };
+      } else {
+        tooltipStyle = {
+          top: this.state.highlightedMoment.y,
+          left: xPositionOnCanvas + tooltipToFocusedMomentMargin
+        };
+      }
+    }
+
+    return (
+      <div>
+        <div className={locals.tooltip} style={tooltipStyle}>
+          {nearestDataPoint ? (
+            <div className={locals.value}>
+              <div className={locals.content}>
+                <div className={locals.time}>
+                  {formatDateTime(nearestDataPoint[0] - this.props.rollup)}
+                  <span className={locals.to}>to</span>
+                  {formatDateTime(nearestDataPoint[0])}
+                </div>
+                <span className={locals.value}>
+                  {this.props.tooltipFormatter(nearestDataPoint[1])}
+                  {this.props.aggregation && <span className={locals.aggregation}>({this.props.aggregation})</span>}
+                </span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div
+          style={{ width: this.xScale.getRangeTo() - this.xScale.getRangeFrom() }}
+          className={locals.glassPane}
+          ref={glassPane => {
+            this.glassPane = glassPane;
+          }}
+        >
+          {nearestDataPoint ? <div className={locals.line} style={{ left: xPositionOnCanvas }} /> : null}
+        </div>
+      </div>
+    );
+  }
+
+  updateScaleFromProps({ timeframe, width }) {
+    this.xScale.setRangeFrom(2);
+    this.xScale.setRangeTo(width - 2);
+    this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
+    this.xScale.setDomainTo(timeframe.to);
+  }
+
+  calculateNearestDataPoint() {
+    if (!this.state.highlightedMoment) {
+      return null;
+    }
+    return this.getNearestDataPointForXPosition(this.state.highlightedMoment.x);
+  }
+
+  onMouseMove = e => {
+    if (e.offsetX < this.xScale.getRangeFrom() || e.offsetX > this.xScale.getRangeTo()) {
+      return;
+    }
+
+    this.setState({
+      highlightedMoment: {
+        x: e.offsetX,
+        xDomain: this.xScale.getDomain(e.offsetX),
+        y: e.offsetY - 14
+      }
+    });
+  };
+
+  onMouseLeave = () => {
+    this.setState({
+      highlightedMoment: null
+    });
+  };
+
+  getNearestDataPointForXPosition = xPositionOnCanvas => {
+    const metrics = this.props.metrics;
+    if (metrics.length === 0) {
+      return null;
+    }
+
+    const xPositionOnCanvasAsDomain = this.xScale.getDomain(xPositionOnCanvas);
+    let distanceToNearestDataPoint = Number.MAX_VALUE;
+    let nearestDataPoint = null;
+
+    for (let i = 0; i < metrics.length; i++) {
+      const dataPoint = metrics[i];
+      const distanceToDataPoint = Math.abs(xPositionOnCanvasAsDomain - dataPoint[0]);
+      if (distanceToDataPoint < distanceToNearestDataPoint) {
+        nearestDataPoint = dataPoint;
+        distanceToNearestDataPoint = distanceToDataPoint;
+      }
+    }
+
+    return nearestDataPoint;
+  };
+
+  cursorHasCrossedHalfOfTheCanvas(cursorXPosition) {
+    const fullWidth = this.xScale.getRangeTo() - this.xScale.getRangeFrom();
+    return cursorXPosition > fullWidth / 2;
+  }
+}

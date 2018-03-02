@@ -38,13 +38,15 @@ class SparkChartReactWrapper extends React.Component {
   }
 
   render() {
-    const { metrics, tooltipFormatter = number.detailed, timeframe, width, height } = this.props;
+    const { metrics, tooltipFormatter = number.detailed, timeframe, width, height, rollup, aggregation } = this.props;
     return (
       <div className={locals.sparkChart}>
         <Tooltip
           metrics={metrics}
           timeframe={timeframe}
           tooltipFormatter={tooltipFormatter}
+          rollup={rollup}
+          aggregation={aggregation}
           width={width}
           height={height}
         />
