@@ -4,14 +4,17 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { regularExpressionValidator } from 'in-services/validators/regexp';
+import { applicationsList } from 'in-applications/navigation/paths';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
@@ -63,7 +66,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
 
       <Card
         title="Matching"
-        header={
+        /*header={
           <Button
             disabled={disabled}
             kind="secondary"
@@ -72,7 +75,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
           >
             Add condition
           </Button>
-        }
+        }*/
         className={locals.matchingCard}
       >
         <HelpText className={locals.matchHelp}>
@@ -90,15 +93,16 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
                 <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
                   Key
                 </Label>
-                <Input
-                  type="text"
+                <Select
                   id={`match-${i}-key`}
                   value={field.value}
                   onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
                   autoComplete="off"
                   hasError={!field.valid && field.touched}
                   disabled={disabled}
-                />
+                >
+                  {getFakedEdmundsValues()}
+                </Select>
                 <TouchedMessages field={field} />
               </FormGroup>
             ))}
@@ -142,8 +146,11 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
             {error}
           </ValidationBlock>
         )}
+        <Button kind="danger" href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
+          Chancel
+        </Button>
         <Button
-          icon={loading && 'spinner'}
+          icon={loading ? 'spinner' : null}
           iconSpinning
           kind="primary"
           type="submit"
@@ -154,6 +161,22 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
       </div>
     </form>
   );
+}
+
+function getFakedEdmundsValues() {
+  return [
+    { value: '', label: 'Please select' },
+    { value: 'host.zone', label: 'host.zone' },
+    { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
+    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' }
+  ].map(tag => {
+    return (
+      <option value={tag.value} key={tag.label}>
+        {tag.label}
+      </option>
+    );
+  });
 }
 
 function getInitialForm(application = {}) {
@@ -196,12 +219,12 @@ function matchSpecificationValidator(items) {
 function setValue(path, value, form, updateForm) {
   updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
 }
-
+/*
 function addMatchSpecification(form, updateForm) {
   const additionalSubForm = getMatchSpecificationForm();
   updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
 }
-
+*/
 function getMatchSpecificationForm(matchSpecification = {}) {
   return createMapForm()
     .put(

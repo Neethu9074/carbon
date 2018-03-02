@@ -7,4 +7,11 @@
   .heading {
     margin: 0 0 2rem;
   }
+
+  .errorContainer {
+    display: flex;
+    justify-content: center;
+    color: #ff5d3b;
+    margin-bottom: 2rem;
+  }
 }
