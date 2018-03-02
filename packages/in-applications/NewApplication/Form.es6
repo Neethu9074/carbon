@@ -160,14 +160,15 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
 
 function getFakedEdmundsValues() {
   return [
-    'host.zone',
-    'docker.label.com.amazonaws.ecs.cluster',
-    'docker.label.ARTIFACT_ID ',
-    'docker.label.ARTIFACT_VERSION '
+    { value: '', label: 'Please select' },
+    { value: 'host.zone', label: 'host.zone' },
+    { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
+    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' }
   ].map(tag => {
     return (
-      <option value={tag} key={tag}>
-        {tag}
+      <option value={tag.value} key={tag.label}>
+        {tag.label}
       </option>
     );
   });
@@ -224,14 +225,14 @@ function getMatchSpecificationForm(matchSpecification = {}) {
     .put(
       'key',
       createField({
-        value: get(matchSpecification, 'key', 'host.zone'),
+        value: get(matchSpecification, 'key', ''),
         validator: notBlankValidator
       })
     )
     .put(
       'value',
       createField({
-        value: get(matchSpecification, 'value', '.*'),
+        value: get(matchSpecification, 'value', ''),
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );
