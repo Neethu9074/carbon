@@ -5,6 +5,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 
 export default function LoggingSections({ applicationId, serviceId, endpointId, timeframe }) {
@@ -18,9 +19,10 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
             <ChartWrapper
               timeframe={timeframe}
               y1={{
-                renderer: Renderer.bar,
-                labels: ['Error logs'],
-                metricIds: ['logMessages']
+                tooltipFormatter: number.compact,
+                renderer: Renderer.stackedArea,
+                labels: ['WARN', 'ERROR'],
+                metricIds: ['logs.warn', 'logs.error']
               }}
               metricsConfiguration={{
                 filter: {
@@ -30,8 +32,13 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
                   timeframe
                 },
                 metrics: {
-                  logMessages: {
-                    metric: 'logMessages',
+                  'logs.warn': {
+                    metric: 'logs.warn',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  'logs.error': {
+                    metric: 'logs.error',
                     granularity,
                     aggregation: 'SUM'
                   }
