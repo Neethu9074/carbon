@@ -55,7 +55,9 @@ export default connectTo(
         this.setState({
           app: {
             id: result.id,
-            label: result.label
+            label: result.label,
+            loading: false,
+            error: false
           }
         });
       });
