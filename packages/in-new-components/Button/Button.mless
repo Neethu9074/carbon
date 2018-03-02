@@ -52,6 +52,18 @@
       #47626a);
   }
 
+  .danger {
+      .buttonStyle(
+        // bg
+        #d9534f,
+        // hover bg
+        #c9302c,
+        // font
+        #fff,
+        // hover font
+        #fff);
+    }
+
   .normal {
     padding: 0.875rem 1.25rem;
   }
