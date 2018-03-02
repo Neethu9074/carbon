@@ -28,8 +28,9 @@ export default class LineMetricRenderer {
   }
 
   update({ metrics = [], rollup = 1000, timeframe }) {
-    this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
-    this.xScale.setDomainTo(timeframe.to);
+    const to = timeframe.to || Date.now();
+    this.xScale.setDomainFrom(to - timeframe.windowSize);
+    this.xScale.setDomainTo(to);
 
     // inverse this since canvas has y direction from top(0) to bottom(100%)
     const { minMetricValue, maxMetricValue } = this.calculateMetricStatistics(metrics);

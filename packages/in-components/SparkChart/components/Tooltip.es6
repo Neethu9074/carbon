@@ -95,8 +95,9 @@ export default class Tooltip extends React.Component {
   updateScaleFromProps({ timeframe, width }) {
     this.xScale.setRangeFrom(2);
     this.xScale.setRangeTo(width - 2);
-    this.xScale.setDomainFrom(timeframe.to - timeframe.windowSize);
-    this.xScale.setDomainTo(timeframe.to);
+    const to = timeframe.to || Date.now();
+    this.xScale.setDomainFrom(to - timeframe.windowSize);
+    this.xScale.setDomainTo(to);
   }
 
   calculateNearestDataPoint() {
