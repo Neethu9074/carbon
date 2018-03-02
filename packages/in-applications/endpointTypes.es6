@@ -12,14 +12,14 @@ const endpointTranslation = {
 };
 
 export const colorTranslation = {
-  BATCH: '#45d1f7',
-  DATABASE: '#eb731e',
-  HTTP: '#318af6',
-  MESSAGING: '#89ef15',
-  RPC: '#4e94c6',
-  SDK: '#ecbb18',
-  WEBSITE: '#f054f2',
-  UNKNOWN: 'red'
+  BATCH: '#14adff',
+  DATABASE: '#cc553b',
+  HTTP: '#1479ff',
+  MESSAGING: '#3eb39a',
+  RPC: '#61ccce',
+  SDK: '#e6b900',
+  WEBSITE: '#9c6dde',
+  UNKNOWN: '#cc553b'
 };
 
 export function getEndpointsLabel(type) {
