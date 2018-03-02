@@ -51,7 +51,7 @@ function getTableData({
     metrics: {
       endpoints: {
         metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
+        aggregation: 'MEAN'
       },
       callsAgg: {
         metric: 'calls',
@@ -96,20 +96,16 @@ const columnDefinitions = [
     id: 'serviceLabel',
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
-      if (!item.service.label) {
-        return 'Unspecified';
-      } else {
-        return (
-          <Link
-            href$={getServiceDashboard(item.service.id, {
-              applicationId,
-              endpointId
-            })}
-          >
-            {item.service.label}
-          </Link>
-        );
-      }
+      return (
+        <Link
+          href$={getServiceDashboard(item.service.id, {
+            applicationId,
+            endpointId
+          })}
+        >
+          {item.service.label}
+        </Link>
+      );
     }
   },
   {
