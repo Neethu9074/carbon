@@ -1,11 +1,11 @@
 import React from 'react';
 
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
+import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import Chart from 'in-components/Chart/ChartReactComponent';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
-import { compare } from 'in-services/util/number';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,29 +20,59 @@ export default connectTo(
       }
     }).map(result => result.data || null)
   }),
-  function HttpSections({ timeframe, types }) {
+  function HttpSections({ timeframe, types, applicationId, serviceId, endpointId }) {
     if (!hasHttpEndpoints(types)) {
       return null;
     }
 
+    const granularity = getChartGranularity(timeframe);
     return (
       <Row>
         <Col lg={12}>
           <Card title="Http Status Code Breakdown">
-            <Chart
+            <ChartWrapper
               timeframe={timeframe}
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
                 colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
                 formatter: millis,
-                metrics: [
-                  generateMetrics(timeframe),
-                  generateMetrics(timeframe),
-                  generateMetrics(timeframe),
-                  generateMetrics(timeframe),
-                  generateMetrics(timeframe)
-                ]
+                metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
+              }}
+              metricsConfiguration={{
+                filter: {
+                  timeframe,
+                  application: applicationId,
+                  service: serviceId,
+                  endpoint: endpointId
+                },
+                metrics: {
+                  'http.1xx': {
+                    metric: 'http.1xx',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  'http.2xx': {
+                    metric: 'http.2xx',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  'http.3xx': {
+                    metric: 'http.3xx',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  'http.4xx': {
+                    metric: 'http.4xx',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  'http.5xx': {
+                    metric: 'http.5xx',
+                    granularity,
+                    aggregation: 'SUM'
+                  }
+                }
               }}
             />
           </Card>
@@ -51,16 +81,6 @@ export default connectTo(
     );
   }
 );
-
-function generateMetrics(timeframe, maxValue = 100, numMetrics) {
-  const metrics = [];
-  numMetrics = numMetrics || timeframe.windowSize / 5000;
-  for (let i = numMetrics; i >= 0; i--) {
-    metrics[i] = [timeframe.to - i * (timeframe.windowSize / numMetrics), ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
-}
 
 function hasHttpEndpoints(types) {
   if (!types) {

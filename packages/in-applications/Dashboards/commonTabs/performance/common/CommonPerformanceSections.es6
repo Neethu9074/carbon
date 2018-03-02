@@ -8,7 +8,8 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 
-export default function CommonPerformanceSection({ applicationId, serviceId, timeframe }) {
+export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeframe }) {
+  const granularity = getChartGranularity(timeframe);
   return (
     <Fragment>
       <Row>
@@ -34,47 +35,48 @@ export default function CommonPerformanceSection({ applicationId, serviceId, tim
                 filter: {
                   timeframe,
                   application: applicationId,
-                  service: serviceId
+                  service: serviceId,
+                  endpointId
                 },
                 metrics: {
                   durationMin: {
                     metric: 'duration.min',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'MIN'
                   },
                   duration25th: {
                     metric: 'duration.25th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P25'
                   },
                   duration50th: {
                     metric: 'duration.25th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P25'
                   },
                   duration75th: {
                     metric: 'duration.25th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P25'
                   },
                   duration95th: {
                     metric: 'duration.25th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P25'
                   },
                   duration98th: {
                     metric: 'duration.98th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P98'
                   },
                   duration99th: {
                     metric: 'duration.99th',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'P99'
                   },
                   durationMax: {
                     metric: 'duration.max',
-                    granularity: getChartGranularity(timeframe),
+                    granularity,
                     aggregation: 'MAX'
                   }
                 }
