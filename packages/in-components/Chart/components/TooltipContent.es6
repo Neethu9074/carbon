@@ -47,7 +47,13 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
                 </span>{' '}
                 <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
               </div>
-              <span>{dataPoint ? axis.formatter[i].detailed(dataPoint[1]) : '--'}</span>
+              <span>
+                {dataPoint
+                  ? axis.tooltipFormatter
+                    ? axis.tooltipFormatter(dataPoint[1])
+                    : axis.formatter[i].detailed(dataPoint[1])
+                  : '--'}
+              </span>
             </li>
           );
         })}

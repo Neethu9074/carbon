@@ -5,7 +5,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { millis } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
@@ -36,7 +36,8 @@ export default connectTo(
                 renderer: Renderer.stackedArea,
                 labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
                 colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
-                formatter: millis,
+                formatter: number,
+                tooltipFormatter: number.compact,
                 metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
               }}
               metricsConfiguration={{
