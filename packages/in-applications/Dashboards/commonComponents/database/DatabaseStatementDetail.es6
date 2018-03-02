@@ -10,7 +10,9 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Code from 'in-sdk/components/traceDetails/Code';
 import Skeleton from 'in-components/Progress/Skeleton';
+import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import { shorten } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -75,7 +77,9 @@ function renderStatementData(statmentData) {
       </Row>
       <Row>
         <Col lg={12}>
-          <Card title="Statement">{statmentData.statement}</Card>
+          <Card title="Statement">
+            <Code code={formatSql(statmentData.statement)} lang="sql" />
+          </Card>
         </Col>
       </Row>
     </MaxWidthFullscreenContainer>
