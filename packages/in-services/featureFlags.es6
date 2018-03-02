@@ -19,6 +19,7 @@ export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 export const application_2_0_Enabled = onlyInternally;
+export const showTenantSwitcher = config.tenant !== 'edmunds';
 
 export const blackListedSearchFieldKeywords = ['log'];
 export const blackListedSearchFieldValues = {
