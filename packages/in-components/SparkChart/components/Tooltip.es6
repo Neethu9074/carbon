@@ -1,7 +1,6 @@
 import { on } from 'reactive-observables';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { formatDateTime } from 'in-services/formatters/date';
 import createScale from 'in-charts/scale';
 
 import locals from './Tooltip.mless';
@@ -59,23 +58,7 @@ export default class Tooltip extends React.Component {
       <div>
         <div className={locals.tooltip} style={tooltipStyle}>
           {nearestDataPoint ? (
-            <div className={locals.value}>
-              <div className={locals.content}>
-                <div className={locals.time}>
-                  {this.props.rollup != null && (
-                    <Fragment>
-                      {formatDateTime(nearestDataPoint[0] - this.props.rollup)}
-                      <span className={locals.to}>to</span>
-                    </Fragment>
-                  )}
-                  {formatDateTime(nearestDataPoint[0])}
-                </div>
-                <span className={locals.value}>
-                  {this.props.tooltipFormatter(nearestDataPoint[1])}
-                  {this.props.aggregation && <span className={locals.aggregation}>({this.props.aggregation})</span>}
-                </span>
-              </div>
-            </div>
+            <div className={locals.value}>{this.props.tooltipFormatter(nearestDataPoint[1])}</div>
           ) : null}
         </div>
 

@@ -21,35 +21,11 @@
     border-left: 1px solid red;
   }
 
-  .content {
+  .value {
+    font-weight: bold;
     padding: 0.125rem 0.438rem;
     background: #21282e;
     color: white;
     border-radius: 0.188rem;
-  }
-
-  .time {
-    border-bottom: 1px dashed #525252;
-    padding-bottom: .25rem;
-    font-size: 0.625rem;
-    font-weight: 200;
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-  }
-
-  .to {
-    margin: 0 0.5rem;
-    color: #698189;
-  }
-
-  .value {
-    font-weight: bold;
-  }
-
-  .aggregation {
-    text-transform: lowercase;
-    color: #698189;
-    font-weight: 600;
-    margin: 0 0 0 5px;
   }
 }
