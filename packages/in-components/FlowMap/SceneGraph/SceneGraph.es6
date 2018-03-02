@@ -210,7 +210,7 @@ export default class SceneGraph {
     const nodesMap = serviceLocators.nodesServiceLocator.getNodes();
 
     if (this.rootNodeId) {
-      flowLayout(nodesMap.get(this.rootNodeId));
+      flowLayout(nodesMap.get(this.rootNodeId), serviceLocators.sceneServiceLocator.getScene().initialPxUnitRation);
     } else {
       looseLayout();
     }

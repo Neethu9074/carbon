@@ -1,6 +1,6 @@
 import { DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_Y } from 'in-components/FlowMap/misc/layouting/config';
 
-export default function layout(rootNode) {
+export default function layout(rootNode, initialPxUnitRation) {
   rootNode.setPosition(0, 0);
 
   layoutNodesRecursively(rootNode.incoming, 'incoming', -DISTANCE_BETWEEN_NODES_X, -DISTANCE_BETWEEN_NODES_X);
@@ -44,7 +44,7 @@ export default function layout(rootNode) {
 
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
-      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (0.029940119760479042 * 21);
+      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (initialPxUnitRation * 21);
 
       if (i < nodes.length - 1) {
         totalColumnHeight += node.__height;

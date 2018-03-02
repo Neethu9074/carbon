@@ -107,6 +107,10 @@ export default class MainScene {
     this.camera.setSize(width, height);
     this.camera.update();
 
+    if (!this.initialPxUnitRation) {
+      this.initialPxUnitRation = this.camera.getCameraSize() / width;
+    }
+
     // refresh the rendering result
     this.requestRendering();
   }

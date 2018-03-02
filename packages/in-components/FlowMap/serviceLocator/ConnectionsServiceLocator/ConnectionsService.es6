@@ -117,7 +117,11 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   function createConnectionsForNodes(from, to, connections) {
-    const xOffset = 3;
+    const initialPxUnitRation = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene()
+      .initialPxUnitRation;
+
+    const initialNodeSizeInPx = 199.2;
+    const xOffset = initialNodeSizeInPx * initialPxUnitRation / 2;
     const yOffset = 1.4;
     const yOffsetStep = 0.575;
     if (from.children.size === 0 && to.children.size === 0) {
