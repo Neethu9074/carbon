@@ -40,10 +40,15 @@ export default function TopListPresenter(props) {
             metricValue,
             formattedMetricValue
           };
-          const label = renderLabel(renderProps, item);
           const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
           return (
-            <Row key={i} renderedMetric={renderedMetric} metricValue={metricValue} maxValue={maxValue} label={label} />
+            <Row
+              key={i}
+              renderedMetric={renderedMetric}
+              metricValue={metricValue}
+              maxValue={maxValue}
+              label={renderLabel(renderProps, item)}
+            />
           );
         })}
       </ol>

@@ -6,8 +6,7 @@ export default function TopListRow({ label, metricValue, maxValue, renderedMetri
   return (
     <li className={locals.topListRow}>
       <div className={locals.titles}>
-        {/* Do not remove the div wrapper. It ensures that the label is only ever recognized as one DOM element (for flexbox)*/}
-        <div>{label}</div>
+        <div className={locals.label}>{label}</div>
         {renderedMetric}
       </div>
 

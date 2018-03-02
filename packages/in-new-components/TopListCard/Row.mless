@@ -35,4 +35,11 @@
     background: #4bc4ff;
     border-radius: 0.125rem 0 0 0.125rem;
   }
+
+  .label {
+    margin-right: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
