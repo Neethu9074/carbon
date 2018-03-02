@@ -11,7 +11,7 @@ export default function NewApplicationPresenter({ application, onSubmit, loading
 
       {error && (
         <div className={locals.errorContainer}>
-          <div>Application could not be saved. Please try again.</div>
+          <div>Application could not be saved or is already available. Please try again.</div>
         </div>
       )}
 
