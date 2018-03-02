@@ -51,7 +51,7 @@ function getTableData({
     metrics: {
       endpoints: {
         metric: 'endpoints',
-        aggregation: 'MEAN'
+        aggregation: 'DISTINCT_COUNT'
       },
       callsAgg: {
         metric: 'calls',
