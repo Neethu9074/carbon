@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  getApplicationDashboard,
-  getEditApplicationDashboard,
-  newApplicationView
-} from 'in-applications/navigation/paths';
+import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -197,13 +193,6 @@ const columnDefinitions = [
           tooltipFormatter={percentage.compact}
         />
       );
-    }
-  },
-  {
-    id: 'edit',
-    label: 'Edit',
-    getContent(item) {
-      return <Link href$={getEditApplicationDashboard(item.application.id)}>Edit Application</Link>;
     }
   }
 ];

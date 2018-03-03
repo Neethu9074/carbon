@@ -32,37 +32,39 @@ export default compose(
   })
 )(NewApplicationForm);
 
-function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateName, error }) {
+function NewApplicationForm({ form, application, updateForm, onSubmit, loading, loadingStateName, error }) {
   const matchSpecificationForm = form.get('matchSpecification');
   const disabled = loading;
 
   return (
     <form onSubmit={e => onSubmitInternal(e, form, updateForm, onSubmit)} className={locals.form} disabled={disabled}>
-      <Card title="General" className={locals.generalCard}>
-        {form.get('label').map(field => (
-          <FormGroup className={locals.formGroup}>
-            <Label htmlFor="label" hasError={!field.valid && field.touched}>
-              Application Name
-            </Label>
-            <Input
-              type="text"
-              id="label"
-              value={field.value}
-              onChange={e => setValue(['label'], e.target.value, form, updateForm)}
-              autoComplete="off"
-              hasError={!field.valid && field.touched}
-              autoFocus
-              disabled={disabled}
-            />
-            <TouchedMessages field={field} />
-            <HelpText>
-              Good application names are names that are already well established within an organization. They facilitate
-              concise communication and have a defined meaning. What you configure here, will be used throughout Instana
-              to refer to this application.
-            </HelpText>
-          </FormGroup>
-        ))}
-      </Card>
+      {application == null && (
+        <Card title="General" className={locals.generalCard}>
+          {form.get('label').map(field => (
+            <FormGroup className={locals.formGroup}>
+              <Label htmlFor="label" hasError={!field.valid && field.touched}>
+                Application Name
+              </Label>
+              <Input
+                type="text"
+                id="label"
+                value={field.value}
+                onChange={e => setValue(['label'], e.target.value, form, updateForm)}
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+                autoFocus
+                disabled={disabled}
+              />
+              <TouchedMessages field={field} />
+              <HelpText>
+                Good application names are names that are already well established within an organization. They
+                facilitate concise communication and have a defined meaning. What you configure here, will be used
+                throughout Instana to refer to this application.
+              </HelpText>
+            </FormGroup>
+          ))}
+        </Card>
+      )}
 
       <Card
         title="Matching"
@@ -146,7 +148,7 @@ function NewApplicationForm({ form, updateForm, onSubmit, loading, loadingStateN
             {error}
           </ValidationBlock>
         )}
-        <Button kind="danger" href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
+        <Button kind="secondary" href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
           Chancel
         </Button>
         <Button
@@ -219,6 +221,7 @@ function matchSpecificationValidator(items) {
 function setValue(path, value, form, updateForm) {
   updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
 }
+
 /*
 function addMatchSpecification(form, updateForm) {
   const additionalSubForm = getMatchSpecificationForm();

@@ -18,14 +18,12 @@ import {
   servicesList,
   serviceDashboard,
   endpointDashboard,
-  newApplicationView,
-  editApplicationView
+  newApplicationView
 } from 'in-applications/navigation/paths';
 
 export default (
   <Fragment>
     <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
-    <Route path={editApplicationView} component={createAsyncViewComponent(NewApplication)} />
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
