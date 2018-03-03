@@ -3,6 +3,7 @@ import React from 'react';
 
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { getTracesCount } from 'in-applications/components/TracesButton';
+import { number, percentage } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Row.mless';
@@ -46,8 +47,8 @@ export default connectTo(
 function ValueAndPercentage({ value, total }) {
   return (
     <div className={locals.valueAndPercentageWrapper}>
-      <span>{value}</span>
-      <span className={locals.percentage}>{`(${((value / total * 10000) | 0) / 100}%)`}</span>
+      <span>{number.compact(value)}</span>
+      <span className={locals.percentage}>{`(${percentage.detailed(value / total)})`}</span>
     </div>
   );
 }
