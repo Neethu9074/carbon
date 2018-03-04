@@ -51,14 +51,13 @@ export default connectTo(
           }
         })
       )
-      .map(result => result.data != null && result.data.appCount[0][1] < 1)
+      .map(result => result.data != null && (result.data.appCount.length == 0 || result.data.appCount[0][1] < 1))
   },
   function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
     return (
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer className={locals.block}>
           <Title title="Applications" />
-          {showNoApplicationsDefinedIndicator && <div>You got no applications, yet.</div>}
           <ServerTable
             get={getTableData}
             pageSize={25}
@@ -67,6 +66,12 @@ export default connectTo(
             leftHeader={leftHeader}
             paginationResettingProps={{ timeframe }}
           />
+          {showNoApplicationsDefinedIndicator && (
+            <p className={locals.noApplicationsDefined}>
+              No applications have been configured. You can add applications by clicking on the &quot;Create
+              Application&quot; button above.
+            </p>
+          )}
         </MaxWidthFullscreenContainer>
       </Sticky>
     );
