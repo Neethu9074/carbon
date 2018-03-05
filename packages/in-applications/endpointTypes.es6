@@ -6,7 +6,7 @@ const endpointTranslation = {
   HTTP: 'HTTP Endpoints',
   MESSAGING: 'Topics',
   RPC: 'Methods',
-  UNKNOWN: 'Unknown'
+  UNDEFINED: 'Undefined'
 };
 
 export const colorTranslation = {
@@ -15,7 +15,7 @@ export const colorTranslation = {
   HTTP: '#1479ff',
   MESSAGING: '#3eb39a',
   RPC: '#61ccce',
-  UNKNOWN: '#cc553b'
+  UNDEFINED: '#cc553b'
 };
 
 export function getEndpointsLabel(type) {
