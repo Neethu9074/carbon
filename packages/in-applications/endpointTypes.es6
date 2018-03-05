@@ -6,8 +6,6 @@ const endpointTranslation = {
   HTTP: 'HTTP Endpoints',
   MESSAGING: 'Topics',
   RPC: 'Methods',
-  SDK: 'SDK Endpoints',
-  WEBSITE: 'Pages',
   UNKNOWN: 'Unknown'
 };
 
@@ -17,8 +15,6 @@ export const colorTranslation = {
   HTTP: '#1479ff',
   MESSAGING: '#3eb39a',
   RPC: '#61ccce',
-  SDK: '#e6b900',
-  WEBSITE: '#9c6dde',
   UNKNOWN: '#cc553b'
 };
 
