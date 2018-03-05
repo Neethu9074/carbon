@@ -9,7 +9,7 @@ import Card from 'in-new-components/Card';
 import locals from './TopListCardPresenter.mless';
 
 export default function TopListCard(props) {
-  const { result, title, metrics, labels, onChangeMetric, selectedMetric } = props;
+  const { result, title, metrics, labels, onChangeMetric, selectedMetric, List: ListRenderer = List } = props;
 
   const header = metrics.length > 1 && (
     <ul className={locals.metrics}>
@@ -41,10 +41,10 @@ export default function TopListCard(props) {
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <ErroneousResultPresenter errors={result.errors} />;
-  } else if (result.data.totalHits === 0) {
-    content = <NoDataFoundState {...props} />;
+  } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
+    content = <div className={locals.noDataFound}>No data available.</div>;
   } else {
-    content = <List {...props} />;
+    content = <ListRenderer {...props} />;
   }
 
   return (
@@ -52,8 +52,4 @@ export default function TopListCard(props) {
       {content}
     </Card>
   );
-}
-
-function NoDataFoundState() {
-  return <div className={locals.noDataFound}>No data available.</div>;
 }

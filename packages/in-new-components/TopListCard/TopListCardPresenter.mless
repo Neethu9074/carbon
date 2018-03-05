@@ -22,8 +22,4 @@
     color: #0c1415;
     text-decoration: underline;
   }
-
-  .noDataFound {
-    margin: 1rem;
-  }
 }

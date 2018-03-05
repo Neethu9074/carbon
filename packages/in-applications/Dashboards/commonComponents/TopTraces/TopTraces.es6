@@ -1,16 +1,15 @@
 import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import List from 'in-applications/Dashboards/commonComponents/TopTraces/List';
 import getTraceTopList from 'in-subscription/application/getTraceTopList';
-import { ms, number } from 'in-services/formatters/number';
+import { millis } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
-import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 
-const metrics = ['latency', 'calls'];
-const labels = ['Latency', 'Calls'];
-const aggregations = ['MEAN', 'SUM'];
-const formatters = [ms.compact, number.compact];
+const metrics = ['latency'];
+const labels = ['Latency'];
+const aggregations = ['MEAN'];
+const formatters = [millis.fixedCompact];
 
 export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
@@ -21,26 +20,14 @@ export default function TraceTopList({ applicationId, serviceId, endpointId, tim
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      getItemsFromResult={getItemsFromResult}
-      getMetricValueFromItem={getMetricValueFromItem}
       render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      List={List}
       timeframe={timeframe}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
     />
   );
-}
-
-function getItemsFromResult(result) {
-  return result.data;
-}
-
-function getMetricValueFromItem(metricId, item) {
-  return item.contributed;
 }
 
 function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetric, selectedMetricAggregation }) {
@@ -56,22 +43,4 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
       timeframe
     }
   });
-}
-
-function ViewAll() {
-  return null;
-}
-
-function Label({ item }) {
-  return (
-    <Tooltip content="Coming soon" align="topMiddle">
-      <Link href="" onClick={e => e.preventDefault()}>
-        {item.endpoint.label}
-      </Link>
-    </Tooltip>
-  );
-}
-
-function Metric({ formattedMetricValue }) {
-  return formattedMetricValue;
 }
