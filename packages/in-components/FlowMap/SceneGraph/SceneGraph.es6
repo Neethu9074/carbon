@@ -97,7 +97,8 @@ export default class SceneGraph {
 
   processServiceResult(nodeId, endpointId, result, direction, path) {
     const onResult = (node, nodes, currentNodes) => {
-      node.setIsLoadingData(true, direction);
+      node.setIsLoadingData(false, direction);
+      node.setIsExpanded(true, direction);
       for (let i = 0; i < nodes.length; i++) {
         const newNode = nodes[i];
         const serviceNode = currentNodes.has(newNode.id)
@@ -180,7 +181,7 @@ export default class SceneGraph {
   }
 
   mapResult(result, path, direction) {
-    return (result.data || []).map(n => {
+    return (result.data || []).filter(node => node.service.id).map(n => {
       return {
         id: this.toUid(n.service.id, path, direction),
         service: n.service,
