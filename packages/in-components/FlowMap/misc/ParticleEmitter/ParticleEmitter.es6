@@ -86,8 +86,8 @@ export default class ParticleEmitter {
           }
         }),
       this.fromNode.events$.on('metricValues').subscribe(metrics => {
-        const calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
-        const errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
+        const calls = metrics.calls || 0;
+        const errors = metrics.errors || 0;
         this.setNumparticlesPerSecond(calls, errors);
       })
     ]);

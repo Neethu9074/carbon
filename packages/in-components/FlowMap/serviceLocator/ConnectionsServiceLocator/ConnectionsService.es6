@@ -3,9 +3,7 @@ import { create } from 'reactive-observables';
 import fragmentShader from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';
 
-import getConnectionColor, {
-  DEFAULT_COLOR
-} from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/connectionColors';
+import { DEFAULT_COLOR } from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/connectionColors';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { LineSegments, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
 import { createConnectionId } from 'in-components/FlowMap/sceneObjects/Connection';
@@ -48,7 +46,7 @@ export default function createConnectionsService(serviceLocatorUid) {
 
         if (heatMapSignal) {
           if (!colorUpdateSubscription) {
-            colorUpdateSubscription = colorUpdateSignal$.throttle(250).subscribe(() => updateColors());
+            colorUpdateSubscription = colorUpdateSignal$.nextFrame().subscribe(() => updateColors());
           }
         } else {
           if (colorUpdateSubscription) {
@@ -145,19 +143,12 @@ export default function createConnectionsService(serviceLocatorUid) {
     const colors = [];
     let items = connections.values();
 
-    let maxValueForColorCalculation = 0;
-    if (metricUsedForColorCalculation) {
-      maxValueForColorCalculation = getMaxValueForColorCalculation(items);
-    }
-
     let currentArrayIndex = 0;
     items = connections.values();
     for (const connection of items) {
       let color = DEFAULT_COLOR;
       if (metricUsedForColorCalculation) {
-        color = getConnectionColor(
-          connection.getMetricValue(metricUsedForColorCalculation) / maxValueForColorCalculation
-        );
+        color = connection.getHeatMapColor();
       }
 
       colors[currentArrayIndex++] = color.r;
@@ -172,17 +163,6 @@ export default function createConnectionsService(serviceLocatorUid) {
     getServiceLocators(serviceLocatorUid)
       .sceneServiceLocator.getScene()
       .requestRendering();
-  }
-
-  function getMaxValueForColorCalculation(connections) {
-    if (metricUsedForColorCalculation === 'errors') {
-      return 1;
-    }
-    let maxValue = 0;
-    for (const connection of connections) {
-      maxValue = Math.max(maxValue, connection.getMetricValue(metricUsedForColorCalculation));
-    }
-    return maxValue;
   }
 
   function update(nodesMap) {

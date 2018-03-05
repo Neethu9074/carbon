@@ -6,6 +6,7 @@ import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
 import Children from 'in-components/FlowMap/components/Node/Children';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
 import Subscriber from 'in-map/misc/Subscriber';
 import Tooltip from 'in-components/Tooltip';
@@ -17,7 +18,8 @@ export default connectTo(
   props => ({
     data: props.node.events$.on('data'),
     metrics: props.node.events$.on('metricValues'),
-    childList: props.node.events$.on('children')
+    childList: props.node.events$.on('children'),
+    heatMapColor: props.node.events$.on('heatMapColor')
   }),
   class extends React.Component {
     static displayName = 'Node';
@@ -50,14 +52,24 @@ export default connectTo(
     }
 
     render() {
-      const { node, metrics, data, size, isRootNode, serviceLocatorUid, childList } = this.props;
+      const { node, metrics, data, size, heatMapColor, isRootNode, serviceLocatorUid, childList } = this.props;
       const label = data ? data.label : '';
 
       return (
         <Tooltip content={size !== 'mid' ? label : null}>
           <div
+            style={{
+              border:
+                heatMapColor &&
+                `1px solid rgb(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) |
+                  0})`
+            }}
             ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
-            className={getNodeClasses(isRootNode, size)}
+            className={evaluateClassNames({
+              [locals.node]: true,
+              [locals[size]]: true,
+              [locals.selected]: isRootNode
+            })}
           >
             {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>In Focus</div>}
 
@@ -77,14 +89,6 @@ export default connectTo(
     }
   }
 );
-
-function getNodeClasses(isRootNode, size) {
-  let classes = `${locals.node} ${locals[size]}`;
-  if (isRootNode) {
-    return `${classes} ${locals.selected}`;
-  }
-  return classes;
-}
 
 function getContent(metrics, data, size, serviceLocatorUid) {
   if (size === 'mid') {

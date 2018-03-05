@@ -1,5 +1,10 @@
+import getConnectionColor, {
+  DEFAULT_COLOR
+} from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/connectionColors';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
+import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 import { find } from 'in-services/arrayUtils';
 
@@ -22,6 +27,36 @@ export default class NodeBase extends SceneObject {
           .subscribe(this.setMetrics.bind(this))
       );
     }
+
+    this.subscriber.addSubscription(
+      getServiceLocators(this.serviceLocatorUid)
+        .eventBusServiceLocator.on(SIGNALS.HEATMAP)
+        .flatMap(metricUsedForColorCalculation => {
+          if (metricUsedForColorCalculation) {
+            return getServiceLocators(this.serviceLocatorUid)
+              .eventBusServiceLocator.on('maxHeatMapMetricValue')
+              .map(maxHeatMapMetricValue => {
+                return maxHeatMapMetricValue
+                  ? getConnectionColor(this.getMetricValue(metricUsedForColorCalculation) / maxHeatMapMetricValue)
+                  : null;
+              });
+          } else {
+            return alwaysNull;
+          }
+        })
+        .subscribe(color => {
+          this.heatMapColor = color;
+          this.events$.emit('heatMapColor', color);
+        })
+    );
+  }
+
+  getMetricValue(metric) {
+    return this[metric] || 0;
+  }
+
+  getHeatMapColor() {
+    return this.heatMapColor || DEFAULT_COLOR;
   }
 
   mapResult(result) {
@@ -36,7 +71,14 @@ export default class NodeBase extends SceneObject {
 
   setMetrics(metrics) {
     if (metrics) {
-      this.events$.emit('metricValues', metrics);
+      this.calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
+      this.errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
+      this.latency = metrics.latencyAgg ? metrics.latencyAgg[0][1] : 0;
+      this.events$.emit('metricValues', {
+        calls: this.calls,
+        errors: this.errors,
+        latency: this.latency
+      });
     }
   }
 

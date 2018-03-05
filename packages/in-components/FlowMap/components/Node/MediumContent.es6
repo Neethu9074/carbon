@@ -43,9 +43,9 @@ function MetricList({ metrics }) {
   metrics = metrics || {};
   return (
     <div className={locals.metrics}>
-      <Metric type="change2" value={metrics.callsAgg ? number.compact(metrics.callsAgg[0][1]) : '--'} />
-      <Metric type="time" value={metrics.latencyAgg ? millis.detailed(metrics.latencyAgg[0][1]) : '--'} />
-      <Metric type="error" value={metrics.errorsAgg ? percentage.detailed(metrics.errorsAgg[0][1]) : '--'} />
+      <Metric type="change2" value={metrics.calls ? number.compact(metrics.calls) : '--'} />
+      <Metric type="time" value={metrics.latency ? millis.detailed(metrics.latency) : '--'} />
+      <Metric type="error" value={metrics.errors ? percentage.detailed(metrics.errors) : '--'} />
     </div>
   );
 }

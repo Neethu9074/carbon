@@ -11,20 +11,13 @@ export default class Connection extends SceneObject {
     this.to = to;
     this.particleEmitter = new ParticleEmitter(from, serviceLocatorUid);
 
-    this.setMetrics();
     this.initStartSubscriptions(connectionService);
   }
 
   initStartSubscriptions(connectionService) {
     this.subscriber = new Subscriber();
     this.subscriber.addSubscription(
-      this.from.events$.on('metricValues').subscribe(metrics => {
-        const calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
-        const errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
-        const latency = metrics.latencyAgg ? metrics.latencyAgg[0][1] : 0;
-        this.setMetrics(calls, errors, latency);
-        connectionService.requestConnectionColorUpdate();
-      })
+      this.from.events$.on('heatMapColor').subscribe(() => connectionService.requestConnectionColorUpdate())
     );
   }
 
@@ -33,14 +26,12 @@ export default class Connection extends SceneObject {
     this.to = to;
   }
 
-  setMetrics(calls, errors, latency) {
-    this.calls = calls || 0;
-    this.errors = errors || 0;
-    this.latency = latency || 0;
+  getHeatMapColor() {
+    return this.from.getHeatMapColor();
   }
 
   getMetricValue(metric) {
-    return this[metric] || 0;
+    return this.from.getMetricValue(metric);
   }
 
   updatePosition() {

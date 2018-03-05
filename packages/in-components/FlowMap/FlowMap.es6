@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { just, on } from 'reactive-observables';
 
 import {
   getServiceLocators,
@@ -8,6 +8,7 @@ import {
 import createConnectionService from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsService';
 import createSceneService from 'in-components/FlowMap/serviceLocator/SceneServiceLocator/SceneService';
 import OverlayReactComponentMounter from 'in-components/FlowMap/misc/OverlayReactComponentMounter';
+import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import SceneGraph from 'in-components/FlowMap/SceneGraph/SceneGraph';
 import Scene from 'in-components/FlowMap/sceneObjects/Scene';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -102,6 +103,39 @@ export default class FlowMap {
         this.initSceneGraph();
       })
     ]);
+
+    this.subscriber.addSubscription(
+      getServiceLocators(this.serviceLocatorUid)
+        .eventBusServiceLocator.on(SIGNALS.HEATMAP)
+        .flatMap(metricUsedForColorCalculation => {
+          if (metricUsedForColorCalculation) {
+            return getServiceLocators(this.serviceLocatorUid)
+              .nodesServiceLocator.getNodes()
+              .stream.throttle(1000)
+              .map(nodes => this.getMaxValueForColorCalculation(nodes, metricUsedForColorCalculation));
+          } else {
+            return just(null);
+          }
+        })
+        .subscribe(maxHeatMapMetricValue => {
+          getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
+            'maxHeatMapMetricValue',
+            maxHeatMapMetricValue
+          );
+        })
+    );
+  }
+
+  getMaxValueForColorCalculation(nodes, metricUsedForColorCalculation) {
+    if (metricUsedForColorCalculation === 'errors') {
+      return 1;
+    }
+    let maxValue = 0;
+    nodes = nodes.values();
+    for (const node of nodes) {
+      maxValue = Math.max(maxValue, node.getMetricValue(metricUsedForColorCalculation));
+    }
+    return maxValue;
   }
 
   disposeSceneGraph() {
