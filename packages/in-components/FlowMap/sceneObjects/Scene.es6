@@ -46,12 +46,10 @@ export default class MainScene {
             unitsPerPixel: camera.getCameraSize() / windowDimensions.width
           };
 
-          const distanceBetweenNodesInPx = DISTANCE_BETWEEN_NODES_X * worldUnits.pixelsPer3DUnit;
-          const wantedGapInPx = 4 * worldUnits.pixelsPer3DUnit;
-          const remainingInPx = distanceBetweenNodesInPx - wantedGapInPx;
-          const targetNodeSizeInPx = remainingInPx;
-
-          worldUnits.targetNodeSizeInPx = targetNodeSizeInPx;
+          worldUnits.targetNodeSizeInPx = this.calculateTargetNodeSizeInPx(
+            camera.getCameraSize(),
+            windowDimensions.width
+          );
 
           return worldUnits;
         })
@@ -109,10 +107,19 @@ export default class MainScene {
 
     if (!this.initialPxUnitRation) {
       this.initialPxUnitRation = this.camera.getCameraSize() / width;
+      this.initialNodeSizeInPx = this.calculateTargetNodeSizeInPx(this.camera.getCameraSize(), width);
     }
 
     // refresh the rendering result
     this.requestRendering();
+  }
+
+  calculateTargetNodeSizeInPx(cameraSize, width) {
+    const pixelsPer3DUnit = width / cameraSize;
+
+    const distanceBetweenNodesInPx = DISTANCE_BETWEEN_NODES_X * pixelsPer3DUnit;
+    const wantedGapInPx = 4 * pixelsPer3DUnit;
+    return distanceBetweenNodesInPx - wantedGapInPx;
   }
 
   disposeSubscriptions() {

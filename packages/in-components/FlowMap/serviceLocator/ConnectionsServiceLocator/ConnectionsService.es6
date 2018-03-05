@@ -184,12 +184,14 @@ export default function createConnectionsService(serviceLocatorUid) {
     const initialPxUnitRation = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene()
       .initialPxUnitRation;
 
-    const initialNodeSizeInPx = 199.2;
+    const initialNodeSizeInPx = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene()
+      .initialNodeSizeInPx;
+
     const xOffset = initialNodeSizeInPx * initialPxUnitRation / 2;
     const yOffset = 1.4;
     const yOffsetStep = 0.575;
     if (from.children.size === 0 && to.children.size === 0) {
-      connections.push({ from, to });
+      connections.push(getConnection(from, to, xOffset, 0));
     } else if (from.children.size > 0 && to.children.size > 0) {
       let iFrom = 0;
       for (const fromChild of from.children.values()) {
@@ -201,22 +203,8 @@ export default function createConnectionsService(serviceLocatorUid) {
 
         for (let i = 0; i < fromChild.incoming.length; i++) {
           const cFrom = fromChild.incoming[i];
-          const fromPos = cFrom.parentNode.position.clone();
           const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
-          fromPos.y -= yOffset + iChild * yOffsetStep;
-          fromPos.x += xOffset;
-          connections.push({
-            from: {
-              id: cFrom.id,
-              position: fromPos,
-              events$: cFrom.events$
-            },
-            to: {
-              id: cSource.id,
-              position: sourcePos,
-              events$: cSource.events$
-            }
-          });
+          connections.push(getConnection(cFrom, cSource, xOffset, yOffset + iChild * yOffsetStep));
         }
 
         sourcePos = sourcePos.clone();
@@ -224,25 +212,34 @@ export default function createConnectionsService(serviceLocatorUid) {
         for (let i = 0; i < fromChild.outgoing.length; i++) {
           const cTo = fromChild.outgoing[i];
           const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
-          const toPos = cTo.parentNode.position.clone();
-          toPos.y -= yOffset + iChild * yOffsetStep;
-          toPos.x -= xOffset;
-
-          connections.push({
-            from: {
-              id: cSource.id,
-              position: sourcePos,
-              events$: cSource.events$
-            },
-            to: {
-              id: cTo.id,
-              position: toPos,
-              events$: cTo.events$
-            }
-          });
+          connections.push(getConnection(cSource, cTo, xOffset, yOffset + iChild * yOffsetStep));
         }
       }
     }
+  }
+
+  function getConnection(from, to, xOffset, yOffset) {
+    const fromPos = from.position.clone();
+    fromPos.x += xOffset;
+    fromPos.x += yOffset;
+    const toPos = to.position.clone();
+    toPos.x -= xOffset;
+    toPos.x += yOffset;
+
+    return {
+      from: {
+        id: from.id,
+        position: fromPos,
+        events$: from.events$,
+        getHeatMapColor: () => from.getHeatMapColor()
+      },
+      to: {
+        id: to.id,
+        position: toPos,
+        events$: to.events$,
+        getHeatMapColor: () => to.getHeatMapColor()
+      }
+    };
   }
 
   function indexOf(childToFind, children) {
