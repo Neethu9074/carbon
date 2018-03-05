@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
 import dummyHeatMap from 'in-applications/Dashboards/service/tabs/time-distribution.png';
-import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -90,7 +90,7 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
 
       <Row>
         <Col lg={6}>
-          <TraceTopList
+          <TopTraces
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
