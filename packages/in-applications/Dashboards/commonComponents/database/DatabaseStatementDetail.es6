@@ -8,8 +8,11 @@ import { millis, number, percentage } from 'in-services/formatters/number';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { getChartGranularity } from 'in-applications/metrics';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
@@ -54,6 +57,7 @@ export default connectTo(
 );
 
 function Success({ statement, timeframe, applicationId, serviceId, endpointId }) {
+  const granularity = getChartGranularity(timeframe);
   const filter = {
     timeframe,
     endpoint: endpointId,
@@ -117,6 +121,46 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
               }
             }}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title="Calls vs Latency">
+            <ChartWrapper
+              timeframe={timeframe}
+              y1={{
+                renderer: Renderer.countErrorBar,
+                labels: ['Calls', 'Errors'],
+                metricIds: ['calls', 'errors']
+              }}
+              y2={{
+                renderer: Renderer.line,
+                labels: ['Latency'],
+                metricIds: ['latency'],
+                formatter: millis
+              }}
+              metricsConfiguration={{
+                filter,
+                metrics: {
+                  calls: {
+                    metric: 'calls',
+                    granularity,
+                    aggregation: 'SUM'
+                  },
+                  errors: {
+                    metric: 'errors',
+                    granularity,
+                    aggregation: 'MEAN'
+                  },
+                  latency: {
+                    metric: 'latency',
+                    granularity,
+                    aggregation: 'MEAN'
+                  }
+                }
+              }}
+            />
+          </Card>
         </Col>
       </Row>
       <Row>
