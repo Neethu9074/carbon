@@ -1,0 +1,28 @@
+:local {
+
+  .notificationContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .successIcon {
+    margin: 0 0 0 1rem;
+    fill: #5dbe64;
+  }
+
+  .successLabel {
+    color: #5dbe64;
+    font-weight: bold;
+  }
+
+ .errorIcon {
+    margin: 0 0 0 1rem;
+    fill: #a94442;
+  }
+
+  .errorLabel {
+    color: #a94442;
+    font-weight: bold;
+  }
+
+}
