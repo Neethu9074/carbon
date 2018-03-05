@@ -19,16 +19,14 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
               timeframe={timeframe}
               y1={{
                 renderer: Renderer.integral,
-                labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+                labels: ['25th', '50th', '75th', '95th', '98th', '99th'],
                 metricIds: [
-                  'durationMin',
                   'duration25th',
                   'duration50th',
                   'duration75th',
                   'duration95th',
                   'duration98th',
-                  'duration99th',
-                  'durationMax'
+                  'duration99th'
                 ]
               }}
               metricsConfiguration={{
@@ -39,45 +37,35 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   endpointId
                 },
                 metrics: {
-                  durationMin: {
-                    metric: 'duration.min',
-                    granularity,
-                    aggregation: 'MIN'
-                  },
                   duration25th: {
-                    metric: 'duration.25th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P25'
                   },
                   duration50th: {
-                    metric: 'duration.25th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P25'
                   },
                   duration75th: {
-                    metric: 'duration.25th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P25'
                   },
                   duration95th: {
-                    metric: 'duration.25th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P25'
                   },
                   duration98th: {
-                    metric: 'duration.98th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P98'
                   },
                   duration99th: {
-                    metric: 'duration.99th',
+                    metric: 'latency',
                     granularity,
                     aggregation: 'P99'
-                  },
-                  durationMax: {
-                    metric: 'duration.max',
-                    granularity,
-                    aggregation: 'MAX'
                   }
                 }
               }}
