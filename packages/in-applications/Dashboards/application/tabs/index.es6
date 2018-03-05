@@ -4,6 +4,7 @@ import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastruct
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
+import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 
 export default [
@@ -69,5 +70,10 @@ export default [
         };
       }
     })
+  },
+  {
+    label: 'Configuration',
+    path: `${applicationDashboard}/configuration`,
+    component: Configuration
   }
 ];
