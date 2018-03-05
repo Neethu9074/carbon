@@ -35,7 +35,7 @@ export default connectTo(
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-                colors: ['#3dafe7', '#389dcc', '#5b83de', '#9aa4ff', '#bcdbff'],
+                colors: ['#52d6ff', '#00cc58', '#0066de', '#ff9e3d', '#ff5d3b'],
                 formatter: number,
                 tooltipFormatter: number.compact,
                 metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
