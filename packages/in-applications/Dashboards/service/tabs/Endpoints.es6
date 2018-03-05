@@ -35,7 +35,17 @@ export default function Endpoints({ timeframe, data, applicationId, serviceId })
   ));
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointType, timeframe }) {
+function getTableData({
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  applicationId,
+  serviceId,
+  endpointType,
+  timeframe,
+  query
+}) {
   return getEndpoints({
     pagination: {
       page,
@@ -49,6 +59,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
       application: applicationId,
       service: serviceId,
       endpointTypes: [endpointType],
+      label: query,
       timeframe
     },
     metrics: {
