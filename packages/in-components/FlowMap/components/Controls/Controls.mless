@@ -1,7 +1,16 @@
 :local {
-  .controls {
+  .bottomLeftControls {
     position: absolute;
-    left: 1.25rem;
     bottom: 1rem;
+    left: 1.25rem;
+  }
+
+  .topLeftControls {
+    position: absolute;
+    top: 1rem;
+    left: 1.25rem;
+
+    display: flex;
+    align-items: center;
   }
 }

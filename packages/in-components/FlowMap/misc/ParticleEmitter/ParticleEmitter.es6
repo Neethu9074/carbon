@@ -13,6 +13,7 @@ import {
 } from 'in-map/3DLibProvider';
 import calculate from 'in-components/FlowMap/misc/ParticleEmitter/callsToParticlesCalculator';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { loadImage } from 'in-map/services/imageLoader';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -74,24 +75,22 @@ export default class ParticleEmitter {
 
   initStartSubscription() {
     this.subscriber = new Subscriber();
-    this.subscriber.addSubscription(
+    this.subscriber.addSubscriptions([
       getServiceLocators(this.serviceLocatorUid)
-        .eventBusServiceLocator.on('particles')
+        .eventBusServiceLocator.on(SIGNALS.PARTICLES)
         .subscribe(particlesAreOn => {
           if (particlesAreOn) {
             this.start();
           } else {
             this.stop();
           }
-        })
-    );
-    this.subscriber.addSubscription(
+        }),
       this.fromNode.events$.on('metricValues').subscribe(metrics => {
         const calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
         const errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
         this.setNumparticlesPerSecond(calls, errors);
       })
-    );
+    ]);
   }
 
   setFromAndToPositions(fromPos, toPos) {
