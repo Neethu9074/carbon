@@ -150,7 +150,7 @@ export default function createConnectionsService(serviceLocatorUid) {
       let toColor = DEFAULT_COLOR;
       if (metricUsedForColorCalculation) {
         fromColor = connection.from.getHeatMapColor();
-        toColor = connection.to.getHeatMapColor();
+        toColor = connection.from.getHeatMapColor();
       }
 
       colors[currentArrayIndex++] = fromColor.r;
