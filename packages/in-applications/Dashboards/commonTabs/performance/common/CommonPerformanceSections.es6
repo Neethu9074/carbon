@@ -23,12 +23,14 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                 formatter: millis,
                 labels: ['25th', '50th', '75th', '95th', '98th', '99th'],
                 metricIds: [
+                  'durationMin',
                   'duration25th',
                   'duration50th',
                   'duration75th',
                   'duration95th',
                   'duration98th',
-                  'duration99th'
+                  'duration99th',
+                  'durationMax'
                 ]
               }}
               metricsConfiguration={{
@@ -39,6 +41,11 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   endpointId
                 },
                 metrics: {
+                  durationMin: {
+                    metric: 'latency',
+                    granularity,
+                    aggregation: 'MIN'
+                  },
                   duration25th: {
                     metric: 'latency',
                     granularity,
@@ -47,17 +54,17 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   duration50th: {
                     metric: 'latency',
                     granularity,
-                    aggregation: 'P25'
+                    aggregation: 'P50'
                   },
                   duration75th: {
                     metric: 'latency',
                     granularity,
-                    aggregation: 'P25'
+                    aggregation: 'P75'
                   },
                   duration95th: {
                     metric: 'latency',
                     granularity,
-                    aggregation: 'P25'
+                    aggregation: 'P95'
                   },
                   duration98th: {
                     metric: 'latency',
@@ -68,6 +75,11 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                     metric: 'latency',
                     granularity,
                     aggregation: 'P99'
+                  },
+                  durationMax: {
+                    metric: 'latency',
+                    granularity,
+                    aggregation: 'MAX'
                   }
                 }
               }}
