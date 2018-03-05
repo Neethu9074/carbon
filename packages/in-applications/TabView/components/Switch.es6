@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Title from 'in-components/Title';
 
 export default function TabSwitch({ tabs, result, location, props }) {
@@ -10,7 +11,11 @@ export default function TabSwitch({ tabs, result, location, props }) {
   const hasErrors = result.errors.length > 0;
 
   if (hasErrors) {
-    return 'Errors';
+    return (
+      <MaxWidthFullscreenContainer>
+        <ErroneousResultPresenter errors={result.errors} />
+      </MaxWidthFullscreenContainer>
+    );
   } else if (isLoading) {
     return <DefaultLoadingDashboard />;
   }

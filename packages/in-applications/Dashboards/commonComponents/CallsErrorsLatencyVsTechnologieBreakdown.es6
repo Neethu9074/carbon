@@ -3,6 +3,7 @@ import React from 'react';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { millis } from 'in-services/formatters/number';
 
 export default function CallsErrorsLatencyVsTechnologieBreakdown({ timeframe, endpointId, applicationId, serviceId }) {
   const granularity = getChartGranularity(timeframe);
@@ -19,7 +20,8 @@ export default function CallsErrorsLatencyVsTechnologieBreakdown({ timeframe, en
         y2={{
           renderer: Renderer.line,
           labels: ['Latency'],
-          metricIds: ['latency']
+          metricIds: ['latency'],
+          formatter: millis
         }}
         metricsConfiguration={{
           filter: {

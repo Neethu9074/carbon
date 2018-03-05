@@ -6,6 +6,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { millis } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 
 export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeframe }) {
@@ -19,6 +20,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
               timeframe={timeframe}
               y1={{
                 renderer: Renderer.integral,
+                formatter: millis,
                 labels: ['25th', '50th', '75th', '95th', '98th', '99th'],
                 metricIds: [
                   'duration25th',

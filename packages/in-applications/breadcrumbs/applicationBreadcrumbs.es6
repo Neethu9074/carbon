@@ -9,7 +9,7 @@ import HomeViewBreadcrumb from 'in-applications/breadcrumbs/HomeViewBreadcrumb';
 export default function applicationBreadcrumbs(props) {
   const { applicationId, serviceId, endpointId, viewPath } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb inApplicationContext={applicationId != null} />,
     applicationId != null && <ApplicationViewBreadcrumbWithSwitcher {...props} />,
     serviceId != null && viewPath !== applicationDashboard && <ApplicationServiceViewBreadcrumb {...props} />,
     endpointId != null && viewPath === endpointDashboard && <ApplicationEndpointViewBreadcrumb {...props} />

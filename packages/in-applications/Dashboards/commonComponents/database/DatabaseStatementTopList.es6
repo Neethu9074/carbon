@@ -4,6 +4,7 @@ import getDatabaseStatementTopList from 'in-subscription/application/getDatabase
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { ms, number } from 'in-services/formatters/number';
+import { shorten } from 'in-services/util/string';
 import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
@@ -65,7 +66,7 @@ function Label({ item }) {
           params.pathname += `/database/statements/${item.id}`;
         })}
       >
-        {item.statement}
+        {shorten(item.statement, 64)}
       </Link>
     </Fragment>
   );
