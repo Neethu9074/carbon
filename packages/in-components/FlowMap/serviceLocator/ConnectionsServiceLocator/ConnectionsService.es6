@@ -146,17 +146,19 @@ export default function createConnectionsService(serviceLocatorUid) {
     let currentArrayIndex = 0;
     items = connections.values();
     for (const connection of items) {
-      let color = DEFAULT_COLOR;
+      let fromColor = DEFAULT_COLOR;
+      let toColor = DEFAULT_COLOR;
       if (metricUsedForColorCalculation) {
-        color = connection.getHeatMapColor();
+        fromColor = connection.from.getHeatMapColor();
+        toColor = connection.to.getHeatMapColor();
       }
 
-      colors[currentArrayIndex++] = color.r;
-      colors[currentArrayIndex++] = color.g;
-      colors[currentArrayIndex++] = color.b;
-      colors[currentArrayIndex++] = color.r;
-      colors[currentArrayIndex++] = color.g;
-      colors[currentArrayIndex++] = color.b;
+      colors[currentArrayIndex++] = fromColor.r;
+      colors[currentArrayIndex++] = fromColor.g;
+      colors[currentArrayIndex++] = fromColor.b;
+      colors[currentArrayIndex++] = toColor.r;
+      colors[currentArrayIndex++] = toColor.g;
+      colors[currentArrayIndex++] = toColor.b;
     }
     updateAttribute(geometry, 'color', colors);
 

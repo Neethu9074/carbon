@@ -26,10 +26,6 @@ export default class Connection extends SceneObject {
     this.to = to;
   }
 
-  getHeatMapColor() {
-    return this.from.getHeatMapColor();
-  }
-
   getMetricValue(metric) {
     return this.from.getMetricValue(metric);
   }
