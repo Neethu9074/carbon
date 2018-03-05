@@ -110,6 +110,7 @@ const columnDefinitions = [
   },
   {
     id: 'Type',
+    sortable: false,
     getContent(item) {
       return (
         <Fragment>
