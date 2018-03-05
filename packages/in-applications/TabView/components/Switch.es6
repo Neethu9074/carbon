@@ -6,6 +6,8 @@ import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDa
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Title from 'in-components/Title';
 
+import locals from './Switch.mless';
+
 export default function TabSwitch({ tabs, result, location, props }) {
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
@@ -13,7 +15,7 @@ export default function TabSwitch({ tabs, result, location, props }) {
   if (hasErrors) {
     return (
       <MaxWidthFullscreenContainer>
-        <ErroneousResultPresenter errors={result.errors} />
+        <ErroneousResultPresenter errors={result.errors} className={locals.error} />
       </MaxWidthFullscreenContainer>
     );
   } else if (isLoading) {

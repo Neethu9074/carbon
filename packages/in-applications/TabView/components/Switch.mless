@@ -1,0 +1,5 @@
+:local {
+  .error {
+    margin: 1rem;
+  }
+}

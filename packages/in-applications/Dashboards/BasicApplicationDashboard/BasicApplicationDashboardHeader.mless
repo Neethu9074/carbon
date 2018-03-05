@@ -1,3 +1,5 @@
+@import '~in-themes/mixins.less';
+
 :local {
   .header {
     padding: 1.65rem 0;
@@ -19,6 +21,9 @@
     font-weight: 400;
     font-size: 1.625rem;
     color: #0c2227;
+
+    max-width: 70vw;
+    .ellipsis()
   }
 
   .labelAligned {

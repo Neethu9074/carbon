@@ -1,6 +1,7 @@
 import { uniq } from 'lodash';
 import React from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
 import { isTechnicalError } from 'in-types/error';
 
 import locals from './ErroneousResultPresenter.mless';
@@ -13,13 +14,13 @@ import locals from './ErroneousResultPresenter.mless';
 //   }
 // ]}/>
 
-export default function ErrorneousResultPresenter({ errors }) {
+export default function ErrorneousResultPresenter({ errors, className }) {
   if (errors == null || errors.length === 0) {
     return null;
   }
 
   return (
-    <ul className={locals.errors}>
+    <ul className={joinClassNames(locals.errors, className)}>
       {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.error}>
           {error}
