@@ -38,11 +38,11 @@ function getList({ applicationId, timeframe, selectedMetric, selectedMetricAggre
       pageSize: 5
     },
     order: {
-      by: 'metric',
+      by: selectedMetric,
       direction: 'DESC'
     },
     metrics: {
-      metric: {
+      [selectedMetric]: {
         metric: selectedMetric,
         aggregation: selectedMetricAggregation
       }

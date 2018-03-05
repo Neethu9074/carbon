@@ -40,7 +40,7 @@ function getItemsFromResult(result) {
 }
 
 function getMetricValueFromItem(metricId, item) {
-  return item.metricValue;
+  return item.contributed;
 }
 
 function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetric, selectedMetricAggregation }) {

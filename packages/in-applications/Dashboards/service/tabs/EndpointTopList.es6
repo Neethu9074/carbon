@@ -39,11 +39,11 @@ function getList({ applicationId, serviceId, timeframe, selectedMetric, selected
       pageSize: 5
     },
     order: {
-      by: 'metric',
+      by: selectedMetric,
       direction: 'DESC'
     },
     metrics: {
-      metric: {
+      [selectedMetric]: {
         metric: selectedMetric,
         aggregation: selectedMetricAggregation
       }

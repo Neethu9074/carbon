@@ -91,10 +91,10 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
 
       <Row>
         <Col lg={6}>
-          <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
+          <TopTraces applicationId={applicationId} timeframe={timeframe} />
         </Col>
         <Col lg={6}>
-          <TopTraces applicationId={applicationId} timeframe={timeframe} />
+          <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
         </Col>
       </Row>
     </Fragment>
