@@ -149,7 +149,7 @@ function NewApplicationForm({ form, application, updateForm, onSubmit, loading, 
           </ValidationBlock>
         )}
         <Button kind="secondary" href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
-          Chancel
+          Cancel
         </Button>
         <Button
           icon={loading ? 'spinner' : null}
