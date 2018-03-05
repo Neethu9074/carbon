@@ -1,4 +1,4 @@
-import { just, on } from 'reactive-observables';
+import { on } from 'reactive-observables';
 
 import {
   getServiceLocators,
@@ -12,6 +12,7 @@ import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import SceneGraph from 'in-components/FlowMap/SceneGraph/SceneGraph';
 import Scene from 'in-components/FlowMap/sceneObjects/Scene';
 import { generateUniqueShortId } from 'in-services/util/id';
+import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
@@ -114,7 +115,7 @@ export default class FlowMap {
               .stream.throttle(1000)
               .map(nodes => this.getMaxValueForColorCalculation(nodes, metricUsedForColorCalculation));
           } else {
-            return just(null);
+            return alwaysNull;
           }
         })
         .subscribe(maxHeatMapMetricValue => {
