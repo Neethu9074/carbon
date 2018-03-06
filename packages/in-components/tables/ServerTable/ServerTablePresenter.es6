@@ -21,7 +21,6 @@ export default function ServerTablePresenter(props) {
     orderBy,
     orderDirection,
     pageSize,
-    filterable = true,
 
     // values that define the content
     columnDefinitions,
@@ -67,9 +66,7 @@ export default function ServerTablePresenter(props) {
   let header = (
     <div className={locals.rightHeader}>
       {rightHeader}
-      {filterable && (
-        <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
-      )}
+      <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
     </div>
   );
   let content = (
