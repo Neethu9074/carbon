@@ -15,7 +15,7 @@ export default connectTo(
       }
     })
   }),
-  function ApplicationServiceViewBreadcrumb({ service, serviceId, applicationId }) {
+  function ServiceBreadcrumb({ service, serviceId, applicationId }) {
     return (
       <Breadcrumb href$={getServiceDashboard(serviceId, { applicationId })} label="Service">
         {service.data && service.data.label}

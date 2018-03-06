@@ -9,49 +9,50 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
 import connect from 'in-hoc/connectTo';
 
-import locals from './ApplicationViewBreadcrumbWithSwitcher.mless';
+import locals from './ApplicationBreadcrumbWithSwitcher.mless';
 
-export default connect(props => ({
-  application: getApplication({
-    id: props.applicationId,
-    filter: {
-      application: props.applicationId,
-      timeframe: props.timeframe
-    }
+export default connect(
+  props => ({
+    application: getApplication({
+      id: props.applicationId,
+      filter: {
+        application: props.applicationId,
+        timeframe: props.timeframe
+      }
+    }),
+    applications: getApplications({
+      pagination: {
+        page: 1,
+        pageSize: 5
+      },
+      order: {
+        by: 'label',
+        direction: 'ASC'
+      },
+      metrics: {},
+      filter: {
+        timeframe: props.timeframe
+      }
+    })
   }),
-  applications: getApplications({
-    pagination: {
-      page: 1,
-      pageSize: 5
-    },
-    order: {
-      by: 'label',
-      direction: 'ASC'
-    },
-    metrics: {},
-    filter: {
-      timeframe: props.timeframe
+  function ApplicationBreadcrumbWithSwitcher(props) {
+    const { application, applications, applicationId } = props;
+
+    if (
+      application.progress.loading ||
+      application.errors.length > 0 ||
+      (applications.progress.loading || applications.errors.length > 0)
+    ) {
+      return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
+    } else {
+      return (
+        <Overlay content={ApplicationSwitcher} props={props} withoutWrapper position="fixed">
+          {OverlayActivator}
+        </Overlay>
+      );
     }
-  })
-}))(ApplicationListViewBreadcrumb);
-
-function ApplicationListViewBreadcrumb(props) {
-  const { application, applications, applicationId } = props;
-
-  if (
-    application.progress.loading ||
-    application.errors.length > 0 ||
-    (applications.progress.loading || applications.errors.length > 0)
-  ) {
-    return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
-  } else {
-    return (
-      <Overlay content={ApplicationSwitcher} props={props} withoutWrapper position="fixed">
-        {OverlayActivator}
-      </Overlay>
-    );
   }
-}
+);
 
 function OverlayActivator({ application, applications, applicationId, toggle, refSetter }) {
   return (

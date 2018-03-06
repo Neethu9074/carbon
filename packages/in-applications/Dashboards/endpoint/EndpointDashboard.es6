@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
-import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TracesButton from 'in-applications/components/TracesButton';
@@ -24,7 +24,7 @@ export default connectTo({ timeframe: timeframe$ }, function EndpointDashboard({
   };
   return (
     <Fragment>
-      <Breadcrumbs items={applicationBreadcrumbs(props)} />
+      <Breadcrumbs items={EndpointBreadcrumbs(props)} />
       <TabView
         result$={getEndpoint({
           id: props.endpointId,

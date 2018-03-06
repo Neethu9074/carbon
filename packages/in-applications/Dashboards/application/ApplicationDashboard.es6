@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
-import applicationBreadcrumbs from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
@@ -24,7 +24,7 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
 
   return (
     <Fragment>
-      <Breadcrumbs items={applicationBreadcrumbs(props)} />
+      <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
       <TabView
         result$={getApplication({
           id: props.applicationId,
