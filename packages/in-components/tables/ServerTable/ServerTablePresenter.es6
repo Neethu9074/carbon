@@ -79,7 +79,7 @@ export default function ServerTablePresenter(props) {
     >
       <thead>
         <Columns
-          setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page, pageSize })}
+          setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
           columnDefinitions={columnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
