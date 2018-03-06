@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
 
 import locals from './Switch.mless';
@@ -56,7 +57,7 @@ function ViewWrapper({ tab, data, location, props }) {
   return (
     <Fragment>
       <Title title={tab.label} />
-      {content}
+      <ErrorBoundary name="dashboard content">{content}</ErrorBoundary>
     </Fragment>
   );
 }
