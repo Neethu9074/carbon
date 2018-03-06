@@ -51,6 +51,8 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
           endpointTypes={endpointTypes}
           paginationResettingProps={{ endpointTypes, timeframe }}
           rightHeader={rightHeader}
+          defaultOrderBy="callsAgg"
+          defaultOrderDirection="DESC"
         />
       </MaxWidthFullscreenContainer>
     </Sticky>
