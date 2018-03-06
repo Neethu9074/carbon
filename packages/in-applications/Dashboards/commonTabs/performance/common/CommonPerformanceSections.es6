@@ -21,14 +21,16 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
               y1={{
                 renderer: Renderer.integral,
                 formatter: millis,
-                labels: ['25th', '50th', '75th', '95th', '98th', '99th'],
+                labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
                 metricIds: [
+                  'durationMin',
                   'duration25th',
                   'duration50th',
                   'duration75th',
                   'duration95th',
                   'duration98th',
-                  'duration99th'
+                  'duration99th',
+                  'durationMax'
                 ]
               }}
               metricsConfiguration={{
@@ -39,6 +41,11 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   endpointId
                 },
                 metrics: {
+                  durationMin: {
+                    metric: 'latency',
+                    granularity,
+                    aggregation: 'MIN'
+                  },
                   duration25th: {
                     metric: 'latency',
                     granularity,
@@ -68,6 +75,11 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                     metric: 'latency',
                     granularity,
                     aggregation: 'P99'
+                  },
+                  durationMax: {
+                    metric: 'latency',
+                    granularity,
+                    aggregation: 'MAX'
                   }
                 }
               }}
