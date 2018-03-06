@@ -8,6 +8,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { withoutInstana1Features } from 'in-services/featureFlags';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { showTenantSwitcher } from 'in-services/featureFlags';
 import { getView } from 'in-stores/navigation/navigation';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { config, isOnPremise } from 'in-services/config';
@@ -60,7 +61,7 @@ export default connectTo(
 
           <Separator />
 
-          {!isOnPremise() ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
+          {!isOnPremise() && showTenantSwitcher ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
 
           <Link className={linkElement} href$={getView(settingsPath)} onClick={closeMenu}>
             Settings

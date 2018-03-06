@@ -25,6 +25,7 @@ export const cockpitEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
+export const showTenantSwitcher = config.tenant !== 'edmunds';
 
 // 2.0 features
 export const withoutInstana1Features = __DEV__ || isFeatureFlagEnabled('withoutInstana1Features');
