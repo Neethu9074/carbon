@@ -89,7 +89,13 @@ export default function createConnectionsService(serviceLocatorUid) {
       }
       connections.set(
         connectionConfig.id,
-        new Connection(serviceLocatorUid, connectionConfig.from, connectionConfig.to, instance)
+        new Connection(
+          serviceLocatorUid,
+          connectionConfig.from,
+          connectionConfig.to,
+          connectionConfig.direction,
+          instance
+        )
       );
     }
   }
@@ -146,19 +152,21 @@ export default function createConnectionsService(serviceLocatorUid) {
     let currentArrayIndex = 0;
     items = connections.values();
     for (const connection of items) {
-      let fromColor = DEFAULT_COLOR;
-      let toColor = DEFAULT_COLOR;
+      let color = DEFAULT_COLOR;
       if (metricUsedForColorCalculation) {
-        fromColor = connection.from.getHeatMapColor();
-        toColor = connection.from.getHeatMapColor();
+        if (connection.getDirection() === 'outgoing') {
+          color = connection.to.getHeatMapColor();
+        } else {
+          color = connection.from.getHeatMapColor();
+        }
       }
 
-      colors[currentArrayIndex++] = fromColor.r;
-      colors[currentArrayIndex++] = fromColor.g;
-      colors[currentArrayIndex++] = fromColor.b;
-      colors[currentArrayIndex++] = toColor.r;
-      colors[currentArrayIndex++] = toColor.g;
-      colors[currentArrayIndex++] = toColor.b;
+      colors[currentArrayIndex++] = color.r;
+      colors[currentArrayIndex++] = color.g;
+      colors[currentArrayIndex++] = color.b;
+      colors[currentArrayIndex++] = color.r;
+      colors[currentArrayIndex++] = color.g;
+      colors[currentArrayIndex++] = color.b;
     }
     updateAttribute(geometry, 'color', colors);
 
@@ -172,17 +180,17 @@ export default function createConnectionsService(serviceLocatorUid) {
     const connections = [];
     for (const node of nodes) {
       for (let i = 0; i < node.incoming.length; i++) {
-        createConnectionsForNodes(node.incoming[i], node, connections);
+        createConnectionsForNodes(node.incoming[i], node, connections, 'incoming');
       }
       for (let i = 0; i < node.outgoing.length; i++) {
-        createConnectionsForNodes(node, node.outgoing[i], connections);
+        createConnectionsForNodes(node, node.outgoing[i], connections, 'outgoing');
       }
     }
     setConnections(connections);
     updateGeometry();
   }
 
-  function createConnectionsForNodes(from, to, connections) {
+  function createConnectionsForNodes(from, to, connections, direction) {
     const initialPxUnitRation = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene()
       .initialPxUnitRation;
 
@@ -193,7 +201,7 @@ export default function createConnectionsService(serviceLocatorUid) {
     const yOffset = 1.4;
     const yOffsetStep = 0.575;
     if (from.children.size === 0 && to.children.size === 0) {
-      connections.push(getConnection(from, to, xOffset, 0));
+      connections.push(getConnection(from, to, xOffset, 0, direction));
     } else if (from.children.size > 0 && to.children.size > 0) {
       let iFrom = 0;
       for (const fromChild of from.children.values()) {
@@ -206,7 +214,7 @@ export default function createConnectionsService(serviceLocatorUid) {
         for (let i = 0; i < fromChild.incoming.length; i++) {
           const cFrom = fromChild.incoming[i];
           const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
-          connections.push(getConnection(cFrom, cSource, xOffset, yOffset + iChild * yOffsetStep));
+          connections.push(getConnection(cFrom, cSource, xOffset, yOffset + iChild * yOffsetStep, direction));
         }
 
         sourcePos = sourcePos.clone();
@@ -214,13 +222,13 @@ export default function createConnectionsService(serviceLocatorUid) {
         for (let i = 0; i < fromChild.outgoing.length; i++) {
           const cTo = fromChild.outgoing[i];
           const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
-          connections.push(getConnection(cSource, cTo, xOffset, yOffset + iChild * yOffsetStep));
+          connections.push(getConnection(cSource, cTo, xOffset, yOffset + iChild * yOffsetStep, direction));
         }
       }
     }
   }
 
-  function getConnection(from, to, xOffset, yOffset) {
+  function getConnection(from, to, xOffset, yOffset, direction) {
     const fromPos = from.position.clone();
     fromPos.x += xOffset;
     fromPos.x += yOffset;
@@ -229,6 +237,7 @@ export default function createConnectionsService(serviceLocatorUid) {
     toPos.x += yOffset;
 
     return {
+      direction,
       from: {
         id: from.id,
         position: fromPos,

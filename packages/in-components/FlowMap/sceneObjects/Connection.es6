@@ -3,12 +3,13 @@ import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Connection extends SceneObject {
-  constructor(serviceLocatorUid, from, to, connectionService) {
+  constructor(serviceLocatorUid, from, to, direction, connectionService) {
     super(createConnectionId(from, to), serviceLocatorUid);
 
     this.serviceLocatorUid = serviceLocatorUid;
     this.from = from;
     this.to = to;
+    this.direction = direction;
     this.particleEmitter = new ParticleEmitter(from, serviceLocatorUid);
 
     this.initStartSubscriptions(connectionService);
@@ -28,6 +29,10 @@ export default class Connection extends SceneObject {
 
   getMetricValue(metric) {
     return this.from.getMetricValue(metric);
+  }
+
+  getDirection() {
+    return this.direction;
   }
 
   updatePosition() {

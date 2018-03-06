@@ -7,6 +7,7 @@ export const DEFAULT_COLOR = {
 };
 
 export const ERROR_COLORS = [
+  hexToRGBNormalized('#d3dfe5'),
   hexToRGBNormalized('#e3e2b8'),
   hexToRGBNormalized('#eae18a'),
   hexToRGBNormalized('#f1e05c'),
