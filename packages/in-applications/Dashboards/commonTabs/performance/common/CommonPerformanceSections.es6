@@ -23,14 +23,12 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                 formatter: millis,
                 labels: ['25th', '50th', '75th', '95th', '98th', '99th'],
                 metricIds: [
-                  'durationMin',
                   'duration25th',
                   'duration50th',
                   'duration75th',
                   'duration95th',
                   'duration98th',
-                  'duration99th',
-                  'durationMax'
+                  'duration99th'
                 ]
               }}
               metricsConfiguration={{
@@ -41,11 +39,6 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   endpointId
                 },
                 metrics: {
-                  durationMin: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'MIN'
-                  },
                   duration25th: {
                     metric: 'latency',
                     granularity,
@@ -75,11 +68,6 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                     metric: 'latency',
                     granularity,
                     aggregation: 'P99'
-                  },
-                  durationMax: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'MAX'
                   }
                 }
               }}
