@@ -38,7 +38,7 @@ export default connectTo(
           };
           errors.push(notFoundError);
         }
-        return assign({ data, errors }, { progress: result.progress });
+        return assign({ data, errors }, { progress: result.progress, time: result.time });
       }
       return result;
     })

@@ -6,7 +6,7 @@ export function getApplicationConfigs() {
     method: 'GET',
     maxRetries: 1,
     timeout: 1000,
-    url: `/api/applicationConfigs/sdj`,
+    url: `/api/applicationConfigs`,
     mapToResultObject: true
   });
 }
