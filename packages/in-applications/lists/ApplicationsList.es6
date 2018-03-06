@@ -67,6 +67,7 @@ export default connectTo(
             paginationResettingProps={{ timeframe }}
             defaultOrderBy="callsAgg"
             defaultOrderDirection="DESC"
+            filterable={false}
           />
           {showNoApplicationsDefinedIndicator && (
             <p className={locals.noApplicationsDefined}>
