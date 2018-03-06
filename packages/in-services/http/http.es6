@@ -1,10 +1,11 @@
 import { create } from 'reactive-observables';
+import { createLogger } from 'instalog';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
+import createObservableResult from 'in-services/http/observableHttpResult';
 import HttpResponseError from 'in-services/http/HttpResponseError';
-import { createLogger } from 'instalog';
 
 const logger = createLogger('xhrService');
 
@@ -17,13 +18,14 @@ export default function({
   responseType = 'json',
   ignoreAbortErrors = true,
   treat400AsError = true,
-  maxRetries = -1
+  maxRetries = -1,
+  mapToResultObject = false
 }) {
   url = formatUrl(url, queryParams);
   let xhr;
   let retryTimeout;
 
-  return create({
+  const observableHttpRequest = create({
     start(observable) {
       const shouldRetry = method.toLowerCase() !== 'post' && maxRetries > 0;
       let numberOfRetries = 0;
@@ -116,6 +118,8 @@ export default function({
       xhr = null;
     }
   });
+
+  return mapToResultObject ? createObservableResult(observableHttpRequest) : observableHttpRequest;
 }
 
 function formatUrl(url, queryParams = {}) {

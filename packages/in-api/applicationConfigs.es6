@@ -4,17 +4,20 @@ import http from 'in-services/http';
 export function getApplicationConfigs() {
   return http({
     method: 'GET',
-    maxRetries: 3,
-    url: `/api/applicationConfigs`
-  }).map(response => deepFreeze(response.body));
+    maxRetries: 1,
+    timeout: 1000,
+    url: `/api/applicationConfigs/sdj`,
+    mapToResultObject: true
+  });
 }
 
 export function getApplicationConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/applicationConfigs/${encodeURIComponent(id)}`
-  }).map(response => deepFreeze(response.body));
+    url: `/api/applicationConfigs/${encodeURIComponent(id)}`,
+    mapToResultObject: true
+  });
 }
 
 export function addApplicationConfig(config) {

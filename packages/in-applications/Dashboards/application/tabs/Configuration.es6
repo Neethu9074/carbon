@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
+import { assign } from 'lodash';
 
+import { getApplicationConfigs, updateApplicationConfig } from 'in-api/applicationConfigs';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
-import { getApplicationConfig, updateApplicationConfig } from 'in-api/applicationConfigs';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Form from 'in-applications/NewApplication/Form';
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,7 +13,35 @@ import locals from './Configuration.mless';
 
 export default connectTo(
   props => ({
-    app: getApplicationConfig(props.applicationId)
+    appResult: getApplicationConfigs().map(result => {
+      if (result.data) {
+        let data = null;
+        let errors = [];
+        if (result.errors) {
+          for (let i = 0; i < result.errors.length; i++) {
+            errors.push(result.errors[i]);
+          }
+        }
+
+        const applications = result.data;
+        for (let i = 0; i < applications.length; i++) {
+          const application = applications[i];
+          if (application.label === props.applicationId) {
+            data = application;
+            break;
+          }
+        }
+        if (!data) {
+          const notFoundError = {
+            code: 'CLIENT',
+            message: 'The applications configuration cannot be not found.'
+          };
+          errors.push(notFoundError);
+        }
+        return assign({ data, errors }, { progress: result.progress });
+      }
+      return result;
+    })
   }),
   class Configuration extends React.Component {
     state = {
@@ -47,8 +77,16 @@ export default connectTo(
     };
 
     render() {
-      if (this.props.app == null) {
+      const { appResult } = this.props;
+      const isLoading = appResult.progress.loading;
+      const hasErrors = appResult.errors.length > 0;
+
+      if (isLoading) {
         return <DefaultLoadingDashboard />;
+      }
+
+      if (hasErrors) {
+        return <ErroneousResultPresenter errors={appResult.errors} />;
       }
 
       return (
@@ -77,7 +115,7 @@ export default connectTo(
 
           <Form
             onSubmit={this.onSubmit}
-            application={this.props.app}
+            application={appResult.data}
             loading={this.state.loading}
             loadingStateName="Saving…"
             error={this.state.error}
