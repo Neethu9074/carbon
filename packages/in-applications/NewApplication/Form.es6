@@ -135,16 +135,18 @@ function NewApplicationForm({
               </FormGroup>
             ))}
 
-            <Tooltip content="Remove this match condition">
-              <SvgIcon
-                type="x"
-                width={20}
-                onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
-                className={locals.removeMatchRule}
-                tabIndex={0}
-                aria-label="Remove this match condition"
-              />
-            </Tooltip>
+            {matchSpecificationForm.size > 1 && (
+              <Tooltip content="Remove this match condition">
+                <SvgIcon
+                  type="x"
+                  width={20}
+                  onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
+                  className={locals.removeMatchRule}
+                  tabIndex={0}
+                  aria-label="Remove this match condition"
+                />
+              </Tooltip>
+            )}
           </div>
         ))}
       </Card>
