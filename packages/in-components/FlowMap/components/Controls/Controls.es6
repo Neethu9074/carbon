@@ -34,18 +34,20 @@ export default function Controls({ serviceLocatorUid }) {
           Calls
         </HeatmapButton>
         <HeatmapButton
-          signal={SIGNAL_VALUES.HEATMAP_ERRORRATE}
-          serviceLocatorUid={serviceLocatorUid}
-          onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)}
-        >
-          Errors
-        </HeatmapButton>
-        <HeatmapButton
           signal={SIGNAL_VALUES.HEATMAP_LATENCY}
           serviceLocatorUid={serviceLocatorUid}
           onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)}
+          disabled
         >
           Latency
+        </HeatmapButton>
+        <HeatmapButton
+          signal={SIGNAL_VALUES.HEATMAP_ERRORRATE}
+          serviceLocatorUid={serviceLocatorUid}
+          onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)}
+          disabled
+        >
+          Errors
         </HeatmapButton>
       </div>
       <div className={locals.bottomLeftControls}>
@@ -91,9 +93,9 @@ const HeatmapButton = connectTo(
       .eventBusServiceLocator.on(SIGNALS.HEATMAP)
       .map(currentSignal => currentSignal === props.signal)
   }),
-  function HeatmapButton({ isEnabled, children, onClick }) {
+  function HeatmapButton({ isEnabled, children, onClick, disabled }) {
     return (
-      <Button kind={isEnabled ? 'primary' : 'secondary'} size="compact" onClick={onClick}>
+      <Button kind={isEnabled ? 'primary' : 'secondary'} size="compact" onClick={onClick} disabled={disabled}>
         {children}
       </Button>
     );
