@@ -128,7 +128,7 @@ function NewApplicationForm({ form, application, updateForm, onSubmit, loading, 
               </FormGroup>
             ))}
 
-            {i > 0 && (
+            {matchSpecificationForm.size > 1 && (
               <Tooltip content="Remove this match condition">
                 <SvgIcon
                   type="x"
