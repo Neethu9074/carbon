@@ -24,7 +24,7 @@ export default compose(
       orderBy: defaultOrderBy || columnDefinitions[0].id,
       orderDirection: defaultOrderDirection || 'ASC',
       page: 1,
-      pageSize: defaultPageSize || 10,
+      pageSize: defaultPageSize || 20,
       query: defaultQuery || ''
     }),
     reducerName: 'onChange',
