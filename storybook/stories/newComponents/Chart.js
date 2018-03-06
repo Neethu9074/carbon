@@ -33,7 +33,7 @@ storiesOf('newComponents/Chart', module)
 function MissingData() {
   return (
     <Root>
-      <ChartWrapperPresenter data={{}} result={{ errors: [], progress: { loading: false } }} />
+      <ChartWrapperPresenter config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
     </Root>
   );
 }
