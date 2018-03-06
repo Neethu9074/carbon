@@ -4,7 +4,6 @@ import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
 import dummyHeatMap from 'in-applications/Dashboards/service/tabs/time-distribution.png';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -90,9 +89,6 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <TopTraces applicationId={applicationId} timeframe={timeframe} />
-        </Col>
         <Col lg={6}>
           <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
         </Col>
