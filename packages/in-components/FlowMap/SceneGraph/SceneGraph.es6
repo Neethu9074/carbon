@@ -199,7 +199,7 @@ export default class SceneGraph {
     } else {
       path = previousNodesPath.concat([id]);
     }
-    return path.join('__');
+    return path.join(`_${direction}_`);
   }
 
   requestLayout() {
