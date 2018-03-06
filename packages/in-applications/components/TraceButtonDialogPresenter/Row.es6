@@ -28,7 +28,7 @@ export default connectTo(
     return observables;
   },
   function Row({ label, value, total, iconType, type }) {
-    if (!label || !value) {
+    if (!label || value == null) {
       return null;
     }
 
@@ -47,8 +47,10 @@ export default connectTo(
 function ValueAndPercentage({ value, total }) {
   return (
     <div className={locals.valueAndPercentageWrapper}>
-      <span>{number.compact(value)}</span>
-      <span className={locals.percentage}>{`(${percentage.detailed(value / total)})`}</span>
+      <span>{value == null ? '––' : number.compact(value)}</span>
+      <span className={locals.percentage}>
+        {value != null && total != null && `(${percentage.detailed(value / total)})`}
+      </span>
     </div>
   );
 }
