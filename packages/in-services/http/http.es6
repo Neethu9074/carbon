@@ -21,6 +21,7 @@ export default function({
 }) {
   url = formatUrl(url, queryParams);
   let xhr;
+  let retryTimeout;
 
   return create({
     start(observable) {
@@ -94,7 +95,7 @@ export default function({
         if (numberOfRetries < maxRetries && shouldRetry) {
           numberOfRetries++;
           xhr = null;
-          setTimeout(sendXhr, Math.pow(2, numberOfRetries) * 1000);
+          retryTimeout = setTimeout(sendXhr, Math.pow(2, numberOfRetries) * 1000);
           return true;
         } else {
           return false;
@@ -108,6 +109,10 @@ export default function({
       if (xhr && xhr.readyState !== 4) {
         xhr.abort();
       }
+      if (retryTimeout) {
+        clearTimeout(retryTimeout);
+      }
+      retryTimeout = null;
       xhr = null;
     }
   });
