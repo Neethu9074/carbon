@@ -38,7 +38,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
                   timeframe,
                   application: applicationId,
                   service: serviceId,
-                  endpointId
+                  endpoint: endpointId
                 },
                 metrics: {
                   durationMin: {
