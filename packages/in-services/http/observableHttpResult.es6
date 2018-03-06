@@ -1,6 +1,8 @@
 // @flow
 import { combineLatest } from 'reactive-observables';
 
+import type { Observable } from 'reactive-observables';
+
 import { deepFreeze } from 'in-services/util/object';
 
 export default function createObservable<RESULT>(observableHttpRequest: Observable): Observable<RESULT> {
