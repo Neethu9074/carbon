@@ -52,17 +52,21 @@ export default connectTo(
     }
 
     render() {
-      const { node, metrics, data, size, heatMapColor, isRootNode, serviceLocatorUid, childList } = this.props;
+      const { node, metrics, data, size, isRootNode, serviceLocatorUid, childList } = this.props;
+      let heatMapColor = this.props.heatMapColor;
+
       const label = data ? data.label : '';
+
+      heatMapColor =
+        heatMapColor &&
+        `rgba(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) | 0}, 0.8)`;
 
       return (
         <Tooltip content={size !== 'mid' ? label : null}>
           <div
             style={{
-              border:
-                heatMapColor &&
-                `1px solid rgb(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) |
-                  0})`
+              border: heatMapColor && `1px solid ${heatMapColor}`,
+              boxShadow: heatMapColor && `0px 0px 0.875rem 0px ${heatMapColor}`
             }}
             ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
             className={evaluateClassNames({
