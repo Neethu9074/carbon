@@ -1,0 +1,7 @@
+:local {
+  .metricValue {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #16363e;
+  }
+}

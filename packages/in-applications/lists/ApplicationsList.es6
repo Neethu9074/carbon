@@ -3,13 +3,13 @@ import React from 'react';
 
 import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import { getSparkChartGranularity } from 'in-applications/metrics';
 import getMetrics from 'in-subscription/application/getMetrics';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
@@ -159,51 +159,24 @@ const columnDefinitions = [
     id: 'callsAgg',
     label: 'Calls',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
-          aggregation="SUM"
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
-          tooltipFormatter={number.compact}
-        />
-      );
+    getContent(item) {
+      return <MetricValue value={number.compact(item.metrics.callsAgg[0][1])} />;
     }
   },
   {
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.latency}
-          metric={item.metrics.latencyAgg}
-          tooltipFormatter={ms.compact}
-        />
-      );
+    getContent(item) {
+      return <MetricValue value={ms.compact(item.metrics.latencyAgg[0][1])} />;
     }
   },
   {
     id: 'errorsAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.compact}
-        />
-      );
+    getContent(item) {
+      return <MetricValue value={percentage.compact(item.metrics.errorsAgg[0][1])} />;
     }
   }
 ];
