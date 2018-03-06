@@ -13,7 +13,12 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
         return (
           <th
             key={columnDefinition.id}
-            onClick={() => setOrder(columnDefinition.id, getOrderDirection(isSortedByThisColumn, orderDirection))}
+            onClick={() =>
+              setOrder(
+                columnDefinition.id,
+                getOrderDirection(isSortedByThisColumn, orderDirection, columnDefinition.defaultOrderDirection)
+              )
+            }
             className={locals.column}
           >
             {columnDefinition.label || columnDefinition.id}
@@ -35,9 +40,9 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
   );
 }
 
-function getOrderDirection(isAlreadyOrderedBy, currentOrderDirection) {
+function getOrderDirection(isAlreadyOrderedBy, currentOrderDirection, defaultOrderDirection = 'ASC') {
   if (!isAlreadyOrderedBy) {
-    return 'ASC';
+    return defaultOrderDirection;
   }
   return currentOrderDirection === 'ASC' ? 'DESC' : 'ASC';
 }

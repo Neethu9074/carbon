@@ -107,6 +107,7 @@ const columnDefinitions = [
   {
     id: 'callsAgg',
     label: 'Calls',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart
@@ -123,6 +124,7 @@ const columnDefinitions = [
   {
     id: 'latencyAgg',
     label: 'Latency',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart
@@ -139,6 +141,7 @@ const columnDefinitions = [
   {
     id: 'errorsAgg',
     label: 'Errors',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart

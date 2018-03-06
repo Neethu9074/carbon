@@ -129,6 +129,7 @@ const columnDefinitions = [
   {
     id: 'endpoints',
     label: 'Endpoints',
+    defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
       return <Counter>{number.compact(count)}</Counter>;
@@ -137,6 +138,7 @@ const columnDefinitions = [
   {
     id: 'callsAgg',
     label: 'Calls',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart
@@ -153,6 +155,7 @@ const columnDefinitions = [
   {
     id: 'latencyAgg',
     label: 'Latency',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart
@@ -169,6 +172,7 @@ const columnDefinitions = [
   {
     id: 'errorsAgg',
     label: 'Errors',
+    defaultOrderDirection: 'DESC',
     getContent(item, { result, timeframe }) {
       return (
         <SparkChart
