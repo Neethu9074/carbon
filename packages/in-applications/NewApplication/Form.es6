@@ -4,11 +4,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { regularExpressionValidator } from 'in-services/validators/regexp';
-import { applicationsList } from 'in-applications/navigation/paths';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Button from 'in-new-components/Button';
@@ -32,7 +30,16 @@ export default compose(
   })
 )(NewApplicationForm);
 
-function NewApplicationForm({ form, application, updateForm, onSubmit, loading, loadingStateName, error }) {
+function NewApplicationForm({
+  form,
+  application,
+  updateForm,
+  onSubmit,
+  loading,
+  loadingStateName,
+  error,
+  hrefOnCancel$
+}) {
   const matchSpecificationForm = form.get('matchSpecification');
   const disabled = loading;
 
@@ -148,9 +155,11 @@ function NewApplicationForm({ form, application, updateForm, onSubmit, loading, 
             {error}
           </ValidationBlock>
         )}
-        <Button kind="secondary" href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
-          Cancel
-        </Button>
+        {hrefOnCancel$ && (
+          <Button kind="secondary" href$={hrefOnCancel$}>
+            Cancel
+          </Button>
+        )}
         <Button
           icon={loading ? 'spinner' : null}
           iconSpinning

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { applicationsList } from 'in-applications/navigation/paths';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import Form from 'in-applications/NewApplication/Form';
 
 import locals from './NewApplicationPresenter.mless';
@@ -15,7 +17,13 @@ export default function NewApplicationPresenter({ onSubmit, loading, loadingStat
         </div>
       )}
 
-      <Form onSubmit={onSubmit} loading={loading} loadingStateName={loadingStateName} error={error} />
+      <Form
+        onSubmit={onSubmit}
+        loading={loading}
+        loadingStateName={loadingStateName}
+        error={error}
+        hrefOnCancel$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
+      />
     </div>
   );
 }
