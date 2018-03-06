@@ -13,13 +13,13 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
         return (
           <th
             key={columnDefinition.id}
+            className={locals.column}
             onClick={() =>
               setOrder(
                 columnDefinition.id,
                 getOrderDirection(isSortedByThisColumn, orderDirection, columnDefinition.defaultOrderDirection)
               )
             }
-            className={locals.column}
           >
             {columnDefinition.label || columnDefinition.id}
             {isSortableColumn &&
