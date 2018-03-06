@@ -17,20 +17,21 @@ export default class Scales {
     }
   }
 
-  update() {
+  update(filteredDataSeries) {
     this.x.setRangeFrom(MARGIN_VERTICAL_AXIS);
     this.x.setRangeTo(this.config.width - MARGIN_VERTICAL_AXIS);
     this.x.setDomainFrom(this.config.timeframe.to - this.config.timeframe.windowSize);
     this.x.setDomainTo(this.config.timeframe.to);
     this.x.tickPositions = this.calculateTickPositionsForXAxis();
 
-    this.updateScale(this.y1, this.config.y1);
+    this.updateScale(this.y1, this.config.y1, filteredDataSeries);
     if (this.y2) {
-      this.updateScale(this.y2, this.config.y2);
+      this.updateScale(this.y2, this.config.y2, filteredDataSeries);
     }
   }
 
-  updateScale(scale, axis) {
+  updateScale(scale, axis, filteredDataSeries) {
+    filteredDataSeries = filteredDataSeries || new Map();
     scale.setRangeTo(MARGIN_TOP);
     scale.setRangeFrom(this.config.height - MARGIN_BOTTOM);
 
@@ -39,6 +40,10 @@ export default class Scales {
 
     const metrics = axis.metrics || [];
     for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+      const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+      if (isIgnoredIndex) {
+        continue;
+      }
       const minMax = this.getMinMaxValueForDataSeries(metrics[iMetric]);
 
       if (axis.valuesNeedToBeStacked) {

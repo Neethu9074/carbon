@@ -33,7 +33,7 @@ describe('in-components/Chart/Scales', () => {
     it('should update axis according to the given config', () => {
       const scales = new Scales({
         y1: { formatter: [number] },
-        y2: { metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
+        y2: { labels: ['a'], metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
         timeframe: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
@@ -59,6 +59,7 @@ describe('in-components/Chart/Scales', () => {
     it('should take all metric series into account when calculating metrics', () => {
       const scales = new Scales({
         y1: {
+          labels: ['a', 'b'],
           metrics: [
             [[0, 1], [1000, 20]], // series 1
             [[0, -1], [1000, 0]] // series 2
@@ -66,6 +67,7 @@ describe('in-components/Chart/Scales', () => {
           formatter: [number]
         },
         y2: {
+          labels: ['a', 'b'],
           metrics: [
             [[0, 1], [1000, 20]], // series 1
             [[0, 4], [1000, 10]] // series 2

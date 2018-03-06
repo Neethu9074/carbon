@@ -42,9 +42,13 @@ export default class Config {
     if (!this.scales) {
       this.scales = new Scales(this);
     }
-    this.scales.update();
+    this.scales.update(this.filteredDataSeries);
 
     updateCanvasDimensions(this.canvas, this.ctx, this.width, this.height, this.devicePixelRatio);
+  }
+
+  updateScales() {
+    this.scales.update(this.filteredDataSeries);
   }
 
   calculateMaxMillisBetweenDatapoints() {

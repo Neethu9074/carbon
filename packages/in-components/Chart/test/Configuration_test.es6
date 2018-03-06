@@ -132,8 +132,8 @@ describe('in-components/Chart/Configuration', () => {
       expect(config.getAllDomainValues()).to.deep.equal([]);
 
       config.update({
-        y1: { metrics: [[[0], [1], [-1]], [[42], [1], [-1]]] },
-        y2: { metrics: [[[10], [11], [-1]], [[-42], [0], [2]]] },
+        y1: { labels: ['a'], metrics: [[[0], [1], [-1]], [[42], [1], [-1]]] },
+        y2: { labels: ['a'], metrics: [[[10], [11], [-1]], [[-42], [0], [2]]] },
         timeframe: { windowSize: 60000, to: null }
       });
       expect(config.getAllDomainValues()).to.be.an('array');
