@@ -22,8 +22,6 @@ export default class LineMetricRenderer {
     this.yScale.setRangeFrom(paddingTop);
     this.yScale.setRangeTo(this.height - paddingBottom);
 
-    this.metrics = [];
-
     this.ctx = canvas.getContext('2d');
   }
 
@@ -102,11 +100,11 @@ export default class LineMetricRenderer {
   }
 
   render() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
     if (this.blocks.length === 0) {
       return;
     }
 
-    this.ctx.clearRect(0, 0, this.width, this.height);
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = '#1fb7b9';
 
