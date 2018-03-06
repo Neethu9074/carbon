@@ -5,7 +5,7 @@ const endpointTranslation = {
   DATABASE: 'Database Endpoints',
   HTTP: 'HTTP Endpoints',
   MESSAGING: 'Topics',
-  RPC: 'Methods',
+  RPC: 'RPC Methods',
   UNDEFINED: 'Undefined'
 };
 
