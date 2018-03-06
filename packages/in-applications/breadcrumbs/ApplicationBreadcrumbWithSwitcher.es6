@@ -26,7 +26,7 @@ export default connect(
         pageSize: 5
       },
       order: {
-        by: 'label',
+        by: 'applicationLabel',
         direction: 'ASC'
       },
       metrics: {},
