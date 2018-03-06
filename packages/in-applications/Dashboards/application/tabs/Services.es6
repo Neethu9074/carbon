@@ -1,8 +1,10 @@
+import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -10,9 +12,24 @@ import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import { getColor } from 'in-applications/endpointTypes';
+import ComboBox from 'in-components/ComboBox';
 import Link from 'in-components/Link';
 
-export default function ServiceList({ timeframe, applicationId, serviceId, endpointId }) {
+import locals from './Services.mless';
+
+export default compose(withState('endpointTypes', 'setEndpointTypes', []))(ServiceList);
+
+function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
+  const rightHeader = (
+    <ComboBox
+      value={endpointTypes}
+      onChange={t => setEndpointTypes(t.map(a => a.value))}
+      placeholder="Type…"
+      multi
+      options={getEndpointTypesComboBoxItems()}
+      className={locals.filter}
+    />
+  );
   return (
     <ServerTable
       get={getTableData}
@@ -23,7 +40,9 @@ export default function ServiceList({ timeframe, applicationId, serviceId, endpo
       serviceId={serviceId}
       endpointId={endpointId}
       cardTitle="Services"
-      paginationResettingProps={{ applicationId, serviceId, endpointId, timeframe }}
+      rightHeader={rightHeader}
+      endpointTypes={endpointTypes}
+      paginationResettingProps={{ applicationId, endpointTypes, serviceId, endpointId, timeframe }}
     />
   );
 }
@@ -37,6 +56,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
+  endpointTypes,
   timeframe
 }) {
   return getServices({
@@ -86,6 +106,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      endpointTypes,
       timeframe
     }
   });
