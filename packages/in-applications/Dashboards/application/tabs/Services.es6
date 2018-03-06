@@ -43,6 +43,8 @@ function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpoint
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
       paginationResettingProps={{ applicationId, endpointTypes, serviceId, endpointId, timeframe }}
+      defaultOrderBy="callsAgg"
+      defaultOrderDirection="DESC"
     />
   );
 }

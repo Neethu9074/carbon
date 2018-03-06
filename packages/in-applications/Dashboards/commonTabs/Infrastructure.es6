@@ -23,6 +23,8 @@ export default function Infrastructure({ applicationId, serviceId, endpointId, t
         endpointId={endpointId}
         timeframe={timeframe}
         paginationResettingProps={{ applicationId, serviceId, endpointId, timeframe }}
+        defaultOrderBy="callsAgg"
+        defaultOrderDirection="DESC"
       />
     </MaxWidthFullscreenContainer>
   );

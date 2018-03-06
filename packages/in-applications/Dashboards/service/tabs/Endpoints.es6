@@ -29,6 +29,8 @@ export default function Endpoints({ timeframe, data, applicationId, serviceId })
           columnDefinitions={columnDefinitions}
           cardTitle={getEndpointsLabel(endpointType)}
           paginationResettingProps={{ applicationId, serviceId, timeframe }}
+          defaultOrderBy="callsAgg"
+          defaultOrderDirection="DESC"
         />
       </Col>
     </Row>
