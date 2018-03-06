@@ -68,14 +68,13 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
 
       <Row>
         <Col lg={newApplicationMonitoringFeaturePlaceholdersEnabled ? 6 : 12}>
-          <Card title="Calls vs Latency">
-            <CallsErrorsLatencyVsTechnologieBreakdown
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              timeframe={timeframe}
-            />
-          </Card>
+          <CallsErrorsLatencyVsTechnologieBreakdown
+            cardTitle="Calls vs Latency"
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
         </Col>
 
         {newApplicationMonitoringFeaturePlaceholdersEnabled && (

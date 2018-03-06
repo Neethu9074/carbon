@@ -82,7 +82,9 @@ function wrapProps(result, props) {
   }
 
   if (result.errors.length > 0 || result.progress.loading) {
-    return {};
+    return {
+      cardTitle: props.cardTitle
+    };
   }
 
   const propsClone = deepCopy(props);

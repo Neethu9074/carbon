@@ -125,42 +125,41 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
       </Row>
       <Row>
         <Col lg={12}>
-          <Card title="Calls vs Latency">
-            <ChartWrapper
-              timeframe={timeframe}
-              y1={{
-                renderer: Renderer.countErrorBar,
-                labels: ['Calls', 'Errors'],
-                metricIds: ['calls', 'errors']
-              }}
-              y2={{
-                renderer: Renderer.line,
-                labels: ['Latency'],
-                metricIds: ['latency'],
-                formatter: millis
-              }}
-              metricsConfiguration={{
-                filter,
-                metrics: {
-                  calls: {
-                    metric: 'calls',
-                    granularity,
-                    aggregation: 'SUM'
-                  },
-                  errors: {
-                    metric: 'errors',
-                    granularity,
-                    aggregation: 'MEAN'
-                  },
-                  latency: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'MEAN'
-                  }
+          <ChartWrapper
+            cardTitle="Calls vs Latency"
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.countErrorBar,
+              labels: ['Calls', 'Errors'],
+              metricIds: ['calls', 'errors']
+            }}
+            y2={{
+              renderer: Renderer.line,
+              labels: ['Latency'],
+              metricIds: ['latency'],
+              formatter: millis
+            }}
+            metricsConfiguration={{
+              filter,
+              metrics: {
+                calls: {
+                  metric: 'calls',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                errors: {
+                  metric: 'errors',
+                  granularity,
+                  aggregation: 'MEAN'
+                },
+                latency: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'MEAN'
                 }
-              }}
-            />
-          </Card>
+              }
+            }}
+          />
         </Col>
       </Row>
       <Row>

@@ -16,76 +16,75 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
     <Fragment>
       <Row>
         <Col lg={12}>
-          <Card title="Latency">
-            <ChartWrapper
-              timeframe={timeframe}
-              y1={{
-                renderer: Renderer.integral,
-                formatter: millis,
-                labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
-                metricIds: [
-                  'durationMin',
-                  'duration25th',
-                  'duration50th',
-                  'duration75th',
-                  'duration95th',
-                  'duration98th',
-                  'duration99th',
-                  'durationMax'
-                ]
-              }}
-              metricsConfiguration={{
-                filter: {
-                  timeframe,
-                  application: applicationId,
-                  service: serviceId,
-                  endpoint: endpointId
+          <ChartWrapper
+            cardTitle="Latency"
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.integral,
+              formatter: millis,
+              labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+              metricIds: [
+                'durationMin',
+                'duration25th',
+                'duration50th',
+                'duration75th',
+                'duration95th',
+                'duration98th',
+                'duration99th',
+                'durationMax'
+              ]
+            }}
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                application: applicationId,
+                service: serviceId,
+                endpoint: endpointId
+              },
+              metrics: {
+                durationMin: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'MIN'
                 },
-                metrics: {
-                  durationMin: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'MIN'
-                  },
-                  duration25th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P25'
-                  },
-                  duration50th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P50'
-                  },
-                  duration75th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P75'
-                  },
-                  duration95th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P95'
-                  },
-                  duration98th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P98'
-                  },
-                  duration99th: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'P99'
-                  },
-                  durationMax: {
-                    metric: 'latency',
-                    granularity,
-                    aggregation: 'MAX'
-                  }
+                duration25th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P25'
+                },
+                duration50th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P50'
+                },
+                duration75th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P75'
+                },
+                duration95th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P95'
+                },
+                duration98th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P98'
+                },
+                duration99th: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'P99'
+                },
+                durationMax: {
+                  metric: 'latency',
+                  granularity,
+                  aggregation: 'MAX'
                 }
-              }}
-            />
-          </Card>
+              }
+            }}
+          />
         </Col>
       </Row>
 
@@ -100,7 +99,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
       )}
 
       <Row>
-        <Col lg={6}>
+        <Col lg={12}>
           <TopTraces
             applicationId={applicationId}
             serviceId={serviceId}

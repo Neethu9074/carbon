@@ -5,12 +5,19 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 
-export default function CallsErrorsLatencyVsTechnologieBreakdown({ timeframe, endpointId, applicationId, serviceId }) {
+export default function CallsErrorsLatencyVsTechnologieBreakdown({
+  timeframe,
+  endpointId,
+  applicationId,
+  serviceId,
+  cardTitle
+}) {
   const granularity = getChartGranularity(timeframe);
 
   return (
     <div>
       <ChartWrapper
+        cardTitle={cardTitle}
         timeframe={timeframe}
         y1={{
           renderer: Renderer.countErrorBar,

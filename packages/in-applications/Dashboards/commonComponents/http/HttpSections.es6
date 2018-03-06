@@ -6,7 +6,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -29,54 +28,53 @@ export default connectTo(
     return (
       <Row>
         <Col lg={12}>
-          <Card title="Http Status Code Breakdown">
-            <ChartWrapper
-              timeframe={timeframe}
-              y1={{
-                renderer: Renderer.stackedArea,
-                labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-                colors: ['#52d6ff', '#00cc58', '#0066de', '#ff9e3d', '#ff5d3b'],
-                formatter: number,
-                tooltipFormatter: number.compact,
-                metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
-              }}
-              metricsConfiguration={{
-                filter: {
-                  timeframe,
-                  application: applicationId,
-                  service: serviceId,
-                  endpoint: endpointId
+          <ChartWrapper
+            cardTitle="Http Status Code Breakdown"
+            timeframe={timeframe}
+            y1={{
+              renderer: Renderer.stackedArea,
+              labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+              colors: ['#52d6ff', '#00cc58', '#0066de', '#ff9e3d', '#ff5d3b'],
+              formatter: number,
+              tooltipFormatter: number.compact,
+              metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
+            }}
+            metricsConfiguration={{
+              filter: {
+                timeframe,
+                application: applicationId,
+                service: serviceId,
+                endpoint: endpointId
+              },
+              metrics: {
+                'http.1xx': {
+                  metric: 'http.1xx',
+                  granularity,
+                  aggregation: 'SUM'
                 },
-                metrics: {
-                  'http.1xx': {
-                    metric: 'http.1xx',
-                    granularity,
-                    aggregation: 'SUM'
-                  },
-                  'http.2xx': {
-                    metric: 'http.2xx',
-                    granularity,
-                    aggregation: 'SUM'
-                  },
-                  'http.3xx': {
-                    metric: 'http.3xx',
-                    granularity,
-                    aggregation: 'SUM'
-                  },
-                  'http.4xx': {
-                    metric: 'http.4xx',
-                    granularity,
-                    aggregation: 'SUM'
-                  },
-                  'http.5xx': {
-                    metric: 'http.5xx',
-                    granularity,
-                    aggregation: 'SUM'
-                  }
+                'http.2xx': {
+                  metric: 'http.2xx',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                'http.3xx': {
+                  metric: 'http.3xx',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                'http.4xx': {
+                  metric: 'http.4xx',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                'http.5xx': {
+                  metric: 'http.5xx',
+                  granularity,
+                  aggregation: 'SUM'
                 }
-              }}
-            />
-          </Card>
+              }
+            }}
+          />
         </Col>
       </Row>
     );
