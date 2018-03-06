@@ -1,11 +1,8 @@
-// @flow
 import { combineLatest } from 'reactive-observables';
-
-import type { Observable } from 'reactive-observables';
 
 import { deepFreeze } from 'in-services/util/object';
 
-export default function createObservable<RESULT>(observableHttpRequest: Observable): Observable<RESULT> {
+export default function createObservable(observableHttpRequest) {
   const observable = combineLatest([
     observableHttpRequest.startWith(null),
     observableHttpRequest.errors().startWith(null)
@@ -20,11 +17,10 @@ export default function createObservable<RESULT>(observableHttpRequest: Observab
     });
   });
 
-  // $FlowFixMe: Just blindly pass the server result to the client. No additional validation is happening
-  return (observable: Observable<RESULT>);
+  return observable;
 }
 
-function mapStatusCode(statusCode: number): string {
+function mapStatusCode(statusCode) {
   if (statusCode === 403 || statusCode === 401) {
     return 'AUTH';
   }
