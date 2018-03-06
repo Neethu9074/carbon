@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -44,7 +44,7 @@ const cols = [
       getMetricName(row) {
         return `${row.name}`;
       },
-      getContent: withSiPrefixThreeDecimalPlaces,
+      getContent: withSiPrefixZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -83,7 +83,7 @@ function getDetails(row) {
         left: 90
       }}
       y1={{
-        formatter: withSiPrefixThreeDecimalPlaces,
+        formatter: withSiPrefixZeroDecimalPlaces,
         metrics: [row.name],
         labels: [row.name],
         type: 'line'

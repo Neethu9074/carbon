@@ -7,7 +7,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { number } from 'in-services/formatters/number';
+import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import GaugesTable from './GaugesTable';
 
 export default function NomadDashboard({ snapshot, timeframe }) {
@@ -61,7 +61,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           </KpiKeyValue>
         </KpiSection>
         <Columize>
-          <DashboardSection title="Allocated/Unallocated CPU">
+          <DashboardSection title="Allocated/Unallocated CPU (MHz)">
             <Chart
               snapshotId={snapshotId}
               timeframe={timeframe}
@@ -69,6 +69,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
                 min: 0,
                 metrics: ['nomad.client.allocated.cpu', 'nomad.client.unallocated.cpu'],
                 labels: ['Allocated CPU', 'Unallocated CPU'],
+                formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
             />
