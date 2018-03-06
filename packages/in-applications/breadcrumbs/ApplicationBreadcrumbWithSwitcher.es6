@@ -23,7 +23,7 @@ export default connect(
     applications: getApplications({
       pagination: {
         page: 1,
-        pageSize: 5
+        pageSize: 20
       },
       order: {
         by: 'applicationLabel',
@@ -31,6 +31,8 @@ export default connect(
       },
       metrics: {},
       filter: {
+        service: props.serviceId,
+        endpoint: props.endpointId,
         timeframe: props.timeframe
       }
     })
