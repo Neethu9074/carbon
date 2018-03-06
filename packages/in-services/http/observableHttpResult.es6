@@ -27,6 +27,9 @@ function mapStatusCode(statusCode) {
   if (statusCode === 412) {
     return 'VALIDATION';
   }
+  if (statusCode === 404) {
+    return 'NOT_FOUND';
+  }
   if (statusCode >= 400 && statusCode < 500) {
     return 'CLIENT';
   }
