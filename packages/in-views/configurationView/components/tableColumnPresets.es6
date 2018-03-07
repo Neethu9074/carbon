@@ -52,7 +52,10 @@ export function getDeleteButtonColumn(propertyName = 'name') {
       get(row) {
         return {
           value: 0,
-          content: <DeleteButton itemName={row.entity.get(propertyName)} onDelete={() => row.onDelete(row.entity)} />
+          content:
+            row.hideDeleteButton == null || !row.hideDeleteButton ? (
+              <DeleteButton itemName={row.entity.get(propertyName)} onDelete={() => row.onDelete(row.entity)} />
+            ) : null
         };
       }
     }
