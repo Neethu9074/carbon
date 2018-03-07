@@ -1,40 +1,77 @@
+import { compose } from 'recompose';
 import React from 'react';
 
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import { getEndpointsLabel } from 'in-applications/endpointTypes';
-import ServerTable from 'in-components/tables/ServerTable';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { getColor } from 'in-applications/endpointTypes';
+import { isNotBlank } from 'in-services/util/string';
+import ComboBox from 'in-components/ComboBox';
 import Link from 'in-components/Link';
 
-export default function Endpoints({ timeframe, data, applicationId, serviceId }) {
-  const { types } = data;
+import locals from './Endpoints.mless';
 
-  if (types.length === 0) {
-    return 'No Endpoint types found';
-  }
-  return types.map(endpointType => (
-    <Row key={endpointType}>
+const pathSegment = '/endpoints';
+const matrixPrefix = 'endpoint.';
+
+export default compose(
+  withUrlDependingState({
+    getPathSegment: () => pathSegment,
+    getMatrixPrefix: () => matrixPrefix,
+    boundKeys: ['endpointTypes'],
+    getInitialState: () => ({ endpointTypes: [] }),
+    reducerName: 'setEndpointTypes',
+    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
+    getParsedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    })
+  })
+)(Endpoints);
+
+function Endpoints({ timeframe, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
+  const rightHeader = (
+    <ComboBox
+      value={endpointTypes}
+      onChange={t => setEndpointTypes(t.map(a => a.value))}
+      placeholder="Type…"
+      multi
+      options={getEndpointTypesComboBoxItems()}
+      className={locals.filter}
+    />
+  );
+
+  return (
+    <Row>
       <Col xs={12}>
-        <ServerTable
+        <ServerTableWithUrlBoundState
+          pathSegment={pathSegment}
+          matrixPrefix={matrixPrefix}
           get={getTableData}
           applicationId={applicationId}
           serviceId={serviceId}
-          endpointType={endpointType}
-          pageSize={25}
+          endpointId={endpointId}
           timeframe={timeframe}
           columnDefinitions={columnDefinitions}
-          cardTitle={getEndpointsLabel(endpointType)}
-          paginationResettingProps={{ applicationId, serviceId, timeframe }}
+          cardTitle="Endpoints"
+          rightHeader={rightHeader}
+          endpointTypes={endpointTypes}
+          paginationResettingProps={['applicationId', 'serviceId', 'endpointId', 'timeframe', 'endpointTypes']}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
         />
       </Col>
     </Row>
-  ));
+  );
 }
 
 function getTableData({
@@ -44,7 +81,8 @@ function getTableData({
   orderDirection,
   applicationId,
   serviceId,
-  endpointType,
+  endpointId,
+  endpointTypes,
   timeframe,
   query
 }) {
@@ -60,7 +98,8 @@ function getTableData({
     filter: {
       application: applicationId,
       service: serviceId,
-      endpointTypes: [endpointType],
+      endpoint: endpointId,
+      endpointTypes,
       label: query,
       timeframe
     },
@@ -103,6 +142,17 @@ const columnDefinitions = [
     getContent(item, { applicationId, serviceId }) {
       return (
         <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+      );
+    }
+  },
+  {
+    id: 'Type',
+    sortable: false,
+    getContent(item) {
+      return (
+        <Badge size="sm" color={getColor(item.endpoint.type)}>
+          {item.endpoint.type}
+        </Badge>
       );
     }
   },

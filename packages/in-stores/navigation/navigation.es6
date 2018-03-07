@@ -21,12 +21,16 @@ history.listen(location => {
   });
 });
 
-export function mutateUrl(mutator) {
+export function mutateUrl(mutator, replace = false) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneLocation(currentLocation);
     mutator(newLocation);
     if (stringify(newLocation) !== stringify(currentLocation)) {
-      history.push(newLocation);
+      if (replace) {
+        history.replace(newLocation);
+      } else {
+        history.push(newLocation);
+      }
     }
   });
 }

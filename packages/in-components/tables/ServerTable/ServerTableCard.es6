@@ -1,3 +1,3 @@
-import ServerTable from 'in-components/tables/ServerTable/ServerTable';
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 
-export default ServerTable;
+export default ServerTableWithUrlBoundState;

@@ -1,7 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { getApplicationDashboard, newApplicationView } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import getApplications from 'in-subscription/application/getApplications';
@@ -11,7 +12,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import getMetrics from 'in-subscription/application/getMetrics';
-import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -58,9 +58,10 @@ export default connectTo(
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer className={locals.block}>
           <Title title="Applications" />
-          <ServerTable
+          <ServerTableWithUrlBoundState
             get={getTableData}
-            pageSize={25}
+            pathSegment={applicationsList}
+            matrixPrefix="app."
             columnDefinitions={columnDefinitions}
             timeframe={timeframe}
             leftHeader={leftHeader}

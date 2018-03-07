@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
-import { defaults } from 'lodash';
+import { compose } from 'recompose';
 import React from 'react';
 
 import DateTimeInput from 'in-new-components/time/TimeSelectionDialogPresenter/DateTimeInput';
@@ -14,14 +14,27 @@ import locals from './CustomTime.mless';
 
 const maximumWindow = 1000 * 60 * 60 * 24 * 31;
 
-export default withPropDependingState({
-  resettingProps: ['timeframe'],
-  onReset: ({ timeframe }) => ({
+export default compose(
+  withPropDependingState({
+    getInitialState,
+
+    resets: [
+      {
+        getResettingProps: () => ['timeframe'],
+        onReset: getInitialState
+      }
+    ],
+
+    reducerName: 'setForm',
+    reducer: (prevState, newForm) => ({ form: newForm })
+  })
+)(CustomTime);
+
+function getInitialState({ timeframe }) {
+  return {
     form: createForm(timeframe)
-  }),
-  reducerName: 'setForm',
-  reducer: (prevState, newForm) => defaults({}, { form: newForm }, prevState)
-})(CustomTime);
+  };
+}
 
 function CustomTime({ form, onChange, setForm }) {
   return (

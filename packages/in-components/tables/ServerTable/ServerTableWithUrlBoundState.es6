@@ -5,12 +5,21 @@ import { timeout } from 'reactive-observables';
 import { compose } from 'recompose';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import withPropDependingState from 'in-hoc/withPropDependingState';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { emptyArray } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
-  withPropDependingState({
+  withUrlDependingState({
+    // the path segment under which the matrix parameters are registered
+    getPathSegment: ({ pathSegment }) => pathSegment,
+
+    // an optional prefix for the matrix parameter keys
+    getMatrixPrefix: ({ matrixPrefix }) => matrixPrefix || '',
+
+    // only these keys will be mapped / read from the URL
+    boundKeys: ['orderBy', 'orderDirection', 'page', 'pageSize', 'query'],
+
     // given the props, define the initial state
     getInitialState,
 
@@ -36,6 +45,14 @@ export default compose(
       }
     ],
 
+    // page and pageSize are just strings in the URL. Parse these values, because the downstream
+    // code is expecting numbers.
+    getParsedUrlValues: urlValues => ({
+      page: urlValues.page != null ? parseInt(urlValues.page, 10) : null,
+      pageSize: urlValues.pageSize != null ? parseInt(urlValues.pageSize, 10) : null
+    }),
+
+    // function to set the new page/order/query
     reducerName: 'onChange'
   }),
   connect((props, prevProps) => {
