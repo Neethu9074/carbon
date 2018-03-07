@@ -40,15 +40,11 @@ export default class Config {
     this.enrichConfig();
 
     if (!this.scales) {
-      this.scales = new Scales(this);
+      this.scales = new Scales(this, this.filteredDataSeries);
     }
-    this.scales.update(this.filteredDataSeries);
+    this.scales.update();
 
     updateCanvasDimensions(this.canvas, this.ctx, this.width, this.height, this.devicePixelRatio);
-  }
-
-  updateScales() {
-    this.scales.update(this.filteredDataSeries);
   }
 
   calculateMaxMillisBetweenDatapoints() {
@@ -213,6 +209,7 @@ export default class Config {
       this.filteredDataSeries.set(label, true);
     }
     this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+    this.scales.update();
     this.requestRender();
   }
 

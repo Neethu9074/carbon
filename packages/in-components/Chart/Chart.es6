@@ -18,8 +18,6 @@ export default class Chart {
   }
 
   render() {
-    this.config.updateScales();
-
     clearRender(this.config);
     renderTickLines(this.config);
 

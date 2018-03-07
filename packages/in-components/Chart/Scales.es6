@@ -8,8 +8,9 @@ export const MARGIN_TOP = 2;
 export const MARGIN_VERTICAL_AXIS = 48;
 
 export default class Scales {
-  constructor(config) {
+  constructor(config, filteredDataSeries) {
     this.config = config;
+    this.filteredDataSeries = filteredDataSeries || new Map();
     this.x = createScale();
     this.y1 = createScale();
     if (config.y2) {
@@ -30,8 +31,7 @@ export default class Scales {
     }
   }
 
-  updateScale(scale, axis, filteredDataSeries) {
-    filteredDataSeries = filteredDataSeries || new Map();
+  updateScale(scale, axis) {
     scale.setRangeTo(MARGIN_TOP);
     scale.setRangeFrom(this.config.height - MARGIN_BOTTOM);
 
@@ -40,7 +40,7 @@ export default class Scales {
 
     const metrics = axis.metrics || [];
     for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-      const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+      const isIgnoredIndex = this.filteredDataSeries.has(axis.labels[iMetric]);
       if (isIgnoredIndex) {
         continue;
       }
