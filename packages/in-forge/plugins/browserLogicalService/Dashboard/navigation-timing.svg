@@ -1698,6 +1698,6 @@
 		<path class="st2" d="M919.6,411.4v-153H729"/>
 	</g>
 </g>
-<text transform="matrix(1 0 0 1 942.6299 461.5)"><tspan x="0" y="0" class="st10 st11">DO</tspan><tspan x="14.3" y="0" class="st10 st11">M</tspan></text>
-<text transform="matrix(1 0 0 1 1006.8715 460.9265)" class="st10 st11">Children</text>
+<text transform="matrix(1 0 0 1 937.6299 461.5)"><tspan x="0" y="0" class="st10 st11" style="font-family: sans-serif">DOM</tspan></text>
+<text transform="matrix(1 0 0 1 1010.8715 460.9265)" class="st10 st11" style="font-family: sans-serif">Children</text>
 </svg>
