@@ -26,7 +26,7 @@ export default class LineMetricRenderer {
   }
 
   update({ metrics = [], rollup = 1000, timeframe }) {
-    const to = timeframe.to || Date.now();
+    const to = timeframe.to;
     this.xScale.setDomainFrom(to - timeframe.windowSize);
     this.xScale.setDomainTo(to);
 
