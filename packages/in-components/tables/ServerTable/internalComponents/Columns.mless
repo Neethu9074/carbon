@@ -1,17 +1,26 @@
 :local {
+  .columnWrapper {
+    border-bottom: 1px solid #d2dfe4;
+
+    &:first-child {
+      padding-left: 1rem;
+    }
+  }
+
   .column {
+    display: flex;
+    align-items: center;
+
     font-weight: 300;
     color: #698189;
     text-transform: uppercase;
     font-size: 0.75rem;
     padding: 0.625rem 0;
     background: #fff;
-    cursor: pointer;
-    border-bottom: 1px solid #d2dfe4;
+  }
 
-    &:first-child {
-      padding-left: 1rem;
-    }
+  .sortableColumn {
+    cursor: pointer;
   }
 
   .icon {
