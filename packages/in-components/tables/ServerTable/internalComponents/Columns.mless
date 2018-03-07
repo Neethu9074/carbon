@@ -11,12 +11,17 @@
     display: flex;
     align-items: center;
 
+    text-decoration: none;
     font-weight: 300;
     color: #698189;
     text-transform: uppercase;
     font-size: 0.75rem;
     padding: 0.625rem 0;
     background: #fff;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   .sortableColumn {

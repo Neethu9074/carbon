@@ -13,12 +13,16 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
         const isSortedByThisColumn = orderBy === columnDefinition.id;
         return (
           <th key={columnDefinition.id} className={locals.columnWrapper}>
-            <div
+            <a
+              href=""
               className={evaluateClassNames({
                 [locals.column]: true,
                 [locals.sortableColumn]: isSortableColumn
               })}
-              onClick={() => {
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 if (!isSortableColumn) {
                   return;
                 }
@@ -40,7 +44,7 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
                 ) : (
                   <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
                 ))}
-            </div>
+            </a>
           </th>
         );
       })}
