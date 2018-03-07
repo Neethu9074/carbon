@@ -60,7 +60,6 @@ export default function ViewSwitcher() {
             <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
           ) : null}
           <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
-          <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
           <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
           <SubMenuItem label="Comparison Table" href$={getView(logicalTablePath)} isActive$={isTableView('logical')} />
         </View>
