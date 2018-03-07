@@ -1,4 +1,4 @@
-import { formatDateShort, formatTime } from 'in-services/formatters/date';
+import { formatDateShort, formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import theme from 'in-themes';
 
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
@@ -47,7 +47,14 @@ export default function ticks(config) {
       const tick = config.scales.x.tickPositions[i];
       const xPos = tick.range;
 
-      drawText(formatTime(tick.domain), xPos, config.scales.y1.getRangeFrom() + 6, 'left', '#7F949D', axisFont);
+      drawText(
+        formatTimeWithoutSeconds(tick.domain),
+        xPos,
+        config.scales.y1.getRangeFrom() + 6,
+        'left',
+        '#7F949D',
+        axisFont
+      );
       drawText(
         formatDateShort(tick.domain),
         xPos,
