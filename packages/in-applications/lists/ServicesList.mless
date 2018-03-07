@@ -5,6 +5,7 @@
 
   .filter {
     margin: 0 0.5rem 0 0;
+    z-index: 4;
   }
 
   .flexWrapper {
