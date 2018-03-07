@@ -1,14 +1,5 @@
 import invariant from 'invariant';
 
-const endpointTranslation = {
-  BATCH: 'Batch Methods',
-  DATABASE: 'Database Endpoints',
-  HTTP: 'HTTP Endpoints',
-  MESSAGING: 'Topics',
-  RPC: 'RPC Methods',
-  UNDEFINED: 'Undefined'
-};
-
 export const colorTranslation = {
   BATCH: '#14adff',
   DATABASE: '#cc553b',
@@ -18,13 +9,6 @@ export const colorTranslation = {
   UNDEFINED: '#cc553b'
 };
 
-export function getEndpointsLabel(type) {
-  if (__DEV__) {
-    invariant(endpointTranslation[type], `Unknown endpoint type ${type}`);
-  }
-  return endpointTranslation[type] || `${type} Endpoints`;
-}
-
 export function getColor(type) {
   if (__DEV__) {
     invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
@@ -32,8 +16,9 @@ export function getColor(type) {
   return colorTranslation[type] || colorTranslation.sdk;
 }
 
-export function getEndpointTypesComboBoxItems() {
-  return Object.keys(endpointTranslation)
+export function getEndpointTypesComboBoxItems(restrict = null) {
+  return Object.keys(colorTranslation)
+    .filter(k => restrict == null || restrict.indexOf(k) !== -1)
     .sort()
     .reduce(
       (agg, k) =>

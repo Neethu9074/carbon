@@ -74,7 +74,7 @@ export default ({
 
     reducer = change => {
       this.setState({
-        propDependingState: reducer(this.state.propDependingState, change)
+        propDependingState: reducer(this.state.propDependingState, change, this.props)
       });
     };
 

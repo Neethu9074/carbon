@@ -38,14 +38,14 @@ export default compose(
   })
 )(Endpoints);
 
-function Endpoints({ timeframe, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
+function Endpoints({ timeframe, data, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
   const rightHeader = (
     <ComboBox
       value={endpointTypes}
       onChange={t => setEndpointTypes(t.map(a => a.value))}
       placeholder="Type…"
       multi
-      options={getEndpointTypesComboBoxItems()}
+      options={getEndpointTypesComboBoxItems(data.types)}
       className={locals.filter}
     />
   );

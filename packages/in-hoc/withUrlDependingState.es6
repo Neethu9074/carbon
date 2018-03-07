@@ -151,7 +151,7 @@ export default ({
     }
 
     reducer = change => {
-      this.setValuesInMatrixParameters(pickBoundKeys(reducer(this.state.urlDependingState, change)));
+      this.setValuesInMatrixParameters(pickBoundKeys(reducer(this.state.urlDependingState, change, this.props)));
     };
 
     render() {
