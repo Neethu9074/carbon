@@ -10,7 +10,6 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import getMetrics from 'in-subscription/application/getMetrics';
 import ServerTable from 'in-components/tables/ServerTable';
 import { timeframe$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
@@ -39,19 +38,22 @@ export default connectTo(
     timeframe: timeframe$,
     showNoApplicationsDefinedIndicator: timeframe$
       .flatMap(timeframe =>
-        getMetrics({
+        getApplications({
           filter: {
             timeframe
           },
-          metrics: {
-            appCount: {
-              metric: 'applications',
-              aggregation: 'DISTINCT_COUNT'
-            }
-          }
+          pagination: {
+            page: 1,
+            pageSize: 1
+          },
+          order: {
+            by: 'applicationLabel',
+            direction: 'ASC'
+          },
+          metrics: {}
         })
       )
-      .map(result => result.data != null && (result.data.appCount.length == 0 || result.data.appCount[0][1] < 1))
+      .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
     return (
