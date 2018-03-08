@@ -65,6 +65,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
     service: serviceId,
     databaseStatementId: statement.id
   };
+  const queryResult = formatJsonOrSql(statement.statement);
 
   return (
     <MaxWidthFullscreenContainer>
@@ -165,7 +166,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
       <Row>
         <Col lg={12}>
           <Card title="Statement">
-            <Code code={formatSql(statement.statement)} lang="sql" />
+            <Code code={queryResult.code} lang={queryResult.lang} />
           </Card>
         </Col>
       </Row>
@@ -187,4 +188,20 @@ function DashboardSkeleton() {
       <DefaultLoadingDashboard />
     </MaxWidthFullscreenContainer>
   );
+}
+
+function formatJsonOrSql(queryStatement) {
+  let jsonQuery = tryFormatJsonQuery(queryStatement);
+  if (jsonQuery) return { code: jsonQuery, lang: 'json' };
+  return { code: formatSql(queryStatement), lang: 'sql' };
+}
+
+function tryFormatJsonQuery(query) {
+  let json;
+  try {
+    json = JSON.parse(query);
+  } catch (e) {
+    return null;
+  }
+  return JSON.stringify(json, 0, 2);
 }
