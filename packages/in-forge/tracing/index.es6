@@ -48,6 +48,7 @@ import './jdbc';
 import './jersey.client';
 import './jersey';
 import './jms';
+import './kinesis';
 import './kafka';
 import './ldap';
 import './log.jul';

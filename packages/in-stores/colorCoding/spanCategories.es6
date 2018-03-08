@@ -12,5 +12,6 @@ export default Object.freeze({
   eum: '#e7f57b',
   eumResource: '#fec5d9',
   missing: '#999999',
-  xray: '#faaf34'
+  xray: '#faaf34',
+  kinesis: '#faaf34'
 });
