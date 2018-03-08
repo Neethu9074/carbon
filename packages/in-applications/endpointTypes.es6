@@ -31,16 +31,3 @@ export function getColor(type) {
   }
   return colorTranslation[type] || colorTranslation.sdk;
 }
-
-export function getEndpointTypesComboBoxItems() {
-  return Object.keys(endpointTranslation)
-    .sort()
-    .reduce(
-      (agg, k) =>
-        agg.concat({
-          value: k,
-          label: k
-        }),
-      []
-    );
-}

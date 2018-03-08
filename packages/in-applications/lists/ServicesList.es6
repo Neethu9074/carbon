@@ -2,10 +2,12 @@ import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import EndpointTypeSelect, {
+  mapServicesResultToComboBoxItems
+} from 'in-applications/Dashboards/commonComponents/EndpointTypeSelect/EndpointTypeSelect';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -15,7 +17,6 @@ import getServices from 'in-subscription/application/getServices';
 import ServerTable from 'in-components/tables/ServerTable';
 import { getColor } from 'in-applications/endpointTypes';
 import { timeframe$ } from 'in-stores/timeline';
-import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -29,16 +30,16 @@ export default compose(connect({ timeframe: timeframe$ }), withState('endpointTy
 );
 
 function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
-  const rightHeader = (
-    <ComboBox
-      value={endpointTypes}
-      onChange={t => setEndpointTypes(t.map(a => a.value))}
-      placeholder="Type…"
-      multi
-      options={getEndpointTypesComboBoxItems()}
-      className={locals.filter}
-    />
-  );
+  function renderRightHeader(result, endpointTypes, setEndpointTypes) {
+    return (
+      <EndpointTypeSelect
+        setEndpointTypes={setEndpointTypes}
+        endpointTypes={endpointTypes}
+        availableTypes={mapServicesResultToComboBoxItems(result)}
+      />
+    );
+  }
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer className={locals.block}>
@@ -50,7 +51,7 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
           timeframe={timeframe}
           endpointTypes={endpointTypes}
           paginationResettingProps={{ endpointTypes, timeframe }}
-          rightHeader={rightHeader}
+          renderRightHeader={props => renderRightHeader(props.result, endpointTypes, setEndpointTypes)}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
         />

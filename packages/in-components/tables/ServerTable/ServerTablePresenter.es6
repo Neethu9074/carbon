@@ -26,8 +26,8 @@ export default function ServerTablePresenter(props) {
     columnDefinitions,
     result = pendingResult,
     cardTitle,
-    rightHeader,
-    leftHeader,
+    renderRightHeader,
+    renderLeftHeader,
 
     // events
     onChange
@@ -65,7 +65,7 @@ export default function ServerTablePresenter(props) {
 
   let header = (
     <div className={locals.rightHeader}>
-      {rightHeader}
+      {renderRightHeader && renderRightHeader(props)}
       <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page, pageSize })} />
     </div>
   );
@@ -104,7 +104,7 @@ export default function ServerTablePresenter(props) {
   if (cardTitle != null) {
     if (__DEV__) {
       invariant(
-        leftHeader == null,
+        renderLeftHeader == null,
         'Specifying a left header is not compatible with presentation of a table as a card.'
       );
     }
@@ -118,7 +118,7 @@ export default function ServerTablePresenter(props) {
   return (
     <Fragment>
       <div className={locals.header}>
-        {leftHeader || <span>&nbsp;</span>}
+        {renderLeftHeader ? renderLeftHeader(props) : <span>&nbsp;</span>}
         {header}
       </div>
       {content}

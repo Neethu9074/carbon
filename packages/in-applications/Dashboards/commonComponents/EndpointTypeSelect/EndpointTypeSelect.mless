@@ -1,0 +1,6 @@
+:local {
+  .endpointTypeSelect {
+    margin-right: 0.5rem;
+    z-index: 4;
+  }
+}
