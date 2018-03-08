@@ -54,8 +54,20 @@ function getList({ applicationId, timeframe, selectedMetric, selectedMetricAggre
   });
 }
 
-function ViewAll({ applicationId }) {
-  return <Link href$={getApplicationDashboard(applicationId, { tab: '/services' })}>View All</Link>;
+function ViewAll({ applicationId, selectedMetric }) {
+  return (
+    <Link
+      href$={getApplicationDashboard(applicationId, {
+        tab: '/services',
+        tabMatrix: {
+          'service.orderBy': `${selectedMetric}Agg`,
+          'service.orderDirection': `DESC`
+        }
+      })}
+    >
+      View All
+    </Link>
+  );
 }
 
 function Label({ item, applicationId }) {

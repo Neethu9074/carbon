@@ -13,12 +13,15 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   withPropDependingState({
-    withPropDependingState: ['metrics', 'formatters', 'aggregations'],
-    onReset: ({ metrics, formatters, aggregations }) => ({
-      selectedMetric: metrics[0],
-      selectedMetricFormatter: formatters[0],
-      selectedMetricAggregation: aggregations[0]
-    }),
+    getInitialState,
+
+    resets: [
+      {
+        getResettingProps: () => ['metrics', 'formatters', 'aggregations'],
+        onReset: getInitialState
+      }
+    ],
+
     reducerName: 'onChangeMetric',
     reducer: (prevState, newSelectedMetric, { metrics, formatters, aggregations }) => {
       let i = metrics.indexOf(newSelectedMetric);
@@ -36,6 +39,14 @@ export default compose(
     result: props.getList(props)
   }))
 )(TopList);
+
+function getInitialState({ metrics, formatters, aggregations }) {
+  return {
+    selectedMetric: metrics[0],
+    selectedMetricFormatter: formatters[0],
+    selectedMetricAggregation: aggregations[0]
+  };
+}
 
 function TopList(props) {
   return props.render(props);

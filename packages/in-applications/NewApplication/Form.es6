@@ -21,14 +21,25 @@ import locals from './Form.mless';
 
 export default compose(
   withPropDependingState({
-    resettingProps: ['application'],
-    onReset: ({ application }) => ({
-      form: getInitialForm(application)
-    }),
+    getInitialState,
+
+    resets: [
+      {
+        getResettingProps: () => ['application'],
+        onReset: getInitialState
+      }
+    ],
+
     reducerName: 'updateForm',
     reducer: (_, newForm) => ({ form: newForm })
   })
 )(NewApplicationForm);
+
+function getInitialState({ application }) {
+  return {
+    form: getInitialForm(application)
+  };
+}
 
 function NewApplicationForm({
   form,

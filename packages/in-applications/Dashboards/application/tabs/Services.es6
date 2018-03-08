@@ -1,7 +1,8 @@
-import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
@@ -10,14 +11,33 @@ import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
-import ServerTable from 'in-components/tables/ServerTable';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColor } from 'in-applications/endpointTypes';
+import { isNotBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
 import Link from 'in-components/Link';
 
 import locals from './Services.mless';
 
-export default compose(withState('endpointTypes', 'setEndpointTypes', []))(ServiceList);
+const pathSegment = '/services';
+const matrixPrefix = 'service.';
+
+export default compose(
+  withUrlDependingState({
+    getPathSegment: () => pathSegment,
+    getMatrixPrefix: () => matrixPrefix,
+    boundKeys: ['endpointTypes'],
+    getInitialState: () => ({ endpointTypes: [] }),
+    reducerName: 'setEndpointTypes',
+    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
+    getParsedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    })
+  })
+)(ServiceList);
 
 function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
   const rightHeader = (
@@ -31,9 +51,10 @@ function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpoint
     />
   );
   return (
-    <ServerTable
+    <ServerTableWithUrlBoundState
+      pathSegment={pathSegment}
+      matrixPrefix={matrixPrefix}
       get={getTableData}
-      pageSize={25}
       columnDefinitions={columnDefinitions}
       timeframe={timeframe}
       applicationId={applicationId}
@@ -42,7 +63,7 @@ function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpoint
       cardTitle="Services"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
-      paginationResettingProps={{ applicationId, endpointTypes, serviceId, endpointId, timeframe }}
+      paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeframe']}
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
     />

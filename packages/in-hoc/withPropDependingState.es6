@@ -1,34 +1,47 @@
+import { pick, curryRight, defaults } from 'lodash';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { createFactory, Component } from 'react';
-import { pick, curryRight } from 'lodash';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
-import { identity } from 'in-services/util/function';
+import { emptyArray } from 'in-services/fixedObjects';
 
 // Sample usage
 // withPropDependingState({
-//   resettingProps: [
-//     'columnDefinitions',
-//     'defaultOrderBy',
-//     'defaultOrderDirection',
-//     'defaultPageSize',
-//     'defaultQuery',
-//     'get',
-//     'paginationResettingProps'
+//   // given the props, define the initial state
+//   getInitialState,
+//
+//   // define cases which should reset / change the URL state
+//   resets: [
+//     // reset the page to 1 when one of the properties changes which are used in get
+//     {
+//       getResettingProps: ({paginationResettingProps}) => paginationResettingProps || emptyArray,
+//       onReset: () => ({ page: 1 })
+//     },
+//
+//     // reset everything once one of the basic properties changes
+//     {
+//       getResettingProps: () => [
+//         'columnDefinitions',
+//         'defaultOrderBy',
+//         'defaultOrderDirection',
+//         'defaultPageSize',
+//         'defaultQuery',
+//         'get'
+//       ],
+//       onReset: getInitialState
+//     }
 //   ],
-//   onReset: ({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) => ({
-//     orderBy: defaultOrderBy || columnDefinitions[0].id,
-//     orderDirection: defaultOrderDirection || 'ASC',
-//     page: 1,
-//     pageSize: defaultPageSize || 10,
-//     query: defaultQuery || ''
-//   }),
+//
 //   reducerName: 'onChange',
-//   reducer: (prevState, change) => defaults({}, change, prevState)
-// })(AnotherReactComponent)
-export default ({ resettingProps = [], onReset, reducerName, reducer }) => BaseComponent => {
-  const pickResettingProps = resettingProps.length > 0 ? curryRight(pick, 2)(resettingProps) : identity;
+//   reducer: (prevState, change) => defaults({}, {foo: change}, prevState)
+// })
 
+export default ({
+  getInitialState,
+  resets = emptyArray,
+  reducerName,
+  reducer = defaultingReducer
+}) => BaseComponent => {
   const factory = createFactory(BaseComponent);
   return class WithPropDependingState extends Component {
     static displayName = getDisplayName(BaseComponent, 'WithPropDependingState');
@@ -36,14 +49,25 @@ export default ({ resettingProps = [], onReset, reducerName, reducer }) => BaseC
     constructor(props) {
       super(props);
       this.state = {
-        propDependingState: onReset(props)
+        propDependingState: getInitialState(props)
       };
     }
 
     componentWillReceiveProps(nextProps) {
-      if (!shallowEquals(pickResettingProps(this.props), pickResettingProps(nextProps))) {
+      let resetExecuted = false;
+      const resultingState = resets.reduce((newState, { getResettingProps, onReset }) => {
+        const pickResettingProps = curryRight(pick, 2)(getResettingProps(nextProps));
+        if (shallowEquals(pickResettingProps(this.props), pickResettingProps(nextProps))) {
+          return newState;
+        }
+
+        resetExecuted = true;
+        return defaults({}, onReset(nextProps), newState);
+      }, defaults({}, this.state.propDependingState));
+
+      if (resetExecuted) {
         this.setState({
-          propDependingState: onReset(nextProps)
+          propDependingState: resultingState
         });
       }
     }
@@ -63,3 +87,7 @@ export default ({ resettingProps = [], onReset, reducerName, reducer }) => BaseC
     }
   };
 };
+
+function defaultingReducer(prevState, change) {
+  return defaults({}, change, prevState);
+}

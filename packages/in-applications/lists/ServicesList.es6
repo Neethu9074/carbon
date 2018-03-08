@@ -1,19 +1,21 @@
-import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
-import ServerTable from 'in-components/tables/ServerTable';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColor } from 'in-applications/endpointTypes';
+import { isNotBlank } from 'in-services/util/string';
 import { timeframe$ } from 'in-stores/timeline';
 import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
@@ -24,9 +26,25 @@ import Link from 'in-components/Link';
 
 import locals from './ServicesList.mless';
 
-export default compose(connect({ timeframe: timeframe$ }), withState('endpointTypes', 'setEndpointTypes', []))(
-  ServicesList
-);
+const matrixPrefix = 'service.';
+
+export default compose(
+  connect({ timeframe: timeframe$ }),
+  withUrlDependingState({
+    getPathSegment: () => servicesList,
+    getMatrixPrefix: () => matrixPrefix,
+    boundKeys: ['endpointTypes'],
+    getInitialState: () => ({ endpointTypes: [] }),
+    reducerName: 'setEndpointTypes',
+    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
+    getParsedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    })
+  })
+)(ServicesList);
 
 function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
   const rightHeader = (
@@ -43,13 +61,14 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
     <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer className={locals.block}>
         <Title title="Services" />
-        <ServerTable
+        <ServerTableWithUrlBoundState
           get={getTableData}
-          pageSize={25}
+          pathSegment={servicesList}
+          matrixPrefix={matrixPrefix}
           columnDefinitions={columnDefinitions}
           timeframe={timeframe}
           endpointTypes={endpointTypes}
-          paginationResettingProps={{ endpointTypes, timeframe }}
+          paginationResettingProps={['timeframe', 'endpointTypes']}
           rightHeader={rightHeader}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
