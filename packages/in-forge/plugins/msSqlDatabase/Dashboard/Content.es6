@@ -36,10 +36,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: [
-              'perfcounters.sqlserver:general statistics\\logins/sec',
-              'perfcounters.sqlserver:general statistics\\user connections'
-            ],
+            metrics: ['perfcounters.sqlserver:general statistics\\logins/sec', 'generalstats._total.user_connections'],
             labels: ['Logins/sec.', 'Connections'],
             type: 'line'
           }}
