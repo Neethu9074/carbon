@@ -22,6 +22,7 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Wordpress Current User">
           {mapUserId(span.getIn(['data', 'wp', 'user_id']))}
         </DescriptionItem>
+        <DescriptionItem title="Peak Memory Usage">{span.getIn(['data', 'php', 'memory'])}</DescriptionItem>
         {getCustomHeaders(span)}
       </DescriptionList>
     </div>

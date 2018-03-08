@@ -9,6 +9,7 @@ export default function RedisSpanDetailView({ span }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Connection">{span.getIn(['data', 'redis', 'connection'])}</DescriptionItem>
+        <DescriptionItem title="Driver">{span.getIn(['data', 'redis', 'driver'])}</DescriptionItem>
         <DescriptionItem title="Command">{span.getIn(['data', 'redis', 'command'])}</DescriptionItem>
         {subCommands.size > 0 ? (
           <DescriptionItem title="Commands in Transaction">{subCommands.join(', ')}</DescriptionItem>
