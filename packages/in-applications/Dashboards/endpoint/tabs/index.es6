@@ -3,7 +3,7 @@ import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Pe
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
-// import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
+import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 
 export default [
@@ -12,13 +12,13 @@ export default [
     path: `${endpointDashboard}/summary`,
     component: Summary
   },
-  // {
-  //   label: 'Flow Map',
-  //   path: `${endpointDashboard}/flowMap`,
-  //   component: FlowMap,
-  //   stickToHeader: true,
-  //   isFullWidth: true
-  // },
+  {
+    label: 'Flow Map',
+    path: `${endpointDashboard}/flowMap`,
+    component: FlowMap,
+    stickToHeader: true,
+    isFullWidth: true
+  },
   {
     label: 'Performance',
     path: `${endpointDashboard}/performance`,
