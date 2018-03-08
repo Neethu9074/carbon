@@ -22,10 +22,18 @@ export default connectTo(
   },
   function TraceTree({ traceId, trace, longTrace }) {
     if (!traceId) {
-      return <p className={`${block}__no-trace-selected`}>No trace selected.</p>;
+      return <p className={`${block}__no-trace`}>No trace selected.</p>;
     }
 
-    if (!longTrace || !longTrace.span || longTrace.span.get('traceId') !== traceId) {
+    if (!longTrace) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    if (longTrace.errors && longTrace.errors.length > 0) {
+      return <p className={`${block}__no-trace`}>{longTrace.errors.map(e => e.message).join(',')}</p>;
+    }
+
+    if (!longTrace.span || longTrace.span.get('traceId') !== traceId) {
       return <LoadingIndicator type="dark" />;
     }
 

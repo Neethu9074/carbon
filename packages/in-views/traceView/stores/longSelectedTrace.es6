@@ -10,6 +10,10 @@ export const longSelectedTrace$ = createTrackingStore({
       return null;
     }
 
+    if (selectedTrace.errors != null && selectedTrace.errors.length > 0) {
+      return selectedTrace;
+    }
+
     return compressTrace(transformTrace(selectedTrace));
   })
 }).observable;

@@ -15,6 +15,13 @@ export default createSubscription({
   },
 
   transform(observable) {
-    return observable.map(fromJS);
+    return observable.map(t => {
+      if (t.errors.length > 0) {
+        return fromJS({
+          errors: t.errors
+        });
+      }
+      return fromJS(t.data);
+    });
   }
 });
