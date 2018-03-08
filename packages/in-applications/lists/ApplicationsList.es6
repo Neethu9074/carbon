@@ -22,19 +22,17 @@ import Link from 'in-components/Link';
 
 import locals from './ApplicationsList.mless';
 
-function renderLeftHeader() {
-  return (
-    <Button
-      kind="default"
-      key="createApplication"
-      href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-      size="sm"
-      outlineOnly
-    >
-      Create Application
-    </Button>
-  );
-}
+const leftHeader = (
+  <Button
+    kind="default"
+    key="createApplication"
+    href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+    size="sm"
+    outlineOnly
+  >
+    Create Application
+  </Button>
+);
 
 export default connectTo(
   {
@@ -65,7 +63,7 @@ export default connectTo(
             pageSize={25}
             columnDefinitions={columnDefinitions}
             timeframe={timeframe}
-            renderLeftHeader={renderLeftHeader}
+            leftHeader={leftHeader}
             paginationResettingProps={{ timeframe }}
             defaultOrderBy="callsAgg"
             defaultOrderDirection="DESC"
