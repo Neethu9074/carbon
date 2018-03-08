@@ -83,6 +83,7 @@ export default class extends React.Component {
     const rows = roles.toArray().map(role => {
       return {
         key: role.get('id'),
+        hideDeleteButton: role.get('id') < 0,
         entity: role,
         onDelete: this.onDelete
       };

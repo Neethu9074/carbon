@@ -40,10 +40,12 @@ const block = 'in-config-view-nav';
 export default function Navigation() {
   return (
     <nav className={block}>
-      <h2 className={`${block}__heading`}>User Settings</h2>
-      <NavItems>
-        <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
-      </NavItems>
+      {!withoutInstana1Features && <h2 className={`${block}__heading`}>User Settings</h2>}
+      {!withoutInstana1Features && (
+        <NavItems>
+          <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
+        </NavItems>
+      )}
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
