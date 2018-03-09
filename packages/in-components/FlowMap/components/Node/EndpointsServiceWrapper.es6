@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
 import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -27,11 +27,10 @@ function Header({ node, data, serviceLocatorUid }) {
   return (
     <div className={locals.header}>
       {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
-      <ServiceLink className={locals.entityLink} serviceId={data.id}>
-        {data.label}
-      </ServiceLink>
       <Tooltip content={<ServiceInformationTooltip node={node} serviceLocatorUid={serviceLocatorUid} />}>
-        <SvgIcon className={locals.tooltipIcon} type="external_link" width={12} height={12} color="#6c8a91" />
+        <ServiceLink className={locals.entityLink} serviceId={data.id}>
+          {data.label}
+        </ServiceLink>
       </Tooltip>
     </div>
   );
