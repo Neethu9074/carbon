@@ -9,7 +9,7 @@ export function timeValidator(v) {
     return null;
   }
 
-  if (moment(v, timeFormat, true).isValid()) {
+  if (moment(v, timeFormat).isValid()) {
     return null;
   }
 
