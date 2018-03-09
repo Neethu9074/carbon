@@ -225,7 +225,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.compact}
+          tooltipFormatter={percentage.detailed}
         />
       );
     }

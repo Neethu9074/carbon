@@ -181,7 +181,7 @@ const columnDefinitions = [
     label: 'Errors',
     defaultOrderDirection: 'DESC',
     getContent(item) {
-      return <MetricValue value={percentage.compact(item.metrics.errorsAgg[0][1])} />;
+      return <MetricValue value={percentage.detailed(item.metrics.errorsAgg[0][1])} />;
     }
   }
 ];
