@@ -5,6 +5,7 @@ import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
+import { endpointFlowMapEnabled } from 'in-services/featureFlags';
 
 export default [
   {
@@ -12,7 +13,7 @@ export default [
     path: `${endpointDashboard}/summary`,
     component: Summary
   },
-  {
+  endpointFlowMapEnabled && {
     label: 'Flow Map',
     path: `${endpointDashboard}/flowMap`,
     component: FlowMap,
@@ -53,4 +54,4 @@ export default [
       }
     })
   }
-];
+].filter(v => !!v);
