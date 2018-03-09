@@ -10,9 +10,9 @@ export default function MetricList({ metrics, className }) {
   metrics = metrics || {};
   return (
     <div className={joinClassNames(locals.metricList, className)}>
-      <Metric type="change2" value={metrics.calls ? number.compact(metrics.calls) : '--'} />
-      <Metric type="time" value={metrics.latency ? millis.detailed(metrics.latency) : '--'} />
-      <Metric type="error" value={metrics.errors ? percentage.detailed(metrics.errors) : '--'} />
+      <Metric type="change2" value={metrics.calls != undefined ? number.compact(metrics.calls) : '--'} />
+      <Metric type="time" value={metrics.latency != undefined ? millis.detailed(metrics.latency) : '--'} />
+      <Metric type="error" value={metrics.errors != undefined ? percentage.detailed(metrics.errors) : '--'} />
     </div>
   );
 }
