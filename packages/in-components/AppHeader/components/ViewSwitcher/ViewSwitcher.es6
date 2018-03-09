@@ -67,7 +67,7 @@ export default function ViewSwitcher() {
 
         <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
 
-        {analyzeEnabled && <View label="Explore" icon="traces" href$={getView(analyze)} isActive$={isView(analyze)} />}
+        {analyzeEnabled && <View label="Analyze" icon="traces" href$={getView(analyze)} isActive$={isView(analyze)} />}
 
         <IncidentsMenuPoint />
       </ul>
