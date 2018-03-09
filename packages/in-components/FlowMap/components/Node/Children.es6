@@ -47,7 +47,7 @@ const Child = connectTo(
         className={locals.child}
       >
         <Tooltip content={data.label}>
-          <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
+          <EndpointLink className={locals.entityLink} serviceId={child.parentNode.__originalId} endpointId={data.id}>
             {data.label}
           </EndpointLink>
         </Tooltip>
