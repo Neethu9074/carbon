@@ -203,7 +203,7 @@ export default function createConnectionsService(serviceLocatorUid) {
       return;
     } else if (from.children.size > 0 && to.children.size > 0) {
       const yOffset = 0.9;
-      const yOffsetStep = 0.91;
+      const yOffsetStep = 0.915;
       let iFrom = 0;
       for (const fromChild of from.children.values()) {
         const cSource = fromChild;
