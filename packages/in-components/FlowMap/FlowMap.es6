@@ -134,7 +134,14 @@ export default class FlowMap {
     let maxValue = 0;
     nodes = nodes.values();
     for (const node of nodes) {
-      maxValue = Math.max(maxValue, node.getMetricValue(metricUsedForColorCalculation));
+      if (node.children.size > 0) {
+        const children = node.children.values();
+        for (const child of children) {
+          maxValue = Math.max(maxValue, child.getMetricValue(metricUsedForColorCalculation));
+        }
+      } else {
+        maxValue = Math.max(maxValue, node.getMetricValue(metricUsedForColorCalculation));
+      }
     }
     return maxValue;
   }
