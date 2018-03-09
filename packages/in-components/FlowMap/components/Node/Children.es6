@@ -3,6 +3,7 @@ import React from 'react';
 import { EndpointLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
 import MetricList from 'in-components/FlowMap/components/Node/MetricList';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Children.mless';
@@ -45,9 +46,11 @@ const Child = connectTo(
         }}
         className={locals.child}
       >
-        <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
-          {data.label}
-        </EndpointLink>
+        <Tooltip content={data.label}>
+          <EndpointLink className={locals.entityLink} serviceId={child.nodeOriginalId} endpointId={data.id}>
+            {data.label}
+          </EndpointLink>
+        </Tooltip>
         <MetricList className={locals.metrics} metrics={metrics} />
         <ExpandButton direction="incoming" events$={child.events$} onClick={() => child.expandLeft()} />
         <ExpandButton direction="outgoing" events$={child.events$} onClick={() => child.expandRight()} />
