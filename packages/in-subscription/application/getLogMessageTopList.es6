@@ -1,20 +1,5 @@
-import createSubscription from 'in-subscription/subscription';
-import { pendingResult } from 'in-services/fixedObjects';
-import { deepFreeze } from 'in-services/util/object';
-import 'in-subscription/subscription';
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createSubscription({
-  eventId: 'getLogMessageTopList',
-  disposeSubscriptionOnDocumentHidden: false,
-
-  getData(subscriptionId, params) {
-    return {
-      subscriptionId,
-      ...params
-    };
-  },
-
-  transform(observable) {
-    return observable.map(deepFreeze).startWith(pendingResult);
-  }
+export default createResultSubscriptionFactory({
+  eventId: 'getLogMessageTopList'
 });
