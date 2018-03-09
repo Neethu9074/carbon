@@ -20,7 +20,9 @@ export default class PathFinder {
     }
 
     const rootNode = currentNodes.get(this.rootNodeId);
-    return direction === 'incoming' ? this.searchLeft(rootNode, id) : this.searchRight(rootNode, id);
+    return (direction === 'incoming' ? this.searchLeft(rootNode, id) : this.searchRight(rootNode, id)).map(
+      item => item.id
+    );
   }
 
   findChild(nodeId, childId, direction) {
@@ -38,31 +40,38 @@ export default class PathFinder {
       .children.values()
       .next().value;
 
-    return direction === 'incoming' ? this.searchLeft(rootChild, childId) : this.searchRight(rootChild, childId);
+    return (direction === 'incoming' ? this.searchLeft(rootChild, childId) : this.searchRight(rootChild, childId)).map(
+      item => {
+        return {
+          service: item.parentNode.id,
+          endpoint: item.id
+        };
+      }
+    );
   }
 
   searchLeft(item, idToFind) {
     if (idToFind === item.id) {
-      return [idToFind];
+      return [item];
     }
 
     for (let i = 0; i < item.incoming.length; i++) {
       const match = this.searchLeft(item.incoming[i], idToFind);
       if (match) {
-        return match.concat(item.id);
+        return match.concat(item);
       }
     }
   }
 
   searchRight(item, idToFind) {
     if (idToFind === item.id) {
-      return [idToFind];
+      return [item];
     }
 
     for (let i = 0; i < item.outgoing.length; i++) {
       const match = this.searchRight(item.outgoing[i], idToFind);
       if (match) {
-        return [item.id].concat(match);
+        return [item].concat(match);
       }
     }
   }
