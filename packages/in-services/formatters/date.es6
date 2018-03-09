@@ -146,6 +146,15 @@ export function formatDurationRaw(millis) {
   }).format(timeFormat);
 }
 
+export function formatStringToTime(inputString) {
+  const date = moment(inputString, timeFormat);
+  if (date.isValid()) {
+    return date.format(timeFormat);
+  } else {
+    return inputString;
+  }
+}
+
 function formatTimeInternalAccordingToLocalTime(date) {
   const hours = ensureTwoChars(date.getHours());
   const minutes = ensureTwoChars(date.getMinutes());

@@ -1,13 +1,11 @@
 import React from 'react';
-
-import formatInputTime from 'in-new-components/time/timeInputFormatter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DateInput from 'in-components/form/DateInput';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import locals from './DateTimeInput.mless';
-
+import { formatStringToTime } from 'in-services/formatters/date';
 export default function DateTimeInput({ title, form, path, setValue, className }) {
   const dateField = form.get(path).get('date');
   const timeField = form.get(path).get('time');
@@ -39,7 +37,7 @@ export default function DateTimeInput({ title, form, path, setValue, className }
             id={`${path}-time`}
             value={timeField.value}
             onChange={e => setValue(form, [path, 'time'], e.target.value)}
-            onBlur={e => setValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+            onBlur={e => setValue(form, [path, 'time'], formatStringToTime(e.target.value))}
             hasError={!timeField.valid && timeField.touched}
             className={locals.field}
           />

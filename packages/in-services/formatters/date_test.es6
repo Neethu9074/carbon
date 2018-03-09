@@ -1,7 +1,13 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { formatDate, formatTime, formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
+import {
+  formatDate,
+  formatTime,
+  formatDateTime,
+  formatDurationAccurately,
+  formatStringToTime
+} from 'in-services/formatters/date';
 
 describe('in-services/formatters/date', () => {
   describe('formatTime', () => {
@@ -49,6 +55,19 @@ describe('in-services/formatters/date', () => {
 
     it('must ignore small times', () => {
       expect(formatDurationAccurately(6179465599, 60000)).to.equal('2mo 10d 18h 16m');
+    });
+  });
+
+  describe('formatStringToTime', () => {
+    it('must format time string correctly', () => {
+      expect(formatStringToTime('9')).to.equal('09:00:00');
+      expect(formatStringToTime('09:')).to.equal('09:00:00');
+      expect(formatStringToTime('19')).to.equal('19:00:00');
+      expect(formatStringToTime('9:1')).to.equal('09:01:00');
+      expect(formatStringToTime('9:01')).to.equal('09:01:00');
+      expect(formatStringToTime('9:10:1')).to.equal('09:10:01');
+      expect(formatStringToTime('9:10:11')).to.equal('09:10:11');
+      expect(formatStringToTime('yolo')).to.equal('yolo');
     });
   });
 });
