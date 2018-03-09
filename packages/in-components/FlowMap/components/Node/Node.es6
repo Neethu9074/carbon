@@ -2,24 +2,18 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import MediumContent from 'in-components/FlowMap/components/Node/MediumContent';
-import ExpandButton from 'in-components/FlowMap/components/Node/ExpandButton';
-import SmallContent from 'in-components/FlowMap/components/Node/SmallContent';
-import Children from 'in-components/FlowMap/components/Node/Children';
+import EndpointContent from 'in-components/FlowMap/components/Node/EndpointContent';
+import ServiceContent from 'in-components/FlowMap/components/Node/ServiceContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { applyTransform } from 'in-services/util/dom';
 import Subscriber from 'in-map/misc/Subscriber';
-import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Node.mless';
 
 export default connectTo(
   props => ({
-    data: props.node.events$.on('data'),
-    metrics: props.node.events$.on('metricValues'),
-    childList: props.node.events$.on('children'),
-    heatMapColor: props.node.events$.on('heatMapColor')
+    childList: props.node.events$.on('children')
   }),
   class extends React.Component {
     static displayName = 'Node';
@@ -52,51 +46,19 @@ export default connectTo(
     }
 
     render() {
-      const { node, metrics, data, size, isRootNode, serviceLocatorUid, childList } = this.props;
-      let heatMapColor = this.props.heatMapColor;
-
-      const label = data ? data.label : '';
-
-      heatMapColor =
-        heatMapColor &&
-        `rgba(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) | 0}, 0.8)`;
+      const { childList, isRootNode } = this.props;
 
       return (
-        <Tooltip content={size !== 'mid' ? label : null}>
-          <div
-            style={{
-              border: heatMapColor && `1px solid ${heatMapColor}`,
-              boxShadow: heatMapColor && `0px 0px 0.875rem 0px ${heatMapColor}`
-            }}
-            ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
-            className={evaluateClassNames({
-              [locals.node]: true,
-              [locals[size]]: true,
-              [locals.selected]: isRootNode
-            })}
-          >
-            {isRootNode && size !== 'xs' && <div className={locals.rootLabel}>In Focus</div>}
-
-            {getContent(metrics, data, size, serviceLocatorUid)}
-
-            {!childList && (
-              <ExpandButton direction="incoming" events$={node.events$} onClick={() => node.expandLeft()} />
-            )}
-            {!childList && (
-              <ExpandButton direction="outgoing" events$={node.events$} onClick={() => node.expandRight()} />
-            )}
-
-            <Children childList={childList} />
-          </div>
-        </Tooltip>
+        <div
+          className={evaluateClassNames({
+            [locals.node]: true,
+            [locals.selected]: isRootNode
+          })}
+          ref={nodeDomComponent => (this.nodeDomComponent = nodeDomComponent)}
+        >
+          {childList ? <EndpointContent childList={childList} {...this.props} /> : <ServiceContent {...this.props} />}
+        </div>
       );
     }
   }
 );
-
-function getContent(metrics, data, size, serviceLocatorUid) {
-  if (size === 'mid') {
-    return <MediumContent metrics={metrics} data={data} serviceLocatorUid={serviceLocatorUid} />;
-  }
-  return <SmallContent data={data} />;
-}

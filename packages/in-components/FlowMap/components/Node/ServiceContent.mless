@@ -1,0 +1,13 @@
+:local {
+  .mid,
+  .sm {
+    position: absolute;
+
+    left: -7.8125rem;
+    top: -2.8125rem;
+    width: 15.625rem;
+    height: 5.625rem;
+
+    background: white;
+  }
+}

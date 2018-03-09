@@ -1,11 +1,7 @@
 :local {
-  .mediumContent {
+  .endpointsServiceWrapper {
     display: flex;
     flex-direction: column;
-  }
-
-  .spacer {
-    height: 0.3125rem;
   }
 
   .header {
@@ -22,15 +18,5 @@
   .entityLink {
     font-size: 0.875rem;
     max-width: 12rem;
-  }
-
-  .line {
-    width: 100%;
-    border-bottom: 1px solid #e8eef0;
-    margin: 0.5rem 0;
-  }
-
-  .metrics {
-    margin: 0.375rem 1rem;
   }
 }

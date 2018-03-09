@@ -1,0 +1,19 @@
+:local {
+  .metricList {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-weight: 400;
+  }
+
+  .metric {
+    display: flex;
+    align-items: center;
+    color: #16363e;
+  }
+
+  .metricIcon {
+    margin-right: 0.3125rem;
+  }
+}

@@ -1,0 +1,15 @@
+:local {
+  .children {
+    position: absolute;
+
+    left: -7.8125rem;
+    top: -1.125rem;
+    width: 15.625rem;
+    height: 2.25rem;
+  }
+
+  .tooltipContent {
+    width: 15.625rem;
+    background: white;
+  }
+}

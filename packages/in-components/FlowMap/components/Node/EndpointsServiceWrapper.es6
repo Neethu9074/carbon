@@ -1,19 +1,15 @@
 import React from 'react';
 
-import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
-import MetricList from 'in-components/FlowMap/components/Node/MetricList';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './MediumContent.mless';
+import locals from './EndpointsServiceWrapper.mless';
 
-export default function MediumContent({ data, metrics, serviceLocatorUid }) {
+export default function EndpointsServiceWrapper({ data, serviceLocatorUid }) {
   return (
-    <div className={locals.mediumContent}>
+    <div className={locals.endpointsServiceWrapper}>
       <Header data={data} serviceLocatorUid={serviceLocatorUid} />
-      <div className={locals.line} />
-      <MetricList className={locals.metrics} metrics={metrics} />
     </div>
   );
 }
@@ -32,8 +28,6 @@ function Header({ data, serviceLocatorUid }) {
         <ServiceLink className={locals.entityLink} serviceId={data.id}>
           {data.label}
         </ServiceLink>
-        <div className={locals.spacer} />
-        <EndpointTypeBadgeList type={data.type} types={data.types} size="sm" />
       </div>
     </div>
   );
