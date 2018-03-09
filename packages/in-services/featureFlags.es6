@@ -28,7 +28,7 @@ export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 export const showTenantSwitcher = config.tenant !== 'edmunds';
 
 // 2.0 features
-export const withoutInstana1Features = __DEV__ || isFeatureFlagEnabled('withoutInstana1Features');
+export const withoutInstana1Features = false; // __DEV__ || isFeatureFlagEnabled('withoutInstana1Features');
 export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;

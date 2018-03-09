@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { longSelectedTrace$ } from 'in-views/traceView/stores/longSelectedTrace';
 import TraceFlameGraph from 'in-views/traceView/components/TraceFlameGraph';
 import TreeElement from 'in-views/traceView/components/tree/Element';
@@ -17,10 +18,10 @@ const block = 'in-trace-view-tree';
 export default connectTo(
   {
     traceId: selectedTraceId,
-    trace: selectedTrace,
+    traceResult: selectedTrace,
     longTrace: longSelectedTrace$
   },
-  function TraceTree({ traceId, trace, longTrace }) {
+  function TraceTree({ traceId, traceResult, longTrace }) {
     if (!traceId) {
       return <p className={`${block}__no-trace`}>No trace selected.</p>;
     }
@@ -29,13 +30,17 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
-    if (longTrace.errors && longTrace.errors.length > 0) {
-      return <p className={`${block}__no-trace`}>{longTrace.errors.map(e => e.message).join(',')}</p>;
+    const errors = longTrace.errors;
+
+    if (errors && errors.length > 0) {
+      return <ErroneousResultPresenter className={`${block}__no-trace`} errors={errors} />;
     }
 
     if (!longTrace.span || longTrace.span.get('traceId') !== traceId) {
       return <LoadingIndicator type="dark" />;
     }
+
+    const trace = traceResult.get('data');
 
     return (
       <div className={block}>
