@@ -22,7 +22,8 @@ import ConfigurationView from 'promise-loader?global,configView!in-views/configu
 import {
   newApplicationMonitoringEnabled,
   instanaInternalFeaturesEnabled,
-  withoutInstana1Features
+  withoutInstana1Features,
+  analyzeEnabled
 } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -37,6 +38,7 @@ import InternalViews from 'promise-loader?global,internal!in-internal';
 import { applicationsList } from 'in-applications/navigation/paths';
 import applicationRoutes from 'in-applications/navigation/routes';
 import GraphView from 'in-components/graphView/GraphView';
+import analyzeRoutes from 'in-analyze/navigation/routes';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import AsciiMap from 'in-map/AsciiMap';
 import { role } from 'in-stores/user';
@@ -68,6 +70,7 @@ export default (
     ) : null}
 
     {newApplicationMonitoringEnabled && applicationRoutes}
+    {analyzeEnabled && analyzeRoutes}
 
     {/* landing page */}
     {!withoutInstana1Features && <RedirectWithHash from="/" to={physicalPath} />}

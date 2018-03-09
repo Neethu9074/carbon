@@ -1,0 +1,6 @@
+{
+  "name": "Analyze",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Analyze.es6"
+}

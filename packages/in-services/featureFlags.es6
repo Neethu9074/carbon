@@ -30,9 +30,10 @@ export const showTenantSwitcher = config.tenant !== 'edmunds';
 // 2.0 features
 export const withoutInstana1Features = __DEV__ || isFeatureFlagEnabled('withoutInstana1Features');
 export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
+export const newApplicationMonitoringFeaturePlaceholdersEnabled = __DEV__ || testTu;
+export const analyzeEnabled = __DEV__ || isFeatureFlagEnabled('analyzeEnabled');
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;
-export const newApplicationMonitoringFeaturePlaceholdersEnabled = __DEV__ || testTu;
 
 // ########################################################################################
 // Dynamic focus keywords

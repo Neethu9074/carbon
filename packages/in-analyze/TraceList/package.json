@@ -1,0 +1,6 @@
+{
+  "name": "TraceList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TraceList.es6"
+}

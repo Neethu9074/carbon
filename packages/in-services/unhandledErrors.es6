@@ -40,7 +40,7 @@ function showUnhandledErrorMessage(e) {
     addMessage(
       {
         type: 'error',
-        title: 'This message is only visible for Instana employees!',
+        title: 'This message is only visible for Instana engineers!',
         content: `An unhandled error occured. Please report this error and how you produced it. Error message: ${
           e.message
         }`

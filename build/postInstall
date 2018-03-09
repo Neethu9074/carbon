@@ -2,34 +2,19 @@
 
 linkModule() {
   name="$1"
+  echo "linking $name"
   rm -f node_modules/$name
   ln -s "../packages/$name" "node_modules/$name"
 }
 
-echo "Symlinking node modules to node_modules to enable shorter require paths"
-linkModule in-api
-linkModule in-applications
-linkModule in-charts
-linkModule in-client
-linkModule in-components
-linkModule in-connection
-linkModule in-forge
-linkModule in-hoc
-linkModule in-internal
-linkModule in-map
-linkModule in-new-components
-linkModule in-sdk
-linkModule in-services
-linkModule in-stores
-linkModule in-subscription
-linkModule in-test
-linkModule in-themes
-linkModule in-types
-linkModule in-views
-linkModule roemitter
-linkModule instalog
-linkModule reactive-observables
+echo "🛩  symlinking packages"
+for name in `ls packages/`; do
+  linkModule "$name"
+done
+echo "✅"
 
-echo "Install commit hooks"
+echo
+echo "💣  installing commit hook"
 rm -f .git/hooks/pre-commit
 node ./node_modules/husky/bin/install.js
+echo "✅"
