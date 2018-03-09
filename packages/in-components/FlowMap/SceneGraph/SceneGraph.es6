@@ -103,7 +103,7 @@ export default class SceneGraph {
         const newNode = nodes[i];
         const serviceNode = currentNodes.has(newNode.id)
           ? currentNodes.get(newNode.id)
-          : this.addNode(newNode.id, newNode.service, {});
+          : this.addNode(newNode.id, newNode.service, newNode.metrics);
 
         node.addConnected(serviceNode, direction);
 
