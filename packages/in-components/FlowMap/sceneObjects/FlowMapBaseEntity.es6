@@ -1,6 +1,4 @@
-import getConnectionColor, {
-  DEFAULT_COLOR
-} from 'in-components/FlowMap/serviceLocator/ConnectionsServiceLocator/connectionColors';
+import getHeatMapColor, { DEFAULT_COLOR } from 'in-components/FlowMap/misc/heatMapColors';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
@@ -31,13 +29,13 @@ export default class NodeBase extends SceneObject {
     this.subscriber.addSubscription(
       getServiceLocators(this.serviceLocatorUid)
         .eventBusServiceLocator.on(SIGNALS.HEATMAP)
-        .flatMap(metricUsedForColorCalculation => {
-          if (metricUsedForColorCalculation) {
+        .flatMap(heatMapMetric => {
+          if (heatMapMetric) {
             return getServiceLocators(this.serviceLocatorUid)
               .eventBusServiceLocator.on('maxHeatMapMetricValue')
               .map(maxHeatMapMetricValue => {
                 return maxHeatMapMetricValue
-                  ? getConnectionColor(this.getMetricValue(metricUsedForColorCalculation) / maxHeatMapMetricValue)
+                  ? getHeatMapColor(heatMapMetric, this.getMetricValue(heatMapMetric) / maxHeatMapMetricValue)
                   : null;
               });
           } else {
