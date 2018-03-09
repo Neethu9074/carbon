@@ -10,7 +10,7 @@ import Link from 'in-components/Link';
 const metrics = ['latency', 'calls', 'errors'];
 const labels = ['Latency', 'Calls', 'Errors'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [millis.fixedCompact, number.compact, percentage.compact];
+const formatters = [millis.fixedCompact, number.compact, percentage.detailed];
 
 export default function EndpointTopList({ applicationId, serviceId, timeframe }) {
   return (

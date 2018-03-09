@@ -146,7 +146,7 @@ const columnDefinitions = [
           timeframe={getResolvedTimeframe(timeframe, result)}
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.compact}
+          tooltipFormatter={percentage.detailed}
         />
       );
     }
