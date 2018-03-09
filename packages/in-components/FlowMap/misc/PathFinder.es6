@@ -43,7 +43,7 @@ export default class PathFinder {
     return (direction === 'incoming' ? this.searchLeft(rootChild, childId) : this.searchRight(rootChild, childId)).map(
       item => {
         return {
-          service: item.parentNode.id,
+          service: item.parentNode.__originalId,
           endpoint: item.id
         };
       }
