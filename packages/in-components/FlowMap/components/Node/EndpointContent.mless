@@ -3,13 +3,8 @@
     position: absolute;
 
     left: -7.8125rem;
-    top: -1.125rem;
+    top: -0.8125rem;
     width: 15.625rem;
-    height: 2.25rem;
-  }
-
-  .tooltipContent {
-    width: 15.625rem;
-    background: white;
+    height: 1.625rem;
   }
 }

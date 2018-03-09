@@ -7,8 +7,8 @@
   .header {
     display: flex;
     align-items: center;
-    height: 2.625rem;
-    margin-left: 0.75rem;
+    height: 1.625rem;
+    margin: 0 0.75rem;
   }
 
   .pluginIcon {
@@ -18,5 +18,15 @@
   .entityLink {
     font-size: 0.875rem;
     max-width: 12rem;
+  }
+
+  .tooltipContent {
+    width: 15.625rem;
+    background: white;
+  }
+
+  .tooltipIcon {
+    position: absolute;
+    right: 0;
   }
 }
