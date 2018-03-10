@@ -103,14 +103,7 @@ export default class Node extends FlowMapBaseEntity {
     getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getIncomingFlowNodes$(this.id);
   }
 
-  disposeSubscriptions() {
-    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-    dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(this.id);
-  }
-
   dispose() {
-    this.disposeSubscriptions();
-
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);
     serviceLocators.nodesServiceLocator.removeNode(this.id, this);
 

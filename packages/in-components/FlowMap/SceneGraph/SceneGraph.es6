@@ -227,20 +227,18 @@ export default class SceneGraph {
     getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update(nodesMap);
   }
 
-  disposeOpenDataSubscriptionsForNodeId(id) {
-    this.disposeSubscription(id, 'incoming');
-    this.disposeSubscription(id, 'outgoing');
-  }
-
-  disposeSubscription(id, direction) {
-    const directionSubscriptions = this.subscriptions.get(id);
-    if (directionSubscriptions && directionSubscriptions[direction]) {
-      directionSubscriptions[direction].dispose();
-      delete directionSubscriptions[direction];
-    }
-  }
-
   dispose() {
+    const subscriptions = this.subscriptions.values();
+    for (const subscription of subscriptions) {
+      if (subscription.incoming) {
+        subscription.incoming.dispose();
+      }
+      if (subscription.outgoing) {
+        subscription.outgoing.dispose();
+      }
+    }
+    this.subscriptions.clear();
+
     this.layoutSubscription.dispose();
     this.layoutSubscription = null;
 

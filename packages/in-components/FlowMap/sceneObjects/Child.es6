@@ -39,15 +39,4 @@ export default class Child extends FlowMapBaseEntity {
       this.id
     );
   }
-
-  disposeSubscriptions() {
-    const dataFetchingServiceLocator = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator;
-    dataFetchingServiceLocator.disposeOpenDataSubscriptionsForNodeId(`${this.parentNode.id}__${this.id}`);
-  }
-
-  dispose() {
-    super.dispose();
-
-    this.disposeSubscriptions();
-  }
 }

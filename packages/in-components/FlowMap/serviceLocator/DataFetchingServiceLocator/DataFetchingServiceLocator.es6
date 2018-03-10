@@ -38,8 +38,4 @@ export default class DataFetchingServiceLocator extends BaseServiceLocator {
   getNode$(id) {
     return this.service.getNode$(id);
   }
-
-  disposeOpenDataSubscriptionsForNodeId(id) {
-    this.sceneGraph.disposeOpenDataSubscriptionsForNodeId(id);
-  }
 }
