@@ -26,7 +26,9 @@ export default getElementDimensions(
         this.props.height !== nextProps.height ||
         this.props.customHeight !== nextProps.customHeight
       ) {
-        this.flowMap.setSize(nextProps.width, nextProps.customHeight || nextProps.height);
+        if (this.flowMap) {
+          this.flowMap.setSize(nextProps.width, nextProps.customHeight || nextProps.height);
+        }
       }
     }
 
