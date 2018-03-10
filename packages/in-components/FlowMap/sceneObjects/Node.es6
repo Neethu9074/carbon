@@ -3,6 +3,7 @@ import { combineLatest } from 'reactive-observables';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
 import Child from 'in-components/FlowMap/sceneObjects/Child';
+import { find } from 'in-services/arrayUtils';
 
 // 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
 const leftBoundary = -0.1;
@@ -84,6 +85,14 @@ export default class Node extends FlowMapBaseEntity {
     this.events$.emit('children', this.children);
 
     return newChild;
+  }
+
+  addConnected(item, direction) {
+    const contains = find(this[direction], _item => _item.id === item.id);
+    if (!contains) {
+      this[direction].push(item);
+      this.setIsExpanded(true, direction);
+    }
   }
 
   expandRight() {

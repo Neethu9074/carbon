@@ -1,5 +1,6 @@
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
+import { find } from 'in-services/arrayUtils';
 
 export default class Child extends FlowMapBaseEntity {
   constructor(parentNode, id, metricValues) {
@@ -8,6 +9,17 @@ export default class Child extends FlowMapBaseEntity {
     this.parentNode = parentNode;
 
     this.initSubscriptions(metricValues);
+  }
+
+  addConnected(child, direction) {
+    const contains = find(
+      this[direction],
+      _child => _child.parentNode.id === child.parentNode.id && _child.id === child.id
+    );
+    if (!contains) {
+      this[direction].push(child);
+      this.setIsExpanded(true, direction);
+    }
   }
 
   getMetrics(dataFetchingServiceLocator) {

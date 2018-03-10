@@ -128,29 +128,29 @@ export default class SceneGraph {
   }
 
   processEndpointResult(nodeId, endpointId, result, direction, path) {
-    const onResult = (node, nodes, currentNodes) => {
+    const onResult = (node, children, currentNodes) => {
       const child = node.children.get(endpointId);
       child.setIsExpanded(true, direction);
 
-      for (let i = 0; i < nodes.length; i++) {
-        const newNode = nodes[i];
-        const serviceNode = currentNodes.has(newNode.id)
-          ? currentNodes.get(newNode.id)
-          : this.addNode(newNode.id, newNode.service, newNode.metrics);
+      for (let i = 0; i < children.length; i++) {
+        const newChild = children[i];
+        const serviceNode = currentNodes.has(newChild.id)
+          ? currentNodes.get(newChild.id)
+          : this.addNode(newChild.id, newChild.service, newChild.metrics);
 
         node.addConnected(serviceNode, direction);
 
-        const newChild = serviceNode.addChild(newNode.endpoint, newNode.metrics);
+        const newChildSceneObject = serviceNode.addChild(newChild.endpoint, newChild.metrics);
 
         if (direction === 'incoming') {
           serviceNode.setIsExpanded(true, 'outgoing');
-          newChild.setIsExpanded(true, 'outgoing');
+          newChildSceneObject.setIsExpanded(true, 'outgoing');
         } else {
           serviceNode.setIsExpanded(true, 'incoming');
-          newChild.setIsExpanded(true, 'incoming');
+          newChildSceneObject.setIsExpanded(true, 'incoming');
         }
 
-        child.addConnected(newChild, direction);
+        child.addConnected(newChildSceneObject, direction);
       }
     };
 

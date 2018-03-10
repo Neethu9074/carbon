@@ -68,11 +68,6 @@ export default function createConnectionsService(serviceLocatorUid) {
   return instance;
 
   function setConnections(nextConnectionConfigs) {
-    nextConnectionConfigs = nextConnectionConfigs.map(config => {
-      config.id = createConnectionId(config.from, config.to);
-      return config;
-    });
-
     const difference = diff(Array.from(connections.keys()), nextConnectionConfigs.map(config => config.id));
     remove(difference.uniqueItemsA);
     add(nextConnectionConfigs);
@@ -238,6 +233,26 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   function getChildConnection(from, to, fromPos, toPos, direction) {
+    const config = getConnectionConfig(from, to, fromPos, toPos, direction);
+    config.id = createConnectionId({ id: from.parentNode.id + '_' + from.id }, { id: to.parentNode.id + '_' + to.id });
+    return config;
+  }
+
+  function getConnection(from, to, xOffset, yOffset, direction) {
+    const fromPos = from.position.clone();
+    fromPos.x += xOffset;
+    fromPos.y += yOffset;
+
+    const toPos = to.position.clone();
+    toPos.x -= xOffset;
+    toPos.y += yOffset;
+
+    const config = getConnectionConfig(from, to, fromPos, toPos, direction);
+    config.id = createConnectionId(config.from, config.to);
+    return config;
+  }
+
+  function getConnectionConfig(from, to, fromPos, toPos, direction) {
     return {
       direction,
       from: {
@@ -253,18 +268,6 @@ export default function createConnectionsService(serviceLocatorUid) {
         getHeatMapColor: () => to.getHeatMapColor()
       }
     };
-  }
-
-  function getConnection(from, to, xOffset, yOffset, direction) {
-    const fromPos = from.position.clone();
-    fromPos.x += xOffset;
-    fromPos.y += yOffset;
-
-    const toPos = to.position.clone();
-    toPos.x -= xOffset;
-    toPos.y += yOffset;
-
-    return getChildConnection(from, to, fromPos, toPos, direction);
   }
 
   function indexOf(childToFind, children) {

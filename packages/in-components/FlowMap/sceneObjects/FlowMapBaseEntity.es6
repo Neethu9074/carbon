@@ -4,7 +4,6 @@ import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
-import { find } from 'in-services/arrayUtils';
 
 export default class NodeBase extends SceneObject {
   constructor(serviceLocatorUid, id, metricValues) {
@@ -100,14 +99,6 @@ export default class NodeBase extends SceneObject {
     }
     this.setIsLoadingData(false, direction);
     this.events$.emit(`errors_${direction}`, errors);
-  }
-
-  addConnected(item, direction) {
-    const contains = find(this[direction], _item => _item.id === item.id);
-    if (!contains) {
-      this[direction].push(item);
-      this.setIsExpanded(true, direction);
-    }
   }
 
   resetConnected(direction) {
