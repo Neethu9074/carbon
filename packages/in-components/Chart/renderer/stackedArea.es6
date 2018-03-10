@@ -20,8 +20,9 @@ function calculateMetricMap(metrics) {
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
+      const previousValue = i > 0 ? dataSeries[i - 1] : 0;
       const stackedValueAtTime = metricMap[dataPoint[0]] || 0;
-      const value = stackedValueAtTime + dataPoint[1];
+      const value = stackedValueAtTime + dataPoint[1] - previousValue;
       metricMap[dataPoint[0]] = value;
     }
   }

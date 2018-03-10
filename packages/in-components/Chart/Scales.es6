@@ -47,7 +47,7 @@ export default class Scales {
       const minMax = this.getMinMaxValueForDataSeries(metrics[iMetric]);
 
       if (axis.valuesNeedToBeStacked) {
-        maxValue += minMax.maxValue;
+        maxValue += Math.max(0, minMax.maxValue - maxValue);
       } else {
         maxValue = Math.max(maxValue, minMax.maxValue);
       }
