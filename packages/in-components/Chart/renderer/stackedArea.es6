@@ -1,8 +1,7 @@
 export default {
   render: ({ metrics, colors, scale, config }) => {
-    const metricMap = calculateMetricMap(metrics);
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors[iMetric], metrics[iMetric], metricMap, scale);
+      renderDataSeries(config, colors[iMetric], metrics[iMetric], scale);
     }
   },
 
@@ -12,34 +11,17 @@ export default {
   }
 };
 
-function calculateMetricMap(metrics) {
-  const metricMap = {};
-
-  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-    const dataSeries = metrics[iMetric];
-
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      const previousValue = i > 0 ? dataSeries[i - 1] : 0;
-      const stackedValueAtTime = metricMap[dataPoint[0]] || 0;
-      const value = stackedValueAtTime + dataPoint[1] - previousValue;
-      metricMap[dataPoint[0]] = value;
-    }
-  }
-  return metricMap;
-}
-
-function renderDataSeries(config, color, dataSeries, metricMap, scale) {
+function renderDataSeries(config, color, dataSeries, scale) {
   config.ctx.beginPath();
   config.ctx.fillStyle = color;
 
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i]);
+    drawBlock(config, scale, blocks[i]);
   }
 }
 
-function drawBlock(metricMap, config, scale, block) {
+function drawBlock(config, scale, block) {
   if (block.length === 0) {
     return;
   }
@@ -57,11 +39,6 @@ function drawBlock(metricMap, config, scale, block) {
     const time = dataPoint[0];
 
     let value = dataPoint[1];
-    if (metricMap[time]) {
-      value = metricMap[time];
-      metricMap[time] -= dataPoint[1];
-    }
-
     const xPos = config.scales.x.getRange(time);
     const yPos = scale.getRange(value);
     config.ctx.lineTo(xPos, yPos);
