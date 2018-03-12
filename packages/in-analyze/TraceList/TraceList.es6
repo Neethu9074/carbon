@@ -8,14 +8,15 @@ import {
   serviceId as serviceIdMatrixName,
   endpointId as endpointIdMatrixName
 } from 'in-applications/navigation/matrix';
+import { analyze, getLinkToTraceDetail, traceList } from 'in-analyze/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { number, millis } from 'in-services/formatters/number';
 import getTraces from 'in-subscription/application/getTraces';
 import { formatDateTime } from 'in-services/formatters/date';
-import { analyze } from 'in-analyze/navigation/paths';
 import { timeframe$ } from 'in-stores/timeline';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 export default compose(connect({ timeframe: timeframe$ }))(TraceList);
 
@@ -25,8 +26,7 @@ function TraceList({ timeframe, location }) {
       <Title title="Traces" />
       <ServerTableWithUrlBoundState
         get={getTableData}
-        pathSegment="/traces"
-        matrixPrefix="traces."
+        pathSegment={traceList}
         columnDefinitions={columnDefinitions}
         timeframe={timeframe}
         applicationId={getMatrixParameter(location, analyze, appIdMatrixName)}
@@ -63,6 +63,7 @@ const columnDefinitions = [
   {
     id: 'startTime',
     label: 'Time',
+    defaultOrderDirection: 'DESC',
     getContent(item) {
       return <span>{formatDateTime(item.startTime)}</span>;
     }
@@ -71,12 +72,17 @@ const columnDefinitions = [
     id: 'entryEndpointLabel',
     label: 'Label',
     getContent(item) {
-      return <span>{item.endpoint.label}</span>;
+      return (
+        <Link href$={getLinkToTraceDetail(item.traceId)}>
+          <span>{item.endpoint.label}</span>
+        </Link>
+      );
     }
   },
   {
     id: 'duration',
     label: 'Duration',
+    defaultOrderDirection: 'DESC',
     getContent(item) {
       return <span>{millis.compact(item.duration)}</span>;
     }
@@ -84,6 +90,7 @@ const columnDefinitions = [
   {
     id: 'totalErrorCount',
     label: 'Errors',
+    defaultOrderDirection: 'DESC',
     getContent(item) {
       return <span>{number.compact(item.totalErrorCount)}</span>;
     }

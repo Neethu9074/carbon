@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { analyze, traceList, traceDetail } from 'in-analyze/navigation/paths';
+import { analyze, traceListFullyQualified, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 
 // the following components are all part of the same bundle.
 // Bundle Name: analyze
@@ -12,8 +12,8 @@ import Analyze from 'promise-loader?global,analyze!in-analyze/Analyze';
 
 export default (
   <Fragment>
-    <Route path={traceList} component={createAsyncViewComponent(TraceList)} />
-    <Route path={traceDetail} component={createAsyncViewComponent(TraceDetail)} />
+    <Route path={traceListFullyQualified} component={createAsyncViewComponent(TraceList)} />
+    <Route path={traceDetailFullyQualified} component={createAsyncViewComponent(TraceDetail)} />
     <Route path={analyze} component={createAsyncViewComponent(Analyze)} />
   </Fragment>
 );
