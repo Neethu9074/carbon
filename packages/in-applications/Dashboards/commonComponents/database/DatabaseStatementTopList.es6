@@ -16,7 +16,7 @@ const formatters = [ms.compact, number.compact, number.compact];
 export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
-      title="Slow Statements"
+      title="Top Statements"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
