@@ -57,6 +57,7 @@ As alternative (especially for Linux), you might use the `nginx` script as provi
 #### Additional UI Engineer Software
 So, you are a UI engineer? Then you will also need the following awesome software for your awesome work!
 
+ - [Chrome Extension](https://github.com/instana/internal-tools/tree/master/chrome-browser-extension): We have our own Chrome dev tools extension which allows insights into the state of our global stores.
  - [Sketch](https://www.sketchapp.com/): This is our tool of choice for mockups and designs. You have to hit the `Free Trial` button to download it. You can get a license from Michael Krumm (just ask via Slack).
  - [SFPro font](https://developer.apple.com/fonts/downloads/SFPro.zip): This is the default MacOS system font that we are using in our product. Unfortunately, this font can only be used in Sketch when installed separately.
 
