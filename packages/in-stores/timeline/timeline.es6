@@ -19,45 +19,39 @@ const logger = createLogger('in-stores/timeline');
 export const timeframe$ = createTrackingStore({
   name: 'timeline/timeline',
   observable: navigationParameters$
-    .map(params => {
-      let to = null;
-      const toQuery = params.query['timeline.to'];
-      if (toQuery != null && toQuery.length > 0) {
-        try {
-          const parsed = parseInt(toQuery, 10);
-          if (!isNaN(parsed)) {
-            to = parsed;
-          }
-        } catch (e) {
-          logger.info(`Failed to parse timeline.to part of query. Given: ${toQuery}`);
-        }
-      }
-
-      let windowSize;
-      //if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
-      if (newTimePickerEnabled) {
-        windowSize = 1000 * 60 * 60;
-      } else {
-        windowSize = 1000 * 60 * 10;
-      }
-
-      const windowSizeQuery = params.query['timeline.ws'];
-      if (windowSizeQuery != null && windowSizeQuery.length > 0) {
-        try {
-          const parsed = parseInt(windowSizeQuery, 10);
-          if (!isNaN(parsed)) {
-            windowSize = parsed;
-          }
-        } catch (e) {
-          logger.info(`Failed to parse timeline.ws part of query. Given: ${windowSizeQuery}`);
-        }
-      }
-
-      return { to, windowSize };
-    })
+    .map(getTimeframe)
     .distinct((prev, next) => prev.to !== next.to || prev.windowSize !== next.windowSize)
 }).observable;
 export const timeframe = timeframe$;
+
+export function getTimeframe(params) {
+  let to = null;
+  const toQuery = params.query['timeline.to'];
+  if (toQuery != null && toQuery.length > 0) {
+    const parsed = parseInt(toQuery, 10);
+    if (!isNaN(parsed)) {
+      to = parsed;
+    }
+  }
+
+  let windowSize;
+  // if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
+  if (newTimePickerEnabled) {
+    windowSize = 1000 * 60 * 60;
+  } else {
+    windowSize = 1000 * 60 * 10;
+  }
+
+  const windowSizeQuery = params.query['timeline.ws'];
+  if (windowSizeQuery != null && windowSizeQuery.length > 0) {
+    const parsed = parseInt(windowSizeQuery, 10);
+    if (!isNaN(parsed)) {
+      windowSize = parsed;
+    }
+  }
+
+  return { to, windowSize };
+}
 
 export const to$ = timeframe$
   .flatMap(_timeframe => {
