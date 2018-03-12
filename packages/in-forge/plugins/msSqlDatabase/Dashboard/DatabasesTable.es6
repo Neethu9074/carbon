@@ -55,6 +55,17 @@ function getDetails(row) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Read &amp; Write (bytes)">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
+          y1={{
+            metrics: ['iostats.' + row.key + '.num_of_bytes_read', 'iostats.' + row.key + '.num_of_bytes_written'],
+            labels: ['Read', 'Write'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
       <DashboardSection title="Transactions">
         <Chart
           snapshotId={row.snapshotId}
