@@ -50,18 +50,18 @@ function getDetails(row) {
           timeframe={row.timeframe}
           y1={{
             metrics: ['generalstats.' + row.key + '.user_connections'],
-            labels: ['Connections'],
+            labels: ['User Connections'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Read &amp; Write (bytes)">
+      <DashboardSection title="Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}
           y1={{
             metrics: ['iostats.' + row.key + '.num_of_bytes_read', 'iostats.' + row.key + '.num_of_bytes_written'],
-            labels: ['Read', 'Write'],
+            labels: ['Reads', 'Writes'],
             type: 'line'
           }}
         />

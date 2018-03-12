@@ -38,19 +38,19 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           timeframe={timeframe}
           y1={{
             metrics: ['generalstats._total.user_connections'],
-            labels: ['Connections'],
+            labels: ['User Connections'],
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Read &amp; Write (bytes)">
+      <DashboardSection title="Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
             metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
-            labels: ['Read', 'Write'],
+            labels: ['Reads', 'Writes'],
             type: 'line'
           }}
         />
