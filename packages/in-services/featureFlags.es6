@@ -34,7 +34,7 @@ export const newApplicationMonitoringFeaturePlaceholdersEnabled = __DEV__ || tes
 export const analyzeEnabled = __DEV__ || isFeatureFlagEnabled('analyzeEnabled');
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;
-export const endpointFlowMapEnabled = __DEV__ || testTu || isFeatureFlagEnabled('endpointFlowMapEnabled');
+export const endpointFlowMapEnabled = __DEV__ || testTu || newApplicationMonitoringEnabled;
 
 // ########################################################################################
 // Dynamic focus keywords
