@@ -5,6 +5,9 @@ import { getTracesCount } from 'in-applications/components/TracesButton';
 import getApplication from 'in-subscription/application/getApplication';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { analyzeEnabled } from 'in-services/featureFlags';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './TraceList.mless';
@@ -47,6 +50,14 @@ export default connectTo(
           total={allTracesCount}
           timeframe={timeframe}
         />
+
+        {analyzeEnabled && (
+          <div className={locals.cta}>
+            <Button kind="primary" size="normal" href$={getLinkToAnalyze({ applicationId, serviceId, endpointId })}>
+              Analyze
+            </Button>
+          </div>
+        )}
       </section>
     );
   }
