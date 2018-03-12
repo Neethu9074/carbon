@@ -1,8 +1,8 @@
 import React from 'react';
 
-import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
-import Switch from 'in-applications/TabView/components/Switch';
-import Header from 'in-applications/TabView/components/Header';
+import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import Switch from 'in-new-components/TabView/components/Switch';
+import Header from 'in-new-components/TabView/components/Header';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 

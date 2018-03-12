@@ -4,8 +4,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const analyze = '/analyze';
-export const traceList = `/traces`;
-export const traceListFullyQualified = `${analyze}/traces`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
 

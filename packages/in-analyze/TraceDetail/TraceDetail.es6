@@ -8,7 +8,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import AnalyzeRoot from 'in-analyze/breadcrumbs/AnalyzeRoot';
 import getTrace from 'in-subscription/application/getTrace';
 import { traceDetail } from 'in-analyze/navigation/paths';
-import TabView from 'in-applications/TabView/TabView';
+import TabView from 'in-new-components/TabView/TabView';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
 
 export default function TraceDetail({ location }) {

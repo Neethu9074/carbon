@@ -9,7 +9,7 @@ import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TracesButton from 'in-applications/components/TracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import TabView from 'in-applications/TabView/TabView';
+import TabView from 'in-new-components/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 

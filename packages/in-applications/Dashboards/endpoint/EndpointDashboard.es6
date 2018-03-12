@@ -10,7 +10,7 @@ import TracesButton from 'in-applications/components/TracesButton';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import TabView from 'in-applications/TabView/TabView';
+import TabView from 'in-new-components/TabView/TabView';
 import { timeframe$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 

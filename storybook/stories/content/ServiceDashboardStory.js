@@ -2,10 +2,10 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
-import BreadcrumbHeader from 'in-applications/TabView/components/BreadcrumbHeader';
+import BreadcrumbHeader from 'in-new-components/TabView/components/BreadcrumbHeader';
 // import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 // import breadcrumbs from 'in-applications/Dashboards/service/breadcrumbs';
-import DashboardHeader from 'in-applications/TabView/components/Header';
+import DashboardHeader from 'in-new-components/TabView/components/Header';
 import Root from '../_helpers/Root';
 
 storiesOf('content/Service Dashboard', module)

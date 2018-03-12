@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import React from 'react';
 
 import getMetrics from 'in-subscription/application/getMetrics';
-import TabHeader from 'in-applications/TabView/tabs/TabHeader';
+import TabHeader from 'in-new-components/TabView/tabs/TabHeader';
 import { number } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
 
