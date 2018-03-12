@@ -72,7 +72,7 @@ function getDetails(row) {
           timeframe={row.timeframe}
           y1={{
             metrics: ['perfcounters.databases.' + row.key.toLowerCase() + '.write_transactions_sec'],
-            labels: ['Write Transactions/sec'],
+            labels: ['Write Transactions'],
             type: 'line'
           }}
         />
