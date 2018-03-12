@@ -55,6 +55,17 @@ function getDetails(row) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Transactions">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
+          y1={{
+            metrics: ['perfcounters.databases.' + row.key.toLowerCase() + '.write_transactions_sec'],
+            labels: ['Write Transactions/sec'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
     </div>
   );
 }

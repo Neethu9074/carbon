@@ -42,6 +42,47 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Errors">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: [
+              'perfcounters.sql_errors._total.errors_sec',
+              'perfcounters.sql_errors.user_errors.errors_sec',
+              'perfcounters.sql_errors.db_offline_errors.errors_sec',
+              'perfcounters.sql_errors.kill_connection_errors.errors_sec'
+            ],
+            labels: ['Total Errors/sec.', 'User Errors/sec.', 'DB Offline Errors/sec.', 'Kill Connection Errors/sec.'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Transactions">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['perfcounters.databases._total.write_transactions_sec'],
+            labels: ['Write Transactions/sec.'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Locks">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: [
+              'perfcounters.locks._total.lock_requests_sec',
+              'perfcounters.locks._total.number_of_deadlocks_sec'
+            ],
+            labels: ['Lock Requests/sec.', 'Number of Deadlocks/sec.'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <DatabasesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
