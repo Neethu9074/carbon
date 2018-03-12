@@ -34,12 +34,16 @@ describe('in-services/util/id', () => {
 
     it('must support all JSON types', () => {
       expect(generateStableHash([3, undefined, null, 'foo', true, false, 2])).to.equal(
-        '[3,undefined,null,"foo",true,false,2]'
+        '[3,null,null,"foo",true,false,2]'
       );
     });
 
     it('must support recursive objects', () => {
       expect(generateStableHash({ b: 42, a: [{ d: 42, c: true }] })).to.equal('{"a":[{"c":true,"d":42}],"b":42}');
+    });
+
+    it('must drop undefined object values like regular JSON.stringify', () => {
+      expect(generateStableHash({ a: 42, b: undefined })).to.equal('{"a":42}');
     });
   });
 });

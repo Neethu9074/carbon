@@ -40,10 +40,11 @@ export function generateStableHash(obj: any): string {
   } else if (obj == null) {
     return 'null';
   } else if (obj instanceof Array) {
-    return '[' + obj.map(generateStableHash).join(',') + ']';
+    return '[' + obj.map(v => (v === undefined ? 'null' : generateStableHash(v))).join(',') + ']';
   } else if (typeof obj === 'object') {
     const values = Object.keys(obj)
       .sort()
+      .filter(k => obj[k] !== undefined)
       .map(k => `"${k}":${generateStableHash(obj[k])}`)
       .join(',');
 
