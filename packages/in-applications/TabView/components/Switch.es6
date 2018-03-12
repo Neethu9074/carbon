@@ -25,15 +25,13 @@ export default function TabSwitch({ tabs, result, location, props }) {
 
   return (
     <Switch>
-      {tabs.map(tab => {
-        return (
-          <Route
-            key={tab.path}
-            path={tab.path}
-            render={() => <ViewWrapper tab={tab} data={result.data} location={location} props={props} />}
-          />
-        );
-      })}
+      {tabs.map(tab => (
+        <Route
+          key={tab.path}
+          path={tab.path}
+          render={() => <ViewWrapper tab={tab} data={result.data} location={location} props={props} />}
+        />
+      ))}
     </Switch>
   );
 }
