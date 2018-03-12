@@ -1,4 +1,5 @@
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import {
   applicationId as matrixApplicationId,
@@ -50,11 +51,9 @@ export function getEndpointDashboard(endpointId, { applicationId, serviceId, tab
 function getDashboard({ base, applicationId, serviceId, endpointId, tab = '/summary', tabMatrix = emptyObject }) {
   return getModifiedUrlStream(params => {
     params.pathname = `${base}${tab}`;
-    params.matrix[base] = {
-      [matrixApplicationId]: applicationId,
-      [matrixServiceId]: serviceId,
-      [matrixEndpointId]: endpointId
-    };
+    setOrDeleteMatrixKey(params, base, matrixApplicationId, applicationId);
+    setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
+    setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
     params.matrix[tab] = tabMatrix;
   });
 }
