@@ -31,13 +31,26 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Connections &amp; Users">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: ['perfcounters.sqlserver:general statistics\\logins/sec', 'generalstats._total.user_connections'],
-            labels: ['Logins/sec.', 'Connections'],
+            metrics: ['generalstats._total.user_connections'],
+            labels: ['Connections'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Read &amp; Write (bytes)">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
+            labels: ['Read', 'Write'],
             type: 'line'
           }}
         />
