@@ -193,41 +193,48 @@ export default function createConnectionsService(serviceLocatorUid) {
       .initialNodeSizeInPx;
 
     const xOffset = initialNodeSizeInPx * initialPxUnitRation / 2;
+
     if (from.children.size === 0 && to.children.size === 0) {
       connections.push(getConnection(from, to, xOffset, 0, direction));
       return;
     } else if (from.children.size > 0 && to.children.size > 0) {
-      const yOffset = 0.9;
-      const yOffsetStep = 0.915;
-      let iFrom = 0;
-      for (const fromChild of from.children.values()) {
-        const cSource = fromChild;
-        let sourcePos = cSource.parentNode.position.clone();
-        sourcePos.x -= xOffset;
-        sourcePos.y -= yOffset + iFrom * yOffsetStep;
-        iFrom++;
+      connectChildren(from, xOffset, connections);
+      connectChildren(to, xOffset, connections);
+    }
+  }
 
-        for (let i = 0; i < fromChild.incoming.length; i++) {
-          const cFrom = fromChild.incoming[i];
-          const fromPos = cFrom.parentNode.position.clone();
-          const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
+  function connectChildren(node, xOffset, connections) {
+    const yOffset = 0.9;
+    const yOffsetStep = 0.915;
+    let iFrom = 0;
 
-          fromPos.y -= yOffset + iChild * yOffsetStep;
-          fromPos.x += xOffset;
-          connections.push(getChildConnection(cFrom, cSource, fromPos, sourcePos, 'incoming'));
-        }
+    for (const fromChild of node.children.values()) {
+      const cSource = fromChild;
+      let sourcePos = cSource.parentNode.position.clone();
+      sourcePos.x -= xOffset;
+      sourcePos.y -= yOffset + iFrom * yOffsetStep;
+      iFrom++;
 
-        sourcePos = sourcePos.clone();
-        sourcePos.x += 2 * xOffset;
-        for (let i = 0; i < fromChild.outgoing.length; i++) {
-          const cTo = fromChild.outgoing[i];
-          const toPos = cTo.parentNode.position.clone();
-          const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
+      for (let i = 0; i < fromChild.incoming.length; i++) {
+        const cFrom = fromChild.incoming[i];
+        const fromPos = cFrom.parentNode.position.clone();
+        const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
 
-          toPos.y -= yOffset + iChild * yOffsetStep;
-          toPos.x -= xOffset;
-          connections.push(getChildConnection(cSource, cTo, sourcePos, toPos, 'outgoing'));
-        }
+        fromPos.y -= yOffset + iChild * yOffsetStep;
+        fromPos.x += xOffset;
+        connections.push(getChildConnection(cFrom, cSource, fromPos, sourcePos, 'incoming'));
+      }
+
+      sourcePos = sourcePos.clone();
+      sourcePos.x += 2 * xOffset;
+      for (let i = 0; i < fromChild.outgoing.length; i++) {
+        const cTo = fromChild.outgoing[i];
+        const toPos = cTo.parentNode.position.clone();
+        const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
+
+        toPos.y -= yOffset + iChild * yOffsetStep;
+        toPos.x -= xOffset;
+        connections.push(getChildConnection(cSource, cTo, sourcePos, toPos, 'outgoing'));
       }
     }
   }
