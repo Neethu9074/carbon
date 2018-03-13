@@ -58,7 +58,7 @@ function getDetails(row) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Reads &amp; Writes (bytes)">
+      <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={row.snapshotId}
           timeframe={row.timeframe}

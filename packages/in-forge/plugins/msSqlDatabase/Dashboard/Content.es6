@@ -55,7 +55,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Reads &amp; Writes (bytes)">
+      <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
