@@ -21,6 +21,20 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
   }
   return (
     <div>
+      <DashboardSection title="Connections &amp; Users">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['generalstats._total.user_connections'],
+            labels: ['User Connections'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title="Wait-Times (ms) on server">
         <Chart
           snapshotId={snapshotId}
@@ -41,20 +55,6 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections &amp; Users">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['generalstats._total.user_connections'],
-            labels: ['User Connections'],
-            type: 'line',
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-
       <DashboardSection title="Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={snapshotId}
@@ -68,6 +68,21 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+
+      <DashboardSection title="Transactions">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['perfcounters.databases._total.write_transactions_sec'],
+            labels: ['Write Transactions'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
@@ -85,19 +100,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Transactions">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['perfcounters.databases._total.write_transactions_sec'],
-            labels: ['Write Transactions'],
-            type: 'line',
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
+
       <DashboardSection title="Locks">
         <Chart
           snapshotId={snapshotId}
