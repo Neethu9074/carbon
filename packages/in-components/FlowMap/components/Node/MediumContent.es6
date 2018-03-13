@@ -1,7 +1,6 @@
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import MetricList from 'in-components/FlowMap/components/Node/MetricList';
 import SvgIcon from 'in-components/SvgIcon';
@@ -18,16 +17,14 @@ export default function MediumContent({ data, metrics, serviceLocatorUid }) {
   );
 }
 
-function Header({ data, serviceLocatorUid }) {
+function Header({ data }) {
   if (!data) {
     return null;
   }
 
-  const iconType = getServiceLocators(serviceLocatorUid).dataFetchingServiceLocator.getIconTypeForNodeId(data.id);
-
   return (
     <div className={locals.header}>
-      {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
+      <SvgIcon className={locals.pluginIcon} type="app_service" width={16} height={16} color="#6c8a91" />
       <div>
         <ServiceLink className={locals.entityLink} serviceId={data.id}>
           {data.label}

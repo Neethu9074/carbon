@@ -15,7 +15,17 @@ export default connectTo(
     metrics: props.node.events$.on('metricValues'),
     heatMapColor: props.node.events$.on('heatMapColor')
   }),
-  function ServiceContent({ node, isRootNode, metrics, data, size, serviceLocatorUid, heatMapColor }) {
+  function ServiceContent({
+    node,
+    isRootNode,
+    metrics,
+    data,
+    size,
+    serviceLocatorUid,
+    heatMapColor,
+    expandNodeLeft,
+    expandNodeRight
+  }) {
     const label = data ? data.label : '';
 
     heatMapColor =
@@ -35,8 +45,8 @@ export default connectTo(
           {isRootNode && <div className={nodeLocals.rootLabel}>In Focus</div>}
           {getContent(metrics, data, size, serviceLocatorUid)}
 
-          <ExpandButton direction="incoming" events$={node.events$} onClick={() => node.expandLeft()} />
-          <ExpandButton direction="outgoing" events$={node.events$} onClick={() => node.expandRight()} />
+          <ExpandButton direction="incoming" events$={node.events$} onClick={() => expandNodeLeft(node.id)} />
+          <ExpandButton direction="outgoing" events$={node.events$} onClick={() => expandNodeRight(node.id)} />
         </div>
       </Tooltip>
     );

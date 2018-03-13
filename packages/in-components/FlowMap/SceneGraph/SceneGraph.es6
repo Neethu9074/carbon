@@ -3,15 +3,12 @@ import RoEmitter from 'roemitter';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import looseLayout from 'in-components/FlowMap/misc/layouting/looseLayouter';
 import flowLayout from 'in-components/FlowMap/misc/layouting/flowLayouter';
-import PathFinder from 'in-components/FlowMap/misc/PathFinder';
 import Node from 'in-components/FlowMap/sceneObjects/Node';
 
 export default class SceneGraph {
   constructor(serviceLocatorUid) {
     this.serviceLocatorUid = serviceLocatorUid;
-    this.subscriptions = new Map();
     this.signals = new RoEmitter('sceneGraphSignals');
-    this.pathFinder = new PathFinder(serviceLocatorUid);
 
     this.initSubscriptions();
   }
@@ -23,183 +20,88 @@ export default class SceneGraph {
       .subscribe(() => this.relayout());
   }
 
-  addRootNode({ id, service, endpoint }) {
-    this.rootNodeId = id;
-    this.pathFinder.setRootNodeId(id);
-
-    const rootNode = this.addNode(id, service);
-
-    if (endpoint) {
-      const child = rootNode.addChild(endpoint);
-      child.expandRight();
-      child.expandLeft();
-    } else {
-      rootNode.expandRight();
-      rootNode.expandLeft();
-    }
-
-    this.requestLayout();
-  }
-
-  addNode(id, data, metricValues) {
-    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
-    const node = new Node(this.serviceLocatorUid, id, data, metricValues);
-    node.__originalId = data ? data.id : id;
+  addNode(nodesServiceLocator, { id, __originalId }) {
+    const node = new Node(this.serviceLocatorUid, id);
+    node.__originalId = __originalId;
 
     nodesServiceLocator.addNode(node.id, node);
 
     return node;
   }
 
-  getFlowNodesForChild$(nodeId, endpointId, direction, callback) {
-    const path = this.pathFinder.findChild(nodeId, endpointId, direction);
-    this.setupSubscriptionIfAbsent(
-      `${nodeId}__${endpointId}`,
-      nodeId,
-      endpointId,
-      direction,
-      () => callback(endpointId, path),
-      this.processEndpointResult.bind(this)
-    );
+  updateState(nextFlowMapState) {
+    this.rootNodeId = nextFlowMapState.getRootNodeId();
+
+    this.createNewNodes(nextFlowMapState.nodes);
+
+    // we have to iterate over all nodes twice because we first need to create all nodes until we can connect them by reference
+    this.updateAllNodes(nextFlowMapState.nodes);
+
+    this.requestLayout();
   }
 
-  getFlowNodes$(nodeId, direction, callback) {
-    this.setupSubscriptionIfAbsent(
-      nodeId,
-      nodeId,
-      null,
-      direction,
-      servicePath => callback(nodeId, servicePath),
-      this.processServiceResult.bind(this)
-    );
-  }
-
-  setupSubscriptionIfAbsent(subscriptionId, nodeId, endpointId, direction, fetchData, processResult) {
-    if (!this.containsSubscription(subscriptionId, direction)) {
-      const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
-      const servicePath = this.pathFinder
-        .find(nodeId, direction)
-        .map(_nodeId => currentNodes.get(_nodeId).__originalId);
-
-      const directionSubscriptions = this.subscriptions.get(subscriptionId) || {};
-      directionSubscriptions[direction] = fetchData(servicePath).subscribe(result => {
-        processResult(nodeId, endpointId, result, direction, servicePath);
-        this.requestLayout();
-      });
-      this.subscriptions.set(subscriptionId, directionSubscriptions);
-    }
-  }
-
-  containsSubscription(id, direction) {
-    const directionSubscriptions = this.subscriptions.get(id);
-    return directionSubscriptions && directionSubscriptions[direction] ? true : false;
-  }
-
-  processServiceResult(nodeId, endpointId, result, direction, path) {
-    const onResult = (node, nodes, currentNodes) => {
-      node.setIsLoadingData(false, direction);
-      node.setIsExpanded(true, direction);
-      for (let i = 0; i < nodes.length; i++) {
-        const newNode = nodes[i];
-        const serviceNode = currentNodes.has(newNode.id)
-          ? currentNodes.get(newNode.id)
-          : this.addNode(newNode.id, newNode.service, newNode.metrics);
-
-        node.addConnected(serviceNode, direction);
-
-        if (direction === 'incoming') {
-          serviceNode.setIsExpanded(true, 'outgoing');
-          if (newNode.relatedNodesCount === 0) {
-            serviceNode.setIsExpanded(true, direction);
-          }
-        } else {
-          serviceNode.setIsExpanded(true, 'incoming');
-          if (newNode.relatedNodesCount === 0) {
-            serviceNode.setIsExpanded(true, direction);
-          }
-        }
+  createNewNodes(nodes) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const currentNodes = nodesServiceLocator.getNodes();
+    const nodesIterator = nodes.values();
+    for (const node of nodesIterator) {
+      let nodeSceneObject;
+      if (!currentNodes.has(node.id)) {
+        nodeSceneObject = this.addNode(nodesServiceLocator, node);
+      } else {
+        nodeSceneObject = currentNodes.get(node.id);
       }
-    };
-
-    const onError = node => node.setErrors(result.errors, direction);
-    const onLoad = node => node.setIsLoadingData(true, direction);
-
-    this.processResult(nodeId, result, onError, onLoad, onResult, direction, path);
-  }
-
-  processEndpointResult(nodeId, endpointId, result, direction, path) {
-    const onResult = (node, children, currentNodes) => {
-      const child = node.children.get(endpointId);
-      child.setIsExpanded(true, direction);
-
-      for (let i = 0; i < children.length; i++) {
-        const newChild = children[i];
-        const serviceNode = currentNodes.has(newChild.id)
-          ? currentNodes.get(newChild.id)
-          : this.addNode(newChild.id, newChild.service, newChild.metrics);
-
-        node.addConnected(serviceNode, direction);
-
-        const newChildSceneObject = serviceNode.addChild(newChild.endpoint, newChild.metrics);
-
-        if (direction === 'incoming') {
-          serviceNode.setIsExpanded(true, 'outgoing');
-          newChildSceneObject.setIsExpanded(true, 'outgoing');
-        } else {
-          serviceNode.setIsExpanded(true, 'incoming');
-          newChildSceneObject.setIsExpanded(true, 'incoming');
-        }
-
-        child.addConnected(newChildSceneObject, direction);
-      }
-    };
-
-    const onError = () => {};
-    const onLoad = () => {};
-
-    this.processResult(nodeId, result, onError, onLoad, onResult, direction, path);
-  }
-
-  processResult(nodeId, result, onError, onLoading, onResult, direction, path) {
-    const currentNodes = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator.getNodes();
-    const node = currentNodes.get(nodeId);
-
-    const hasErrors = result.errors.length > 0;
-    onError(node, result.errors);
-    if (hasErrors) {
-      return;
+      nodeSceneObject.addChildren(node.children);
     }
-
-    const isLoading = result.progress.loading;
-    onLoading(node);
-    if (isLoading) {
-      return;
-    }
-
-    const nodes = this.mapResult(result, path, direction);
-    onResult(node, nodes, currentNodes);
   }
 
-  mapResult(result, path, direction) {
-    return (result.data || []).filter(node => node.service.id).map(n => {
-      return {
-        id: this.toUid(n.service.id, path, direction),
-        service: n.service,
-        endpoint: n.endpoint,
-        relatedNodesCount: n.relatedNodesCount,
-        metrics: n.metrics
-      };
-    });
+  updateAllNodes(nodes) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const currentNodes = nodesServiceLocator.getNodes();
+
+    const nodesIterator = nodes.values();
+    for (const node of nodesIterator) {
+      const nodeSceneObject = currentNodes.get(node.id);
+      nodeSceneObject.setMetrics(node.metricValues);
+      nodeSceneObject.setData(node.data);
+
+      const incomingDirection = 'incoming';
+      nodeSceneObject.setConnected(node.incoming.map(_node => currentNodes.get(_node.id)), incomingDirection);
+      nodeSceneObject.setIsExpanded(node.hasRelatedNodes.incoming == false, incomingDirection);
+      nodeSceneObject.setErrors(node.errors.incoming, incomingDirection);
+      nodeSceneObject.setIsLoadingData(node.isLoading.incoming, incomingDirection);
+
+      const outgoingDirection = 'outgoing';
+      nodeSceneObject.setConnected(node.outgoing.map(_node => currentNodes.get(_node.id)), outgoingDirection);
+      nodeSceneObject.setIsExpanded(node.hasRelatedNodes.outgoing == false, outgoingDirection);
+      nodeSceneObject.setErrors(node.errors.outgoing, outgoingDirection);
+      nodeSceneObject.setIsLoadingData(node.isLoading.outgoing, outgoingDirection);
+
+      this.updateChildConnections(currentNodes, nodeSceneObject, node);
+    }
   }
 
-  toUid(id, previousNodesPath, direction) {
-    let path;
-    if (direction === 'incoming') {
-      path = [id].concat(previousNodesPath);
-    } else {
-      path = previousNodesPath.concat([id]);
+  updateChildConnections(currentNodes, nodeSceneObject, node) {
+    const childrenIterator = node.children.values();
+    for (const child of childrenIterator) {
+      const childSceneObject = nodeSceneObject.children.get(child.id);
+
+      const incomingDirection = 'incoming';
+      childSceneObject.setConnected(
+        child.incoming.map(_child => currentNodes.get(_child.nodeId).children.get(_child.id)),
+        incomingDirection
+      );
+      childSceneObject.setIsExpanded(child.hasRelatedNodes.incoming == false, incomingDirection);
+      childSceneObject.setIsLoadingData(child.isLoading.incoming, incomingDirection);
+
+      const outgoingDirection = 'outgoing';
+      childSceneObject.setConnected(
+        child.outgoing.map(_child => currentNodes.get(_child.nodeId).children.get(_child.id)),
+        outgoingDirection
+      );
+      childSceneObject.setIsExpanded(child.hasRelatedNodes.outgoing == false, outgoingDirection);
+      childSceneObject.setIsLoadingData(child.isLoading.outgoing, outgoingDirection);
     }
-    return path.join(`_${direction}_`);
   }
 
   requestLayout() {
@@ -208,37 +110,26 @@ export default class SceneGraph {
 
   relayout() {
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);
-    const nodesMap = serviceLocators.nodesServiceLocator.getNodes();
+    const currentNodes = serviceLocators.nodesServiceLocator.getNodes();
 
     if (this.rootNodeId) {
-      flowLayout(nodesMap.get(this.rootNodeId), serviceLocators.sceneServiceLocator.getScene().initialPxUnitRation);
+      flowLayout(currentNodes.get(this.rootNodeId), serviceLocators.sceneServiceLocator.getScene().initialPxUnitRation);
     } else {
       looseLayout();
     }
 
-    this.updateConnections(nodesMap);
+    this.updateConnections(currentNodes);
 
     getServiceLocators(this.serviceLocatorUid)
       .sceneServiceLocator.getScene()
       .requestRendering();
   }
 
-  updateConnections(nodesMap) {
-    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update(nodesMap);
+  updateConnections(currentNodes) {
+    getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.update(currentNodes);
   }
 
   dispose() {
-    const subscriptions = this.subscriptions.values();
-    for (const subscription of subscriptions) {
-      if (subscription.incoming) {
-        subscription.incoming.dispose();
-      }
-      if (subscription.outgoing) {
-        subscription.outgoing.dispose();
-      }
-    }
-    this.subscriptions.clear();
-
     this.layoutSubscription.dispose();
     this.layoutSubscription = null;
 

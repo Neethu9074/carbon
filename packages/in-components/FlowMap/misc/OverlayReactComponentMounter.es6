@@ -1,21 +1,31 @@
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import React from 'react';
 
 import Controls from 'in-components/FlowMap/components/Controls/Controls';
 import Nodes from 'in-components/FlowMap/components/Nodes/Nodes';
 
 export default class OverlayReactComponentMounter {
-  constructor(nodesReactComponentWrapper, serviceLocatorUid) {
+  constructor(
+    nodesReactComponentWrapper,
+    serviceLocatorUid,
+    expandNodeLeft,
+    expandNodeRight,
+    expandChildLeft,
+    expandChildRight
+  ) {
     this.nodesReactComponentWrapper = nodesReactComponentWrapper;
     this.serviceLocatorUid = serviceLocatorUid;
-  }
-
-  update(rootNodeId) {
     ReactDOM.render(
-      [
-        <Nodes key="nodesOverlay" serviceLocatorUid={this.serviceLocatorUid} rootNodeId={rootNodeId} />,
-        <Controls key="controls" serviceLocatorUid={this.serviceLocatorUid} />
-      ],
+      <Fragment>
+        <Nodes
+          serviceLocatorUid={this.serviceLocatorUid}
+          expandNodeLeft={expandNodeLeft}
+          expandNodeRight={expandNodeRight}
+          expandChildLeft={expandChildLeft}
+          expandChildRight={expandChildRight}
+        />
+        <Controls serviceLocatorUid={this.serviceLocatorUid} />
+      </Fragment>,
       this.nodesReactComponentWrapper
     );
   }

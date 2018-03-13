@@ -10,6 +10,7 @@ export default connectTo(
     nodes: getServiceLocators(props.serviceLocatorUid)
       .nodesServiceLocator.getNodes()
       .stream.throttle(100),
+    rootNodeId: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('rootNodeId'),
     nodesSize: getServiceLocators(props.serviceLocatorUid)
       .eventBusServiceLocator.on('worldUnits')
       .map(({ pixelsPer3DUnit }) => {
@@ -21,7 +22,8 @@ export default connectTo(
       })
       .distinct()
   }),
-  function Nodes({ nodes, nodesSize, rootNodeId, serviceLocatorUid }) {
+  function Nodes(props) {
+    const { nodes, nodesSize, rootNodeId } = props;
     if (!nodes || !nodes.size === 0) {
       return null;
     }
@@ -33,13 +35,7 @@ export default connectTo(
     }
 
     return nodesArray.map(node => (
-      <Node
-        key={node.id}
-        node={node}
-        size={nodesSize}
-        isRootNode={node.id === rootNodeId}
-        serviceLocatorUid={serviceLocatorUid}
-      />
+      <Node key={node.id} {...props} node={node} size={nodesSize} isRootNode={node.id === rootNodeId} />
     ));
   }
 );

@@ -27,10 +27,6 @@ export default class Connection extends SceneObject {
     this.to = to;
   }
 
-  getMetricValue(metric) {
-    return this.from.getMetricValue(metric);
-  }
-
   getDirection() {
     return this.direction;
   }

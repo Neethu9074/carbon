@@ -16,39 +16,26 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
-  constructor({ canvas, overlayReactComponent, createDataFetchingService }) {
+  constructor({ canvas, overlayReactComponent, expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight }) {
     this.canvas = canvas;
     this.overlayReactComponent = overlayReactComponent;
     this.serviceLocatorUid = generateUniqueShortId();
 
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter();
-    this.initServiceLocator(createDataFetchingService);
+    this.initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight);
+    this.initServiceLocator();
     this.initScene();
     this.initSubscriptions();
-    this.addRootNodeIfPresent();
 
     this.scene.startRendering();
   }
 
-  initServiceLocator(createDataFetchingService) {
-    createNewServiceLocators(this.serviceLocatorUid, this.sceneGraph);
+  initServiceLocator() {
+    createNewServiceLocators(this.serviceLocatorUid);
 
     getServiceLocators(this.serviceLocatorUid).connectionsServiceLocator.provide(
       createConnectionService(this.serviceLocatorUid)
     );
-
-    if (createDataFetchingService) {
-      getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.provide(createDataFetchingService());
-    }
-  }
-
-  addRootNodeIfPresent() {
-    const rootNodeData = getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getRootNodeData();
-    if (rootNodeData) {
-      this.sceneGraph.addRootNode(rootNodeData);
-      this.overlayReactComponentMounter.update(rootNodeData.id);
-    }
   }
 
   initScene() {
@@ -65,10 +52,14 @@ export default class FlowMap {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
   }
 
-  initOverlayReactComponentMounter() {
+  initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight) {
     this.overlayReactComponentMounter = new OverlayReactComponentMounter(
       this.overlayReactComponent,
-      this.serviceLocatorUid
+      this.serviceLocatorUid,
+      expandNodeLeft,
+      expandNodeRight,
+      expandChildLeft,
+      expandChildRight
     );
   }
 
@@ -137,13 +128,22 @@ export default class FlowMap {
       if (node.children.size > 0) {
         const children = node.children.values();
         for (const child of children) {
-          maxValue = Math.max(maxValue, child.getMetricValue(metricUsedForColorCalculation));
+          maxValue = Math.max(maxValue, child.getMetricValueOrDefault(metricUsedForColorCalculation, 0));
         }
       } else {
-        maxValue = Math.max(maxValue, node.getMetricValue(metricUsedForColorCalculation));
+        maxValue = Math.max(maxValue, node.getMetricValueOrDefault(metricUsedForColorCalculation, 0));
       }
     }
     return maxValue;
+  }
+
+  updateState(nextFlowMapState) {
+    this.sceneGraph.updateState(nextFlowMapState);
+
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
+      'rootNodeId',
+      nextFlowMapState.getRootNodeId()
+    );
   }
 
   disposeSceneGraph() {

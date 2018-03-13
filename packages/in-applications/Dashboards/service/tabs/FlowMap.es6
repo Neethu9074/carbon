@@ -3,54 +3,16 @@ import React from 'react';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
 import getMetrics from 'in-subscription/application/getMetrics';
-import FlowMap from 'in-components/FlowMap';
+import ServerFlowMap from 'in-components/ServerFlowMap';
 
-export default function ServiceFlowMap({ data, applicationId, endpointId, timeframe }) {
-  return (
-    <FullHeightWrapper
-      render={height => (
-        <FlowMap
-          customHeight={height}
-          createDataFetchingService={() => createDataFetchingService(data, applicationId, endpointId, timeframe)}
-        />
-      )}
-    />
-  );
-}
+import connectTo from 'in-hoc/connectTo';
 
-function createDataFetchingService(rootNodeData, applicationId, endpointId, timeframe) {
-  return {
-    getIncomingFlowNodes$,
-    getOutgoingFlowNodes$,
-    getMetrics$,
-    getIconTypeForNodeId,
-    getRootNodeData
-  };
-
-  function getRootNodeData() {
-    return {
-      id: rootNodeData.id,
-      service: rootNodeData
-    };
-  }
-
-  function getIconTypeForNodeId() {
-    return 'app_service';
-  }
-
-  function getIncomingFlowNodes$(id, path) {
-    return getNodeData(id, path, 'INCOMING', timeframe);
-  }
-
-  function getOutgoingFlowNodes$(id, path) {
-    return getNodeData(id, path, 'OUTGOING', timeframe);
-  }
-
-  function getMetrics$(nodeId) {
-    return getMetrics({
+export default connectTo(
+  ({ applicationId, serviceId, endpointId, timeframe }) => ({
+    metricValues: getMetrics({
       filter: {
         application: applicationId,
-        service: nodeId,
+        service: serviceId,
         endpoint: endpointId,
         timeframe
       },
@@ -68,40 +30,38 @@ function createDataFetchingService(rootNodeData, applicationId, endpointId, time
           aggregation: 'MEAN'
         }
       }
-    });
-  }
-}
-
-function getNodeData(nodeId, path, direction, timeframe) {
-  return getServiceFlowNodes({
-    metrics: {
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'MEAN'
-      },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
+    }).map(result => {
+      if (result.data) {
+        return result.data;
       }
-    },
-    filter: {
-      label: '',
-      timeframe
-    },
-
-    traversal: {
-      maxDepth: 1
-    },
-
-    path,
-    direction
-  });
-}
+      if (result.errors && result.errors.length > 0) {
+        return {};
+      }
+      return null;
+    })
+  }),
+  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeframe, metricValues }) {
+    if (!metricValues) {
+      return null;
+    }
+    return (
+      <FullHeightWrapper
+        render={height => (
+          <ServerFlowMap
+            height={height}
+            rootNodeData={{
+              id: data.id,
+              service: data,
+              metricValues
+            }}
+            serviceId={serviceId}
+            applicationId={applicationId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+            getFlowNodes={getServiceFlowNodes}
+          />
+        )}
+      />
+    );
+  }
+);

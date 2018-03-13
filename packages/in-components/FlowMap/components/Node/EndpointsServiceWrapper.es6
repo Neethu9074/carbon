@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -14,16 +13,14 @@ export default function EndpointsServiceWrapper({ node, data, serviceLocatorUid 
   );
 }
 
-function Header({ data, serviceLocatorUid }) {
+function Header({ data }) {
   if (!data) {
     return null;
   }
 
-  const iconType = getServiceLocators(serviceLocatorUid).dataFetchingServiceLocator.getIconTypeForNodeId(data.id);
-
   return (
     <div className={locals.header}>
-      {iconType && <SvgIcon className={locals.pluginIcon} type={iconType} width={16} height={16} color="#6c8a91" />}
+      <SvgIcon className={locals.pluginIcon} type="app_service" width={16} height={16} color="#6c8a91" />
       <ServiceLink className={locals.entityLink} serviceId={data.id}>
         {data.label}
       </ServiceLink>

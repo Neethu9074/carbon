@@ -13,13 +13,28 @@ export default getElementDimensions(
 
     componentDidMount() {
       this.showHelpIfWebGLCantBeSetup();
-      this.initFlowMap();
+      this.initFlowMap(this.props);
+      if (this.flowMap && this.props.flowMapState) {
+        this.flowMap.updateState(this.props.flowMapState);
+      }
     }
 
     componentWillUpdate(nextProps) {
-      const propsAreEqual = true;
-      if (!propsAreEqual) {
-        this.initFlowMap();
+      if (this.props.flowMapState && !nextProps.flowMapState) {
+        this.flowMap.dispose();
+        this.flowMap = null;
+      } else if (!this.props.flowMapState && nextProps.flowMapState) {
+        if (!this.flowMap) {
+          this.initFlowMap(nextProps);
+        }
+        if (this.flowMap) {
+          this.flowMap.updateState(nextProps.flowMapState);
+        }
+      } else {
+        const flowMapStateHasChanged = this.props.flowMapStateVersion !== nextProps.flowMapStateVersion;
+        if (flowMapStateHasChanged) {
+          this.flowMap.updateState(nextProps.flowMapState);
+        }
       }
       if (
         this.props.width !== nextProps.width ||
@@ -38,7 +53,7 @@ export default getElementDimensions(
       }
     }
 
-    initFlowMap() {
+    initFlowMap(props) {
       if (isWebGLSupported() && this.webGlContext) {
         if (this.flowMap) {
           this.flowMap.dispose();
@@ -46,7 +61,10 @@ export default getElementDimensions(
         this.flowMap = new FlowMap({
           canvas: this.canvas,
           overlayReactComponent: this.overlayReactComponent,
-          createDataFetchingService: this.props.createDataFetchingService
+          expandNodeLeft: props.expandNodeLeft,
+          expandNodeRight: props.expandNodeRight,
+          expandChildLeft: props.expandChildLeft,
+          expandChildRight: props.expandChildRight
         });
       }
     }

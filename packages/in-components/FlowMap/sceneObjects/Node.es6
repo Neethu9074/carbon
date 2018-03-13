@@ -3,7 +3,6 @@ import { combineLatest } from 'reactive-observables';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
 import Child from 'in-components/FlowMap/sceneObjects/Child';
-import { find } from 'in-services/arrayUtils';
 
 // 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
 const leftBoundary = -0.1;
@@ -12,8 +11,8 @@ const topBoundary = -0.1;
 const bottomBoundary = 1.1;
 
 export default class Node extends FlowMapBaseEntity {
-  constructor(serviceLocatorUid, id, data, metricValues) {
-    super(serviceLocatorUid, id, metricValues);
+  constructor(serviceLocatorUid, id) {
+    super(serviceLocatorUid, id);
 
     this.screenPosition = null;
     this.children = new Map();
@@ -21,12 +20,11 @@ export default class Node extends FlowMapBaseEntity {
     this.events$.emit('isExpanded_incoming', false);
     this.events$.emit('isExpanded_outgoing', false);
 
-    this.setData(data);
-    this.initSubscriptions(metricValues, data);
+    this.initSubscriptions();
   }
 
-  initSubscriptions(metricValues, data) {
-    super.initSubscriptions(metricValues);
+  initSubscriptions() {
+    super.initSubscriptions();
 
     this.subscriber.addSubscription(
       combineLatest([
@@ -34,15 +32,6 @@ export default class Node extends FlowMapBaseEntity {
         this.events$.on('transform')
       ]).subscribe(() => this.updateScreenPosition())
     );
-
-    if (!data) {
-      this.subscriber.addSubscription(
-        getServiceLocators(this.serviceLocatorUid)
-          .dataFetchingServiceLocator.getNode$(this.id)
-          .map(this.mapResult)
-          .subscribe(data => this.events$.emit('data', data))
-      );
-    }
   }
 
   updateScreenPosition() {
@@ -73,34 +62,23 @@ export default class Node extends FlowMapBaseEntity {
     }
   }
 
-  addChild(child, metrics) {
-    if (this.children.has(child.id)) {
-      return this.children.get(child.id);
+  addChildren(children) {
+    let childrenChanged = false;
+    const childrenIterator = children.values();
+    for (const child of childrenIterator) {
+      if (!this.children.has(child.id)) {
+        const newChildSceneObject = new Child(this, child.id);
+        newChildSceneObject.setMetrics(child.metricValues);
+        newChildSceneObject.setData(child.data);
+
+        this.children.set(child.id, newChildSceneObject);
+        childrenChanged = true;
+      }
     }
 
-    const newChild = new Child(this, child.id, metrics);
-    newChild.setData(child);
-
-    this.children.set(child.id, newChild);
-    this.events$.emit('children', this.children);
-
-    return newChild;
-  }
-
-  addConnected(item, direction) {
-    const contains = find(this[direction], _item => _item.id === item.id);
-    if (!contains) {
-      this[direction].push(item);
-      this.setIsExpanded(true, direction);
+    if (childrenChanged) {
+      this.events$.emit('children', this.children);
     }
-  }
-
-  expandRight() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getOutgoingFlowNodes$(this.id);
-  }
-
-  expandLeft() {
-    getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator.getIncomingFlowNodes$(this.id);
   }
 
   dispose() {

@@ -11,12 +11,14 @@ export default connectTo(
   props => ({
     data: props.node.events$.on('data')
   }),
-  function EndpointContent({ isRootNode, data, serviceLocatorUid, childList }) {
+  function EndpointContent(props) {
+    const { isRootNode, data, serviceLocatorUid } = props;
+
     return (
       <div className={locals.children}>
         {isRootNode && <div className={nodeLocals.rootLabel}>In Focus</div>}
         <EndpointsServiceWrapper data={data} serviceLocatorUid={serviceLocatorUid} />
-        <Children childList={childList} />
+        <Children {...props} />
       </div>
     );
   }

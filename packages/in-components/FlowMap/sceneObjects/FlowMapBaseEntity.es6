@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import getHeatMapColor, { DEFAULT_COLOR } from 'in-components/FlowMap/misc/heatMapColors';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
@@ -6,25 +8,15 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class NodeBase extends SceneObject {
-  constructor(serviceLocatorUid, id, metricValues) {
+  constructor(serviceLocatorUid, id) {
     super(id, serviceLocatorUid);
 
     this.subscriber = new Subscriber();
     this.outgoing = [];
     this.incoming = [];
-
-    this.setMetrics(metricValues);
   }
 
-  initSubscriptions(metricValues) {
-    if (!metricValues) {
-      this.subscriber.addSubscription(
-        this.getMetrics(getServiceLocators(this.serviceLocatorUid).dataFetchingServiceLocator)
-          .map(this.mapResult)
-          .subscribe(this.setMetrics.bind(this))
-      );
-    }
-
+  initSubscriptions() {
     this.subscriber.addSubscription(
       getServiceLocators(this.serviceLocatorUid)
         .eventBusServiceLocator.on(SIGNALS.HEATMAP)
@@ -34,7 +26,10 @@ export default class NodeBase extends SceneObject {
               .eventBusServiceLocator.on('maxHeatMapMetricValue')
               .map(maxHeatMapMetricValue => {
                 return maxHeatMapMetricValue
-                  ? getHeatMapColor(heatMapMetric, this.getMetricValue(heatMapMetric) / maxHeatMapMetricValue)
+                  ? getHeatMapColor(
+                      heatMapMetric,
+                      this.getMetricValueOrDefault(heatMapMetric, 0) / maxHeatMapMetricValue
+                    )
                   : null;
               });
           } else {
@@ -48,35 +43,33 @@ export default class NodeBase extends SceneObject {
     );
   }
 
-  getMetricValue(metric) {
-    return this[metric] || 0;
-  }
-
   getHeatMapColor() {
     return this.heatMapColor || DEFAULT_COLOR;
   }
 
-  mapResult(result) {
-    const hasErrors = result.errors.length > 0;
-    const isLoading = result.progress.loading;
-    return hasErrors || isLoading ? null : result.data;
-  }
-
-  getMetrics(dataFetchingServiceLocator) {
-    return dataFetchingServiceLocator.getMetrics$(this.id);
-  }
-
   setMetrics(metrics) {
     if (metrics) {
-      this.calls = metrics.callsAgg ? metrics.callsAgg[0][1] : 0;
-      this.errors = metrics.errorsAgg ? metrics.errorsAgg[0][1] : 0;
-      this.latency = metrics.latencyAgg ? metrics.latencyAgg[0][1] : 0;
+      this.calls = get(metrics, ['callsAgg', 0, 1], null);
+      this.errors = get(metrics, ['errorsAgg', 0, 1], null);
+      this.latency = get(metrics, ['latencyAgg', 0, 1], null);
       this.events$.emit('metricValues', {
         calls: this.calls,
         errors: this.errors,
         latency: this.latency
       });
     }
+  }
+
+  getMetricValue(metric) {
+    return this[metric];
+  }
+
+  getMetricValueOrDefault(metric, defaultValue) {
+    return this.getMetricValue(metric) || defaultValue;
+  }
+
+  setConnected(items, direction) {
+    this[direction] = items;
   }
 
   setData(data) {
@@ -97,7 +90,6 @@ export default class NodeBase extends SceneObject {
     if (errors.length > 0) {
       this.resetConnected(direction);
     }
-    this.setIsLoadingData(false, direction);
     this.events$.emit(`errors_${direction}`, errors);
   }
 

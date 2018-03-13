@@ -8,7 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Children.mless';
 
-export default function Children({ childList }) {
+export default function Children({ childList, expandChildLeft, expandChildRight }) {
   if (!childList || childList.size === 0) {
     return null;
   }
@@ -19,7 +19,13 @@ export default function Children({ childList }) {
     childrenAsArray.push(child);
   }
 
-  return <ul className={locals.children}>{childrenAsArray.map(child => <Child key={child.id} child={child} />)}</ul>;
+  return (
+    <ul className={locals.children}>
+      {childrenAsArray.map(child => (
+        <Child key={child.id} child={child} expandChildLeft={expandChildLeft} expandChildRight={expandChildRight} />
+      ))}
+    </ul>
+  );
 }
 
 const Child = connectTo(
@@ -28,7 +34,7 @@ const Child = connectTo(
     metrics: props.child.events$.on('metricValues'),
     heatMapColor: props.child.events$.on('heatMapColor')
   }),
-  function Child({ child, data, metrics, heatMapColor }) {
+  function Child({ child, data, metrics, heatMapColor, expandChildLeft, expandChildRight }) {
     if (!data) {
       return null;
     }
@@ -48,12 +54,20 @@ const Child = connectTo(
       >
         <Tooltip content={data.label}>
           <EndpointLink className={locals.entityLink} serviceId={child.parentNode.__originalId} endpointId={data.id}>
-            {data.label}
+            {data.label || '--'}
           </EndpointLink>
         </Tooltip>
         <MetricList className={locals.metrics} metrics={metrics} />
-        <ExpandButton direction="incoming" events$={child.events$} onClick={() => child.expandLeft()} />
-        <ExpandButton direction="outgoing" events$={child.events$} onClick={() => child.expandRight()} />
+        <ExpandButton
+          direction="incoming"
+          events$={child.events$}
+          onClick={() => expandChildLeft(child.parentNode.id, child.id)}
+        />
+        <ExpandButton
+          direction="outgoing"
+          events$={child.events$}
+          onClick={() => expandChildRight(child.parentNode.id, child.id)}
+        />
       </li>
     );
   }
