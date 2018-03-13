@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -51,7 +52,9 @@ function getDetails(row) {
           y1={{
             metrics: ['generalstats.' + row.key + '.user_connections'],
             labels: ['User Connections'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -62,7 +65,9 @@ function getDetails(row) {
           y1={{
             metrics: ['iostats.' + row.key + '.num_of_bytes_read', 'iostats.' + row.key + '.num_of_bytes_written'],
             labels: ['Reads', 'Writes'],
-            type: 'line'
+            type: 'line',
+            formatter: bytesZeroDecimalPlaces,
+            tooltipFormatter: bytesTwoDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -73,7 +78,9 @@ function getDetails(row) {
           y1={{
             metrics: ['perfcounters.databases.' + row.key.toLowerCase() + '.write_transactions_sec'],
             labels: ['Write Transactions'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>

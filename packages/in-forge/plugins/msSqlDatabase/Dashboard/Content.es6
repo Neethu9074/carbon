@@ -1,5 +1,12 @@
 import React from 'react';
 
+import {
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  msZeroDecimalPlaces,
+  msTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
@@ -27,7 +34,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
               'waitstats.WRITELOG.wait_time_ms'
             ],
             labels: ['Page IO-Latch EX', 'Page IO-Latch SH', 'Async Network IO', 'CX-Packet', 'Writelog'],
-            type: 'line'
+            type: 'line',
+            formatter: msZeroDecimalPlaces,
+            tooltipFormatter: msTwoDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -39,7 +48,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['generalstats._total.user_connections'],
             labels: ['User Connections'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -51,7 +62,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
             labels: ['Reads', 'Writes'],
-            type: 'line'
+            type: 'line',
+            formatter: bytesZeroDecimalPlaces,
+            tooltipFormatter: bytesTwoDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -66,7 +79,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
               'perfcounters.sql_errors.kill_connection_errors.errors_sec'
             ],
             labels: ['User Errors', 'DB Offline Errors', 'Kill Connection Errors'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -77,7 +92,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
           y1={{
             metrics: ['perfcounters.databases._total.write_transactions_sec'],
             labels: ['Write Transactions'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -91,7 +108,9 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
               'perfcounters.locks._total.number_of_deadlocks_sec'
             ],
             labels: ['Lock Requests', 'Number of Deadlocks'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
