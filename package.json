@@ -41,6 +41,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "@nivo/bar": "^0.33.0",
+    "@nivo/heatmap": "^0.33.0",
     "ansi-to-html": "^0.6.2",
     "clipboard": "^1.7.1",
     "codemirror": "5.20.2",
