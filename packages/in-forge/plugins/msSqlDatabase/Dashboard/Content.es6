@@ -1,5 +1,12 @@
 import React from 'react';
 
+import {
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  msZeroDecimalPlaces,
+  msTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
@@ -14,6 +21,20 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
   }
   return (
     <div>
+      <DashboardSection title="Connections &amp; Users">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['generalstats._total.user_connections'],
+            labels: ['User Connections'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title="Wait-Times (ms) on server">
         <Chart
           snapshotId={snapshotId}
@@ -27,21 +48,72 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
               'waitstats.WRITELOG.wait_time_ms'
             ],
             labels: ['Page IO-Latch EX', 'Page IO-Latch SH', 'Async Network IO', 'CX-Packet', 'Writelog'],
-            type: 'line'
+            type: 'line',
+            formatter: msZeroDecimalPlaces,
+            tooltipFormatter: msTwoDecimalPlaces
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Connections &amp; Users">
+
+      <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
+            labels: ['Reads', 'Writes'],
+            type: 'line',
+            formatter: bytesZeroDecimalPlaces,
+            tooltipFormatter: bytesTwoDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Transactions">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['perfcounters.databases._total.write_transactions_sec'],
+            labels: ['Write Transactions'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
             metrics: [
-              'perfcounters.sqlserver:general statistics\\logins/sec',
-              'perfcounters.sqlserver:general statistics\\user connections'
+              'perfcounters.sql_errors.user_errors.errors_sec',
+              'perfcounters.sql_errors.db_offline_errors.errors_sec',
+              'perfcounters.sql_errors.kill_connection_errors.errors_sec'
             ],
-            labels: ['Logins/sec.', 'Connections'],
-            type: 'line'
+            labels: ['User Errors', 'DB Offline Errors', 'Kill Connection Errors'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Locks">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: [
+              'perfcounters.locks._total.lock_requests_sec',
+              'perfcounters.locks._total.number_of_deadlocks_sec'
+            ],
+            labels: ['Lock Requests', 'Number of Deadlocks'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
           }}
         />
       </DashboardSection>
