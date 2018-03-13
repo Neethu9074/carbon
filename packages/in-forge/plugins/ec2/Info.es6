@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
+  const tags = data.get('tags', emptyMap);
 
   return (
     <div>
@@ -28,6 +31,12 @@ export default function Info({ snapshot }) {
 
         <DescriptionItem title="VPC">{data.get('vpc-ids', []).join(', ')}</DescriptionItem>
       </DescriptionList>
+
+      {tags.size > 0 ? (
+        <KeyValuePopupButton title="Tags" data={tags}>
+          Tags
+        </KeyValuePopupButton>
+      ) : null}
     </div>
   );
 }
