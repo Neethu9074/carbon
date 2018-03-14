@@ -22,6 +22,11 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
     return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
   }
 
+  const keyMap = new Map();
+  for (let i = 0; i < keys.length; i++) {
+    keyMap.set(keys[i], i);
+  }
+
   return (
     <div className={locals.heatMap}>
       <HeatMapCanvas
@@ -42,7 +47,8 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
           tickSize: 3,
           tickPadding: 2,
           legendPosition: 'center',
-          tickRotation: -90
+          // since nivo does not allow
+          format: tick => (isTickWhichShouldBeHidden(tick, keyMap) ? '' : tick)
         }}
         axisLeft={{
           orient: 'left',
@@ -60,6 +66,18 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
       />
     </div>
   );
+}
+
+function isTickWhichShouldBeHidden(tick, keyMap) {
+  const totalColumns = keyMap.size;
+  const numTicks = 6;
+  const allowTicksAtIndexTimes = Math.ceil(totalColumns / numTicks);
+
+  const tickIndex = keyMap.get(tick);
+  if (tickIndex % allowTicksAtIndexTimes === 0) {
+    return false;
+  }
+  return true;
 }
 
 // how to recalculate colors

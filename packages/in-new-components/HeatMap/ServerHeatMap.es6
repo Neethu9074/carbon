@@ -59,7 +59,7 @@ function mapData(data) {
     for (let iColumn = 0; iColumn < data.length; iColumn++) {
       const column = data[iColumn];
       const dataPoint = column.latencyBuckets[iRow];
-      const key = formatTime(column.from + (column.to - column.from) / 2);
+      const key = getKeyForColumn(column);
       currentRow[key] = dataPoint.calls;
     }
     mappedData.push(currentRow);
@@ -76,9 +76,13 @@ function getKeys(data) {
   const keys = [];
   for (let iColumn = 0; iColumn < data.length; iColumn++) {
     const column = data[iColumn];
-    const key = formatTime(column.from + (column.to - column.from) / 2);
+    const key = getKeyForColumn(column);
     keys.push(key);
   }
 
   return keys;
+}
+
+function getKeyForColumn(column) {
+  return formatTime(column.from + (column.to - column.from) / 2);
 }
