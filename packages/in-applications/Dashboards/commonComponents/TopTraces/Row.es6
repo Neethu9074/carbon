@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { number, millis } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Counter from 'in-new-components/Counter';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import locals from './Row.mless';
 
-export default function TopListRow({ item }) {
+export default function TopListRow({ item, selectedMetricFormatter }) {
   const formattedTraceCount = number.compact(item.traceCount);
   const percent = Math.min(item.contributed / item.total, 1);
   const positionPercent = `${percent * 100}%`;
@@ -27,7 +27,7 @@ export default function TopListRow({ item }) {
               [locals.leftAlignedContribution]: percent > 0.5
             })}
           >
-            {millis.fixedCompact(item.contributed)}
+            {selectedMetricFormatter(item.contributed)}
           </span>
         </Tooltip>
       </div>
@@ -55,7 +55,7 @@ export default function TopListRow({ item }) {
 
         <div className={locals.right}>
           <Tooltip content={`Average trace duration across ${formattedTraceCount} traces.`}>
-            <span className={locals.total}>{millis.fixedCompact(item.total)}</span>
+            <span className={locals.total}>{selectedMetricFormatter(item.total)}</span>
           </Tooltip>
         </div>
       </div>

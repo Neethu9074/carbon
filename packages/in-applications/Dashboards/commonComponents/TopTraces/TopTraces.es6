@@ -9,7 +9,7 @@ import TopList from 'in-new-components/TopList';
 const metrics = ['latency', 'calls', 'weight'];
 const labels = ['Latency', 'Calls', 'Weight'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [millis.fixedCompact, number.fixedCompact, millis.fixedCompact];
+const formatters = [millis.fixedCompact, number.compact, millis.fixedCompact];
 
 export default function TopTraces({ applicationId, serviceId, endpointId, timeframe }) {
   return (
