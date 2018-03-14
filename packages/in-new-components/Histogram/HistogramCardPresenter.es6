@@ -2,8 +2,8 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import Card from 'in-new-components/Card';
 import Histogram from 'in-new-components/Histogram/Histogram';
+import Card from 'in-new-components/Card';
 
 export default function HistogramCardPresenter({ result, config }) {
   let content;

@@ -22,35 +22,28 @@ export default function Histogram({ buckets }) {
         top: 0,
         right: 0,
         bottom: 30,
-        left: 0
+        left: 50
       }}
-      padding={0.3}
+      padding={0.1}
       groupMode="grouped"
-      colors="#4b3aff"
+      colors="#5da6da"
       borderColor="inherit:darker(1.6)"
       axisBottom={{
         orient: 'bottom',
-        tickSize: 5,
+        tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'country',
-        legendPosition: 'center',
-        legendOffset: 36
+        legendPosition: 'center'
       }}
       axisLeft={{
         orient: 'left',
-        tickSize: 5,
+        tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'food',
-        legendPosition: 'center',
-        legendOffset: -40
+        legendPosition: 'center'
       }}
       enableLabel={false}
       labelTextColor="#e1e8ea"
-      animate={true}
-      motionStiffness={90}
-      motionDamping={15}
     />
   );
 }
