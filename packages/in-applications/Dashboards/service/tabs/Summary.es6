@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -90,6 +91,9 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={6}>
           <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        </Col>
+        <Col lg={6}>
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
     </Fragment>
