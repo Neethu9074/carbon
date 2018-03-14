@@ -39,6 +39,9 @@ function EntityLink({ className, getLink, children }) {
 }
 
 function getLinkToService(serviceId) {
+  if (isUnspecified(serviceId)) {
+    return null;
+  }
   return getModifiedUrlStream(params => {
     params.pathname = `${serviceDashboard}/summary`;
     setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, null);
@@ -47,10 +50,17 @@ function getLinkToService(serviceId) {
 }
 
 function getLinkToEndpoint(serviceId, endpointId) {
+  if (isUnspecified(serviceId) || isUnspecified(endpointId)) {
+    return null;
+  }
   return getModifiedUrlStream(params => {
     params.pathname = `${endpointDashboard}/summary`;
     setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, null);
     setOrDeleteMatrixKey(params, endpointDashboard, matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, endpointDashboard, matrixServiceId, serviceId);
   });
+}
+
+function isUnspecified(id) {
+  return id === 'Unspecified';
 }
