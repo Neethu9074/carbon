@@ -6,10 +6,10 @@ import getTraceTopList from 'in-subscription/application/getTraceTopList';
 import { millis } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
 
-const metrics = ['latency'];
-const labels = ['Latency'];
-const aggregations = ['MEAN'];
-const formatters = [millis.fixedCompact];
+const metrics = ['weight', 'calls', 'latency'];
+const labels = ['Weight', 'Calls', 'Latency'];
+const aggregations = ['MEAN', ' MEAN', 'MEAN'];
+const formatters = [millis.fixedCompact, millis.fixedCompact, millis.fixedCompact];
 
 export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
   return (
