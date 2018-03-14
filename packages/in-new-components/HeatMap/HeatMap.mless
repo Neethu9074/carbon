@@ -1,5 +1,5 @@
 :local {
   .heatMap {
-    background: #ff000011;
+    width: 100%;
   }
 }

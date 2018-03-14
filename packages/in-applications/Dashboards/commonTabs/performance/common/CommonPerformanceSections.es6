@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
-import heatmapExample from 'in-applications/Dashboards/commonTabs/performance/common/heatmap.png';
 import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
 import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
+import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -92,7 +92,12 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
         <Row>
           <Col lg={12}>
             <Card title="Latency Heatmap">
-              <img src={heatmapExample} alt="Example heat map" />
+              <ServerHeatMap
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                timeframe={timeframe}
+              />
             </Card>
           </Col>
         </Row>
