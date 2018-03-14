@@ -1,12 +1,14 @@
 import { Bar } from '@nivo/bar';
 import React from 'react';
 
+import { millis } from 'in-services/formatters/number';
+
 export default function Histogram({ buckets }) {
   const data = buckets.map(({ from, to, value }) => ({
     from,
     to,
     value,
-    label: `> ${from} ms`
+    label: `< ${millis.compact(to)}`
   }));
 
   return (
