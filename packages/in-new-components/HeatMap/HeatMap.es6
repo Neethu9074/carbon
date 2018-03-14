@@ -8,8 +8,8 @@ import locals from './HeatMap.mless';
 
 export default compose(
   renameProps({
-    height: 'customHeight',
-    width: 'customWidth'
+    cheight: 'customHeight',
+    cwidth: 'customWidth'
   }),
   getElementDimensions,
   defaultProps({
@@ -23,7 +23,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
   }
 
   return (
-    <div style={{ width: customWidth || width }} className={locals.heatMap}>
+    <div className={locals.heatMap}>
       <HeatMapCanvas
         height={customHeight || height}
         width={customWidth || width}
