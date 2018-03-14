@@ -3,13 +3,13 @@ import React from 'react';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import List from 'in-applications/Dashboards/commonComponents/TopTraces/List';
 import getTraceTopList from 'in-subscription/application/getTraceTopList';
-import { millis } from 'in-services/formatters/number';
+import { millis, number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
 
-const metrics = ['latency'];
-const labels = ['Latency'];
-const aggregations = ['MEAN'];
-const formatters = [millis.fixedCompact];
+const metrics = ['latency', 'calls', 'weight'];
+const labels = ['Latency', 'Calls', 'Weight'];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [millis.fixedCompact, number.fixedCompact, millis.fixedCompact];
 
 export default function TopTraces({ applicationId, serviceId, endpointId, timeframe }) {
   return (
