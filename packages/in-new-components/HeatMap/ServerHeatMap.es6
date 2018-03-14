@@ -53,7 +53,7 @@ function mapData(data) {
   for (let iRow = 0; iRow < numRows; iRow++) {
     const firstColumnRow = data[0].latencyBuckets[iRow];
     const currentRow = {
-      key: millis.compact(firstColumnRow.from + (firstColumnRow.to - firstColumnRow.from) / 2)
+      key: millis.detailed(firstColumnRow.from + (firstColumnRow.to - firstColumnRow.from) / 2)
     };
 
     for (let iColumn = 0; iColumn < data.length; iColumn++) {

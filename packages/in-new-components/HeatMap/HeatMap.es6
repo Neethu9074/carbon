@@ -37,7 +37,6 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
           bottom: 60,
           left: 60
         }}
-        forceSquare
         axisBottom={{
           orient: 'bottom',
           tickSize: 3,
@@ -71,9 +70,8 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
             id: 'lines'
           }
         ]}
+        forceSquare={false}
         animate={false}
-        motionStiffness={300}
-        motionDamping={40}
         hoverTarget="cell"
         cellHoverOthersOpacity={0.5}
       />
