@@ -1,14 +1,18 @@
-import { mapProps, compose } from 'recompose';
-import { assign } from 'lodash';
+import { compose } from 'recompose';
+import React from 'react';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
+import Skeleton from 'in-components/Progress/Skeleton';
 import connect from 'in-hoc/connectTo';
+
+import locals from './ServerHeatMap.mless';
 
 export default compose(
   connect(props => ({
-    mappedData: getLatencyHeatMapOverTime({
+    result: getLatencyHeatMapOverTime({
       filter: {
         application: props.applicationId,
         service: props.serviceId,
@@ -17,25 +21,27 @@ export default compose(
       },
       maxTimeBuckets: 20,
       maxLatencyBuckets: 10
-    }).map(mapData)
-  })),
-  mapProps(props => {
-    const mappedData = props.mappedData;
-    if (mappedData) {
-      return assign(
-        {
-          data: mappedData.data,
-          keys: mappedData.keys
-        },
-        props
-      );
-    }
-    return props;
-  })
-)(HeatMap);
+    })
+  }))
+)(ServerHeatMap);
 
-function mapData(result) {
-  const data = result.data;
+function ServerHeatMap(props) {
+  const { result } = props;
+
+  const isLoading = result.progress.loading;
+  if (isLoading) {
+    return <Skeleton className={locals.skeletonHeatMap} />;
+  }
+
+  const hasErrors = result.errors.length > 0;
+  if (hasErrors) {
+    return <ErroneousResultPresenter errors={result.errors} />;
+  }
+
+  return <HeatMap {...props} data={mapData(result.data)} keys={getKeys(result.data)} />;
+}
+
+function mapData(data) {
   if (!data || data.length === 0) {
     return data;
   }
@@ -57,10 +63,7 @@ function mapData(result) {
     mappedData.push(currentRow);
   }
 
-  return {
-    data: mappedData.reverse(),
-    keys: getKeys(data)
-  };
+  return mappedData.reverse();
 }
 
 function getKeys(data) {
