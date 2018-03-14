@@ -19,8 +19,8 @@ export default compose(
         endpoint: props.endpointId,
         timeframe: props.timeframe
       },
-      maxTimeBuckets: 20,
-      maxLatencyBuckets: 10
+      maxTimeBuckets: 100,
+      maxLatencyBuckets: 20
     })
   }))
 )(ServerHeatMap);

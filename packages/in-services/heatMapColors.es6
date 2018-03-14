@@ -64,10 +64,10 @@ function getColorPalette(heatMapMetric) {
   }
 }
 
-export default function getHeatMapColor(heatMapMetric, intensity = 0) {
+export default function getHeatMapColor(heatMapMetric, intensity = 0, colorPalette) {
   intensity = Math.min(1, Math.max(0, intensity)); // [0, 1]
 
-  const colorPalette = getColorPalette(heatMapMetric);
+  colorPalette = colorPalette || getColorPalette(heatMapMetric);
   const indexInBetween = intensity * (colorPalette.length - 1);
   const fromColor = colorPalette[Math.floor(indexInBetween)];
   const toColor = colorPalette[Math.ceil(indexInBetween)];
