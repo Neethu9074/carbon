@@ -11,7 +11,7 @@ const labels = ['Latency'];
 const aggregations = ['MEAN'];
 const formatters = [millis.fixedCompact];
 
-export default function TraceTopList({ applicationId, serviceId, endpointId, timeframe }) {
+export default function TopTraces({ applicationId, serviceId, endpointId, timeframe }) {
   return (
     <TopList
       title="Top Traces"

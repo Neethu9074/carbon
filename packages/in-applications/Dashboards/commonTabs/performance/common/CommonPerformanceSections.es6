@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 
 import heatmapExample from 'in-applications/Dashboards/commonTabs/performance/common/heatmap.png';
 import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -97,17 +96,6 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
           </Col>
         </Row>
       )}
-
-      <Row>
-        <Col lg={12}>
-          <TopTraces
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-          />
-        </Col>
-      </Row>
     </Fragment>
   );
 }

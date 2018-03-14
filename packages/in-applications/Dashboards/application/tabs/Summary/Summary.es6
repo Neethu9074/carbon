@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -90,6 +91,14 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
       <Row>
         <Col lg={6}>
           <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
+        </Col>
+        <Col lg={6}>
+          <TopTraces
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
         </Col>
       </Row>
     </Fragment>
