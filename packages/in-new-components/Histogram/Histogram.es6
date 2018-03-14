@@ -8,7 +8,7 @@ export default function Histogram({ buckets }) {
     from,
     to,
     value,
-    label: `< ${millis.compact(to)}`
+    label: `< ${millis.fixedCompact(to)}`
   }));
 
   return (

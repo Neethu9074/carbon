@@ -80,7 +80,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
       <Row>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Calls"
+            title="Total Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
@@ -95,7 +95,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Latency"
+            title="Avg. Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,
@@ -110,7 +110,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Errors"
+            title="Error Rate"
             formatter={percentage.detailed}
             metricsConfig={{
               filter,
@@ -127,7 +127,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
       <Row>
         <Col lg={12}>
           <ChartWrapper
-            cardTitle="Calls vs Latency"
+            cardTitle="Total Calls vs Avg. Latency"
             timeframe={timeframe}
             y1={{
               renderer: Renderer.countErrorBar,

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNodes';
+import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import getService from 'in-subscription/application/getService';
 import ServerFlowMap from 'in-components/ServerFlowMap';
@@ -54,24 +55,27 @@ export default connectTo(
     }
 
     return (
-      <FullHeightWrapper
-        render={height => (
-          <ServerFlowMap
-            height={height}
-            rootNodeData={{
-              id: serviceId,
-              service,
-              endpoint: data,
-              metricValues
-            }}
-            serviceId={serviceId}
-            applicationId={applicationId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-            getFlowNodes={getEndpointFlowNodes}
-          />
-        )}
-      />
+      <Fragment>
+        <FullHeightWrapper
+          render={height => (
+            <ServerFlowMap
+              height={height}
+              rootNodeData={{
+                id: serviceId,
+                service,
+                endpoint: data,
+                metricValues
+              }}
+              serviceId={serviceId}
+              applicationId={applicationId}
+              endpointId={endpointId}
+              timeframe={timeframe}
+              getFlowNodes={getEndpointFlowNodes}
+            />
+          )}
+        />
+        <DisabledBodyScroll />
+      </Fragment>
     );
   }
 );

@@ -22,7 +22,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Calls"
+            title="Total Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
@@ -37,7 +37,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Latency"
+            title="Avg. Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,
@@ -52,7 +52,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Errors"
+            title="Error Rate"
             formatter={percentage.detailed}
             metricsConfig={{
               filter,
@@ -70,7 +70,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={6}>
           <CallsErrorsLatencyVsTechnologieBreakdown
-            cardTitle="Calls vs Latency"
+            cardTitle="Total Calls vs Avg. Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}

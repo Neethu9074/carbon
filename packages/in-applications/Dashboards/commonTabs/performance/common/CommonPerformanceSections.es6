@@ -16,7 +16,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
       <Row>
         <Col lg={12}>
           <ChartWrapper
-            cardTitle="Latency"
+            cardTitle="Avg. Latency"
             timeframe={timeframe}
             y1={{
               renderer: Renderer.integral,
