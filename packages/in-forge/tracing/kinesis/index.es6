@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'kinesis',
-  category: 'kinesis',
+  category: 'streaming',
 
   typeName: {
     singular: 'Kinesis Stream call',

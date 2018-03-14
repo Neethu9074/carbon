@@ -13,7 +13,6 @@ import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
 import xrayIcon from 'in-sdk/tracing/categoryIcons/xray.svg';
 import rpcIcon from 'in-sdk/tracing/categoryIcons/rpc.svg';
 import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
-import kinesisIcon from 'in-sdk/tracing/categoryIcons/kinesis.svg';
 
 const categoryIcons = {
   cache: databaseIcon,
@@ -30,7 +29,7 @@ const categoryIcons = {
   missing: missingIcon,
   remote: remoteIcon,
   xray: xrayIcon,
-  kinesis: kinesisIcon
+  streaming: messagingIcon
 };
 
 export const SPAN_KINDS = {
