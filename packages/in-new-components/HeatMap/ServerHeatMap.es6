@@ -6,6 +6,7 @@ import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
 import Skeleton from 'in-components/Progress/Skeleton';
+import { millis } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
 
 import locals from './ServerHeatMap.mless';
@@ -50,8 +51,9 @@ function mapData(data) {
   const numRows = data[0].latencyBuckets.length;
 
   for (let iRow = 0; iRow < numRows; iRow++) {
+    const firstColumnRow = data[0].latencyBuckets[iRow];
     const currentRow = {
-      key: `${data[0].latencyBuckets[iRow].from} - ${data[0].latencyBuckets[iRow].to}`
+      key: millis.compact(firstColumnRow.from + (firstColumnRow.to - firstColumnRow.from) / 2)
     };
 
     for (let iColumn = 0; iColumn < data.length; iColumn++) {
