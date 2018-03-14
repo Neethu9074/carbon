@@ -46,6 +46,7 @@ export default function Histogram({ buckets }) {
         legendPosition: 'center',
         legendOffset: -40
       }}
+      enableLabel={false}
       labelTextColor="#e1e8ea"
       animate={true}
       motionStiffness={90}
