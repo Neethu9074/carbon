@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
 
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
-import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
-import dummyHeatMap from 'in-applications/Dashboards/service/tabs/time-distribution.png';
+import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
+import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Card from 'in-new-components/Card';
 
 export default function Summary({ timeframe, applicationId, serviceId, endpointId }) {
   const filter = {
@@ -67,7 +66,7 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
       </Row>
 
       <Row>
-        <Col lg={newApplicationMonitoringFeaturePlaceholdersEnabled ? 6 : 12}>
+        <Col lg={6}>
           <CallsErrorsLatencyVsTechnologieBreakdown
             cardTitle="Total Calls vs Avg. Latency"
             applicationId={applicationId}
@@ -76,14 +75,26 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
             timeframe={timeframe}
           />
         </Col>
-
-        {newApplicationMonitoringFeaturePlaceholdersEnabled && (
-          <Col lg={6}>
-            <Card title="Latency Distribution">
-              <img src={dummyHeatMap} alt="Dummy heat map" style={{ width: '100%' }} />
-            </Card>
-          </Col>
-        )}
+        <Col lg={6}>
+          <LatencyDistributionHistogram
+            cardTitle="Latency Distribution"
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={6} />
+        <Col lg={6}>
+          <TopTraces
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
+        </Col>
       </Row>
     </Fragment>
   );
