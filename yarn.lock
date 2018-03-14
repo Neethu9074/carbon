@@ -28,6 +28,15 @@
     react-motion "^0.5.2"
     recompose "^0.26.0"
 
+"@nivo/heatmap@^0.33.0":
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/@nivo/heatmap/-/heatmap-0.33.0.tgz#78e6395a200f1c5e78d19f8c6d8b5581ec563f33"
+  dependencies:
+    "@nivo/core" "0.33.0"
+    d3-scale "^1.0.6"
+    react-motion "^0.5.2"
+    recompose "^0.26.0"
+
 "@nivo/legends@0.33.0":
   version "0.33.0"
   resolved "https://registry.yarnpkg.com/@nivo/legends/-/legends-0.33.0.tgz#8eb5a228b2cfb81dfc464ddb854c266768f039c2"
