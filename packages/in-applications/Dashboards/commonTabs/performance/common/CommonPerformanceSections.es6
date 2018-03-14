@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -17,7 +16,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
       <Row>
         <Col lg={12}>
           <ChartWrapper
-            cardTitle="Latency"
+            cardTitle="Avg. Latency"
             timeframe={timeframe}
             y1={{
               renderer: Renderer.integral,
@@ -102,17 +101,6 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
           </Col>
         </Row>
       )}
-
-      <Row>
-        <Col lg={12}>
-          <TopTraces
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-          />
-        </Col>
-      </Row>
     </Fragment>
   );
 }

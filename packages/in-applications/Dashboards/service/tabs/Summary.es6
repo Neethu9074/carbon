@@ -2,7 +2,9 @@ import React, { Fragment } from 'react';
 
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
+import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
+import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -20,7 +22,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Calls"
+            title="Total Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
@@ -35,7 +37,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Latency"
+            title="Avg. Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,
@@ -50,7 +52,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Errors"
+            title="Error Rate"
             formatter={percentage.detailed}
             metricsConfig={{
               filter,
@@ -68,7 +70,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={6}>
           <CallsErrorsLatencyVsTechnologieBreakdown
-            cardTitle="Calls vs Latency"
+            cardTitle="Total Calls vs Avg. Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
@@ -90,6 +92,19 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       <Row>
         <Col lg={6}>
           <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        </Col>
+        <Col lg={6}>
+          <TopTraces
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={6}>
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
     </Fragment>
