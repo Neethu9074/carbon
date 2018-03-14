@@ -43,7 +43,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
           tickSize: 3,
           tickPadding: 2,
           legendPosition: 'center',
-          tickRotation: -90
+          tickRotation: 25
         }}
         axisLeft={{
           orient: 'left',

@@ -2,6 +2,7 @@ import { mapProps, compose } from 'recompose';
 import { assign } from 'lodash';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
+import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
 import connect from 'in-hoc/connectTo';
 
@@ -50,7 +51,7 @@ function mapData(result) {
     for (let iColumn = 0; iColumn < data.length; iColumn++) {
       const column = data[iColumn];
       const dataPoint = column.latencyBuckets[iRow];
-      const key = `${column.from} - ${column.to}`;
+      const key = formatTime(column.from + (column.to - column.from) / 2);
       currentRow[key] = dataPoint.calls;
     }
     mappedData.push(currentRow);
@@ -70,7 +71,8 @@ function getKeys(data) {
   const keys = [];
   for (let iColumn = 0; iColumn < data.length; iColumn++) {
     const column = data[iColumn];
-    keys.push(`${column.from} - ${column.to}`);
+    const key = formatTime(column.from + (column.to - column.from) / 2);
+    keys.push(key);
   }
 
   return keys;
