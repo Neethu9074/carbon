@@ -6,8 +6,8 @@ import getTraceTopList from 'in-subscription/application/getTraceTopList';
 import { millis, number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
 
-const metrics = ['weight', 'calls', 'latency'];
-const labels = ['Weight', 'Calls', 'Latency'];
+const metrics = ['latency', 'calls', 'weight'];
+const labels = ['Latency', 'Calls', 'Weight'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [millis.fixedCompact, number.fixedCompact, millis.fixedCompact];
 
