@@ -72,7 +72,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
         ]}
         forceSquare={false}
         animate={false}
-        hoverTarget="cell"
+        hoverTarget="rowColumn"
         cellHoverOthersOpacity={0.5}
       />
     </div>
