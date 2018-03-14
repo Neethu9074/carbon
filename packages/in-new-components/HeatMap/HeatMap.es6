@@ -47,7 +47,8 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
           tickSize: 3,
           tickPadding: 2,
           legendPosition: 'center',
-          // since nivo does not allow
+          // since nivo does not allow to restrict the number of ticks per axis, we need this "hack"
+          // to identify ticks, we do not want to render
           format: tick => (isTickWhichShouldBeHidden(tick, keyMap) ? '' : tick)
         }}
         axisLeft={{
