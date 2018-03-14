@@ -44,7 +44,7 @@ function mapData(result) {
 
   for (let iRow = 0; iRow < numRows; iRow++) {
     const currentRow = {
-      calls: `${data[0].latencyBuckets[iRow].from} - ${data[0].latencyBuckets[iRow].to}`
+      key: `${data[0].latencyBuckets[iRow].from} - ${data[0].latencyBuckets[iRow].to}`
     };
 
     for (let iColumn = 0; iColumn < data.length; iColumn++) {

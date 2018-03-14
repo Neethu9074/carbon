@@ -29,7 +29,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
         width={customWidth || width}
         data={data}
         keys={keys}
-        indexBy="calls"
+        indexBy="key"
         colors="YlOrRd"
         margin={{
           top: 0,
