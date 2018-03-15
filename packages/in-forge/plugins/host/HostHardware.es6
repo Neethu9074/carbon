@@ -38,5 +38,5 @@ export default connectTo(
 );
 
 function getForgeSpecificComponent(snapshot) {
-  return getForgeComponent('./' + snapshot.get('plugin') + '/Sidebar/Details.es6');
+  return getForgeComponent('./' + snapshot.get('plugin') + '/Info.es6');
 }
