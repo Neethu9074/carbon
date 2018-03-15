@@ -52,6 +52,10 @@ export const matchSpecificationOptionsTree = [
   {
     label: 'Bean',
     value: 'bean'
+  },
+  {
+    label: 'Method',
+    value: 'method'
   }
 ].concat(generalMatchSpecificationOptionsTree);
 
@@ -94,6 +98,20 @@ export const matchSpecificationOptions = defaults(
         <span>
           Define a regular expression to match beans. Capture groups from matches of this regular expression are
           available in the service name field via the prefix <code>bean</code>, e.g. <code>{'{bean-1}'}</code>{' '}
+          references the first capture group.
+        </span>
+      )
+    },
+
+    method: {
+      titleName: 'Method',
+      placeholder: '',
+      testPlaceholder: 'com.example.MyBean.getHelloWorld(java.lang.String)',
+      initialValue: '',
+      help: (
+        <span>
+          Define a regular expression to match methods. Capture groups from matches of this regular expression are
+          available in the service name field via the prefix <code>method</code>, e.g. <code>{'{method-1}'}</code>{' '}
           references the first capture group.
         </span>
       )
