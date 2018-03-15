@@ -124,10 +124,16 @@ export default class FlowMapState {
           serviceNode.hasRelatedNodes.outgoing = true;
           newChildInstance.hasRelatedNodes.incoming = true;
           newChildInstance.hasRelatedNodes.outgoing = false;
+          if (newChild.relatedNodesCount === 0) {
+            newChildInstance.hasRelatedNodes.incoming = false;
+          }
         } else {
           serviceNode.hasRelatedNodes.incoming = true;
           newChildInstance.hasRelatedNodes.outgoing = true;
           newChildInstance.hasRelatedNodes.incoming = false;
+          if (newChild.relatedNodesCount === 0) {
+            newChildInstance.hasRelatedNodes.outgoing = false;
+          }
         }
 
         this.addConnected(child, newChildInstance, direction);
