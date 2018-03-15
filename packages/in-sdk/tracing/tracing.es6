@@ -28,8 +28,7 @@ const categoryIcons = {
   messaging: messagingIcon,
   missing: missingIcon,
   remote: remoteIcon,
-  xray: xrayIcon,
-  streaming: messagingIcon
+  xray: xrayIcon
 };
 
 export const SPAN_KINDS = {

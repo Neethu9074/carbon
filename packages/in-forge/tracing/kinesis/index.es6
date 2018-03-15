@@ -2,11 +2,11 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'kinesis',
-  category: 'streaming',
+  category: 'messaging',
 
   typeName: {
-    singular: 'Kinesis Stream call',
-    plural: 'Kinesis Stream calls'
+    singular: 'Kinesis',
+    plural: 'Kinesis'
   },
 
   detailView: 'KinesisSpanDetailView',
