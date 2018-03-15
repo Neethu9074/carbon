@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
+import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
@@ -66,9 +67,18 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
       </Row>
 
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <CallsErrorsLatencyVsTechnologieBreakdown
             cardTitle="Calls vs Latency"
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
+        </Col>
+        <Col lg={6}>
+          <LatencyDistributionHistogram
+            cardTitle="Latency Distribution"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
