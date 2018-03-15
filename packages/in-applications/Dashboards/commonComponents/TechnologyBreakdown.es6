@@ -47,11 +47,13 @@ export default connect(({ applicationId, serviceId, endpointId, timeframe, witho
 }))(TechnologyBreakdownPresenter);
 
 function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, withoutSelf }) {
+  const cardTitle = 'Processing Time';
+
   // error or loading case
   if (outgoingResult.data == null) {
-    return <ChartWrapperPresenter result={outgoingResult} config={{ cardTitle: 'Technology Breakdown' }} />;
+    return <ChartWrapperPresenter result={outgoingResult} config={{ cardTitle }} />;
   } else if (!withoutSelf && selfResult.data == null) {
-    return <ChartWrapperPresenter result={selfResult} config={{ cardTitle: 'Technology Breakdown' }} />;
+    return <ChartWrapperPresenter result={selfResult} config={{ cardTitle }} />;
   }
 
   const dataSeries = outgoingResult.data.slice().sort((a, b) => compareIgnoreCase(a.type, b.type));
@@ -67,7 +69,7 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
   }
 
   const config = {
-    cardTitle: 'Technology Breakdown',
+    cardTitle,
     renderXAxis: false,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     granularity: getChartGranularity(timeframe),
