@@ -48,10 +48,11 @@ function mapData(data) {
   }
 
   const mappedData = [];
-  const numRows = data[0].latencyBuckets.length;
+  const columnWithMaxBuckets = getColumnWithMaxBuckets(data);
+  const numMaxRows = columnWithMaxBuckets.latencyBuckets.length;
 
-  for (let iRow = 0; iRow < numRows; iRow++) {
-    const firstColumnRow = data[0].latencyBuckets[iRow];
+  for (let iRow = 0; iRow < numMaxRows; iRow++) {
+    const firstColumnRow = columnWithMaxBuckets.latencyBuckets[iRow];
     const currentRow = {
       key: millis.detailed(firstColumnRow.from + (firstColumnRow.to - firstColumnRow.from) / 2)
     };
@@ -60,7 +61,7 @@ function mapData(data) {
       const column = data[iColumn];
       const dataPoint = column.latencyBuckets[iRow];
       const key = getKeyForColumn(column);
-      currentRow[key] = dataPoint.calls;
+      currentRow[key] = dataPoint ? dataPoint.calls : 0;
     }
     mappedData.push(currentRow);
   }
@@ -85,4 +86,16 @@ function getKeys(data) {
 
 function getKeyForColumn(column) {
   return formatTime(column.from + (column.to - column.from) / 2);
+}
+
+function getColumnWithMaxBuckets(data) {
+  let maxNumRows = 0;
+  let columnWithMaxBuckets = null;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].latencyBuckets.length > maxNumRows) {
+      maxNumRows = data[i].latencyBuckets.length;
+      columnWithMaxBuckets = data[i];
+    }
+  }
+  return columnWithMaxBuckets;
 }
