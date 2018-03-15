@@ -12,6 +12,6 @@ registerSpanDefinition({
   detailView: 'KinesisSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'kinesis', 'op']) + ' ' + span.getIn(['data', 'kinesis', 'stream']);
+    return span.getIn(['data', 'kinesis', 'op']) + ' on ' + span.getIn(['data', 'kinesis', 'stream']);
   }
 });
