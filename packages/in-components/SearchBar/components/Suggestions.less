@@ -1,3 +1,5 @@
+@import './dimensions.less';
+
 .in-search-suggestions {
   position: absolute;
   top: 2rem;
@@ -11,7 +13,7 @@
   background: #2d4048;
   color: #8c969a;
 
-  max-height: 15rem;
+  max-height: calc(~"100vh - " (@in-app-header-height + @search-bar-height + @timeline-footer-collapsed-height));
   overflow-y: auto;
 
   &__list {
