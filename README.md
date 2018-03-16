@@ -74,6 +74,13 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
 
 For regular UI development, you need to execute `yarn run dev`. The development server will ask you several questions about development server settings. When in doubt, use the defaults, i.e. always hit `return` to accept the defaults.
 
+On Linux, it might be required to do the following to allow `yarn` to run the ngnix-docker container without sudo:
+```
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+newgrp docker
+```
+
 ### Upgrading Node.js
 From time to time we are upgrading the Node.js version that we are using for build of the `ui-client` as well as for the `in-server`. Node.js upgrades have been automated. Simply execute the following command in the root of the project to automatically upgrade your Node.js version via NVM.
 
