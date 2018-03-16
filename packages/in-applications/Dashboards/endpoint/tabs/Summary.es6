@@ -77,7 +77,12 @@ export default function Summary({ timeframe, applicationId, serviceId, endpointI
           />
         </Col>
         <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+          <TechnologyBreakdown
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
         </Col>
       </Row>
       <Row>
