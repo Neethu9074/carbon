@@ -77,15 +77,8 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
             timeframe={timeframe}
           />
         </Col>
-
         <Col lg={6}>
-          <LatencyDistributionHistogram
-            cardTitle="Latency Distribution"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-          />
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
 
@@ -104,7 +97,13 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       </Row>
       <Row>
         <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+          <LatencyDistributionHistogram
+            cardTitle="Latency Distribution"
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
         </Col>
       </Row>
     </Fragment>
