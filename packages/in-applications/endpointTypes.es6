@@ -1,5 +1,14 @@
 import invariant from 'invariant';
 
+export const endpointNameTranslations = {
+  BATCH: 'Batch',
+  DATABASE: 'Database',
+  HTTP: 'Http',
+  MESSAGING: 'Messaging',
+  RPC: 'Rpc',
+  UNDEFINED: 'Undefined'
+};
+
 export const colorTranslation = {
   BATCH: '#14adff',
   DATABASE: '#cc553b',
