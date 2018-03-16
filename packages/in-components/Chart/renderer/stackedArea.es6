@@ -23,7 +23,7 @@ function calculateMetricMap(metrics) {
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
-      const previousValue = iMetric > 0 ? metricMap[dataPoint[0]] : 0;
+      const previousValue = iMetric > 0 && metricMap[dataPoint[0]] != null ? metricMap[dataPoint[0]] : 0;
       const value = dataPoint[1] + previousValue;
       metricMap[dataPoint[0]] = value;
     }
