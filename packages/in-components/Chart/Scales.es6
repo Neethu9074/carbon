@@ -58,6 +58,14 @@ export default class Scales {
       minValue = Math.min(minValue, minMax.minValue);
     }
 
+    if (axis.min != null) {
+      minValue = axis.min;
+    }
+
+    if (axis.max != null) {
+      maxValue = axis.max;
+    }
+
     scale.setDomainFrom(minValue);
     scale.setDomainTo(maxValue);
 

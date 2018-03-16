@@ -53,7 +53,8 @@ export default connectTo(
           labels,
           colors,
           metrics,
-          formatter: millis
+          formatter: millis,
+          min: 0
         }
       };
     }
