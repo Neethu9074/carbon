@@ -16,7 +16,7 @@ export const colorTranslation = {
   HTTP: '#1479ff',
   MESSAGING: '#3eb39a',
   RPC: '#61ccce',
-  UNDEFINED: '#cc553b',
+  UNDEFINED: '#cccccc',
   SELF: '#000000'
 };
 
