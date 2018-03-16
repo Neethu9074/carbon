@@ -23,7 +23,7 @@ export default connectTo(
   }),
   function TechnologyBreakdownPresenter({ timeframe, result }) {
     let config = {
-      cardTitle: 'Downstream Processing Time'
+      cardTitle: 'Processing Time'
     };
     if (result.data) {
       const endpointTypes = Object.keys(result.data);

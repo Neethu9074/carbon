@@ -6,7 +6,8 @@ export const endpointNameTranslations = {
   HTTP: 'Http',
   MESSAGING: 'Messaging',
   RPC: 'Rpc',
-  UNDEFINED: 'Undefined'
+  UNDEFINED: 'Undefined',
+  SELF: 'Self'
 };
 
 export const colorTranslation = {
@@ -15,7 +16,8 @@ export const colorTranslation = {
   HTTP: '#1479ff',
   MESSAGING: '#3eb39a',
   RPC: '#61ccce',
-  UNDEFINED: '#cc553b'
+  UNDEFINED: '#cc553b',
+  SELF: '#000000'
 };
 
 export function getColor(type) {
