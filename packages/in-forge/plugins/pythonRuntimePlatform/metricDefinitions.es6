@@ -51,8 +51,8 @@ export default [
     formatter: number
   },
   {
-    metrics: ['metrics.alive_threads', 'metrics.dead_threads', 'metrics.daemon_threads'],
-    labels: ['Alive Threads', 'Dead Threads', 'Daemon Threads'],
+    metrics: ['metrics.alive_threads', 'metrics.dummy_threads', 'metrics.daemon_threads'],
+    labels: ['Alive Threads', 'Dummy Threads', 'Daemon Threads'],
     min: 0,
     formatter: number
   }
