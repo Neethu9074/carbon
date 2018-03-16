@@ -70,7 +70,6 @@ function TechnologyBreakdownPresenter({ outgoingResult, selfResult, timeframe, w
 
   const config = {
     cardTitle,
-    renderXAxis: false,
     timeframe: getResolvedTimeframe(timeframe, outgoingResult),
     granularity: getChartGranularity(timeframe),
     y1: {
