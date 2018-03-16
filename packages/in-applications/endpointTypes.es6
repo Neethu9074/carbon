@@ -17,7 +17,7 @@ export const colorTranslation = {
   MESSAGING: '#3eb39a',
   RPC: '#61ccce',
   UNDEFINED: '#cccccc',
-  SELF: '#000000'
+  SELF: '#ddd'
 };
 
 export function getColor(type) {

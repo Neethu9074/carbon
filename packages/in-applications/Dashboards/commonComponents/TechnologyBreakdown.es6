@@ -5,6 +5,7 @@ import { getChartGranularity, getResolvedTimeframe } from 'in-applications/metri
 import { endpointNameTranslations, getColor } from 'in-applications/endpointTypes';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
@@ -26,10 +27,18 @@ export default connectTo(
       cardTitle: 'Processing Time'
     };
     if (result.data) {
-      const endpointTypes = Object.keys(result.data);
+      const endpointTypes = Object.keys(result.data).sort((a, b) => {
+        // move SELF time to the bottom of the chart
+        if (a === 'SELF') {
+          return -1;
+        } else if (b === 'SELF') {
+          return 1;
+        }
+        return compareIgnoreCase(a, b);
+      });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const colors = endpointTypes.map(type => getColor(type));
-      const metrics = Object.keys(result.data).map(type => result.data[type]);
+      const metrics = endpointTypes.map(type => result.data[type]);
       config = {
         cardTitle: config.cardTitle,
         timeframe: getResolvedTimeframe(timeframe, result),
