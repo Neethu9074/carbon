@@ -193,7 +193,10 @@ function getFakedEdmundsValues() {
     { value: 'host.zone', label: 'host.zone' },
     { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
     { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
-    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' }
+    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' },
+    { value: 'nodejs.app.name', label: 'nodejs.app.name' },
+    { value: 'springboot.name', label: 'springboot.name' },
+    { value: 'marathon.appId', label: 'marathon.appId' }
   ].map(tag => {
     return (
       <option value={tag.value} key={tag.label}>
