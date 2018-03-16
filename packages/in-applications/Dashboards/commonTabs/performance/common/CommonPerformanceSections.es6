@@ -19,6 +19,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
             cardTitle="Avg. Latency"
             timeframe={timeframe}
             y1={{
+              calculateStackDifferences: true,
               renderer: Renderer.integral,
               formatter: millis,
               labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
