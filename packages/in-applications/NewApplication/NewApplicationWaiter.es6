@@ -38,17 +38,15 @@ export default connectTo(
               Application is being created…
             </FullscreenViewHeading>
 
-            {(result == null || result.progress.loading) && (
-              <div className={locals.loading}>
-                <div>
-                  We are preparing everything to monitor your application <strong>{label}</strong>.
-                </div>
-                <div>Please wait.</div>
-                <div>
-                  <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
-                </div>
+            <div className={locals.loading}>
+              <div>
+                We are preparing everything to monitor your application <strong>{label}</strong>.
               </div>
-            )}
+              <div>Please wait.</div>
+              <div>
+                <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
+              </div>
+            </div>
           </div>
         )}
       />
