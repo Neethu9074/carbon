@@ -22,25 +22,20 @@ export default connectTo(
       granularity: getChartGranularity(timeframe)
     })
   }),
-  function TechnologyBreakdownPresenter({ serviceId, endpointId, timeframe, result }) {
+  function TechnologyBreakdownPresenter({ timeframe, result }) {
     let config = {
       cardTitle: 'Processing Time'
     };
     if (result.data) {
-      const endpointTypes = Object.keys(result.data)
-        .sort((a, b) => {
-          // move SELF time to the bottom of the chart
-          if (a === 'SELF') {
-            return -1;
-          } else if (b === 'SELF') {
-            return 1;
-          }
-          return compareIgnoreCase(a, b);
-        })
-        // TODO temporary workaround. We are receiving self time for application dashboards.
-        // This is something that we do not want.
-        // We will need to do this filter operation within the backend.
-        .filter(k => k !== 'SELF' || serviceId || endpointId);
+      const endpointTypes = Object.keys(result.data).sort((a, b) => {
+        // move SELF time to the bottom of the chart
+        if (a === 'SELF') {
+          return -1;
+        } else if (b === 'SELF') {
+          return 1;
+        }
+        return compareIgnoreCase(a, b);
+      });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const colors = endpointTypes.map(type => getColor(type));
       const metrics = endpointTypes.map(type => result.data[type]);
