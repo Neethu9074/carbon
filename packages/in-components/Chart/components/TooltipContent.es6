@@ -29,7 +29,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
       {addSpacer && <div className={locals.spacer} />}
 
       <ul className={locals.tooltipMetricList}>
-        {axis.labels.map((label, i) => {
+        {axis.labels.filter(label => !config.filteredDataSeries.has(label)).map((label, i) => {
           const dataPointsForAxis = dataPointsAtTime[axisName];
           const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
           const aggregations = axis.aggregations || [];
