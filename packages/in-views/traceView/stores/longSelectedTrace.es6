@@ -17,6 +17,10 @@ export const longSelectedTrace$ = createTrackingStore({
       };
     }
 
+    if (selectedTrace.getIn(['progress', 'loading'])) {
+      return null;
+    }
+
     const data = selectedTrace.get('data');
 
     return compressTrace(transformTrace(data));

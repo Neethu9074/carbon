@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 
-import heatmapExample from 'in-applications/Dashboards/commonTabs/performance/common/heatmap.png';
-import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
+import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -17,9 +15,10 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
       <Row>
         <Col lg={12}>
           <ChartWrapper
-            cardTitle="Latency"
+            cardTitle="Avg. Latency"
             timeframe={timeframe}
             y1={{
+              calculateStackDifferences: true,
               renderer: Renderer.integral,
               formatter: millis,
               labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
@@ -88,24 +87,16 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
         </Col>
       </Row>
 
-      {newApplicationMonitoringFeaturePlaceholdersEnabled && (
-        <Row>
-          <Col lg={12}>
-            <Card title="Latency Heatmap">
-              <img src={heatmapExample} alt="Example heat map" />
-            </Card>
-          </Col>
-        </Row>
-      )}
-
       <Row>
         <Col lg={12}>
-          <TopTraces
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-          />
+          <Card title="Latency Heatmap">
+            <ServerHeatMap
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              timeframe={timeframe}
+            />
+          </Card>
         </Col>
       </Row>
     </Fragment>

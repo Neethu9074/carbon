@@ -78,7 +78,7 @@ const columnDefinitions = [
     label: 'Duration',
     defaultOrderDirection: 'DESC',
     getContent(item) {
-      return <span>{millis.compact(item.duration)}</span>;
+      return <span>{millis.fixedCompact(item.duration)}</span>;
     }
   },
   {

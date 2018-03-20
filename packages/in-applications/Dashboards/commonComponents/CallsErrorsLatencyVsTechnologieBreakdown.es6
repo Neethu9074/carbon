@@ -28,7 +28,8 @@ export default function CallsErrorsLatencyVsTechnologieBreakdown({
           renderer: Renderer.line,
           labels: ['Latency'],
           metricIds: ['latency'],
-          formatter: millis
+          formatter: millis,
+          min: 0
         }}
         metricsConfiguration={{
           filter: {

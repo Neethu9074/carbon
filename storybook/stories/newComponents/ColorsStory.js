@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
+import spanCategories from 'in-stores/colorCoding/spanCategories';
 import Root from '../_helpers/Root';
 
 storiesOf('newComponents/Colors', module).add('colors', () => <Colors />);
@@ -49,6 +50,10 @@ function Colors() {
           {Object.keys(colorTranslation)
             .map(type => [type, getColor(type)])
             .map(config => <Rect config={config} />)}
+        </Palette>
+        <Palette>
+          {Object.keys(spanCategories)
+            .map(name => <Rect config={[name, spanCategories[name]]} />)}
         </Palette>
       </div>
     </Root>

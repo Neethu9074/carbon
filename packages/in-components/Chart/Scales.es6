@@ -47,11 +47,23 @@ export default class Scales {
       const minMax = this.getMinMaxValueForDataSeries(metrics[iMetric]);
 
       if (axis.valuesNeedToBeStacked) {
-        maxValue += Math.max(0, minMax.maxValue - maxValue);
+        if (axis.calculateStackDifferences) {
+          maxValue += Math.max(0, minMax.maxValue - maxValue);
+        } else {
+          maxValue += minMax.maxValue;
+        }
       } else {
         maxValue = Math.max(maxValue, minMax.maxValue);
       }
       minValue = Math.min(minValue, minMax.minValue);
+    }
+
+    if (axis.min != null) {
+      minValue = axis.min;
+    }
+
+    if (axis.max != null) {
+      maxValue = axis.max;
     }
 
     scale.setDomainFrom(minValue);

@@ -7,9 +7,9 @@ import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/service
 import { LineSegments, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
 import { createConnectionId } from 'in-components/FlowMap/sceneObjects/Connection';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
-import { DEFAULT_COLOR } from 'in-components/FlowMap/misc/heatMapColors';
 import Connection from 'in-components/FlowMap/sceneObjects/Connection';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { DEFAULT_COLOR } from 'in-services/heatMapColors';
 import Subscriber from 'in-map/misc/Subscriber';
 import { diff } from 'in-services/arrayUtils';
 

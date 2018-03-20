@@ -2,16 +2,16 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'kinesis',
-  category: 'kinesis',
+  category: 'messaging',
 
   typeName: {
-    singular: 'Kinesis Stream call',
-    plural: 'Kinesis Stream calls'
+    singular: 'Kinesis',
+    plural: 'Kinesis'
   },
 
   detailView: 'KinesisSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'kinesis', 'op']) + ' ' + span.getIn(['data', 'kinesis', 'stream']);
+    return span.getIn(['data', 'kinesis', 'op']) + ' on ' + span.getIn(['data', 'kinesis', 'stream']);
   }
 });

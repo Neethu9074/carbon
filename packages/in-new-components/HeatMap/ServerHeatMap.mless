@@ -1,0 +1,7 @@
+:local {
+  .skeletonHeatMap {
+    width: 100%;
+    height: 7.625rem;
+    display: block;
+  }
+}

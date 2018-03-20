@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 
-import getHeatMapColor, { DEFAULT_COLOR } from 'in-components/FlowMap/misc/heatMapColors';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
+import getHeatMapColor, { DEFAULT_COLOR } from 'in-services/heatMapColors';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';

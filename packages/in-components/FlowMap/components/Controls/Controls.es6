@@ -37,7 +37,6 @@ export default function Controls({ serviceLocatorUid }) {
           signal={SIGNAL_VALUES.HEATMAP_LATENCY}
           serviceLocatorUid={serviceLocatorUid}
           onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)}
-          disabled
         >
           Latency
         </HeatmapButton>
@@ -45,7 +44,6 @@ export default function Controls({ serviceLocatorUid }) {
           signal={SIGNAL_VALUES.HEATMAP_ERRORRATE}
           serviceLocatorUid={serviceLocatorUid}
           onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)}
-          disabled
         >
           Errors
         </HeatmapButton>
