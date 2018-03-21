@@ -1,0 +1,29 @@
+:local {
+
+  .fullWidthHorizontalRule {
+    background-color: white;
+    border-bottom: 1px solid #e8eef0;
+  }
+
+  .row {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .label {
+    margin-right: .5rem;
+
+    &:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+
+  .info {
+    margin-right: .5rem;
+  }
+
+  .badge {
+    margin-right: .1rem;
+  }
+}

@@ -4,7 +4,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import FilterButtonRow from 'in-analyze/Analyze/FilterButtonRow';
 import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
 import { number, millis } from 'in-services/formatters/number';
 import getTraces from 'in-subscription/application/getTraces';
@@ -21,7 +21,7 @@ export default function Analyze({ location }) {
       <Title title="Traces" />
       <Breadcrumbs items={[<AnalyzeRoot location={location} />]} />
 
-      <Sticky header={<BreadcrumbHeader />}>
+      <Sticky header={<FilterButtonRow filter={filter} />}>
         <MaxWidthFullscreenContainer>
           <ServerTableWithUrlBoundState
             get={getTableData}
