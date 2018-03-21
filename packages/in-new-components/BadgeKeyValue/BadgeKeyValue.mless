@@ -27,7 +27,6 @@
   // Using both classes (.badge and .badgeKey) to get a higher specifity here so that we can override the
   // border-radius set in .mid/.sm.
   .badge.badgeKey {
-    border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -35,7 +34,6 @@
   // Using both classes (.badge and .badgeValue) to get a higher specifity here so that we can override the
   // border-radius set in .mid/.sm.
   .badge.badgeValue {
-    border-left: none;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }

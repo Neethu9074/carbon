@@ -23,11 +23,12 @@ function BadgeKeyValue({
   valueColor = valueColor || labelBackground;
 
   return (
-    <span style={style}>
+    <span className={className} style={style}>
       <span
-        className={joinClassNames(locals.badge, locals.badgeKey, className, `${locals[size]}`)}
+        className={joinClassNames(locals.badge, locals.badgeKey, `${locals[size]}`)}
         style={{
           borderColor: labelBorderColor,
+          borderRight: 'none',
           background: labelBackground,
           color: labelColor
         }}
@@ -35,9 +36,10 @@ function BadgeKeyValue({
         {label}
       </span>
       <span
-        className={joinClassNames(locals.badge, locals.badgeValue, className, `${locals[size]}`)}
+        className={joinClassNames(locals.badge, locals.badgeValue, `${locals[size]}`)}
         style={{
           borderColor: valueBorderColor,
+          borderLeft: 'none',
           background: valueBackground,
           color: valueColor
         }}
