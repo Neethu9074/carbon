@@ -87,6 +87,7 @@ import './quartz';
 import './rabbitmq';
 import './rack';
 import './ratpack';
+import './ratpack.client';
 import './redis';
 import './render';
 import './resteasy';
