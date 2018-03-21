@@ -1,16 +1,10 @@
-import React from 'react';
-
 import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
+import Summary from 'in-analyze/TraceDetail/tabs/Summary';
 
 export default [
   {
     label: 'Summary',
     path: `${traceDetailFullyQualified}/tree`,
-    component: () => <span>TODO tree</span>
-  },
-  {
-    label: 'Flow Map',
-    path: `${traceDetailFullyQualified}/flowMap`,
-    component: () => <span>TODO flow map</span>
+    component: Summary
   }
 ];
