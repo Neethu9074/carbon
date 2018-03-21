@@ -6,9 +6,7 @@
   }
 
   .row {
-    height: 2rem;
-    display: flex;
-    align-items: center;
+    padding: .5rem 0;
   }
 
   .label {
