@@ -26,18 +26,6 @@ function Sizes() {
       <Badge color="#1664D6" size="sm">
         blue
       </Badge>
-      <br />
-      very small
-      <Badge size="xs">default</Badge>
-      <Badge color="#FF6B4A" size="xs">
-        red
-      </Badge>
-      <Badge color="#3FB39A" size="xs">
-        green
-      </Badge>
-      <Badge color="#1664D6" size="xs">
-        blue
-      </Badge>
     </Root>
   );
 }
