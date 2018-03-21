@@ -75,17 +75,16 @@ function Colors() {
           valueBorderColor="turquoise"
         />
       </p>
-      <p>
-        Configurable:
-        <ul>
-          <li>labelBackground</li>
-          <li>labelColor</li>
-          <li>labelBorderColor</li>
-          <li>valueBackground</li>
-          <li>valueColor</li>
-          <li>valueBorderColor</li>
-        </ul>
-      </p>
+
+      <h3>Configurable</h3>
+      <ul>
+        <li>labelBackground</li>
+        <li>labelColor</li>
+        <li>labelBorderColor</li>
+        <li>valueBackground</li>
+        <li>valueColor</li>
+        <li>valueBorderColor</li>
+      </ul>
 
     </Root>
   );
