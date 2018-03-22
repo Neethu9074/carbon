@@ -5,5 +5,5 @@ export default function TraceDetailHeader({ result }) {
     return <div>Loading!</div>;
   }
 
-  return <div>{result.data.rootSpan.label}</div>;
+  return <div>{result.data.label}</div>;
 }
