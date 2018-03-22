@@ -21,6 +21,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
                 tooltipFormatter: number.compact,
                 renderer: Renderer.stackedArea,
                 labels: ['WARN', 'ERROR'],
+                colors: ['#ff9e3d', '#ff5d3b'],
                 metricIds: ['logs.warn', 'logs.error']
               }}
               metricsConfiguration={{
