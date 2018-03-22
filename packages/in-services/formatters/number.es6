@@ -35,6 +35,7 @@ export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
 export const bytes = {
   compact: bytesZeroDecimalPlaces,
   detailed: bytesTwoDecimalPlaces,
+  detailedWithRaw: v => `${bytesTwoDecimalPlaces(v)} (${number.compact(v)} B)`,
   perSecond: {
     compact: v => bytesZeroDecimalPlaces(v) + '/s',
     detailed: v => bytesTwoDecimalPlaces(v) + '/s'
