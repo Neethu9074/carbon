@@ -84,8 +84,8 @@ function AsynchronousSpans() {
           {
             id: '4',
             label: 'span4',
-            start: 3,
-            duration: 4,
+            start: 4.5,
+            duration: 3,
             children: [
             ]
           }

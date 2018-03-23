@@ -13,50 +13,30 @@ export default [
     id: '2',
     label: 'span2',
     start: 1,
-    duration: 9,
+    duration: 6,
     parent: '1',
     depth: 1,
     x: 0.1,
-    dx: 0.9
+    dx: 0.6
   },
   {
     id: '3',
-    label: 'span3',
+    label: 'span4',
     start: 2,
-    duration: 3,
+    duration: 1,
     parent: '2',
     depth: 2,
     x: 0.2,
-    dx: 0.3
-  },
-  {
-    id: '6',
-    label: 'span6',
-    start: 2.5,
-    duration: 1.5,
-    parent: '3',
-    depth: 3,
-    x: 0.25,
-    dx: 0.15
+    dx: 0.1
   },
   {
     id: '4',
     label: 'span4',
-    start: 6,
+    start: 4,
     duration: 2,
-    parent: '2',
+    parent: '1',
     depth: 2,
-    x: 0.6,
+    x: 0.4,
     dx: 0.2
-  },
-  {
-    id: '5',
-    label: 'span5',
-    start: 9,
-    duration: 0.5,
-    parent: '2',
-    depth: 2,
-    x: 0.9,
-    dx: 0.05
   }
 ];
