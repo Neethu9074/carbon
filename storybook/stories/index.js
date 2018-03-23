@@ -47,6 +47,7 @@ import './newComponents/DashboardHeaderStory';
 import './newComponents/DotStory';
 import './newComponents/EntityWithTypeAndIconStory';
 import './newComponents/HeatMap';
+import './newComponents/IcicleChart';
 import './newComponents/KpiCardStory';
 import './newComponents/overlays/OverlayStory';
 import './newComponents/PaginationStory';
