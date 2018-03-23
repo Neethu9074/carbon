@@ -1,9 +1,9 @@
 import React from 'react';
 
 import createScale from 'in-charts/scale';
-import { applyLayout } from './IcicleLayout';
+import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
 
-import './IcicleChart.less';
+import locals from './IcicleChart.mless';
 
 export default function IcicleChart({ rootSpan }) {
   const xScale = createScale();
@@ -13,29 +13,26 @@ export default function IcicleChart({ rootSpan }) {
   const spanFrames = applyLayout(rootSpan);
 
   return (
-    <div className={block}>
-      <div className={`${block}__frame-wrapper`}>
-        {spanFrames
-          .toArray()
-          .map(spanFrame => <SpanFrame key={spanFrame.get('id')} spanFrame={spanFrame} xScale={xScale} />)}
+    <div className={locals.chart}>
+      <div className={locals.frameWrapper}>
+        {spanFrames.map(spanFrame => <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />)}
       </div>
     </div>
   );
 }
 
-const block = 'in-icicle-chart';
 const frameHeight = 20;
 
 function SpanFrame({ spanFrame, xScale }) {
-  const top = frameHeight * spanFrame.get('depth');
-  const left = xScale.getRange(spanFrame.get('x'));
-  const width = xScale.getRange(spanFrame.get('dx'));
+  const { label, depth, x, dx } = spanFrame;
 
-  let classesForSpanFrame = `${block}__frame`;
+  const top = frameHeight * depth;
+  const left = xScale.getRange(x);
+  const width = xScale.getRange(dx);
 
   return (
     <div
-      className={classesForSpanFrame}
+      className={locals.frame}
       style={{
         top: `${top}px`,
         left: `${left}%`,
@@ -43,7 +40,7 @@ function SpanFrame({ spanFrame, xScale }) {
         height: `${frameHeight}px`
       }}
     >
-      <span>{spanFrame.get('label')}</span>
+      <div className={locals.label}>{label}</div>
     </div>
   );
 }

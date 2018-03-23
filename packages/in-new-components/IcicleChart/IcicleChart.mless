@@ -1,14 +1,16 @@
-.in-icicle-chart {
-  background: #fff;
-  padding: 0.75rem 1.5rem 0;
-  margin-bottom: 0.25rem;
-  overflow: hidden;
+:local {
+  .chart {
+    background: #fff;
+    padding: 0.75rem 1.5rem 0;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+  }
 
-  &__frame-wrapper {
+  .frameWrapper {
     margin-top: 1rem;
   }
 
-  &__frame {
+  .frame {
     position: absolute;
     background: blue;
     min-width: 2px;
@@ -16,18 +18,15 @@
     cursor: pointer;
     border: 1px solid #fff;
 
-    span {
+    .label {
       color: white;
       margin-left: 1px;
       vertical-align: middle;
+      overflow: hidden;
     }
 
     &:hover {
       filter: brightness(0.95);
-    }
-
-    &--error {
-      border-color: #d73c52;
     }
   }
 }

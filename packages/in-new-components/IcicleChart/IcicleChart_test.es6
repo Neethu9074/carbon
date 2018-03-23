@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-import { fromJS } from 'immutable';
+import { deepFreeze } from 'in-services/util/object';
 import { expect } from 'chai';
 
 import { applyLayout } from './IcicleLayout.es6';
@@ -7,7 +7,7 @@ import { applyLayout } from './IcicleLayout.es6';
 describe('in-new-components/IcicleChart', () => {
   describe('Layout', () => {
     it('root span with no children', () => {
-      let rootSpan = fromJS({
+      let rootSpan = deepFreeze({
         id: '1',
         label: 'span',
         start: 0,
@@ -16,7 +16,7 @@ describe('in-new-components/IcicleChart', () => {
 
       const spanFrames = applyLayout(rootSpan);
 
-      expect(spanFrames.toJS()).to.deep.include({
+      expect(spanFrames).to.deep.include({
         id: '1',
         label: 'span',
         start: 0,
@@ -31,10 +31,11 @@ describe('in-new-components/IcicleChart', () => {
     });
 
     it('synchronous spans', () => {
-      let rootSpan = fromJS(require('./testData/syncSpans.es6').default);
+      let rootSpan = deepFreeze(require('./testData/syncSpans.es6').default);
       const spanFrames = applyLayout(rootSpan);
 
-      expect(spanFrames.toJS()).to.deep.equal(require('./testData/syncSpans_expected.es6').default);
+      const expectedSpanFrames = require('./testData/syncSpans_expected.es6').default;
+      expect(spanFrames).to.deep.equal(expectedSpanFrames);
     });
   });
 });

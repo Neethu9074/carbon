@@ -1,12 +1,12 @@
-import { fromJS } from 'immutable';
+import { deepFreeze } from 'in-services/util/object';
 
 export function applyLayout(rootSpan) {
   let spanFrames = [];
 
-  const totalDuration = rootSpan.get('duration');
+  const totalDuration = rootSpan.duration;
   positionSpan(spanFrames, rootSpan, null, 0, totalDuration);
 
-  return fromJS(spanFrames);
+  return deepFreeze(spanFrames);
 }
 
 let maxDepth = 0;
@@ -14,14 +14,10 @@ let maxDepth = 0;
 function positionSpan(spanFrames, span, parent, depth, totalDuration) {
   maxDepth = Math.max(depth, maxDepth);
 
-  const id = span.get('id');
-  const label = span.get('label');
-  const start = span.get('start');
-  const duration = span.get('duration');
-  const children = span.get('children');
+  const { id, label, start, duration, children } = span;
 
   if (children) {
-    children.toArray().map(childSpan => {
+    children.map(childSpan => {
       positionSpan(spanFrames, childSpan, span, depth + 1, totalDuration);
     });
   }
@@ -31,7 +27,7 @@ function positionSpan(spanFrames, span, parent, depth, totalDuration) {
     label,
     start,
     duration,
-    parent: parent ? parent.get('id') : null,
+    parent: parent ? parent.id : null,
     depth: depth,
     x: start / totalDuration,
     dx: duration / totalDuration,
