@@ -3,8 +3,10 @@ import React, { Fragment } from 'react';
 import { number, millis } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import ServerIcicleChart from 'in-new-components/IcicleChart/ServerIcicleChart';
+import Card from 'in-new-components/Card';
 
-export default function Summary({ data: trace }) {
+export default function Summary({ data: trace, getColor }) {
   return (
     <Fragment>
       <Row>
@@ -19,6 +21,14 @@ export default function Summary({ data: trace }) {
         </Col>
         <Col lg={3}>
           <KpiCard title="Errors" value={number.compact(trace.totalErrorCount)} />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <Card title="Services involved">
+            <ServerIcicleChart traceId={trace.id} getColor={getColor} />
+          </Card>
         </Col>
       </Row>
     </Fragment>

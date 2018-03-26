@@ -102,7 +102,7 @@ function Default() {
         start: 1521621598220,
         duration: 81,
         networkTime: null,
-        errorCount: 0,
+        errorCount: 1,
         batchSize: 0,
         batchSelfTime: null,
         service: {
@@ -186,7 +186,7 @@ function Default() {
         start: 1521621598610,
         duration: 7,
         networkTime: null,
-        errorCount: 0,
+        errorCount: 5,
         batchSize: 0,
         batchSelfTime: null,
         service: {
@@ -251,6 +251,7 @@ function SynchronousSpans() {
             label: 'span3',
             start: 2,
             duration: 3,
+            errorCount: 1,
             children: [
               {
                 id: '6',
@@ -273,6 +274,7 @@ function SynchronousSpans() {
             label: 'span5',
             start: 9,
             duration: 0.1,
+            errorCount: 2,
             children: []
           }
         ]
@@ -349,7 +351,7 @@ function AsynchronousSpans() {
 
   return (
     <Root>
-      <IcicleChart span={rootSpan} />
+      <IcicleChart rootSpan={rootSpan} />
     </Root>
   );
 }

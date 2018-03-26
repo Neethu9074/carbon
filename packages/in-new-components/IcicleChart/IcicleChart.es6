@@ -14,12 +14,13 @@ export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
   xScale.setRangeTo(100);
 
   const spanFrames = applyLayout(rootSpan);
+  let maxDepth = 0;
 
   return (
     <div className={locals.chart}>
       {spanFrames.map(spanFrame => {
         const parentDepth = spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0;
-
+        maxDepth = Math.max(maxDepth, spanFrame.depth);
         return (
           <Fragment key={spanFrame.id}>
             <Tooltip content={spanFrame.label} align={tooltipAlignment}>
@@ -29,6 +30,8 @@ export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
           </Fragment>
         );
       })}
+
+      <div style={{ height: `${maxDepth * frameHeight}px` }} />
     </div>
   );
 }
@@ -36,7 +39,7 @@ export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
 const frameHeight = 20;
 
 function SpanFrame({ spanFrame, xScale, getColor }) {
-  const { label, depth, x, dx } = spanFrame;
+  const { label, errorCount, depth, x, dx } = spanFrame;
 
   const top = frameHeight * depth;
   const left = xScale.getRange(x);
@@ -53,6 +56,7 @@ function SpanFrame({ spanFrame, xScale, getColor }) {
         background: getColor(spanFrame)
       }}
     >
+      {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
       <div className={locals.label}>{label}</div>
     </div>
   );
@@ -71,7 +75,7 @@ function ParentSpanIndicator({ spanFrame, xScale, parentDepth }) {
 
   return (
     <div
-      className={locals.indicator}
+      className={locals.parentIndicator}
       style={{
         top: `${top}px`,
         left: `${left}%`,

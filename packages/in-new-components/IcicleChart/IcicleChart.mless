@@ -2,7 +2,7 @@
   .chart {
     position: relative;
     background: #fff;
-    font-size: 14px;
+    margin-bottom: 2rem;
   }
 
   .frame {
@@ -18,14 +18,29 @@
 
   .label {
     color: white;
-    margin-left: 2px;
+    margin-left: .5rem;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .indicator {
+  .parentIndicator {
     position: absolute;
     background: red;
     width: 2px;
+  }
+
+  .errorIndicator {
+    display: flex;
+    float: left;
+    margin: -0.5rem -0.5rem;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    font-size: 0.625rem;
+    background: #ff5d3b;
+    color: white;
   }
 }
