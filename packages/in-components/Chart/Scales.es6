@@ -63,6 +63,7 @@ export default class Scales {
         maxValue = 1;
       } else {
         minValue = 0;
+        maxValue = 2 * maxValue;
       }
     }
 
