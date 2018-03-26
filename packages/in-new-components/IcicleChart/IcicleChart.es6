@@ -14,16 +14,16 @@ export default function IcicleChart({ rootSpan }) {
 
   return (
     <div className={locals.chart}>
-      {spanFrames.map(spanFrame => (
-        <Fragment>
-          <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />
-          <ParentSpanIndicator
-            spanFrame={spanFrame}
-            xScale={xScale}
-            parentDepth={spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0}
-          />
-        </Fragment>
-      ))}
+      {spanFrames.map(spanFrame => {
+        const parentDepth = spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0;
+
+        return (
+          <Fragment>
+            <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />
+            <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
+          </Fragment>
+        );
+      })}
     </div>
   );
 }
@@ -54,6 +54,10 @@ function SpanFrame({ spanFrame, xScale }) {
 
 function ParentSpanIndicator({ spanFrame, xScale, parentDepth }) {
   const { depth, x } = spanFrame;
+
+  if (depth - parentDepth == 1) {
+    return null;
+  }
 
   const top = frameHeight * (parentDepth + 0.5);
   const left = xScale.getRange(x);

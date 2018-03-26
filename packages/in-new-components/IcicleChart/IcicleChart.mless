@@ -6,8 +6,7 @@
   .frame {
     position: absolute;
     background: blue;
-    min-width: 2px;
-    border-radius: 2px;
+    min-width: 3px;
     cursor: pointer;
     border: 1px solid #fff;
 
