@@ -5,12 +5,12 @@ export function applyLayout(rootSpan) {
   let spanFrames = [];
 
   const totalDuration = rootSpan.duration;
-  positionSpan(spanFrames, rootSpan, null, 0, totalDuration, []);
+  positionSpan(spanFrames, rootSpan, null, 0, rootSpan.start, totalDuration, []);
 
   return deepFreeze(spanFrames);
 }
 
-function positionSpan(spanFrames, span, parent, depth, totalDuration, occupiedTimeRangesByDepth) {
+function positionSpan(spanFrames, span, parent, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
   const { id, label, start, duration, children } = span;
   const end = start + duration;
 
@@ -23,7 +23,7 @@ function positionSpan(spanFrames, span, parent, depth, totalDuration, occupiedTi
     duration,
     parent: parent ? parent.id : null,
     depth: depthWithoutOverlapping,
-    x: start / totalDuration,
+    x: (start - traceStart) / totalDuration,
     dx: duration / totalDuration
   };
 
@@ -31,7 +31,15 @@ function positionSpan(spanFrames, span, parent, depth, totalDuration, occupiedTi
 
   if (children) {
     children.map(childSpan => {
-      positionSpan(spanFrames, childSpan, span, depthWithoutOverlapping + 1, totalDuration, occupiedTimeRangesByDepth);
+      positionSpan(
+        spanFrames,
+        childSpan,
+        span,
+        depthWithoutOverlapping + 1,
+        traceStart,
+        totalDuration,
+        occupiedTimeRangesByDepth
+      );
     });
   }
 }

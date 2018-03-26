@@ -5,12 +5,12 @@ import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
 
 import locals from './IcicleChart.mless';
 
-export default function IcicleChart({ rootSpan }) {
+export default function IcicleChart({ span }) {
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(100);
 
-  const spanFrames = applyLayout(rootSpan);
+  const spanFrames = applyLayout(span);
 
   return (
     <div className={locals.chart}>
@@ -18,8 +18,8 @@ export default function IcicleChart({ rootSpan }) {
         const parentDepth = spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0;
 
         return (
-          <Fragment>
-            <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />
+          <Fragment key={spanFrame.id}>
+            <SpanFrame spanFrame={spanFrame} xScale={xScale} />
             <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
           </Fragment>
         );

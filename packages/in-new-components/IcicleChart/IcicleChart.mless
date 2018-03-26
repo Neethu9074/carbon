@@ -1,6 +1,8 @@
 :local {
   .chart {
+    position: relative;
     background: #fff;
+    font-size: 14px;
   }
 
   .frame {
@@ -10,16 +12,16 @@
     cursor: pointer;
     border: 1px solid #fff;
 
-    .label {
-      color: white;
-      margin-left: 2px;
-      vertical-align: middle;
-      overflow: hidden;
-    }
-
     &:hover {
       filter: brightness(0.95);
     }
+  }
+
+  .label {
+    color: white;
+    margin-left: 2px;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .indicator {
