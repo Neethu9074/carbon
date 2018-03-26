@@ -46,10 +46,6 @@ export default class Scales {
       }
       const minMax = this.getMinMaxValueForDataSeries(metrics[iMetric]);
 
-      if (minMax.minValue == 0 && minMax.maxValue == 0) {
-        continue;
-      }
-
       if (axis.valuesNeedToBeStacked) {
         if (axis.calculateStackDifferences) {
           maxValue += Math.max(0, minMax.maxValue - maxValue);
@@ -63,13 +59,16 @@ export default class Scales {
     }
 
     if (minValue == Number.MAX_VALUE) {
+      // use scale [0, 1] for empty data
       minValue = 0;
+      maxValue = 1;
     }
 
     if (minValue == maxValue) {
       if (maxValue <= 0) {
         maxValue = 1;
       } else {
+        // use scale [0, 2*max] to center the data vertically
         minValue = 0;
         maxValue = 2 * maxValue;
       }
