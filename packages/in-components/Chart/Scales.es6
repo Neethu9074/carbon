@@ -58,6 +58,14 @@ export default class Scales {
       minValue = Math.min(minValue, minMax.minValue);
     }
 
+    if (minValue == maxValue) {
+      if (maxValue <= 0) {
+        maxValue = 1;
+      } else {
+        minValue = 0;
+      }
+    }
+
     if (axis.min != null) {
       minValue = axis.min;
     }
