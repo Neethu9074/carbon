@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AwsElbGeneralDashboard from './AwsElbGeneralDashboard';
+import AwsElbClassicDashboard from './AwsElbClassicDashboard';
 import AwsElbAppDashboard from './AwsElbAppDashboard';
 import AwsElbNetDashboard from './AwsElbNetDashboard';
 
@@ -11,11 +11,8 @@ export default function AwsElbDashboard({ snapshot, timeframe }) {
     dashboard = <AwsElbAppDashboard snapshot={snapshot} timeframe={timeframe} />;
   } else if (type === 'network') {
     dashboard = <AwsElbNetDashboard snapshot={snapshot} timeframe={timeframe} />;
+  } else {
+    dashboard = <AwsElbClassicDashboard snapshot={snapshot} timeframe={timeframe} />;
   }
-  return (
-    <div>
-      <AwsElbGeneralDashboard snapshot={snapshot} timeframe={timeframe} />
-      {dashboard}
-    </div>
-  );
+  return <div>{dashboard}</div>;
 }

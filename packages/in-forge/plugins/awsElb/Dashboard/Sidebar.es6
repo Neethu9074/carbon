@@ -11,13 +11,13 @@ export default function AwsElbSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Elb Info</Collapsible.Header>
+        <Collapsible.Header>ELB Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
-
-          <TagList snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }

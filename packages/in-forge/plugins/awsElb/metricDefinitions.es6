@@ -1,4 +1,5 @@
-import { number, bytes, seconds } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -58,41 +59,6 @@ export default [
     formatter: number.compact
   },
   {
-    metric: 'request_count',
-    label: 'Request Count',
-    category: ['Network'],
-    min: 0,
-    formatter: number.compact
-  },
-  {
-    metric: 'client_tls_negotiation_error_count',
-    label: 'Client TLS Error Count',
-    category: ['Network'],
-    min: 0,
-    formatter: number.compact
-  },
-  {
-    metric: 'target_tls_negotiation_error_count',
-    label: 'Target TLS Error Count',
-    category: ['Network'],
-    min: 0,
-    formatter: number.compact
-  },
-  {
-    metric: 'target_response_time',
-    label: 'Target Response Time',
-    category: ['Network'],
-    min: 0,
-    formatter: seconds.detailed
-  },
-  {
-    metric: 'target_connection_error_count',
-    label: 'Target Connection Error Count',
-    category: ['Network'],
-    min: 0,
-    formatter: number.compact
-  },
-  {
     metric: 'elb_4XX_count',
     label: 'Elb Status Code 4xx Count',
     category: ['Network'],
@@ -107,29 +73,78 @@ export default [
     formatter: number.compact
   },
   {
-    metric: 'target_2XX_count',
+    metric: getMetricMatch('azMetrics', 'request_count'),
+    label: 'Request Count',
+    category: ['Network'],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'client_tls_negotiation_error_count'),
+    label: 'Client TLS Error Count',
+    category: ['Network'],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'target_tls_negotiation_error_count'),
+    label: 'Target TLS Error Count',
+    category: ['Network'],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'target_response_time'),
+    label: 'Target Response Time',
+    category: ['Network'],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'target_connection_error_count'),
+    label: 'Target Connection Error Count',
+    category: ['Network'],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'target_2XX_count'),
     label: 'Target Status Code 2xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: 'target_3XX_count',
+    metric: getMetricMatch('azMetrics', 'target_3XX_count'),
     label: 'Target Status Code 3xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: 'target_4XX_count',
+    metric: getMetricMatch('azMetrics', 'target_4XX_count'),
     label: 'Target Status Code 4xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: 'target_5XX_count',
+    metric: getMetricMatch('azMetrics', 'target_5XX_count'),
     label: 'Target Status Code 5xx Count',
+    category: ['Network'],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'latency'),
+    label: 'Latency',
+    category: ['Network'],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: getMetricMatch('azMetrics', 'backend_connection_errors'),
+    label: 'backend Connection errors',
     category: ['Network'],
     min: 0,
     formatter: number.compact
