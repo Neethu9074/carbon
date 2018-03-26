@@ -47,8 +47,8 @@ describe('in-components/Chart/Scales', () => {
 
       expect(scales.y1.getRangeFrom()).to.equal(50 - MARGIN_BOTTOM);
       expect(scales.y1.getRangeTo()).to.equal(MARGIN_TOP);
-      expect(scales.y1.getDomainFrom()).to.equal(Number.MAX_VALUE);
-      expect(scales.y1.getDomainTo()).to.equal(0);
+      expect(scales.y1.getDomainFrom()).to.equal(0);
+      expect(scales.y1.getDomainTo()).to.equal(1);
 
       expect(scales.y2.getRangeFrom()).to.equal(50 - MARGIN_BOTTOM);
       expect(scales.y2.getRangeTo()).to.equal(MARGIN_TOP);
