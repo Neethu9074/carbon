@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'AWS Elb',
-    plural: 'AWS Elbs'
+    singular: 'AWS ELB',
+    plural: 'AWS ELBs'
   },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'load_balancer_name'], '');
