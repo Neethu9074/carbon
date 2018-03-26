@@ -1,10 +1,8 @@
 import React from 'react';
 
-import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServletsInDeploymentsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
-import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -19,41 +17,33 @@ const cols = [
     }
   },
   {
-    title: 'Context Root',
+    title: 'Pool',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.deployment.get('contextRoot');
+        return row.deployment.get('pool');
       }
     }
   },
   {
-    title: 'Enabled',
-    type: 'string',
+    title: 'Pool Size',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return yesOrNo(row.deployment.get('enabled'));
-      }
+        return row.deployment.get('poolSize');
+      },
+      getContent: number.compact
     }
   },
   {
-    title: 'Status',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.deployment.get('status');
-      }
-    }
-  },
-  {
-    title: 'Active Sessions',
+    title: 'Pool Available',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'sessions.' + row.key + '.activeSessions';
+        return 'ejbs.' + row.key + '.poolAvailable';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -63,8 +53,8 @@ const cols = [
   }
 ];
 
-export default function DeploymentsTable({ snapshot, timeframe }) {
-  const deployments = snapshot.getIn(['data', 'deployments'], emptyMap).filter(c => c.get('contextRoot'));
+export default function EjbDeploymentsTable({ snapshot, timeframe }) {
+  const deployments = snapshot.getIn(['data', 'ejbDeployments'], emptyMap);
   if (deployments.size === 0) {
     return null;
   }
@@ -84,7 +74,7 @@ export default function DeploymentsTable({ snapshot, timeframe }) {
     });
 
   return (
-    <DashboardSection title={`Web Deployments (${rows.length})`}>
+    <DashboardSection title={`EJB Deployments (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
@@ -93,14 +83,12 @@ export default function DeploymentsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ServletsTable deploymentContext={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
-
       <Chart
         snapshotId={row.snapshotId}
         timeframe={row.timeframe}
         y1={{
-          metrics: ['sessions.' + row.key + '.activeSessions'],
-          labels: ['Active Sessions'],
+          metrics: ['ejbs.' + row.key + '.poolAvailable'],
+          labels: ['Available'],
           type: 'line',
           min: 0
         }}
