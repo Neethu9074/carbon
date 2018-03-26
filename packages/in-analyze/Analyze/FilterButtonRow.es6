@@ -18,6 +18,7 @@ export default function FilterButtonRow({ filter }) {
       key: filterKey,
       value: filter[filterKey]
     }))
+    .filter(pair => pair.value)
     .filter(pair => filerKeyBlackList.indexOf(pair.key) < 0);
 
   return (

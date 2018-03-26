@@ -1,5 +1,5 @@
 import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
-import Summary from 'in-analyze/TraceDetail/tabs/Summary';
+import Summary from 'in-analyze/TraceDetail/tabs/Summary/Summary';
 
 export default [
   {

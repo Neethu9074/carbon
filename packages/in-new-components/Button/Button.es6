@@ -36,7 +36,8 @@ function Button({
   style,
   children,
   href,
-  disabled
+  disabled,
+  target
 }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
@@ -66,7 +67,7 @@ function Button({
   }
 
   return (
-    <a href={href} className={classes} onClick={onClick ? onClick : stopPropagation} style={style}>
+    <a href={href} target={target} className={classes} onClick={onClick ? onClick : stopPropagation} style={style}>
       {iconElement} {children}
     </a>
   );
@@ -85,5 +86,6 @@ Button.propTypes = {
   href: rpt.string,
   // eslint-disable-next-line react/no-unused-prop-types
   href$: rpt.object,
+  target: rpt.string,
   disabled: rpt.bool
 };

@@ -12,7 +12,6 @@ export default function MongoSpanDetailView({ span }) {
         <DescriptionItem title="Hostname">{span.getIn(['data', 'peer', 'hostname'])}</DescriptionItem>
         <DescriptionItem title="Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
         <DescriptionItem title="Service">{span.getIn(['data', 'mongo', 'service'])}</DescriptionItem>
-        <DescriptionItem title="Protocol">{span.getIn(['data', 'mongo', 'protocol'])}</DescriptionItem>
         <DescriptionItem title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</DescriptionItem>
         {query ? (
           <DescriptionItem title="Query">

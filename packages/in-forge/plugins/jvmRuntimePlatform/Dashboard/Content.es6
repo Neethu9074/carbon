@@ -3,8 +3,8 @@ import React from 'react';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
-import { bytesTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLabel, getCodeView } from 'in-sdk/snapshot';
@@ -23,7 +23,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Memory Used">
-          <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytesTwoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytes.detailed} />
         </KpiKeyValue>
 
         {__DEV__ ? (
@@ -63,8 +63,8 @@ export default function JVMDashboard({ snapshot, timeframe }) {
           y1={{
             min: 0,
             max: snapshot.getIn(['data', 'memory.max']),
-            formatter: bytesTwoDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
+            formatter: bytes.detailed,
+            tooltipFormatter: bytes.detailedWithRaw,
             metrics: ['memory.used'],
             labels: ['Used'],
             type: 'stackedArea'
