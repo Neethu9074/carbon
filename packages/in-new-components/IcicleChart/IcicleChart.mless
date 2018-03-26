@@ -7,7 +7,6 @@
 
   .frame {
     position: absolute;
-    background: blue;
     min-width: 3px;
     cursor: pointer;
     border: 1px solid #fff;

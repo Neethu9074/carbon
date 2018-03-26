@@ -11,7 +11,7 @@ export function applyLayout(rootSpan) {
 }
 
 function positionSpan(spanFrames, span, parent, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
-  const { id, label, start, duration, children } = span;
+  const { id, label, start, duration, errorCount, service, endpoint, children } = span;
   const end = start + duration;
 
   let depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
@@ -21,6 +21,9 @@ function positionSpan(spanFrames, span, parent, depth, traceStart, totalDuration
     label,
     start,
     duration,
+    errorCount,
+    service,
+    endpoint,
     parent: parent ? parent.id : null,
     depth: depthWithoutOverlapping,
     x: (start - traceStart) / totalDuration,

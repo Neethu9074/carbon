@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react';
 
 import createScale from 'in-charts/scale';
+import Tooltip from 'in-components/Tooltip';
 import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
 
 import locals from './IcicleChart.mless';
 
-export default function IcicleChart({ span }) {
+const tooltipAlignment = 'topMiddle';
+
+export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(100);
 
-  const spanFrames = applyLayout(span);
+  const spanFrames = applyLayout(rootSpan);
 
   return (
     <div className={locals.chart}>
@@ -19,7 +22,9 @@ export default function IcicleChart({ span }) {
 
         return (
           <Fragment key={spanFrame.id}>
-            <SpanFrame spanFrame={spanFrame} xScale={xScale} />
+            <Tooltip content={spanFrame.label} align={tooltipAlignment}>
+              <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} />
+            </Tooltip>
             <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
           </Fragment>
         );
@@ -30,7 +35,7 @@ export default function IcicleChart({ span }) {
 
 const frameHeight = 20;
 
-function SpanFrame({ spanFrame, xScale }) {
+function SpanFrame({ spanFrame, xScale, getColor }) {
   const { label, depth, x, dx } = spanFrame;
 
   const top = frameHeight * depth;
@@ -44,7 +49,8 @@ function SpanFrame({ spanFrame, xScale }) {
         top: `${top}px`,
         left: `${left}%`,
         width: `${width}%`,
-        height: `${frameHeight}px`
+        height: `${frameHeight}px`,
+        background: getColor(spanFrame)
       }}
     >
       <div className={locals.label}>{label}</div>
