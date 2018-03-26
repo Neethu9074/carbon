@@ -10,8 +10,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'AWS DynamoDb Table',
-    plural: 'AWS DynamoDb Tables'
+    singular: 'AWS DynamoDB Table',
+    plural: 'AWS DynamoDB Tables'
   },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'dyndb_table_name'], '');
