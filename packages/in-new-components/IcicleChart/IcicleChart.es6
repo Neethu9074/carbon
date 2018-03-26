@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import createScale from 'in-charts/scale';
 import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
@@ -14,9 +14,16 @@ export default function IcicleChart({ rootSpan }) {
 
   return (
     <div className={locals.chart}>
-      <div className={locals.frameWrapper}>
-        {spanFrames.map(spanFrame => <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />)}
-      </div>
+      {spanFrames.map(spanFrame => (
+        <Fragment>
+          <SpanFrame key={spanFrame.id} spanFrame={spanFrame} xScale={xScale} />
+          <ParentSpanIndicator
+            spanFrame={spanFrame}
+            xScale={xScale}
+            parentDepth={spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0}
+          />
+        </Fragment>
+      ))}
     </div>
   );
 }
@@ -42,5 +49,24 @@ function SpanFrame({ spanFrame, xScale }) {
     >
       <div className={locals.label}>{label}</div>
     </div>
+  );
+}
+
+function ParentSpanIndicator({ spanFrame, xScale, parentDepth }) {
+  const { depth, x } = spanFrame;
+
+  const top = frameHeight * (parentDepth + 0.5);
+  const left = xScale.getRange(x);
+  const height = frameHeight * (depth - parentDepth);
+
+  return (
+    <div
+      className={locals.indicator}
+      style={{
+        top: `${top}px`,
+        left: `${left}%`,
+        height: `${height}px`
+      }}
+    />
   );
 }
