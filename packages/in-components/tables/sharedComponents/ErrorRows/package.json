@@ -1,0 +1,6 @@
+{
+  "name": "ErrorRows",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ErrorRows.es6"
+}

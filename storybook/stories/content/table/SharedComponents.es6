@@ -9,8 +9,9 @@ import {
   Th,
   Td,
   SortableTh,
-  HorizontalIndicatorTr,
-  LoadingSkeletonRows
+  HorizontalIndicatorRow,
+  LoadingSkeletonRows,
+  ErrorRows
 } from 'in-components/tables/sharedComponents';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -66,8 +67,71 @@ function Default() {
               </Tr>
             </Thead>
             <Tbody>
-              <HorizontalIndicatorTr cols={4} progress={indeterminateProgress} />
+              <ErrorRows
+                errors={[
+                  {
+                    message: 'Unexpected server error',
+                    code: 'SERVER'
+                  },
+                  {
+                    message: 'You did not fill out the form',
+                    code: 'CLIENT'
+                  }
+                ]}
+                cols={4}
+              />
+            </Tbody>
+          </Table>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs={6}>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Label</Th>
+                <SortableTh>Calls</SortableTh>
+                <SortableTh>Errors</SortableTh>
+                <SortableTh>Latency</SortableTh>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <HorizontalIndicatorRow cols={4} progress={indeterminateProgress} />
               <LoadingSkeletonRows cols={4} />
+            </Tbody>
+          </Table>
+        </Col>
+        <Col xs={6}>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Label</Th>
+                <SortableTh>Calls</SortableTh>
+                <SortableTh>Errors</SortableTh>
+                <SortableTh>Latency</SortableTh>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr>
+                <Td>Foo</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr>
+                <Td>Bar</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <HorizontalIndicatorRow cols={4} progress={indeterminateProgress} />
             </Tbody>
           </Table>
         </Col>

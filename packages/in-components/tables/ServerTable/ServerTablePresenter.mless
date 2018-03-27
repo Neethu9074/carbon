@@ -26,11 +26,6 @@
     justify-content: flex-end;
   }
 
-  .noData,
-  .error {
-    padding: 1rem;
-  }
-
   .pagination {
     justify-content: center;
     margin: 1rem 0 0;
