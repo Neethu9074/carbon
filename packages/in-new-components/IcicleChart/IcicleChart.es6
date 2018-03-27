@@ -9,7 +9,7 @@ import locals from './IcicleChart.mless';
 const frameHeight = 20;
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({ rootSpan, getColor = () => '#1479ff' }) {
+export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSpanClick = () => {} }) {
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(100);
@@ -28,7 +28,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff' }) {
         return (
           <Fragment key={id}>
             <Tooltip content={label} align={tooltipAlignment}>
-              <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} />
+              <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} onSpanClick={onSpanClick} />
             </Tooltip>
             <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
           </Fragment>
@@ -40,7 +40,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff' }) {
   );
 }
 
-function SpanFrame({ spanFrame, xScale, getColor }) {
+function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
   const { label, errorCount, depth, x, dx } = spanFrame;
 
   const top = frameHeight * depth;
@@ -57,6 +57,7 @@ function SpanFrame({ spanFrame, xScale, getColor }) {
         height: `${frameHeight}px`,
         background: getColor(spanFrame)
       }}
+      onClick={() => onSpanClick(spanFrame.id, spanFrame.service.id, spanFrame.endpoint.id)}
     >
       {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
       <div className={locals.label}>{label}</div>
