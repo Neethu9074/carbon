@@ -6,6 +6,8 @@
 // Set our default time zone so that tests with date formatting are predictable.
 process.env.TZ = 'Europe/Berlin';
 
+const Adapter = require('enzyme-adapter-react-16');
+const Enzyme = require('enzyme');
 const {JSDOM} = require('jsdom');
 const path = require('path');
 const chai = require('chai');
@@ -103,3 +105,6 @@ global.window.WebSocket = function() {
     }
   };
 });
+
+// react unit tests with enzyme
+Enzyme.configure({ adapter: new Adapter() });

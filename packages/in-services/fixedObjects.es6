@@ -8,6 +8,10 @@ export const emptyArray: Array<any> = Object.freeze([]);
 export const javaLongMaxValue: number = 9223372036854775807;
 export const noop: Function = _noop;
 
+export const finishedProgress: Progress = Object.freeze({
+  loading: false
+});
+
 export const indeterminateProgress: Progress = Object.freeze({
   loading: true
 });

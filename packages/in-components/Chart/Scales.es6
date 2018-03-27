@@ -58,6 +58,22 @@ export default class Scales {
       minValue = Math.min(minValue, minMax.minValue);
     }
 
+    if (minValue == Number.MAX_VALUE) {
+      // use scale [0, 1] for empty data
+      minValue = 0;
+      maxValue = 1;
+    }
+
+    if (minValue == maxValue) {
+      if (maxValue <= 0) {
+        maxValue = 1;
+      } else {
+        // use scale [0, 2*max] to center the data vertically
+        minValue = 0;
+        maxValue = 2 * maxValue;
+      }
+    }
+
     if (axis.min != null) {
       minValue = axis.min;
     }

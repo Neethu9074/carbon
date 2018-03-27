@@ -9,6 +9,9 @@ export default function MongoDBInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+      <DescriptionItem title="Storage Engine">{data.get('storageEngine')}</DescriptionItem>
+      <DescriptionItem title="Replica Set Name">{data.get('replicaSetName')}</DescriptionItem>
+      <DescriptionItem title="Role">{data.get('role')}</DescriptionItem>
     </DescriptionList>
   );
 }

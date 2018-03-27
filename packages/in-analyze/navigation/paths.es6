@@ -15,9 +15,15 @@ export const traceDetailFullyQualified = `${analyze}/trace`;
 export function getLinkToAnalyze({ applicationId, serviceId, endpointId } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
-    setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
-    setOrDeleteMatrixKey(params, analyze, serviceIdMatrixParameter, serviceId);
-    setOrDeleteMatrixKey(params, analyze, endpointIdMatrixParameter, endpointId);
+    if (applicationId !== undefined) {
+      setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
+    }
+    if (serviceId !== undefined) {
+      setOrDeleteMatrixKey(params, analyze, serviceIdMatrixParameter, serviceId);
+    }
+    if (endpointId !== undefined) {
+      setOrDeleteMatrixKey(params, analyze, endpointIdMatrixParameter, endpointId);
+    }
   });
 }
 

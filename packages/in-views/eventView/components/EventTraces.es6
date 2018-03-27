@@ -22,21 +22,16 @@ export default addSection(
     props => {
       const event = props.event;
       const serviceId = event.getIn(['problem', 'snapshotId']);
-      const to = event.get('end');
-      const from = event.get('start');
-      const timeframe = {
-        to,
-        windowSize: to - from
-      };
+      const timeframe = getChartTimeframeByEvent({ event });
 
       return {
         href: serverTime$
-          .map(serverTime => Math.min(serverTime, to))
+          .map(serverTime => Math.min(serverTime, timeframe.to))
           .distinct()
           .flatMap(timeframeTo =>
             getTraceViewFilteredBySnapshotIdAndTimeframe({
               snapshotId: serviceId,
-              from,
+              from: timeframe.to - timeframe.windowSize,
               to: timeframeTo
             }).nextFrame()
           ),

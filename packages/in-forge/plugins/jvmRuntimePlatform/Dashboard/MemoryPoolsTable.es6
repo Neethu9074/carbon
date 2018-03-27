@@ -4,6 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { bytes } from 'in-services/formatters/number';
 import { getMaxValue } from 'in-sdk/metrics';
 import Chart from 'in-components/Chart';
 
@@ -94,8 +95,8 @@ function getDetails(row) {
       timeframe={row.timeframe}
       y1={{
         max: getMaxValue('pools.' + row.name, row.snapshot),
-        formatter: bytesTwoDecimalPlaces,
-        tooltipFormatter: bytesTwoDecimalPlaces,
+        formatter: bytes.detailed,
+        tooltipFormatter: bytes.detailedWithRaw,
         metrics: ['pools.' + row.name],
         labels: [row.name + ' Usage'],
         type: 'line'

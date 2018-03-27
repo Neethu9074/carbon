@@ -11,7 +11,7 @@ export default function AwsDynamoDbSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>DynamoDb Info</Collapsible.Header>
+        <Collapsible.Header>DynamoDB Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
 

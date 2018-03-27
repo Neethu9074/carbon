@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
+import { time, bytes, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -29,10 +29,10 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
           </KpiKeyValue>
         ) : null}
         <KpiKeyValue label="RSS">
-          <MetricValue snapshotId={snapshotId} metric="memory.rss" formatter={bytesZeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="memory.rss" formatter={bytes.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Heap Used">
-          <MetricValue snapshotId={snapshotId} metric="memory.heapUsed" formatter={bytesTwoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="memory.heapUsed" formatter={bytes.detailed} />
         </KpiKeyValue>
         {snapshot.getIn(['data', 'libuv.statsSupported']) ? (
           <KpiKeyValue label="Total time spent in loop per second">
@@ -100,7 +100,8 @@ function renderGcMetrics(snapshot, timeframe) {
         timeframe={timeframe}
         y1={{
           min: 0,
-          formatter: bytesTwoDecimalPlaces,
+          formatter: bytes.detailed,
+          tooltipFormatter: bytes.detailedWithRaw,
           metrics: ['memory.rss', 'memory.heapUsed', 'gc.usedHeapSizeAfterGc'],
           labels: ['RSS', 'Heap Size', 'Heap Size After GC'],
           type: 'line'
@@ -122,8 +123,8 @@ function renderGcMetrics(snapshot, timeframe) {
       timeframe={timeframe}
       y1={{
         min: 0,
-        formatter: bytesZeroDecimalPlaces,
-        tooltipFormatter: bytesTwoDecimalPlaces,
+        formatter: bytes.detailed,
+        tooltipFormatter: bytes.detailedWithRaw,
         metrics: ['memory.rss', 'memory.heapUsed'],
         labels: ['RSS', 'Heap Size'],
         type: 'line'

@@ -8,6 +8,13 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Info from '../Info';
 
+function componentStatusToText(healthy) {
+  if (healthy === null) {
+    return null;
+  }
+  return healthy === 'True' ? 'Healthy' : 'Not Healthy';
+}
+
 export default function KubernetesClusterSidebar({ snapshot }) {
   const schedulerHealthy = snapshot.getIn(['data', 'componentStatuses', 'scheduler', 'Healthy']);
   const controllerMgrHealthy = snapshot.getIn(['data', 'componentStatuses', 'controller-manager', 'Healthy']);
@@ -54,13 +61,9 @@ export default function KubernetesClusterSidebar({ snapshot }) {
         <Collapsible.Header>Component Statuses</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Scheduler">
-              {schedulerHealthy === 'True' ? 'Healthy' : 'Not Healthy'}
-            </DescriptionItem>
-            <DescriptionItem title="Controller Manager">
-              {controllerMgrHealthy === 'True' ? 'Healthy' : 'Not Healthy'}
-            </DescriptionItem>
-            <DescriptionItem title="etcd">{etcdHealthy === 'True' ? 'Healthy' : 'Not Healthy'}</DescriptionItem>
+            <DescriptionItem title="Scheduler">{componentStatusToText(schedulerHealthy)}</DescriptionItem>
+            <DescriptionItem title="Controller Manager">{componentStatusToText(controllerMgrHealthy)}</DescriptionItem>
+            <DescriptionItem title="etcd">{componentStatusToText(etcdHealthy)}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
