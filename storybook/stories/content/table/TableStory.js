@@ -5,9 +5,9 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import SearchableTable from 'in-components/SearchableTable';
 import { always } from 'in-services/fixedStreams';
 import Table from 'in-components/Table';
-import Root from '../_helpers/Root';
+import Root from '../../_helpers/Root';
 
-storiesOf('content/Table', module)
+storiesOf('content/table/Table', module)
   .add('Simple', () => <Simple />)
   .add('Column Types', () => <Columns />)
   .add('With Details', () => <Details />)

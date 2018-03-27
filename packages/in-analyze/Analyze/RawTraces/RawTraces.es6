@@ -4,6 +4,7 @@ import React from 'react';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Table from 'in-components/tables/sharedComponents/Table';
 import getTraces from 'in-subscription/application/getTraces';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -37,16 +38,29 @@ export default compose(
   })
 )(RawTraces);
 
-function RawTraces({ items, errors, progress, loadMore, reload, canLoadMore, totalHits }) {
+function RawTraces({ items, errors, progress, loadMore, canLoadMore, totalHits }) {
   return (
     <div>
       <span>Hits: {totalHits}</span>
-      <Button onClick={reload}>Reload</Button>
 
-      {items.map(item => <div key={item.traceId}>{item.label}</div>)}
+      <Table>
+        <thead>
+          <tr>
+            <th>Label</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(item => (
+            <tr key={item.traceId}>
+              <td>{item.label}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
       <HorizontalIndicator progress={progress} />
       <ErroneousResultPresenter errors={errors} />
+
       {canLoadMore && <Button onClick={loadMore}>Load More</Button>}
     </div>
   );

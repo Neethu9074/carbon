@@ -3,7 +3,7 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './HorizontalIndicator.mless';
 
-export default function HorizontalIndicator({ progress, rounded = false }) {
+export default function HorizontalIndicator({ progress, rounded = false, className }) {
   if (!progress.loading) {
     return null;
   }
@@ -18,7 +18,8 @@ export default function HorizontalIndicator({ progress, rounded = false }) {
     <div
       className={evaluateClassNames({
         [locals.outer]: true,
-        [locals.rounded]: rounded
+        [locals.rounded]: rounded,
+        [className]: className
       })}
     >
       <div
