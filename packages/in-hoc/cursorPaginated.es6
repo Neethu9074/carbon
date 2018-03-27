@@ -110,12 +110,17 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       this.loadMore(this.props, state);
     };
 
+    // we pass this down to the wrapper component in order to ensure that it cannot manipulate the props and state
+    // parameter accidentially
+    loadMoreHandler = () => this.loadMore(this.props, this.state);
+    reloadHandler = () => this.reload();
+
     render() {
       return factory({
         ...this.props,
         ...this.state,
-        [loadMoreName]: this.loadMore,
-        [reloadName]: this.reload
+        [loadMoreName]: this.loadMoreHandler,
+        [reloadName]: this.reloadHandler
       });
     }
   };
