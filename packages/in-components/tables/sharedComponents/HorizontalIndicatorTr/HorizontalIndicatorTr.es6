@@ -1,0 +1,19 @@
+import React, { Fragment } from 'react';
+
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+
+import locals from './HorizontalIndicatorTr.mless';
+
+export default function HorizontalIndicatorTr({ cols, progress }) {
+  // Hidden tr is used to reset zebra striping, which is based on nth-child
+  return (
+    <Fragment>
+      <tr className={locals.hiddenTr} />
+      <tr className={locals.tr}>
+        <td colSpan={cols} className={locals.td}>
+          <HorizontalIndicator progress={progress} className={locals.indicator} />
+        </td>
+      </tr>
+    </Fragment>
+  );
+}

@@ -13,9 +13,10 @@ import 'in-forge';
 import './layout/GridStory';
 import './layout/StickyStory';
 
-import './content/ServerTableStory';
+import './content/table/ServerTableStory';
+import './content/table/SharedComponents';
+import './content/table/TableStory';
 import './content/TypographyStory';
-import './content/TableStory';
 // import './content/ServiceDashboardStory';
 
 import './components/BadgeStory';
@@ -39,6 +40,7 @@ import './newComponents/application/NewApplicationStory';
 import './newComponents/Axis';
 import './newComponents/BadgeStory';
 import './newComponents/BadgeKeyValueStory';
+import './newComponents/BadgeStory';
 import './newComponents/ButtonStory';
 import './newComponents/CardStory';
 import './newComponents/Chart';

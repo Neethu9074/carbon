@@ -1,0 +1,21 @@
+:local {
+  .tr {
+    padding: 0;
+  }
+
+  .td {
+    padding: 0;
+    position: relative;
+  }
+
+  .indicator {
+    // the indicator may not use any vertical space
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+
+  .hiddenTr {
+    display: none;
+  }
+}

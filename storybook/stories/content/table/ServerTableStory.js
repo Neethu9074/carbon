@@ -7,11 +7,11 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { millis, percentage, number } from 'in-services/formatters/number';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
-import Root from '../_helpers/Root';
+import Root from '../../_helpers/Root';
 
 const onChange = action('onChange');
 
-storiesOf('content/ServerTable', module)
+storiesOf('content/table/ServerTable', module)
   .addDecorator(withKnobs)
   .add('Pending', () => <Pending />)
   .add('Error', () => <Error />)
