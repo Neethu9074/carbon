@@ -14,5 +14,5 @@ export default function AwsElbDashboard({ snapshot, timeframe }) {
   } else {
     dashboard = <AwsElbClassicDashboard snapshot={snapshot} timeframe={timeframe} />;
   }
-  return <div>{dashboard}</div>;
+  return { dashboard };
 }
