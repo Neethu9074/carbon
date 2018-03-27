@@ -3,11 +3,23 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import getTraces from 'in-subscription/application/getTraces';
+import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import Button from 'in-new-components/Button';
 
 export default compose(
+  withUrlDependingState({
+    getPathSegment: () => analyze,
+    getMatrixPrefix: () => 'traces.',
+    boundKeys: ['orderBy', 'orderDirection'],
+    getInitialState: () => ({
+      orderBy: 'startTime',
+      orderDirection: 'DESC'
+    }),
+    reducerName: 'onChangeOrder'
+  }),
   cursorPaginated({
     getResettingProps: () => ['filter', 'orderBy', 'orderDirection'],
     get: ({ cursor, filter, orderBy, orderDirection }) =>
