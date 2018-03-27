@@ -1,14 +1,24 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import { number, millis } from 'in-services/formatters/number';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Td,
+  SortableTh,
+  HorizontalIndicatorRow,
+  LoadingSkeletonRows,
+  ErrorRows,
+  LoadMoreRow
+} from 'in-components/tables/sharedComponents';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import Table from 'in-components/tables/sharedComponents/Table';
 import getTraces from 'in-subscription/application/getTraces';
+import { formatDateTime } from 'in-services/formatters/date';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import Button from 'in-new-components/Button';
 
 export default compose(
   withUrlDependingState({
@@ -38,30 +48,86 @@ export default compose(
   })
 )(RawTraces);
 
-function RawTraces({ items, errors, progress, loadMore, canLoadMore, totalHits }) {
+function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
   return (
-    <div>
-      <span>Hits: {totalHits}</span>
+    <Table>
+      <Thead>
+        <Tr>
+          <RawTracesSortableColumn
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onChangeOrder={onChangeOrder}
+            defaultDirection="DESC"
+            technicalName="startTime"
+            label="Time"
+          />
+          <RawTracesSortableColumn
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onChangeOrder={onChangeOrder}
+            defaultDirection="ASC"
+            technicalName="rootEndpointLabel"
+            label="Label"
+          />
+          <RawTracesSortableColumn
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onChangeOrder={onChangeOrder}
+            defaultDirection="DESC"
+            technicalName="duration"
+            label="Duration"
+          />
+          <RawTracesSortableColumn
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onChangeOrder={onChangeOrder}
+            defaultDirection="DESC"
+            technicalName="totalErrorCount"
+            label="Erroneous calls"
+          />
+        </Tr>
+      </Thead>
+      <Tbody>
+        {items.map(item => (
+          <Tr key={item.traceId}>
+            <Td>{formatDateTime(item.startTime)}</Td>
+            <Td>{item.label}</Td>
+            <Td>{millis.fixedCompact(item.duration)}</Td>
+            <Td>{number.compact(item.totalErrorCount)}</Td>
+          </Tr>
+        ))}
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Label</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map(item => (
-            <tr key={item.traceId}>
-              <td>{item.label}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+        <HorizontalIndicatorRow cols={4} progress={progress} />
+        <ErrorRows cols={4} errors={errors} />
+        {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
+        {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
+      </Tbody>
+    </Table>
+  );
+}
 
-      <HorizontalIndicator progress={progress} />
-      <ErroneousResultPresenter errors={errors} />
-
-      {canLoadMore && <Button onClick={loadMore}>Load More</Button>}
-    </div>
+function RawTracesSortableColumn({ orderBy, orderDirection, defaultDirection, technicalName, label, onChangeOrder }) {
+  return (
+    <SortableTh
+      isSortedByThisColumn={orderBy === technicalName}
+      sortDirection={orderDirection}
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (orderBy === technicalName) {
+          onChangeOrder({
+            orderBy: technicalName,
+            orderDirection: orderDirection === 'ASC' ? 'DESC' : 'ASC'
+          });
+        } else {
+          onChangeOrder({
+            orderBy: technicalName,
+            orderDirection: defaultDirection
+          });
+        }
+      }}
+    >
+      {label}
+    </SortableTh>
   );
 }

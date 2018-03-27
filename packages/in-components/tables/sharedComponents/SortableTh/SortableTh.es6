@@ -5,8 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SortableTh.mless';
 
-export default function SortableTh(props) {
-  const { isSortedByThisColumn, sortDirection, onClick, children } = props;
+export default function SortableTh({ isSortedByThisColumn, sortDirection, onClick, children }) {
   return (
     <Th>
       <a href="" className={locals.column} onClick={onClick}>
