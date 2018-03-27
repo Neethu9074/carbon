@@ -47,7 +47,7 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       const resettingProps = getResettingProps(nextProps);
       const pickProps = resettingProps.length > 0 ? curryRight(pick, 2)(resettingProps) : identity;
       if (!isEqual(pickProps(this.props), pickProps(nextProps))) {
-        this.reload();
+        this.reload(nextProps);
       }
     }
 
@@ -103,17 +103,17 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       }
     };
 
-    reload = () => {
+    reload = props => {
       this.stopPendingLoad();
       const state = this.getResetState();
       this.setState(state);
-      this.loadMore(this.props, state);
+      this.loadMore(props, state);
     };
 
     // we pass this down to the wrapper component in order to ensure that it cannot manipulate the props and state
     // parameter accidentially
     loadMoreHandler = () => this.loadMore(this.props, this.state);
-    reloadHandler = () => this.reload();
+    reloadHandler = () => this.reload(this.props);
 
     render() {
       return factory({
