@@ -1,9 +1,17 @@
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import { Table, Thead, Tbody, HorizontalIndicatorTr, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
+import {
+  Table,
+  Thead,
+  Tbody,
+  HorizontalIndicatorRow,
+  LoadingSkeletonRows,
+  ErrorRows,
+  Tr,
+  Td
+} from 'in-components/tables/sharedComponents';
 import SearchInput from 'in-components/tables/ServerTable/internalComponents/SearchInput';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -41,25 +49,17 @@ export default function ServerTablePresenter(props) {
   if (isLoading) {
     body = (
       <Fragment>
-        <HorizontalIndicatorTr cols={columnDefinitions.length} progress={result.progress} />
+        <HorizontalIndicatorRow cols={columnDefinitions.length} progress={result.progress} />
         <LoadingSkeletonRows cols={columnDefinitions.length} />
       </Fragment>
     );
   } else if (hasErrors) {
-    body = (
-      <tr>
-        <td colSpan={columnDefinitions.length} className={locals.error}>
-          <ErroneousResultPresenter errors={result.errors} />
-        </td>
-      </tr>
-    );
+    body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} />;
   } else if (result.data.totalHits === 0) {
     body = (
-      <tr>
-        <td colSpan={columnDefinitions.length} className={locals.noData}>
-          No data found
-        </td>
-      </tr>
+      <Tr>
+        <Td colSpan={columnDefinitions.length}>No data found</Td>
+      </Tr>
     );
   } else {
     body = result.data.items.map((item, i) => (
