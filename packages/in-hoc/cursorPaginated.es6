@@ -23,7 +23,7 @@ import { identity } from 'in-services/util/function';
 
 export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName = 'reload' }) => BaseComponent => {
   const factory = createFactory(BaseComponent);
-  return class WithUrlDependingState extends Component {
+  return class CursorPaginated extends Component {
     constructor(props) {
       super(props);
       this.state = this.getResetState();
