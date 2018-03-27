@@ -10,21 +10,17 @@ export function applyLayout(rootSpan) {
   return deepFreeze(spanFrames);
 }
 
-function positionSpan(spanFrames, span, parent, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
-  const { id, label, start, duration, errorCount, service, endpoint, children } = span;
+function positionSpan(spanFrames, span, parentSpan, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
+  const { start, duration, children, ...props } = span;
   const end = start + duration;
 
   let depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
 
   const spanFrame = {
-    id,
-    label,
+    ...props,
     start,
     duration,
-    errorCount,
-    service,
-    endpoint,
-    parent: parent ? parent.id : null,
+    parent: parentSpan ? parentSpan.id : null,
     depth: depthWithoutOverlapping,
     x: (start - traceStart) / totalDuration,
     dx: duration / totalDuration

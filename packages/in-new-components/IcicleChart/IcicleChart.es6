@@ -6,24 +6,28 @@ import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
 
 import locals from './IcicleChart.mless';
 
+const frameHeight = 20;
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
+export default function IcicleChart({ rootSpan, getColor = () => '#1479ff' }) {
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(100);
 
   const spanFrames = applyLayout(rootSpan);
+
   let maxDepth = 0;
 
   return (
     <div className={locals.chart}>
       {spanFrames.map(spanFrame => {
-        const parentDepth = spanFrame.parent ? spanFrames.find(obj => obj.id === spanFrame.parent).depth : 0;
-        maxDepth = Math.max(maxDepth, spanFrame.depth);
+        const { id, label, depth, parent } = spanFrame;
+        const parentDepth = parent ? spanFrames.find(obj => obj.id === parent).depth : 0;
+        maxDepth = Math.max(maxDepth, depth);
+
         return (
-          <Fragment key={spanFrame.id}>
-            <Tooltip content={spanFrame.label} align={tooltipAlignment}>
+          <Fragment key={id}>
+            <Tooltip content={label} align={tooltipAlignment}>
               <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} />
             </Tooltip>
             <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
@@ -35,8 +39,6 @@ export default function IcicleChart({ rootSpan, getColor = () => 'blue' }) {
     </div>
   );
 }
-
-const frameHeight = 20;
 
 function SpanFrame({ spanFrame, xScale, getColor }) {
   const { label, errorCount, depth, x, dx } = spanFrame;

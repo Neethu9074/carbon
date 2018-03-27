@@ -15,7 +15,7 @@ function ServerIcicleChart({ rootSpanResult, getColor }) {
   const isLoading = rootSpanResult.progress.loading;
   const hasErrors = rootSpanResult.errors.length > 0;
   if (isLoading) {
-    return <DefaultLoadingCallTree />;
+    return <DefaultLoadingIcicleChart />;
   }
   if (hasErrors) {
     return <ErroneousResultPresenter errors={rootSpanResult.errors} />;
@@ -24,6 +24,6 @@ function ServerIcicleChart({ rootSpanResult, getColor }) {
   return <IcicleChart rootSpan={rootSpanResult.data} getColor={getColor} />;
 }
 
-function DefaultLoadingCallTree() {
+function DefaultLoadingIcicleChart() {
   return <Skeleton className={locals.skeleton} />;
 }
