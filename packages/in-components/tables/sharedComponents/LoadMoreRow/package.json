@@ -1,0 +1,6 @@
+{
+  "name": "LoadMoreRow",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LoadMoreRow.es6"
+}

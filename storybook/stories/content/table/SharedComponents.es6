@@ -11,7 +11,8 @@ import {
   SortableTh,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
-  ErrorRows
+  ErrorRows,
+  LoadMoreRow
 } from 'in-components/tables/sharedComponents';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -52,6 +53,7 @@ function Default() {
                 <Td>2</Td>
                 <Td>3</Td>
               </Tr>
+              <LoadMoreRow cols={4} />
             </Tbody>
           </Table>
         </Col>
