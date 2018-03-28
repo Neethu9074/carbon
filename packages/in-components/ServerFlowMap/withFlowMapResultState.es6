@@ -121,7 +121,9 @@ export default () => ComposedComponent => {
       return this.props.getFlowNodes({
         metrics,
         filter: {
-          label: '',
+          application: this.props.applicationId,
+          service: this.props.serviceId,
+          endpoint: this.props.endpointId,
           timeframe: this.props.timeframe
         },
         traversal: {

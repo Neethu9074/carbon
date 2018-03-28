@@ -1,0 +1,27 @@
+:local {
+  .axis {
+    position: relative;
+  }
+
+  .vertical {
+  }
+
+  .verticalLeft {
+    border-right: 1px solid #a5a5a5;
+  }
+
+  .verticalRight {
+    border-left: 1px solid #a5a5a5;
+  }
+
+  .horizontal {
+  }
+
+  .horizontalTop {
+    border-bottom: 1px solid #a5a5a5;
+  }
+
+  .horizontalBottom {
+    border-top: 1px solid #a5a5a5;
+  }
+}

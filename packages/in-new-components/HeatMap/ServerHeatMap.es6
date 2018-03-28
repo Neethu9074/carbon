@@ -3,10 +3,10 @@ import React from 'react';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import { getResolvedTimeframe } from 'in-applications/metrics';
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
 import Skeleton from 'in-components/Progress/Skeleton';
-import { millis } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
 
 import locals from './ServerHeatMap.mless';
@@ -27,7 +27,7 @@ export default compose(
 )(ServerHeatMap);
 
 function ServerHeatMap(props) {
-  const { result } = props;
+  const { timeframe, result } = props;
 
   const isLoading = result.progress.loading;
   if (isLoading) {
@@ -39,7 +39,14 @@ function ServerHeatMap(props) {
     return <ErroneousResultPresenter errors={result.errors} />;
   }
 
-  return <HeatMap {...props} data={mapData(result.data)} keys={getKeys(result.data)} />;
+  return (
+    <HeatMap
+      {...props}
+      timeframe={getResolvedTimeframe(timeframe, result)}
+      data={mapData(result.data)}
+      keys={getKeys(result.data)}
+    />
+  );
 }
 
 function mapData(data) {
@@ -54,7 +61,7 @@ function mapData(data) {
   for (let iRow = 0; iRow < numMaxRows; iRow++) {
     const firstColumnRow = columnWithMaxBuckets.latencyBuckets[iRow];
     const currentRow = {
-      key: millis.detailed(firstColumnRow.from + (firstColumnRow.to - firstColumnRow.from) / 2)
+      key: firstColumnRow.from
     };
 
     for (let iColumn = 0; iColumn < data.length; iColumn++) {

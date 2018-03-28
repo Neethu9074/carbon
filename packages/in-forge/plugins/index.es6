@@ -4,6 +4,7 @@ import './activeMQ';
 import './availabilityZone';
 import './awsDynamoDb';
 import './awsEc';
+import './awsElb';
 import './awsKinesis';
 import './awsRds';
 import './awsSqs';

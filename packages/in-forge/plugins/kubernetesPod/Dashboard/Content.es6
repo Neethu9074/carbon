@@ -4,6 +4,7 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -69,7 +70,7 @@ const ContainerTable = connectTo(
   props => ({
     containerSnapshots: focusedMoment$
       .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshotId, time }))
-      .flatMap(getSnapshots)
+      .flatMap(snapshots => (snapshots != null ? getSnapshots(snapshots) : alwaysEmptyArray))
   }),
   function ContainerTable({ snapshotId, snapshot, containerSnapshots }) {
     let rows = [];

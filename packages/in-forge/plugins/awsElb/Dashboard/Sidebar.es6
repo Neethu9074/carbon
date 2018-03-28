@@ -2,22 +2,22 @@ import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import Info from 'in-forge/plugins/awsDynamoDb/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsElb/Info';
 
-export default function AwsDynamoDbSidebar({ snapshot }) {
+export default function AwsElbSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>DynamoDB Info</Collapsible.Header>
+        <Collapsible.Header>ELB Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
-
-          <TagList snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }

@@ -3,9 +3,12 @@ import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
 // export for tests
-export const MARGIN_BOTTOM = 25;
-export const MARGIN_TOP = 2;
-export const MARGIN_VERTICAL_AXIS = 48;
+// export const MARGIN_BOTTOM = 25;
+// export const MARGIN_TOP = 2;
+// export const MARGIN_VERTICAL_AXIS = 48;
+export const MARGIN_BOTTOM = 0;
+export const MARGIN_TOP = 0;
+export const MARGIN_VERTICAL_AXIS = 0;
 
 export default class Scales {
   constructor(config, filteredDataSeries) {
@@ -56,6 +59,22 @@ export default class Scales {
         maxValue = Math.max(maxValue, minMax.maxValue);
       }
       minValue = Math.min(minValue, minMax.minValue);
+    }
+
+    if (minValue == Number.MAX_VALUE) {
+      // use scale [0, 1] for empty data
+      minValue = 0;
+      maxValue = 1;
+    }
+
+    if (minValue == maxValue) {
+      if (maxValue <= 0) {
+        maxValue = 1;
+      } else {
+        // use scale [0, 2*max] to center the data vertically
+        minValue = 0;
+        maxValue = 2 * maxValue;
+      }
     }
 
     if (axis.min != null) {

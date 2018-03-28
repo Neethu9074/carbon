@@ -2,6 +2,9 @@
 import { withState } from 'recompose';
 import React from 'react';
 
+import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
+import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
+import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
 import NoContentIcon from 'in-components/Chart/components/NoContentIcon';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Chart/components/Tooltip';
@@ -20,7 +23,7 @@ export default getElementDimensions(function ChartReactComponent(props) {
   if (!timeframe || !y1 || !y1.metrics) {
     content = <NoContentIcon width={width} height={height} />;
   } else {
-    content = <ChartReactWrapper {...props} width={width} height={height} />;
+    content = <ChartReactWrapper {...props} width={width - 60} height={height} />;
   }
   return <div className={locals.wrapper}>{content}</div>;
 });
@@ -52,23 +55,37 @@ const ChartReactWrapper = enhance(
       }
 
       render() {
-        const { chart, legendAlignment = 'top' } = this.props;
+        const { chart, height, width, timeframe } = this.props;
 
         return (
           <div className={locals.chart}>
-            {chart && legendAlignment === 'top' ? (
-              <Legend alignment={legendAlignment} chart={this.props.chart} />
-            ) : null}
-            {chart && <Tooltip alignment={legendAlignment} chart={this.props.chart} />}
-            <canvas
-              className={locals.canvas}
-              ref={canvas => {
-                this.canvas = canvas;
-              }}
-            />
-            {chart && legendAlignment !== 'top' ? (
-              <Legend alignment={legendAlignment} chart={this.props.chart} />
-            ) : null}
+            {chart && <Legend chart={chart} />}
+            {chart && <Tooltip chart={chart} />}
+            <div className={locals.chartAxisWrapper}>
+              {chart &&
+                chart.config.y1 && (
+                  <MetricAwareAxis chart={chart} axis={chart.config.y1} height={height} align="left" />
+                )}
+              <div>
+                <canvas
+                  className={locals.canvas}
+                  ref={canvas => {
+                    this.canvas = canvas;
+                  }}
+                />
+                {width && (
+                  <HorizontalTimeAxis
+                    scale={{ from: timeframe.to - timeframe.windowSize, to: timeframe.to }}
+                    width={width}
+                  />
+                )}
+              </div>
+              {chart &&
+                chart.config.y2 && (
+                  <MetricAwareAxis chart={chart} axis={chart.config.y2} height={height} align="right" />
+                )}
+              {chart && !chart.config.y2 && <VerticalAxisPlaceholder />}
+            </div>
           </div>
         );
       }

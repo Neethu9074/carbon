@@ -1,10 +1,34 @@
+import { defaultProps, compose, renameProps } from 'recompose';
 import { Bar } from '@nivo/bar';
 import { chain } from 'lodash';
 import React from 'react';
 
+import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
+import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 
-export default function Histogram({ buckets }) {
+import locals from './Histogram.mless';
+
+export default compose(
+  renameProps({
+    cheight: 'customHeight',
+    cwidth: 'customWidth'
+  }),
+  getElementDimensions,
+  defaultProps({
+    customHeight: 189
+  })
+)(Histogram);
+
+function Histogram({ width, height, customWidth, customHeight, buckets }) {
+  if (!width) {
+    return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
+  }
+  width = (customWidth || width) - 60;
+  height = (customHeight || height) - 30;
+
   let data = buckets.map(({ from, to, value }) => ({
     from,
     to,
@@ -39,38 +63,48 @@ export default function Histogram({ buckets }) {
   }
 
   return (
-    <Bar
-      data={data}
-      width={600}
-      height={189}
-      keys={['value']}
-      indexBy="label"
-      margin={{
-        top: 0,
-        right: 0,
-        bottom: 30,
-        left: 50
-      }}
-      padding={0.1}
-      groupMode="grouped"
-      colors="#5da6da"
-      borderColor="inherit:darker(1.6)"
-      axisBottom={{
-        orient: 'bottom',
-        tickSize: 3,
-        tickPadding: 5,
-        tickRotation: 0,
-        legendPosition: 'center'
-      }}
-      axisLeft={{
-        orient: 'left',
-        tickSize: 0,
-        tickPadding: 5,
-        tickRotation: 0,
-        legendPosition: 'center'
-      }}
-      enableLabel={false}
-      labelTextColor="#e1e8ea"
-    />
+    <div className={locals.histogram}>
+      <VerticalAxis scale={{ from: 0, to: getMaxDataValue(data) }} height={height} />
+      <div>
+        <Bar
+          data={data}
+          width={width}
+          height={height}
+          keys={['value']}
+          indexBy="label"
+          margin={{
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }}
+          padding={0.1}
+          groupMode="grouped"
+          colors="#5da6da"
+          borderColor="inherit:darker(1.6)"
+          enableLabel={false}
+          labelTextColor="#e1e8ea"
+        />
+        <HorizontalAxis
+          formatter={millis}
+          scale={{ from: data[0].from, to: data[data.length - 1].to }}
+          fixedTickPositions={data.map((item, i) => i / data.length + 1 / data.length / 2)}
+          width={width}
+        />
+      </div>
+      <VerticalAxisPlaceholder />
+    </div>
   );
+}
+
+function getMaxDataValue(data) {
+  let max = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].value > max) {
+      max = data[i].value;
+    }
+  }
+
+  return max;
 }
