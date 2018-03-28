@@ -13,6 +13,6 @@
   .axis {
     height: 3.75rem;
     background: #e6e6e6;
-    width: 60%;
+    width: 61.8%;
   }
 }
