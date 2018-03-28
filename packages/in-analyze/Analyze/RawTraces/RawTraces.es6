@@ -12,12 +12,13 @@ import {
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
   ErrorRows,
-  LoadMoreRow
+  LoadMoreRow,
+  Link
 } from 'in-components/tables/sharedComponents';
+import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import getTraces from 'in-subscription/application/getTraces';
 import { formatDateTime } from 'in-services/formatters/date';
-import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 export default compose(
@@ -91,7 +92,9 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
         {items.map(item => (
           <Tr key={item.traceId}>
             <Td>{formatDateTime(item.startTime)}</Td>
-            <Td>{item.label}</Td>
+            <Td>
+              <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
+            </Td>
             <Td>{millis.fixedCompact(item.duration)}</Td>
             <Td>{number.compact(item.totalErrorCount)}</Td>
           </Tr>
