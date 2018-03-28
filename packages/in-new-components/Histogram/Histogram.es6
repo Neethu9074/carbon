@@ -64,7 +64,7 @@ function Histogram({ width, height, customWidth, customHeight, buckets }) {
 
   return (
     <div className={locals.histogram}>
-      <VerticalAxis scale={{ from: 0, to: getMaxDataValue(data) }} height={189} />
+      <VerticalAxis scale={{ from: 0, to: getMaxDataValue(data) }} height={height} />
       <div>
         <Bar
           data={data}
