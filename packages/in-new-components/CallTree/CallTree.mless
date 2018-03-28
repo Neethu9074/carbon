@@ -1,0 +1,12 @@
+:local {
+  .callTree {
+    margin-right: 3rem;
+  }
+
+  .skeleton {
+    width: 100%;
+    height: 1rem;
+    margin: 0 0 0.25rem;
+    display: block;
+  }
+}

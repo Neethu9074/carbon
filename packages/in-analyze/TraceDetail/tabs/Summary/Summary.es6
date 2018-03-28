@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 
+import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
+import ServerIcicleChart from 'in-new-components/IcicleChart/ServerIcicleChart';
+import ServerCallTree from 'in-new-components/CallTree/ServerCallTree';
 import { number, millis } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import ServerIcicleChart from 'in-new-components/IcicleChart/ServerIcicleChart';
 import Card from 'in-new-components/Card';
 
 export default function Summary({ data: trace, getColor }) {
@@ -26,8 +28,24 @@ export default function Summary({ data: trace, getColor }) {
 
       <Row>
         <Col lg={12}>
-          <Card title="Services involved">
+          <Card title="Services calling">
             <ServerIcicleChart traceId={trace.id} getColor={getColor} />
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <Card title="Services">
+            <ServiceEndpointList traceId={trace.id} getColor={getColor} />
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <Card title="Calls">
+            <ServerCallTree traceId={trace.id} getColor={getColor} />
           </Card>
         </Col>
       </Row>

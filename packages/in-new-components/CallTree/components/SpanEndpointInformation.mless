@@ -1,0 +1,29 @@
+:local {
+  .spanEndpointInformation {
+    display: flex;
+    align-items: center;
+
+    margin: 0.25rem 0 0 1.625rem;
+    color: #5e777f;
+  }
+
+  .colorIndicator {
+    min-width: 0.5rem;
+    min-height: 0.5rem;
+    border-radius: 1px;
+    margin-right: 0.5rem;
+  }
+
+  .serviceIcon,
+  .endpointIcon {
+    margin-right: 0.5rem;
+  }
+
+  .arrowIcon {
+    margin: 0 0.5rem;
+  }
+
+  .label {
+    white-space: nowrap;
+  }
+}
