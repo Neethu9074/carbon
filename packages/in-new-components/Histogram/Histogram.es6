@@ -1,14 +1,34 @@
+import { defaultProps, compose, renameProps } from 'recompose';
 import { Bar } from '@nivo/bar';
 import { chain } from 'lodash';
 import React from 'react';
 
+import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 
 import locals from './Histogram.mless';
 
-export default function Histogram({ buckets }) {
+export default compose(
+  renameProps({
+    cheight: 'customHeight',
+    cwidth: 'customWidth'
+  }),
+  getElementDimensions,
+  defaultProps({
+    customHeight: 189
+  })
+)(Histogram);
+
+function Histogram({ width, height, customWidth, customHeight, buckets }) {
+  if (!width) {
+    return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
+  }
+  width = (customWidth || width) - 60;
+  height = (customHeight || height) - 30;
+
   let data = buckets.map(({ from, to, value }) => ({
     from,
     to,
@@ -48,8 +68,8 @@ export default function Histogram({ buckets }) {
       <div>
         <Bar
           data={data}
-          width={600}
-          height={189}
+          width={width}
+          height={height}
           keys={['value']}
           indexBy="label"
           margin={{
@@ -69,9 +89,10 @@ export default function Histogram({ buckets }) {
           formatter={millis}
           scale={{ from: data[0].from, to: data[data.length - 1].to }}
           fixedTickPositions={data.map((item, i) => i / data.length + 1 / data.length / 2)}
-          width={600}
+          width={width}
         />
       </div>
+      <VerticalAxisPlaceholder />
     </div>
   );
 }

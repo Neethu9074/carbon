@@ -2,7 +2,7 @@
 import { withState } from 'recompose';
 import React from 'react';
 
-import YAxisPlaceholder from 'in-components/Chart/components/YAxisPlaceholder';
+import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
 import NoContentIcon from 'in-components/Chart/components/NoContentIcon';
@@ -84,7 +84,7 @@ const ChartReactWrapper = enhance(
                 chart.config.y2 && (
                   <MetricAwareAxis chart={chart} axis={chart.config.y2} height={height} align="right" />
                 )}
-              {chart && !chart.config.y2 && <YAxisPlaceholder />}
+              {chart && !chart.config.y2 && <VerticalAxisPlaceholder />}
             </div>
           </div>
         );
