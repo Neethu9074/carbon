@@ -1,5 +1,7 @@
 import React from 'react';
+import { get } from 'lodash';
 
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import getSpanTree from 'in-subscription/application/getSpanTree';
 import Skeleton from 'in-components/Progress/Skeleton';
@@ -8,15 +10,18 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';
 
-export default connectTo(props => ({ rootSpanResult: getSpanTree({ id: props.traceId }) }))(ServerIcicleChart);
+export default connectTo(props => ({
+  rootSpanResult: props.get ? props.get({ id: props.traceId }) : getSpanTree({ id: props.traceId })
+}))(ServerIcicleChart);
 
-function ServerIcicleChart({ rootSpanResult, getColor }) {
-  const isLoading = rootSpanResult.progress.loading;
-  const hasErrors = rootSpanResult.errors.length > 0;
-
+function ServerIcicleChart(props) {
+  const { rootSpanResult, getColor } = props;
+  const isLoading = get(rootSpanResult, ['progress', 'loading'], false);
   if (isLoading) {
-    return <DefaultLoadingIcicleChart />;
+    return <LoadingIcicleChart progress={rootSpanResult.progress} />;
   }
+
+  const hasErrors = rootSpanResult.errors.length > 0;
   if (hasErrors) {
     return <ErroneousResultPresenter errors={rootSpanResult.errors} />;
   }
@@ -24,6 +29,11 @@ function ServerIcicleChart({ rootSpanResult, getColor }) {
   return <IcicleChart rootSpan={rootSpanResult.data} getColor={getColor} />;
 }
 
-function DefaultLoadingIcicleChart() {
-  return <Skeleton className={locals.skeleton} />;
+function LoadingIcicleChart({ progress }) {
+  return (
+    <div>
+      <HorizontalIndicator progress={progress} />
+      <Skeleton className={locals.skeleton} />
+    </div>
+  );
 }
