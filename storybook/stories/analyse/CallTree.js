@@ -7,29 +7,28 @@ import { createColorPool } from 'in-services/util/ColorGenerator';
 import { always } from 'in-services/fixedStreams';
 import CallTree from 'in-new-components/CallTree';
 
-import getTraceFromExamples from '../_helpers/getTraceFromExample';
+import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
 
 const byServiceEndpointCombinationColorPool = createColorPool('serviceAndEndpointCombination');
 const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
-storiesOf('newComponents/CallTree', module)
+storiesOf('analyse/CallTree', module)
   .addDecorator(withKnobs)
-  .add('CallTree', () => <CallTreeStory />)
+  .add('Call Tree', () => <CallTreeStory />)
   .add('Loading', () => <LoadingStory />)
   .add('Error', () => <ErrorStory />);
 
 function CallTreeStory() {
-  const rootSpan = getTraceFromExamples();
-  if (!rootSpan) {
-    return null;
-  }
-
   return (
-    <Root>
-      <CallTree rootSpan={rootSpan} getColor={getColorByServiceAndEndpoint} />
-    </Root>
+    <TraceExamples
+      render={rootSpan => (
+        <Root>
+          <CallTree rootSpan={rootSpan} getColor={getColorByServiceAndEndpoint} />
+        </Root>
+      )}
+    />
   );
 }
 

@@ -1,26 +1,56 @@
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
+import { withState } from 'recompose';
 import React from 'react';
 
-import { enrichWithJSONInput } from '../_helpers/json';
+import { deepFreeze } from 'in-services/util/object';
 import Root from '../_helpers/Root';
 
-storiesOf('newComponents/TraceConverter', module)
+storiesOf('analyse/TraceConverter', module)
   .addDecorator(withKnobs)
   .add('Trace Converter', () => <TraceConverter />);
 
-function TraceConverter() {
-  const rootSpan = enrichWithJSONInput('', mapSpan);
-  if (!rootSpan) {
-    return null;
+const TraceConverter = withState('inputValue', 'setInputValue', '')(function TraceConverterComponent({
+  inputValue,
+  setInputValue
+}) {
+  const jsonString = inputValue;
+  let rootSpan;
+  try {
+    rootSpan = JSON.parse(jsonString);
+    mapSpan(rootSpan);
+    rootSpan = deepFreeze(rootSpan);
+  } catch (e) {
+    rootSpan = null;
   }
 
   return (
     <Root>
-      <p>{JSON.stringify(rootSpan)}</p>
+      <div
+        style={{
+          padding: 16,
+          marginBottom: 32,
+          background: '#eee',
+          borderBottom: '1px solid grey'
+        }}
+      >
+        <input
+          style={{
+            width: '100%',
+            marginTop: 16,
+            height: '50px'
+          }}
+          type="text"
+          id={2}
+          placeholder="paste JSON here"
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+        />
+      </div>
+      {rootSpan && <p>{JSON.stringify(rootSpan)}</p>}
     </Root>
   );
-}
+});
 
 const unnownServiceOrEndpoint = {
   id: 'unknown',
