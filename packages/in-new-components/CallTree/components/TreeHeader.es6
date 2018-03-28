@@ -1,21 +1,21 @@
 import React from 'react';
 
+import getElementDimensions from 'in-hoc/getElementDimensions';
+
 import locals from './TreeHeader.mless';
 
 export default function TreeHeader({ rootSpan }) {
   return (
     <div className={locals.treeHeader}>
       <span className={locals.counter}>{`${countSpans(rootSpan, 1)} Calls`}</span>
-      <div
-        style={{
-          width: '61.8%',
-          height: 60,
-          background: '#e6e6e6'
-        }}
-      />
+      <Axis />
     </div>
   );
 }
+
+const Axis = getElementDimensions(function Axis({ width }) {
+  return <div className={locals.axis}>{width}</div>;
+});
 
 function countSpans(span, count = 0) {
   if (!span.children || span.children.length === 0) {
