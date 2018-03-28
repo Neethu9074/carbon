@@ -2,7 +2,14 @@
   .chart {
     position: relative;
     background: #fff;
-    margin-bottom: 2rem;
+  }
+
+  .axis {
+
+  }
+
+  .framesWrapper {
+    position: relative;
   }
 
   .frame {
