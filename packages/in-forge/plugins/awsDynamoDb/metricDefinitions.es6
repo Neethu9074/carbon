@@ -65,18 +65,18 @@ export default [
     metric: 'system_errors',
     label: 'System Errors',
     category: ['Errors'],
-    formatter: millis
+    formatter: number
   },
   {
     metric: 'user_errors',
     label: 'User Errors',
     category: ['Errors'],
-    formatter: millis
+    formatter: number
   },
   {
     metric: 'time_to_live_deleted_item_count',
     label: 'TTL Deleted Items',
     category: ['Requests'],
-    formatter: millis
+    formatter: number
   }
 ];
