@@ -7,6 +7,7 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 export default connectTo(
   props => ({
@@ -34,10 +35,16 @@ export default connectTo(
             y1={{
               renderer: Renderer.stackedArea,
               labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
-              colors: ['#52d6ff', '#00cc58', '#0066de', '#ff9e3d', '#ff5d3b'],
               formatter: number,
               tooltipFormatter: number.compact,
-              metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx']
+              metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'],
+              colors: [
+                theme.app20Chart.strokeColors25[0],
+                theme.app20Chart.strokeColors25[5],
+                theme.app20Chart.strokeColors25[1],
+                theme.app20Chart.strokeColors25[2],
+                theme.app20Chart.strokeColors25[4]
+              ]
             }}
             metricsConfiguration={{
               filter: {
