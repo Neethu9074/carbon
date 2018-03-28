@@ -3,6 +3,7 @@ import React from 'react';
 
 import { deepFreeze } from 'in-services/util/object';
 import traceExamples from './traceExamples';
+import InputHeader from './InputHeader';
 
 export default withState('selectedValue', 'setSelectedValue', 'custom')(
   withState('inputValue', 'setInputValue', '')(function TraceExamplesComponent({
@@ -34,14 +35,7 @@ export default withState('selectedValue', 'setSelectedValue', 'custom')(
 
     return (
       <div>
-        <div
-          style={{
-            padding: 16,
-            marginBottom: 32,
-            background: '#eee',
-            borderBottom: '1px solid grey'
-          }}
-        >
+        <InputHeader>
           <select
             id={1}
             value={selectedValue}
@@ -71,7 +65,7 @@ export default withState('selectedValue', 'setSelectedValue', 'custom')(
               />
             </div>
           )}
-        </div>
+        </InputHeader>
         {render(rootSpan)}
       </div>
     );

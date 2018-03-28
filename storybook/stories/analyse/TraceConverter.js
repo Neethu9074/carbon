@@ -4,7 +4,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import { deepFreeze } from 'in-services/util/object';
-import Root from '../_helpers/Root';
+import InputHeader from './InputHeader';
 
 storiesOf('analyse/TraceConverter', module)
   .addDecorator(withKnobs)
@@ -25,15 +25,8 @@ const TraceConverter = withState('inputValue', 'setInputValue', '')(function Tra
   }
 
   return (
-    <Root>
-      <div
-        style={{
-          padding: 16,
-          marginBottom: 32,
-          background: '#eee',
-          borderBottom: '1px solid grey'
-        }}
-      >
+    <div>
+      <InputHeader>
         <input
           style={{
             width: '100%',
@@ -46,9 +39,9 @@ const TraceConverter = withState('inputValue', 'setInputValue', '')(function Tra
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
         />
-      </div>
+      </InputHeader>
       {rootSpan && <p>{JSON.stringify(rootSpan)}</p>}
-    </Root>
+    </div>
   );
 });
 
