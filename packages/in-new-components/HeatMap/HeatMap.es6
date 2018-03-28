@@ -2,7 +2,10 @@ import { defaultProps, compose, renameProps } from 'recompose';
 import { HeatMapCanvas } from '@nivo/heatmap';
 import React from 'react';
 
+import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
+import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { millis } from 'in-services/formatters/number';
 
 import locals from './HeatMap.mless';
 
@@ -17,68 +20,42 @@ export default compose(
   })
 )(HeatMapImpl);
 
-function HeatMapImpl({ width, height, customWidth, customHeight, data, keys }) {
+function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, timeframe }) {
   if (!width || !data) {
     return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
   }
 
-  const keyMap = new Map();
-  for (let i = 0; i < keys.length; i++) {
-    keyMap.set(keys[i], i);
-  }
+  width = (customWidth || width) - 30;
+  height = (customHeight || height) - 30;
 
   return (
     <div className={locals.heatMap}>
-      <HeatMapCanvas
-        height={customHeight || height}
-        width={customWidth || width}
-        data={data}
-        keys={keys}
-        indexBy="key"
-        colors={getHeatMapColors()}
-        margin={{
-          top: 0,
-          right: 0,
-          bottom: 60,
-          left: 60
-        }}
-        axisBottom={{
-          orient: 'bottom',
-          tickSize: 3,
-          tickPadding: 2,
-          legendPosition: 'center',
-          // since nivo does not allow to restrict the number of ticks per axis, we need this "hack"
-          // to identify ticks, we do not want to render
-          format: tick => (isTickWhichShouldBeHidden(tick, keyMap) ? '' : tick)
-        }}
-        axisLeft={{
-          orient: 'left',
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legendPosition: 'center'
-        }}
-        labelTextColor="#ffffff00"
-        forceSquare={false}
-        animate={false}
-        hoverTarget="rowColumn"
-        cellOpacity={1}
-        cellHoverOthersOpacity={0.5}
-      />
+      <VerticalAxis formatter={millis} scale={{ from: data[data.length - 1].key, to: data[0].key }} height={height} />
+      <div>
+        <HeatMapCanvas
+          height={height}
+          width={width}
+          data={data}
+          keys={keys}
+          indexBy="key"
+          colors={getHeatMapColors()}
+          margin={{
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }}
+          labelTextColor="#ffffff00"
+          forceSquare={false}
+          animate={false}
+          hoverTarget="cell"
+          cellOpacity={1}
+          cellHoverOthersOpacity={0.75}
+        />
+        <HorizontalTimeAxis scale={{ from: timeframe.to - timeframe.windowSize, to: timeframe.to }} width={width} />
+      </div>
     </div>
   );
-}
-
-function isTickWhichShouldBeHidden(tick, keyMap) {
-  const totalColumns = keyMap.size;
-  const numTicks = 6;
-  const allowTicksAtIndexTimes = Math.ceil(totalColumns / numTicks);
-
-  const tickIndex = keyMap.get(tick);
-  if (tickIndex % allowTicksAtIndexTimes === 0) {
-    return false;
-  }
-  return true;
 }
 
 // how to recalculate colors

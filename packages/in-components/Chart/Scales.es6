@@ -3,9 +3,12 @@ import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
 // export for tests
-export const MARGIN_BOTTOM = 25;
-export const MARGIN_TOP = 2;
-export const MARGIN_VERTICAL_AXIS = 48;
+// export const MARGIN_BOTTOM = 25;
+// export const MARGIN_TOP = 2;
+// export const MARGIN_VERTICAL_AXIS = 48;
+export const MARGIN_BOTTOM = 0;
+export const MARGIN_TOP = 0;
+export const MARGIN_VERTICAL_AXIS = 0;
 
 export default class Scales {
   constructor(config, filteredDataSeries) {

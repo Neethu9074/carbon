@@ -1,0 +1,41 @@
+:local {
+  .ticks {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .verticalTickLabel,
+  .horizontalTickLabel {
+    position: absolute;
+    color: #313131;
+    white-space: nowrap;
+    font-size: 0.625rem;
+  }
+
+  .verticalTickLabel {
+    margin-top: 6px;
+  }
+
+  .horizontalTickLabel {
+    margin-left: 3px;
+  }
+
+  .verticalTick,
+  .horizontalTick {
+    position: absolute;
+    background: #a5a5a5;
+  }
+
+  .verticalTick {
+    width: 4px;
+    height: 1px;
+  }
+
+  .horizontalTick {
+    height: 4px;
+    width: 1px;
+  }
+}

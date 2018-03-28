@@ -9,9 +9,9 @@ export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.signals.on('filteredDataSeriesChanged')
   }),
-  function Legend({ chart, filteredDataSeries, alignment }) {
+  function Legend({ chart, filteredDataSeries }) {
     return (
-      <div className={`${locals.legend} ${alignment === 'top' ? locals.top : locals.bottom}`}>
+      <div className={locals.legend}>
         <MetricSeries axis={chart.config.y1} filteredDataSeries={filteredDataSeries} config={chart.config} />
         <MetricSeries axis={chart.config.y2} filteredDataSeries={filteredDataSeries} config={chart.config} />
       </div>

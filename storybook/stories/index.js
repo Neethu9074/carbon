@@ -36,6 +36,7 @@ import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
 import './newComponents/application/NewApplicationStory';
+import './newComponents/Axis';
 import './newComponents/BadgeStory';
 import './newComponents/BadgeKeyValueStory';
 import './newComponents/ButtonStory';
