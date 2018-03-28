@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import TraceGroups from 'in-analyze/Analyze/TraceGroups/TraceGroups';
 import FilterButtonRow from 'in-analyze/Analyze/FilterButtonRow';
-import RawTraces from 'in-analyze/Analyze/RawTraces/RawTraces';
 import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
 import AnalyzeRoot from 'in-analyze/Analyze/AnalyzeRoot';
 import Sticky from 'in-components/Sticky';
@@ -18,7 +18,7 @@ export default function Analyze({ location }) {
 
       <Sticky header={<FilterButtonRow filter={filter} />}>
         <MaxWidthFullscreenContainer>
-          <RawTraces filter={filter} />
+          <TraceGroups filter={filter} />
         </MaxWidthFullscreenContainer>
       </Sticky>
     </Fragment>
