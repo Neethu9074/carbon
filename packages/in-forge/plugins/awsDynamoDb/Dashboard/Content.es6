@@ -71,7 +71,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
             metrics: ['successful_request_latency'],
             labels: ['Successful Request Latency'],
             type: 'line',
-            formatter: millis.compact
+            formatter: millis.detailed
           }}
         />
       </DashboardSection>
