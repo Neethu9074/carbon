@@ -4,10 +4,10 @@
   }
 
   .contributed {
-    color: #4B3AFF;
+    color: #00bdff;
     font-weight: 600;
     display: inline-block;
-    margin: 0 0 .125rem;
+    margin: 0 0 0.125rem;
   }
 
   .contributedAlignmentHelper {
@@ -19,7 +19,7 @@
   }
 
   .hairLine {
-    background: #4B3AFF;
+    background: #c6eaff;
     width: 1px;
     height: 10px;
     position: relative;
@@ -40,7 +40,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background: #4B3AFF;
+    background: #c6eaff;
     border-radius: 0.125rem 0 0 0.125rem;
   }
 
@@ -48,7 +48,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: .438rem 0 0;
+    margin: 0.438rem 0 0;
   }
 
   .left {
@@ -64,12 +64,12 @@
 
   .label {
     margin: 0 0.4rem;
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 500;
   }
 
   .total {
-    font-size: .813rem;
+    font-size: 0.813rem;
     font-weight: 500;
   }
 }

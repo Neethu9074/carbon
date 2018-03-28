@@ -8,6 +8,7 @@ import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 import locals from './Histogram.mless';
 
@@ -80,7 +81,7 @@ function Histogram({ width, height, customWidth, customHeight, buckets }) {
           }}
           padding={0.1}
           groupMode="grouped"
-          colors="#5da6da"
+          colors={theme.app20Chart.strokeColors25[0]}
           borderColor="inherit:darker(1.6)"
           enableLabel={false}
           labelTextColor="#e1e8ea"

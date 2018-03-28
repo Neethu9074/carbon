@@ -2,12 +2,13 @@ import React from 'react';
 
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
-import { endpointNameTranslations, getColor } from 'in-applications/endpointTypes';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, timeframe }) => ({
@@ -37,8 +38,9 @@ export default connectTo(
         return compareIgnoreCase(a, b);
       });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
-      const colors = endpointTypes.map(type => getColor(type));
       const metrics = endpointTypes.map(type => result.data[type]);
+      const colors = endpointTypes.map((type, i) => (type === 'SELF' ? '#e9edef' : theme.app20Chart.strokeColors25[i]));
+
       config = {
         cardTitle: config.cardTitle,
         timeframe: getResolvedTimeframe(timeframe, result),
@@ -46,8 +48,8 @@ export default connectTo(
         y1: {
           renderer: Renderer.stackedArea,
           labels,
-          colors,
           metrics,
+          colors,
           formatter: millis,
           min: 0
         }

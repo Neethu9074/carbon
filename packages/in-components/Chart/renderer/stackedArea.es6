@@ -5,7 +5,7 @@ export default {
       metricMap = calculateMetricMap(metrics);
     }
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors[iMetric], metrics[iMetric], metricMap, scale);
+      renderDataSeries(config, colors[iMetric], axis.colors100[iMetric], metrics[iMetric], metricMap, scale);
     }
   },
 
@@ -31,17 +31,17 @@ function calculateMetricMap(metrics) {
   return metricMap;
 }
 
-function renderDataSeries(config, color, dataSeries, metricMap, scale) {
+function renderDataSeries(config, color, borderColor, dataSeries, metricMap, scale) {
   config.ctx.beginPath();
   config.ctx.fillStyle = color;
 
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i]);
+    drawBlock(metricMap, config, scale, blocks[i], borderColor);
   }
 }
 
-function drawBlock(metricMap, config, scale, block) {
+function drawBlock(metricMap, config, scale, block, borderColor) {
   if (block.length === 0) {
     return;
   }
@@ -68,6 +68,9 @@ function drawBlock(metricMap, config, scale, block) {
     config.ctx.lineTo(xPos, yPos);
   }
 
+  config.ctx.strokeStyle = borderColor;
+  config.ctx.lineWidth = 2;
+  config.ctx.stroke();
   config.ctx.lineTo(lastDataPointXPos, config.height);
   config.ctx.lineTo(firstDataPointXPos, config.height);
   config.ctx.closePath();

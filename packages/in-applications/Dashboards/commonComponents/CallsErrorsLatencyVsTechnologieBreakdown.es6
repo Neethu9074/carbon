@@ -4,6 +4,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 export default function CallsErrorsLatencyVsTechnologieBreakdown({
   timeframe,
@@ -28,6 +29,7 @@ export default function CallsErrorsLatencyVsTechnologieBreakdown({
           renderer: Renderer.line,
           labels: ['Latency'],
           metricIds: ['latency'],
+          colors: [theme.app20Chart.strokeColors100[2]],
           formatter: millis,
           min: 0
         }}

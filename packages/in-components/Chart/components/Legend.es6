@@ -23,6 +23,7 @@ function MetricSeries({ axis, config, filteredDataSeries }) {
   if (!axis) {
     return null;
   }
+
   return (
     <ul className={locals.metricList}>
       {axis.labels.map((label, i) => {
@@ -42,7 +43,7 @@ function MetricSeries({ axis, config, filteredDataSeries }) {
                 [locals.disabledDot]: isDisabled
               })}
               style={{
-                background: axis.colors[i]
+                background: axis.colors100[i]
               }}
             />
             {label}
