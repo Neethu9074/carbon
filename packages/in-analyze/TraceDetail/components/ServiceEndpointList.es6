@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
+import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -50,7 +51,7 @@ export default function ServiceEndpointList({ traceId, getColor }) {
       id: 'errorCount',
       label: 'Errors',
       getContent(item) {
-        return <div className={locals.errorIndicator}>{item.errorCount}</div>;
+        return <ErrorIndicator errorCount={item.errorCount} />;
       }
     }
   ];

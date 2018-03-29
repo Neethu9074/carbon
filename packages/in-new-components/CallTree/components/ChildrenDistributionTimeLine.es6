@@ -1,12 +1,16 @@
 import React from 'react';
 
+import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
+
 import locals from './ChildrenDistributionTimeLine.mless';
 
 export default function ChildrenDistributionTimeLine({ span, getColor, scale }) {
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
-      <ParentSpanIndicator key={span.id} span={span} scale={scale} getColor={getColor} />
+      <ParentSpanIndicator key={span.id} span={span} scale={scale} getColor={getColor}>
+        <ErrorIndicator className={locals.errorIndicator} errorCount={span.errorCount} />
+      </ParentSpanIndicator>
       {span.children.map((childSpan, i) => (
         <SpanIndicator
           key={i}
@@ -20,7 +24,7 @@ export default function ChildrenDistributionTimeLine({ span, getColor, scale }) 
   );
 }
 
-function ParentSpanIndicator({ span, scale, getColor }) {
+function ParentSpanIndicator({ span, scale, getColor, children }) {
   return (
     <div
       style={{
@@ -31,6 +35,7 @@ function ParentSpanIndicator({ span, scale, getColor }) {
       className={locals.spanIndicator}
     >
       {<NetworkTime span={span} scale={scale} getColor={getColor} />}
+      {children}
     </div>
   );
 }

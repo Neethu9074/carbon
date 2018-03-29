@@ -65,4 +65,10 @@
     color: #16363e;
     background: white;
   }
+
+  .errorIndicator {
+    position: absolute;
+    top: calc(0% - 1.5rem);
+    left: calc(50% - 0.625rem);
+  }
 }
