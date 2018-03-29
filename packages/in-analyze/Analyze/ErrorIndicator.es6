@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
 
 import locals from './ErrorIndicator.mless';
 
@@ -10,14 +10,5 @@ export default function ErrorIndicator({ className, errorCount }) {
     return null;
   }
 
-  return (
-    <div
-      className={evaluateClassNames({
-        [locals.errorIndicator]: true,
-        [className]: className
-      })}
-    >
-      {errorCount}
-    </div>
-  );
+  return <div className={joinClassNames(locals.errorIndicator, className)}>{errorCount}</div>;
 }

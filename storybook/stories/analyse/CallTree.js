@@ -2,10 +2,10 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import ServerCallTree from 'in-new-components/CallTree/ServerCallTree';
+import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import { createColorPool } from 'in-services/util/ColorGenerator';
+import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 import { always } from 'in-services/fixedStreams';
-import CallTree from 'in-new-components/CallTree';
 
 import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
