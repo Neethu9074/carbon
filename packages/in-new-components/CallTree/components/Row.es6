@@ -11,7 +11,7 @@ import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-const EnhancedRow = withState('isExpanded', 'setIsExpanded', false)(Row);
+const EnhancedRow = withState('isExpanded', 'setIsExpanded', true)(Row);
 function Row(props) {
   const { span, getColor, isExpanded, depth = 0 } = props;
 
