@@ -31,7 +31,13 @@ function IcicleChartStory() {
 function LoadingStory() {
   return (
     <Root>
-      <ServerIcicleChart get={() => always({ progress: { loading: true } })} />
+      <ServerIcicleChart
+        mockedStream={() =>
+          always({
+            progress: { loading: true },
+            errors: [],
+            data: {}
+          })} />
     </Root>
   );
 }
@@ -40,8 +46,12 @@ function ErrorStory() {
   return (
     <Root>
       <ServerIcicleChart
-        get={() =>
-          always({ errors: [{ message: 'Unexpected server error' }] })
+        mockedStream={() =>
+          always({
+            progress: { loading: false },
+            errors: [{ message: 'Unexpected server error' }],
+            data: {}
+          })
         }
       />
     </Root>

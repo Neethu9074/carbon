@@ -11,17 +11,16 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ServerIcicleChart.mless';
 
 export default connectTo(props => ({
-  rootSpanResult: props.get ? props.get({ id: props.traceId }) : getSpanTree({ id: props.traceId })
+  rootSpanResult: props.mockedStream ? props.mockedStream() : getSpanTree({ id: props.traceId })
 }))(ServerIcicleChart);
 
-function ServerIcicleChart(props) {
-  const { rootSpanResult, getColor } = props;
+function ServerIcicleChart({ rootSpanResult, getColor }) {
   const isLoading = get(rootSpanResult, ['progress', 'loading'], false);
   if (isLoading) {
     return <LoadingIcicleChart progress={rootSpanResult.progress} />;
   }
 
-  const hasErrors = rootSpanResult.errors.length > 0;
+  const hasErrors = get(rootSpanResult, ['errors', 'length']) > 0;
   if (hasErrors) {
     return <ErroneousResultPresenter errors={rootSpanResult.errors} />;
   }
