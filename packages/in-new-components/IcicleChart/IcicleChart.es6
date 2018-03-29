@@ -2,14 +2,12 @@ import React, { Fragment } from 'react';
 
 import createScale from 'in-charts/scale';
 import Tooltip from 'in-components/Tooltip';
-import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import { millis } from 'in-services/formatters/number';
 import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import TimeAxis from 'in-new-components/IcicleChart/components/TimeAxis';
 
 import locals from './IcicleChart.mless';
 
-const frameHeight = 20;
+const frameHeight = 22;
 const tooltipAlignment = 'topMiddle';
 
 export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSpanClick = () => {} }) {
@@ -39,7 +37,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
 
   return (
     <div className={locals.chart}>
-      <TimeAxis start={0} end={maxTime - minTime} />
+      <TimeAxis startTime={minTime} endTime={maxTime} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {spanFrames.map(spanFrame => {
@@ -60,22 +58,6 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
     </div>
   );
 }
-
-const TimeAxis = getElementDimensions(({ width, start, end }) => {
-  return (
-    <div className={locals.axis}>
-      {width && (
-        <HorizontalAxis
-          formatter={millis}
-          align="top"
-          width={width}
-          scale={{ from: start, to: end }}
-          fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
-        />
-      )}
-    </div>
-  );
-});
 
 function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
   const { label, errorCount, depth, x, dx } = spanFrame;
