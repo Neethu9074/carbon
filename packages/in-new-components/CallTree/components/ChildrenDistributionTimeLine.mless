@@ -86,7 +86,7 @@
 
   .errorIndicator {
     position: absolute;
-    top: calc(0% - 1.5rem);
-    left: calc(50% - 0.625rem);
+    top: -1.5rem;
+    left: 0;
   }
 }

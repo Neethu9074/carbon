@@ -9,9 +9,7 @@ export default function ChildrenDistributionTimeLine({ span, getColor, scale }) 
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
-      <ParentSpanIndicator key={span.id} span={span} scale={scale} getColor={getColor}>
-        <ErrorIndicator className={locals.errorIndicator} errorCount={span.errorCount} />
-      </ParentSpanIndicator>
+      <ParentSpanIndicator key={span.id} span={span} scale={scale} getColor={getColor} />
       {span.children.map((childSpan, i) => (
         <SpanIndicator
           key={i}
@@ -25,7 +23,7 @@ export default function ChildrenDistributionTimeLine({ span, getColor, scale }) 
   );
 }
 
-function ParentSpanIndicator({ span, scale, getColor, children }) {
+function ParentSpanIndicator({ span, scale, getColor }) {
   return (
     <div
       style={{
@@ -35,13 +33,14 @@ function ParentSpanIndicator({ span, scale, getColor, children }) {
       }}
       className={locals.spanIndicator}
     >
-      {<NetworkTime span={span} scale={scale} getColor={getColor} />}
-      {children}
+      <NetworkTime span={span} scale={scale} getColor={getColor}>
+        <ErrorIndicator className={locals.errorIndicator} errorCount={span.errorCount} />
+      </NetworkTime>
     </div>
   );
 }
 
-function NetworkTime({ scale, span, getColor }) {
+function NetworkTime({ scale, span, getColor, children }) {
   let networkWidthInPercent = 100;
   if (span.duration > 0 && span.networkTime > 0) {
     const networkTime = span.networkTime;
@@ -83,6 +82,7 @@ function NetworkTime({ scale, span, getColor }) {
           {span.duration}ms
         </span>
       </div>
+      {children}
     </div>
   );
 }
