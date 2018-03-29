@@ -4,7 +4,6 @@
     align-items: center;
 
     margin: 0.25rem 0 0 1.625rem;
-    color: #5e777f;
   }
 
   .colorIndicator {
@@ -25,5 +24,10 @@
 
   .label {
     white-space: nowrap;
+  }
+
+  .link {
+    text-decoration: none;
+    color: #5e777f;
   }
 }

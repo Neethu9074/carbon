@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-  endpointId as matrixEndpointId,
-  serviceId as matrixServiceId,
-  applicationId as matrixApplicationId
-} from 'in-applications/navigation/matrix';
-import { endpointDashboard, serviceDashboard } from 'in-applications/navigation/paths';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
+import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Link from 'in-components/Link';
 
 import locals from './EntityLink.mless';
@@ -42,23 +35,14 @@ function getLinkToService(serviceId) {
   if (isUnspecified(serviceId)) {
     return null;
   }
-  return getModifiedUrlStream(params => {
-    params.pathname = `${serviceDashboard}/summary`;
-    setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, null);
-    setOrDeleteMatrixKey(params, serviceDashboard, matrixServiceId, serviceId);
-  });
+  return getServiceDashboard(serviceId);
 }
 
 function getLinkToEndpoint(serviceId, endpointId) {
   if (isUnspecified(serviceId) || isUnspecified(endpointId)) {
     return null;
   }
-  return getModifiedUrlStream(params => {
-    params.pathname = `${endpointDashboard}/summary`;
-    setOrDeleteMatrixKey(params, serviceDashboard, matrixApplicationId, null);
-    setOrDeleteMatrixKey(params, endpointDashboard, matrixEndpointId, endpointId);
-    setOrDeleteMatrixKey(params, endpointDashboard, matrixServiceId, serviceId);
-  });
+  return getEndpointDashboard(endpointId, { serviceId });
 }
 
 function isUnspecified(id) {
