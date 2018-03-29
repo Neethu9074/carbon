@@ -11,11 +11,12 @@ export default class extends React.Component {
   static displayName = 'CallTree';
 
   selectedCall$ = create();
+  timeoutHandle = null;
 
   componentWillMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
       if (call) {
-        setTimeout(() => {
+        this.timeoutHandle = setTimeout(() => {
           this.selectedCall$.emit(null);
         }, 1000);
       }
@@ -23,6 +24,8 @@ export default class extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timeoutHandle);
+
     if (this.selectedCallSubscription) {
       this.selectedCallSubscription.dispose();
       this.selectedCallSubscription = null;
