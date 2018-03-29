@@ -13,7 +13,7 @@ export default class extends React.Component {
   selectedCall$ = create();
   timeoutHandle = null;
 
-  componentWillMount() {
+  componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
       if (call) {
         this.timeoutHandle = setTimeout(() => {
