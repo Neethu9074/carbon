@@ -64,7 +64,7 @@ export default {
   },
 
   'Asynchronous spans': {
-    id: '2',
+    id: '1',
     label: 'span1',
     start: 0,
     duration: 10,
@@ -132,7 +132,7 @@ export default {
   },
 
   'Many small spans': {
-    id: '3',
+    id: '1',
     label: 'span1',
     start: 0,
     duration: 500,
