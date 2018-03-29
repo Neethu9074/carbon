@@ -1,6 +1,5 @@
 :local {
   .callTree {
-    margin-right: 3rem;
   }
 
   .skeleton {

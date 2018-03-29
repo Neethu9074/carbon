@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 
 import locals from './ChildrenDistributionTimeLine.mless';
@@ -41,10 +42,15 @@ function ParentSpanIndicator({ span, scale, getColor, children }) {
 }
 
 function NetworkTime({ scale, span, getColor }) {
-  const networkTime = span.networkTime || 0;
-  const spanWidthInPercent = scale.getRange(span.duration) - scale.getRange(0);
-  let networkWidthInPercent = scale.getRange(span.duration + networkTime) - scale.getRange(0);
-  networkWidthInPercent = networkWidthInPercent / spanWidthInPercent * 100;
+  let networkWidthInPercent = 100;
+  if (span.duration > 0 && span.networkTime > 0) {
+    const networkTime = span.networkTime;
+    const spanWidthInPercent = scale.getRange(span.duration) - scale.getRange(0);
+    networkWidthInPercent = scale.getRange(span.duration + networkTime) - scale.getRange(0);
+    networkWidthInPercent = networkWidthInPercent / spanWidthInPercent * 100;
+  }
+
+  const positionOnAxisInPercent = scale.getRange(span.start + span.duration);
 
   return (
     <div
@@ -60,7 +66,23 @@ function NetworkTime({ scale, span, getColor }) {
         }}
         className={locals.networkTimeBar}
       />
-      <span className={locals.spanDuration}>{span.duration}ms</span>
+      <div
+        className={evaluateClassNames({
+          [locals.spanDurationWrapper]: true,
+          [locals.leftAlignedSpanDurationWrapper]: positionOnAxisInPercent < 50,
+          [locals.rightAlignedSpanDurationWrapper]: positionOnAxisInPercent >= 50
+        })}
+      >
+        <span
+          className={evaluateClassNames({
+            [locals.spanDuration]: true,
+            [locals.leftAlignedSpanDuration]: positionOnAxisInPercent < 50,
+            [locals.rightAlignedSpanDuration]: positionOnAxisInPercent >= 50
+          })}
+        >
+          {span.duration}ms
+        </span>
+      </div>
     </div>
   );
 }
