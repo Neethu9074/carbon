@@ -2,10 +2,10 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import LoadingCallTree from 'in-new-components/CallTree/LoadingCallTree';
 import getSpanTree from 'in-subscription/application/getSpanTree';
-import CallTree from 'in-new-components/CallTree';
+import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 import connect from 'in-hoc/connectTo';
 
 export default compose(

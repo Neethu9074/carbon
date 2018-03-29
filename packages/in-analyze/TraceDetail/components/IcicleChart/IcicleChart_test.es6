@@ -2,10 +2,10 @@
 import { deepFreeze } from 'in-services/util/object';
 import { expect } from 'chai';
 
-import { isOverlappedWith } from 'in-new-components/IcicleChart/TimeRangeHelper';
-import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
+import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
+import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
 
-describe('in-new-components/IcicleChart', () => {
+describe('in-analyze/TraceDetail/components/IcicleChart', () => {
   describe('Time Range Helper', () => {
     it('before existing ranges should not return false', () => {
       expect(isOverlappedWith([1, 2], [[3, 4], [5, 6]])).to.equal(false);

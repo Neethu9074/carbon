@@ -4,7 +4,7 @@ import getElementDimensions from 'in-hoc/getElementDimensions';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
 
-import locals from './TimeAxis.mless';
+import locals from './CallTimeAxis.mless';
 
 export default getElementDimensions(({ width, startTime, endTime }) => {
   const startTimeLabel = 'Started: ' + new Date(startTime).toTimeString().substr(0, 8);

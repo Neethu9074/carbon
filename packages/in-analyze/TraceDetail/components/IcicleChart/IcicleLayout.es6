@@ -1,5 +1,5 @@
+import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { deepFreeze } from 'in-services/util/object';
-import { isOverlappedWith } from 'in-new-components/IcicleChart/TimeRangeHelper';
 
 export function applyLayout(rootSpan) {
   let spanFrames = [];

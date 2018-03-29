@@ -1,8 +1,8 @@
 import { create } from 'reactive-observables';
 import React from 'react';
 
-import TreeHeader from 'in-new-components/CallTree/components/TreeHeader';
-import Row from 'in-new-components/CallTree/components/Row';
+import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
+import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
 import createScale from 'in-charts/scale';
 
 import locals from './CallTree.mless';

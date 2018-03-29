@@ -1,8 +1,8 @@
 import { withState } from 'recompose';
 import React from 'react';
 
-import ChildrenDistributionTimeLine from 'in-new-components/CallTree/components/ChildrenDistributionTimeLine';
-import SpanEndpointInformation from 'in-new-components/CallTree/components/SpanEndpointInformation';
+import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
+import SpanEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/SpanEndpointInformation';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Badge from 'in-new-components/Badge';

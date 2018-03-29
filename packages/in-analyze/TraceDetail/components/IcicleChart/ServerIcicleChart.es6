@@ -1,11 +1,11 @@
 import React from 'react';
 import { get } from 'lodash';
 
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
 import getSpanTree from 'in-subscription/application/getSpanTree';
 import Skeleton from 'in-components/Progress/Skeleton';
-import IcicleChart from 'in-new-components/IcicleChart';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';

@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
+import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
+import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
 import { getColor } from 'in-applications/endpointTypes';
-import IcicleChart from 'in-new-components/IcicleChart';
-import ServerIcicleChart from 'in-new-components/IcicleChart/ServerIcicleChart';
 import { always } from 'in-services/fixedStreams';
 
 import TraceExamples from './TraceExamplesComponent';
@@ -37,7 +37,9 @@ function LoadingStory() {
             progress: { loading: true },
             errors: [],
             data: {}
-          })} />
+          })
+        }
+      />
     </Root>
   );
 }

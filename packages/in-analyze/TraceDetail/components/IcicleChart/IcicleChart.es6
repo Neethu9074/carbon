@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import createScale from 'in-charts/scale';
+import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
+import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
 import Tooltip from 'in-components/Tooltip';
-import { applyLayout } from 'in-new-components/IcicleChart/IcicleLayout';
-import TimeAxis from 'in-new-components/IcicleChart/components/TimeAxis';
+import createScale from 'in-charts/scale';
 
 import locals from './IcicleChart.mless';
 
@@ -37,7 +37,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
 
   return (
     <div className={locals.chart}>
-      <TimeAxis startTime={minTime} endTime={maxTime} />
+      <CallTimeAxis startTime={minTime} endTime={maxTime} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {spanFrames.map(spanFrame => {
