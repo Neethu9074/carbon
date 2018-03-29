@@ -57,3 +57,7 @@ import './newComponents/time/TimePresenterStory';
 import './newComponents/time/TimeSelectionDialogPresenterStory';
 import './newComponents/TopListCardStory';
 import './newComponents/ViewSwitcherStory';
+
+import './analyse/CallTree';
+import './analyse/IcicleChart';
+import './analyse/TraceConverter';

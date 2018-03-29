@@ -1,0 +1,16 @@
+:local {
+  .treeHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .counter {
+    font-size: 1.1875rem;
+    color: #92a5ae;
+  }
+
+  .axis {
+    width: 61.8%;
+  }
+}

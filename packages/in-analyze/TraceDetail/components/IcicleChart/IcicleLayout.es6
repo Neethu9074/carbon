@@ -1,0 +1,65 @@
+import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
+import { deepFreeze } from 'in-services/util/object';
+
+export function applyLayout(rootSpan) {
+  let spanFrames = [];
+
+  const totalDuration = rootSpan.duration;
+  positionSpan(spanFrames, rootSpan, null, 0, rootSpan.start, totalDuration, []);
+
+  return deepFreeze(spanFrames);
+}
+
+function positionSpan(spanFrames, span, parentSpan, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
+  const { start, duration, children, ...props } = span;
+  const end = start + duration;
+
+  let depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
+
+  const spanFrame = {
+    ...props,
+    start,
+    duration,
+    parent: parentSpan ? parentSpan.id : null,
+    depth: depthWithoutOverlapping,
+    x: (start - traceStart) / totalDuration,
+    dx: duration / totalDuration
+  };
+
+  spanFrames.push(spanFrame);
+
+  if (children) {
+    children.map(childSpan => {
+      positionSpan(
+        spanFrames,
+        childSpan,
+        span,
+        depthWithoutOverlapping + 1,
+        traceStart,
+        totalDuration,
+        occupiedTimeRangesByDepth
+      );
+    });
+  }
+}
+
+function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesByDepth) {
+  const start = timeRange[0];
+  const end = timeRange[1];
+
+  let depth = minDepth;
+
+  for (let d = minDepth; ; d++) {
+    if (!isOverlappedWith([start, end], occupiedTimeRangesByDepth[d])) {
+      depth = d;
+      break;
+    }
+  }
+
+  if (!occupiedTimeRangesByDepth[depth]) {
+    occupiedTimeRangesByDepth[depth] = [];
+  }
+  occupiedTimeRangesByDepth[depth].push([start, end]);
+
+  return depth;
+}
