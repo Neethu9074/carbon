@@ -1,0 +1,35 @@
+import { withState, compose } from 'recompose';
+import React, { Fragment } from 'react';
+import { get } from 'lodash';
+
+import { getIndentationStyle } from 'in-analyze/Analyze/TraceGroups/indentation';
+import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
+import { number, millis } from 'in-services/formatters/number';
+import Traces from 'in-analyze/Analyze/TraceGroups/Traces';
+
+export default compose(withState('expanded', 'setExpanded', false))(Group);
+
+function Group({ setExpanded, expanded, item, orderBy, orderDirection, filter, depth }) {
+  return (
+    <Fragment>
+      <Tr>
+        <Td style={getIndentationStyle(depth)}>
+          <Link
+            href=""
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              setExpanded(!expanded);
+            }}
+          >
+            {item.name}
+          </Link>
+        </Td>
+        <Td>{number.compact(get(item, ['metrics', 'calls', 0, 1]))}</Td>
+        <Td>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</Td>
+        <Td>{number.compact(get(item, ['metrics', 'errors', 0, 1]))}</Td>
+      </Tr>
+      {expanded && <Traces orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={depth + 1} />}
+    </Fragment>
+  );
+}

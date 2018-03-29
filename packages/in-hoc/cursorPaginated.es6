@@ -39,15 +39,15 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       };
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this.loadMore(this.props, this.state);
     }
 
-    componentWillReceiveProps(nextProps) {
-      const resettingProps = getResettingProps(nextProps);
+    componentDidUpdate(prevProps) {
+      const resettingProps = getResettingProps(this.props);
       const pickProps = resettingProps.length > 0 ? curryRight(pick, 2)(resettingProps) : identity;
-      if (!isEqual(pickProps(this.props), pickProps(nextProps))) {
-        this.reload(nextProps);
+      if (!isEqual(pickProps(prevProps), pickProps(this.props))) {
+        this.reload(this.props);
       }
     }
 
@@ -89,13 +89,13 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
           canLoadMore: false
         });
       } else {
-        this.setState({
+        this.setState(({ items }) => ({
           progress: result.progress,
           errors: result.errors,
           canLoadMore: result.data.canLoadMore,
           totalHits: result.data.totalHits,
-          items: this.state.items.concat(result.data.items)
-        });
+          items: items.concat(result.data.items)
+        }));
       }
 
       if (!result.progress.loading) {
