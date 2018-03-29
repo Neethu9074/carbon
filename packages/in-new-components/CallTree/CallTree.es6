@@ -1,3 +1,4 @@
+import { create } from 'reactive-observables';
 import React from 'react';
 
 import TreeHeader from 'in-new-components/CallTree/components/TreeHeader';
@@ -6,17 +7,47 @@ import createScale from 'in-charts/scale';
 
 import locals from './CallTree.mless';
 
-export default function CallTree({ rootSpan, getColor = () => '#e6e6e6' }) {
-  const scale = createScale();
-  scale.setRangeFrom(0);
-  scale.setRangeTo(100);
-  scale.setDomainFrom(rootSpan.start);
-  scale.setDomainTo(rootSpan.start + rootSpan.duration);
+export default class extends React.Component {
+  static displayName = 'CallTree';
 
-  return (
-    <div className={locals.callTree}>
-      <TreeHeader rootSpan={rootSpan} scale={scale} />
-      <Row span={rootSpan} getColor={getColor} scale={scale} />
-    </div>
-  );
+  selectedCall$ = create();
+
+  componentWillMount() {
+    this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
+      if (call) {
+        setTimeout(() => {
+          this.selectedCall$.emit(null);
+        }, 1000);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.selectedCallSubscription) {
+      this.selectedCallSubscription.dispose();
+      this.selectedCallSubscription = null;
+    }
+  }
+
+  render() {
+    const { rootSpan, getColor = () => '#e6e6e6' } = this.props;
+    const scale = createScale();
+    scale.setRangeFrom(0);
+    scale.setRangeTo(100);
+    scale.setDomainFrom(rootSpan.start);
+    scale.setDomainTo(rootSpan.start + rootSpan.duration);
+
+    return (
+      <div className={locals.callTree}>
+        <TreeHeader rootSpan={rootSpan} scale={scale} />
+        <Row
+          call={rootSpan}
+          getColor={getColor}
+          scale={scale}
+          selectedCall$={this.selectedCall$}
+          onCallClicked={call => this.selectedCall$.emit(call)}
+        />
+      </div>
+    );
+  }
 }

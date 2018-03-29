@@ -4,7 +4,12 @@
   }
 
   .row {
-    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    transition: background 0.4s ease-in-out;
+  }
+
+  .selectedRow {
+    background: #cef3fd;
   }
 
   .detailGroup {

@@ -5,15 +5,16 @@ import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
-export default function ChildrenDistributionTimeLine({ span, getColor, scale }) {
+export default function ChildrenDistributionTimeLine({ call, getColor, scale, onCallClicked }) {
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
-      <ParentSpanIndicator key={span.id} span={span} scale={scale} getColor={getColor} />
-      {span.children.map((childSpan, i) => (
-        <SpanIndicator
+      <ParentCallIndicator key={call.id} call={call} scale={scale} getColor={getColor} />
+      {call.children.map((childSpan, i) => (
+        <CallIndicator
+          onClick={onCallClicked}
           key={i}
-          span={childSpan}
+          call={childSpan}
           scale={scale}
           getColor={getColor}
           className={locals.childSpanIndicator}
@@ -23,33 +24,33 @@ export default function ChildrenDistributionTimeLine({ span, getColor, scale }) 
   );
 }
 
-function ParentSpanIndicator({ span, scale, getColor }) {
+function ParentCallIndicator({ call, scale, getColor }) {
   return (
     <div
       style={{
-        left: `${scale.getRange(span.start)}%`,
-        width: `${scale.getRange(span.duration) - scale.getRange(0)}%`,
-        background: getColor(span)
+        left: `${scale.getRange(call.start)}%`,
+        width: `${scale.getRange(call.duration) - scale.getRange(0)}%`,
+        background: getColor(call)
       }}
       className={locals.spanIndicator}
     >
-      <NetworkTime span={span} scale={scale} getColor={getColor}>
-        <ErrorIndicator className={locals.errorIndicator} errorCount={span.errorCount} />
+      <NetworkTime call={call} scale={scale} getColor={getColor}>
+        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
       </NetworkTime>
     </div>
   );
 }
 
-function NetworkTime({ scale, span, getColor, children }) {
+function NetworkTime({ scale, call, getColor, children }) {
   let networkWidthInPercent = 100;
-  if (span.duration > 0 && span.networkTime > 0) {
-    const networkTime = span.networkTime;
-    const spanWidthInPercent = scale.getRange(span.duration) - scale.getRange(0);
-    networkWidthInPercent = scale.getRange(span.duration + networkTime) - scale.getRange(0);
+  if (call.duration > 0 && call.networkTime > 0) {
+    const networkTime = call.networkTime;
+    const spanWidthInPercent = scale.getRange(call.duration) - scale.getRange(0);
+    networkWidthInPercent = scale.getRange(call.duration + networkTime) - scale.getRange(0);
     networkWidthInPercent = networkWidthInPercent / spanWidthInPercent * 100;
   }
 
-  const positionOnAxisInPercent = scale.getRange(span.start + span.duration);
+  const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
 
   return (
     <div
@@ -59,12 +60,7 @@ function NetworkTime({ scale, span, getColor, children }) {
       }}
       className={locals.networkTime}
     >
-      <div
-        style={{
-          background: getColor(span)
-        }}
-        className={locals.networkTimeBar}
-      />
+      <div style={{ background: getColor(call) }} className={locals.networkTimeBar} />
       <div
         className={evaluateClassNames({
           [locals.spanDurationWrapper]: true,
@@ -79,7 +75,7 @@ function NetworkTime({ scale, span, getColor, children }) {
             [locals.rightAlignedSpanDuration]: positionOnAxisInPercent >= 50
           })}
         >
-          {span.duration}ms
+          {call.duration}ms
         </span>
       </div>
       {children}
@@ -87,17 +83,18 @@ function NetworkTime({ scale, span, getColor, children }) {
   );
 }
 
-function SpanIndicator({ span, scale, getColor }) {
-  const networkTime = span.networkTime || 0;
+function CallIndicator({ call, scale, getColor, onClick }) {
+  const networkTime = call.networkTime || 0;
 
   return (
     <div
       style={{
-        left: `${scale.getRange(span.start - networkTime / 2)}%`,
-        width: `${scale.getRange(span.duration + networkTime) - scale.getRange(0)}%`,
-        background: getColor(span)
+        left: `${scale.getRange(call.start - networkTime / 2)}%`,
+        width: `${scale.getRange(call.duration + networkTime) - scale.getRange(0)}%`,
+        background: getColor(call)
       }}
       className={locals.childSpanIndicator}
+      onClick={() => onClick(call)}
     />
   );
 }

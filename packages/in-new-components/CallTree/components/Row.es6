@@ -4,43 +4,68 @@ import React from 'react';
 import ChildrenDistributionTimeLine from 'in-new-components/CallTree/components/ChildrenDistributionTimeLine';
 import SpanEndpointInformation from 'in-new-components/CallTree/components/SpanEndpointInformation';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Badge from 'in-new-components/Badge';
 import SvgIcon from 'in-components/SvgIcon';
+import connect from 'in-hoc/connectTo';
 
 import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-const EnhancedRow = withState('isExpanded', 'setIsExpanded', true)(Row);
+const EnhancedRow = withState('isExpanded', 'setIsExpanded', true)(
+  connect(
+    props => ({
+      isSelected: props.selectedCall$.map(selectedCall => selectedCall && props.call.id === selectedCall.id).distinct()
+    }),
+    Row
+  )
+);
 function Row(props) {
-  const { span, getColor, isExpanded, depth = 0 } = props;
+  const { call, getColor, isExpanded, depth = 0, onCallClicked, setIsExpanded, selectedCall$, isSelected } = props;
 
-  const hasChildren = span.children && span.children.length > 0;
+  const hasChildren = call.children && call.children.length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
-  const lineWidth = getLineWidth(span, depth, hasChildren);
+  const lineWidth = getLineWidth(call, depth, hasChildren);
 
   return (
     <div className={locals.wrapper}>
       <VerticalLine {...props} marginLeft={marginLeft} />
 
-      <div className={locals.row}>
-        <CallInformation {...props} marginLeft={marginLeft} lineWidth={lineWidth} hasChildren={hasChildren} />
+      <div
+        className={evaluateClassNames({
+          [locals.row]: true,
+          [locals.selectedRow]: isSelected
+        })}
+      >
+        <CallInformation
+          {...props}
+          marginLeft={marginLeft}
+          lineWidth={lineWidth}
+          hasChildren={hasChildren}
+          onCallClicked={call => {
+            setIsExpanded(true);
+            onCallClicked(call);
+          }}
+        />
 
         <SpanEndpointInformation
           marginLeft={marginLeft + lineWidth + (hasChildren ? marginPerDepth : 0)}
-          span={span}
+          call={call}
           getColor={getColor}
         />
       </div>
 
       {isExpanded &&
-        span.children.map((childSpan, i) => (
+        call.children.map((subCall, i) => (
           <EnhancedRow
             key={i}
             {...props}
-            span={childSpan}
+            call={subCall}
             depth={depth + 1}
-            intermediateRow={i !== span.children.length - 1}
+            intermediateRow={i !== call.children.length - 1}
+            onCallClicked={onCallClicked}
+            selectedCall$={selectedCall$}
           />
         ))}
     </div>
@@ -48,7 +73,7 @@ function Row(props) {
 }
 
 function CallInformation(props) {
-  const { span, getColor, scale, marginLeft, hasChildren, isExpanded, lineWidth, setIsExpanded } = props;
+  const { call, getColor, scale, marginLeft, hasChildren, isExpanded, lineWidth, setIsExpanded, onCallClicked } = props;
 
   return (
     <div className={locals.detailGroup}>
@@ -66,12 +91,12 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
-        <span className={locals.label}>{span.label}</span>
-        {span.endpoint && <Badge color={getEndpointColor(span.endpoint.type)}>{span.endpoint.type}</Badge>}
+        <span className={locals.label}>{call.label}</span>
+        {call.endpoint && <Badge color={getEndpointColor(call.endpoint.type)}>{call.endpoint.type}</Badge>}
         <div className={locals.dashedLine} />
       </div>
 
-      <ChildrenDistributionTimeLine span={span} getColor={getColor} scale={scale} />
+      <ChildrenDistributionTimeLine call={call} getColor={getColor} scale={scale} onCallClicked={onCallClicked} />
     </div>
   );
 }
