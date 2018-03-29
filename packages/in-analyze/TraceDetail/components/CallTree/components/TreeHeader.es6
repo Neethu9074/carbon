@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
 
 import locals from './TreeHeader.mless';
 
@@ -8,14 +8,12 @@ export default function TreeHeader({ rootSpan }) {
   return (
     <div className={locals.treeHeader}>
       <span className={locals.counter}>{`${countSpans(rootSpan, 1)} Calls`}</span>
-      <Axis />
+      <div className={locals.axis}>
+        <CallTimeAxis span={rootSpan} />
+      </div>
     </div>
   );
 }
-
-const Axis = getElementDimensions(function Axis({ width }) {
-  return <div className={locals.axis}>{width}</div>;
-});
 
 function countSpans(span, count = 0) {
   if (!span.children || span.children.length === 0) {

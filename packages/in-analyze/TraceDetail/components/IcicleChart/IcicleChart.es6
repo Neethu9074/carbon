@@ -15,15 +15,11 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
 
   let minDomain = 0;
   let maxDomain = 1;
-  let minTime = rootSpan.start;
-  let maxTime = rootSpan.start + rootSpan.duration;
   let maxDepth = 0;
 
   spanFrames.forEach(spanFrame => {
     minDomain = Math.min(minDomain, spanFrame.x);
     maxDomain = Math.max(maxDomain, spanFrame.x);
-    minTime = Math.min(minTime, spanFrame.start);
-    maxTime = Math.max(maxTime, spanFrame.start + spanFrame.duration);
     maxDepth = Math.max(maxDepth, spanFrame.depth);
   });
 
@@ -37,7 +33,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
 
   return (
     <div className={locals.chart}>
-      <CallTimeAxis startTime={minTime} endTime={maxTime} />
+      <CallTimeAxis span={rootSpan} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {spanFrames.map(spanFrame => {

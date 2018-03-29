@@ -1,15 +1,18 @@
 import React from 'react';
 
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 
 import locals from './CallTimeAxis.mless';
 
-export default getElementDimensions(({ width, startTime, endTime }) => {
+export default getElementDimensions(({ width, span }) => {
+  const startTime = getStart(span);
+  const endTime = getEnd(span);
+
   const startTimeLabel = 'Started: ' + new Date(startTime).toTimeString().substr(0, 8);
   return (
-    <div className={locals.axis}>
+    <div className={locals.timeAxis}>
       <span className={locals.axisLabel}>{startTimeLabel}</span>
       {width && (
         <HorizontalAxis
@@ -23,3 +26,23 @@ export default getElementDimensions(({ width, startTime, endTime }) => {
     </div>
   );
 });
+
+function getStart(span) {
+  let earliestStart = span.start;
+  if (span.children) {
+    for (let i = 0; i < span.children.length; i++) {
+      earliestStart = Math.min(earliestStart, getStart(span.children[i]));
+    }
+  }
+  return earliestStart;
+}
+
+function getEnd(span) {
+  let latestEnd = span.start + span.duration;
+  if (span.children) {
+    for (let i = 0; i < span.children.length; i++) {
+      latestEnd = Math.max(latestEnd, getEnd(span.children[i]));
+    }
+  }
+  return latestEnd;
+}

@@ -1,10 +1,10 @@
-.axis {
-
+.timeAxis {
+  width: 100%;
 }
 
 .axisLabel {
   color: #fff;
   background: #00babb;
   border-radius: 2px;
-  padding: .5em .6em;
+  padding: 0.5em 0.6em;
 }
