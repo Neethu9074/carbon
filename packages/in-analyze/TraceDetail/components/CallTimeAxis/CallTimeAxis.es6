@@ -3,6 +3,7 @@ import React from 'react';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CallTimeAxis.mless';
 
@@ -13,7 +14,10 @@ export default getElementDimensions(({ width, span }) => {
   const startTimeLabel = 'Started: ' + new Date(startTime).toTimeString().substr(0, 8);
   return (
     <div className={locals.timeAxis}>
-      <span className={locals.axisLabel}>{startTimeLabel}</span>
+      <span className={locals.axisLabel}>
+        {startTimeLabel}
+        <SvgIcon className={locals.icon} type="time" width={18} height={18} color="#00babb" />
+      </span>
       {width && (
         <HorizontalAxis
           formatter={millis}

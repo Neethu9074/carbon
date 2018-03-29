@@ -2,6 +2,7 @@
   .chart {
     position: relative;
     background: #fff;
+    margin: 0 1rem 0 2rem;
   }
 
   .framesWrapper {
@@ -21,7 +22,7 @@
 
   .label {
     color: white;
-    margin-left: .4rem;
+    margin-left: 0.4rem;
     margin-top: 3px;
     overflow: hidden;
     white-space: nowrap;

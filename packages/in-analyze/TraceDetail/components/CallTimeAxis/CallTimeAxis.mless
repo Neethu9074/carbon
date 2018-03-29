@@ -27,4 +27,6 @@
 }
 
 .icon {
+  position: absolute;
+  left: -30px;
 }
