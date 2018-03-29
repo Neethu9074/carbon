@@ -16,19 +16,19 @@ export default function Summary({ data: trace, getColor }) {
           <KpiCard title="Duration" value={millis.compact(trace.duration)} />
         </Col>
         <Col lg={3}>
-          <KpiCard title="Calls" value={number.compact(trace.callCount)} />
+          <KpiCard title="Calls to Services" value={number.compact(trace.callCount)} />
         </Col>
         <Col lg={3}>
           <KpiCard title="Spans" value={number.compact(trace.spanCount)} />
         </Col>
         <Col lg={3}>
-          <KpiCard title="Errors" value={number.compact(trace.totalErrorCount)} />
+          <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
         </Col>
       </Row>
 
       <Row>
         <Col lg={12}>
-          <Card title="Services calling">
+          <Card title="Calls to Services">
             <ServerIcicleChart traceId={trace.id} getColor={getColor} />
           </Card>
         </Col>
