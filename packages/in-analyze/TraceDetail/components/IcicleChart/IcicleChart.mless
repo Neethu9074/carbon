@@ -30,7 +30,7 @@
 
   .parentIndicator {
     position: absolute;
-    background: red;
+    background: #ff5d3b;
     width: 2px;
   }
 
