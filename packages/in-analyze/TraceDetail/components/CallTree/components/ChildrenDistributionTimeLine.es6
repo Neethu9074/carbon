@@ -2,6 +2,7 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
@@ -87,14 +88,16 @@ function CallIndicator({ call, scale, getColor, onClick }) {
   const networkTime = call.networkTime || 0;
 
   return (
-    <div
-      style={{
-        left: `${scale.getRange(call.start - networkTime / 2)}%`,
-        width: `${scale.getRange(call.duration + networkTime) - scale.getRange(0)}%`,
-        background: getColor(call)
-      }}
-      className={locals.subCallIndicator}
-      onClick={() => onClick(call)}
-    />
+    <Tooltip content={call.label} align="topMiddle">
+      <div
+        style={{
+          left: `${scale.getRange(call.start - networkTime / 2)}%`,
+          width: `${scale.getRange(call.duration + networkTime) - scale.getRange(0)}%`,
+          background: getColor(call)
+        }}
+        className={locals.subCallIndicator}
+        onClick={() => onClick(call)}
+      />
+    </Tooltip>
   );
 }
