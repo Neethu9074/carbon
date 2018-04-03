@@ -2,14 +2,6 @@ import { getAxisTickPositions } from 'in-charts/ticks/timeAxis';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
-// export for tests
-// export const MARGIN_BOTTOM = 25;
-// export const MARGIN_TOP = 2;
-// export const MARGIN_VERTICAL_AXIS = 48;
-export const MARGIN_BOTTOM = 0;
-export const MARGIN_TOP = 0;
-export const MARGIN_VERTICAL_AXIS = 0;
-
 export default class Scales {
   constructor(config, filteredDataSeries) {
     this.config = config;
@@ -22,8 +14,8 @@ export default class Scales {
   }
 
   update(filteredDataSeries) {
-    this.x.setRangeFrom(MARGIN_VERTICAL_AXIS);
-    this.x.setRangeTo(this.config.width - MARGIN_VERTICAL_AXIS);
+    this.x.setRangeFrom(0);
+    this.x.setRangeTo(this.config.width);
     this.x.setDomainFrom(this.config.timeframe.to - this.config.timeframe.windowSize);
     this.x.setDomainTo(this.config.timeframe.to);
     this.x.tickPositions = this.calculateTickPositionsForXAxis();
@@ -35,8 +27,8 @@ export default class Scales {
   }
 
   updateScale(scale, axis) {
-    scale.setRangeTo(MARGIN_TOP);
-    scale.setRangeFrom(this.config.height - MARGIN_BOTTOM);
+    scale.setRangeTo(0);
+    scale.setRangeFrom(this.config.height);
 
     let minValue = Number.MAX_VALUE;
     let maxValue = 0;

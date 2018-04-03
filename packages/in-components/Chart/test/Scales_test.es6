@@ -2,7 +2,6 @@
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 
-import { MARGIN_TOP, MARGIN_BOTTOM, MARGIN_VERTICAL_AXIS } from 'in-components/Chart/Scales';
 import { number } from 'in-services/formatters/number';
 
 describe('in-components/Chart/Scales', () => {
@@ -40,18 +39,18 @@ describe('in-components/Chart/Scales', () => {
       });
       scales.update();
 
-      expect(scales.x.getRangeFrom()).to.equal(MARGIN_VERTICAL_AXIS);
-      expect(scales.x.getRangeTo()).to.equal(100 - MARGIN_VERTICAL_AXIS);
+      expect(scales.x.getRangeFrom()).to.equal(0);
+      expect(scales.x.getRangeTo()).to.equal(100);
       expect(scales.x.getDomainFrom()).to.equal(40000);
       expect(scales.x.getDomainTo()).to.equal(60000);
 
-      expect(scales.y1.getRangeFrom()).to.equal(50 - MARGIN_BOTTOM);
-      expect(scales.y1.getRangeTo()).to.equal(MARGIN_TOP);
+      expect(scales.y1.getRangeFrom()).to.equal(50);
+      expect(scales.y1.getRangeTo()).to.equal(0);
       expect(scales.y1.getDomainFrom()).to.equal(0);
       expect(scales.y1.getDomainTo()).to.equal(1);
 
-      expect(scales.y2.getRangeFrom()).to.equal(50 - MARGIN_BOTTOM);
-      expect(scales.y2.getRangeTo()).to.equal(MARGIN_TOP);
+      expect(scales.y2.getRangeFrom()).to.equal(50);
+      expect(scales.y2.getRangeTo()).to.equal(0);
       expect(scales.y2.getDomainFrom()).to.equal(1);
       expect(scales.y2.getDomainTo()).to.equal(20);
     });
