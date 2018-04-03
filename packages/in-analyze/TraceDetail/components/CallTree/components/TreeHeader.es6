@@ -8,15 +8,13 @@ export default function TreeHeader({ rootCall }) {
   return (
     <div className={locals.treeHeader}>
       <span className={locals.counter}>{`${countCalls(rootCall, 1)} Calls`}</span>
-      <div className={locals.axis}>
-        <CallTimeAxis call={rootCall} />
-      </div>
+      <div className={locals.axis}>{rootCall && <CallTimeAxis call={rootCall} />}</div>
     </div>
   );
 }
 
 function countCalls(call, count = 0) {
-  if (!call.children || call.children.length === 0) {
+  if (!call || !call.children || call.children.length === 0) {
     return 0;
   }
 
