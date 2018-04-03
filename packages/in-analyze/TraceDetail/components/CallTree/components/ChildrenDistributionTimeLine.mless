@@ -20,7 +20,7 @@
   .callIndicator {
     position: absolute;
 
-    min-width: 1px;
+    min-width: 5px;
   }
 
   .callIndicator {

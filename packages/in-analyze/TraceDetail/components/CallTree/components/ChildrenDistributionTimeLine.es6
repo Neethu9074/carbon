@@ -2,6 +2,7 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
+import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChildrenDistributionTimeLine.mless';
@@ -76,7 +77,7 @@ function NetworkTime({ scale, call, getColor, children }) {
             [locals.rightAlignedCallDuration]: positionOnAxisInPercent >= 50
           })}
         >
-          {call.duration}ms
+          {millis.fixedCompact(call.duration)}
         </span>
       </div>
       {children}
