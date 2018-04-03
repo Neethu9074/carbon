@@ -36,6 +36,7 @@ import './elasticSearchIndexServiceInstance';
 import './elasticsearchNode';
 import './etcd';
 import './finagleApplicationContainer';
+import './f5';
 import './ftpServiceInstance';
 import './gce';
 import './genericHardware';
