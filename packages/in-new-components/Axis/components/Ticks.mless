@@ -30,12 +30,10 @@
   }
 
   .verticalTick {
-    width: 4px;
     height: 1px;
   }
 
   .horizontalTick {
-    height: 4px;
     width: 1px;
   }
 }

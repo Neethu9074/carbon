@@ -10,7 +10,17 @@ import createScale from 'in-charts/scale';
 
 import locals from './Axis.mless';
 
-export default function Axis({ isVertical, scale, align, fixedTickPositions, width, height, formatter = number }) {
+export default function Axis({
+  isVertical,
+  scale,
+  align,
+  fixedTickPositions,
+  width,
+  height,
+  tickLength = 4,
+  formatter = number,
+  drawAxisLine = true
+}) {
   if (__DEV__) {
     invariant(scale, `You should define a scale or discreteTicks`);
     if (scale) {
@@ -33,16 +43,27 @@ export default function Axis({ isVertical, scale, align, fixedTickPositions, wid
       style={{ minWidth: width, minHeight: height, maxWidth: width, maxHeight: height }}
       className={evaluateClassNames({
         [locals.axis]: true,
-        [locals.vertical]: isVertical,
-        [locals.verticalLeft]: isVertical && align === 'left',
-        [locals.verticalRight]: isVertical && align !== 'left',
-        [locals.horizontal]: !isVertical,
-        [locals.horizontalTop]: !isVertical && align === 'top',
-        [locals.horizontalBottom]: !isVertical && align !== 'top'
+
+        [locals.verticalLeft]: drawAxisLine && isVertical && align === 'left',
+        [locals.verticalRight]: drawAxisLine && isVertical && align !== 'left',
+        [locals.horizontalTop]: drawAxisLine && !isVertical && align === 'top',
+        [locals.horizontalBottom]: drawAxisLine && !isVertical && align !== 'top'
       })}
     >
-      <Ticks tickPositions={tickPositions} isVertical={isVertical} formatter={formatter} align={align} />
-      <TickLabels tickPositions={tickPositions} isVertical={isVertical} formatter={formatter} align={align} />
+      <Ticks
+        tickPositions={tickPositions}
+        isVertical={isVertical}
+        formatter={formatter}
+        align={align}
+        tickLength={tickLength}
+      />
+      <TickLabels
+        tickPositions={tickPositions}
+        isVertical={isVertical}
+        formatter={formatter}
+        align={align}
+        tickLength={tickLength}
+      />
     </div>
   );
 }

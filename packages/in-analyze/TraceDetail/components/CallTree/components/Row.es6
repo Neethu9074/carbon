@@ -34,6 +34,7 @@ function Row(props) {
 
       <div
         className={evaluateClassNames({
+          [locals.rootRow]: depth === 0,
           [locals.row]: true,
           [locals.selectedRow]: isSelected
         })}

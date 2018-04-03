@@ -8,22 +8,22 @@
 
     color: #fff;
     background: #00babb;
-    border-radius: 2px;
+    border-radius: 2px 2px 2px 0px;
     padding: 0.4em 0.6em;
     margin-bottom: 0.25rem;
 
     &::after {
       position: absolute;
-      top: 1.4375rem;
+      top: 1.5rem;
       left: 0;
 
       width: 0;
       height: 0;
 
       content: '';
-      border-bottom: 0.5rem solid transparent;
-      border-right: 0.5rem solid transparent;
-      border-left: 0.5rem solid #00babb;
+      border-bottom: 0.25rem solid transparent;
+      border-right: 0.25rem solid transparent;
+      border-left: 0.25rem solid #00babb;
     }
   }
 

@@ -15,14 +15,16 @@ export default getElementDimensions(({ width, span }) => {
   return (
     <div className={locals.timeAxis}>
       <span className={locals.axisLabel}>
-        {`Started: ${formatTime(startTime)}`}
         <SvgIcon className={locals.icon} type="time" width={18} height={18} color="#00babb" />
+        {`Started: ${formatTime(startTime)}`}
       </span>
       {width && (
         <HorizontalAxis
-          formatter={millis}
           align="top"
           width={width}
+          drawAxisLine={false}
+          formatter={millis}
+          tickLength={9}
           scale={{ from: 0, to: endTime - startTime }}
           fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
         />
