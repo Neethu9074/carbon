@@ -8,9 +8,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CallTimeAxis.mless';
 
-export default getElementDimensions(({ width, span }) => {
-  const startTime = getStart(span);
-  const endTime = getEnd(span);
+export default getElementDimensions(({ width, call }) => {
+  const startTime = getStart(call);
+  const endTime = getEnd(call);
 
   return (
     <div className={locals.timeAxis}>
@@ -33,21 +33,21 @@ export default getElementDimensions(({ width, span }) => {
   );
 });
 
-function getStart(span) {
-  let earliestStart = span.start;
-  if (span.children) {
-    for (let i = 0; i < span.children.length; i++) {
-      earliestStart = Math.min(earliestStart, getStart(span.children[i]));
+function getStart(call) {
+  let earliestStart = call.start;
+  if (call.children) {
+    for (let i = 0; i < call.children.length; i++) {
+      earliestStart = Math.min(earliestStart, getStart(call.children[i]));
     }
   }
   return earliestStart;
 }
 
-function getEnd(span) {
-  let latestEnd = span.start + span.duration;
-  if (span.children) {
-    for (let i = 0; i < span.children.length; i++) {
-      latestEnd = Math.max(latestEnd, getEnd(span.children[i]));
+function getEnd(call) {
+  let latestEnd = call.start + call.duration;
+  if (call.children) {
+    for (let i = 0; i < call.children.length; i++) {
+      latestEnd = Math.max(latestEnd, getEnd(call.children[i]));
     }
   }
   return latestEnd;

@@ -10,21 +10,21 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(props => ({
-    rootSpanResult: props.get ? props.get({ id: props.traceId }) : getSpanTree({ id: props.traceId })
+    spanTreeResult: props.get ? props.get({ id: props.traceId }) : getSpanTree({ id: props.traceId })
   }))
 )(ServerCallTree);
 
 function ServerCallTree(props) {
-  const { rootSpanResult } = props;
-  const isLoading = get(rootSpanResult, ['progress', 'loading'], false);
+  const { spanTreeResult } = props;
+  const isLoading = get(spanTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
-    return <LoadingCallTree progress={rootSpanResult.progress} />;
+    return <LoadingCallTree progress={spanTreeResult.progress} />;
   }
 
-  const hasErrors = rootSpanResult.errors.length > 0;
+  const hasErrors = spanTreeResult.errors.length > 0;
   if (hasErrors) {
-    return <ErroneousResultPresenter errors={rootSpanResult.errors} />;
+    return <ErroneousResultPresenter errors={spanTreeResult.errors} />;
   }
 
-  return <CallTree rootSpan={rootSpanResult.data} {...props} />;
+  return <CallTree rootCall={spanTreeResult.data} {...props} />;
 }

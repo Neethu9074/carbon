@@ -10,14 +10,14 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
       <ParentCallIndicator key={call.id} call={call} scale={scale} getColor={getColor} />
-      {call.children.map((childSpan, i) => (
+      {call.children.map((subCall, i) => (
         <CallIndicator
           onClick={onCallClicked}
           key={i}
-          call={childSpan}
+          call={subCall}
           scale={scale}
           getColor={getColor}
-          className={locals.childSpanIndicator}
+          className={locals.subCallIndicator}
         />
       ))}
     </div>
@@ -32,7 +32,7 @@ function ParentCallIndicator({ call, scale, getColor }) {
         width: `${scale.getRange(call.duration) - scale.getRange(0)}%`,
         background: getColor(call)
       }}
-      className={locals.spanIndicator}
+      className={locals.callIndicator}
     >
       <NetworkTime call={call} scale={scale} getColor={getColor}>
         <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
@@ -45,9 +45,9 @@ function NetworkTime({ scale, call, getColor, children }) {
   let networkWidthInPercent = 100;
   if (call.duration > 0 && call.networkTime > 0) {
     const networkTime = call.networkTime;
-    const spanWidthInPercent = scale.getRange(call.duration) - scale.getRange(0);
+    const callWidthInPercent = scale.getRange(call.duration) - scale.getRange(0);
     networkWidthInPercent = scale.getRange(call.duration + networkTime) - scale.getRange(0);
-    networkWidthInPercent = networkWidthInPercent / spanWidthInPercent * 100;
+    networkWidthInPercent = networkWidthInPercent / callWidthInPercent * 100;
   }
 
   const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
@@ -63,16 +63,16 @@ function NetworkTime({ scale, call, getColor, children }) {
       <div style={{ background: getColor(call) }} className={locals.networkTimeBar} />
       <div
         className={evaluateClassNames({
-          [locals.spanDurationWrapper]: true,
-          [locals.leftAlignedSpanDurationWrapper]: positionOnAxisInPercent < 50,
-          [locals.rightAlignedSpanDurationWrapper]: positionOnAxisInPercent >= 50
+          [locals.callDurationWrapper]: true,
+          [locals.leftAlignedCallDurationWrapper]: positionOnAxisInPercent < 50,
+          [locals.rightAlignedCallDurationWrapper]: positionOnAxisInPercent >= 50
         })}
       >
         <span
           className={evaluateClassNames({
-            [locals.spanDuration]: true,
-            [locals.leftAlignedSpanDuration]: positionOnAxisInPercent < 50,
-            [locals.rightAlignedSpanDuration]: positionOnAxisInPercent >= 50
+            [locals.callDuration]: true,
+            [locals.leftAlignedCallDuration]: positionOnAxisInPercent < 50,
+            [locals.rightAlignedCallDuration]: positionOnAxisInPercent >= 50
           })}
         >
           {call.duration}ms
@@ -93,7 +93,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
         width: `${scale.getRange(call.duration + networkTime) - scale.getRange(0)}%`,
         background: getColor(call)
       }}
-      className={locals.childSpanIndicator}
+      className={locals.subCallIndicator}
       onClick={() => onClick(call)}
     />
   );

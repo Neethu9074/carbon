@@ -25,7 +25,7 @@ function CallTreeStory() {
     <TraceExamples
       render={rootSpan => (
         <Root>
-          <CallTree rootSpan={rootSpan} getColor={getColorByServiceAndEndpoint} />
+          <CallTree rootCall={rootSpan} getColor={getColorByServiceAndEndpoint} />
         </Root>
       )}
     />

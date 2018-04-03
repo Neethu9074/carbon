@@ -2,7 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
-import SpanEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/SpanEndpointInformation';
+import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Badge from 'in-new-components/Badge';
@@ -26,7 +26,7 @@ function Row(props) {
 
   const hasChildren = call.children && call.children.length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
-  const lineWidth = getLineWidth(call, depth, hasChildren);
+  const lineWidth = getLineWidth(depth, hasChildren);
 
   return (
     <div className={locals.wrapper}>
@@ -50,7 +50,7 @@ function Row(props) {
           }}
         />
 
-        <SpanEndpointInformation
+        <ServiceEndpointInformation
           marginLeft={marginLeft + lineWidth + (hasChildren ? marginPerDepth : 0)}
           call={call}
           getColor={getColor}
@@ -102,7 +102,7 @@ function CallInformation(props) {
   );
 }
 
-function getLineWidth(span, depth, hasChildren) {
+function getLineWidth(depth, hasChildren) {
   if (depth === 0) {
     return 0;
   }

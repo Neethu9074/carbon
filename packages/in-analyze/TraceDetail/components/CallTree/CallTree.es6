@@ -33,18 +33,18 @@ export default class extends React.Component {
   }
 
   render() {
-    const { rootSpan, getColor = () => '#e6e6e6' } = this.props;
+    const { rootCall, getColor = () => '#e6e6e6' } = this.props;
     const scale = createScale();
     scale.setRangeFrom(0);
     scale.setRangeTo(100);
-    scale.setDomainFrom(rootSpan.start);
-    scale.setDomainTo(rootSpan.start + rootSpan.duration);
+    scale.setDomainFrom(rootCall.start);
+    scale.setDomainTo(rootCall.start + rootCall.duration);
 
     return (
       <div className={locals.callTree}>
-        <TreeHeader rootSpan={rootSpan} scale={scale} />
+        <TreeHeader rootCall={rootCall} scale={scale} />
         <Row
-          call={rootSpan}
+          call={rootCall}
           getColor={getColor}
           scale={scale}
           selectedCall$={this.selectedCall$}

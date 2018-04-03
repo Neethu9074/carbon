@@ -4,15 +4,15 @@ import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navig
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
-import locals from './SpanEndpointInformation.mless';
+import locals from './ServiceEndpointInformation.mless';
 
-export default function SpanEndpointInformation({ call, getColor, marginLeft }) {
+export default function ServiceEndpointInformation({ call, getColor, marginLeft }) {
   return (
     <div
       style={{
         marginLeft: `${marginLeft}px`
       }}
-      className={locals.spanEndpointInformation}
+      className={locals.serviceEndpointInformation}
     >
       <div style={{ background: getColor(call) }} className={locals.colorIndicator} />
 

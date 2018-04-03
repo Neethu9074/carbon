@@ -9,7 +9,7 @@ import locals from './CallTree.mless';
 export default function LoadingCallTree({ progress }) {
   return (
     <div className={locals.callTree}>
-      <TreeHeader rootSpan={{}} />
+      <TreeHeader rootCall={{}} />
       <HorizontalIndicator progress={progress} />
       <Skeleton className={locals.skeleton} />
     </div>

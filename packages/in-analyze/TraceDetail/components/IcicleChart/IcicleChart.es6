@@ -33,7 +33,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
 
   return (
     <div className={locals.chart}>
-      <CallTimeAxis span={rootSpan} />
+      <CallTimeAxis call={rootSpan} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {spanFrames.map(spanFrame => {
