@@ -29,33 +29,35 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
       {addSpacer && <div className={locals.spacer} />}
 
       <ul className={locals.tooltipMetricList}>
-        {axis.labels.filter(label => !config.filteredDataSeries.has(label)).map((label, i) => {
-          const dataPointsForAxis = dataPointsAtTime[axisName];
-          const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
-          const aggregations = axis.aggregations || [];
-          const aggregation = aggregations[i];
+        {axis.labels.map((label, i) => {
+          if (!config.filteredDataSeries.has(label)) {
+            const dataPointsForAxis = dataPointsAtTime[axisName];
+            const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
+            const aggregations = axis.aggregations || [];
+            const aggregation = aggregations[i];
 
-          return (
-            <li key={label} className={locals.metricValue}>
-              <div>
-                <span
-                  style={{
-                    color: axis.colors100[i]
-                  }}
-                >
-                  {label}
-                </span>{' '}
-                <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
-              </div>
-              <span>
-                {dataPoint
-                  ? axis.tooltipFormatter
-                    ? axis.tooltipFormatter(dataPoint[1])
-                    : axis.formatter[i].detailed(dataPoint[1])
-                  : '--'}
-              </span>
-            </li>
-          );
+            return (
+              <li key={label} className={locals.metricValue}>
+                <div>
+                  <span
+                    style={{
+                      color: axis.colors100[i]
+                    }}
+                  >
+                    {label}
+                  </span>{' '}
+                  <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
+                </div>
+                <span>
+                  {dataPoint
+                    ? axis.tooltipFormatter
+                      ? axis.tooltipFormatter(dataPoint[1])
+                      : axis.formatter[i].detailed(dataPoint[1])
+                    : '--'}
+                </span>
+              </li>
+            );
+          }
         })}
       </ul>
     </Fragment>
