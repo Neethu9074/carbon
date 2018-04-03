@@ -5,19 +5,21 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Ticks.mless';
 
-export default function Ticks({ tickPositions, isVertical, align }) {
+export default function Ticks({ tickPositions, isVertical, formatter, align }) {
   return (
     <Fragment>
       {tickPositions.map(tick => {
         return (
           <div
             key={tick.range}
-            style={getTickStyle(tick, isVertical, align, 0, 1)}
+            style={getTickStyle(tick, isVertical, align, 5, 6)}
             className={evaluateClassNames({
-              [locals.verticalTick]: isVertical,
-              [locals.horizontalTick]: !isVertical
+              [locals.verticalTickLabel]: isVertical,
+              [locals.horizontalTickLabel]: !isVertical
             })}
-          />
+          >
+            {formatter.compact(tick.domain)}
+          </div>
         );
       })}
     </Fragment>

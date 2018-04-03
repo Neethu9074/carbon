@@ -1,6 +1,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
+import TickLabels from 'in-new-components/Axis/components/TickLabels';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getAxisTickPositions } from 'in-charts/ticks/timeAxis';
 import Ticks from 'in-new-components/Axis/components/Ticks';
@@ -41,6 +42,7 @@ export default function Axis({ isVertical, scale, align, fixedTickPositions, wid
       })}
     >
       <Ticks tickPositions={tickPositions} isVertical={isVertical} formatter={formatter} align={align} />
+      <TickLabels tickPositions={tickPositions} isVertical={isVertical} formatter={formatter} align={align} />
     </div>
   );
 }
