@@ -1,25 +1,27 @@
 import React from 'react';
 
 import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
-import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './LoadMoreRow.mless';
 
-export default function LoadMoreRow({ cols, loadMore, label = 'Load More' }) {
+export default function LoadMoreRow({ cols, loadMore, label = 'Load More', depth }) {
   return (
-    <Tr>
-      <Td colSpan={cols} className={locals.cell}>
-        <Button
-          kind="secondary"
-          size="compact"
+    <Tr depth={depth}>
+      <Td colSpan={cols}>
+        <Link
+          href=""
+          className={locals.link}
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             loadMore();
           }}
         >
+          <SvgIcon type="plus_without_frame" width={8} className={locals.icon} />
           {label}
-        </Button>
+        </Link>
       </Td>
     </Tr>
   );

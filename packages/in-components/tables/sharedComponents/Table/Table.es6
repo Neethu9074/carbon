@@ -16,7 +16,7 @@ export function Tbody(props) {
 }
 
 export function Tr(props) {
-  return <tr {...props} className={joinClassNames(props.className, locals.tr)} />;
+  return <tr {...props} className={joinClassNames(props.className, locals.tr, locals[`depth-${props.depth || 1}`])} />;
 }
 
 export function Th(props) {

@@ -59,7 +59,7 @@ function TraceGroups({ orderBy, orderDirection, onChangeOrder, filter }) {
         </Tr>
       </Thead>
       <Tbody>
-        <Groups orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={0} />
+        <Groups orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={1} />
       </Tbody>
     </Table>
   );

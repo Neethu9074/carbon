@@ -2,7 +2,6 @@ import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { getIndentationStyle } from 'in-analyze/Analyze/TraceGroups/indentation';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { number, millis } from 'in-services/formatters/number';
 import Traces from 'in-analyze/Analyze/TraceGroups/Traces';
@@ -12,8 +11,8 @@ export default compose(withState('expanded', 'setExpanded', false))(Group);
 function Group({ setExpanded, expanded, item, orderBy, orderDirection, filter, depth }) {
   return (
     <Fragment>
-      <Tr>
-        <Td style={getIndentationStyle(depth)}>
+      <Tr depth={depth}>
+        <Td>
           <Link
             href=""
             onClick={e => {
