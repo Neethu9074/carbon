@@ -2,10 +2,8 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
-import { always } from 'in-services/fixedStreams';
 
 import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
@@ -25,7 +23,10 @@ function CallTreeStory() {
     <TraceExamples
       render={rootSpan => (
         <Root>
-          <CallTree rootCall={rootSpan} getColor={getColorByServiceAndEndpoint} />
+          <CallTree
+            spanTreeResult={{ data: rootSpan, errors: [], progress: {} }}
+            getColor={getColorByServiceAndEndpoint}
+          />
         </Root>
       )}
     />
@@ -35,7 +36,7 @@ function CallTreeStory() {
 function LoadingStory() {
   return (
     <Root>
-      <ServerCallTree get={() => always({ progress: { loading: true } })} />
+      <CallTree spanTreeResult={{ progress: { loading: true } }} />
     </Root>
   );
 }
@@ -43,10 +44,8 @@ function LoadingStory() {
 function ErrorStory() {
   return (
     <Root>
-      <ServerCallTree
-        get={() =>
-          always({ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] })
-        }
+      <CallTree
+        spanTreeResult={{ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] }}
       />
     </Root>
   );

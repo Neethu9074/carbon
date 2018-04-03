@@ -1,7 +1,10 @@
 import { create } from 'reactive-observables';
+import { get } from 'lodash';
 import React from 'react';
 
 import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
+import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
 import createScale from 'in-charts/scale';
 
@@ -33,7 +36,20 @@ export default class extends React.Component {
   }
 
   render() {
-    const { rootCall, getColor = () => '#e6e6e6' } = this.props;
+    const { spanTreeResult, getColor = () => '#e6e6e6' } = this.props;
+
+    const isLoading = get(spanTreeResult, ['progress', 'loading'], false);
+    if (isLoading) {
+      return <LoadingCallTree progress={spanTreeResult.progress} />;
+    }
+
+    const hasErrors = spanTreeResult.errors.length > 0;
+    if (hasErrors) {
+      return <ErroneousResultPresenter errors={spanTreeResult.errors} />;
+    }
+
+    const rootCall = spanTreeResult.data;
+
     const scale = createScale();
     scale.setRangeFrom(0);
     scale.setRangeTo(100);
