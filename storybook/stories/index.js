@@ -11,6 +11,7 @@ import 'in-forge';
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 import './layout/GridStory';
+import './layout/SidebarStory';
 import './layout/StickyStory';
 
 import './content/table/ServerTableStory';
