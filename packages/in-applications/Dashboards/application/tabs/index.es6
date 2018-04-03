@@ -1,11 +1,12 @@
 import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/TabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
+import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
-import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import { applicationDashboard } from 'in-applications/navigation/paths';
+import { role } from 'in-stores/user';
 
 export default [
   {
@@ -71,9 +72,9 @@ export default [
       }
     })
   },
-  {
+  role.canConfigureApplications && {
     label: 'Configuration',
     path: `${applicationDashboard}/configuration`,
     component: Configuration
   }
-];
+].filter(Boolean);
