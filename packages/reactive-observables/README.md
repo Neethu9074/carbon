@@ -22,7 +22,7 @@ const disposable = observable.map(v => v * 2)
   .subscribe(v => console.log(v));
 // => At least one observer
 
-observer.emit('21');
+observable.emit('21');
 //=> 42
 
 disposable.dispose();
