@@ -2,8 +2,8 @@
   .childrenDistributionTimeLine {
     position: relative;
 
-    min-width: 61.8%;
-    max-width: 61.8%;
+    min-width: 60%;
+    max-width: 60%;
     height: 1.3125rem;
   }
 
