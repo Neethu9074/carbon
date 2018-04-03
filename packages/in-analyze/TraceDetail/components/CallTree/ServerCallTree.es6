@@ -10,7 +10,7 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(props => ({
-    spanTreeResult: props.get ? props.get({ id: props.traceId }) : getSpanTree({ id: props.traceId })
+    spanTreeResult: getSpanTree({ id: props.traceId })
   }))
 )(ServerCallTree);
 
