@@ -50,12 +50,15 @@
     margin-right: 1rem;
     color: #16363e;
     font-size: 0.875rem;
+
+    overflow-x: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .dashedLine {
     border-bottom: 1px dashed #e8eef0;
-    width: 100%;
+    flex-grow: 1;
   }
 
   .leftLine {
