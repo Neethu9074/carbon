@@ -3,12 +3,11 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
-import { setConditions } from 'in-subscription/resultSubscriptions';
 import { createColorPool } from 'in-services/util/ColorGenerator';
+import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 import { always } from 'in-services/fixedStreams';
 
 import TraceExamples from './TraceExamplesComponent';
-import Conditional from '../_helpers/Conditional';
 import Root from '../_helpers/Root';
 
 const byServiceEndpointCombinationColorPool = createColorPool('serviceAndEndpointCombination');
@@ -25,20 +24,9 @@ function CallTreeStory() {
   return (
     <TraceExamples
       render={rootSpan => (
-        <Conditional
-          setConditions={() => {
-            setConditions([
-              {
-                eventId: 'getSpanTree',
-                getDummyData: () => rootSpan
-              }
-            ]);
-          }}
-        >
-          <Root>
-            <ServerCallTree getColor={getColorByServiceAndEndpoint} />
-          </Root>
-        </Conditional>
+        <Root>
+          <CallTree rootCall={rootSpan} getColor={getColorByServiceAndEndpoint} />
+        </Root>
       )}
     />
   );
@@ -46,38 +34,20 @@ function CallTreeStory() {
 
 function LoadingStory() {
   return (
-    <Conditional
-      setConditions={() => {
-        setConditions([
-          {
-            eventId: 'getSpanTree',
-            requestDummyLoadingData: true
-          }
-        ]);
-      }}
-    >
-      <Root>
-        <ServerCallTree />
-      </Root>
-    </Conditional>
+    <Root>
+      <ServerCallTree get={() => always({ progress: { loading: true } })} />
+    </Root>
   );
 }
 
 function ErrorStory() {
   return (
-    <Conditional
-      setConditions={() => {
-        setConditions([
-          {
-            eventId: 'getSpanTree',
-            requestDummyErrorData: true
-          }
-        ]);
-      }}
-    >
-      <Root>
-        <ServerCallTree />
-      </Root>
-    </Conditional>
+    <Root>
+      <ServerCallTree
+        get={() =>
+          always({ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] })
+        }
+      />
+    </Root>
   );
 }
