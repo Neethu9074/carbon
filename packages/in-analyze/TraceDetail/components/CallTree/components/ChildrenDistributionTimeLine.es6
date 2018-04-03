@@ -28,18 +28,20 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 
 function ParentCallIndicator({ call, scale, getColor }) {
   return (
-    <div
-      style={{
-        left: `${scale.getRange(call.start)}%`,
-        width: `${scale.getRange(call.duration) - scale.getRange(0)}%`,
-        background: getColor(call)
-      }}
-      className={locals.callIndicator}
-    >
-      <NetworkTime call={call} scale={scale} getColor={getColor}>
-        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
-      </NetworkTime>
-    </div>
+    <Tooltip content={call.label} align="topMiddle">
+      <div
+        style={{
+          left: `${scale.getRange(call.start)}%`,
+          width: `${scale.getRange(call.duration) - scale.getRange(0)}%`,
+          background: getColor(call)
+        }}
+        className={locals.callIndicator}
+      >
+        <NetworkTime call={call} scale={scale} getColor={getColor}>
+          <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
+        </NetworkTime>
+      </div>
+    </Tooltip>
   );
 }
 
