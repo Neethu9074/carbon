@@ -138,6 +138,74 @@ function Default() {
           </Table>
         </Col>
       </Row>
+
+      <Row>
+        <Col xs={6}>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Label</Th>
+                <SortableTh>Calls</SortableTh>
+                <SortableTh>Errors</SortableTh>
+                <SortableTh>Latency</SortableTh>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr depth={2}>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr depth={2}>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr depth={2}>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <LoadMoreRow cols={4} depth={2} />
+              <Tr>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr depth={2}>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr depth={2}>
+                <Td>Example</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <LoadMoreRow cols={4} depth={2} />
+              <LoadMoreRow cols={4} depth={1} />
+            </Tbody>
+          </Table>
+        </Col>
+      </Row>
     </Root>
   );
 }

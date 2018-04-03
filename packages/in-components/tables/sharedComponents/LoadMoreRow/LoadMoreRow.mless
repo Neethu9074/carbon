@@ -1,5 +1,14 @@
 :local {
-  .cell {
-    text-align: center;
+  .link {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin: 0 .4rem 0 0;
+    fill: #fff;
+    background: #00B7BA;
+    border-radius: 50%;
+    padding: 3px;
   }
 }

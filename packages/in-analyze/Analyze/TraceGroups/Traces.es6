@@ -11,7 +11,6 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
-import { getIndentationStyle } from 'in-analyze/Analyze/TraceGroups/indentation';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import getTraces from 'in-subscription/application/getTraces';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -44,8 +43,8 @@ function Traces({ items, errors, progress, loadMore, canLoadMore, depth }) {
   return (
     <Fragment>
       {items.map(item => (
-        <Tr key={item.traceId}>
-          <Td style={getIndentationStyle(depth)} colSpan={2}>
+        <Tr key={item.traceId} depth={depth}>
+          <Td colSpan={2}>
             <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
           </Td>
           <Td>{millis.fixedCompact(item.duration)}</Td>
@@ -56,7 +55,7 @@ function Traces({ items, errors, progress, loadMore, canLoadMore, depth }) {
       <HorizontalIndicatorRow cols={4} progress={progress} />
       <ErrorRows cols={4} errors={errors} />
       {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
+      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} depth={depth} />}
     </Fragment>
   );
 }

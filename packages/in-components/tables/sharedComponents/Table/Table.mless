@@ -12,6 +12,7 @@
     color: #16363e;
     font-size: 0.875rem;
     font-weight: 400;
+    background: #fff;
 
     &:first-child td {
       border-top: 0;
@@ -22,7 +23,11 @@
     }
 
     &:hover {
-      background: #F4F7F8;
+      background: #eff5f6;
+    }
+
+    &.depth-2 {
+      & > td:first-child {padding-left: 37px;}
     }
   }
 

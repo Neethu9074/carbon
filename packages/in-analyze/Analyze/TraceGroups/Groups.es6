@@ -67,7 +67,7 @@ function Groups({ items, errors, progress, loadMore, canLoadMore, depth, filter,
       <HorizontalIndicatorRow cols={4} progress={progress} />
       <ErrorRows cols={4} errors={errors} />
       {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
+      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} depth={depth} />}
     </Fragment>
   );
 }
