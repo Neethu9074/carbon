@@ -142,7 +142,7 @@ const Icon = connectTo(
 
 const On = connectTo(
   props => ({
-    snapshot: getSnapshot(props.rawEvent.snapshotId, props.rawEvent.start)
+    snapshot: getSnapshot(props.rawEvent.snapshotId, props.rawEvent.triggeringTime || props.rawEvent.start)
   }),
   function On({ snapshot }) {
     if (!snapshot) {
