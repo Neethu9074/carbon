@@ -24,7 +24,10 @@ export default function CallsErrorsLatency({ timeframe, endpointId, applicationI
           labels: ['Latency'],
           metricIds: ['latency'],
           colors: [theme.app20Chart.strokeColors100[2]],
-          formatter: millis,
+          formatter: {
+            compact: millis.detailed,
+            detailed: millis.detailed
+          },
           min: 0
         }}
         metricsConfiguration={{

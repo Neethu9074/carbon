@@ -23,7 +23,7 @@ export default getElementDimensions(function ChartReactComponent(props) {
   if (!timeframe || !y1 || !y1.metrics) {
     content = <NoContentIcon width={width} height={height} />;
   } else {
-    content = <ChartReactWrapper {...props} width={width - 60} height={height} />;
+    content = <ChartReactWrapper {...props} width={width - 100} height={height} />;
   }
   return <div className={locals.wrapper}>{content}</div>;
 });
