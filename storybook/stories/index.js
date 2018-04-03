@@ -60,5 +60,4 @@ import './newComponents/ViewSwitcherStory';
 
 import './analyse/CallTree';
 import './analyse/IcicleChart';
-import './analyse/ServiceList';
 import './analyse/TraceConverter';
