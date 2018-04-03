@@ -10,7 +10,7 @@ import locals from './IcicleChart.mless';
 const frameHeight = 22;
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSpanClick = () => {} }) {
+export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onCallClicked }) {
   const spanFrames = applyLayout(rootSpan);
 
   let minDomain = 0;
@@ -43,7 +43,7 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onSp
           return (
             <Fragment key={id}>
               <Tooltip content={label} align={tooltipAlignment}>
-                <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} onSpanClick={onSpanClick} />
+                <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} onSpanClick={onCallClicked} />
               </Tooltip>
               <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
             </Fragment>
@@ -72,7 +72,7 @@ function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
         height: `${frameHeight}px`,
         background: getColor(spanFrame)
       }}
-      onClick={() => onSpanClick(spanFrame.id, spanFrame.service.id, spanFrame.endpoint.id)}
+      onClick={() => onSpanClick(spanFrame)}
     >
       {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
       <div className={locals.label}>{label}</div>

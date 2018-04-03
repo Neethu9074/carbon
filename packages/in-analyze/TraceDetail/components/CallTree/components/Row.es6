@@ -33,6 +33,7 @@ function Row(props) {
       <VerticalLine {...props} marginLeft={marginLeft} />
 
       <div
+        id={`call-${call.id}`}
         className={evaluateClassNames({
           [locals.rootRow]: depth === 0,
           [locals.row]: true,

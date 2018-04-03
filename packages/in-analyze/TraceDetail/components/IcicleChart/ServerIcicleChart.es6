@@ -14,7 +14,9 @@ export default connectTo(props => ({
   rootSpanResult: props.mockedStream ? props.mockedStream() : getSpanTree({ id: props.traceId })
 }))(ServerIcicleChart);
 
-function ServerIcicleChart({ rootSpanResult, getColor }) {
+function ServerIcicleChart(props) {
+  const { rootSpanResult } = props;
+
   const isLoading = get(rootSpanResult, ['progress', 'loading'], false);
   if (isLoading) {
     return <LoadingIcicleChart progress={rootSpanResult.progress} />;
@@ -25,7 +27,7 @@ function ServerIcicleChart({ rootSpanResult, getColor }) {
     return <ErroneousResultPresenter errors={rootSpanResult.errors} />;
   }
 
-  return <IcicleChart rootSpan={rootSpanResult.data} getColor={getColor} />;
+  return <IcicleChart rootSpan={rootSpanResult.data} {...props} />;
 }
 
 function LoadingIcicleChart({ progress }) {
