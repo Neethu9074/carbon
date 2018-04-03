@@ -6,13 +6,7 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
-export default function CallsErrorsLatencyVsTechnologieBreakdown({
-  timeframe,
-  endpointId,
-  applicationId,
-  serviceId,
-  cardTitle
-}) {
+export default function CallsErrorsLatency({ timeframe, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeframe);
 
   return (
