@@ -36,6 +36,7 @@ export default function ServerTablePresenter(props) {
     cardTitle,
     rightHeader,
     leftHeader,
+    isSearchable = true,
 
     // events
     onChange
@@ -71,7 +72,12 @@ export default function ServerTablePresenter(props) {
   let header = (
     <div className={locals.rightHeader}>
       {rightHeader}
-      <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })} />
+      {isSearchable && (
+        <SearchInput
+          query={query}
+          onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+        />
+      )}
     </div>
   );
   let content = (

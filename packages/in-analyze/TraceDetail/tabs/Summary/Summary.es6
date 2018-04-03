@@ -36,9 +36,7 @@ export default function Summary({ data: trace, getColor }) {
 
       <Row>
         <Col lg={12}>
-          <Card title="Services">
-            <ServiceEndpointList traceId={trace.id} getColor={getColor} />
-          </Card>
+          <ServiceEndpointList traceId={trace.id} getColor={getColor} />
         </Col>
       </Row>
 
