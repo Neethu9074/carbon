@@ -18,6 +18,8 @@ import './cassandraNode';
 import './clickHouseDatabase';
 import './clrRuntimePlatform';
 import './cloudFoundry';
+import './couchbaseCluster';
+import './couchbaseNode';
 import './crystalRuntimePlatform';
 import './databaseServiceInstance';
 import './defaultLogicalConnection';
