@@ -2,14 +2,14 @@ import { compose } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import getSpanTreeNodeDetails from 'in-subscription/application/getSpanTreeNodeDetails';
 import TabView from 'in-analyze/TraceDetail/components/CallDetails/components/TabView';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
-import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(props => ({
-    result: getTraceSummary({ id: props.call.id })
+    result: getSpanTreeNodeDetails({ nodeId: props.call.id })
   }))
 )(CallDetails);
 

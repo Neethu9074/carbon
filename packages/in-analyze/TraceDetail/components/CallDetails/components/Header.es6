@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Header.mless';
@@ -10,7 +9,6 @@ export default function Header({ call, onClose }) {
     <div className={locals.header}>
       <CloseButton onClick={onClose} />
       <span className={locals.callLabel}>{call.label}</span>
-      <EndpointTypeBadgeList types={[call.type]} />
     </div>
   );
 }

@@ -9,7 +9,7 @@
   }
 
   .tab {
-    padding: 0 1.5rem 0.5rem 0;
+    padding: 0 0.75rem 0.5rem 0.75rem;
     color: #47626a;
     white-space: nowrap;
     border-bottom: 1px solid #e8eef0;
@@ -21,8 +21,8 @@
       border-bottom: 2px solid #1fb7b9;
     }
 
-    &:last-child {
-      padding-right: 0;
+    &:first-child {
+      padding-left: 0;
     }
   }
 
