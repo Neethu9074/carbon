@@ -50,16 +50,13 @@ export default class extends React.Component {
     return (
       <Fragment>
         <Row>
-          <Col lg={3}>
+          <Col lg={4}>
             <KpiCard title="Duration" value={millis.compact(trace.duration)} />
           </Col>
-          <Col lg={3}>
+          <Col lg={4}>
             <KpiCard title="Calls to Services" value={number.compact(trace.callCount)} />
           </Col>
-          <Col lg={3}>
-            <KpiCard title="Spans" value={number.compact(trace.spanCount)} />
-          </Col>
-          <Col lg={3}>
+          <Col lg={4}>
             <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
           </Col>
         </Row>
