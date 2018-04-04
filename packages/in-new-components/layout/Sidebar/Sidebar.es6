@@ -23,6 +23,7 @@ export default class Sidebar extends React.Component {
     this.wrapper.style.bottom = 'auto';
     const coords = getCoords(this.wrapper);
     this.wrapper.style.top = `${coords.top}px`;
+    this.wrapper.style.top = `${220}px`;
     this.wrapper.style.bottom = '0px';
   };
 

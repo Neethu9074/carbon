@@ -22,7 +22,17 @@ const EnhancedRow = withState('isExpanded', 'setIsExpanded', true)(
   )
 );
 function Row(props) {
-  const { call, getColor, isExpanded, depth = 0, onCallClicked, setIsExpanded, selectedCall$, isSelected } = props;
+  const {
+    call,
+    getColor,
+    isExpanded,
+    depth = 0,
+    onCallClicked,
+    onSubCallClicked,
+    setIsExpanded,
+    selectedCall$,
+    isSelected
+  } = props;
 
   const hasChildren = call.children && call.children.length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
@@ -45,9 +55,10 @@ function Row(props) {
           marginLeft={marginLeft}
           lineWidth={lineWidth}
           hasChildren={hasChildren}
-          onCallClicked={call => {
+          onCallClicked={onCallClicked}
+          onSubCallClicked={call => {
             setIsExpanded(true);
-            onCallClicked(call);
+            onSubCallClicked(call);
           }}
         />
 
@@ -67,6 +78,7 @@ function Row(props) {
             depth={depth + 1}
             intermediateRow={i !== call.children.length - 1}
             onCallClicked={onCallClicked}
+            onSubCallClicked={onSubCallClicked}
             selectedCall$={selectedCall$}
           />
         ))}
@@ -75,7 +87,18 @@ function Row(props) {
 }
 
 function CallInformation(props) {
-  const { call, getColor, scale, marginLeft, hasChildren, isExpanded, lineWidth, setIsExpanded, onCallClicked } = props;
+  const {
+    call,
+    getColor,
+    scale,
+    marginLeft,
+    hasChildren,
+    isExpanded,
+    lineWidth,
+    setIsExpanded,
+    onCallClicked,
+    onSubCallClicked
+  } = props;
 
   return (
     <div className={locals.detailGroup}>
@@ -93,12 +116,20 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
-        <span className={locals.label}>{call.label}</span>
+        <span className={locals.label} onClick={() => onCallClicked(call)}>
+          {call.label}
+        </span>
         {call.endpoint && <Badge color={getEndpointColor(call.endpoint.type)}>{call.endpoint.type}</Badge>}
         <div className={locals.dashedLine} />
       </div>
 
-      <ChildrenDistributionTimeLine call={call} getColor={getColor} scale={scale} onCallClicked={onCallClicked} />
+      <ChildrenDistributionTimeLine
+        call={call}
+        getColor={getColor}
+        scale={scale}
+        onCallClicked={onCallClicked}
+        onSubCallClicked={onSubCallClicked}
+      />
     </div>
   );
 }

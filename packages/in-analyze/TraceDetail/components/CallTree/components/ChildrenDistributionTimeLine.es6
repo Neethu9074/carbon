@@ -7,14 +7,14 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
-export default function ChildrenDistributionTimeLine({ call, getColor, scale, onCallClicked }) {
+export default function ChildrenDistributionTimeLine({ call, getColor, scale, onCallClicked, onSubCallClicked }) {
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
-      <ParentCallIndicator key={call.id} call={call} scale={scale} getColor={getColor} />
+      <ParentCallIndicator key={call.id} call={call} scale={scale} getColor={getColor} onClick={onCallClicked} />
       {call.children.map((subCall, i) => (
         <CallIndicator
-          onClick={onCallClicked}
+          onClick={onSubCallClicked}
           key={i}
           call={subCall}
           scale={scale}
@@ -26,7 +26,7 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
   );
 }
 
-function ParentCallIndicator({ call, scale, getColor }) {
+function ParentCallIndicator({ call, scale, getColor, onClick }) {
   return (
     <Tooltip content={call.label} align="topMiddle">
       <div
@@ -36,6 +36,7 @@ function ParentCallIndicator({ call, scale, getColor }) {
           background: getColor(call)
         }}
         className={locals.callIndicator}
+        onClick={() => onClick(call)}
       >
         <NetworkTime call={call} scale={scale} getColor={getColor}>
           <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />

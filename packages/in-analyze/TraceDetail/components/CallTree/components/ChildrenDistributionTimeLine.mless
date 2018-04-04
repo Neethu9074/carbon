@@ -21,12 +21,17 @@
     position: absolute;
 
     min-width: 5px;
+    cursor: pointer;
   }
 
   .callIndicator {
     top: 0.4375rem;
 
     height: 0.4375rem;
+
+    &:hover {
+      opacity: 0.75;
+    }
   }
 
   .subCallIndicator {
@@ -34,7 +39,6 @@
 
     height: 0.25rem;
     opacity: 0.5;
-    cursor: pointer;
 
     &:hover {
       opacity: 1;

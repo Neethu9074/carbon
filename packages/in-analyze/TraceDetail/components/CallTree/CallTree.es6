@@ -9,7 +9,13 @@ import createScale from 'in-charts/scale';
 
 import locals from './CallTree.mless';
 
-export default function CallTree({ spanTreeResult, getColor = () => '#e6e6e6', selectedCall$, onCallClicked }) {
+export default function CallTree({
+  spanTreeResult,
+  getColor = () => '#e6e6e6',
+  selectedCall$,
+  onCallClicked,
+  onSubCallClicked
+}) {
   const isLoading = get(spanTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
     return <LoadingCallTree progress={spanTreeResult.progress} />;
@@ -36,6 +42,7 @@ export default function CallTree({ spanTreeResult, getColor = () => '#e6e6e6', s
         getColor={getColor}
         scale={scale}
         selectedCall$={selectedCall$}
+        onSubCallClicked={onSubCallClicked}
         onCallClicked={onCallClicked}
       />
     </div>

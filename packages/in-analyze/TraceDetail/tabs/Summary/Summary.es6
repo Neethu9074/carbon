@@ -4,10 +4,12 @@ import React, { Fragment } from 'react';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
+import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
 export default class extends React.Component {
@@ -15,6 +17,10 @@ export default class extends React.Component {
 
   selectedCall$ = create();
   timeoutHandle = null;
+
+  state = {
+    selectedCall: null
+  };
 
   componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
@@ -37,18 +43,15 @@ export default class extends React.Component {
 
   render() {
     const { data: trace, getColor } = this.props;
-    const onCallClicked = call => {
-      this.selectedCall$.emit(call);
-
-      const domElement = document.getElementById(`call-${call.id}`);
-      if (domElement) {
-        domElement.focus();
-        scrollIntoViewIfNeeded(domElement);
-      }
-    };
+    const { selectedCall } = this.state;
 
     return (
       <Fragment>
+        {selectedCall && (
+          <Sidebar onClose={this.clearSelectedCall}>
+            <CallDetails call={selectedCall} />
+          </Sidebar>
+        )}
         <Row>
           <Col lg={4}>
             <KpiCard title="Duration" value={millis.compact(trace.duration)} />
@@ -64,7 +67,7 @@ export default class extends React.Component {
         <Row>
           <Col lg={12}>
             <Card title="Calls to Services">
-              <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={onCallClicked} />
+              <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
             </Card>
           </Col>
         </Row>
@@ -82,7 +85,8 @@ export default class extends React.Component {
                 traceId={trace.id}
                 getColor={getColor}
                 selectedCall$={this.selectedCall$}
-                onCallClicked={onCallClicked}
+                onSubCallClicked={this.onSubCallClicked}
+                onCallClicked={this.onCallClicked}
               />
             </Card>
           </Col>
@@ -90,4 +94,22 @@ export default class extends React.Component {
       </Fragment>
     );
   }
+
+  onSubCallClicked = call => {
+    this.selectedCall$.emit(call);
+
+    const domElement = document.getElementById(`call-${call.id}`);
+    if (domElement) {
+      domElement.focus();
+      scrollIntoViewIfNeeded(domElement);
+    }
+  };
+
+  onCallClicked = call => {
+    this.setState({ selectedCall: call });
+  };
+
+  clearSelectedCall = () => {
+    this.setState({ selectedCall: null });
+  };
 }
