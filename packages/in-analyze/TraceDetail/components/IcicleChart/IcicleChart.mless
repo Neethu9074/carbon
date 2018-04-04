@@ -11,7 +11,7 @@
 
   .frame {
     position: absolute;
-    min-width: 3px;
+    min-width: 5px;
     cursor: pointer;
     border: 1px solid #fff;
 
