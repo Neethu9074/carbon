@@ -9,7 +9,6 @@ import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/eumView/stores/snapshots';
 import LegacyView from 'in-components/LegacyView';
-import { isBlank } from 'in-services/util/string';
 import { getView } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -37,16 +36,16 @@ export default connectTo(
     data: data$
   },
   function EumView({ data }) {
-    if (!data || data.query == null) {
+    if (!data) {
       return loadingState;
     }
-    const { snapshotIds, snapshots, query } = data;
+    const { snapshotIds, snapshots } = data;
 
     if (!snapshotIds || !snapshots) {
       return loadingState;
     }
 
-    if (isBlank(query) && snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
+    if (snapshotIds.size === 0 && snapshots.length === 0 && role.canConfigureEumApplications) {
       // data was loaded but there is no defined website
       return <RedirectWithHash to={newWebsitePath} />;
     }

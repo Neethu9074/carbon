@@ -139,10 +139,10 @@ export function getSnapshots(snapshotIds, time) {
 //    being loaded.
 // 3. Search query which yields no results
 // 4. and the search query which yielded results but which may be loading
-export function search({ queryExtension = '', view = 'TABLE', restrictResultEntityType = null }) {
+export function search({ customQuery = null, view = 'TABLE', restrictResultEntityType = null }) {
   return combineLatest([query$, timeframe$, focusedMoment$]).flatMap(([query, timeframe, focusedMoment]) => {
     return createSearchObservable({
-      query: `${query || ''} ${queryExtension}`,
+      query: customQuery ? customQuery : query,
       time: focusedMoment,
       view,
       timeframe,

@@ -163,9 +163,7 @@ export default class WebsiteTable extends React.Component {
         />
 
         {data.rows.length === 0 ? (
-          <div className={`${block}__no-websites-matching-query`}>
-            {this.props.noWebsitesMessages || 'No websites found for your current query.'}
-          </div>
+          <div className={`${block}__no-websites`}>{this.props.noWebsitesMessages || 'No websites found.'}</div>
         ) : null}
 
         {data.rows.map(row => {
