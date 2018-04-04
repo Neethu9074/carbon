@@ -1,4 +1,4 @@
-import { percentagePlain, bytes } from 'in-services/formatters/number';
+import { percentagePlain, bytes, number } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -13,5 +13,11 @@ export default [
     label: 'CPU Usage',
     min: 0,
     formatter: percentagePlain
+  },
+  {
+    metric: getMetricMatch('httpRequests'),
+    label: 'HTTP Requests',
+    min: 0,
+    formatter: number
   }
 ];
