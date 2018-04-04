@@ -1,4 +1,5 @@
 import { withKnobs } from '@storybook/addon-knobs/react';
+import { create } from 'reactive-observables';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
@@ -24,6 +25,7 @@ function CallTreeStory() {
       render={rootSpan => (
         <Root>
           <CallTree
+            selectedCall$={create()}
             spanTreeResult={{ data: rootSpan, errors: [], progress: {} }}
             getColor={getColorByServiceAndEndpoint}
           />
@@ -36,7 +38,7 @@ function CallTreeStory() {
 function LoadingStory() {
   return (
     <Root>
-      <CallTree spanTreeResult={{ progress: { loading: true } }} />
+      <CallTree selectedCall$={create()} spanTreeResult={{ progress: { loading: true } }} />
     </Root>
   );
 }
@@ -45,6 +47,7 @@ function ErrorStory() {
   return (
     <Root>
       <CallTree
+        selectedCall$={create()}
         spanTreeResult={{ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] }}
       />
     </Root>
