@@ -1,6 +1,5 @@
 :local {
   .sidebar {
-    position: fixed;
     right: 0;
     width: 40%;
     min-width: 300px;

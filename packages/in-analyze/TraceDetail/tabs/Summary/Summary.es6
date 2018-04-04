@@ -48,7 +48,7 @@ export default class extends React.Component {
     return (
       <Fragment>
         {selectedCall && (
-          <Sidebar>
+          <Sidebar relativeTopOffset={-16}>
             <CallDetails call={selectedCall} onClose={this.clearSelectedCall} />
           </Sidebar>
         )}

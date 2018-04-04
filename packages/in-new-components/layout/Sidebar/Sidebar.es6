@@ -20,10 +20,13 @@ export default class Sidebar extends React.Component {
       return;
     }
 
+    this.wrapper.style.position = 'static';
+    this.wrapper.style.top = 'auto';
     this.wrapper.style.bottom = 'auto';
     const coords = getCoords(this.wrapper);
-    this.wrapper.style.top = `${coords.top}px`;
-    this.wrapper.style.top = `${220}px`;
+    this.wrapper.style.position = 'fixed';
+    const top = coords.top + (this.props.relativeTopOffset || 0);
+    this.wrapper.style.top = `${top}px`;
     this.wrapper.style.bottom = '0px';
   };
 
@@ -45,11 +48,9 @@ export default class Sidebar extends React.Component {
 
   render() {
     return (
-      <div
-        ref={r => this.setWrapper(r)}
-        {...this.props}
-        className={joinClassNames(this.props.className, locals.sidebar)}
-      />
+      <div ref={r => this.setWrapper(r)} className={joinClassNames(this.props.className, locals.sidebar)}>
+        {this.props.children}
+      </div>
     );
   }
 }
