@@ -48,8 +48,8 @@ export default class extends React.Component {
     return (
       <Fragment>
         {selectedCall && (
-          <Sidebar onClose={this.clearSelectedCall}>
-            <CallDetails call={selectedCall} />
+          <Sidebar>
+            <CallDetails call={selectedCall} onClose={this.clearSelectedCall} />
           </Sidebar>
         )}
         <Row>

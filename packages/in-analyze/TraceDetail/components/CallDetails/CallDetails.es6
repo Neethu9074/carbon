@@ -14,7 +14,7 @@ export default compose(
 )(CallDetails);
 
 function CallDetails(props) {
-  const { result } = props;
+  const { result, onClose } = props;
 
   const isLoading = get(result, ['progress', 'loading'], false);
   if (isLoading) {
@@ -30,7 +30,7 @@ function CallDetails(props) {
 
   return (
     <Fragment>
-      <Header call={call} />
+      <Header call={call} result={result} onClose={onClose} />
       <TabView call={call} />
     </Fragment>
   );
