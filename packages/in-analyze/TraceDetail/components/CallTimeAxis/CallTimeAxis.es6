@@ -24,6 +24,7 @@ export default getElementDimensions(({ width, call }) => {
           width={width}
           drawAxisLine={false}
           formatter={millis}
+          detailedFormatting
           tickLength={9}
           scale={{ from: 0, to: endTime - startTime }}
           fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}

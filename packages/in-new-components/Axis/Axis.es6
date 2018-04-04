@@ -19,6 +19,7 @@ export default function Axis({
   height,
   tickLength = 4,
   formatter = number,
+  detailedFormatting = false,
   drawAxisLine = true
 }) {
   if (__DEV__) {
@@ -50,15 +51,10 @@ export default function Axis({
         [locals.horizontalBottom]: drawAxisLine && !isVertical && align !== 'top'
       })}
     >
-      <Ticks
-        tickPositions={tickPositions}
-        isVertical={isVertical}
-        formatter={formatter}
-        align={align}
-        tickLength={tickLength}
-      />
+      <Ticks tickPositions={tickPositions} isVertical={isVertical} align={align} tickLength={tickLength} />
       <TickLabels
         tickPositions={tickPositions}
+        detailedFormatting={detailedFormatting}
         isVertical={isVertical}
         formatter={formatter}
         align={align}

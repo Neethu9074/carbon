@@ -5,7 +5,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Ticks.mless';
 
-export default function Ticks({ tickPositions, isVertical, formatter, align, tickLength }) {
+export default function Ticks({ tickPositions, isVertical, formatter, align, tickLength, detailedFormatting }) {
   return (
     <Fragment>
       {tickPositions.map(tick => {
@@ -18,7 +18,7 @@ export default function Ticks({ tickPositions, isVertical, formatter, align, tic
               [locals.horizontalTickLabel]: !isVertical
             })}
           >
-            {formatter.compact(tick.domain)}
+            {detailedFormatting ? formatter.detailed(tick.domain) : formatter.compact(tick.domain)}
           </div>
         );
       })}
