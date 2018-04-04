@@ -159,7 +159,7 @@ export default class WebsiteTable extends React.Component {
           onNextPage={this.store.onNextPage}
           filter={filter}
           setFilter={this.store.setFilter}
-          showFilter={this.props.showFilter}
+          showFilter
         />
 
         {data.rows.length === 0 ? (
