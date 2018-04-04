@@ -15,7 +15,7 @@ function TabView({ selectedTab, setSelectedTab, call }) {
         {tabs.map(tab => <Tab key={tab.label} tab={tab} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />)}
         <li className={locals.emptyEnddingTab} />
       </ul>
-      {selectedTab && <selectedTab.component call={call} />}
+      <div className={locals.content}>{selectedTab && <selectedTab.component call={call} />}</div>
     </Fragment>
   );
 }
