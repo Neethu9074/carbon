@@ -27,7 +27,7 @@ const byEndpointTypeUrlIdentifier = 'byEndpointType';
 
 export default compose(
   withUrlDependingState({
-    getPathSegment: () => 'traceDetail',
+    getPathSegment: () => traceDetail,
     getMatrixPrefix: () => '',
     boundKeys: ['colorCode'],
     getInitialState: () => ({ colorCode: getColorByServiceAndEndpoint }),

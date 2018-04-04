@@ -8,8 +8,8 @@ import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Hea
 import connect from 'in-hoc/connectTo';
 
 export default compose(
-  connect(props => ({
-    result: getSpanTreeNodeDetails({ nodeId: props.call.id })
+  connect(({ callId }) => ({
+    result: getSpanTreeNodeDetails({ nodeId: callId })
   }))
 )(CallDetails);
 

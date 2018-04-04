@@ -1,26 +1,23 @@
 import { create } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
+import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
-export default class extends React.Component {
-  static displayName = 'Summary';
-
+class Summary extends React.Component {
   selectedCall$ = create();
   timeoutHandle = null;
-
-  state = {
-    selectedCall: null
-  };
 
   componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
@@ -42,14 +39,12 @@ export default class extends React.Component {
   }
 
   render() {
-    const { data: trace, getColor } = this.props;
-    const { selectedCall } = this.state;
-
+    const { data: trace, getColor, callId } = this.props;
     return (
       <Fragment>
-        {selectedCall && (
+        {callId && (
           <Sidebar relativeTopOffset={-16}>
-            <CallDetails call={selectedCall} onClose={this.clearSelectedCall} />
+            <CallDetails callId={callId} onClose={this.clearSelectedCall} />
           </Sidebar>
         )}
         <Row>
@@ -106,10 +101,27 @@ export default class extends React.Component {
   };
 
   onCallClicked = call => {
-    this.setState({ selectedCall: call });
+    this.props.setCall({ callId: call.id });
   };
 
   clearSelectedCall = () => {
-    this.setState({ selectedCall: null });
+    this.props.setCall({ callId: null });
   };
 }
+
+export default compose(
+  withUrlDependingState({
+    getPathSegment: () => traceDetail,
+    getMatrixPrefix: () => '',
+    boundKeys: ['callId'],
+    getInitialState: () => ({ callId: null }),
+    reducerName: 'setCall',
+    resets: [
+      // Reset the call when the trace changes
+      {
+        getResettingProps: () => ['data'],
+        onReset: () => ({ callId: null })
+      }
+    ]
+  })
+)(Summary);
