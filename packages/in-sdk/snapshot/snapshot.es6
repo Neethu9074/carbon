@@ -34,6 +34,10 @@ export function getShowZoneInSidebarHeader(plugin) {
 }
 
 export function supportsCodeView(snapshot, file) {
+  if (!file) {
+    return false;
+  }
+
   const snapshotDefinition = getSnapshotDefinition(snapshot.get('plugin'));
   const supports = snapshotDefinition.supportsCodeView;
   if (!snapshotDefinition.getCodeView) {
