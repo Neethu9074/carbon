@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
+import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimingInformation.mless';
@@ -19,7 +20,7 @@ export default function TimingInformation({ call }) {
 
 function TimeBlock({ label, duration, totalDuration, color }) {
   duration = duration
-    ? `${duration}ms ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`
+    ? `${millis.fixedCompact(duration)} ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`
     : '--';
 
   return (
