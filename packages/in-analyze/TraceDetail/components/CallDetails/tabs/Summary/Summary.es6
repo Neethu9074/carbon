@@ -6,12 +6,12 @@ import TimingChart from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summ
 import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/CallStatus';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 
-export default function Summary({ call }) {
+export default function Summary({ call, traceId }) {
   return (
     <Fragment>
       <CallStatus call={call} />
       <TimingInformation call={call} />
-      <TimingChart call={call} />
+      <TimingChart call={call} traceId={traceId} />
       <Seperator />
       <EntryExitInformation call={call} />
     </Fragment>

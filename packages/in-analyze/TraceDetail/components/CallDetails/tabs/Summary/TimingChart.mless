@@ -1,4 +1,27 @@
 :local {
   .timingChart {
+    display: flex;
+  }
+
+  .durationBlockWrapper {
+    padding: 1rem 0;
+
+    border-left: 1px solid #e7eef0;
+    &:last-child {
+      border-right: 1px solid #e7eef0;
+    }
+  }
+
+  .durationBlock {
+    padding: 0.5rem 0;
+
+    background: #53dafc22;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .durationBlockLabel {
+    margin-left: 0.75rem;
   }
 }

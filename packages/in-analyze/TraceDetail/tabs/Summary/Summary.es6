@@ -44,7 +44,7 @@ class Summary extends React.Component {
       <Fragment>
         {callId && (
           <Sidebar relativeTopOffset={-16}>
-            <CallDetails callId={callId} onClose={this.clearSelectedCall} />
+            <CallDetails callId={callId} traceId={trace.id} onClose={this.clearSelectedCall} />
           </Sidebar>
         )}
         <Row>

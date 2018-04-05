@@ -14,7 +14,7 @@ export default compose(
 )(CallDetails);
 
 function CallDetails(props) {
-  const { result, onClose } = props;
+  const { traceId, result, onClose } = props;
 
   const isLoading = get(result, ['progress', 'loading'], false);
   if (isLoading) {
@@ -31,7 +31,7 @@ function CallDetails(props) {
   return (
     <Fragment>
       <Header call={call} result={result} onClose={onClose} />
-      <TabView call={call} />
+      <TabView call={call} traceId={traceId} />
     </Fragment>
   );
 }
