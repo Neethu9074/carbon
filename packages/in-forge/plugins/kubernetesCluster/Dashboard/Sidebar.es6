@@ -9,7 +9,7 @@ import { number } from 'in-services/formatters/number';
 import Info from '../Info';
 
 function componentStatusToText(healthy) {
-  if (healthy === null) {
+  if (healthy === undefined || healthy === null) {
     return null;
   }
   return healthy === 'True' ? 'Healthy' : 'Not Healthy';
