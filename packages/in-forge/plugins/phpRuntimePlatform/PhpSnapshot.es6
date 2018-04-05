@@ -16,7 +16,15 @@ export default connectTo(
           const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
           return combineLatest(companions$, false);
         })
-        .map(companions => companions.filter(m => !!m))
+        .map(companions =>
+          companions.filter(
+            m =>
+              !!m &&
+              // PHP companions may sometimes exist, but don't have any associated data.
+              // Until this is properly fixed, we add this additional filter
+              m.getIn(['data', 'version'])
+          )
+        )
     };
   },
   function PhpSnapshot({ companions, initiallyOpen }) {
