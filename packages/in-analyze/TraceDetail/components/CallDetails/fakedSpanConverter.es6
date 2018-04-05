@@ -4,7 +4,7 @@ export default function convert(span) {
   if (!span) {
     return null;
   }
-  const type = Object.keys(span)[0];
+  const type = Object.keys(span.data)[0];
   if (!type) {
     return null;
   }
@@ -13,7 +13,7 @@ export default function convert(span) {
     name: type,
     data: {}
   };
-  fakedSpan.data[type] = span[type];
+  fakedSpan.data[type] = span.data[type];
 
   return fromJS(fakedSpan);
 }

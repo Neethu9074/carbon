@@ -1,10 +1,10 @@
 import React from 'react';
 
+import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
+import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { formatTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CallTimeAxis.mless';
 
@@ -14,10 +14,7 @@ export default getElementDimensions(({ width, call }) => {
 
   return (
     <div className={locals.timeAxis}>
-      <span className={locals.axisLabel}>
-        <SvgIcon className={locals.icon} type="time" width={18} height={18} color="#00babb" />
-        {`Started: ${formatTime(startTime)}`}
-      </span>
+      <CallStartLabel startTime={startTime} />
       {width && (
         <HorizontalAxis
           align="top"
@@ -33,23 +30,3 @@ export default getElementDimensions(({ width, call }) => {
     </div>
   );
 });
-
-function getStart(call) {
-  let earliestStart = call.start;
-  if (call.children) {
-    for (let i = 0; i < call.children.length; i++) {
-      earliestStart = Math.min(earliestStart, getStart(call.children[i]));
-    }
-  }
-  return earliestStart;
-}
-
-function getEnd(call) {
-  let latestEnd = call.start + call.duration;
-  if (call.children) {
-    for (let i = 0; i < call.children.length; i++) {
-      latestEnd = Math.max(latestEnd, getEnd(call.children[i]));
-    }
-  }
-  return latestEnd;
-}

@@ -1,0 +1,39 @@
+:local {
+  .timingInformation {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .callStartLabel {
+    margin: 0 2rem;
+  }
+
+  .timeBlock {
+    margin-right: 2rem;
+  }
+
+  .timeIcon {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+
+    margin-right: 0.5rem;
+  }
+
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 0.5rem;
+  }
+
+  .label {
+    white-space: nowrap;
+  }
+
+  .duration {
+    font-size: 1rem;
+    font-weight: lighter;
+    color: #47626a;
+  }
+}

@@ -1,0 +1,8 @@
+:local {
+  .seperator {
+    width: ~'calc(100% + 3rem)';
+    margin: 2rem -1.5rem;
+    height: 1px;
+    background: #d5dfe4;
+  }
+}

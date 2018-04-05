@@ -1,0 +1,40 @@
+:local {
+  .callStatus {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 2rem;
+    padding: 0.5rem 0.75rem;
+    background: #fafbfc;
+    color: #47626a;
+  }
+
+  .errorIndicator,
+  .callStatusInformation {
+    display: flex;
+    align-items: center;
+
+    margin-right: 1rem;
+  }
+
+  .infoIcon {
+    margin-right: 0.5rem;
+  }
+
+  .errorIndicator {
+    color: #ff5d3b;
+  }
+
+  .errorIconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 0.5rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    background: #ff5d3b;
+    color: white;
+  }
+}

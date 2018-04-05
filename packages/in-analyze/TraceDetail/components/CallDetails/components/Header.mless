@@ -32,5 +32,6 @@
   .callLabel {
     font-size: 1rem;
     color: #0c1415;
+    margin-right: 4rem;
   }
 }

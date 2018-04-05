@@ -1,6 +1,6 @@
 import Infrastructure from 'in-analyze/TraceDetail/components/CallDetails/tabs/Infrastructure';
+import Summary from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/Summary';
 import StackTrace from 'in-analyze/TraceDetail/components/CallDetails/tabs/StackTrace';
-import Summary from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary';
 import Details from 'in-analyze/TraceDetail/components/CallDetails/tabs/Details';
 
 export default [
