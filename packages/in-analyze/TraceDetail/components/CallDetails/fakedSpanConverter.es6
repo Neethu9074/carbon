@@ -4,16 +4,12 @@ export default function convert(span) {
   if (!span) {
     return null;
   }
-  const type = Object.keys(span.data)[0];
-  if (!type) {
-    return null;
-  }
 
+  const type = span.name;
   const fakedSpan = {
     name: type,
-    data: {}
+    data: span.data
   };
-  fakedSpan.data[type] = span.data[type];
 
   return fromJS(fakedSpan);
 }

@@ -13,7 +13,6 @@ export default function TimingInformation({ call }) {
       <TimeBlock color="#47626A" label="Total Time" duration={call.duration} />
       <TimeBlock color="#00BBFF" label="Network" duration={call.networkTime} totalDuration={call.duration} />
       <TimeBlock color="#1A4FFF" label="Processing" duration={call.duration / 2} totalDuration={call.duration} />
-      <TimeBlock color="#FF9800" label="Waiting" duration={call.duration} totalDuration={call.duration} />
     </div>
   );
 }
