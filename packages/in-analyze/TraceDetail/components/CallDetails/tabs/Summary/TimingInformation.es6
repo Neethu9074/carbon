@@ -25,7 +25,7 @@ function TimeBlock({ label, duration, totalDuration, color }) {
   return (
     <div className={locals.timeBlock}>
       <div className={locals.labelWrapper}>
-        <SvgIcon className={locals.timeIcon} type="timer" width={12} height={12} color={color} />
+        <SvgIcon className={locals.timeIcon} type="clock" width={12} height={12} color={color} />
         <span style={{ color }} className={locals.label}>
           {label}
         </span>
