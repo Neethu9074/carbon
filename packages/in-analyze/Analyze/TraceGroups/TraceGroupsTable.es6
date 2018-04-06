@@ -1,25 +1,9 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, SortableTh } from 'in-components/tables/sharedComponents';
-import { analyze } from 'in-analyze/navigation/paths';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Groups from 'in-analyze/Analyze/TraceGroups/Groups';
 
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'traces.',
-    boundKeys: ['orderBy', 'orderDirection'],
-    getInitialState: () => ({
-      orderBy: 'calls',
-      orderDirection: 'DESC'
-    }),
-    reducerName: 'onChangeOrder'
-  })
-)(TraceGroups);
-
-function TraceGroups({ orderBy, orderDirection, onChangeOrder, filter }) {
+export default function TraceGroupsTable({ orderBy, orderDirection, onChangeOrder, filter }) {
   return (
     <Table>
       <Thead>
@@ -30,7 +14,7 @@ function TraceGroups({ orderBy, orderDirection, onChangeOrder, filter }) {
             onChangeOrder={onChangeOrder}
             defaultDirection="ASC"
             technicalName="label"
-            label="Label"
+            label="Name"
           />
           <RawTracesSortableColumn
             orderBy={orderBy}
@@ -46,7 +30,7 @@ function TraceGroups({ orderBy, orderDirection, onChangeOrder, filter }) {
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="duration"
-            label="Duration"
+            label="Latency"
           />
           <RawTracesSortableColumn
             orderBy={orderBy}
@@ -59,7 +43,7 @@ function TraceGroups({ orderBy, orderDirection, onChangeOrder, filter }) {
         </Tr>
       </Thead>
       <Tbody>
-        <Groups orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={1} />
+        <Groups orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={1} hasCharts />
       </Tbody>
     </Table>
   );
