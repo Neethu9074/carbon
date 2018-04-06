@@ -86,12 +86,14 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
         this.setState({
           progress: result.progress,
           errors: result.errors,
+          time: result.time,
           canLoadMore: false
         });
       } else {
         this.setState(({ items }) => ({
           progress: result.progress,
           errors: result.errors,
+          time: result.time,
           canLoadMore: result.data.canLoadMore,
           totalHits: result.data.totalHits,
           items: items.concat(result.data.items)

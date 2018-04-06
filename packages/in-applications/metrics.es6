@@ -28,12 +28,28 @@ export function getChartGranularity({ windowSize }) {
   return granularity || sensibleGranularities[sensibleGranularities.length - 1];
 }
 
+/*
+ * Returns a normalized timeframe where "to" is set to result.time if not present in the original timeframe.
+ */
 export function getResolvedTimeframe(timeframe, result) {
   if (timeframe.to === result.time) {
     return timeframe;
   }
   return {
     to: result.time,
+    windowSize: timeframe.windowSize
+  };
+}
+
+/*
+ * Returns a normalized timeframe where "to" is set to resultTime if not present in the original timeframe.
+ */
+export function normalizeTimeFrame(timeframe, resultTime) {
+  if (timeframe.to === resultTime) {
+    return timeframe;
+  }
+  return {
+    to: resultTime,
     windowSize: timeframe.windowSize
   };
 }

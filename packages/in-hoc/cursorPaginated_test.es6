@@ -49,6 +49,7 @@ describe('in-hoc/cursorPaginated', () => {
     expect(getProps(wrapper)).to.deep.equal({
       canLoadMore: false,
       errors: [],
+      time: undefined,
       foo: 'bar',
       items: result.data.items,
       progress: {
@@ -174,6 +175,7 @@ describe('in-hoc/cursorPaginated', () => {
       progress: {
         loading: false
       },
+      time: undefined,
       totalHits: null
     });
   });
