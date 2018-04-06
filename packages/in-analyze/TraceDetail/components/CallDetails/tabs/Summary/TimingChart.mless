@@ -3,8 +3,11 @@
     display: flex;
   }
 
-  .durationBlockWrapper {
+  .blocksWrapper {
+    position: relative;
     padding: 1rem 0;
+    width: 100%;
+    height: 4rem;
 
     border-left: 1px solid #e7eef0;
     &:last-child {
@@ -13,15 +16,21 @@
   }
 
   .durationBlock {
+    position: absolute;
+    height: 2rem;
     padding: 0.5rem 0;
-
-    background: #53dafc22;
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
 
   .durationBlockLabel {
-    margin-left: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .callBlock {
+    position: absolute;
+    height: 0.5rem;
+    top: 3rem;
   }
 }

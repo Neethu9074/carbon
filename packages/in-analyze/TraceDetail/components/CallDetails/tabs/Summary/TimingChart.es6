@@ -1,74 +1,113 @@
-import { compose } from 'recompose';
-import { get } from 'lodash';
-import React from 'react';
-
-import getCallTree from 'in-subscription/application/getCallTree';
-import { pendingResult } from 'in-services/fixedObjects';
-import connect from 'in-hoc/connectTo';
+import React, { Fragment } from 'react';
+import createScale from 'in-charts/scale';
 
 import locals from './TimingChart.mless';
 
-export default compose(
-  connect(props => ({
-    callTreeResult: getCallTree({ id: props.traceId }).startWith(pendingResult)
-  }))
-)(TimingChart);
+const NETWORK_BLOCK_COLOR = '#C6EAFF';
+const PROCESSING_BLOCK_COLOR = '#a2cafb';
+const CALL_BLOCK_COLOR = '#f4d776';
 
-function TimingChart({ call, callTreeResult }) {
-  const isLoading = get(callTreeResult, ['progress', 'loading'], false);
-  const hasErrors = callTreeResult.errors.length > 0;
-  if (isLoading || hasErrors) {
-    return null;
-  }
+export default function TimingChart({ call, callTreeNode }) {
+  const { start, duration, networkTime } = call;
+  const end = start + duration;
 
-  const callTree = callTreeResult.data;
-  const callTreeNode = findCallTreeNode(callTree, call.id);
-  if (!callTreeNode) {
-    return null;
-  }
+  const scale = createScale();
+  scale.setDomainFrom(start);
+  scale.setDomainTo(end);
+  scale.setRangeFrom(0);
+  scale.setRangeTo(100);
 
-  const networkTime = call.duration / 10; //call.networkTime || 0;
-  const totalDuration = call.duration;
+  const networkBlocks = (
+    <Fragment>
+      <DurationBlock
+        label="Network"
+        color={NETWORK_BLOCK_COLOR}
+        scale={scale}
+        start={start}
+        end={start + networkTime / 2}
+      />
+      <DurationBlock
+        label="Network"
+        color={NETWORK_BLOCK_COLOR}
+        scale={scale}
+        start={end - networkTime / 2}
+        end={end}
+      />
+    </Fragment>
+  );
+
+  const callBlocks = callTreeNode.children.map(childCall => {
+    const { start, duration } = childCall;
+    return <CallBlock color={CALL_BLOCK_COLOR} scale={scale} start={start} end={start + duration} />;
+  });
+
+  let processingBlocks = [];
+  let nextProcessingBlockStart = start + networkTime / 2;
+  callTreeNode.children.forEach((childCall, index) => {
+    const { start, duration } = childCall;
+    processingBlocks.push(
+      <DurationBlock
+        key={`processingBlock${index}`}
+        label="Processing"
+        color={PROCESSING_BLOCK_COLOR}
+        scale={scale}
+        start={nextProcessingBlockStart}
+        end={start}
+      />
+    );
+    nextProcessingBlockStart = start + duration;
+  });
+  processingBlocks.push(
+    <DurationBlock
+      label="Processing"
+      color={PROCESSING_BLOCK_COLOR}
+      scale={scale}
+      start={nextProcessingBlockStart}
+      end={end - networkTime / 2}
+    />
+  );
 
   return (
     <div className={locals.timingChart}>
-      <DurationBlock label="Network" color="#C6EAFF" duration={networkTime * 0.2} totalDuration={totalDuration} />
-      <DurationBlock label="Network" color="#C6EAFF" duration={networkTime * 0.8} totalDuration={totalDuration} />
-    </div>
-  );
-}
-
-function DurationBlock({ label, color, duration, totalDuration }) {
-  // also on 0
-  if (!duration) {
-    return null;
-  }
-
-  return (
-    <div
-      style={{
-        width: `${duration / totalDuration * 100}%`
-      }}
-      className={locals.durationBlockWrapper}
-    >
-      <div style={{ background: color }} className={locals.durationBlock}>
-        <span className={locals.durationBlockLabel}>{label}</span>
+      <div className={locals.blocksWrapper}>
+        {networkBlocks}
+        {processingBlocks}
+        {callBlocks}
       </div>
     </div>
   );
 }
 
-function findCallTreeNode(treeNode, nodeId) {
-  if (treeNode.id === nodeId) {
-    return treeNode;
-  }
+function DurationBlock({ label, color, scale, start, end }) {
+  const left = scale.getRange(start);
+  const width = scale.getRange(end) - left;
 
-  for (let i = 0; i < treeNode.children.length; i++) {
-    const subTreeMatch = findCallTreeNode(treeNode.children[i], nodeId);
-    if (subTreeMatch) {
-      return subTreeMatch;
-    }
-  }
+  return (
+    <div
+      className={locals.durationBlock}
+      style={{
+        background: color,
+        left: `${left}%`,
+        width: `${width}%`
+      }}
+    >
+      <span className={locals.durationBlockLabel}>{label}</span>
+    </div>
+  );
+}
 
-  return null;
+function CallBlock({ color, scale, start, end }) {
+  const left = scale.getRange(start);
+  const width = scale.getRange(end) - left;
+
+  return (
+    <div
+      className={locals.callBlock}
+      style={{
+        background: color,
+        left: `${left}%`,
+        width: `${width}%`
+      }}
+    />
+  );
 }
