@@ -6,7 +6,7 @@ export default {
   'Synchronous spans': {
     id: '1',
     label: 'span1',
-    start: 0,
+    start: 0.1,
     duration: 10,
     children: [
       {
@@ -66,7 +66,7 @@ export default {
   'Asynchronous spans': {
     id: '1',
     label: 'span1',
-    start: 0,
+    start: 0.1,
     duration: 10,
     children: [
       {
@@ -134,7 +134,7 @@ export default {
   'Many small spans': {
     id: '1',
     label: 'span1',
-    start: 0,
+    start: 0.1,
     duration: 500,
     children: [
       {

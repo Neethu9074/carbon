@@ -22,11 +22,11 @@ storiesOf('analyse/CallTree', module)
 function CallTreeStory() {
   return (
     <TraceExamples
-      render={rootSpan => (
+      render={rootCall => (
         <Root>
           <CallTree
             selectedCall$={create()}
-            spanTreeResult={{ data: rootSpan, errors: [], progress: {} }}
+            callTreeResult={{ data: rootCall, errors: [], progress: {} }}
             getColor={getColorByServiceAndEndpoint}
           />
         </Root>
@@ -38,7 +38,7 @@ function CallTreeStory() {
 function LoadingStory() {
   return (
     <Root>
-      <CallTree selectedCall$={create()} spanTreeResult={{ progress: { loading: true } }} />
+      <CallTree selectedCall$={create()} callTreeResult={{ progress: { loading: true } }} />
     </Root>
   );
 }
@@ -48,7 +48,7 @@ function ErrorStory() {
     <Root>
       <CallTree
         selectedCall$={create()}
-        spanTreeResult={{ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] }}
+        callTreeResult={{ errors: [{ message: 'something went wrong' }, { message: 'also this should not happen' }] }}
       />
     </Root>
   );

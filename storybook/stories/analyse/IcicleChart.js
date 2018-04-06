@@ -19,9 +19,9 @@ storiesOf('analyse/IcicleChart', module)
 function IcicleChartStory() {
   return (
     <TraceExamples
-      render={rootSpan => (
+      render={rootCall => (
         <Root>
-          <IcicleChart rootSpan={rootSpan} getColor={getColorByEndpointType} />
+          <IcicleChart rootCall={rootCall} getColor={getColorByEndpointType} />
         </Root>
       )}
     />

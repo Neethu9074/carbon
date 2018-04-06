@@ -20,17 +20,17 @@ export default withState('selectedValue', 'setSelectedValue', 'custom')(
       options.push(key);
     }
 
-    let rootSpan;
+    let rootCall;
     if (selectedValue !== 'custom') {
-      rootSpan = traceExamples[selectedValue];
+      rootCall = traceExamples[selectedValue];
     } else if (inputValue) {
       try {
-        rootSpan = deepFreeze(JSON.parse(inputValue));
+        rootCall = deepFreeze(JSON.parse(inputValue));
       } catch (e) {
-        rootSpan = null;
+        rootCall = null;
       }
     } else {
-      rootSpan = defaultTraceExample;
+      rootCall = defaultTraceExample;
     }
 
     return (
@@ -66,7 +66,7 @@ export default withState('selectedValue', 'setSelectedValue', 'custom')(
             </div>
           )}
         </InputHeader>
-        {render(rootSpan)}
+        {render(rootCall)}
       </div>
     );
   })
