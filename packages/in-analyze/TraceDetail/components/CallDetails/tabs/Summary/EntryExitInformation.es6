@@ -26,7 +26,7 @@ function ServiceEndpointInformation({ spanRelation, label }) {
       <h4 className={locals.label}>{label}</h4>
 
       <div className={locals.serviceRow}>
-        <SvgIcon className={locals.serviceIcon} type="app_service" width={18} height={18} color="#47626a" />
+        <SvgIcon className={locals.serviceIcon} type="app_service" width={14} height={14} color="#47626a" />
         {service ? (
           <Link className={locals.link} href$={getServiceDashboard(service.id)}>
             <span className={locals.serviceLabel}>{service.label}</span>
@@ -38,7 +38,7 @@ function ServiceEndpointInformation({ spanRelation, label }) {
 
       <div className={locals.endpointRow}>
         {endpoint && (
-          <SvgIcon className={locals.endpointIcon} type="app_endpoint" width={14} height={14} color="#5e777f" />
+          <SvgIcon className={locals.endpointIcon} type="app_endpoint" width={13} height={13} color="#5e777f" />
         )}
         {endpoint && (
           <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: get(service, 'id') })}>
