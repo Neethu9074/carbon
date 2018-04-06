@@ -179,12 +179,9 @@ export const fullyQualifiedPlugins = {
   clrRuntimePlatform: 'com.instana.forge.infrastructure.runtime.clr.ClrRuntimePlatform',
   clickHouseDatabase: 'com.instana.forge.infrastructure.database.clickhouse.ClickHouseDatabase',
   cloudFoundry: 'com.instana.forge.infrastructure.paas.cloudfoundry.CloudFoundry',
-<<<<<<< HEAD
   consul: 'com.instana.forge.infrastructure.discovery.consul.Consul',
-=======
   couchbaseCluster: 'com.instana.forge.infrastructure.database.couchbase.CouchbaseCluster',
   couchbaseNode: 'com.instana.forge.infrastructure.database.couchbase.CouchbaseNode',
->>>>>>> develop
   crystalRuntimePlatform: 'com.instana.forge.infrastructure.runtime.crystal.CrystalRuntimePlatform',
   databaseServiceInstance: 'com.instana.forge.connection.database.DatabaseServiceInstance',
   defaultLogicalConnection: 'com.instana.forge.connection.fallback.DefaultLogicalConnection',
