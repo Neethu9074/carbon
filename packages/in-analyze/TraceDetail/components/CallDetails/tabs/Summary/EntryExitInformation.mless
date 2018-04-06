@@ -10,7 +10,7 @@
   .connectionLineWrapper {
     position: absolute;
     top: 2.1875rem;
-    bottom: 1.75rem;
+    bottom: 1.875rem;
 
     display: flex;
     flex-direction: column;
