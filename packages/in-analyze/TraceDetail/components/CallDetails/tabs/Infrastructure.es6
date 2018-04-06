@@ -8,12 +8,12 @@ export default function Infrastructure({ call }) {
   return (
     <Fragment>
       <InfrastructureListing physicalContext={get(call, ['source', 'physicalContext'])} />
-      <InfrastructureListing physicalContext={get(call, ['destination', 'physicalContext'])} isEntry />
+      <InfrastructureListing physicalContext={get(call, ['destination', 'physicalContext'])} isCalled />
     </Fragment>
   );
 }
 
-function InfrastructureListing({ physicalContext, isEntry }) {
+function InfrastructureListing({ physicalContext, isCalled }) {
   if (!physicalContext) {
     return null;
   }
@@ -25,7 +25,7 @@ function InfrastructureListing({ physicalContext, isEntry }) {
 
   return (
     <EntryOrExitWrapper>
-      <DescriptionList isEntry={isEntry}>
+      <DescriptionList isCalled={isCalled}>
         {zone && <DescriptionItem title={'zone'}>{zone.label}</DescriptionItem>}
         {host && <DescriptionItem title={'host'}>{host.label}</DescriptionItem>}
         {container && <DescriptionItem title={'container'}>{container.label}</DescriptionItem>}

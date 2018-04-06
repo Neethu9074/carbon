@@ -13,18 +13,18 @@ export default function EntryExitInformation({ call }) {
     <div className={locals.entryExitInformation}>
       <ConnectionLine />
       <ServiceEndpointInformation spanRelation={call.source} />
-      <ServiceEndpointInformation isEntry spanRelation={call.destination} />
+      <ServiceEndpointInformation isCalled spanRelation={call.destination} />
     </div>
   );
 }
 
-function ServiceEndpointInformation({ spanRelation, isEntry }) {
+function ServiceEndpointInformation({ spanRelation, isCalled }) {
   const service = get(spanRelation, 'service');
   const endpoint = get(spanRelation, 'endpoint');
 
   return (
     <div className={locals.serviceEndpointInformation}>
-      <EntryOrExitWrapper isEntry={isEntry}>
+      <EntryOrExitWrapper isCalled={isCalled}>
         <div className={locals.serviceRow}>
           <SvgIcon className={locals.serviceIcon} type="app_service" width={14} height={14} color="#47626a" />
           {service ? (
