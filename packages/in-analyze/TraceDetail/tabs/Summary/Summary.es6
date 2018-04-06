@@ -11,6 +11,7 @@ import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
@@ -43,9 +44,11 @@ class Summary extends React.Component {
     return (
       <Fragment>
         {callId && (
-          <Sidebar relativeTopOffset={-16}>
-            <CallDetails callId={callId} traceId={trace.id} onClose={this.clearSelectedCall} />
-          </Sidebar>
+          <ErrorBoundary name="call tree sidebar">
+            <Sidebar relativeTopOffset={-16}>
+              <CallDetails callId={callId} traceId={trace.id} onClose={this.clearSelectedCall} />
+            </Sidebar>
+          </ErrorBoundary>
         )}
         <Row>
           <Col lg={4}>
