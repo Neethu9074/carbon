@@ -1,29 +1,31 @@
-import { compose } from 'recompose';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
+import { compose } from 'recompose';
 
+import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
 import getSpanTreeNodeDetails from 'in-subscription/application/getSpanTreeNodeDetails';
 import TabView from 'in-analyze/TraceDetail/components/CallDetails/components/TabView';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(({ callId }) => ({
-    result: getSpanTreeNodeDetails({ nodeId: callId })
+    result: getSpanTreeNodeDetails({ nodeId: callId }).startWith(pendingResult)
   }))
 )(CallDetails);
 
 function CallDetails(props) {
   const { traceId, result, onClose } = props;
 
-  const isLoading = get(result, ['progress', 'loading'], false);
+  const isLoading = result.progress.loading;
   if (isLoading) {
-    return 'loading';
+    return <LoadingCallDetails onClose={onClose} progress={result.progress} />;
   }
 
   const hasErrors = result.errors.length > 0;
   if (hasErrors) {
-    return result.errors;
+    return <ErroneousResultPresenter errors={result.errors} />;
   }
 
   const call = result.data;

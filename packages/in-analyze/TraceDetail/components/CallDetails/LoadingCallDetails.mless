@@ -1,0 +1,7 @@
+:local {
+  .labelSkeleton {
+    display: block;
+    height: 0.75rem;
+    width: 12.5rem;
+  }
+}
