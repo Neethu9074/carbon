@@ -1,6 +1,6 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
+import { assign, get } from 'lodash';
 
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { number, millis } from 'in-services/formatters/number';
@@ -9,6 +9,8 @@ import Traces from 'in-analyze/Analyze/TraceGroups/Traces';
 export default compose(withState('expanded', 'setExpanded', false))(Group);
 
 function Group({ setExpanded, expanded, item, orderBy, orderDirection, filter, depth }) {
+  const filterWithGroupName = assign({}, filter);
+  filterWithGroupName.traceGroupName = item.name;
   return (
     <Fragment>
       <Tr depth={depth}>
@@ -28,7 +30,9 @@ function Group({ setExpanded, expanded, item, orderBy, orderDirection, filter, d
         <Td>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</Td>
         <Td>{number.compact(get(item, ['metrics', 'errors', 0, 1]))}</Td>
       </Tr>
-      {expanded && <Traces orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={depth + 1} />}
+      {expanded &&
+        <Traces orderBy={orderBy} orderDirection={orderDirection} filter={filterWithGroupName} depth={depth + 1} />
+      }
     </Fragment>
   );
 }
