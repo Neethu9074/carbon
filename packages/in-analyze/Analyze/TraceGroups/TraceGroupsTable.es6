@@ -3,7 +3,8 @@ import React from 'react';
 import { Table, Thead, Tbody, Tr, SortableTh } from 'in-components/tables/sharedComponents';
 import Groups from 'in-analyze/Analyze/TraceGroups/Groups';
 
-export default function TraceGroupsTable({ orderBy, orderDirection, onChangeOrder, filter }) {
+export default function TraceGroupsTable(props) {
+  const { orderBy, orderDirection, onChangeOrder } = props;
   return (
     <Table>
       <Thead>
@@ -43,7 +44,7 @@ export default function TraceGroupsTable({ orderBy, orderDirection, onChangeOrde
         </Tr>
       </Thead>
       <Tbody>
-        <Groups orderBy={orderBy} orderDirection={orderDirection} filter={filter} depth={1} hasCharts />
+        <Groups {...props} depth={1} />
       </Tbody>
     </Table>
   );
