@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
-import getSpanTree from 'in-subscription/application/getSpanTree';
+import getCallTree from 'in-subscription/application/getCallTree';
 import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
@@ -10,20 +10,20 @@ import locals from './TimingChart.mless';
 
 export default compose(
   connect(props => ({
-    spanTreeResult: getSpanTree({ id: props.traceId }).startWith(pendingResult)
+    callTreeResult: getCallTree({ id: props.traceId }).startWith(pendingResult)
   }))
 )(TimingChart);
 
-function TimingChart({ call, spanTreeResult }) {
-  const isLoading = get(spanTreeResult, ['progress', 'loading'], false);
-  const hasErrors = spanTreeResult.errors.length > 0;
+function TimingChart({ call, callTreeResult }) {
+  const isLoading = get(callTreeResult, ['progress', 'loading'], false);
+  const hasErrors = callTreeResult.errors.length > 0;
   if (isLoading || hasErrors) {
     return null;
   }
 
-  const spanTree = spanTreeResult.data;
-  const spanTreeNode = findSpanTreeNode(spanTree, call.id);
-  if (!spanTreeNode) {
+  const callTree = callTreeResult.data;
+  const callTreeNode = findCallTreeNode(callTree, call.id);
+  if (!callTreeNode) {
     return null;
   }
 
@@ -58,13 +58,13 @@ function DurationBlock({ label, color, duration, totalDuration }) {
   );
 }
 
-function findSpanTreeNode(treeNode, nodeId) {
+function findCallTreeNode(treeNode, nodeId) {
   if (treeNode.id === nodeId) {
     return treeNode;
   }
 
   for (let i = 0; i < treeNode.children.length; i++) {
-    const subTreeMatch = findSpanTreeNode(treeNode.children[i], nodeId);
+    const subTreeMatch = findCallTreeNode(treeNode.children[i], nodeId);
     if (subTreeMatch) {
       return subTreeMatch;
     }

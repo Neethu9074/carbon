@@ -1,39 +1,39 @@
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { deepFreeze } from 'in-services/util/object';
 
-export function applyLayout(rootSpan) {
-  let spanFrames = [];
+export function applyLayout(rootCall) {
+  let callFrames = [];
 
-  const totalDuration = rootSpan.duration;
-  positionSpan(spanFrames, rootSpan, null, 0, rootSpan.start, totalDuration, []);
+  const totalDuration = rootCall.duration;
+  positionCall(callFrames, rootCall, null, 0, rootCall.start, totalDuration, []);
 
-  return deepFreeze(spanFrames);
+  return deepFreeze(callFrames);
 }
 
-function positionSpan(spanFrames, span, parentSpan, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
-  const { start, duration, children, ...props } = span;
+function positionCall(callFrames, call, parentCall, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
+  const { start, duration, children, ...props } = call;
   const end = start + duration;
 
   let depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
 
-  const spanFrame = {
+  const callFrame = {
     ...props,
     start,
     duration,
-    parent: parentSpan ? parentSpan.id : null,
+    parent: parentCall ? parentCall.id : null,
     depth: depthWithoutOverlapping,
     x: (start - traceStart) / totalDuration,
     dx: duration / totalDuration
   };
 
-  spanFrames.push(spanFrame);
+  callFrames.push(callFrame);
 
   if (children) {
-    children.map(childSpan => {
-      positionSpan(
-        spanFrames,
-        childSpan,
-        span,
+    children.map(subCalls => {
+      positionCall(
+        callFrames,
+        subCalls,
+        call,
         depthWithoutOverlapping + 1,
         traceStart,
         totalDuration,

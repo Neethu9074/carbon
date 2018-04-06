@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
-import getSpanTreeNodeDetails from 'in-subscription/application/getSpanTreeNodeDetails';
+import getCallTreeNodeDetails from 'in-subscription/application/getCallTreeNodeDetails';
 import TabView from 'in-analyze/TraceDetail/components/CallDetails/components/TabView';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
@@ -11,7 +11,7 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(({ callId }) => ({
-    result: getSpanTreeNodeDetails({ nodeId: callId }).startWith(pendingResult)
+    result: getCallTreeNodeDetails({ nodeId: callId }).startWith(pendingResult)
   }))
 )(CallDetails);
 

@@ -1,7 +1,7 @@
 export default [
   {
     id: '1',
-    label: 'span1',
+    label: 'call1',
     start: 0,
     duration: 10,
     parent: null,
@@ -11,7 +11,7 @@ export default [
   },
   {
     id: '2',
-    label: 'span2',
+    label: 'call2',
     start: 1,
     duration: 6,
     parent: '1',
@@ -21,7 +21,7 @@ export default [
   },
   {
     id: '3',
-    label: 'span4',
+    label: 'call4',
     start: 2,
     duration: 1,
     parent: '2',
@@ -31,7 +31,7 @@ export default [
   },
   {
     id: '4',
-    label: 'span4',
+    label: 'call4',
     start: 4,
     duration: 2,
     parent: '1',

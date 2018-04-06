@@ -38,19 +38,19 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
   });
 
   describe('Icicle Layout', () => {
-    it('root span with no children', () => {
-      let rootSpan = deepFreeze({
+    it('root call with no children', () => {
+      let rootCall = deepFreeze({
         id: '1',
-        label: 'span',
+        label: 'call',
         start: 0,
         duration: 10
       });
 
-      const spanFrames = applyLayout(rootSpan);
+      const callFrames = applyLayout(rootCall);
 
-      expect(spanFrames).to.deep.include({
+      expect(callFrames).to.deep.include({
         id: '1',
-        label: 'span',
+        label: 'call',
         start: 0,
         duration: 10,
         parent: null,
@@ -60,36 +60,36 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
       });
     });
 
-    it('synchronous spans', () => {
-      let rootSpan = deepFreeze(require('./testData/syncSpans.es6').default);
-      const spanFrames = applyLayout(rootSpan);
+    it('synchronous call', () => {
+      let rootCall = deepFreeze(require('./testData/syncCalls.es6').default);
+      const callFrames = applyLayout(rootCall);
 
-      const expectedSpanFrames = require('./testData/syncSpans_expected.es6').default;
-      expect(spanFrames).to.deep.equal(expectedSpanFrames);
+      const expectedCallFrames = require('./testData/syncCalls_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
-    it('asynchronous spans case 1', () => {
-      let rootSpan = deepFreeze(require('./testData/asyncSpans1.es6').default);
-      const spanFrames = applyLayout(rootSpan);
+    it('asynchronous call case 1', () => {
+      let rootCall = deepFreeze(require('./testData/asyncCalls1.es6').default);
+      const callFrames = applyLayout(rootCall);
 
-      const expectedSpanFrames = require('./testData/asyncSpans1_expected.es6').default;
-      expect(spanFrames).to.deep.equal(expectedSpanFrames);
+      const expectedCallFrames = require('./testData/asyncCalls1_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
-    it('asynchronous spans case 2', () => {
-      let rootSpan = deepFreeze(require('./testData/asyncSpans2.es6').default);
-      const spanFrames = applyLayout(rootSpan);
+    it('asynchronous call case 2', () => {
+      let rootCall = deepFreeze(require('./testData/asyncCalls2.es6').default);
+      const callFrames = applyLayout(rootCall);
 
-      const expectedSpanFrames = require('./testData/asyncSpans2_expected.es6').default;
-      expect(spanFrames).to.deep.equal(expectedSpanFrames);
+      const expectedCallFrames = require('./testData/asyncCalls2_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
-    it('asynchronous spans case 3', () => {
-      let rootSpan = deepFreeze(require('./testData/asyncSpans3.es6').default);
-      const spanFrames = applyLayout(rootSpan);
+    it('asynchronous call case 3', () => {
+      let rootCall = deepFreeze(require('./testData/asyncCalls3.es6').default);
+      const callFrames = applyLayout(rootCall);
 
-      const expectedSpanFrames = require('./testData/asyncSpans3_expected.es6').default;
-      expect(spanFrames).to.deep.equal(expectedSpanFrames);
+      const expectedCallFrames = require('./testData/asyncCalls3_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
     });
   });
 });

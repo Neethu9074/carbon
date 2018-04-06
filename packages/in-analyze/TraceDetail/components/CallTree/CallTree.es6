@@ -10,23 +10,23 @@ import createScale from 'in-charts/scale';
 import locals from './CallTree.mless';
 
 export default function CallTree({
-  spanTreeResult,
+  callTreeResult,
   getColor = () => '#e6e6e6',
   selectedCall$,
   onCallClicked,
   onSubCallClicked
 }) {
-  const isLoading = get(spanTreeResult, ['progress', 'loading'], false);
+  const isLoading = get(callTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
-    return <LoadingCallTree progress={spanTreeResult.progress} />;
+    return <LoadingCallTree progress={callTreeResult.progress} />;
   }
 
-  const hasErrors = spanTreeResult.errors.length > 0;
+  const hasErrors = callTreeResult.errors.length > 0;
   if (hasErrors) {
-    return <ErroneousResultPresenter errors={spanTreeResult.errors} />;
+    return <ErroneousResultPresenter errors={callTreeResult.errors} />;
   }
 
-  const rootCall = spanTreeResult.data;
+  const rootCall = callTreeResult.data;
 
   const scale = createScale();
   scale.setRangeFrom(0);

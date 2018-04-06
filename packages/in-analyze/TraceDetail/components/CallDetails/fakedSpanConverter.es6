@@ -1,14 +1,14 @@
 import { fromJS } from 'immutable';
 
-export default function convert(span) {
-  if (!span) {
+export default function convert(call) {
+  if (!call) {
     return null;
   }
 
-  const type = span.name;
+  const type = call.name;
   const fakedSpan = {
     name: type,
-    data: span.data
+    data: call.data
   };
 
   return fromJS(fakedSpan);

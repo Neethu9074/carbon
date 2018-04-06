@@ -10,17 +10,17 @@ import locals from './IcicleChart.mless';
 const frameHeight = 22;
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onCallClicked }) {
-  const spanFrames = applyLayout(rootSpan);
+export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCallClicked }) {
+  const callFrames = applyLayout(rootCall);
 
   let minDomain = 0;
   let maxDomain = 1;
   let maxDepth = 0;
 
-  spanFrames.forEach(spanFrame => {
-    minDomain = Math.min(minDomain, spanFrame.x);
-    maxDomain = Math.max(maxDomain, spanFrame.x);
-    maxDepth = Math.max(maxDepth, spanFrame.depth);
+  callFrames.forEach(callFrame => {
+    minDomain = Math.min(minDomain, callFrame.x);
+    maxDomain = Math.max(maxDomain, callFrame.x);
+    maxDepth = Math.max(maxDepth, callFrame.depth);
   });
 
   const chartHeight = (maxDepth + 1) * frameHeight;
@@ -33,19 +33,19 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onCa
 
   return (
     <div className={locals.chart}>
-      <CallTimeAxis call={rootSpan} />
+      <CallTimeAxis call={rootCall} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
-        {spanFrames.map(spanFrame => {
-          const { id, label, parent } = spanFrame;
-          const parentDepth = parent ? spanFrames.find(obj => obj.id === parent).depth : 0;
+        {callFrames.map(callFrame => {
+          const { id, label, parent } = callFrame;
+          const parentDepth = parent ? callFrames.find(obj => obj.id === parent).depth : 0;
 
           return (
             <Fragment key={id}>
               <Tooltip content={label} align={tooltipAlignment}>
-                <SpanFrame spanFrame={spanFrame} xScale={xScale} getColor={getColor} onSpanClick={onCallClicked} />
+                <CallFrame callFrame={callFrame} xScale={xScale} getColor={getColor} onCallClicked={onCallClicked} />
               </Tooltip>
-              <ParentSpanIndicator spanFrame={spanFrame} xScale={xScale} parentDepth={parentDepth} />
+              <ParentCallIndicator callFrame={callFrame} xScale={xScale} parentDepth={parentDepth} />
             </Fragment>
           );
         })}
@@ -55,8 +55,8 @@ export default function IcicleChart({ rootSpan, getColor = () => '#1479ff', onCa
   );
 }
 
-function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
-  const { label, errorCount, depth, x, dx } = spanFrame;
+function CallFrame({ callFrame, xScale, getColor, onCallClicked }) {
+  const { label, errorCount, depth, x, dx } = callFrame;
 
   const top = frameHeight * depth;
   const left = xScale.getRange(x);
@@ -70,9 +70,9 @@ function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
         left: `${left}%`,
         width: `${width}%`,
         height: `${frameHeight}px`,
-        background: getColor(spanFrame)
+        background: getColor(callFrame)
       }}
-      onClick={() => onSpanClick(spanFrame)}
+      onClick={() => onCallClicked(callFrame)}
     >
       {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
       <div className={locals.label}>{label}</div>
@@ -80,8 +80,8 @@ function SpanFrame({ spanFrame, xScale, getColor, onSpanClick }) {
   );
 }
 
-function ParentSpanIndicator({ spanFrame, xScale, parentDepth }) {
-  const { depth, x } = spanFrame;
+function ParentCallIndicator({ callFrame, xScale, parentDepth }) {
+  const { depth, x } = callFrame;
 
   if (depth - parentDepth == 1) {
     return null;
