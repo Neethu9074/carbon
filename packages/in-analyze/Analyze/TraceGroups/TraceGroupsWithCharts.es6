@@ -59,11 +59,12 @@ export default compose(
 )(TraceGroupsWithCharts);
 
 function TraceGroupsWithCharts(props) {
-  // TODO TraceGroupsCharts and the first level of TraceGroupsTable could (should?) use the same data.
-  // TODO Actually, we already need the data here, to be able to show the number of traces in the card title:
-  // "Traces (35)"
+  let label = 'Traces';
+  if (props.items && props.items.length > 0) {
+    label = `Traces ${props.items.length}`;
+  }
   return (
-    <Card title="Traces">
+    <Card title={label}>
       <TraceGroupsCharts {...props} />
       <TraceGroupsTable {...props} />
     </Card>
