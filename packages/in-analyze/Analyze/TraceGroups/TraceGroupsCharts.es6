@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
+import TraceGroupsChartWrapper from 'in-analyze/Analyze/TraceGroups/TraceGroupsChartWrapper';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
-import theme from 'in-themes';
 
 import locals from './TraceGroupsCharts.mless';
+
+const MAX_CHARTS = 8;
 
 export default withState('selectedChart', 'setSelectedChart', 'calls')(TraceGroupCharts);
 
@@ -16,10 +18,9 @@ const chartDefinitions = {
   calls: {
     y1: {
       renderer: Renderer.line,
-      labels: ['Calls'],
       metricIds: ['calls']
     },
-    getMetrics: granularity => ({
+    getMetricsDefinitions: granularity => ({
       calls: {
         metric: 'calls',
         granularity,
@@ -30,10 +31,9 @@ const chartDefinitions = {
   errors: {
     y1: {
       renderer: Renderer.line,
-      labels: ['Errors'],
       metricIds: ['errors']
     },
-    getMetrics: granularity => ({
+    getMetricsDefinitions: granularity => ({
       errors: {
         metric: 'errors',
         granularity,
@@ -44,16 +44,14 @@ const chartDefinitions = {
   latency: {
     y1: {
       renderer: Renderer.line,
-      labels: ['Latency'],
       metricIds: ['latency'],
-      colors: [theme.app20Chart.strokeColors100[2]],
       formatter: {
         compact: millis.detailed,
         detailed: millis.detailed
       },
       min: 0
     },
-    getMetrics: granularity => ({
+    getMetricsDefinitions: granularity => ({
       latency: {
         metric: 'latency',
         granularity,
@@ -63,12 +61,27 @@ const chartDefinitions = {
   }
 };
 
-function TraceGroupCharts({ filter, selectedChart, setSelectedChart }) {
+function TraceGroupCharts({ items, errors, progress, filter, selectedChart, setSelectedChart }) {
+  if (errors.length > 0) {
+    // the errors of this loading stage will be rendered by the trace group table, no need to render them twice.
+    return null;
+  } else if (progress.loading) {
+    return (
+      <Fragment>
+        <HorizontalIndicator progress={progress} />
+        <div className={locals.whitespace} />
+      </Fragment>
+    );
+  } else if (!items || items.length === 0) {
+    // No groups found, just omit the charts element.
+    return null;
+  }
+
+  // Render chart selector and chart.
+
   const { applicationId, serviceId, endpointId, timeframe } = filter;
   const granularity = getChartGranularity(timeframe);
-
   const chartDefinition = chartDefinitions[selectedChart];
-
   return (
     <Fragment>
       <div className={locals.chartSelector}>
@@ -92,20 +105,21 @@ function TraceGroupCharts({ filter, selectedChart, setSelectedChart }) {
         />
       </div>
 
-      <ChartWrapper
+      {/* load chart data only for the top 8 groups for performance reasons */}
+      <TraceGroupsChartWrapper
+        groups={items.slice(0, MAX_CHARTS).map(group => group.name)}
         timeframe={timeframe}
         y1={chartDefinition.y1}
         metricsConfiguration={{
           filter: {
             timeframe,
-            endpoint: endpointId,
             application: applicationId,
-            service: serviceId
+            service: serviceId,
+            endpoint: endpointId
           },
-          metrics: chartDefinition.getMetrics(granularity)
+          metrics: chartDefinition.getMetricsDefinitions(granularity)
         }}
       />
-
       <div className={locals.whitespace} />
     </Fragment>
   );
