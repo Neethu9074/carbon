@@ -45,6 +45,7 @@ export default function TimingChart({ call, callTreeNode }) {
   callTreeNode.children.forEach((childCall, index) => {
     const { start, duration } = childCall;
     if (start != nextProcessingBlockStart) {
+      // ignore 0ms processing block
       processingBlocks.push(
         <TimeBlock
           scale={scale}
@@ -58,15 +59,18 @@ export default function TimingChart({ call, callTreeNode }) {
     }
     nextProcessingBlockStart = start + duration;
   });
-  processingBlocks.push(
-    <TimeBlock
-      scale={scale}
-      start={nextProcessingBlockStart}
-      end={end - networkTime / 2}
-      label="Processing"
-      color={PROCESSING_BLOCK_COLOR}
-    />
-  );
+  if (nextProcessingBlockStart != end - networkTime / 2) {
+    // ignore 0ms processing block
+    processingBlocks.push(
+      <TimeBlock
+        scale={scale}
+        start={nextProcessingBlockStart}
+        end={end - networkTime / 2}
+        label="Processing"
+        color={PROCESSING_BLOCK_COLOR}
+      />
+    );
+  }
 
   return (
     <div className={locals.timingChart}>

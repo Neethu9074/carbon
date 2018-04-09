@@ -6,6 +6,8 @@ import connect from 'in-hoc/connectTo';
 import getCallTree from 'in-subscription/application/getCallTree';
 import { pendingResult } from 'in-services/fixedObjects';
 import TimingChart from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingChart';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 
 export default compose(
   connect(props => ({
@@ -15,9 +17,13 @@ export default compose(
 
 function ServerTimingChart({ call, callTreeResult }) {
   const isLoading = get(callTreeResult, ['progress', 'loading'], false);
+  if (isLoading) {
+    return <HorizontalIndicator progress={callTreeResult.progress} />;
+  }
+
   const hasErrors = get(callTreeResult, ['errors', 'length'], 0) > 0;
-  if (isLoading || hasErrors) {
-    return null;
+  if (hasErrors) {
+    return <ErroneousResultPresenter errors={callTreeResult.errors} />;
   }
 
   const callTree = callTreeResult.data;
