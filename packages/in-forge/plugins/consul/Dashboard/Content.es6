@@ -16,23 +16,22 @@ const metrics = [
   'consul.runtime.total_gc_runs',
   'consul.runtime.num_goroutines',
   'consul.autopilot.failure_tolerance',
-  'consul.runtime.total_gc_pause_ns',
-  'agent.self.stats.serfLan.eventQueue',
-  'agent.self.stats.serfLan.healthScore',
-  'agent.self.stats.serfLan.members'
+  'consul.runtime.total_gc_pause_ns'
 ];
 
+const serfLanMetrics = ['serfLan.eventQueue', 'serfLan.healthScore', 'serfLan.members'];
+
 const raftMetrics = [
-  'agent.self.stats.raft.fsmPending',
-  'agent.self.stats.raft.appliedIndex',
-  'agent.self.stats.raft.commitIndex',
-  'agent.self.stats.raft.lastContact',
-  'agent.self.stats.raft.lastLogIndex',
-  'agent.self.stats.raft.lastLogTerm',
-  'agent.self.stats.raft.lastSnapshotIndex',
-  'agent.self.stats.raft.lastSnapshotTerm',
-  'agent.self.stats.raft.term',
-  'agent.self.stats.raft.numPeers'
+  'raft.fsmPending',
+  'raft.appliedIndex',
+  'raft.commitIndex',
+  'raft.lastContact',
+  'raft.lastLogIndex',
+  'raft.lastLogTerm',
+  'raft.lastSnapshotIndex',
+  'raft.lastSnapshotTerm',
+  'raft.term',
+  'raft.numPeers'
 ];
 
 export default function ConsulDashboard({ snapshot, timeframe }) {
@@ -58,17 +57,15 @@ export default function ConsulDashboard({ snapshot, timeframe }) {
       <div>
         <KpiSection>
           <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-          <KpiKeyValue label="State">{snapshot.getIn(['data', 'agent.self.stats.raft.state'], null)}</KpiKeyValue>
-          <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'agent.self.config.domain'], null)}</KpiKeyValue>
-          <KpiKeyValue label="AdvertiseAddr">
-            {snapshot.getIn(['data', 'agent.self.config.advertiseAddr'], null)}
-          </KpiKeyValue>
-          <KpiKeyValue label="Known Servers">
-            {snapshot.getIn(['data', 'agent.self.stats.consul.knownServers'], null)}
-          </KpiKeyValue>
-          <KpiKeyValue label="Known Datacenters">
-            {snapshot.getIn(['data', 'agent.self.stats.consul.knownDatacenters'], null)}
-          </KpiKeyValue>
+          <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
+          <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
+          <KpiKeyValue label="AdvertiseAddr">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
+          {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
+            <KpiKeyValue label="Known Servers">{snapshot.getIn(['data', 'knownServers'], null)}</KpiKeyValue>
+          )}
+          {snapshot.getIn(['data', 'knownDatacenters'], null) > 0 && (
+            <KpiKeyValue label="Known Datacenters">{snapshot.getIn(['data', 'knownDatacenters'], null)}</KpiKeyValue>
+          )}
         </KpiSection>
         <Columize>
           <DashboardSection title="Allocation">
@@ -102,7 +99,10 @@ export default function ConsulDashboard({ snapshot, timeframe }) {
           <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
         </Columize>
         <Columize>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={metrics} title="Runtime / SerfLan" />
+          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
+        </Columize>
+        <Columize>
+          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={metrics} title="Runtime" />
         </Columize>
       </div>
     );

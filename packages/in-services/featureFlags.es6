@@ -30,7 +30,7 @@ export const showTenantSwitcher = config.tenant !== 'edmunds';
 // 2.0 features
 //export const withoutInstana1Features = isFeatureFlagEnabled('withoutInstana1Features');
 export const withoutInstana1Features = false;
-export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
+export const newApplicationMonitoringEnabled = false;
 export const newApplicationMonitoringFeaturePlaceholdersEnabled = __DEV__ || testTu;
 export const analyzeEnabled = __DEV__ || isFeatureFlagEnabled('analyzeEnabled');
 //export const withoutTimeline = __DEV__ || withoutInstana1Features;
