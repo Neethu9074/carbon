@@ -16,6 +16,7 @@ export default function TimingChart({ call, callTreeNode }) {
   scale.setDomainTo(end);
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
+  scale.setClamp(true);
 
   const networkBlocks = (
     <Fragment>

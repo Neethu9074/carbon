@@ -13,6 +13,7 @@ class Scale {
     this.rangeTo = 1;
     this.domainFrom = 0;
     this.domainTo = 1;
+    this.clamp = false;
   }
 
   setRangeFrom(v) {
@@ -43,6 +44,13 @@ class Scale {
     return this.domainTo;
   }
 
+  setClamp(v) {
+    this.clamp = v;
+  }
+  getClamp() {
+    return this.clamp;
+  }
+
   getRange(domainValue) {
     const domainRange = this.domainTo - this.domainFrom;
     if (domainRange === 0) {
@@ -51,7 +59,11 @@ class Scale {
       }
       return (this.rangeTo - this.rangeFrom) / 2 + this.rangeFrom;
     }
-    const percentageOfDomain = 1 / (this.domainTo - this.domainFrom) * (domainValue - this.domainFrom);
+    let percentageOfDomain = 1 / (this.domainTo - this.domainFrom) * (domainValue - this.domainFrom);
+    if (this.clamp) {
+      percentageOfDomain = Math.max(0, percentageOfDomain);
+      percentageOfDomain = Math.min(1, percentageOfDomain);
+    }
     return percentageOfDomain * (this.rangeTo - this.rangeFrom) + this.rangeFrom;
   }
 
