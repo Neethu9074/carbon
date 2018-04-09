@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { getTracesCount } from 'in-applications/components/TracesButton';
@@ -30,32 +30,39 @@ export default connectTo(
     }
     return observables;
   },
-  function Row({ label, href$, value, total, iconType, type, applicationId, serviceId, endpointId }) {
+  function Row({ label, value, total, iconType, type, applicationId, serviceId, endpointId }) {
     if (!label || value == null) {
       return null;
     }
 
+    const content = (
+      <Fragment>
+        <div className={locals.heading}>
+          <EntityWithTypeAndIcon label={label} type={type} iconType={iconType} />
+          <ValueAndPercentage value={value} total={total} />
+        </div>
+        <Bar percentage={value / total} />
+      </Fragment>
+    );
     const linkToAnalyze =
       analyzeEnabled && (applicationId || serviceId || endpointId)
         ? getLinkToAnalyze({ applicationId, serviceId, endpointId })
         : null;
-    return (
-      <div className={locals.row}>
-        <div className={locals.heading}>
-          <EntityWithTypeAndIcon href$={href$} label={label} type={type} iconType={iconType} />
-          <ValueAndPercentage href$={linkToAnalyze} value={value} total={total} />
-        </div>
-        <Bar percentage={value / total} />
-      </div>
+    return linkToAnalyze ? (
+      <Link className={locals.row} href$={linkToAnalyze}>
+        {content}
+      </Link>
+    ) : (
+      <div className={locals.row}>{content}</div>
     );
   }
 );
 
-function ValueAndPercentage({ value, total, href$ }) {
+function ValueAndPercentage({ value, total }) {
   const renderedValue = value == null ? '––' : number.compact(value);
   return (
     <div className={locals.valueAndPercentageWrapper}>
-      {href$ ? <Link href$={href$}>{renderedValue}</Link> : <span>{renderedValue}</span>}
+      <span>{renderedValue}</span>
       <span className={locals.percentage}>
         {value != null && total != null && `(${percentage.detailed(value / total)})`}
       </span>

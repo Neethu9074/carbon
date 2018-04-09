@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Row from 'in-applications/components/TraceButtonDialogPresenter/Row';
 import { getTracesCount } from 'in-applications/components/TracesButton';
 import getApplication from 'in-subscription/application/getApplication';
@@ -21,7 +20,6 @@ export default connectTo(
         <Row
           type="Application"
           iconType="app_application"
-          href$={getApplicationDashboard(applicationId)}
           entityId={applicationId}
           getEntity={getApplication}
           applicationId={applicationId}
@@ -31,7 +29,6 @@ export default connectTo(
         <Row
           type="Service"
           iconType="app_service"
-          href$={getServiceDashboard(serviceId, { applicationId })}
           entityId={serviceId}
           getEntity={getService}
           applicationId={applicationId}
@@ -42,7 +39,6 @@ export default connectTo(
         <Row
           type="Endpoint"
           iconType="app_endpoint"
-          href$={getEndpointDashboard(endpointId, { applicationId, serviceId })}
           entityId={endpointId}
           getEntity={getEndpoint}
           applicationId={applicationId}
