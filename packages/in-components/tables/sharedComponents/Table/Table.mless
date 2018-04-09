@@ -27,7 +27,7 @@
     }
 
     &.depth-2 {
-      & > td:first-child {padding-left: 37px;}
+      & > td:first-child {padding-left: 54px;}
     }
   }
 
