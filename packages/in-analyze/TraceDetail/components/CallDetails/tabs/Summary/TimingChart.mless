@@ -9,9 +9,10 @@
   .blockWrapper {
     position: absolute;
     height: 100%;
-    border-left: 1px solid #e7eef0;
-    &:last-child {
-      border-right: 1px solid #e7eef0;
+    min-width: 5px;
+    border-right: 1px solid #e7eef0;
+    &:first-child {
+      border-left: 1px solid #e7eef0;
     }
   }
 
@@ -35,8 +36,6 @@
   }
 
   .callBlock {
-    position: relative;
     height: 0.5rem;
-    top: 2rem;
   }
 }

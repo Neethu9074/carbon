@@ -11,6 +11,10 @@ export default function TimingChart({ call, callTreeNode }) {
   const { start, duration, networkTime } = call;
   const end = start + duration;
 
+  if (!duration) {
+    return null;
+  }
+
   const scale = createScale();
   scale.setDomainFrom(start);
   scale.setDomainTo(end);
@@ -18,7 +22,7 @@ export default function TimingChart({ call, callTreeNode }) {
   scale.setRangeTo(100);
   scale.setClamp(true);
 
-  const networkBlocks = (
+  const networkBlocks = networkTime ? (
     <Fragment>
       <DurationBlock
         label="Network"
@@ -35,7 +39,7 @@ export default function TimingChart({ call, callTreeNode }) {
         end={end}
       />
     </Fragment>
-  );
+  ) : null;
 
   const callBlocks = callTreeNode.children.map(childCall => {
     const { start, duration } = childCall;
@@ -46,16 +50,18 @@ export default function TimingChart({ call, callTreeNode }) {
   let nextProcessingBlockStart = start + networkTime / 2;
   callTreeNode.children.forEach((childCall, index) => {
     const { start, duration } = childCall;
-    processingBlocks.push(
-      <DurationBlock
-        key={`processingBlock${index}`}
-        label="Processing"
-        color={PROCESSING_BLOCK_COLOR}
-        scale={scale}
-        start={nextProcessingBlockStart}
-        end={start}
-      />
-    );
+    if (start != nextProcessingBlockStart) {
+      processingBlocks.push(
+        <DurationBlock
+          key={`processingBlock${index}`}
+          label="Processing"
+          color={PROCESSING_BLOCK_COLOR}
+          scale={scale}
+          start={nextProcessingBlockStart}
+          end={start}
+        />
+      );
+    }
     nextProcessingBlockStart = start + duration;
   });
   processingBlocks.push(
@@ -70,9 +76,9 @@ export default function TimingChart({ call, callTreeNode }) {
 
   return (
     <div className={locals.timingChart}>
-      {callBlocks}
-      {processingBlocks}
       {networkBlocks}
+      {processingBlocks}
+      {callBlocks}
     </div>
   );
 }
@@ -110,6 +116,7 @@ function CallBlock({ color, scale, start, end }) {
       }}
     >
       <div className={locals.timeLabel}>{end - start}ms</div>
+      <div className={locals.durationBlock} style={{ background: 'white' }} />
       <div className={locals.callBlock} style={{ background: color }} />
     </div>
   );
