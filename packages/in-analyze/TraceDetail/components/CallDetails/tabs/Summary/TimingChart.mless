@@ -23,7 +23,7 @@
     overflow: hidden;
   }
 
-  .durationBlock {
+  .timeBlock {
     height: 2rem;
     padding: 0.5rem 0;
     white-space: nowrap;
@@ -31,7 +31,7 @@
     text-overflow: ellipsis;
   }
 
-  .durationBlockLabel {
+  .timeBlockLabel {
     margin-left: 0.5rem;
   }
 
