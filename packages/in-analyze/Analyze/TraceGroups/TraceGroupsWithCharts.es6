@@ -1,9 +1,9 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import getTraceGroups, { MAX_TRACE_GROUP_CHARTS } from 'in-subscription/application/getTraceGroups';
-import TraceGroupsCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts';
+import TraceGroupsCharts, { MAX_TRACE_GROUP_CHARTS } from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts';
 import TraceGroupsTable from 'in-analyze/Analyze/TraceGroups/TraceGroupsTable';
+import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
