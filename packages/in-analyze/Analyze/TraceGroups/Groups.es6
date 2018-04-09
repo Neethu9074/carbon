@@ -1,59 +1,28 @@
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import {
+  ErrorRows,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
-  ErrorRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import Group from 'in-analyze/Analyze/TraceGroups/Group';
-import cursorPaginated from 'in-hoc/cursorPaginated';
 
-const orderTranslation = {
-  label: 'rootEndpointLabel',
-  calls: 'calls',
-  duration: 'duration',
-  errors: 'errors'
-};
-
-export default compose(
-  cursorPaginated({
-    getResettingProps: () => ['filter', 'orderBy', 'orderDirection'],
-    get: ({ cursor, filter, orderBy, orderDirection }) =>
-      getTraceGroups({
-        pagination: {
-          cursor,
-          retrievalSize: 20
-        },
-        order: {
-          by: orderTranslation[orderBy] || '',
-          direction: orderDirection
-        },
-        filter,
-        metrics: {
-          calls: {
-            metric: 'calls',
-            aggregation: 'SUM'
-          },
-          duration: {
-            metric: 'latency',
-            aggregation: 'MEAN'
-          },
-          errors: {
-            metric: 'errors',
-            aggregation: 'MEAN'
-          }
-        }
-      })
-  })
-)(Groups);
-
-function Groups({ items, errors, progress, loadMore, canLoadMore, depth, filter, orderBy, orderDirection }) {
+export default function Groups({
+  items,
+  errors,
+  progress,
+  loadMore,
+  canLoadMore,
+  depth,
+  filter,
+  orderBy,
+  orderDirection,
+  traceGroupColors
+}) {
   return (
     <Fragment>
-      {items.map(item => (
+      {items.map((item, groupIndex) => (
         <Group
           key={item.name}
           orderBy={orderBy}
@@ -61,6 +30,7 @@ function Groups({ items, errors, progress, loadMore, canLoadMore, depth, filter,
           filter={filter}
           depth={depth}
           item={item}
+          dotColor={traceGroupColors[groupIndex]}
         />
       ))}
 

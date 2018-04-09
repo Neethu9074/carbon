@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import TraceGroupsWithCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsWithCharts';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import TraceGroups from 'in-analyze/Analyze/TraceGroups/TraceGroups';
 import FilterButtonRow from 'in-analyze/Analyze/FilterButtonRow';
 import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
 import AnalyzeRoot from 'in-analyze/Analyze/AnalyzeRoot';
@@ -18,7 +18,7 @@ export default function Analyze({ location }) {
 
       <Sticky header={<FilterButtonRow filter={filter} />}>
         <MaxWidthFullscreenContainer>
-          <TraceGroups filter={filter} />
+          <TraceGroupsWithCharts filter={filter} />
         </MaxWidthFullscreenContainer>
       </Sticky>
     </Fragment>

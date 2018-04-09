@@ -1,5 +1,6 @@
 :local {
   .dot {
+    display: inline-block;
     border-radius: 50%;
     width: 0.5rem;
     height: 0.5rem;
