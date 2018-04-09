@@ -5,6 +5,7 @@ import TraceGroupsCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts'
 import TraceGroupsTable from 'in-analyze/Analyze/TraceGroups/TraceGroupsTable';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { app20Chart } from 'in-themes/theme';
@@ -30,8 +31,9 @@ export default compose(
   }),
   cursorPaginated({
     getResettingProps: () => ['filter', 'orderBy', 'orderDirection'],
-    get: ({ cursor, filter, orderBy, orderDirection }) =>
-      getTraceGroups({
+    get: ({ cursor, filter, orderBy, orderDirection }) => {
+      const granularity = getChartGranularity(filter.timeframe);
+      return getTraceGroups({
         pagination: {
           cursor,
           retrievalSize: 20
@@ -53,19 +55,35 @@ export default compose(
           errors: {
             metric: 'errors',
             aggregation: 'MEAN'
+          },
+          callsChartData: {
+            metric: 'calls',
+            aggregation: 'SUM',
+            granularity
+          },
+          errorsChartData: {
+            metric: 'errors',
+            aggregation: 'MEAN',
+            granularity
+          },
+          latencyChartData: {
+            metric: 'latency',
+            aggregation: 'MEAN',
+            granularity
           }
         }
-      })
+      });
+    }
   })
 )(TraceGroupsWithCharts);
 
 function TraceGroupsWithCharts(props) {
   const { items } = props;
 
-  let label = 'Traces';
+  let label = 'Traces Groups';
   let traceGroupColors = [];
   if (items && items.length > 0) {
-    label = `Traces (${items.length})`;
+    label = `Traces Groups (${items.length})`;
     traceGroupColors = items.map(
       (group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]
     );

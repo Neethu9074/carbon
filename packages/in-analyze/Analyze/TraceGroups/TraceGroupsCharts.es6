@@ -1,65 +1,27 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
-import TraceGroupsChartWrapper from 'in-analyze/Analyze/TraceGroups/TraceGroupsChartWrapper';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import Chart from 'in-components/Chart/ChartReactComponent';
 import { millis } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
 
-export default withState('selectedChart', 'setSelectedChart', 'calls')(TraceGroupCharts);
+export default withState('selectedChart', 'setSelectedChart', 'callsChartData')(TraceGroupCharts);
 
-const chartDefinitions = {
-  calls: {
-    y1: {
-      renderer: Renderer.line,
-      metricIds: ['calls']
-    },
-    getMetricsDefinitions: granularity => ({
-      calls: {
-        metric: 'calls',
-        granularity,
-        aggregation: 'SUM'
-      }
-    })
-  },
-  errors: {
-    y1: {
-      renderer: Renderer.line,
-      metricIds: ['errors']
-    },
-    getMetricsDefinitions: granularity => ({
-      errors: {
-        metric: 'errors',
-        granularity,
-        aggregation: 'MEAN'
-      }
-    })
-  },
-  latency: {
-    y1: {
-      renderer: Renderer.line,
-      metricIds: ['latency'],
-      formatter: {
-        compact: millis.detailed,
-        detailed: millis.detailed
-      },
-      min: 0
-    },
-    getMetricsDefinitions: granularity => ({
-      latency: {
-        metric: 'latency',
-        granularity,
-        aggregation: 'MEAN'
-      }
-    })
-  }
-};
-
-function TraceGroupCharts({ items, errors, progress, filter, traceGroupColors, selectedChart, setSelectedChart }) {
+function TraceGroupCharts({
+  items,
+  errors,
+  progress,
+  time,
+  filter,
+  traceGroupColors,
+  selectedChart,
+  setSelectedChart
+}) {
   if (errors.length > 0) {
     // the errors of this loading stage will be rendered by the trace group table, no need to render them twice.
     return null;
@@ -76,47 +38,35 @@ function TraceGroupCharts({ items, errors, progress, filter, traceGroupColors, s
   }
 
   // Render chart selector and chart.
-
-  const { applicationId, serviceId, endpointId, timeframe } = filter;
-  const granularity = getChartGranularity(timeframe);
-  const chartDefinition = chartDefinitions[selectedChart];
   return (
     <Fragment>
       <div className={locals.chartSelector}>
         <ChartSelectButton
-          chartId="calls"
+          chartId="callsChartData"
           label="Calls"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
         <ChartSelectButton
-          chartId="errors"
+          chartId="errorsChartData"
           label="Errors"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
         <ChartSelectButton
-          chartId="latency"
+          chartId="latencyChartData"
           label="Latency"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
       </div>
 
-      <TraceGroupsChartWrapper
-        groups={items.map(group => group.name)}
+      <TraceGroupsChartElement
+        traceGroups={items}
         traceGroupColors={traceGroupColors}
-        timeframe={timeframe}
-        y1={chartDefinition.y1}
-        metricsConfiguration={{
-          filter: {
-            timeframe,
-            application: applicationId,
-            service: serviceId,
-            endpoint: endpointId
-          },
-          metrics: chartDefinition.getMetricsDefinitions(granularity)
-        }}
+        timeframe={filter.timeframe}
+        time={time}
+        selectedChart={selectedChart}
       />
       <div className={locals.whitespace} />
     </Fragment>
@@ -134,4 +84,42 @@ function ChartSelectButton({ chartId, label, activeChartId, setSelectedChart }) 
       {label}
     </Button>
   );
+}
+
+const chartDefinitions = {
+  callsChartData: {
+    renderer: Renderer.line,
+    aggregation: 'SUM'
+  },
+  errorsChartData: {
+    renderer: Renderer.line,
+    aggregation: 'MEAN'
+  },
+  latencyChartData: {
+    renderer: Renderer.line,
+    formatter: {
+      compact: millis.detailed,
+      detailed: millis.detailed
+    },
+    min: 0
+  }
+};
+
+function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeframe, time, selectedChart }) {
+  const chartDefinition = chartDefinitions[selectedChart];
+
+  const chartTimeframe = normalizeTimeFrame(timeframe, time);
+  const granularity = getChartGranularity(timeframe);
+  const groupNames = traceGroups.map(group => group.name);
+  const y1 = {
+    labels: groupNames,
+    renderer: chartDefinition.renderer,
+    formatter: chartDefinition.formatter,
+    colors: traceGroupColors,
+    metrics: traceGroups.map(group => group.metrics[selectedChart]),
+    aggregations: Array(traceGroups.length).fill(chartDefinition.aggregation),
+    min: chartDefinition.min
+  };
+
+  return <Chart timeframe={chartTimeframe} y1={y1} granularity={granularity} renderLegend={false} />;
 }
