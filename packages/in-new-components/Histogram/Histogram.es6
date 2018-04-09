@@ -25,8 +25,12 @@ export default compose(
 
 function Histogram({ width, height, customWidth, customHeight, buckets }) {
   if (!width) {
-    return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
+    return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
+  if (!buckets || buckets.length === 0) {
+    return <div style={{ width: customWidth || width, height: customHeight || height }} className={locals.histogram} />;
+  }
+
   width = (customWidth || width) - 60;
   height = (customHeight || height) - 30;
 
