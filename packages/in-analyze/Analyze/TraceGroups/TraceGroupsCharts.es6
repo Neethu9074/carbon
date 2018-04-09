@@ -10,7 +10,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
 
-const MAX_CHARTS = 8;
+export const MAX_TRACE_GROUP_CHARTS = 8;
 
 export default withState('selectedChart', 'setSelectedChart', 'calls')(TraceGroupCharts);
 
@@ -61,7 +61,15 @@ const chartDefinitions = {
   }
 };
 
-function TraceGroupCharts({ items, errors, progress, filter, selectedChart, setSelectedChart }) {
+function TraceGroupCharts({
+                            items,
+                            errors,
+                            progress,
+                            filter,
+                            traceGroupColors,
+                            selectedChart,
+                            setSelectedChart
+                          }) {
   if (errors.length > 0) {
     // the errors of this loading stage will be rendered by the trace group table, no need to render them twice.
     return null;
@@ -107,7 +115,8 @@ function TraceGroupCharts({ items, errors, progress, filter, selectedChart, setS
 
       {/* load chart data only for the top 8 groups for performance reasons */}
       <TraceGroupsChartWrapper
-        groups={items.slice(0, MAX_CHARTS).map(group => group.name)}
+        groups={items.slice(0, MAX_TRACE_GROUP_CHARTS).map(group => group.name)}
+        traceGroupColors={traceGroupColors}
         timeframe={timeframe}
         y1={chartDefinition.y1}
         metricsConfiguration={{

@@ -54,7 +54,7 @@ export default connectTo(
 );
 
 function renderChart(props) {
-  const { groups } = props;
+  const { groups, traceGroupColors } = props;
   const metricId = props.y1.metricIds[0];
 
   // Problem: We need a server response timestamp to render the chart (in case of live data).
@@ -65,6 +65,7 @@ function renderChart(props) {
 
   const chartData = deepCopy(props);
   chartData.y1.labels = groups;
+  chartData.y1.colors = traceGroupColors;
   chartData.y1.metricIds = groups;
   chartData.y1.metrics = groups.map(group => chartData[group].data[metricId]);
   chartData.y1.aggregations = Array(groups.length).fill(chartData.metricsConfiguration.metrics[metricId].aggregation);

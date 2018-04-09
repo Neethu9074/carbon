@@ -15,7 +15,7 @@ import locals from './ErroneousResultPresenter.mless';
 //   }
 // ]}/>
 
-export default function({ errors, className }) {
+export default function ErrorneousResultPresenter({ errors, className }) {
   if (errors == null || errors.length === 0) {
     return null;
   }

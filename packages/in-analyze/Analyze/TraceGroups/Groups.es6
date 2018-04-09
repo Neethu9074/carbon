@@ -17,11 +17,12 @@ export default function Groups({
   depth,
   filter,
   orderBy,
-  orderDirection
+  orderDirection,
+  traceGroupColors
 }) {
   return (
     <Fragment>
-      {items.map(item => (
+      {items.map((item, groupIndex) => (
         <Group
           key={item.name}
           orderBy={orderBy}
@@ -29,6 +30,7 @@ export default function Groups({
           filter={filter}
           depth={depth}
           item={item}
+          dotColor={traceGroupColors[groupIndex]}
         />
       ))}
 

@@ -1,12 +1,13 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import getTraceGroups, { MAX_TRACE_GROUP_CHARTS } from 'in-subscription/application/getTraceGroups';
 import TraceGroupsCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts';
 import TraceGroupsTable from 'in-analyze/Analyze/TraceGroups/TraceGroupsTable';
-import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
+import { app20Chart } from 'in-themes/theme';
 import Card from 'in-new-components/Card';
 
 const orderTranslation = {
@@ -59,14 +60,21 @@ export default compose(
 )(TraceGroupsWithCharts);
 
 function TraceGroupsWithCharts(props) {
+  const { items } = props;
+
   let label = 'Traces';
-  if (props.items && props.items.length > 0) {
-    label = `Traces ${props.items.length}`;
+  let traceGroupColors = [];
+  if (items && items.length > 0) {
+    label = `Traces ${items.length}`;
+    traceGroupColors = items
+      .slice(0, MAX_TRACE_GROUP_CHARTS)
+      .map((group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]);
   }
+
   return (
     <Card title={label}>
-      <TraceGroupsCharts {...props} />
-      <TraceGroupsTable {...props} />
+      <TraceGroupsCharts {...props} traceGroupColors={traceGroupColors} />
+      <TraceGroupsTable {...props} traceGroupColors={traceGroupColors} />
     </Card>
   );
 }
