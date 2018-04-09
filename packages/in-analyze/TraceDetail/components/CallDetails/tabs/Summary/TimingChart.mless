@@ -1,22 +1,28 @@
 :local {
   .timingChart {
     display: flex;
+    position: relative;
+    width: 100%;
+    height: 4.5rem;
   }
 
-  .blocksWrapper {
-    position: relative;
-    padding: 1rem 0;
-    width: 100%;
-    height: 4rem;
-
+  .blockWrapper {
+    position: absolute;
+    height: 100%;
     border-left: 1px solid #e7eef0;
     &:last-child {
       border-right: 1px solid #e7eef0;
     }
   }
 
+  .timeLabel {
+    text-align: center;
+    color: #8c969a;
+    padding: 0 0 0.5rem 0;
+    overflow: hidden;
+  }
+
   .durationBlock {
-    position: absolute;
     height: 2rem;
     padding: 0.5rem 0;
     white-space: nowrap;
@@ -29,8 +35,8 @@
   }
 
   .callBlock {
-    position: absolute;
+    position: relative;
     height: 0.5rem;
-    top: 3rem;
+    top: 2rem;
   }
 }

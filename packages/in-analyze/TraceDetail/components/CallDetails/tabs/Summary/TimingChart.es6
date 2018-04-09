@@ -69,11 +69,9 @@ export default function TimingChart({ call, callTreeNode }) {
 
   return (
     <div className={locals.timingChart}>
-      <div className={locals.blocksWrapper}>
-        {networkBlocks}
-        {processingBlocks}
-        {callBlocks}
-      </div>
+      {callBlocks}
+      {processingBlocks}
+      {networkBlocks}
     </div>
   );
 }
@@ -84,14 +82,16 @@ function DurationBlock({ label, color, scale, start, end }) {
 
   return (
     <div
-      className={locals.durationBlock}
+      className={locals.blockWrapper}
       style={{
-        background: color,
         left: `${left}%`,
         width: `${width}%`
       }}
     >
-      <span className={locals.durationBlockLabel}>{label}</span>
+      <div className={locals.timeLabel}>{end - start}ms</div>
+      <div className={locals.durationBlock} style={{ background: color }}>
+        <span className={locals.durationBlockLabel}>{label}</span>
+      </div>
     </div>
   );
 }
@@ -102,12 +102,14 @@ function CallBlock({ color, scale, start, end }) {
 
   return (
     <div
-      className={locals.callBlock}
+      className={locals.blockWrapper}
       style={{
-        background: color,
         left: `${left}%`,
         width: `${width}%`
       }}
-    />
+    >
+      <div className={locals.timeLabel}>{end - start}ms</div>
+      <div className={locals.callBlock} style={{ background: color }} />
+    </div>
   );
 }
