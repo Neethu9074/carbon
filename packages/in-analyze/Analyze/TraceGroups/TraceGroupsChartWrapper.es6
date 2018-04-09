@@ -70,5 +70,5 @@ function renderChart(props) {
   chartData.y1.metrics = groups.map(group => chartData[group].data[metricId]);
   chartData.y1.aggregations = Array(groups.length).fill(chartData.metricsConfiguration.metrics[metricId].aggregation);
 
-  return <Chart timeframe={timeframe} y1={chartData.y1} granularity={granularity} />;
+  return <Chart timeframe={timeframe} y1={chartData.y1} granularity={granularity} renderLegend={false} />;
 }

@@ -1,7 +1,7 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import TraceGroupsCharts, { MAX_TRACE_GROUP_CHARTS } from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts';
+import TraceGroupsCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts';
 import TraceGroupsTable from 'in-analyze/Analyze/TraceGroups/TraceGroupsTable';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -66,9 +66,9 @@ function TraceGroupsWithCharts(props) {
   let traceGroupColors = [];
   if (items && items.length > 0) {
     label = `Traces ${items.length}`;
-    traceGroupColors = items
-      .slice(0, MAX_TRACE_GROUP_CHARTS)
-      .map((group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]);
+    traceGroupColors = items.map(
+      (group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]
+    );
   }
 
   return (

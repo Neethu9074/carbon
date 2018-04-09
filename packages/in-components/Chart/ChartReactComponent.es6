@@ -55,11 +55,11 @@ const ChartReactWrapper = enhance(
       }
 
       render() {
-        const { chart, height, width, timeframe } = this.props;
+        const { chart, height, width, timeframe, renderLegend = true } = this.props;
 
         return (
           <div className={locals.chart}>
-            {chart && <Legend chart={chart} />}
+            {chart && renderLegend && <Legend chart={chart} />}
             {chart && <Tooltip chart={chart} />}
             <div className={locals.chartAxisWrapper}>
               {chart &&
