@@ -103,7 +103,6 @@ function TraceGroupCharts({ items, errors, progress, filter, traceGroupColors, s
         />
       </div>
 
-      {/* load chart data only for the top 8 groups for performance reasons */}
       <TraceGroupsChartWrapper
         groups={items.map(group => group.name)}
         traceGroupColors={traceGroupColors}
