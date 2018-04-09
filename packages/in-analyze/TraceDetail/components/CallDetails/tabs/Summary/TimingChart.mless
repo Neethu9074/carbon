@@ -21,12 +21,18 @@
     color: #8c969a;
     padding: 0 0 0.5rem 0;
     overflow: hidden;
+    white-space: pre-wrap;
+    line-height: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .timeLabel::before {
+    content: ' '
   }
 
   .timeBlock {
     height: 2rem;
     padding: 0.5rem 0;
-    white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
