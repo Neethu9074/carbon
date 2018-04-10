@@ -1,27 +1,47 @@
 :local {
   .timingChart {
     display: flex;
+    position: relative;
+    width: 100%;
+    height: 4.5rem;
   }
 
-  .durationBlockWrapper {
-    padding: 1rem 0;
-
-    border-left: 1px solid #e7eef0;
-    &:last-child {
-      border-right: 1px solid #e7eef0;
+  .blockWrapper {
+    position: absolute;
+    height: 100%;
+    min-width: 5px;
+    border-right: 1px solid #e7eef0;
+    &:first-child {
+      border-left: 1px solid #e7eef0;
     }
   }
 
-  .durationBlock {
-    padding: 0.5rem 0;
+  .timeLabel {
+    text-align: center;
+    color: #8c969a;
+    padding: 0 0 0.5rem 0;
+    overflow: hidden;
+    white-space: pre-wrap;
+    line-height: 1.5rem;
+    height: 1.5rem;
+  }
 
-    background: #53dafc22;
-    white-space: nowrap;
+  .timeLabel::before {
+    content: ' '
+  }
+
+  .timeBlock {
+    height: 2rem;
+    padding: 0.5rem 0;
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
 
-  .durationBlockLabel {
-    margin-left: 0.75rem;
+  .timeBlockLabel {
+    margin-left: 0.5rem;
+  }
+
+  .callBlock {
+    height: 0.5rem;
   }
 }
