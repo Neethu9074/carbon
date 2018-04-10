@@ -6,6 +6,7 @@ import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingC
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
 import createScale from 'in-charts/scale';
+import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 
 import locals from './CallTree.mless';
 
@@ -27,12 +28,14 @@ export default function CallTree({
   }
 
   const rootCall = callTreeResult.data;
+  const start = getStart(rootCall);
+  const end = getEnd(rootCall);
 
   const scale = createScale();
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
-  scale.setDomainFrom(rootCall.start);
-  scale.setDomainTo(rootCall.start + rootCall.duration);
+  scale.setDomainFrom(start);
+  scale.setDomainTo(end);
 
   return (
     <div className={locals.callTree}>
