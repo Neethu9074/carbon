@@ -75,9 +75,9 @@ export default compose(
       });
     }
   })
-)(TraceGroupsWithCharts);
+)(TraceGroupsPage);
 
-function TraceGroupsWithCharts(props) {
+function TraceGroupsPage(props) {
   const { items } = props;
 
   let label = 'Traces Groups';
