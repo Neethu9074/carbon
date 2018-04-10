@@ -16,9 +16,9 @@ import getTraces from 'in-subscription/application/getTraces';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 const orderTranslation = {
-  label: 'rootEndpointLabel',
+  label: 'destination_endpoint',
   duration: 'duration',
-  errors: 'totalErrorCount'
+  errors: 'total_error_count'
 };
 
 export default compose(
@@ -31,7 +31,7 @@ export default compose(
           retrievalSize: 20
         },
         order: {
-          by: orderTranslation[orderBy] || 'startTime',
+          by: orderTranslation[orderBy] || 't',
           direction: orderDirection
         },
         filter
