@@ -14,7 +14,6 @@ export default function Groups({
   progress,
   loadMore,
   canLoadMore,
-  depth,
   filter,
   orderBy,
   orderDirection,
@@ -28,7 +27,6 @@ export default function Groups({
           orderBy={orderBy}
           orderDirection={orderDirection}
           filter={filter}
-          depth={depth}
           item={item}
           dotColor={traceGroupColors[groupIndex]}
         />
@@ -37,7 +35,7 @@ export default function Groups({
       <HorizontalIndicatorRow cols={4} progress={progress} />
       <ErrorRows cols={4} errors={errors} />
       {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} depth={depth} />}
+      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
     </Fragment>
   );
 }

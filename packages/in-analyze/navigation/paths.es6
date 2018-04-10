@@ -9,12 +9,14 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const analyze = '/analyze';
+export const analyzeGroups = `${analyze}/groups`;
+export const analyzeRaw = `${analyze}/raw`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
 
 export function getLinkToAnalyze({ applicationId, serviceId, endpointId } = emptyObject) {
   return getModifiedUrlStream(params => {
-    params.pathname = analyze;
+    params.pathname = analyzeGroups;
     if (applicationId !== undefined) {
       setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
     }
@@ -22,6 +24,7 @@ export function getLinkToAnalyze({ applicationId, serviceId, endpointId } = empt
       setOrDeleteMatrixKey(params, analyze, serviceIdMatrixParameter, serviceId);
     }
     if (endpointId !== undefined) {
+      params.pathname = analyzeRaw;
       setOrDeleteMatrixKey(params, analyze, endpointIdMatrixParameter, endpointId);
     }
   });
