@@ -22,50 +22,68 @@ export default function TimingChart({ call, callTreeNode }) {
   scale.setRangeTo(100);
   scale.setClamp(true);
 
+  const globalProcessingStart = start + (networkTime / 2 || 0);
+  const globalProcessingEnd = end - (networkTime / 2 || 0);
+
   const networkBlocks = networkTime ? (
     <Fragment>
       <TimeBlock
+        key="networkBlock_1"
         scale={scale}
         start={start}
-        end={start + networkTime / 2}
+        end={globalProcessingStart}
         label="Network"
         color={NETWORK_BLOCK_COLOR}
       />
-      <TimeBlock scale={scale} start={end - networkTime / 2} end={end} label="Network" color={NETWORK_BLOCK_COLOR} />
+      <TimeBlock
+        key="networkBlock_2"
+        scale={scale}
+        start={globalProcessingEnd}
+        end={end}
+        label="Network"
+        color={NETWORK_BLOCK_COLOR}
+      />
     </Fragment>
   ) : null;
 
-  const callBlocks = callTreeNode.children.map(childCall => {
-    const { start, duration } = childCall;
-    return <TimeBlock scale={scale} start={start} end={start + duration} color={CALL_BLOCK_COLOR} />;
+  const callBlocks = callTreeNode.children.map((childCall, index) => {
+    return (
+      <TimeBlock
+        key={`callBlock_${index}`}
+        scale={scale}
+        start={childCall.start}
+        end={childCall.start + childCall.duration}
+        color={CALL_BLOCK_COLOR}
+      />
+    );
   });
 
   let processingBlocks = [];
-  let nextProcessingBlockStart = start + networkTime / 2;
+  let nextProcessingBlockStart = globalProcessingStart;
   callTreeNode.children.forEach((childCall, index) => {
-    const { start, duration } = childCall;
-    if (start != nextProcessingBlockStart) {
-      // ignore 0ms processing block
+    // ignore 0ms processing block
+    if (childCall.start > nextProcessingBlockStart) {
       processingBlocks.push(
         <TimeBlock
+          key={`processingBlock_${index}`}
           scale={scale}
           start={nextProcessingBlockStart}
-          end={start}
-          key={`processingBlock${index}`}
+          end={childCall.start}
           label="Processing"
           color={PROCESSING_BLOCK_COLOR}
         />
       );
     }
-    nextProcessingBlockStart = start + duration;
+    nextProcessingBlockStart = childCall.start + childCall.duration;
   });
-  if (nextProcessingBlockStart != end - networkTime / 2) {
-    // ignore 0ms processing block
+  // last processing block after last call block
+  if (nextProcessingBlockStart < globalProcessingEnd) {
     processingBlocks.push(
       <TimeBlock
+        key={`processingBlock_${callTreeNode.children.length}`}
         scale={scale}
         start={nextProcessingBlockStart}
-        end={end - networkTime / 2}
+        end={globalProcessingEnd}
         label="Processing"
         color={PROCESSING_BLOCK_COLOR}
       />

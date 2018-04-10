@@ -16,14 +16,14 @@ export default compose(
 )(ServerTimingChart);
 
 function ServerTimingChart({ call, callTreeResult }) {
-  const isLoading = get(callTreeResult, ['progress', 'loading'], false);
-  if (isLoading) {
-    return <HorizontalIndicator progress={callTreeResult.progress} />;
-  }
-
   const hasErrors = get(callTreeResult, ['errors', 'length'], 0) > 0;
   if (hasErrors) {
     return <ErroneousResultPresenter errors={callTreeResult.errors} />;
+  }
+
+  const isLoading = get(callTreeResult, ['progress', 'loading'], true);
+  if (isLoading) {
+    return <HorizontalIndicator progress={callTreeResult.progress} />;
   }
 
   const callTree = callTreeResult.data;
