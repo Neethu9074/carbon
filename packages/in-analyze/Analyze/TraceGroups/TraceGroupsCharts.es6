@@ -5,7 +5,7 @@ import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { millis } from 'in-services/formatters/number';
+import { millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
@@ -93,7 +93,11 @@ const chartDefinitions = {
   },
   errorsChartData: {
     renderer: Renderer.line,
-    aggregation: 'MEAN'
+    aggregation: 'MEAN',
+    formatter: {
+      compact: percentageZeroDecimalPlaces,
+      detailed: percentageZeroDecimalPlaces
+    }
   },
   latencyChartData: {
     renderer: Renderer.line,
