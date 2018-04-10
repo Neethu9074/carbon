@@ -1,5 +1,6 @@
-import { formatDurationAccurately, formatDateTime } from 'in-services/formatters/date';
+import { formatDurationAccurately, formatDateTime, formatTime } from 'in-services/formatters/date';
 import { getFixedTimePresets } from 'in-new-components/time/timePresets';
+import { isOnSameDay } from 'in-services/util/date';
 
 export default function format(timeframe) {
   const preset = getFixedTimePresets().find(p => p.to === timeframe.to && p.windowSize === timeframe.windowSize);
@@ -15,5 +16,14 @@ export default function format(timeframe) {
     }
     return `Last ${match[1]}`;
   }
-  return `${formatDateTime(timeframe.to - timeframe.windowSize)} to ${formatDateTime(timeframe.to)}`;
+
+  const fromTime = timeframe.to - timeframe.windowSize;
+  const toTime = timeframe.to;
+  if (isOnSameDay(fromTime, toTime)) {
+    return `${formatDateTime(fromTime)} to ${formatTime(toTime)} (${formatDurationAccurately(timeframe.windowSize)})`;
+  } else {
+    return `${formatDateTime(fromTime)} to ${formatDateTime(toTime)} (${formatDurationAccurately(
+      timeframe.windowSize
+    )})`;
+  }
 }
