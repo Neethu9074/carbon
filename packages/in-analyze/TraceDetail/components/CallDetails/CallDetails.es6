@@ -10,8 +10,8 @@ import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
-  connect(({ callId }) => ({
-    result: getCallTreeNodeDetails({ nodeId: callId }).startWith(pendingResult)
+  connect(props => ({
+    result: getCallTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(pendingResult)
   }))
 )(CallDetails);
 
