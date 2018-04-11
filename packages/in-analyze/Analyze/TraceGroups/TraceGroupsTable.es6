@@ -44,7 +44,7 @@ export default function TraceGroupsTable(props) {
         </Tr>
       </Thead>
       <Tbody>
-        <Groups {...props} depth={1} />
+        <Groups {...props} />
       </Tbody>
     </Table>
   );

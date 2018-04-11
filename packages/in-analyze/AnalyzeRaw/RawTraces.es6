@@ -27,7 +27,7 @@ export default compose(
     getMatrixPrefix: () => 'traces.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
-      orderBy: 'startTime',
+      orderBy: 't',
       orderDirection: 'DESC'
     }),
     reducerName: 'onChangeOrder'
@@ -59,7 +59,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             orderDirection={orderDirection}
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
-            technicalName="startTime"
+            technicalName="t"
             label="Time"
           />
           <RawTracesSortableColumn
@@ -67,7 +67,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             orderDirection={orderDirection}
             onChangeOrder={onChangeOrder}
             defaultDirection="ASC"
-            technicalName="rootEndpointLabel"
+            technicalName="destination_endpoint"
             label="Label"
           />
           <RawTracesSortableColumn
@@ -83,7 +83,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             orderDirection={orderDirection}
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
-            technicalName="totalErrorCount"
+            technicalName="total_error_count"
             label="Erroneous calls"
           />
         </Tr>

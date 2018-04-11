@@ -13,14 +13,13 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, newApplicationMonitoringEnabled, analyzeEnabled } from 'in-services/featureFlags';
+import { cockpitEnabled, newApplicationMonitoringEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
-import { analyze } from 'in-analyze/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -66,8 +65,6 @@ export default function ViewSwitcher() {
         </View>
 
         <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
-
-        {analyzeEnabled && <View label="Analyze" icon="traces" href$={getView(analyze)} isActive$={isView(analyze)} />}
 
         <IncidentsMenuPoint />
       </ul>
