@@ -2,6 +2,7 @@
   .stackTrace {
     font-size: 0.625rem;
     background: #f8f8f8;
+    margin: 0 0 1.5rem 0;
     padding: 0.25rem 0.688rem;
     border-radius: 0.125rem;
     position: relative;

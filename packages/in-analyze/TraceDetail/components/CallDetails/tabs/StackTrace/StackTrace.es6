@@ -26,17 +26,17 @@ function StackTrace({ call, isEntry }) {
   }
 
   return (
-    <EntryOrExitWrapper isEntry={isEntry}>
+    <EntryOrExitWrapper isCalled={isEntry}>
       <div className={locals.stackTrace}>
         <ol className={locals.list}>
           {stackTrace.map((st, i) => (
             <li key={i}>
-              <span className={locals.method}> {stripQuotes(st.get('m'))} </span>
+              <span className={locals.method}> {stripQuotes(st.method)} </span>
               <span className={locals.in}>in</span>
               <span>
                 {' '}
-                {st.get('c', st.get('f'))}
-                {st.get('n') ? `:${st.get('n')}` : ''}
+                {st.file}
+                {st.line ? `:${st.line}` : ''}
               </span>
             </li>
           ))}
