@@ -67,6 +67,14 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             orderDirection={orderDirection}
             onChangeOrder={onChangeOrder}
             defaultDirection="ASC"
+            technicalName="destination_service"
+            label="Service"
+          />
+          <RawTracesSortableColumn
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onChangeOrder={onChangeOrder}
+            defaultDirection="ASC"
             technicalName="destination_endpoint"
             label="Label"
           />
@@ -94,6 +102,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             <Td>
               <Link href$={getLinkToTraceDetail(item.traceId)}>{formatDateTime(item.startTime)}</Link>
             </Td>
+            <Td>{item.service && <span>{item.service.label}</span>}</Td>
             <Td>
               <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
             </Td>
@@ -102,10 +111,10 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
           </Tr>
         ))}
 
-        <HorizontalIndicatorRow cols={4} progress={progress} />
-        <ErrorRows cols={4} errors={errors} />
-        {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
-        {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
+        <HorizontalIndicatorRow cols={5} progress={progress} />
+        <ErrorRows cols={5} errors={errors} />
+        {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
+        {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} />}
       </Tbody>
     </Table>
   );
