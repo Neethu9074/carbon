@@ -3,9 +3,12 @@ import createScale from 'in-charts/scale';
 
 import locals from './TimingChart.mless';
 
-const NETWORK_BLOCK_COLOR = '#C6EAFF';
-const PROCESSING_BLOCK_COLOR = '#a2cafb';
+const NETWORK_BLOCK_COLOR = '#00BBFF';
+const PROCESSING_BLOCK_COLOR = '#1A4FFF';
 const CALL_BLOCK_COLOR = '#f4d776';
+
+const NETWORK_BLOCK_LABEL = 'Network';
+const PROCESSING_BLOCK_LABEL = 'Self';
 
 export default function TimingChart({ call, callTreeNode }) {
   const { start, duration, networkTime } = call;
@@ -32,7 +35,7 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={start}
         end={globalProcessingStart}
-        label="Network"
+        label={NETWORK_BLOCK_LABEL}
         color={NETWORK_BLOCK_COLOR}
       />
       <TimeBlock
@@ -40,7 +43,7 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={globalProcessingEnd}
         end={end}
-        label="Network"
+        label={NETWORK_BLOCK_LABEL}
         color={NETWORK_BLOCK_COLOR}
       />
     </Fragment>
@@ -69,7 +72,7 @@ export default function TimingChart({ call, callTreeNode }) {
           scale={scale}
           start={nextProcessingBlockStart}
           end={childCall.start}
-          label="Processing"
+          label={PROCESSING_BLOCK_LABEL}
           color={PROCESSING_BLOCK_COLOR}
         />
       );
@@ -84,7 +87,7 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={nextProcessingBlockStart}
         end={globalProcessingEnd}
-        label="Processing"
+        label={PROCESSING_BLOCK_LABEL}
         color={PROCESSING_BLOCK_COLOR}
       />
     );
