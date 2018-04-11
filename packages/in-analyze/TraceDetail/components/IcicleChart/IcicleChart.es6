@@ -60,7 +60,7 @@ function CallFrame({ callFrame, xScale, getColor, onCallClicked }) {
 
   const top = frameHeight * depth;
   const left = xScale.getRange(x);
-  const width = xScale.getRange(dx);
+  const width = xScale.getRange(x + dx) - xScale.getRange(x);
 
   return (
     <div

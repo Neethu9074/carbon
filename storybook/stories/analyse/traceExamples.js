@@ -319,5 +319,44 @@ export default {
     label: 'spring-web',
     service: { id: '-5208440297566741775', label: 'spring-web', type: 'entry' },
     endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+  },
+
+  'Trace with spans which reach before traces start time': {
+    id: '1',
+    label: 'span1',
+    start: 100,
+    duration: 100,
+    children: [
+      {
+        id: '2',
+        label: 'span2',
+        start: 80,
+        duration: 30,
+        children: [
+          {
+            id: '4',
+            label: 'span4',
+            start: 85,
+            duration: 10,
+            children: [],
+            service: {},
+            endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+          }
+        ],
+        service: {},
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+      },
+      {
+        id: '3',
+        label: 'span3',
+        start: 90,
+        duration: 15,
+        children: [],
+        service: {},
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+      }
+    ],
+    service: {},
+    endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
   }
 };
