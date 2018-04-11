@@ -49,13 +49,15 @@ export default function TimingChart({ call, callTreeNode }) {
     </Fragment>
   ) : null;
 
-  const callBlocks = callTreeNode.children.map((childCall, index) => {
+  const timeRanges = mergeCallNodesToTimeRanges(callTreeNode.children);
+
+  const callBlocks = timeRanges.map((timeRange, index) => {
     return (
       <TimeBlock
         key={`callBlock_${index}`}
         scale={scale}
-        start={childCall.start}
-        end={childCall.start + childCall.duration}
+        start={timeRange[0]}
+        end={timeRange[1]}
         color={CALL_BLOCK_COLOR}
       />
     );
@@ -63,27 +65,27 @@ export default function TimingChart({ call, callTreeNode }) {
 
   let processingBlocks = [];
   let nextProcessingBlockStart = globalProcessingStart;
-  callTreeNode.children.forEach((childCall, index) => {
+  timeRanges.forEach((timeRange, index) => {
     // ignore 0ms processing block
-    if (childCall.start > nextProcessingBlockStart) {
+    if (timeRange[0] > nextProcessingBlockStart) {
       processingBlocks.push(
         <TimeBlock
           key={`processingBlock_${index}`}
           scale={scale}
           start={nextProcessingBlockStart}
-          end={childCall.start}
+          end={timeRange[0]}
           label={PROCESSING_BLOCK_LABEL}
           color={PROCESSING_BLOCK_COLOR}
         />
       );
     }
-    nextProcessingBlockStart = childCall.start + childCall.duration;
+    nextProcessingBlockStart = timeRange[1];
   });
   // last processing block after last call block
   if (nextProcessingBlockStart < globalProcessingEnd) {
     processingBlocks.push(
       <TimeBlock
-        key={`processingBlock_${callTreeNode.children.length}`}
+        key={`processingBlock_${timeRanges.length}`}
         scale={scale}
         start={nextProcessingBlockStart}
         end={globalProcessingEnd}
@@ -127,4 +129,32 @@ function TimeBlock({ scale, start, end, label, color }) {
       )}
     </div>
   );
+}
+
+// when there are async child calls that overlap between each other,
+// merge them to a single time range
+// ex: callA lasts from 100 to 120 and callB lasts from 110 to 130,
+// the method should return a time range [100, 130]
+function mergeCallNodesToTimeRanges(callNodes) {
+  let timeRanges = [];
+  let previousTimeRange;
+
+  callNodes
+    .map(callNode => {
+      const callTimeRange = [callNode.start, callNode.start + callNode.duration];
+      return callTimeRange;
+    })
+    .sort((timeRange1, timeRange2) => timeRange1[0] - timeRange2[0])
+    .forEach(timeRange => {
+      if (!previousTimeRange || timeRange[0] > previousTimeRange[1]) {
+        // no overlapping with previous  call
+        timeRanges.push(timeRange);
+        previousTimeRange = timeRange;
+      } else if (timeRange[1] > previousTimeRange[1]) {
+        // overlaps and ends later than previous call, update the previous call range
+        previousTimeRange[1] = timeRange[1];
+      }
+    });
+
+  return timeRanges;
 }
