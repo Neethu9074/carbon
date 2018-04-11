@@ -18,6 +18,7 @@ import './cassandraNode';
 import './clickHouseDatabase';
 import './clrRuntimePlatform';
 import './cloudFoundry';
+import './consul';
 import './couchbaseCluster';
 import './couchbaseNode';
 import './crystalRuntimePlatform';
