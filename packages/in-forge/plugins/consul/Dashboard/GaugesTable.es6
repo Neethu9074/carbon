@@ -64,7 +64,6 @@ function getDetails(row) {
         left: 90
       }}
       y1={{
-        formatter: withSiPrefixZeroDecimalPlaces,
         metrics: [row.name],
         labels: [row.name],
         type: 'line'

@@ -5,7 +5,6 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getLabel } from 'in-sdk/snapshot';
 import GaugesTable from './GaugesTable';
 
@@ -39,7 +38,7 @@ export default function ConsulDashboard({ snapshot, timeframe }) {
   const errorCode = snapshot.getIn(['data', 'error_code']);
   const consulVersion = snapshot.getIn(['data', 'consul_version']);
 
-  if (errorCode !== 'NO_ERROR') {
+  if (errorCode === 'METRICS_NOT_ACCESSIBLE') {
     return (
       <DashboardNotification type="warning">
         <strong>Consul version too old</strong>
@@ -67,43 +66,37 @@ export default function ConsulDashboard({ snapshot, timeframe }) {
             <KpiKeyValue label="Known Datacenters">{snapshot.getIn(['data', 'knownDatacenters'], null)}</KpiKeyValue>
           )}
         </KpiSection>
-        <Columize>
-          <DashboardSection title="Allocation">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              y1={{
-                min: 0,
-                metrics: ['consul.runtime.alloc_bytes', 'consul.runtime.sys_bytes'],
-                labels: ['Allocated Bytes', 'System Bytes'],
-                formatter: withSiPrefixZeroDecimalPlaces,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-          <DashboardSection title="Runtime">
-            <Chart
-              snapshotId={snapshotId}
-              timeframe={timeframe}
-              y1={{
-                min: 0,
-                metrics: ['consul.runtime.malloc_count', 'consul.runtime.free_count'],
-                labels: ['Malloc Count', 'Free Count'],
-                formatter: withSiPrefixZeroDecimalPlaces,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
-        <Columize>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
-        </Columize>
-        <Columize>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
-        </Columize>
-        <Columize>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={metrics} title="Runtime" />
-        </Columize>
+        {snapshot.getIn(['data', 'consul.runtime.alloc_bytes'], null) && (
+          <Columize>
+            <DashboardSection title="Allocation">
+              <Chart
+                snapshotId={snapshotId}
+                timeframe={timeframe}
+                y1={{
+                  min: 0,
+                  metrics: ['consul.runtime.alloc_bytes', 'consul.runtime.sys_bytes'],
+                  labels: ['Allocated Bytes', 'System Bytes'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+            <DashboardSection title="Runtime">
+              <Chart
+                snapshotId={snapshotId}
+                timeframe={timeframe}
+                y1={{
+                  min: 0,
+                  metrics: ['consul.runtime.malloc_count', 'consul.runtime.free_count'],
+                  labels: ['Malloc Count', 'Free Count'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+        )}
+        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
+        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
+        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={metrics} title="Runtime Metrics" />
       </div>
     );
   }
