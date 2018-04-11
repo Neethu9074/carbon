@@ -11,13 +11,13 @@ import locals from './Group.mless';
 const DOT_PLACEHOLDER = <span className={locals.dotPlaceHolder} />;
 
 export default function Group({ item, filter, dotColor }) {
-  const filterWithEndpointId = assign({}, filter);
-  filterWithEndpointId.endpointId = item.name;
+  const filterWithTraceGroupName = assign({}, filter);
+  filterWithTraceGroupName.traceGroupName = item.name;
   return (
     <Fragment>
       <Tr>
         <Td>
-          <Link href$={getLinkToAnalyze(filterWithEndpointId)}>
+          <Link href$={getLinkToAnalyze(filterWithTraceGroupName)}>
             <span className={locals.dot}>{dotColor ? <Dot color={dotColor} /> : DOT_PLACEHOLDER}</span>
             {item.name}
           </Link>

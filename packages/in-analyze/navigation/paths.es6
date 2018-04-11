@@ -2,7 +2,8 @@ import {
   traceId as traceIdMatrixParameter,
   applicationId as appIdMatrixParameter,
   serviceId as serviceIdMatrixParameter,
-  endpointId as endpointIdMatrixParameter
+  endpointId as endpointIdMatrixParameter,
+  traceGroupName as traceGroupNameMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -14,9 +15,9 @@ export const analyzeRaw = `${analyze}/raw`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
 
-export function getLinkToAnalyze({ applicationId, serviceId, endpointId } = emptyObject) {
+export function getLinkToAnalyze({ applicationId, serviceId, endpointId, traceGroupName } = emptyObject) {
   return getModifiedUrlStream(params => {
-    params.pathname = analyzeGroups;
+    params.pathname = traceGroupName ? analyzeRaw : analyzeGroups;
     if (applicationId !== undefined) {
       setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
     }
@@ -24,8 +25,10 @@ export function getLinkToAnalyze({ applicationId, serviceId, endpointId } = empt
       setOrDeleteMatrixKey(params, analyze, serviceIdMatrixParameter, serviceId);
     }
     if (endpointId !== undefined) {
-      params.pathname = analyzeRaw;
       setOrDeleteMatrixKey(params, analyze, endpointIdMatrixParameter, endpointId);
+    }
+    if (traceGroupName !== undefined) {
+      setOrDeleteMatrixKey(params, analyze, traceGroupNameMatrixParameter, traceGroupName);
     }
   });
 }
