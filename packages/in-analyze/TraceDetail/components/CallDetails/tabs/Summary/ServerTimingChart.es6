@@ -2,16 +2,16 @@ import React from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import connect from 'in-hoc/connectTo';
-import getCallTree from 'in-subscription/application/getCallTree';
-import { pendingResult } from 'in-services/fixedObjects';
 import TimingChart from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingChart';
+import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import { pendingResult } from 'in-services/fixedObjects';
+import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(props => ({
-    callTreeResult: getCallTree({ id: props.traceId }).startWith(pendingResult)
+    callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
   }))
 )(ServerTimingChart);
 
