@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import createScale from 'in-charts/scale';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './TimingChart.mless';
 
@@ -9,6 +10,8 @@ const CALL_BLOCK_COLOR = '#f4d776';
 
 const NETWORK_BLOCK_LABEL = 'Network';
 const PROCESSING_BLOCK_LABEL = 'Self';
+
+const tooltipAlignment = 'topMiddle';
 
 export default function TimingChart({ call, callTreeNode }) {
   const { start, duration, networkTime } = call;
@@ -107,6 +110,7 @@ export default function TimingChart({ call, callTreeNode }) {
 function TimeBlock({ scale, start, end, label, color }) {
   const left = scale.getRange(start);
   const width = scale.getRange(end) - left;
+  const duration = `${end - start}ms`;
 
   return (
     <div
@@ -116,21 +120,38 @@ function TimeBlock({ scale, start, end, label, color }) {
         width: `${width}%`
       }}
     >
-      <div className={locals.timeLabel}>{end - start}ms</div>
+      <div className={locals.timeLabel}>{duration}</div>
       {label ? (
-        <div className={locals.timeBlock} style={{ background: color }}>
-          <span className={locals.timeBlockLabel}>{label}</span>
-        </div>
+        <GenericFrame label={label} color={color} duration={duration} />
       ) : (
-        <Fragment>
-          <div className={locals.timeBlock} style={{ background: 'white' }} />
-          <div className={locals.callBlock} style={{ background: color }} />
-        </Fragment>
+        <CallFrame color={color} duration={duration} />
       )}
     </div>
   );
 }
 
+function GenericFrame({ label, color, duration }) {
+  const tooltipContent = `${label}: ${duration}`;
+  return (
+    <Tooltip content={tooltipContent} align={tooltipAlignment}>
+      <div className={locals.timeBlock} style={{ background: color }}>
+        <span className={locals.timeBlockLabel}>{label}</span>
+      </div>
+    </Tooltip>
+  );
+}
+
+function CallFrame({ color, duration }) {
+  const tooltipContent = `Waiting: ${duration}`;
+  return (
+    <Fragment>
+      <div className={locals.timeBlock} style={{ background: 'white' }} />
+      <Tooltip content={tooltipContent} align={tooltipAlignment}>
+        <div className={locals.callBlock} style={{ background: color }} />
+      </Tooltip>
+    </Fragment>
+  );
+}
 // when there are async child calls that overlap between each other,
 // merge them to a single time range
 // ex: callA lasts from 100 to 120 and callB lasts from 110 to 130,
