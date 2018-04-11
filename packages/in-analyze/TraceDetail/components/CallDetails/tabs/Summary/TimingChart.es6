@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react';
 import createScale from 'in-charts/scale';
 import Tooltip from 'in-components/Tooltip';
+import {
+  NETWORK_TIME_COLOR,
+  NETWORK_TIME_LABEL,
+  PROCESSING_TIME_COLOR,
+  PROCESSING_TIME_LABEL,
+  CALL_TIME_COLOR
+} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
 
 import locals from './TimingChart.mless';
-
-const NETWORK_BLOCK_COLOR = '#00BBFF';
-const PROCESSING_BLOCK_COLOR = '#1A4FFF';
-const CALL_BLOCK_COLOR = '#f4d776';
-
-const NETWORK_BLOCK_LABEL = 'Network';
-const PROCESSING_BLOCK_LABEL = 'Self';
 
 const tooltipAlignment = 'topMiddle';
 
@@ -38,16 +38,16 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={start}
         end={globalProcessingStart}
-        label={NETWORK_BLOCK_LABEL}
-        color={NETWORK_BLOCK_COLOR}
+        label={NETWORK_TIME_LABEL}
+        color={NETWORK_TIME_COLOR}
       />
       <TimeBlock
         key="networkBlock_2"
         scale={scale}
         start={globalProcessingEnd}
         end={end}
-        label={NETWORK_BLOCK_LABEL}
-        color={NETWORK_BLOCK_COLOR}
+        label={NETWORK_TIME_LABEL}
+        color={NETWORK_TIME_COLOR}
       />
     </Fragment>
   ) : null;
@@ -61,7 +61,7 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={timeRange[0]}
         end={timeRange[1]}
-        color={CALL_BLOCK_COLOR}
+        color={CALL_TIME_COLOR}
       />
     );
   });
@@ -77,8 +77,8 @@ export default function TimingChart({ call, callTreeNode }) {
           scale={scale}
           start={nextProcessingBlockStart}
           end={timeRange[0]}
-          label={PROCESSING_BLOCK_LABEL}
-          color={PROCESSING_BLOCK_COLOR}
+          label={PROCESSING_TIME_LABEL}
+          color={PROCESSING_TIME_COLOR}
         />
       );
     }
@@ -92,8 +92,8 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={nextProcessingBlockStart}
         end={globalProcessingEnd}
-        label={PROCESSING_BLOCK_LABEL}
-        color={PROCESSING_BLOCK_COLOR}
+        label={PROCESSING_TIME_LABEL}
+        color={PROCESSING_TIME_COLOR}
       />
     );
   }
