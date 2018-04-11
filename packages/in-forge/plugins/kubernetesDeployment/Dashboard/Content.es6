@@ -18,7 +18,8 @@ import connectTo from 'in-hoc/connectTo';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
+const noActivity = 'No activity';
+const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 const podCols = [
   {
@@ -124,8 +125,13 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Pending Phase Duration">
-          <MetricValue snapshotId={snapshotId} metric="duration" formatter={msFormatter} initialValue="0" />
+        <KpiKeyValue label="Last pending phase duration">
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="lastDuration"
+            formatter={msFormatter}
+            initialValue={noActivity}
+          />
         </KpiKeyValue>
       </KpiSection>
 
@@ -201,14 +207,14 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Pending Phase Duration">
+        <DashboardSection title="Pending phase duration">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: msFormatter,
               metrics: ['duration'],
-              labels: ['Duration'],
+              labels: ['Pending phase duration'],
               type: 'line'
             }}
           />
