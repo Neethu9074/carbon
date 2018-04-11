@@ -80,10 +80,10 @@ export default compose(
 function TraceGroupsPage(props) {
   const { items } = props;
 
-  let label = 'Traces Groups';
+  let label = 'Trace Groups';
   let traceGroupColors = [];
   if (items && items.length > 0) {
-    label = `Traces Groups (${items.length})`;
+    label = `Trace Groups (${items.length})`;
     traceGroupColors = items.map(
       (group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]
     );
