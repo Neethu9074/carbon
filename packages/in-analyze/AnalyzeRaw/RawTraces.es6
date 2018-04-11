@@ -91,7 +91,9 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
       <Tbody>
         {items.map(item => (
           <Tr key={item.traceId}>
-            <Td>{formatDateTime(item.startTime)}</Td>
+            <Td>
+              <Link href$={getLinkToTraceDetail(item.traceId)}>{formatDateTime(item.startTime)}</Link>
+            </Td>
             <Td>
               <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
             </Td>
