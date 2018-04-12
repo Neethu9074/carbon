@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { assign, get } from 'lodash';
+import { get } from 'lodash';
 
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
@@ -10,14 +10,12 @@ import locals from './Group.mless';
 
 const DOT_PLACEHOLDER = <span className={locals.dotPlaceHolder} />;
 
-export default function Group({ item, filter, dotColor }) {
-  const filterWithTraceGroupName = assign({}, filter);
-  filterWithTraceGroupName.traceGroupName = item.name;
+export default function Group({ item, dotColor }) {
   return (
     <Fragment>
       <Tr>
         <Td>
-          <Link href$={getLinkToAnalyze(filterWithTraceGroupName)}>
+          <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>
             <span className={locals.dot}>{dotColor ? <Dot color={dotColor} /> : DOT_PLACEHOLDER}</span>
             {item.name}
           </Link>

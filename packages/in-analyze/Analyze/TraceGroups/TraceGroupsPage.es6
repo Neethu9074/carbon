@@ -5,6 +5,7 @@ import TraceGroupsCharts from 'in-analyze/Analyze/TraceGroups/TraceGroupsCharts'
 import TraceGroupsTable from 'in-analyze/Analyze/TraceGroups/TraceGroupsTable';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import GroupingToggle from 'in-analyze/Analyze/GroupingToggle';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -90,7 +91,7 @@ function TraceGroupsPage(props) {
   }
 
   return (
-    <Card title={label}>
+    <Card title={label} header={<GroupingToggle raw={false} />}>
       <TraceGroupsCharts {...props} traceGroupColors={traceGroupColors} />
       <TraceGroupsTable {...props} traceGroupColors={traceGroupColors} />
     </Card>

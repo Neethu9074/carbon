@@ -15,9 +15,9 @@ export const analyzeRaw = `${analyze}/raw`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
 
-export function getLinkToAnalyze({ applicationId, serviceId, endpointId, traceGroupName } = emptyObject) {
+export function getLinkToAnalyze({ applicationId, serviceId, endpointId, traceGroupName, raw } = emptyObject) {
   return getModifiedUrlStream(params => {
-    params.pathname = traceGroupName ? analyzeRaw : analyzeGroups;
+    params.pathname = raw ? analyzeRaw : analyzeGroups;
     if (applicationId !== undefined) {
       setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
     }
