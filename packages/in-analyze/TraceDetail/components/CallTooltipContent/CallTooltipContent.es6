@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  TOTAL_TIME_LABEL,
+  NETWORK_TIME_LABEL,
+  CALL_TIME_LABEL
+} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+
 import locals from './CallTooltipContent.mless';
 
 export default function CallTooltipContent({ call }) {
@@ -7,21 +13,21 @@ export default function CallTooltipContent({ call }) {
 
   if (call.duration) {
     values.push({
-      label: 'Total Time',
+      label: TOTAL_TIME_LABEL,
       value: call.duration
     });
   }
 
   if (call.networkTime) {
     values.push({
-      label: 'Network',
+      label: NETWORK_TIME_LABEL,
       value: call.networkTime
     });
   }
 
   if (call.minSelfTime) {
     values.push({
-      label: 'Self',
+      label: CALL_TIME_LABEL,
       value: call.minSelfTime
     });
   }
@@ -38,7 +44,7 @@ function TimingValueList({ values }) {
   return (
     <ul className={locals.timingValueList}>
       {values.map(value => (
-        <li className={locals.timingValue}>
+        <li key={value.label} className={locals.timingValue}>
           <span>{value.label}</span>
           <span>{value.value}ms</span>
         </li>

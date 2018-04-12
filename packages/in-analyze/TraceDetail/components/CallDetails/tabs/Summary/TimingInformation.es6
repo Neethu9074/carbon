@@ -12,7 +12,7 @@ import {
   PROCESSING_TIME_LABEL,
   CALL_TIME_COLOR,
   CALL_TIME_LABEL
-} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
+} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 
 import locals from './TimingInformation.mless';
 
