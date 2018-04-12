@@ -23,7 +23,6 @@ export default function CallStatus({ call }) {
 // }
 
 function ErrorIndicator({ errorCount }) {
-  errorCount = 2;
   if (errorCount < 1) {
     return null;
   }
