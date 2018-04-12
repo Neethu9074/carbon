@@ -67,14 +67,6 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             orderDirection={orderDirection}
             onChangeOrder={onChangeOrder}
             defaultDirection="ASC"
-            technicalName="destination_service"
-            label="Service"
-          />
-          <RawTracesSortableColumn
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            onChangeOrder={onChangeOrder}
-            defaultDirection="ASC"
             technicalName="destination_endpoint"
             label="Label"
           />
@@ -102,9 +94,8 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             <Td>
               <Link href$={getLinkToTraceDetail(item.traceId)}>{formatDateTime(item.startTime)}</Link>
             </Td>
-            <Td>{item.service && <span>{item.service.label}</span>}</Td>
             <Td>
-              <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
+              <Link href$={getLinkToTraceDetail(item.traceId)}>{item.service.label} | {item.label}</Link>
             </Td>
             <Td>{millis.fixedCompact(item.duration)}</Td>
             <Td>{number.compact(item.totalErrorCount)}</Td>
