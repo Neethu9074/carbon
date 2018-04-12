@@ -31,7 +31,7 @@ export default function TraceGroupsTable(props) {
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="duration"
-            label="Latency"
+            label="Avg. Latency"
           />
           <RawTracesSortableColumn
             orderBy={orderBy}
