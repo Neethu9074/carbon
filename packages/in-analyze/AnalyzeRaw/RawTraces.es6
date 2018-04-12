@@ -102,10 +102,10 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
           </Tr>
         ))}
 
-        <HorizontalIndicatorRow cols={5} progress={progress} />
-        <ErrorRows cols={5} errors={errors} />
-        {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
-        {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} />}
+        <HorizontalIndicatorRow cols={4} progress={progress} />
+        <ErrorRows cols={4} errors={errors} />
+        {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
+        {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
       </Tbody>
     </Table>
   );
