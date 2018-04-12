@@ -4,6 +4,7 @@ import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/Icicl
 import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
+import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
 
 import locals from './IcicleChart.mless';
 
@@ -37,12 +38,12 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {callFrames.map(callFrame => {
-          const { id, label, parent } = callFrame;
+          const { id, parent } = callFrame;
           const parentDepth = parent ? callFrames.find(obj => obj.id === parent).depth : 0;
 
           return (
             <Fragment key={id}>
-              <Tooltip content={label} align={tooltipAlignment}>
+              <Tooltip content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
                 <CallFrame callFrame={callFrame} xScale={xScale} getColor={getColor} onCallClicked={onCallClicked} />
               </Tooltip>
               <ParentCallIndicator callFrame={callFrame} xScale={xScale} parentDepth={parentDepth} />

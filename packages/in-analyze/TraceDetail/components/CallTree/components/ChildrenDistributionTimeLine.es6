@@ -4,6 +4,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
+import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
@@ -28,7 +29,7 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
   return (
-    <Tooltip content={call.label} align="topMiddle">
+    <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
           left: `${scale.getRange(call.start)}%`,
