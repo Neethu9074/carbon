@@ -3,16 +3,43 @@ import React from 'react';
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
+import {
+  TOTAL_TIME_COLOR,
+  TOTAL_TIME_LABEL,
+  NETWORK_TIME_COLOR,
+  NETWORK_TIME_LABEL,
+  PROCESSING_TIME_COLOR,
+  PROCESSING_TIME_LABEL,
+  CALL_TIME_COLOR,
+  CALL_TIME_LABEL
+} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
 
 import locals from './TimingInformation.mless';
 
 export default function TimingInformation({ call }) {
+  //TODO wait for backend to use call.minSelfTime to calculate the processing time and call time
   return (
     <div className={locals.timingInformation}>
       <CallStartLabel className={locals.callStartLabel} call={call} />
-      <TimeBlock color="#47626A" label="Total Time" duration={call.duration} />
-      <TimeBlock color="#00BBFF" label="Network" duration={call.networkTime} totalDuration={call.duration} />
-      <TimeBlock color="#1A4FFF" label="Self" duration={call.duration / 2} totalDuration={call.duration} />
+      <TimeBlock color={TOTAL_TIME_COLOR} label={TOTAL_TIME_LABEL} duration={call.duration} />
+      <TimeBlock
+        color={NETWORK_TIME_COLOR}
+        label={NETWORK_TIME_LABEL}
+        duration={call.networkTime}
+        totalDuration={call.duration}
+      />
+      <TimeBlock
+        color={PROCESSING_TIME_COLOR}
+        label={PROCESSING_TIME_LABEL}
+        duration={call.duration / 2}
+        totalDuration={call.duration}
+      />
+      <TimeBlock
+        color={CALL_TIME_COLOR}
+        label={CALL_TIME_LABEL}
+        duration={call.duration / 2}
+        totalDuration={call.duration}
+      />
     </div>
   );
 }
