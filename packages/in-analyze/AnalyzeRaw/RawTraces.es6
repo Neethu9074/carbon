@@ -76,7 +76,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="duration"
-            label="Duration"
+            label="Latency"
           />
           <RawTracesSortableColumn
             orderBy={orderBy}
@@ -84,7 +84,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="total_error_count"
-            label="Erroneous calls"
+            label="Errors"
           />
         </Tr>
       </Thead>
