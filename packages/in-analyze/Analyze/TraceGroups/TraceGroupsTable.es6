@@ -39,7 +39,7 @@ export default function TraceGroupsTable(props) {
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="errors"
-            label="Erroneous calls"
+            label="Errors"
           />
         </Tr>
       </Thead>
