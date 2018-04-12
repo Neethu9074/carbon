@@ -19,7 +19,7 @@ export default function GroupingToggle({ raw }) {
   return (
     <Link href$={getLinkToAnalyze(routeChangeParams)} className={locals.link}>
       <div onClickCapture={preventReactToggleFromHandlingClickEvent} className={locals.wrapper}>
-        <label forHtml="grouped-raw-toggle" className={locals.label}>
+        <label htmlFor="grouped-raw-toggle" className={locals.label}>
           Grouping
         </label>
         <Toggle id="grouped-raw-toggle" defaultChecked={!raw} />
