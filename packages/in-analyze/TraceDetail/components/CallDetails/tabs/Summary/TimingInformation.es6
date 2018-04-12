@@ -17,7 +17,6 @@ import {
 import locals from './TimingInformation.mless';
 
 export default function TimingInformation({ call }) {
-  //TODO wait for backend to use call.minSelfTime to calculate the processing time and call time
   return (
     <div className={locals.timingInformation}>
       <CallStartLabel className={locals.callStartLabel} call={call} />
@@ -31,13 +30,13 @@ export default function TimingInformation({ call }) {
       <TimeBlock
         color={PROCESSING_TIME_COLOR}
         label={PROCESSING_TIME_LABEL}
-        duration={call.duration / 2}
+        duration={call.minSelfTime}
         totalDuration={call.duration}
       />
       <TimeBlock
         color={CALL_TIME_COLOR}
         label={CALL_TIME_LABEL}
-        duration={call.duration / 2}
+        duration={call.duration - call.minSelfTime || 0 - call.networkTime || 0}
         totalDuration={call.duration}
       />
     </div>
