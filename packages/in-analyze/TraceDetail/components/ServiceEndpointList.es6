@@ -4,6 +4,7 @@ import getTraceParticipants from 'in-subscription/application/getTraceParticipan
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
+import { millis } from 'in-services/formatters/number';
 
 import locals from './ServiceEndpointList.mless';
 
@@ -41,7 +42,7 @@ export default function ServiceEndpointList({ traceId, getColor }) {
         return (
           <div className={locals.cell}>
             <SvgIcon type="time" width={12} height={12} className={locals.timeIcon} color="#47626A" />
-            <span className={locals.aggregatedTime}>{item.aggregatedTime}</span>
+            <span className={locals.aggregatedTime}>{millis.fixedCompact(item.aggregatedTime)}</span>
           </div>
         );
       }
