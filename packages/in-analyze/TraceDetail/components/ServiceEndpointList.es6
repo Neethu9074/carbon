@@ -64,7 +64,7 @@ export default function ServiceEndpointList({ traceId, getColor }) {
       pageSize={10}
       columnDefinitions={columnDefinitions}
       paginationResettingProps={{ traceId }}
-      defaultOrderBy="serviceLabel"
+      defaultOrderBy="firstTimestamp"
       defaultOrderDirection="ASC"
       traceId={traceId}
     />
