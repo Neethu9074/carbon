@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
@@ -95,8 +95,8 @@ const chartDefinitions = {
     renderer: Renderer.line,
     aggregation: 'MEAN',
     formatter: {
-      compact: percentageZeroDecimalPlaces,
-      detailed: percentageZeroDecimalPlaces
+      compact: percentageTwoDecimalPlaces,
+      detailed: percentageTwoDecimalPlaces
     }
   },
   latencyChartData: {
