@@ -15,14 +15,13 @@ export default function ConsulInfo({ snapshot }) {
         <DescriptionItem title="Leader">{data.get('leader')}</DescriptionItem>
         <DescriptionItem title="Peers">{data.get('peers')}</DescriptionItem>
       </DescriptionList>
-
       <Separator />
-
       <Collapsible>
         <Collapsible.Header>Details</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             <DescriptionItem title="Datacenter">{data.get('datacenter')}</DescriptionItem>
+            <DescriptionItem title="Catalog Datacenters">{data.get('catalog.datacenters')}</DescriptionItem>
             <DescriptionItem title="Node ID">{data.get('nodeID')}</DescriptionItem>
             <DescriptionItem title="AdvertiseAddr">{data.get('advertiseAddr')}</DescriptionItem>
             <DescriptionItem title="Domain">{data.get('domain')}</DescriptionItem>
