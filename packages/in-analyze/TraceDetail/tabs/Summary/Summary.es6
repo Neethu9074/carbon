@@ -55,7 +55,7 @@ class Summary extends React.Component {
             <KpiCard title="Duration" value={millis.compact(trace.duration)} />
           </Col>
           <Col lg={4}>
-            <KpiCard title="Calls to Services" value={number.compact(trace.callCount)} />
+            <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
           </Col>
           <Col lg={4}>
             <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
@@ -64,7 +64,7 @@ class Summary extends React.Component {
 
         <Row>
           <Col lg={12}>
-            <Card title="Calls to Services">
+            <Card title="Timeline">
               <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
             </Card>
           </Col>
