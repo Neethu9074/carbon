@@ -23,7 +23,7 @@ export default function TraceGroupsTable(props) {
             onChangeOrder={onChangeOrder}
             defaultDirection="DESC"
             technicalName="calls"
-            label="Traces"
+            label="Calls"
           />
           <RawTracesSortableColumn
             orderBy={orderBy}
