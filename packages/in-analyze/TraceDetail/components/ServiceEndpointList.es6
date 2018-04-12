@@ -40,8 +40,8 @@ export default function ServiceEndpointList({ traceId, getColor }) {
       getContent(item) {
         return (
           <div className={locals.cell}>
-            <span className={locals.aggregatedTime}>{item.aggregatedTime}</span>
             <SvgIcon type="time" width={12} height={12} className={locals.timeIcon} color="#47626A" />
+            <span className={locals.aggregatedTime}>{item.aggregatedTime}</span>
           </div>
         );
       }
