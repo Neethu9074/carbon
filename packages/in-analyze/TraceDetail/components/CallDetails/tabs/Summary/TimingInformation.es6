@@ -1,8 +1,6 @@
 import React from 'react';
 
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
-import { millis } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 import {
   TOTAL_TIME_COLOR,
   TOTAL_TIME_LABEL,
@@ -12,7 +10,9 @@ import {
   PROCESSING_TIME_LABEL,
   CALL_TIME_COLOR,
   CALL_TIME_LABEL
-} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
+} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+import { millis } from 'in-services/formatters/number';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimingInformation.mless';
 

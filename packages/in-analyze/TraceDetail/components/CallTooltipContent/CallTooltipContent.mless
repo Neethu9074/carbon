@@ -1,0 +1,26 @@
+  :local {
+    .content {
+        width: 13rem;
+    }
+
+    .heading {
+        margin-bottom: 0.25rem;
+        color: #dfdfdf;
+        border-bottom: 1px solid #525252;
+        padding-bottom: 0.1875rem;
+    }
+
+    .timingValueList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .timingValue {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.125rem 0;
+        margin: 0 0.125rem;
+        font-weight: bold;
+    }
+  }
