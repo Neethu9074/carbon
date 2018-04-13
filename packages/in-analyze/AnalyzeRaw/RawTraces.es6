@@ -87,6 +87,14 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
+              technicalName="number_of_calls"
+              label="Calls"
+            />
+            <RawTracesSortableColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="DESC"
               technicalName="duration"
               label="Latency"
             />
@@ -109,6 +117,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               <Td>
                 <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
               </Td>
+              <Td>{number.compact(item.callCount)}</Td>
               <Td>{millis.fixedCompact(item.duration)}</Td>
               <Td>{number.compact(item.totalErrorCount)}</Td>
             </Tr>
