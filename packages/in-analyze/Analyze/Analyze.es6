@@ -1,26 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TraceGroupsPage from 'in-analyze/Analyze/TraceGroups/TraceGroupsPage';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import FilterButtonRow from 'in-analyze/Analyze/FilterButtonRow';
 import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
-import AnalyzeRoot from 'in-analyze/Analyze/AnalyzeRoot';
-import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
+import TraceTablePage from 'in-analyze/TraceTablePage';
 
-export default function Analyze({ location }) {
-  const filter = buildFilter(location);
+export default function Analyze(props) {
+  const filter = buildFilter(props.location);
   return (
-    <Fragment>
-      <Title title="Traces" />
-      <Breadcrumbs items={[<AnalyzeRoot location={location} />]} />
-
-      <Sticky header={<FilterButtonRow filter={filter} />}>
-        <MaxWidthFullscreenContainer>
-          <TraceGroupsPage filter={filter} />
-        </MaxWidthFullscreenContainer>
-      </Sticky>
-    </Fragment>
+    <TraceTablePage {...props}>
+      <TraceGroupsPage filter={filter} />
+    </TraceTablePage>
   );
 }

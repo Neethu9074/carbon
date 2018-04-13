@@ -48,8 +48,17 @@ function Header(props) {
   return <BasicApplicationDashboardHeader type="Application" renderActions={Actions} {...props} />;
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeframe }) {
+function Actions({ applicationId, serviceId, endpointId, timeframe, result }) {
   return (
-    <TracesButton applicationId={applicationId} serviceId={serviceId} endpointId={endpointId} timeframe={timeframe} />
+    <TracesButton
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      timeframe={timeframe}
+      backButtonLabels={{
+        label1: 'Application',
+        label2: result.data ? result.data.label : 'Dashboard'
+      }}
+    />
   );
 }
