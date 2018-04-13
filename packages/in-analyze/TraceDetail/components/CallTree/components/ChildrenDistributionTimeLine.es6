@@ -1,10 +1,10 @@
 import React from 'react';
 
+import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
