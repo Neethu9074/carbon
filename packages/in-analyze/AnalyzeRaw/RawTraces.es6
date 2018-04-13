@@ -23,13 +23,22 @@ import { formatDateTime } from 'in-services/formatters/date';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import Card from 'in-new-components/Card';
 
+const orderTranslation = {
+  timestamp: 't',
+  label: 'concat_dest_service_endpoint',
+  duration: 'duration',
+  errors: 'total_error_count'
+};
+
+const defaultOrder = orderTranslation['timestamp'];
+
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'traces.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
-      orderBy: 't',
+      orderBy: defaultOrder,
       orderDirection: 'DESC'
     }),
     reducerName: 'onChangeOrder'
@@ -43,7 +52,7 @@ export default compose(
           retrievalSize: 50
         },
         order: {
-          by: orderBy,
+          by: orderTranslation[orderBy] || defaultOrder,
           direction: orderDirection
         },
         filter
@@ -62,7 +71,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="t"
+              technicalName="timestamp"
               label="Time"
             />
             <RawTracesSortableColumn
@@ -70,7 +79,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="destination_endpoint"
+              technicalName="label"
               label="Label"
             />
             <RawTracesSortableColumn
@@ -86,7 +95,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="total_error_count"
+              technicalName="errors"
               label="Errors"
             />
           </Tr>

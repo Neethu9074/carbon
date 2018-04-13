@@ -11,7 +11,7 @@ import {
   CALL_TIME_COLOR,
   CALL_TIME_LABEL,
   NETWORK_TIME_COLOR_OPACITY
-} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
+} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 

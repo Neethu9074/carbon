@@ -8,7 +8,7 @@ import {
   CALL_TIME_LABEL,
   CALL_TIME_COLOR,
   NETWORK_TIME_COLOR_OPACITY
-} from 'in-analyze/TraceDetail/components/CallDetails/tabs/Summary/TimingConstants.es6';
+} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 

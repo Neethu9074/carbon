@@ -18,9 +18,9 @@ export default connect(({ location }) => ({
       }
     }
   })
-}))(AnalyzeRoot);
+}))(AnalyzeRootBreadcrumb);
 
-function AnalyzeRoot({ traceCountResult }) {
+function AnalyzeRootBreadcrumb({ traceCountResult }) {
   let content = undefined;
   if (traceCountResult.data != null) {
     const count = get(traceCountResult, ['data', 'traceCount', 0, 1], 0);
