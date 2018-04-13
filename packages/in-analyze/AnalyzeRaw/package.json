@@ -1,6 +1,0 @@
-{
-  "name": "AnalyzeRaw",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./AnalyzeRaw.es6"
-}

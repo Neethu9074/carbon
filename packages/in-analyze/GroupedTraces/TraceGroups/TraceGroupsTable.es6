@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, SortableTh } from 'in-components/tables/sharedComponents';
-import Groups from 'in-analyze/Analyze/TraceGroups/Groups';
+import Groups from 'in-analyze/GroupedTraces/TraceGroups/Groups';
 
 export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder } = props;

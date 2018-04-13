@@ -1,8 +1,8 @@
 import React from 'react';
 
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
-import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import { millis, number } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';

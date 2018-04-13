@@ -5,10 +5,10 @@ import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApp
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
-import AnalyzeRootBreadcrumb from 'in-analyze/Analyze/AnalyzeRootBreadcrumb';
+import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
+import AnalyzeRootBreadcrumb from 'in-analyze/shared/AnalyzeRootBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import BackToExploreBreadcrumb from 'in-analyze/BackToExploreBreadcrumb';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';

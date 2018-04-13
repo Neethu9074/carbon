@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getMetrics from 'in-subscription/application/getMetrics';
-import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
+import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { number } from 'in-services/formatters/number';
