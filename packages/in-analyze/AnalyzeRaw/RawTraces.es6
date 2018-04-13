@@ -87,7 +87,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="number_of_calls"
+              technicalName="callCount"
               label="Calls"
             />
             <RawTracesSortableColumn
