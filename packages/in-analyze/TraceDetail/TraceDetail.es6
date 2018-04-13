@@ -8,6 +8,7 @@ import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix'
 import AnalyzeRootBreadcrumb from 'in-analyze/Analyze/AnalyzeRootBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import BackToExploreBreadcrumb from 'in-analyze/BackToExploreBreadcrumb';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -55,7 +56,11 @@ function TraceDetail({ location, colorCode: getColor }) {
   return (
     <Fragment>
       <Breadcrumbs
-        items={[<AnalyzeRootBreadcrumb location={location} />, <TraceDetailBreadcrumb traceId={traceId} />]}
+        items={[
+          <BackToExploreBreadcrumb />,
+          <AnalyzeRootBreadcrumb location={location} />,
+          <TraceDetailBreadcrumb traceId={traceId} />
+        ]}
       />
       <TabView
         HeaderComponent={Header}
