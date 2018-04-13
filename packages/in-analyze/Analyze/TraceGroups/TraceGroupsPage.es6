@@ -19,13 +19,15 @@ const orderTranslation = {
   errors: 'errors'
 };
 
+const defaultOrder = orderTranslation['calls'];
+
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'traces.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
-      orderBy: 'calls',
+      orderBy: defaultOrder,
       orderDirection: 'DESC'
     }),
     reducerName: 'onChangeOrder'
@@ -40,7 +42,7 @@ export default compose(
           retrievalSize: 20
         },
         order: {
-          by: orderTranslation[orderBy] || '',
+          by: orderTranslation[orderBy] || defaultOrder,
           direction: orderDirection
         },
         filter,
