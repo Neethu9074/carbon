@@ -21,7 +21,7 @@ export default compose(
 )(CallDetails);
 
 function CallDetails(props) {
-  const { callResult, callTreeResult, onClose } = props;
+  const { callResult, callTreeResult, getColor, onClose } = props;
 
   const isLoading = get(callResult, ['progress', 'loading']) || get(callTreeResult, ['progress', 'loading']);
   if (isLoading) {
@@ -39,7 +39,7 @@ function CallDetails(props) {
   return (
     <Fragment>
       <Header call={call} callTreeNode={callTreeNode} onClose={onClose} />
-      <TabView call={call} callTreeNode={callTreeNode} />
+      <TabView call={call} callTreeNode={callTreeNode} getColor={getColor} />
     </Fragment>
   );
 }
