@@ -38,26 +38,26 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Allocatable vs Limit CPU Shares">
+        <DashboardSection title="Required vs Limit vs Capacity CPU Shares">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: twoDecimalPlaces,
-              metrics: ['nodes.allocatable_cpu', 'nodes.capacity_cpu'],
-              labels: ['Allocatable', 'Limit'],
+              metrics: ['pods.required_cpu', 'pods.limit_cpu', 'nodes.capacity_cpu'],
+              labels: ['Required', 'Limit', 'Capacity'],
               type: 'line'
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Allocatable vs Limit Memory">
+        <DashboardSection title="Required vs Limit vs Capacity Memory">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: bytesTwoDecimalPlaces,
-              metrics: ['nodes.allocatable_mem', 'nodes.capacity_mem'],
-              labels: ['Allocatable', 'Limit'],
+              metrics: ['pods.required_mem', 'pods.limit_mem', 'nodes.capacity_mem'],
+              labels: ['Required', 'Limit', 'Capacity'],
               type: 'line'
             }}
           />

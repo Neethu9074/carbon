@@ -19,14 +19,14 @@ const cols = [
     }
   },
   {
-    title: 'CPU Shares Allocated',
+    title: 'CPU Shares Allocation Request',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `nodes.data.${row.key}.percent_cpu_allocated`;
+        return `nodes.data.${row.key}.percent_cpu_allocated_request`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -35,14 +35,46 @@ const cols = [
     }
   },
   {
-    title: 'Memory Allocated',
+    title: 'CPU Shares Allocation Limit',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `nodes.data.${row.key}.percent_mem_allocated`;
+        return `nodes.data.${row.key}.percent_cpu_allocated_limit`;
+      },
+      getContent: percentageTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Memory Allocation Request',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `nodes.data.${row.key}.percent_mem_allocated_request`;
+      },
+      getContent: percentageTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Memory Allocation Limit',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `nodes.data.${row.key}.percent_mem_allocated_limit`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -111,8 +143,12 @@ function getNodeRowDetails(row) {
         timeframe={row.timeframe}
         y1={{
           formatter: twoDecimalPlaces,
-          metrics: [`nodes.data.${row.key}.alloc_cpu`, `nodes.data.${row.key}.cap_cpu`],
-          labels: ['CPU Allocatable', 'CPU Limit'],
+          metrics: [
+            `nodes.data.${row.key}.required_cpu`,
+            `nodes.data.${row.key}.limit_cpu`,
+            `nodes.data.${row.key}.cap_cpu`
+          ],
+          labels: ['CPU Required', 'CPU Limit', 'CPU Capacity'],
           type: 'line'
         }}
       />
@@ -122,8 +158,12 @@ function getNodeRowDetails(row) {
         timeframe={row.timeframe}
         y1={{
           formatter: bytesTwoDecimalPlaces,
-          metrics: [`nodes.data.${row.key}.alloc_mem`, `nodes.data.${row.key}.cap_mem`],
-          labels: ['Memory Allocatable', 'Memory Limit'],
+          metrics: [
+            `nodes.data.${row.key}.required_mem`,
+            `nodes.data.${row.key}.limit_mem`,
+            `nodes.data.${row.key}.cap_mem`
+          ],
+          labels: ['Memory Required', 'Memory Limit', 'Memory Capacity'],
           type: 'line'
         }}
       />
