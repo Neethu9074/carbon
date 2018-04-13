@@ -28,12 +28,15 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 }
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
+  const left = scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
+
   return (
     <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
-          left: `${scale.getRange(call.start)}%`,
-          width: `${scale.getRange(call.duration) - scale.getRange(0)}%`,
+          left: `${left}%`,
+          width: `${width}%`,
           background: getColor(call)
         }}
         className={locals.callIndicator}
@@ -90,14 +93,15 @@ function NetworkTime({ scale, call, getColor, children }) {
 }
 
 function CallIndicator({ call, scale, getColor, onClick }) {
-  const networkTime = call.networkTime || 0;
+  const left = scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
 
   return (
     <Tooltip content={call.label} align="topMiddle">
       <div
         style={{
-          left: `${scale.getRange(call.start - networkTime / 2)}%`,
-          width: `${scale.getRange(call.duration + networkTime) - scale.getRange(0)}%`,
+          left: `${left}%`,
+          width: `${width}%`,
           background: getColor(call)
         }}
         className={locals.subCallIndicator}
