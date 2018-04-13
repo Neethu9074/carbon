@@ -10,7 +10,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
 
-export default withState('selectedChart', 'setSelectedChart', 'callsChartData')(TraceGroupCharts);
+export default withState('selectedChart', 'setSelectedChart', 'latencyChartData')(TraceGroupCharts);
 
 function TraceGroupCharts({
   items,
@@ -42,6 +42,12 @@ function TraceGroupCharts({
     <Fragment>
       <div className={locals.chartSelector}>
         <ChartSelectButton
+          chartId="latencyChartData"
+          label="Latency"
+          activeChartId={selectedChart}
+          setSelectedChart={setSelectedChart}
+        />
+        <ChartSelectButton
           chartId="callsChartData"
           label="Calls"
           activeChartId={selectedChart}
@@ -50,12 +56,6 @@ function TraceGroupCharts({
         <ChartSelectButton
           chartId="errorsChartData"
           label="Errors"
-          activeChartId={selectedChart}
-          setSelectedChart={setSelectedChart}
-        />
-        <ChartSelectButton
-          chartId="latencyChartData"
-          label="Latency"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
