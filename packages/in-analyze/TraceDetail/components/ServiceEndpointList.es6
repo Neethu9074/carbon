@@ -3,8 +3,8 @@ import React from 'react';
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
 import ServerTable from 'in-components/tables/ServerTable';
-import SvgIcon from 'in-components/SvgIcon';
 import { millis } from 'in-services/formatters/number';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ServiceEndpointList.mless';
 
