@@ -70,7 +70,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="destination_endpoint"
+              technicalName="concat_dest_service_endpoint"
               label="Label"
             />
             <RawTracesSortableColumn

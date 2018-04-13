@@ -13,7 +13,7 @@ import { app20Chart } from 'in-themes/theme';
 import Card from 'in-new-components/Card';
 
 const orderTranslation = {
-  label: 'destination_endpoint',
+  label: 'concat_dest_service_endpoint',
   calls: 'calls',
   duration: 'duration',
   errors: 'errors'
