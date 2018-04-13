@@ -35,69 +35,68 @@ const raftMetrics = [
 
 export default function ConsulDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const errorCode = snapshot.getIn(['data', 'error_code']);
+  const errorCodeMetrics = snapshot.getIn(['data', 'error_code_metrics']);
   const consulVersion = snapshot.getIn(['data', 'consul_version']);
 
-  if (errorCode === 'METRICS_NOT_ACCESSIBLE') {
-    return (
-      <DashboardNotification type="warning">
-        <strong>Consul version too old</strong>
-        <p>
-          The Consul version you are using is too old and does not provide metrics. Please upgrade to version 0.9.1 or
-          higher to receive metrics in this dashboard.
-        </p>
-        <p>
-          Current Consul Version: <code>{consulVersion}</code>
-        </p>
-      </DashboardNotification>
-    );
-  } else {
-    return (
-      <div>
-        <KpiSection>
-          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-          <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
-          <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
-          <KpiKeyValue label="AdvertiseAddr">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
-          {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
-            <KpiKeyValue label="Known Servers">{snapshot.getIn(['data', 'knownServers'], null)}</KpiKeyValue>
-          )}
-          {snapshot.getIn(['data', 'knownDatacenters'], null) > 0 && (
-            <KpiKeyValue label="Known Datacenters">{snapshot.getIn(['data', 'knownDatacenters'], null)}</KpiKeyValue>
-          )}
-        </KpiSection>
-        {snapshot.getIn(['data', 'consul.runtime.alloc_bytes'], null) && (
-          <Columize>
-            <DashboardSection title="Allocation">
-              <Chart
-                snapshotId={snapshotId}
-                timeframe={timeframe}
-                y1={{
-                  min: 0,
-                  metrics: ['consul.runtime.alloc_bytes', 'consul.runtime.sys_bytes'],
-                  labels: ['Allocated Bytes', 'System Bytes'],
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-            <DashboardSection title="Runtime">
-              <Chart
-                snapshotId={snapshotId}
-                timeframe={timeframe}
-                y1={{
-                  min: 0,
-                  metrics: ['consul.runtime.malloc_count', 'consul.runtime.free_count'],
-                  labels: ['Malloc Count', 'Free Count'],
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-          </Columize>
+  return (
+    <div>
+      <KpiSection>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
+        <KpiKeyValue label="AdvertiseAddr">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
+        {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
+          <KpiKeyValue label="Known Servers">{snapshot.getIn(['data', 'knownServers'], null)}</KpiKeyValue>
         )}
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
+        {snapshot.getIn(['data', 'knownDatacenters'], null) > 0 && (
+          <KpiKeyValue label="Known Datacenters">{snapshot.getIn(['data', 'knownDatacenters'], null)}</KpiKeyValue>
+        )}
+      </KpiSection>
+      {errorCodeMetrics === 'NO_ERROR' && (
+        <Columize>
+          <DashboardSection title="Allocation">
+            <Chart
+              snapshotId={snapshotId}
+              timeframe={timeframe}
+              y1={{
+                min: 0,
+                metrics: ['consul.runtime.alloc_bytes', 'consul.runtime.sys_bytes'],
+                labels: ['Allocated Bytes', 'System Bytes'],
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Runtime">
+            <Chart
+              snapshotId={snapshotId}
+              timeframe={timeframe}
+              y1={{
+                min: 0,
+                metrics: ['consul.runtime.malloc_count', 'consul.runtime.free_count'],
+                labels: ['Malloc Count', 'Free Count'],
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+      )}
+      <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
+      <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
+      {errorCodeMetrics === 'NO_ERROR' && (
         <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={metrics} title="Runtime Metrics" />
-      </div>
-    );
-  }
+      )}
+      {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
+        <DashboardNotification type="warning">
+          <strong>Consul version too old</strong>
+          <p>
+            The Consul version you are using is too old and does not provide metrics. Please upgrade to version 0.9.1 or
+            higher to receive metrics in this dashboard.
+          </p>
+          <p>
+            Current Consul Version: <code>{consulVersion}</code>
+          </p>
+        </DashboardNotification>
+      )}
+    </div>
+  );
 }
