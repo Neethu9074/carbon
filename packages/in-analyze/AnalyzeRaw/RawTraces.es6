@@ -26,6 +26,7 @@ import Card from 'in-new-components/Card';
 const orderTranslation = {
   timestamp: 't',
   label: 'concat_dest_service_endpoint',
+  callCount: 'number_of_calls',
   duration: 'duration',
   errors: 'total_error_count'
 };
