@@ -26,6 +26,7 @@ import Card from 'in-new-components/Card';
 const orderTranslation = {
   timestamp: 't',
   label: 'concat_dest_service_endpoint',
+  callCount: 'number_of_calls',
   duration: 'duration',
   errors: 'total_error_count'
 };
@@ -87,6 +88,14 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
+              technicalName="callCount"
+              label="Calls"
+            />
+            <RawTracesSortableColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="DESC"
               technicalName="duration"
               label="Latency"
             />
@@ -109,6 +118,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
               <Td>
                 <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
               </Td>
+              <Td>{number.compact(item.callCount)}</Td>
               <Td>{millis.fixedCompact(item.duration)}</Td>
               <Td>{number.compact(item.totalErrorCount)}</Td>
             </Tr>
