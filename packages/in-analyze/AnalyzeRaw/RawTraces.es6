@@ -98,9 +98,7 @@ function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, or
                 <Link href$={getLinkToTraceDetail(item.traceId)}>{formatDateTime(item.startTime)}</Link>
               </Td>
               <Td>
-                <Link href$={getLinkToTraceDetail(item.traceId)}>
-                  {item.service.label} | {item.label}
-                </Link>
+                <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
               </Td>
               <Td>{millis.fixedCompact(item.duration)}</Td>
               <Td>{number.compact(item.totalErrorCount)}</Td>
