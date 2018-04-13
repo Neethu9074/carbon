@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
 import TabView from 'in-analyze/TraceDetail/components/CallDetails/components/TabView';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
+import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
