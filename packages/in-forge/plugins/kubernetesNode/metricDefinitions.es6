@@ -2,18 +2,6 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-s
 
 export default [
   {
-    metric: 'alloc_cpu',
-    label: 'Allocatable CPU',
-    min: 0,
-    formatter: twoDecimalPlaces
-  },
-  {
-    metric: 'alloc_mem',
-    label: 'Allocatable Memory',
-    min: 0,
-    formatter: bytesTwoDecimalPlaces
-  },
-  {
     metric: 'alloc_pods',
     label: 'Allocatable Pods',
     min: 0,
@@ -36,5 +24,29 @@ export default [
     label: 'Pod Capacity',
     min: 0,
     formatter: zeroDecimalPlaces
+  },
+  {
+    metric: 'required_cpu',
+    label: 'CPU Required',
+    min: 0,
+    formatter: twoDecimalPlaces
+  },
+  {
+    metric: 'limit_cpu',
+    label: 'CPU Limit',
+    min: 0,
+    formatter: twoDecimalPlaces
+  },
+  {
+    metric: 'required_mem',
+    label: 'Memory Required',
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metric: 'limit_mem',
+    label: 'Memory Limit',
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
   }
 ];

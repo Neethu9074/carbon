@@ -74,18 +74,6 @@ export default [
     formatter: number
   },
   {
-    metric: 'nodes.allocatable_cpu',
-    label: 'Allocatable CPU',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'nodes.allocatable_mem',
-    label: 'Allocatable memory',
-    min: 0,
-    formatter: number
-  },
-  {
     metric: 'nodes.allocatable_pods',
     label: 'Allocatable pods',
     min: 0,
