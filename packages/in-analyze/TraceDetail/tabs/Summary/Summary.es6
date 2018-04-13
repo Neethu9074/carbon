@@ -46,7 +46,7 @@ class Summary extends React.Component {
         {callId && (
           <ErrorBoundary name="call tree sidebar">
             <Sidebar relativeTopOffset={-16}>
-              <CallDetails callId={callId} traceId={trace.id} onClose={this.clearSelectedCall} />
+              <CallDetails callId={callId} traceId={trace.id} getColor={getColor} onClose={this.clearSelectedCall} />
             </Sidebar>
           </ErrorBoundary>
         )}

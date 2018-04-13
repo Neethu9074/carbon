@@ -1,19 +1,22 @@
 import React, { Fragment } from 'react';
-import createScale from 'in-charts/scale';
-import Tooltip from 'in-components/Tooltip';
+
 import {
   NETWORK_TIME_COLOR,
   NETWORK_TIME_LABEL,
   PROCESSING_TIME_COLOR,
   PROCESSING_TIME_LABEL,
-  CALL_TIME_COLOR
+  CALL_TIME_LABEL,
+  CALL_TIME_COLOR,
+  NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+import Tooltip from 'in-components/Tooltip';
+import createScale from 'in-charts/scale';
 
 import locals from './TimingChart.mless';
 
 const tooltipAlignment = 'topMiddle';
 
-export default function TimingChart({ call, callTreeNode }) {
+export default function TimingChart({ call, callTreeNode, getColor }) {
   const { start, duration, networkTime } = call;
   const end = start + duration;
 
@@ -31,6 +34,9 @@ export default function TimingChart({ call, callTreeNode }) {
   const globalProcessingStart = start + (networkTime / 2 || 0);
   const globalProcessingEnd = end - (networkTime / 2 || 0);
 
+  const netWorkTimeColor = getColor ? getColor(callTreeNode) : NETWORK_TIME_COLOR;
+  const processingTimeColor = getColor ? getColor(callTreeNode) : PROCESSING_TIME_COLOR;
+
   const networkBlocks = networkTime ? (
     <Fragment>
       <TimeBlock
@@ -39,7 +45,8 @@ export default function TimingChart({ call, callTreeNode }) {
         start={start}
         end={globalProcessingStart}
         label={NETWORK_TIME_LABEL}
-        color={NETWORK_TIME_COLOR}
+        color={netWorkTimeColor}
+        opacity={NETWORK_TIME_COLOR_OPACITY}
       />
       <TimeBlock
         key="networkBlock_2"
@@ -47,7 +54,8 @@ export default function TimingChart({ call, callTreeNode }) {
         start={globalProcessingEnd}
         end={end}
         label={NETWORK_TIME_LABEL}
-        color={NETWORK_TIME_COLOR}
+        color={netWorkTimeColor}
+        opacity={NETWORK_TIME_COLOR_OPACITY}
       />
     </Fragment>
   ) : null;
@@ -61,7 +69,9 @@ export default function TimingChart({ call, callTreeNode }) {
         scale={scale}
         start={timeRange[0]}
         end={timeRange[1]}
+        label={CALL_TIME_LABEL}
         color={CALL_TIME_COLOR}
+        isCallBlock
       />
     );
   });
@@ -78,7 +88,7 @@ export default function TimingChart({ call, callTreeNode }) {
           start={nextProcessingBlockStart}
           end={timeRange[0]}
           label={PROCESSING_TIME_LABEL}
-          color={PROCESSING_TIME_COLOR}
+          color={processingTimeColor}
         />
       );
     }
@@ -93,7 +103,7 @@ export default function TimingChart({ call, callTreeNode }) {
         start={nextProcessingBlockStart}
         end={globalProcessingEnd}
         label={PROCESSING_TIME_LABEL}
-        color={PROCESSING_TIME_COLOR}
+        color={processingTimeColor}
       />
     );
   }
@@ -107,7 +117,7 @@ export default function TimingChart({ call, callTreeNode }) {
   );
 }
 
-function TimeBlock({ scale, start, end, label, color }) {
+function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }) {
   const left = scale.getRange(start);
   const width = scale.getRange(end) - left;
   const duration = `${end - start}ms`;
@@ -121,37 +131,40 @@ function TimeBlock({ scale, start, end, label, color }) {
       }}
     >
       <div className={locals.timeLabel}>{duration}</div>
-      {label ? (
-        <GenericFrame label={label} color={color} duration={duration} />
+      {isCallBlock ? (
+        <ChildCallFrame label={label} color={color} duration={duration} />
       ) : (
-        <CallFrame color={color} duration={duration} />
+        <GenericTimeFrame label={label} color={color} duration={duration} opacity={opacity} />
       )}
     </div>
   );
 }
 
-function GenericFrame({ label, color, duration }) {
-  const tooltipContent = `${label}: ${duration}`;
+function GenericTimeFrame({ label, duration, color, opacity }) {
   return (
-    <Tooltip content={tooltipContent} align={tooltipAlignment}>
-      <div className={locals.timeBlock} style={{ background: color }}>
+    <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
+      <div className={locals.timeBlock} style={{ background: color, opacity }}>
         <span className={locals.timeBlockLabel}>{label}</span>
       </div>
     </Tooltip>
   );
 }
 
-function CallFrame({ color, duration }) {
-  const tooltipContent = `Waiting: ${duration}`;
+function ChildCallFrame({ label, color, duration }) {
   return (
     <Fragment>
       <div className={locals.timeBlock} style={{ background: 'white' }} />
-      <Tooltip content={tooltipContent} align={tooltipAlignment}>
+      <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
         <div className={locals.callBlock} style={{ background: color }} />
       </Tooltip>
     </Fragment>
   );
 }
+
+function frameTooltipContent(label, duration) {
+  return `${label}: ${duration}`;
+}
+
 // when there are async child calls that overlap between each other,
 // merge them to a single time range
 // ex: callA lasts from 100 to 120 and callB lasts from 110 to 130,

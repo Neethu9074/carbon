@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getColor } from 'in-applications/endpointTypes';
 import SvgIcon from 'in-components/SvgIcon';
 import Badge from 'in-new-components/Badge';
-import { getColor } from 'in-applications/endpointTypes';
 
 import locals from './Header.mless';
 

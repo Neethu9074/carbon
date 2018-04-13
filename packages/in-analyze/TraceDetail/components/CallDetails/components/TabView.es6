@@ -8,7 +8,7 @@ import locals from './TabView.mless';
 
 export default withState('selectedTab', 'setSelectedTab', tabs[0])(TabView);
 
-function TabView({ selectedTab, setSelectedTab, call, callTreeNode }) {
+function TabView({ selectedTab, setSelectedTab, call, callTreeNode, getColor }) {
   return (
     <Fragment>
       <ul className={locals.tabView}>
@@ -16,7 +16,7 @@ function TabView({ selectedTab, setSelectedTab, call, callTreeNode }) {
         <li className={locals.emptyEnddingTab} />
       </ul>
       <div className={locals.content}>
-        {selectedTab && <selectedTab.component call={call} callTreeNode={callTreeNode} />}
+        {selectedTab && <selectedTab.component call={call} callTreeNode={callTreeNode} getColor={getColor} />}
       </div>
     </Fragment>
   );
