@@ -1,9 +1,10 @@
 import React from 'react';
 
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ErrorIndicator from 'in-analyze/Analyze/ErrorIndicator';
+import { millis, number } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
-import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ServiceEndpointList.mless';
@@ -33,6 +34,13 @@ export default function ServiceEndpointList({ traceId, getColor }) {
             {item.endpoint.label}
           </div>
         );
+      }
+    },
+    {
+      id: 'callCount',
+      label: 'Calls',
+      getContent(item) {
+        return <Counter>{number.compact(item.callCount)}</Counter>;
       }
     },
     {
