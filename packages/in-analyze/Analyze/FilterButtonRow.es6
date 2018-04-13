@@ -6,20 +6,27 @@ import Badge from 'in-new-components/Badge';
 
 import locals from './FilterButtonRow.mless';
 
-export default function FilterButtonRow({ filter }) {
-  const filerKeyBlackList = ['timeframe'];
+const filerKeyBlackList = ['timeframe'];
 
+const filterKeyTranslation = {
+  application: 'Application',
+  service: 'Service',
+  endpoint: 'Endpoint',
+  traceGroupName: 'trace.name'
+};
+
+export default function FilterButtonRow({ filter }) {
   // support for grouping/groups will be added with https://www.pivotaltracker.com/story/show/155891847
   // until then, we won't show any grouping information
   const groups = [];
 
   const filters = Object.keys(filter)
+    .filter(key => filerKeyBlackList.indexOf(key) < 0)
     .map(filterKey => ({
-      key: filterKey,
+      key: filterKeyTranslation[filterKey] || filterKey,
       value: filter[filterKey]
     }))
-    .filter(pair => pair.value)
-    .filter(pair => filerKeyBlackList.indexOf(pair.key) < 0);
+    .filter(pair => pair.value);
 
   return (
     <div className={locals.fullWidthHorizontalRule}>
