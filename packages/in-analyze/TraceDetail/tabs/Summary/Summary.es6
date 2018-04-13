@@ -52,7 +52,7 @@ class Summary extends React.Component {
         )}
         <Row>
           <Col lg={4}>
-            <KpiCard title="Duration" value={millis.compact(trace.duration)} />
+            <KpiCard title="Latency" value={millis.compact(trace.duration)} />
           </Col>
           <Col lg={4}>
             <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
