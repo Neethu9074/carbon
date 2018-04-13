@@ -1,6 +1,8 @@
   :local {
+    
     .content {
         width: 13rem;
+        padding: 0.1rem;
     }
 
     .heading {

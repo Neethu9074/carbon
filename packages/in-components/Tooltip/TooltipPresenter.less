@@ -61,6 +61,14 @@
     border-right: 6px solid #203036;
   }
 
+  &__topMiddle::after {
+    top: 100%;
+    left: 50%;
+    border-left: 6px solid transparent;
+    border-top: 6px solid #203036;
+    border-bottom: 0;
+  }
+
   &__bottomMiddle::after {
     top: @size * -1;
     left: 50%;
