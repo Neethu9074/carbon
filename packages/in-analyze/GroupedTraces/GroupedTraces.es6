@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TraceGroupsPage from 'in-analyze/GroupedTraces/TraceGroups/TraceGroupsPage';
+import TraceGroupsPage from 'in-analyze/GroupedTraces/TraceGroupsPage';
 import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import TraceTablePage from 'in-analyze/shared/TraceTablePage';
 
