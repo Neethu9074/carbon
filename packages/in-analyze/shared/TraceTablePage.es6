@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import AnalyzeRootBreadcrumb from 'in-analyze/Analyze/AnalyzeRootBreadcrumb';
-import BackToExploreBreadcrumb from 'in-analyze/BackToExploreBreadcrumb';
+import AnalyzeRootBreadcrumb from 'in-analyze/shared/AnalyzeRootBreadcrumb';
+import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import FilterButtonRow from 'in-analyze/Analyze/FilterButtonRow';
-import { buildFilter } from 'in-analyze/Analyze/filterBuilder';
+import FilterButtonRow from 'in-analyze/shared/FilterButtonRow';
+import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 

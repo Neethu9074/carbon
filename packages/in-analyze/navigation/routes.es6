@@ -7,13 +7,13 @@ import { analyzeGroups, analyzeRaw, traceDetailFullyQualified } from 'in-analyze
 // the following components are all part of the same bundle.
 // Bundle Name: analyze
 import TraceDetail from 'promise-loader?global,analyze!in-analyze/TraceDetail';
-import Analyze from 'promise-loader?global,analyze!in-analyze/Analyze';
-import AnalyzeRaw from 'promise-loader?global,analyze!in-analyze/AnalyzeRaw';
+import GroupedTraces from 'promise-loader?global,analyze!in-analyze/GroupedTraces';
+import RawTraces from 'promise-loader?global,analyze!in-analyze/RawTraces';
 
 export default (
   <Fragment>
     <Route path={traceDetailFullyQualified} component={createAsyncViewComponent(TraceDetail)} />
-    <Route path={analyzeGroups} component={createAsyncViewComponent(Analyze)} />
-    <Route path={analyzeRaw} component={createAsyncViewComponent(AnalyzeRaw)} />
+    <Route path={analyzeGroups} component={createAsyncViewComponent(GroupedTraces)} />
+    <Route path={analyzeRaw} component={createAsyncViewComponent(RawTraces)} />
   </Fragment>
 );

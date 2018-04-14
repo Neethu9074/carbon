@@ -6,7 +6,7 @@ import {
   LoadingSkeletonRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import Group from 'in-analyze/Analyze/TraceGroups/Group';
+import Group from 'in-analyze/GroupedTraces/Group';
 
 export default function Groups({
   items,

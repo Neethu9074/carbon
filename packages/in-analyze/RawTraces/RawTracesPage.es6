@@ -17,7 +17,7 @@ import {
 } from 'in-components/tables/sharedComponents';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import GroupingToggle from 'in-analyze/Analyze/GroupingToggle';
+import GroupingToggle from 'in-analyze/shared/GroupingToggle';
 import getTraces from 'in-subscription/application/getTraces';
 import { formatDateTime } from 'in-services/formatters/date';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -59,9 +59,9 @@ export default compose(
         filter
       })
   })
-)(RawTraces);
+)(RawTracesPage);
 
-function RawTraces({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
+function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
   return (
     <Card title="Traces" header={<GroupingToggle raw />}>
       <Table>
