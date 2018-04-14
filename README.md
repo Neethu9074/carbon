@@ -2,7 +2,6 @@
 
 <!-- toc -->
 
-- [Branching Model](#branching-model)
 - [Getting Started](#getting-started)
   * [Installation of required software](#installation-of-required-software)
     + [Node.js and Yarn](#nodejs-and-yarn)
@@ -10,7 +9,10 @@
     + [Additional UI Engineer Software](#additional-ui-engineer-software)
   * [Setting up local domains](#setting-up-local-domains)
   * [Executing tasks](#executing-tasks)
-  * [Upgrading Node.js](#upgrading-nodejs)
+- [Branching Model](#branching-model)
+- [Code Style](#code-style)
+  * [Simon Sort](#simon-sort)
+- [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
   * [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
   * [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
@@ -19,9 +21,6 @@
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
 
 <!-- tocstop -->
-
-## Branching Model
-We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
 
 ## Getting Started
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
@@ -81,7 +80,48 @@ sudo gpasswd -a $USER docker
 newgrp docker
 ```
 
-### Upgrading Node.js
+## Branching Model
+We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
+
+## Code Style
+Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should configure your IDE/Editor to run prettier on all files when saving the file.
+
+*CAUTION:* If you use `git add --patch` to only commit a subset of a file's changes while keeping excluding other changes in the same file from the commit by not adding them, the pre-commit hook will still add the whole file with all changes, so that won't work.
+We have a style rule (called Simon-sort) that says imports are to be ordered.
+
+### Simon Sort
+There is one style rule that is not automatically enforced or taken care of (yet): _Simon sort_. This is our rule on how to sort imports in ES6 files. We split all imports into three blocks (not all three blocks are present in each file):
+
+1. Third party imports (React, Lodash, ...) first, then
+1. Instana imports (everything from one of the packages in `ui-client/packages/`, and finally
+1. CSS/LESS imports (all `*.less` and `*.mless` files).
+
+These blocks are separated by a new line. The first import block usually starts at the first line of the file (that is, there is nothing else above the imports).
+
+The imports in one block are *sorted by line length, descending*. Longest import line at the top, shortest line at the bottom.
+
+Basically, this is our (totally arbitrary, but at least consistent) rule for sorting imports. The main reason it was chosen is that it can be verified very quickly visually without inspecting the individual imports.
+
+Here is an example of some imports, correctly simon-sorted:
+
+```
+import { get } from 'lodash';
+import React from 'react';
+
+import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
+import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
+import createScale from 'in-charts/scale';
+import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
+
+import locals from './CallTree.mless';
+
+export default function CallTree({
+  ...
+```
+
+## Upgrading Node.js
 From time to time we are upgrading the Node.js version that we are using for build of the `ui-client` as well as for the `in-server`. Node.js upgrades have been automated. Simply execute the following command in the root of the project to automatically upgrade your Node.js version via NVM.
 
 ```
@@ -89,8 +129,6 @@ From time to time we are upgrading the Node.js version that we are using for bui
 ```
 
 Once executed, verify that it was successful via the usual `yarn run test`.
-
-
 
 ## Troubleshooting
 
@@ -126,9 +164,7 @@ You can get a list of metrics per entity via `yarn run generateMetricOverview`. 
 This can happen when switching between two branches with a lot of changes while the development server is running. To fix this, stop the development server and then execute the following:
 
 ```
-cd ui-client
-./node_modules/.bin/flow stop
-rm -rf /tmp/flow
+yarn run cleanup-flow
 ```
 
 If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
