@@ -86,8 +86,7 @@ We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-mod
 ## Code Style
 Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should configure your IDE/Editor to run prettier on all files when saving the file.
 
-*CAUTION:* If you use `git add --patch` to only commit a subset of a file's changes while keeping excluding other changes in the same file from the commit by not adding them, the pre-commit hook will still add the whole file with all changes, so that won't work.
-We have a style rule (called Simon-sort) that says imports are to be ordered.
+*CAUTION:* If you use `git add --patch` to only commit a portion of a file's changes while excluding other changes in the same file from the commit by not adding them, the pre-commit hook will still add the whole file with all changes, so that won't work.
 
 ### Simon Sort
 There is one style rule that is not automatically enforced or taken care of (yet): _Simon sort_. This is our rule on how to sort imports in ES6 files. We split all imports into three blocks (not all three blocks are present in each file):
