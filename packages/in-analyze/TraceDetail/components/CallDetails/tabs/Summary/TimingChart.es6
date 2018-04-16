@@ -195,7 +195,7 @@ function mergeChildCallNodesToTimeRanges(callNodes, globalProcessingStart, globa
 
 // some child calls may be out of the parent call's processing time range (excluding network time)
 // this method allows to correct these imprecisions of tracing
-// by moving the child call's time range withing the parent call's processing time range
+// by moving the child call's time range within the parent call's processing time range
 function correctChildCallTimeRange(childCallTimeRange, globalProcessingStart, globalProcessingEnd) {
   const duration = childCallTimeRange[1] - childCallTimeRange[0];
 
