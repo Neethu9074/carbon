@@ -60,7 +60,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
     </Fragment>
   ) : null;
 
-  const timeRanges = mergeCallNodesToTimeRanges(callTreeNode.children);
+  const timeRanges = mergeChildCallNodesToTimeRanges(callTreeNode.children, globalProcessingStart, globalProcessingEnd);
 
   const callBlocks = timeRanges.map((timeRange, index) => {
     return (
@@ -169,14 +169,14 @@ function frameTooltipContent(label, duration) {
 // merge them to a single time range
 // ex: callA lasts from 100 to 120 and callB lasts from 110 to 130,
 // the method should return a time range [100, 130]
-function mergeCallNodesToTimeRanges(callNodes) {
+function mergeChildCallNodesToTimeRanges(callNodes, globalProcessingStart, globalProcessingEnd) {
   let timeRanges = [];
   let previousTimeRange;
 
   callNodes
     .map(callNode => {
       const callTimeRange = [callNode.start, callNode.start + callNode.duration];
-      return callTimeRange;
+      return correctChildCallTimeRange(callTimeRange, globalProcessingStart, globalProcessingEnd);
     })
     .sort((timeRange1, timeRange2) => timeRange1[0] - timeRange2[0])
     .forEach(timeRange => {
@@ -191,4 +191,27 @@ function mergeCallNodesToTimeRanges(callNodes) {
     });
 
   return timeRanges;
+}
+
+// some child calls may be out of the parent call's processing time range (excluding network time)
+// this method allows to correct these imprecisions of tracing
+// by moving the child call's time range withing the parent call's processing time range
+function correctChildCallTimeRange(childCallTimeRange, globalProcessingStart, globalProcessingEnd) {
+  const duration = childCallTimeRange[1] - childCallTimeRange[0];
+
+  if (childCallTimeRange[0] < globalProcessingStart) {
+    // child call that starts before the parent call's processing start time
+    // move it to the beginning of the parent's processing time range
+    const start = globalProcessingStart;
+    const end = start + duration;
+    return [start, end];
+  } else if (childCallTimeRange[1] > globalProcessingEnd) {
+    // child call that starts after the parent call's processing end time
+    // move it to the end of the parent's processing time range
+    const end = globalProcessingEnd;
+    const start = end - duration;
+    return [start, end];
+  } else {
+    return childCallTimeRange;
+  }
 }

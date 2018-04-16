@@ -26,6 +26,14 @@ function TimingChartStory() {
     networkTime: 6,
     children: [
       {
+        id: '2',
+        label: 'database call',
+        start: 90,
+        duration: 1,
+        networkTime: null,
+        children:[]
+      },
+      {
         id: '3',
         label: 'database call',
         start: 105,
@@ -34,7 +42,7 @@ function TimingChartStory() {
         children:[]
       },
       {
-        id: '2',
+        id: '4',
         label: 'async call',
         start: 108,
         duration: 5,
@@ -42,7 +50,7 @@ function TimingChartStory() {
         children:[]
       },
       {
-        id: '4',
+        id: '5',
         label: 'database call',
         start: 109,
         duration: 1,
@@ -50,10 +58,18 @@ function TimingChartStory() {
         children:[]
       },
       {
-        id: '5',
+        id: '6',
         label: 'database call',
         start: 112,
         duration: 3,
+        networkTime: null,
+        children:[]
+      },
+      {
+        id: '7',
+        label: 'database call',
+        start: 130,
+        duration: 1,
         networkTime: null,
         children:[]
       }
