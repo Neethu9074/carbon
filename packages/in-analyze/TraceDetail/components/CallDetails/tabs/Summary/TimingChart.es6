@@ -9,6 +9,7 @@ import {
   CALL_TIME_COLOR,
   NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -60,7 +61,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
     </Fragment>
   ) : null;
 
-  const timeRanges = mergeCallNodesToTimeRanges(callTreeNode.children);
+  const timeRanges = mergeChildCallNodesToTimeRanges(callTreeNode.children, globalProcessingStart, globalProcessingEnd);
 
   const callBlocks = timeRanges.map((timeRange, index) => {
     return (
@@ -120,7 +121,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
 function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }) {
   const left = scale.getRange(start);
   const width = scale.getRange(end) - left;
-  const duration = `${end - start}ms`;
+  const duration = `${millis.fixedCompact(end - start)}`;
 
   return (
     <div
@@ -142,7 +143,7 @@ function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }
 
 function GenericTimeFrame({ label, duration, color, opacity }) {
   return (
-    <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
+    <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
       <div className={locals.timeBlock} style={{ background: color, opacity }}>
         <span className={locals.timeBlockLabel}>{label}</span>
       </div>
@@ -154,29 +155,34 @@ function ChildCallFrame({ label, color, duration }) {
   return (
     <Fragment>
       <div className={locals.timeBlock} style={{ background: 'white' }} />
-      <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
+      <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
         <div className={locals.callBlock} style={{ background: color }} />
       </Tooltip>
     </Fragment>
   );
 }
 
-function frameTooltipContent(label, duration) {
-  return `${label}: ${duration}`;
+function FrameTooltipContent({ label, duration }) {
+  return (
+    <div className={locals.tooltip}>
+      <span>{label}</span>
+      <span>{duration}</span>
+    </div>
+  );
 }
 
 // when there are async child calls that overlap between each other,
 // merge them to a single time range
 // ex: callA lasts from 100 to 120 and callB lasts from 110 to 130,
 // the method should return a time range [100, 130]
-function mergeCallNodesToTimeRanges(callNodes) {
+function mergeChildCallNodesToTimeRanges(callNodes, globalProcessingStart, globalProcessingEnd) {
   let timeRanges = [];
   let previousTimeRange;
 
   callNodes
     .map(callNode => {
       const callTimeRange = [callNode.start, callNode.start + callNode.duration];
-      return callTimeRange;
+      return correctChildCallTimeRange(callTimeRange, globalProcessingStart, globalProcessingEnd);
     })
     .sort((timeRange1, timeRange2) => timeRange1[0] - timeRange2[0])
     .forEach(timeRange => {
@@ -191,4 +197,27 @@ function mergeCallNodesToTimeRanges(callNodes) {
     });
 
   return timeRanges;
+}
+
+// some child calls may be out of the parent call's processing time range (excluding network time)
+// this method allows to correct these imprecisions of tracing
+// by moving the child call's time range within the parent call's processing time range
+function correctChildCallTimeRange(childCallTimeRange, globalProcessingStart, globalProcessingEnd) {
+  const duration = childCallTimeRange[1] - childCallTimeRange[0];
+
+  if (childCallTimeRange[0] < globalProcessingStart) {
+    // child call that starts before the parent call's processing start time
+    // move it to the beginning of the parent's processing time range
+    const start = globalProcessingStart;
+    const end = start + duration;
+    return [start, end];
+  } else if (childCallTimeRange[1] > globalProcessingEnd) {
+    // child call that starts after the parent call's processing end time
+    // move it to the end of the parent's processing time range
+    const end = globalProcessingEnd;
+    const start = end - duration;
+    return [start, end];
+  } else {
+    return childCallTimeRange;
+  }
 }
