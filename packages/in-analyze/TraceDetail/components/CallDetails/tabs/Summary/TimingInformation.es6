@@ -41,7 +41,7 @@ export default function TimingInformation({ call, callTreeNode, getColor }) {
       <TimeBlock
         color={CALL_TIME_COLOR}
         label={CALL_TIME_LABEL}
-        duration={call.duration - call.minSelfTime || 0 - call.networkTime || 0}
+        duration={call.duration - (call.minSelfTime || 0) - (call.networkTime || 0)}
         totalDuration={call.duration}
       />
     </div>
