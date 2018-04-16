@@ -44,4 +44,14 @@
   .callBlock {
     height: 0.5rem;
   }
+
+  .tooltip {
+    width: 8rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.125rem 0;
+    margin: 0 0.125rem;
+    font-weight: bold;
+  }
+
 }

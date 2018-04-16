@@ -9,6 +9,7 @@ import {
   CALL_TIME_COLOR,
   NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -120,7 +121,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
 function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }) {
   const left = scale.getRange(start);
   const width = scale.getRange(end) - left;
-  const duration = `${end - start}ms`;
+  const duration = `${millis.fixedCompact(end - start)}`;
 
   return (
     <div
@@ -142,7 +143,7 @@ function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }
 
 function GenericTimeFrame({ label, duration, color, opacity }) {
   return (
-    <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
+    <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
       <div className={locals.timeBlock} style={{ background: color, opacity }}>
         <span className={locals.timeBlockLabel}>{label}</span>
       </div>
@@ -154,15 +155,20 @@ function ChildCallFrame({ label, color, duration }) {
   return (
     <Fragment>
       <div className={locals.timeBlock} style={{ background: 'white' }} />
-      <Tooltip content={frameTooltipContent(label, duration)} align={tooltipAlignment}>
+      <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
         <div className={locals.callBlock} style={{ background: color }} />
       </Tooltip>
     </Fragment>
   );
 }
 
-function frameTooltipContent(label, duration) {
-  return `${label}: ${duration}`;
+function FrameTooltipContent({ label, duration }) {
+  return (
+    <div className={locals.tooltip}>
+      <span>{label}</span>
+      <span>{duration}</span>
+    </div>
+  );
 }
 
 // when there are async child calls that overlap between each other,
