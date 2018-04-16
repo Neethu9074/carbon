@@ -97,7 +97,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
   const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
 
   return (
-    <Tooltip content={call.label} align="topMiddle">
+    <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,
