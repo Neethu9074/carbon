@@ -50,7 +50,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="Pods">
           <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} initialValue="0" />
         </KpiKeyValue>
-        <KpiKeyValue label="Available">
+        <KpiKeyValue label="Available Replicas">
           <MetricValue
             snapshotId={snapshotId}
             metric="availableReplicas"
@@ -58,7 +58,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Desired">
+        <KpiKeyValue label="Desired Replicas">
           <MetricValue
             snapshotId={snapshotId}
             metric="desiredReplicas"
@@ -66,7 +66,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Pending">
+        <KpiKeyValue label="Pending Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="phase.Pending.count"
@@ -74,7 +74,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Unscheduled">
+        <KpiKeyValue label="Unscheduled Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="conditions.PodScheduled.False"
@@ -82,7 +82,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Unready">
+        <KpiKeyValue label="Unready Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="conditions.Ready.False"
@@ -90,13 +90,13 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Last Rollout">
+        <KpiKeyValue label="Pending Phase Duration">
           <MetricValue snapshotId={snapshotId} metric="duration" formatter={msFormatter} initialValue="0" />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Required vs Limit CPU Shares">
+        <DashboardSection title="Containers Total Requested vs Limit CPU Shares">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -108,7 +108,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Required vs Limit Memory">
+        <DashboardSection title="Containers Total Requested vs Limit Memory">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -137,7 +137,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Available vs Desired">
+        <DashboardSection title="Available vs Desired Replicas">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -153,7 +153,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Pending vs Unscheduled vs Unready">
+        <DashboardSection title="Pods Pending vs Unscheduled vs Unready">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -167,7 +167,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Rollout duration">
+        <DashboardSection title="Pending Phase Duration">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
