@@ -9,6 +9,7 @@
     + [Additional UI Engineer Software](#additional-ui-engineer-software)
   * [Setting up local domains](#setting-up-local-domains)
   * [Executing tasks](#executing-tasks)
+    + [Preferences/Environment Variables](#preferencesenvironment-variables)
 - [Branching Model](#branching-model)
 - [Code Style](#code-style)
   * [Simon Sort](#simon-sort)
@@ -83,6 +84,13 @@ sudo groupadd docker
 sudo gpasswd -a $USER docker
 newgrp docker
 ```
+
+#### Preferences/Environment Variables
+
+A few environment variables are used to tweak the UI development workflow to your personal preferences:
+
+* `HOT_RELOAD`: If this is set to a non-empty string and the build is running in development mode, the build will trigger a browser reload automatically when a file is changed and saved and the project has been recompiled. Without this, you'll have to refresh manually.
+* `DONT_OPEN_BROWSER`: If this is set to a non-empty string, the UI build will not open a new browser window when the build is finished.
 
 ## Branching Model
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.

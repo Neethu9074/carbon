@@ -6,11 +6,17 @@ const FlowWebpackPlugin = require('flow-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
-const { localIdentName, getLocalIdent, webpackPlugin: cssIdentWebpackPlugin } = require('./build/webpack/cssIdentifiers');
+const {
+  localIdentName,
+  getLocalIdent,
+  webpackPlugin: cssIdentWebpackPlugin
+} = require('./build/webpack/cssIdentifiers');
 const { isDevModeBuild } = require('./build/webpack/opts');
+const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
 
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(isDevModeBuild ? 'true' : 'false')),
+  __HOT_RELOAD__: JSON.stringify(JSON.parse(hotReload ? 'true' : 'false')),
 
   // this is necessary for the React and Invariant modules
   'process.env.NODE_ENV': isDevModeBuild ? '"development"' : '"production"',
@@ -18,8 +24,36 @@ const definePlugin = new webpack.DefinePlugin({
   'process.env.IS_TEST': 'false'
 });
 
+const plugins = [
+  definePlugin,
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
+  new ExtractTextPlugin({
+    filename: 'index.css',
+    disable: false,
+    allChunks: true
+  }),
+  new CaseSensitivePathsPlugin(),
+  new FlowWebpackPlugin({
+    failOnError: true
+  }),
+  cssIdentWebpackPlugin
+];
+
+if (hotReload) {
+  plugins.push(new webpack.HotModuleReplacementPlugin());
+  plugins.push(new webpack.NamedModulesPlugin());
+}
+
+const entry = hotReload
+  ? [
+      'webpack-dev-server/client?https://local-instana.instana.io:4000', // WebpackDevServer host and port
+      'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+      './packages/in-client/js/index.es6'
+    ]
+  : './packages/in-client/js/index.es6';
+
 module.exports = {
-  entry: './packages/in-client/js/index.es6',
+  entry,
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',
@@ -163,20 +197,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    definePlugin,
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
-    new ExtractTextPlugin({
-      filename: 'index.css',
-      disable: false,
-      allChunks: true
-    }),
-    new CaseSensitivePathsPlugin(),
-    new FlowWebpackPlugin({
-      failOnError: true
-    }),
-    cssIdentWebpackPlugin
-  ],
+  plugins,
   resolve: {
     extensions: ['.js', '.es6']
   }

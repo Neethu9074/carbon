@@ -1,6 +1,7 @@
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
 /* eslint-disable instana-import-order/instana-import-order */
+/* global module: false, __HOT_RELOAD__: false */
 import 'in-forge';
 
 import { ConsoleAppender, addAppender } from 'instalog';
@@ -92,3 +93,16 @@ ReactDOM.render(
   </Router>,
   document.getElementById('main')
 );
+
+if (__HOT_RELOAD__ && module.hot) {
+  module.hot.accept('in-client/js/App', () => {
+    /* global require: false */
+    const NextApp = require('in-client/js/App').default;
+    ReactDOM.render(
+      <Router history={history}>
+        <NextApp />
+      </Router>,
+      document.getElementById('main')
+    );
+  });
+}

@@ -1,4 +1,5 @@
 declare var __DEV__: boolean;
+declare var __HOT_RELOAD__: boolean;
 
 // Time
 declare type Millis = number;

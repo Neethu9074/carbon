@@ -18,8 +18,10 @@ const webpackConfig = require('../../webpack.config.js');
 const paths = require('./paths');
 const buildUtil = require('./util');
 
+const hotReload = !!process.env.HOT_RELOAD;
+
 // will be populated with data using the askForDevOptions task
-var devModeOptions;
+let devModeOptions;
 
 gulp.task('prepareTestExecution', cb => {
   runSequence('ensureTargetDirStructureExists', 'translateTheme', cb);
@@ -168,7 +170,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     gkApiPrefix = '/auth';
   }
 
-  const proxy = {
+  const httpProxy = {
     '/': 'http://127.0.0.1:3000',
     '/api/': `${uiBackendUrl}/api/`,
     '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
@@ -181,8 +183,23 @@ gulp.task('startDevProxy', function startDevProxy() {
     '/notifications/': 'https://instana.github.io/ui-notifications/content/'
   };
 
+  if (hotReload) {
+    // webpack hot reload HTTP URL
+    httpProxy['/hot/'] = 'http://127.0.0.1:3000/hot/';
+  }
+
   if (envConfig.local) {
-    proxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/checkUserAccessPermitted`;
+    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/checkUserAccessPermitted`;
+  }
+
+  const websocketProxy = {
+    // Instana websocket API
+    '/api/data/': websocketEndpoint
+  };
+
+  if (hotReload) {
+    // webpack hot reload websocket URL
+    websocketProxy['/sockjs-node/'] = 'http://127.0.0.1:3000/sockjs-node/';
   }
 
   const config = {
@@ -193,11 +210,8 @@ gulp.task('startDevProxy', function startDevProxy() {
     tls: true,
     tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
-    proxy,
-
-    websocketProxy: {
-      '/api/data/': websocketEndpoint
-    }
+    proxy: httpProxy,
+    websocketProxy
   };
 
   buildUtil.startProxrox(config);
@@ -234,6 +248,7 @@ gulp.task('webpack:dev', () => {
     inline: true,
     noInfo: true,
     quiet: true,
+    hot: hotReload,
     watchOptions: {
       ignored: /node_modules/
     },
