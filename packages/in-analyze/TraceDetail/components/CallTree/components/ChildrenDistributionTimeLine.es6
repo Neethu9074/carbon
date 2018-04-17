@@ -29,7 +29,7 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
   const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
@@ -51,18 +51,19 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
 }
 
 function ProcessingTime({ call, getColor }) {
-  const processingStartTime = call.start + call.networkTime / 2 || 0;
-  const processingEndTime = call.start + call.duration - call.networkTime / 2 || 0;
+  const networkTime = call.networkTime || 0;
+  const processingStartTime = call.start + networkTime / 2;
+  const processingEndTime = call.start + call.duration - networkTime / 2;
   const processingDuration = processingEndTime - processingStartTime;
 
-  const procesingWidthInPercent = processingDuration / call.duration * 100;
+  const processingWidthInPercent = processingDuration / call.duration * 100;
 
   return (
     <div
       style={{
         background: getColor(call),
-        width: `${procesingWidthInPercent}%`,
-        left: `${(100 - procesingWidthInPercent) / 2}%`
+        width: `${processingWidthInPercent}%`,
+        left: `${(100 - processingWidthInPercent) / 2}%`
       }}
       className={locals.processingTime}
     />
@@ -95,7 +96,7 @@ function CallDurationLabel({ scale, call }) {
 
 function CallIndicator({ call, scale, getColor, onClick }) {
   const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
