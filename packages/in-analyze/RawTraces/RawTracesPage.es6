@@ -1,7 +1,6 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import { number, millis } from 'in-services/formatters/number';
 import {
   Table,
   Thead,
@@ -17,6 +16,7 @@ import {
 } from 'in-components/tables/sharedComponents';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { number, millis } from 'in-services/formatters/number';
 import GroupingToggle from 'in-analyze/shared/GroupingToggle';
 import getTraces from 'in-subscription/application/getTraces';
 import { formatDateTime } from 'in-services/formatters/date';
