@@ -29,72 +29,74 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
   const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,
-          width: `${width}%`,
-          background: getColor(call)
+          width: `${width}%`
         }}
         className={locals.callIndicator}
         onClick={() => onClick(call)}
       >
-        <NetworkTime call={call} scale={scale} getColor={getColor}>
-          <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
-        </NetworkTime>
+        <div className={locals.networkTimeBar} style={{ background: getColor(call) }} />
+        <ProcessingTime call={call} getColor={getColor} />
+        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
+        <CallDurationLabel call={call} scale={scale} />
       </div>
     </Tooltip>
   );
 }
 
-function NetworkTime({ scale, call, getColor, children }) {
-  let networkWidthInPercent = 100;
-  if (call.duration > 0 && call.networkTime > 0) {
-    const networkTime = call.networkTime;
-    const callWidthInPercent = scale.getRange(call.duration) - scale.getRange(0);
-    networkWidthInPercent = scale.getRange(call.duration + networkTime) - scale.getRange(0);
-    networkWidthInPercent = networkWidthInPercent / callWidthInPercent * 100;
-  }
+function ProcessingTime({ call, getColor }) {
+  const networkTime = call.networkTime || 0;
+  const processingStartTime = call.start + networkTime / 2;
+  const processingEndTime = call.start + call.duration - networkTime / 2;
+  const processingDuration = processingEndTime - processingStartTime;
 
-  const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
+  const processingWidthInPercent = processingDuration / call.duration * 100;
 
   return (
     <div
       style={{
-        width: `${networkWidthInPercent}%`,
-        left: `${-(networkWidthInPercent - 100) / 2}%`
+        background: getColor(call),
+        width: `${processingWidthInPercent}%`,
+        left: `${(100 - processingWidthInPercent) / 2}%`
       }}
-      className={locals.networkTime}
+      className={locals.processingTime}
+    />
+  );
+}
+
+function CallDurationLabel({ scale, call }) {
+  const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
+
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals.callDurationWrapper]: true,
+        [locals.leftAlignedCallDurationWrapper]: positionOnAxisInPercent < 50,
+        [locals.rightAlignedCallDurationWrapper]: positionOnAxisInPercent >= 50
+      })}
     >
-      <div style={{ background: getColor(call) }} className={locals.networkTimeBar} />
-      <div
+      <span
         className={evaluateClassNames({
-          [locals.callDurationWrapper]: true,
-          [locals.leftAlignedCallDurationWrapper]: positionOnAxisInPercent < 50,
-          [locals.rightAlignedCallDurationWrapper]: positionOnAxisInPercent >= 50
+          [locals.callDuration]: true,
+          [locals.leftAlignedCallDuration]: positionOnAxisInPercent < 50,
+          [locals.rightAlignedCallDuration]: positionOnAxisInPercent >= 50
         })}
       >
-        <span
-          className={evaluateClassNames({
-            [locals.callDuration]: true,
-            [locals.leftAlignedCallDuration]: positionOnAxisInPercent < 50,
-            [locals.rightAlignedCallDuration]: positionOnAxisInPercent >= 50
-          })}
-        >
-          {millis.fixedCompact(call.duration)}
-        </span>
-      </div>
-      {children}
+        {millis.fixedCompact(call.duration)}
+      </span>
     </div>
   );
 }
 
 function CallIndicator({ call, scale, getColor, onClick }) {
   const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - scale.getRange(call.start);
+  const width = scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
