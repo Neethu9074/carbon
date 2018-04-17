@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { start, stop, resetAgent, resetSensors, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import {
+  start,
+  stop,
+  resetAgent,
+  resetSensors,
+  updateAgent,
+  rebootAgent
+} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogLevel';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -44,6 +51,10 @@ export default function ButtonSection({ snapshot }) {
         onClick={() => (metricsAvailable ? stop(snapshot) : start(snapshot, false))}
       >
         {metricsAvailable ? 'Stop' : 'Start'} Self Monitoring
+      </ImageButton>
+
+      <ImageButton iconType="refresh" onClick={() => rebootAgent(snapshot)}>
+        Reboot Agent
       </ImageButton>
     </div>
   );
