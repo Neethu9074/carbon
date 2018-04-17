@@ -49,9 +49,10 @@ export default function TimingInformation({ call, callTreeNode, getColor }) {
 }
 
 function TimeBlock({ label, duration, totalDuration, color, opacity = 1 }) {
-  duration = duration
-    ? `${millis.fixedCompact(duration)} ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`
-    : '--';
+  duration =
+    duration == null
+      ? '--'
+      : `${millis.fixedCompact(duration)} ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`;
 
   return (
     <div className={locals.timeBlock}>

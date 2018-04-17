@@ -36,9 +36,9 @@ export default function CallTooltipContent({ call }) {
 }
 
 function formatDuration(duration, totalDuration) {
-  return duration
-    ? `${millis.fixedCompact(duration)} ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`
-    : '--';
+  return duration == null
+    ? '--'
+    : `${millis.fixedCompact(duration)} ${totalDuration ? '(' + ((duration / totalDuration * 100) | 0) + '%)' : ''}`;
 }
 
 function TimingValueList({ values }) {
