@@ -5,6 +5,7 @@
     bottom: 1.875rem;
     left: 3.125rem;
     right: 3.125rem;
+    z-index: 1;
   }
 
   .glassPane {
