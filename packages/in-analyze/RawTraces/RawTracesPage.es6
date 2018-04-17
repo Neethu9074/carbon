@@ -62,8 +62,13 @@ export default compose(
 )(RawTracesPage);
 
 function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
+  let label = 'Traces';
+  if (items && items.length > 0) {
+    label += ` (${items.length})`;
+  }
+
   return (
-    <Card title="Traces" header={<GroupingToggle raw />}>
+    <Card title={label} header={<GroupingToggle raw />}>
       <Table>
         <Thead>
           <Tr>
