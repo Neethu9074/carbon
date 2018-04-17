@@ -6,6 +6,7 @@ import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import ButtonGroup from 'in-components/ButtonGroup';
 import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
@@ -40,7 +41,7 @@ function TraceGroupCharts({
   // Render chart selector and chart.
   return (
     <Fragment>
-      <div className={locals.chartSelector}>
+      <ButtonGroup horizontal className={locals.chartSelector}>
         <ChartSelectButton
           chartId="latencyChartData"
           label="Latency"
@@ -59,7 +60,7 @@ function TraceGroupCharts({
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
-      </div>
+      </ButtonGroup>
 
       <TraceGroupsChartElement
         traceGroups={items}
