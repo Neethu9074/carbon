@@ -86,7 +86,7 @@ function TraceGroupsPage(props) {
   let label = 'Trace Groups';
   let traceGroupColors = [];
   if (items && items.length > 0) {
-    label = `Trace Groups (${items.length})`;
+    label += ` (${items.length})`;
     traceGroupColors = items.map(
       (group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]
     );
