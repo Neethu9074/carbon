@@ -1,19 +1,23 @@
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
-import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 import DatabaseSizesTable from './DatabaseSizesTable';
+import ReplicationSetTable from './ReplicationSetTable';
+
+import { bytesZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+import { getLabel } from 'in-sdk/snapshot';
 
 export default function MongoDBDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
+  const replicaSet = snapshot.getIn(['data', 'repl.membersList'], emptyList);
+
   if (sensorConnectionProblems.size > 0) {
     return (
       <DashboardNotification type="info">
@@ -42,6 +46,16 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
             timeWindowAggregation="mean"
           />
         </KpiKeyValue>
+        {replicaSet.size > 0 ? (
+          <KpiKeyValue label="Replication Lag">
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="repl.replication_lag"
+              formatter={millis.compact}
+              timeWindowAggregation="mean"
+            />
+          </KpiKeyValue>
+        ) : null}
       </KpiSection>
 
       <DashboardSection title="Database Activity">
@@ -73,6 +87,8 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <DatabaseSizesTable snapshot={snapshot} timeframe={timeframe} />
+
+      <ReplicationSetTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }
