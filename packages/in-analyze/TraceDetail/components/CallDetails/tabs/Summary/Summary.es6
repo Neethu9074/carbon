@@ -10,7 +10,7 @@ export default function Summary({ call, callTreeNode, getColor }) {
   return (
     <Fragment>
       <CallStatus call={call} />
-      <TimingInformation call={call} callTreeNode={callTreeNode} getColor={getColor} />
+      <TimingInformation call={call} />
       <TimingChart call={call} callTreeNode={callTreeNode} getColor={getColor} />
       <Seperator />
       <EntryExitInformation call={call} />

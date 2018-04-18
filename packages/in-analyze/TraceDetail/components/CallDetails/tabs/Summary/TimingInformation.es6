@@ -18,9 +18,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimingInformation.mless';
 
-export default function TimingInformation({ call, callTreeNode, getColor }) {
-  const netWorkTimeColor = getColor ? getColor(callTreeNode) : NETWORK_TIME_COLOR;
-  const processingTimeColor = getColor ? getColor(callTreeNode) : PROCESSING_TIME_COLOR;
+export default function TimingInformation({ call }) {
+  const netWorkTimeColor = NETWORK_TIME_COLOR;
+  const processingTimeColor = PROCESSING_TIME_COLOR;
 
   const waitingTime = hasOnlyExitSpan(call) ? null : call.duration - (call.minSelfTime || 0) - (call.networkTime || 0);
 
