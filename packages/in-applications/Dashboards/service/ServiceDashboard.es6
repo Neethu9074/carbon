@@ -51,9 +51,18 @@ function Header(props) {
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeframe }) {
+function Actions({ applicationId, serviceId, endpointId, timeframe, result }) {
   return (
-    <TracesButton applicationId={applicationId} serviceId={serviceId} endpointId={endpointId} timeframe={timeframe} />
+    <TracesButton
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      timeframe={timeframe}
+      backButtonLabels={{
+        label1: 'Service',
+        label2: result.data ? result.data.label : 'Dashboard'
+      }}
+    />
   );
 }
 

@@ -1,0 +1,129 @@
+import React, { Fragment } from 'react';
+import { withState } from 'recompose';
+
+import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
+import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import Chart from 'in-components/Chart/ChartReactComponent';
+import Button from 'in-new-components/Button';
+
+import locals from './TraceGroupsCharts.mless';
+
+export default withState('selectedChart', 'setSelectedChart', 'latencyChartData')(TraceGroupCharts);
+
+function TraceGroupCharts({
+  items,
+  errors,
+  progress,
+  time,
+  filter,
+  traceGroupColors,
+  selectedChart,
+  setSelectedChart
+}) {
+  if (errors.length > 0) {
+    // the errors of this loading stage will be rendered by the trace group table, no need to render them twice.
+    return null;
+  } else if (progress.loading) {
+    return (
+      <Fragment>
+        <HorizontalIndicator progress={progress} />
+        <div className={locals.whitespace} />
+      </Fragment>
+    );
+  } else if (!items || items.length === 0) {
+    // No groups found, just omit the charts element.
+    return null;
+  }
+
+  // Render chart selector and chart.
+  return (
+    <Fragment>
+      <div className={locals.chartSelector}>
+        <ChartSelectButton
+          chartId="latencyChartData"
+          label="Latency"
+          activeChartId={selectedChart}
+          setSelectedChart={setSelectedChart}
+        />
+        <ChartSelectButton
+          chartId="callsChartData"
+          label="Calls"
+          activeChartId={selectedChart}
+          setSelectedChart={setSelectedChart}
+        />
+        <ChartSelectButton
+          chartId="errorsChartData"
+          label="Errors"
+          activeChartId={selectedChart}
+          setSelectedChart={setSelectedChart}
+        />
+      </div>
+
+      <TraceGroupsChartElement
+        traceGroups={items}
+        traceGroupColors={traceGroupColors}
+        timeframe={filter.timeframe}
+        time={time}
+        selectedChart={selectedChart}
+      />
+      <div className={locals.whitespace} />
+    </Fragment>
+  );
+}
+
+function ChartSelectButton({ chartId, label, activeChartId, setSelectedChart }) {
+  return (
+    <Button
+      size="compact"
+      kind={chartId === activeChartId ? 'primary' : 'secondary'}
+      onClick={() => setSelectedChart(chartId)}
+      className={locals.chartSelectButton}
+    >
+      {label}
+    </Button>
+  );
+}
+
+const chartDefinitions = {
+  callsChartData: {
+    renderer: Renderer.line,
+    aggregation: 'SUM'
+  },
+  errorsChartData: {
+    renderer: Renderer.line,
+    aggregation: 'MEAN',
+    formatter: {
+      compact: percentageTwoDecimalPlaces,
+      detailed: percentageTwoDecimalPlaces
+    }
+  },
+  latencyChartData: {
+    renderer: Renderer.line,
+    formatter: {
+      compact: millis.detailed,
+      detailed: millis.detailed
+    },
+    min: 0
+  }
+};
+
+function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeframe, time, selectedChart }) {
+  const chartDefinition = chartDefinitions[selectedChart];
+
+  const chartTimeframe = normalizeTimeFrame(timeframe, time);
+  const granularity = getChartGranularity(timeframe);
+  const groupNames = traceGroups.map(group => group.name);
+  const y1 = {
+    labels: groupNames,
+    renderer: chartDefinition.renderer,
+    formatter: chartDefinition.formatter,
+    colors: traceGroupColors,
+    metrics: traceGroups.map(group => group.metrics[selectedChart]),
+    aggregations: Array(traceGroups.length).fill(chartDefinition.aggregation),
+    min: chartDefinition.min
+  };
+
+  return <Chart timeframe={chartTimeframe} y1={y1} granularity={granularity} renderLegend={false} />;
+}

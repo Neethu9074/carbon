@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
-import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import CallsErrorsLatency from 'in-applications/Dashboards/commonComponents/CallsErrorsLatency';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -68,13 +68,22 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
 
       <Row>
         <Col lg={6}>
-          <CallsErrorsLatencyVsTechnologieBreakdown
+          <CallsErrorsLatency
             cardTitle="Calls vs Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
             timeframe={timeframe}
           />
+        </Col>
+        <Col lg={6}>
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
         </Col>
         <Col lg={6}>
           <LatencyDistributionHistogram
@@ -84,15 +93,6 @@ export default function Summary({ timeframe, applicationId, endpointId, serviceI
             endpointId={endpointId}
             timeframe={timeframe}
           />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={6}>
-          <ServiceTopList applicationId={applicationId} timeframe={timeframe} />
-        </Col>
-        <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
     </Fragment>

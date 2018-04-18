@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { msZeroDecimalPlaces, msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { msZeroDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -59,7 +59,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
               'status.COM_OTHER'
             ],
             labels: ['SELECTS', 'UPDATES', 'INSERTS', 'DELETES', 'OTHER'],
-            formatter: twoDecimalPlaces,
+            formatter: number.compact,
             type: 'stackedArea'
           }}
         />
@@ -74,7 +74,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
             metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
             labels: ['Slow Queries', 'Errors'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -102,7 +102,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
             labels: ['Connections', 'Max used connections', 'Aborted connects'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -130,14 +130,14 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
             labels: ['Read Requests', 'Write Requests'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['status.KEY_READS', 'status.KEY_WRITES'],
             labels: ['Reads', 'Writes'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: number.compact
           }}
         />
       </DashboardSection>

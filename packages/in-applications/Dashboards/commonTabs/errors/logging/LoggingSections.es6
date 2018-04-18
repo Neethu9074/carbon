@@ -1,12 +1,19 @@
 import React, { Fragment } from 'react';
 
 import LogMessageTopList from 'in-applications/Dashboards/commonTabs/errors/logging/LogMessageTopList';
+import { getChartGranularity } from 'in-applications/metrics';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { number } from 'in-services/formatters/number';
+import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 export default function LoggingSections({ applicationId, serviceId, endpointId, timeframe }) {
+  const granularity = getChartGranularity(timeframe);
   return (
     <Fragment>
-      {/* <Row>
+      <Row>
         <Col lg={12}>
           <Card title="Log Level Breakdown">
             <ChartWrapper
@@ -15,6 +22,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
                 tooltipFormatter: number.compact,
                 renderer: Renderer.stackedArea,
                 labels: ['WARN', 'ERROR'],
+                colors: [theme.app20Chart.strokeColors25[2], theme.app20Chart.strokeColors25[4]],
                 metricIds: ['logs.warn', 'logs.error']
               }}
               metricsConfiguration={{
@@ -40,7 +48,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
             />
           </Card>
         </Col>
-      </Row> */}
+      </Row>
 
       <Row>
         <Col lg={12}>

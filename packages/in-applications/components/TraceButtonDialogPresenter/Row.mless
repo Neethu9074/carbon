@@ -1,5 +1,6 @@
 :local {
   .row {
+    display: block;
     width: 100%;
   }
 

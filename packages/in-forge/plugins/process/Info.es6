@@ -9,6 +9,8 @@ export default function ProcessInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Executable">{data.get('exec')}</DescriptionItem>
       <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="In-Container ID">{data.get('containerPid')}</DescriptionItem>
+      <DescriptionItem title="Container ID">{data.get('container')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="User">{data.get('user')}</DescriptionItem>
       <DescriptionItem title="Group">{data.get('group')}</DescriptionItem>

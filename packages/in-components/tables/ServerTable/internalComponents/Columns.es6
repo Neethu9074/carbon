@@ -1,54 +1,37 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
-import SvgIcon from 'in-components/SvgIcon';
-
-import locals from './Columns.mless';
+import { Tr, Th, SortableTh } from 'in-components/tables/sharedComponents';
 
 export default function Columns({ setOrder, orderBy, orderDirection, columnDefinitions }) {
   return (
-    <tr className={locals.columns}>
+    <Tr>
       {columnDefinitions.map(columnDefinition => {
-        const isSortableColumn = columnDefinition.sortable !== false;
+        const label = columnDefinition.label || columnDefinition.id;
+        if (columnDefinition.sortable === false) {
+          return <Th key={columnDefinition.id}>{label}</Th>;
+        }
+
         const isSortedByThisColumn = orderBy === columnDefinition.id;
         return (
-          <th key={columnDefinition.id} className={locals.columnWrapper}>
-            <a
-              href=""
-              className={evaluateClassNames({
-                [locals.column]: true,
-                [locals.sortableColumn]: isSortableColumn
-              })}
-              onClick={e => {
-                e.preventDefault();
-                e.stopPropagation();
+          <SortableTh
+            key={columnDefinition.id}
+            isSortedByThisColumn={isSortedByThisColumn}
+            sortDirection={orderDirection}
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
 
-                if (!isSortableColumn) {
-                  return;
-                }
-                setOrder(
-                  columnDefinition.id,
-                  getOrderDirection(isSortedByThisColumn, orderDirection, columnDefinition.defaultOrderDirection)
-                );
-              }}
-            >
-              {columnDefinition.label || columnDefinition.id}
-              {isSortableColumn &&
-                (isSortedByThisColumn ? (
-                  <SvgIcon
-                    className={locals.icon}
-                    type={orderDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
-                    height={6}
-                    color="#16363E"
-                  />
-                ) : (
-                  <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
-                ))}
-            </a>
-          </th>
+              setOrder(
+                columnDefinition.id,
+                getOrderDirection(isSortedByThisColumn, orderDirection, columnDefinition.defaultOrderDirection)
+              );
+            }}
+          >
+            {label}
+          </SortableTh>
         );
       })}
-    </tr>
+    </Tr>
   );
 }
 

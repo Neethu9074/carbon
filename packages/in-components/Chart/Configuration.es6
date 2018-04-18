@@ -121,18 +121,33 @@ export default class Config {
     if (!this.y1.colors) {
       this.enrichAxisWithColors(this.y1);
     }
+    this.y1.colors100 = this.getColors100ForColors(this.y1.colors);
 
     if (this.y2 && !this.y2.colors) {
       this.enrichAxisWithColors(this.y2, this.y1.numOfSeries);
     }
+    if (this.y2) {
+      this.y2.colors100 = this.getColors100ForColors(this.y2.colors);
+    }
   }
 
   enrichAxisWithColors(axis, offset = 0) {
-    const colors = theme.chart.strokeColors;
+    const colors = theme.app20Chart.strokeColors25;
+
     axis.colors = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
       axis.colors[i] = colors[(i + offset) % colors.length];
     }
+  }
+
+  getColors100ForColors(colors) {
+    return colors.map(color => {
+      const colorIndex = theme.app20Chart.strokeColors25.indexOf(color);
+      if (colorIndex !== -1) {
+        return theme.app20Chart.strokeColors100[colorIndex];
+      }
+      return color;
+    });
   }
 
   clearTopOverdraw() {

@@ -1,0 +1,30 @@
+export default {
+  id: '1',
+  label: 'call1',
+  start: 0,
+  duration: 10,
+  children: [
+    {
+      id: '2',
+      label: 'call2',
+      start: 1,
+      duration: 6,
+      children: [
+        {
+          id: '3',
+          label: 'call4',
+          start: 2,
+          duration: 1,
+          children: []
+        }
+      ]
+    },
+    {
+      id: '4',
+      label: 'call4',
+      start: 4,
+      duration: 2,
+      children: []
+    }
+  ]
+};

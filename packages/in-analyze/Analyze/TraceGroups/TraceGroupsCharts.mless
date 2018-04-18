@@ -1,0 +1,10 @@
+:local {
+
+  .chartSelector {
+    margin-bottom: 1rem
+  }
+
+  .whitespace {
+    margin-bottom: 2rem;
+  }
+}

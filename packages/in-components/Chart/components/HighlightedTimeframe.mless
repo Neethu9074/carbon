@@ -2,7 +2,7 @@
   .highlightedTimeframe {
     position: absolute;
     top: 0;
-    bottom: 1.5625rem;
+    bottom: 0;
     background: #00000033;
   }
 }

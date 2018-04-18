@@ -4,13 +4,7 @@
     justify-content: space-between;
 
     width: 100%;
-  }
-
-  .top {
     margin-bottom: 0.8rem;
-  }
-  .bottom {
-    margin-top: 0.8rem;
   }
 
   .metricList {

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { newApplicationMonitoringFeaturePlaceholdersEnabled } from 'in-services/featureFlags';
 import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -19,6 +18,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
             cardTitle="Avg. Latency"
             timeframe={timeframe}
             y1={{
+              calculateStackDifferences: true,
               renderer: Renderer.integral,
               formatter: millis,
               labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
@@ -87,20 +87,18 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
         </Col>
       </Row>
 
-      {newApplicationMonitoringFeaturePlaceholdersEnabled && (
-        <Row>
-          <Col lg={12}>
-            <Card title="Latency Heatmap">
-              <ServerHeatMap
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                timeframe={timeframe}
-              />
-            </Card>
-          </Col>
-        </Row>
-      )}
+      <Row>
+        <Col lg={12}>
+          <Card title="Latency Heatmap">
+            <ServerHeatMap
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              timeframe={timeframe}
+            />
+          </Card>
+        </Col>
+      </Row>
     </Fragment>
   );
 }

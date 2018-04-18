@@ -22,9 +22,4 @@
     border-radius: 0.125rem;
     font-weight: 500;
   }
-
-  .xs {
-    border-radius: 2px;
-    font-size: 8px;
-  }
 }

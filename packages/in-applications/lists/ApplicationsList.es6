@@ -17,11 +17,12 @@ import Sticky from 'in-components/Sticky';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import locals from './ApplicationsList.mless';
 
-const leftHeader = (
+const leftHeader = role.canConfigureApplications && (
   <Button
     kind="default"
     key="createApplication"
@@ -71,12 +72,13 @@ export default connectTo(
             defaultOrderBy="callsAgg"
             defaultOrderDirection="DESC"
           />
-          {showNoApplicationsDefinedIndicator && (
-            <p className={locals.noApplicationsDefined}>
-              No applications have been configured. You can add applications by clicking on the &quot;Create
-              Application&quot; button above.
-            </p>
-          )}
+          {showNoApplicationsDefinedIndicator &&
+            role.canConfigureApplications && (
+              <p className={locals.noApplicationsDefined}>
+                No applications have been configured. You can add applications by clicking on the &quot;Create
+                Application&quot; button above.
+              </p>
+            )}
         </MaxWidthFullscreenContainer>
       </Sticky>
     );

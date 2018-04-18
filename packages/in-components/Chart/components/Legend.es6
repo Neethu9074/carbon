@@ -9,9 +9,9 @@ export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.signals.on('filteredDataSeriesChanged')
   }),
-  function Legend({ chart, filteredDataSeries, alignment }) {
+  function Legend({ chart, filteredDataSeries }) {
     return (
-      <div className={`${locals.legend} ${alignment === 'top' ? locals.top : locals.bottom}`}>
+      <div className={locals.legend}>
         <MetricSeries axis={chart.config.y1} filteredDataSeries={filteredDataSeries} config={chart.config} />
         <MetricSeries axis={chart.config.y2} filteredDataSeries={filteredDataSeries} config={chart.config} />
       </div>
@@ -23,6 +23,7 @@ function MetricSeries({ axis, config, filteredDataSeries }) {
   if (!axis) {
     return null;
   }
+
   return (
     <ul className={locals.metricList}>
       {axis.labels.map((label, i) => {
@@ -42,7 +43,7 @@ function MetricSeries({ axis, config, filteredDataSeries }) {
                 [locals.disabledDot]: isDisabled
               })}
               style={{
-                background: axis.colors[i]
+                background: axis.colors100[i]
               }}
             />
             {label}

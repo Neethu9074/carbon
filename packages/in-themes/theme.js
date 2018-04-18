@@ -43,6 +43,38 @@ module.exports = {
       '#965742'
     ]
   },
+  app20Chart: {
+    strokeColors25: [
+      '#c6eaff',
+      '#c5daf5',
+      '#ffe5bf',
+      '#e7dbf7',
+      '#fcd8e4',
+      '#e2efd2',
+      '#e9edef',
+      '#cfece6'
+    ],
+    strokeColors50: [
+      '#76ceff',
+      '#74a5e7',
+      '#ffc167',
+      '#c4a9ec',
+      '#f7a2bf',
+      '#badb94',
+      '#cad4d9',
+      '#8dd2c3'
+    ],
+    strokeColors100: [
+      '#00bdff',
+      '#1457ff',
+      '#ff9700',
+      '#9c6dde',
+      '#f06392',
+      '#8bc24a',
+      '#a5b6be',
+      '#3eb39a'
+    ]
+  },
   maxWidth: 1400,
   grid: {
     gutter: 24,

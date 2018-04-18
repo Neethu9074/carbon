@@ -1,0 +1,32 @@
+import React from 'react';
+
+import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
+import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
+import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import getElementDimensions from 'in-hoc/getElementDimensions';
+import { millis } from 'in-services/formatters/number';
+
+import locals from './CallTimeAxis.mless';
+
+export default getElementDimensions(({ width, call }) => {
+  const startTime = getStart(call);
+  const endTime = getEnd(call);
+
+  return (
+    <div className={locals.timeAxis}>
+      <CallStartLabel startTime={startTime} />
+      {width && (
+        <HorizontalAxis
+          align="top"
+          width={width}
+          drawAxisLine={false}
+          formatter={millis}
+          detailedFormatting
+          tickLength={9}
+          scale={{ from: 0, to: endTime - startTime }}
+          fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
+        />
+      )}
+    </div>
+  );
+});

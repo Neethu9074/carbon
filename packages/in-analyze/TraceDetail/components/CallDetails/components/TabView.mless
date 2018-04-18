@@ -1,0 +1,43 @@
+:local {
+  .tabView {
+    display: flex;
+    align-items: flex-end;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tab {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+    color: #47626a;
+    white-space: nowrap;
+    border-bottom: 1px solid #e8eef0;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:hover {
+      padding-bottom: 0.6875rem;
+      border-bottom: 2px solid #1fb7b9;
+    }
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  .selectedTab {
+    color: #1fb7b9;
+    padding-bottom: 0.6875rem;
+    border-bottom: 2px solid #1fb7b9;
+  }
+
+  .emptyEnddingTab {
+    width: 100%;
+    border-bottom: 1px solid #e8eef0;
+  }
+
+  .content {
+    margin-top: 1.5rem;
+  }
+}

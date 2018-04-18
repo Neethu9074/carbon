@@ -50,10 +50,10 @@ gulp.task('askForDevOptions', cb => {
     {
       type: 'list',
       name: 'target',
-      message: 'Which target would you like to run against?',
+      message: 'Where would you like to get data from?',
       choices: [
         {
-          name: 'Test',
+          name: 'Test environment',
           value: {
             uiBackendUrl: 'https://test-instana.instana.io',
             groundskeeperUrl: 'https://test-fullstack-0-us-west-2.instana.io',
@@ -64,7 +64,7 @@ gulp.task('askForDevOptions', cb => {
           }
         },
         {
-          name: 'Local',
+          name: 'Local backend',
           value: {
             uiBackendUrl: 'http://localhost:8080',
             websocketEndpoint: 'http://localhost:8082/',
@@ -78,7 +78,7 @@ gulp.task('askForDevOptions', cb => {
           }
         },
         {
-          name: 'Custom TU Coordinates',
+          name: 'From a specific (SAAS) tenant unit',
           value: {}
         }
       ]
@@ -119,7 +119,7 @@ gulp.task('askForDevOptions', cb => {
     {
       type: 'list',
       name: 'buildMode',
-      message: 'In which mode would you like to compile the source code?',
+      message: 'In which mode would you like to compile the source code (you will almost always want development)?',
       choices: ['development', 'production'],
       default: 'development'
     }

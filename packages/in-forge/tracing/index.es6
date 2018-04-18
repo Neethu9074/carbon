@@ -13,6 +13,7 @@ import './camel';
 import './cassandra';
 import './corba';
 import './corba.client';
+import './couchbase';
 import './cxf.client';
 import './cxf.server';
 import './distributeme';

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
-import CallsErrorsLatencyVsTechnologieBreakdown from 'in-applications/Dashboards/commonComponents/CallsErrorsLatencyVsTechnologieBreakdown';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import CallsErrorsLatency from 'in-applications/Dashboards/commonComponents/CallsErrorsLatency';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
@@ -69,7 +69,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
 
       <Row>
         <Col lg={6}>
-          <CallsErrorsLatencyVsTechnologieBreakdown
+          <CallsErrorsLatency
             cardTitle="Total Calls vs Avg. Latency"
             applicationId={applicationId}
             serviceId={serviceId}
@@ -77,15 +77,8 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
             timeframe={timeframe}
           />
         </Col>
-
         <Col lg={6}>
-          <LatencyDistributionHistogram
-            cardTitle="Latency Distribution"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeframe={timeframe}
-          />
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
         </Col>
       </Row>
 
@@ -104,7 +97,13 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
       </Row>
       <Row>
         <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+          <LatencyDistributionHistogram
+            cardTitle="Latency Distribution"
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            timeframe={timeframe}
+          />
         </Col>
       </Row>
     </Fragment>

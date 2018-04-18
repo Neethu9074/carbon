@@ -38,7 +38,8 @@ describe('in-components/Chart/Configuration', () => {
         renderer: Renderer.line,
         formatter: [number],
         numOfSeries: 0,
-        colors: []
+        colors: [],
+        colors100: []
       });
       expect(config.timeframe).to.deep.equal({ windowSize: 60000, to: null });
       expect(config.foo).to.equal('bar');
@@ -57,6 +58,7 @@ describe('in-components/Chart/Configuration', () => {
         renderer: Renderer.stackedArea,
         numOfSeries: 0,
         colors: [],
+        colors100: [],
         valuesNeedToBeStacked: true,
         valuesDependOnEachOther: true
       });
@@ -74,7 +76,8 @@ describe('in-components/Chart/Configuration', () => {
         formatter: [number, percentage],
         renderer: Renderer.countErrorBar,
         numOfSeries: 0,
-        colors: ['#b3edf7', '#ff4300'],
+        colors: ['#c6eaff', '#f06392'],
+        colors100: ['#00bdff', '#f06392'],
         valuesDependOnEachOther: true
       });
     });

@@ -2,6 +2,7 @@ import { uniq } from 'lodash';
 import React from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
+import { emptyArray } from 'in-services/fixedObjects';
 import { isTechnicalError } from 'in-types/error';
 
 import locals from './ErroneousResultPresenter.mless';
@@ -30,7 +31,7 @@ export default function ErrorneousResultPresenter({ errors, className }) {
   );
 }
 
-function getUniqueErrors(errors = []) {
+export function getUniqueErrors(errors = emptyArray) {
   return uniq(errors.map(getMessage));
 }
 

@@ -62,6 +62,11 @@ describe('scale', () => {
 
       expect(scale.getRange(0)).to.equal(-100);
       expect(scale.getRange(90)).to.equal(200);
+
+      // enable clamping
+      scale.setClamp(true);
+      expect(scale.getRange(0)).to.equal(0);
+      expect(scale.getRange(90)).to.equal(100);
     });
 
     it('must not result in a division by zero', () => {

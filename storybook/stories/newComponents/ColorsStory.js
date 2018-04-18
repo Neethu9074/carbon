@@ -37,7 +37,7 @@ function Colors() {
             ['N040', '#dde7ec'],
             ['N030', '#e7eef0'],
             ['N020', '#eff5f6'],
-            ['N010', '#fafbfc'],
+            ['N010', '#f4f7f8'],
             ['N005', '#fafbfc']
           ].map(config => <Rect config={config} />)}
         </Palette>

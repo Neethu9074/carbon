@@ -1,7 +1,7 @@
 :local {
   .skeleton {
     background: #F2F2F2;
-    background: linear-gradient(90deg, #F2F2F2, #F9F9F9, #F2F2F2);
+    background: linear-gradient(90deg, #E2E2E2, #F1F1F1, #E2E2E2);
     background-size: 200% 100%;
     animation: indeterminate 5s ease infinite;
   }

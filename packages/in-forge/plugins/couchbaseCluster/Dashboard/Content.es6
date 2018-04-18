@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import Chart from 'in-components/Chart';
 
 import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
@@ -10,6 +11,23 @@ import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable'
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.es6';
 
 export default function CouchbaseClusterDashboard({ snapshot, timeframe }) {
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <Fragment>
+        <DashboardNotification key="main" type="info">
+          Cannot receive data from any of the cluster nodes.
+        </DashboardNotification>
+        {sensorConnectionStatus.map((status, index) => (
+          <DashboardNotification key={index} type="info">
+            {status}
+          </DashboardNotification>
+        ))}
+      </Fragment>
+    );
+  }
+
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />

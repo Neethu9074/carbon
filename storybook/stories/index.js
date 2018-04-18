@@ -11,11 +11,13 @@ import 'in-forge';
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 import './layout/GridStory';
+import './layout/SidebarStory';
 import './layout/StickyStory';
 
-import './content/ServerTableStory';
+import './content/table/ServerTableStory';
+import './content/table/SharedComponents';
+import './content/table/TableStory';
 import './content/TypographyStory';
-import './content/TableStory';
 // import './content/ServiceDashboardStory';
 
 import './components/BadgeStory';
@@ -36,6 +38,9 @@ import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
 import './newComponents/application/NewApplicationStory';
+import './newComponents/Axis';
+import './newComponents/BadgeStory';
+import './newComponents/BadgeKeyValueStory';
 import './newComponents/BadgeStory';
 import './newComponents/ButtonStory';
 import './newComponents/CardStory';
@@ -53,3 +58,8 @@ import './newComponents/time/TimePresenterStory';
 import './newComponents/time/TimeSelectionDialogPresenterStory';
 import './newComponents/TopListCardStory';
 import './newComponents/ViewSwitcherStory';
+
+import './analyse/CallTree';
+import './analyse/IcicleChart';
+import './analyse/TraceConverter';
+import './analyse/TimingChart';

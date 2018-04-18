@@ -30,6 +30,13 @@ export const percentage = {
   detailed: percentageTwoDecimalPlaces
 };
 
+export const percentagePlainZeroDecimalPlaces = d => zeroDecimalPlaces(d) + '%';
+export const percentagePlainTwoDecimalPlaces = d => twoDecimalPlaces(d) + '%';
+export const percentagePlain = {
+  compact: percentagePlainZeroDecimalPlaces,
+  detailed: percentagePlainTwoDecimalPlaces
+};
+
 export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
 export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
 export const bytes = {

@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 
-import LifecycleObserver from 'in-components/LifecycleObserver';
-import { setResult } from 'in-applications/stores/resultStore';
 import Skeleton from 'in-components/Progress/Skeleton';
 import Title from 'in-components/Title';
 
@@ -26,13 +24,8 @@ export default function BasicApplicationDashboardHeader(props) {
     );
   }
 
-  if (__DEV__) {
-    setResult(result);
-  }
-
   return (
     <header className={locals.header}>
-      {__DEV__ && <LifecycleObserver onWillUnmount={() => setResult(null)} />}
       {renderActions && <div className={locals.actions}>{renderActions(props)}</div>}
       {content}
     </header>

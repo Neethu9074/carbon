@@ -9,10 +9,10 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
+import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
@@ -193,7 +193,10 @@ function getFakedEdmundsValues() {
     { value: 'host.zone', label: 'host.zone' },
     { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
     { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
-    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' }
+    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' },
+    { value: 'nodejs.app.name', label: 'nodejs.app.name' },
+    { value: 'springboot.name', label: 'springboot.name' },
+    { value: 'marathon.appId', label: 'marathon.appId' }
   ].map(tag => {
     return (
       <option value={tag.value} key={tag.label}>

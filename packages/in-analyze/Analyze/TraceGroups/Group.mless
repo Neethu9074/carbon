@@ -1,0 +1,9 @@
+:local {
+  .dot {
+    margin-right: .5rem;
+  }
+  .dotPlaceHolder {
+    display: inline-block;
+    width: .5rem;
+  }
+}

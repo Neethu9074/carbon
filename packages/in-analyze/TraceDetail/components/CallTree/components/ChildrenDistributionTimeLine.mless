@@ -1,0 +1,96 @@
+:local {
+  .childrenDistributionTimeLine {
+    position: relative;
+
+    min-width: 60%;
+    max-width: 60%;
+    height: 1.3125rem;
+  }
+
+  .line {
+    position: absolute;
+    top: 0.625rem;
+    left: 0;
+    right: 0;
+
+    border-bottom: 1px solid #d5dfe4;
+  }
+
+  .subCallIndicator,
+  .callIndicator {
+    position: absolute;
+
+    min-width: 5px;
+    cursor: pointer;
+  }
+
+  .callIndicator {
+    top: 0.4375rem;
+
+    height: 0.4375rem;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .subCallIndicator {
+    top: 0.9375rem;
+
+    height: 0.25rem;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .networkTime {
+    position: absolute;
+    top: 0;
+
+    height: 0.4375rem;
+  }
+
+  .networkTimeBar {
+    width: 100%;
+    height: 0.4375rem;
+    opacity: 0.25;
+  }
+
+  .callDuration {
+    padding: 0 0.25rem;
+    font-size: 0.875rem;
+    color: #16363e;
+    background: white;
+  }
+
+  .callDurationWrapper {
+    position: absolute;
+    top: -0.25rem;
+  }
+
+  .leftAlignedCallDurationWrapper {
+    left: 100%;
+  }
+
+  .rightAlignedCallDurationWrapper {
+    left: 0;
+  }
+
+  .leftAlignedCallDuration {
+    margin-left: 0.25rem;
+  }
+
+  .rightAlignedCallDuration {
+    margin-right: 0.25rem;
+    margin-left: -100%;
+    width: 100%;
+  }
+
+  .errorIndicator {
+    position: absolute;
+    top: -1.5rem;
+    left: 0;
+  }
+}

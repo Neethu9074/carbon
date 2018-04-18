@@ -1,9 +1,17 @@
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import LoadingTableRows from 'in-components/tables/ServerTable/internalComponents/LoadingTableRows';
+import {
+  Table,
+  Thead,
+  Tbody,
+  HorizontalIndicatorRow,
+  LoadingSkeletonRows,
+  ErrorRows,
+  Tr,
+  Td
+} from 'in-components/tables/sharedComponents';
 import SearchInput from 'in-components/tables/ServerTable/internalComponents/SearchInput';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -28,6 +36,7 @@ export default function ServerTablePresenter(props) {
     cardTitle,
     rightHeader,
     leftHeader,
+    isSearchable = true,
 
     // events
     onChange
@@ -39,22 +48,19 @@ export default function ServerTablePresenter(props) {
 
   let body = null;
   if (isLoading) {
-    body = <LoadingTableRows progress={result.progress} columnDefinitions={columnDefinitions} />;
-  } else if (hasErrors) {
     body = (
-      <tr>
-        <td colSpan={columnDefinitions.length} className={locals.error}>
-          <ErroneousResultPresenter errors={result.errors} />
-        </td>
-      </tr>
+      <Fragment>
+        <HorizontalIndicatorRow cols={columnDefinitions.length} progress={result.progress} />
+        <LoadingSkeletonRows cols={columnDefinitions.length} />
+      </Fragment>
     );
+  } else if (hasErrors) {
+    body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} />;
   } else if (result.data.totalHits === 0) {
     body = (
-      <tr>
-        <td colSpan={columnDefinitions.length} className={locals.noData}>
-          No data found
-        </td>
-      </tr>
+      <Tr>
+        <Td colSpan={columnDefinitions.length}>No data found</Td>
+      </Tr>
     );
   } else {
     body = result.data.items.map((item, i) => (
@@ -66,28 +72,31 @@ export default function ServerTablePresenter(props) {
   let header = (
     <div className={locals.rightHeader}>
       {rightHeader}
-      <SearchInput query={query} onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })} />
+      {isSearchable && (
+        <SearchInput
+          query={query}
+          onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+        />
+      )}
     </div>
   );
   let content = (
-    <table
+    <Table
       className={evaluateClassNames({
-        [locals.table]: true,
         [locals.tableAsCard]: cardTitle != null
       })}
-      cellSpacing="0"
     >
-      <thead>
+      <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
           columnDefinitions={columnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
         />
-      </thead>
+      </Thead>
 
-      <tbody>{body}</tbody>
-    </table>
+      <Tbody>{body}</Tbody>
+    </Table>
   );
   let pagination = lastPage > 1 && (
     <Pagination

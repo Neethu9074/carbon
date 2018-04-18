@@ -11,4 +11,9 @@
   .canvas {
     display: block;
   }
+
+  .chartAxisWrapper {
+    display: flex;
+    align-items: flex-start;
+  }
 }

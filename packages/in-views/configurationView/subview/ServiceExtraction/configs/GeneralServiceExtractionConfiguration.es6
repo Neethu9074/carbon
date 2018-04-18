@@ -54,6 +54,10 @@ export const matchSpecificationOptionsTree = [
     value: 'host.tag'
   },
   {
+    label: 'JVM Name',
+    value: 'jvm.name'
+  },
+  {
     label: 'Docker Label',
     value: 'docker.label'
   },
@@ -106,6 +110,21 @@ export const matchSpecificationOptions = {
         )
       }
     }
+  },
+  'jvm.name': {
+    titleName: 'JVM Name',
+    placeholder: '(.*)',
+    testPlaceholder: '',
+    initialValue: '(.*)',
+    help: (
+      <span>
+        Define a regular expression to match the JVM name. See https://docs.instana.io/ecosystem/jvm/#configuration,
+        section &quot;Configuring the Display Name&quot; for information on how the JVM name is obtained and how the JVM
+        name can be customized. Capture groups from matches of this regular expression are available in the service name
+        field via the prefix <code>jvm.name</code>, e.g. <code>{'{jvm.name-1}'}</code> references the first capture
+        group.
+      </span>
+    )
   },
   'docker.label': {
     titleName: 'Docker Label',

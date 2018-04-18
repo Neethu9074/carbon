@@ -5,9 +5,6 @@ import { getTracesCount } from 'in-applications/components/TracesButton';
 import getApplication from 'in-subscription/application/getApplication';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { analyzeEnabled } from 'in-services/featureFlags';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './TraceList.mless';
@@ -16,7 +13,14 @@ export default connectTo(
   props => ({
     allTracesCount: getTracesCount({ timeframe: props.timeframe })
   }),
-  function TraceButtonDialogPresenter({ allTracesCount, timeframe, applicationId, serviceId, endpointId }) {
+  function TraceButtonDialogPresenter({
+    allTracesCount,
+    timeframe,
+    applicationId,
+    serviceId,
+    endpointId,
+    backButtonLabels
+  }) {
     return (
       <section className={locals.traceList}>
         {allTracesCount && <Row label="All Traces" total={allTracesCount} value={allTracesCount} />}
@@ -28,6 +32,7 @@ export default connectTo(
           applicationId={applicationId}
           total={allTracesCount}
           timeframe={timeframe}
+          backButtonLabels={backButtonLabels}
         />
         <Row
           type="Service"
@@ -38,6 +43,7 @@ export default connectTo(
           serviceId={serviceId}
           total={allTracesCount}
           timeframe={timeframe}
+          backButtonLabels={backButtonLabels}
         />
         <Row
           type="Endpoint"
@@ -49,15 +55,8 @@ export default connectTo(
           endpointId={endpointId}
           total={allTracesCount}
           timeframe={timeframe}
+          backButtonLabels={backButtonLabels}
         />
-
-        {analyzeEnabled && (
-          <div className={locals.cta}>
-            <Button kind="primary" size="normal" href$={getLinkToAnalyze({ applicationId, serviceId, endpointId })}>
-              Analyze
-            </Button>
-          </div>
-        )}
       </section>
     );
   }

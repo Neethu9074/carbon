@@ -19,7 +19,9 @@ export default connectTo(
         if (result.progress.loading || result.errors.length > 0) {
           return just(result);
         } else {
-          return getApplicationDashboard(props.applicationId);
+          // TODO temporary workaround necessary because application IDs
+          // are labels within the backend
+          return getApplicationDashboard(result.data.label);
         }
       })
   }),
@@ -36,17 +38,15 @@ export default connectTo(
               Application is being created…
             </FullscreenViewHeading>
 
-            {(result == null || result.progress.loading) && (
-              <div className={locals.loading}>
-                <div>
-                  We are preparing everything to monitor your application <strong>{label}</strong>.
-                </div>
-                <div>Please wait.</div>
-                <div>
-                  <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
-                </div>
+            <div className={locals.loading}>
+              <div>
+                We are preparing everything to monitor your application <strong>{label}</strong>.
               </div>
-            )}
+              <div>Please wait.</div>
+              <div>
+                <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
+              </div>
+            </div>
           </div>
         )}
       />
@@ -54,12 +54,18 @@ export default connectTo(
   }
 );
 
-function getApp(props) {
+function getApp({ label }) {
+  // TODO temporary workaround necessary because application IDs
+  // are labels within the backend
+
   return getApplication({
-    id: props.applicationId,
+    id: label,
     filter: {
-      application: props.applicationId,
-      timeframe: props.timeframe
+      application: label,
+      timeframe: {
+        to: Date.now(), // subscription cache busting
+        windowSize: 60 * 1000 // looking at the last minute is sufficien to identify a new application
+      }
     }
   });
 }
