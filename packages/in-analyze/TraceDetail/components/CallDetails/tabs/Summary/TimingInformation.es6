@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
+import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper.es6';
 import {
   TOTAL_TIME_COLOR,
   TOTAL_TIME_LABEL,
@@ -21,6 +22,8 @@ export default function TimingInformation({ call, callTreeNode, getColor }) {
   const netWorkTimeColor = getColor ? getColor(callTreeNode) : NETWORK_TIME_COLOR;
   const processingTimeColor = getColor ? getColor(callTreeNode) : PROCESSING_TIME_COLOR;
 
+  const waitingTime = hasOnlyExitSpan(call) ? null : call.duration - (call.minSelfTime || 0) - (call.networkTime || 0);
+
   return (
     <div className={locals.timingInformation}>
       <CallStartLabel className={locals.callStartLabel} call={call} />
@@ -38,12 +41,7 @@ export default function TimingInformation({ call, callTreeNode, getColor }) {
         duration={call.minSelfTime}
         totalDuration={call.duration}
       />
-      <TimeBlock
-        color={CALL_TIME_COLOR}
-        label={CALL_TIME_LABEL}
-        duration={call.duration - (call.minSelfTime || 0) - (call.networkTime || 0)}
-        totalDuration={call.duration}
-      />
+      <TimeBlock color={CALL_TIME_COLOR} label={CALL_TIME_LABEL} duration={waitingTime} totalDuration={call.duration} />
     </div>
   );
 }

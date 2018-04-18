@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper.es6';
 import {
   NETWORK_TIME_COLOR,
   NETWORK_TIME_LABEL,
@@ -21,7 +22,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
   const { start, duration, networkTime } = call;
   const end = start + duration;
 
-  if (!duration) {
+  if (!duration || hasOnlyExitSpan(call)) {
     return null;
   }
 
