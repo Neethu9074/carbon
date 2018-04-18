@@ -4,10 +4,10 @@ import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper.es6';
 import {
   NETWORK_TIME_COLOR,
   NETWORK_TIME_LABEL,
-  PROCESSING_TIME_COLOR,
-  PROCESSING_TIME_LABEL,
-  CALL_TIME_LABEL,
-  CALL_TIME_COLOR,
+  SELF_TIME_COLOR,
+  SELF_TIME_LABEL,
+  WAITING_TIME_LABEL,
+  WAITING_TIME_COLOR,
   NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import { millis } from 'in-services/formatters/number';
@@ -37,9 +37,9 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
   const globalProcessingEnd = end - (networkTime / 2 || 0);
 
   const netWorkTimeColor = getColor ? getColor(callTreeNode) : NETWORK_TIME_COLOR;
-  const processingTimeColor = getColor ? getColor(callTreeNode) : PROCESSING_TIME_COLOR;
+  const selfTimeColor = getColor ? getColor(callTreeNode) : SELF_TIME_COLOR;
 
-  const networkBlocks = networkTime ? (
+  const networkTimeBlocks = networkTime ? (
     <Fragment>
       <TimeBlock
         key="networkBlock_1"
@@ -64,57 +64,57 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
 
   const timeRanges = mergeChildCallNodesToTimeRanges(callTreeNode.children, globalProcessingStart, globalProcessingEnd);
 
-  const callBlocks = timeRanges.map((timeRange, index) => {
+  const waitingTimeBlocks = timeRanges.map((timeRange, index) => {
     return (
       <TimeBlock
         key={`callBlock_${index}`}
         scale={scale}
         start={timeRange[0]}
         end={timeRange[1]}
-        label={CALL_TIME_LABEL}
-        color={CALL_TIME_COLOR}
+        label={WAITING_TIME_LABEL}
+        color={WAITING_TIME_COLOR}
         isCallBlock
       />
     );
   });
 
-  let processingBlocks = [];
-  let nextProcessingBlockStart = globalProcessingStart;
+  let selfTimeBlocks = [];
+  let nextSelfTimeBlockStart = globalProcessingStart;
   timeRanges.forEach((timeRange, index) => {
-    // ignore 0ms processing block
-    if (timeRange[0] > nextProcessingBlockStart) {
-      processingBlocks.push(
+    // ignore 0ms self time block
+    if (timeRange[0] > nextSelfTimeBlockStart) {
+      selfTimeBlocks.push(
         <TimeBlock
           key={`processingBlock_${index}`}
           scale={scale}
-          start={nextProcessingBlockStart}
+          start={nextSelfTimeBlockStart}
           end={timeRange[0]}
-          label={PROCESSING_TIME_LABEL}
-          color={processingTimeColor}
+          label={SELF_TIME_LABEL}
+          color={selfTimeColor}
         />
       );
     }
-    nextProcessingBlockStart = timeRange[1];
+    nextSelfTimeBlockStart = timeRange[1];
   });
-  // last processing block after last call block
-  if (nextProcessingBlockStart < globalProcessingEnd) {
-    processingBlocks.push(
+  // last self time block after last call block
+  if (nextSelfTimeBlockStart < globalProcessingEnd) {
+    selfTimeBlocks.push(
       <TimeBlock
         key={`processingBlock_${timeRanges.length}`}
         scale={scale}
-        start={nextProcessingBlockStart}
+        start={nextSelfTimeBlockStart}
         end={globalProcessingEnd}
-        label={PROCESSING_TIME_LABEL}
-        color={processingTimeColor}
+        label={SELF_TIME_LABEL}
+        color={selfTimeColor}
       />
     );
   }
 
   return (
     <div className={locals.timingChart}>
-      {networkBlocks}
-      {processingBlocks}
-      {callBlocks}
+      {networkTimeBlocks}
+      {selfTimeBlocks}
+      {waitingTimeBlocks}
     </div>
   );
 }

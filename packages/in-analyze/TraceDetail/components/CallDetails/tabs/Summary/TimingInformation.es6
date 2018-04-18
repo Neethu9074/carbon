@@ -7,10 +7,10 @@ import {
   TOTAL_TIME_LABEL,
   NETWORK_TIME_COLOR,
   NETWORK_TIME_LABEL,
-  PROCESSING_TIME_COLOR,
-  PROCESSING_TIME_LABEL,
-  CALL_TIME_COLOR,
-  CALL_TIME_LABEL,
+  SELF_TIME_COLOR,
+  SELF_TIME_LABEL,
+  WAITING_TIME_COLOR,
+  WAITING_TIME_LABEL,
   NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import { millis } from 'in-services/formatters/number';
@@ -20,7 +20,7 @@ import locals from './TimingInformation.mless';
 
 export default function TimingInformation({ call }) {
   const netWorkTimeColor = NETWORK_TIME_COLOR;
-  const processingTimeColor = PROCESSING_TIME_COLOR;
+  const selfTimeColor = SELF_TIME_COLOR;
 
   const waitingTime = hasOnlyExitSpan(call) ? null : call.duration - (call.minSelfTime || 0) - (call.networkTime || 0);
 
@@ -36,12 +36,17 @@ export default function TimingInformation({ call }) {
         totalDuration={call.duration}
       />
       <TimeBlock
-        color={processingTimeColor}
-        label={PROCESSING_TIME_LABEL}
+        color={selfTimeColor}
+        label={SELF_TIME_LABEL}
         duration={call.minSelfTime}
         totalDuration={call.duration}
       />
-      <TimeBlock color={CALL_TIME_COLOR} label={CALL_TIME_LABEL} duration={waitingTime} totalDuration={call.duration} />
+      <TimeBlock
+        color={WAITING_TIME_COLOR}
+        label={WAITING_TIME_LABEL}
+        duration={waitingTime}
+        totalDuration={call.duration}
+      />
     </div>
   );
 }
