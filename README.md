@@ -12,6 +12,10 @@
 - [Branching Model](#branching-model)
 - [Code Style](#code-style)
   * [Simon Sort](#simon-sort)
+  * [Running Prettier On Save](#running-prettier-on-save)
+    + [Code](#code)
+    + [VIM](#vim)
+    + [IntelliJ & Co](#intellij--co)
 - [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
   * [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
@@ -84,7 +88,7 @@ newgrp docker
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
 
 ## Code Style
-Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should configure your IDE/Editor to run prettier on all files when saving the file.
+Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should [configure your IDE/Editor](#running-prettier-on-save) to run prettier on all files when saving the file.
 
 *CAUTION:* If you use `git add --patch` to only commit a portion of a file's changes while excluding other changes in the same file from the commit by not adding them, the pre-commit hook will still add the whole file with all changes, so that won't work.
 
@@ -119,6 +123,40 @@ import locals from './CallTree.mless';
 export default function CallTree({
   ...
 ```
+
+### Running Prettier On Save
+
+#### Code
+
+Ask Simon or Ben to share their setup.
+
+#### VIM
+
+* Install https://github.com/prettier/vim-prettier
+* Add the following to `~/.vimrc`:
+
+```
+" run prettier on JavaScript/CSS files when saving
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.es6 PrettierAsync
+```
+
+#### IntelliJ & Co
+
+* Install the file watcher plugin
+* Set up a file watcher like this:
+    * Name: Prettier
+    * File type: JavaScript
+    * Scope: Project Files
+    * Program: `/path/to/ui-client/node_modules/.bin/prettier`
+    * Arguments: `--single-quote --print-width 120 --write $FilePath$`
+    * Output paths to refresh: `$FilePath$`
+    * Working directory: `$ModuleFileDir$`
+    * Auto-save edited files to trigger the watcher: Unchecked
+    * Trigger the watcher on external changes: Unchecked
+    * Trigger the watcher regardless of syntax errors: Unchecked
+    * Create output file from stdout: Unchecked
+    * Show console: On error
 
 ## Upgrading Node.js
 From time to time we are upgrading the Node.js version that we are using for build of the `ui-client` as well as for the `in-server`. Node.js upgrades have been automated. Simply execute the following command in the root of the project to automatically upgrade your Node.js version via NVM.
