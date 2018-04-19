@@ -23,7 +23,7 @@ import Title from 'in-components/Title';
 
 export default connectTo(
   props => ({
-    statementResult: getDatabaseStatement({ id: props.match.params.statementId })
+    statementResult: getDatabaseStatement({ id: props.match.params.statementId, timeframe: props.timeframe })
   }),
   function DatabaseStatementDetail(props) {
     const { statementResult } = props;
