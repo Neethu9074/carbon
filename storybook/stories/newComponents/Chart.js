@@ -19,6 +19,7 @@ storiesOf('newComponents/Chart', module)
   .add('Simple', () => <Simple />)
   .add('Error / Loading', () => <States />)
   .add('Multiple Series', () => <MultipleSeries />)
+  .add('Long Series Labels', () => <LongSeriesLabels />)
   .add('Dual Axis', () => <DualAxis />)
   .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
   .add('Gaps', () => <Gaps />)
@@ -91,8 +92,36 @@ function MultipleSeries() {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
             metrics: [generateMetrics(10, 5, oneMinute), generateMetrics(10, 5, oneMinute)]
+          },
+        }}
+      />
+    </Root>
+  );
+}
+
+function LongSeriesLabels() {
+  return (
+    <Root>
+      <ChartWrapperPresenter
+        result={constructResult(null, false)}
+        config={{
+          minRollup: oneMinute / 5,
+          timeframe: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.line,
+            labels: [
+              'ThisOneUsesLineWrap > ThisOneUsesLineWrap',
+              'ThisOneIsJustWayToLongToFitIntoThisTinyTooltip',
+              'ThisOneUsesLineWrap > ButThisOneIsJustWayToLongToFitIntoThisTinyTooltip'
+            ],
+            metrics: [
+              generateMetrics(10, 5, oneMinute),
+              generateMetrics(10, 5, oneMinute),
+              generateMetrics(10, 5, oneMinute)
+            ]
           }
         }}
+        renderLegend={false}
       />
     </Root>
   );
