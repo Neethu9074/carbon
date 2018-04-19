@@ -38,15 +38,13 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
 
             return (
               <li key={label} className={locals.metricValue}>
-                <div>
-                  <span
-                    style={{
-                      color: axis.colors100[i]
-                    }}
-                  >
-                    {label}
-                  </span>{' '}
-                  <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
+                <div
+                  className={locals.entry}
+                  style={{
+                    color: axis.colors100[i]
+                  }}
+                >
+                  <span>{label}</span> <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
                 </div>
                 <span>
                   {dataPoint

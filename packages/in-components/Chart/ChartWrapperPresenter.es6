@@ -5,7 +5,7 @@ import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import Card from 'in-new-components/Card';
 
-export default function ChartWrapperPresenter({ result, config }) {
+export default function ChartWrapperPresenter({ result, config, renderLegend = true }) {
   let content;
   let withoutPadding = false;
 
@@ -15,7 +15,7 @@ export default function ChartWrapperPresenter({ result, config }) {
     content = <HorizontalIndicator progress={result.progress} />;
     withoutPadding = true;
   } else {
-    content = <Chart {...config} />;
+    content = <Chart {...config} renderLegend={renderLegend} />;
   }
 
   if (config.cardTitle == null) {

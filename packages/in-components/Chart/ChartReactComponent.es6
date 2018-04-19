@@ -60,13 +60,13 @@ const ChartReactWrapper = enhance(
         return (
           <div className={locals.chart}>
             {chart && renderLegend && <Legend chart={chart} />}
-            {chart && <Tooltip chart={chart} />}
             <div className={locals.chartAxisWrapper}>
               {chart &&
                 chart.config.y1 && (
                   <MetricAwareAxis chart={chart} axis={chart.config.y1} height={height} align="left" />
                 )}
               <div>
+                {chart && <Tooltip chart={chart} />}
                 <canvas
                   className={locals.canvas}
                   ref={canvas => {
