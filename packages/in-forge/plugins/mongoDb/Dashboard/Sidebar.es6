@@ -38,21 +38,23 @@ export default function MongoDBSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
-
       {replicaSet.length > 0 ? (
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Replica Set</Collapsible.Header>
-          <Collapsible.Content>
-            <List>
-              {replicaSet.map(rsmember => (
-                <List.Item key={rsmember.get('id')}>
-                  {'[ ' + rsmember.get('id') + ':' + rsmember.get('state') + ' ]' + ' - ' + rsmember.get('name')}
-                </List.Item>
-              ))}
-            </List>
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Separator />
+
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Replica Set</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {replicaSet.map(rsmember => (
+                  <List.Item key={rsmember.get('id')}>
+                    {'[ ' + rsmember.get('id') + ':' + rsmember.get('state') + ' ]' + ' - ' + rsmember.get('name')}
+                  </List.Item>
+                ))}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
       ) : null}
 
       <ServiceInstancesList snapshot={snapshot} />
