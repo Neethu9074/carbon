@@ -13,6 +13,7 @@
   }
 
   .chartAxisWrapper {
+    position: relative;
     display: flex;
     align-items: flex-start;
   }

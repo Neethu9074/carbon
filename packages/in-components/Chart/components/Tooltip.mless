@@ -3,7 +3,7 @@
 :local {
   .tooltip {
     position: absolute;
-    top: 1.5rem;
+    top: 0.0rem;
     bottom: 1.875rem;
     left: 3.125rem;
     right: 3.125rem;
