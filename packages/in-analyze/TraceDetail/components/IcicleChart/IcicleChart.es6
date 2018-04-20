@@ -38,15 +38,11 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {callFrames.map(callFrame => {
-          const { id, parent } = callFrame;
-          const parentDepth = parent ? callFrames.find(obj => obj.id === parent).depth : 0;
-
           return (
-            <Fragment key={id}>
+            <Fragment key={callFrame.id}>
               <Tooltip content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
                 <CallFrame callFrame={callFrame} xScale={xScale} getColor={getColor} onCallClicked={onCallClicked} />
               </Tooltip>
-              <ParentCallIndicator callFrame={callFrame} xScale={xScale} parentDepth={parentDepth} />
             </Fragment>
           );
         })}
@@ -78,28 +74,5 @@ function CallFrame({ callFrame, xScale, getColor, onCallClicked }) {
       {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
       <div className={locals.label}>{label}</div>
     </div>
-  );
-}
-
-function ParentCallIndicator({ callFrame, xScale, parentDepth }) {
-  const { depth, x } = callFrame;
-
-  if (depth - parentDepth == 1) {
-    return null;
-  }
-
-  const top = frameHeight * (parentDepth + 0.5);
-  const left = xScale.getRange(x);
-  const height = frameHeight * (depth - parentDepth);
-
-  return (
-    <div
-      className={locals.parentIndicator}
-      style={{
-        top: `${top}px`,
-        left: `${left}%`,
-        height: `${height}px`
-      }}
-    />
   );
 }

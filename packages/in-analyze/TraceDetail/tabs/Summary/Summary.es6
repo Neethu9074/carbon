@@ -66,13 +66,8 @@ class Summary extends React.Component {
           <Col lg={12}>
             <Card title="Timeline">
               <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
+              <ServiceEndpointList traceId={trace.id} getColor={getColor} />
             </Card>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col lg={12}>
-            <ServiceEndpointList traceId={trace.id} getColor={getColor} />
           </Col>
         </Row>
 

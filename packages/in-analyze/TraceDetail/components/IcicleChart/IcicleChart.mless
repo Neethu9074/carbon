@@ -28,12 +28,6 @@
     white-space: nowrap;
   }
 
-  .parentIndicator {
-    position: absolute;
-    background: #ff5d3b;
-    width: 2px;
-  }
-
   .errorIndicator {
     display: flex;
     float: left;

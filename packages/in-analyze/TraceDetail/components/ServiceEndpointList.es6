@@ -67,7 +67,6 @@ export default function ServiceEndpointList({ traceId, getColor }) {
 
   return (
     <ServerTable
-      cardTitle="Services"
       isSearchable={false}
       get={getTableData}
       pageSize={10}

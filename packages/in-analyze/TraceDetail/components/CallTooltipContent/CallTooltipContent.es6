@@ -3,7 +3,7 @@ import React from 'react';
 import {
   TOTAL_TIME_LABEL,
   NETWORK_TIME_LABEL,
-  PROCESSING_TIME_LABEL
+  SELF_TIME_LABEL
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import { millis } from 'in-services/formatters/number';
 
@@ -23,7 +23,7 @@ export default function CallTooltipContent({ call }) {
   });
 
   values.push({
-    label: PROCESSING_TIME_LABEL,
+    label: SELF_TIME_LABEL,
     value: formatDuration(call.minSelfTime, call.duration)
   });
 
