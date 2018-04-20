@@ -38,10 +38,8 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {callFrames.map(callFrame => {
-          const { id } = callFrame;
-
           return (
-            <Fragment key={id}>
+            <Fragment key={callFrame.id}>
               <Tooltip content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
                 <CallFrame callFrame={callFrame} xScale={xScale} getColor={getColor} onCallClicked={onCallClicked} />
               </Tooltip>
