@@ -14,9 +14,11 @@ export default function Header({ tabs, result, HeaderComponent, location, props 
     <div className={locals.header}>
       <MaxWidthFullscreenContainer>
         <HeaderComponent result={result} {...props} />
-        <ul className={locals.tabList}>
-          {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
-        </ul>
+        {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
+          <ul className={locals.tabList}>
+            {tabs.map(tab => <Tab key={tab.label} tab={tab} location={location} props={props} />)}
+          </ul>
+        )}
       </MaxWidthFullscreenContainer>
       <HorizontalIndicator progress={result.progress} />
     </div>
