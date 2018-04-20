@@ -14,19 +14,19 @@ const cols = [
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotLinkId;
+        return row.snapshotId;
       }
     }
   },
   {
-    title: 'CPU Shares Allocation Request',
+    title: 'CPU Requests Allocation',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
-        return `nodes.data.${row.key}.percent_cpu_allocated_request`;
+      getMetricName() {
+        return `required_cpu_percentage`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -35,14 +35,14 @@ const cols = [
     }
   },
   {
-    title: 'CPU Shares Allocation Limit',
+    title: 'CPU Limits Allocation',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
-        return `nodes.data.${row.key}.percent_cpu_allocated_limit`;
+      getMetricName() {
+        return `limit_cpu_percentage`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -51,14 +51,14 @@ const cols = [
     }
   },
   {
-    title: 'Memory Allocation Request',
+    title: 'Memory Requests Allocation',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
-        return `nodes.data.${row.key}.percent_mem_allocated_request`;
+      getMetricName() {
+        return `required_mem_percentage`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -67,14 +67,14 @@ const cols = [
     }
   },
   {
-    title: 'Memory Allocation Limit',
+    title: 'Memory Limits Allocation',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
-        return `nodes.data.${row.key}.percent_mem_allocated_limit`;
+      getMetricName() {
+        return `limit_mem_percentage`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -83,14 +83,14 @@ const cols = [
     }
   },
   {
-    title: 'Pods Allocated',
+    title: 'Pods Allocation',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
-        return `nodes.data.${row.key}.percent_pods_allocated`;
+      getMetricName() {
+        return `alloc_pods_percentage`;
       },
       getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -115,13 +115,12 @@ export default connectTo(
       clusterNodes: getClusterMembers(props.snapshot.get('id')).flatMap(nodeIds => getSnapshots(nodeIds.toArray()))
     };
   },
-  function NodesTable({ snapshot, clusterNodes = [], timeframe }) {
+  function NodesTable({ clusterNodes = [], timeframe }) {
     const rows = clusterNodes.filter(node => node.get('plugin') == 'kubernetesNode').map(node => {
       const data = node.get('data');
       return {
         key: data.get('uid'),
-        snapshotId: snapshot.get('id'),
-        snapshotLinkId: node.get('id'),
+        snapshotId: node.get('id'),
         internalIp: data.get('internalIp'),
         timeframe
       };
@@ -143,12 +142,8 @@ function getNodeRowDetails(row) {
         timeframe={row.timeframe}
         y1={{
           formatter: twoDecimalPlaces,
-          metrics: [
-            `nodes.data.${row.key}.required_cpu`,
-            `nodes.data.${row.key}.limit_cpu`,
-            `nodes.data.${row.key}.cap_cpu`
-          ],
-          labels: ['CPU Required', 'CPU Limit', 'CPU Capacity'],
+          metrics: [`required_cpu`, `limit_cpu`, `cap_cpu`],
+          labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
           type: 'line'
         }}
       />
@@ -158,12 +153,8 @@ function getNodeRowDetails(row) {
         timeframe={row.timeframe}
         y1={{
           formatter: bytesTwoDecimalPlaces,
-          metrics: [
-            `nodes.data.${row.key}.required_mem`,
-            `nodes.data.${row.key}.limit_mem`,
-            `nodes.data.${row.key}.cap_mem`
-          ],
-          labels: ['Memory Required', 'Memory Limit', 'Memory Capacity'],
+          metrics: [`required_mem`, `limit_mem`, `cap_mem`],
+          labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
           type: 'line'
         }}
       />
