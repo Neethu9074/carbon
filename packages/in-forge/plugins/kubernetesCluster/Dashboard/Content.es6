@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -20,85 +20,70 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Node Count">{nodeIds.length}</KpiKeyValue>
-        <KpiKeyValue label="Pod count">
-          <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} />
+        <KpiKeyValue label="Pods Allocation">
+          <MetricValue snapshotId={snapshotId} metric="allocatedCapacityPodsRatio" formatter={percentage.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="CPU Shares Allocatable">
-          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_cpu" formatter={twoDecimalPlaces} />
+        <KpiKeyValue label="CPU Requests Allocation">
+          <MetricValue snapshotId={snapshotId} metric="requiredCapacityCPURatio" formatter={percentage.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="CPU Shares Limit">
-          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_cpu" formatter={twoDecimalPlaces} />
+        <KpiKeyValue label="CPU Limits Allocation">
+          <MetricValue snapshotId={snapshotId} metric="limitCapacityCPURatio" formatter={percentage.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Allocatable">
-          <MetricValue snapshotId={snapshotId} metric="nodes.allocatable_mem" formatter={bytesTwoDecimalPlaces} />
+        <KpiKeyValue label="Memory Requests Allocation">
+          <MetricValue snapshotId={snapshotId} metric="requiredCapacityMemoryRatio" formatter={percentage.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Limit">
-          <MetricValue snapshotId={snapshotId} metric="nodes.capacity_mem" formatter={bytesTwoDecimalPlaces} />
+        <KpiKeyValue label="Memory Limits Allocation">
+          <MetricValue snapshotId={snapshotId} metric="limitCapacityMemoryRatio" formatter={percentage.detailed} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Required vs Limit vs Capacity CPU Shares">
+        <DashboardSection title="CPU Resources">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: twoDecimalPlaces,
-              metrics: ['pods.required_cpu', 'pods.limit_cpu', 'nodes.capacity_cpu'],
-              labels: ['Required', 'Limit', 'Capacity'],
+              metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu'],
+              labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
               type: 'line'
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Required vs Limit vs Capacity Memory">
+        <DashboardSection title="Memory Resources">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: bytesTwoDecimalPlaces,
-              metrics: ['pods.required_mem', 'pods.limit_mem', 'nodes.capacity_mem'],
-              labels: ['Required', 'Limit', 'Capacity'],
+              metrics: ['requiredMemory', 'limitMemory', 'nodes.capacity_mem'],
+              labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
               type: 'line'
             }}
           />
         </DashboardSection>
       </Columize>
+      <DashboardSection title="Pods">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            metrics: ['podsRunning', 'podsPending', 'pods.count', 'nodes.capacity_pods'],
+            labels: ['Running Pods', 'Pending Pods', 'Allocated Pods', 'Pods Capacity'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
-      <Columize>
-        <DashboardSection title="Running Pods">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              metrics: ['pods.count'],
-              labels: ['Pods'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Allocatable vs Limit Pods">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              metrics: ['nodes.allocatable_pods', 'nodes.capacity_pods'],
-              labels: ['Allocatable', 'Limit'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-
-      <DashboardSection title="Available vs Desired Replicas">
+      <DashboardSection title="Replicas">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['availableReplicas', 'desiredReplicas'],
-            labels: ['Available', 'Desired'],
+            labels: ['Available Replicas', 'Desired Replicas'],
             type: 'line'
           }}
         />
