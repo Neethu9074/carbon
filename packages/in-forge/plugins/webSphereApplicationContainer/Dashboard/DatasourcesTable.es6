@@ -40,7 +40,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'datasources.' + row.key + '.poolSize';
+        return 'datasources.' + row.key + '.freePoolSize';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -56,7 +56,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'datasources.' + row.key + '.poolSize';
+        return 'datasources.' + row.key + '.waitingThreadCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -72,7 +72,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'datasources.' + row.key + '.poolSize';
+        return 'datasources.' + row.key + '.averageWaitTime';
       },
       getContent: msZeroDecimalPlaces,
       getTimeWindowAggregation() {
