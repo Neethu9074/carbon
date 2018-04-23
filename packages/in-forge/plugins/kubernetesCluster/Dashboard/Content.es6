@@ -4,7 +4,6 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
@@ -14,12 +13,13 @@ import NodesTable from './NodesTable';
 
 export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
-  const nodeIds = snapshot.getIn(['data', 'nodes.itemIds'], emptyList).toArray();
   return (
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Node Count">{nodeIds.length}</KpiKeyValue>
+        <KpiKeyValue label="Node Count">
+          <MetricValue snapshotId={snapshotId} metric="nodes.count" formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
         <KpiKeyValue label="Pods Allocation">
           <MetricValue snapshotId={snapshotId} metric="allocatedCapacityPodsRatio" formatter={percentage.detailed} />
         </KpiKeyValue>
