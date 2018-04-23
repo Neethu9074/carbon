@@ -10,6 +10,8 @@ import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
+import locals from './TraceTablePage.mless';
+
 /*
  * Shared layout for trace groups and raw traces.
  */
@@ -28,7 +30,7 @@ export default function TraceTablePage({ location, children }) {
           </div>
         }
       >
-        <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
+        <MaxWidthFullscreenContainer className={locals.traceTablePage}>{children}</MaxWidthFullscreenContainer>
       </Sticky>
     </Fragment>
   );
