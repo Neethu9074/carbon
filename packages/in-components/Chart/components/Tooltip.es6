@@ -28,6 +28,14 @@ export default connectTo(
       this.setupSubsriptions();
     }
 
+    shouldComponentUpdate(nextProps) {
+      if (this.props.highlightedMoment !== nextProps.highlightedMoment || this.props.chart !== nextProps.chart) {
+        this.updateScale();
+        return true;
+      }
+      return false;
+    }
+
     componentWillUnmount() {
       this.disposeSubscriptions();
     }
