@@ -6,7 +6,7 @@ import Groups from 'in-analyze/GroupedTraces/Groups';
 export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder } = props;
   return (
-    <Table>
+    <Table tableInCard>
       <Thead>
         <Tr>
           <RawTracesSortableColumn

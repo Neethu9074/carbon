@@ -93,7 +93,7 @@ function TraceGroupsPage(props) {
   }
 
   return (
-    <Card title={label} header={<GroupingToggle raw={false} />}>
+    <Card title={label} header={<GroupingToggle raw={false} />} withoutPadding>
       <TraceGroupsCharts {...props} traceGroupColors={traceGroupColors} />
       <TraceGroupsTable {...props} traceGroupColors={traceGroupColors} />
     </Card>

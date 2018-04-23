@@ -16,6 +16,8 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
+import locals from './Summary.mless';
+
 class Summary extends React.Component {
   selectedCall$ = create();
   timeoutHandle = null;
@@ -64,8 +66,10 @@ class Summary extends React.Component {
 
         <Row>
           <Col lg={12}>
-            <Card title="Timeline">
-              <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
+            <Card title="Timeline" withoutPadding>
+              <div className={locals.icicleChartWrapper}>
+                <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
+              </div>
               <ServiceEndpointList traceId={trace.id} getColor={getColor} />
             </Card>
           </Col>

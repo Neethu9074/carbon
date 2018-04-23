@@ -34,6 +34,7 @@ export default function ServerTablePresenter(props) {
     columnDefinitions,
     result = pendingResult,
     cardTitle,
+    tableInCard,
     rightHeader,
     leftHeader,
     isSearchable = true,
@@ -81,11 +82,7 @@ export default function ServerTablePresenter(props) {
     </div>
   );
   let content = (
-    <Table
-      className={evaluateClassNames({
-        [locals.tableAsCard]: cardTitle != null
-      })}
-    >
+    <Table tableInCard={tableInCard || cardTitle != null}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}

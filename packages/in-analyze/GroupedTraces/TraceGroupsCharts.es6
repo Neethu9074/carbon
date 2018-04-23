@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
-import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import { millis, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -95,17 +95,11 @@ const chartDefinitions = {
   errorsChartData: {
     renderer: Renderer.line,
     aggregation: 'MEAN',
-    formatter: {
-      compact: percentageTwoDecimalPlaces,
-      detailed: percentageTwoDecimalPlaces
-    }
+    formatter: percentage
   },
   latencyChartData: {
     renderer: Renderer.line,
-    formatter: {
-      compact: millis.detailed,
-      detailed: millis.detailed
-    },
+    formatter: millis,
     min: 0
   }
 };

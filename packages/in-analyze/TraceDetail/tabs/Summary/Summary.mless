@@ -1,0 +1,5 @@
+:local {
+  .icicleChartWrapper {
+    padding: 1rem;
+  }
+}

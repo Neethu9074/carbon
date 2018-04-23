@@ -8,6 +8,12 @@
     border-collapse: initial;
   }
 
+  .tableInCard {
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+  }
+
   .tr {
     color: #16363e;
     font-size: 0.875rem;
@@ -19,7 +25,7 @@
     }
 
     &:nth-child(even) {
-      background: #FAFBFC;
+      background: #fafbfc;
     }
 
     &:hover {
@@ -27,7 +33,9 @@
     }
 
     &.depth-2 {
-      & > td:first-child {padding-left: 54px;}
+      & > td:first-child {
+        padding-left: 54px;
+      }
     }
   }
 
@@ -46,8 +54,8 @@
   }
 
   .td {
-    border-top: 1px solid #E4EBED;
-    padding: .75rem 0;
+    border-top: 1px solid #e4ebed;
+    padding: 0.75rem 0;
 
     &:first-child {
       padding-left: 1rem;
@@ -58,7 +66,7 @@
     }
 
     .tr:last-child > .td {
-      border-bottom: 1px solid #E4EBED;
+      border-bottom: 1px solid #e4ebed;
     }
   }
 }

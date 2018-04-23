@@ -1,10 +1,19 @@
+import { assign } from 'lodash';
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
 import locals from './Table.mless';
 
 export function Table(props) {
-  return <table {...props} className={joinClassNames(props.className, locals.table)} cellSpacing="0" />;
+  const reducedProps = assign({}, props);
+  delete reducedProps.tableInCard;
+
+  const className = evaluateClassNames({
+    [joinClassNames(props.className, locals.table)]: true,
+    [locals.tableInCard]: props.tableInCard
+  });
+  return <table {...reducedProps} className={className} cellSpacing="0" />;
 }
 
 export function Thead(props) {
