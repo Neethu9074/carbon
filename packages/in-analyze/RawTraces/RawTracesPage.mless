@@ -1,16 +1,4 @@
 :local {
-  .rect {
-    width: 0.5rem;
-    height: 0.5rem;
-
-    margin-right: 0.5rem;
-  }
-
-  .rectPlaceHolder {
-    display: inline-block;
-    width: 0.5rem;
-  }
-
   .cell {
     display: flex;
     align-items: center;

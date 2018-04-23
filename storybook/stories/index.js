@@ -48,7 +48,6 @@ import './newComponents/Chart';
 import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
 import './newComponents/DashboardHeaderStory';
-import './newComponents/DotStory';
 import './newComponents/EntityWithTypeAndIconStory';
 import './newComponents/HeatMap';
 import './newComponents/KpiCardStory';

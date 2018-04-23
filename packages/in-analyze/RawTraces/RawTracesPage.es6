@@ -14,6 +14,7 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -22,7 +23,10 @@ import GroupingToggle from 'in-analyze/shared/GroupingToggle';
 import getTraces from 'in-subscription/application/getTraces';
 import { formatDateTime } from 'in-services/formatters/date';
 import cursorPaginated from 'in-hoc/cursorPaginated';
+import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
+
+import locals from './RawTracesPage.mless';
 
 const orderTranslation = {
   timestamp: 't',
@@ -119,16 +123,27 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
           {items.map(item => (
             <Tr key={item.traceId}>
               <Td>
-                <Link href$={getLinkToTraceDetail(item.traceId)}>{formatDateTime(item.startTime)}</Link>
+                <Link className={locals.link} href$={getLinkToTraceDetail(item.traceId)}>
+                  {formatDateTime(item.startTime)}
+                </Link>
               </Td>
               <Td>
-                <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
+                <Link className={locals.link} href$={getLinkToTraceDetail(item.traceId)}>
+                  {item.label}
+                </Link>
               </Td>
               <Td>
                 <Counter>{number.compact(item.callCount)}</Counter>
               </Td>
-              <Td>{millis.fixedCompact(item.duration)}</Td>
-              <Td>{number.compact(item.totalErrorCount)}</Td>
+              <Td>
+                <div className={locals.cell}>
+                  <SvgIcon type="time" width={12} height={12} className={locals.timeIcon} color="#47626A" />
+                  <span className={locals.duration}>{millis.fixedCompact(item.duration)}</span>
+                </div>
+              </Td>
+              <Td>
+                <ErrorIndicator errorCount={item.totalErrorCount} />
+              </Td>
             </Tr>
           ))}
 
