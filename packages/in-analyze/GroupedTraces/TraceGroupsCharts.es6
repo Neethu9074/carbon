@@ -40,7 +40,7 @@ function TraceGroupCharts({
 
   // Render chart selector and chart.
   return (
-    <Fragment>
+    <div className={locals.traceGroupsCharts}>
       <ButtonGroup horizontal className={locals.chartSelector}>
         <ChartSelectButton
           chartId="latencyChartData"
@@ -70,7 +70,7 @@ function TraceGroupCharts({
         selectedChart={selectedChart}
       />
       <div className={locals.whitespace} />
-    </Fragment>
+    </div>
   );
 }
 
