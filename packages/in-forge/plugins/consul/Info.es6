@@ -8,14 +8,23 @@ export default function ConsulInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-        <DescriptionItem title="Consul Version">{data.get('consul_version')}</DescriptionItem>
-        <DescriptionItem title="State">{data.get('raft.state')}</DescriptionItem>
-        <DescriptionItem title="Leader">{data.get('leader')}</DescriptionItem>
-        <DescriptionItem title="Peers">{data.get('peers')}</DescriptionItem>
-      </DescriptionList>
       <Separator />
+
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>Consul Info</Collapsible.Header>
+        <Collapsible.Content>
+          <DescriptionList>
+            <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+            <DescriptionItem title="Consul Version">{data.get('consul_version')}</DescriptionItem>
+            <DescriptionItem title="State">{data.get('raft.state')}</DescriptionItem>
+            <DescriptionItem title="Leader">{data.get('leader')}</DescriptionItem>
+            <DescriptionItem title="Peers">{data.get('peers')}</DescriptionItem>
+          </DescriptionList>
+        </Collapsible.Content>
+      </Collapsible>
+
+      <Separator />
+
       <Collapsible>
         <Collapsible.Header>Details</Collapsible.Header>
         <Collapsible.Content>
