@@ -15,6 +15,7 @@ import {
   Link
 } from 'in-components/tables/sharedComponents';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import Counter from 'in-components/tables/ServerTable/components/Counter';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import GroupingToggle from 'in-analyze/shared/GroupingToggle';
@@ -123,7 +124,9 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               <Td>
                 <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
               </Td>
-              <Td>{number.compact(item.callCount)}</Td>
+              <Td>
+                <Counter>{number.compact(item.callCount)}</Counter>
+              </Td>
               <Td>{millis.fixedCompact(item.duration)}</Td>
               <Td>{number.compact(item.totalErrorCount)}</Td>
             </Tr>
