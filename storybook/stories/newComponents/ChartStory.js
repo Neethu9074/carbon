@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import { just, interval } from 'reactive-observables';
@@ -40,25 +41,28 @@ function MissingData() {
 }
 
 function Simple() {
+  const timeframe = generateTimeframe(oneHour);
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <Root>
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneHour / 20,
-          timeframe: generateTimeframe(oneHour),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: ['Calls'],
-            metrics: [generateMetrics(75, 20, oneHour)]
+            metrics: [generateMetrics(60, 20, oneHour)]
           }
         }}
       />
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneHour / 20,
-          timeframe: generateTimeframe(oneHour),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: ['Calls'],
@@ -81,18 +85,21 @@ function States() {
 }
 
 function MultipleSeries() {
+  const timeframe = generateTimeframe(oneMinute);
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <Root>
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneMinute / 5,
-          timeframe: generateTimeframe(oneMinute),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
-            metrics: [generateMetrics(10, 5, oneMinute), generateMetrics(10, 5, oneMinute)]
-          },
+            metrics: [generateMetrics(60, 5, oneMinute), generateMetrics(60, 5, oneMinute)]
+          }
         }}
       />
     </Root>
@@ -100,13 +107,16 @@ function MultipleSeries() {
 }
 
 function LongSeriesLabels() {
+  const timeframe = generateTimeframe(oneMinute);
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <Root>
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneMinute / 5,
-          timeframe: generateTimeframe(oneMinute),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: [
@@ -115,9 +125,9 @@ function LongSeriesLabels() {
               'ThisOneUsesLineWrap > ButThisOneIsJustWayToLongToFitIntoThisTinyTooltip'
             ],
             metrics: [
-              generateMetrics(10, 5, oneMinute),
-              generateMetrics(10, 5, oneMinute),
-              generateMetrics(10, 5, oneMinute)
+              generateMetrics(60, 5, oneMinute),
+              generateMetrics(60, 5, oneMinute),
+              generateMetrics(60, 5, oneMinute)
             ]
           }
         }}
@@ -128,22 +138,25 @@ function LongSeriesLabels() {
 }
 
 function DualAxis() {
+  const timeframe = generateTimeframe(oneMinute);
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <Root>
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneMinute / 10,
-          timeframe: generateTimeframe(oneMinute),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
-            metrics: [generateMetrics(10, 10, oneMinute), generateMetrics(10, 5, oneMinute)]
+            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
           },
           y2: {
             renderer: Renderer.line,
             labels: ['Latency'],
-            metrics: [generateMetrics(10, 1, oneMinute)],
+            metrics: [generateMetrics(60, 1, oneMinute)],
             formatter: percentage
           }
         }}
@@ -153,22 +166,25 @@ function DualAxis() {
 }
 
 function DualAxisDifferentMetricCount() {
+  const timeframe = generateTimeframe(oneMinute);
+  const granularity = getChartGranularity(timeframe);
+
   return (
     <Root>
       <ChartWrapperPresenter
         result={constructResult(null, false)}
         config={{
-          minRollup: oneMinute / 10,
-          timeframe: generateTimeframe(oneMinute),
+          granularity,
+          timeframe,
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
-            metrics: [generateMetrics(10, 10, oneMinute), generateMetrics(4, 5, oneMinute)]
+            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(40, 5, oneMinute)]
           },
           y2: {
             renderer: Renderer.line,
             labels: ['Latency'],
-            metrics: [generateMetrics(5, 1, oneMinute)],
+            metrics: [generateMetrics(30, 1, oneMinute)],
             formatter: percentage
           }
         }}
@@ -300,7 +316,7 @@ function CountErrorBar() {
           y1: {
             renderer: Renderer.countErrorBar,
             labels: ['Count', 'Error'],
-            metrics: [generateMetrics(10, 20, oneMinute), generateMetrics(10, 0.7, oneMinute)],
+            metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 0.7, oneMinute)],
             aggregation: 'awesomeAggregation'
           }
         }}
@@ -337,6 +353,8 @@ const Resize = connectTo(
     };
   },
   function Resize({ size, metrics }) {
+    const timeframe = generateTimeframe(oneHour);
+
     return (
       <Root>
         <div style={{ width: size.width }}>
@@ -344,8 +362,7 @@ const Resize = connectTo(
             result={constructResult(null, false)}
             config={{
               customHeight: size.height,
-              timeframe: generateTimeframe(oneHour),
-              minRollup: oneHour / 20,
+              timeframe,
               y1: {
                 renderer: Renderer.line,
                 labels: ['Calls'],

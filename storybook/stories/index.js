@@ -44,7 +44,7 @@ import './newComponents/BadgeKeyValueStory';
 import './newComponents/BadgeStory';
 import './newComponents/ButtonStory';
 import './newComponents/CardStory';
-import './newComponents/Chart';
+import './newComponents/ChartStory';
 import './newComponents/ColorsStory';
 import './newComponents/CounterStory';
 import './newComponents/DashboardHeaderStory';
