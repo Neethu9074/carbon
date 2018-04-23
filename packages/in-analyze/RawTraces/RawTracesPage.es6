@@ -83,7 +83,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="timestamp"
-              label="Time"
+              label="Started"
             />
             <RawTracesSortableColumn
               orderBy={orderBy}
@@ -91,7 +91,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
               technicalName="label"
-              label="Label"
+              label="Trace Name"
             />
             <RawTracesSortableColumn
               orderBy={orderBy}
@@ -99,7 +99,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="callCount"
-              label="Calls"
+              label="Service Calls"
             />
             <RawTracesSortableColumn
               orderBy={orderBy}
