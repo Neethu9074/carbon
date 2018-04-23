@@ -19,8 +19,10 @@ import locals from './TimingChart.mless';
 const tooltipAlignment = 'topMiddle';
 
 export default function TimingChart({ call, callTreeNode, getColor }) {
-  const { start, duration, networkTime } = call;
+  const { start, duration, spans, networkTime } = call;
   const end = start + duration;
+  let globalProcessingStart = start;
+  let globalProcessingEnd = end;
 
   if (!duration || hasOnlyExitSpan(call)) {
     return null;
@@ -33,8 +35,11 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
   scale.setRangeTo(100);
   scale.setClamp(true);
 
-  const globalProcessingStart = start + (networkTime / 2 || 0);
-  const globalProcessingEnd = end - (networkTime / 2 || 0);
+  if (networkTime && spans.length === 2) {
+    const entrySpan = spans.get(0).kind == 'ENTRY' ? spans.get(0) : spans.get(1);
+    globalProcessingStart = entrySpan.start;
+    globalProcessingEnd = entrySpan.start + entrySpan.duration;
+  }
 
   const netWorkTimeColor = getColor ? getColor(callTreeNode) : NETWORK_TIME_COLOR;
   const selfTimeColor = getColor ? getColor(callTreeNode) : SELF_TIME_COLOR;
