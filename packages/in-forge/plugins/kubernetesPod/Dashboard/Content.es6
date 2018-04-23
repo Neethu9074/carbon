@@ -56,7 +56,7 @@ export default function KubernetesPodDashboard({ snapshot }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="State">{snapshot.getIn(['data', 'phase'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Phase">{snapshot.getIn(['data', 'phase'], null)}</KpiKeyValue>
         <KpiKeyValue label="Restarts">
           <MetricValue snapshotId={snapshotId} metric="restartCount" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
