@@ -12,14 +12,15 @@ describe('timeAxis', () => {
     scale = createScale();
   });
 
-  it('should create an empty result when the domain is not available', () => {
+  it('should create a single tick as an indicator when the domain is 0', () => {
     scale.setRangeFrom(0);
     scale.setRangeTo(0);
     scale.setDomainFrom(0);
     scale.setDomainTo(0);
 
     const ticks = getAxisTickPositions(scale);
-    expect(ticks).to.have.length(0);
+    expect(ticks).to.have.length(1);
+    expect(ticks[0].range).to.equal(0);
   });
 
   it('should always contain the min and max domains', () => {

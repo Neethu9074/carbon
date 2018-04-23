@@ -45,6 +45,16 @@ export function getAxisTickPositions(scale, formatter) {
   const domainTo = scale.getDomainTo();
 
   const domainRange = domainTo - domainFrom;
+
+  if (domainRange === 0) {
+    return [
+      {
+        range: scale.getRangeFrom(),
+        domain: scale.getDomainFrom()
+      }
+    ];
+  }
+
   if (!domainRange) {
     return [];
   }
