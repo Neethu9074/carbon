@@ -13,7 +13,7 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, newApplicationMonitoringEnabled } from 'in-services/featureFlags';
+import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -56,7 +56,7 @@ export default function ViewSwitcher() {
           icon="application"
           isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
         >
-          {newApplicationMonitoringEnabled ? (
+          {twoZeroModeEnabled ? (
             <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
           ) : null}
           <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />

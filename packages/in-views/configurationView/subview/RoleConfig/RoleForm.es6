@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
-import { newApplicationMonitoringEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -177,7 +177,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           label="Configuration of authentication methods"
         />
 
-        {newApplicationMonitoringEnabled && (
+        {twoZeroModeEnabled && (
           <Permission
             form={form}
             disabled={disabled}

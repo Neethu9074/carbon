@@ -7,7 +7,6 @@ import { number, percentage } from 'in-services/formatters/number';
 import backButtonStore from 'in-analyze/stores/backButtonStore';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import { analyzeEnabled } from 'in-services/featureFlags';
 import { identity } from 'in-services/util/function';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -39,9 +38,7 @@ export default connectTo(
     }
 
     const linkToAnalyze =
-      analyzeEnabled && (applicationId || serviceId || endpointId)
-        ? getLinkToAnalyze({ applicationId, serviceId, endpointId })
-        : null;
+      applicationId || serviceId || endpointId ? getLinkToAnalyze({ applicationId, serviceId, endpointId }) : null;
     return (
       <div className={locals.row}>
         <div className={locals.heading}>

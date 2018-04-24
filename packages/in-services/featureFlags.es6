@@ -27,10 +27,38 @@ export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
 export const showTenantSwitcher = config.tenant !== 'edmunds';
 
-// 2.0 features
+// ########################################################################################
+// 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
+// ########################################################################################
 export const withoutInstana1Features = isFeatureFlagEnabled('withoutInstana1Features');
-export const newApplicationMonitoringEnabled = __DEV__ || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
-export const analyzeEnabled = __DEV__ || isFeatureFlagEnabled('analyzeEnabled');
+
+// oneZeroAppDataEnabled is the deployment time feature flag that controls whether or not Instana 1.0 could possibly be
+// shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
+// the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
+// v2 query param and/or the v2Enabled ui setting  of the current user.
+export const oneZeroAppDataEnabled = __DEV__ || isFeatureFlagEnabled('oneZeroAppDataEnabled');
+
+// twoZeroAppDataEnabled is the deployment time feature flag that controls whether or not Instana 2.0 could possibly be
+// shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
+// the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
+// v2 query param and/or the v2Enabled ui setting of the current user.
+export const twoZeroAppDataEnabled = __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled');
+
+const v2EnabledUserPreference =
+  window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
+const v2EnabledViaQueryParam = document.location.hash && document.location.hash.indexOf('v2=true') >= 0;
+const v2DisabledViaQueryParam = document.location.hash && document.location.hash.indexOf('v2=false') >= 0;
+
+// twoZeroModeEnabled controls the actual Instana mode (1.0 or 2.0) for the user given the value of the v2 query
+// parameter and user's v2Enabled ui setting.
+export const twoZeroModeEnabled =
+  // tenant not in beta phase, only 2.0 available
+  (!oneZeroAppDataEnabled && twoZeroAppDataEnabled) ||
+  // tenant in beta phase and 2.0 specified via URL query param
+  (oneZeroAppDataEnabled && twoZeroAppDataEnabled && v2EnabledViaQueryParam) ||
+  // tenant in beta phase, 1.0/2.0 not specified via URL query param, 2.0 enabled in user's ui settings.
+  (oneZeroAppDataEnabled && twoZeroAppDataEnabled && !v2DisabledViaQueryParam && v2EnabledUserPreference);
+
 export const withoutTimeline = __DEV__ || withoutInstana1Features;
 export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;
 

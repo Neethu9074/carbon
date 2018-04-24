@@ -2,9 +2,9 @@ import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import { newApplicationMonitoringEnabled } from 'in-services/featureFlags';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
@@ -151,7 +151,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           label="Configuration of agents"
         />
 
-        {newApplicationMonitoringEnabled && (
+        {twoZeroModeEnabled && (
           <Permission
             form={form}
             disabled={disabled}
