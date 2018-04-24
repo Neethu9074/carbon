@@ -10,7 +10,7 @@ describe('feature flags', () => {
   let originalFeatureFlags;
 
   beforeEach(() => {
-    originalHash = document.location.hash;
+    originalHash = window.location.hash;
     originalSettings = window.instana.settings;
     window.instana.settings = {};
     originalFeatureFlags = config.featureFlags;
@@ -18,7 +18,7 @@ describe('feature flags', () => {
   });
 
   afterEach(() => {
-    document.location.hash = originalHash;
+    window.location.hash = originalHash;
     window.instana.settings = originalSettings;
     config.featureFlags = originalFeatureFlags;
   });
@@ -38,14 +38,14 @@ describe('feature flags', () => {
     it('is true if 1.0 and 2.0 are enabled and query param v2 is true', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
       setFeatureFlag('twoZeroAppDataEnabled', true);
-      document.location.hash = 'whatever?foo=bar&v2=true&this=that';
+      window.location.hash = 'whatever?foo=bar&v2=true&this=that';
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
 
     it('is false if 1.0 and 2.0 are enabled and query param v2 is false', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
       setFeatureFlag('twoZeroAppDataEnabled', true);
-      document.location.hash = 'whatever?foo=bar&v2=false&this=that';
+      window.location.hash = 'whatever?foo=bar&v2=false&this=that';
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 

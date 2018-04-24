@@ -45,8 +45,8 @@ export const twoZeroAppDataEnabled = __DEV__ || isFeatureFlagEnabled('twoZeroApp
 
 const v2EnabledUserPreference =
   window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
-const v2EnabledViaQueryParam = document.location.hash && document.location.hash.indexOf('v2=true') >= 0;
-const v2DisabledViaQueryParam = document.location.hash && document.location.hash.indexOf('v2=false') >= 0;
+const v2EnabledViaQueryParam = window.location.hash && window.location.hash.indexOf('v2=true') >= 0;
+const v2DisabledViaQueryParam = window.location.hash && window.location.hash.indexOf('v2=false') >= 0;
 
 // twoZeroModeEnabled controls the actual Instana mode (1.0 or 2.0) for the user given the value of the v2 query
 // parameter and user's v2Enabled ui setting.
