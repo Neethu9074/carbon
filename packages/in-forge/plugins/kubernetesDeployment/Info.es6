@@ -1,7 +1,7 @@
 import React from 'react';
 
-import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';

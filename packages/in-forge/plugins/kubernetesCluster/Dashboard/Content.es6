@@ -5,10 +5,9 @@ import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
+import DeploymentsTable from './DeploymentsTable';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
-
-import DeploymentsTable from './DeploymentsTable';
 import NodesTable from './NodesTable';
 
 export default function KubernetesClusterDashboard({ snapshot, timeframe }) {

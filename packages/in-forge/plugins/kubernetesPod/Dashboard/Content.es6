@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
 import { focusedMoment$ } from 'in-stores/timeline';

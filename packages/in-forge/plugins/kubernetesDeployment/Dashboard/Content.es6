@@ -1,11 +1,5 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  timeByMillisTwoDecimalPlaces
-} from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createPodsForDeploymentSubscription from 'in-subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -17,6 +11,12 @@ import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  timeByMillisTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));

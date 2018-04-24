@@ -1,10 +1,10 @@
 import React from 'react';
 
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
 import createHostForPodSubscription from 'in-subscription/hostForPod';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';

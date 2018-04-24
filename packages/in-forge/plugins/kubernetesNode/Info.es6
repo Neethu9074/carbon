@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
 import createHostForNodeSubscription from 'in-subscription/hostForNode';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';
