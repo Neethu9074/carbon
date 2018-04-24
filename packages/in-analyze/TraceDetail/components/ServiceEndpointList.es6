@@ -9,7 +9,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ServiceEndpointList.mless';
 
-export default function ServiceEndpointList({ traceId, getColor }) {
+export default function ServiceEndpointList({ traceId, getColor, onListItemMouseEnter, onListItemMouseLeave }) {
   const columnDefinitions = [
     {
       id: 'serviceLabel',
@@ -76,6 +76,8 @@ export default function ServiceEndpointList({ traceId, getColor }) {
       defaultOrderBy="firstTimestamp"
       defaultOrderDirection="ASC"
       traceId={traceId}
+      onRowMouseEnter={onListItemMouseEnter}
+      onRowMouseLeave={onListItemMouseLeave}
     />
   );
 }

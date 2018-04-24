@@ -40,7 +40,9 @@ export default function ServerTablePresenter(props) {
     isSearchable = true,
 
     // events
-    onChange
+    onChange,
+    onRowMouseEnter,
+    onRowMouseLeave
   } = props;
 
   const isLoading = result.progress.loading;
@@ -65,7 +67,14 @@ export default function ServerTablePresenter(props) {
     );
   } else {
     body = result.data.items.map((item, i) => (
-      <Row key={item.id || i} item={item} columnDefinitions={columnDefinitions} cellOpts={props} />
+      <Row
+        key={item.id || i}
+        item={item}
+        columnDefinitions={columnDefinitions}
+        cellOpts={props}
+        onMouseEnter={onRowMouseEnter}
+        onMouseLeave={onRowMouseLeave}
+      />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
   }

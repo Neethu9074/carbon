@@ -16,8 +16,12 @@
     border: 1px solid #fff;
 
     &:hover {
-      filter: brightness(0.95);
+      opacity: 0.75
     }
+  }
+
+  .unhighlightedFrame {
+    opacity: 0.2
   }
 
   .label {
