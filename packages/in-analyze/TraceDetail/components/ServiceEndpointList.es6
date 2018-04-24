@@ -70,7 +70,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       tableInCard
       isSearchable={false}
       get={getTableData}
-      pageSize={10}
+      defaultPageSize={5}
       columnDefinitions={columnDefinitions}
       paginationResettingProps={{ traceId }}
       defaultOrderBy="firstTimestamp"
