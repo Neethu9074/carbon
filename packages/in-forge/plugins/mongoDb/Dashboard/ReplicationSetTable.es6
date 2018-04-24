@@ -93,7 +93,7 @@ export default function ReplicationSetTable({ snapshot, timeframe }) {
   ];
 
   return (
-    <DashboardSection title="Replication Set">
+    <DashboardSection title="Replica Set">
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
@@ -110,14 +110,14 @@ function getRowDetails(row) {
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
             metrics: ['repl.apply_ops', 'repl.apply_bathes'],
-            labels: ['Apply Ops', 'Apply bathes'],
+            labels: ['Apply Ops', 'Apply batches'],
             type: 'line'
           }}
           y2={{
             formatter: millis.detailed,
             tooltipFormatter: millis.detailed,
             metrics: ['repl.apply_bathes_total_ms'],
-            labels: ['Apply bathes total'],
+            labels: ['Apply batches total'],
             type: 'line'
           }}
         />
