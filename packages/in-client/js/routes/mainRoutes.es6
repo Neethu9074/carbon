@@ -19,7 +19,7 @@ import {
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-import { twoZeroModeEnabled, instanaInternalFeaturesEnabled, withoutInstana1Features } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -41,22 +41,22 @@ import Map from 'in-map/index';
 
 export default (
   <FragmentSupportingSwitch>
-    {!withoutInstana1Features && <Route path={cockpitPath} component={Cockpit} />}
-    {!withoutInstana1Features && <Route path={asciiPhysicalPath} component={AsciiMap} />}
-    {!withoutInstana1Features && <Route path={asciiLogicalPath} component={AsciiMap} />}
-    {!withoutInstana1Features && <Route path={asciiContainerPath} component={AsciiMap} />}
-    {!withoutInstana1Features && <Route path={physicalPath} component={Map} />}
-    {!withoutInstana1Features && <Route path={logicalPath} component={Map} />}
-    {!withoutInstana1Features && <Route path={containerPath} component={Map} />}
+    {!twoZeroModeEnabled && <Route path={cockpitPath} component={Cockpit} />}
+    {!twoZeroModeEnabled && <Route path={asciiPhysicalPath} component={AsciiMap} />}
+    {!twoZeroModeEnabled && <Route path={asciiLogicalPath} component={AsciiMap} />}
+    {!twoZeroModeEnabled && <Route path={asciiContainerPath} component={AsciiMap} />}
+    {!twoZeroModeEnabled && <Route path={physicalPath} component={Map} />}
+    {!twoZeroModeEnabled && <Route path={logicalPath} component={Map} />}
+    {!twoZeroModeEnabled && <Route path={containerPath} component={Map} />}
 
-    {!withoutInstana1Features && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
-    {!withoutInstana1Features && <Route component={createAsyncViewComponent(TableView)} path={tablePath} />}
-    {!withoutInstana1Features && <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />}
-    {!withoutInstana1Features && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
+    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
+    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TableView)} path={tablePath} />}
+    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />}
+    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
     <Route component={GraphView} path={graphPath} />
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
-    {!withoutInstana1Features && <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />}
-    {!withoutInstana1Features && role.canConfigureAgents ? (
+    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />}
+    {!twoZeroModeEnabled && role.canConfigureAgents ? (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     ) : null}
 
@@ -68,7 +68,10 @@ export default (
     {twoZeroModeEnabled && analyzeRoutes}
 
     {/* landing page */}
-    {!withoutInstana1Features && <RedirectWithHash from="/" to={physicalPath} />}
-    {withoutInstana1Features && <RedirectWithHash from="/" to={applicationsList} />}
+    {twoZeroModeEnabled ? (
+      <RedirectWithHash from="/" to={applicationsList} />
+    ) : (
+      <RedirectWithHash from="/" to={physicalPath} />
+    )}
   </FragmentSupportingSwitch>
 );

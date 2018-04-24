@@ -30,7 +30,6 @@ export const showTenantSwitcher = config.tenant !== 'edmunds';
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
 // ########################################################################################
-export const withoutInstana1Features = isFeatureFlagEnabled('withoutInstana1Features');
 
 // oneZeroAppDataEnabled is the deployment time feature flag that controls whether or not Instana 1.0 could possibly be
 // shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),

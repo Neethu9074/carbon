@@ -6,7 +6,7 @@ import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLi
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { number, ms, percentage } from 'in-services/formatters/number';
-import { withoutInstana1Features } from 'in-services/featureFlags';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
@@ -94,7 +94,7 @@ const columnDefinitions = [
     id: 'process',
     label: 'Process',
     getContent(item) {
-      if (withoutInstana1Features) {
+      if (twoZeroModeEnabled) {
         return (
           <Tooltip content="Coming soon">
             <Link href="" onClick={e => e.preventDefault()}>

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import AppHeaderTimeSelection from 'in-new-components/time/AppHeaderTimeSelection/AppHeaderTimeSelection';
-import { twoZeroModeEnabled, withoutInstana1Features } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
 import { homePath } from 'in-stores/navigation/paths/mainPaths';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { getView } from 'in-stores/navigation/navigation';
 import Lettering from 'in-components/Lettering';
 import Badge from 'in-new-components/Badge';
@@ -21,13 +21,13 @@ export default function AppHeader() {
         <Lettering />
       </Link>
 
-      {withoutInstana1Features && (
+      {twoZeroModeEnabled && (
         <Badge size="mid" color="#06b7ba" className={`${block}__early`}>
           Early access
         </Badge>
       )}
 
-      {!withoutInstana1Features && <ViewSwitcher />}
+      {!twoZeroModeEnabled && <ViewSwitcher />}
 
       <div className={`${block}__right`}>
         {twoZeroModeEnabled && <AppHeaderTimeSelection />}

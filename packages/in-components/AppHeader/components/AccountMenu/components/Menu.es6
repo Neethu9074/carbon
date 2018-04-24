@@ -3,12 +3,11 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import { showTenantSwitcher, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { withoutInstana1Features } from 'in-services/featureFlags';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { showTenantSwitcher } from 'in-services/featureFlags';
 import { getView } from 'in-stores/navigation/navigation';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { config, isOnPremise } from 'in-services/config';
@@ -67,7 +66,7 @@ export default connectTo(
             Settings
           </Link>
 
-          {!withoutInstana1Features && role.canConfigureAgents ? (
+          {!twoZeroModeEnabled && role.canConfigureAgents ? (
             <Link className={linkElement} href$={getView(agentsPath)} onClick={closeMenu}>
               Agents
             </Link>

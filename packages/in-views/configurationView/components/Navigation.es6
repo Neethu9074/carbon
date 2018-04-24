@@ -26,11 +26,10 @@ import {
   integrationPath,
   auditlogPath
 } from 'in-stores/navigation/paths/settingPaths';
+import { forecastsEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import { withoutInstana1Features } from 'in-services/featureFlags';
 import { getView, isView } from 'in-stores/navigation/navigation';
-import { forecastsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -40,8 +39,8 @@ const block = 'in-config-view-nav';
 export default function Navigation() {
   return (
     <nav className={block}>
-      {!withoutInstana1Features && <h2 className={`${block}__heading`}>User Settings</h2>}
-      {!withoutInstana1Features && (
+      {!twoZeroModeEnabled && <h2 className={`${block}__heading`}>User Settings</h2>}
+      {!twoZeroModeEnabled && (
         <NavItems>
           <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
         </NavItems>
@@ -49,7 +48,7 @@ export default function Navigation() {
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
-        {role.canConfigureServiceMapping && !withoutInstana1Features ? (
+        {role.canConfigureServiceMapping && !twoZeroModeEnabled ? (
           <NavItem
             title="Service Mapper"
             isActive$={combine(
@@ -99,7 +98,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureEumApplications && !withoutInstana1Features ? (
+        {role.canConfigureEumApplications && !twoZeroModeEnabled ? (
           <NavItem title="Website Monitoring" href$={getView(eumKeysPath)} isActive$={isView(eumKeysPath)} />
         ) : null}
 
@@ -122,7 +121,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureCustomAlerts && !withoutInstana1Features ? (
+        {role.canConfigureCustomAlerts && !twoZeroModeEnabled ? (
           <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
             <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
             <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
@@ -136,7 +135,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {!withoutInstana1Features ? (
+        {!twoZeroModeEnabled ? (
           <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
             <NavItem
               title="Configurations"
