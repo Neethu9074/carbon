@@ -17,13 +17,14 @@ import { init as initDebuggingBackchannel } from 'in-services/debuggingBackchann
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/timers';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
+import { init as initTwoZeroBetaPhaseQueryParam } from 'in-services/betaPhase';
 import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initConnection } from 'in-connection';
 import history from 'in-stores/navigation/history';
 
@@ -70,6 +71,7 @@ initLayouterStorage();
 initBrowserIdentification();
 initTimeOffsetStore();
 !twoZeroModeEnabled && initTimelineStore();
+isTwoZeroBetaPhase && initTwoZeroBetaPhaseQueryParam();
 initMessageStore();
 initShortcuts();
 !twoZeroModeEnabled && initNotMonitoringPresenter();
