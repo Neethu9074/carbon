@@ -3,9 +3,9 @@ import { createLogger } from 'instalog';
 import rpt from 'prop-types';
 
 import { getModifiedUrlStream, mutateUrl, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { newTimePickerEnabled } from 'in-services/featureFlags';
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';
 
@@ -36,7 +36,7 @@ export function getTimeframe(params) {
 
   let windowSize;
   // if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
-  if (newTimePickerEnabled) {
+  if (twoZeroModeEnabled) {
     windowSize = 1000 * 60 * 60;
   } else {
     windowSize = 1000 * 60 * 10;

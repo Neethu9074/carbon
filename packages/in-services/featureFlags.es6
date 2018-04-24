@@ -59,9 +59,6 @@ export const twoZeroModeEnabled =
   // tenant in beta phase, 1.0/2.0 not specified via URL query param, 2.0 enabled in user's ui settings.
   (oneZeroAppDataEnabled && twoZeroAppDataEnabled && !v2DisabledViaQueryParam && v2EnabledUserPreference);
 
-export const withoutTimeline = __DEV__ || withoutInstana1Features;
-export const newTimePickerEnabled = __DEV__ || withoutInstana1Features;
-
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

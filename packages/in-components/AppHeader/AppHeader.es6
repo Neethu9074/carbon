@@ -1,10 +1,9 @@
 import React from 'react';
 
 import AppHeaderTimeSelection from 'in-new-components/time/AppHeaderTimeSelection/AppHeaderTimeSelection';
+import { twoZeroModeEnabled, withoutInstana1Features } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
-import { withoutInstana1Features } from 'in-services/featureFlags';
-import { newTimePickerEnabled } from 'in-services/featureFlags';
 import { homePath } from 'in-stores/navigation/paths/mainPaths';
 import { getView } from 'in-stores/navigation/navigation';
 import Lettering from 'in-components/Lettering';
@@ -31,7 +30,7 @@ export default function AppHeader() {
       {!withoutInstana1Features && <ViewSwitcher />}
 
       <div className={`${block}__right`}>
-        {newTimePickerEnabled && <AppHeaderTimeSelection />}
+        {twoZeroModeEnabled && <AppHeaderTimeSelection />}
         <AccountMenu />
       </div>
     </div>

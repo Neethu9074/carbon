@@ -10,8 +10,8 @@ import {
 } from 'in-stores/timeline';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
-import { withoutTimeline } from 'in-services/featureFlags';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
@@ -66,7 +66,7 @@ export const isCollapsed$ = isCollapsedStore.observable;
 
 export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
   .map(([isCollapsed, autoCollapseTimeline]) => {
-    if (withoutTimeline) {
+    if (twoZeroModeEnabled) {
       return 0;
     } else if (autoCollapseTimeline) {
       return theme.footer.height;

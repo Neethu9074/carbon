@@ -4,8 +4,8 @@ import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import DialogPresenter from 'in-components/DialogPresenter';
-import { withoutTimeline } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
@@ -30,7 +30,7 @@ export default function App() {
         <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
       </Sticky>
 
-      {!withoutTimeline && (
+      {!twoZeroModeEnabled && (
         <ErrorBoundary name="timeline">
           <Timeline />
         </ErrorBoundary>
