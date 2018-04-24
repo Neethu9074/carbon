@@ -7,6 +7,7 @@ import {
   Tbody,
   Tr,
   Td,
+  Th,
   SortableTh,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
@@ -93,6 +94,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               technicalName="label"
               label="Trace Name"
             />
+            <Th>Started At</Th>
             <RawTracesSortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
@@ -131,6 +133,12 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
                 <Link className={locals.link} href$={getLinkToTraceDetail(item.traceId)}>
                   {item.label}
                 </Link>
+              </Td>
+              <Td>
+                <div className={locals.cell}>
+                  <SvgIcon className={locals.serviceIcon} type="app_service" width={16} height={16} color="#47626A" />
+                  {item.service.label}
+                </div>
               </Td>
               <Td>
                 <Counter>{number.compact(item.callCount)}</Counter>
