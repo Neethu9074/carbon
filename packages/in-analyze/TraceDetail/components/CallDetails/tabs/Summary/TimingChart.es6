@@ -36,7 +36,7 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
   scale.setClamp(true);
 
   if (networkTime && spans.length === 2) {
-    const entrySpan = spans.get(0).kind == 'ENTRY' ? spans.get(0) : spans.get(1);
+    const entrySpan = spans[0].kind == 'ENTRY' ? spans[0] : spans[1];
     globalProcessingStart = entrySpan.start;
     globalProcessingEnd = entrySpan.start + entrySpan.duration;
   }
@@ -46,24 +46,28 @@ export default function TimingChart({ call, callTreeNode, getColor }) {
 
   const networkTimeBlocks = networkTime ? (
     <Fragment>
-      <TimeBlock
-        key="networkBlock_1"
-        scale={scale}
-        start={start}
-        end={globalProcessingStart}
-        label={NETWORK_TIME_LABEL}
-        color={netWorkTimeColor}
-        opacity={NETWORK_TIME_COLOR_OPACITY}
-      />
-      <TimeBlock
-        key="networkBlock_2"
-        scale={scale}
-        start={globalProcessingEnd}
-        end={end}
-        label={NETWORK_TIME_LABEL}
-        color={netWorkTimeColor}
-        opacity={NETWORK_TIME_COLOR_OPACITY}
-      />
+      {globalProcessingStart - start > 0 ? (
+        <TimeBlock
+          key="networkBlock_1"
+          scale={scale}
+          start={start}
+          end={globalProcessingStart}
+          label={NETWORK_TIME_LABEL}
+          color={netWorkTimeColor}
+          opacity={NETWORK_TIME_COLOR_OPACITY}
+        />
+      ) : null}
+      {end - globalProcessingEnd > 0 ? (
+        <TimeBlock
+          key="networkBlock_2"
+          scale={scale}
+          start={globalProcessingEnd}
+          end={end}
+          label={NETWORK_TIME_LABEL}
+          color={netWorkTimeColor}
+          opacity={NETWORK_TIME_COLOR_OPACITY}
+        />
+      ) : null}
     </Fragment>
   ) : null;
 
