@@ -1,40 +1,52 @@
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: 'alloc_cpu',
-    label: 'Allocatable CPU',
-    min: 0,
-    formatter: twoDecimalPlaces
-  },
-  {
-    metric: 'alloc_mem',
-    label: 'Allocatable Memory',
-    min: 0,
-    formatter: bytesTwoDecimalPlaces
-  },
-  {
-    metric: 'alloc_pods',
-    label: 'Allocatable Pods',
+    metrics: ['allocatedPods', 'cap_pods'],
+    labels: ['Allocated Pods', 'Pods Capacity'],
     min: 0,
     formatter: zeroDecimalPlaces
   },
   {
-    metric: 'cap_cpu',
-    label: 'CPU Capacity',
-    min: 0,
-    formatter: twoDecimalPlaces
-  },
-  {
-    metric: 'cap_mem',
-    label: 'Memory Capacity',
+    metrics: ['required_mem', 'limit_mem', 'cap_mem'],
+    labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
     min: 0,
     formatter: bytesTwoDecimalPlaces
   },
   {
-    metric: 'cap_pods',
-    label: 'Pod Capacity',
+    metrics: ['required_cpu', 'limit_cpu', 'cap_cpu'],
+    labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
     min: 0,
-    formatter: zeroDecimalPlaces
+    formatter: twoDecimalPlaces
+  },
+  {
+    metric: 'alloc_pods_percentage',
+    label: 'Pods Allocation',
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metric: 'required_cpu_percentage',
+    label: 'CPU Requests Allocation',
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metric: 'limit_cpu_percentage',
+    label: 'CPU Limits Allocation',
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metric: 'required_mem_percentage',
+    label: 'Memory Requests Allocation',
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metric: 'limit_mem_percentage',
+    label: 'Memory Limits Allocation',
+    min: 0,
+    formatter: percentage.detailed
   }
 ];

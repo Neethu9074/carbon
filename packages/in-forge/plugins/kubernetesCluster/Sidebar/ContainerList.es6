@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { emptyList } from 'in-services/fixedImmutables';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';

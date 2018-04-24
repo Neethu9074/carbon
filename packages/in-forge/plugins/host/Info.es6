@@ -26,6 +26,7 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
 
       <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>
+      <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
 
       {start != null ? (
         <DescriptionItem title="Started At">
