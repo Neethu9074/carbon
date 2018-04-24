@@ -3,7 +3,9 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -42,10 +44,11 @@ function getInitialState({ application }) {
 }
 
 function NewApplicationForm({
-  form,
   application,
+  form,
   updateForm,
   onSubmit,
+  onDelete,
   loading,
   loadingStateName,
   error,
@@ -56,33 +59,31 @@ function NewApplicationForm({
 
   return (
     <form onSubmit={e => onSubmitInternal(e, form, updateForm, onSubmit)} className={locals.form} disabled={disabled}>
-      {application == null && (
-        <Card title="General" className={locals.generalCard}>
-          {form.get('label').map(field => (
-            <FormGroup className={locals.formGroup}>
-              <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                Application Name
-              </Label>
-              <Input
-                type="text"
-                id="label"
-                value={field.value}
-                onChange={e => setValue(['label'], e.target.value, form, updateForm)}
-                autoComplete="off"
-                hasError={!field.valid && field.touched}
-                autoFocus
-                disabled={disabled}
-              />
-              <TouchedMessages field={field} />
-              <HelpText>
-                Good application names are names that are already well established within an organization. They
-                facilitate concise communication and have a defined meaning. What you configure here, will be used
-                throughout Instana to refer to this application.
-              </HelpText>
-            </FormGroup>
-          ))}
-        </Card>
-      )}
+      <Card title="General">
+        {form.get('label').map(field => (
+          <FormGroup className={locals.formGroup}>
+            <Label htmlFor="label" hasError={!field.valid && field.touched}>
+              Application Name
+            </Label>
+            <Input
+              type="text"
+              id="label"
+              value={field.value}
+              onChange={e => setValue(['label'], e.target.value, form, updateForm)}
+              autoComplete="off"
+              hasError={!field.valid && field.touched}
+              autoFocus
+              disabled={disabled}
+            />
+            <TouchedMessages field={field} />
+            <HelpText>
+              Good application names are names that are already well established within an organization. They facilitate
+              concise communication and have a defined meaning. What you configure here, will be used throughout Instana
+              to refer to this application.
+            </HelpText>
+          </FormGroup>
+        ))}
+      </Card>
 
       <Card
         title="Matching"
@@ -121,7 +122,7 @@ function NewApplicationForm({
                   hasError={!field.valid && field.touched}
                   disabled={disabled}
                 >
-                  {getFakedEdmundsValues()}
+                  {getTagValues()}
                 </Select>
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -161,7 +162,6 @@ function NewApplicationForm({
           </div>
         ))}
       </Card>
-
       <div className={locals.actions}>
         {error && (
           <ValidationBlock hasError className={locals.saveErrors}>
@@ -173,6 +173,9 @@ function NewApplicationForm({
             Cancel
           </Button>
         )}
+
+        {application && <DeleteButton size="lg" applicationName={application.label} onDelete={onDelete} />}
+
         <Button
           icon={loading ? 'spinner' : null}
           iconSpinning
@@ -187,19 +190,19 @@ function NewApplicationForm({
   );
 }
 
-function getFakedEdmundsValues() {
+function getTagValues() {
   return [
     { value: '', label: 'Please select' },
-    { value: 'host.zone', label: 'host.zone' },
-    { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
-    { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
-    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' },
-    { value: 'nodejs.app.name', label: 'nodejs.app.name' },
-    { value: 'springboot.name', label: 'springboot.name' },
-    { value: 'marathon.appId', label: 'marathon.appId' }
+    { label: 'host.zone' },
+    { label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { label: 'docker.label.ARTIFACT_ID ' },
+    { label: 'docker.label.ARTIFACT_VERSION' },
+    { label: 'nodejs.app.name' },
+    { label: 'springboot.name' },
+    { label: 'marathon.appId' }
   ].map(tag => {
     return (
-      <option value={tag.value} key={tag.label}>
+      <option value={tag.value || tag.label} key={tag.label}>
         {tag.label}
       </option>
     );
@@ -283,4 +286,31 @@ function onSubmitInternal(e, form, updateForm, onSubmit) {
   } else {
     onSubmit(form.toJS());
   }
+}
+
+function DeleteButton({ applicationName, onDelete }) {
+  return (
+    <Button
+      kind="danger"
+      onClick={() =>
+        setActiveDialog(
+          <ConfirmationDialog
+            header="Confirm removal"
+            description={
+              <span>
+                Are you sure you want to remove <strong>{applicationName}</strong>?
+              </span>
+            }
+            bButtonLabel="Remove"
+            onB={() => {
+              close();
+              onDelete();
+            }}
+          />
+        )
+      }
+    >
+      Delete
+    </Button>
+  );
 }

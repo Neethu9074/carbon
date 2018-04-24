@@ -6,8 +6,8 @@ import {
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
-import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import { bindingPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
+import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -19,11 +19,11 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRule } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import { getRule } from 'in-api/rules';
 
 import './RuleBindings.less';
 

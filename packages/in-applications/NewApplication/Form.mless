@@ -27,10 +27,6 @@
     margin: 1.4rem 0 0 1rem;
   }
 
-  .generalCard {
-
-  }
-
   .matchingCard {
     margin: @grid__gutter * 1px 0 0;
   }
