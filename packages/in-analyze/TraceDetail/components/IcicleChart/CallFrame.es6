@@ -1,7 +1,7 @@
 import connect from 'in-hoc/connectTo';
 import React from 'react';
 
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator.es6';
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './CallFrame.mless';
