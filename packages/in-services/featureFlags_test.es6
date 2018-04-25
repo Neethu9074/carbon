@@ -140,6 +140,28 @@ describe('feature flags', () => {
     );
   });
 
+  describe('isTwoZeroBetaPhase', () => {
+    it('is true if 1.0 and 2.0 are enabled', () => {
+      setFeatureFlag('oneZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataEnabled', true);
+      expectFeatureFlag('isTwoZeroBetaPhase', true);
+    });
+
+    it('is false if only 1.0 is enabled', () => {
+      setFeatureFlag('oneZeroAppDataEnabled', true);
+      setFeatureFlag('withoutInstana1Features', false); // compatibility test fix
+      setFeatureFlag('twoZeroAppDataEnabled', false);
+      expectFeatureFlag('isTwoZeroBetaPhase', false);
+    });
+
+    it('is false if only 2.0 is enabled', () => {
+      setFeatureFlag('oneZeroAppDataEnabled', false);
+      setFeatureFlag('withoutInstana1Features', true); // compatibility test fix
+      setFeatureFlag('twoZeroAppDataEnabled', true);
+      expectFeatureFlag('isTwoZeroBetaPhase', false);
+    });
+  });
+
   function setFeatureFlag(key, value) {
     config.featureFlags[key] = value;
   }
