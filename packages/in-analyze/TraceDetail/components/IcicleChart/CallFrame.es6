@@ -12,14 +12,16 @@ export default connect(
     isUnhighlighted: props.hoveredServiceEndpoint$
       .map(
         hoveredServiceEndpoint =>
-          hoveredServiceEndpoint &&
-          (hoveredServiceEndpoint.service.id != props.callFrame.service.id ||
-            hoveredServiceEndpoint.endpoint.id != props.callFrame.endpoint.id)
+          hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
       )
       .distinct()
   }),
   CallFrame
 );
+
+function callIsInServiceEndpoint(call, serviceEndpoint) {
+  return serviceEndpoint.service.id == call.service.id && serviceEndpoint.endpoint.id == call.endpoint.id;
+}
 
 function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked }) {
   const { label, errorCount, depth, x, dx } = callFrame;
