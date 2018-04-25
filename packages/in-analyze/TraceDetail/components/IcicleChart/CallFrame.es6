@@ -3,7 +3,7 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 
-import locals from './IcicleChart.mless';
+import locals from './CallFrame.mless';
 
 export const FRAME_HEIGHT = 22;
 
@@ -28,7 +28,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
 
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
-  const width = xScale.getRange(x + dx) - xScale.getRange(x);
+  const width = xScale.getRange(x + dx) - left;
 
   return (
     <div

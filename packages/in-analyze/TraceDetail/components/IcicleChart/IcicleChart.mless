@@ -8,42 +8,4 @@
   .framesWrapper {
     position: relative;
   }
-
-  .frame {
-    position: absolute;
-    min-width: 5px;
-    cursor: pointer;
-    border: 1px solid #fff;
-
-    &:hover {
-      opacity: 0.75
-    }
-  }
-
-  .unhighlightedFrame {
-    opacity: 0.2
-  }
-
-  .label {
-    color: white;
-    margin-left: 0.4rem;
-    margin-top: 3px;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .errorIndicator {
-    display: flex;
-    float: left;
-    margin: -0.5rem -0.5rem;
-    align-items: center;
-    justify-content: center;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 1px solid #fff;
-    font-size: 0.625rem;
-    background: #ff5d3b;
-    color: white;
-  }
 }
