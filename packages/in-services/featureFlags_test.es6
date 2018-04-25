@@ -149,12 +149,14 @@ describe('feature flags', () => {
 
     it('is false if only 1.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
+      setFeatureFlag('withoutInstana1Features', false); // compatibility test fix
       setFeatureFlag('twoZeroAppDataEnabled', false);
       expectFeatureFlag('isTwoZeroBetaPhase', false);
     });
 
     it('is false if only 2.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', false);
+      setFeatureFlag('withoutInstana1Features', true); // compatibility test fix
       setFeatureFlag('twoZeroAppDataEnabled', true);
       expectFeatureFlag('isTwoZeroBetaPhase', false);
     });
