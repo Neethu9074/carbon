@@ -1,0 +1,32 @@
+:local {
+  .frame {
+    position: absolute;
+    min-width: 5px;
+    cursor: pointer;
+    border: 1px solid #fff;
+
+    &:hover {
+      opacity: 0.75
+    }
+  }
+
+  .unhighlightedFrame {
+    opacity: 0.2
+  }
+
+  .label {
+    display: inline-block;
+    color: white;
+    margin-left: 0.4rem;
+    margin-top: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .errorIndicator {
+    margin: -0.5rem -0.5rem;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.625rem;
+  }
+}

@@ -20,6 +20,7 @@ import locals from './Summary.mless';
 
 class Summary extends React.Component {
   selectedCall$ = create();
+  hoveredServiceEndpoint$ = create();
   timeoutHandle = null;
 
   componentDidMount() {
@@ -68,9 +69,19 @@ class Summary extends React.Component {
           <Col lg={12}>
             <Card title="Timeline" withoutPadding>
               <div className={locals.icicleChartWrapper}>
-                <ServerIcicleChart traceId={trace.id} getColor={getColor} onCallClicked={this.onSubCallClicked} />
+                <ServerIcicleChart
+                  traceId={trace.id}
+                  getColor={getColor}
+                  onCallClicked={this.onSubCallClicked}
+                  hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                />
               </div>
-              <ServiceEndpointList traceId={trace.id} getColor={getColor} />
+              <ServiceEndpointList
+                traceId={trace.id}
+                getColor={getColor}
+                onListItemMouseEnter={this.onListItemMouseEnter}
+                onListItemMouseLeave={this.onListItemMouseLeave}
+              />
             </Card>
           </Col>
         </Row>
@@ -108,6 +119,14 @@ class Summary extends React.Component {
 
   clearSelectedCall = () => {
     this.props.setCall({ callId: null });
+  };
+
+  onListItemMouseEnter = service => {
+    this.hoveredServiceEndpoint$.emit(service);
+  };
+
+  onListItemMouseLeave = () => {
+    this.hoveredServiceEndpoint$.emit(null);
   };
 }
 

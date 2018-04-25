@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
+import CallFrame, { FRAME_HEIGHT } from 'in-analyze/TraceDetail/components/IcicleChart/CallFrame';
 import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
 import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
 import Tooltip from 'in-components/Tooltip';
@@ -8,10 +9,9 @@ import createScale from 'in-charts/scale';
 
 import locals from './IcicleChart.mless';
 
-const frameHeight = 22;
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCallClicked }) {
+export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCallClicked, hoveredServiceEndpoint$ }) {
   const callFrames = applyLayout(rootCall);
 
   let minDomain = 0;
@@ -24,7 +24,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
     maxDepth = Math.max(maxDepth, callFrame.depth);
   });
 
-  const chartHeight = (maxDepth + 1) * frameHeight;
+  const chartHeight = (maxDepth + 1) * FRAME_HEIGHT;
 
   const xScale = createScale();
   xScale.setDomainFrom(minDomain);
@@ -41,38 +41,19 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
           return (
             <Fragment key={callFrame.id}>
               <Tooltip content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
-                <CallFrame callFrame={callFrame} xScale={xScale} getColor={getColor} onCallClicked={onCallClicked} />
+                <CallFrame
+                  callFrame={callFrame}
+                  xScale={xScale}
+                  getColor={getColor}
+                  onCallClicked={onCallClicked}
+                  hoveredServiceEndpoint$={hoveredServiceEndpoint$}
+                />
               </Tooltip>
             </Fragment>
           );
         })}
       </div>
       <div />
-    </div>
-  );
-}
-
-function CallFrame({ callFrame, xScale, getColor, onCallClicked }) {
-  const { label, errorCount, depth, x, dx } = callFrame;
-
-  const top = frameHeight * depth;
-  const left = xScale.getRange(x);
-  const width = xScale.getRange(x + dx) - xScale.getRange(x);
-
-  return (
-    <div
-      className={locals.frame}
-      style={{
-        top: `${top}px`,
-        left: `${left}%`,
-        width: `${width}%`,
-        height: `${frameHeight}px`,
-        background: getColor(callFrame)
-      }}
-      onClick={() => onCallClicked(callFrame)}
-    >
-      {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
-      <div className={locals.label}>{label}</div>
     </div>
   );
 }
