@@ -41,8 +41,8 @@ export default function ServerTablePresenter(props) {
 
     // events
     onChange,
-    onRowMouseEnter,
-    onRowMouseLeave
+    onRowMouseEnter = () => {},
+    onRowMouseLeave = () => {}
   } = props;
 
   const isLoading = result.progress.loading;
