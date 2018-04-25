@@ -4,7 +4,7 @@ import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Button from 'in-new-components/Button';
 import { setIn } from 'in-services/settings';
 
-const parentBlock = 'in-app-header';
+import locals from './VersionSwitcher.mless';
 
 function switchVersion() {
   setIn('v2Enabled', !twoZeroModeEnabled);
@@ -14,7 +14,7 @@ function switchVersion() {
 
 export default function VersionSwitcher() {
   return (
-    <Button size="compact" color="#06b7ba" className={`${parentBlock}__early`} onClick={() => switchVersion()}>
+    <Button size="compact" className={locals.versionSwitcher} onClick={() => switchVersion()}>
       {twoZeroModeEnabled ? 'Go back to Instana 1.0' : 'Try Instana 2.0 now!'}
     </Button>
   );

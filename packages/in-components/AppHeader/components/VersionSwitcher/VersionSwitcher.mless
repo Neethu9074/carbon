@@ -1,0 +1,7 @@
+:local {
+  .versionSwitcher {
+    position: absolute;
+    left: 8.5rem;
+    transform: scale(0.9);
+  }
+}
