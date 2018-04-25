@@ -8,7 +8,7 @@ import locals from './VersionSwitcher.mless';
 
 function switchVersion() {
   setIn('v2Enabled', !twoZeroModeEnabled);
-  window.location.hash += `?v2=${!twoZeroModeEnabled}`;
+  window.location.hash = `?v2=${!twoZeroModeEnabled}`;
   window.location.reload();
 }
 
