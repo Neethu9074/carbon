@@ -1,6 +1,7 @@
 import connect from 'in-hoc/connectTo';
 import React from 'react';
 
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator.es6';
 import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './CallFrame.mless';
@@ -45,8 +46,8 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
       }}
       onClick={() => onCallClicked(callFrame)}
     >
-      {errorCount ? <div className={locals.errorIndicator}>{errorCount}</div> : null}
-      <div className={locals.label}>{label}</div>
+      <ErrorIndicator className={locals.errorIndicator} errorCount={errorCount} />
+      <span className={locals.label}>{label}</span>
     </div>
   );
 }
