@@ -31,7 +31,14 @@ describe('feature flags', () => {
 
     it('is true if only 2.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', false);
+      setFeatureFlag('withoutInstana1Features', true); // compatibility test fix
       setFeatureFlag('twoZeroAppDataEnabled', true);
+      expectFeatureFlag('twoZeroModeEnabled', true);
+    });
+
+    it('[compatibilty] is true if newApplicationMonitoringEnabled and withoutInstana1Features are enabled', () => {
+      setFeatureFlag('newApplicationMonitoringEnabled', true);
+      setFeatureFlag('withoutInstana1Features', true);
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
 
@@ -42,6 +49,17 @@ describe('feature flags', () => {
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
 
+    it(
+      '[compatibilty] is true if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
+        'is disabled and query param v2 is true',
+      () => {
+        setFeatureFlag('newApplicationMonitoringEnabled', true);
+        setFeatureFlag('withoutInstana1Features', false);
+        window.location.hash = 'whatever?foo=bar&v2=true&this=that';
+        expectFeatureFlag('twoZeroModeEnabled', true);
+      }
+    );
+
     it('is false if 1.0 and 2.0 are enabled and query param v2 is false', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
       setFeatureFlag('twoZeroAppDataEnabled', true);
@@ -49,11 +67,32 @@ describe('feature flags', () => {
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
+    it(
+      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
+        'is disabled and query param v2 is false',
+      () => {
+        setFeatureFlag('newApplicationMonitoringEnabled', true);
+        setFeatureFlag('withoutInstana1Features', false);
+        window.location.hash = 'whatever?foo=bar&v2=false&this=that';
+        expectFeatureFlag('twoZeroModeEnabled', false);
+      }
+    );
+
     it('is false if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is unspecified', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
       setFeatureFlag('twoZeroAppDataEnabled', true);
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
+
+    it(
+      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
+        'is disabled and query param v2 is not present and user setting is unspecified',
+      () => {
+        setFeatureFlag('newApplicationMonitoringEnabled', true);
+        setFeatureFlag('withoutInstana1Features', false);
+        expectFeatureFlag('twoZeroModeEnabled', false);
+      }
+    );
 
     it('is false if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is false', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
@@ -62,12 +101,34 @@ describe('feature flags', () => {
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
+    it(
+      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
+        'is disabled and query param v2 is not present and user setting is false',
+      () => {
+        setFeatureFlag('newApplicationMonitoringEnabled', true);
+        setFeatureFlag('withoutInstana1Features', false);
+        window.instana.settings.v2Enabled = false;
+        expectFeatureFlag('twoZeroModeEnabled', false);
+      }
+    );
+
     it('is true if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is true', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
       setFeatureFlag('twoZeroAppDataEnabled', true);
       window.instana.settings.v2Enabled = true;
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
+
+    it(
+      '[compatibilty] is true if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
+        'is disabled and query param v2 is not present and user setting is true',
+      () => {
+        setFeatureFlag('newApplicationMonitoringEnabled', true);
+        setFeatureFlag('withoutInstana1Features', false);
+        window.instana.settings.v2Enabled = true;
+        expectFeatureFlag('twoZeroModeEnabled', true);
+      }
+    );
   });
 
   function setFeatureFlag(key, value) {
