@@ -5,21 +5,30 @@ import { expect } from 'chai';
 import { config } from 'in-services/config';
 
 describe('feature flags', () => {
+  let originalInstanaGlobal;
   let originalHash;
   let originalSettings;
   let originalFeatureFlags;
 
   beforeEach(() => {
     originalHash = window.location.hash;
+
+    // when running on Jenkins, window.instana seems to not exist, so let's initialize it.
+    originalInstanaGlobal = window.instana;
+    window.instana = window.instana || {};
+
     originalSettings = window.instana.settings;
     window.instana.settings = {};
+
     originalFeatureFlags = config.featureFlags;
     config.featureFlags = {};
   });
 
   afterEach(() => {
+    // we messed a lot with global variables in beforeEach, so let's clean up
     window.location.hash = originalHash;
     window.instana.settings = originalSettings;
+    window.instana = originalInstanaGlobal;
     config.featureFlags = originalFeatureFlags;
   });
 
