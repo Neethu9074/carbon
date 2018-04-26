@@ -27,7 +27,7 @@ export default connectTo(
         const applications = result.data;
         for (let i = 0; i < applications.length; i++) {
           const application = applications[i];
-          if (application.label === props.applicationId) {
+          if (application.id === props.applicationId) {
             data = application;
             break;
           }
