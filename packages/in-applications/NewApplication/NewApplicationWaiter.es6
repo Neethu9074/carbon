@@ -19,9 +19,7 @@ export default connectTo(
         if (result.progress.loading || result.errors.length > 0) {
           return just(result);
         } else {
-          // TODO temporary workaround necessary because application IDs
-          // are labels within the backend
-          return getApplicationDashboard(result.data.label);
+          return getApplicationDashboard(result.data.id);
         }
       })
   }),
@@ -54,14 +52,10 @@ export default connectTo(
   }
 );
 
-function getApp({ label }) {
-  // TODO temporary workaround necessary because application IDs
-  // are labels within the backend
-
+function getApp({ applicationId }) {
   return getApplication({
-    id: label,
+    id: applicationId,
     filter: {
-      application: label,
       timeframe: {
         to: Date.now(), // subscription cache busting
         windowSize: 60 * 1000 // looking at the last minute is sufficien to identify a new application
