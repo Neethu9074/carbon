@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import { deleteApplicationConfig, getApplicationConfigs, updateApplicationConfig } from 'in-api/applicationConfigs';
+import { getApplicationConfigs, updateApplicationConfig } from 'in-api/applicationConfigs';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import { applicationsList } from 'in-applications/navigation/paths';
+
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Form from 'in-applications/NewApplication/Form';
-import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -78,33 +77,6 @@ export default connectTo(
       });
     };
 
-    onDelete = appConfig => {
-      const result$ = deleteApplicationConfig(appConfig.id);
-      this.setState({
-        loading: true,
-        error: false,
-        success: false,
-        message: 'Deleting…'
-      });
-
-      result$.once(() => {
-        this.setState({
-          loading: false,
-          error: false,
-          success: true
-        });
-        goToPath(applicationsList);
-      });
-
-      result$.errors().once(() => {
-        this.setState({
-          loading: false,
-          error: true,
-          success: false
-        });
-      });
-    };
-
     render() {
       const { appResult } = this.props;
       const isLoading = appResult.progress.loading;
@@ -144,7 +116,6 @@ export default connectTo(
 
           <Form
             onSubmit={this.onSubmit}
-            onDelete={this.onDelete}
             application={appResult.data}
             loading={this.state.loading}
             loadingStateName={this.state.message}
