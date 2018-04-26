@@ -10,15 +10,18 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function RabbitMqDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  const netPartitions = snapshot.getIn(['data', 'net_partitions'], emptyMap);
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   return (
     <div>
+      {netPartitions.size > 0 && renderNetworkPartitionWarn(netPartitions)}
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Messages ready">
@@ -91,5 +94,40 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
 
       <QueuesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
+  );
+}
+
+function renderNetworkPartitionWarn(netPartitions) {
+  return (
+    <DashboardNotification type="danger">
+      <div>
+        <p>Network partition detected.</p>
+        <p>The nature of the partition is as follows:</p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Node</th>
+              <th>Was partitioned from</th>
+            </tr>
+            {netPartitions
+              .map((partFrom, node) => (
+                <tr>
+                  <td>{node}</td>
+                  <td>{partFrom.toArray().join(',')}</td>
+                </tr>
+              ))
+              .valueSeq()
+              .toArray()}
+          </tbody>
+        </table>
+        <br />
+        <p>
+          While running in this partitioned state, changes (such as queue or exchange declaration and binding) which
+          take place in one partition will not be visible to other partition(s). <br />
+          Other behaviour is not guaranteed. &nbsp;
+          <a href="http://www.rabbitmq.com/partitions.html">More information on network partitions.</a>
+        </p>
+      </div>
+    </DashboardNotification>
   );
 }
