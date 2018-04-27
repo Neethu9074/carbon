@@ -6,34 +6,17 @@ const FlowWebpackPlugin = require('flow-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
-const isDev = process.env.BUILD_DEV === 'true';
+const { localIdentName, getLocalIdent, webpackPlugin: cssIdentWebpackPlugin } = require('./build/webpack/cssIdentifiers');
+const { isDevModeBuild } = require('./build/webpack/opts');
 
 const definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(isDev ? 'true' : 'false')),
+  __DEV__: JSON.stringify(JSON.parse(isDevModeBuild ? 'true' : 'false')),
 
   // this is necessary for the React and Invariant modules
-  'process.env.NODE_ENV': isDev ? '"development"' : '"production"',
+  'process.env.NODE_ENV': isDevModeBuild ? '"development"' : '"production"',
 
   'process.env.IS_TEST': 'false'
 });
-
-// CSS naming
-let localIdentName = '[sha1:hash:base64]';
-let getLocalIdent;
-const componentPathPrefix = path.join(__dirname, 'packages');
-
-// create names in development mode that are easy to read.
-if (isDev) {
-  localIdentName = '[path]__[local]';
-  getLocalIdent = function(context, localIdentName, localName) {
-    const file = (context.resourcePath || context.context)
-      .substring(componentPathPrefix.length)
-      .replace(/\/|\\|\./g, '_')
-      .replace(/^_/, '')
-      .replace(/_$/, '');
-    return `${file}___${localName}`;
-  };
-}
 
 module.exports = {
   entry: './packages/in-client/js/index.es6',
@@ -192,6 +175,7 @@ module.exports = {
     new FlowWebpackPlugin({
       failOnError: true
     }),
+    cssIdentWebpackPlugin
   ],
   resolve: {
     extensions: ['.js', '.es6']
