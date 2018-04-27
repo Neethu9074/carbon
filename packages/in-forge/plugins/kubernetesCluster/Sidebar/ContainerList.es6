@@ -9,15 +9,19 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ContainerList({ snapshot }) {
   const containers = snapshot.getIn(['data', 'spec', 'containers'], emptyList);
 
+  if (containers.size === 0) {
+    return null;
+  }
+
   return (
     <div>
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Containers</Collapsible.Header>
+        <Collapsible.Header>Containers ({containers.size})</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            {containers.map(c => (
+            {containers.toArray().map(c => (
               <DescriptionItem key={c.get('image')}>
                 {c.get('name')} ({c.get('image')})
               </DescriptionItem>
