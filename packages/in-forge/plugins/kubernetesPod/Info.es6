@@ -1,11 +1,11 @@
 import React from 'react';
 
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
 import createHostForPodSubscription from 'in-subscription/hostForPod';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -53,7 +53,9 @@ export default connectTo(
           <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
           <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
           <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
-          <KeyValuePopup header="Labels" data={data.get('labels')} />
+          <KeyValuePopupButton title="Labels" data={data.get('labels')}>
+            Labels
+          </KeyValuePopupButton>
         </DescriptionList>
       </div>
     );

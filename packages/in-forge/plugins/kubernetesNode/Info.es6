@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
 import createHostForNodeSubscription from 'in-subscription/hostForNode';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -47,7 +47,9 @@ export default connectTo(
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
         <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
         <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
-        <KeyValuePopup header="Labels" data={data.get('labels')} />
+        <KeyValuePopupButton title="Labels" data={data.get('labels')}>
+          Labels
+        </KeyValuePopupButton>
       </DescriptionList>
     );
   }
