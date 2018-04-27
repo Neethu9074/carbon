@@ -4,6 +4,7 @@ import { assign } from 'lodash';
 import { getApplicationConfigs, updateApplicationConfig } from 'in-api/applicationConfigs';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Form from 'in-applications/NewApplication/Form';
 import SvgIcon from 'in-components/SvgIcon';
@@ -26,7 +27,7 @@ export default connectTo(
         const applications = result.data;
         for (let i = 0; i < applications.length; i++) {
           const application = applications[i];
-          if (application.label === props.applicationId) {
+          if (application.id === props.applicationId) {
             data = application;
             break;
           }
@@ -117,7 +118,7 @@ export default connectTo(
             onSubmit={this.onSubmit}
             application={appResult.data}
             loading={this.state.loading}
-            loadingStateName="Saving…"
+            loadingStateName={this.state.message}
             error={this.state.error}
           />
         </Fragment>

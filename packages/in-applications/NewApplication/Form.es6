@@ -5,8 +5,10 @@ import React from 'react';
 
 import { regularExpressionValidator } from 'in-services/validators/regexp';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import RemoveSection from 'in-applications/NewApplication/Remove';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
@@ -42,8 +44,8 @@ function getInitialState({ application }) {
 }
 
 function NewApplicationForm({
-  form,
   application,
+  form,
   updateForm,
   onSubmit,
   loading,
@@ -56,111 +58,119 @@ function NewApplicationForm({
 
   return (
     <form onSubmit={e => onSubmitInternal(e, form, updateForm, onSubmit)} className={locals.form} disabled={disabled}>
-      {application == null && (
-        <Card title="General" className={locals.generalCard}>
-          {form.get('label').map(field => (
-            <FormGroup className={locals.formGroup}>
-              <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                Application Name
-              </Label>
-              <Input
-                type="text"
-                id="label"
-                value={field.value}
-                onChange={e => setValue(['label'], e.target.value, form, updateForm)}
-                autoComplete="off"
-                hasError={!field.valid && field.touched}
-                autoFocus
-                disabled={disabled}
-              />
-              <TouchedMessages field={field} />
-              <HelpText>
-                Good application names are names that are already well established within an organization. They
-                facilitate concise communication and have a defined meaning. What you configure here, will be used
-                throughout Instana to refer to this application.
-              </HelpText>
-            </FormGroup>
-          ))}
-        </Card>
-      )}
-
-      <Card
-        title="Matching"
-        /*header={
-          <Button
-            disabled={disabled}
-            kind="secondary"
-            size="compact"
-            onClick={() => addMatchSpecification(form, updateForm)}
-          >
-            Add condition
-          </Button>
-        }*/
-        className={locals.matchingCard}
-      >
-        <HelpText className={locals.matchHelp}>
-          Select the services that make up your application by specifying what tags they have in common. We call these
-          match conditions. When all conditions match, the service and endpoint are considered to be part of this
-          application.
-        </HelpText>
-
-        {matchSpecificationForm.touched && <TouchedMessages field={matchSpecificationForm} />}
-
-        {matchSpecificationForm.map((matchSpecification, i) => (
-          <div className={locals.matchSpecification} key={i}>
-            {matchSpecification.get('key').map(field => (
+      <Row>
+        <Col lg={12}>
+          <Card title="General">
+            {form.get('label').map(field => (
               <FormGroup className={locals.formGroup}>
-                <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                  Key
-                </Label>
-                <Select
-                  id={`match-${i}-key`}
-                  value={field.value}
-                  onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                  disabled={disabled}
-                >
-                  {getFakedEdmundsValues()}
-                </Select>
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-
-            {matchSpecification.get('value').map(field => (
-              <FormGroup className={locals.formGroup}>
-                <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
-                  Value
+                <Label htmlFor="label" hasError={!field.valid && field.touched}>
+                  Application Name
                 </Label>
                 <Input
                   type="text"
-                  id={`match-${i}-value`}
+                  id="label"
                   value={field.value}
-                  onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form, updateForm)}
+                  onChange={e => setValue(['label'], e.target.value, form, updateForm)}
                   autoComplete="off"
                   hasError={!field.valid && field.touched}
-                  placeholder=".*"
+                  autoFocus
                   disabled={disabled}
                 />
                 <TouchedMessages field={field} />
+
+                {application && (
+                  <HelpText>
+                    Renaming an application is an eventually consistent action within the Instana system. For this
+                    reason, a change to an application name may take <em>up to a few minutes</em> until it has populated
+                    throughout the whole system.
+                  </HelpText>
+                )}
+
+                <HelpText>
+                  Good application names are names that are already well established within an organization. They
+                  facilitate concise communication and have a defined meaning. What you configure here, will be used
+                  throughout Instana to refer to this application.
+                </HelpText>
               </FormGroup>
             ))}
+          </Card>
+        </Col>
+      </Row>
 
-            {matchSpecificationForm.size > 1 && (
-              <Tooltip content="Remove this match condition">
-                <SvgIcon
-                  type="x"
-                  width={20}
-                  onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
-                  className={locals.removeMatchRule}
-                  tabIndex={0}
-                  aria-label="Remove this match condition"
-                />
-              </Tooltip>
-            )}
-          </div>
-        ))}
-      </Card>
+      <Row>
+        <Col lg={12}>
+          <Card title="Matching">
+            <HelpText className={locals.matchHelp}>
+              Select the services that make up your application by specifying what tags they have in common. We call
+              these match conditions. When all conditions match, the service and endpoint are considered to be part of
+              this application.
+            </HelpText>
+
+            {matchSpecificationForm.touched && <TouchedMessages field={matchSpecificationForm} />}
+
+            {matchSpecificationForm.map((matchSpecification, i) => (
+              <div className={locals.matchSpecification} key={i}>
+                {matchSpecification.get('key').map(field => (
+                  <FormGroup className={locals.formGroup}>
+                    <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                      Key
+                    </Label>
+                    <Select
+                      id={`match-${i}-key`}
+                      value={field.value}
+                      onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
+                      autoComplete="off"
+                      hasError={!field.valid && field.touched}
+                      disabled={disabled}
+                    >
+                      {getTagValues()}
+                    </Select>
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+
+                {matchSpecification.get('value').map(field => (
+                  <FormGroup className={locals.formGroup}>
+                    <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
+                      Value
+                    </Label>
+                    <Input
+                      type="text"
+                      id={`match-${i}-value`}
+                      value={field.value}
+                      onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form, updateForm)}
+                      autoComplete="off"
+                      hasError={!field.valid && field.touched}
+                      placeholder=".*"
+                      disabled={disabled}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+
+                {matchSpecificationForm.size > 1 && (
+                  <Tooltip content="Remove this match condition">
+                    <SvgIcon
+                      type="x"
+                      width={20}
+                      onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
+                      className={locals.removeMatchRule}
+                      tabIndex={0}
+                      aria-label="Remove this match condition"
+                    />
+                  </Tooltip>
+                )}
+              </div>
+            ))}
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <RemoveSection application={application} />
+        </Col>
+      </Row>
 
       <div className={locals.actions}>
         {error && (
@@ -173,6 +183,7 @@ function NewApplicationForm({
             Cancel
           </Button>
         )}
+
         <Button
           icon={loading ? 'spinner' : null}
           iconSpinning
@@ -187,19 +198,19 @@ function NewApplicationForm({
   );
 }
 
-function getFakedEdmundsValues() {
+function getTagValues() {
   return [
     { value: '', label: 'Please select' },
-    { value: 'host.zone', label: 'host.zone' },
-    { value: 'docker.label.com.amazonaws.ecs.cluster', label: 'docker.label.com.amazonaws.ecs.cluster' },
-    { value: 'docker.label.ARTIFACT_ID ', label: 'docker.label.ARTIFACT_ID ' },
-    { value: 'docker.label.ARTIFACT_VERSION', label: 'docker.label.ARTIFACT_VERSION' },
-    { value: 'nodejs.app.name', label: 'nodejs.app.name' },
-    { value: 'springboot.name', label: 'springboot.name' },
-    { value: 'marathon.appId', label: 'marathon.appId' }
+    { label: 'host.zone' },
+    { label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { label: 'docker.label.ARTIFACT_ID ' },
+    { label: 'docker.label.ARTIFACT_VERSION' },
+    { label: 'nodejs.app.name' },
+    { label: 'springboot.name' },
+    { label: 'marathon.appId' }
   ].map(tag => {
     return (
-      <option value={tag.value} key={tag.label}>
+      <option value={tag.value || tag.label} key={tag.label}>
         {tag.label}
       </option>
     );

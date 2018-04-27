@@ -4,10 +4,10 @@ import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Button from 'in-components/Button';
 
-export default function SavingToggle({ itemName, onDelete }) {
+export default function DeleteButton({ itemName, onDelete, size = 'sm' }) {
   return (
     <Button
-      size="sm"
+      size={size}
       kind="danger"
       onClick={() =>
         setActiveDialog(
