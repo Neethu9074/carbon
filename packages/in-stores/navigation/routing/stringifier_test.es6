@@ -14,6 +14,7 @@ describe('in-stores/navigation/routing/stringifier', () => {
     check('/foo/bar?', '/foo/bar');
     check('/foo;k=v/bar;a=b');
     check('/foo;k=v/bar;a=b/rat?k=b');
+    check('/foo;valueWithSpaces=a%2520b/bar');
   });
 
   function check(href, expected) {

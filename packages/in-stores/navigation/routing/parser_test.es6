@@ -62,6 +62,19 @@ describe('in-stores/navigation/routing/parser', () => {
       });
     });
 
+    it('must not decode matrix parameters recursively', () => {
+      expect(parseUrl('/abc;foo=a%2520b/bar')).to.deep.equal({
+        pathname: '/abc/bar',
+        query: {},
+        matrix: {
+          '/abc': {
+            foo: 'a%20b'
+          },
+          '/bar': {}
+        }
+      });
+    });
+
     it('must remove trailing ?', () => {
       expect(parseUrl('/foo?')).to.deep.equal({
         pathname: '/foo',
