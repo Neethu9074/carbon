@@ -23,7 +23,14 @@ export function wrap(history) {
 }
 
 function wrapListener(listener) {
-  return location => listener(parseUrl(location.pathname + (location.search || '')));
+  // The parameter isURIDecoded=true of parseUrl is a workaround of issue
+  // https://github.com/ReactTraining/history/issues/505 in history
+  // a decodeURI() method has been applied to the location.pathname here but not location.search
+  // so we should not apply decodeURIComponent() again to its matrix parameters
+  // but we still have to decode the reserved characters for URI
+  // to fill the gap between decodeURI() and decodeURIComponent()
+  // TODO if the below issue is solved, need to update history and remove the workaround here and in parser.es6
+  return location => listener(parseUrl(location.pathname + (location.search || ''), true));
 }
 
 function translate(location, currentLocation) {

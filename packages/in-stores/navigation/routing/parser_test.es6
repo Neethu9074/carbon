@@ -53,25 +53,12 @@ describe('in-stores/navigation/routing/parser', () => {
     });
 
     it('must decode query parameters', () => {
-      expect(parseUrl('/foo?b=c%2Fd')).to.deep.equal({
+      expect(parseUrl('/foo?b=c%20%2Fd%2520e')).to.deep.equal({
         pathname: '/foo',
         query: {
-          b: 'c/d'
+          b: 'c /d%20e'
         },
         matrix: { '/foo': {} }
-      });
-    });
-
-    it('must not decode matrix parameters recursively', () => {
-      expect(parseUrl('/abc;foo=a%2520b/bar')).to.deep.equal({
-        pathname: '/abc/bar',
-        query: {},
-        matrix: {
-          '/abc': {
-            foo: 'a%20b'
-          },
-          '/bar': {}
-        }
       });
     });
 
@@ -123,6 +110,46 @@ describe('in-stores/navigation/routing/parser', () => {
             k: 'v'
           },
           '/third': {}
+        }
+      });
+    });
+
+    it('must decode matrix parameters', () => {
+      expect(parseUrl('/foo;b=c%20%2Fd%2520e')).to.deep.equal({
+        pathname: '/foo',
+        query: {},
+        matrix: {
+          '/foo': {
+            b: 'c /d%20e'
+          }
+        }
+      });
+    });
+
+    it('must not decode matrix parameters recursively', () => {
+      expect(parseUrl('/abc;foo=a%252520b/bar')).to.deep.equal({
+        pathname: '/abc/bar',
+        query: {},
+        matrix: {
+          '/abc': {
+            foo: 'a%2520b'
+          },
+          '/bar': {}
+        }
+      });
+    });
+
+    // this test is for testing a workaround of a history issue in matrixAwareHistory
+    it('must decode URI decoded matrix parameters and query parameters', () => {
+      expect(parseUrl('/foo;b=c %2Fd%20e?b=c %2Fd%20e', true)).to.deep.equal({
+        pathname: '/foo',
+        query: {
+          b: 'c /d e'
+        },
+        matrix: {
+          '/foo': {
+            b: 'c /d%20e'
+          }
         }
       });
     });
