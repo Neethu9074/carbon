@@ -18,7 +18,8 @@ import connectTo from 'in-hoc/connectTo';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
+const noActivity = 'No activity';
+const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 const podCols = [
   {
@@ -35,7 +36,41 @@ const podCols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.namespace;
+        return row.data.get('namespace');
+      }
+    }
+  },
+  {
+    title: 'Status',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('phase');
+      }
+    }
+  },
+  {
+    title: 'Restarts',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'restartCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Host IP',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.data.get('hostIp');
       }
     }
   }
@@ -50,7 +85,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="Pods">
           <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} initialValue="0" />
         </KpiKeyValue>
-        <KpiKeyValue label="Available">
+        <KpiKeyValue label="Available Replicas">
           <MetricValue
             snapshotId={snapshotId}
             metric="availableReplicas"
@@ -58,7 +93,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Desired">
+        <KpiKeyValue label="Desired Replicas">
           <MetricValue
             snapshotId={snapshotId}
             metric="desiredReplicas"
@@ -66,7 +101,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Pending">
+        <KpiKeyValue label="Pending Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="phase.Pending.count"
@@ -74,7 +109,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Unscheduled">
+        <KpiKeyValue label="Unscheduled Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="conditions.PodScheduled.False"
@@ -82,7 +117,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Unready">
+        <KpiKeyValue label="Unready Pods">
           <MetricValue
             snapshotId={snapshotId}
             metric="conditions.Ready.False"
@@ -90,32 +125,37 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
             initialValue="0"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Last Rollout">
-          <MetricValue snapshotId={snapshotId} metric="duration" formatter={msFormatter} initialValue="0" />
+        <KpiKeyValue label="Last pending phase duration">
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="lastDuration"
+            formatter={msFormatter}
+            initialValue={noActivity}
+          />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Required vs Limit CPU Shares">
+        <DashboardSection title="CPU Resources">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: twoDecimalPlaces,
               metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-              labels: ['Required', 'Limit'],
+              labels: ['CPU Requests', 'CPU Limits'],
               type: 'line'
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Required vs Limit Memory">
+        <DashboardSection title="Memory Resources">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['pods.required_mem', 'pods.limit_mem'],
-              labels: ['Required', 'Limit'],
+              labels: ['Memory Requests', 'Memory Limits'],
               type: 'line'
             }}
           />
@@ -137,7 +177,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Available vs Desired">
+        <DashboardSection title="Replicas">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -153,7 +193,7 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Pending vs Unscheduled vs Unready">
+        <DashboardSection title="Pods Pending vs Unscheduled vs Unready">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
@@ -167,14 +207,14 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Rollout duration">
+        <DashboardSection title="Pending phase duration">
           <Chart
             snapshotId={snapshotId}
             timeframe={timeframe}
             y1={{
               formatter: msFormatter,
               metrics: ['duration'],
-              labels: ['Duration'],
+              labels: ['Pending phase duration'],
               type: 'line'
             }}
           />
@@ -188,16 +228,16 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeframe }) {
 
 const PodsTable = connectTo(
   props => ({
-    containerSnapshots: focusedMoment$
+    pods: focusedMoment$
       .flatMap(time => createPodsForDeploymentSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
-  function PodsTable({ containerSnapshots }) {
+  function PodsTable({ pods }) {
     let rows = [];
-    if (containerSnapshots) {
-      rows = containerSnapshots.map(containerSnapshot => ({
-        key: containerSnapshot.get('id'),
-        namespace: containerSnapshot.getIn(['data', 'namespace'])
+    if (pods) {
+      rows = pods.map(pod => ({
+        key: pod.get('id'),
+        data: pod.get('data')
       }));
     }
 

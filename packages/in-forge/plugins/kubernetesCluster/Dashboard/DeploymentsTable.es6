@@ -62,14 +62,14 @@ const cols = [
     }
   },
   {
-    title: 'Last Rollout Duration',
+    title: 'Last Pending Phase Duration',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return `duration`;
+        return `lastDuration`;
       },
       getContent: msFormatter,
       getTimeWindowAggregation() {

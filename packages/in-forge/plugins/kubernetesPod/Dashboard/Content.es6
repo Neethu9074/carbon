@@ -3,10 +3,11 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
 import { focusedMoment$ } from 'in-stores/timeline';
+import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -55,8 +56,22 @@ export default function KubernetesPodDashboard({ snapshot }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Namespace">{snapshot.getIn(['data', 'namespace'], null)}</KpiKeyValue>
-        <KpiKeyValue label="Host IP">{snapshot.getIn(['data', 'hostIp'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Phase">{snapshot.getIn(['data', 'phase'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Restarts">
+          <MetricValue snapshotId={snapshotId} metric="restartCount" formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Requests">
+          <MetricValue snapshotId={snapshotId} metric="cpuRequests" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="CPU Limits">
+          <MetricValue snapshotId={snapshotId} metric="cpuLimits" formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Requests">
+          <MetricValue snapshotId={snapshotId} metric="memoryRequests" formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Memory Limits">
+          <MetricValue snapshotId={snapshotId} metric="memoryLimits" formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title="Containers">
