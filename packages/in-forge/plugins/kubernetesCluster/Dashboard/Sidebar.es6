@@ -57,6 +57,8 @@ export default function KubernetesClusterSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
       <Collapsible initiallyOpen>
         <Collapsible.Header>Component Statuses</Collapsible.Header>
         <Collapsible.Content>

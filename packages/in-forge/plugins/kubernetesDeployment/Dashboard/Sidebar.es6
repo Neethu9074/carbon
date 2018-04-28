@@ -23,6 +23,7 @@ export default function KubernetesDeploymentSidebar({ snapshot }) {
       <ConditionsList snapshot={snapshot} />
 
       <Separator />
+
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>kubectl</Collapsible.Header>
         <Collapsible.Content>

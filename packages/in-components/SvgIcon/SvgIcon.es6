@@ -23,16 +23,6 @@ export default function SvgIcon({
   role,
   'aria-label': ariaLabel
 }) {
-  if (__DEV__) {
-    if (onClick) {
-      if (ariaLabel == null) {
-        console.warn('Clickable SvgIcons should get a aria-label property which describe their usage.');
-      }
-      if (tabIndex == null) {
-        console.warn('Clickable SvgIcons should get a tabIndex property which describe their usage.');
-      }
-    }
-  }
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
   tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;

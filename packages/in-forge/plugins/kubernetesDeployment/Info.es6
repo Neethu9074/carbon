@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -28,7 +28,9 @@ export default connectTo(
           ) : null}
           <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <KeyValuePopup header="Labels" data={data.get('labels')} />
+          <KeyValuePopupButton title="Labels" data={data.get('labels')}>
+            Labels
+          </KeyValuePopupButton>
         </DescriptionList>
       </div>
     );
