@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
@@ -6,6 +6,7 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { settings$, set } from 'in-services/settings/settings';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
@@ -59,14 +60,16 @@ export default class extends React.Component {
         <Section>
           <SectionHeading>General</SectionHeading>
 
-          <Group>
-            <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
-            <Toggle
-              id="toggle-timeline-expand"
-              checked={settings['autoCollapseTimeline']}
-              onChange={e => this.saveSetting('autoCollapseTimeline', e.target.checked)}
-            />
-          </Group>
+          {!twoZeroModeEnabled && (
+            <Group>
+              <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
+              <Toggle
+                id="toggle-timeline-expand"
+                checked={settings['autoCollapseTimeline']}
+                onChange={e => this.saveSetting('autoCollapseTimeline', e.target.checked)}
+              />
+            </Group>
+          )}
 
           <Group helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide maintenance notes.">
             <Heading text="Show maintenance notes" htmlFor="maintenance-notes" />
@@ -156,14 +159,16 @@ export default class extends React.Component {
             />
           </Group>
 
-          <Group helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
-            <Heading text="Show external services" htmlFor="external-services" />
-            <Toggle
-              id="external-services"
-              checked={!settings['map_excludeExternalServices']}
-              onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
-            />
-          </Group>
+          {!twoZeroModeEnabled && (
+            <Group helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
+              <Heading text="Show external services" htmlFor="external-services" />
+              <Toggle
+                id="external-services"
+                checked={!settings['map_excludeExternalServices']}
+                onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
+              />
+            </Group>
+          )}
 
           <Group>
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />
@@ -265,23 +270,27 @@ export default class extends React.Component {
             />
           </Group>
 
-          <SectionHeading>Application</SectionHeading>
-          <Group>
-            <Heading
-              text={`Number of shown hops when filtering services (${settings['map_logical_numServiceHops']})`}
-              htmlFor="num_service_hops"
-            />
-            <input
-              type="range"
-              id="num_service_hops"
-              min={0}
-              max={1}
-              step={1}
-              className={`${block}__slider`}
-              value={settings['map_logical_numServiceHops']}
-              onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
-            />
-          </Group>
+          {!twoZeroModeEnabled && (
+            <Fragment>
+              <SectionHeading>Application</SectionHeading>
+              <Group>
+                <Heading
+                  text={`Number of shown hops when filtering services (${settings['map_logical_numServiceHops']})`}
+                  htmlFor="num_service_hops"
+                />
+                <input
+                  type="range"
+                  id="num_service_hops"
+                  min={0}
+                  max={1}
+                  step={1}
+                  className={`${block}__slider`}
+                  value={settings['map_logical_numServiceHops']}
+                  onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
+                />
+              </Group>
+            </Fragment>
+          )}
         </Section>
       </SubViewWrapper>
     );

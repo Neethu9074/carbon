@@ -11,7 +11,6 @@ export const ejbServiceExtractionPath = `${settingsPath}/ejbServiceExtraction`;
 export const elasticsearchServiceExtractionPath = `${settingsPath}/elasticsearchServiceExtraction`;
 export const messageBrokerServiceExtractionPath = `${settingsPath}/messageBrokerServiceExtraction`;
 export const userInterfacePath = `${settingsPath}/userInterface`;
-export const eumKeysPath = `${settingsPath}/eumKeys`;
 export const rolesConfigsPath = `${settingsPath}/rolesConfigs`;
 export const newRolesConfigPath = `${settingsPath}/rolesConfig/:roleId`;
 export const rolesConfigPath = `${settingsPath}/rolesConfig`;

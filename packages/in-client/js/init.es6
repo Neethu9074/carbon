@@ -74,7 +74,7 @@ initTimeOffsetStore();
 isTwoZeroBetaPhase && initTwoZeroBetaPhaseQueryParam();
 initMessageStore();
 initShortcuts();
-!twoZeroModeEnabled && initNotMonitoringPresenter();
+initNotMonitoringPresenter();
 initHighlightedSuggestionStore();
 initUsageInfo();
 initMaintenanceNoteStore();

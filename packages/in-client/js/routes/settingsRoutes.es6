@@ -8,7 +8,6 @@ import {
   elasticsearchServiceExtractionPath,
   messageBrokerServiceExtractionPath,
   userInterfacePath,
-  eumKeysPath,
   rolesConfigsPath,
   newRolesConfigPath,
   rolesConfigPath,
@@ -61,7 +60,6 @@ import Integration from 'promise-loader?global,configView!in-views/configuration
 
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
-import EumKeys from 'promise-loader?global,configView!in-views/configurationView/subview/EumKeys';
 
 import { Switch } from 'react-router-dom';
 import React from 'react';
@@ -95,7 +93,6 @@ export default (
     />
 
     <Route component={createAsyncViewComponent(UiConfig)} path={userInterfacePath} />
-    <Route component={createAsyncViewComponent(EumKeys)} path={eumKeysPath} />
 
     <Route component={createAsyncViewComponent(RoleConfig)} path={newRolesConfigPath} />
     <Route component={createAsyncViewComponent(RolesConfig)} path={rolesConfigsPath} />

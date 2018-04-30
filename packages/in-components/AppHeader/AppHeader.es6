@@ -36,7 +36,7 @@ export default function AppHeader() {
       {/* Beta phase/hybrid mode: Let users switch between 1.0 and 2.0 */}
       {isTwoZeroBetaPhase && <VersionSwitcher />}
 
-      {!twoZeroModeEnabled && <ViewSwitcher />}
+      {<ViewSwitcher />}
 
       <div className={`${block}__right`}>
         {twoZeroModeEnabled && <AppHeaderTimeSelection />}

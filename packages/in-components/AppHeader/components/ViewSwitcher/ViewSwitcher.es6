@@ -51,18 +51,30 @@ export default function ViewSwitcher() {
           />
         </View>
 
-        <View
-          label="application"
-          icon="application"
-          isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
-        >
-          {twoZeroModeEnabled ? (
-            <SubMenuItem label="Application" href$={getView(applicationsList)} isActive$={isView(applicationsList)} />
-          ) : null}
-          <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
-          <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
-          <SubMenuItem label="Comparison Table" href$={getView(logicalTablePath)} isActive$={isTableView('logical')} />
-        </View>
+        {!twoZeroModeEnabled && (
+          <View
+            label="application"
+            icon="application"
+            isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
+          >
+            <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
+            <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
+            <SubMenuItem
+              label="Comparison Table"
+              href$={getView(logicalTablePath)}
+              isActive$={isTableView('logical')}
+            />
+          </View>
+        )}
+
+        {twoZeroModeEnabled && (
+          <View
+            label="Application"
+            icon="application"
+            isActive$={isView(applicationsList)}
+            href$={getView(applicationsList)}
+          />
+        )}
 
         <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
 
