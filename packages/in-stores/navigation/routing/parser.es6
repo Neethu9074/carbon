@@ -11,8 +11,10 @@ export function parseUrl(href, isURIDecoded = false) {
   return location;
 }
 
+// Decode the URI reserved characters that are not decoded by decodeURI() but by decodeURIComponent()
+// https://www.ecma-international.org/ecma-262/8.0/index.html#sec-decodeuri-encodeduri
 function decodeURIReservedChars(uri) {
-  uri = uri
+  return uri
     .replace(/%26/gi, '&')
     .replace(/%3F/gi, '?')
     .replace(/%23/gi, '#')
@@ -24,7 +26,6 @@ function decodeURIReservedChars(uri) {
     .replace(/%40/gi, '@')
     .replace(/%3D/gi, '=')
     .replace(/%24/gi, '$');
-  return uri;
 }
 
 function parseQueryParameters(href) {
@@ -37,29 +38,27 @@ function parseQueryParameters(href) {
   }
 
   const pathname = match[1];
-  const query = match[2].split('&').reduce(paramReducer(decodeURIComponent), {});
+  const query = match[2].split('&').reduce(paramReducer.bind(null, decodeURIComponent), {});
   return { pathname, query };
 }
 
-function paramReducer(decode) {
-  return (agg, parameter) => {
-    let [key, value] = parameter.split('=');
-    if (!key) {
-      return agg;
-    }
-    if (value == null) {
-      value = '';
-    }
-    agg[decode(key)] = decode(value);
+function paramReducer(decode, agg, parameter) {
+  let [key, value] = parameter.split('=');
+  if (!key) {
     return agg;
-  };
+  }
+  if (value == null) {
+    value = '';
+  }
+  agg[decode(key)] = decode(value);
+  return agg;
 }
 
 function parseMatrix(location, decode) {
   location.matrix = location.pathname
     .split('/')
     .slice(1)
-    .reduce(segmentReducer(decode), {});
+    .reduce(segmentReducer.bind(null, decode), {});
 
   let pathname = '';
   for (let key in location.matrix) {
@@ -70,16 +69,14 @@ function parseMatrix(location, decode) {
   return location;
 }
 
-function segmentReducer(decode) {
-  return (agg, pathname) => {
-    pathname = '/' + pathname;
-    const split = pathname.split(';');
-    const pathnameSegment = split[0];
-    if (split.length <= 0) {
-      agg[pathnameSegment] = emptyObject;
-      return agg;
-    }
-    agg[pathnameSegment] = split.slice(1).reduce(paramReducer(decode), {});
+function segmentReducer(decode, agg, pathname) {
+  pathname = '/' + pathname;
+  const split = pathname.split(';');
+  const pathnameSegment = split[0];
+  if (split.length <= 0) {
+    agg[pathnameSegment] = emptyObject;
     return agg;
-  };
+  }
+  agg[pathnameSegment] = split.slice(1).reduce(paramReducer.bind(null, decode), {});
+  return agg;
 }
