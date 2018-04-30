@@ -3,12 +3,28 @@ import { emptyObject } from 'in-services/fixedObjects';
 export function parseUrl(href, isURIDecoded = false) {
   href = href || '/';
 
-  const decode = isURIDecoded ? decodeURISpecificChars : decodeURIComponent;
+  const decode = isURIDecoded ? decodeURIReservedChars : decodeURIComponent;
 
   let location = parseQueryParameters(href);
   location = parseMatrix(location, decode);
 
   return location;
+}
+
+function decodeURIReservedChars(uri) {
+  uri = uri
+    .replace(/%26/gi, '&')
+    .replace(/%3F/gi, '?')
+    .replace(/%23/gi, '#')
+    .replace(/%2B/gi, '+')
+    .replace(/%3B/gi, ';')
+    .replace(/%2C/gi, ',')
+    .replace(/%2F/gi, '/')
+    .replace(/%3A/gi, ':')
+    .replace(/%40/gi, '@')
+    .replace(/%3D/gi, '=')
+    .replace(/%24/gi, '$');
+  return uri;
 }
 
 function parseQueryParameters(href) {
@@ -23,22 +39,6 @@ function parseQueryParameters(href) {
   const pathname = match[1];
   const query = match[2].split('&').reduce(paramReducer(decodeURIComponent), {});
   return { pathname, query };
-}
-
-function decodeURISpecificChars(uri) {
-  uri = uri
-    .replace(/%26/gi, '&')
-    .replace(/%3F/gi, '?')
-    .replace(/%23/gi, '#')
-    .replace(/%2B/gi, '+')
-    .replace(/%3B/gi, ';')
-    .replace(/%2C/gi, ',')
-    .replace(/%2F/gi, '/')
-    .replace(/%3A/gi, ':')
-    .replace(/%40/gi, '@')
-    .replace(/%3D/gi, '=')
-    .replace(/%24/gi, '$');
-  return uri;
 }
 
 function paramReducer(decode) {
