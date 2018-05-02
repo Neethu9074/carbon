@@ -10,7 +10,6 @@ import {
   messageBrokerServiceExtractionPath,
   userInterfacePath,
   alertingConfigurationsPath,
-  eumKeysPath,
   dynamicRulesPath,
   rolesConfigPath,
   usersPath,
@@ -39,12 +38,10 @@ const block = 'in-config-view-nav';
 export default function Navigation() {
   return (
     <nav className={block}>
-      {!twoZeroModeEnabled && <h2 className={`${block}__heading`}>User Settings</h2>}
-      {!twoZeroModeEnabled && (
-        <NavItems>
-          <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
-        </NavItems>
-      )}
+      <h2 className={`${block}__heading`}>User Settings</h2>
+      <NavItems>
+        <NavItem title="User Interface" href$={getView(userInterfacePath)} isActive$={isView(userInterfacePath)} />
+      </NavItems>
 
       <h2 className={`${block}__heading`}>Team Settings</h2>
       <NavItems>
@@ -96,10 +93,6 @@ export default function Navigation() {
               borderless
             />
           </NavItem>
-        ) : null}
-
-        {role.canConfigureEumApplications && !twoZeroModeEnabled ? (
-          <NavItem title="Website Monitoring" href$={getView(eumKeysPath)} isActive$={isView(eumKeysPath)} />
         ) : null}
 
         {role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens ? (

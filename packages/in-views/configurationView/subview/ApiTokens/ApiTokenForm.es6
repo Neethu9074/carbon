@@ -45,13 +45,15 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
       <Section>
         <SectionHeading>Permissions</SectionHeading>
 
-        <Permission
-          form={form}
-          disabled={disabled}
-          onChange={onChange}
-          name="canConfigureServiceMapping"
-          label="Service Mapper"
-        />
+        {!twoZeroModeEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureServiceMapping"
+            label="Service Mapper"
+          />
+        )}
 
         <Permission
           form={form}

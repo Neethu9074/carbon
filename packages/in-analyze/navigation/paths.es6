@@ -7,6 +7,7 @@ import {
 } from 'in-analyze/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const analyze = '/analyze';
@@ -14,6 +15,8 @@ export const analyzeGroups = `${analyze}/groups`;
 export const analyzeRaw = `${analyze}/raw`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
+
+export const isAnalyzeView = getRootPathPredicate(analyze);
 
 export function getLinkToAnalyze({ applicationId, serviceId, endpointId, traceGroupName, raw } = emptyObject) {
   return getModifiedUrlStream(params => {

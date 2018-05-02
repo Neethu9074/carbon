@@ -1,5 +1,6 @@
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -125,6 +126,27 @@ export function getView(path) {
   });
 }
 
-export function isView(path) {
-  return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
+export function isView(...args) {
+  const predicates = args.reduce((agg, arg) => {
+    if (typeof arg === 'function') {
+      agg.push(arg);
+    } else if (typeof arg === 'string') {
+      agg.push(getRootPathPredicate(arg));
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('Unsupport isView predicate of type %s: %s', typeof arg, arg);
+    }
+    return agg;
+  }, []);
+
+  return navigationParameters$
+    .map(location => {
+      for (let i = 0; i < predicates.length; i++) {
+        if (predicates[i](location.pathname)) {
+          return true;
+        }
+      }
+      return false;
+    })
+    .distinct();
 }
