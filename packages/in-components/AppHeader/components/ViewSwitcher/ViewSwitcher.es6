@@ -1,4 +1,5 @@
 import { combineLatest } from 'reactive-observables';
+import { pure } from 'recompose';
 import React from 'react';
 
 import {
@@ -15,9 +16,10 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { applicationsList } from 'in-applications/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
+import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
@@ -26,7 +28,7 @@ import './ViewSwitcher.less';
 
 const block = 'in-view-switcher';
 
-export default function ViewSwitcher() {
+export default pure(function ViewSwitcher() {
   return (
     <div className={block}>
       <ul className={block + '__list'}>
@@ -34,22 +36,24 @@ export default function ViewSwitcher() {
           <View label="cockpit" icon="dashboard" isActive$={isView(containerPath)} href$={getView(cockpitPath)} />
         ) : null}
 
-        <View
-          label="infrastructure"
-          icon="infrastructure"
-          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-        >
-          <SubMenuItem
-            label="Map"
-            href$={getView(physicalPath)}
-            isActive$={combine(isView(physicalPath), isView(containerPath))}
-          />
-          <SubMenuItem
-            label="Comparison Table"
-            href$={getView(physicalTablePath)}
-            isActive$={isTableView('physical')}
-          />
-        </View>
+        {!twoZeroModeEnabled && (
+          <View
+            label="infrastructure"
+            icon="infrastructure"
+            isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+          >
+            <SubMenuItem
+              label="Map"
+              href$={getView(physicalPath)}
+              isActive$={combine(isView(physicalPath), isView(containerPath))}
+            />
+            <SubMenuItem
+              label="Comparison Table"
+              href$={getView(physicalTablePath)}
+              isActive$={isTableView('physical')}
+            />
+          </View>
+        )}
 
         {!twoZeroModeEnabled && (
           <View
@@ -71,18 +75,20 @@ export default function ViewSwitcher() {
           <View
             label="Application"
             icon="application"
-            isActive$={isView(applicationsList)}
+            isActive$={isView(isApplicationsView, isAnalyzeView)}
             href$={getView(applicationsList)}
           />
         )}
 
-        <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+        {!twoZeroModeEnabled && (
+          <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+        )}
 
-        <IncidentsMenuPoint />
+        {!twoZeroModeEnabled && <IncidentsMenuPoint />}
       </ul>
     </div>
   );
-}
+});
 
 const IncidentsMenuPoint = connectTo(
   {

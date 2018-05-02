@@ -1,5 +1,6 @@
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import {
   applicationId as matrixApplicationId,
@@ -14,6 +15,14 @@ export const newApplicationView = '/application/new';
 export const servicesList = '/services';
 export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
+
+export const isApplicationsView = getRootPathPredicate(
+  applicationsList,
+  applicationDashboard,
+  servicesList,
+  serviceDashboard,
+  endpointDashboard
+);
 
 export function getApplicationDashboard(applicationId, { serviceId, endpointId, tab, tabMatrix } = emptyObject) {
   return getDashboard({
