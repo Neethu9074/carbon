@@ -14,11 +14,7 @@ import locals from './ApplicationBreadcrumbWithSwitcher.mless';
 export default connect(
   props => ({
     application: getApplication({
-      id: props.applicationId,
-      filter: {
-        application: props.applicationId,
-        timeframe: props.timeframe
-      }
+      id: props.applicationId
     }),
     applications: getApplications({
       pagination: {

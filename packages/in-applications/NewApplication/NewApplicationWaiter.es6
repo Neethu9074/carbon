@@ -55,11 +55,6 @@ export default connectTo(
 function getApp({ applicationId }) {
   return getApplication({
     id: applicationId,
-    filter: {
-      timeframe: {
-        to: Date.now(), // subscription cache busting
-        windowSize: 60 * 1000 // looking at the last minute is sufficien to identify a new application
-      }
-    }
+    requestTime: Date.now() // subscription cache busting
   });
 }

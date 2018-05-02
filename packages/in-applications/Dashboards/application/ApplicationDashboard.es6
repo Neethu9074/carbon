@@ -27,13 +27,7 @@ export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboar
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
       <TabView
         result$={getApplication({
-          id: props.applicationId,
-          filter: {
-            application: props.applicationId,
-            service: props.serviceId,
-            endpoint: props.endpointId,
-            timeframe
-          }
+          id: props.applicationId
         })}
         HeaderComponent={Header}
         location={location}

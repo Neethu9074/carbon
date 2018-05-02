@@ -27,8 +27,11 @@ export default connectTo(
         <Row
           type="Application"
           iconType="app_application"
-          entityId={applicationId}
-          getEntity={getApplication}
+          getEntity={() =>
+            getApplication({
+              id: applicationId
+            })
+          }
           applicationId={applicationId}
           total={allTracesCount}
           timeframe={timeframe}
@@ -37,8 +40,17 @@ export default connectTo(
         <Row
           type="Service"
           iconType="app_service"
-          entityId={serviceId}
-          getEntity={getService}
+          getEntity={() =>
+            getService({
+              id: serviceId,
+              filter: {
+                application: applicationId,
+                service: serviceId,
+                endpoint: endpointId,
+                timeframe
+              }
+            })
+          }
           applicationId={applicationId}
           serviceId={serviceId}
           total={allTracesCount}
@@ -48,8 +60,17 @@ export default connectTo(
         <Row
           type="Endpoint"
           iconType="app_endpoint"
-          entityId={endpointId}
-          getEntity={getEndpoint}
+          getEntity={() =>
+            getEndpoint({
+              id: endpointId,
+              filter: {
+                application: applicationId,
+                service: serviceId,
+                endpoint: endpointId,
+                timeframe
+              }
+            })
+          }
           applicationId={applicationId}
           serviceId={serviceId}
           endpointId={endpointId}

@@ -8,11 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => ({
     application: getApplication({
-      id: props.applicationId,
-      filter: {
-        application: props.applicationId,
-        timeframe: props.timeframe
-      }
+      id: props.applicationId
     })
   }),
   function ApplicationBreadcrumb({ application, applicationId }) {

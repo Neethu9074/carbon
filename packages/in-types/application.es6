@@ -70,12 +70,9 @@ export type ApplicationItem = {
 export type GetApplications = (query: GetApplicationsQuery) => Observable<Result<PaginatedResult<ApplicationItem>>>;
 
 /* A query specification that yields a single application.
- * The filter might result in a subset of the data for the application being returned, also
- * the filter needs to include the timeframe.
  */
 export type GetApplicationQuery = {
-  id: string,
-  filter: ?Filter
+  id: string
 };
 
 /* The operation that executes the query for a single application and returns the result as an observable. */
