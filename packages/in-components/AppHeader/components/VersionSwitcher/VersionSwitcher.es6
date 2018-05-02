@@ -15,7 +15,7 @@ function switchVersion() {
 export default function VersionSwitcher() {
   return (
     <Button size="compact" className={locals.versionSwitcher} onClick={() => switchVersion()}>
-      {twoZeroModeEnabled ? 'Go back to Instana 1.0' : 'Try Instana 2.0 now!'}
+      {twoZeroModeEnabled ? 'Exit Applications Beta' : 'Preview Applications Beta'}
     </Button>
   );
 }
