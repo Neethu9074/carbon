@@ -24,60 +24,66 @@ export default connectTo(
     return (
       <section className={locals.traceList}>
         {allTracesCount && <Row label="All Traces" total={allTracesCount} value={allTracesCount} />}
-        <Row
-          type="Application"
-          iconType="app_application"
-          getEntity={() =>
-            getApplication({
-              id: applicationId
-            })
-          }
-          applicationId={applicationId}
-          total={allTracesCount}
-          timeframe={timeframe}
-          backButtonLabels={backButtonLabels}
-        />
-        <Row
-          type="Service"
-          iconType="app_service"
-          getEntity={() =>
-            getService({
-              id: serviceId,
-              filter: {
-                application: applicationId,
-                service: serviceId,
-                endpoint: endpointId,
-                timeframe
-              }
-            })
-          }
-          applicationId={applicationId}
-          serviceId={serviceId}
-          total={allTracesCount}
-          timeframe={timeframe}
-          backButtonLabels={backButtonLabels}
-        />
-        <Row
-          type="Endpoint"
-          iconType="app_endpoint"
-          getEntity={() =>
-            getEndpoint({
-              id: endpointId,
-              filter: {
-                application: applicationId,
-                service: serviceId,
-                endpoint: endpointId,
-                timeframe
-              }
-            })
-          }
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          total={allTracesCount}
-          timeframe={timeframe}
-          backButtonLabels={backButtonLabels}
-        />
+        {applicationId && (
+          <Row
+            type="Application"
+            iconType="app_application"
+            getEntity={() =>
+              getApplication({
+                id: applicationId
+              })
+            }
+            applicationId={applicationId}
+            total={allTracesCount}
+            timeframe={timeframe}
+            backButtonLabels={backButtonLabels}
+          />
+        )}
+        {serviceId && (
+          <Row
+            type="Service"
+            iconType="app_service"
+            getEntity={() =>
+              getService({
+                id: serviceId,
+                filter: {
+                  application: applicationId,
+                  service: serviceId,
+                  endpoint: endpointId,
+                  timeframe
+                }
+              })
+            }
+            applicationId={applicationId}
+            serviceId={serviceId}
+            total={allTracesCount}
+            timeframe={timeframe}
+            backButtonLabels={backButtonLabels}
+          />
+        )}
+        {endpointId && (
+          <Row
+            type="Endpoint"
+            iconType="app_endpoint"
+            getEntity={() =>
+              getEndpoint({
+                id: endpointId,
+                filter: {
+                  application: applicationId,
+                  service: serviceId,
+                  endpoint: endpointId,
+                  timeframe
+                }
+              })
+            }
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            total={allTracesCount}
+            timeframe={timeframe}
+            backButtonLabels={backButtonLabels}
+          />
+        )}
       </section>
     );
   }
