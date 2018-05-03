@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getApplication from 'in-subscription/application/getApplication';
 import BadgeKeyValue from 'in-new-components/BadgeKeyValue';
-import Badge from 'in-new-components/Badge';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './FilterButtonRow.mless';
@@ -29,10 +28,6 @@ export default connectTo(
     return observables;
   },
   function FilterButtonRow({ filter, applicationLabel }) {
-    // support for grouping/groups will be added with https://www.pivotaltracker.com/story/show/155891847
-    // until then, we won't show any grouping information
-    const groups = [];
-
     const filterValueTranslation = {
       application: applicationLabel
     };
@@ -52,16 +47,6 @@ export default connectTo(
           {filters.map(filter => (
             <BadgeKeyValue key={filter.key} label={filter.key} value={filter.value} className={locals.badge} />
           ))}
-          {groups.length > 0 && (
-            <Fragment>
-              <strong className={locals.label}>Groups</strong>
-              {groups.map(group => (
-                <Badge key={group} className={locals.badge} color="#0C1415">
-                  {group}
-                </Badge>
-              ))}
-            </Fragment>
-          )}
         </MaxWidthFullscreenContainer>
       </div>
     );
