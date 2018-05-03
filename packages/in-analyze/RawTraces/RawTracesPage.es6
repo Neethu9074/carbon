@@ -155,10 +155,10 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
             </Tr>
           ))}
 
-          <HorizontalIndicatorRow cols={5} progress={progress} />
-          <ErrorRows cols={5} errors={errors} />
-          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} />}
+          <HorizontalIndicatorRow cols={6} progress={progress} />
+          <ErrorRows cols={6} errors={errors} />
+          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={6} />}
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={6} />}
         </Tbody>
       </Table>
     </Card>
