@@ -3,7 +3,6 @@ import React from 'react';
 import { timeframe$, setWindowSize } from 'in-components/timeline/timelineStore';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { slices } from 'in-components/timeline/timelineConfig';
-import { timeframeShape } from 'in-stores/timeline';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Slider from 'in-components/Slider';
@@ -28,10 +27,6 @@ export default connectTo(
   },
   class extends React.PureComponent {
     static displayName = 'TimelineNavigation';
-
-    static propTypes = {
-      timeframe: timeframeShape
-    };
 
     render() {
       const timeframe = this.props.timeframe;

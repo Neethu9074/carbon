@@ -56,34 +56,6 @@ export function getLinkToSnapshotInCurrentView(snapshotId) {
   });
 }
 
-export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
-  return getModifiedUrlStream(navParams => {
-    if (!focusedMoment) {
-      navParams.query['timeline.fm'] = '';
-    } else {
-      navParams.query['timeline.fm'] = focusedMoment;
-    }
-
-    navParams.query['timeline.to'] = to == null ? '' : to;
-
-    if (windowSize) {
-      navParams.query['timeline.ws'] = windowSize;
-    }
-
-    if (clearHighlightedTimeframe) {
-      delete navParams.query['tl.tf'];
-    }
-  });
-}
-
-export function getTimeframeLiveUrl() {
-  return getModifiedUrlStream(navParams => {
-    delete navParams.query.fm;
-    navParams.query['timeline.to'] = '';
-    navParams.query['timeline.fm'] = '';
-  });
-}
-
 export function goToRootOfView() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);

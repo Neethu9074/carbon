@@ -2,10 +2,9 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import { getFixedTimeframeUrl } from 'in-stores/navigation/navigation';
+import { focusedMoment$, getFixedTimeframeUrl } from 'in-stores/timeline';
 import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { focusedMoment$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

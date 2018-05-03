@@ -9,7 +9,7 @@ import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { selectedMomentPlacedViaTimeSelector } from 'in-services/tracking';
 import { closeTimeSelector } from 'in-components/timeline/timelineStore';
-import { getFixedTimeframeUrl } from 'in-stores/navigation';
+import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';

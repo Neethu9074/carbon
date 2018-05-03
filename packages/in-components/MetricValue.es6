@@ -6,7 +6,6 @@ import React from 'react';
 
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
-import { timeframeShape } from 'in-stores/timeline';
 
 export default class extends React.PureComponent {
   static displayName = 'MetricValue';
@@ -15,7 +14,7 @@ export default class extends React.PureComponent {
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
-    timeframe: timeframeShape,
+    timeframe: rpt.object.isRequired,
     optionalTimeWindowAggregation: rpt.string,
     initialValue: rpt.string,
     time: rpt.number,

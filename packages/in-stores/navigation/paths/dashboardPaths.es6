@@ -1,4 +1,5 @@
 import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { urlQueryKeys } from 'in-stores/time/config';
 
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {
@@ -18,13 +19,13 @@ export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pa
       params.pathname = `/${view}/dashboard`;
     }
     if (windowSize != null) {
-      params.query['timeline.ws'] = windowSize;
+      params.query[urlQueryKeys.windowSize] = windowSize;
     }
     if (to !== undefined) {
-      params.query['timeline.to'] = to == null ? '' : to;
+      params.query[urlQueryKeys.to] = to == null ? '' : to;
     }
     if (focusedMoment !== undefined) {
-      params.query['timeline.fm'] = focusedMoment == null ? '' : focusedMoment;
+      params.query[urlQueryKeys.focusedMoment] = focusedMoment == null ? '' : focusedMoment;
     }
     params.query.snapshotId = snapshotId;
   });

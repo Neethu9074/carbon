@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { getTimeframeLiveUrl, getFixedTimeframeUrl } from 'in-stores/navigation/navigation';
+import { live$, getTimeframeLiveUrl, getFixedTimeframeUrl } from 'in-stores/timeline';
 import { to$ } from 'in-components/timeline/timelineStore';
-import { live$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
