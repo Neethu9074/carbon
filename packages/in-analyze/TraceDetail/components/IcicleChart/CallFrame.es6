@@ -11,11 +11,13 @@ export const FRAME_HEIGHT = 22;
 export default connect(
   props => ({
     isUnhighlighted: props.hoveredServiceEndpoint$
-      .map(
-        hoveredServiceEndpoint =>
-          hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
-      )
-      .distinct()
+      ? props.hoveredServiceEndpoint$
+          .map(
+            hoveredServiceEndpoint =>
+              hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
+          )
+          .distinct()
+      : false
   }),
   CallFrame
 );

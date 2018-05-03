@@ -15,7 +15,8 @@ function TimingChartStory() {
     label: 'GET /api/hello',
     start: 100,
     duration: 20,
-    networkTime: 6
+    networkTime: 6,
+    spans: []
   });
 
   const callTreeNode = deepFreeze({
