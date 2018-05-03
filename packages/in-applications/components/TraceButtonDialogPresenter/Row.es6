@@ -50,8 +50,8 @@ function storeBackButtonParameters(backButtonLabels) {
   // so we pass in identity for the modification function).
   getModifiedUrlStream(identity).once(backButtonRoute => {
     backButtonStore.setRoute(backButtonRoute);
-    backButtonStore.setLabel1('< ' + backButtonLabels.label1);
-    backButtonStore.setLabel2(backButtonLabels.label2);
+    backButtonStore.setLabel1(backButtonLabels ? '< ' + backButtonLabels.label1 : '< Explore');
+    backButtonStore.setLabel2(backButtonLabels ? backButtonLabels.label2 : 'Applications');
   });
 }
 
