@@ -16,22 +16,22 @@ export default connectTo(
         application: props.applicationId,
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       }
     }).map(result => result.data || null)
   }),
-  function HttpSections({ timeframe, types, applicationId, serviceId, endpointId }) {
+  function HttpSections({ timeConfig, types, applicationId, serviceId, endpointId }) {
     if (!hasHttpEndpoints(types)) {
       return null;
     }
 
-    const granularity = getChartGranularity(timeframe);
+    const granularity = getChartGranularity(timeConfig);
     return (
       <Row>
         <Col lg={12}>
           <ChartWrapper
             cardTitle="Http Status Code Breakdown"
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               renderer: Renderer.stackedArea,
               labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
@@ -48,7 +48,7 @@ export default connectTo(
             }}
             metricsConfiguration={{
               filter: {
-                timeframe,
+                timeConfig,
                 application: applicationId,
                 service: serviceId,
                 endpoint: endpointId

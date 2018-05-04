@@ -9,15 +9,15 @@ import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
-export default function LoggingSections({ applicationId, serviceId, endpointId, timeframe }) {
-  const granularity = getChartGranularity(timeframe);
+export default function LoggingSections({ applicationId, serviceId, endpointId, timeConfig }) {
+  const granularity = getChartGranularity(timeConfig);
   return (
     <Fragment>
       <Row>
         <Col lg={12}>
           <Card title="Log Level Breakdown">
             <ChartWrapper
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 tooltipFormatter: number.compact,
                 renderer: Renderer.stackedArea,
@@ -30,7 +30,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
                   application: applicationId,
                   service: serviceId,
                   endpoint: endpointId,
-                  timeframe
+                  timeConfig
                 },
                 metrics: {
                   'logs.warn': {
@@ -56,7 +56,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
           />
         </Col>
       </Row>

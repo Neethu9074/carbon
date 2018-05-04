@@ -33,7 +33,7 @@ describe('in-components/Chart/Scales', () => {
       const scales = new Scales({
         y1: { formatter: [number] },
         y2: { labels: ['a'], metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
-        timeframe: { windowSize: 20000, to: 60000 },
+        timeConfig: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
       });
@@ -73,7 +73,7 @@ describe('in-components/Chart/Scales', () => {
           ],
           formatter: [number]
         },
-        timeframe: { windowSize: 20000, to: 60000 },
+        timeConfig: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
       });
@@ -89,7 +89,7 @@ describe('in-components/Chart/Scales', () => {
     it('should update tick positions on update', () => {
       const scales = new Scales({
         y1: { formatter: [number] },
-        timeframe: { windowSize: 20000, to: 60000 },
+        timeConfig: { windowSize: 20000, to: 60000 },
         width: 100,
         height: 50
       });

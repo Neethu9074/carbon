@@ -1,6 +1,6 @@
 import { create } from 'reactive-observables';
 
-import { config$, getConfig, urlQueryKeys, configShape } from 'in-stores/time/config';
+import { timeConfig$, getTimeConfig, urlQueryKeys, timeConfigShape } from 'in-stores/time/config';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
@@ -14,11 +14,11 @@ import { isBlank } from 'in-services/util/string';
 // }
 // drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
 // TODO remove in Q3 2018
-export const timeframe$ = config$.map(config => ({ to: config.to, windowSize: config.windowSize }));
+export const timeframe$ = timeConfig$.map(config => ({ to: config.to, windowSize: config.windowSize }));
 export const timeframe = timeframe$;
 
 export function getTimeframe(params) {
-  const config = getConfig(params);
+  const config = getTimeConfig(params);
   // drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
   // TODO remove in Q3 2018
   return { to: config.to, windowSize: config.windowSize };
@@ -40,7 +40,7 @@ export function setTo(to) {
   });
 }
 
-export const focusedMoment$ = config$.map(config => config.focusedMoment).distinct();
+export const focusedMoment$ = timeConfig$.map(config => config.focusedMoment).distinct();
 
 let currentTimeframe;
 timeframe$.subscribe(tf => (currentTimeframe = tf));
@@ -87,7 +87,7 @@ export const from$ = timeframe$
   })
   .distinct();
 
-export const timeframeShape = configShape;
+export const timeframeShape = timeConfigShape;
 
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {

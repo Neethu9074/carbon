@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
@@ -11,7 +11,7 @@ import ServerTable from 'in-components/tables/ServerTable';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
-export default function Infrastructure({ applicationId, serviceId, endpointId, timeframe }) {
+export default function Infrastructure({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
@@ -21,8 +21,8 @@ export default function Infrastructure({ applicationId, serviceId, endpointId, t
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        timeframe={timeframe}
-        paginationResettingProps={{ applicationId, serviceId, endpointId, timeframe }}
+        timeConfig={timeConfig}
+        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
         defaultOrderBy="callsAgg"
         defaultOrderDirection="DESC"
       />
@@ -39,7 +39,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
-  timeframe
+  timeConfig
 }) {
   return getInfrastructure({
     pagination: {
@@ -58,7 +58,7 @@ function getTableData({
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       latencyAgg: {
         metric: 'latency',
@@ -67,7 +67,7 @@ function getTableData({
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {
         metric: 'errors',
@@ -76,7 +76,7 @@ function getTableData({
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       }
     },
     filter: {
@@ -84,7 +84,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeframe
+      timeConfig
     }
   });
 }
@@ -109,11 +109,11 @@ const columnDefinitions = [
   {
     id: 'callsAgg',
     label: 'Calls',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           metrics={item.metrics.calls}
           metric={item.metrics.callsAgg}
           tooltipFormatter={number.compact}
@@ -124,11 +124,11 @@ const columnDefinitions = [
   {
     id: 'latencyAgg',
     label: 'Latency',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
           tooltipFormatter={ms.compact}
@@ -139,11 +139,11 @@ const columnDefinitions = [
   {
     id: 'errorsAgg',
     label: 'Errors',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.detailed}

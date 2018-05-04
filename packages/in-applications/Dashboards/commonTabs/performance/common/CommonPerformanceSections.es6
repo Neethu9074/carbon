@@ -8,15 +8,15 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 
-export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeframe }) {
-  const granularity = getChartGranularity(timeframe);
+export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeConfig }) {
+  const granularity = getChartGranularity(timeConfig);
   return (
     <Fragment>
       <Row>
         <Col lg={12}>
           <ChartWrapper
             cardTitle="Avg. Latency"
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               calculateStackDifferences: true,
               renderer: Renderer.integral,
@@ -35,7 +35,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
             }}
             metricsConfiguration={{
               filter: {
-                timeframe,
+                timeConfig,
                 application: applicationId,
                 service: serviceId,
                 endpoint: endpointId
@@ -94,7 +94,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
               applicationId={applicationId}
               serviceId={serviceId}
               endpointId={endpointId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
             />
           </Card>
         </Col>

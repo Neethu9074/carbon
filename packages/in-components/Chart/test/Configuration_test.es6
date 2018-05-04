@@ -33,7 +33,7 @@ describe('in-components/Chart/Configuration', () => {
   describe('update', () => {
     it('should copy the given config', () => {
       const config = new Config(getCanvasMock(), renderCallback);
-      config.update({ y1: {}, timeframe: { windowSize: 60000, to: null }, foo: 'bar' });
+      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null }, foo: 'bar' });
       expect(config.y1).to.deep.equal({
         renderer: Renderer.line,
         formatter: [number],
@@ -41,7 +41,7 @@ describe('in-components/Chart/Configuration', () => {
         colors: [],
         colors100: []
       });
-      expect(config.timeframe).to.deep.equal({ windowSize: 60000, to: null });
+      expect(config.timeConfig).to.deep.equal({ windowSize: 60000, to: null });
       expect(config.foo).to.equal('bar');
     });
 
@@ -51,7 +51,7 @@ describe('in-components/Chart/Configuration', () => {
         y1: {
           renderer: Renderer.stackedArea
         },
-        timeframe: { windowSize: 60000, to: null }
+        timeConfig: { windowSize: 60000, to: null }
       });
       expect(config.y1).to.deep.equal({
         formatter: [number],
@@ -70,7 +70,7 @@ describe('in-components/Chart/Configuration', () => {
         y1: {
           renderer: Renderer.countErrorBar
         },
-        timeframe: { windowSize: 60000, to: null }
+        timeConfig: { windowSize: 60000, to: null }
       });
       expect(config.y1).to.deep.equal({
         formatter: [number, percentage],
@@ -89,7 +89,7 @@ describe('in-components/Chart/Configuration', () => {
         expect(config.rollupLabel).to.be.undefined;
         expect(config.y1).to.be.undefined;
 
-        config.update({ y1: {}, timeframe: { windowSize: 60000, to: null } });
+        config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
         expect(config.rollup).to.equal(1000);
         expect(config.rollupLabel).to.equal('1s');
       });
@@ -106,7 +106,7 @@ describe('in-components/Chart/Configuration', () => {
 
     it('should multiply pre defined rollup', () => {
       const config = new Config(getCanvasMock(), renderCallback);
-      config.update({ y1: {}, timeframe: { windowSize: 60000, to: null } });
+      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
       const rollup = config.calculateMaxMillisBetweenDatapoints();
       expect(rollup).to.equal(allowedMultiplesOfRollupSizeMissingInCharts * 1000);
     });
@@ -117,7 +117,7 @@ describe('in-components/Chart/Configuration', () => {
       const config = new Config(getCanvasMock(), renderCallback);
       expect(config.scales).to.be.undefined;
 
-      config.update({ y1: {}, timeframe: { windowSize: 60000, to: null } });
+      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
       expect(config.scales).to.not.equal(undefined);
     });
   });
@@ -137,7 +137,7 @@ describe('in-components/Chart/Configuration', () => {
       config.update({
         y1: { labels: ['a'], metrics: [[[0], [1], [-1]], [[42], [1], [-1]]] },
         y2: { labels: ['a'], metrics: [[[10], [11], [-1]], [[-42], [0], [2]]] },
-        timeframe: { windowSize: 60000, to: null }
+        timeConfig: { windowSize: 60000, to: null }
       });
       expect(config.getAllDomainValues()).to.be.an('array');
       expect(config.getAllDomainValues()).to.have.length(8);

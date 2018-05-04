@@ -11,11 +11,11 @@ import locals from './TraceList.mless';
 
 export default connectTo(
   props => ({
-    allTracesCount: getTracesCount({ timeframe: props.timeframe })
+    allTracesCount: getTracesCount({ timeConfig: props.timeConfig })
   }),
   function TraceButtonDialogPresenter({
     allTracesCount,
-    timeframe,
+    timeConfig,
     applicationId,
     serviceId,
     endpointId,
@@ -35,7 +35,7 @@ export default connectTo(
             }
             applicationId={applicationId}
             total={allTracesCount}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             backButtonLabels={backButtonLabels}
           />
         )}
@@ -50,14 +50,14 @@ export default connectTo(
                   application: applicationId,
                   service: serviceId,
                   endpoint: endpointId,
-                  timeframe
+                  timeConfig
                 }
               })
             }
             applicationId={applicationId}
             serviceId={serviceId}
             total={allTracesCount}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             backButtonLabels={backButtonLabels}
           />
         )}
@@ -72,7 +72,7 @@ export default connectTo(
                   application: applicationId,
                   service: serviceId,
                   endpoint: endpointId,
-                  timeframe
+                  timeConfig
                 }
               })
             }
@@ -80,7 +80,7 @@ export default connectTo(
             serviceId={serviceId}
             endpointId={endpointId}
             total={allTracesCount}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             backButtonLabels={backButtonLabels}
           />
         )}

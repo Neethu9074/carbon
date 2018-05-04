@@ -16,11 +16,11 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './Chart.mless';
 
 export default getElementDimensions(function ChartReactComponent(props) {
-  let { timeframe, y1, width, customHeight } = props;
+  let { timeConfig, y1, width, customHeight } = props;
   const height = customHeight || 160;
 
   let content;
-  if (!timeframe || !y1 || !y1.metrics) {
+  if (!timeConfig || !y1 || !y1.metrics) {
     content = <NoContentIcon width={width} height={height} />;
   } else {
     content = <ChartReactWrapper {...props} width={width - 100} height={height} />;
@@ -55,7 +55,7 @@ const ChartReactWrapper = enhance(
       }
 
       render() {
-        const { chart, height, width, timeframe, renderLegend = true } = this.props;
+        const { chart, height, width, timeConfig, renderLegend = true } = this.props;
 
         return (
           <div className={locals.chart}>
@@ -75,7 +75,7 @@ const ChartReactWrapper = enhance(
                 />
                 {width && (
                   <HorizontalTimeAxis
-                    scale={{ from: timeframe.to - timeframe.windowSize, to: timeframe.to }}
+                    scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }}
                     width={width}
                   />
                 )}

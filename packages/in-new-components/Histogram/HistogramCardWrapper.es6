@@ -15,7 +15,7 @@ Sample Usage:
     getLatencyDistribution({
       maxLatencyBuckets: 10,
       filter: {
-        timeframe,
+        timeConfig,
         application: applicationId,
         service: serviceId,
         endpoint: endpointId

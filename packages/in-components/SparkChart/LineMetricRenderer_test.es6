@@ -9,7 +9,7 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
   beforeEach(() => {
     lineMetricRenderer = new LineMetricRenderer(getCanvasMock(), { width: 100, height: 50 });
     lineMetricRenderer.update({
-      timeframe: { windowSize: 6000, to: 6000 },
+      timeConfig: { windowSize: 6000, to: 6000 },
       rollup: 1000,
       metrics: [[0, 0], [1000, 1], [2000, 5], [5000, 9], [3000, 10], [6000, 0]]
     });

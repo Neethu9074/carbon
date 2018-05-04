@@ -3,13 +3,13 @@ import React from 'react';
 import NewApplicationPresenter from 'in-applications/NewApplication/NewApplicationPresenter';
 import NewApplicationWaiter from 'in-applications/NewApplication/NewApplicationWaiter';
 import { addApplicationConfig } from 'in-api/applicationConfigs';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
 export default connectTo(
   {
-    timeframe: timeframe$
+    timeConfig: timeConfig$
   },
   class NewApplication extends React.Component {
     state = {
@@ -33,11 +33,7 @@ export default connectTo(
           ) : null}
 
           {this.state.app != null ? (
-            <NewApplicationWaiter
-              applicationId={this.state.app.id}
-              label={this.state.app.label}
-              timeframe={this.props.timeframe}
-            />
+            <NewApplicationWaiter applicationId={this.state.app.id} label={this.state.app.label} />
           ) : null}
         </section>
       );

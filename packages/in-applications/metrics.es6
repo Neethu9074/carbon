@@ -29,34 +29,28 @@ export function getChartGranularity({ windowSize }) {
 }
 
 /*
- * Returns a normalized timeframe where "to" is set to result.time if not present in the original timeframe.
+ * Returns a normalized timeConfig where "to" is set to result.time if not present in the original timeConfig.
  */
-export function getResolvedTimeframe(timeframe, result) {
-  if (timeframe.to === result.time) {
-    return timeframe;
+export function getResolvedTimeConfig(timeConfig, result) {
+  let resultTime;
+  if (typeof result === 'number') {
+    resultTime = result;
+  } else if (typeof result === 'object') {
+    resultTime = result.time;
+  }
+
+  if (timeConfig.to === resultTime) {
+    return timeConfig;
   }
   return {
-    to: result.time,
-    windowSize: timeframe.windowSize
+    ...timeConfig,
+    to: resultTime
   };
 }
 
-/*
- * Returns a normalized timeframe where "to" is set to resultTime if not present in the original timeframe.
- */
-export function normalizeTimeFrame(timeframe, resultTime) {
-  if (timeframe.to === resultTime) {
-    return timeframe;
-  }
-  return {
-    to: resultTime,
-    windowSize: timeframe.windowSize
-  };
-}
-
-export function getSparkChartGranularity(timeframe) {
+export function getSparkChartGranularity(timeConfig) {
   return getBlockSizeMillis({
-    windowSize: timeframe.windowSize,
+    windowSize: timeConfig.windowSize,
     minPixelsPerBlock: 30,
     width: 300
   });

@@ -16,8 +16,8 @@ export default class Scales {
   update(filteredDataSeries) {
     this.x.setRangeFrom(0);
     this.x.setRangeTo(this.config.width);
-    this.x.setDomainFrom(this.config.timeframe.to - this.config.timeframe.windowSize);
-    this.x.setDomainTo(this.config.timeframe.to);
+    this.x.setDomainFrom(this.config.timeConfig.to - this.config.timeConfig.windowSize);
+    this.x.setDomainTo(this.config.timeConfig.to);
     this.x.tickPositions = this.calculateTickPositionsForXAxis();
 
     this.updateScale(this.y1, this.config.y1, filteredDataSeries);
@@ -95,7 +95,7 @@ export default class Scales {
   }
 
   calculateTickPositionsForXAxis() {
-    const formatting = getAxisConfig(this.config.timeframe.windowSize);
+    const formatting = getAxisConfig(this.config.timeConfig.windowSize);
     const ticks = [];
     const width = this.x.getRangeTo();
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
-import { getChartGranularity, normalizeTimeFrame } from 'in-applications/metrics';
+import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import { millis, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -65,7 +65,7 @@ function TraceGroupCharts({
       <TraceGroupsChartElement
         traceGroups={items}
         traceGroupColors={traceGroupColors}
-        timeframe={filter.timeframe}
+        timeConfig={filter.timeConfig}
         time={time}
         selectedChart={selectedChart}
       />
@@ -104,11 +104,11 @@ const chartDefinitions = {
   }
 };
 
-function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeframe, time, selectedChart }) {
+function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeConfig, time, selectedChart }) {
   const chartDefinition = chartDefinitions[selectedChart];
 
-  const chartTimeframe = normalizeTimeFrame(timeframe, time);
-  const granularity = getChartGranularity(timeframe);
+  const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
+  const granularity = getChartGranularity(timeConfig);
   const groupNames = traceGroups.map(group => group.name);
   const y1 = {
     labels: groupNames,
@@ -120,5 +120,5 @@ function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeframe, tim
     min: chartDefinition.min
   };
 
-  return <Chart timeframe={chartTimeframe} y1={y1} granularity={granularity} renderLegend={false} />;
+  return <Chart timeConfig={chartTimeConfig} y1={y1} granularity={granularity} renderLegend={false} />;
 }

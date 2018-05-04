@@ -26,10 +26,10 @@ export default [
     component: Endpoints,
     icon: 'app_endpoint',
     header: getTabHeaderWithAppDataMetricCount({
-      getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
+      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
         return {
           filter: {
-            timeframe,
+            timeConfig,
             application: applicationId,
             service: serviceId,
             endpoint: endpointId
@@ -60,10 +60,10 @@ export default [
     component: InfrastructureTab,
     icon: 'app_infrastructure',
     header: getTabHeaderWithAppDataMetricCount({
-      getMetricsParams({ timeframe, applicationId, serviceId, endpointId }) {
+      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
         return {
           filter: {
-            timeframe,
+            timeConfig,
             application: applicationId,
             service: serviceId,
             endpoint: endpointId

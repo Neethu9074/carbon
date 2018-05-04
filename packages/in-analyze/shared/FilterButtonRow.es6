@@ -8,7 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './FilterButtonRow.mless';
 
-const filerKeyBlackList = ['timeframe'];
+const filerKeyBlackList = ['timeConfig'];
 
 const filterKeyTranslation = {
   application: 'Application',

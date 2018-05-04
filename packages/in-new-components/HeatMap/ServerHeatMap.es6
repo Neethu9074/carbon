@@ -3,7 +3,7 @@ import React from 'react';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import { getResolvedTimeframe } from 'in-applications/metrics';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
 import Skeleton from 'in-components/Progress/Skeleton';
@@ -18,7 +18,7 @@ export default compose(
         application: props.applicationId,
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       },
       maxTimeBuckets: 100,
       maxLatencyBuckets: 20
@@ -27,7 +27,7 @@ export default compose(
 )(ServerHeatMap);
 
 function ServerHeatMap(props) {
-  const { timeframe, result } = props;
+  const { timeConfig, result } = props;
 
   const isLoading = result.progress.loading;
   if (isLoading) {
@@ -42,7 +42,7 @@ function ServerHeatMap(props) {
   return (
     <HeatMap
       {...props}
-      timeframe={getResolvedTimeframe(timeframe, result)}
+      timeConfig={getResolvedTimeConfig(timeConfig, result)}
       data={mapData(result.data)}
       keys={getKeys(result.data)}
     />

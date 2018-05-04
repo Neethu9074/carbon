@@ -59,7 +59,7 @@ export default class Config {
       this.rollup = this.granularity;
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
     } else {
-      const { rollup, label } = getDefaultMetricRollupDuration(this.timeframe);
+      const { rollup, label } = getDefaultMetricRollupDuration(this.timeConfig);
       this.rollup = rollup || 1000;
       this.rollupLabel = label;
     }
@@ -108,7 +108,7 @@ export default class Config {
       this.granularity ||
       getPredefinedBlockSizeMillisForBlockSize(
         getBlockSizeMillis({
-          windowSize: this.timeframe.windowSize,
+          windowSize: this.timeConfig.windowSize,
           maxDataPoints: axis.maxDataPoints,
           minPixelsPerBlock: axis.minPixelsPerBlock || 1,
           width: this.width,

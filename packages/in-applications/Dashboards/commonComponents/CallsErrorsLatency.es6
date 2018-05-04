@@ -6,14 +6,14 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
-export default function CallsErrorsLatency({ timeframe, endpointId, applicationId, serviceId, cardTitle }) {
-  const granularity = getChartGranularity(timeframe);
+export default function CallsErrorsLatency({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
+  const granularity = getChartGranularity(timeConfig);
 
   return (
     <div>
       <ChartWrapper
         cardTitle={cardTitle}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           renderer: Renderer.countErrorBar,
           labels: ['Calls', 'Errors'],
@@ -32,7 +32,7 @@ export default function CallsErrorsLatency({ timeframe, endpointId, applicationI
         }}
         metricsConfiguration={{
           filter: {
-            timeframe,
+            timeConfig,
             endpoint: endpointId,
             application: applicationId,
             service: serviceId

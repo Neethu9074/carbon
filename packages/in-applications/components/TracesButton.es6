@@ -34,10 +34,10 @@ function TraceButton({ size = 'compact', kind = 'secondary', traceCount, toggle 
   );
 }
 
-export function getTracesCount({ timeframe, applicationId, serviceId, endpointId }) {
+export function getTracesCount({ timeConfig, applicationId, serviceId, endpointId }) {
   return getMetrics({
     filter: {
-      timeframe,
+      timeConfig,
       application: applicationId,
       service: serviceId,
       endpoint: endpointId

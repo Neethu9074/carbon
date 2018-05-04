@@ -13,7 +13,7 @@ export const urlQueryKeys = Object.freeze({
   autoRefresh: 'timeline.ar'
 });
 
-export const configShape = rpt.shape({
+export const timeConfigShape = rpt.shape({
   windowSize: rpt.number.isRequired,
   to: rpt.number,
   focusedMoment: rpt.number,
@@ -25,7 +25,7 @@ const maximumWindowSize = 1000 * 60 * 60 * 24 * 31;
 // if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
 const defaultWindowSize = twoZeroModeEnabled ? 1000 * 60 * 60 : 1000 * 60 * 10;
 
-export const config$ = createTrackingStore({
+export const timeConfig$ = createTrackingStore({
   name: 'time/config',
   observable: navigationParameters$.map(getConfig).distinct((prev, next) => !isEqual(prev, next))
 }).observable;

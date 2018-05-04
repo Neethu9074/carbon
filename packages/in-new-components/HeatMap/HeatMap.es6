@@ -21,7 +21,7 @@ export default compose(
   })
 )(HeatMapImpl);
 
-function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, timeframe }) {
+function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, timeConfig }) {
   if (!width || !data) {
     return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
   }
@@ -53,7 +53,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
           cellOpacity={1}
           cellHoverOthersOpacity={0.75}
         />
-        <HorizontalTimeAxis scale={{ from: timeframe.to - timeframe.windowSize, to: timeframe.to }} width={width} />
+        <HorizontalTimeAxis scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }} width={width} />
       </div>
       <VerticalAxisPlaceholder />
     </div>

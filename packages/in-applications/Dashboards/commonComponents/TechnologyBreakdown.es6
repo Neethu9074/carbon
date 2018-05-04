@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
-import { getChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -11,19 +11,19 @@ import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeframe }) => ({
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
     result: getTechnologyBreakdown({
       filter: {
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
-        timeframe
+        timeConfig
       },
       breakdownType: 'PROCESSING_TIME',
-      granularity: getChartGranularity(timeframe)
+      granularity: getChartGranularity(timeConfig)
     })
   }),
-  function TechnologyBreakdownPresenter({ timeframe, result }) {
+  function TechnologyBreakdownPresenter({ timeConfig, result }) {
     let config = {
       cardTitle: 'Processing Time'
     };
@@ -43,8 +43,8 @@ export default connectTo(
 
       config = {
         cardTitle: config.cardTitle,
-        timeframe: getResolvedTimeframe(timeframe, result),
-        granularity: getChartGranularity(timeframe),
+        timeConfig: getResolvedTimeConfig(timeConfig, result),
+        granularity: getChartGranularity(timeConfig),
         y1: {
           renderer: Renderer.stackedArea,
           labels,

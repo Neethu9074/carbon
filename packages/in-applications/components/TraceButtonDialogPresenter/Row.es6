@@ -14,10 +14,10 @@ import Link from 'in-components/Link';
 import locals from './Row.mless';
 
 export default connectTo(
-  ({ label, value, getEntity, timeframe, applicationId, serviceId, endpointId }) => {
+  ({ label, value, getEntity, timeConfig, applicationId, serviceId, endpointId }) => {
     const observables = {};
     if (!value) {
-      observables.value = getTracesCount({ timeframe, applicationId, serviceId, endpointId });
+      observables.value = getTracesCount({ timeConfig, applicationId, serviceId, endpointId });
     }
     if (!label) {
       observables.label = getEntity().map(result => get(result, ['data', 'label'], null));

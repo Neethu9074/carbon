@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
@@ -39,7 +39,7 @@ export default compose(
   })
 )(ServiceList);
 
-function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
+function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
   const rightHeader = (
     <ComboBox
       value={endpointTypes}
@@ -56,14 +56,14 @@ function ServiceList({ timeframe, applicationId, serviceId, endpointId, endpoint
       matrixPrefix={matrixPrefix}
       get={getTableData}
       columnDefinitions={columnDefinitions}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
       cardTitle="Services"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
-      paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeframe']}
+      paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
     />
@@ -80,7 +80,7 @@ function getTableData({
   serviceId,
   endpointId,
   endpointTypes,
-  timeframe
+  timeConfig
 }) {
   return getServices({
     pagination: {
@@ -103,7 +103,7 @@ function getTableData({
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       latencyAgg: {
         metric: 'latency',
@@ -112,7 +112,7 @@ function getTableData({
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {
         metric: 'errors',
@@ -121,7 +121,7 @@ function getTableData({
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       }
     },
     filter: {
@@ -130,7 +130,7 @@ function getTableData({
       service: serviceId,
       endpoint: endpointId,
       endpointTypes,
-      timeframe
+      timeConfig
     }
   });
 }
@@ -183,11 +183,11 @@ const columnDefinitions = [
     id: 'callsAgg',
     label: 'Calls',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
           metrics={item.metrics.calls}
           metric={item.metrics.callsAgg}
@@ -200,11 +200,11 @@ const columnDefinitions = [
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
@@ -217,11 +217,11 @@ const columnDefinitions = [
     id: 'errorsAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}

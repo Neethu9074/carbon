@@ -10,7 +10,7 @@ const labels = ['Message Count'];
 const aggregations = ['MEAN'];
 const formatters = [number.compact];
 
-export default function LogMessageTopList({ applicationId, serviceId, endpointId, timeframe }) {
+export default function LogMessageTopList({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <TopList
       title="Most Frequent Messages"
@@ -24,7 +24,7 @@ export default function LogMessageTopList({ applicationId, serviceId, endpointId
       render={TopListCardPresenter}
       renderLabel={Label}
       renderMetric={Metric}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
@@ -40,7 +40,7 @@ function getMetricValueFromItem(metricId, item) {
   return item.metricValue;
 }
 
-function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetric, selectedMetricAggregation }) {
+function getList({ applicationId, serviceId, endpointId, timeConfig, selectedMetric, selectedMetricAggregation }) {
   return getLogMessageTopList({
     metric: {
       metric: selectedMetric,
@@ -50,7 +50,7 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeframe
+      timeConfig
     }
   });
 }

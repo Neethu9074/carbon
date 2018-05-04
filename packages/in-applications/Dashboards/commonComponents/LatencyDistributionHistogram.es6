@@ -3,7 +3,7 @@ import React from 'react';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import HistogramCardWrapper from 'in-new-components/Histogram/HistogramCardWrapper';
 
-export default function LatencyDistributionHistogram({ timeframe, applicationId, serviceId, endpointId, cardTitle }) {
+export default function LatencyDistributionHistogram({ timeConfig, applicationId, serviceId, endpointId, cardTitle }) {
   return (
     <HistogramCardWrapper
       cardTitle={cardTitle}
@@ -11,7 +11,7 @@ export default function LatencyDistributionHistogram({ timeframe, applicationId,
       subscription={getLatencyDistribution({
         maxLatencyBuckets: 10,
         filter: {
-          timeframe,
+          timeConfig,
           application: applicationId,
           service: serviceId,
           endpoint: endpointId
