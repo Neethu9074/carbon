@@ -29,7 +29,9 @@ export function getChartGranularity({ windowSize }) {
 }
 
 /*
- * Returns a normalized timeConfig where "to" is set to result.time if not present in the original timeConfig.
+ * Returns a normalized timeConfig where "to" is set to result.time (unless it is already set and equal to result.time,
+ * in which case timeConfig is returned unmodified). Instead of a result object with an attribute "time" you can also
+ * pass in a number (millis since epoch) directly.
  */
 export function getResolvedTimeConfig(timeConfig, result) {
   let resultTime;
