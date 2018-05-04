@@ -12,7 +12,7 @@ export default connectTo(
         application: props.applicationId,
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       }
     }).map(result => result.data || null)
   }),

@@ -11,7 +11,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Button from 'in-components/Button';
@@ -36,12 +36,12 @@ const leftHeader = role.canConfigureApplications && (
 
 export default connectTo(
   {
-    timeframe: timeframe$,
-    showNoApplicationsDefinedIndicator: timeframe$
-      .flatMap(timeframe =>
+    timeConfig: timeConfig$,
+    showNoApplicationsDefinedIndicator: timeConfig$
+      .flatMap(timeConfig =>
         getApplications({
           filter: {
-            timeframe
+            timeConfig
           },
           pagination: {
             page: 1,
@@ -56,7 +56,7 @@ export default connectTo(
       )
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
-  function ApplicationsList({ timeframe, showNoApplicationsDefinedIndicator }) {
+  function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
     return (
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer className={locals.block}>
@@ -66,9 +66,9 @@ export default connectTo(
             pathSegment={applicationsList}
             matrixPrefix="app."
             columnDefinitions={columnDefinitions}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             leftHeader={leftHeader}
-            paginationResettingProps={{ timeframe }}
+            paginationResettingProps={{ timeConfig }}
             defaultOrderBy="callsAgg"
             defaultOrderDirection="DESC"
           />
@@ -85,7 +85,7 @@ export default connectTo(
   }
 );
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeframe }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
   return getApplications({
     pagination: {
       page,
@@ -107,7 +107,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       latencyAgg: {
         metric: 'latency',
@@ -116,7 +116,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {
         metric: 'errors',
@@ -125,12 +125,12 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       }
     },
     filter: {
       label: query,
-      timeframe
+      timeConfig
     }
   });
 }

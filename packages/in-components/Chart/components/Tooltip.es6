@@ -95,8 +95,8 @@ export default connectTo(
       const config = this.props.chart.config;
       this.state.xScale.setRangeFrom(0);
       this.state.xScale.setRangeTo(this.glassPane.clientWidth);
-      this.state.xScale.setDomainFrom(config.timeframe.to - config.timeframe.windowSize);
-      this.state.xScale.setDomainTo(config.timeframe.to);
+      this.state.xScale.setDomainFrom(config.timeConfig.to - config.timeConfig.windowSize);
+      this.state.xScale.setDomainTo(config.timeConfig.to);
       this.setState({ xScale: this.state.xScale });
     }
 

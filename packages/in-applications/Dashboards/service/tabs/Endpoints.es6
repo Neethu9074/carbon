@@ -38,7 +38,7 @@ export default compose(
   })
 )(Endpoints);
 
-function Endpoints({ timeframe, data, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
+function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
   const rightHeader = (
     <ComboBox
       value={endpointTypes}
@@ -60,12 +60,12 @@ function Endpoints({ timeframe, data, applicationId, serviceId, endpointId, endp
           applicationId={applicationId}
           serviceId={serviceId}
           endpointId={endpointId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
           cardTitle="Endpoints"
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
-          paginationResettingProps={['applicationId', 'serviceId', 'endpointId', 'timeframe', 'endpointTypes']}
+          paginationResettingProps={['applicationId', 'serviceId', 'endpointId', 'timeConfig', 'endpointTypes']}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
         />
@@ -83,7 +83,7 @@ function getTableData({
   serviceId,
   endpointId,
   endpointTypes,
-  timeframe,
+  timeConfig,
   query
 }) {
   return getEndpoints({
@@ -101,7 +101,7 @@ function getTableData({
       endpoint: endpointId,
       endpointTypes,
       label: query,
-      timeframe
+      timeConfig
     },
     metrics: {
       callsAgg: {
@@ -111,7 +111,7 @@ function getTableData({
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       latencyAgg: {
         metric: 'latency',
@@ -120,7 +120,7 @@ function getTableData({
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {
         metric: 'errors',
@@ -129,7 +129,7 @@ function getTableData({
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       }
     }
   });

@@ -11,7 +11,7 @@ const labels = ['Latency'];
 const aggregations = ['MEAN'];
 const formatters = [millis.fixedCompact];
 
-export default function TopTraces({ applicationId, serviceId, endpointId, timeframe }) {
+export default function TopTraces({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <TopList
       title="Top Traces"
@@ -22,7 +22,7 @@ export default function TopTraces({ applicationId, serviceId, endpointId, timefr
       getList={getList}
       render={TopListCardPresenter}
       List={List}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
@@ -30,7 +30,7 @@ export default function TopTraces({ applicationId, serviceId, endpointId, timefr
   );
 }
 
-function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetric, selectedMetricAggregation }) {
+function getList({ applicationId, serviceId, endpointId, timeConfig, selectedMetric, selectedMetricAggregation }) {
   return getTraceTopList({
     metric: {
       metric: selectedMetric,
@@ -40,7 +40,7 @@ function getList({ applicationId, serviceId, endpointId, timeframe, selectedMetr
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeframe
+      timeConfig
     }
   });
 }

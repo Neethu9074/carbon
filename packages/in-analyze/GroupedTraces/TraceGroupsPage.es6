@@ -35,7 +35,7 @@ export default compose(
   cursorPaginated({
     getResettingProps: () => ['filter', 'orderBy', 'orderDirection'],
     get: ({ cursor, filter, orderBy, orderDirection }) => {
-      const granularity = getChartGranularity(filter.timeframe);
+      const granularity = getChartGranularity(filter.timeConfig);
       return getTraceGroups({
         pagination: {
           cursor,

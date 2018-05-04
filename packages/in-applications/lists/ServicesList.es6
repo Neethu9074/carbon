@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getSparkChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
@@ -16,7 +16,7 @@ import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -29,7 +29,7 @@ import locals from './ServicesList.mless';
 const matrixPrefix = 'service.';
 
 export default compose(
-  connect({ timeframe: timeframe$ }),
+  connect({ timeConfig: timeConfig$ }),
   withUrlDependingState({
     getPathSegment: () => servicesList,
     getMatrixPrefix: () => matrixPrefix,
@@ -46,7 +46,7 @@ export default compose(
   })
 )(ServicesList);
 
-function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
+function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
   const rightHeader = (
     <ComboBox
       value={endpointTypes}
@@ -66,9 +66,9 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
           pathSegment={servicesList}
           matrixPrefix={matrixPrefix}
           columnDefinitions={columnDefinitions}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           endpointTypes={endpointTypes}
-          paginationResettingProps={['timeframe', 'endpointTypes']}
+          paginationResettingProps={['timeConfig', 'endpointTypes']}
           rightHeader={rightHeader}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
@@ -78,7 +78,7 @@ function ServicesList({ timeframe, setEndpointTypes, endpointTypes }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeframe, endpointTypes }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes }) {
   return getServices({
     pagination: {
       page,
@@ -104,7 +104,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       latencyAgg: {
         metric: 'latency',
@@ -113,7 +113,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {
         metric: 'errors',
@@ -122,12 +122,12 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timefram
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeframe)
+        granularity: getSparkChartGranularity(timeConfig)
       }
     },
     filter: {
       label: query,
-      timeframe,
+      timeConfig,
       endpointTypes
     }
   });
@@ -196,11 +196,11 @@ const columnDefinitions = [
     id: 'callsAgg',
     label: 'Calls',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
           metrics={item.metrics.calls}
           metric={item.metrics.callsAgg}
@@ -213,11 +213,11 @@ const columnDefinitions = [
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
@@ -230,11 +230,11 @@ const columnDefinitions = [
     id: 'errorsAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeframe }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
-          rollup={getSparkChartGranularity(timeframe)}
-          timeframe={getResolvedTimeframe(timeframe, result)}
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}

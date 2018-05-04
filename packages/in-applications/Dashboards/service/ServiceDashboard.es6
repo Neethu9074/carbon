@@ -11,16 +11,16 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import TabView from 'in-new-components/TabView/TabView';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ location, timeframe }) {
+export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
   const props = {
     applicationId: getMatrixParameter(location, serviceDashboard, applicationId),
     serviceId: getMatrixParameter(location, serviceDashboard, serviceId),
     endpointId: getMatrixParameter(location, serviceDashboard, endpointId),
     viewPath: serviceDashboard,
-    timeframe
+    timeConfig
   };
 
   return (
@@ -36,7 +36,7 @@ export default connectTo({ timeframe: timeframe$ }, function ServiceDashboard({ 
             application: props.applicationId,
             service: props.serviceId,
             endpoint: props.endpointId,
-            timeframe
+            timeConfig
           }
         })}
         props={props}
@@ -51,13 +51,13 @@ function Header(props) {
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeframe, result }) {
+function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
     <TracesButton
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       backButtonLabels={{
         label1: 'Service',
         label2: result.data ? result.data.label : 'Dashboard'

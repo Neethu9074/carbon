@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getChartGranularity, getResolvedTimeframe } from 'in-applications/metrics';
+import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { deepCopy } from 'in-services/util/object';
@@ -10,7 +10,7 @@ import invariant from 'invariant';
 // Sample Usage
 /*
 <ChartWrapper
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],
@@ -25,7 +25,7 @@ import invariant from 'invariant';
             }}
             metricsConfiguration={{
               filter: {
-                timeframe,
+                timeConfig,
                 endpointType: data.type,
                 endpoint: data.id,
                 application: applicationId,
@@ -89,8 +89,8 @@ function wrapProps(result, props) {
 
   const propsClone = deepCopy(props);
 
-  propsClone.timeframe = getResolvedTimeframe(propsClone.timeframe, result);
-  propsClone.granularity = getChartGranularity(propsClone.timeframe);
+  propsClone.timeConfig = getResolvedTimeConfig(propsClone.timeConfig, result);
+  propsClone.granularity = getChartGranularity(propsClone.timeConfig);
 
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id]);
   propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);

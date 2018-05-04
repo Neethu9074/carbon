@@ -8,8 +8,9 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './SparkChart.mless';
 
 export default function SparkChartReactComponent(props) {
-  const { timeframe, metrics } = props;
-  if (!timeframe || !metrics) {
+  const timeConfig = props.timeConfig || props.timeframe;
+  const { metrics } = props;
+  if (!timeConfig || !metrics) {
     return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;
   }
   return <SparkChartReactWrapper {...props} />;
@@ -38,12 +39,12 @@ class SparkChartReactWrapper extends React.Component {
   }
 
   render() {
-    const { metrics, tooltipFormatter = number.detailed, timeframe, width, height, rollup, aggregation } = this.props;
+    const { metrics, tooltipFormatter = number.detailed, timeConfig, width, height, rollup, aggregation } = this.props;
     return (
       <div className={locals.sparkChart}>
         <Tooltip
           metrics={metrics}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           tooltipFormatter={tooltipFormatter}
           rollup={rollup}
           aggregation={aggregation}

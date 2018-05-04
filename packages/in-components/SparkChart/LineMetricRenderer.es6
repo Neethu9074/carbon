@@ -25,9 +25,9 @@ export default class LineMetricRenderer {
     this.ctx = canvas.getContext('2d');
   }
 
-  update({ metrics = [], rollup = 1000, timeframe }) {
-    const to = timeframe.to;
-    this.xScale.setDomainFrom(to - timeframe.windowSize);
+  update({ metrics = [], rollup = 1000, timeConfig }) {
+    const to = timeConfig.to;
+    this.xScale.setDomainFrom(to - timeConfig.windowSize);
     this.xScale.setDomainTo(to);
 
     // inverse this since canvas has y direction from top(0) to bottom(100%)

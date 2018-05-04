@@ -23,7 +23,7 @@ import Title from 'in-components/Title';
 
 export default connectTo(
   props => ({
-    statementResult: getDatabaseStatement({ id: props.match.params.statementId, timeframe: props.timeframe })
+    statementResult: getDatabaseStatement({ id: props.match.params.statementId, timeConfig: props.timeConfig })
   }),
   function DatabaseStatementDetail(props) {
     const { statementResult } = props;
@@ -56,10 +56,10 @@ export default connectTo(
   }
 );
 
-function Success({ statement, timeframe, applicationId, serviceId, endpointId }) {
-  const granularity = getChartGranularity(timeframe);
+function Success({ statement, timeConfig, applicationId, serviceId, endpointId }) {
+  const granularity = getChartGranularity(timeConfig);
   const filter = {
-    timeframe,
+    timeConfig,
     endpoint: endpointId,
     application: applicationId,
     service: serviceId,
@@ -128,7 +128,7 @@ function Success({ statement, timeframe, applicationId, serviceId, endpointId })
         <Col lg={12}>
           <ChartWrapper
             cardTitle="Total Calls vs Avg. Latency"
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],

@@ -10,16 +10,16 @@ import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TracesButton from 'in-applications/components/TracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import TabView from 'in-new-components/TabView/TabView';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ timeframe: timeframe$ }, function ApplicationDashboard({ location, timeframe }) {
+export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashboard({ location, timeConfig }) {
   const props = {
     applicationId: getMatrixParameter(location, applicationDashboard, applicationId),
     serviceId: getMatrixParameter(location, applicationDashboard, serviceId),
     endpointId: getMatrixParameter(location, applicationDashboard, endpointId),
     viewPath: applicationDashboard,
-    timeframe
+    timeConfig
   };
 
   return (
@@ -42,13 +42,13 @@ function Header(props) {
   return <BasicApplicationDashboardHeader type="Application" renderActions={Actions} {...props} />;
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeframe, result }) {
+function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
     <TracesButton
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       backButtonLabels={{
         label1: 'Application',
         label2: result.data ? result.data.label : 'Dashboard'

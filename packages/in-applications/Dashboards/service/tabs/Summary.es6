@@ -9,9 +9,9 @@ import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeframe, endpointId, applicationId, serviceId }) {
+export default function Summary({ timeConfig, endpointId, applicationId, serviceId }) {
   const filter = {
-    timeframe,
+    timeConfig,
     endpoint: endpointId,
     application: applicationId,
     service: serviceId
@@ -74,24 +74,24 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
           />
         </Col>
         <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
-          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeframe={timeframe} />
+          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
         </Col>
         <Col lg={6}>
           <TopTraces
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
           />
         </Col>
       </Row>
@@ -102,7 +102,7 @@ export default function Summary({ timeframe, endpointId, applicationId, serviceI
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
           />
         </Col>
       </Row>

@@ -1,56 +1,27 @@
 import { create } from 'reactive-observables';
-import { createLogger } from 'instalog';
-import rpt from 'prop-types';
 
-import { getModifiedUrlStream, mutateUrl, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { timeConfig$, getTimeConfig, urlQueryKeys, timeConfigShape } from 'in-stores/time/config';
+import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';
-
-const logger = createLogger('in-stores/timeline');
 
 // An object of the following structure
 // {
 //   windowSize: <number: Number of milliseconds the window should be big>
 //   to?: <number: An optional, fixed end point in time>
 // }
-export const timeframe$ = createTrackingStore({
-  name: 'timeline/timeline',
-  observable: navigationParameters$
-    .map(getTimeframe)
-    .distinct((prev, next) => prev.to !== next.to || prev.windowSize !== next.windowSize)
-}).observable;
+// drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
+// TODO remove in Q3 2018
+export const timeframe$ = timeConfig$.map(config => ({ to: config.to, windowSize: config.windowSize }));
 export const timeframe = timeframe$;
 
 export function getTimeframe(params) {
-  let to = null;
-  const toQuery = params.query['timeline.to'];
-  if (toQuery != null && toQuery.length > 0) {
-    const parsed = parseInt(toQuery, 10);
-    if (!isNaN(parsed)) {
-      to = parsed;
-    }
-  }
-
-  let windowSize;
-  // if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
-  if (twoZeroModeEnabled) {
-    windowSize = 1000 * 60 * 60;
-  } else {
-    windowSize = 1000 * 60 * 10;
-  }
-
-  const windowSizeQuery = params.query['timeline.ws'];
-  if (windowSizeQuery != null && windowSizeQuery.length > 0) {
-    const parsed = parseInt(windowSizeQuery, 10);
-    if (!isNaN(parsed)) {
-      windowSize = parsed;
-    }
-  }
-
-  return { to, windowSize };
+  const config = getTimeConfig(params);
+  // drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
+  // TODO remove in Q3 2018
+  return { to: config.to, windowSize: config.windowSize };
 }
 
 export const to$ = timeframe$
@@ -64,33 +35,12 @@ export const to$ = timeframe$
 
 export function setTo(to) {
   mutateUrl(navParams => {
-    navParams.query['timeline.to'] = to == null ? '' : to;
+    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
     return navParams;
   });
 }
 
-export const focusedMoment$ = createTrackingStore({
-  name: 'timeline/focusedMoment',
-  observable: navigationParameters$
-    .map(params => {
-      const focusedMoment = params.query['timeline.fm'];
-      if (focusedMoment == null || focusedMoment.length === 0) {
-        return null;
-      }
-
-      try {
-        const parsed = parseInt(focusedMoment, 10);
-        if (!isNaN(parsed)) {
-          return parsed;
-        }
-      } catch (e) {
-        logger.info(`Failed to parse timeline.fm part of query. Given: ${focusedMoment}`);
-      }
-
-      return null;
-    })
-    .distinct()
-}).observable;
+export const focusedMoment$ = timeConfig$.map(config => config.focusedMoment).distinct();
 
 let currentTimeframe;
 timeframe$.subscribe(tf => (currentTimeframe = tf));
@@ -100,11 +50,11 @@ serverTime$.subscribe(st => (currentServertime = st));
 
 export function setFocusedMoment(newFocusedMoment) {
   mutateUrl(navParams => {
-    navParams.query['timeline.fm'] = newFocusedMoment != null ? newFocusedMoment : '';
+    navParams.query[urlQueryKeys.focusedMoment] = newFocusedMoment != null ? newFocusedMoment : '';
     if (newFocusedMoment && !currentTimeframe.to) {
-      navParams.query['timeline.to'] = currentTimeframe.to ? currentTimeframe.to : currentServertime;
+      navParams.query[urlQueryKeys.to] = currentTimeframe.to ? currentTimeframe.to : currentServertime;
     }
-    navParams.query['timeline.ws'] = currentTimeframe.windowSize;
+    navParams.query[urlQueryKeys.windowSize] = currentTimeframe.windowSize;
     return navParams;
   });
 }
@@ -112,8 +62,8 @@ export function setFocusedMoment(newFocusedMoment) {
 export function lockFocusedMoment() {
   serverTime$.once(sTime => {
     mutateUrl(navParams => {
-      if (isBlank(navParams.query['timeline.fm'])) {
-        navParams.query['timeline.fm'] = sTime;
+      if (isBlank(navParams.query[urlQueryKeys.focusedMoment])) {
+        navParams.query[urlQueryKeys.focusedMoment] = sTime;
       }
       return navParams;
     });
@@ -137,15 +87,12 @@ export const from$ = timeframe$
   })
   .distinct();
 
-export const timeframeShape = rpt.shape({
-  windowSize: rpt.number.isRequired,
-  to: rpt.number
-});
+export const timeframeShape = timeConfigShape;
 
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {
-    navParams.query['timeline.to'] = to == null ? '' : to;
-    navParams.query['timeline.ws'] = windowSize;
+    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
+    navParams.query[urlQueryKeys.windowSize] = windowSize;
     return navParams;
   });
 }
@@ -187,9 +134,37 @@ export function getCurrentViewWithTimelineFocusedAt(moment) {
     moment = moment == null ? '' : String(moment);
 
     return getModifiedUrlStream(params => {
-      params.query['timeline.to'] = to;
-      params.query['timeline.fm'] = moment;
-      params.query['timeline.ws'] = windowSize;
+      params.query[urlQueryKeys.to] = to;
+      params.query[urlQueryKeys.focusedMoment] = moment;
+      params.query[urlQueryKeys.windowSize] = windowSize;
     });
+  });
+}
+
+export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
+  return getModifiedUrlStream(navParams => {
+    if (!focusedMoment) {
+      navParams.query[urlQueryKeys.focusedMoment] = '';
+    } else {
+      navParams.query[urlQueryKeys.focusedMoment] = focusedMoment;
+    }
+
+    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
+
+    if (windowSize) {
+      navParams.query[urlQueryKeys.windowSize] = windowSize;
+    }
+
+    if (clearHighlightedTimeframe) {
+      delete navParams.query['tl.tf'];
+    }
+  });
+}
+
+export function getTimeframeLiveUrl() {
+  return getModifiedUrlStream(navParams => {
+    delete navParams.query.fm;
+    navParams.query[urlQueryKeys.to] = '';
+    navParams.query[urlQueryKeys.focusedMoment] = '';
   });
 }

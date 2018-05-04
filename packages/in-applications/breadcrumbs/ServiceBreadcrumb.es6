@@ -11,7 +11,7 @@ export default connectTo(
       id: props.serviceId,
       filter: {
         service: props.serviceId,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       }
     })
   }),

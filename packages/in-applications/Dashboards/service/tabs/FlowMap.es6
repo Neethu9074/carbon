@@ -9,13 +9,13 @@ import ServerFlowMap from 'in-components/ServerFlowMap';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeframe }) => ({
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
     metricValues: getMetrics({
       filter: {
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
-        timeframe
+        timeConfig
       },
       metrics: {
         callsAgg: {
@@ -41,7 +41,7 @@ export default connectTo(
       return null;
     })
   }),
-  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeframe, metricValues }) {
+  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, metricValues }) {
     if (!metricValues) {
       return null;
     }
@@ -59,7 +59,7 @@ export default connectTo(
               serviceId={serviceId}
               applicationId={applicationId}
               endpointId={endpointId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               getFlowNodes={getServiceFlowNodes}
             />
           )}

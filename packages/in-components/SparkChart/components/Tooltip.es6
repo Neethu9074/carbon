@@ -75,11 +75,11 @@ export default class Tooltip extends React.Component {
     );
   }
 
-  updateScaleFromProps({ timeframe, width }) {
+  updateScaleFromProps({ timeConfig, width }) {
     this.xScale.setRangeFrom(2);
     this.xScale.setRangeTo(width - 2);
-    const to = timeframe.to;
-    this.xScale.setDomainFrom(to - timeframe.windowSize);
+    const to = timeConfig.to;
+    this.xScale.setDomainFrom(to - timeConfig.windowSize);
     this.xScale.setDomainTo(to);
   }
 

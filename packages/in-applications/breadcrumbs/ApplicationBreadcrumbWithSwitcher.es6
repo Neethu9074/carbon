@@ -29,7 +29,7 @@ export default connect(
       filter: {
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       }
     })
   }),

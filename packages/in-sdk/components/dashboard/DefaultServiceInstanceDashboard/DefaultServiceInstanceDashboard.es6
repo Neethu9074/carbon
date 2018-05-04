@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultCharts from 'in-sdk/components/dashboard/DefaultServiceInstanceDashboard/DefaultServiceInstanceCharts';
 import DefaultKpiSection from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultKpiSection';
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
-import { timeframeShape } from 'in-stores/timeline';
 
 export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) {
   return (
@@ -20,8 +18,3 @@ export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) 
     </div>
   );
 }
-
-DefaultLogicalServiceDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

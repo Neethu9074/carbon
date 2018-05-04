@@ -10,12 +10,12 @@ import ServerFlowMap from 'in-components/ServerFlowMap';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeframe }) => ({
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
     service: getService({
       id: serviceId,
       filter: {
         service: serviceId,
-        timeframe
+        timeConfig
       }
     }).map(result => result.data),
     metricValues: getMetrics({
@@ -23,7 +23,7 @@ export default connectTo(
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
-        timeframe
+        timeConfig
       },
       metrics: {
         callsAgg: {
@@ -49,7 +49,7 @@ export default connectTo(
       return null;
     })
   }),
-  function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeframe, service, metricValues }) {
+  function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, service, metricValues }) {
     if (!service || !metricValues) {
       return null;
     }
@@ -69,7 +69,7 @@ export default connectTo(
               serviceId={serviceId}
               applicationId={applicationId}
               endpointId={endpointId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               getFlowNodes={getEndpointFlowNodes}
             />
           )}
