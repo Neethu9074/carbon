@@ -27,10 +27,10 @@ const defaultWindowSize = twoZeroModeEnabled ? 1000 * 60 * 60 : 1000 * 60 * 10;
 
 export const timeConfig$ = createTrackingStore({
   name: 'time/config',
-  observable: navigationParameters$.map(getConfig).distinct((prev, next) => !isEqual(prev, next))
+  observable: navigationParameters$.map(getTimeConfig).distinct((prev, next) => !isEqual(prev, next))
 }).observable;
 
-export function getConfig(params) {
+export function getTimeConfig(params) {
   const to = getInt(params.query, urlQueryKeys.to, null);
   return {
     to,

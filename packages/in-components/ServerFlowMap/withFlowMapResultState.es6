@@ -124,7 +124,7 @@ export default () => ComposedComponent => {
           application: this.props.applicationId,
           service: this.props.serviceId,
           endpoint: this.props.endpointId,
-          timeframe: this.props.timeframe
+          timeConfig: this.props.timeConfig
         },
         traversal: {
           maxDepth: 1
