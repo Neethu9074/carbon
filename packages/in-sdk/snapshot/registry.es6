@@ -5,7 +5,7 @@ import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
 
-// maps plugin => snapshot defintion
+// maps plugin => snapshot definition
 export const registry = {
   processingStatistics: {}
 };

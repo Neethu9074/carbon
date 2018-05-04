@@ -3,6 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DeploymentConfigsTable from './DeploymentConfigsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import DeploymentsTable from './DeploymentsTable';
@@ -89,8 +90,8 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       </DashboardSection>
 
       <NodesTable snapshot={snapshot} timeframe={timeframe} />
-
       <DeploymentsTable snapshot={snapshot} timeframe={timeframe} />
+      <DeploymentConfigsTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }

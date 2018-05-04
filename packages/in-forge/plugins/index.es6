@@ -67,6 +67,7 @@ import './kubernetesPod';
 import './kubernetesNode';
 import './kubernetesReplicaSet';
 import './kubernetesDeployment';
+import './openshiftDeploymentConfig';
 import './ldapLogicalConnection';
 import './ldapLogicalService';
 import './ldapServiceInstance';
