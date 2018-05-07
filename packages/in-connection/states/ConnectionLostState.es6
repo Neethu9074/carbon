@@ -3,9 +3,10 @@ import SockJS from 'sockjs-client';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { combineDataAndError } from 'in-services/util/ro';
-import { isSignedIn } from 'in-api/account';
 import { isSafari } from 'in-services/browser';
+import { isSignedIn } from 'in-api/account';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 
@@ -117,8 +118,15 @@ export default class ConnectionLostState extends AbstractState {
 
   onOpen = () => {
     removeMessage('connectionStatus');
+    this.sendConnectionSettings();
     this.transitionTo('connected');
   };
+
+  sendConnectionSettings() {
+    this.send('setConnectionSettings', {
+      twoZeroModeEnabled
+    });
+  }
 
   onClose = () => {
     this.transport = transports.widelySupported;
