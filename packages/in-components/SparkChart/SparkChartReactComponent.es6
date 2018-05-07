@@ -13,7 +13,7 @@ export default function SparkChartReactComponent(props) {
   if (!timeConfig || !metrics) {
     return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;
   }
-  return <SparkChartReactWrapper {...props} />;
+  return <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
 }
 
 class SparkChartReactWrapper extends React.Component {
