@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import createPodsForDeploymentConfigSubscription from 'in-subscription/podsForDeploymentConfig';
+import createPodsForDeploymentSubscription from 'in-subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -229,7 +229,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
 const PodsTable = connectTo(
   props => ({
     pods: focusedMoment$
-      .flatMap(time => createPodsForDeploymentConfigSubscription({ snapshotId: props.snapshotId, time }))
+      .flatMap(time => createPodsForDeploymentSubscription({ snapshotId: props.snapshotId, time }))
       .flatMap(getSnapshots)
   }),
   function PodsTable({ pods }) {
