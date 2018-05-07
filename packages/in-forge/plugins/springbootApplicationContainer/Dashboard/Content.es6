@@ -8,7 +8,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
-export default function SpringbootDashboard({ snapshot, timeframe }) {
+export default function SpringbootDashboard({ snapshot, timeConfig }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
 
@@ -39,7 +39,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Request Count">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'metrics.requests',
@@ -65,7 +65,7 @@ export default function SpringbootDashboard({ snapshot, timeframe }) {
         <DashboardSection title="HTTP Sessions Active">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['metrics.httpsessions.active'],
               labels: ['Active Sessions'],

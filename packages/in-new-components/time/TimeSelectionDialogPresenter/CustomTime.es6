@@ -20,7 +20,7 @@ export default compose(
 
     resets: [
       {
-        getResettingProps: () => ['timeframe'],
+        getResettingProps: () => ['timeConfig'],
         onReset: getInitialState
       }
     ],
@@ -30,9 +30,9 @@ export default compose(
   })
 )(CustomTime);
 
-function getInitialState({ timeframe }) {
+function getInitialState({ timeConfig }) {
   return {
-    form: createForm(timeframe)
+    form: createForm(timeConfig)
   };
 }
 
@@ -81,9 +81,9 @@ function CustomTime({ form, onChange, setForm }) {
   }
 }
 
-function createForm(timeframe) {
-  const to = timeframe.to || Date.now();
-  const from = to - timeframe.windowSize;
+function createForm(timeConfig) {
+  const to = timeConfig.to || Date.now();
+  const from = to - timeConfig.windowSize;
   return (
     createMapForm({
       validator: validateForm,

@@ -56,7 +56,7 @@ const cols = [
   }
 ];
 
-export default function MemoryPoolsTable({ snapshot, timeframe }) {
+export default function MemoryPoolsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'jvm.pools'], emptyMap)
@@ -67,7 +67,7 @@ export default function MemoryPoolsTable({ snapshot, timeframe }) {
         pool,
         snapshot,
         snapshotId,
-        timeframe
+        timeConfig
       };
     })
     .valueSeq()
@@ -92,7 +92,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         max: getMaxValue('pools.' + row.name, row.snapshot),
         formatter: bytes.detailed,

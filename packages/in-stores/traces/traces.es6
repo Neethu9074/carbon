@@ -1,15 +1,13 @@
-import { combineLatest } from 'reactive-observables';
-
 import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalEndpointImplementation';
 import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation';
 import createTotalTraceCountObservable from 'in-subscription/totalTraceCount';
-import { timeframe as timeframe$, focusedMoment$ } from 'in-stores/timeline';
+import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import getTrace from 'in-subscription/getTrace';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
+import getTrace from 'in-subscription/getTrace';
 
 export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
 
@@ -29,20 +27,16 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
   return getTraceCount(`trace.touchedServiceInstance:"${serviceId}"`);
 }
 
-export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  return getTraceCount(`trace.touching:"${id}"`, timeframe);
+export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeConfig) {
+  return getTraceCount(`trace.touching:"${id}"`, timeConfig);
 }
 
-export function getTraceCount(query, timeframe) {
-  if (timeframe) {
-    return focusedMoment$.flatMap(_focusedMoment =>
-      createTotalTraceCountObservable({ timeframe, focusedMoment: _focusedMoment, query })
-    );
+export function getTraceCount(query, timeConfig) {
+  if (timeConfig) {
+    return createTotalTraceCountObservable({ timeConfig, query });
   }
 
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([_timeframe, _focusedMoment]) =>
-    createTotalTraceCountObservable({ timeframe: _timeframe, focusedMoment: _focusedMoment, query })
-  );
+  return timeConfig$.flatMap(_timeConfig => createTotalTraceCountObservable({ timeConfig: _timeConfig, query }));
 }
 
 /**
@@ -100,7 +94,7 @@ export function getEntitySnapshot$BySpan(span, connectionEndpointType, { useLoad
   if (physicalEndpoint) {
     const time = span.get('start');
     snapshot$ = subscribeToPhysicalEndpointImplementation({
-      time,
+      timeConfig: getTimeConfigAtMoment(time),
       physicalEndpoint
     })
       .startWith(useLoadingPlaceholder ? loadingPlaceholder : null)
@@ -114,7 +108,7 @@ export function getEntitySnapshot$BySpan(span, connectionEndpointType, { useLoad
           return alwaysNull;
         }
 
-        return getSnapshot(physicalEndpointImplementationSnapshotId, time).startWith(
+        return getSnapshot(physicalEndpointImplementationSnapshotId, getTimeConfigAtMoment(time)).startWith(
           useLoadingPlaceholder ? loadingPlaceholder : null
         );
       });

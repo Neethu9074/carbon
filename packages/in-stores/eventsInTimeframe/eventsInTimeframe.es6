@@ -1,7 +1,7 @@
 import { create, combineLatest } from 'reactive-observables';
 
 import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';
 
@@ -10,12 +10,11 @@ export const data$ = create().emit(data);
 export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
 
 export function init() {
-  combineLatest([focusedMoment$, timeframe$, query$])
-    .flatMap(([_focusedMoment, _timeframe, _query]) =>
+  combineLatest([timeConfig$, query$])
+    .flatMap(([timeConfig, query]) =>
       getEventsInTimeframeSubscription({
-        focusedMoment: _focusedMoment,
-        timeframe: _timeframe,
-        query: _query
+        timeConfig,
+        query
       })
     )
     .subscribe(onChange);

@@ -50,7 +50,7 @@ const cols = [
   }
 ];
 
-export default function ServletsInWebAppTable({ contextRootPath, snapshot, timeframe }) {
+export default function ServletsInWebAppTable({ contextRootPath, snapshot, timeConfig }) {
   const servlets = snapshot.getIn(['data', 'contextsToServlets', contextRootPath], emptyList);
   if (servlets.size === 0) {
     return null;
@@ -61,7 +61,7 @@ export default function ServletsInWebAppTable({ contextRootPath, snapshot, timef
       key,
       snapshotId: snapshot.get('id'),
       servletKey: contextRootPath + '/' + key,
-      timeframe
+      timeConfig
     };
   });
 
@@ -79,7 +79,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.avgResponseTime'],
@@ -89,7 +89,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.requests'],

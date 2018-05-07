@@ -88,14 +88,14 @@ const cols = [
   }
 ];
 
-export default function CloudControllerTable({ snapshot, timeframe }) {
+export default function CloudControllerTable({ snapshot, timeConfig }) {
   const ccComponents = [''];
 
   const rows = ccComponents.map(app => {
     return {
       key: app,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -114,7 +114,7 @@ function getRowDetails(row) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -127,7 +127,7 @@ function getRowDetails(row) {
       <DashboardSection title="Statistics">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,

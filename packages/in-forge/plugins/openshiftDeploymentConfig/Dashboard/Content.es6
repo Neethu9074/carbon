@@ -6,7 +6,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
-import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { getLabel } from 'in-sdk/snapshot';
@@ -76,7 +75,7 @@ const podCols = [
   }
 ];
 
-export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe }) {
+export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -139,7 +138,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="CPU Resources">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: twoDecimalPlaces,
               metrics: ['pods.required_cpu', 'pods.limit_cpu'],
@@ -151,7 +150,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="Memory Resources">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['pods.required_mem', 'pods.limit_mem'],
@@ -166,7 +165,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="Pods">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -180,7 +179,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="Replicas">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -196,7 +195,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="Pods Pending vs Unscheduled vs Unready">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: zeroDecimalPlaces,
@@ -210,7 +209,7 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         <DashboardSection title="Pending phase duration">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: msFormatter,
               metrics: ['duration'],
@@ -221,15 +220,14 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeframe
         </DashboardSection>
       </Columize>
 
-      <PodsTable snapshotId={snapshotId} />
+      <PodsTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }
 
 const PodsTable = connectTo(
   props => ({
-    pods: focusedMoment$
-      .flatMap(time => createPodsForDeploymentConfigSubscription({ snapshotId: props.snapshotId, time }))
+    pods: createPodsForDeploymentConfigSubscription({ snapshotId: props.snapshotId, timeConfig: props.timeConfig })
       .flatMap(getSnapshots)
   }),
   function PodsTable({ pods }) {

@@ -9,6 +9,7 @@ import './SnapshotDescription.less';
 
 const block = 'in-snapshot-description';
 
+// TODO change callers: callers previous passed in time. They now need to pass in timeConfig
 export default connectTo(
   props => {
     if (!props.snapshotId) {
@@ -16,7 +17,7 @@ export default connectTo(
     }
 
     return {
-      snapshot: getSnapshot(props.snapshotId, props.time).startWith(null)
+      snapshot: getSnapshot(props.snapshotId, props.timeConfig).startWith(null)
     };
   },
   function SnapshotDescription({ snapshot }) {

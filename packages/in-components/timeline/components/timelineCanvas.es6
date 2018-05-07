@@ -8,7 +8,7 @@ import createMarkedIncidentRenderer from 'in-components/timeline/components/rend
 import createFocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
 import createBackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import createTimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import { timeframe$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
+import { timeConfig$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
 import createApplyTimeButton from 'in-components/timeline/components/renderer/applyTimeButton';
 import createRealtimeUpateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
@@ -77,7 +77,7 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
   const mouseEvents = createMouseEvents(glassPane, scale, realtimeDrawStream);
 
   let axisConfig;
-  const timeframeSubscription = timeframe$
+  const timeConfigSubscription = timeConfig$
     .distinct()
     .map(frame => getAxisConfig(frame.windowSize))
     .subscribe(config => {
@@ -147,7 +147,7 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
     applyTimeButtonRenderer.dispose();
     markedIncidentRenderer.dispose();
     combinedEventsRenderer.dispose();
-    timeframeSubscription.dispose();
+    timeConfigSubscription.dispose();
     focusedMomentRenderer.dispose();
     collapsedSubscription.dispose();
     eventsSubscription.dispose();

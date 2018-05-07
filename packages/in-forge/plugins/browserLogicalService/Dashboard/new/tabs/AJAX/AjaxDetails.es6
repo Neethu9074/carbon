@@ -57,7 +57,7 @@ function connector({ snapshot, match }) {
   };
 }
 
-function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
+function AjaxDetails({ connection, connectedSnapshot, timeConfig }) {
   if (connection == null || connectedSnapshot == null) {
     return <LoadingIndicator type="dark" />;
   } else if (connection === notFoundIndicator || connectedSnapshot === notFoundIndicator) {
@@ -92,7 +92,7 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
           <DashboardTile title="Calls vs Latency">
             <Chart
               snapshotId={connection.connectionSnapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               height={200}
               y1={{
                 min: 0,
@@ -117,7 +117,7 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
           <DashboardTile title="Errors">
             <Chart
               snapshotId={connection.connectionSnapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               height={200}
               y1={{
                 min: 0,
@@ -135,7 +135,7 @@ function AjaxDetails({ connection, connectedSnapshot, timeframe }) {
       <DashboardTile title="Latency Breakdown">
         <Chart
           snapshotId={connection.connectionSnapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             min: 0,

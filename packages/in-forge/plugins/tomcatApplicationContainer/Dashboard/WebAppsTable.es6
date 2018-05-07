@@ -54,7 +54,7 @@ const cols = [
   }
 ];
 
-export default function WebAppsTable({ snapshot, timeframe }) {
+export default function WebAppsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'webapps'], emptyMap)
@@ -64,7 +64,7 @@ export default function WebAppsTable({ snapshot, timeframe }) {
         webApp,
         snapshot,
         snapshotId,
-        timeframe
+        timeConfig
       };
     })
     .valueSeq()
@@ -84,11 +84,11 @@ export default function WebAppsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ServletsInWebAppTable webAppContext={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
+      <ServletsInWebAppTable webAppContext={row.key} snapshot={row.snapshot} timeConfig={row.timeConfig} />
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['sessions.' + row.key],
           labels: ['Sessions'],

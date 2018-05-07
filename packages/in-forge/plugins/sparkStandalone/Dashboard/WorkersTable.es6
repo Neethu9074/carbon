@@ -91,7 +91,7 @@ const cols = [
   }
 ];
 
-export default function WorkersTable({ snapshot, timeframe }) {
+export default function WorkersTable({ snapshot, timeConfig }) {
   const workers = snapshot.getIn(['data', 'workers.workerList'], emptyList);
   if (workers.size === 0) {
     return null;
@@ -102,7 +102,7 @@ export default function WorkersTable({ snapshot, timeframe }) {
       return {
         key: worker.get('id'),
         worker,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })
@@ -122,7 +122,7 @@ function getDetails(row) {
       <Columize>
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -133,7 +133,7 @@ function getDetails(row) {
         />
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['workers.metrics.' + id + '.coresUsed', 'workers.metrics.' + id + '.cores'],

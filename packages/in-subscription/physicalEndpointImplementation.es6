@@ -1,17 +1,18 @@
-import createSubscription from 'in-subscription/subscription';
 import { roundToNearestTimeBlock } from 'in-subscription/util';
+import createSubscription from 'in-subscription/subscription';
+import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({
   eventId: 'subscribe-physical-endpoint-implementation',
 
-  getId({ time, physicalEndpoint }) {
-    return roundToNearestTimeBlock(time) + JSON.stringify(physicalEndpoint);
+  getId({ timeConfig, physicalEndpoint }) {
+    return generateStableHash(roundToNearestTimeBlock(timeConfig)) + generateStableHash(physicalEndpoint);
   },
 
-  getData(subscriptionId, { time, physicalEndpoint }) {
+  getData(subscriptionId, { timeConfig, physicalEndpoint }) {
     return {
       subscriptionId,
-      time: roundToNearestTimeBlock(time),
+      timeConfig: roundToNearestTimeBlock(timeConfig),
       physicalEndpoint
     };
   }

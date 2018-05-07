@@ -7,7 +7,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import HealthDot from 'in-components/health/HealthDot';
 import { getContext, getLabel } from 'in-sdk/snapshot';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
@@ -19,7 +19,7 @@ const block = 'in-physical-context';
 
 export default connectTo(
   props => ({
-    context: focusedMoment$.flatMap(time => getPhysicalContext({ snapshotId: props.snapshotId, time })),
+    context: timeConfig$.flatMap(timeConfig => getPhysicalContext({ snapshotId: props.snapshotId, timeConfig })),
     appSnapshotId: getClusterMembers(props.snapshotId).map(clusterMembers => clusterMembers.first())
   }),
   function PhysicalContext({ context, appSnapshotId }) {

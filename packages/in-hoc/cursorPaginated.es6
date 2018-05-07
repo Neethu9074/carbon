@@ -6,8 +6,8 @@ import { identity } from 'in-services/util/function';
 
 // Usage:
 // cursorPaginated({
-//   getResettingProps: () => ['applicationId', 'serviceId', 'endpointId', 'timeframe', 'orderBy', 'orderDirection'],
-//   get: ({cursor, applicationId, serviceId, endpointId, timeframe}) => getTraces({
+//   getResettingProps: () => ['applicationId', 'serviceId', 'endpointId', 'timeConfig', 'orderBy', 'orderDirection'],
+//   get: ({cursor, applicationId, serviceId, endpointId, timeConfig}) => getTraces({
 //     pagination: {
 //       cursor,
 //       retrievalSize: 50
@@ -16,7 +16,7 @@ import { identity } from 'in-services/util/function';
 //       application: applicationId,
 //       service: serviceId,
 //       endpoint: endpointId,
-//       timeframe
+//       timeConfig
 //     }
 //   })
 // })

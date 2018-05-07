@@ -136,14 +136,14 @@ const cols = [
   }
 ];
 
-export default function DEATable({ snapshot, timeframe }) {
+export default function DEATable({ snapshot, timeConfig }) {
   const deaComponents = [''];
 
   const rows = deaComponents.map(component => {
     return {
       key: component,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -161,7 +161,7 @@ function getRowDetails(row) {
       <DashboardSection title="Resources">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: percentageTwoDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
@@ -174,7 +174,7 @@ function getRowDetails(row) {
       <DashboardSection title="Registry">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,

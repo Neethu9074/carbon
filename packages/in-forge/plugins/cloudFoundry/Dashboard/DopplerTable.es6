@@ -88,14 +88,14 @@ const cols = [
   }
 ];
 
-export default function DopplerTable({ snapshot, timeframe }) {
+export default function DopplerTable({ snapshot, timeConfig }) {
   const dopplerComponents = [''];
 
   const rows = dopplerComponents.map(component => {
     return {
       key: component,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -113,7 +113,7 @@ function getRowDetails(row) {
       <DashboardSection title="Statistics">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -126,7 +126,7 @@ function getRowDetails(row) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,

@@ -7,6 +7,7 @@ import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+// TODO change callers: callers previous passed in time. They now need to pass in timeConfig
 export default connectTo(
   props => {
     const snapshotId = props.snapshot ? props.snapshot.get('id') : props.snapshotId;
@@ -17,7 +18,7 @@ export default connectTo(
       if (props.snapshot) {
         observables.plugin = always(props.snapshot.get('plugin'));
       } else {
-        observables.plugin = getSnapshot(snapshotId, props.time).map(snapshot => snapshot.get('plugin'));
+        observables.plugin = getSnapshot(snapshotId, props.timeConfig).map(snapshot => snapshot.get('plugin'));
       }
     }
     return observables;

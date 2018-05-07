@@ -8,7 +8,7 @@ import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
 import createHostForPodSubscription from 'in-subscription/hostForPod';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -71,17 +71,17 @@ export default connectTo(
 );
 
 function getDeploymentForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createDeploymentForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createDeploymentForPodSubscription({ snapshotId, timeConfig }));
 }
 function getDeploymentConfigForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createDeploymentConfigForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createDeploymentConfigForPodSubscription({ snapshotId, timeConfig }));
 }
 function getNodeForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createNodeForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createNodeForPodSubscription({ snapshotId, timeConfig }));
 }
 function getHostForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createHostForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createHostForPodSubscription({ snapshotId, timeConfig }));
 }
 function getClusterForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createClusterForPodSubscription({ snapshotId, timeConfig }));
 }

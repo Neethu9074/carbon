@@ -55,3 +55,12 @@ function getInt(query, key, fallback) {
   }
   return parsed;
 }
+
+export function getTimeConfigAtMoment(moment) {
+  return {
+    windowSize: defaultWindowSize,
+    to: moment,
+    focusedMoment: moment,
+    autoRefresh: false
+  };
+}

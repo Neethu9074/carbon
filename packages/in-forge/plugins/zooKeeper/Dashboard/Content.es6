@@ -5,13 +5,13 @@ import { emptyList } from 'in-services/fixedImmutables';
 import ZKStandaloneDashboard from './ZKStandaloneDashboard';
 import ZKReplicatedDashboard from './ZKReplicatedDashboard';
 
-export default function ZooKeeperDashboard({ snapshot, timeframe }) {
+export default function ZooKeeperDashboard({ snapshot, timeConfig }) {
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
 
   return (
     <div>
-      <ZKStandaloneDashboard snapshot={snapshot} timeframe={timeframe} />
-      {peerNames.size > 0 ? <ZKReplicatedDashboard snapshot={snapshot} timeframe={timeframe} /> : null}
+      <ZKStandaloneDashboard snapshot={snapshot} timeConfig={timeConfig} />
+      {peerNames.size > 0 ? <ZKReplicatedDashboard snapshot={snapshot} timeConfig={timeConfig} /> : null}
     </div>
   );
 }

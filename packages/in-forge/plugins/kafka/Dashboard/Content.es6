@@ -15,7 +15,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function KafkaDashboard({ snapshot, timeframe }) {
+export default function KafkaDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -36,7 +36,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Broker Traffic">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -49,7 +49,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Request Latency vs Throughput">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -69,7 +69,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Broker Failures">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -82,7 +82,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Broker state metrics">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -111,7 +111,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Average Idle Time Percentage">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageZeroDecimalPlaces,
@@ -124,7 +124,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Partitions">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -137,7 +137,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Broker Messages In">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -150,7 +150,7 @@ export default function KafkaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Log Flushing">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: msTwoDecimalPlaces,
             tooltipFormatter: msTwoDecimalPlaces,

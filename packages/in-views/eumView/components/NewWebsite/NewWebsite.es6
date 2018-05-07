@@ -7,6 +7,7 @@ import { eumKeysView$ } from 'in-stores/navigation/paths/settingPaths';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
 import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import From from 'in-views/eumView/components/NewWebsite/Form';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { combineDataAndError } from 'in-services/util/ro';
 import LegacyView from 'in-components/LegacyView';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -107,8 +108,8 @@ export default connectTo(
             snapshot: null
           });
 
-          this.snapshotSubscription = getSnapshot(data.websiteSnapshotId, null).subscribe(snapshot =>
-            this.setState({ snapshot })
+          this.snapshotSubscription = getSnapshot(data.websiteSnapshotId, getTimeConfigAtMoment(null)).subscribe(
+            snapshot => this.setState({ snapshot })
           );
         }
       });

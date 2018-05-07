@@ -56,7 +56,7 @@ const cols = [
   }
 ];
 
-export default function WebAppsTable({ snapshot, timeframe }) {
+export default function WebAppsTable({ snapshot, timeConfig }) {
   const contextRootPaths = snapshot.getIn(['data', 'contextsToServlets'], emptyMap);
   if (contextRootPaths.size === 0) {
     return null;
@@ -70,7 +70,7 @@ export default function WebAppsTable({ snapshot, timeframe }) {
         snapshotId: snapshot.get('id'),
         snapshot,
         data: snapshot.get('data'),
-        timeframe
+        timeConfig
       };
     });
 
@@ -84,11 +84,11 @@ export default function WebAppsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ServletsInWebAppTable contextRootPath={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
+      <ServletsInWebAppTable contextRootPath={row.key} snapshot={row.snapshot} timeConfig={row.timeConfig} />
 
       <Chart
         snapshotId={row.snapshot.get('id')}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['webApps.' + row.key + '.activeSessions', 'webApps.' + row.key + '.createdSessions'],

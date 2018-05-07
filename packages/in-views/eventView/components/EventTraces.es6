@@ -22,28 +22,28 @@ export default addSection(
     props => {
       const event = props.event;
       const serviceId = event.getIn(['problem', 'snapshotId']);
-      const timeframe = getChartTimeframeByEvent({ event });
+      const timeConfig = getChartTimeframeByEvent({ event });
 
       return {
         href: serverTime$
-          .map(serverTime => Math.min(serverTime, timeframe.to))
+          .map(serverTime => Math.min(serverTime, timeConfig.to))
           .distinct()
-          .flatMap(timeframeTo =>
+          .flatMap(to =>
             getTraceViewFilteredBySnapshotIdAndTimeframe({
               snapshotId: serviceId,
-              from: timeframe.to - timeframe.windowSize,
-              to: timeframeTo
+              from: timeConfig.to - timeConfig.windowSize,
+              to
             }).nextFrame()
           ),
 
-        numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe).map(map =>
+        numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeConfig).map(map =>
           map.get('count', 0)
         )
       };
     },
     function EventTraces({ event, href, numberOfTraces }) {
       const serviceId = event.getIn(['problem', 'snapshotId']);
-      const timeframe = getChartTimeframeByEvent({ event });
+      const timeConfig = getChartTimeframeByEvent({ event });
       const tracesAvailable = numberOfTraces > 0;
 
       return (
@@ -78,7 +78,7 @@ export default addSection(
                   metric="duration.mean"
                   formatter={timeByMillisTwoDecimalPlaces}
                   timeWindowAggregation="mean"
-                  timeframe={timeframe}
+                  timeConfig={timeConfig}
                 />
               </DescriptionItem>
 
@@ -88,7 +88,7 @@ export default addSection(
                   metric="duration.max"
                   formatter={timeByMillisTwoDecimalPlaces}
                   timeWindowAggregation="max"
-                  timeframe={timeframe}
+                  timeConfig={timeConfig}
                 />
               </DescriptionItem>
 
@@ -98,7 +98,7 @@ export default addSection(
                   metric="error_rate"
                   formatter={twoDecimalPlaces}
                   timeWindowAggregation="mean"
-                  timeframe={timeframe}
+                  timeConfig={timeConfig}
                 />
               </DescriptionItem>
             </DescriptionList>

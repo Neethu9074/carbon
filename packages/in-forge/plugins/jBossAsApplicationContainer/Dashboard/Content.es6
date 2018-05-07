@@ -6,14 +6,14 @@ import EjbDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Da
 import WebDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/WebDeploymentsTable';
 import UndertowStatsEnabledNotification from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/UndertowStatsEnabledNotification';
 
-export default function JBossAsDashboard({ snapshot, timeframe }) {
+export default function JBossAsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <UndertowStatsEnabledNotification snapshot={snapshot} />
-      <WebDeploymentsTable snapshot={snapshot} timeframe={timeframe} />
-      <EjbDeploymentsTable snapshot={snapshot} timeframe={timeframe} />
-      <ConnectorsTable snapshot={snapshot} timeframe={timeframe} />
-      <DatasourcesTable snapshot={snapshot} timeframe={timeframe} />
+      <WebDeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <EjbDeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ConnectorsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

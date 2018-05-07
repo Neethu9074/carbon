@@ -5,16 +5,16 @@ import DefaultConnectionCharts from 'in-sdk/components/dashboard/DefaultLogicalC
 import ConnectedOutboundEntitiesTable from 'in-components/LogicalEntityTables/ConnectedOutboundEntitiesTable';
 import ConnectedInboundEntitiesTable from 'in-components/LogicalEntityTables/ConnectedInboundEntitiesTable';
 
-export default function DefaultLogicalConnectionDashboard({ snapshot, timeframe }) {
+export default function DefaultLogicalConnectionDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <DefaultKpiConnectionSection snapshot={snapshot} />
 
-      <DefaultConnectionCharts snapshot={snapshot} timeframe={timeframe} />
+      <DefaultConnectionCharts snapshot={snapshot} timeConfig={timeConfig} />
 
-      <ConnectedInboundEntitiesTable snapshot={snapshot} timeframe={timeframe} />
+      <ConnectedInboundEntitiesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <ConnectedOutboundEntitiesTable snapshot={snapshot} timeframe={timeframe} />
+      <ConnectedOutboundEntitiesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

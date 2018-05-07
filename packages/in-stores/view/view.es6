@@ -5,7 +5,7 @@ import createViewStructureObservable from 'in-subscription/view';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { createTrackingStore } from 'in-stores/store';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
 export const types = {
   logical: 'LOGICAL',
@@ -32,15 +32,15 @@ export const view$ = view;
 
 export const viewStructure = createTrackingStore({
   name: 'view/viewStructure',
-  observable: combineLatest([view, focusedMoment$, viewGrouping$]).flatMap(([viewType, time, grouping]) =>
-    createViewStructureObservable({ viewType, time, grouping })
+  observable: combineLatest([view, timeConfig$, viewGrouping$]).flatMap(([viewType, timeConfig, grouping]) =>
+    createViewStructureObservable({ viewType, timeConfig, grouping })
   )
 }).observable;
 
-export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
-  createViewStructureObservable({ viewType: types.physical, time: focusedMoment })
+export const physicalViewStructure$ = timeConfig$.flatMap(timeConfig =>
+  createViewStructureObservable({ viewType: types.physical, timeConfig })
 );
 
-export const logicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
-  createViewStructureObservable({ viewType: types.logical, time: focusedMoment })
+export const logicalViewStructure$ = timeConfig$.flatMap(timeConfig =>
+  createViewStructureObservable({ viewType: types.logical, timeConfig })
 );

@@ -12,7 +12,7 @@ import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createBarContentRenderer from 'in-charts/Chart/renderer/content/bar';
 import createDataHolder from 'in-charts/data/dataHolder';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import { timeframe$, to$ } from 'in-stores/timeline';
+import { timeConfig$, to$ } from 'in-stores/timeline';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import createQueue from 'in-charts/data/queue';
@@ -31,7 +31,7 @@ const contentRendererCreators = {
 };
 
 export default function createAxisController(config) {
-  let timeframeSpecificSubscriptions = [];
+  let timeConfigSpecificSubscriptions = [];
   const resize$ = create();
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
@@ -76,8 +76,8 @@ export default function createAxisController(config) {
   }
 
   function disposeTimeframeSpecificSubscriptions() {
-    timeframeSpecificSubscriptions.forEach(s => s.dispose());
-    timeframeSpecificSubscriptions = [];
+    timeConfigSpecificSubscriptions.forEach(s => s.dispose());
+    timeConfigSpecificSubscriptions = [];
   }
 
   function determineNumberOfSeries() {
@@ -171,16 +171,16 @@ export default function createAxisController(config) {
         })
     );
 
-    const actualTimeframe$ = config.timeframe$ || timeframe$;
+    const actualTimeframe$ = config.timeConfig$ || timeConfig$;
     config.subscriptions.push(
-      combineLatest([actualTimeframe$, resize$]).subscribe(([timeframe]) => {
+      combineLatest([actualTimeframe$, resize$]).subscribe(([timeConfig]) => {
         clearData();
 
         config.rollup = config.forecastConfig
           ? config.forecastConfig.rollup
-          : getDefaultMetricRollupDuration(timeframe, config.minRollup);
-        config.timeframe = timeframe;
-        config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
+          : getDefaultMetricRollupDuration(timeConfig, config.minRollup);
+        config.timeConfig = timeConfig;
+        config.xAxisFormattingConfig = getAxisConfig(timeConfig.windowSize);
 
         calculateBlockSizeMillis(config);
 
@@ -213,11 +213,11 @@ export default function createAxisController(config) {
 
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = config.snapshotId || config.snapshotIds[i];
-      timeframeSpecificSubscriptions.push(
+      timeConfigSpecificSubscriptions.push(
         getMetricsForTimeframe({
           snapshotId: snapshotId,
           metric: metrics[i],
-          timeframe: config.timeframe,
+          timeConfig: config.timeConfig,
           rollup: config.rollup.rollup,
           aggregation: axis.aggregation ? axis.aggregation[i] : undefined,
           blockSizeMillis: axis.dynamicCalculatedBlockSizeMillis,
@@ -312,7 +312,7 @@ export default function createAxisController(config) {
     }
     axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
       getBlockSizeMillis({
-        windowSize: config.timeframe.windowSize,
+        windowSize: config.timeConfig.windowSize,
         maxDataPoints: axis.maxDataPoints,
         minPixelPerBlock: axis.minPixelPerBlock,
         width: chartWidthInPx,

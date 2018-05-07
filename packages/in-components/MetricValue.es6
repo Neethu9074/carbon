@@ -14,7 +14,7 @@ export default class extends React.PureComponent {
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
-    timeframe: rpt.object,
+    timeConfig: rpt.object,
     optionalTimeWindowAggregation: rpt.string,
     initialValue: rpt.string,
     time: rpt.number,
@@ -41,7 +41,7 @@ export default class extends React.PureComponent {
         snapshotId: props.snapshotId,
         metric: props.metric,
         timeWindowAggregation: props.timeWindowAggregation,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       });
     }
 

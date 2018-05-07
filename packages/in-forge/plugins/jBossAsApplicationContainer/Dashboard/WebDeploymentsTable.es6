@@ -63,7 +63,7 @@ const cols = [
   }
 ];
 
-export default function WebDeploymentsTable({ snapshot, timeframe }) {
+export default function WebDeploymentsTable({ snapshot, timeConfig }) {
   const deployments = snapshot.getIn(['data', 'deployments'], emptyMap).filter(c => c.get('contextRoot'));
   if (deployments.size === 0) {
     return null;
@@ -76,7 +76,7 @@ export default function WebDeploymentsTable({ snapshot, timeframe }) {
       const deployment = deployments.get(key);
       return {
         key,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id'),
         snapshot: snapshot,
         deployment
@@ -93,11 +93,11 @@ export default function WebDeploymentsTable({ snapshot, timeframe }) {
 function getRowDetails(row) {
   return (
     <div>
-      <ServletsTable deploymentContext={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
+      <ServletsTable deploymentContext={row.key} snapshot={row.snapshot} timeConfig={row.timeConfig} />
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['sessions.' + row.key + '.activeSessions'],
           labels: ['Active Sessions'],

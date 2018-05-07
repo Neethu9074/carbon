@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { timeframe$, setWindowSize } from 'in-components/timeline/timelineStore';
+import { timeConfig$, setWindowSize } from 'in-components/timeline/timelineStore';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { slices } from 'in-components/timeline/timelineConfig';
 import Tooltip from 'in-components/Tooltip';
@@ -23,17 +23,17 @@ const block = 'in-timeline-navigation';
 
 export default connectTo(
   {
-    timeframe: timeframe$
+    timeConfig: timeConfig$
   },
   class extends React.PureComponent {
     static displayName = 'TimelineNavigation';
 
     render() {
-      const timeframe = this.props.timeframe;
-      if (!timeframe) {
+      const timeConfig = this.props.timeConfig;
+      if (!timeConfig) {
         return null;
       }
-      const value = slices.length - getIndexOfSlice(timeframe.windowSize) - 1;
+      const value = slices.length - getIndexOfSlice(timeConfig.windowSize) - 1;
       return (
         <div className={block}>
           <SvgIcon className={block + '__icon-zoom'} type="search" width={12} color="#6b8088" onClick={this.zoomOut} />
@@ -47,7 +47,7 @@ export default connectTo(
           />
           <SvgIcon className={block + '__icon-zoom'} type="search" width={16} color="#6b8088" onClick={this.zoomIn} />
           <Tooltip content="Selected time window size">
-            <div className={`${block}__window-size`}>{formatDurationAccurately(timeframe.windowSize)}</div>
+            <div className={`${block}__window-size`}>{formatDurationAccurately(timeConfig.windowSize)}</div>
           </Tooltip>
         </div>
       );
@@ -58,14 +58,14 @@ export default connectTo(
     };
 
     zoomOut = () => {
-      const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
+      const currentIndex = getIndexOfSlice(this.props.timeConfig.windowSize);
       if (currentIndex < slices.length - 1) {
         setWindowSize(slices[currentIndex + 1]);
       }
     };
 
     zoomIn = () => {
-      const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
+      const currentIndex = getIndexOfSlice(this.props.timeConfig.windowSize);
       if (currentIndex > 0) {
         setWindowSize(slices[currentIndex - 1]);
       }

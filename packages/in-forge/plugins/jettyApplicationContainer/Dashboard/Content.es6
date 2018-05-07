@@ -9,7 +9,7 @@ import { getLabel } from 'in-sdk/snapshot';
 
 import WebAppsTable from './WebAppsTable.es6';
 
-export default function JettyDashboard({ snapshot, timeframe }) {
+export default function JettyDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
   if (!version) {
     return (
@@ -37,7 +37,7 @@ export default function JettyDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Queued Thread Pool Stats">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['idleThreads', 'busyThreads', 'threads', 'threadsQueueSize'],
             labels: ['Idle Threads', 'Busy Threads', 'Total Threads', 'Threads Queue Size'],
@@ -45,7 +45,7 @@ export default function JettyDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <WebAppsTable snapshot={snapshot} timeframe={timeframe} />
+      <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

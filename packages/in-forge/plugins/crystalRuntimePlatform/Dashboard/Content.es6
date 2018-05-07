@@ -5,13 +5,13 @@ import Chart from 'in-components/Chart';
 
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 
-export default function CrystalDashboard({ snapshot, timeframe }) {
+export default function CrystalDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <DashboardSection title="Heap">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -24,7 +24,7 @@ export default function CrystalDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Boehm GC">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,

@@ -1,10 +1,10 @@
-import { combineLatest, create } from 'reactive-observables';
+import { create } from 'reactive-observables';
 import React from 'react';
 
 import createSearchObservable from 'in-subscription/search';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { getSnapshots } from 'in-stores/snapshot/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { timeConfig$ } from 'in-stores/timeline';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -62,15 +62,14 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function search(query) {
-  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
+  return timeConfig$.flatMap(timeConfig => {
     return createSearchObservable({
       query,
-      time: focusedMoment,
       view: 'LOGICAL',
-      timeframe
+      timeConfig
     })
       .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds, focusedMoment).map(snapshots => {
+        return getSnapshots(snapshotIds).map(snapshots => {
           return {
             snapshots,
             snapshotIds,

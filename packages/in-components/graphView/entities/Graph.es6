@@ -3,8 +3,8 @@ import { markAsFinished } from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
+import { timeConfig$ } from 'in-stores/time/config';
 import getGraph from 'in-subscription/graph';
-import { focusedMoment$ } from 'in-stores/timeline';
 
 export default class Graph {
   constructor() {
@@ -17,9 +17,9 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    this.graphSubscription = focusedMoment$
-      .flatMap(focusedMoment => {
-        return getGraph(focusedMoment).throttle(60000);
+    this.graphSubscription = timeConfig$
+      .flatMap(timeConfig => {
+        return getGraph(timeConfig).throttle(60000);
       })
       .once(this.processEdgeModifications.bind(this));
   }

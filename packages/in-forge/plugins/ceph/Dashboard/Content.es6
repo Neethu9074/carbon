@@ -14,7 +14,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function CephDashboard({ snapshot, timeframe }) {
+export default function CephDashboard({ snapshot, timeConfig }) {
   const sensorStatusCode = snapshot.getIn(['data', 'sensorStatusCode'], 1);
 
   if (sensorStatusCode !== 1) {
@@ -50,7 +50,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Monitors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_mons', 'num_active_mons'],
@@ -63,7 +63,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="OSD Status">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_osds', 'num_up_osds', 'num_in_osds'],
@@ -76,7 +76,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['commit_latency_ms', 'apply_latency_ms'],
@@ -89,7 +89,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Unhealthy OSDs">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_near_full_osds', 'num_full_osds'],
@@ -102,7 +102,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Placement Groups">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_pgs', 'num_active_clean'],
@@ -115,7 +115,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Number Of Pools">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_pools'],
@@ -128,7 +128,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Number Of Object">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_objects'],
@@ -141,7 +141,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="IO">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_bytes_sec'],
@@ -161,7 +161,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="OPS">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_op_per_sec'],
@@ -181,7 +181,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Overall capacity usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -193,7 +193,7 @@ export default function CephDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <PoolTable snapshot={snapshot} timeframe={timeframe} />
+      <PoolTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

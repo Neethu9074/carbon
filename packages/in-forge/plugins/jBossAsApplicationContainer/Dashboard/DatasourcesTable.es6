@@ -82,7 +82,7 @@ const cols = [
   }
 ];
 
-export default function DatasourcesTable({ snapshot, timeframe }) {
+export default function DatasourcesTable({ snapshot, timeConfig }) {
   const datasources = snapshot.getIn(['data', 'datasources.snapshot'], emptyMap);
   if (datasources.size === 0) {
     return null;
@@ -95,7 +95,7 @@ export default function DatasourcesTable({ snapshot, timeframe }) {
       const datasource = datasources.get(key);
       return {
         key,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id'),
         datasource
       };
@@ -113,7 +113,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
@@ -135,7 +135,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: [

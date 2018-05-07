@@ -7,6 +7,7 @@ import {
   getColorByEvent
 } from 'in-stores/events';
 import { highlightEventId } from 'in-views/eventView/stores/highlightedEvent';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import EventIcon from 'in-components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -19,7 +20,7 @@ export default connectTo(
     return {
       color: fireCallbacksForEventAtFocusedMomentAsStream(
         props.event,
-        e => getColorByEvent({ event: e.event, focusedMoment: e.focusedMoment }),
+        e => getColorByEvent({ event: e.event, timeConfig: getTimeConfigAtMoment(e.focusedMoment) }),
         () => '#40535b'
       ),
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)

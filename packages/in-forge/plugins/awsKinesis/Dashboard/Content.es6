@@ -4,7 +4,7 @@ import { number, bytes, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function AwsKinesisDashboard({ snapshot, timeframe }) {
+export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Get Records">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_records', 'get_records_success'],
@@ -25,7 +25,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Put Records">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_records_records', 'put_records_success'],
@@ -38,7 +38,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Get Records Performance">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_age_ms'],
@@ -58,7 +58,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Get Records Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_bytes'],
@@ -71,7 +71,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Put Record Performance">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_record_latency'],
@@ -91,7 +91,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Put Record Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_record_bytes'],
@@ -104,7 +104,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Incoming Records">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['incoming_records'],
@@ -124,7 +124,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Put Records Performance">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_records_latency'],
@@ -144,7 +144,7 @@ export default function AwsKinesisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Provisioned Throughput Exceeded">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_provisioned_throughput_exceeded', 'write_provisioned_throughput_exceeded'],

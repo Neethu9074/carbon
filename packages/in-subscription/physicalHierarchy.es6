@@ -1,20 +1,21 @@
 import { List } from 'immutable';
 
-import createSubscription from 'in-subscription/subscription';
 import { roundToNearestTimeBlock } from 'in-subscription/util';
+import createSubscription from 'in-subscription/subscription';
+import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({
   eventId: 'subscribe-physical-hierarchy',
 
-  getId({ snapshotId, time, includeCluster }) {
-    return snapshotId + roundToNearestTimeBlock(time) + includeCluster;
+  getId({ snapshotId, timeConfig, includeCluster }) {
+    return snapshotId + generateStableHash(roundToNearestTimeBlock(timeConfig)) + includeCluster;
   },
 
-  getData(subscriptionId, { snapshotId, time, includeCluster }) {
+  getData(subscriptionId, { snapshotId, timeConfig, includeCluster }) {
     return {
       subscriptionId,
       snapshotId,
-      time: roundToNearestTimeBlock(time),
+      timeConfig: roundToNearestTimeBlock(timeConfig),
       clusterIncluded: includeCluster
     };
   },

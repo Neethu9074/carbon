@@ -114,7 +114,7 @@ const cols = [
   }
 ];
 
-export default function NodesTable({ snapshot, timeframe }) {
+export default function NodesTable({ snapshot, timeConfig }) {
   const nodes = snapshot.getIn(['data', 'nodes.nodeList'], emptyList);
   if (nodes.size === 0) {
     return null;
@@ -125,7 +125,7 @@ export default function NodesTable({ snapshot, timeframe }) {
       return {
         key: node.get('id'),
         node,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })
@@ -144,7 +144,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['nodes.' + id + '.containers'],
@@ -155,7 +155,7 @@ function getDetails(row) {
       <Columize>
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -166,7 +166,7 @@ function getDetails(row) {
         />
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['nodes.' + id + '.virtualCoresUsed', 'nodes.' + id + '.virtualCoresAvailable'],

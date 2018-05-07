@@ -13,7 +13,7 @@ import Chart from 'in-components/Chart';
 
 import TablespaceUsagesTable from './TablespaceUsagesTable.es6';
 
-export default function OracleDBDashboard({ snapshot, timeframe }) {
+export default function OracleDBDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -24,7 +24,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="DB Time per Second">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: muSecondsToMillisTwoDecimalPlaces,
             metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
@@ -36,7 +36,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="DB CPU Time/DB Time Ratio">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -50,7 +50,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Time Waited per Second">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: msZeroDecimalPlaces,
@@ -87,7 +87,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sql Execution">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.sqlExecuteCount'],
@@ -105,7 +105,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sql Parse Count">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
@@ -117,7 +117,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sql Parse Ratios">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -131,7 +131,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="User Calls Commits Rollbacks">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -149,7 +149,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Physical and Session Logical Reads">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
@@ -161,7 +161,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Buffer Cache Hit Ratio">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -175,7 +175,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sessions">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
@@ -187,7 +187,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Used Sessions Ratio">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -198,7 +198,7 @@ export default function OracleDBDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <TablespaceUsagesTable snapshot={snapshot} timeframe={timeframe} />
+      <TablespaceUsagesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

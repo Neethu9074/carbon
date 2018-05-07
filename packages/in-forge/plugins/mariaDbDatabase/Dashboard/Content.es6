@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function MariaDbDashboard({ snapshot, timeframe }) {
+export default function MariaDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
@@ -29,7 +29,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Clients">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
@@ -42,7 +42,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Slow Queries">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['status.SLOW_QUERIES'],
             labels: ['Slow Queries'],
@@ -53,7 +53,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Key Access">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
             labels: ['Read Requests', 'Write Requests'],
@@ -69,7 +69,7 @@ export default function MariaDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Aria Engine Properties">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['status.ARIA_PAGECACHE_READS', 'status.ARIA_PAGECACHE_WRITES'],
             labels: ['Pagecache Reads', 'Pagecache Writes'],

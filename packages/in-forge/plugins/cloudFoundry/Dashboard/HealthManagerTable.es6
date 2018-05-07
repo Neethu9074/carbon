@@ -137,14 +137,14 @@ const cols = [
   }
 ];
 
-export default function HealthManagerTable({ snapshot, timeframe }) {
+export default function HealthManagerTable({ snapshot, timeConfig }) {
   const hmComponents = [''];
 
   const rows = hmComponents.map(component => {
     return {
       key: component,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -163,7 +163,7 @@ function getRowDetails(row) {
         <DashboardSection title="Routines">
           <Chart
             snapshotId={snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
@@ -177,7 +177,7 @@ function getRowDetails(row) {
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesZeroDecimalPlaces,
@@ -195,7 +195,7 @@ function getRowDetails(row) {
       <DashboardSection title="Health Manager Analyzer">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,

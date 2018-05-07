@@ -108,7 +108,7 @@ const cols = [
   }
 ];
 
-export default function AppsTable({ snapshot, timeframe }) {
+export default function AppsTable({ snapshot, timeConfig }) {
   const apps = snapshot.getIn(['data', 'apps.mostRecent'], emptyList);
   if (apps.size === 0) {
     return null;
@@ -119,7 +119,7 @@ export default function AppsTable({ snapshot, timeframe }) {
       return {
         key: app.get('id'),
         app,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })

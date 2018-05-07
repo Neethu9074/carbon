@@ -109,7 +109,7 @@ const cols = [
   }
 ];
 
-export default function NetworkInterfacesTable({ snapshot, timeframe }) {
+export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
   const rows = snapshot
     .getIn(['data', 'interfaces'], emptyMap)
     .map((iface, name) => {
@@ -118,7 +118,7 @@ export default function NetworkInterfacesTable({ snapshot, timeframe }) {
         name,
         iface,
         snapshotId: snapshot.get('id'),
-        timeframe
+        timeConfig
       };
     })
     .valueSeq()
@@ -135,7 +135,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         formatter: bytesZeroDecimalPlaces,

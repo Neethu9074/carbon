@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function MemcachedDashboard({ snapshot, timeframe }) {
+export default function MemcachedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const maxBytes = snapshot.getIn(['data', 'limit_maxbytes']);
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus']);
@@ -34,7 +34,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Commands">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['cmd_get', 'cmd_set'],
             labels: ['Gets', 'Sets'],
@@ -46,7 +46,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Reads/Writes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['bytes_read', 'bytes_write'],
             labels: ['Bytes reads', 'Bytes writes'],
@@ -58,7 +58,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Get Hits/Misses">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['get_hits', 'get_misses'],
             labels: ['Get hits', 'Get misses'],
@@ -78,7 +78,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Delete Hits/Misses">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['delete_hits', 'delete_misses'],
             labels: ['Delete hits', 'Delete misses'],
@@ -98,7 +98,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Flush command">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['cmd_flush'],
             labels: ['Flush'],
@@ -110,7 +110,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Evictions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['evictions'],
             labels: ['Evictions'],
@@ -122,7 +122,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Used bytes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             max: maxBytes,
             metrics: ['bytes'],
@@ -135,7 +135,7 @@ export default function MemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['conn_connected', 'conn_queued', 'conn_yields'],

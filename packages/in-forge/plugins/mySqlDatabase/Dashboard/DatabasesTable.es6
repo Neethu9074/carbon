@@ -54,7 +54,7 @@ const cols = [
   }
 ];
 
-export default function DatabasesTable({ snapshot, timeframe }) {
+export default function DatabasesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'dbs'], emptyList)
@@ -63,7 +63,7 @@ export default function DatabasesTable({ snapshot, timeframe }) {
       return {
         key: name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -83,7 +83,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: ['databases.' + row.key + '.avg_query_latency'],
@@ -95,7 +95,7 @@ function getDetails(row) {
       <Columize>
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             formatter: queriesFormatter,
@@ -106,7 +106,7 @@ function getDetails(row) {
         />
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             formatter: queriesFormatter,

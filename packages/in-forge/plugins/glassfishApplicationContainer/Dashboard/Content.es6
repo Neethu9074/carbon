@@ -9,7 +9,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function GlassfishDashboard({ snapshot, timeframe }) {
+export default function GlassfishDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const version = snapshot.getIn(['data', 'version']);
   if (!version) {
@@ -36,7 +36,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Web Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['http_request_count', 'http_error'],
             labels: ['Requests', 'Errors'],
@@ -56,7 +56,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Threads">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['threads_core', 'threads_executed_tasks', 'threads_current_count', 'threads_current_busy'],
             labels: ['Core threads', 'Executed threads', 'Current threads', 'Busy threads'],
@@ -68,7 +68,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'connections_open',
@@ -88,7 +88,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Keep Alive">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'keep_alive_connections',
@@ -107,7 +107,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="File cache">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['file_cache_hits', 'file_cache_misses', 'file_cache_info_hits', 'file_cache_info_misses'],
             labels: ['Hits', 'Misses', 'Info Hits', 'Info Misses'],
@@ -128,7 +128,7 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="JDBC Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['jdbc_connection_used', 'jdbc_connection_free'],
             labels: ['Used', 'Free'],

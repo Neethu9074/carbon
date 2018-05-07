@@ -4,7 +4,7 @@ import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 
-export default function HAProxyDashboard({ snapshot, timeframe }) {
+export default function HAProxyDashboard({ snapshot, timeConfig }) {
   const socketPath = snapshot.getIn(['data', 'socketPath']);
   if (!socketPath) {
     return (
@@ -17,8 +17,8 @@ export default function HAProxyDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
-      <FrontendsTable snapshot={snapshot} timeframe={timeframe} />
-      <BackendsTable snapshot={snapshot} timeframe={timeframe} />
+      <FrontendsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <BackendsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

@@ -114,7 +114,7 @@ const cols = [
   }
 ];
 
-export default function KeyspacesTable({ snapshot, timeframe }) {
+export default function KeyspacesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'keyspaces'], emptyList)
@@ -122,7 +122,7 @@ export default function KeyspacesTable({ snapshot, timeframe }) {
     .map(name => {
       return {
         key: name,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     });
@@ -138,7 +138,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         formatter: micros.detailed,

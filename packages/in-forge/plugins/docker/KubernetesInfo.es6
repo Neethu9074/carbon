@@ -1,15 +1,15 @@
 import React from 'react';
 
-import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
-import createNodeForContainerSubscription from 'in-subscription/nodeForContainer';
-import createPodForContainerSubscription from 'in-subscription/podForContainer';
-import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
+import getNodeForContainerSubscription from 'in-subscription/nodeForContainer';
+import getPodForContainerSubscription from 'in-subscription/podForContainer';
+import getClusterForPodSubscription from 'in-subscription/clusterForPod';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -99,14 +99,14 @@ export default connectTo(
 );
 
 function getPodForContainer(snapshotId) {
-  return focusedMoment$.flatMap(time => createPodForContainerSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => getPodForContainerSubscription({ snapshotId, timeConfig }));
 }
 function getDeploymentForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createDeploymentForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => getDeploymentForPodSubscription({ snapshotId, timeConfig }));
 }
 function getNodeForContainer(snapshotId) {
-  return focusedMoment$.flatMap(time => createNodeForContainerSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => getNodeForContainerSubscription({ snapshotId, timeConfig }));
 }
 function getClusterForContainer(snapshotId) {
-  return focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => getClusterForPodSubscription({ snapshotId, timeConfig }));
 }

@@ -66,7 +66,7 @@ const cols = [
   }
 ];
 
-export default function ServletsTable({ webAppContext, snapshot, timeframe }) {
+export default function ServletsTable({ webAppContext, snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'servlets', webAppContext], emptyList)
@@ -76,7 +76,7 @@ export default function ServletsTable({ webAppContext, snapshot, timeframe }) {
         key: name,
         servletKey: `${webAppContext}.${name}`,
         webAppContext,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     });
@@ -96,7 +96,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         formatter: millis.detailed,
         metrics: ['servlets.' + row.servletKey + '.time'],

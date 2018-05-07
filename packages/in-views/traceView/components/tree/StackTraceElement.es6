@@ -5,6 +5,7 @@ import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalE
 import ShowCodeButton from 'in-views/traceView/components/tree/ShowCodeButton';
 import { alwaysNull, alwaysFalse } from 'in-services/fixedStreams';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import { SPAN_KINDS } from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
@@ -22,15 +23,16 @@ export default connectTo(
     let snapshot$ = alwaysNull;
     if (physicalEndpoint) {
       const time = props.parentSpan.get('start');
+      const timeConfig = getTimeConfigAtMoment(time);
       snapshot$ = subscribeToPhysicalEndpointImplementation({
-        time,
+        timeConfig,
         physicalEndpoint
       }).flatMap(physicalEndpointImplementationSnapshotId => {
         if (!physicalEndpointImplementationSnapshotId) {
           return alwaysNull;
         }
 
-        return getSnapshot(physicalEndpointImplementationSnapshotId, time);
+        return getSnapshot(physicalEndpointImplementationSnapshotId, timeConfig);
       });
     }
 

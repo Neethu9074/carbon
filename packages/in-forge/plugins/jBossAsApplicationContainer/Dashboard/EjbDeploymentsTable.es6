@@ -53,7 +53,7 @@ const cols = [
   }
 ];
 
-export default function EjbDeploymentsTable({ snapshot, timeframe }) {
+export default function EjbDeploymentsTable({ snapshot, timeConfig }) {
   const deployments = snapshot.getIn(['data', 'ejbDeployments'], emptyMap);
   if (deployments.size === 0) {
     return null;
@@ -66,7 +66,7 @@ export default function EjbDeploymentsTable({ snapshot, timeframe }) {
       const deployment = deployments.get(key);
       return {
         key,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id'),
         snapshot: snapshot,
         deployment
@@ -85,7 +85,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['ejbs.' + row.key + '.poolAvailable'],
           labels: ['Available'],

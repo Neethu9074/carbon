@@ -7,7 +7,7 @@ import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
-export default function EtcdDashboard({ snapshot, timeframe }) {
+export default function EtcdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
@@ -18,7 +18,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['requests_received', 'requests_sent'],
             labels: ['Received', 'Sent'],
@@ -30,7 +30,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['bytes_per_sec_received', 'bytes_per_sec_sent'],
             labels: ['Received', 'Sent'],
@@ -43,7 +43,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
         <Columize>
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['storage.expire_count'],
               labels: ['Expire count'],
@@ -53,7 +53,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
           />
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['storage.watchers'],
               labels: ['Watchers'],
@@ -63,7 +63,7 @@ export default function EtcdDashboard({ snapshot, timeframe }) {
           />
         </Columize>
 
-        <OperationsTable snapshot={snapshot} timeframe={timeframe} />
+        <OperationsTable snapshot={snapshot} timeConfig={timeConfig} />
       </DashboardSection>
     </div>
   );

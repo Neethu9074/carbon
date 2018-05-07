@@ -4,18 +4,18 @@ import AwsEcMemcachedDashboard from './AwsEcMemcachedDashboard';
 import AwsEcGeneralDashboard from './AwsEcGeneralDashboard';
 import AwsEcRedisDashboard from './AwsEcRedisDashboard';
 
-export default function AwsEcDashboard({ snapshot, timeframe }) {
+export default function AwsEcDashboard({ snapshot, timeConfig }) {
   const engine = snapshot.getIn(['data', 'cache_engine'], '');
   let engineDashboard = null;
   if (engine === 'redis') {
-    engineDashboard = <AwsEcRedisDashboard snapshot={snapshot} timeframe={timeframe} />;
+    engineDashboard = <AwsEcRedisDashboard snapshot={snapshot} timeConfig={timeConfig} />;
   } else if (engine === 'memcached') {
-    engineDashboard = <AwsEcMemcachedDashboard snapshot={snapshot} timeframe={timeframe} />;
+    engineDashboard = <AwsEcMemcachedDashboard snapshot={snapshot} timeConfig={timeConfig} />;
   }
 
   return (
     <div>
-      <AwsEcGeneralDashboard snapshot={snapshot} timeframe={timeframe} />
+      <AwsEcGeneralDashboard snapshot={snapshot} timeConfig={timeConfig} />
       {engineDashboard}
     </div>
   );

@@ -4,7 +4,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function NetCoreDashboard({ snapshot, timeframe }) {
+export default function NetCoreDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function NetCoreDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Exceptions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.exceptionThrownCount'],
@@ -25,7 +25,7 @@ export default function NetCoreDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Contentions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.contentionCount'],
@@ -38,7 +38,7 @@ export default function NetCoreDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Garbage Collection">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.heapSizeGen0', 'metrics.heapSizeGen1', 'metrics.heapSizeGen2', 'metrics.heapSizeGen3'],

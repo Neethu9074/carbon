@@ -12,7 +12,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 
-export default function RabbitMqDashboard({ snapshot, timeframe }) {
+export default function RabbitMqDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   const netPartitions = snapshot.getIn(['data', 'net_partitions'], emptyMap);
@@ -38,7 +38,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Messages">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['overview.publish_rate', 'overview.deliver_rate', 'overview.ack_rate'],
             labels: ['Published per 5 seconds', 'Delivered per 5 seconds', 'Acknowledged per 5 seconds'],
@@ -51,7 +51,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
         <Columize>
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['overview.messages_ready', 'overview.messages_unacknowledged', 'overview.messages'],
               labels: ['Messages ready', 'Messages unacknowledged', 'Messages total'],
@@ -61,7 +61,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
           />
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: [
                 'overview.messages_ready_rate',
@@ -79,7 +79,7 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Overview">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['overview.consumers', 'overview.connections'],
@@ -90,9 +90,9 @@ export default function RabbitMqDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <NodesTable snapshot={snapshot} timeframe={timeframe} />
+      <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <QueuesTable snapshot={snapshot} timeframe={timeframe} />
+      <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

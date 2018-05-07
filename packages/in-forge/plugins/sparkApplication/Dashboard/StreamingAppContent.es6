@@ -7,7 +7,7 @@ import Chart from 'in-components/Chart';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 
-export default function StreamingAppContent({ snapshot, timeframe }) {
+export default function StreamingAppContent({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
 
   return (
@@ -15,7 +15,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Batches">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlacesPerSecond,
             metrics: ['completedBatches'],
@@ -27,7 +27,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Scheduling Delay">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['schedulingDelay'],
@@ -39,7 +39,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Total Delay">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['totalDelay'],
@@ -51,7 +51,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Processing Time">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['processingTime'],
@@ -64,7 +64,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         <DashboardSection title="Output Operations">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['completedOutputOperations', 'failedOutputOperations'],
@@ -77,7 +77,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Input Records">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['inputRecords'],
@@ -89,7 +89,7 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Receivers">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['activeReceivers', 'activeReceivers'],
@@ -99,9 +99,9 @@ export default function StreamingAppContent({ snapshot, timeframe }) {
         />
       </DashboardSection>
       {semver.satisfies(version, '>=2.0.0') ? (
-        <ExecutorsStreamingAppTable snapshot={snapshot} timeframe={timeframe} />
+        <ExecutorsStreamingAppTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : (
-        <ExecutorsStreamingAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />
+        <ExecutorsStreamingAppTableBeforeV200 snapshot={snapshot} timeConfig={timeConfig} />
       )}
     </div>
   );

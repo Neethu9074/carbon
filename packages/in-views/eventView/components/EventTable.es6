@@ -12,6 +12,7 @@ import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import { selectedEventId$ } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
@@ -142,7 +143,10 @@ const Icon = connectTo(
 
 const On = connectTo(
   props => ({
-    snapshot: getSnapshot(props.rawEvent.snapshotId, props.rawEvent.triggeringTime || props.rawEvent.start)
+    snapshot: getSnapshot(
+      props.rawEvent.snapshotId,
+      getTimeConfigAtMoment(props.rawEvent.triggeringTime || props.rawEvent.start)
+    )
   }),
   function On({ snapshot }) {
     if (!snapshot) {

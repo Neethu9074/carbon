@@ -15,7 +15,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function CassandraDashboard({ snapshot, timeframe }) {
+export default function CassandraDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -47,7 +47,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['clientrequests.read.count'],
@@ -69,7 +69,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'} key={op}>
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: muSecondsToMillisTwoDecimalPlaces,
@@ -90,7 +90,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
         <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'} key={stage}>
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
@@ -119,7 +119,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Dropped Messages">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -136,12 +136,12 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
+      <KeyspacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title="Pending Compactions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['compaction.pending'],
@@ -155,7 +155,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cache Hits">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -170,7 +170,7 @@ export default function CassandraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Bloom Filter">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,

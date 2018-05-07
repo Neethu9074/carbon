@@ -58,11 +58,11 @@ const cols = [
   }
 ];
 
-export default function MseTable({ snapshot, timeframe }) {
+export default function MseTable({ snapshot, timeConfig }) {
   const rows = [
     {
       key: 'mse_detail',
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     }
   ];

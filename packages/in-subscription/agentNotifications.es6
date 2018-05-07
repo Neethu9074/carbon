@@ -10,16 +10,16 @@ export default () => {
 // export default createSubscription({
 //   eventId: 'subscribe-agent-notifications',
 //
-//   getId({ query, timeframe, focusedMoment }) {
-//     return focusedMoment + query + timeframe.to + timeframe.windowSize;
+//   getId({ query, timeConfig, focusedMoment }) {
+//     return focusedMoment + query + timeConfig.to + timeConfig.windowSize;
 //   },
 //
-//   getData: (subscriptionId, { query, focusedMoment, timeframe }) => {
+//   getData: (subscriptionId, { query, focusedMoment, timeConfig }) => {
 //     return {
 //       subscriptionId,
 //       query,
 //       time: focusedMoment,
-//       timeframe
+//       timeConfig
 //     };
 //   }
 // });

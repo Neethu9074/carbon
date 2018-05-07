@@ -5,7 +5,7 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
@@ -15,7 +15,7 @@ const block = 'in-map-no-content-msg';
 
 export default connectTo(
   {
-    focusedMoment: focusedMoment$,
+    timeConfig: timeConfig$,
     query: query$
   },
   class extends React.Component {
@@ -45,8 +45,8 @@ export default connectTo(
 
     componentWillUpdate(nextProps, nextState) {
       let message = `No data found for the query \`${nextProps.query}\``;
-      if (nextProps.focusedMoment) {
-        message += ` at the selected moment: *${formatDateTime(nextProps.focusedMoment)}*.`;
+      if (nextProps.timeConfig.focusedMoment) {
+        message += ` at the selected moment: *${formatDateTime(nextProps.timeConfig.focusedMoment)}*.`;
       } else {
         message += `.`;
       }

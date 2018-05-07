@@ -5,8 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 describe('in-stores/eventsInTimeframe', () => {
-  let focusedMoment$;
-  let timeframe$;
+  let timeConfig$;
   let query$;
   let mod;
   let eventsInTimeframeFromBackend$;
@@ -18,16 +17,14 @@ describe('in-stores/eventsInTimeframe', () => {
 
   beforeEach(() => {
     eventsInTimeframeFromBackend$ = create();
-    focusedMoment$ = create();
-    timeframe$ = create();
+    timeConfig$ = create();
     query$ = create();
     mod = proxyquire('in-stores/eventsInTimeframe/eventsInTimeframe', {
       'in-subscription/eventsInTimeframe': {
         default: () => eventsInTimeframeFromBackend$
       },
-      'in-stores/timeline': {
-        focusedMoment$,
-        timeframe$
+      'in-stores/time/config': {
+        timeConfig$
       },
       'in-stores/search/query': {
         query$
@@ -67,8 +64,7 @@ describe('in-stores/eventsInTimeframe', () => {
       { id: '2', type: 'incident' },
       { id: '3', type: 'change' }
     ]);
-    focusedMoment$.emit(true);
-    timeframe$.emit(true);
+    timeConfig$.emit(true);
     query$.emit(true);
 
     expect(dataCallback).to.have.callCount(2);
@@ -83,8 +79,7 @@ describe('in-stores/eventsInTimeframe', () => {
       { id: '2', type: 'incident' },
       { id: '3', type: 'change' }
     ]);
-    focusedMoment$.emit(true);
-    timeframe$.emit(true);
+    timeConfig$.emit(true);
     query$.emit(true);
 
     eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }]);
@@ -101,8 +96,7 @@ describe('in-stores/eventsInTimeframe', () => {
       { id: '2', type: 'incident' },
       { id: '3', type: 'change' }
     ]);
-    focusedMoment$.emit(true);
-    timeframe$.emit(true);
+    timeConfig$.emit(true);
     query$.emit(true);
     eventsInTimeframeFromBackend$.emit([{ id: '2', type: 'incident' }, { id: '5', type: 'incident' }]);
 
@@ -119,8 +113,7 @@ describe('in-stores/eventsInTimeframe', () => {
       { id: '2', type: 'incident' },
       { id: '3', type: 'change' }
     ]);
-    focusedMoment$.emit(true);
-    timeframe$.emit(true);
+    timeConfig$.emit(true);
     query$.emit(true);
 
     expect(dataCallback.getCall(0).args[0].get('1').rawEvent.type).to.equal('issue');

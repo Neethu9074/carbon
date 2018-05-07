@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function JiraDashboard({ snapshot, timeframe }) {
+export default function JiraDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -11,7 +11,7 @@ export default function JiraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['instruments.http.sessions'],
             labels: ['Current Sessions'],
@@ -27,7 +27,7 @@ export default function JiraDashboard({ snapshot, timeframe }) {
       <DashboardSection title="DB Pool">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['instruments.dbcp.numIdle'],
             labels: ['Idle Connections'],

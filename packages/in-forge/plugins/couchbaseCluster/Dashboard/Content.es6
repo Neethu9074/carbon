@@ -10,7 +10,7 @@ import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/Clust
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.es6';
 
-export default function CouchbaseClusterDashboard({ snapshot, timeframe }) {
+export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
   if (sensorConnectionStatus !== 'OK') {
@@ -35,7 +35,7 @@ export default function CouchbaseClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Throughput">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: number.perSecond.compact,
@@ -46,9 +46,9 @@ export default function CouchbaseClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeframe={timeframe} />
+      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
 
-      <BucketsTable snapshot={snapshot} timeframe={timeframe} bucketMetricsPrefix={BUCKET_METRICS_PREFIX} />
+      <BucketsTable snapshot={snapshot} timeConfig={timeConfig} bucketMetricsPrefix={BUCKET_METRICS_PREFIX} />
     </div>
   );
 }

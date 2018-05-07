@@ -5,7 +5,7 @@ import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 
 export default function createForecastController(config) {
-  let timeframeSpecificSubscriptions = [];
+  let timeConfigSpecificSubscriptions = [];
   let isForecastDefined = false;
 
   determineForecasts();
@@ -103,11 +103,11 @@ export default function createForecastController(config) {
     const rollup = config.forecastConfig.rollup.rollup;
 
     function subscribeToMetric(focusedMoment, metricName, queueIndex, queue, callback) {
-      timeframeSpecificSubscriptions.push(
+      timeConfigSpecificSubscriptions.push(
         getMetricsForTimeframe({
           snapshotId,
           metric: metricName,
-          timeframe: config.timeframe,
+          timeConfig: config.timeConfig,
           rollup,
           focusedMoment
         }).subscribe(dataPoints => callback(dataPoints, queue, queueIndex))
@@ -161,8 +161,8 @@ export default function createForecastController(config) {
   }
 
   function disposeTimeframeSpecificSubscriptions() {
-    timeframeSpecificSubscriptions.forEach(s => s.dispose());
-    timeframeSpecificSubscriptions = [];
+    timeConfigSpecificSubscriptions.forEach(s => s.dispose());
+    timeConfigSpecificSubscriptions = [];
   }
 
   function dispose() {

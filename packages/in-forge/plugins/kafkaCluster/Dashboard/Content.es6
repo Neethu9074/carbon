@@ -14,7 +14,7 @@ import Chart from 'in-components/Chart';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.es6';
 
-export default function KafkaClusterDashboard({ snapshot, timeframe }) {
+export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
@@ -22,7 +22,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Average Request Latency vs Throughput">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: twoDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -42,7 +42,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="All Brokers Traffic">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -55,7 +55,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="All Brokers Messages In">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -68,7 +68,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="All Brokers Failures">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -81,7 +81,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="All Brokers state metrics">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -110,7 +110,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Average Idle Time Percentage">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageZeroDecimalPlaces,
@@ -123,7 +123,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Log Flushing">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: msTwoDecimalPlaces,
             tooltipFormatter: msTwoDecimalPlaces,
@@ -141,7 +141,7 @@ export default function KafkaClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeframe={timeframe} />
+      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </div>
   );
 }

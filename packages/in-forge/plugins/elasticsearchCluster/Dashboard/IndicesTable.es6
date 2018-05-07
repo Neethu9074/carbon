@@ -136,7 +136,7 @@ const cols = [
   }
 ];
 
-export default function IndicesTable({ snapshot, timeframe }) {
+export default function IndicesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'index_names'], emptyList)
@@ -145,7 +145,7 @@ export default function IndicesTable({ snapshot, timeframe }) {
       return {
         key: name,
         name,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     });
@@ -165,7 +165,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
         labels: ['Documents', 'Deletions'],

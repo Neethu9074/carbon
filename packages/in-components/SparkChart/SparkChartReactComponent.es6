@@ -8,7 +8,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './SparkChart.mless';
 
 export default function SparkChartReactComponent(props) {
-  const timeConfig = props.timeConfig || props.timeframe;
+  const timeConfig = props.timeConfig || props.timeConfig;
   const { metrics } = props;
   if (!timeConfig || !metrics) {
     return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;

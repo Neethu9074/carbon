@@ -21,7 +21,7 @@ export default connectTo(
         .map(companions => companions.filter(m => !!m))
     };
   },
-  function CompanionMetrics({ companions, timeframe }) {
+  function CompanionMetrics({ companions, timeConfig }) {
     if (!companions || companions.length === 0) {
       return null;
     }
@@ -30,11 +30,11 @@ export default connectTo(
       <div>
         {companions.map(companion => (
           <div key={companion.get('id')}>
-            <GaugesTable snapshot={companion} timeframe={timeframe} />
-            <CountersTable snapshot={companion} timeframe={timeframe} />
-            <MetersTable snapshot={companion} timeframe={timeframe} />
-            <TimersTable snapshot={companion} timeframe={timeframe} />
-            <HistogramsTable snapshot={companion} timeframe={timeframe} />
+            <GaugesTable snapshot={companion} timeConfig={timeConfig} />
+            <CountersTable snapshot={companion} timeConfig={timeConfig} />
+            <MetersTable snapshot={companion} timeConfig={timeConfig} />
+            <TimersTable snapshot={companion} timeConfig={timeConfig} />
+            <HistogramsTable snapshot={companion} timeConfig={timeConfig} />
           </div>
         ))}
       </div>

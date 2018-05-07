@@ -108,7 +108,7 @@ const cols = [
   }
 ];
 
-export default function BucketsTable({ snapshot, timeframe, bucketMetricsPrefix }) {
+export default function BucketsTable({ snapshot, timeConfig, bucketMetricsPrefix }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'cluster.buckets'], emptyList)
@@ -118,7 +118,7 @@ export default function BucketsTable({ snapshot, timeframe, bucketMetricsPrefix 
         key: bucket,
         snapshot,
         snapshotId,
-        timeframe,
+        timeConfig,
         bucketMetricsPrefix
       };
     });
@@ -140,7 +140,7 @@ function getDetails(row) {
       <DashboardSection title="Throughput">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             metrics: [
               `${row.bucketMetricsPrefix}.${row.key}.ops`,
@@ -157,7 +157,7 @@ function getDetails(row) {
         <Columize>
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               metrics: [`${row.bucketMetricsPrefix}.${row.key}.mem_used_ratio`],
               labels: [`Used memory`],
@@ -170,7 +170,7 @@ function getDetails(row) {
           />
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               metrics: [`${row.bucketMetricsPrefix}.${row.key}.couch_docs_actual_disk_size`],
               labels: ['Used disk'],
@@ -183,7 +183,7 @@ function getDetails(row) {
       <DashboardSection title="Cache">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             metrics: [`${row.bucketMetricsPrefix}.${row.key}.vb_active_resident_items_ratio`],
             labels: ['Active items resident in cache'],
@@ -205,7 +205,7 @@ function getDetails(row) {
         />
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             metrics: [
               `${row.bucketMetricsPrefix}.${row.key}.ep_bg_fetched`,
@@ -221,7 +221,7 @@ function getDetails(row) {
       <DashboardSection title="Fragmentation">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             metrics: [`${row.bucketMetricsPrefix}.${row.key}.couch_docs_fragmentation`],
             labels: ['Docs fragmentation'],

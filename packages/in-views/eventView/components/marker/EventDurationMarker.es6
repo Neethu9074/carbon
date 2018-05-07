@@ -23,10 +23,10 @@ export default connectTo(
       config: serverTime$.flatMap(serverTime =>
         fireCallbacksForEventAtFocusedMomentAsStream(
           props.event,
-          ({ focusedMoment }) => {
+          ({ timeConfig }) => {
             return {
-              to: focusedMoment ? end : serverTime,
-              end: focusedMoment ? end : null,
+              to: timeConfig.focusedMoment ? end : serverTime,
+              end: timeConfig.focusedMoment ? end : null,
               isOpen: true
             };
           },

@@ -95,7 +95,7 @@ export default connectTo(
       connections: getLogicalConnections({ snapshotId: props.snapshot.get('id') })
     };
   },
-  function Resources({ connections, timeframe }) {
+  function Resources({ connections, timeConfig }) {
     if (connections == null) {
       return (
         <MaxWidthFullscreenContainer>
@@ -125,7 +125,7 @@ export default connectTo(
         key: connection.connectionSnapshotId,
         connectionSnapshotId: connection.connectionSnapshotId,
         otherSideSnapshotId: connection.otherSideSnapshotId,
-        timeframe
+        timeConfig
       };
     });
 

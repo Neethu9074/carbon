@@ -82,7 +82,7 @@ const cols = [
   }
 ];
 
-export default function WebModulesTable({ snapshot, timeframe }) {
+export default function WebModulesTable({ snapshot, timeConfig }) {
   const webModules = snapshot.getIn(['data', 'webModules'], emptyList);
   if (webModules.size === 0) {
     return null;
@@ -92,7 +92,7 @@ export default function WebModulesTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -108,7 +108,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['sessionManagers.' + row.key + '.activeCount'],
@@ -118,7 +118,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.avgResponseTime'],

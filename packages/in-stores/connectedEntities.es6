@@ -1,15 +1,16 @@
 import createConnectedEntitiesObservable from 'in-subscription/connectedEntities';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
-export function getConnectedEntities(snapshotId, time) {
+// TODO change callers
+export function getConnectedEntities(snapshotId, timeConfig) {
   if (arguments.length === 1) {
-    return focusedMoment$.flatMap(focusedMoment =>
+    return timeConfig$.flatMap(timeConfig =>
       createConnectedEntitiesObservable({
         snapshotId,
-        time: focusedMoment
+        timeConfig
       })
     );
   }
 
-  return createConnectedEntitiesObservable({ snapshotId, time });
+  return createConnectedEntitiesObservable({ snapshotId, timeConfig });
 }

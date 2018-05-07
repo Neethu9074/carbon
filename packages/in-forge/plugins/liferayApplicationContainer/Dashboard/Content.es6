@@ -6,7 +6,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function LiferayDashboard({ snapshot, timeframe }) {
+export default function LiferayDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -23,7 +23,7 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Portal Latency Overview">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'portalStatistics.averageTime',
@@ -48,7 +48,7 @@ export default function LiferayDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['portalStatistics.requestCount', 'portalStatistics.successCount', 'portalStatistics.errorCount'],
             labels: ['Request Count', 'Success Count', 'Error Count'],

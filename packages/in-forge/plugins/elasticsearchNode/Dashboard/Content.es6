@@ -14,7 +14,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 
 import NodeSummary from '../NodeSummary.es6';
 
-export default function ElasticsearchDashboard({ snapshot, timeframe }) {
+export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <NodeSummary snapshot={snapshot} />
@@ -22,7 +22,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Latency vs. Number of Queries">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
@@ -44,7 +44,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Documents">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
@@ -68,7 +68,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Indices Count">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -82,7 +82,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Shards">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -95,12 +95,12 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <IndicesTable snapshot={snapshot} timeframe={timeframe} />
+      <IndicesTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title="Refresh and Flush">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['indices.refresh_count', 'indices.flush_count'],
             labels: ['Refresh Count', 'Flush Count'],
@@ -120,7 +120,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Lucene Segments">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['indices.segment_count'],
@@ -134,7 +134,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Active Threads">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -156,7 +156,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Queued Tasks">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -177,7 +177,7 @@ export default function ElasticsearchDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Rejected Tasks">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [

@@ -151,7 +151,7 @@ const cols = [
   }
 ];
 
-export default function DatabasesTable({ snapshot, timeframe }) {
+export default function DatabasesTable({ snapshot, timeConfig }) {
   const databases = snapshot
     .getIn(['data', 'dbs'], emptyList)
     .toArray()
@@ -164,7 +164,7 @@ export default function DatabasesTable({ snapshot, timeframe }) {
     return {
       key: database,
       snapshotId: snapshot.get('id'),
-      timeframe,
+      timeConfig,
       snapshot
     };
   });
@@ -178,14 +178,14 @@ export default function DatabasesTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
+  const timeConfig = row.timeConfig;
 
   return (
     <div>
       <DashboardSection title="Transactions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: activityZeroDecimalPlaces,
@@ -205,7 +205,7 @@ function getRowDetails(row) {
       <DashboardSection title="Cache">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -219,7 +219,7 @@ function getRowDetails(row) {
       <DashboardSection title="Conflicts">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,
@@ -232,7 +232,7 @@ function getRowDetails(row) {
       <DashboardSection title="Tuples">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: activityZeroDecimalPlaces,
@@ -245,7 +245,7 @@ function getRowDetails(row) {
       <DashboardSection title="Database Size">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
@@ -258,7 +258,7 @@ function getRowDetails(row) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,

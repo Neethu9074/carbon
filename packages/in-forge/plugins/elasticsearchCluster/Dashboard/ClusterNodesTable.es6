@@ -143,7 +143,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function ClusterNodesTable({ clusterNodes, timeframe }) {
+  function ClusterNodesTable({ clusterNodes, timeConfig }) {
     if (clusterNodes == null || clusterNodes.length === 0) {
       return null;
     }
@@ -154,7 +154,7 @@ export default connectTo(
         key: id,
         snapshotId: id,
         snapshot: clusterNode,
-        timeframe
+        timeConfig
       };
     });
 

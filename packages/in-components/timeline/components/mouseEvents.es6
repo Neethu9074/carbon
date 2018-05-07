@@ -7,7 +7,7 @@ import {
   isCollapsed$,
   to$,
   setTimeFrame,
-  timeframe$,
+  timeConfig$,
   getValidWindowSize,
   fixFocusedMomentIfNotFixed
 } from 'in-components/timeline/timelineStore';
@@ -45,8 +45,8 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
   let bigBangTimestamp = 0;
   const bigBangTimestampSubscription = bigBangTimestamp$.subscribe(time => (bigBangTimestamp = time));
 
-  let timeframe;
-  const timeframeSubscription = timeframe$.subscribe(_timeframe => (timeframe = _timeframe));
+  let timeConfig;
+  const timeframeSubscription = timeConfig$.subscribe(_timeConfig => (timeConfig = _timeConfig));
 
   let focusedMoment;
   const focusedMomentSubscription = focusedMoment$.subscribe(fm => (focusedMoment = fm));
@@ -107,13 +107,13 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
 
     if (newTimeFrame.to >= serverTime) {
       // Only keep live when currently live. Clamp to servertime otherwise
-      if (timeframe.to == null) {
+      if (timeConfig.to == null) {
         newTimeFrame.to = null;
       } else {
         newTimeFrame.to = serverTime;
       }
     } else {
-      // lock the global focused moment if the timeframe was limited to the past
+      // lock the global focused moment if the timeConfig was limited to the past
       // multi locking is checked by lockGlobalFousedMoment implementation
       lockGlobalFousedMoment();
     }
@@ -247,7 +247,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
       domElement.style.cursor = 'ew-resize';
 
       const newTimestamp = Math.max(
-        bigBangTimestamp + timeframe.windowSize,
+        bigBangTimestamp + timeConfig.windowSize,
         Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned))
       );
       setTo(newTimestamp);

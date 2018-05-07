@@ -8,7 +8,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Presets.mless';
 
-export default function Presets({ timeframe, onChange }) {
+export default function Presets({ timeConfig, onChange }) {
   const column1 = getLivePresets();
   const column2 = getFixedTimePresets();
 
@@ -18,20 +18,24 @@ export default function Presets({ timeframe, onChange }) {
 
       {range(0, Math.max(column1.length, column2.length)).map(i => (
         <div className={locals.row} key={i}>
-          {i < column1.length && <SelectableItem timeframe={timeframe} newTimeframe={column1[i]} onChange={onChange} />}
-          {i < column2.length && <SelectableItem timeframe={timeframe} newTimeframe={column2[i]} onChange={onChange} />}
+          {i < column1.length && (
+            <SelectableItem timeConfig={timeConfig} newTimeframe={column1[i]} onChange={onChange} />
+          )}
+          {i < column2.length && (
+            <SelectableItem timeConfig={timeConfig} newTimeframe={column2[i]} onChange={onChange} />
+          )}
         </div>
       ))}
     </div>
   );
 }
 
-function SelectableItem({ timeframe, newTimeframe, onChange }) {
+function SelectableItem({ timeConfig, newTimeframe, onChange }) {
   return (
     <a
       className={evaluateClassNames({
         [locals.item]: true,
-        [locals.activeItem]: timeframe.to === newTimeframe.to && timeframe.windowSize === newTimeframe.windowSize
+        [locals.activeItem]: timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize
       })}
       href="#"
       onClick={e => {

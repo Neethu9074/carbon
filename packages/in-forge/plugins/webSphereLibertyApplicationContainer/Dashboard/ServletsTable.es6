@@ -59,7 +59,7 @@ const cols = [
   }
 ];
 
-export default function ServletsTable({ snapshot, timeframe }) {
+export default function ServletsTable({ snapshot, timeConfig }) {
   const servlets = [];
   snapshot
     .getIn(['data', 'applications'], emptyMap)
@@ -84,7 +84,7 @@ export default function ServletsTable({ snapshot, timeframe }) {
       key: servlet.appName,
       servletName: servlet.servletName,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -100,7 +100,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.requests'],
@@ -110,7 +110,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: muSecondsToMillisTwoDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.avgResponseTime'],

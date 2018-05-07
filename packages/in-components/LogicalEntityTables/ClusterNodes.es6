@@ -6,10 +6,10 @@ import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityT
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { getSnapshot } from 'in-stores/snapshot';
 
-export default function ClusterNodes({ snapshotId, timeframe }) {
+export default function ClusterNodes({ snapshotId, timeConfig }) {
   return (
     <LogicalEntityTable
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       title="Instances"
       dataStream={getClusterMembers(snapshotId)
         // Always start with an empty set to avoid inconsistent view,
@@ -23,5 +23,5 @@ export default function ClusterNodes({ snapshotId, timeframe }) {
 }
 
 function getRowDetails(row) {
-  return <DefaultServiceInstanceCharts snapshot={row.node} timeframe={row.timeframe} />;
+  return <DefaultServiceInstanceCharts snapshot={row.node} timeConfig={row.timeConfig} />;
 }

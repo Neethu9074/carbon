@@ -1,6 +1,5 @@
 import { combineLatest, create } from 'reactive-observables';
 
-import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import { eventFilter$ } from 'in-views/eventView/stores/eventFilterStore';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { setIsLoading } from 'in-views/eventView/stores/isLoadingStore';
@@ -9,6 +8,8 @@ import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import createRawEventsObservable from 'in-subscription/rawEvents';
 import { sortBy$ } from 'in-views/eventView/stores/sortBy';
 import { emptyArray } from 'in-services/fixedObjects';
+import { timeConfig$ } from 'in-stores/time/config';
+import { from$, to$ } from 'in-stores/timeline';
 import { createStore } from 'in-stores/store';
 
 const MAX_PAGE_SIZE = 200;
@@ -19,11 +20,11 @@ let enabled = false;
 let loadSubscription;
 
 // Timestamp bounds to use for queries. Will only be updated when the view
-// becomes visible, when the timeframe changes or when the user explicitly
+// becomes visible, when the timeConfig changes or when the user explicitly
 // hits refresh (or via auto refresh).
 let maxTimestamp;
 let minTimestamp;
-let focusedMoment;
+let timeConfig;
 
 let autoUpdateHandle;
 
@@ -66,8 +67,7 @@ export function enable() {
       sortByField = _sortBy;
       refreshStream.emit(true);
     }),
-    focusedMoment$.subscribe(() => refreshStream.emit(true)),
-    timeframe$.subscribe(() => refreshStream.emit(true)),
+    timeConfig$.subscribe(() => refreshStream.emit(true)),
     query$.subscribe(_query => {
       query = _query;
       refreshStream.emit(true);
@@ -104,8 +104,8 @@ export function refresh() {
     return;
   }
 
-  combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
-    focusedMoment = _focusedMoment;
+  combineLatest([timeConfig$, to$, from$]).once(([_timeConfig, to, from]) => {
+    timeConfig = _timeConfig;
     maxTimestamp = to;
     minTimestamp = from;
 
@@ -132,7 +132,7 @@ export function loadMoreRawEvents() {
 
     disposeExistingLoad();
     loadSubscription = createRawEventsObservable({
-      time: focusedMoment,
+      timeConfig,
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
       sortByField,

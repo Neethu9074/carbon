@@ -3,7 +3,7 @@ import React from 'react';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -60,9 +60,9 @@ function mergeVersionLists(listA, listB) {
 
 const VersionList = connectTo(
   {
-    focusedMoment: focusedMoment$
+    timeConfig: timeConfig$
   },
-  function VersionList({ title, versions, focusedMoment }) {
+  function VersionList({ title, versions, timeConfig }) {
     return (
       <div className={`${block}__list-wrapper`}>
         <p className={`${block}__header`}>{title}</p>
@@ -72,11 +72,11 @@ const VersionList = connectTo(
             const from = version.from;
             const to = version.to;
             const prev = versions[i - 1];
-            if (focusedMoment > from && (!prev || focusedMoment < prev.from)) {
+            if (timeConfig.focusedMoment > from && (!prev || timeConfig.focusedMoment < prev.from)) {
               return [
                 <li className={`${block}__focused-moment`} key={`${to}-${from}`}>
                   <span className={`${block}__key`}>selected moment:</span>
-                  <span className={`${block}__value`}>{formatDateTime(focusedMoment)}</span>
+                  <span className={`${block}__value`}>{formatDateTime(timeConfig.focusedMoment)}</span>
                 </li>,
                 <ListItem key={`${from},${to}`} from={from} to={to} />
               ];

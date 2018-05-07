@@ -1,6 +1,7 @@
 import React from 'react';
 
 import EntityInformation from 'in-components/EntityInformation';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getEntitySnapshot$BySpan } from 'in-stores/traces';
 import { getSnapshot } from 'in-stores/snapshot';
 import { SPAN_KINDS } from 'in-sdk/tracing';
@@ -13,9 +14,9 @@ export default connectTo(
     const start = props.span.get('start');
 
     return {
-      sourceServiceSnapshot: getSnapshot(sourceId, start),
+      sourceServiceSnapshot: getSnapshot(sourceId, getTimeConfigAtMoment(start)),
       sourceEntitySnapshot: getEntitySnapshot$BySpan(props.span, 'source'),
-      destinationServiceSnapshot: getSnapshot(destinationId, start)
+      destinationServiceSnapshot: getSnapshot(destinationId, getTimeConfigAtMoment(start))
     };
   },
   function SpanServiceInformation({ span, sourceServiceSnapshot, sourceEntitySnapshot, destinationServiceSnapshot }) {

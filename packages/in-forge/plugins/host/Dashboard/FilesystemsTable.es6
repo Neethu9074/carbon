@@ -113,7 +113,7 @@ const iFreeColumn = {
   }
 };
 
-export default function FilesystemsTable({ snapshot, timeframe }) {
+export default function FilesystemsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const windows = isWindows(snapshot);
   const rows = snapshot
@@ -122,7 +122,7 @@ export default function FilesystemsTable({ snapshot, timeframe }) {
       return {
         key: name,
         filesystem,
-        timeframe,
+        timeConfig,
         snapshotId,
         snapshot,
         windows
@@ -155,7 +155,7 @@ function getDetails(row) {
       {row.windows || !row.filesystem.get('icapacity') ? (
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
@@ -169,7 +169,7 @@ function getDetails(row) {
       ) : (
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
@@ -193,7 +193,7 @@ function getDetails(row) {
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,

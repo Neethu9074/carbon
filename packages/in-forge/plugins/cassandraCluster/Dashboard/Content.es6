@@ -13,14 +13,14 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import { capitalize } from 'in-services/formatters/string';
 
-export default function CassandraClusterDashboard({ snapshot, timeframe }) {
+export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
       <DashboardSection title="Overall Requests">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['clientrequests.read.count'],
@@ -42,7 +42,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
         <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies Average'} key={op}>
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: muSecondsToMillisTwoDecimalPlaces,
@@ -62,7 +62,7 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Overall Disk Size">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -73,10 +73,10 @@ export default function CassandraClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <ClusterNodesTable snapshot={snapshot} timeframe={timeframe} />
+      <ClusterNodesTable snapshot={snapshot} timeConfig={timeConfig} />
       <ClusterDownNodesTable snapshot={snapshot} />
 
-      <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
+      <KeyspacesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

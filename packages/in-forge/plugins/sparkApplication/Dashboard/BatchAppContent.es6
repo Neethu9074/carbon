@@ -8,7 +8,7 @@ import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
 import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
 import StagesTable from './StagesTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';
-export default function BatchAppContent({ snapshot, timeframe }) {
+export default function BatchAppContent({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
   const stagesTable = semver.satisfies(version, '>=1.6.0') ? (
     <StagesTable snapshot={snapshot} />
@@ -20,7 +20,7 @@ export default function BatchAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Jobs">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['failedJobs', 'completedJobs', 'activeJobs'],
@@ -32,7 +32,7 @@ export default function BatchAppContent({ snapshot, timeframe }) {
       <DashboardSection title="Stages">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['pendingStages', 'failedStages', 'completedStages', 'activeStages'],
@@ -41,11 +41,11 @@ export default function BatchAppContent({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      {timeframe.to == null ? stagesTable : null}
+      {timeConfig.to == null ? stagesTable : null}
       {semver.satisfies(version, '>=2.0.0') ? (
-        <ExecutorsBatchAppTable snapshot={snapshot} timeframe={timeframe} />
+        <ExecutorsBatchAppTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : (
-        <ExecutorsBatchAppTableBeforeV200 snapshot={snapshot} timeframe={timeframe} />
+        <ExecutorsBatchAppTableBeforeV200 snapshot={snapshot} timeConfig={timeConfig} />
       )}
     </div>
   );

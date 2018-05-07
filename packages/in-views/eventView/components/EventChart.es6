@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
@@ -40,8 +41,8 @@ export default addSection(
         <div className={block}>
           {triggeringMetrics.map(metric => {
             const metricName = metric.get('metricName');
-            const timeframe = getChartTimeframeByEvent({ event, to });
-            const rollup = getRollupForTimeframe(timeframe);
+            const timeConfig = getChartTimeframeByEvent({ event, to });
+            const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
 
             return (
@@ -50,7 +51,7 @@ export default addSection(
                 metric={metricName}
                 snapshotId={metric.get('snapshotId')}
                 start={event.get('start')}
-                timeframe$={always(timeframe)}
+                timeConfig$={always(timeConfig)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
@@ -66,10 +67,10 @@ export default addSection(
 const ChartWrapper = connectTo(
   props => {
     return {
-      snapshot: getSnapshot(props.snapshotId, props.start)
+      snapshot: getSnapshot(props.snapshotId, getTimeConfigAtMoment(props.start))
     };
   },
-  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
+  function ChartWrapper({ timeConfig$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
     if (!snapshot) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
@@ -80,9 +81,9 @@ const ChartWrapper = connectTo(
       const oneDay = 1000 * 60 * 60 * 24;
       forecastSensitivity = anomalyConfig.get('sensitivity', 50);
       focusedMoment = anomalyConfig.get('ts');
-      timeframe$ = timeframe$.map(timeframe => {
+      timeConfig$ = timeConfig$.map(timeConfig => {
         return {
-          to: timeframe.to ? timeframe.to : Date.now() + oneDay,
+          to: timeConfig.to ? timeConfig.to : Date.now() + oneDay,
           windowSize: oneDay * 14
         };
       });
@@ -93,7 +94,7 @@ const ChartWrapper = connectTo(
       <div className={`${block}__chart`}>
         <Chart
           snapshotId={snapshotId}
-          timeframe$={timeframe$}
+          timeConfig$={timeConfig$}
           currentRollup={rollup}
           margins={{
             right: 1

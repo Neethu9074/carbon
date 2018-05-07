@@ -19,7 +19,7 @@ const cols = [
   }
 ];
 
-export default function NodesTable({ snapshot, timeframe }) {
+export default function NodesTable({ snapshot, timeConfig }) {
   const nodes = snapshot
     .getIn(['data', 'nodes'], emptyList)
     .toArray()
@@ -31,7 +31,7 @@ export default function NodesTable({ snapshot, timeframe }) {
   const rows = nodes.map(node => {
     return {
       key: node,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -45,14 +45,14 @@ export default function NodesTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
+  const timeConfig = row.timeConfig;
 
   return (
     <Columize>
       <div>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
             labels: ['Used file descriptors', 'Total file descriptors'],
@@ -61,7 +61,7 @@ function getRowDetails(row) {
         />
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
@@ -74,7 +74,7 @@ function getRowDetails(row) {
       <div>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
             labels: ['Erlang processes in use', 'Maximum number of Erlang processes'],
@@ -84,7 +84,7 @@ function getRowDetails(row) {
 
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,

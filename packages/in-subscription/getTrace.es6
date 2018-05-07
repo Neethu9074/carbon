@@ -6,9 +6,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 export default createSubscription({
   eventId: 'subscribe-trace',
 
-  getId: traceId => traceId,
-
-  getData: (subscriptionId, traceId) => {
+  getData(subscriptionId, traceId) {
     return {
       subscriptionId,
       traceId

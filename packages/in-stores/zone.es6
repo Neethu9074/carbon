@@ -1,9 +1,9 @@
 import createZoneObservable from 'in-subscription/zone';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
 export function getZone(snapshotId, time) {
   if (time) {
     return createZoneObservable({ snapshotId, time });
   }
-  return focusedMoment$.flatMap(focusedMoment => createZoneObservable({ snapshotId, time: focusedMoment }));
+  return timeConfig$.flatMap(timeConfig => createZoneObservable({ snapshotId, timeConfig }));
 }

@@ -7,7 +7,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function PythonDashboard({ snapshot, timeframe }) {
+export default function PythonDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
@@ -15,36 +15,36 @@ export default function PythonDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="GC Activity">{renderGcMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="GC Activity">{renderGcMetrics(snapshot, timeConfig)}</DashboardSection>
 
-        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeConfig)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Threads">{renderThreadsMetrics(snapshot, timeframe)}</DashboardSection>
-        <DashboardSection title="Time Spent">{renderTimeMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Threads">{renderThreadsMetrics(snapshot, timeConfig)}</DashboardSection>
+        <DashboardSection title="Time Spent">{renderTimeMetrics(snapshot, timeConfig)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Paging">{renderPagingMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Paging">{renderPagingMetrics(snapshot, timeConfig)}</DashboardSection>
 
-        <DashboardSection title="I/O">{renderIoMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="I/O">{renderIoMetrics(snapshot, timeConfig)}</DashboardSection>
       </Columize>
 
       <Columize>
-        <DashboardSection title="Events">{renderEventsMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Events">{renderEventsMetrics(snapshot, timeConfig)}</DashboardSection>
 
-        <DashboardSection title="Context Switching">{renderContextMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Context Switching">{renderContextMetrics(snapshot, timeConfig)}</DashboardSection>
       </Columize>
     </div>
   );
 }
 
-function renderTimeMetrics(snapshot, timeframe) {
+function renderTimeMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: timeByMillisTwoDecimalPlaces,
@@ -56,11 +56,11 @@ function renderTimeMetrics(snapshot, timeframe) {
   );
 }
 
-function renderMemoryMetrics(snapshot, timeframe) {
+function renderMemoryMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
@@ -72,11 +72,11 @@ function renderMemoryMetrics(snapshot, timeframe) {
   );
 }
 
-function renderGcMetrics(snapshot, timeframe) {
+function renderGcMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -95,11 +95,11 @@ function renderGcMetrics(snapshot, timeframe) {
   );
 }
 
-function renderPagingMetrics(snapshot, timeframe) {
+function renderPagingMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -111,11 +111,11 @@ function renderPagingMetrics(snapshot, timeframe) {
   );
 }
 
-function renderThreadsMetrics(snapshot, timeframe) {
+function renderThreadsMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -127,11 +127,11 @@ function renderThreadsMetrics(snapshot, timeframe) {
   );
 }
 
-function renderIoMetrics(snapshot, timeframe) {
+function renderIoMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -143,11 +143,11 @@ function renderIoMetrics(snapshot, timeframe) {
   );
 }
 
-function renderEventsMetrics(snapshot, timeframe) {
+function renderEventsMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,
@@ -159,11 +159,11 @@ function renderEventsMetrics(snapshot, timeframe) {
   );
 }
 
-function renderContextMetrics(snapshot, timeframe) {
+function renderContextMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,

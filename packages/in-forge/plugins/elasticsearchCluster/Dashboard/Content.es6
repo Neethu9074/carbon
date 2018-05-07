@@ -16,7 +16,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
+export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
@@ -24,7 +24,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Latency vs. Number of Queries">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
@@ -47,7 +47,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Documents">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
@@ -71,7 +71,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Indices">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: withSiPrefixZeroDecimalPlaces,
@@ -85,7 +85,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Shards">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: withSiPrefixThreeDecimalPlaces,
@@ -107,7 +107,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cluster State Size">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -119,9 +119,9 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeframe={timeframe} />
+      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
 
-      <IndicesTable snapshot={snapshot} timeframe={timeframe} />
+      <IndicesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

@@ -53,7 +53,7 @@ const cols = [
   }
 ];
 
-export default function SpaTable({ snapshot, timeframe }) {
+export default function SpaTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const hashes = snapshot.getIn(['data', 'service_endpoint_hashes']);
   const rows = [];
@@ -75,7 +75,7 @@ export default function SpaTable({ snapshot, timeframe }) {
         metricPrefix: `endpoint.${pageName}.`,
         snapshot,
         pageHash,
-        timeframe: timeframe,
+        timeConfig: timeConfig,
         snapshotId: snapshotId
       });
     });
@@ -94,7 +94,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         formatter: number.compact,

@@ -108,7 +108,7 @@ const cols = [
   }
 ];
 
-export default function CoresTable({ snapshot, timeframe }) {
+export default function CoresTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'core_names'], emptyList)
@@ -116,7 +116,7 @@ export default function CoresTable({ snapshot, timeframe }) {
     .map(name => {
       return {
         key: name,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     });
@@ -139,7 +139,7 @@ function getRowDetails(row) {
         <DashboardSection title="Requests">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.avg_requests'],
@@ -152,7 +152,7 @@ function getRowDetails(row) {
         <DashboardSection title="Request Time">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.avg_time_request'],
@@ -168,7 +168,7 @@ function getRowDetails(row) {
         <DashboardSection title="Cache Lookups">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.lookups'],
@@ -181,7 +181,7 @@ function getRowDetails(row) {
         <DashboardSection title="Cache Hit Rate">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.hitratio'],
@@ -197,7 +197,7 @@ function getRowDetails(row) {
         <DashboardSection title="Insertions">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.inserts'],
@@ -210,7 +210,7 @@ function getRowDetails(row) {
         <DashboardSection title="Evictions">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.evictions'],
@@ -226,7 +226,7 @@ function getRowDetails(row) {
         <DashboardSection title="Errors">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.errors'],
@@ -239,7 +239,7 @@ function getRowDetails(row) {
         <DashboardSection title="Timeouts">
           <Chart
             snapshotId={row.snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.timeouts'],
@@ -254,7 +254,7 @@ function getRowDetails(row) {
       <DashboardSection title="Documents">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             metrics: ['core_stats.' + row.key + '.docs_added', 'core_stats.' + row.key + '.docs_pending'],

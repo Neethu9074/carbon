@@ -6,20 +6,20 @@ import React from 'react';
 
 export default connectTo(
   props => {
-    if (props.timeframe.to) {
+    if (props.timeConfig.to) {
       return {
         metrics: props.datasource,
-        timeframe: always({
-          windowSize: props.timeframe.windowSize + props.wiggleRoom,
-          to: props.timeframe.to
+        timeConfig: always({
+          windowSize: props.timeConfig.windowSize + props.wiggleRoom,
+          to: props.timeConfig.to
         })
       };
     }
 
     return {
       metrics: props.datasource,
-      timeframe: serverTime$.map(serverTime => ({
-        windowSize: props.timeframe.windowSize + props.wiggleRoom,
+      timeConfig: serverTime$.map(serverTime => ({
+        windowSize: props.timeConfig.windowSize + props.wiggleRoom,
         to: serverTime - props.wiggleRoom
       }))
     };

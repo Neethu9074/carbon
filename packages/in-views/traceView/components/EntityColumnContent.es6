@@ -11,10 +11,11 @@ import './EntityColumnContent.less';
 
 const block = 'in-trace-view-entity-column';
 
+// TODO change callers: callers previous passed in time. They now need to pass in timeConfig
 export default connectTo(
   props => {
     return {
-      snapshot: getSnapshot(props.serviceSnapshotId, props.time)
+      snapshot: getSnapshot(props.serviceSnapshotId, props.timeConfig)
     };
   },
   function EntityColumnContent({ snapshot, getLabelCallback = identity }) {

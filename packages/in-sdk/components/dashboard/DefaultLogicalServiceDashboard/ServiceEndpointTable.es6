@@ -87,7 +87,7 @@ const cols = [
   }
 ];
 
-export default function ServiceEndpointTable({ snapshot, timeframe }) {
+export default function ServiceEndpointTable({ snapshot, timeConfig }) {
   const rows = snapshot
     .getIn(['data', 'service_endpoints'], emptyList)
     .toArray()
@@ -95,7 +95,7 @@ export default function ServiceEndpointTable({ snapshot, timeframe }) {
       return {
         key: endpointName,
         snapshotId: snapshot.get('id'),
-        timeframe: timeframe
+        timeConfig: timeConfig
       };
     });
 
@@ -117,14 +117,14 @@ export default function ServiceEndpointTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
+  const timeConfig = row.timeConfig;
   const endpointLabel = row.key;
 
   return (
     <div>
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           min: 0,
           formatter: twoDecimalPlaces,
@@ -143,7 +143,7 @@ function getRowDetails(row) {
 
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         height={200}
         y1={{
           min: 0,
@@ -165,7 +165,7 @@ function getRowDetails(row) {
 
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           min: 0,
           formatter: percentageTwoDecimalPlaces,

@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function VarnishDashboard({ snapshot, timeframe }) {
+export default function VarnishDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const snapshotId = snapshot.get('id');
   const hasMse = data.get('mse');
@@ -26,7 +26,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Client">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['sess_conn', 'client_req', 'sess_dropped'],
             labels: [
@@ -42,7 +42,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cache">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cache_hit', 'cache_miss', 'cache_hitpass'],
@@ -63,7 +63,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cached objects">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['n_expired', 'n_lru_nuked'],
@@ -76,7 +76,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Threads">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -103,7 +103,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Backend">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -125,7 +125,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Massive Storage Engine">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['mse_bytes'],
               labels: ['Used Bytes'],
@@ -133,7 +133,7 @@ export default function VarnishDashboard({ snapshot, timeframe }) {
               formatter: bytesZeroDecimalPlaces
             }}
           />
-          <MseTable snapshot={snapshot} timeframe={timeframe} />
+          <MseTable snapshot={snapshot} timeConfig={timeConfig} />
         </DashboardSection>
       ) : null}
     </div>

@@ -6,7 +6,7 @@ import Chart from 'in-components/Chart';
 
 import AZClassicTable from './AZClassicTable';
 
-export default function AwsElbAppDashboard({ snapshot, timeframe }) {
+export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -14,7 +14,7 @@ export default function AwsElbAppDashboard({ snapshot, timeframe }) {
       <DashboardSection title="ELB HTTP errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['elb_4XX_count', 'elb_5XX_count'],
@@ -24,7 +24,7 @@ export default function AwsElbAppDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <AZClassicTable snapshot={snapshot} timeframe={timeframe} />
+      <AZClassicTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

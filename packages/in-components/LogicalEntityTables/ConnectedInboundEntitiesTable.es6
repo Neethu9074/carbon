@@ -12,7 +12,7 @@ export default connectTo(props => {
   };
 }, ConnectedEntitiesTable);
 
-function ConnectedEntitiesTable({ timeframe, connectedEntities }) {
+function ConnectedEntitiesTable({ timeConfig, connectedEntities }) {
   if (!connectedEntities) {
     return null;
   }
@@ -24,7 +24,7 @@ function ConnectedEntitiesTable({ timeframe, connectedEntities }) {
 
   return (
     <LogicalConnectionEntityTable
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       title={'Connection From'}
       dataStream={getSnapshot(id).map(_snapshot => [_snapshot])}
       getRowDetails={getRowDetails}
@@ -33,5 +33,5 @@ function ConnectedEntitiesTable({ timeframe, connectedEntities }) {
 }
 
 function getRowDetails(row) {
-  return <DefaultCharts snapshot={row.node} timeframe={row.timeframe} />;
+  return <DefaultCharts snapshot={row.node} timeConfig={row.timeConfig} />;
 }

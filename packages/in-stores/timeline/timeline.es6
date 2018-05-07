@@ -1,33 +1,17 @@
 import { create } from 'reactive-observables';
 
-import { timeConfig$, getTimeConfig, urlQueryKeys, timeConfigShape } from 'in-stores/time/config';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
+import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
+export { timeConfig$ } from 'in-stores/time/config';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';
 
-// An object of the following structure
-// {
-//   windowSize: <number: Number of milliseconds the window should be big>
-//   to?: <number: An optional, fixed end point in time>
-// }
-// drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
-// TODO remove in Q3 2018
-export const timeframe$ = timeConfig$.map(config => ({ to: config.to, windowSize: config.windowSize }));
-export const timeframe = timeframe$;
-
-export function getTimeframe(params) {
-  const config = getTimeConfig(params);
-  // drop non timeframe properties (we don't have json ignore unknown props in old backend versions)
-  // TODO remove in Q3 2018
-  return { to: config.to, windowSize: config.windowSize };
-}
-
-export const to$ = timeframe$
-  .flatMap(_timeframe => {
-    if (_timeframe.to) {
-      return create().emit(_timeframe.to);
+export const to$ = timeConfig$
+  .flatMap(_timeConfig => {
+    if (_timeConfig.to) {
+      return create().emit(_timeConfig.to);
     }
     return serverTime$;
   })
@@ -40,10 +24,8 @@ export function setTo(to) {
   });
 }
 
-export const focusedMoment$ = timeConfig$.map(config => config.focusedMoment).distinct();
-
 let currentTimeframe;
-timeframe$.subscribe(tf => (currentTimeframe = tf));
+timeConfig$.subscribe(tf => (currentTimeframe = tf));
 
 let currentServertime;
 serverTime$.subscribe(st => (currentServertime = st));
@@ -70,24 +52,14 @@ export function lockFocusedMoment() {
   });
 }
 
-export const live$ = focusedMoment$.map(moment => !moment).distinct();
+// TODO adapt to changed auto refresh strategy
+export const live$ = timeConfig$.map(timeConfig => !timeConfig.focusedMoment).distinct();
 
-export const resolvedFocusedMoment$ = focusedMoment$
-  .flatMap(_focusedMoment => {
-    if (_focusedMoment == null) {
-      return serverTime$;
-    }
-    return focusedMoment$;
+export const from$ = timeConfig$
+  .flatMap(_timeConfig => {
+    return to$.map(to => to - _timeConfig.windowSize);
   })
   .distinct();
-
-export const from$ = timeframe$
-  .flatMap(_timeframe => {
-    return to$.map(to => to - _timeframe.windowSize);
-  })
-  .distinct();
-
-export const timeframeShape = timeConfigShape;
 
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {
@@ -125,7 +97,7 @@ export const bigBangTimestamp = createTrackingStore({
 export const bigBangTimestamp$ = bigBangTimestamp;
 
 export function getCurrentViewWithTimelineFocusedAt(moment) {
-  return timeframe$.flatMap(({ to, windowSize }) => {
+  return timeConfig$.flatMap(({ to, windowSize }) => {
     if (to) {
       to = moment + windowSize / 2;
     } else {

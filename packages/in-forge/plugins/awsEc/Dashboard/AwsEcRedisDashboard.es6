@@ -5,7 +5,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number, bytes, seconds } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
-export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
+export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -13,7 +13,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Bytes Used">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_cache'],
@@ -26,7 +26,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cache">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cache_hits', 'cache_misses'],
@@ -39,7 +39,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Replication">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['replication_bytes'],
@@ -60,7 +60,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Commands">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['get_type_cmds', 'hash_based_cmds', 'key_based_cmds', 'list_based_cmds'],
@@ -73,7 +73,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Commands">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['set_based_cmds', 'sorted_set_based_cmds', 'string_based_cmds', 'hyper_log_log_based_cmds'],

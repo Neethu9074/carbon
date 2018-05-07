@@ -50,7 +50,7 @@ const cols = [
   }
 ];
 
-export default function AZClassicTable({ snapshot, timeframe }) {
+export default function AZClassicTable({ snapshot, timeConfig }) {
   const availabilityZones = snapshot.getIn(['data', 'availability_zones'], emptyList);
   if (availabilityZones.size === 0) {
     return null;
@@ -59,7 +59,7 @@ export default function AZClassicTable({ snapshot, timeframe }) {
     .map(availabilityZone => {
       return {
         key: availabilityZone,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })
@@ -78,7 +78,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: [
@@ -101,7 +101,7 @@ function getDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: ['azMetrics.' + id + '.latency'],
@@ -119,7 +119,7 @@ function getDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: ['azMetrics.' + id + '.surge_queue_length'],

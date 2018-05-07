@@ -4,7 +4,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -38,5 +38,5 @@ export default connectTo(
 );
 
 function getClusterForPod(snapshotId) {
-  return focusedMoment$.flatMap(time => createClusterForPodSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createClusterForPodSubscription({ snapshotId, timeConfig }));
 }

@@ -57,7 +57,7 @@ function connector({ snapshot, match }) {
   };
 }
 
-function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
+function ResourceDetails({ connection, connectedSnapshot, timeConfig }) {
   if (connection == null || connectedSnapshot == null) {
     return <LoadingIndicator type="dark" />;
   } else if (connection === notFoundIndicator || connectedSnapshot === notFoundIndicator) {
@@ -86,7 +86,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
           <DashboardTile title="Views vs Page Load Time">
             <Chart
               snapshotId={connection.connectionSnapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               height={200}
               y1={{
                 min: 0,
@@ -111,7 +111,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
           <DashboardTile title="Load Time Breakdown">
             <Chart
               snapshotId={connection.connectionSnapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               height={200}
               y1={{
                 min: 0,
@@ -127,7 +127,7 @@ function ResourceDetails({ connection, connectedSnapshot, timeframe }) {
       </Row>
 
       <DashboardTile title="Caching">
-        <ResourceCaching snapshotId={connection.connectionSnapshotId} timeframe={timeframe} />
+        <ResourceCaching snapshotId={connection.connectionSnapshotId} timeConfig={timeConfig} />
       </DashboardTile>
     </div>
   );

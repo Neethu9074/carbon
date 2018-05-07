@@ -2,7 +2,7 @@ import React from 'react';
 
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import './LabeledSparkChart.less';
@@ -11,9 +11,9 @@ const block = 'in-labeled-spark-chart';
 
 export default connectTo(
   {
-    timeframe: timeframe$
+    timeConfig: timeConfig$
   },
-  function LabeledSparkChart({ snapshotId, timeframe, metric, className }) {
+  function LabeledSparkChart({ snapshotId, timeConfig, metric, className }) {
     const { label, formatter, aggregation } = metric;
     const metricName = metric.metric;
 
@@ -25,7 +25,7 @@ export default connectTo(
       <div className={classes}>
         <HistoricMetricSparkChart
           width={115}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           snapshotId={snapshotId}
           metric={metricName}
           tooltipFormatter={formatter.detailed}

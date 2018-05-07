@@ -120,7 +120,7 @@ const cols = [
   }
 ];
 
-export default function PoolTable({ snapshot, timeframe }) {
+export default function PoolTable({ snapshot, timeConfig }) {
   const pools = snapshot.getIn(['data', 'poolsList'], emptyList);
   if (pools.size === 0) {
     return null;
@@ -129,7 +129,7 @@ export default function PoolTable({ snapshot, timeframe }) {
     .map(pool => {
       return {
         key: pool,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })
@@ -148,7 +148,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           max: 1,
@@ -160,7 +160,7 @@ function getDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: ['pools.' + id + '.num_objects_pool'],
@@ -171,7 +171,7 @@ function getDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: ['pools.' + id + '.read_bytes_pool'],
@@ -190,7 +190,7 @@ function getDetails(row) {
       <Columize>
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             metrics: ['pools.' + id + '.read_bytes_sec_pool'],
@@ -208,7 +208,7 @@ function getDetails(row) {
         />
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             min: 0,
             metrics: ['pools.' + id + '.read_op_per_sec_pool'],

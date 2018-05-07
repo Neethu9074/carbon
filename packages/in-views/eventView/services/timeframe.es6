@@ -7,17 +7,17 @@ export function getChartTimeframeByEvent({
   from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - 1000 * 60),
   to = event.get('state') === 'closed' ? event.get('end') : null
 }) {
-  const timeframe = {
+  const timeConfig = {
     to,
     windowSize: event.get('end') - from
   };
 
   if (event.get('state') === 'open') {
-    timeframe.windowSize += chartOffset;
+    timeConfig.windowSize += chartOffset;
   }
 
-  const rollupDuration = getDefaultMetricRollupDuration(timeframe).rollup;
-  timeframe.windowSize = Math.max(rollupDuration * 10, timeframe.windowSize);
+  const rollupDuration = getDefaultMetricRollupDuration(timeConfig).rollup;
+  timeConfig.windowSize = Math.max(rollupDuration * 10, timeConfig.windowSize);
 
-  return timeframe;
+  return timeConfig;
 }

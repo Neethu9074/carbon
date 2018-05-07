@@ -4,7 +4,7 @@ import { twoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
-export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) {
+export default function PageAssetCharts({ snapshotId, timeConfig, prefix = '' }) {
   return (
     <div>
       <p>
@@ -27,7 +27,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
 
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           min: 0,
           formatter: twoDecimalPlaces,

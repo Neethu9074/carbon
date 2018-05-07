@@ -5,7 +5,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 
-export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
+export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const localPeerNames = extractLocalPeerNames(snapshot);
 
@@ -16,7 +16,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeframe }) {
           <Chart
             key={peer}
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['peers.' + peer + '.tick'],

@@ -98,7 +98,7 @@ const cols = [
   }
 ];
 
-export default function WebsitesTable({ snapshot, timeframe }) {
+export default function WebsitesTable({ snapshot, timeConfig }) {
   const webSites = snapshot.getIn(['data', 'allsites'], emptyList);
   if (webSites.size === 0) {
     return null;
@@ -108,7 +108,7 @@ export default function WebsitesTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -125,7 +125,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['siteperf.' + name + '.total_requests'],
           labels: ['Total number of requests'],
@@ -135,7 +135,7 @@ function getDetails(row) {
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['siteperf.' + name + '.current_connections'],
           labels: ['Current number of connections'],
@@ -145,7 +145,7 @@ function getDetails(row) {
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           metrics: [

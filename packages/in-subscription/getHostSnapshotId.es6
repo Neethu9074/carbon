@@ -1,10 +1,11 @@
 import createSubscription from 'in-subscription/subscription';
+import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({
   eventId: 'subscribe-host-snapshot-id',
 
   getId(snapshot) {
-    return JSON.stringify(snapshot.get('entityId').toJS());
+    return generateStableHash(snapshot.get('entityId').toJS());
   },
 
   getData(subscriptionId, snapshot) {

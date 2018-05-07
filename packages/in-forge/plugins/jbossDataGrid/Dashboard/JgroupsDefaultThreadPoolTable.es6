@@ -69,7 +69,7 @@ const cols = [
   }
 ];
 
-export default function ClusterUDPStatisticsTable({ snapshot, timeframe }) {
+export default function ClusterUDPStatisticsTable({ snapshot, timeConfig }) {
   const clusters = snapshot
     .getIn(['data', 'clusters'], emptyMap)
     .filter(clusterInfo => clusterInfo.get('udpStats') === true)
@@ -83,7 +83,7 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeframe }) {
   const rows = clusters.map(cluster => {
     return {
       key: cluster,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -100,7 +100,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: number.compact,
           metrics: [

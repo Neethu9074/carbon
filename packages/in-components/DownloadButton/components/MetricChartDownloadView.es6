@@ -4,28 +4,28 @@ import React from 'react';
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import { serverTime$ } from 'in-stores/serverTime';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/timeline';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
     return {
-      metricValues: combineLatest([timeframe$, serverTime$])
-        .map(([timeframe, serverTime]) => {
-          if (!timeframe.to) {
-            timeframe.to = serverTime;
+      metricValues: combineLatest([timeConfig$, serverTime$])
+        .map(([timeConfig, serverTime]) => {
+          if (!timeConfig.to) {
+            timeConfig.to = serverTime;
           }
-          return timeframe;
+          return timeConfig;
         })
         .distinct()
-        .flatMap(timeframe =>
+        .flatMap(timeConfig =>
           combineLatest(
             props.snapshots.map(snapshot => {
               const ops = {
                 snapshotId: snapshot.get('id'),
                 metric: props.metric,
-                timeframe
+                timeConfig
               };
 
               return getMetricsForTimeframe(ops)

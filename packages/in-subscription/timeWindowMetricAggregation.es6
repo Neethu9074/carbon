@@ -3,16 +3,16 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-time-window-metric-aggregation',
 
-  getId({ snapshotId, metric, timeframe, aggregation, rollup, timeWindowAggregation }) {
-    return snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + rollup + timeWindowAggregation;
+  getId({ snapshotId, metric, timeConfig, aggregation, rollup, timeWindowAggregation }) {
+    return snapshotId + metric + timeConfig.windowSize + timeConfig.to + aggregation + rollup + timeWindowAggregation;
   },
 
-  getData(subscriptionId, { snapshotId, metric, timeframe, aggregation, rollup, timeWindowAggregation }) {
+  getData(subscriptionId, { snapshotId, metric, timeConfig, aggregation, rollup, timeWindowAggregation }) {
     return {
       subscriptionId,
       aggregation,
       snapshotId,
-      timeframe,
+      timeConfig,
       metric,
       rollup,
       timeWindowAggregation

@@ -11,7 +11,7 @@ import { getLabel } from 'in-sdk/snapshot';
 
 const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
 
-export default function MySqlDashboard({ snapshot, timeframe }) {
+export default function MySqlDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
   const waitEvents = [
@@ -48,7 +48,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Queries">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -68,7 +68,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Slow Queries">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
@@ -82,7 +82,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Latency">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['status.DB_QUERY_LATENCY'],
@@ -96,7 +96,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Clients">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
@@ -110,7 +110,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Wait Events">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
@@ -124,7 +124,7 @@ export default function MySqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Key Access">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],

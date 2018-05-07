@@ -2,16 +2,16 @@ import React from 'react';
 
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { compare as compareBoolean } from 'in-services/util/boolean';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
-import { focusedMoment$ } from 'in-stores/timeline';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
@@ -34,7 +34,7 @@ const cols = [
           const to = row.snapshot.get('to') || Date.now();
           const reportingWindowSize = to - row.snapshot.get('from');
           const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
-          return getSnapshot(hostId, reportingCenterTime);
+          return getSnapshot(hostId, getTimeConfigAtMoment(reportingCenterTime));
         });
         return hostSnapshot$.startWith(null).flatMap(hostSnapshot =>
           getDashboardLink(row.key).map(href => {
@@ -119,13 +119,13 @@ const cols = [
 
 export default connectTo(
   props => {
-    const observables = { focusedMoment: focusedMoment$ };
+    const observables = { timeConfig: timeConfig$ };
     if (!props.agentSnapshots) {
       observables.agentSnapshots = getSnapshotsInTimeframe('entity.selfType:agent');
     }
     return observables;
   },
-  function AgentViewAgentsTable({ agentSnapshots, focusedMoment }) {
+  function AgentViewAgentsTable({ agentSnapshots, timeConfig }) {
     if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }
@@ -135,7 +135,7 @@ export default connectTo(
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
-        focusedMoment,
+        timeConfig,
         isReportingAtFocusedMoment: true
       });
     });
@@ -143,7 +143,7 @@ export default connectTo(
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
-        focusedMoment,
+        timeConfig,
         isReportingAtFocusedMoment: false
       });
     });

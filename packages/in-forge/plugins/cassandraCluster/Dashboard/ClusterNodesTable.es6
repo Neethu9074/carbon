@@ -89,7 +89,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function ClusterNodesTable({ clusterNodes, timeframe }) {
+  function ClusterNodesTable({ clusterNodes, timeConfig }) {
     if (clusterNodes == null || clusterNodes.length === 0) {
       return null;
     }
@@ -98,7 +98,7 @@ export default connectTo(
       return {
         key: node.get('id'),
         node,
-        timeframe
+        timeConfig
       };
     });
 

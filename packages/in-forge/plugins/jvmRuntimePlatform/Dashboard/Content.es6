@@ -14,7 +14,7 @@ import Chart from 'in-components/Chart';
 
 import './Content.less';
 
-export default function JVMDashboard({ snapshot, timeframe }) {
+export default function JVMDashboard({ snapshot, timeConfig }) {
   const collectors = snapshot.getIn(['data', 'jvm.collectors']);
   const snapshotId = snapshot.get('id');
 
@@ -38,7 +38,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
 
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -59,7 +59,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: snapshot.getIn(['data', 'memory.max']),
@@ -72,13 +72,13 @@ export default function JVMDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <MemoryPoolsTable snapshot={snapshot} timeframe={timeframe} />
+      <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       {collectors ? (
         <DashboardSection title="Garbage Collection">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: collectors.map(name => 'gc.' + name + '.time').toArray(),
               labels: collectors.map(name => name + ' Time').toArray(),
@@ -95,7 +95,7 @@ export default function JVMDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       ) : null}
 
-      <JmxMetricsTable snapshot={snapshot} timeframe={timeframe} />
+      <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
