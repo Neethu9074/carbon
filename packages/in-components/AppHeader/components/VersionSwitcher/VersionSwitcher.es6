@@ -14,7 +14,12 @@ function switchVersion() {
 
 export default function VersionSwitcher() {
   return (
-    <Button size="compact" className={locals.versionSwitcher} onClick={() => switchVersion()}>
+    <Button
+      size="compact"
+      kind={twoZeroModeEnabled ? 'secondary' : 'primary'}
+      className={locals.versionSwitcher}
+      onClick={() => switchVersion()}
+    >
       {twoZeroModeEnabled ? 'Exit Applications Beta' : 'Preview Applications Beta'}
     </Button>
   );
