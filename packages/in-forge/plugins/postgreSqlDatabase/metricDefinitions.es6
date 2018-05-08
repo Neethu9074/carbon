@@ -1,4 +1,4 @@
-import { activity, hitRate, number } from 'in-services/formatters/number';
+import { activity, hitRate, number, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -46,5 +46,17 @@ export default [
     label: 'Tuple fetch',
     min: 0,
     formatter: activity
+  },
+  {
+    metric: getMetricMatch('databases', 'db_size'),
+    label: 'Database size',
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metric: getMetricMatch('databases', 'numbackends'),
+    label: 'Connection',
+    min: 0,
+    formatter: zeroDecimalPlaces
   }
 ];

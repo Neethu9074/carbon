@@ -1,10 +1,15 @@
 import React from 'react';
 
-import { activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Chart from 'in-components/Chart';
+import {
+  activityZeroDecimalPlaces,
+  hitRateZeroDecimalPlaces,
+  zeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 const cols = [
   {
@@ -111,6 +116,38 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'databases.' + row.key + '.db_size';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Active Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'databases.' + row.key + '.numbackends';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -201,6 +238,32 @@ function getRowDetails(row) {
             formatter: activityZeroDecimalPlaces,
             metrics: ['databases.' + row.key + '.idx_tup_read', 'databases.' + row.key + '.idx_tup_fetch'],
             labels: ['Tuple read', 'Tuple fetch'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Database Size">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            formatter: bytesTwoDecimalPlaces,
+            metrics: ['databases.' + row.key + '.db_size'],
+            labels: ['Size'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            formatter: zeroDecimalPlaces,
+            metrics: ['databases.' + row.key + '.numbackends'],
+            labels: ['Active'],
             type: 'line'
           }}
         />
