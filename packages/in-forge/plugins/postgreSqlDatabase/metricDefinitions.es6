@@ -1,4 +1,11 @@
-import { activity, hitRate, number, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import {
+  activity,
+  hitRate,
+  number,
+  bytesTwoDecimalPlaces,
+  zeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -58,5 +65,11 @@ export default [
     label: 'Connection',
     min: 0,
     formatter: zeroDecimalPlaces
+  },
+  {
+    metric: getMetricMatch('databases', 'max_conn_pct'),
+    label: 'Connection Usage',
+    min: 0,
+    formatter: percentageTwoDecimalPlaces
   }
 ];

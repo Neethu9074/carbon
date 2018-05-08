@@ -8,7 +8,8 @@ import {
   activityZeroDecimalPlaces,
   hitRateZeroDecimalPlaces,
   zeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  bytesTwoDecimalPlaces,
+  percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
 const cols = [
@@ -134,16 +135,16 @@ const cols = [
     }
   },
   {
-    title: 'Active Connections',
+    title: 'Connection Usage',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'databases.' + row.key + '.numbackends';
+        return 'databases.' + row.key + '.max_conn_pct';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: percentageTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -264,6 +265,19 @@ function getRowDetails(row) {
             formatter: zeroDecimalPlaces,
             metrics: ['databases.' + row.key + '.numbackends'],
             labels: ['Active'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Connection Usage">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            formatter: percentageTwoDecimalPlaces,
+            metrics: ['databases.' + row.key + '.max_conn_pct'],
+            labels: ['Usage'],
             type: 'line'
           }}
         />
