@@ -162,6 +162,17 @@ function NewApplicationForm({
                 )}
               </div>
             ))}
+
+            <div className={locals.addRule} onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}>
+              <SvgIcon
+                className={locals.addRuleIcon}
+                type="plus"
+                width={16}
+                height={16}
+                aria-label="add a new match condition"
+              />
+              Add rule
+            </div>
           </Card>
         </Col>
       </Row>
@@ -258,12 +269,6 @@ function setValue(path, value, form, updateForm) {
   updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
 }
 
-/*
-function addMatchSpecification(form, updateForm) {
-  const additionalSubForm = getMatchSpecificationForm();
-  updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
-}
-*/
 function getMatchSpecificationForm(matchSpecification = {}) {
   return createMapForm()
     .put(
@@ -280,6 +285,11 @@ function getMatchSpecificationForm(matchSpecification = {}) {
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );
+}
+
+function addMatchSpecification(form, updateForm) {
+  const additionalSubForm = getMatchSpecificationForm();
+  updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
 }
 
 function removeMatchSpecification(i, form, updateForm) {

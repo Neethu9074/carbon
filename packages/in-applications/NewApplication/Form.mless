@@ -37,4 +37,26 @@
   .saveErrors {
     margin: 0 1rem 0 0;
   }
+
+  .addRule {
+    display: flex;
+    align-items: center;
+
+    margin-top: 1rem;
+    color: #00babb;
+    cursor: pointer;
+
+    &:hover {
+      color: #00a1a3;
+
+      .addRuleIcon {
+        fill: #00a1a3;
+      }
+    }
+  }
+
+  .addRuleIcon {
+    fill: #00babb;
+    margin-right: 0.5rem;
+  }
 }
