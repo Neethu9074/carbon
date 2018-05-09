@@ -106,6 +106,7 @@ import './session';
 import './shell';
 import './sidekiq-client';
 import './sidekiq-worker';
+import './sns';
 import './spa';
 import './spray.client';
 import './spray.server';
