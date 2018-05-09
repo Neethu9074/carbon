@@ -163,7 +163,7 @@ function NewApplicationForm({
               </div>
             ))}
 
-            {/* <div className={locals.addRule} onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}>
+            <div className={locals.addRule} onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}>
               <SvgIcon
                 className={locals.addRuleIcon}
                 type="plus"
@@ -172,7 +172,7 @@ function NewApplicationForm({
                 aria-label="add a new match condition"
               />
               Add rule
-            </div> */}
+            </div>
           </Card>
         </Col>
       </Row>
@@ -212,13 +212,28 @@ function NewApplicationForm({
 function getTagValues() {
   return [
     { value: '', label: 'Please select' },
-    { label: 'host.zone' },
-    { label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { label: 'cassandra.cluster.name' },
+    { label: 'docker.containerName' },
+    { label: 'docker.image' },
     { label: 'docker.label.ARTIFACT_ID ' },
     { label: 'docker.label.ARTIFACT_VERSION' },
+    { label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { label: 'dropwizard.name' },
+    { label: 'elasticsearch.cluster.name' },
+    { label: 'host.fqdn' },
+    { label: 'host.name' },
+    { label: 'host.os.name' },
+    { label: 'host.tag.env' },
+    { label: 'host.zone' },
+    { label: 'jvm.app.name' },
+    { label: 'kafka.cluster.name' },
+    { label: 'kubernetes.container.name' },
+    { label: 'marathon.appId' },
     { label: 'nodejs.app.name' },
-    { label: 'springboot.name' },
-    { label: 'marathon.appId' }
+    { label: 'nomad.jobName' },
+    { label: 'nomad.taskName' },
+    { label: 'ruby.name' },
+    { label: 'springboot.name' }
   ].map(tag => {
     return (
       <option value={tag.value || tag.label} key={tag.label}>
@@ -287,10 +302,10 @@ function getMatchSpecificationForm(matchSpecification = {}) {
     );
 }
 
-// function addMatchSpecification(form, updateForm) {
-//   const additionalSubForm = getMatchSpecificationForm();
-//   updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
-// }
+function addMatchSpecification(form, updateForm) {
+  const additionalSubForm = getMatchSpecificationForm();
+  updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
+}
 
 function removeMatchSpecification(i, form, updateForm) {
   updateForm(form.updateIn(['matchSpecification'], list => list.remove(i).setTouched(true)));
