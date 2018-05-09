@@ -275,6 +275,7 @@ function getRowDetails(row) {
           timeframe={timeframe}
           y1={{
             min: 0,
+            max: 1,
             formatter: percentageTwoDecimalPlaces,
             metrics: ['databases.' + row.key + '.max_conn_pct'],
             labels: ['Usage'],
