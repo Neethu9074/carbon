@@ -1,8 +1,9 @@
 import React from 'react';
 
+import createDeploymentConfigForPodSubscription from 'in-subscription/deploymentConfigForPod';
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
 import createHostForPodSubscription from 'in-subscription/hostForPod';
@@ -15,11 +16,12 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => ({
     deployment: getDeploymentForPod(props.snapshot.get('id')).flatMap(getSnapshot),
+    deploymentConfig: getDeploymentConfigForPod(props.snapshot.get('id')).flatMap(getSnapshot),
     node: getNodeForPod(props.snapshot.get('id')).flatMap(getSnapshot),
     host: getHostForPod(props.snapshot.get('id')).flatMap(getSnapshot),
     cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot)
   }),
-  function Info({ snapshot, deployment, node, host, cluster }) {
+  function Info({ snapshot, deployment, deploymentConfig, node, host, cluster }) {
     const data = snapshot.get('data');
     return (
       <div>
@@ -27,6 +29,12 @@ export default connectTo(
           {deployment ? (
             <DescriptionItem title="Deployment">
               <SnapshotLink snapshotId={deployment.get('id')}>{getLabel(deployment)}</SnapshotLink>
+            </DescriptionItem>
+          ) : null}
+
+          {deploymentConfig ? (
+            <DescriptionItem title="DeploymentConfig">
+              <SnapshotLink snapshotId={deploymentConfig.get('id')}>{getLabel(deploymentConfig)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
 
@@ -64,6 +72,9 @@ export default connectTo(
 
 function getDeploymentForPod(snapshotId) {
   return focusedMoment$.flatMap(time => createDeploymentForPodSubscription({ snapshotId, time }));
+}
+function getDeploymentConfigForPod(snapshotId) {
+  return focusedMoment$.flatMap(time => createDeploymentConfigForPodSubscription({ snapshotId, time }));
 }
 function getNodeForPod(snapshotId) {
   return focusedMoment$.flatMap(time => createNodeForPodSubscription({ snapshotId, time }));

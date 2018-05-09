@@ -13,6 +13,8 @@ import NodesTable from './NodesTable';
 
 export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
+  const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
+
   return (
     <div>
       <KpiSection>
@@ -91,7 +93,8 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
 
       <NodesTable snapshot={snapshot} timeframe={timeframe} />
       <DeploymentsTable snapshot={snapshot} timeframe={timeframe} />
-      <DeploymentConfigsTable snapshot={snapshot} timeframe={timeframe} />
+
+      {isOpenshift && <DeploymentConfigsTable snapshot={snapshot} timeframe={timeframe} />}
     </div>
   );
 }
