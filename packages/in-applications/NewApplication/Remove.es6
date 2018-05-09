@@ -39,12 +39,8 @@ export default class Remove extends React.PureComponent {
     return (
       <Card title="Remove Application">
         <HelpParagraph>
-          If you no longer wish to monitor the application <strong>{application.label}</strong> using Instana, please
-          use this form to remove it. Removing an application is an eventually consistent action. For this reason,
-          removing an application may take <em>up to a few minutes</em> until it has been completely removed.
-        </HelpParagraph>
-        <HelpParagraph>
-          <strong>Please note that neither you nor the Instana support can undo this action!</strong>
+          If you no longer wish to monitor the application <strong>{application.label}</strong>, please use the button
+          below to remove it. Removing an application may take up to a few minutes.
         </HelpParagraph>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
