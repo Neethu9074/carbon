@@ -3,6 +3,7 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getApplication from 'in-subscription/application/getApplication';
+import getService from 'in-subscription/application/getService';
 import BadgeKeyValue from 'in-new-components/BadgeKeyValue';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,18 +19,27 @@ const filterKeyTranslation = {
 };
 
 export default connectTo(
-  props => {
+  ({ filter }) => {
     const observables = {};
-    if (props.filter.application) {
+    if (filter.application) {
       observables.applicationLabel = getApplication({
-        id: props.filter.application
+        id: filter.application
+      }).map(result => get(result, ['data', 'label'], null));
+    }
+    if (filter.service) {
+      observables.serviceLabel = getService({
+        id: filter.service,
+        filter: {
+          timeConfig: filter.timeConfig
+        }
       }).map(result => get(result, ['data', 'label'], null));
     }
     return observables;
   },
-  function FilterButtonRow({ filter, applicationLabel }) {
+  function FilterButtonRow({ filter, applicationLabel, serviceLabel }) {
     const filterValueTranslation = {
-      application: applicationLabel
+      application: applicationLabel,
+      service: serviceLabel
     };
 
     const filters = Object.keys(filter)
