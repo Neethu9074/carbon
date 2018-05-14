@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Input from 'in-components/form/Input';
 import Table from 'in-components/Table';
 
 import locals from './SearchableTable.mless';
@@ -15,7 +16,7 @@ export default class SearchableTable extends React.Component {
     return (
       <div className={locals.table}>
         <div className={locals.header}>
-          <input
+          <Input
             type="search"
             value={this.state.filter}
             onChange={e =>
@@ -24,7 +25,6 @@ export default class SearchableTable extends React.Component {
               })
             }
             placeholder="Search…"
-            className={locals.filter}
           />
         </div>
         <Table

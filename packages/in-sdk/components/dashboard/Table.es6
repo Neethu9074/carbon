@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Table from 'in-components/Table';
+import Table from 'in-components/SearchableTable';
 
 import './Table.less';
 
