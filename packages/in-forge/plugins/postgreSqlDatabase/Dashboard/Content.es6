@@ -1,21 +1,24 @@
 import React from 'react';
 
+import {
+  activityZeroDecimalPlaces,
+  zeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { activityZeroDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 export default function PostgreSqlDashboard({ snapshot, timeframe }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
-
   const snapshotId = snapshot.get('id');
-
   return (
     <div>
       <KpiSection>
@@ -28,7 +31,32 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
           />
         </KpiKeyValue>
       </KpiSection>
-
+      <DashboardSection title="Total Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            metrics: ['total_active_connections'],
+            labels: ['Active'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Connection Usage">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            max: 1,
+            formatter: percentageTwoDecimalPlaces,
+            metrics: ['max_conn_pct'],
+            labels: ['Usage'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
       <DatabasesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );

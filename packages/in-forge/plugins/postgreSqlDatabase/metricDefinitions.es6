@@ -19,6 +19,18 @@ export default [
     }
   },
   {
+    metric: 'max_conn_pct',
+    label: 'Connection Usage',
+    min: 0,
+    formatter: percentageTwoDecimalPlaces
+  },
+  {
+    metric: 'total_active_connections',
+    label: 'Total Active Connections',
+    min: 0,
+    formatter: zeroDecimalPlaces
+  },
+  {
     metric: getMetricMatch('databases', 'xact_commit'),
     label: 'Committed transactions',
     min: 0,
@@ -61,15 +73,9 @@ export default [
     formatter: bytesTwoDecimalPlaces
   },
   {
-    metric: getMetricMatch('databases', 'numbackends'),
+    metric: getMetricMatch('databases', 'active_connections'),
     label: 'Connection',
     min: 0,
     formatter: zeroDecimalPlaces
-  },
-  {
-    metric: getMetricMatch('databases', 'max_conn_pct'),
-    label: 'Connection Usage',
-    min: 0,
-    formatter: percentageTwoDecimalPlaces
   }
 ];
