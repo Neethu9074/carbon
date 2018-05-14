@@ -19,7 +19,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
   const schedulerHealthy = snapshot.getIn(['data', 'componentStatuses', 'scheduler', 'Healthy']);
   const controllerMgrHealthy = snapshot.getIn(['data', 'componentStatuses', 'controller-manager', 'Healthy']);
   const etcdHealthy = snapshot.getIn(['data', 'componentStatuses', 'etcd-0', 'Healthy']);
-
+  const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
   return (
     <div>
       <Separator />
@@ -57,18 +57,22 @@ export default function KubernetesClusterSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
+      {!isOpenshift && <Separator />}
 
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>Component Statuses</Collapsible.Header>
-        <Collapsible.Content>
-          <DescriptionList>
-            <DescriptionItem title="Scheduler">{componentStatusToText(schedulerHealthy)}</DescriptionItem>
-            <DescriptionItem title="Controller Manager">{componentStatusToText(controllerMgrHealthy)}</DescriptionItem>
-            <DescriptionItem title="etcd">{componentStatusToText(etcdHealthy)}</DescriptionItem>
-          </DescriptionList>
-        </Collapsible.Content>
-      </Collapsible>
+      {!isOpenshift && (
+        <Collapsible initiallyOpen>
+          <Collapsible.Header>Component Statuses</Collapsible.Header>
+          <Collapsible.Content>
+            <DescriptionList>
+              <DescriptionItem title="Scheduler">{componentStatusToText(schedulerHealthy)}</DescriptionItem>
+              <DescriptionItem title="Controller Manager">
+                {componentStatusToText(controllerMgrHealthy)}
+              </DescriptionItem>
+              <DescriptionItem title="etcd">{componentStatusToText(etcdHealthy)}</DescriptionItem>
+            </DescriptionList>
+          </Collapsible.Content>
+        </Collapsible>
+      )}
     </div>
   );
 }
