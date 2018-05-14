@@ -3,9 +3,15 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
+import DLQueuesTable from './DLQueuesTable';
+import TopicsTable from './TopicsTable';
+import QueuesTable from './QueuesTable';
 
 const percentage = d => d + '%';
 
@@ -18,13 +24,16 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
       </DashboardNotification>
     );
   }
-
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        <KpiKeyValue label="Topics">{snapshot.getIn(['data', 'topicNames'], emptyList).size}</KpiKeyValue>
+        <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
+        <KpiKeyValue label="DL Queues">{snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}</KpiKeyValue>
+
         <KpiKeyValue label="All Queues Messages Enqueue">
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>
@@ -39,51 +48,65 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Broker wide queues message stats">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
-            labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Broker wide topics message stats">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
-            labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Broker wide connections, consumers and producers">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
-            labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Memory and store usage">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['memoryPercentUsage', 'storePercentUsage'],
-            labels: ['Memory Usage', 'Store Usage'],
-            formatter: percentage,
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title="Broker wide queues message stats">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
+              labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Broker wide topics message stats">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
+              labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title="Broker wide connections, consumers and producers">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
+              labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Memory and store usage">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeframe={timeframe}
+            y1={{
+              formatter: percentage,
+              min: 0,
+              max: 100,
+              metrics: ['memoryPercentUsage', 'storePercentUsage'],
+              labels: ['Memory Usage', 'Store Usage'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <TopicsTable snapshot={snapshot} timeframe={timeframe} />
+      <QueuesTable snapshot={snapshot} timeframe={timeframe} />
+      <DLQueuesTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }

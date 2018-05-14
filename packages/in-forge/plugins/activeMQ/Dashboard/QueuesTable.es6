@@ -1,0 +1,102 @@
+import React from 'react';
+
+import { zeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sdk/components/dashboard/Table';
+import { emptyMap } from 'in-services/fixedImmutables';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Queue Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'queues.' + row.key + '.queueSize';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Messages Enqueued',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'queues.' + row.key + '.enqueueCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Messages Dequeued',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'queues.' + row.key + '.dequeueCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Memory Usage',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'queues.' + row.key + '.memoryPercentUsage';
+      },
+      getContent: percentagePlainZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function QueuesTable({ snapshot, timeframe }) {
+  const queueNames = snapshot.getIn(['data', 'queueNames'], emptyMap);
+  if (queueNames.size === 0) {
+    return null;
+  }
+  const rows = queueNames.toArray().map(key => {
+    return {
+      key,
+      snapshotId: snapshot.get('id'),
+      timeframe
+    };
+  });
+
+  return (
+    <DashboardSection title={`Queues (${rows.length})`}>
+      <Table cols={cols} rows={rows} />
+    </DashboardSection>
+  );
+}

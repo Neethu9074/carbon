@@ -24,8 +24,9 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Role">{role}</DescriptionItem>
       <DescriptionItem title="Memory Limit">{bytesTwoDecimalPlaces(data.get('memoryLimit'))}</DescriptionItem>
       <DescriptionItem title="Store Limit">{bytesTwoDecimalPlaces(data.get('storeLimit'))}</DescriptionItem>
-      <DescriptionItem title="Queues Count">{data.get('queues', emptyList).size}</DescriptionItem>
-      <DescriptionItem title="Topics Count">{data.get('topics', emptyList).size}</DescriptionItem>
+      <DescriptionItem title="Topics Count">{data.get('topicNames', emptyList).size}</DescriptionItem>
+      <DescriptionItem title="Queues Count">{data.get('queueNames', emptyList).size}</DescriptionItem>
+      <DescriptionItem title="DL Queues Count">{data.get('dlqueueNames', emptyList).size}</DescriptionItem>
     </DescriptionList>
   );
 }
