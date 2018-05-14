@@ -1,57 +1,199 @@
 import React from 'react';
 
+import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
-import MonTable from 'in-forge/plugins/ceph/Dashboard/MonTable';
-import { number } from 'in-services/formatters/number';
+import {
+  number,
+  percentageTwoDecimalPlaces,
+  msZeroDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces
+} from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
+import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
 export default function CephDashboard({ snapshot, timeframe }) {
+  const sensorStatusCode = snapshot.getIn(['data', 'sensorStatusCode'], 1);
+
+  if (sensorStatusCode !== 1) {
+    return (
+      <DashboardNotification type="info">
+        Agent could not connect to Ceph cluster, Ceph executable not found. Please set &apos;ceph-executable-path&apos;
+        property to the path of Ceph executable in configuration.
+      </DashboardNotification>
+    );
+  }
+
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <DashboardSection title="Ceph Cluster OSD Status">
+      <KpiSection>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        <KpiKeyValue label="Overall Status">
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="overall_status"
+            formatter={function(value) {
+              if (value === 0) {
+                return 'HEALTH_OK';
+              } else if (value === 1) {
+                return 'HEALTH_WARN';
+              } else {
+                return 'HEALTH_ERR';
+              }
+            }}
+          />
+        </KpiKeyValue>
+      </KpiSection>
+      <DashboardSection title="Monitors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: ['num_osds', 'num_up_osds', 'num_in_osds', 'num_down_osds'],
-            labels: ['Total', 'Up', 'In', 'Unhealthy'],
+            min: 0,
+            metrics: ['num_mons', 'num_active_mons'],
+            labels: ['All', 'Active'],
             type: 'line',
             formatter: number.compact
           }}
         />
       </DashboardSection>
-
-      <DashboardSection title="Number Of Placement Groups">
+      <DashboardSection title="OSD Status">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
-            metrics: ['num_pgs'],
-            labels: ['PGs Count'],
+            min: 0,
+            metrics: ['num_osds', 'num_up_osds', 'num_in_osds'],
+            labels: ['Total', 'Up', 'In'],
             type: 'line',
             formatter: number.compact
           }}
         />
       </DashboardSection>
-
-      <DashboardSection title="Number of Pools">
+      <DashboardSection title="Latency">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
+            min: 0,
+            metrics: ['commit_latency_ms', 'apply_latency_ms'],
+            labels: ['Commit', 'Apply'],
+            type: 'line',
+            formatter: msZeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Unhealthy OSDs">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['num_near_full_osds', 'num_full_osds'],
+            labels: ['Near full', 'Full'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Placement Groups">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['num_pgs', 'num_active_clean'],
+            labels: ['All', 'Active+Clean'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Number Of Pools">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
             metrics: ['num_pools'],
-            labels: ['Pools Count'],
+            labels: ['Pools'],
             type: 'line',
             formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Number Of Object">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['num_objects'],
+            labels: ['Objects'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="IO">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['read_bytes_sec'],
+            labels: ['Read'],
+            type: 'line',
+            formatter: bytesPerSecondZeroDecimalPlaces
+          }}
+          y2={{
+            min: 0,
+            metrics: ['write_bytes_sec'],
+            labels: ['Write'],
+            type: 'line',
+            formatter: bytesPerSecondZeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="OPS">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['read_op_per_sec'],
+            labels: ['Read'],
+            type: 'line',
+            formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['write_op_per_sec'],
+            labels: ['Write'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Overall capacity usage">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            max: 1,
+            metrics: ['aggregate_pct_used'],
+            labels: ['Capacity'],
+            type: 'line',
+            formatter: percentageTwoDecimalPlaces
           }}
         />
       </DashboardSection>
 
       <PoolTable snapshot={snapshot} timeframe={timeframe} />
-
-      <MonTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }

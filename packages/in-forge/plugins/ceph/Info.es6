@@ -8,8 +8,9 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Pid">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Name">{data.get('cluster_name')}</DescriptionItem>
-      <DescriptionItem title="Id">{data.get('fsid')}</DescriptionItem>
+      <DescriptionItem title="Cluster Name">{data.get('cluster_name')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Fsid">{data.get('fsid')}</DescriptionItem>
     </DescriptionList>
   );
 }
