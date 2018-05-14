@@ -89,6 +89,13 @@ export function createStore({
   };
 
   function setFilter(filter) {
+    sort$.once(sort => {
+      sort$.emit({
+        page: 0,
+        column: sort.column,
+        direction: sort.direction
+      });
+    });
     filter$.emit(filter);
   }
 
