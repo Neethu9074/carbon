@@ -11,8 +11,6 @@ export default class SearchableTable extends React.Component {
   };
 
   render() {
-    const { rows, cols, maxItemsPerPage, initialSortColumn } = this.props;
-
     return (
       <div className={locals.table}>
         <div className={locals.header}>
@@ -27,13 +25,7 @@ export default class SearchableTable extends React.Component {
             placeholder="Search…"
           />
         </div>
-        <Table
-          filter={this.state.filter}
-          maxItemsPerPage={maxItemsPerPage}
-          cols={cols}
-          rows={rows}
-          initialSortColumn={initialSortColumn}
-        />
+        <Table filter={this.state.filter} {...this.props} />
       </div>
     );
   }
