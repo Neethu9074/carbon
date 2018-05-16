@@ -6,7 +6,7 @@ import React from 'react';
 
 export default connectTo(
   props => {
-    if (!props.timeConfig.autoRefresh) {
+    if (props.timeConfig.to) {
       return {
         metrics: props.datasource,
         timeConfig: always({
@@ -23,8 +23,8 @@ export default connectTo(
       timeConfig: serverTime$.map(serverTime => ({
         windowSize: props.timeConfig.windowSize + props.wiggleRoom,
         to: serverTime - props.wiggleRoom,
-        focusedMoment: props.timeConfig.focusedMoment,
-        autoRefresh: true
+        focusedMoment: serverTime - props.wiggleRoom,
+        autoRefresh: props.timeConfig.autoRefresh
       }))
     };
   },
