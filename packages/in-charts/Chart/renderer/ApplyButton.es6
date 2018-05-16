@@ -16,10 +16,14 @@ const block = 'in-chart-apply-button';
 
 export default connectTo(
   {
-    href: combineLatest([highlightedTimeframe$, timeConfig$]).flatMap(([highlightedTimeframe, timeConfig]) => {
+    href: combineLatest([highlightedTimeframe$, timeConfig$]).flatMap(([highlightedTimeframe, originalTimeConfig]) => {
       if (!highlightedTimeframe) {
         return alwaysNull;
       }
+
+      const timeConfig = {
+        ...originalTimeConfig
+      };
 
       const from = highlightedTimeframe[0];
       let to = highlightedTimeframe[1];

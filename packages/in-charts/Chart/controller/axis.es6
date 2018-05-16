@@ -189,6 +189,7 @@ export default function createAxisController(config) {
     );
     config.subscriptions.push(
       config.signals.refreshDataSources$.throttle(500).subscribe(() => {
+        config.lastDataSourceRefreshTime = Date.now();
         clearData();
         disposeTimeframeSpecificSubscriptions();
         subscribeToDataSources();
