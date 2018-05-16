@@ -210,7 +210,8 @@ export default function createChart(config) {
       const to =
         (config.timeConfig.autoRefresh
           ? toServerTime(now, config.serverTimeOffset)
-          : toServerTime(config.lastDataSourceRefreshTime, config.serverTimeOffset)) - chartWiggleRoom;
+          : config.timeConfig.to || toServerTime(config.lastDataSourceRefreshTime, config.serverTimeOffset)) -
+        chartWiggleRoom;
 
       scales.x.setDomainFrom(to - windowSize + chartWiggleRoom);
       scales.x.setDomainTo(to);
