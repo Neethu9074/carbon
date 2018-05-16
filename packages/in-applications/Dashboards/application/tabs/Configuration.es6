@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
-import { assign } from 'lodash';
 
-import { getApplicationConfigs, updateApplicationConfig } from 'in-api/applicationConfigs';
+import { getApplicationConfig, updateApplicationConfig } from 'in-api/applicationConfigs';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 
@@ -14,35 +13,7 @@ import locals from './Configuration.mless';
 
 export default connectTo(
   props => ({
-    appResult: getApplicationConfigs().map(result => {
-      if (result.data) {
-        let data = null;
-        let errors = [];
-        if (result.errors) {
-          for (let i = 0; i < result.errors.length; i++) {
-            errors.push(result.errors[i]);
-          }
-        }
-
-        const applications = result.data;
-        for (let i = 0; i < applications.length; i++) {
-          const application = applications[i];
-          if (application.id === props.applicationId) {
-            data = application;
-            break;
-          }
-        }
-        if (!data) {
-          const notFoundError = {
-            code: 'CLIENT',
-            message: 'The applications configuration cannot be not found.'
-          };
-          errors.push(notFoundError);
-        }
-        return assign({ data, errors }, { progress: result.progress, time: result.time });
-      }
-      return result;
-    })
+    appResult: getApplicationConfig(props.applicationId)
   }),
   class Configuration extends React.Component {
     state = {
