@@ -13,6 +13,7 @@ import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import Marker from 'in-views/eventView/components/Marker';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -140,7 +141,10 @@ function DetailsHeader({ event, onClick, iconType, background }) {
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])} time={event.get('start')} />
+          <EntityInformation
+            snapshotId={event.getIn(['problem', 'snapshotId'])}
+            timeConfig={getTimeConfigAtMoment(event.get('start'))}
+          />
         </div>
       </div>
 

@@ -12,7 +12,6 @@ export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 const block = 'in-event-view-event-information';
 
-// TODO change callers: callers previous passed in time. They now need to pass in timeConfig
 export default connectTo(
   props => {
     if (props.snapshot) {

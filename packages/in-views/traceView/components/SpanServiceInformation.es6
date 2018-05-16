@@ -53,7 +53,7 @@ function Service({ span, label, snapshot, endpointLabel }) {
   return (
     <EntityInformation
       snapshotId={snapshot.get('id')}
-      time={span.get('start')}
+      timeConfig={getTimeConfigAtMoment(span.get('start'))}
       label={label}
       getLabelCallback={label => getServiceLabelWithEndpoint(label, endpointLabel)}
     />

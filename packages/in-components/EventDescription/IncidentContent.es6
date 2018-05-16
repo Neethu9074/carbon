@@ -6,6 +6,7 @@ import React from 'react';
 import { getEvent, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import SnapshotDescription from 'in-components/SnapshotDescription';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -46,7 +47,10 @@ function IncidentContent({ incident, events, snapshot }) {
 
       <DangerousHtmlPresenter className={`${block}__suggestion`} html={toHtml(problem.get('fixSuggestion', ''))} />
 
-      <SnapshotDescription snapshotId={problem.get('snapshotId', '')} time={firstEvent.get('start')} />
+      <SnapshotDescription
+        snapshotId={problem.get('snapshotId', '')}
+        timeConfig={getTimeConfigAtMoment(firstEvent.get('start'))}
+      />
     </div>
   );
 }

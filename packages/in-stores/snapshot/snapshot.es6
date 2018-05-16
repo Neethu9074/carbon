@@ -89,7 +89,6 @@ export function clearSelectedSnapshotId() {
   });
 }
 
-// TODO change callers to ensure that the second parameter is a valid timeConfig (or undefined)
 export function getSnapshot(snapshotId, timeConfig) {
   if (!snapshotId) {
     return alwaysNull;

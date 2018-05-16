@@ -4,6 +4,7 @@ import EventDurationMarker from 'in-views/eventView/components/marker/EventDurat
 import StartedMarker from 'in-views/eventView/components/marker/StartedMarker';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import EntityInformation from 'in-components/EntityInformation';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import Header from 'in-views/eventView/components/Header';
 import Marker from 'in-views/eventView/components/Marker';
 
@@ -15,7 +16,10 @@ export default function EventHeader({ event }) {
   return (
     <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
       <div>
-        <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])} time={event.get('start')} />
+        <EntityInformation
+          snapshotId={event.getIn(['problem', 'snapshotId'])}
+          timeConfig={getTimeConfigAtMoment(event.get('start'))}
+        />
 
         <div className={`${block}__status-line`}>
           <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />

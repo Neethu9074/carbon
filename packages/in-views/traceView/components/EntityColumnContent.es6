@@ -11,7 +11,6 @@ import './EntityColumnContent.less';
 
 const block = 'in-trace-view-entity-column';
 
-// TODO change callers: callers previous passed in time. They now need to pass in timeConfig
 export default connectTo(
   props => {
     return {

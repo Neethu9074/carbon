@@ -1,6 +1,7 @@
 import React from 'react';
 
 import EntityInformation from 'in-components/EntityInformation';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getEntitySnapshot$BySpan } from 'in-stores/traces';
 import SvgIcon from 'in-components/SvgIcon';
 import { SPAN_KINDS } from 'in-sdk/tracing';
@@ -57,7 +58,11 @@ function Component({ span, label, snapshot, addEntryIcon }) {
       {addEntryIcon ? (
         <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
       ) : null}
-      <EntityInformation snapshotId={snapshot.get('id')} time={span.get('start')} label={label} />
+      <EntityInformation
+        snapshotId={snapshot.get('id')}
+        timeConfig={getTimeConfigAtMoment(span.get('start'))}
+        label={label}
+      />
     </div>
   );
 }
