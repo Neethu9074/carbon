@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
-import CallsErrorsLatency from 'in-applications/Dashboards/commonComponents/CallsErrorsLatency';
+import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -68,7 +68,7 @@ export default function Summary({ timeConfig, applicationId, endpointId, service
 
       <Row>
         <Col lg={6}>
-          <CallsErrorsLatency
+          <CallsErrors
             cardTitle="Calls vs Latency"
             applicationId={applicationId}
             serviceId={serviceId}
