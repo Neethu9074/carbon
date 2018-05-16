@@ -3,6 +3,7 @@ import React from 'react';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { percentage } from 'in-services/formatters/number';
 
 export default function Errors({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeConfig);
@@ -13,7 +14,8 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
         cardTitle={cardTitle}
         timeConfig={timeConfig}
         y1={{
-          renderer: Renderer.countErrorBar,
+          renderer: Renderer.bar,
+          formatter: percentage,
           labels: ['Errors'],
           metricIds: ['errors']
         }}
