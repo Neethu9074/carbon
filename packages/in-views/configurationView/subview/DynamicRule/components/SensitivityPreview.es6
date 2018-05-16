@@ -129,13 +129,16 @@ function getRowDetails(row) {
   const chartTimeframe$ = __DEV__
     ? timeConfig$.map(timeConfig => {
         return {
+          ...timeConfig,
           to: (timeConfig.to || Date.now()) + oneDay,
           windowSize: timeConfig.windowSize + oneDay
         };
       })
     : always({
         to: row.timeOpened + oneDay,
-        windowSize: oneDay * 13
+        focusedMoment: row.timeOpened + oneDay,
+        windowSize: oneDay * 13,
+        autoRefresh: false
       });
 
   return (

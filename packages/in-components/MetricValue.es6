@@ -6,6 +6,7 @@ import React from 'react';
 
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 
 export default class extends React.PureComponent {
   static displayName = 'MetricValue';
@@ -68,7 +69,7 @@ export default class extends React.PureComponent {
       return getHistoricMetric({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        time: props.time
+        timeConfig: getTimeConfigAtMoment(props.timeConfig)
       })
         .map(v => v[1])
         .distinct();

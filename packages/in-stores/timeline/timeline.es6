@@ -52,8 +52,7 @@ export function lockFocusedMoment() {
   });
 }
 
-// TODO adapt to changed auto refresh strategy
-export const live$ = timeConfig$.map(timeConfig => !timeConfig.focusedMoment).distinct();
+export const live$ = timeConfig$.map(timeConfig => timeConfig.autoRefresh).distinct();
 
 export const from$ = timeConfig$
   .flatMap(_timeConfig => {

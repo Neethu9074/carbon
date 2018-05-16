@@ -13,9 +13,18 @@ export default connectTo(
     return {
       metricValues: combineLatest([timeConfig$, serverTime$])
         .map(([timeConfig, serverTime]) => {
-          if (!timeConfig.to) {
-            timeConfig.to = serverTime;
+          const timeConfigCopy = {
+            ...timeConfig
+          };
+
+          if (!timeConfigCopy.to) {
+            timeConfigCopy.to = serverTime;
           }
+
+          if (!timeConfigCopy.focusedMoment) {
+            timeConfigCopy.focusedMoment = serverTime;
+          }
+
           return timeConfig;
         })
         .distinct()

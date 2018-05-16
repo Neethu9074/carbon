@@ -58,7 +58,7 @@ const rollupDurationThresholds = [
   }
 ];
 
-export function getLiveMetrics({ snapshotId, metric, timeConfig = null, rollup }) {
+function getLiveMetrics({ snapshotId, metric, timeConfig = null, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
   }
@@ -70,7 +70,6 @@ export function getLiveMetrics({ snapshotId, metric, timeConfig = null, rollup }
   });
 }
 
-// TODO change callers (remove focusedMoment / move focusedMoment to timeConfig)
 function getHistoricMetrics({ snapshotId, metric, timeConfig, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
@@ -113,8 +112,7 @@ export const getMetric = memoize(
 export const getMetricForFocusedMoment = memoize(
   ({ snapshotId, metric }) => {
     return timeConfig$.flatMap(timeConfig => {
-      // TODO adapt to changed auto refresh behavior
-      if (timeConfig.focusedMoment == null) {
+      if (timeConfig.autoRefresh) {
         return getLiveMetrics({ snapshotId, metric });
       }
 
@@ -125,7 +123,6 @@ export const getMetricForFocusedMoment = memoize(
   500
 );
 
-// TODO change callers, change from time to timeConfig
 export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
   const now = Date.now();
   const availableRollupDefinitions = rollupDurationThresholds.filter(
@@ -142,7 +139,7 @@ export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
   });
 }
 
-export function getHistoricMetricsWithLiveUpdates(opts) {
+function getHistoricMetricsWithLiveUpdates(opts) {
   const live$ = getLiveMetrics(opts)
     // bring the two streams into the same format
     .map(update => [update]);
@@ -155,10 +152,10 @@ export function getMetricsForTimeframe(opts) {
     // live or not is done in the backend
     return getDynamicAggregatedMetricsForTimeframe(opts);
   }
-  if (opts.timeConfig.to) {
-    return getHistoricMetrics(opts);
+  if (opts.timeConfig.autoRefresh) {
+    return getHistoricMetricsWithLiveUpdates(opts);
   }
-  return getHistoricMetricsWithLiveUpdates(opts);
+  return getHistoricMetrics(opts);
 }
 
 export function getDynamicAggregatedMetricsForTimeframe(opts) {
