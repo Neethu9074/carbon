@@ -24,6 +24,9 @@ export function getChartTimeframeByEvent({
 
 export function getTimeConfigFromEvent(event) {
   let from = typeof event.getIn === 'function' && event.getIn(['metadata', 'triggeringTime']);
+  if (from == undefined && event.metadata && event.metadata.triggeringTime) {
+    from = event.metadata.triggeringTime;
+  }
   if (from == undefined) {
     from = (typeof event.get === 'function' && event.get('start')) || event.start;
   }
