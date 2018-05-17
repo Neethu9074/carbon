@@ -24,7 +24,7 @@ export const roleViewFilterEnabled = onlyInternally;
 export const cockpitEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
-export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
+export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const showTenantSwitcher = config.tenant !== 'edmunds';
 
 // 2.0 features
