@@ -40,8 +40,7 @@ export default connectTo(
       triggeringProblemId: rpt.string,
       highlightedEventId: rpt.string,
       event: irpt.map.isRequired,
-      background: rpt.string,
-      timeConfig: rpt.object
+      background: rpt.string
     };
 
     state = {
@@ -53,7 +52,7 @@ export default connectTo(
       const isExpanded = this.state.isExpanded;
       const background = this.props.background;
       const event = this.props.event;
-      const timeConfigFromEvent = getTimeConfigFromEvent(event, this.props.timeConfig);
+      const timeConfigFromEvent = getTimeConfigFromEvent(event);
 
       let rightClassName = `${block}__right`;
       if (this.props.highlightedEventId === event.get('id')) {

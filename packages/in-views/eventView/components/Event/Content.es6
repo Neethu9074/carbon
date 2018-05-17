@@ -9,10 +9,10 @@ import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 import 'in-views/eventView/components/Event/Content.less';
 
-export default function EventContent({ event, timeConfig }) {
+export default function EventContent({ event }) {
   return (
     <div>
-      <Header event={event} timeConfig={timeConfig} />
+      <Header event={event} />
 
       <ProblemDescription event={event} sectionized className="in-event-view-event-content" />
 

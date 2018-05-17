@@ -13,7 +13,7 @@ export default connectTo(
   {
     events: sortedRecentEvents$
   },
-  function IncidentEventList({ events, incident, timeConfig }) {
+  function IncidentEventList({ events, incident }) {
     if (!events) {
       return <LoadingIndicator type="dark" />;
     }
@@ -23,22 +23,17 @@ export default connectTo(
     return (
       <div className={block}>
         <div className={`${block}__counter`}>{`Events (${events.length})`}</div>
-        <List events={events} triggeringProblemId={triggeringProblemId} timeConfig={timeConfig} />
+        <List events={events} triggeringProblemId={triggeringProblemId} />
       </div>
     );
   }
 );
 
-function List({ events, triggeringProblemId, timeConfig }) {
+function List({ events, triggeringProblemId }) {
   return (
     <div className={`${block}__timeline`}>
       {events.map(_event => (
-        <EventListItem
-          key={_event.get('id')}
-          triggeringProblemId={triggeringProblemId}
-          event={_event}
-          timeConfig={timeConfig}
-        />
+        <EventListItem key={_event.get('id')} triggeringProblemId={triggeringProblemId} event={_event} />
       ))}
     </div>
   );

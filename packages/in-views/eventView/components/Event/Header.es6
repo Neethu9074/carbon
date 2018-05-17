@@ -12,8 +12,8 @@ import './Header.less';
 
 const block = 'in-event-view-event-header';
 
-export default function EventHeader({ event, timeConfig }) {
-  const timeConfigFromEvent = getTimeConfigFromEvent(event, timeConfig);
+export default function EventHeader({ event }) {
+  const timeConfigFromEvent = getTimeConfigFromEvent(event);
   return (
     <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
       <div>

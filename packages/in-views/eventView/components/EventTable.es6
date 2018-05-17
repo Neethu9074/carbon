@@ -29,7 +29,7 @@ import './EventTable.less';
 
 const block = 'in-event-view-event-table';
 
-const cols = timeConfig => [
+const cols = [
   {
     title: '',
     field: 'problem.severity',
@@ -74,7 +74,7 @@ const cols = timeConfig => [
   {
     title: 'On',
     getContent(row) {
-      return <On rawEvent={row.rawEvent} timeConfig={timeConfig} />;
+      return <On rawEvent={row.rawEvent} />;
     }
   }
 ];
@@ -85,7 +85,7 @@ export default connectTo(
     isInfiniteLoading: isLoading$,
     selectedEventId: selectedEventId$
   },
-  function EventTable({ selectedEventId, events, isInfiniteLoading, timeConfig }) {
+  function EventTable({ selectedEventId, events, isInfiniteLoading }) {
     if (!events) {
       return <LoadingIndicator type="dark" />;
     }
@@ -108,7 +108,7 @@ export default connectTo(
 
     return (
       <LazyTable
-        cols={cols(timeConfig)}
+        cols={cols}
         rows={rows}
         loadMoreData={loadMoreRawEvents}
         rowSubscriptions={row => ({
@@ -156,7 +156,7 @@ const On = connectTo(
         entity: getService({
           id: props.rawEvent.entityId,
           filter: {
-            timeConfig: getTimeConfigFromEvent(props.rawEvent, props.timeConfig)
+            timeConfig: getTimeConfigFromEvent(props.rawEvent)
           }
         }),
         app20IconType: just('app_service')

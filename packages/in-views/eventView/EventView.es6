@@ -12,7 +12,6 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { getTimeConfig } from 'in-stores/time/config';
 import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
@@ -21,6 +20,9 @@ import Title from 'in-components/Title';
 import './EventView.less';
 
 const block = 'in-event-view';
+
+const leftContent = <HeightRestrictedView render={() => <EventTable />} />;
+const rightContent = <HeightRestrictedView render={() => <EventDetails />} />;
 
 export default function EventView() {
   return (
@@ -32,8 +34,7 @@ export default function EventView() {
   );
 }
 
-function EventViewInternal({ location }) {
-  const timeConfigFromLocation = getTimeConfig(location);
+function EventViewInternal() {
   return (
     <Sticky header={<SearchBar />}>
       <LegacyView />
@@ -53,8 +54,8 @@ function EventViewInternal({ location }) {
       >
         <div className={block}>
           <TwoColumnView
-            leftContent={<HeightRestrictedView render={() => <EventTable timeConfig={timeConfigFromLocation} />} />}
-            rightContent={<HeightRestrictedView render={() => <EventDetails timeConfig={timeConfigFromLocation} />} />}
+            leftContent={leftContent}
+            rightContent={rightContent}
             leftWidth="46rem"
             expandedSide$={expandedSide$}
           />

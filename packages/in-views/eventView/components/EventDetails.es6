@@ -15,7 +15,7 @@ export default connectTo(
     selectedEventId: selectedEventId$,
     event: selectedEvent$
   },
-  function EventDetails({ selectedEventId, event, timeConfig }) {
+  function EventDetails({ selectedEventId, event }) {
     if (!selectedEventId) {
       return <p className={`${block}__no-event-selected`}>No event selected.</p>;
     }
@@ -27,9 +27,9 @@ export default connectTo(
     const eventType = getEventType(event);
     let content;
     if (eventType === EVENT_TYPES.INCIDENT) {
-      content = <IncidentContent event={event} timeConfig={timeConfig} />;
+      content = <IncidentContent event={event} />;
     } else {
-      content = <EventContent event={event} timeConfig={timeConfig} />;
+      content = <EventContent event={event} />;
     }
     return <div className={block}>{content}</div>;
   }
