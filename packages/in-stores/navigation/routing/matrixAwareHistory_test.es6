@@ -64,20 +64,6 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
     });
   });
 
-  it('must handle URL with percent encoded characters', () => {
-    history.push('/first;k=a%2Fb%2520c/second?a=b%2520c');
-    expect(getLastEmittedLocation()).to.deep.equal({
-      pathname: '/first/second',
-      query: { a: 'b%2520c' },
-      matrix: {
-        '/first': {
-          k: 'a/b%2520c'
-        },
-        '/second': {}
-      }
-    });
-  });
-
   function getLastEmittedLocation() {
     return getLastCallArg(listener);
   }
