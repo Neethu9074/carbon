@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
+import { getChartTimeframeByEvent, getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
 import getApplication from 'in-subscription/application/getApplication';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import getService from 'in-subscription/application/getService';
@@ -46,16 +46,18 @@ export default addSection(
             const timeframe = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeframe);
             const anomalyConfig = anomalyMap[metricName];
-            const entityId = event.get('eventType') === 'Entity10' ? metric.get('snapshotId') : event.get('entityId');
 
             return (
               <ChartWrapper
                 key={metricName}
                 metric={metricName}
-                entityId={entityId}
+                event={event}
                 entityType={event.get('entityType')}
+                entityId={event.get('entityId')}
+                metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
+                timeConfig={getTimeConfigFromEvent(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
@@ -85,7 +87,7 @@ const ChartWrapper = connectTo(
         entity: getService({
           id: props.entityId,
           filter: {
-            timeConfig: props.timeframe
+            timeConfig: props.timeConfig
           }
         })
       };
@@ -95,7 +97,7 @@ const ChartWrapper = connectTo(
       };
     }
   },
-  function ChartWrapper({ timeframe$, entity, entityId, entityType, metric, rollup, anomalyConfig }) {
+  function ChartWrapper({ timeframe$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
@@ -103,9 +105,10 @@ const ChartWrapper = connectTo(
     let chartConfig;
     if (entityType === 'Entity10') {
       chartConfig = getMetricDefinition(entity.get('plugin'), metric);
-    } else {
-      // 2.0 application or service
-      chartConfig = getMetricDefinition(null, metric); // <- will return the default metric definition
+    } else if (entityType === 'Service20') {
+      chartConfig = getMetricDefinition('service20', metric);
+    } else if (entityType === 'App20') {
+      chartConfig = getMetricDefinition('application20', metric);
     }
 
     let forecastSensitivity;
@@ -125,7 +128,7 @@ const ChartWrapper = connectTo(
     return (
       <div className={`${block}__chart`}>
         <Chart
-          snapshotId={entityId}
+          snapshotId={metricAccessId}
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{

@@ -96,11 +96,13 @@ export const nonServicePlugins = {
 };
 
 export const servicePlugins = {
+  application20: 'application20',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
+  defaultEntity20: 'defaultEntity20',
   defaultLogicalConnection: 'defaultLogicalConnection',
   defaultLogicalService: 'defaultLogicalService',
   defaultServiceInstance: 'defaultServiceInstance',
@@ -155,6 +157,7 @@ export const servicePlugins = {
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
+  service20: 'service20',
   shellLogicalConnection: 'shellLogicalConnection',
   shellLogicalService: 'shellLogicalService',
   unknownService: 'unknownService',
@@ -165,6 +168,7 @@ export const plugins = assign({}, servicePlugins, nonServicePlugins);
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
+  application20: 'application20',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
@@ -188,6 +192,7 @@ export const fullyQualifiedPlugins = {
   couchbaseNode: 'com.instana.forge.infrastructure.database.couchbase.CouchbaseNode',
   crystalRuntimePlatform: 'com.instana.forge.infrastructure.runtime.crystal.CrystalRuntimePlatform',
   databaseServiceInstance: 'com.instana.forge.connection.database.DatabaseServiceInstance',
+  defaultEntity20: 'defaultEntity20',
   defaultLogicalConnection: 'com.instana.forge.connection.fallback.DefaultLogicalConnection',
   defaultLogicalService: 'com.instana.forge.connection.fallback.DefaultLogicalService',
   defaultServiceInstance: 'com.instana.forge.connection.fallback.DefaultServiceInstance',
@@ -304,6 +309,7 @@ export const fullyQualifiedPlugins = {
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
+  service20: 'service20',
   shellLogicalService: 'com.instana.forge.connection.shell.ShellLogicalService',
   shellLogicalConnection: 'com.instana.forge.connection.shell.ShellLogicalConnection',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
