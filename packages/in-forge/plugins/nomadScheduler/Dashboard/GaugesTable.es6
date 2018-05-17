@@ -8,10 +8,8 @@ import Table from 'in-sdk/components/dashboard/Table';
 const metrics = [
   'nomad.client.allocated.disk',
   'nomad.client.allocated.iops',
-  'nomad.client.allocated.memory',
   'nomad.client.unallocated.disk',
   'nomad.client.unallocated.iops',
-  'nomad.client.unallocated.memory',
   'nomad.nomad.heartbeat.active',
   'nomad.nomad.plan.queue_depth',
   'nomad.nomad.vault.distributed_tokens_revoking',
@@ -21,7 +19,8 @@ const metrics = [
   'nomad.runtime.malloc_count',
   'nomad.runtime.sys_bytes',
   'nomad.runtime.total_gc_pause_ns',
-  'nomad.runtime.total_gc_runs'
+  'nomad.runtime.total_gc_runs',
+  'nomad.runtime.num_goroutines'
 ];
 
 const cols = [
