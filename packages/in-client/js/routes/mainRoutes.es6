@@ -49,7 +49,7 @@ export default (
     {!twoZeroModeEnabled && <Route path={logicalPath} component={Map} />}
     {!twoZeroModeEnabled && <Route path={containerPath} component={Map} />}
 
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
+    <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TableView)} path={tablePath} />}
     {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />}
     {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}

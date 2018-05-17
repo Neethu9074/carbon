@@ -31,7 +31,7 @@ export default connectTo(
     }
     return (
       <li key={snapshotId} className={className} onClick={() => setSelectedSnapshotId(snapshotId)}>
-        <EntityInformation snapshotId={snapshot.get('id')} label="" kind="light" useSnapshotLink />
+        <EntityInformation entityId={snapshot.get('id')} label="" kind="light" useSnapshotLink />
 
         <div className={block + '__kpis'}>
           <KPIList

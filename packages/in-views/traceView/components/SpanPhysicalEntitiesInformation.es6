@@ -57,7 +57,7 @@ function Component({ span, label, snapshot, addEntryIcon }) {
       {addEntryIcon ? (
         <SvgIcon className={`${block}__icon`} type="corner_arrow_right" width={10} color="#92a5ae" />
       ) : null}
-      <EntityInformation snapshotId={snapshot.get('id')} time={span.get('start')} label={label} />
+      <EntityInformation entityId={snapshot.get('id')} time={span.get('start')} label={label} />
     </div>
   );
 }

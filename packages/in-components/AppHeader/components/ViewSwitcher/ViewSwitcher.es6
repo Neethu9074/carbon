@@ -84,7 +84,7 @@ export default pure(function ViewSwitcher() {
           <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
         )}
 
-        {!twoZeroModeEnabled && <IncidentsMenuPoint />}
+        <IncidentsMenuPoint />
       </ul>
     </div>
   );

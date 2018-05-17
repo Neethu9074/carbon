@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
@@ -14,8 +13,8 @@ import Chart from 'in-components/Chart';
 import 'in-views/eventView/components/EventChart.less';
 
 // Our current chart implementation can't handle dynamic windowSizes (dynamic = 1change/sec)
-// If an event is open, we will subscribe to live metrics which couses in mocing timewindows
-// To avoid that the cahrt will run out of scope we add an offset to the windowSize
+// If an event is open, we will subscribe to live metrics which causes moving timewindows.
+// To avoid the chart running out of scope we add an offset to the windowSize.
 const block = 'in-event-detail-chart';
 
 export default addSection(
@@ -70,8 +69,18 @@ const ChartWrapper = connectTo(
     };
   },
   function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
+    let chartConfig;
     if (!snapshot) {
-      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+      // TODO For 1.0 events without snapshot, we still want to return the loading indicator. (Or better yet, an
+      // indication that the loading has failed? Is there any reason why a snapshot could become available later?)
+      // return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+
+      // For now, we assume it is a 2.0 event if the snapshot is not available.
+      // TODO we need proper metric definitions for applications and services. For now we use the default definition.
+      chartConfig = getMetricDefinition(null, metric); // <- will return the default metric definition
+    } else {
+      // received a snaphot object from ES, so it is a plain ol' 1.0 event
+      chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
     }
 
     let forecastSensitivity;
@@ -88,7 +97,6 @@ const ChartWrapper = connectTo(
       });
     }
 
-    const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
     return (
       <div className={`${block}__chart`}>
         <Chart

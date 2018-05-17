@@ -6,6 +6,7 @@ import EventDurationMarker from 'in-views/eventView/components/marker/EventDurat
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
+import { getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
@@ -13,6 +14,7 @@ import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Marker from 'in-views/eventView/components/Marker';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -50,6 +52,7 @@ export default connectTo(
       const isExpanded = this.state.isExpanded;
       const background = this.props.background;
       const event = this.props.event;
+      const timeConfigFromEvent = getTimeConfigFromEvent(event);
 
       let rightClassName = `${block}__right`;
       if (this.props.highlightedEventId === event.get('id')) {
@@ -86,6 +89,7 @@ export default connectTo(
                 event={event}
                 iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
                 background={background}
+                timeConfig={timeConfigFromEvent}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
@@ -96,8 +100,8 @@ export default connectTo(
                   <EventChart event={event} />
                   <Spacer />
                   <EventDependecyGraph event={event} />
-                  <Spacer />
-                  <EventTraces event={event} />
+                  {twoZeroModeEnabled && <Spacer />}
+                  {twoZeroModeEnabled && <EventTraces event={event} />}
                 </div>
               ) : null}
             </div>
@@ -124,7 +128,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   );
 }
 
-function DetailsHeader({ event, onClick, iconType, background }) {
+function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   const className = `${block}__heading`;
 
   return (
@@ -140,7 +144,12 @@ function DetailsHeader({ event, onClick, iconType, background }) {
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])} time={event.get('start')} />
+          <EntityInformation
+            entityId={event.get('entityId')}
+            entitType={event.get('entitType')}
+            time={event.get('start')}
+            timeConfig={timeConfig}
+          />
         </div>
       </div>
 
