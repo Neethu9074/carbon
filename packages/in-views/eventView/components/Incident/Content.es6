@@ -5,7 +5,7 @@ import EventList from 'in-views/eventView/components/Incident/EventList';
 import Header from 'in-views/eventView/components/Incident/Header';
 import Section from 'in-views/eventView/components/Section';
 
-export default function IncidentContent({ event }) {
+export default function IncidentContent({ event, timeConfig }) {
   return (
     <div>
       <Header event={event} />
@@ -15,7 +15,7 @@ export default function IncidentContent({ event }) {
       </Section>
 
       <Section>
-        <EventList incident={event} />
+        <EventList incident={event} timeConfig={timeConfig} />
       </Section>
     </div>
   );

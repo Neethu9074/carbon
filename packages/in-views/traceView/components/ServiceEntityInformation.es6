@@ -8,7 +8,7 @@ export default function ServiceEntityInformation(props) {
   const side = getServiceSideForOverview(span);
   const serviceSnapshotId = span.getIn(['rels', `${side}ServiceId`]);
   if (serviceSnapshotId) {
-    return <EntityInformation {...props} snapshotId={serviceSnapshotId} time={span.get('start')} />;
+    return <EntityInformation {...props} entityId={serviceSnapshotId} time={span.get('start')} />;
   }
   return null;
 }

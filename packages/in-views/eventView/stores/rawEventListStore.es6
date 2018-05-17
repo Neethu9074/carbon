@@ -181,7 +181,9 @@ function addNewEvents(newEvents) {
       severity: event.get('severity'),
       state: event.get('state'),
       type: event.get('type'),
-      snapshotId: event.get('snapshotId')
+      entityType: event.get('entityType'),
+      entityId: event.get('entityId'),
+      metricAccessId: event.get('metricAccessId')
     };
   });
 

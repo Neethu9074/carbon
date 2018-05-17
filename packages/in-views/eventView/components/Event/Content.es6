@@ -8,10 +8,10 @@ import Header from 'in-views/eventView/components/Event/Header';
 
 import 'in-views/eventView/components/Event/Content.less';
 
-export default function EventContent({ event }) {
+export default function EventContent({ event, timeConfig }) {
   return (
     <div>
-      <Header event={event} />
+      <Header event={event} timeConfig={timeConfig} />
 
       <ProblemDescription event={event} sectionized className="in-event-view-event-content" />
 

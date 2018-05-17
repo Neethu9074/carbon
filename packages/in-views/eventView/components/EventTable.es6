@@ -8,15 +8,19 @@ import {
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
+import { getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
+import getApplication from 'in-subscription/application/getApplication';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
+import getService from 'in-subscription/application/getService';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { selectedEventId$ } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import LazyTable from 'in-components/LazyTable';
+import { just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -25,7 +29,7 @@ import './EventTable.less';
 
 const block = 'in-event-view-event-table';
 
-const cols = [
+const cols = timeConfig => [
   {
     title: '',
     field: 'problem.severity',
@@ -70,7 +74,7 @@ const cols = [
   {
     title: 'On',
     getContent(row) {
-      return <On rawEvent={row.rawEvent} />;
+      return <On rawEvent={row.rawEvent} timeConfig={timeConfig} />;
     }
   }
 ];
@@ -81,7 +85,7 @@ export default connectTo(
     isInfiniteLoading: isLoading$,
     selectedEventId: selectedEventId$
   },
-  function EventTable({ selectedEventId, events, isInfiniteLoading }) {
+  function EventTable({ selectedEventId, events, isInfiniteLoading, timeConfig }) {
     if (!events) {
       return <LoadingIndicator type="dark" />;
     }
@@ -104,7 +108,7 @@ export default connectTo(
 
     return (
       <LazyTable
-        cols={cols}
+        cols={cols(timeConfig)}
         rows={rows}
         loadMoreData={loadMoreRawEvents}
         rowSubscriptions={row => ({
@@ -141,18 +145,47 @@ const Icon = connectTo(
 );
 
 const On = connectTo(
-  props => ({
-    snapshot: getSnapshot(props.rawEvent.snapshotId, props.rawEvent.triggeringTime || props.rawEvent.start)
-  }),
-  function On({ snapshot }) {
-    if (!snapshot) {
+  props => {
+    if (props.rawEvent.entityType === 'App20') {
+      return {
+        entity: getApplication({ id: props.rawEvent.entityId }),
+        app20IconType: just('app_application')
+      };
+    } else if (props.rawEvent.entityType === 'Service20') {
+      return {
+        entity: getService({
+          id: props.rawEvent.entityId,
+          filter: {
+            timeConfig: getTimeConfigFromEvent(props.rawEvent, props.timeConfig)
+          }
+        }),
+        app20IconType: just('app_service')
+      };
+    } else {
+      return {
+        entity: getSnapshot(props.rawEvent.entityId, props.rawEvent.triggeringTime || props.rawEvent.start)
+      };
+    }
+  },
+  function On({ rawEvent, entity, app20IconType }) {
+    if (!entity || (entity.progress && entity.progress.loading) || (entity.errors && entity.errors.length > 0)) {
       return null;
     }
 
+    let label;
+    if (rawEvent.entityType === 'App20' || rawEvent.entityType === 'Service20') {
+      label = entity.data.label;
+    } else {
+      label = getLabel(entity);
+    }
     return (
       <div className={`${block}__entity-wrapper`}>
-        <PluginIcon className={`${block}__entity-icon`} dimension={14} color="#000" snapshot={snapshot} />
-        <div className={`${block}__title`}>{getLabel(snapshot)}</div>
+        {app20IconType ? (
+          <SvgIcon className={`${block}__entity-icon`} type={app20IconType} height={14} color="#000" />
+        ) : (
+          <PluginIcon className={`${block}__entity-icon`} dimension={14} color="#000" snapshot={entity} />
+        )}
+        <div className={`${block}__title`}>{label}</div>
       </div>
     );
   }

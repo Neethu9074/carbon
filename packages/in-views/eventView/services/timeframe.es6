@@ -21,3 +21,29 @@ export function getChartTimeframeByEvent({
 
   return timeframe;
 }
+
+export function getTimeConfigFromEvent(event, fallbackTimeConfig) {
+  let from = typeof event.getIn === 'function' && event.getIn(['metadata', 'triggeringTime']);
+  if (from == undefined) {
+    from = (typeof event.get === 'function' && event.get('start')) || event.start;
+  }
+  if (from == undefined) {
+    if (!fallbackTimeConfig) {
+      throw new Error('Could not derive time config from event and no fallback provided.');
+    } else {
+      from = (fallbackTimeConfig.to || Date.now) - fallbackTimeConfig.windowSize;
+    }
+  }
+
+  const to =
+    typeof event.get === 'function'
+      ? event.get('state') === 'closed' ? event.get('end') : null
+      : event.state === 'closed' ? event.end : null;
+
+  const toForWs = to || fallbackTimeConfig.to || Date.now();
+  return {
+    to,
+    windowSize: toForWs - from,
+    autoRefresh: false
+  };
+}
