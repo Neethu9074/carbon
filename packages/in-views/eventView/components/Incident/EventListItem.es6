@@ -14,6 +14,7 @@ import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Marker from 'in-views/eventView/components/Marker';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -100,8 +101,8 @@ export default connectTo(
                   <EventChart event={event} />
                   <Spacer />
                   <EventDependecyGraph event={event} />
-                  <Spacer />
-                  <EventTraces event={event} />
+                  {twoZeroModeEnabled && <Spacer />}
+                  {twoZeroModeEnabled && <EventTraces event={event} />}
                 </div>
               ) : null}
             </div>
