@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
+import getApplication from 'in-subscription/application/getApplication';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
+import getService from 'in-subscription/application/getService';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
+import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -42,12 +46,14 @@ export default addSection(
             const timeframe = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeframe);
             const anomalyConfig = anomalyMap[metricName];
+            const entityId = event.get('eventType') === 'Entity10' ? metric.get('snapshotId') : event.get('entityId');
 
             return (
               <ChartWrapper
                 key={metricName}
                 metric={metricName}
-                snapshotId={metric.get('snapshotId')}
+                entityId={entityId}
+                entityType={event.get('entityType')}
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
                 rollup={rollup.label}
@@ -64,23 +70,42 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    return {
-      snapshot: getSnapshot(props.snapshotId, props.start)
-    };
-  },
-  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
-    let chartConfig;
-    if (!snapshot) {
-      // TODO For 1.0 events without snapshot, we still want to return the loading indicator. (Or better yet, an
-      // indication that the loading has failed? Is there any reason why a snapshot could become available later?)
-      // return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
-
-      // For now, we assume it is a 2.0 event if the snapshot is not available.
-      // TODO we need proper metric definitions for applications and services. For now we use the default definition.
-      chartConfig = getMetricDefinition(null, metric); // <- will return the default metric definition
+    if (props.entityType === 'App20') {
+      return {
+        entity: getApplication({ id: props.entityId })
+      };
+    } else if (props.entityType === 'Service20') {
+      if (!props.timeConfig) {
+        //  Can't render 2.0 service information without a time config.
+        return {
+          entity: just(null)
+        };
+      }
+      return {
+        entity: getService({
+          id: props.entityId,
+          filter: {
+            timeConfig: props.timeframe
+          }
+        })
+      };
     } else {
-      // received a snaphot object from ES, so it is a plain ol' 1.0 event
-      chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
+      return {
+        entity: getSnapshot(props.entityId, props.start)
+      };
+    }
+  },
+  function ChartWrapper({ timeframe$, entity, entityId, entityType, metric, rollup, anomalyConfig }) {
+    if (!entity || (entity.progress && entity.progress.loading)) {
+      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+    }
+
+    let chartConfig;
+    if (entityType === 'Entity10') {
+      chartConfig = getMetricDefinition(entity.get('plugin'), metric);
+    } else {
+      // 2.0 application or service
+      chartConfig = getMetricDefinition(null, metric); // <- will return the default metric definition
     }
 
     let forecastSensitivity;
@@ -100,7 +125,7 @@ const ChartWrapper = connectTo(
     return (
       <div className={`${block}__chart`}>
         <Chart
-          snapshotId={snapshotId}
+          snapshotId={entityId}
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
@@ -108,9 +133,9 @@ const ChartWrapper = connectTo(
           }}
           y1={{
             metrics: [metric],
-            labels: [chartConfig.getLabel(snapshot, metric)],
-            min: chartConfig.getMin(snapshot),
-            max: chartConfig.getMax(snapshot),
+            labels: [chartConfig.getLabel(entity, metric)],
+            min: chartConfig.getMin(entity),
+            max: chartConfig.getMax(entity),
             type: 'line',
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
