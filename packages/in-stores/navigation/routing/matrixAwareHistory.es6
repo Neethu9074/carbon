@@ -14,8 +14,12 @@ export function wrap(history) {
   history.location = parseUrl(window.location.hash.replace(/^#/, ''));
 
   history.listen = listener => origListen.call(history, wrapListener(listener));
-  history.push = pathnameOrLocation => origPush.call(history, translate(pathnameOrLocation, currentLocation));
-  history.replace = pathnameOrLocation => origReplace.call(history, translate(pathnameOrLocation, currentLocation));
+  // encodeURI() is applied to workaround the issue https://github.com/ReactTraining/history/issues/505 in history
+  // TODO if the above issue is solved, remove encodeURI()
+  history.push = pathnameOrLocation =>
+    origPush.call(history, encodeURI(translate(pathnameOrLocation, currentLocation)));
+  history.replace = pathnameOrLocation =>
+    origReplace.call(history, encodeURI(translate(pathnameOrLocation, currentLocation)));
 
   history.listen(location => (currentLocation = history.location = location));
 
@@ -29,7 +33,7 @@ function wrapListener(listener) {
   // so we should not apply decodeURIComponent() again to its matrix parameters
   // but we still have to decode the reserved characters for URI
   // to fill the gap between decodeURI() and decodeURIComponent()
-  // TODO if the below issue is solved, need to update history and remove the workaround here and in parser.es6
+  // TODO if the above issue is solved, need to update history and remove the workaround here and in parser.es6
   return location => listener(parseUrl(location.pathname + (location.search || ''), true));
 }
 
