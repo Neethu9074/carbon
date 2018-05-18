@@ -102,14 +102,7 @@ const ChartWrapper = connectTo(
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
 
-    let chartConfig;
-    if (entityType === 'Entity10') {
-      chartConfig = getMetricDefinition(entity.get('plugin'), metric);
-    } else if (entityType === 'Service20') {
-      chartConfig = getMetricDefinition('service20', metric);
-    } else if (entityType === 'App20') {
-      chartConfig = getMetricDefinition('application20', metric);
-    }
+    let chartConfig = getChartConfig(metric, entity, entityType);
 
     let forecastSensitivity;
     let focusedMoment;
@@ -154,4 +147,14 @@ const ChartWrapper = connectTo(
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
+
+function getChartConfig(metric, entity, entityType) {
+  if (entityType === 'Service20') {
+    return getMetricDefinition('service20', metric);
+  } else if (entityType === 'App20') {
+    return getMetricDefinition('application20', metric);
+  }
+  // else assume 'Entity10'
+  return getMetricDefinition(entity.get('plugin'), metric);
 }
