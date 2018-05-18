@@ -280,6 +280,7 @@ function matchSpecificationValidator(items) {
       }
     ];
   }
+
   return null;
 }
 
