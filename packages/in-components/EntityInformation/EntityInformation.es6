@@ -23,29 +23,8 @@ export default connectTo(
       return {
         entity: just(props.snapshot)
       };
-    } else if (props.entityType === 'App20') {
-      return {
-        entity: getApplication({ id: props.entityId })
-      };
-    } else if (props.entityType === 'Service20') {
-      if (!props.timeConfig) {
-        //  Can't render 2.0 service information without a time config.
-        return {
-          entity: just(null)
-        };
-      }
-      return {
-        entity: getService({
-          id: props.entityId,
-          filter: {
-            timeConfig: props.timeConfig
-          }
-        })
-      };
     } else {
-      return {
-        entity: getSnapshot(props.entityId, props.time)
-      };
+      return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.time);
     }
   },
   function EntityInformation(props) {
@@ -72,6 +51,34 @@ export default connectTo(
     }
   }
 );
+
+// TODO consider moving this method to a more suiteable component?
+export function getEntityOfType(entityId, entityType, timeConfig, time) {
+  if (entityType === 'App20') {
+    return {
+      entity: getApplication({ id: entityId })
+    };
+  } else if (entityType === 'Service20') {
+    if (!timeConfig) {
+      //  Can't render 2.0 service information without a time config.
+      return {
+        entity: just(null)
+      };
+    }
+    return {
+      entity: getService({
+        id: entityId,
+        filter: {
+          timeConfig: timeConfig
+        }
+      })
+    };
+  } else {
+    return {
+      entity: getSnapshot(entityId, time)
+    };
+  }
+}
 
 function EntityInformation10({
   entity,

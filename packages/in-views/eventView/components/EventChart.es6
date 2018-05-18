@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { getChartTimeframeByEvent, getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
-import getApplication from 'in-subscription/application/getApplication';
+import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import getService from 'in-subscription/application/getService';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getSnapshot } from 'in-stores/snapshot';
-import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -72,30 +69,7 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    if (props.entityType === 'App20') {
-      return {
-        entity: getApplication({ id: props.entityId })
-      };
-    } else if (props.entityType === 'Service20') {
-      if (!props.timeConfig) {
-        //  Can't render 2.0 service information without a time config.
-        return {
-          entity: just(null)
-        };
-      }
-      return {
-        entity: getService({
-          id: props.entityId,
-          filter: {
-            timeConfig: props.timeConfig
-          }
-        })
-      };
-    } else {
-      return {
-        entity: getSnapshot(props.entityId, props.start)
-      };
-    }
+    return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.start);
   },
   function ChartWrapper({ timeframe$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
