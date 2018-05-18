@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
-import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
