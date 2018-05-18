@@ -53,18 +53,6 @@ export default function GlassfishDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Threads">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          y1={{
-            metrics: ['threads_core', 'threads_executed_tasks', 'threads_current_count', 'threads_current_busy'],
-            labels: ['Core threads', 'Executed threads', 'Current threads', 'Busy threads'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
