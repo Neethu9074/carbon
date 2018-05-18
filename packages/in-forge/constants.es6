@@ -168,7 +168,7 @@ export const plugins = assign({}, servicePlugins, nonServicePlugins);
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
-  application20: 'application20',
+  application20: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
@@ -309,7 +309,7 @@ export const fullyQualifiedPlugins = {
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
-  service20: 'service20',
+  service20: 'com.instana.forge.application.Service',
   shellLogicalService: 'com.instana.forge.connection.shell.ShellLogicalService',
   shellLogicalConnection: 'com.instana.forge.connection.shell.ShellLogicalConnection',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
