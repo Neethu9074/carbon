@@ -215,9 +215,7 @@ function getTagValues() {
     { label: 'cassandra.cluster.name' },
     { label: 'docker.containerName' },
     { label: 'docker.image' },
-    { label: 'docker.label.ARTIFACT_ID ' },
-    { label: 'docker.label.ARTIFACT_VERSION' },
-    { label: 'docker.label.com.amazonaws.ecs.cluster' },
+    { label: 'docker.label' },
     { label: 'dropwizard.name' },
     { label: 'elasticsearch.cluster.name' },
     { label: 'host.fqdn' },
@@ -282,6 +280,7 @@ function matchSpecificationValidator(items) {
       }
     ];
   }
+
   return null;
 }
 
