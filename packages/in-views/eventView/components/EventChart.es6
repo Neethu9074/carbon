@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
+import { getChartTimeframeByEvent, getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
+import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -47,9 +48,13 @@ export default addSection(
               <ChartWrapper
                 key={metricName}
                 metric={metricName}
-                snapshotId={metric.get('snapshotId')}
+                event={event}
+                entityType={event.get('entityType')}
+                entityId={event.get('entityId')}
+                metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeframe$={always(timeframe)}
+                timeConfig={getTimeConfigFromEvent(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
@@ -64,24 +69,14 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    return {
-      snapshot: getSnapshot(props.snapshotId, props.start)
-    };
+    return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.start);
   },
-  function ChartWrapper({ timeframe$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
-    let chartConfig;
-    if (!snapshot) {
-      // TODO For 1.0 events without snapshot, we still want to return the loading indicator. (Or better yet, an
-      // indication that the loading has failed? Is there any reason why a snapshot could become available later?)
-      // return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
-
-      // For now, we assume it is a 2.0 event if the snapshot is not available.
-      // TODO we need proper metric definitions for applications and services. For now we use the default definition.
-      chartConfig = getMetricDefinition(null, metric); // <- will return the default metric definition
-    } else {
-      // received a snaphot object from ES, so it is a plain ol' 1.0 event
-      chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
+  function ChartWrapper({ timeframe$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
+    if (!entity || (entity.progress && entity.progress.loading)) {
+      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
+
+    let chartConfig = getChartConfig(metric, entity, entityType);
 
     let forecastSensitivity;
     let focusedMoment;
@@ -100,7 +95,7 @@ const ChartWrapper = connectTo(
     return (
       <div className={`${block}__chart`}>
         <Chart
-          snapshotId={snapshotId}
+          snapshotId={metricAccessId}
           timeframe$={timeframe$}
           currentRollup={rollup}
           margins={{
@@ -108,9 +103,9 @@ const ChartWrapper = connectTo(
           }}
           y1={{
             metrics: [metric],
-            labels: [chartConfig.getLabel(snapshot, metric)],
-            min: chartConfig.getMin(snapshot),
-            max: chartConfig.getMax(snapshot),
+            labels: [chartConfig.getLabel(entity, metric)],
+            min: chartConfig.getMin(entity),
+            max: chartConfig.getMax(entity),
             type: 'line',
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
@@ -126,4 +121,14 @@ const ChartWrapper = connectTo(
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
+
+function getChartConfig(metric, entity, entityType) {
+  if (entityType === 'Service20') {
+    return getMetricDefinition('service20', metric);
+  } else if (entityType === 'App20') {
+    return getMetricDefinition('application20', metric);
+  }
+  // else assume 'Entity10'
+  return getMetricDefinition(entity.get('plugin'), metric);
 }

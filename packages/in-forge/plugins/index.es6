@@ -1,6 +1,7 @@
 // require all forge modules inside this one, as
 // this is the only module required by the application.
 import './activeMQ';
+import './application20';
 import './availabilityZone';
 import './awsDynamoDb';
 import './awsEc';
@@ -24,6 +25,7 @@ import './couchbaseCluster';
 import './couchbaseNode';
 import './crystalRuntimePlatform';
 import './databaseServiceInstance';
+import './defaultEntity20';
 import './defaultLogicalConnection';
 import './defaultLogicalService';
 import './defaultServiceInstance';
@@ -135,6 +137,7 @@ import './sapHana';
 import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
+import './service20';
 import './shellLogicalConnection';
 import './shellLogicalService';
 import './solr';
