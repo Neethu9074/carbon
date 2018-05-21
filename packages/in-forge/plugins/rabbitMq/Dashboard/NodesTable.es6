@@ -89,7 +89,7 @@ function getRowDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['node_map.' + row.key + '.disk_free', 'node_map.' + row.key + '.disk_free_limit'],
-            labels: ['Disk alarm threshold', 'Disk free space in bytes'],
+            labels: ['Disk alarm threshold', 'Disk free space'],
             type: 'line'
           }}
         />
