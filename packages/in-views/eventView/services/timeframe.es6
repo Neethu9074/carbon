@@ -23,14 +23,8 @@ export function getChartTimeframeByEvent({
 }
 
 export function getTimeConfigFromEvent(event) {
-  let from = typeof event.getIn === 'function' && event.getIn(['metadata', 'triggeringTime']);
-  if (from == undefined && event.metadata && event.metadata.triggeringTime) {
-    from = event.metadata.triggeringTime;
-  }
-  if (from == undefined) {
-    from = (typeof event.get === 'function' && event.get('start')) || event.start;
-  }
-  if (from == undefined) {
+  const from = getFromOfEvent(event);
+  if (from === undefined) {
     throw new Error('Could not derive time config from event.');
   }
 
@@ -45,4 +39,18 @@ export function getTimeConfigFromEvent(event) {
     windowSize: toForWs - from,
     autoRefresh: false
   };
+}
+
+function getFromOfEvent(event) {
+  let from;
+  if (typeof event.getIn === 'function') {
+    from = event.getIn(['metadata', 'triggeringTime']);
+  }
+  if (from === undefined && event.metadata && event.metadata.triggeringTime) {
+    from = event.metadata.triggeringTime;
+  }
+  if (from === undefined) {
+    from = (typeof event.get === 'function' && event.get('start')) || event.start;
+  }
+  return from;
 }
