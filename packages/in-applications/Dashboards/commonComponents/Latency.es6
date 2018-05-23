@@ -16,16 +16,8 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
         calculateStackDifferences: true,
         renderer: Renderer.line,
         formatter: millis,
-        labels: ['avg', '50th', '75th', '90th', '95th', '99th', 'max'],
-        metricIds: [
-          'durationAvg',
-          'duration50th',
-          'duration75th',
-          'duration90th',
-          'duration95th',
-          'duration99th',
-          'durationMax'
-        ]
+        labels: ['avg', '50th', '90th', '95th', '99th'],
+        metricIds: ['durationAvg', 'duration50th', 'duration90th', 'duration95th', 'duration99th']
       }}
       metricsConfiguration={{
         filter: {
@@ -50,11 +42,6 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
             granularity,
             aggregation: 'P50'
           },
-          duration75th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P75'
-          },
           duration90th: {
             metric: 'latency',
             granularity,
@@ -69,11 +56,6 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
             metric: 'latency',
             granularity,
             aggregation: 'P99'
-          },
-          durationMax: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'MAX'
           }
         }
       }}
