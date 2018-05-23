@@ -107,6 +107,7 @@ import './shell';
 import './sidekiq-client';
 import './sidekiq-worker';
 import './sns';
+import './soap';
 import './spa';
 import './spray.client';
 import './spray.server';
