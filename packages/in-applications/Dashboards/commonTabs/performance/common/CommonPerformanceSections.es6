@@ -1,92 +1,12 @@
 import React, { Fragment } from 'react';
 
 import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
-import { getChartGranularity } from 'in-applications/metrics';
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { millis } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 
 export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeConfig }) {
-  const granularity = getChartGranularity(timeConfig);
   return (
     <Fragment>
-      <Row>
-        <Col lg={12}>
-          <ChartWrapper
-            cardTitle="Avg. Latency"
-            timeConfig={timeConfig}
-            y1={{
-              calculateStackDifferences: true,
-              renderer: Renderer.integral,
-              formatter: millis,
-              labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
-              metricIds: [
-                'durationMin',
-                'duration25th',
-                'duration50th',
-                'duration75th',
-                'duration95th',
-                'duration98th',
-                'duration99th',
-                'durationMax'
-              ]
-            }}
-            metricsConfiguration={{
-              filter: {
-                timeConfig,
-                application: applicationId,
-                service: serviceId,
-                endpoint: endpointId
-              },
-              metrics: {
-                durationMin: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'MIN'
-                },
-                duration25th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P25'
-                },
-                duration50th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P50'
-                },
-                duration75th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P75'
-                },
-                duration95th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P95'
-                },
-                duration98th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P98'
-                },
-                duration99th: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'P99'
-                },
-                durationMax: {
-                  metric: 'latency',
-                  granularity,
-                  aggregation: 'MAX'
-                }
-              }
-            }}
-          />
-        </Col>
-      </Row>
-
       <Row>
         <Col lg={12}>
           <Card title="Latency Heatmap">

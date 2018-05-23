@@ -3,10 +3,8 @@ import React from 'react';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { millis } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
-export default function CallsErrorsLatency({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
+export default function CallsErrors({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -18,17 +16,6 @@ export default function CallsErrorsLatency({ timeConfig, endpointId, application
           renderer: Renderer.countErrorBar,
           labels: ['Calls', 'Errors'],
           metricIds: ['calls', 'errors']
-        }}
-        y2={{
-          renderer: Renderer.line,
-          labels: ['Latency'],
-          metricIds: ['latency'],
-          colors: [theme.app20Chart.strokeColors100[2]],
-          formatter: {
-            compact: millis.detailed,
-            detailed: millis.detailed
-          },
-          min: 0
         }}
         metricsConfiguration={{
           filter: {
@@ -45,11 +32,6 @@ export default function CallsErrorsLatency({ timeConfig, endpointId, application
             },
             errors: {
               metric: 'errors',
-              granularity,
-              aggregation: 'MEAN'
-            },
-            latency: {
-              metric: 'latency',
               granularity,
               aggregation: 'MEAN'
             }
