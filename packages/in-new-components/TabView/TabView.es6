@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import Switch from 'in-new-components/TabView/components/Switch';
-import Header from 'in-new-components/TabView/components/Header';
-import Sticky from 'in-components/Sticky';
-import connectTo from 'in-hoc/connectTo';
+import TabList from 'in-new-components/TabView/sharedComponents/TabList';
+import Tab from 'in-new-components/TabView/sharedComponents/Tab';
 
-export default connectTo(
-  props => ({
-    result: props.result$
-  }),
-  function TabView({ result, tabs, HeaderComponent, location, props }) {
+import locals from './TabView.mless';
+
+export default class extends React.Component {
+  static displayName = 'TabView';
+
+  constructor(props) {
+    super(props);
+
+    this.state = { selectedTab: props.tabs[0] };
+  }
+
+  render() {
+    const { tabs } = this.props;
+    const { selectedTab } = this.state;
+
     return (
-      <section>
-        <Sticky
-          header={
-            <div>
-              <BreadcrumbHeader />
-              <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
-            </div>
-          }
-        >
-          <Switch tabs={tabs} result={result} location={location} props={props} />
-        </Sticky>
-      </section>
+      <Fragment>
+        <TabList>
+          {tabs.map(tab => (
+            <Tab
+              key={tab.label}
+              isSelected={selectedTab === tab}
+              onTabClicked={() => this.setState({ selectedTab: tab })}
+            >
+              {tab.label}
+            </Tab>
+          ))}
+        </TabList>
+        <div className={locals.content}>{selectedTab && <selectedTab.component {...this.props} />}</div>
+      </Fragment>
     );
   }
-);
+}

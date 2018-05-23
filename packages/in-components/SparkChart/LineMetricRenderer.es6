@@ -1,9 +1,9 @@
 import createScale from 'in-charts/scale';
-
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
+import theme from 'in-themes';
 
 export default class LineMetricRenderer {
   constructor(canvas, props = {}) {
@@ -106,14 +106,14 @@ export default class LineMetricRenderer {
     }
 
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = '#1fb7b9';
+    this.ctx.strokeStyle = theme.lib.colors.chart.strokeColors100[0];
 
     this.renderBlocks();
     this.renderDataPoints();
   }
 
   renderBlocks() {
-    this.ctx.fillStyle = '#e8f7f8';
+    this.ctx.fillStyle = theme.lib.colors.chart.strokeColors25[0];
     for (let i = 0; i < this.blocks.length; i++) {
       this.drawBlock(this.blocks[i]);
     }
@@ -142,13 +142,18 @@ export default class LineMetricRenderer {
   }
 
   renderDataPoints() {
-    this.ctx.fillStyle = '#1fb7b9';
+    this.drawPoints('#ffffff', 3);
+    this.drawPoints(theme.lib.colors.chart.strokeColors100[0], 2);
+  }
+
+  drawPoints(fillStyle, radius) {
+    this.ctx.fillStyle = fillStyle;
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
       for (let iB = 0; iB < block.length; iB++) {
         const dataPoint = block[iB];
         this.ctx.beginPath();
-        this.ctx.arc(dataPoint.x, dataPoint.y, 2, 0, 2 * Math.PI, false);
+        this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
         this.ctx.fill();
       }
     }

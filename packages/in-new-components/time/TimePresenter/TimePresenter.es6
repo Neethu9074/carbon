@@ -1,10 +1,11 @@
 import React from 'react';
 
-import format from 'in-new-components/time/timeframeFormatter';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import { formatTime, formatDate } from 'in-services/formatters/date';
+import format from 'in-new-components/time/timeframeFormatter';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+
 import locals from './TimePresenter.mless';
 
 export default function TimePresenter({ onClick, timeframe, className, expanded, refSetter }) {
@@ -21,12 +22,12 @@ export default function TimePresenter({ onClick, timeframe, className, expanded,
         ref={refSetter}
       >
         <SvgIcon
-          width={16}
           className={evaluateClassNames({
             [locals.timeIcon]: true,
             [locals.timeIconExpanded]: expanded
           })}
-          type="time"
+          type="lib_datetime_time"
+          width={24}
         />
 
         <span
@@ -39,12 +40,12 @@ export default function TimePresenter({ onClick, timeframe, className, expanded,
         </span>
 
         <SvgIcon
-          width={8}
+          width={24}
           className={evaluateClassNames({
             [locals.toggleIcon]: true,
             [locals.toggleIconExpanded]: expanded
           })}
-          type="triangle_down"
+          type={expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
         />
       </a>
     </Tooltip>

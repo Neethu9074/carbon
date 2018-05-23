@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { Th } from 'in-components/tables/sharedComponents/Table';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -8,18 +9,24 @@ import locals from './SortableTh.mless';
 export default function SortableTh({ isSortedByThisColumn, sortDirection, onClick, children }) {
   return (
     <Th>
-      <a href="" className={locals.column} onClick={onClick}>
+      <a
+        href=""
+        className={evaluateClassNames({
+          [locals.column]: true,
+          [locals.activeColumn]: isSortedByThisColumn
+        })}
+        onClick={onClick}
+      >
         {children}
-        {isSortedByThisColumn ? (
+        {isSortedByThisColumn && (
           <SvgIcon
             className={locals.icon}
-            type={sortDirection === 'ASC' ? 'triangle_up' : 'triangle_down'}
-            height={6}
-            color="#16363E"
+            type={sortDirection === 'ASC' ? 'lib_arrow_short_up' : 'lib_arrow_short_down'}
+            height={16}
           />
-        ) : (
-          <SvgIcon className={locals.icon} type="triangle_up" height={6} color="#ccc" />
         )}
+
+        {!isSortedByThisColumn && <SvgIcon className={locals.test} type="lib_arrow_short_down" height={16} />}
       </a>
     </Th>
   );

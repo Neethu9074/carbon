@@ -1,11 +1,13 @@
+@import '~in-themes/active.less';
+
 :local {
-  .block {
-    margin-top: 2rem;
+  .filter {
+    z-index: 4;
   }
 
-  .filter {
-    margin: 0 0.5rem 0 0;
-    z-index: 4;
+  .filter,
+  .button {
+    margin-right: 0.5rem;
   }
 
   .flexWrapper {
@@ -13,7 +15,20 @@
     align-items: center;
   }
 
+  .linkEntityIcon,
   .entityIcon {
-    margin-right: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  .linkEntityIcon {
+    fill: @lib__colors__blue800;
+  }
+
+  .entityIcon {
+    fill: @lib__colors__N700Medium;
+  }
+
+  .tableHeader {
+    margin-top: -3.1875rem;
   }
 }

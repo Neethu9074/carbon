@@ -58,10 +58,11 @@ function getList({ applicationId, serviceId, endpointId, timeConfig, selectedMet
   });
 }
 
-function Label({ item }) {
+function Label({ item }, _item, className) {
   return (
     <Fragment>
       <Link
+        className={className}
         href$={getModifiedUrlStream(params => {
           params.pathname += `/database/statements/${item.id}`;
         })}

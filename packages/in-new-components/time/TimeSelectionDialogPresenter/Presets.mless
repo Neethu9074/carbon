@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     width: 24.75rem;
@@ -10,36 +12,43 @@
     margin: 0 1rem;
 
     & + .row {
-      margin-top: .25rem;
+      margin-top: 0.25rem;
     }
 
     &:first-child {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
     }
 
     &:last-child {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
   }
 
   .item {
-    padding: .313rem .438rem;
-    color: #47626A;
-    font-size: .875rem;
-    font-weight: 500;
+    padding: 0.5rem;
+    color: @lib__colors__N700Medium;
+    font-size: 0.875rem;
     text-decoration: none;
     display: block;
     flex-basis: 48%;
-    border-radius: .188rem;
+    border-radius: @lib__shapes__radius_small;
 
-    & + .item {
-      // margin-left: 10px;
-    }
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
   }
 
-  .item:hover, .activeItem {
-    background: #16363E;
-    color: #FFFFFF;
+  .item:hover {
+    background: @lib__colors__N300;
     text-decoration: none;
+  }
+
+  .activeItem {
+    background: @lib__colors__N900Primary;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      background: @lib__colors__N900Primary;
+      cursor: default;
+    }
   }
 }

@@ -25,7 +25,16 @@ export function Tbody(props) {
 }
 
 export function Tr(props) {
-  return <tr {...props} className={joinClassNames(props.className, locals.tr, locals[`depth-${props.depth || 1}`])} />;
+  return (
+    <tr
+      {...props}
+      className={evaluateClassNames({
+        [joinClassNames(props.className, locals.tr, locals[`depth-${props.depth || 1}`])]: true,
+        [locals.trCompcat]: props.size === 'compact',
+        [locals.trRegular]: props.size !== 'compact'
+      })}
+    />
+  );
 }
 
 export function Th(props) {

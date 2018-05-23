@@ -1,16 +1,16 @@
+@import '~in-themes/active.less';
 :local {
-
   .fullWidthHorizontalRule {
-    background-color: white;
+    background-color: @lib__colors__N050;
     border-bottom: 1px solid #e8eef0;
   }
 
   .row {
-    padding: .5rem 0;
+    padding: 0.5rem 0;
   }
 
   .label {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
 
     &:not(:first-child) {
       margin-left: 1rem;
@@ -18,10 +18,14 @@
   }
 
   .info {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   .badge {
-    margin-right: .1rem;
+    margin-right: 0.5rem;
+  }
+
+  .filterList {
+    display: flex;
   }
 }

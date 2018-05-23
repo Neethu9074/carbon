@@ -16,7 +16,7 @@ export default connectTo(
       isActive: props.isActive$
     };
   },
-  function View({ label, href$, icon, iconSize, color, children, isActive }) {
+  function View({ href$, icon, iconSize, color, children, isActive }) {
     href$ = href$ || alwaysNull;
 
     let classes = block;
@@ -30,14 +30,10 @@ export default connectTo(
           <SvgIcon
             className={`${block}__icon`}
             type={icon}
-            width={iconSize || 20}
-            height={iconSize || 20}
-            color={color || '#22d8d8'}
+            width={iconSize || 32}
+            height={iconSize || 32}
+            color={color || '#9aa7ad'}
           />
-          {label}
-          {children ? (
-            <SvgIcon className={`${block}__expand-icon`} type="triangle_down" width={6} height={6} color={'#6B8088'} />
-          ) : null}
         </Link>
 
         {children ? (

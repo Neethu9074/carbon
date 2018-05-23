@@ -56,9 +56,10 @@ function getList({ applicationId, serviceId, timeConfig, selectedMetric, selecte
   });
 }
 
-function ViewAll({ applicationId, serviceId, selectedMetric }) {
+function ViewAll({ applicationId, serviceId, selectedMetric }, className) {
   return (
     <Link
+      className={className}
       href$={getServiceDashboard(serviceId, {
         applicationId,
         tab: '/endpoints',
@@ -73,9 +74,11 @@ function ViewAll({ applicationId, serviceId, selectedMetric }) {
   );
 }
 
-function Label({ item, applicationId, serviceId }) {
+function Label({ item, applicationId, serviceId }, _item, className) {
   return (
-    <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+    <Link className={className} href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>
+      {item.endpoint.label}
+    </Link>
   );
 }
 

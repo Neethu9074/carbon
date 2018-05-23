@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { colorTranslation, endpointNameTranslations } from 'in-applications/endpointTypes';
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
-import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';
@@ -39,7 +39,9 @@ export default connectTo(
       });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
-      const colors = endpointTypes.map((type, i) => (type === 'SELF' ? '#e9edef' : theme.app20Chart.strokeColors25[i]));
+      const colors = endpointTypes.map(
+        (type, i) => (type === 'SELF' ? colorTranslation.SELF : theme.lib.colors.chart.strokeColors25[i])
+      );
 
       config = {
         cardTitle: config.cardTitle,

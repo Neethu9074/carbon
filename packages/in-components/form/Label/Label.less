@@ -1,9 +1,14 @@
+@import '~in-themes/active.less';
+
 .in-label {
-  color: #0c1415;
-  font-weight: bold;
-  margin-bottom: 5px;
+  color: @lib__colors__N700Medium;
+  margin-bottom: 0.5rem;
 
   &--has-error {
-    color: #a94442;
+    color: @lib__colors__failure;
+  }
+
+  &[disabled] {
+    color: #63757d7a;
   }
 }

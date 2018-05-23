@@ -1,24 +1,27 @@
 :local {
   .frame {
     position: absolute;
+
+    display: flex;
+    align-items: center;
+
     min-width: 5px;
     cursor: pointer;
     border: 1px solid #fff;
 
     &:hover {
-      opacity: 0.75
+      opacity: 0.75;
     }
   }
 
   .unhighlightedFrame {
-    opacity: 0.2
+    opacity: 0.2;
   }
 
   .label {
     display: inline-block;
     color: white;
     margin-left: 0.4rem;
-    margin-top: 3px;
     overflow: hidden;
     white-space: nowrap;
   }

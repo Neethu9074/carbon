@@ -8,6 +8,7 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import RemoveSection from 'in-applications/NewApplication/Remove';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getTagValuesAsOptions } from 'in-applications/keys';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -123,7 +124,7 @@ function NewApplicationForm({
                       hasError={!field.valid && field.touched}
                       disabled={disabled}
                     >
-                      {getTagValues()}
+                      {getTagValuesAsOptions()}
                     </Select>
                     <TouchedMessages field={field} />
                   </FormGroup>
@@ -151,10 +152,10 @@ function NewApplicationForm({
                 {matchSpecificationForm.size > 1 && (
                   <Tooltip content="Remove this match condition">
                     <SvgIcon
-                      type="x"
-                      width={20}
+                      className={locals.removeMatchRuleIcon}
+                      type="lib_openclose_cancel"
+                      width={24}
                       onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
-                      className={locals.removeMatchRule}
                       tabIndex={0}
                       aria-label="Remove this match condition"
                     />
@@ -163,16 +164,14 @@ function NewApplicationForm({
               </div>
             ))}
 
-            <div className={locals.addRule} onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}>
-              <SvgIcon
-                className={locals.addRuleIcon}
-                type="plus"
-                width={16}
-                height={16}
-                aria-label="add a new match condition"
-              />
+            <Button
+              className={locals.addRuleButton}
+              kind="action"
+              onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}
+              icon="lib_openclose_add_circle_outline"
+            >
               Add rule
-            </div>
+            </Button>
           </Card>
         </Col>
       </Row>
@@ -207,43 +206,6 @@ function NewApplicationForm({
       </div>
     </form>
   );
-}
-
-function getTagValues() {
-  return [
-    { value: '', label: 'Please select' },
-    { label: 'cassandra.cluster.name' },
-    { label: 'docker.containerName' },
-    { label: 'docker.image' },
-    { label: 'docker.label' },
-    { label: 'dropwizard.name' },
-    { label: 'elasticsearch.cluster.name' },
-    { label: 'host.fqdn' },
-    { label: 'host.name' },
-    { label: 'host.os.name' },
-    { label: 'host.tag.env' },
-    { label: 'host.zone' },
-    { label: 'agent.zone' },
-    { label: 'ec2.zone' },
-    { label: 'azure.zone' },
-    { label: 'gce.zone' },
-    { label: 'nova.zone' },
-    { label: 'jvm.app.name' },
-    { label: 'kafka.cluster.name' },
-    { label: 'kubernetes.container.name' },
-    { label: 'marathon.appId' },
-    { label: 'nodejs.app.name' },
-    { label: 'nomad.jobName' },
-    { label: 'nomad.taskName' },
-    { label: 'ruby.name' },
-    { label: 'springboot.name' }
-  ].map(tag => {
-    return (
-      <option value={tag.value || tag.label} key={tag.label}>
-        {tag.label}
-      </option>
-    );
-  });
 }
 
 function getInitialForm(application = {}) {

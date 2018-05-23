@@ -4,21 +4,26 @@ import { Color } from 'in-map/3DLibProvider';
 const colorService = new Color(0, 0, 0);
 
 export default class ColorGenerator {
-  constructor(desiredNumberOfColors) {
-    this.desiredNumberOfColors = desiredNumberOfColors;
-    this.progress = 0;
+  constructor(desiredNumberOfColors, predefinedColorList) {
     this.colorIndex = 0;
-    this.stepsPerGenerate = 1 / desiredNumberOfColors;
 
-    this.setHueRange(25, 360);
-    this.setSatRange(85, 100);
-    this.setLumRange(70, 90);
+    if (predefinedColorList) {
+      this.colors = predefinedColorList.map(hex => ({ hex }));
+    } else {
+      this.desiredNumberOfColors = desiredNumberOfColors;
+      this.progress = 0;
+      this.stepsPerGenerate = 1 / desiredNumberOfColors;
 
-    const colors = [];
-    for (let i = 0; i < desiredNumberOfColors; i++) {
-      colors.push(this.createColor());
+      this.setHueRange(25, 360);
+      this.setSatRange(85, 100);
+      this.setLumRange(70, 90);
+
+      const colors = [];
+      for (let i = 0; i < desiredNumberOfColors; i++) {
+        colors.push(this.createColor());
+      }
+      this.colors = this.reOrder(colors);
     }
-    this.colors = this.reOrder(colors);
   }
 
   setHueRange(min, max) {
@@ -96,15 +101,15 @@ export default class ColorGenerator {
 
 export const colorPools = {};
 
-export function getColorPool(nameOfPool) {
+export function getColorPool(nameOfPool, colors) {
   if (!colorPools[nameOfPool]) {
-    createColorPool(nameOfPool);
+    createColorPool(nameOfPool, 10, colors);
   }
   return colorPools[nameOfPool];
 }
 
-export function createColorPool(nameOfPool, numColors = 10) {
-  const colorGenerator = new ColorGenerator(numColors);
+export function createColorPool(nameOfPool, numColors = 10, colors) {
+  const colorGenerator = new ColorGenerator(numColors, colors);
   const tagColorCache = {};
 
   const getColor = tag => {
@@ -112,7 +117,6 @@ export function createColorPool(nameOfPool, numColors = 10) {
       return tagColorCache[tag];
     }
 
-    // const color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     const color = colorGenerator.getNextColor().hex;
     tagColorCache[tag] = color;
     return color;

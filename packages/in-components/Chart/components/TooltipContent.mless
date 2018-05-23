@@ -1,33 +1,31 @@
+@import '~in-themes/active.less';
+
 :local {
   .tooltipContent {
-    width: 13rem;
-    padding: 0.25rem 0.438rem;
-    background: #21282e;
-    border-radius: 0.188rem;
-    font-size: 0.688rem;
-    color: #6b8088;
+    width: 18rem;
+    padding: 1rem 1rem 0.5rem;
+    background: @lib__colors__white;
+    color: @lib__colors__N800Dark;
+    border-radius: @lib__shapes__radius_large;
+    box-shadow: @lib__shadows__subtle;
   }
 
   .heading {
     display: flex;
-    justify-content: space-between;
 
     width: 100%;
-    margin-bottom: 0.25rem;
-
-    color: #dfdfdf;
-    border-bottom: 1px solid #525252;
-    padding-bottom: 0.1875rem;
+    margin-bottom: 1rem;
   }
 
   .rollupLabel {
-    color: #6b8088;
+    color: @lib__colors__N600Light;
+    margin-left: 0.25rem;
   }
 
-  .aggregation {
-    color: #6b8088;
-    text-transform: lowercase;
-    font-weight: bold;
+  .spacer {
+    width: 100%;
+    border-top: 1px dashed @lib__colors__N600Light;
+    margin-bottom: 0.5rem;
   }
 
   .tooltipMetricList {
@@ -36,21 +34,39 @@
     padding: 0;
   }
 
-  .spacer {
-    width: 100%;
-    border-top: 1px dashed #525252;
-  }
-
   .metricValue {
     display: flex;
     justify-content: space-between;
-    padding: 0.125rem 0;
-    margin: 0 0.125rem;
-    font-weight: bold;
+    padding-bottom: 0.5rem;
   }
 
   .entry {
+    display: flex;
+    align-items: center;
+
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .dot,
+  .rect {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+    margin-right: 0.375rem;
+  }
+
+  .dot {
+    border-radius: 50%;
+  }
+
+  .aggregation {
+    color: @lib__colors__N600Light;
+    text-transform: lowercase;
+    margin-left: 0.25rem;
+  }
+
+  .value {
+    font-weight: bold;
+    color: @lib__colors__N900Primary;
   }
 }

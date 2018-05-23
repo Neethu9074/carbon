@@ -1,7 +1,8 @@
+@import '~in-themes/active.less';
+
 :local {
   .metricValue {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #16363e;
+    font-size: 0.875rem;
+    color: @lib__colors__N900Primary;
   }
 }

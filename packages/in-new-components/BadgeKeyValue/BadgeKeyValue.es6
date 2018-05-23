@@ -9,13 +9,11 @@ function BadgeKeyValue({
   label,
   value,
   className,
-  size = 'mid',
-  style = {},
-  labelBackground = '#a5b6be',
-  labelColor = '#0C1415',
+  labelBackground,
+  labelColor,
   labelBorderColor,
-  valueBackground = '#fff',
-  valueColor = '#0C1415',
+  valueBackground,
+  valueColor,
   valueBorderColor
 }) {
   labelBorderColor = labelBorderColor || labelBackground;
@@ -23,12 +21,11 @@ function BadgeKeyValue({
   valueColor = valueColor || labelBackground;
 
   return (
-    <span className={className} style={style}>
+    <span className={joinClassNames(locals.badgeWrapper, className)}>
       <span
-        className={joinClassNames(locals.badge, locals.badgeKey, `${locals[size]}`)}
+        className={joinClassNames(locals.badge, locals.badgeKey)}
         style={{
           borderColor: labelBorderColor,
-          borderRight: 'none',
           background: labelBackground,
           color: labelColor
         }}
@@ -36,10 +33,9 @@ function BadgeKeyValue({
         {label}
       </span>
       <span
-        className={joinClassNames(locals.badge, locals.badgeValue, `${locals[size]}`)}
+        className={joinClassNames(locals.badge, locals.badgeValue)}
         style={{
           borderColor: valueBorderColor,
-          borderLeft: 'none',
           background: valueBackground,
           color: valueColor
         }}
@@ -53,9 +49,7 @@ function BadgeKeyValue({
 BadgeKeyValue.propTypes = {
   label: rpt.string,
   value: rpt.string,
-  size: rpt.string,
   className: rpt.string,
-  style: rpt.object,
   labelBackground: rpt.string,
   labelColor: rpt.string,
   labelBorderColor: rpt.string,

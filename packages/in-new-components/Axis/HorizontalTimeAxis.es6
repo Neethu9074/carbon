@@ -5,6 +5,8 @@ import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
+import locals from 'in-new-components/Axis/components/Ticks.mless';
+
 export default function HorizontalTimeAxis(props) {
   const { width = 300, scale } = props;
   const formattingConfig = getAxisConfig(scale.to - scale.from);
@@ -12,7 +14,7 @@ export default function HorizontalTimeAxis(props) {
   function format(timestamp) {
     return (
       <Fragment>
-        <div>{formatTime(timestamp)}</div>
+        <div className={locals.horizontalTickFirstLabel}>{formatTime(timestamp)}</div>
         <span>{formatDateShort(timestamp)}</span>
       </Fragment>
     );

@@ -1,7 +1,9 @@
+@import '~in-themes/active.less';
+
 :local {
   .rect {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.75rem;
+    height: 0.75rem;
 
     margin-right: 0.5rem;
   }
@@ -14,20 +16,15 @@
   .cell {
     display: flex;
     align-items: center;
-
-    color: #47626a;
   }
 
-  .duration {
-    color: #0c1415;
+  .metricValue {
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .timeIcon {
     margin-right: 0.5rem;
-  }
-
-  .link {
-    color: #47626a;
-    text-decoration: none;
+    fill: @lib__colors__N600Light;
   }
 }

@@ -26,9 +26,9 @@ export default connect(
   }
 );
 
-function TraceButton({ size = 'compact', kind = 'secondary', traceCount, toggle }) {
+function TraceButton({ size, kind = 'primary', traceCount, toggle }) {
   return (
-    <Button kind={kind} size={size} icon="app_trace" onClick={toggle}>
+    <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle}>
       {number.compact(traceCount)} Traces
     </Button>
   );

@@ -52,9 +52,7 @@ function CustomTime({ form, onChange, setForm }) {
         )}
 
       <div className={locals.buttons}>
-        <Button type="submit" size="compact" kind="primary">
-          Set Time
-        </Button>
+        <Button type="submit">Set Time</Button>
       </div>
     </form>
   );

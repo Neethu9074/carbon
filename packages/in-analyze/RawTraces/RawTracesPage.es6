@@ -17,7 +17,7 @@ import {
 } from 'in-components/tables/sharedComponents';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import Counter from 'in-components/tables/ServerTable/components/Counter';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import GroupingToggle from 'in-analyze/shared/GroupingToggle';
@@ -123,31 +123,32 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
         </Thead>
         <Tbody>
           {items.map(item => (
-            <Tr key={item.traceId}>
+            <Tr key={item.traceId} size="compact">
               <Td>
-                <Link className={locals.link} href$={getLinkToTraceDetail(item.traceId)}>
+                <div className={locals.cell}>
+                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
                   {formatDateTime(item.startTime)}
-                </Link>
-              </Td>
-              <Td>
-                <Link className={locals.link} href$={getLinkToTraceDetail(item.traceId)}>
-                  {item.label}
-                </Link>
-              </Td>
-              <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.serviceIcon} type="app_service" width={16} height={16} color="#47626A" />
-                  {item.service.label}
                 </div>
               </Td>
               <Td>
-                <Counter>{number.compact(item.callCount)}</Counter>
+                <div className={locals.cell}>
+                  <SvgIcon className={locals.serviceIcon} type="lib_application_trace" width={24} height={24} />
+                  <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
+                </div>
               </Td>
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon type="time" width={12} height={12} className={locals.timeIcon} color="#47626A" />
-                  <span className={locals.duration}>{millis.fixedCompact(item.duration)}</span>
+                  <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
+                  <Link className={locals.link} href$={getServiceDashboard(item.service.id)}>
+                    {item.service.label}
+                  </Link>
                 </div>
+              </Td>
+              <Td>
+                <span className={locals.metricValue}>{number.compact(item.callCount)}</span>
+              </Td>
+              <Td>
+                <span className={locals.metricValue}>{millis.fixedCompact(item.duration)}</span>
               </Td>
               <Td>
                 <ErrorIndicator errorCount={item.totalErrorCount} />
@@ -156,11 +157,11 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
           ))}
 
           <HorizontalIndicatorRow cols={6} progress={progress} />
-          <ErrorRows cols={6} errors={errors} />
+          <ErrorRows cols={6} errors={errors} size="compact" />
           {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={6} />}
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={6} />}
         </Tbody>
       </Table>
+      {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
     </Card>
   );
 }

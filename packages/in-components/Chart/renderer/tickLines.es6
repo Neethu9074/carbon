@@ -1,5 +1,7 @@
+import theme from 'in-themes';
+
 export default function axis(config) {
-  config.ctx.fillStyle = '#f6f6f6';
+  config.ctx.fillStyle = theme.lib.colors.N300;
   config.ctx.beginPath();
 
   drawTickPositionsForAxis(config.scales.y1);

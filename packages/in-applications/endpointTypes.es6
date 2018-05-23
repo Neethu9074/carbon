@@ -11,13 +11,13 @@ export const endpointNameTranslations = {
 };
 
 export const colorTranslation = {
-  BATCH: '#14adff',
-  DATABASE: '#cc553b',
-  HTTP: '#1479ff',
-  MESSAGING: '#3eb39a',
-  RPC: '#61ccce',
-  UNDEFINED: '#cccccc',
-  SELF: '#ddd'
+  BATCH: '#1DA7EA',
+  DATABASE: '#3EC56D',
+  HTTP: '#00ACA2',
+  MESSAGING: '#8B56DB',
+  RPC: '#00BFCB',
+  UNDEFINED: '#D4D8DB',
+  SELF: '#D4D8DB'
 };
 
 export function getColor(type) {

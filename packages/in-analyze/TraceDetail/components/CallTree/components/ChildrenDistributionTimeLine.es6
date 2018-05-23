@@ -70,22 +70,22 @@ function ProcessingTime({ call, getColor }) {
   );
 }
 
-function CallDurationLabel({ scale, call }) {
-  const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
+function CallDurationLabel({ call }) {
+  // const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
 
   return (
     <div
       className={evaluateClassNames({
         [locals.callDurationWrapper]: true,
-        [locals.leftAlignedCallDurationWrapper]: positionOnAxisInPercent < 50,
-        [locals.rightAlignedCallDurationWrapper]: positionOnAxisInPercent >= 50
+        [locals.leftAlignedCallDurationWrapper]: true,
+        [locals.rightAlignedCallDurationWrapper]: false
       })}
     >
       <span
         className={evaluateClassNames({
           [locals.callDuration]: true,
-          [locals.leftAlignedCallDuration]: positionOnAxisInPercent < 50,
-          [locals.rightAlignedCallDuration]: positionOnAxisInPercent >= 50
+          [locals.leftAlignedCallDuration]: true,
+          [locals.rightAlignedCallDuration]: false
         })}
       >
         {millis.fixedCompact(call.duration)}

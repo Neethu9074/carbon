@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .pill {
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.1875rem 0.25rem 0.125rem;
+    border-radius: @lib__shapes__radius_medium;
+    color: @lib__colors__deep-purple800;
+  }
+
+  .bold {
+    color: @lib__colors__white;
+  }
+
+  .inverted {
+    background: @lib__colors__white;
+  }
+}

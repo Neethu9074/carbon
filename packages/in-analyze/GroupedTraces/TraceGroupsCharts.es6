@@ -4,10 +4,9 @@ import { withState } from 'recompose';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import { millis, percentage } from 'in-services/formatters/number';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import ButtonGroup from 'in-components/ButtonGroup';
-import Button from 'in-new-components/Button';
 
 import locals from './TraceGroupsCharts.mless';
 
@@ -41,7 +40,7 @@ function TraceGroupCharts({
   // Render chart selector and chart.
   return (
     <div className={locals.traceGroupsCharts}>
-      <ButtonGroup horizontal className={locals.chartSelector}>
+      <div className={locals.buttonGroup}>
         <ChartSelectButton
           chartId="latencyChartData"
           label="Latency"
@@ -60,7 +59,7 @@ function TraceGroupCharts({
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
-      </ButtonGroup>
+      </div>
 
       <TraceGroupsChartElement
         traceGroups={items}
@@ -74,16 +73,17 @@ function TraceGroupCharts({
   );
 }
 
-function ChartSelectButton({ chartId, label, activeChartId, setSelectedChart }) {
+function ChartSelectButton({ chartId, label, setSelectedChart, activeChartId }) {
   return (
-    <Button
-      size="compact"
-      kind={chartId === activeChartId ? 'primary' : 'secondary'}
+    <div
+      className={evaluateClassNames({
+        [locals.chartSelectButton]: true,
+        [locals.chartSelectedButton]: activeChartId === chartId
+      })}
       onClick={() => setSelectedChart(chartId)}
-      className={locals.chartSelectButton}
     >
       {label}
-    </Button>
+    </div>
   );
 }
 
@@ -120,5 +120,13 @@ function TraceGroupsChartElement({ traceGroups, traceGroupColors, timeConfig, ti
     min: chartDefinition.min
   };
 
-  return <Chart timeConfig={chartTimeConfig} y1={y1} granularity={granularity} renderLegend={false} />;
+  return (
+    <Chart
+      timeConfig={chartTimeConfig}
+      y1={y1}
+      granularity={granularity}
+      renderLegend={false}
+      legendColorIndicatorShape="rect"
+    />
+  );
 }

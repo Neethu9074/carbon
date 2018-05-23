@@ -132,7 +132,7 @@ export default class Config {
   }
 
   enrichAxisWithColors(axis, offset = 0) {
-    const colors = theme.app20Chart.strokeColors25;
+    const colors = theme.lib.colors.chart.strokeColors25;
 
     axis.colors = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
@@ -142,9 +142,9 @@ export default class Config {
 
   getColors100ForColors(colors) {
     return colors.map(color => {
-      const colorIndex = theme.app20Chart.strokeColors25.indexOf(color);
+      const colorIndex = theme.lib.colors.chart.strokeColors25.indexOf(color);
       if (colorIndex !== -1) {
-        return theme.app20Chart.strokeColors100[colorIndex];
+        return theme.lib.colors.chart.strokeColors100[colorIndex];
       }
       return color;
     });

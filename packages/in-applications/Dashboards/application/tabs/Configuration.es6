@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import { getApplicationConfig, updateApplicationConfig } from 'in-api/applicationConfigs';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Form from 'in-applications/NewApplication/Form';
 import SvgIcon from 'in-components/SvgIcon';
@@ -64,25 +63,25 @@ export default connectTo(
       return (
         <Fragment>
           {this.state.success && (
-            <div className={locals.notificationContainer}>
-              <div>
-                <TemporaryPresenter duration={5000}>
-                  <SvgIcon type="ok" width={16} className={locals.successIcon} />{' '}
+            <TemporaryPresenter duration={5000}>
+              <div className={locals.notificationContainer}>
+                <div>
+                  <SvgIcon type="ok" width={16} className={locals.successIcon} />
                   <span className={locals.successLabel}>Successfully saved.</span>
-                </TemporaryPresenter>
+                </div>
               </div>
-            </div>
+            </TemporaryPresenter>
           )}
 
           {this.state.error && (
-            <div className={locals.notificationContainer}>
-              <div>
-                <TemporaryPresenter duration={5000}>
-                  <SvgIcon type="error" width={16} className={locals.errorIcon} />{' '}
+            <TemporaryPresenter duration={5000}>
+              <div className={locals.notificationContainer}>
+                <div>
+                  <SvgIcon type="error" width={16} className={locals.errorIcon} />
                   <span className={locals.errorLabel}>An error occurred, please try again.</span>
-                </TemporaryPresenter>
+                </div>
               </div>
-            </div>
+            </TemporaryPresenter>
           )}
 
           <Form

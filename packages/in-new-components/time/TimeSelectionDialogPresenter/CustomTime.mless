@@ -1,20 +1,22 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     width: 20rem;
-    border-right: 1px solid #D3DFE5;
+    border-right: 1px solid @lib__colors__N300;
   }
 
   .from {
-    margin: 1rem;
-    border-bottom: 1px solid #E8EEF0;
+    margin: 1rem 1.5rem;
+    border-bottom: 1px solid @lib__colors__N300;
   }
 
   .to {
-    margin: 0.3rem 1rem;
+    margin: 0.3rem 1.5rem;
   }
 
   .errors {
-    margin: .3rem 1rem;
+    margin: 0.3rem 1.5rem;
   }
 
   .buttons {

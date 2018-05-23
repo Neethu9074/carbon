@@ -54,9 +54,10 @@ function getList({ applicationId, timeConfig, selectedMetric, selectedMetricAggr
   });
 }
 
-function ViewAll({ applicationId, selectedMetric }) {
+function ViewAll({ applicationId, selectedMetric }, className) {
   return (
     <Link
+      className={className}
       href$={getApplicationDashboard(applicationId, {
         tab: '/services',
         tabMatrix: {
@@ -70,8 +71,12 @@ function ViewAll({ applicationId, selectedMetric }) {
   );
 }
 
-function Label({ item, applicationId }) {
-  return <Link href$={getServiceDashboard(item.service.id, { applicationId })}>{item.service.label}</Link>;
+function Label({ item, applicationId }, _item, className) {
+  return (
+    <Link className={className} href$={getServiceDashboard(item.service.id, { applicationId })}>
+      {item.service.label}
+    </Link>
+  );
 }
 
 function Metric({ formattedMetricValue }) {

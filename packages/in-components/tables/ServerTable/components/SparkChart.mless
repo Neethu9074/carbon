@@ -4,7 +4,7 @@
     align-items: center;
   }
 
-  .metric {
-    margin: 0px 0 0 1rem;
+  .metricValue {
+    margin-left: 0.25rem;
   }
 }

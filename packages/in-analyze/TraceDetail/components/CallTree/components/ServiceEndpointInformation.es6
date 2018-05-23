@@ -6,7 +6,7 @@ import Link from 'in-components/Link';
 
 import locals from './ServiceEndpointInformation.mless';
 
-export default function ServiceEndpointInformation({ call, getColor, marginLeft }) {
+export default function ServiceEndpointInformation({ call, marginLeft }) {
   return (
     <div
       style={{
@@ -14,18 +14,16 @@ export default function ServiceEndpointInformation({ call, getColor, marginLeft 
       }}
       className={locals.serviceEndpointInformation}
     >
-      <div style={{ background: getColor(call) }} className={locals.colorIndicator} />
-
-      <SvgIcon type="app_service" width={12} height={12} className={locals.serviceIcon} color="#47626A" />
+      <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={16} height={16} />
       <Link className={locals.link} href$={getServiceDashboard(call.service.id)}>
-        <span className={locals.label}>{call.service.label}</span>
+        {call.service.label}
       </Link>
 
-      <SvgIcon type="chevron_right" width={8} height={8} className={locals.arrowIcon} color="#47626A" />
+      <SvgIcon className={locals.arrowIcon} type="lib_arrow_expand_right" width={16} height={16} />
 
-      <SvgIcon type="app_endpoint" width={12} height={12} className={locals.endpointIcon} color="#47626A" />
+      <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" width={16} height={16} />
       <Link className={locals.link} href$={getEndpointDashboard(call.endpoint.id, { serviceId: call.service.id })}>
-        <span className={locals.label}>{call.endpoint.label}</span>
+        {call.endpoint.label}
       </Link>
     </div>
   );

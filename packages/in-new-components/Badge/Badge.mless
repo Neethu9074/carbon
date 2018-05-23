@@ -1,25 +1,24 @@
+@import '~in-themes/active.less';
+
 :local {
   .badge {
-    display: inline-block;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-
-    border: 1px solid;
+    font-size: @lib__typography__body-small__font-size;
+    border-radius: @lib__typography__body-small__font-size;
+    padding: 0.0625rem 0.3125rem;
   }
 
-  .mid {
-    font-weight: 700;
-    padding: 0.25rem 0.375rem 0.1875rem;
-    font-size: 0.75rem;
-    border-radius: 0.1875rem;
+  .bold {
+    background: @lib__colors__primary1;
+    color: @lib__colors__white;
   }
 
-  .sm {
-    padding: 0.0625rem 0.3125rem 0.125rem;
-    font-size: 0.6875rem;
-    border-radius: 0.125rem;
-    font-weight: 500;
+  .light {
+    color: @lib__colors__N900Primary;
+    background: @lib__colors__N300;
+    font-weight: 600;
+  }
+
+  .inverted {
+    background: @lib__colors__white;
   }
 }

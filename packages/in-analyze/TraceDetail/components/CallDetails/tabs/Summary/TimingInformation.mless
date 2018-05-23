@@ -1,10 +1,12 @@
+@import '~in-themes/active.less';
+
 :local {
   .timingInformation {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
 
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem;
   }
 
   .callStartLabel {
@@ -13,29 +15,36 @@
 
   .timeBlock {
     margin-right: 2rem;
-  }
-
-  .timeIcon {
-    min-width: 0.75rem;
-    min-height: 0.75rem;
-
-    margin-right: 0.5rem;
-  }
-
-  .labelWrapper {
     display: flex;
     align-items: center;
+  }
 
-    margin-bottom: 0.5rem;
+  .timeColorIndicator,
+  .label,
+  .duration {
+    font-size: 0.875rem;
+  }
+
+  .timeColorIndicator {
+    margin-right: 0.5rem;
+    min-width: 0.75rem;
+    min-height: 0.75rem;
   }
 
   .label {
+    margin-right: 0.5rem;
+    color: @lib__colors__N700Medium;
     white-space: nowrap;
   }
 
   .duration {
-    font-size: 1rem;
-    font-weight: lighter;
-    color: #47626a;
+    margin-right: 0.25rem;
+    color: @lib__colors__N900Primary;
+    font-weight: 500;
+  }
+
+  .durationInPercent {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
   }
 }

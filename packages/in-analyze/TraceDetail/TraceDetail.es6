@@ -6,24 +6,23 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
-import AnalyzeRootBreadcrumb from 'in-analyze/shared/AnalyzeRootBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import AnalyzeRootBreadcrumb from 'in-analyze/shared/AnalyzeRootBreadcrumb';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import { createColorPool } from 'in-services/util/ColorGenerator';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { getColorPool } from 'in-services/util/ColorGenerator';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
-import TabView from 'in-new-components/TabView/TabView';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
 import Button from 'in-new-components/Button';
+import theme from 'in-themes';
 
-const byServiceEndpointCombinationColorPool = createColorPool('serviceAndEndpointCombination');
-const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
-  byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
-const byServiceEndpointCombinationUrlIdentifier = 'byServiceAndEndpoint';
+import locals from './TraceDetail.mless';
 
 const getColorByEndpointType = ({ endpoint }) => getColor(endpoint.type);
+const byServiceEndpointCombinationUrlIdentifier = 'byServiceAndEndpoint';
 const byEndpointTypeUrlIdentifier = 'byEndpointType';
 
 export default compose(
@@ -31,27 +30,27 @@ export default compose(
     getPathSegment: () => traceDetail,
     getMatrixPrefix: () => '',
     boundKeys: ['colorCode'],
-    getInitialState: () => ({ colorCode: getColorByServiceAndEndpoint }),
+    getInitialState: () => ({ colorCode: null }),
     reducerName: 'setColorCodeMechanism',
     getParsedUrlValues: ({ colorCode }) => ({
-      colorCode:
-        colorCode === byServiceEndpointCombinationUrlIdentifier ? getColorByServiceAndEndpoint : getColorByEndpointType
+      colorCode: colorCode === byServiceEndpointCombinationUrlIdentifier ? null : getColorByEndpointType
     }),
     getSerializedUrlValues: ({ colorCode }) => ({
-      colorCode:
-        colorCode === getColorByServiceAndEndpoint
-          ? byServiceEndpointCombinationUrlIdentifier
-          : byEndpointTypeUrlIdentifier
+      colorCode: !colorCode ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
     })
   })
 )(TraceDetail);
 
 function TraceDetail({ location, colorCode: getColor }) {
   const props = {
-    traceId: getMatrixParameter(location, traceDetail, traceIdMatrixParameter),
-    getColor
+    traceId: getMatrixParameter(location, traceDetail, traceIdMatrixParameter)
   };
   const { traceId } = props;
+
+  props.getColor = getColor
+    ? getColor
+    : ({ service, endpoint }) =>
+        getColorPool(traceId, theme.lib.colors.chart.strokeColors100).getColorHex(`${service.id}__${endpoint.id}`);
 
   return (
     <Fragment>
@@ -74,14 +73,18 @@ function TraceDetail({ location, colorCode: getColor }) {
 }
 
 function Header(props) {
-  return <BasicApplicationDashboardHeader type="Trace" renderActions={Actions} renderSubTypes={SubTypes} {...props} />;
+  return (
+    <div>
+      <BasicApplicationDashboardHeader type="Trace" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+      <div className={locals.tabViewPlaceholder} />
+    </div>
+  );
 }
 
 function Actions({ traceId }) {
   return (
     <Button
-      icon="download"
-      size="compact"
+      icon="lib_actions_download"
       kind="secondary"
       target="_blank"
       href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}

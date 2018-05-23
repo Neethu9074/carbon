@@ -9,8 +9,8 @@ import GroupingToggle from 'in-analyze/shared/GroupingToggle';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import { app20Chart } from 'in-themes/theme';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes/theme';
 
 const orderTranslation = {
   label: 'concat_dest_service_endpoint',
@@ -88,7 +88,8 @@ function TraceGroupsPage(props) {
   if (items && items.length > 0) {
     label += ` (${items.length})`;
     traceGroupColors = items.map(
-      (group, groupIndex) => app20Chart.strokeColors100[groupIndex % app20Chart.strokeColors100.length]
+      (group, groupIndex) =>
+        theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
     );
   }
 

@@ -1,4 +1,4 @@
-import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/TabView/tabs/getTabHeaderWithAppDataMetricCount';
+import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/LocationAwareTabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -18,7 +18,7 @@ export default [
     label: 'Services',
     path: `${applicationDashboard}/services`,
     component: Services,
-    icon: 'app_service',
+    icon: 'lib_application_service',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
         return {
@@ -52,7 +52,7 @@ export default [
     label: 'Infrastructure',
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab,
-    icon: 'app_infrastructure',
+    icon: 'lib_infrastructure',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
         return {

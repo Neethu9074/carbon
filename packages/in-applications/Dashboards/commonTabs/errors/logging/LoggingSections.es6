@@ -22,7 +22,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
                 tooltipFormatter: number.compact,
                 renderer: Renderer.stackedArea,
                 labels: ['WARN', 'ERROR'],
-                colors: [theme.app20Chart.strokeColors25[2], theme.app20Chart.strokeColors25[4]],
+                colors: [theme.lib.colors.chart.strokeColors25[2], theme.lib.colors.chart.strokeColors25[6]],
                 metricIds: ['logs.warn', 'logs.error']
               }}
               metricsConfiguration={{

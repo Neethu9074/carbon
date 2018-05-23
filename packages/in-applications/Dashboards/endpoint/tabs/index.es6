@@ -1,4 +1,4 @@
-import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/TabView/tabs/getTabHeaderWithAppDataMetricCount';
+import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/LocationAwareTabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import ErrorsTab from 'in-applications/Dashboards/commonTabs/errors/Errors';
@@ -33,7 +33,7 @@ export default [
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
     component: Infrastructure,
-    icon: 'app_infrastructure',
+    icon: 'lib_infrastructure',
     header: getTabHeaderWithAppDataMetricCount({
       getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
         return {

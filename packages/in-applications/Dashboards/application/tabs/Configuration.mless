@@ -1,28 +1,29 @@
-:local {
+@import '~in-themes/active.less';
 
+:local {
   .notificationContainer {
     display: flex;
     justify-content: center;
+    margin: 1rem;
   }
 
   .successIcon {
-    margin: 0 0 0 1rem;
-    fill: #5dbe64;
+    margin-right: 0.5rem;
+    fill: @lib__colors__success;
   }
 
   .successLabel {
-    color: #5dbe64;
+    color: @lib__colors__success;
     font-weight: bold;
   }
 
- .errorIcon {
-    margin: 0 0 0 1rem;
-    fill: #a94442;
+  .errorIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__failure;
   }
 
   .errorLabel {
-    color: #a94442;
+    color: @lib__colors__failure;
     font-weight: bold;
   }
-
 }

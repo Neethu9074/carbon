@@ -1,32 +1,25 @@
+@import '~in-themes/active.less';
+
 :local {
-  @border-radius: 3px;
-
-  .card {
-    border: 1px solid #e8eef0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-  }
-
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 2.5rem;
+    height: 3rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    background: #f4f7f8;
-    border-top-left-radius: @border-radius;
-    border-top-right-radius: @border-radius;
+    background: @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
   }
 
   .title {
     font-size: 1rem;
     font-weight: 200;
-    color: #47626a;
+    color: @lib__colors__N700Medium;
   }
 
   .body {
-    padding: 16px;
+    padding: 1rem;
   }
 
   .bodyWithoutPadding {

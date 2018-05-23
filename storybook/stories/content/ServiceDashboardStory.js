@@ -2,10 +2,8 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
-import BreadcrumbHeader from 'in-new-components/TabView/components/BreadcrumbHeader';
-// import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-// import breadcrumbs from 'in-applications/Dashboards/service/breadcrumbs';
-import DashboardHeader from 'in-new-components/TabView/components/Header';
+import BreadcrumbHeader from 'in-new-components/LocationAwareTabView/components/BreadcrumbHeader';
+import DashboardHeader from 'in-new-components/LocationAwareTabView/components/Header';
 import Root from '../_helpers/Root';
 
 storiesOf('content/Service Dashboard', module)
@@ -17,7 +15,6 @@ storiesOf('content/Service Dashboard', module)
 function Breadcrumb() {
   return (
     <Root>
-      {/* {breadcrumbs && <Breadcrumbs items={breadcrumbs} />} */}
       <BreadcrumbHeader />
     </Root>
   );

@@ -20,8 +20,8 @@ class SparkChartReactWrapper extends React.Component {
   static displayName = 'SparkChart';
 
   static defaultProps = {
-    height: 30,
-    width: 100
+    height: 24,
+    width: 72
   };
 
   componentDidMount() {

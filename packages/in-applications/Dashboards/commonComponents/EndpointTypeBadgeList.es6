@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
 import { getColor } from 'in-applications/endpointTypes';
-import Badge from 'in-new-components/Badge';
+import Pill from 'in-new-components/Pill';
 
 import locals from './EndpointTypeBadgeList.mless';
 
-export default function EndpointTypeBadgeList({ type, types, size }) {
+export default function EndpointTypeBadgeList({ type, types }) {
   if (type && !types) {
     types = [type];
   }
@@ -19,9 +19,9 @@ export default function EndpointTypeBadgeList({ type, types, size }) {
         .slice()
         .sort()
         .map(type => (
-          <Badge key={type} className={locals.badge} color={getColor(type)} size={size}>
+          <Pill key={type} className={locals.badge} color={getColor(type)} kind="light">
             {type}
-          </Badge>
+          </Pill>
         ))}
     </Fragment>
   );

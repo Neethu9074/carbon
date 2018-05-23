@@ -1,9 +1,7 @@
 import Config from 'in-components/Chart/Configuration';
 
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
-import renderTicks from 'in-components/Chart/renderer/ticks';
 import clearRender from 'in-components/Chart/renderer/clear';
-import renderAxis from 'in-components/Chart/renderer/axis';
 
 const emptyDataSeries = [];
 
@@ -25,9 +23,6 @@ export default class Chart {
     this.renderAxisMetrics('y2');
 
     this.clearOverdraw();
-
-    renderAxis(this.config);
-    renderTicks(this.config);
   }
 
   renderAxisMetrics(axisName) {
@@ -57,7 +52,7 @@ export default class Chart {
           axis,
           index: i,
           dataSeries: metrics[i],
-          color: axis.colors[i],
+          color: axis.colors100[i],
           scale: config.scales[axisName],
           config
         });

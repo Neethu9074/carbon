@@ -4,10 +4,12 @@ import { chain } from 'lodash';
 import React from 'react';
 
 import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
+import NivoChartTooltip from 'in-components/Chart/components/NivoChartTooltip';
+import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { millis } from 'in-services/formatters/number';
+import { HEIGHT } from 'in-new-components/Axis/HorizontalAxis';
+import { millis, number } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
 import locals from './Histogram.mless';
@@ -23,7 +25,7 @@ export default compose(
   })
 )(Histogram);
 
-function Histogram({ width, height, customWidth, customHeight, buckets }) {
+function Histogram({ width, height, customWidth, customHeight, buckets, metricName }) {
   if (!width) {
     return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
@@ -31,8 +33,8 @@ function Histogram({ width, height, customWidth, customHeight, buckets }) {
     return <div style={{ width: customWidth || width, height: customHeight || height }} className={locals.histogram} />;
   }
 
-  width = (customWidth || width) - 60;
-  height = (customHeight || height) - 30;
+  width = (customWidth || width) - 2 * WIDTH;
+  height = (customHeight || height) - HEIGHT;
 
   let data = buckets.map(({ from, to, value }) => ({
     from,
@@ -85,10 +87,11 @@ function Histogram({ width, height, customWidth, customHeight, buckets }) {
           }}
           padding={0.1}
           groupMode="grouped"
-          colors={theme.app20Chart.strokeColors25[0]}
+          colors={theme.lib.colors.chart.strokeColors100[0]}
           borderColor="inherit:darker(1.6)"
           enableLabel={false}
           labelTextColor="#e1e8ea"
+          tooltip={props => <NivoChartTooltip {...props} id={metricName} formatter={number} />}
         />
         <HorizontalAxis
           formatter={millis}

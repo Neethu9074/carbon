@@ -5,12 +5,12 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import TracesButton from 'in-applications/components/TracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
-import TabView from 'in-new-components/TabView/TabView';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

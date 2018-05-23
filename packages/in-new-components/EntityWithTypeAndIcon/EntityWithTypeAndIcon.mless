@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     display: flex;
@@ -6,11 +8,12 @@
 
   .entityIcon {
     margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
   }
 
   .type {
     margin-bottom: 0.25rem;
-    color: #16363e;
+    color: @lib__colors__N600Light;
     font-size: 0.75rem;
   }
 
@@ -20,7 +23,11 @@
   }
 
   .label {
-    color: #16363e;
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
+  }
+
+  .link {
     font-size: 0.875rem;
   }
 }

@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .metrics {
     list-style: none;
@@ -9,17 +11,31 @@
   }
 
   .metric {
-    margin-left: 1rem;
+    margin-right: 0.5rem;
   }
 
   .metricLink {
+    padding: 0.25rem 0.5rem;
     text-decoration: none;
-    color: #47626a;
+    color: @lib__colors__N700Medium;
     font-size: 0.875rem;
+    border-radius: @lib__shapes__radius_small;
+
+    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+
+    &:hover {
+      background: @lib__colors__N300;
+      text-decoration: none;
+    }
   }
 
   .active {
-    color: #0c1415;
-    text-decoration: underline;
+    color: #fff;
+    background: @lib__colors__light-blue800;
+
+    &:hover {
+      background: @lib__colors__light-blue800;
+      cursor: default;
+    }
   }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
-
-import locals from './ErrorIndicator.mless';
+import Badge from 'in-new-components/Badge';
+import theme from 'in-themes';
 
 export default function ErrorIndicator({ className, errorCount }) {
   // also on 0
@@ -10,5 +9,9 @@ export default function ErrorIndicator({ className, errorCount }) {
     return null;
   }
 
-  return <div className={joinClassNames(locals.errorIndicator, className)}>{errorCount}</div>;
+  return (
+    <Badge className={className} color={theme.lib.colors.failure}>
+      {errorCount}
+    </Badge>
+  );
 }

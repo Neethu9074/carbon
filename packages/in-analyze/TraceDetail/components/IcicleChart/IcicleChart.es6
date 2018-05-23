@@ -34,7 +34,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
 
   return (
     <div className={locals.chart}>
-      <CallTimeAxis call={rootCall} />
+      <CallTimeAxis showStartLabel call={rootCall} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {callFrames.map(callFrame => {

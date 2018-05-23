@@ -1,22 +1,32 @@
+@import '~in-themes/active.less';
+
 :local {
   .cell {
     display: flex;
     align-items: center;
-
-    color: #47626a;
   }
 
-  .duration {
-    color: #0c1415;
+  .metricValue {
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .serviceIcon,
   .timeIcon {
     margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
   }
 
-  .link {
-    color: #47626a;
-    text-decoration: none;
+  .timeIcon,
+  .serviceIcon {
+    margin-right: 0.5rem;
+  }
+
+  .serviceIcon {
+    fill: @lib__colors__blue800;
+  }
+
+  .timeIcon {
+    fill: @lib__colors__N700Medium;
   }
 }

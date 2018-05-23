@@ -15,6 +15,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Services.mless';
@@ -61,6 +62,7 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       serviceId={serviceId}
       endpointId={endpointId}
       cardTitle="Services"
+      size="compact"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
       paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
@@ -141,14 +143,17 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
       return (
-        <Link
-          href$={getServiceDashboard(item.service.id, {
-            applicationId,
-            endpointId
-          })}
-        >
-          {item.service.label}
-        </Link>
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
+          <Link
+            href$={getServiceDashboard(item.service.id, {
+              applicationId,
+              endpointId
+            })}
+          >
+            {item.service.label}
+          </Link>
+        </div>
       );
     }
   },
@@ -162,7 +167,7 @@ const columnDefinitions = [
             .slice()
             .sort()
             .map(type => (
-              <Badge size="sm" color={getColor(type)} key={type}>
+              <Badge color={getColor(type)} key={type}>
                 {type}
               </Badge>
             ))}

@@ -1,4 +1,5 @@
 @import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
 
 :local {
   .twoRowWrapper {
@@ -7,31 +8,30 @@
 
     &:last-child {
       & > .breadcrumb {
+        display: flex;
+        align-items: center;
         color: #fff;
-        font-weight: 600;
       }
 
       & > .label {
-        color: #fff;
+        color: #ffffff8f;
       }
     }
   }
 
   .label {
     font-size: 0.75rem;
-    margin-bottom: 0.125rem;
-    color: #a5b6be;
   }
 
   .breadcrumb {
     text-decoration: none;
-    color: #a5b6be;
-    font-weight: 400;
+    color: #ffffff8f;
     max-width: 250px;
     .ellipsis();
 
     &:hover {
-      color: #fff;
+      color: #ffffffb8;
+      text-decoration: none;
     }
   }
 }

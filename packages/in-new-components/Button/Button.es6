@@ -8,12 +8,12 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Button.mless';
 
-export const kinds = ['primary', 'secondary', 'danger'];
+export const kinds = ['primary', 'secondary', 'action', 'subtle', 'danger'];
 export const sizes = ['normal', 'compact'];
 
 const iconDimensions = {
-  normal: 14,
-  compact: 14
+  normal: 24,
+  compact: 16
 };
 
 export default connectTo(props => {
@@ -47,7 +47,7 @@ function Button({
   // Do not use the disabled attribute as we want to continue to retrieve mouse events
   // sorry usability :(.
   if (disabled) {
-    classes = `${classes} ${locals.disabled}`;
+    classes = `${classes} ${locals.disabled} ${locals[kind + 'Disabled']}`;
   }
 
   if (disabled) {

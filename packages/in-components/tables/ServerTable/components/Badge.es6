@@ -1,9 +1,13 @@
 import React from 'react';
 
-import Badge from 'in-new-components/Badge';
+import Pill from 'in-new-components/Pill';
 
 import locals from './Badge.mless';
 
 export default function TableBadge(props) {
-  return <Badge {...props} className={locals.badge} />;
+  return (
+    <Pill kind="light" {...props} className={locals.badge}>
+      {props.children}
+    </Pill>
+  );
 }

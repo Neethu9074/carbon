@@ -6,6 +6,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 // the following components are all part of the same bundle.
 // Bundle Name: applications
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
+import CustomServiceMapping from 'promise-loader?global,applications!in-applications/CustomServiceMapping/CustomServiceMapping';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import NewApplication from 'promise-loader?global,applications!in-applications/NewApplication/NewApplication';
@@ -18,7 +19,8 @@ import {
   servicesList,
   serviceDashboard,
   endpointDashboard,
-  newApplicationView
+  newApplicationView,
+  newServiceView
 } from 'in-applications/navigation/paths';
 
 export default (
@@ -26,6 +28,7 @@ export default (
     <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
+    <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />

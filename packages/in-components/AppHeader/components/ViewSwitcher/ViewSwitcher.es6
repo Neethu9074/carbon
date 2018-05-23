@@ -14,9 +14,9 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
-import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -39,7 +39,7 @@ export default pure(function ViewSwitcher() {
         {!twoZeroModeEnabled && (
           <View
             label="infrastructure"
-            icon="infrastructure"
+            icon="lib_infrastructure_inverted"
             isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
           >
             <SubMenuItem
@@ -58,7 +58,7 @@ export default pure(function ViewSwitcher() {
         {!twoZeroModeEnabled && (
           <View
             label="application"
-            icon="application"
+            icon="lib_application_invert"
             isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
           >
             <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
@@ -71,17 +71,22 @@ export default pure(function ViewSwitcher() {
           </View>
         )}
 
-        {twoZeroModeEnabled && (
+        {!twoZeroModeEnabled && (
           <View
-            label="Application"
-            icon="application"
-            isActive$={isView(isApplicationsView, isAnalyzeView)}
-            href$={getView(applicationsList)}
+            label="Websites"
+            icon="lib_website_inverted"
+            href$={getView(websitePath)}
+            isActive$={isView(websitePath)}
           />
         )}
 
-        {!twoZeroModeEnabled && (
-          <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+        {twoZeroModeEnabled && (
+          <View
+            label="Application"
+            icon="lib_application_invert"
+            isActive$={isView(isApplicationsView, isAnalyzeView)}
+            href$={getView(applicationsList)}
+          />
         )}
 
         <IncidentsMenuPoint />
@@ -97,7 +102,7 @@ const IncidentsMenuPoint = connectTo(
   function IncidentsMenuPoint({ events }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
-    let color = '#22d8d8';
+    let color;
     let title = 'Incidents';
 
     if (numIncidents > 0) {
@@ -106,7 +111,13 @@ const IncidentsMenuPoint = connectTo(
     }
 
     return (
-      <View label={title} icon="danger_sign" href$={getView(eventsPath)} color={color} isActive$={isView(eventsPath)} />
+      <View
+        label={title}
+        icon="lib_events_inverted"
+        href$={getView(eventsPath)}
+        color={color}
+        isActive$={isView(eventsPath)}
+      />
     );
   }
 );

@@ -39,11 +39,11 @@ export default connectTo(
               tooltipFormatter: number.compact,
               metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'],
               colors: [
-                theme.app20Chart.strokeColors25[0],
-                theme.app20Chart.strokeColors25[5],
-                theme.app20Chart.strokeColors25[1],
-                theme.app20Chart.strokeColors25[2],
-                theme.app20Chart.strokeColors25[4]
+                theme.lib.colors.chart.strokeColors25[0],
+                theme.lib.colors.chart.strokeColors25[1],
+                theme.lib.colors.chart.strokeColors25[4],
+                theme.lib.colors.chart.strokeColors25[2],
+                theme.lib.colors.chart.strokeColors25[6]
               ]
             }}
             metricsConfiguration={{

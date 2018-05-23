@@ -36,3 +36,16 @@ export function hexToRGBNormalized(style) {
   const rgb = hexToRGB(style);
   return { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 };
 }
+
+/**
+ * mixes a given color with white
+ * @param {hex} the color as hex string
+ * @param {opacity} the mix values between [0, 1]. 0 means pure white, 1 pure color, 0.5 means 50:50, ...
+ */
+export function lighten(hex, opacity) {
+  const rgb = hexToRGB(hex);
+  rgb.r = 255 * (1 - opacity) + rgb.r * opacity;
+  rgb.g = 255 * (1 - opacity) + rgb.g * opacity;
+  rgb.b = 255 * (1 - opacity) + rgb.b * opacity;
+  return rgbToHex(rgb.r, rgb.g, rgb.b);
+}
