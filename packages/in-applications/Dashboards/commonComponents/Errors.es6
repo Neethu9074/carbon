@@ -17,6 +17,7 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
           renderer: Renderer.bar,
           formatter: percentage,
           labels: ['Errors'],
+          colors: ['#E35485'],
           metricIds: ['errors']
         }}
         metricsConfiguration={{

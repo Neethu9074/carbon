@@ -14,7 +14,7 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
       timeConfig={timeConfig}
       y1={{
         calculateStackDifferences: true,
-        renderer: Renderer.integral,
+        renderer: Renderer.line,
         formatter: millis,
         labels: ['avg', '50th', '75th', '90th', '95th', '99th', 'max'],
         metricIds: [

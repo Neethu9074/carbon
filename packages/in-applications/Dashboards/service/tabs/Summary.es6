@@ -100,26 +100,26 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+        <Col lg={4}>
+          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
         </Col>
-        <Col lg={6}>
-          <LatencyDistributionHistogram
-            cardTitle="Latency Distribution"
+        <Col lg={4}>
+          <TopTraces
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
           />
         </Col>
+        <Col lg={4}>
+          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+        </Col>
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-        </Col>
-        <Col lg={6}>
-          <TopTraces
+        <Col lg={12}>
+          <LatencyDistributionHistogram
+            cardTitle="Latency Distribution"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
