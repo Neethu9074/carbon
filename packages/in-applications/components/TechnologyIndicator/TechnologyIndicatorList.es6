@@ -32,7 +32,8 @@ export default getElementDimensions(
     render() {
       const { technologies } = this.props;
       if (!technologies || technologies.length === 0) {
-        return null;
+        // always return a valid dom element, the getClientDimension hoc can attach to
+        return <div />;
       }
 
       return (
