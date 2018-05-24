@@ -69,7 +69,6 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
           paginationResettingProps={['applicationId', 'serviceId', 'endpointId', 'timeConfig', 'endpointTypes']}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
-          size="compact"
         />
       </Col>
     </Row>

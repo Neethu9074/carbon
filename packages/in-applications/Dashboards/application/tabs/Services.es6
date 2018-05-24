@@ -62,7 +62,6 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       serviceId={serviceId}
       endpointId={endpointId}
       cardTitle="Services"
-      size="compact"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
       paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
