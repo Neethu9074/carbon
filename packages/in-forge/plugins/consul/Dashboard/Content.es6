@@ -25,7 +25,6 @@ const raftMetrics = [
   'raft.fsmPending',
   'raft.appliedIndex',
   'raft.commitIndex',
-  'raft.lastContact',
   'raft.lastLogIndex',
   'raft.lastLogTerm',
   'raft.lastSnapshotIndex',
