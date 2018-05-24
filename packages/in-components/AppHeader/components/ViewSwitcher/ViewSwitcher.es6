@@ -17,8 +17,6 @@ import {
 import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
-import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
