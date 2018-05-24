@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 12rem;
+    min-width: 12rem;
     color: @lib__colors__N800Dark;
     font-size: 0.875rem;
   }
@@ -30,6 +30,7 @@
   }
 
   .value {
+    margin-left: 2rem;
     font-weight: bold;
     color: @lib__colors__N900Primary;
   }
