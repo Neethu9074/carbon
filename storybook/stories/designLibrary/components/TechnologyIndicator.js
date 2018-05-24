@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 
 import Section from '../../_helpers/Section';
@@ -13,6 +14,15 @@ storiesOf('designLibrary/Components/TechnologyIndicator', module).add('Technolog
 function TechnologyIndicatorStory() {
   return (
     <Root>
+      <Section title="Indicator List">
+        <TechnologyIndicatorList
+          technologies={['docker', 'cassandraNode', 'dropwizardApplicationContainer', 'elasticsearchNode', 'mongoDb']}
+          responsive={false}
+        />
+        <TechnologyIndicatorList
+          technologies={['docker', 'cassandraNode', 'dropwizardApplicationContainer', 'elasticsearchNode', 'mongoDb']}
+        />
+      </Section>
       <Section title="Plugin Indicator">
         <TechnologyIndicator pluginOrGroupType="docker" />
         <TechnologyIndicator pluginOrGroupType="cassandraNode" />
@@ -21,7 +31,7 @@ function TechnologyIndicatorStory() {
         <TechnologyIndicator pluginOrGroupType="mongoDb" />
       </Section>
       <Section title="Technology Group Indicator">
-        <TechnologyIndicator>Awesome</TechnologyIndicator>
+        <TechnologyIndicator />
       </Section>
     </Root>
   );

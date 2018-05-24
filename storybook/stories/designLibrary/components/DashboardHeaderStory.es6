@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import Root from '../../_helpers/Root';
 
@@ -54,5 +55,10 @@ function HeaderPresenter({ children }) {
 }
 
 function SubTypes({ result }) {
-  return <EndpointTypeBadgeList types={result.data.types} />;
+  return (
+    <Fragment>
+      <EndpointTypeBadgeList types={result.data.types} />
+      <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
+    </Fragment>
+  );
 }

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -172,6 +173,13 @@ const columnDefinitions = [
             ))}
         </Fragment>
       );
+    }
+  },
+  {
+    id: 'Technology',
+    sortable: false,
+    getContent(item) {
+      return <TechnologyIndicatorList technologies={item.service.technologies} />;
     }
   },
   {

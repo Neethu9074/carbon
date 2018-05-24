@@ -4,6 +4,7 @@ import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApp
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -66,5 +67,10 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
 }
 
 function SubTypes({ result }) {
-  return <EndpointTypeBadgeList types={[result.data.type]} />;
+  return (
+    <Fragment>
+      <EndpointTypeBadgeList types={[result.data.type]} />
+      <TechnologyIndicator pluginOrGroupType={result.data.technology} />
+    </Fragment>
+  );
 }

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -125,6 +126,13 @@ const columnDefinitions = [
             ))}
         </Fragment>
       );
+    }
+  },
+  {
+    id: 'Technology',
+    sortable: false,
+    getContent(item) {
+      return <TechnologyIndicatorList technologies={item.service.technologies} />;
     }
   },
   {

@@ -7,10 +7,11 @@ import {
 import { getIconSvgPath as getIconSvgPathForPlugin } from 'in-sdk/snapshot';
 import { getSingular as getSingularForPlugin } from 'in-sdk/pluginName';
 import unknownIconSvgPath from 'in-sdk/unknownIconPath';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './TechnologyIndicator.mless';
 
-export default function TechnologyIndicator({ pluginOrGroupType }) {
+export default function TechnologyIndicator({ pluginOrGroupType, showTechnologyLabel = true }) {
   let path = getIconSvgPathForPlugin(pluginOrGroupType);
   if (path === unknownIconSvgPath || !path) {
     path = getIconSvgPathForType(pluginOrGroupType);
@@ -25,7 +26,7 @@ export default function TechnologyIndicator({ pluginOrGroupType }) {
     return null;
   }
 
-  return (
+  let content = (
     <div className={locals.wrapper}>
       {path && (
         <svg className={locals.icon} width={16} height={16} viewBox={`0 0 128 128`}>
@@ -34,7 +35,13 @@ export default function TechnologyIndicator({ pluginOrGroupType }) {
           <path d={path} />
         </svg>
       )}
-      <span className={locals.label}>{label}</span>
+      {showTechnologyLabel && <span className={locals.label}>{label}</span>}
     </div>
   );
+
+  if (showTechnologyLabel) {
+    return content;
+  }
+
+  return <Tooltip content={label}>{content}</Tooltip>;
 }

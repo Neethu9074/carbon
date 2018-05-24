@@ -3,6 +3,7 @@ import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
@@ -156,6 +157,13 @@ const columnDefinitions = [
     sortable: false,
     getContent(item) {
       return <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>;
+    }
+  },
+  {
+    id: 'Technology',
+    sortable: false,
+    getContent(item) {
+      return <TechnologyIndicator pluginOrGroupType={item.endpoint.technology} />;
     }
   },
   {

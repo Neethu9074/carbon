@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
@@ -67,5 +68,10 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
 }
 
 function SubTypes({ result }) {
-  return <EndpointTypeBadgeList types={result.data.types} />;
+  return (
+    <Fragment>
+      <EndpointTypeBadgeList types={result.data.types} />
+      <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
+    </Fragment>
+  );
 }

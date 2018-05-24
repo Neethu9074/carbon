@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
+import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -95,5 +96,10 @@ function Actions({ traceId }) {
 }
 
 function SubTypes({ result }) {
-  return <EndpointTypeBadgeList types={[result.data.type]} />;
+  return (
+    <Fragment>
+      <EndpointTypeBadgeList types={[result.data.type]} />
+      <TechnologyIndicator pluginOrGroupType={result.data.technology} />
+    </Fragment>
+  );
 }
