@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
+import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { millis } from 'in-services/formatters/number';
@@ -32,7 +32,7 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
   const width = scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,
@@ -99,7 +99,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
   const width = scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip content={<CallTooltipContent call={call} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,

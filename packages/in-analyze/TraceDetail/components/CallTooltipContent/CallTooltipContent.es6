@@ -46,8 +46,8 @@ function TimingValueList({ values }) {
     <ul className={locals.timingValueList}>
       {values.map(value => (
         <li key={value.label} className={locals.timingValue}>
-          <span>{value.label}</span>
-          <span>{value.value}</span>
+          <span className={locals.label}>{value.label}</span>
+          <span className={locals.value}>{value.value}</span>
         </li>
       ))}
     </ul>

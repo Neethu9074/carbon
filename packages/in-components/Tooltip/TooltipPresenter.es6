@@ -7,8 +7,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import './TooltipPresenter.less';
 
-const block = 'in-tooltip-presenter';
-
 export default connectTo(
   {
     _activeTooltip: activeTooltip.nextFrame()
@@ -29,13 +27,15 @@ export default connectTo(
 
       const tooltipElement = this.tooltipElement;
       const align = this.props._activeTooltip.align;
+      const block =
+        _activeTooltip.themeStyle === 'light' ? `in-tooltip-presenter__light` : `in-tooltip-presenter__dark`;
 
       // add the CSS classes for arrow alignment
       tooltipElement.className = '';
       tooltipElement.classList.add(block);
 
       if (_activeTooltip.focusedElement) {
-        this.positionFocusedElement(align, tooltipElement, _activeTooltip.focusedElement);
+        this.positionFocusedElement(align, tooltipElement, _activeTooltip.focusedElement, block);
       } else if (_activeTooltip.focusedPoint) {
         tooltipElement.style.left = toPx(_activeTooltip.focusedPoint.x);
         tooltipElement.style.top = toPx(_activeTooltip.focusedPoint.y);
@@ -45,7 +45,7 @@ export default connectTo(
       }
     }
 
-    positionFocusedElement = (align, tooltipElement, focusedElement) => {
+    positionFocusedElement = (align, tooltipElement, focusedElement, block) => {
       const focusedElementBox = focusedElement.getBoundingClientRect();
       const tooltipElementBox = tooltipElement.getBoundingClientRect();
       const bounds = {
@@ -72,7 +72,7 @@ export default connectTo(
       this.set(tooltipElement, 'top', result.top);
       this.set(tooltipElement, 'right', result.right !== null ? window.innerWidth - result.right : null);
       this.set(tooltipElement, 'bottom', result.bottom !== null ? window.innerHeight - result.bottom : null);
-      tooltipElement.classList.add(`${block}__${tooltip.align}`);
+      tooltipElement.classList.add(`${block}__${align}`);
     };
 
     set = (ele, prop, value) => {

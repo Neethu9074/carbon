@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent/CallTooltipContent';
 import CallFrame, { FRAME_HEIGHT } from 'in-analyze/TraceDetail/components/IcicleChart/CallFrame';
 import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
 import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
+import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -40,7 +40,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
         {callFrames.map(callFrame => {
           return (
             <Fragment key={callFrame.id}>
-              <Tooltip content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
+              <Tooltip themeStyle="light" content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
                 <CallFrame
                   callFrame={callFrame}
                   xScale={xScale}

@@ -13,6 +13,7 @@ export default class extends React.PureComponent {
 
   static propTypes = {
     content: rpt.oneOfType([rpt.element.isRequired, rpt.string.isRequired]),
+    themeStyle: rpt.string,
     children: rpt.any.isRequired,
     align: rpt.oneOf([
       'leftBottom',
@@ -77,6 +78,7 @@ export default class extends React.PureComponent {
     setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
+      themeStyle: this.props.themeStyle,
       align: this.props.align || 'auto'
     });
     this.isActive = true;

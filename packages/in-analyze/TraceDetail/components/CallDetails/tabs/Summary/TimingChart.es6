@@ -153,7 +153,11 @@ function TimeBlock({ scale, start, end, label, color, opacity = 1, isCallBlock }
 
 function GenericTimeFrame({ label, duration, color, opacity }) {
   return (
-    <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
+    <Tooltip
+      themeStyle="light"
+      align={tooltipAlignment}
+      content={<FrameTooltipContent label={label} duration={duration} />}
+    >
       <div className={locals.timeBlock} style={{ background: color, opacity }}>
         <span className={locals.timeBlockLabel}>{label}</span>
       </div>
@@ -165,7 +169,11 @@ function ChildCallFrame({ label, color, duration }) {
   return (
     <Fragment>
       <div className={locals.timeBlock} style={{ background: 'white' }} />
-      <Tooltip align={tooltipAlignment} content={<FrameTooltipContent label={label} duration={duration} />}>
+      <Tooltip
+        themeStyle="light"
+        align={tooltipAlignment}
+        content={<FrameTooltipContent label={label} duration={duration} />}
+      >
         <div className={locals.callBlock} style={{ background: color }} />
       </Tooltip>
     </Fragment>

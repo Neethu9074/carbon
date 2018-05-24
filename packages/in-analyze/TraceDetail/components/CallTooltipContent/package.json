@@ -1,0 +1,6 @@
+{
+  "name": "CallTooltipContent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CallTooltipContent.es6"
+}
