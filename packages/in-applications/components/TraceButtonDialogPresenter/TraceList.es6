@@ -26,7 +26,7 @@ export default connectTo(
       <div className={locals.wrapper}>
         <div className={locals.header}>
           <SvgIcon className={locals.backgroundIcon} type="lib_application_trace" width={220} height={220} />
-          <h2 className={locals.title}>Analyze Traces</h2>
+          <h2 className={locals.title}>Explore Traces</h2>
           <p className={locals.text}>
             Examine the trace data behind your applications, services, and endpoints. Slice and dice trace groups down
             to individual traces, calls, and errors.
