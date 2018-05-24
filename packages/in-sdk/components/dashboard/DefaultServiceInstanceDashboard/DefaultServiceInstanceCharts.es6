@@ -9,7 +9,7 @@ import {
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
+export default function DefaultServiceInstanceCharts({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -17,7 +17,7 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
       <DashboardSection title="Calls vs. Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -40,7 +40,7 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
       <DashboardSection title="Latency Overview">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: msZeroDecimalPlaces,
@@ -64,7 +64,7 @@ export default function DefaultServiceInstanceCharts({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: percentageTwoDecimalPlaces,

@@ -51,14 +51,14 @@ const cols = [
   }
 ];
 
-export default function Gauges({ snapshot, timeframe }) {
+export default function Gauges({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = metrics.map(name => {
     return {
       key: name,
       name,
       snapshotId,
-      timeframe
+      timeConfig
     };
   });
 
@@ -77,7 +77,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       margins={{
         left: 90
       }}

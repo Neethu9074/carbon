@@ -60,7 +60,7 @@ const cols = [
   }
 ];
 
-export default function ExecutorsTable({ snapshot, timeframe }) {
+export default function ExecutorsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'executor-config'], emptyMap)
@@ -68,7 +68,7 @@ export default function ExecutorsTable({ snapshot, timeframe }) {
       return {
         key: name,
         executor,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     })
@@ -90,7 +90,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: ['executors.' + row.key + '.active', 'executors.' + row.key + '.queueSize'],
         labels: [row.key + ' Active Threads', row.key + ' Queue Size'],

@@ -1,11 +1,11 @@
 import getProcessCompanionsInternal from 'in-subscription/getProcessCompanions';
 import getHostCompanionsInternal from 'in-subscription/getHostCompanions';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
 export function getHostCompanions(snapshotId) {
-  return focusedMoment$.flatMap(time => getHostCompanionsInternal({ time, snapshotId }));
+  return timeConfig$.flatMap(timeConfig => getHostCompanionsInternal({ timeConfig, snapshotId }));
 }
 
 export function getProcessCompanions(snapshotId) {
-  return focusedMoment$.flatMap(time => getProcessCompanionsInternal({ time, snapshotId }));
+  return timeConfig$.flatMap(timeConfig => getProcessCompanionsInternal({ timeConfig, snapshotId }));
 }

@@ -4,7 +4,7 @@ import { number, bytes, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
+export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Returned items">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['returned_item_count', 'returned_records_count'],
@@ -32,7 +32,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Throttle Events">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_throttle_events', 'write_throttle_events'],
@@ -45,7 +45,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Consumed capacity units">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['consumed_read_capacity_units', 'consumed_write_capacity_units'],
@@ -58,7 +58,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['throttled_requests', 'cond_check_failed_requests'],
@@ -78,7 +78,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['system_errors', 'user_errors'],
@@ -91,7 +91,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Time To Live Deleted Item Count">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['time_to_live_deleted_item_count'],

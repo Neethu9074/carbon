@@ -12,7 +12,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import DashboardNotification from 'in-components/DashboardNotification';
 
-export default function MsSqlDashboard({ snapshot, timeframe }) {
+export default function MsSqlDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
@@ -24,7 +24,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections &amp; Users">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['generalstats._total.user_connections'],
             labels: ['User Connections'],
@@ -38,7 +38,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Wait-Times (ms) on server">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'waitstats.PAGEIOLATCH_EX.wait_time_ms',
@@ -58,7 +58,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
             labels: ['Reads', 'Writes'],
@@ -72,7 +72,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Transactions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['perfcounters.databases._total.write_transactions_sec'],
             labels: ['Write Transactions'],
@@ -86,7 +86,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'perfcounters.sql_errors.user_errors.errors_sec',
@@ -104,7 +104,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Locks">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'perfcounters.locks._total.lock_requests_sec',
@@ -118,7 +118,7 @@ export default function MsSqlDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DatabasesTable snapshot={snapshot} timeframe={timeframe} />
+      <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

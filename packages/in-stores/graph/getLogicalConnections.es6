@@ -1,6 +1,6 @@
 import getLogicalConnectionsInternal from 'in-subscription/getLogicalConnections';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
 export default function getLogicalConnections({ snapshotId }) {
-  return focusedMoment$.flatMap(focusedMoment => getLogicalConnectionsInternal({ snapshotId, focusedMoment }));
+  return timeConfig$.flatMap(timeConfig => getLogicalConnectionsInternal({ snapshotId, timeConfig }));
 }

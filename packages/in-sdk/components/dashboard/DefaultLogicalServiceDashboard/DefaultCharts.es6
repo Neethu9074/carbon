@@ -10,7 +10,7 @@ import {
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function DefaultCharts({ snapshot, timeframe }) {
+export default function DefaultCharts({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -18,7 +18,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       <DashboardSection title="Calls vs. Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -41,7 +41,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       <DashboardSection title="Latency Overview">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             min: 0,
@@ -66,7 +66,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: percentageTwoDecimalPlaces,
@@ -80,7 +80,7 @@ export default function DefaultCharts({ snapshot, timeframe }) {
       <DashboardSection title="Instance Count">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,

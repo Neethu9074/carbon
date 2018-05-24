@@ -2,9 +2,8 @@ import { create, combineLatest } from 'reactive-observables';
 
 import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
-  timeframe$ as globalTimeframe$,
+  timeConfig$ as globalTimeConfig$,
   setTimeframe as setGlobalTimeframe,
-  focusedMoment$ as globalFocusedMoment$,
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
@@ -114,19 +113,19 @@ export function closeTimeSelector() {
 }
 
 /*
-  we need to seperate the global timeline.timeframe store from this timeframeStore because
-  we want to update the timelines timeframe in realtime. If the user drags in time, this store gets updated.
-  When he stops dragging, the global timeframe will be updated and the complete UI will register to the new timeframe.
+  we need to seperate the global timeline.timeConfig store from this timeframeStore because
+  we want to update the timelines timeConfig in realtime. If the user drags in time, this store gets updated.
+  When he stops dragging, the global timeConfig will be updated and the complete UI will register to the new timeframe.
 */
 const timeframeStore = createStore({
   name: 'timelineTimeframeStore',
   initialValue: undefined
 });
-export const timeframe$ = timeframeStore.observable.filter(timeframe => timeframe !== undefined);
+export const timeConfig$ = timeframeStore.observable.filter(timeConfig => timeConfig !== undefined);
 
 // create cycle
-globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$.throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+globalTimeConfig$.subscribe(timeConfig => setTimeFrame(timeConfig.windowSize, timeConfig.to));
+timeConfig$.throttle(500).subscribe(timeConfig => setGlobalTimeframe(timeConfig.windowSize, timeConfig.to));
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => createTimeframe(getValidWindowSize(windowSize), to));
@@ -174,18 +173,18 @@ export function getValidWindowSize(windowSize) {
   return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize));
 }
 
-export const to$ = timeframe$
+export const to$ = timeConfig$
   .flatMap(
-    _timeframe =>
-      _timeframe.to
+    _timeConfig =>
+      _timeConfig.to
         ? create()
-            .emit(_timeframe.to)
+            .emit(_timeConfig.to)
             .freeze()
         : serverTime$
   )
   .distinct();
 
-export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();
+export const from$ = timeConfig$.flatMap(_timeConfig => to$.map(to => to - _timeConfig.windowSize)).distinct();
 
 const highlightedEventScreenPosition = createStore({
   name: 'highlightedEventScreenPositionStore',
@@ -216,7 +215,7 @@ export function setFocusedMoment(newFocusedMoment) {
   focusedMoment.applyStateMutation(() => newFocusedMoment);
 }
 
-globalFocusedMoment$.subscribe(setFocusedMoment);
+globalTimeConfig$.subscribe(timeConfig => setFocusedMoment(timeConfig.focusedMoment));
 
 focusedMoment$
   .skipFirst()
@@ -238,11 +237,11 @@ const focusedMomentXPosition = createStore({
 });
 export const focusedMomentXPosition$ = focusedMomentXPosition.observable.distinct();
 
-combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).subscribe(props => {
+combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeConfig$]).subscribe(props => {
   const serverTime = props[0];
   const scale = props[1];
   const moment = props[2];
-  const timeframe = props[3];
+  const timeConfig = props[3];
 
   if (!scale) {
     return;
@@ -251,7 +250,7 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).s
   let x;
   if (moment) {
     x = scale.getRange(moment);
-  } else if (!timeframe.to) {
+  } else if (!timeConfig.to) {
     x = scale.getRange(scale.getDomainTo());
   } else {
     x = scale.getRange(serverTime);
@@ -261,9 +260,9 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).s
 });
 
 // automatically show a message when the focused moment is changed
-timeframe$
+timeConfig$
   .skipFirst()
-  .map(timeframe => timeframe.windowSize)
+  .map(timeConfig => timeConfig.windowSize)
   .distinct()
   .subscribe(windowSize => {
     addMessage(

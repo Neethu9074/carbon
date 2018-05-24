@@ -66,7 +66,7 @@ const cols = [
   }
 ];
 
-export default function ConnectorsTable({ snapshot, timeframe }) {
+export default function ConnectorsTable({ snapshot, timeConfig }) {
   const connectors = snapshot.getIn(['data', 'connectors'], emptyList).toArray();
   if (connectors.length === 0) {
     return null;
@@ -75,7 +75,7 @@ export default function ConnectorsTable({ snapshot, timeframe }) {
   const rows = connectors.map(key => {
     return {
       key,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -92,7 +92,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['connectors.' + row.key + '.avgResponseTime'],
@@ -103,7 +103,7 @@ function getRowDetails(row) {
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['connectors.' + row.key + '.requests', 'connectors.' + row.key + '.errors'],

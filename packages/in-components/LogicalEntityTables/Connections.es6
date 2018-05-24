@@ -7,11 +7,11 @@ import { logicalViewStructure$ } from 'in-stores/view';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 
-export default function Connections({ snapshotId, timeframe }) {
+export default function Connections({ snapshotId, timeConfig }) {
   return (
     <div>
       <LogicalConnectionEntityTable
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         title={'Inbound Connections'}
         dataStream={logicalViewStructure$.flatMap(root => {
           for (let i = 0, length = root.children.length; i < length; i++) {
@@ -25,7 +25,7 @@ export default function Connections({ snapshotId, timeframe }) {
         getRowDetails={getRowDetails}
       />
       <LogicalConnectionEntityTable
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         title={'Outbound Connections'}
         dataStream={logicalViewStructure$.flatMap(root => {
           for (let i = 0, length = root.children.length; i < length; i++) {
@@ -43,7 +43,7 @@ export default function Connections({ snapshotId, timeframe }) {
 }
 
 function getRowDetails(row) {
-  return <DefaultConnectionCharts snapshot={row.node} timeframe={row.timeframe} />;
+  return <DefaultConnectionCharts snapshot={row.node} timeConfig={row.timeConfig} />;
 }
 
 function getDownstreamSnapshotsObservables(entity) {

@@ -6,20 +6,17 @@ import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { resetStoreRegistry } from 'in-stores/store';
 import { getColorBySeverity } from 'in-stores/events';
 
 describe('in-stores/events', () => {
   let mod;
   let subscriber;
-  let from$;
-  let to$;
   let getEvent$;
-  let timeframe$;
+  let timeConfig$;
   let getEvents;
   let serverTime$;
-  let focusedMoment$;
-  let resolvedFocusedMoment$;
   let getEventsResult;
   let getEventUpdates;
   let getEventUpdatesResult;
@@ -30,37 +27,25 @@ describe('in-stores/events', () => {
     resetStoreRegistry();
 
     subscriber = sinon.stub();
-    timeframe$ = create().emit({
+    timeConfig$ = create().emit({
       to: null,
       windowSize: 1000 * 60 * 10
     });
-    from$ = create();
-    to$ = create();
     serverTime$ = create();
     getEvents = sinon.stub();
     getEventsResult = create().emit(List());
-    focusedMoment$ = create();
+    timeConfig$ = create();
     healthInfo$ = create();
     getEvent$ = create();
     getTotalEventsCount = create();
-    resolvedFocusedMoment$ = focusedMoment$.flatMap(focusedMoment => {
-      if (focusedMoment == null) {
-        return serverTime$;
-      }
-      return focusedMoment$;
-    });
     getEvents.returns(getEventsResult);
     getEventUpdates = sinon.stub();
     getEventUpdatesResult = create();
     getEventUpdates.returns(getEventUpdatesResult);
     mod = proxyquire('in-stores/events', {
       'in-subscription/event': { default: () => getEvent$ },
-      'in-stores/timeline': {
-        timeframe$,
-        from$,
-        to$,
-        focusedMoment$,
-        resolvedFocusedMoment$
+      'in-stores/time/config': {
+        timeConfig$
       },
       'in-subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
       'in-subscription/events': { default: getEvents },
@@ -120,7 +105,7 @@ describe('in-stores/events', () => {
     const snapshotId = '1234567890abc';
 
     it('should only return issues for the selected snapshot', () => {
-      focusedMoment$.emit(6);
+      timeConfig$.emit(getTimeConfigAtMoment(6));
       healthInfo$.emit(fromJS({ eventWithMaxSeverity: 'foo' }));
 
       mod.getMostImportantEventAtFocusedMoment(snapshotId).subscribe(subscriber);
@@ -186,7 +171,7 @@ describe('in-stores/events', () => {
           severity: 9
         }
       });
-      focusedMoment$.emit(null);
+      timeConfig$.emit(getTimeConfigAtMoment(null));
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
@@ -204,7 +189,7 @@ describe('in-stores/events', () => {
           severity: 9
         }
       });
-      focusedMoment$.emit(null);
+      timeConfig$.emit(getTimeConfigAtMoment(null));
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
@@ -222,7 +207,7 @@ describe('in-stores/events', () => {
           severity: 9
         }
       });
-      focusedMoment$.emit(20);
+      timeConfig$.emit(getTimeConfigAtMoment(20));
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
@@ -240,7 +225,7 @@ describe('in-stores/events', () => {
           severity: 9
         }
       });
-      focusedMoment$.emit(19);
+      timeConfig$.emit(getTimeConfigAtMoment(19));
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
@@ -255,7 +240,7 @@ describe('in-stores/events', () => {
         state: 'open',
         type: 'change'
       });
-      focusedMoment$.emit(null);
+      timeConfig$.emit(getTimeConfigAtMoment(null));
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
@@ -275,7 +260,7 @@ describe('in-stores/events', () => {
             severity: 9
           }
         });
-        focusedMoment$.emit(null);
+        timeConfig$.emit(getTimeConfigAtMoment(null));
 
         mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 

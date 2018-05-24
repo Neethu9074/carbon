@@ -38,8 +38,8 @@ export function getTimeConfig(params) {
       maximumWindowSize,
       Math.max(minimumWindowSize, getInt(params.query, urlQueryKeys.windowSize, defaultWindowSize))
     ),
-    focusedMoment: getInt(params.query, urlQueryKeys.focusedMoment, to),
-    autoRefresh: params.query[urlQueryKeys.autoRefresh] === 'true'
+    focusedMoment: to == null ? null : getInt(params.query, urlQueryKeys.focusedMoment, to),
+    autoRefresh: to == null && (!twoZeroModeEnabled || params.query[urlQueryKeys.autoRefresh] === 'true')
   };
 }
 
@@ -54,4 +54,13 @@ function getInt(query, key, fallback) {
     return fallback;
   }
   return parsed;
+}
+
+export function getTimeConfigAtMoment(moment) {
+  return {
+    windowSize: defaultWindowSize,
+    to: moment,
+    focusedMoment: moment,
+    autoRefresh: false
+  };
 }

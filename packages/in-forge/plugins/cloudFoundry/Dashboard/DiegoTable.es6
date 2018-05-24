@@ -18,14 +18,14 @@ const cols = [
   }
 ];
 
-export default function DiegoTable({ snapshot, timeframe }) {
+export default function DiegoTable({ snapshot, timeConfig }) {
   const diegoComponents = ['auctioneer', 'stager', 'fileserver'];
 
   const rows = diegoComponents.map(component => {
     return {
       key: component,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -53,7 +53,7 @@ function auctioneerCharts(row) {
       <DashboardSection title="Routines">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -67,7 +67,7 @@ function auctioneerCharts(row) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
@@ -93,7 +93,7 @@ function stagerCharts(row) {
         <DashboardSection title="Routines">
           <Chart
             snapshotId={snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
@@ -107,7 +107,7 @@ function stagerCharts(row) {
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={row.timeframe}
+            timeConfig={row.timeConfig}
             y1={{
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesZeroDecimalPlaces,
@@ -125,7 +125,7 @@ function stagerCharts(row) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -146,7 +146,7 @@ function fileserverCharts(row) {
       <DashboardSection title="Routines">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
@@ -160,7 +160,7 @@ function fileserverCharts(row) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,

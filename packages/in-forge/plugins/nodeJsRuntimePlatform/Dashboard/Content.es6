@@ -14,7 +14,7 @@ import MetricValue from 'in-components/MetricValue';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-export default function NodejsDashboard({ snapshot, timeframe }) {
+export default function NodejsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const gcStatsSupported = snapshot.getIn(['data', 'gc.statsSupported']);
   return (
@@ -49,12 +49,12 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         )}
       </KpiSection>
 
-      <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeframe)}</DashboardSection>
+      <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeConfig)}</DashboardSection>
 
       <DashboardSection title="GC Activity">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: time,
@@ -65,14 +65,14 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <HeapSpacesTable snapshot={snapshot} timeframe={timeframe} />
+      <HeapSpacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="Event Loop">{renderEventLoopMetrics(snapshot, timeframe)}</DashboardSection>
+      <DashboardSection title="Event Loop">{renderEventLoopMetrics(snapshot, timeConfig)}</DashboardSection>
 
       <DashboardSection title="Handles &amp; Requests">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -83,21 +83,21 @@ export default function NodejsDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <HealthchecksTable snapshot={snapshot} timeframe={timeframe} />
+      <HealthchecksTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <CpuProfiler snapshot={snapshot} />
 
-      <HttpServersTable snapshot={snapshot} timeframe={timeframe} />
+      <HttpServersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
 
-function renderGcMetrics(snapshot, timeframe) {
+function renderGcMetrics(snapshot, timeConfig) {
   if (snapshot.getIn(['data', 'gc.statsSupported'])) {
     return (
       <Chart
         snapshotId={snapshot.get('id')}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           min: 0,
           formatter: bytes.detailed,
@@ -120,7 +120,7 @@ function renderGcMetrics(snapshot, timeframe) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: bytes.detailed,
@@ -133,12 +133,12 @@ function renderGcMetrics(snapshot, timeframe) {
   );
 }
 
-function renderEventLoopMetrics(snapshot, timeframe) {
+function renderEventLoopMetrics(snapshot, timeConfig) {
   if (snapshot.getIn(['data', 'libuv.statsSupported'])) {
     return (
       <Chart
         snapshotId={snapshot.get('id')}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           min: 0,
           formatter: time,
@@ -160,7 +160,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: time,

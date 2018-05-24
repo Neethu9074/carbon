@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function WebAppsTable({ snapshot, timeframe }) {
+export default function WebAppsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'webApps'], emptyList)
@@ -44,7 +44,7 @@ export default function WebAppsTable({ snapshot, timeframe }) {
       return {
         key: i,
         name: webApp.get('displayName') || '<unnamed>',
-        timeframe,
+        timeConfig,
         snapshotId
       };
     });
@@ -65,7 +65,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['webAppsSessionData.' + row.name + '.sessions'],
           labels: ['Active Sessions'],

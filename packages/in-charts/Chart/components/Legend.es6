@@ -22,7 +22,7 @@ export default connectTo(
   props => {
     return {
       activeFilters: props.filterStore.activeFilters$,
-      time: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
+      time: props.timeConfig$ ? props.timeConfig$.map(timeConfig => timeConfig.focusedMoment) : alwaysNull
     };
   },
   class extends React.Component {

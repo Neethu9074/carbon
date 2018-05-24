@@ -2,7 +2,7 @@ import React from 'react';
 
 import createViewStructureObservable from 'in-subscription/view';
 import { alwaysTrue } from 'in-services/fixedStreams';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { types, view$ } from 'in-stores/view';
 
 import connectTo from 'in-hoc/connectTo';
@@ -19,8 +19,8 @@ export default connectTo(
           return alwaysTrue;
         }
 
-        return focusedMoment$
-          .flatMap(time => createViewStructureObservable({ time, viewType: types.logical }))
+        return timeConfig$
+          .flatMap(timeConfig => createViewStructureObservable({ timeConfig, viewType: types.logical }))
           .map(viewStructure => viewStructure.children.length > 0);
       })
       .distinct()

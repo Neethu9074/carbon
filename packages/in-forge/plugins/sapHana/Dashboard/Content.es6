@@ -7,7 +7,7 @@ import Chart from 'in-components/Chart';
 
 import AlertsTable from './AlertsTable.es6';
 
-export default function Dashboard({ snapshot, timeframe }) {
+export default function Dashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -18,7 +18,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="SAP HANA System Cpu Usage">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: percentageZeroDecimalPlaces,
             metrics: ['stats.cpuUsage'],
@@ -30,7 +30,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="SAP HANA System Memory Usage">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['stats.usedMemory', 'stats.residentMemory'],
@@ -42,7 +42,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Disk Usage">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: bytesTwoDecimalPlaces,
@@ -55,7 +55,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sessions">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -74,7 +74,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Currently Connected Users and Applications">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -87,7 +87,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Threads">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -100,7 +100,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Job Worker Threads">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -117,7 +117,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="SQL Executor Threads">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -134,7 +134,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Workload">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -153,7 +153,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             formatter: zeroDecimalPlaces,
@@ -167,7 +167,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <AlertsTable snapshot={snapshot} timeframe={timeframe} />
+      <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

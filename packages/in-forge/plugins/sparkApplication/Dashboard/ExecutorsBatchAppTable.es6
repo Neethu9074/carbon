@@ -172,7 +172,7 @@ const cols = [
   }
 ];
 
-export default function ExecutorsTable({ snapshot, timeframe }) {
+export default function ExecutorsTable({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const executorIds = data.get('executors.idList', emptyList);
   if (executorIds.size === 0) {
@@ -184,7 +184,7 @@ export default function ExecutorsTable({ snapshot, timeframe }) {
       key,
       data: data,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -200,7 +200,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['executors.' + row.key + '.completedTasks', 'executors.' + row.key + '.failedTasks'],
@@ -210,7 +210,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['executors.' + row.key + '.rddBlocks'],
@@ -220,7 +220,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
@@ -231,7 +231,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
@@ -242,7 +242,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
@@ -253,7 +253,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,

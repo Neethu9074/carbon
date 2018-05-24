@@ -7,7 +7,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import DatasourcesTable from './DatasourcesTable';
 import WebAppsTable from './WebAppsTable';
 
-export default function Dashboard({ snapshot, timeframe }) {
+export default function Dashboard({ snapshot, timeConfig }) {
   const threadPoolStuckThreadsMetricAvailable = snapshot.getIn(['data', 'threadPool.stuckThreadsAvailable'], false);
   const threadPoolMetrics = [
     'threadPool.idleThreads',
@@ -26,11 +26,11 @@ export default function Dashboard({ snapshot, timeframe }) {
   );
   return (
     <div>
-      <WebAppsTable snapshot={snapshot} timeframe={timeframe} />
+      <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
       <DashboardSection title="Thread Pool">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: threadPoolMetrics,
@@ -43,7 +43,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         <DashboardSection title="Server Log Messages by Severity">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: [
@@ -59,7 +59,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
       ) : null}
-      <DatasourcesTable snapshot={snapshot} timeframe={timeframe} />
+      <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

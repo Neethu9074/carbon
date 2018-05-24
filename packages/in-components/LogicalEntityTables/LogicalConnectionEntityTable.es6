@@ -81,7 +81,7 @@ export default connectTo(
       nodes: props.dataStream
     };
   },
-  function LogicalEntityTable({ nodes, title, getRowDetails, timeframe, withoutErrorRate }) {
+  function LogicalEntityTable({ nodes, title, getRowDetails, timeConfig, withoutErrorRate }) {
     if (!nodes || nodes.length === 0) {
       return null;
     }
@@ -89,7 +89,7 @@ export default connectTo(
     const rows = nodes.map(node => {
       return {
         key: node.get('id'),
-        timeframe,
+        timeConfig,
         node
       };
     });

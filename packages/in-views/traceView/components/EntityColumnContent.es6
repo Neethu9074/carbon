@@ -14,7 +14,7 @@ const block = 'in-trace-view-entity-column';
 export default connectTo(
   props => {
     return {
-      snapshot: getSnapshot(props.serviceSnapshotId, props.time)
+      snapshot: getSnapshot(props.serviceSnapshotId, props.timeConfig)
     };
   },
   function EntityColumnContent({ snapshot, getLabelCallback = identity }) {

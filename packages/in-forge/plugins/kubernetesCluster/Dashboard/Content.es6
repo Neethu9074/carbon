@@ -11,7 +11,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 import NodesTable from './NodesTable';
 
-export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
+export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
 
@@ -43,7 +43,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         <DashboardSection title="CPU Resources">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: twoDecimalPlaces,
               metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu'],
@@ -55,7 +55,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Memory Resources">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['requiredMemory', 'limitMemory', 'nodes.capacity_mem'],
@@ -68,7 +68,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Pods">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['podsRunning', 'podsPending', 'pods.count', 'nodes.capacity_pods'],
@@ -81,7 +81,7 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Replicas">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['availableReplicas', 'desiredReplicas'],
@@ -91,10 +91,10 @@ export default function KubernetesClusterDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <NodesTable snapshot={snapshot} timeframe={timeframe} />
-      <DeploymentsTable snapshot={snapshot} timeframe={timeframe} />
+      <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      {isOpenshift && <DeploymentConfigsTable snapshot={snapshot} timeframe={timeframe} />}
+      {isOpenshift && <DeploymentConfigsTable snapshot={snapshot} timeConfig={timeConfig} />}
     </div>
   );
 }

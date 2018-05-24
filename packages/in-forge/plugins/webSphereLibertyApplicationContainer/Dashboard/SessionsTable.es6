@@ -98,7 +98,7 @@ const cols = [
   }
 ];
 
-export default function ConnectionPoolsTable({ snapshot, timeframe }) {
+export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
   const sessionNames = snapshot.getIn(['data', 'sessionStatsNames'], emptyList).sort();
   if (sessionNames.size === 0) {
     return null;
@@ -108,7 +108,7 @@ export default function ConnectionPoolsTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -124,7 +124,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [

@@ -4,7 +4,7 @@ import { number, bytes, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function AwsSqsDashboard({ snapshot, timeframe }) {
+export default function AwsSqsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Messages (Average)">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'num_of_msg_delayed',
@@ -32,7 +32,7 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Old Messages (Average)">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['age_of_oldest_msg'],
             labels: ['Age of oldest message'],
@@ -45,7 +45,7 @@ export default function AwsSqsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sent Messages Size (Average)">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['sent_message_size'],
             labels: ['Sent message size'],

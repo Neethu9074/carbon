@@ -47,13 +47,13 @@ const cols = [
   }
 ];
 
-export default function InstancesTable({ snapshot, timeframe, instances }) {
+export default function InstancesTable({ snapshot, timeConfig, instances }) {
   const rows = instances.map(instance => {
     return {
       key: instance,
       snapshotId: snapshot.get('id'),
       data: snapshot.get('data'),
-      timeframe
+      timeConfig
     };
   });
 
@@ -70,7 +70,7 @@ function getRowDetails(row) {
       <DashboardSection title="CPU">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: percentageTwoDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
@@ -83,7 +83,7 @@ function getRowDetails(row) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,

@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function MetersTable({ snapshot, timeframe }) {
+export default function MetersTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'metrics.histograms'], emptyList)
@@ -44,7 +44,7 @@ export default function MetersTable({ snapshot, timeframe }) {
         key: name,
         name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -63,7 +63,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       margins={{
         left: 90
       }}

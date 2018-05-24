@@ -13,7 +13,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function PostgreSqlDashboard({ snapshot, timeframe }) {
+export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -34,7 +34,7 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Total Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['total_active_connections'],
             labels: ['Active'],
@@ -46,7 +46,7 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connection Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -57,7 +57,7 @@ export default function PostgreSqlDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DatabasesTable snapshot={snapshot} timeframe={timeframe} />
+      <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

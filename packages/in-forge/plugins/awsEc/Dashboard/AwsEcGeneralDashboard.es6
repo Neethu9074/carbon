@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import { number, bytes, percentage } from 'in-services/formatters/number';
 
-export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
+export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="CPU Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['cpu_utilization'],
             labels: ['CPU Utilization'],
@@ -24,7 +24,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Freeable Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['freeable_memory'],
             labels: ['Freeable memory'],
@@ -36,7 +36,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Network Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['net_bytes_in', 'net_bytes_out'],
             labels: ['Bytes In', 'Bytes out'],
@@ -48,7 +48,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Swap Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['swap_usage'],
             labels: ['Swap usage'],
@@ -60,7 +60,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['curr_connections', 'new_connections'],
             labels: ['Current', 'New'],
@@ -72,7 +72,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Items count">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['curr_items', 'evictions', 'reclaimed'],
             labels: ['Current', 'Evicted', 'Reclaimed'],

@@ -33,7 +33,7 @@ const raftMetrics = [
   'raft.numPeers'
 ];
 
-export default function ConsulDashboard({ snapshot, timeframe }) {
+export default function ConsulDashboard({ snapshot, timeConfig }) {
   const errorCodeMetrics = snapshot.getIn(['data', 'error_code_metrics']);
   const consulVersion = snapshot.getIn(['data', 'version']);
 
@@ -54,14 +54,14 @@ export default function ConsulDashboard({ snapshot, timeframe }) {
         )}
       </KpiSection>
       {errorCodeMetrics === 'NO_ERROR' && (
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={runtimeMetrics} title="Runtime Metrics" />
+        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={runtimeMetrics} title="Runtime Metrics" />
       )}
-      <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={serfLanMetrics} title="SerfLan" />
+      <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={serfLanMetrics} title="SerfLan" />
       {semver.satisfies(consulVersion, '>=1.0.0') && (
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={raftMetrics} title="Raft" />
+        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={raftMetrics} title="Raft" />
       )}
       {semver.satisfies(consulVersion, '>=1.0.0') && (
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} metrics={autopilotMetrics} title="Autopilot" />
+        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={autopilotMetrics} title="Autopilot" />
       )}
       {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
         <DashboardNotification type="warning">

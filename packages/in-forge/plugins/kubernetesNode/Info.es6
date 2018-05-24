@@ -5,7 +5,7 @@ import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
 import createHostForNodeSubscription from 'in-subscription/hostForNode';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -15,8 +15,8 @@ export default connectTo(
   props => {
     return {
       zoneSnapshot: getZone(props.snapshot.get('id')).flatMap(getSnapshot),
-      hostSnapshot: focusedMoment$
-        .flatMap(time => createHostForNodeSubscription({ snapshotId: props.snapshot.get('id'), time }))
+      hostSnapshot: timeConfig$
+        .flatMap(timeConfig => createHostForNodeSubscription({ snapshotId: props.snapshot.get('id'), timeConfig }))
         .flatMap(getSnapshot),
       clusterSnapshot: getClusterForNode(props.snapshot.get('id')).flatMap(getSnapshot)
     };
@@ -56,5 +56,5 @@ export default connectTo(
 );
 
 function getClusterForNode(snapshotId) {
-  return focusedMoment$.flatMap(time => createClusterForNodeSubscription({ snapshotId, time }));
+  return timeConfig$.flatMap(timeConfig => createClusterForNodeSubscription({ snapshotId, timeConfig }));
 }

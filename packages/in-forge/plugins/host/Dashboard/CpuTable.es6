@@ -101,7 +101,7 @@ const cols = [
   }
 ];
 
-export default function CpuTable({ snapshot, timeframe }) {
+export default function CpuTable({ snapshot, timeConfig }) {
   const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
   if (cpuCount < 2) {
     return null;
@@ -113,7 +113,7 @@ export default function CpuTable({ snapshot, timeframe }) {
       return {
         key: String(cpuNumber),
         cpuNumber,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     });
@@ -129,7 +129,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         max: 1,

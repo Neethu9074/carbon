@@ -42,7 +42,7 @@ export default class extends React.Component {
       height: props.height,
       minRollup: props.minRollup,
       margins: props.margins || {},
-      timeframe$: props.timeframe$,
+      timeConfig$: props.timeConfig$,
       snapshotId: props.snapshotId,
       snapshotIds: props.snapshotIds,
       withoutAxis: props.withoutAxis,
@@ -61,7 +61,7 @@ export default class extends React.Component {
     return (
       this.props.snapshotId !== nextProps.snapshotId ||
       !isEqual(this.props.snapshotIds, nextProps.snapshotIds) ||
-      this.props.timeframe$ !== nextProps.timeframe$ ||
+      this.props.timeConfig$ !== nextProps.timeConfig$ ||
       this.props.withoutAxis !== nextProps.withoutAxis ||
       this.props.withoutLegend !== nextProps.withoutLegend ||
       !this.isAxisEqual(this.props.y1, nextProps.y1) ||

@@ -6,14 +6,14 @@ export default createSubscription({
   eventId: 'subscribe-raw-events-count',
   disposeSubscriptionOnDocumentHidden: false,
 
-  getId({ timeframe }) {
-    return timeframe.to + ',' + timeframe.windowSize;
+  getId({ timeConfig }) {
+    return timeConfig.to + ',' + timeConfig.windowSize;
   },
 
-  getData(subscriptionId, { timeframe }) {
+  getData(subscriptionId, { timeConfig }) {
     return {
       subscriptionId,
-      timeframe
+      timeConfig
     };
   },
 

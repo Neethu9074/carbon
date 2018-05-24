@@ -36,7 +36,7 @@ const cols = [
   }
 ];
 
-export default function HttpServersTable({ snapshot, timeframe }) {
+export default function HttpServersTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'http'], emptyMap)
@@ -46,7 +46,7 @@ export default function HttpServersTable({ snapshot, timeframe }) {
         name,
         server,
         snapshotId,
-        timeframe
+        timeConfig
       };
     })
     .valueSeq()

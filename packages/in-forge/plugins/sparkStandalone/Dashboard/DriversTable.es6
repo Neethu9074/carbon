@@ -66,7 +66,7 @@ const cols = [
   }
 ];
 
-export default function DriversTable({ snapshot, timeframe }) {
+export default function DriversTable({ snapshot, timeConfig }) {
   const drivers = snapshot.getIn(['data', 'drivers.mostRecent'], emptyList);
   if (drivers.size === 0) {
     return null;
@@ -77,7 +77,7 @@ export default function DriversTable({ snapshot, timeframe }) {
       return {
         key: driver.get('id'),
         driver,
-        timeframe,
+        timeConfig,
         snapshotId: snapshot.get('id')
       };
     })

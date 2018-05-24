@@ -91,7 +91,7 @@ const colsWithConnections = [
   }
 ];
 
-export default function ConnectorsTable({ snapshot, timeframe }) {
+export default function ConnectorsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'connector-config'], emptyMap)
@@ -101,7 +101,7 @@ export default function ConnectorsTable({ snapshot, timeframe }) {
         key: name,
         connector,
         snapshotId,
-        timeframe
+        timeConfig
       };
     })
     .valueSeq()
@@ -129,7 +129,7 @@ function createDetailsWithConnections(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: [
           'connectors.' + row.key + '.threads',
@@ -147,7 +147,7 @@ function createDetailsWithoutConnections(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: ['connectors.' + row.key + '.threads', 'connectors.' + row.key + '.threadsBusy'],
         labels: [row.key + ' Threads', row.key + ' Threads Busy'],

@@ -1,5 +1,6 @@
-import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { getColorByEvent, getEventType, EVENT_TYPES } from 'in-stores/events';
+import { focusedMoment$ } from 'in-components/timeline/timelineStore';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 
 export default function createHoveredEventLineRenderer(ctx, scale) {
   let highlightedEvent = null;
@@ -44,7 +45,7 @@ export default function createHoveredEventLineRenderer(ctx, scale) {
       highlightedEvent.get('state') === 'open' ? ctx.canvas.width : scale.getRange(highlightedEvent.get('end'));
 
     ctx.globalAlpha = 0.2;
-    ctx.fillStyle = getColorByEvent({ event: highlightedEvent, focusedMoment });
+    ctx.fillStyle = getColorByEvent({ event: highlightedEvent, timeConfig: getTimeConfigAtMoment(focusedMoment) });
     ctx.fillRect(from, y, to - from, 36);
     ctx.globalAlpha = 1;
   }

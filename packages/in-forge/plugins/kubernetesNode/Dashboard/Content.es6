@@ -39,7 +39,7 @@ export default connectTo(
       pods: getClusterMembers(props.snapshot.get('id')).flatMap(podIds => getSnapshots(podIds.toArray()))
     };
   },
-  function PodsTable({ snapshot, pods = [], timeframe }) {
+  function PodsTable({ snapshot, pods = [], timeConfig }) {
     const snapshotId = snapshot.get('id');
     const rows = pods.map(pod => {
       const data = pod.get('data');
@@ -47,7 +47,7 @@ export default connectTo(
         key: data.get('name'),
         snapshotId: pod.get('id'),
         namespace: data.get('namespace'),
-        timeframe
+        timeConfig
       };
     });
 
@@ -76,7 +76,7 @@ export default connectTo(
           <DashboardSection title="CPU Resources">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
                 metrics: ['required_cpu', 'limit_cpu', 'cap_cpu'],
@@ -88,7 +88,7 @@ export default connectTo(
           <DashboardSection title="Memory Resources">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
                 metrics: ['required_mem', 'limit_mem', 'cap_mem'],
@@ -102,7 +102,7 @@ export default connectTo(
         <DashboardSection title="Pods Allocation">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['allocatedPods', 'cap_pods'],

@@ -6,7 +6,7 @@ import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import KV from 'in-sdk/components/dashboard/KV';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -14,9 +14,9 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   {
     agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
-    focusedMoment: focusedMoment$
+    timeConfig: timeConfig$
   },
-  function AgentViewKpis({ agentSnapshots, focusedMoment }) {
+  function AgentViewKpis({ agentSnapshots, timeConfig }) {
     const agentNotifications = emptyMap;
     if (!agentSnapshots) {
       return null;
@@ -26,7 +26,9 @@ export default connectTo(
       <Kpis>
         {agentSnapshots ? (
           <Tooltip
-            content={`At the selected moment: ${focusedMoment ? formatDateTime(focusedMoment) : 'Now'}`}
+            content={`At the selected moment: ${
+              timeConfig.focusedMoment ? formatDateTime(timeConfig.focusedMoment) : 'Now'
+            }`}
             align="rightMiddle"
           >
             <KV

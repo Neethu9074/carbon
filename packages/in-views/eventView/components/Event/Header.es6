@@ -20,7 +20,6 @@ export default function EventHeader({ event }) {
         <EntityInformation
           entityId={event.get('entityId')}
           entityType={event.get('entityType')}
-          time={event.get('start')}
           timeConfig={timeConfigFromEvent}
         />
 

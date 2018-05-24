@@ -13,11 +13,11 @@ import createRawPayloadObservable from 'in-subscription/rawPayload';
 import createSnapshotObservable from 'in-subscription/snapshot';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
-import createSearchObservable from 'in-subscription/search';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { debouncedQuery$, query$ } from 'in-stores/search/query';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
+import createSearchObservable from 'in-subscription/search';
 import { createTrackingStore } from 'in-stores/store';
+import { timeConfig$ } from 'in-stores/time/config';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -40,9 +40,7 @@ export const selectedSnapshot = createTrackingStore({
   observable: selectedSnapshotId
     .flatMap(snapshotId => {
       if (snapshotId) {
-        return focusedMoment$.flatMap(focusedMoment =>
-          createSnapshotObservable({ snapshotId, time: focusedMoment }).startWith(null)
-        );
+        return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }).startWith(null));
       }
       return alwaysNull;
     })
@@ -91,18 +89,18 @@ export function clearSelectedSnapshotId() {
   });
 }
 
-export function getSnapshot(snapshotId, time) {
+export function getSnapshot(snapshotId, timeConfig) {
   if (!snapshotId) {
     return alwaysNull;
   }
 
-  if (time === undefined) {
-    return focusedMoment$.flatMap(focusedMoment => createSnapshotObservable({ snapshotId, time: focusedMoment }));
+  if (timeConfig === undefined) {
+    return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }));
   }
-  return createSnapshotObservable({ snapshotId, time });
+  return createSnapshotObservable({ snapshotId, timeConfig });
 }
 
-export function getSnapshots(snapshotIds, time) {
+export function getSnapshots(snapshotIds) {
   // support immutable data structures as well
   if (snapshotIds.toArray) {
     snapshotIds = snapshotIds.toArray();
@@ -113,7 +111,7 @@ export function getSnapshots(snapshotIds, time) {
   }
 
   return (
-    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time)), false)
+    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId)), false)
       .nextFrame()
       // Do not show snapshots which are still loading
       .map(snapshots => snapshots.filter(s => s))
@@ -140,16 +138,15 @@ export function getSnapshots(snapshotIds, time) {
 // 3. Search query which yields no results
 // 4. and the search query which yielded results but which may be loading
 export function search({ customQuery = null, view = 'TABLE', restrictResultEntityType = null }) {
-  return combineLatest([query$, timeframe$, focusedMoment$]).flatMap(([query, timeframe, focusedMoment]) => {
+  return combineLatest([query$, timeConfig$]).flatMap(([query, timeConfig]) => {
     return createSearchObservable({
       query: customQuery ? customQuery : query,
-      time: focusedMoment,
+      timeConfig,
       view,
-      timeframe,
       restrictResultEntityType
     })
       .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds, focusedMoment).map(snapshots => {
+        return getSnapshots(snapshotIds).map(snapshots => {
           return {
             snapshots,
             snapshotIds,
@@ -192,61 +189,60 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
 );
 
 export function getPhysicalHierarchy(snapshotId, includeCluster = true) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment, includeCluster })
+  return timeConfig$.flatMap(timeConfig =>
+    createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster })
   );
 }
 
 export function getHighlightedMapEntity(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createHighlightedMapEntityObservable({ snapshotId, time: focusedMoment })
-  );
+  return timeConfig$.flatMap(timeConfig => createHighlightedMapEntityObservable({ snapshotId, timeConfig }));
 }
 
 export function getFoundations(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment => createFoundationsObservable({ snapshotId, time: focusedMoment }));
+  return timeConfig$.flatMap(timeConfig => createFoundationsObservable({ snapshotId, timeConfig }));
 }
 
 export function getRunningComponents(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createRunningComponentsObservable({ snapshotId, time: focusedMoment })
-  );
+  return timeConfig$.flatMap(timeConfig => createRunningComponentsObservable({ snapshotId, timeConfig }));
 }
 
 export function getDeployedUnits(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment => createDeployedUnitsObservable({ snapshotId, time: focusedMoment }));
+  return timeConfig$.flatMap(timeConfig => createDeployedUnitsObservable({ snapshotId, timeConfig }));
 }
 
 export function getRawPayload(snapshotId, payloadName) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createRawPayloadObservable({ snapshotId, payloadName, time: focusedMoment })
-  );
+  return timeConfig$.flatMap(timeConfig => createRawPayloadObservable({ snapshotId, payloadName, timeConfig }));
 }
 
 export function getServiceInstances(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment => createServiceInstancesObservable({ snapshotId, time: focusedMoment }));
+  return timeConfig$.flatMap(timeConfig => createServiceInstancesObservable({ snapshotId, timeConfig }));
 }
 
 export function isEntityOnline(snapshotId) {
   return createrIsEntityOnlineObservable({ snapshotId });
 }
 
-export function getSnapshotVersions(snapshotId, time) {
-  if (time === undefined) {
-    return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({ snapshotId, time: _time }));
+export function getSnapshotVersions(snapshotId, timeConfig) {
+  if (timeConfig === undefined) {
+    return timeConfig$.flatMap(_timeConfig =>
+      createSnapshotVersionsObservable({ snapshotId, timeConfig: _timeConfig })
+    );
   }
-  return createSnapshotVersionsObservable({ snapshotId, time });
+  return createSnapshotVersionsObservable({ snapshotId, timeConfig });
 }
 
 export function getSnapshotsInTimeframe(customQuery) {
-  return combineLatest([timeframe$, focusedMoment$, debouncedQuery$])
+  return combineLatest([timeConfig$, debouncedQuery$])
     .nextFrame()
-    .flatMap(([timeframe, focusedMoment, query]) => {
+    .flatMap(([timeConfig, query]) => {
       query = query == null || query.length === 0 ? '' : query;
       query = query || '';
       if (!query) {
-        return createSnapshotsInTimeframeObservable({ timeframe, query: customQuery, focusedMoment });
+        return createSnapshotsInTimeframeObservable({ timeConfig, query: customQuery });
       }
-      return createSnapshotsInTimeframeObservable({ timeframe, query: `${customQuery} AND (${query})`, focusedMoment });
+      return createSnapshotsInTimeframeObservable({
+        timeConfig,
+        query: `${customQuery} AND (${query})`
+      });
     });
 }

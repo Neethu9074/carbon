@@ -54,7 +54,7 @@ function pubSubMetrics(channelNames) {
   return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
 
-export default function RedisDashboard({ snapshot, timeframe }) {
+export default function RedisDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
   if (sensorConnectionStatus !== 'OK') {
@@ -89,7 +89,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Latency">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: latencyThreshold,
               metrics: ['latency_max'],
@@ -104,7 +104,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Throughput">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['throughput'],
             labels: ['Throughput (ops/sec)'],
@@ -117,7 +117,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Key Hits/Misses">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['keyspace_hits', 'keyspace_misses'],
@@ -137,7 +137,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Key Expired/Evicted">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['expired_keys', 'evicted_keys'],
@@ -150,7 +150,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Database">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: dbKeysMetrics(dbNames),
               labels: dbKeysLabels(dbNames),
@@ -162,7 +162,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
@@ -176,7 +176,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: getConnectionMetricsForRole(role),
@@ -189,7 +189,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Pub/Sub">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: pubSubMetrics(channelNames),
               labels: channelNames,
@@ -206,7 +206,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Persistence">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['rdb_current_bgsave_time_sec', 'aof_current_rewrite_time_sec'],
@@ -217,13 +217,13 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {timeframe.to == null ? <SlowLogsTable snapshotId={snapshotId} /> : null}
+      {timeConfig.to == null ? <SlowLogsTable snapshotId={snapshotId} /> : null}
 
       {role === 'slave' ? (
         <DashboardSection title="Bytes left before syncing is complete">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: kiloBytesZeroDecimalPlaces,
@@ -236,7 +236,7 @@ export default function RedisDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       ) : null}
 
-      <CustomMonitorsTable snapshot={snapshot} timeframe={timeframe} />
+      <CustomMonitorsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

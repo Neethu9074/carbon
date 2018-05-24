@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, bytes } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
-export default function AwsElbNetDashboard({ snapshot, timeframe }) {
+export default function AwsElbNetDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsElbNetDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Processed Bytes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['processed_bytes'],
@@ -25,7 +25,7 @@ export default function AwsElbNetDashboard({ snapshot, timeframe }) {
       <DashboardSection title="New Flow Count">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['new_flow_count'],
@@ -38,7 +38,7 @@ export default function AwsElbNetDashboard({ snapshot, timeframe }) {
       <DashboardSection title="TCP Resets (RST)">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['client_reset_count', 'elb_reset_count', 'target_reset_count'],

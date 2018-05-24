@@ -3,19 +3,6 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-live-metric',
 
-  getId({ snapshotId, metric, rollup }) {
-    return snapshotId + metric + rollup;
-  },
-
-  getData(subscriptionId, { snapshotId, metric, rollup }) {
-    return {
-      subscriptionId,
-      snapshotId,
-      metric,
-      rollup
-    };
-  },
-
   transform(observable) {
     return observable.map(dataPoint => {
       dataPoint.time = dataPoint[0];

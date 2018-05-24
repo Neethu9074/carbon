@@ -6,14 +6,14 @@ import Chart from 'in-components/Chart';
 
 import AZAppTable from './AZAppTable';
 
-export default function AwsElbAppDashboard({ snapshot, timeframe }) {
+export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <DashboardSection title="Processed Bytes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['processed_bytes'],
@@ -27,7 +27,7 @@ export default function AwsElbAppDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['active_connection_count', 'new_connection_count', 'rejected_connection_count'],
@@ -41,7 +41,7 @@ export default function AwsElbAppDashboard({ snapshot, timeframe }) {
       <DashboardSection title="ELB HTTP error codes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['elb_4XX_count', 'elb_5XX_count'],
@@ -51,7 +51,7 @@ export default function AwsElbAppDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <AZAppTable snapshot={snapshot} timeframe={timeframe} />
+      <AZAppTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

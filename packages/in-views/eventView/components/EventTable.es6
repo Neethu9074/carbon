@@ -15,6 +15,7 @@ import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
 import getService from 'in-subscription/application/getService';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import { selectedEventId$ } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
@@ -163,7 +164,10 @@ const On = connectTo(
       };
     } else {
       return {
-        entity: getSnapshot(props.rawEvent.entityId, props.rawEvent.triggeringTime || props.rawEvent.start)
+        entity: getSnapshot(
+          props.rawEvent.snapshotId,
+          getTimeConfigAtMoment(props.rawEvent.triggeringTime || props.rawEvent.start)
+        )
       };
     }
   },

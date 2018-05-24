@@ -82,7 +82,7 @@ const cols = [
   }
 ];
 
-export default function HeapSpacesTable({ snapshot, timeframe }) {
+export default function HeapSpacesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'heapSpaces'], emptyList)
@@ -92,7 +92,7 @@ export default function HeapSpacesTable({ snapshot, timeframe }) {
         key: name,
         name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -111,7 +111,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         formatter: bytesZeroDecimalPlaces,

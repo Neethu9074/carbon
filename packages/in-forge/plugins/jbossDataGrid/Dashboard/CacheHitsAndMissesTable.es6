@@ -101,7 +101,7 @@ const cols = [
   }
 ];
 
-export default function CacheStatisticsTable({ snapshot, timeframe }) {
+export default function CacheStatisticsTable({ snapshot, timeConfig }) {
   const caches = snapshot
     .getIn(['data', 'caches'], emptyMap)
     .filter(cacheInfo => cacheInfo.get('statisticsEnabled') === true)
@@ -115,7 +115,7 @@ export default function CacheStatisticsTable({ snapshot, timeframe }) {
   const rows = caches.map(cache => {
     return {
       key: cache,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -132,7 +132,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: hitRate.compact,
           tooltipFormatter: hitRate.detailed,
@@ -143,7 +143,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [

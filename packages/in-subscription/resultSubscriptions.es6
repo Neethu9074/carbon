@@ -3,10 +3,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
 
-export function createResultSubscriptionFactory({
-  eventId,
-  disposeSubscriptionOnDocumentHidden = false
-}) {
+export function createResultSubscriptionFactory({ eventId, disposeSubscriptionOnDocumentHidden = true }) {
   return createSubscription({
     eventId,
     disposeSubscriptionOnDocumentHidden,
@@ -18,7 +15,7 @@ export function createResultSubscriptionFactory({
       };
     },
 
-    transform(observable)  {
+    transform(observable) {
       return observable.map(deepFreeze).startWith(pendingResult);
     }
   });

@@ -1,13 +1,14 @@
 import { fromJS } from 'immutable';
 
 import createSubscription from 'in-subscription/subscription';
+import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({
   eventId: 'subscribe-raw-events',
 
-  getId({ time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) {
+  getId({ timeConfig, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) {
     return (
-      time +
+      generateStableHash(timeConfig) +
       maxTimestamp +
       minTimestamp +
       sortByField +
@@ -19,10 +20,10 @@ export default createSubscription({
     );
   },
 
-  getData(subscriptionId, { time, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) {
+  getData(subscriptionId, { timeConfig, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) {
     return {
       subscriptionId,
-      time,
+      timeConfig,
       maxTimestamp: maxTimestamp > 0 ? maxTimestamp : undefined,
       minTimestamp,
       sortByField,

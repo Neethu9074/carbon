@@ -2,9 +2,10 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import { focusedMoment$, getFixedTimeframeUrl } from 'in-stores/timeline';
 import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
+import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -15,10 +16,14 @@ const block = 'in-chart-apply-button';
 
 export default connectTo(
   {
-    href: combineLatest([highlightedTimeframe$, focusedMoment$]).flatMap(([highlightedTimeframe, focusedMoment]) => {
+    href: combineLatest([highlightedTimeframe$, timeConfig$]).flatMap(([highlightedTimeframe, originalTimeConfig]) => {
       if (!highlightedTimeframe) {
         return alwaysNull;
       }
+
+      const timeConfig = {
+        ...originalTimeConfig
+      };
 
       const from = highlightedTimeframe[0];
       let to = highlightedTimeframe[1];
@@ -28,14 +33,14 @@ export default connectTo(
         windowSize = MAX_ZOOM_LEVEL;
       }
 
-      if (focusedMoment > to || focusedMoment < from) {
-        focusedMoment = to;
+      if (timeConfig.focusedMoment > to || timeConfig.focusedMoment < from) {
+        timeConfig.focusedMoment = to;
       }
 
       return getFixedTimeframeUrl({
         windowSize,
         to,
-        focusedMoment,
+        focusedMoment: timeConfig.focusedMoment,
         clearHighlightedTimeframe: true
       });
     })

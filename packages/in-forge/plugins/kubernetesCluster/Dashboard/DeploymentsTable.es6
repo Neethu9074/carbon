@@ -4,7 +4,7 @@ import createDeploymentsForClusterSubscription from 'in-subscription/deployments
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -81,8 +81,10 @@ const cols = [
 
 export default connectTo(
   props => ({
-    deploymentSnapshots: focusedMoment$
-      .flatMap(time => createDeploymentsForClusterSubscription({ snapshotId: props.snapshot.get('id'), time }))
+    deploymentSnapshots: timeConfig$
+      .flatMap(timeConfig =>
+        createDeploymentsForClusterSubscription({ snapshotId: props.snapshot.get('id'), timeConfig })
+      )
       .flatMap(getSnapshots)
   }),
 

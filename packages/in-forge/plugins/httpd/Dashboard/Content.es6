@@ -10,7 +10,7 @@ import Link from 'in-components/Link';
 
 import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 
-export default function HttpdDashboard({ snapshot, timeframe }) {
+export default function HttpdDashboard({ snapshot, timeConfig }) {
   const status = snapshot.getIn(['data', 'server-status']);
   const ver = snapshot.getIn(['data', 'version']).replace(/[^\d.]/g, '');
   const snapshotId = snapshot.get('id');
@@ -48,7 +48,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Traffic">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['requests'],
               labels: ['Requests'],
@@ -67,7 +67,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Connections">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['conns_total'],
@@ -87,7 +87,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Worker">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -124,7 +124,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
           <DashboardSection title="CPU">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['cpu_load'],
@@ -137,7 +137,7 @@ export default function HttpdDashboard({ snapshot, timeframe }) {
           <DashboardSection title="Traffic per Request">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['bytes_per_req'],

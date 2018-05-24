@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function CustomMonitorsTable({ snapshot, timeframe }) {
+export default function CustomMonitorsTable({ snapshot, timeConfig }) {
   const monitors = snapshot.getIn(['data', 'monitor'], emptyList);
   if (monitors.size === 0) {
     return null;
@@ -43,7 +43,7 @@ export default function CustomMonitorsTable({ snapshot, timeframe }) {
   const rows = monitors.map(name => {
     return {
       key: name,
-      timeframe,
+      timeConfig,
       monitorName: name,
       snapshotId: snapshot.get('id')
     };
@@ -60,7 +60,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
         metrics: ['monitor.' + row.monitorName],

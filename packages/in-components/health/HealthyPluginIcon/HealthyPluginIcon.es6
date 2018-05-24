@@ -17,7 +17,7 @@ export default connectTo(
       if (props.snapshot) {
         observables.plugin = always(props.snapshot.get('plugin'));
       } else {
-        observables.plugin = getSnapshot(snapshotId, props.time).map(snapshot => snapshot.get('plugin'));
+        observables.plugin = getSnapshot(snapshotId).map(snapshot => snapshot.get('plugin'));
       }
     }
     return observables;

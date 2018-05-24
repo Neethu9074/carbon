@@ -66,7 +66,7 @@ const cols = [
   }
 ];
 
-export default function QueuesTable({ snapshot, timeframe }) {
+export default function QueuesTable({ snapshot, timeConfig }) {
   const queues = snapshot
     .getIn(['data', 'monitoredQueues'], emptyList)
     .toArray()
@@ -78,7 +78,7 @@ export default function QueuesTable({ snapshot, timeframe }) {
   const rows = queues.map(queue => {
     return {
       key: queue,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -92,13 +92,13 @@ export default function QueuesTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
+  const timeConfig = row.timeConfig;
 
   return (
     <div>
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           metrics: ['queue_map.' + row.key + '.messages_ready', 'queue_map.' + row.key + '.messages_unacknowledged'],
           labels: ['Messages ready', 'Messages unacknowledged'],

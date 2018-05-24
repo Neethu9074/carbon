@@ -2,7 +2,7 @@ import React from 'react';
 
 import { sceneObjects } from 'in-map/stores/focusableSceneObjectsStore';
 import { formatDateTime } from 'in-services/formatters/date';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { focusId } from 'in-map/services/focus';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -15,16 +15,16 @@ const block = 'in-sidebar-map__focus-icon';
 export default connectTo(
   {
     focusableSceneObjects: sceneObjects.stream.debounce(),
-    focusedMoment: focusedMoment$
+    timeConfig: timeConfig$
   },
-  function FocusButton({ focusedMoment, snapshot, focusableSceneObjects }) {
+  function FocusButton({ timeConfig, snapshot, focusableSceneObjects }) {
     const snapshotId = snapshot.get('id');
     const to = snapshot.get('to');
 
     const entityExistsAtFocusedMoment =
-      (focusedMoment == null && to == null) || // either live
+      (timeConfig.focusedMoment == null && to == null) || // either live
       // or historic
-      (focusedMoment != null && (to == null || to > focusedMoment));
+      (timeConfig.focusedMoment != null && (to == null || to > timeConfig.focusedMoment));
     let classes = block;
     if (entityExistsAtFocusedMoment) {
       if (!focusableSceneObjects || !focusableSceneObjects[snapshotId]) {

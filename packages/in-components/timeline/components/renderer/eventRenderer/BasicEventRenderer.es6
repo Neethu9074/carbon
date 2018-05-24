@@ -3,6 +3,7 @@ import { selectedSnapshotId as selectedSnapshotId$ } from 'in-stores/snapshot';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { isEventOpenAtFocusedMoment } from 'in-stores/events';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { emptyArray } from 'in-services/fixedObjects';
 
 const highlightedColor = '#ffffff';
@@ -90,7 +91,12 @@ export default function createEventRenderer(ctx, scale) {
   }
 
   function eventIsOpen(event) {
-    return isEventOpenAtFocusedMoment(getEventStart(event), event.get('end'), event.get('state'), focusedMoment);
+    return isEventOpenAtFocusedMoment(
+      getEventStart(event),
+      event.get('end'),
+      event.get('state'),
+      getTimeConfigAtMoment(focusedMoment)
+    );
   }
 
   function draw(event, isHighlighted, y) {
@@ -107,7 +113,9 @@ export default function createEventRenderer(ctx, scale) {
       }
     }
 
-    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent({ event });
+    ctx.fillStyle = isHighlighted
+      ? highlightedColor
+      : getColorByEvent({ event, timeConfig: getTimeConfigAtMoment(focusedMoment) });
 
     const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;

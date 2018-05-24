@@ -76,7 +76,7 @@ const cols = [
   }
 ];
 
-export default function ApplicationsTable({ snapshot, timeframe }) {
+export default function ApplicationsTable({ snapshot, timeConfig }) {
   const apps = snapshot.getIn(['data', 'applications'], emptyList).toArray();
   if (apps.length === 0) {
     return null;
@@ -86,7 +86,7 @@ export default function ApplicationsTable({ snapshot, timeframe }) {
     return {
       key: app,
       snapshot,
-      timeframe
+      timeConfig
     };
   });
 
@@ -104,7 +104,7 @@ function getRowDetails(row) {
     return null;
   }
 
-  return <InstancesTable snapshot={row.snapshot} timeframe={row.timeframe} instances={appInstances} />;
+  return <InstancesTable snapshot={row.snapshot} timeConfig={row.timeConfig} instances={appInstances} />;
 }
 
 function getInstancesForApplication(snapshot, appId) {

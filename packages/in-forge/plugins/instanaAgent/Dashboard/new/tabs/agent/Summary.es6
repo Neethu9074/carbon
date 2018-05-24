@@ -13,7 +13,7 @@ import KV from 'in-sdk/components/dashboard/KV';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe }) {
+export default function Summary({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -38,7 +38,7 @@ export default function Summary({ snapshot, timeframe }) {
           <DashboardTile title="CPU Load">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['cpu.load'],
@@ -51,7 +51,7 @@ export default function Summary({ snapshot, timeframe }) {
         <DashboardTile title="Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.total']),
@@ -77,7 +77,7 @@ export default function Summary({ snapshot, timeframe }) {
         <DashboardTile title="Network">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesPerSecondTwoDecimalPlaces,
@@ -91,7 +91,7 @@ export default function Summary({ snapshot, timeframe }) {
         <DashboardTile title="Sensors">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],

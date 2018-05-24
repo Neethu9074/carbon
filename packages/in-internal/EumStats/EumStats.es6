@@ -3,10 +3,10 @@ import React from 'react';
 
 import CrossRegionStats from 'in-internal/EumStats/CrossRegionStats';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import EumAcceptors from 'in-internal/EumStats/EumAcceptors';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray } from 'in-services/fixedObjects';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
@@ -29,15 +29,14 @@ export default connectTo(
 );
 
 function getSearchResult(query) {
-  return combineLatest([timeframe$, focusedMoment$])
-    .flatMap(([timeframe, focusedMoment]) =>
+  return timeConfig$
+    .flatMap(timeConfig =>
       search({
         query,
-        time: focusedMoment,
         view: 'TABLE',
-        timeframe
+        timeConfig
       })
-        .flatMap(getSnapshots, focusedMoment)
+        .flatMap(getSnapshots, timeConfig)
         .flatMap(dropwizardSnapshots => {
           return combineLatest(dropwizardSnapshots.map(getHostSnapshotId))
             .flatMap(getSnapshots)

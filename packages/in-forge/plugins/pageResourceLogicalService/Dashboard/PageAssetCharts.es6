@@ -5,13 +5,13 @@ import { msTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/num
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) {
+export default function PageAssetCharts({ snapshotId, timeConfig, prefix = '' }) {
   return (
     <div>
       <DashboardSection title="Requests/s vs. Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -34,7 +34,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
       <DashboardSection title="Latency Overview">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             min: 0,
@@ -54,7 +54,7 @@ export default function PageAssetCharts({ snapshotId, timeframe, prefix = '' }) 
       </DashboardSection>
 
       <DashboardSection title="Resource Caching">
-        <ResourceCaching snapshotId={snapshotId} timeframe={timeframe} prefix={prefix} />
+        <ResourceCaching snapshotId={snapshotId} timeConfig={timeConfig} prefix={prefix} />
       </DashboardSection>
     </div>
   );

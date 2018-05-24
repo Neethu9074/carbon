@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function DatabaseTable({ snapshot, timeframe }) {
+export default function DatabaseTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'databases'], emptyList)
@@ -43,7 +43,7 @@ export default function DatabaseTable({ snapshot, timeframe }) {
       return {
         key: name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -63,7 +63,7 @@ function getDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,

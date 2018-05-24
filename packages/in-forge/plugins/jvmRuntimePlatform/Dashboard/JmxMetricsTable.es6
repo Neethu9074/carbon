@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function JmxMetricsTable({ snapshot, timeframe }) {
+export default function JmxMetricsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'jmx'], emptyList)
@@ -44,7 +44,7 @@ export default function JmxMetricsTable({ snapshot, timeframe }) {
         name,
         key: name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -63,7 +63,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
         metrics: ['jmx.' + row.name],

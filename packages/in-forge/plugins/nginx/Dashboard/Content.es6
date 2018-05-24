@@ -14,7 +14,7 @@ const stubStatusSampleConfig = `location /nginx_status {
   access_log   off;
 }`;
 
-export default function NginxDashboard({ snapshot, timeframe }) {
+export default function NginxDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
   const errorCode = snapshot.getIn(['data', 'error_code']);
@@ -95,7 +95,7 @@ export default function NginxDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['requests'],
@@ -109,7 +109,7 @@ export default function NginxDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['connections.accepted', 'connections.handled', 'connections.active', 'connections.dropped'],

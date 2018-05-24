@@ -15,7 +15,7 @@ import {
   kiloBytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
-export default function RubyDashboard({ snapshot, timeframe }) {
+export default function RubyDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
@@ -30,13 +30,13 @@ export default function RubyDashboard({ snapshot, timeframe }) {
       </KpiSection>
       <Columize>
         <DashboardSection title="Time Spent in GC">
-          <GcTime snapshot={snapshot} timeframe={timeframe} />
+          <GcTime snapshot={snapshot} timeConfig={timeConfig} />
         </DashboardSection>
       </Columize>
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: kiloBytesTwoDecimalPlaces,
@@ -49,7 +49,7 @@ export default function RubyDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Heap Slots">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,
@@ -61,18 +61,18 @@ export default function RubyDashboard({ snapshot, timeframe }) {
       </DashboardSection>
       <Columize>
         <DashboardSection title="Threads">
-          <ThreadMetrics snapshot={snapshot} timeframe={timeframe} />
+          <ThreadMetrics snapshot={snapshot} timeConfig={timeConfig} />
         </DashboardSection>
       </Columize>
     </div>
   );
 }
 
-function GcTime({ snapshot, timeframe }) {
+function GcTime({ snapshot, timeConfig }) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: msTwoDecimalPlaces,
@@ -92,11 +92,11 @@ function GcTime({ snapshot, timeframe }) {
   );
 }
 
-function ThreadMetrics({ snapshot, timeframe }) {
+function ThreadMetrics({ snapshot, timeConfig }) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: zeroDecimalPlaces,

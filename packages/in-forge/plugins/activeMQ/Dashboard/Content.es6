@@ -15,7 +15,7 @@ import QueuesTable from './QueuesTable';
 
 const percentage = d => d + '%';
 
-export default function ActiveMQDashboard({ snapshot, timeframe }) {
+export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
   if (!version) {
     return (
@@ -52,7 +52,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Broker wide queues message stats">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
@@ -64,7 +64,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Broker wide topics message stats">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
@@ -79,7 +79,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Broker wide connections, consumers and producers">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
@@ -91,7 +91,7 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Memory and store usage">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: percentage,
               min: 0,
@@ -104,9 +104,9 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       </Columize>
 
-      <TopicsTable snapshot={snapshot} timeframe={timeframe} />
-      <QueuesTable snapshot={snapshot} timeframe={timeframe} />
-      <DLQueuesTable snapshot={snapshot} timeframe={timeframe} />
+      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DLQueuesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

@@ -10,7 +10,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import GaugesTable from './GaugesTable';
 
-export default function NomadDashboard({ snapshot, timeframe }) {
+export default function NomadDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const errorCode = snapshot.getIn(['data', 'error_code']);
   const nomadVersion = snapshot.getIn(['data', 'nomad_version']);
@@ -61,7 +61,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           <DashboardSection title="Allocated/Unallocated CPU (MHz)">
             <Chart
               snapshotId={snapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.cpu', 'nomad.client.unallocated.cpu'],
@@ -74,7 +74,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           <DashboardSection title="Allocated/Unallocated memory">
             <Chart
               snapshotId={snapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.memory', 'nomad.client.unallocated.memory'],
@@ -88,7 +88,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Allocations">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
@@ -107,7 +107,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           <DashboardSection title="Broker Core">
             <Chart
               snapshotId={snapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.nomad.broker._core.unacked', 'nomad.nomad.broker._core.ready'],
@@ -119,7 +119,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           <DashboardSection title="Broker">
             <Chart
               snapshotId={snapshotId}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: [
@@ -137,7 +137,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Total Blocked Evaluations">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
@@ -151,7 +151,7 @@ export default function NomadDashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
         <Columize>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} />
+          <GaugesTable snapshot={snapshot} timeConfig={timeConfig} />
         </Columize>
       </div>
     );

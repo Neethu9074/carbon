@@ -15,7 +15,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ snapshot, timeframe, pageName, metricPrefix }) {
+export default function Summary({ snapshot, timeConfig, pageName, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   let viewTracesQuery = `entity.website.label:"${luceneEscapeString(getLabel(snapshot))}"`;
   if (pageName) {
@@ -59,7 +59,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <Kpi
           label="Views"
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           metric={`${metricPrefix}count`}
           timeWindowAggregation="sum"
           formatter={number.compact}
@@ -67,7 +67,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <Kpi
           label="Load Time (mean)"
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           metric={`${metricPrefix}duration.mean`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
@@ -89,7 +89,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <Kpi
           label="Load Time (90th)"
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           metric={`${metricPrefix}duration.90th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
@@ -97,7 +97,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <Kpi
           label="Load Time (95th)"
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           metric={`${metricPrefix}duration.95th`}
           timeWindowAggregation="mean"
           formatter={seconds.fromMillisFixedDetailed}
@@ -130,7 +130,7 @@ export default function Summary({ snapshot, timeframe, pageName, metricPrefix })
         <DashboardTile title="Page Load Breakdown" href$={getSubDashboardLink('/speed')}>
           <PageLoadBreakdownChart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             onlyRequest
             metricPrefix={metricPrefix}
           />

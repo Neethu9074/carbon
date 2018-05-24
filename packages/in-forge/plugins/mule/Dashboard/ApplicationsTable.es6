@@ -64,7 +64,7 @@ const cols = [
   }
 ];
 
-export default function ApplicationsTable({ snapshot, timeframe }) {
+export default function ApplicationsTable({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const rows = data
     .getIn(['configurations'], emptyList)
@@ -73,7 +73,7 @@ export default function ApplicationsTable({ snapshot, timeframe }) {
       return {
         key,
         snapshotId: snapshot.get('id'),
-        timeframe: timeframe,
+        timeConfig: timeConfig,
         config,
         app
       };
@@ -95,7 +95,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: [
           'applications.' + row.key + '.processedEvents',

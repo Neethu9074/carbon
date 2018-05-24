@@ -50,13 +50,13 @@ const cols = [
   }
 ];
 
-export default function OperationsTable({ snapshot, timeframe }) {
+export default function OperationsTable({ snapshot, timeConfig }) {
   const ops = ['gets', 'sets', 'create', 'delete', 'update', 'compare_and_swap', 'compare_and_delete'];
 
   const rows = ops.map(key => {
     return {
       key,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -70,13 +70,13 @@ export default function OperationsTable({ snapshot, timeframe }) {
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
+  const timeConfig = row.timeConfig;
 
   return (
     <Columize>
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['storage.' + row.key + '_success'],
@@ -87,7 +87,7 @@ function getRowDetails(row) {
 
       <Chart
         snapshotId={snapshotId}
-        timeframe={timeframe}
+        timeConfig={timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['storage.' + row.key + '_fail'],

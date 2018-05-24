@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { timeframe$, setTimeframe, setFocusedMoment } from 'in-stores/timeline';
+import { timeConfig$, setTimeframe, setFocusedMoment } from 'in-stores/timeline';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connect from 'in-hoc/connectTo';
@@ -9,13 +9,13 @@ import connect from 'in-hoc/connectTo';
 import locals from './AppHeaderTimeSelection.mless';
 
 export default connect({
-  timeframe: timeframe$
+  timeConfig: timeConfig$
 })(AppHeaderTimeSelection);
 
-function AppHeaderTimeSelection({ timeframe }) {
+function AppHeaderTimeSelection({ timeConfig }) {
   return (
     <Overlay
-      props={{ timeframe }}
+      props={{ timeConfig }}
       content={TimeSelectionDialogPresenterWrapper}
       withoutWrapper
       withoutArrow
@@ -26,11 +26,11 @@ function AppHeaderTimeSelection({ timeframe }) {
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeframe, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
     <TimePresenter
       expanded={isOpen}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       className={locals.time}
       onClick={toggle}
       refSetter={refSetter}
@@ -38,12 +38,12 @@ function TimePresenterWrapper({ isOpen, toggle, timeframe, refSetter }) {
   );
 }
 
-function TimeSelectionDialogPresenterWrapper({ timeframe, close }) {
-  return <TimeSelectionDialogPresenter timeframe={timeframe} onChange={onChange} />;
+function TimeSelectionDialogPresenterWrapper({ timeConfig, close }) {
+  return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} />;
 
-  function onChange(timeframe) {
+  function onChange(timeConfig) {
     close();
-    setTimeframe(timeframe.windowSize, timeframe.to);
-    setFocusedMoment(timeframe.to);
+    setTimeframe(timeConfig.windowSize, timeConfig.to);
+    setFocusedMoment(timeConfig.to);
   }
 }

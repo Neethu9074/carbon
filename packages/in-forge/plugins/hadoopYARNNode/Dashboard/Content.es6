@@ -4,14 +4,14 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
 
-export default function Dashboard({ snapshot, timeframe }) {
+export default function Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <DashboardSection title="Containers">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['runningContainers', 'failedContainers'],
             labels: ['Running Containers', 'Failed Containers'],
@@ -23,7 +23,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['allocatedMem', 'availableMem'],
             labels: ['Allocated Memory', 'Available Memory'],
@@ -36,7 +36,7 @@ export default function Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Virtual Cores">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['allocatedVCores', 'availableVCores'],
             labels: ['Allocated Virtual Cores', 'Available Virtual Cores'],

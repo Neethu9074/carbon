@@ -9,14 +9,14 @@ import WorkersTable from './WorkersTable';
 import AppsTable from './AppsTable';
 import DriversTable from './DriversTable';
 
-export default function Dashboard({ snapshot, timeframe }) {
+export default function Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <DashboardSection title="Cluster Workers">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'workers.aliveWorkers',
@@ -34,7 +34,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         <DashboardSection title="Cluster Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['workers.memoryInUseTotal', 'workers.memoryTotal'],
               labels: ['Used Memory', 'Total Memory'],
@@ -47,7 +47,7 @@ export default function Dashboard({ snapshot, timeframe }) {
         <DashboardSection title="Cluster Cores">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['workers.coresInUseTotal', 'workers.coresTotal'],
               labels: ['Used Cores', 'Total Cores'],
@@ -57,7 +57,7 @@ export default function Dashboard({ snapshot, timeframe }) {
           />
         </DashboardSection>
       </Columize>
-      <WorkersTable snapshot={snapshot} timeframe={timeframe} />
+      <WorkersTable snapshot={snapshot} timeConfig={timeConfig} />
       <AppsTable snapshot={snapshot} />
       <DriversTable snapshot={snapshot} />
     </div>

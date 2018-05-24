@@ -3,7 +3,7 @@ import React from 'react';
 import CoresTable from 'in-forge/plugins/solr/Dashboard/CoresTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 
-export default function SolrDashboard({ snapshot, timeframe }) {
+export default function SolrDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
   if (!version) {
     return (
@@ -13,5 +13,5 @@ export default function SolrDashboard({ snapshot, timeframe }) {
       </DashboardNotification>
     );
   }
-  return <CoresTable snapshot={snapshot} timeframe={timeframe} />;
+  return <CoresTable snapshot={snapshot} timeConfig={timeConfig} />;
 }

@@ -10,7 +10,7 @@ import mockup from './time-distribution.png';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
-export default function Speed({ snapshot, timeframe, metricPrefix }) {
+export default function Speed({ snapshot, timeConfig, metricPrefix }) {
   const snapshotId = snapshot.get('id');
   return (
     <MaxWidthFullscreenContainer>
@@ -18,7 +18,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
         <DashboardTile title="Views vs Page Load Time">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             height={200}
             y1={{
               min: 0,
@@ -41,7 +41,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
         <DashboardTile title="Page Load Time">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             height={200}
             y1={{
               min: 0,
@@ -86,7 +86,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
         </p>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={215}
           y1={{
             min: 0,
@@ -113,7 +113,7 @@ export default function Speed({ snapshot, timeframe, metricPrefix }) {
       <DashboardTile title="Paint Timing">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: seconds.fromMillisFixedDetailed,

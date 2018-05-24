@@ -115,14 +115,14 @@ export default connectTo(
       clusterNodes: getClusterMembers(props.snapshot.get('id')).flatMap(nodeIds => getSnapshots(nodeIds.toArray()))
     };
   },
-  function NodesTable({ clusterNodes = [], timeframe }) {
+  function NodesTable({ clusterNodes = [], timeConfig }) {
     const rows = clusterNodes.filter(node => node.get('plugin') == 'kubernetesNode').map(node => {
       const data = node.get('data');
       return {
         key: data.get('uid'),
         snapshotId: node.get('id'),
         internalIp: data.get('internalIp'),
-        timeframe
+        timeConfig
       };
     });
 
@@ -139,7 +139,7 @@ function getNodeRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: twoDecimalPlaces,
           metrics: [`required_cpu`, `limit_cpu`, `cap_cpu`],
@@ -150,7 +150,7 @@ function getNodeRowDetails(row) {
 
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytesTwoDecimalPlaces,
           metrics: [`required_mem`, `limit_mem`, `cap_mem`],

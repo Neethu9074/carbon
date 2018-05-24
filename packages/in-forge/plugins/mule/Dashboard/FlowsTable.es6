@@ -27,7 +27,7 @@ const cols = [
   }
 ];
 
-export default function FlowsTable({ snapshot, timeframe }) {
+export default function FlowsTable({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const rows = data
     .getIn(['flowNames'], emptyMap)
@@ -37,7 +37,7 @@ export default function FlowsTable({ snapshot, timeframe }) {
         appName,
         flowName,
         snapshotId: snapshot.get('id'),
-        timeframe: timeframe
+        timeConfig: timeConfig
       };
     })
     .toArray();
@@ -57,7 +57,7 @@ function getDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         min: 0,
         metrics: [

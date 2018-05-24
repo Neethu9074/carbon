@@ -4,13 +4,13 @@ import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/n
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
+export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <DashboardSection title="Latency">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['avg_request_latency'],
@@ -30,7 +30,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['outstanding_requests'],
@@ -43,7 +43,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['num_alive_connections'],
@@ -56,7 +56,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Packets">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['packets_received'],

@@ -54,15 +54,15 @@ const cols = [
 
 // ensure that react repaints do not result in frequent backend calls
 const getBreakdown = memoize(
-  ({ snapshot, timeframe, pageHash }) =>
+  ({ snapshot, timeConfig, pageHash }) =>
     combineDataAndError(
       getErrorsForWebsite({
         websiteSnapshotId: snapshot.get('id'),
-        timeframe: timeframe,
+        timeConfig: timeConfig,
         pageHash: pageHash
       })
     ).delayedStop(35000),
-  ({ snapshot, timeframe, pageHash }) => snapshot.get('id') + timeframe.to + timeframe.windowSize + pageHash,
+  ({ snapshot, timeConfig, pageHash }) => snapshot.get('id') + timeConfig.to + timeConfig.windowSize + pageHash,
   30000
 );
 
@@ -72,7 +72,7 @@ export default connectTo(
       result: getBreakdown(props)
     };
   },
-  function Errors({ result, snapshot, timeframe, pageHash, pageName }) {
+  function Errors({ result, snapshot, timeConfig, pageHash, pageName }) {
     if (!result) {
       return <LoadingIndicator type="dark" />;
     }
@@ -98,7 +98,7 @@ export default connectTo(
         count: error.get('count'),
         snapshotId,
         websiteLabel,
-        timeframe,
+        timeConfig,
         pageHash,
         pageName: pageName
       };

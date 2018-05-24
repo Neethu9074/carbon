@@ -162,7 +162,7 @@ const cols = [
   }
 ];
 
-export default function FrontendsTable({ snapshot, timeframe }) {
+export default function FrontendsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'frontends'], emptyList)
@@ -171,7 +171,7 @@ export default function FrontendsTable({ snapshot, timeframe }) {
       return {
         key: name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 
@@ -191,7 +191,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: [
             'frontendStats.' + row.key + '.reqRate',
@@ -204,7 +204,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['frontendStats.' + row.key + '.sessionRate'],
           labels: ['Sessions'],
@@ -219,7 +219,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['frontendStats.' + row.key + '.clientErrors', 'frontendStats.' + row.key + '.serverErrors'],
           labels: ['Client Errors', 'Server Errors'],
@@ -228,7 +228,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.detailed,
           metrics: ['frontendStats.' + row.key + '.bytesSent', 'frontendStats.' + row.key + '.bytesReceived'],

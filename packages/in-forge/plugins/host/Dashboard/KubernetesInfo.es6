@@ -7,15 +7,15 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
-    const nodeSnapshotId = focusedMoment$.flatMap(time =>
-      createNodeForHostSubscription({ snapshotId: props.snapshotId, time })
+    const nodeSnapshotId = timeConfig$.flatMap(timeConfig =>
+      createNodeForHostSubscription({ snapshotId: props.snapshotId, timeConfig })
     );
 
     return {
@@ -24,8 +24,8 @@ export default connectTo(
       clusterSnapshot: nodeSnapshotId.flatMap(
         nodeSnapshotId =>
           nodeSnapshotId
-            ? focusedMoment$
-                .flatMap(time => createClusterForPodSubscription({ snapshotId: nodeSnapshotId, time }))
+            ? timeConfig$
+                .flatMap(timeConfig => createClusterForPodSubscription({ snapshotId: nodeSnapshotId, timeConfig }))
                 .flatMap(getSnapshot)
             : alwaysNull
       )

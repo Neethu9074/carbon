@@ -23,17 +23,17 @@ import './ErrorDetails.less';
 
 // ensure that react repaints do not result in frequent backend calls
 const getBreakdown = memoize(
-  ({ snapshot, timeframe, match, pageHash }) =>
+  ({ snapshot, timeConfig, match, pageHash }) =>
     combineDataAndError(
       getErrorBreakdownForWebsite({
         websiteSnapshotId: snapshot.get('id'),
-        timeframe: timeframe,
+        timeConfig: timeConfig,
         errorHash: match.params.errorHash,
         pageHash: pageHash
       })
     ).delayedStop(35000),
-  ({ snapshot, timeframe, match, pageHash }) =>
-    snapshot.get('id') + timeframe.to + timeframe.windowSize + match.params.errorHash + pageHash,
+  ({ snapshot, timeConfig, match, pageHash }) =>
+    snapshot.get('id') + timeConfig.to + timeConfig.windowSize + match.params.errorHash + pageHash,
   30000
 );
 

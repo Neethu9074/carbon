@@ -1,4 +1,4 @@
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/timeline';
 import { createStore } from 'in-stores/store';
 
 const windowSize = createStore({
@@ -12,5 +12,5 @@ export function setWindowSize(newDate) {
 }
 
 export function reset() {
-  timeframe$.once(_timeframe => setWindowSize(_timeframe.windowSize));
+  timeConfig$.once(_timeConfig => setWindowSize(_timeConfig.windowSize));
 }

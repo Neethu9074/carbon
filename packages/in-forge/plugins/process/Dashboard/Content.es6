@@ -6,7 +6,7 @@ import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanio
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function ProcessDashboard({ snapshot, timeframe }) {
+export default function ProcessDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -14,7 +14,7 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
@@ -28,7 +28,7 @@ export default function ProcessDashboard({ snapshot, timeframe }) {
       <DashboardSection title="CPU Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['cpu.user', 'cpu.sys'],
             labels: ['User', 'System'],

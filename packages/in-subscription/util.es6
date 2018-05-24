@@ -1,6 +1,13 @@
-export function roundToNearestTimeBlock(time) {
-  if (time == null) {
+export function roundToNearestTimeBlock(timeConfig) {
+  if (timeConfig == null) {
     return null;
   }
-  return Math.round(time / 5000) * 5000 + 5000;
+  if (timeConfig.to == null) {
+    return timeConfig;
+  }
+  return {
+    ...timeConfig,
+    to: Math.round(timeConfig.to / 5000) * 5000 + 5000,
+    focusedMoment: Math.round(timeConfig.focusedMoment / 5000) * 5000 + 5000
+  };
 }

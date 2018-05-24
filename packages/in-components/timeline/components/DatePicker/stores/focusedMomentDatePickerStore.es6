@@ -8,7 +8,7 @@ import {
 import { fromTimestamp$ } from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import { toTimestamp$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { formatDate, formatDateTime, parseDate } from 'in-services/formatters/date';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 
 const dateString = createStore({
@@ -72,9 +72,9 @@ export function reset() {
       };
     }
   );
-  focusedMoment$.once(_focusedMoment => {
-    _focusedMoment
-      ? setTimestamp(_focusedMoment, setDateString, setTimeString)
+  timeConfig$.once(_timeConfig => {
+    _timeConfig.focusedMoment
+      ? setTimestamp(_timeConfig.focusedMoment, setDateString, setTimeString)
       : setTimestamp(Date.now(), setDateString, setTimeString);
   });
 }

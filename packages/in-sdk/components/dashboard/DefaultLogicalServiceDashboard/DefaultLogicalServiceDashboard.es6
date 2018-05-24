@@ -6,19 +6,19 @@ import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDash
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
 
-export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) {
+export default function DefaultLogicalServiceDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <DefaultKpiSection snapshot={snapshot} />
 
-      <DefaultCharts snapshot={snapshot} timeframe={timeframe} />
+      <DefaultCharts snapshot={snapshot} timeConfig={timeConfig} />
 
-      <ClusterNodes snapshotId={snapshotId} timeframe={timeframe} />
+      <ClusterNodes snapshotId={snapshotId} timeConfig={timeConfig} />
 
-      <ServiceEndpointTable snapshot={snapshot} timeframe={timeframe} />
+      <ServiceEndpointTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <Connections snapshotId={snapshotId} timeframe={timeframe} />
+      <Connections snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

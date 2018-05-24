@@ -8,9 +8,9 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './TimePresenter.mless';
 
-export default function TimePresenter({ onClick, timeframe, className, expanded, refSetter }) {
+export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter }) {
   return (
-    <Tooltip align="bottomMiddle" content={getTooltipContent(timeframe)}>
+    <Tooltip align="bottomMiddle" content={getTooltipContent(timeConfig)}>
       <a
         className={joinClassNames(locals.wrapper, className)}
         href="#"
@@ -36,7 +36,7 @@ export default function TimePresenter({ onClick, timeframe, className, expanded,
             [locals.timeSettingExpanded]: expanded
           })}
         >
-          {format(timeframe)}
+          {format(timeConfig)}
         </span>
 
         <SvgIcon
@@ -52,9 +52,9 @@ export default function TimePresenter({ onClick, timeframe, className, expanded,
   );
 }
 
-function getTooltipContent(timeframe) {
-  const to = timeframe.to || Date.now();
-  const from = to - timeframe.windowSize;
+function getTooltipContent(timeConfig) {
+  const to = timeConfig.to || Date.now();
+  const from = to - timeConfig.windowSize;
 
   const fromDate = `${formatDate(from)} ${formatTime(from)}`;
   const toDate = `${formatDate(to)} ${formatTime(to)}`;

@@ -52,7 +52,7 @@ const cols = [
   }
 ];
 
-export default function HealthchecksTable({ snapshot, timeframe }) {
+export default function HealthchecksTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'healthchecks'], emptyList)
@@ -62,7 +62,7 @@ export default function HealthchecksTable({ snapshot, timeframe }) {
         key: name,
         name,
         snapshotId,
-        timeframe
+        timeConfig
       };
     });
 

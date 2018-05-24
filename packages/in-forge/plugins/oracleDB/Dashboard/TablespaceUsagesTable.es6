@@ -69,7 +69,7 @@ const cols = [
   }
 ];
 
-export default function DatasourcesTable({ snapshot, timeframe }) {
+export default function DatasourcesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'tablespaces'], emptyMap)
@@ -77,7 +77,7 @@ export default function DatasourcesTable({ snapshot, timeframe }) {
       return {
         key,
         tablespace,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     })
@@ -100,7 +100,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: bytes.detailed,
           metrics: ['stats.tablespaceStats.' + row.key + '.usedSpace'],
@@ -110,7 +110,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           min: 0,
           max: 1,

@@ -3,15 +3,11 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-dynamic-aggregated-metric',
 
-  getId({ snapshotId, metric, timeframe, aggregation, blockSizeMillis }) {
-    return snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + blockSizeMillis;
-  },
-
-  getData(subscriptionId, { snapshotId, metric, timeframe, aggregation, blockSizeMillis, metricBaseMillis }) {
+  getData(subscriptionId, { snapshotId, metric, timeConfig, aggregation, blockSizeMillis, metricBaseMillis }) {
     return {
       subscriptionId,
       snapshotId,
-      timeframe,
+      timeConfig,
       metric,
       aggregation,
       blockSizeMillis,
@@ -19,10 +15,10 @@ export default createSubscription({
     };
   },
 
-  transform(observable, { timeframe }) {
+  transform(observable, { timeConfig }) {
     // In case of resubscribes to the same dynamicAggregation observable, ensure that subscribers
     // also get the initial value. The initial value would contain the historic values. This is
-    // only problematic with timeframe.to == null, i.e. live mode. Because in live mode, live updates
+    // only problematic with timeConfig.to == null, i.e. live mode. Because in live mode, live updates
     // would overwrite the historic value in the obserable (behavior subject).
 
     return observable.scan((allDataPoints, newDataPoints) => {
@@ -34,7 +30,7 @@ export default createSubscription({
       }
 
       allDataPoints = allDataPoints || [];
-      const lastValidTimestamp = (timeframe.to == null ? Date.now() : timeframe.to) - timeframe.windowSize;
+      const lastValidTimestamp = (timeConfig.to == null ? Date.now() : timeConfig.to) - timeConfig.windowSize;
 
       const result = allDataPoints
         .filter(

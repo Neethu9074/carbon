@@ -9,7 +9,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
-export default function ClickHouseDashboard({ snapshot, timeframe }) {
+export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
@@ -41,7 +41,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Query">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['QueryThread'],
@@ -59,7 +59,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Merge">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Merge'],
@@ -73,7 +73,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Reads versus Writes">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Read'],
@@ -93,7 +93,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Tasks">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['BackgroundPoolTask'],
@@ -108,7 +108,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Connections">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['HTTPConnection', 'TCPConnection', 'InterserverConnection'],
@@ -120,7 +120,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['MemoryTracking', 'MemoryTrackingInBackgroundProcessingPool', 'MemoryTrackingForMerges'],
@@ -133,7 +133,7 @@ export default function ClickHouseDashboard({ snapshot, timeframe }) {
       <DashboardSection title="File IO">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['OpenFileForRead', 'OpenFileForWrite'],

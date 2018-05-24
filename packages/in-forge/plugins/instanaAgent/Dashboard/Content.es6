@@ -8,7 +8,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
-export default function InstanaAgentDashboard({ snapshot, timeframe }) {
+export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -25,7 +25,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
           <DashboardSection title="CPU Load">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['cpu.load'],
@@ -38,7 +38,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.total']),
@@ -64,7 +64,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Network">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesPerSecondTwoDecimalPlaces,
@@ -78,7 +78,7 @@ export default function InstanaAgentDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Sensors">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],

@@ -5,6 +5,7 @@ import EntityColumnContent from 'in-views/traceView/components/EntityColumnConte
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import { setSortBy, sortBy$ } from 'in-views/traceView/stores/sortBy';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
 import { selectedTraceId } from 'in-stores/traces';
@@ -69,7 +70,7 @@ const cols = [
       return serviceSnapshotId ? (
         <EntityColumnContent
           serviceSnapshotId={serviceSnapshotId}
-          time={row.rawTrace.startMillis}
+          timeConfig={getTimeConfigAtMoment(row.rawTrace.startMillis)}
           getLabelCallback={label =>
             getServiceLabelWithEndpoint(label, row.rawTrace.raw.get('destinationEndpointLabel'))
           }

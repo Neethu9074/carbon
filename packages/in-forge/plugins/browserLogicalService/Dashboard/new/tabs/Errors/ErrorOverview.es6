@@ -7,7 +7,7 @@ import Chart from 'in-components/Chart';
 import Title from 'in-components/Title';
 
 export default function ErrorOverview(props) {
-  const { snapshot, timeframe } = props;
+  const { snapshot, timeConfig } = props;
 
   return (
     <div>
@@ -15,7 +15,7 @@ export default function ErrorOverview(props) {
       <DashboardTile title="Errors Over Time">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: number.compact,

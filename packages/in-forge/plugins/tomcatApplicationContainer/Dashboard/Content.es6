@@ -11,7 +11,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function TomcatDashboard({ snapshot, timeframe }) {
+export default function TomcatDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
@@ -25,7 +25,7 @@ export default function TomcatDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Total session count">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -36,10 +36,10 @@ export default function TomcatDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <WebAppsTable snapshot={snapshot} timeframe={timeframe} />
-      <ConnectorsTable snapshot={snapshot} timeframe={timeframe} />
-      <ExecutorsTable snapshot={snapshot} timeframe={timeframe} />
-      <DataSourcesTable snapshot={snapshot} timeframe={timeframe} />
+      <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ConnectorsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ExecutorsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DataSourcesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

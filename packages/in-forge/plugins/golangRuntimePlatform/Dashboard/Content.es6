@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function GolangDashboard({ snapshot, timeframe }) {
+export default function GolangDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -26,15 +26,15 @@ export default function GolangDashboard({ snapshot, timeframe }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Memory Usage">{renderMemoryMetrics(snapshot, timeConfig)}</DashboardSection>
 
-        <DashboardSection title="Heap Usage">{renderHeapMetrics(snapshot, timeframe)}</DashboardSection>
+        <DashboardSection title="Heap Usage">{renderHeapMetrics(snapshot, timeConfig)}</DashboardSection>
       </Columize>
 
       <DashboardSection title="GC Activity">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: timeNs,
@@ -48,7 +48,7 @@ export default function GolangDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Goroutines">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.goroutine'],
@@ -61,11 +61,11 @@ export default function GolangDashboard({ snapshot, timeframe }) {
   );
 }
 
-function renderHeapMetrics(snapshot, timeframe) {
+function renderHeapMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
@@ -83,11 +83,11 @@ function renderHeapMetrics(snapshot, timeframe) {
   );
 }
 
-function renderMemoryMetrics(snapshot, timeframe) {
+function renderMemoryMetrics(snapshot, timeConfig) {
   return (
     <Chart
       snapshotId={snapshot.get('id')}
-      timeframe={timeframe}
+      timeConfig={timeConfig}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,

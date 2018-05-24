@@ -13,7 +13,7 @@ import { bytesZeroDecimalPlaces, number, millis } from 'in-services/formatters/n
 import { emptyList } from 'in-services/fixedImmutables';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function MongoDBDashboard({ snapshot, timeframe }) {
+export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
   const replicaSet = snapshot.getIn(['data', 'repl.membersList'], emptyList);
@@ -61,7 +61,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Database Activity">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['documents.returned', 'documents.inserted', 'documents.updated', 'documents.deleted'],
             labels: ['Read', 'Inserted', 'Updated', 'Deleted'],
@@ -75,7 +75,7 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Clients">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['connections'],
@@ -86,9 +86,9 @@ export default function MongoDBDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <DatabaseSizesTable snapshot={snapshot} timeframe={timeframe} />
+      <DatabaseSizesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <ReplicationSetTable snapshot={snapshot} timeframe={timeframe} />
+      <ReplicationSetTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

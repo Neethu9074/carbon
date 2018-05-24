@@ -16,7 +16,7 @@ export default connectTo(
     }
 
     return {
-      snapshot: getSnapshot(props.snapshotId, props.time).startWith(null)
+      snapshot: getSnapshot(props.snapshotId, props.timeConfig).startWith(null)
     };
   },
   function SnapshotDescription({ snapshot }) {

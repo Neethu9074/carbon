@@ -2,6 +2,7 @@ import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import SnapshotDescription from 'in-components/SnapshotDescription';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { toHtml } from 'in-services/formatters/markdown';
 
 const MAX_PROBLEM_TEXT_LENGTH = 1000;
@@ -21,7 +22,7 @@ export default function EventContent({ showFullTextIfToLong, snapshotId, event, 
       </div>
 
       <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
-      <SnapshotDescription snapshotId={snapshotId} time={event.get('start')} />
+      <SnapshotDescription snapshotId={snapshotId} timeConfig={getTimeConfigAtMoment(event.get('start'))} />
     </div>
   );
 }

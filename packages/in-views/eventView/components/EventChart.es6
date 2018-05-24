@@ -40,8 +40,8 @@ export default addSection(
         <div className={block}>
           {triggeringMetrics.map(metric => {
             const metricName = metric.get('metricName');
-            const timeframe = getChartTimeframeByEvent({ event, to });
-            const rollup = getRollupForTimeframe(timeframe);
+            const timeConfig = getChartTimeframeByEvent({ event, to });
+            const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
 
             return (
@@ -53,7 +53,7 @@ export default addSection(
                 entityId={event.get('entityId')}
                 metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
-                timeframe$={always(timeframe)}
+                timeConfig$={always(timeConfig)}
                 timeConfig={getTimeConfigFromEvent(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
@@ -71,7 +71,7 @@ const ChartWrapper = connectTo(
   props => {
     return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.start);
   },
-  function ChartWrapper({ timeframe$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
+  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
@@ -84,9 +84,9 @@ const ChartWrapper = connectTo(
       const oneDay = 1000 * 60 * 60 * 24;
       forecastSensitivity = anomalyConfig.get('sensitivity', 50);
       focusedMoment = anomalyConfig.get('ts');
-      timeframe$ = timeframe$.map(timeframe => {
+      timeConfig$ = timeConfig$.map(timeConfig => {
         return {
-          to: timeframe.to ? timeframe.to : Date.now() + oneDay,
+          to: timeConfig.to ? timeConfig.to : Date.now() + oneDay,
           windowSize: oneDay * 14
         };
       });
@@ -96,7 +96,7 @@ const ChartWrapper = connectTo(
       <div className={`${block}__chart`}>
         <Chart
           snapshotId={metricAccessId}
-          timeframe$={timeframe$}
+          timeConfig$={timeConfig$}
           currentRollup={rollup}
           margins={{
             right: 1

@@ -44,11 +44,11 @@ export default connectTo(
 
     updateDatasource = props => {
       props = Object.create(props);
-      props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
+      props.rollup = getPixelAwareRollupSize(props.timeConfig, props.width);
 
       if (props.aggregation) {
         props.blockSizeMillis = getBlockSizeMillis({
-          windowSize: props.timeframe.windowSize,
+          windowSize: props.timeConfig.windowSize,
           maxDataPoints: 100,
           minPixelsPerBlock: 10,
           width: props.width,

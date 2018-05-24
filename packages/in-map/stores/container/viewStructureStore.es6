@@ -4,7 +4,7 @@ import createViewStructureObservable from 'in-subscription/view';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
@@ -21,8 +21,8 @@ const everythingMatches = {
 };
 
 export function getViewStructure() {
-  return combineLatest([view$, focusedMoment$, searchMatches$, debouncedQuery$, viewGrouping$]).flatMap(
-    ([viewType, focusedMoment, _searchMatches, query, grouping]) => {
+  return combineLatest([view$, timeConfig$, searchMatches$, debouncedQuery$, viewGrouping$]).flatMap(
+    ([viewType, timeConfig, _searchMatches, query, grouping]) => {
       if (!_searchMatches || _searchMatches.size === 0) {
         if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
           _searchMatches = everythingMatches;
@@ -30,7 +30,7 @@ export function getViewStructure() {
           _searchMatches = nothingMatches;
         }
       }
-      return createViewStructureObservable({ viewType, time: focusedMoment, grouping }).map(_viewStructure => {
+      return createViewStructureObservable({ viewType, timeConfig, grouping }).map(_viewStructure => {
         const groupIds = {};
         const hostIds = {};
         const layerIds = {};

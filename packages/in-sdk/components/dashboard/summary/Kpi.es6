@@ -12,7 +12,7 @@ const block = 'in-dash-sum-kpi';
 
 export default function Kpi({
   snapshotId,
-  timeframe,
+  timeConfig,
   metric,
   timeWindowAggregation,
   formatter,
@@ -24,7 +24,9 @@ export default function Kpi({
   let renderedPercentages = null;
   if (percentages != null) {
     if (percentages.length === 2) {
-      renderedPercentages = <DualPercentage percentages={percentages} snapshotId={snapshotId} timeframe={timeframe} />;
+      renderedPercentages = (
+        <DualPercentage percentages={percentages} snapshotId={snapshotId} timeConfig={timeConfig} />
+      );
     } else {
       throw new Error('Single percentage rendering not yet supported.');
     }
@@ -44,7 +46,7 @@ export default function Kpi({
           <MetricValue
             snapshotId={snapshotId}
             metric={metric}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             timeWindowAggregation={timeWindowAggregation}
             formatter={formatter}
             className={`${block}__value`}
@@ -64,7 +66,7 @@ const DualPercentage = connectTo(
         snapshotId: props.snapshotId,
         metric: props.percentages[0].metric,
         timeWindowAggregation: props.percentages[0].timeWindowAggregation,
-        timeframe: props.timeframe
+        timeConfig: props.timeConfig
       })
     };
   },
@@ -87,7 +89,7 @@ const ErrorPercentage = connectTo(props => {
       snapshotId: props.snapshotId,
       metric: props.metric,
       timeWindowAggregation: 'mean',
-      timeframe: props.timeframe
+      timeConfig: props.timeConfig
     })
   };
 }, ErrorBar);

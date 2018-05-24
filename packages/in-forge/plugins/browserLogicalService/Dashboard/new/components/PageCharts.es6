@@ -5,14 +5,14 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
-export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' }) {
+export default function PageCharts({ snapshotId, timeConfig, metricPrefix = '' }) {
   return (
     <div>
       <Columize>
         <DashboardSection title="Views">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
@@ -27,7 +27,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
         <DashboardSection title="XHR / AJAX">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
@@ -49,7 +49,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -63,7 +63,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       <DashboardSection title="Page Load Time">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             min: 0,
@@ -85,7 +85,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       <DashboardSection title="Page Load Breakdown">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,
@@ -110,7 +110,7 @@ export default function PageCharts({ snapshotId, timeframe, metricPrefix = '' })
       <DashboardSection title="Paint Timing">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: msTwoDecimalPlaces,

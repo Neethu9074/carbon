@@ -77,7 +77,7 @@ const cols = [
   }
 ];
 
-export default function ReplicationSetTable({ snapshot, timeframe }) {
+export default function ReplicationSetTable({ snapshot, timeConfig }) {
   const replicaSet = snapshot.getIn(['data', 'repl.membersList'], emptyList).toArray();
 
   if (replicaSet.length == 0) {
@@ -87,7 +87,7 @@ export default function ReplicationSetTable({ snapshot, timeframe }) {
   const rows = [
     {
       key: 'relica_set',
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     }
   ];
@@ -105,7 +105,7 @@ function getRowDetails(row) {
       <DashboardSection title="Apply Operations">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
@@ -125,7 +125,7 @@ function getRowDetails(row) {
       <DashboardSection title="Buffer">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
@@ -145,7 +145,7 @@ function getRowDetails(row) {
       <DashboardSection title="Network">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
@@ -165,7 +165,7 @@ function getRowDetails(row) {
       <DashboardSection title="Preload">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
@@ -185,7 +185,7 @@ function getRowDetails(row) {
       <DashboardSection title="Replication Performance">
         <Chart
           snapshotId={row.snapshotId}
-          timeframe={row.timeframe}
+          timeConfig={row.timeConfig}
           y1={{
             formatter: millis.compact,
             tooltipFormatter: millis.compact,

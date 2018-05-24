@@ -69,7 +69,7 @@ const cols = [
   }
 ];
 
-export default function CacheManagersTable({ snapshot, timeframe }) {
+export default function CacheManagersTable({ snapshot, timeConfig }) {
   const caches = snapshot.getIn(['data', 'cache_managers'], emptyList).toArray();
 
   if (caches.size === 0) {
@@ -79,7 +79,7 @@ export default function CacheManagersTable({ snapshot, timeframe }) {
   const rows = caches.map(cache => {
     return {
       key: cache,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id')
     };
   });
@@ -96,7 +96,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [

@@ -6,7 +6,7 @@ import createContainersForPodSubscription from 'in-subscription/containersForPod
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -83,8 +83,8 @@ export default function KubernetesPodDashboard({ snapshot }) {
 
 const ContainerTable = connectTo(
   props => ({
-    containerSnapshots: focusedMoment$
-      .flatMap(time => createContainersForPodSubscription({ snapshotId: props.snapshotId, time }))
+    containerSnapshots: timeConfig$
+      .flatMap(timeConfig => createContainersForPodSubscription({ snapshotId: props.snapshotId, timeConfig }))
       .flatMap(snapshots => (snapshots != null ? getSnapshots(snapshots) : alwaysEmptyArray))
   }),
   function ContainerTable({ snapshotId, snapshot, containerSnapshots }) {

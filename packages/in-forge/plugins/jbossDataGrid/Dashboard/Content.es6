@@ -14,20 +14,20 @@ import JgroupsDefaultThreadPoolTable from './JgroupsDefaultThreadPoolTable.es6';
 import JgroupsOOBThreadPoolTable from './JgroupsOOBThreadPoolTable.es6';
 import JgroupsTimerThreadPoolTable from './JgroupsTimerThreadPoolTable.es6';
 
-export default function JbossDataGridDashboard({ snapshot, timeframe }) {
+export default function JbossDataGridDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <JgroupsOOBThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
-      <JgroupsTimerThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
-      <JgroupsDefaultThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
-      <CacheLatencyThroughputTable snapshot={snapshot} timeframe={timeframe} />
-      <CacheHitsAndMissesTable snapshot={snapshot} timeframe={timeframe} />
-      <CacheOtherStatsTable snapshot={snapshot} timeframe={timeframe} />
-      <CacheManagersTable snapshot={snapshot} timeframe={timeframe} />
+      <JgroupsOOBThreadPoolTable snapshot={snapshot} timeConfig={timeConfig} />
+      <JgroupsTimerThreadPoolTable snapshot={snapshot} timeConfig={timeConfig} />
+      <JgroupsDefaultThreadPoolTable snapshot={snapshot} timeConfig={timeConfig} />
+      <CacheLatencyThroughputTable snapshot={snapshot} timeConfig={timeConfig} />
+      <CacheHitsAndMissesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <CacheOtherStatsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <CacheManagersTable snapshot={snapshot} timeConfig={timeConfig} />
       <DashboardSection title="Hot Rod Connections">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['hotRod.numberOfLocalConnections', 'hotRod.numberOfGlobalConnections'],

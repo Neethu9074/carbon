@@ -20,7 +20,7 @@ import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { loadImage } from 'in-map/services/imageLoader';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import { eventBus } from 'in-map/services/eventBus';
 
 const START_POS = 100000;
@@ -77,12 +77,12 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.startSubscription = combineLatest([particlesAreActive$, focusedMoment$]).subscribe(
-      ([particlesAreActive, focusedMoment]) => {
+    this.startSubscription = combineLatest([particlesAreActive$, timeConfig$]).subscribe(
+      ([particlesAreActive, timeConfig]) => {
         this.stop();
 
         if (particlesAreActive) {
-          if (focusedMoment) {
+          if (timeConfig.focusedMoment != null) {
             this.startStatic();
           } else {
             this.start();

@@ -64,7 +64,7 @@ const cols = [
   }
 ];
 
-export default function PageAssetTable({ snapshot, timeframe }) {
+export default function PageAssetTable({ snapshot, timeConfig }) {
   const rows = snapshot
     .getIn(['data', 'service_endpoints'], emptyList)
     .toArray()
@@ -72,7 +72,7 @@ export default function PageAssetTable({ snapshot, timeframe }) {
       return {
         key: endpointName,
         snapshotId: snapshot.get('id'),
-        timeframe: timeframe
+        timeConfig: timeConfig
       };
     });
 
@@ -88,5 +88,5 @@ export default function PageAssetTable({ snapshot, timeframe }) {
 }
 
 function getRowDetails(row) {
-  return <PageAssetCharts snapshotId={row.snapshotId} timeframe={row.timeframe} prefix={`endpoint.${row.key}.`} />;
+  return <PageAssetCharts snapshotId={row.snapshotId} timeConfig={row.timeConfig} prefix={`endpoint.${row.key}.`} />;
 }

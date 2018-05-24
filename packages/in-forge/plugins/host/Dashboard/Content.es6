@@ -26,7 +26,7 @@ import './Content.less';
 
 const block = 'in-forge-host-dashboard';
 
-export default function HostDashboard({ snapshot, timeframe }) {
+export default function HostDashboard({ snapshot, timeConfig }) {
   const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
 
   return (
@@ -47,7 +47,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
         <DashboardSection title="CPU Usage">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               max: 1,
@@ -63,7 +63,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
           <DashboardSection title="CPU Load">
             <Chart
               snapshotId={snapshot.get('id')}
-              timeframe={timeframe}
+              timeConfig={timeConfig}
               minRollup={5000}
               y1={{
                 min: 0,
@@ -78,12 +78,12 @@ export default function HostDashboard({ snapshot, timeframe }) {
         ) : null}
       </Columize>
 
-      <CpuTable snapshot={snapshot} timeframe={timeframe} />
+      <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title="Memory Used">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: 1,
@@ -100,7 +100,7 @@ export default function HostDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Swap Activity">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: twoDecimalPlaces,
@@ -112,14 +112,14 @@ export default function HostDashboard({ snapshot, timeframe }) {
         </DashboardSection>
       ) : null}
 
-      <FilesystemsTable snapshot={snapshot} timeframe={timeframe} />
+      <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
+      <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title="TCP Activity">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           height={200}
           y1={{
             type: 'line',
@@ -139,9 +139,9 @@ export default function HostDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {timeframe.to == null ? <ProcessTopList snapshot={snapshot} /> : null}
+      {timeConfig.to == null ? <ProcessTopList snapshot={snapshot} /> : null}
 
-      <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeframe={timeframe} />
+      <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 
       {role.canConfigureAgents ? (
         <DashboardSection title="Agent Management">

@@ -4,7 +4,7 @@ import { number, percentage, bytes, millis } from 'in-services/formatters/number
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function AwsRdsDashboard({ snapshot, timeframe }) {
+export default function AwsRdsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="CPU Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['cpu_utilization'],
             labels: ['CPU Utilization'],
@@ -31,7 +31,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Disk">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['disk_queue_depth', 'free_storage_space'],
             labels: ['Disk queue depth', 'Available storage space'],
@@ -50,7 +50,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="DB Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['db_connections'],
             labels: ['Connections'],
@@ -63,7 +63,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['freeable_memory', 'swap_usage'],
             labels: ['Freeable RAM', 'Swap usage'],
@@ -76,7 +76,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="IO operations">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['read_iops', 'write_iops'],
             labels: ['Read ops', 'Write ops'],
@@ -95,7 +95,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="IO Throughput">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['read_throughput', 'write_throughput'],
             labels: ['Read throughput', 'Write throughput'],
@@ -108,7 +108,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Network Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['net_receive_throughput', 'net_transmit_throughput'],
             labels: ['Receive throughput', 'Transmit throughput'],
@@ -121,7 +121,7 @@ export default function AwsRdsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Read Replica DB">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['replica_lag'],
             labels: ['Replica lag'],

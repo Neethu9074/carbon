@@ -205,9 +205,13 @@ export default function createChart(config) {
     const animate = () => {
       const now = Date.now();
       const scales = config.scales;
-      const windowSize = config.timeframe.windowSize;
+      const windowSize = config.timeConfig.windowSize;
       const chartWiggleRoom = config.chartWiggleRoom;
-      const to = config.timeframe.to || toServerTime(now, config.serverTimeOffset) - chartWiggleRoom;
+      const to =
+        (config.timeConfig.autoRefresh
+          ? toServerTime(now, config.serverTimeOffset)
+          : config.timeConfig.to || toServerTime(config.lastDataSourceRefreshTime, config.serverTimeOffset)) -
+        chartWiggleRoom;
 
       scales.x.setDomainFrom(to - windowSize + chartWiggleRoom);
       scales.x.setDomainTo(to);
@@ -240,7 +244,7 @@ export default function createChart(config) {
 
   function calculateMaxDistanceBetweenPoints() {
     const now = Date.now();
-    config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
+    config.scales.x.setDomainFrom(now - config.timeConfig.windowSize);
     config.scales.x.setDomainTo(now);
     const rollupSize = config.y1.dynamicCalculatedBlockSizeMillis || config.rollup.rollup || 1000;
 

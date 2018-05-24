@@ -7,7 +7,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number, bytes } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
-export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
+export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const v = snapshot.getIn(['data', 'cache_engine_version']);
   const newVersion = semver.satisfies(v, '>=1.4.14');
@@ -17,7 +17,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Bytes used">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_read_into_memcached', 'bytes_written_out_from_memcached', 'bytes_used_for_cache_items'],
@@ -30,7 +30,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Cache">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cas_hits', 'cas_misses', 'cas_badval'],
@@ -43,7 +43,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Commands">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_flush', 'cmd_get', 'cmd_set'],
@@ -57,7 +57,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Operations">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['get_hits', 'get_misses', 'delete_hits', 'delete_misses'],
@@ -70,7 +70,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Operations">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['incr_hits', 'incr_misses', 'decr_hits', 'decr_misses'],
@@ -84,7 +84,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Unused Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['unused_memory'],
@@ -95,7 +95,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      {newVersion ? <AwsEcNewMemcachedDashboard snapshot={snapshot} timeframe={timeframe} /> : null}
+      {newVersion ? <AwsEcNewMemcachedDashboard snapshot={snapshot} timeConfig={timeConfig} /> : null}
     </div>
   );
 }

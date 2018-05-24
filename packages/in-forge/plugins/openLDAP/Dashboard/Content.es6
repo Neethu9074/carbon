@@ -8,7 +8,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function OpenLDAPDashboard({ snapshot, timeframe }) {
+export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
@@ -26,7 +26,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Operations">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['ops_completed', 'ops_initiated'],
             labels: ['Completed', 'Initiated'],
@@ -38,7 +38,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['conn_total', 'conn_current'],
             labels: ['Total', 'Current'],
@@ -50,7 +50,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Bytes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['bytes'],
             labels: ['Bytes'],
@@ -62,7 +62,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Statistics">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['entries', 'pdus', 'referrals'],
             labels: ['Entries', 'Pdus', 'Referrals'],
@@ -74,7 +74,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Waiters">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['waiter_read', 'waiter_write'],
             labels: ['Read', 'Write'],
@@ -86,7 +86,7 @@ export default function OpenLDAPDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Threads">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['threads_active', 'threads_pending'],
             labels: ['Active', 'Pending'],

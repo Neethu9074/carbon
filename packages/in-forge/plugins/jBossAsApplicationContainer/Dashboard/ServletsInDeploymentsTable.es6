@@ -50,7 +50,7 @@ const cols = [
   }
 ];
 
-export default function ServletsTable({ deploymentContext, snapshot, timeframe }) {
+export default function ServletsTable({ deploymentContext, snapshot, timeConfig }) {
   const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyList);
   if (servlets.size === 0) {
     return null;
@@ -60,7 +60,7 @@ export default function ServletsTable({ deploymentContext, snapshot, timeframe }
     const servletKey = deploymentContext + '.' + key;
     return {
       key,
-      timeframe,
+      timeConfig,
       snapshotId: snapshot.get('id'),
       deploymentContext,
       servletKey
@@ -81,7 +81,7 @@ function getRowDetails(row) {
     <div>
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.avgResponseTime'],
@@ -91,7 +91,7 @@ function getRowDetails(row) {
       />
       <Chart
         snapshotId={row.snapshotId}
-        timeframe={row.timeframe}
+        timeConfig={row.timeConfig}
         y1={{
           metrics: ['servlets.' + servletKey + '.requests'],
           labels: ['Requests'],

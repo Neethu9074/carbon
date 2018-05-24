@@ -8,7 +8,7 @@ import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams'
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
-import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
@@ -28,26 +28,24 @@ export default connectTo(
     snapshotId: selectedSnapshotId$,
     // hide temporary unavailability due to loading lag
     snapshot: selectedSnapshot$,
-    timeframe: timeframe$,
-    showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$, selectedSnapshot$]).flatMap(
-      ([snapshotId]) => {
-        if (snapshotId == null) {
-          return alwaysFalse;
-        }
-
-        return timeout(5000)
-          .map(() => true)
-          .startWith(false);
+    timeConfig: timeConfig$,
+    showVersionSelector: combineLatest([selectedSnapshotId$, selectedSnapshot$]).flatMap(([snapshotId]) => {
+      if (snapshotId == null) {
+        return alwaysFalse;
       }
-    ),
+
+      return timeout(5000)
+        .map(() => true)
+        .startWith(false);
+    }),
 
     // snapshot versions
     versionsForFocusedMoment: getSnapshotVersionsByTime(),
-    versionsForLive: getSnapshotVersionsByTime(null)
+    versionsForLive: getSnapshotVersionsByTime(getTimeConfigAtMoment(null))
   },
   function DashboardContent({
     snapshot,
-    timeframe,
+    timeConfig,
     showVersionSelector,
     snapshotId,
     versionsForFocusedMoment,
@@ -90,7 +88,7 @@ export default connectTo(
         <div className="in-dashboard">
           <LegacyView />
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-          <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+          <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
         </div>
       );
     }
@@ -111,7 +109,7 @@ export default connectTo(
               </div>
               <div className={`${block}__content`}>
                 <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
-                  <Jail component={DashboardImpl} props={{ snapshot, timeframe }} />
+                  <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
                 </Sticky>
               </div>
             </div>
@@ -122,12 +120,12 @@ export default connectTo(
   }
 );
 
-function getSnapshotVersionsByTime(time) {
+function getSnapshotVersionsByTime(timeConfig) {
   return selectedSnapshotId$.flatMap(snapshotId => {
     if (!snapshotId) {
       return alwaysEmptyImmutableList;
     }
 
-    return getSnapshotVersions(snapshotId, time).startWith(null);
+    return getSnapshotVersions(snapshotId, timeConfig).startWith(null);
   });
 }

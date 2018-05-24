@@ -14,7 +14,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function DockerDashboard({ snapshot, timeframe }) {
+export default function DockerDashboard({ snapshot, timeConfig }) {
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
 
@@ -40,7 +40,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
       <DashboardSection title="CPU">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
@@ -51,7 +51,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         />
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpu.throttling_count'],
@@ -73,7 +73,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         >
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
@@ -84,7 +84,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
           />
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
@@ -99,7 +99,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Block IO">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['blkio.blk_read', 'blkio.blk_write'],
@@ -113,7 +113,7 @@ export default function DockerDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Network">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesTwoDecimalPlaces,

@@ -24,7 +24,7 @@ export default connectTo(
         entity: just(props.snapshot)
       };
     } else {
-      return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.time);
+      return getEntityOfType(props.entityId, props.entityType, props.timeConfig);
     }
   },
   function EntityInformation(props) {
@@ -53,7 +53,7 @@ export default connectTo(
 );
 
 // TODO consider moving this method to a more suiteable component?
-export function getEntityOfType(entityId, entityType, timeConfig, time) {
+export function getEntityOfType(entityId, entityType, timeConfig) {
   if (entityType === 'App20') {
     return {
       entity: getApplication({ id: entityId })
@@ -75,7 +75,7 @@ export function getEntityOfType(entityId, entityType, timeConfig, time) {
     };
   } else {
     return {
-      entity: getSnapshot(entityId, time)
+      entity: getSnapshot(entityId, timeConfig)
     };
   }
 }

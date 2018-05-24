@@ -6,7 +6,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 
-export default function PhpFpmDashboard({ snapshot, timeframe }) {
+export default function PhpFpmDashboard({ snapshot, timeConfig }) {
   const pools = snapshot.getIn(['data', 'worker_pools'], emptyList);
   if (pools.size === 0) {
     return <span>No Worker Pools found</span>;
@@ -17,7 +17,7 @@ export default function PhpFpmDashboard({ snapshot, timeframe }) {
       {pools.map(
         pool =>
           isStatusPathEnabled(snapshot, pool) ? (
-            <WorkerPoolMetrics key={pool} snapshot={snapshot} timeframe={timeframe} pool={pool} />
+            <WorkerPoolMetrics key={pool} snapshot={snapshot} timeConfig={timeConfig} pool={pool} />
           ) : (
             <DashboardNotification key={pool} type="info">
               In order to monitor the worker pool {pool}, you need to enable <code>pm.status_path</code> in your PHP-FPM
@@ -29,7 +29,7 @@ export default function PhpFpmDashboard({ snapshot, timeframe }) {
   );
 }
 
-function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
+function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
 
@@ -38,7 +38,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
       <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -66,7 +66,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
       <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: twoDecimalPlaces,
@@ -90,7 +90,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeframe }) {
       <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,

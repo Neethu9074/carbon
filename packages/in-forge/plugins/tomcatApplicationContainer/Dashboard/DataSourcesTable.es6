@@ -64,7 +64,7 @@ const cols = [
   }
 ];
 
-export default function DataSourcesTable({ snapshot, timeframe }) {
+export default function DataSourcesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'datasource-config'], emptyMap)
@@ -72,7 +72,7 @@ export default function DataSourcesTable({ snapshot, timeframe }) {
       return {
         key: id,
         datasource,
-        timeframe,
+        timeConfig,
         snapshotId
       };
     })
@@ -94,7 +94,7 @@ function getRowDetails(row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeframe={row.timeframe}
+      timeConfig={row.timeConfig}
       y1={{
         metrics: ['datasources.' + row.key + '.active'],
         labels: ['Active connections'],

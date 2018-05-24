@@ -3,21 +3,6 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-historic-metric',
 
-  getId({ snapshotId, metric, timeframe, rollup, focusedMoment }) {
-    return snapshotId + metric + timeframe.windowSize + timeframe.to + rollup + focusedMoment;
-  },
-
-  getData(subscriptionId, { snapshotId, metric, timeframe, rollup, focusedMoment }) {
-    return {
-      subscriptionId,
-      snapshotId,
-      focusedMoment,
-      timeframe,
-      metric,
-      rollup
-    };
-  },
-
   transform(observable) {
     return observable.map(dataPoints => {
       for (let i = 0, len = dataPoints.length; i < len; i++) {

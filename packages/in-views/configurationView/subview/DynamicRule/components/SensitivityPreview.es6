@@ -11,7 +11,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
-import { timeframe$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -127,15 +127,18 @@ function getRowDetails(row) {
   const oneDay = 1000 * 60 * 60 * 24;
 
   const chartTimeframe$ = __DEV__
-    ? timeframe$.map(timeframe => {
+    ? timeConfig$.map(timeConfig => {
         return {
-          to: (timeframe.to || Date.now()) + oneDay,
-          windowSize: timeframe.windowSize + oneDay
+          ...timeConfig,
+          to: (timeConfig.to || Date.now()) + oneDay,
+          windowSize: timeConfig.windowSize + oneDay
         };
       })
     : always({
         to: row.timeOpened + oneDay,
-        windowSize: oneDay * 13
+        focusedMoment: row.timeOpened + oneDay,
+        windowSize: oneDay * 13,
+        autoRefresh: false
       });
 
   return (
@@ -153,13 +156,13 @@ function getRowDetails(row) {
 const PreviewChart = connectTo(
   props => {
     return {
-      forecastAvailable: props.chartTimeframe$.flatMap(timeframe =>
+      forecastAvailable: props.chartTimeframe$.flatMap(timeConfig =>
         getMetricsForTimeframe({
           snapshotId: props.snapshot.get('id'),
           // subscribe to one of the forecast metrics.
           // if it's not responding or with an empty result -> there are no forecasts available
           metric: props.metricDefinition.value + '.forecast.high.' + props.sensitivity,
-          timeframe,
+          timeConfig,
           rollup: 1000 * 60 * 60
         }).map(metricValues => (metricValues && metricValues.length > 0 ? true : false))
       )
@@ -212,7 +215,7 @@ const PreviewChart = connectTo(
         <div className={`${block}__chart-wrapper`}>
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe$={chartTimeframe$}
+            timeConfig$={chartTimeframe$}
             margins={{
               right: 1
             }}

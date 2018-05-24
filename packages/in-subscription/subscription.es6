@@ -34,7 +34,7 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
 export default function<PARAM, RESULT>({
   eventId,
   getId = generateStableHash,
-  getData,
+  getData = defaultGetData,
   memoizeFor = 10000,
   disposeSubscriptionOnDocumentHidden = true,
   transform
@@ -82,4 +82,11 @@ function createObservable<PARAM, RESULT>(
   function onData(data) {
     observable.emit(data);
   }
+}
+
+function defaultGetData(subscriptionId, params) {
+  return {
+    subscriptionId,
+    ...params
+  };
 }

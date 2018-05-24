@@ -5,16 +5,16 @@ import DefaultKpiSection from 'in-sdk/components/dashboard/DefaultLogicalService
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
 
-export default function DefaultLogicalServiceDashboard({ snapshot, timeframe }) {
+export default function DefaultLogicalServiceDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <DefaultKpiSection snapshot={snapshot} />
 
-      <DefaultCharts snapshot={snapshot} timeframe={timeframe} />
+      <DefaultCharts snapshot={snapshot} timeConfig={timeConfig} />
 
-      <ClusterNodes snapshotId={snapshot.get('id')} timeframe={timeframe} />
+      <ClusterNodes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
 
-      <Connections snapshotId={snapshot.get('id')} timeframe={timeframe} />
+      <Connections snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </div>
   );
 }

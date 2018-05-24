@@ -8,7 +8,7 @@ import { createStore, createTrackingStore } from 'in-stores/store';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { focusedMoment$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 
 const noProblemsHealthInfo = Map({
   maxSeverity: 0,
@@ -25,13 +25,13 @@ export const openEventsAtServerTime$ = openEventsAtServerTime.observable.distinc
 
 export function init() {
   createTotalRawEventsSubscription({
-    timeframe: { to: null, windowSize: 1 }
+    timeConfig: { to: null, windowSize: 1 }
   }).subscribe(result => openEventsAtServerTime.mutateTo(result));
 }
 
 export function getHealthInfoAtFocusedMoment(snapshotId) {
-  return focusedMoment$.flatMap(_focusedMoment =>
-    createHealthInfoSubscription({ focusedMoment: _focusedMoment, snapshotId })
+  return timeConfig$.flatMap(timeConfig =>
+    createHealthInfoSubscription({ timeConfig, snapshotId })
       // We are not transferring empty health info objects from backend => UI.
       // Instead, we assume that the typical case is that an entity has no issue
       // and therefore we immediately start this observable with an ok-state.
@@ -63,17 +63,17 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
   const state = event.get('state');
   const severity = event.getIn(['problem', 'severity'], 0);
 
-  return focusedMoment$
-    .map(focusedMoment => {
-      if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
-        return ifOpen({ event, severity, focusedMoment });
+  return timeConfig$
+    .map(timeConfig => {
+      if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
+        return ifOpen({ event, severity, timeConfig });
       }
-      return ifClosed({ event, severity, focusedMoment });
+      return ifClosed({ event, severity, timeConfig });
     })
     .distinct();
 }
 
-export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
+export function isEventOpenAtFocusedMoment(start, end, state, timeConfig) {
   // We must believe in state == open and should not use the focused moment to compare
   // against start and end (even when not in live mode) as processing lags may
   // cause the end date to be inaccurate.
@@ -82,11 +82,11 @@ export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
   }
 
   // live mode, state == closed which always means false
-  if (focusedMoment == null) {
+  if (timeConfig.focusedMoment == null) {
     return false;
   }
 
-  return start <= focusedMoment && focusedMoment < end;
+  return start <= timeConfig.focusedMoment && timeConfig.focusedMoment < end;
 }
 
 export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALUE) {
@@ -179,23 +179,21 @@ export function countEvents(events) {
   return counter;
 }
 
-export function getColorByEvent({ event, focusedMoment, theme = 'night' }) {
+export function getColorByEvent({ event, timeConfig, theme = 'night' }) {
   const severity = event.getIn(['problem', 'severity'], 0);
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
   const color = getColorBySeverity(severity);
 
-  // No focused moment? Then it is according to server time which means
-  // we color based on the state property.
-  if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
+  if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
     return color;
   }
   return getColorBySeverity(0, { theme });
 }
 
 export function getColorForEventAtFocusedMomentAsStream(event, theme) {
-  return focusedMoment$.map(focusedMoment => getColorByEvent({ event, focusedMoment, theme }));
+  return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, theme }));
 }
 
 export function getColorForMostSevereEvents(events) {

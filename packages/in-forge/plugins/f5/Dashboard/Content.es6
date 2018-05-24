@@ -9,7 +9,7 @@ import {
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function F5Dashboard({ snapshot, timeframe }) {
+export default function F5Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -17,7 +17,7 @@ export default function F5Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             max: snapshot.getIn(['data', 'memTotal']),
@@ -32,7 +32,7 @@ export default function F5Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="CPU Usage">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpuUsed'],
@@ -46,7 +46,7 @@ export default function F5Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="HTTP Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['httpRequests'],

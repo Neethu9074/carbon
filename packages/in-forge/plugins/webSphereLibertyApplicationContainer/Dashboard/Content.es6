@@ -9,7 +9,7 @@ import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';
 import SessionsTable from './SessionsTable';
 
-export default function WebSphereDashboard({ snapshot, timeframe }) {
+export default function WebSphereDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const monitorFeatureEnabled = data.get('monitorFeatureEnabled');
   const threadPoolStatsPresent = data.get('threadPool.threadPoolStatsPresent');
@@ -27,7 +27,7 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Thread Pool">
           <Chart
             snapshotId={snapshot.get('id')}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['threadPool.activeThreads', 'threadPool.poolSize'],
@@ -43,9 +43,9 @@ export default function WebSphereDashboard({ snapshot, timeframe }) {
           overridden and not visible.
         </DashboardNotification>
       )}
-      <ServletsTable snapshot={snapshot} timeframe={timeframe} />
-      <ConnectionPoolsTable snapshot={snapshot} timeframe={timeframe} />
-      <SessionsTable snapshot={snapshot} timeframe={timeframe} />
+      <ServletsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ConnectionPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <SessionsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

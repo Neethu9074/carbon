@@ -12,7 +12,7 @@ import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-export default function ClrDashboard({ snapshot, timeframe }) {
+export default function ClrDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -36,7 +36,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Garbage Collections">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['mem.gen0GC', 'mem.gen1GC', 'mem.gen2GC'],
@@ -58,7 +58,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Sizes of Heaps">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
@@ -71,7 +71,7 @@ export default function ClrDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Thread-Locks and Contention">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: zeroDecimalPlaces,

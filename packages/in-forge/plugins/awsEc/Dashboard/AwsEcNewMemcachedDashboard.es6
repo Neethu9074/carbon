@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
-export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
+export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -12,7 +12,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Hashing">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_hash'],
@@ -25,7 +25,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Config Commands">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_config_get', 'cmd_config_set', 'cmd_touch'],
@@ -38,7 +38,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Commands">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_touch'],
@@ -51,7 +51,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Eviction">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['evicted_unfetched', 'expired_unfetched'],
@@ -64,7 +64,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Touch">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['touch_hits', 'touch_misses'],
@@ -77,7 +77,7 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Slabs Moved">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['slabs_moved'],

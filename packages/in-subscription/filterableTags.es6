@@ -5,14 +5,10 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-filterable-tags',
 
-  getId(time) {
-    return time;
-  },
-
-  getData(subscriptionId, time) {
+  getData(subscriptionId, timeConfig) {
     return {
       subscriptionId,
-      time
+      timeConfig
     };
   },
 

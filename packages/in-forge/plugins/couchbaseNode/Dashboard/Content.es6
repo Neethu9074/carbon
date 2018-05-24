@@ -11,7 +11,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.es6';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable.es6';
 
-export default function CouchbaseDashboard({ snapshot, timeframe }) {
+export default function CouchbaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -30,7 +30,7 @@ export default function CouchbaseDashboard({ snapshot, timeframe }) {
         <Columize>
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['node.mem_used'],
               labels: ['Used memory'],
@@ -42,7 +42,7 @@ export default function CouchbaseDashboard({ snapshot, timeframe }) {
           />
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               metrics: ['node.couch_docs_actual_disk_size'],
               labels: ['Used disk'],
@@ -58,7 +58,7 @@ export default function CouchbaseDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Disk Drain">
         <Chart
           snapshotId={snapshot.get('id')}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             formatter: number.compact,
@@ -76,7 +76,7 @@ export default function CouchbaseDashboard({ snapshot, timeframe }) {
         />
       </DashboardSection>
 
-      <BucketsTable snapshot={snapshot} timeframe={timeframe} bucketMetricsPrefix={BUCKET_METRICS_PREFIX} />
+      <BucketsTable snapshot={snapshot} timeConfig={timeConfig} bucketMetricsPrefix={BUCKET_METRICS_PREFIX} />
     </div>
   );
 }
