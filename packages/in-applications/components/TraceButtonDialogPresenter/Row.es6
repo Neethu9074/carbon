@@ -4,6 +4,7 @@ import React from 'react';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { getTracesCount } from 'in-applications/components/TracesButton';
 import { number, percentage } from 'in-services/formatters/number';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import backButtonStore from 'in-analyze/stores/backButtonStore';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -31,14 +32,22 @@ export default connectTo(
 
     const linkToAnalyze =
       applicationId || serviceId || endpointId ? getLinkToAnalyze({ applicationId, serviceId, endpointId }) : null;
+    const prepareBackButton = storeBackButtonParameters.bind(null, backButtonLabels);
     return (
-      <div className={locals.row}>
-        <div className={locals.heading}>
-          <EntityWithTypeAndIcon label={label} type={type} iconType={iconType} />
-          <ValueAndPercentage href$={linkToAnalyze} value={value} total={total} backButtonLabels={backButtonLabels} />
+      <Link className={locals.link} href$={linkToAnalyze} onClick={prepareBackButton}>
+        <div
+          className={evaluateClassNames({
+            [locals.row]: true,
+            [locals.selectableRow]: linkToAnalyze
+          })}
+        >
+          <div className={locals.heading}>
+            <EntityWithTypeAndIcon label={label} type={type} iconType={iconType} />
+            <ValueAndPercentage value={value} total={total} />
+          </div>
+          <Bar percentage={value / total} />
         </div>
-        <Bar percentage={value / total} />
-      </div>
+      </Link>
     );
   }
 );
@@ -55,18 +64,14 @@ function storeBackButtonParameters(backButtonLabels) {
   });
 }
 
-function ValueAndPercentage({ value, total, href$, backButtonLabels }) {
+function ValueAndPercentage({ value, total }) {
   const renderedValue = value == null ? '––' : number.compact(value);
-  const LinkOrSpan = href$ ? Link : 'span';
-  const prepareBackButton = storeBackButtonParameters.bind(null, backButtonLabels);
   return (
     <div className={locals.valueAndPercentageWrapper}>
-      <LinkOrSpan href$={href$} onClick={prepareBackButton}>
-        {renderedValue}
-      </LinkOrSpan>
-      <LinkOrSpan onClick={prepareBackButton} className={locals.percentage}>
+      {renderedValue}
+      <span className={locals.percentage}>
         {value != null && total != null && `(${percentage.detailed(value / total)})`}
-      </LinkOrSpan>
+      </span>
     </div>
   );
 }

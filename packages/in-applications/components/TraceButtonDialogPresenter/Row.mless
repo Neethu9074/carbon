@@ -1,7 +1,17 @@
+@import '~in-themes/active.less';
+
 :local {
   .row {
     display: block;
+
     width: 100%;
+    padding: 0.5rem;
+  }
+
+  .selectableRow {
+    &:hover {
+      background: @lib__colors__N100;
+    }
   }
 
   .heading {
@@ -11,7 +21,7 @@
 
     margin-bottom: 0.75rem;
     font-size: 0.875rem;
-    color: #16363e;
+    color: @lib__colors__N900Primary;
   }
 
   .outerBar,
@@ -24,14 +34,19 @@
     position: relative;
 
     background: #e8eef0;
-    margin-bottom: 0.75rem;
   }
 
   .valueAndPercentageWrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 0 0 0 2rem;
+    margin-left: 2rem;
+  }
+
+  .link {
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   .percentage {
