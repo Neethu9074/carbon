@@ -20,7 +20,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
 
   callFrames.forEach(callFrame => {
     minDomain = Math.min(minDomain, callFrame.x);
-    maxDomain = Math.max(maxDomain, callFrame.x);
+    maxDomain = Math.max(maxDomain, callFrame.x + callFrame.dx);
     maxDepth = Math.max(maxDepth, callFrame.depth);
   });
 
