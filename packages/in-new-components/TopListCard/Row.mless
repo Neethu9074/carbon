@@ -46,7 +46,7 @@
 
   .metric {
     font-size: 0.875rem;
-    font-weight: bold;
+    font-weight: 600;
     color: @lib__colors__N900Primary;
   }
 }
