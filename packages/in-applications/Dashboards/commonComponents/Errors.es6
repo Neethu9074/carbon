@@ -4,6 +4,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { percentage } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 export default function Errors({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeConfig);
@@ -17,7 +18,7 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
           renderer: Renderer.bar,
           formatter: percentage,
           labels: ['Errors'],
-          colors: ['#E35485'],
+          colors: [theme.lib.colors.failure],
           metricIds: ['errors']
         }}
         metricsConfiguration={{
