@@ -21,7 +21,7 @@
   }
 
   .timeIcon {
-    fill: @lib__colors__orange800;
+    fill: @lib__colors__primary1;
   }
 
   .toggleIcon {

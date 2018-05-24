@@ -26,7 +26,7 @@ export default function TimePresenter({ onClick, timeframe, className, expanded,
             [locals.timeIcon]: true,
             [locals.timeIconExpanded]: expanded
           })}
-          type="lib_datetime_time"
+          type="lib_datetime_time_inverted"
           width={24}
         />
 
