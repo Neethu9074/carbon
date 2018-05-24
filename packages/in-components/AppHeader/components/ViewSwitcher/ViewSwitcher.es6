@@ -80,17 +80,23 @@ export default pure(function ViewSwitcher() {
           />
         )}
 
-        {twoZeroModeEnabled && (
-          <View
-            label="Application"
-            icon="lib_application_invert"
-            isActive$={isView(isApplicationsView, isAnalyzeView)}
-            href$={getView(applicationsList)}
-          />
-        )}
+        {twoZeroModeEnabled &&
+          !previewTwoZeroWithoutHybrid && (
+            <View
+              label="Application"
+              icon="lib_application_invert"
+              isActive$={isView(isApplicationsView, isAnalyzeView)}
+              href$={getView(applicationsList)}
+            />
+          )}
 
         {!twoZeroModeEnabled && (
-          <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+          <View
+            label="Websites"
+            icon="lib_website_inverted"
+            href$={getView(websitePath)}
+            isActive$={isView(websitePath)}
+          />
         )}
 
         {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
