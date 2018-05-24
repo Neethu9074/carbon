@@ -39,9 +39,7 @@ export function getTimeConfig(params) {
       Math.max(minimumWindowSize, getInt(params.query, urlQueryKeys.windowSize, defaultWindowSize))
     ),
     focusedMoment: to == null ? null : getInt(params.query, urlQueryKeys.focusedMoment, to),
-    autoRefresh:
-      to == null &&
-      ((twoZeroModeEnabled && params.query[urlQueryKeys.autoRefresh]) === 'true' || (!twoZeroModeEnabled && to == null))
+    autoRefresh: to == null && (!twoZeroModeEnabled || params.query[urlQueryKeys.autoRefresh] === 'true')
   };
 }
 
