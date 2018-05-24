@@ -21,6 +21,7 @@ export default function ConsulInfo({ snapshot }) {
         <DescriptionItem title="Build Revision">{data.get('revision')}</DescriptionItem>
         <DescriptionItem title="Build Version">{data.get('version')}</DescriptionItem>
         <DescriptionItem title="Protocol Version">{data.get('raft.protocolVersion')}</DescriptionItem>
+        <DescriptionItem title="Last Contact">{data.get('raft.lastContact')}</DescriptionItem>
       </DescriptionList>
     </div>
   );
