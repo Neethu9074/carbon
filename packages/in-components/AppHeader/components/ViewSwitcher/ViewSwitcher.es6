@@ -71,15 +71,6 @@ export default pure(function ViewSwitcher() {
           </View>
         )}
 
-        {!twoZeroModeEnabled && (
-          <View
-            label="Websites"
-            icon="lib_website_inverted"
-            href$={getView(websitePath)}
-            isActive$={isView(websitePath)}
-          />
-        )}
-
         {twoZeroModeEnabled &&
           !previewTwoZeroWithoutHybrid && (
             <View

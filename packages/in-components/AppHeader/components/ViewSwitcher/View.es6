@@ -16,7 +16,7 @@ export default connectTo(
       isActive: props.isActive$
     };
   },
-  function View({ href$, icon, iconSize, color, children, isActive }) {
+  function View({ href$, icon, label, iconSize, color, children, isActive }) {
     href$ = href$ || alwaysNull;
 
     let classes = block;
@@ -34,6 +34,7 @@ export default connectTo(
             height={iconSize || 32}
             color={color || '#9aa7ad'}
           />
+          <span className={`${block}__label`}>{label}</span>
         </Link>
 
         {children ? (
