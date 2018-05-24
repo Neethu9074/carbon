@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
-import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -99,7 +99,7 @@ function SubTypes({ result }) {
   return (
     <Fragment>
       <EndpointTypeBadgeList types={[result.data.type]} />
-      <TechnologyIndicator pluginOrGroupType={result.data.technology} />
+      <TechnologyIndicatorList technologies={result.data.technologies} />
     </Fragment>
   );
 }
