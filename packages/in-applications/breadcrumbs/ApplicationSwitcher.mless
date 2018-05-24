@@ -68,15 +68,4 @@
     margin-right: 0.5rem;
     fill: @lib__colors__N900Primary;
   }
-
-  .subSectionOthersHeading {
-    margin: 0;
-    font-size: 0.75rem;
-    margin: 0.5rem 0;
-    color: @lib__colors__N600Light;
-  }
-
-  .subSectionOthersHeading {
-    color: @lib__colors__N900Primary;
-  }
 }
