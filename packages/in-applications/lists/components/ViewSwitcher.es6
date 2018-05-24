@@ -19,11 +19,11 @@ export default connectTo(
     isServiceViewActive: isView(servicesList),
     numApplications: timeConfig$
       .flatMap(timeConfig => getApplications(getApplicationListSubscribeEvent(timeConfig)))
-      .map(result => (result.data != null && result.data.items != null ? result.data.items.length : null))
+      .map(mapResultToItemLength)
       .startWith(null),
     numServices: timeConfig$
       .flatMap(timeConfig => getServices(getServiceListSubscribeEvent(timeConfig)))
-      .map(result => (result.data != null && result.data.items != null ? result.data.items.length : null))
+      .map(mapResultToItemLength)
       .startWith(null)
   },
   function AppViewSwitcher({ isServiceViewActive, numApplications, numServices }) {
@@ -33,13 +33,13 @@ export default connectTo(
           <Link className={locals.link} href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
             <Tab className={locals.tab} isSelected={!isServiceViewActive}>
               Applications
-              {numApplications && ` (${numApplications})`}
+              {numApplications && <span className={locals.numberItemsIndicator}>{`(${numApplications})`}</span>}
             </Tab>
           </Link>
           <Link className={locals.link} href$={getModifiedUrlStream(p => (p.pathname = servicesList))}>
             <Tab className={locals.tab} isSelected={isServiceViewActive}>
               Services
-              {numServices && ` (${numServices})`}
+              {numServices && <span className={locals.numberItemsIndicator}>{`(${numServices})`}</span>}
             </Tab>
           </Link>
         </TabList>
@@ -47,3 +47,7 @@ export default connectTo(
     );
   }
 );
+
+function mapResultToItemLength(result) {
+  return result.data != null && result.data.items != null ? result.data.items.length : null;
+}
