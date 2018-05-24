@@ -111,7 +111,7 @@ export function getAxisMinMax(axis, filteredDataSeries) {
     maxValue = axis.max;
   }
 
-  return { minValue, maxValue };
+  return { minValue: 0, maxValue };
 }
 
 function getMinMaxValueForDataSeries(dataSeries) {

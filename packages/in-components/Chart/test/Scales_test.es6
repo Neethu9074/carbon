@@ -51,7 +51,7 @@ describe('in-components/Chart/Scales', () => {
 
       expect(scales.y2.getRangeFrom()).to.equal(50);
       expect(scales.y2.getRangeTo()).to.equal(0);
-      expect(scales.y2.getDomainFrom()).to.equal(1);
+      expect(scales.y2.getDomainFrom()).to.equal(0);
       expect(scales.y2.getDomainTo()).to.equal(20);
     });
 
@@ -79,10 +79,10 @@ describe('in-components/Chart/Scales', () => {
       });
       scales.update();
 
-      expect(scales.y1.getDomainFrom()).to.equal(-1);
+      expect(scales.y1.getDomainFrom()).to.equal(0);
       expect(scales.y1.getDomainTo()).to.equal(20);
 
-      expect(scales.y2.getDomainFrom()).to.equal(1);
+      expect(scales.y2.getDomainFrom()).to.equal(0);
       expect(scales.y2.getDomainTo()).to.equal(20);
     });
 
