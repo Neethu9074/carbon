@@ -14,6 +14,8 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
+import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
+import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { cockpitEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
@@ -89,7 +91,11 @@ export default pure(function ViewSwitcher() {
           />
         )}
 
-        <IncidentsMenuPoint />
+        {!twoZeroModeEnabled && (
+          <View label="Websites" icon="globe" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+        )}
+
+        {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
       </ul>
     </div>
   );

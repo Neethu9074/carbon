@@ -45,6 +45,8 @@ export const oneZeroAppDataEnabled =
 export const twoZeroAppDataEnabled =
   __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled') || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 
+export const previewTwoZeroWithoutHybrid = !oneZeroAppDataEnabled && twoZeroAppDataEnabled;
+
 const v2EnabledUserPreference =
   window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
 const v2EnabledViaQueryParam = window.location.hash && window.location.hash.indexOf('v2=true') >= 0;
