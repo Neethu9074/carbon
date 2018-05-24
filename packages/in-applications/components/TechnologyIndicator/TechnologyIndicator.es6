@@ -1,26 +1,13 @@
 import React from 'react';
 
-import {
-  getIconSvgPath as getIconSvgPathForType,
-  getSingular as getSingularForType
-} from 'in-applications/typeGroupRegistry';
-import { getIconSvgPath as getIconSvgPathForPlugin } from 'in-sdk/snapshot';
-import { getSingular as getSingularForPlugin } from 'in-sdk/pluginName';
-import unknownIconSvgPath from 'in-sdk/unknownIconPath';
+import { getIconSvgPath, getLabel } from 'in-applications/technologyRegistry';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './TechnologyIndicator.mless';
 
 export default function TechnologyIndicator({ pluginOrGroupType, showTechnologyLabel = true }) {
-  let path = getIconSvgPathForPlugin(pluginOrGroupType);
-  if (path === unknownIconSvgPath || !path) {
-    path = getIconSvgPathForType(pluginOrGroupType);
-  }
-
-  let label = getSingularForPlugin(pluginOrGroupType);
-  if (!label) {
-    label = getSingularForType(pluginOrGroupType);
-  }
+  const path = getIconSvgPath(pluginOrGroupType);
+  const label = getLabel(pluginOrGroupType);
 
   if (!label) {
     return null;
