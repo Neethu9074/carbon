@@ -3,7 +3,7 @@
 :local {
   .header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 
     width: 100%;
     padding: 1.5rem;

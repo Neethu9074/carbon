@@ -13,7 +13,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
     <div ref={refSetter} onMouseLeave={close}>
       <div className={locals.header}>
         <SvgIcon className={locals.headingIcon} type="lib_application_invert" width={40} height={40} />
-        You are looking at this Service in <br /> context of an Application:
+        Change Application Context
       </div>
 
       <div className={locals.content}>
