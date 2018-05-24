@@ -1,8 +1,11 @@
+@import '~in-themes/active.less';
+
 :local {
   .header {
-    background: #F4F7F8;
-    font-size: 1rem;
-    color: #47626A;
     padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    background: @lib__colors__N200;
+    color: @lib__colors__N700Medium;
   }
 }

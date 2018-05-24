@@ -21,3 +21,36 @@ export function getChartTimeframeByEvent({
 
   return timeConfig;
 }
+
+export function getTimeConfigFromEvent(event) {
+  const from = getFromOfEvent(event);
+  if (from === undefined) {
+    throw new Error('Could not derive time config from event.');
+  }
+
+  const to =
+    typeof event.get === 'function'
+      ? event.get('state') === 'closed' ? event.get('end') : null
+      : event.state === 'closed' ? event.end : null;
+
+  const toForWs = to || Date.now();
+  return {
+    to,
+    windowSize: toForWs - from,
+    autoRefresh: false
+  };
+}
+
+function getFromOfEvent(event) {
+  let from;
+  if (typeof event.getIn === 'function') {
+    from = event.getIn(['metadata', 'triggeringTime']);
+  }
+  if (from === undefined && event.metadata && event.metadata.triggeringTime) {
+    from = event.metadata.triggeringTime;
+  }
+  if (from === undefined) {
+    from = (typeof event.get === 'function' && event.get('start')) || event.start;
+  }
+  return from;
+}

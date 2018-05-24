@@ -47,13 +47,13 @@ export default function TopListPresenter(props) {
               renderedMetric={renderedMetric}
               metricValue={metricValue}
               maxValue={maxValue}
-              label={renderLabel(renderProps, item)}
+              label={renderLabel(renderProps, item, locals.label)}
             />
           );
         })}
       </ol>
 
-      {renderViewAll && <div className={locals.viewAll}>{renderViewAll(props)}</div>}
+      {renderViewAll && <div className={locals.viewAll}>{renderViewAll(props, locals.viewAllLink)}</div>}
     </div>
   );
 }

@@ -30,68 +30,11 @@ export default class Scales {
     scale.setRangeTo(0);
     scale.setRangeFrom(this.config.height);
 
-    let minValue = Number.MAX_VALUE;
-    let maxValue = 0;
-
-    const metrics = axis.metrics || [];
-    for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-      const isIgnoredIndex = this.filteredDataSeries.has(axis.labels[iMetric]);
-      if (isIgnoredIndex) {
-        continue;
-      }
-      const minMax = this.getMinMaxValueForDataSeries(metrics[iMetric]);
-
-      if (axis.valuesNeedToBeStacked) {
-        if (axis.calculateStackDifferences) {
-          maxValue += Math.max(0, minMax.maxValue - maxValue);
-        } else {
-          maxValue += minMax.maxValue;
-        }
-      } else {
-        maxValue = Math.max(maxValue, minMax.maxValue);
-      }
-      minValue = Math.min(minValue, minMax.minValue);
-    }
-
-    if (minValue == Number.MAX_VALUE) {
-      // use scale [0, 1] for empty data
-      minValue = 0;
-      maxValue = 1;
-    }
-
-    if (minValue == maxValue) {
-      if (maxValue <= 0) {
-        maxValue = 1;
-      } else {
-        // use scale [0, 2*max] to center the data vertically
-        minValue = 0;
-        maxValue = 2 * maxValue;
-      }
-    }
-
-    if (axis.min != null) {
-      minValue = axis.min;
-    }
-
-    if (axis.max != null) {
-      maxValue = axis.max;
-    }
-
+    const { minValue, maxValue } = getAxisMinMax(axis, this.filteredDataSeries);
     scale.setDomainFrom(minValue);
     scale.setDomainTo(maxValue);
 
     scale.tickPositions = getAxisTickPositions(scale, axis.formatter[0].detailed);
-  }
-
-  getMinMaxValueForDataSeries(dataSeries) {
-    let minValue = Number.MAX_VALUE;
-    let maxValue = 0;
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      maxValue = Math.max(maxValue, dataPoint[1]);
-      minValue = Math.min(minValue, dataPoint[1]);
-    }
-    return { minValue, maxValue };
   }
 
   calculateTickPositionsForXAxis() {
@@ -118,4 +61,66 @@ export default class Scales {
 
     return ticks;
   }
+}
+
+export function getAxisMinMax(axis, filteredDataSeries) {
+  let minValue = Number.MAX_VALUE;
+  let maxValue = 0;
+
+  const metrics = axis.metrics || [];
+  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+    const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+    if (isIgnoredIndex) {
+      continue;
+    }
+    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+
+    if (axis.valuesNeedToBeStacked) {
+      if (axis.calculateStackDifferences) {
+        maxValue += Math.max(0, minMax.maxValue - maxValue);
+      } else {
+        maxValue += minMax.maxValue;
+      }
+    } else {
+      maxValue = Math.max(maxValue, minMax.maxValue);
+    }
+    minValue = Math.min(minValue, minMax.minValue);
+  }
+
+  if (minValue == Number.MAX_VALUE) {
+    // use scale [0, 1] for empty data
+    minValue = 0;
+    maxValue = 1;
+  }
+
+  if (minValue == maxValue) {
+    if (maxValue <= 0) {
+      maxValue = 1;
+    } else {
+      // use scale [0, 2*max] to center the data vertically
+      minValue = 0;
+      maxValue = 2 * maxValue;
+    }
+  }
+
+  if (axis.min != null) {
+    minValue = axis.min;
+  }
+
+  if (axis.max != null) {
+    maxValue = axis.max;
+  }
+
+  return { minValue, maxValue };
+}
+
+function getMinMaxValueForDataSeries(dataSeries) {
+  let minValue = Number.MAX_VALUE;
+  let maxValue = 0;
+  for (let i = 0; i < dataSeries.length; i++) {
+    const dataPoint = dataSeries[i];
+    maxValue = Math.max(maxValue, dataPoint[1]);
+    minValue = Math.min(minValue, dataPoint[1]);
+  }
+  return { minValue, maxValue };
 }

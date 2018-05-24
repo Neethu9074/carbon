@@ -4,11 +4,12 @@ import { get } from 'lodash';
 
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
-import TabView from 'in-analyze/TraceDetail/components/CallDetails/components/TabView';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import tabs from 'in-analyze/TraceDetail/components/CallDetails/tabs/index';
 import { pendingResult } from 'in-services/fixedObjects';
+import TabView from 'in-new-components/TabView';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -39,7 +40,7 @@ function CallDetails(props) {
   return (
     <Fragment>
       <Header call={call} callTreeNode={callTreeNode} onClose={onClose} />
-      <TabView call={call} callTreeNode={callTreeNode} getColor={getColor} />
+      <TabView tabs={tabs} call={call} callTreeNode={callTreeNode} getColor={getColor} />
     </Fragment>
   );
 }

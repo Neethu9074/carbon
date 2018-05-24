@@ -3,20 +3,23 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
+import ListViewHeader from 'in-applications/lists/components/ListViewHeader';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -48,19 +51,27 @@ export default compose(
 
 function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
   const rightHeader = (
-    <ComboBox
-      value={endpointTypes}
-      onChange={t => setEndpointTypes(t.map(a => a.value))}
-      placeholder="Type…"
-      multi
-      options={getEndpointTypesComboBoxItems()}
-      className={locals.filter}
-    />
+    <Fragment>
+      <Button className={locals.button} kind="action" href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}>
+        Custom Service Mapping
+      </Button>
+      <ComboBox
+        className={locals.filter}
+        value={endpointTypes}
+        onChange={t => setEndpointTypes(t.map(a => a.value))}
+        placeholder="Type…"
+        multi
+        options={getEndpointTypesComboBoxItems()}
+      />
+    </Fragment>
   );
   return (
-    <Sticky header={<ViewSwitcher />}>
-      <MaxWidthFullscreenContainer className={locals.block}>
+    <Sticky header={<ListViewHeader title="Services" />}>
+      <MaxWidthFullscreenContainer>
         <Title title="Services" />
+
+        <ViewSwitcher />
+
         <ServerTableWithUrlBoundState
           get={getTableData}
           pathSegment={servicesList}
@@ -72,6 +83,7 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
           rightHeader={rightHeader}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
+          headerClassName={locals.tableHeader}
         />
       </MaxWidthFullscreenContainer>
     </Sticky>
@@ -79,58 +91,9 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
 }
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes }) {
-  return getServices({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    },
-    filter: {
-      label: query,
-      timeConfig,
-      endpointTypes
-    }
-  });
+  return getServices(
+    getServiceListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query, endpointTypes)
+  );
 }
 
 const columnDefinitions = [
@@ -140,7 +103,7 @@ const columnDefinitions = [
     getContent(item) {
       return (
         <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="app_service" width={20} height={20} color="#6c8a91" />
+          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
           <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
         </div>
       );
@@ -156,7 +119,7 @@ const columnDefinitions = [
             .slice()
             .sort()
             .map(type => (
-              <Badge size="sm" color={getColor(type)} key={type}>
+              <Badge color={getColor(type)} key={type}>
                 {type}
               </Badge>
             ))}
@@ -172,7 +135,7 @@ const columnDefinitions = [
       const count = get(item, ['metrics', 'applications', 0, 1], 0);
       return (
         <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="app_application" width={20} height={20} color="#6c8a91" />
+          <SvgIcon className={locals.entityIcon} type="lib_application" width={24} height={24} />
           <Counter>{number.compact(count)}</Counter>
         </div>
       );
@@ -186,7 +149,7 @@ const columnDefinitions = [
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
       return (
         <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="app_endpoint" width={20} height={20} color="#6c8a91" />
+          <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
           <Counter>{number.compact(count)}</Counter>
         </div>
       );
@@ -244,3 +207,66 @@ const columnDefinitions = [
     }
   }
 ];
+
+export function getServiceListSubscribeEvent(
+  timeConfig,
+  page = 1,
+  pageSize = 20,
+  orderBy = 'callsAgg',
+  orderDirection = 'DESC',
+  query = '',
+  endpointTypes = []
+) {
+  return {
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {
+      applications: {
+        metric: 'applications',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      endpoints: {
+        metric: 'endpoints',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      latencyAgg: {
+        metric: 'latency',
+        aggregation: 'MEAN'
+      },
+      latency: {
+        metric: 'latency',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'MEAN'
+      },
+      errors: {
+        metric: 'errors',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      }
+    },
+    filter: {
+      label: query,
+      timeConfig,
+      endpointTypes
+    }
+  };
+}

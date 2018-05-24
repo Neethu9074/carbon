@@ -1,10 +1,10 @@
+@import '~in-themes/active.less';
+
 :local {
   .table {
     width: 100%;
-    background: #ffffff;
-    border: 1px solid #e8eef0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
+    background: #fff;
+    border-radius: @lib__shapes__radius_small;
     border-collapse: initial;
   }
 
@@ -15,9 +15,8 @@
   }
 
   .tr {
-    color: #16363e;
+    color: @lib__colors__N900Primary;
     font-size: 0.875rem;
-    font-weight: 400;
     background: #fff;
 
     &:first-child td {
@@ -25,11 +24,11 @@
     }
 
     &:nth-child(even) {
-      background: #fafbfc;
+      background: @lib__colors__N050;
     }
 
     &:hover {
-      background: #eff5f6;
+      background: @lib__colors__N100;
     }
 
     &.depth-2 {
@@ -39,23 +38,34 @@
     }
   }
 
+  .trRegular {
+    height: 3.5rem;
+  }
+
+  .trCompcat {
+    height: 2.5rem;
+  }
+
   .th {
-    font-weight: 300;
-    color: #698189;
-    text-transform: uppercase;
+    color: @lib__colors__N700Medium;
+    text-transform: capitalize;
     font-size: 0.75rem;
-    padding: 0.625rem 0;
+    font-weight: normal;
+    padding: 0.8125rem 0;
     background: #fff;
-    border-bottom: 1px solid #d2dfe4;
+    border-bottom: 1px solid @lib__colors__N400;
 
     &:first-child {
       padding-left: 1rem;
     }
+
+    &:hover {
+      color: @lib__colors__N800Dark;
+    }
   }
 
   .td {
-    border-top: 1px solid #e4ebed;
-    padding: 0.75rem 0;
+    border-top: 1px solid @lib__colors__N200;
 
     &:first-child {
       padding-left: 1rem;
@@ -63,10 +73,6 @@
 
     .tr:first-child > .tr {
       border-top: 0;
-    }
-
-    .tr:last-child > .td {
-      border-bottom: 1px solid #e4ebed;
     }
   }
 }

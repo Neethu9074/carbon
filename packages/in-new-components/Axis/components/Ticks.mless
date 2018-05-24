@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .ticks {
     position: absolute;
@@ -10,23 +12,32 @@
   .verticalTickLabel,
   .horizontalTickLabel {
     position: absolute;
-    color: #313131;
     white-space: nowrap;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
   }
 
   .verticalTickLabel {
-    margin-top: 6px;
+    color: @lib__colors__N700Medium;
   }
 
   .horizontalTickLabel {
-    margin-left: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-left: -18px;
+    color: @lib__colors__N600Light;
+    width: 3.5rem;
+  }
+
+  .horizontalTickFirstLabel {
+    margin-bottom: 3px;
   }
 
   .verticalTick,
   .horizontalTick {
     position: absolute;
-    background: #a5a5a5;
+    background: @lib__colors__N400;
   }
 
   .verticalTick {

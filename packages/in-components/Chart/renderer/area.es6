@@ -1,5 +1,5 @@
 export default {
-  render: ({ dataSeries, color, scale, config }) => {
+  render: ({ dataSeries, axis, index, scale, config }) => {
     const blocks = config.calculateBlocks(dataSeries);
 
     for (let i = 0; i < blocks.length; i++) {
@@ -26,17 +26,15 @@ export default {
         config.ctx.lineTo(xPos, yPos);
       }
 
-      config.ctx.strokeStyle = color;
+      config.ctx.strokeStyle = axis.colors100[index];
       config.ctx.lineWidth = 2;
       config.ctx.stroke();
       config.ctx.lineTo(lastDataPointXPos, config.height);
       config.ctx.lineTo(firstDataPointXPos, config.height);
 
       config.ctx.closePath();
-      config.ctx.globalAlpha = 0.3;
-      config.ctx.fillStyle = color;
+      config.ctx.fillStyle = axis.colors[index];
       config.ctx.fill();
-      config.ctx.globalAlpha = 1.0;
     }
   }
 };

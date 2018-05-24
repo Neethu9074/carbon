@@ -32,7 +32,7 @@ export default connectTo(
       <FullHeightWrapper
         render={() => (
           <div className={locals.wrapper}>
-            <FullscreenViewHeading iconClassName={locals.headingIcon} iconType={'app_application'}>
+            <FullscreenViewHeading iconClassName={locals.headingIcon} iconType="lib_application">
               Application is being created…
             </FullscreenViewHeading>
 

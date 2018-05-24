@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SearchInput.mless';
@@ -7,14 +8,14 @@ import locals from './SearchInput.mless';
 export default function SearchInput({ onChange, query }) {
   return (
     <div className={locals.wrapper}>
-      <SvgIcon className={locals.icon} type="search" width={14} height={14} color="#698189" />
-      <input
+      <Input
         className={locals.searchInput}
         type="search"
-        placeholder="Search…"
+        placeholder=""
         value={query}
         onChange={e => onChange(e.target.value)}
       />
+      <SvgIcon className={locals.icon} type="lib_actions_search" width={24} height={24} />
     </div>
   );
 }

@@ -56,9 +56,6 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
           <KpiKeyValue label="Blocked">
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.blocked" formatter={number.compact} />
           </KpiKeyValue>
-          <KpiKeyValue label="Heartbeat active">
-            <MetricValue snapshotId={snapshotId} metric="nomad.nomad.heartbeat.active" />
-          </KpiKeyValue>
         </KpiSection>
         <Columize>
           <DashboardSection title="Allocated/Unallocated CPU (MHz)">
@@ -74,39 +71,38 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Number Go routines">
+          <DashboardSection title="Allocated/Unallocated memory">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['nomad.runtime.num_goroutines'],
-                labels: ['Number Go routines'],
-                type: 'line'
+                metrics: ['nomad.client.allocated.memory', 'nomad.client.unallocated.memory'],
+                labels: ['Allocated memory', 'Unallocated memory'],
+                formatter: withSiPrefixZeroDecimalPlaces,
+                type: 'stackedArea'
               }}
             />
           </DashboardSection>
         </Columize>
-        <Columize>
-          <DashboardSection title="Allocations">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [
-                  'nomad.client.allocations.running',
-                  'nomad.client.allocations.migrating',
-                  'nomad.client.allocations.pending',
-                  'nomad.client.allocations.terminal',
-                  'nomad.client.allocations.blocked'
-                ],
-                labels: ['Running', 'Migrating', 'Pending', 'Terminal', 'Blocked'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
+        <DashboardSection title="Allocations">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'nomad.client.allocations.running',
+                'nomad.client.allocations.migrating',
+                'nomad.client.allocations.pending',
+                'nomad.client.allocations.terminal',
+                'nomad.client.allocations.blocked'
+              ],
+              labels: ['Running', 'Migrating', 'Pending', 'Terminal', 'Blocked'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
         <Columize>
           <DashboardSection title="Broker Core">
             <Chart
@@ -138,24 +134,22 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
             />
           </DashboardSection>
         </Columize>
-        <Columize>
-          <DashboardSection title="Total Blocked Evaluations">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [
-                  'nomad.nomad.blocked_evals.total_quota_limit',
-                  'nomad.nomad.blocked_evals.total_blocked',
-                  'nomad.nomad.blocked_evals.total_escaped'
-                ],
-                labels: ['Quota limit', 'Blocked', 'Escaped'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
+        <DashboardSection title="Total Blocked Evaluations">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'nomad.nomad.blocked_evals.total_quota_limit',
+                'nomad.nomad.blocked_evals.total_blocked',
+                'nomad.nomad.blocked_evals.total_escaped'
+              ],
+              labels: ['Quota limit', 'Blocked', 'Escaped'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
         <Columize>
           <GaugesTable snapshot={snapshot} timeConfig={timeConfig} />
         </Columize>

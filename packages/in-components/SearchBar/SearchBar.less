@@ -1,10 +1,10 @@
+@import '~in-themes/active.less';
+
 .in-searchbar {
-  padding: 0.313rem 0.9rem 0.313rem 0.9rem;
-
-  background: #172429;
-
   display: flex;
   align-items: center;
+  padding: 0.313rem 0.9rem 0.313rem 0.9rem;
+  background: @lib__colors__navy900;
 
   &__expand-collapse-wrapper,
   &__delete-query-button,
@@ -41,6 +41,7 @@
 
   &__icon {
     margin-left: 5px;
+    fill: #7d8b8f;
   }
 
   &__input-wrapper {

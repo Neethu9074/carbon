@@ -1,4 +1,4 @@
-export function stringify(location) {
+export function stringify(location, workaroundHistoryUrlDecodingIssue = false) {
   let href = location.pathname
     .split('/')
     .slice(1)
@@ -6,6 +6,10 @@ export function stringify(location) {
       path = `/${path}`;
       return agg + path + toParams(location.matrix[path], ';', ';');
     }, '');
+
+  if (workaroundHistoryUrlDecodingIssue) {
+    href = encodeURI(href);
+  }
 
   return href + toParams(location.query, '?', '&');
 }

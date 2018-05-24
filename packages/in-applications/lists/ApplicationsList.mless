@@ -1,19 +1,34 @@
-:local {
-  .block {
-    margin-top: 2rem;
-  }
+@import '~in-themes/active.less';
 
+:local {
   .flexWrapper {
     display: flex;
     align-items: center;
   }
 
+  .button {
+    margin-right: 0.5rem;
+  }
+
+  .linkEntityIcon,
   .entityIcon {
-    margin-right: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  .linkEntityIcon {
+    fill: @lib__colors__blue800;
+  }
+
+  .entityIcon {
+    fill: @lib__colors__N700Medium;
   }
 
   .noApplicationsDefined {
     margin-top: 2rem;
     font-size: larger;
+  }
+
+  .tableHeader {
+    margin-top: -3.1875rem;
   }
 }

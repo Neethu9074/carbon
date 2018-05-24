@@ -17,10 +17,12 @@ export default function Axis({
   fixedTickPositions,
   width,
   height,
-  tickLength = 4,
+  tickLength = 8,
   formatter = number,
   detailedFormatting = false,
-  drawAxisLine = true
+  tickColor,
+  tickLabelColor,
+  renderTickLines = true
 }) {
   if (__DEV__) {
     invariant(scale, `You should define a scale or discreteTicks`);
@@ -44,16 +46,24 @@ export default function Axis({
       style={{ minWidth: width, minHeight: height, maxWidth: width, maxHeight: height }}
       className={evaluateClassNames({
         [locals.axis]: true,
-
-        [locals.verticalLeft]: drawAxisLine && isVertical && align === 'left',
-        [locals.verticalRight]: drawAxisLine && isVertical && align !== 'left',
-        [locals.horizontalTop]: drawAxisLine && !isVertical && align === 'top',
-        [locals.horizontalBottom]: drawAxisLine && !isVertical && align !== 'top'
+        [locals.verticalLeft]: isVertical && align === 'left',
+        [locals.verticalRight]: isVertical && align !== 'left',
+        [locals.horizontalTop]: !isVertical && align === 'top',
+        [locals.horizontalBottom]: !isVertical && align !== 'top'
       })}
     >
-      <Ticks tickPositions={tickPositions} isVertical={isVertical} align={align} tickLength={tickLength} />
+      {renderTickLines && (
+        <Ticks
+          tickColor={tickColor}
+          tickPositions={tickPositions}
+          isVertical={isVertical}
+          align={align}
+          tickLength={tickLength}
+        />
+      )}
       <TickLabels
         tickPositions={tickPositions}
+        tickColor={tickLabelColor}
         detailedFormatting={detailedFormatting}
         isVertical={isVertical}
         formatter={formatter}

@@ -1,24 +1,9 @@
 import React, { Fragment } from 'react';
 
-import {
-  ErrorRows,
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
-  LoadMoreRow
-} from 'in-components/tables/sharedComponents';
+import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
 import Group from 'in-analyze/GroupedTraces/Group';
 
-export default function Groups({
-  items,
-  errors,
-  progress,
-  loadMore,
-  canLoadMore,
-  filter,
-  orderBy,
-  orderDirection,
-  traceGroupColors
-}) {
+export default function Groups({ items, errors, progress, filter, orderBy, orderDirection, traceGroupColors }) {
   return (
     <Fragment>
       {items.map((item, groupIndex) => (
@@ -33,9 +18,8 @@ export default function Groups({
       ))}
 
       <HorizontalIndicatorRow cols={4} progress={progress} />
-      <ErrorRows cols={4} errors={errors} />
+      <ErrorRows cols={4} errors={errors} size="compact" />
       {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} />}
     </Fragment>
   );
 }

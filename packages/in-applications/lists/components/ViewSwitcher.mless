@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .viewSwitcher {
+    margin-top: 1rem;
+    border-bottom: 2px solid @lib__colors__N300;
+  }
+
+  .link {
+    padding-top: 0.5rem;
+    line-height: 1.8125rem;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .tab {
+    font-size: 1rem;
+  }
+
+  .numberItemsIndicator {
+    color: @lib__colors__N600Light;
+    margin-left: 0.25rem;
+  }
+}

@@ -29,7 +29,7 @@ function wrapListener(listener) {
   // so we should not apply decodeURIComponent() again to its matrix parameters
   // but we still have to decode the reserved characters for URI
   // to fill the gap between decodeURI() and decodeURIComponent()
-  // TODO if the below issue is solved, need to update history and remove the workaround here and in parser.es6
+  // TODO if the above issue is solved, need to update history and remove the workaround here and in parser.es6
   return location => listener(parseUrl(location.pathname + (location.search || ''), true));
 }
 
@@ -43,9 +43,15 @@ function translate(location, currentLocation) {
     location = parseUrl(location);
   }
 
-  return stringify({
-    pathname: location.pathname || currentLocation.pathname || '',
-    query: location.query || currentLocation.query || emptyObject,
-    matrix: location.matrix || currentLocation.matrix || emptyObject
-  });
+  // The parameter workaroundHistoryUrlDecodingIssue=true of stringify is a workaround of issue
+  // https://github.com/ReactTraining/history/issues/505 in history mentioned above in wrapListener()
+  // TODO if the above issue is solved, need to update history and remove the workaround here and in stringifier.es6
+  return stringify(
+    {
+      pathname: location.pathname || currentLocation.pathname || '',
+      query: location.query || currentLocation.query || emptyObject,
+      matrix: location.matrix || currentLocation.matrix || emptyObject
+    },
+    true
+  );
 }

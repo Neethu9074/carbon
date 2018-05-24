@@ -5,7 +5,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Ticks.mless';
 
-export default function Ticks({ tickPositions, isVertical, align, tickLength }) {
+export default function Ticks({ tickPositions, isVertical, align, tickLength, tickColor }) {
   return (
     <Fragment>
       {tickPositions.map(tick => {
@@ -15,6 +15,7 @@ export default function Ticks({ tickPositions, isVertical, align, tickLength }) 
         } else {
           style.height = tickLength;
         }
+        style.background = tickColor;
 
         return (
           <div

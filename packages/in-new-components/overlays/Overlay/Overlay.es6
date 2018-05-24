@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { throttle } from 'lodash';
 
-import { identifyOverlay } from 'in-new-components/overlays/dom';
 import OverlayMounter from 'in-new-components/overlays/OverlayMounter';
+import { identifyOverlay } from 'in-new-components/overlays/dom';
 import { generateUniqueShortId } from 'in-services/util/id';
 
 import { emptyObject } from 'in-services/fixedObjects';

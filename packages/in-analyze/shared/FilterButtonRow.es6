@@ -53,10 +53,11 @@ export default connectTo(
     return (
       <div className={locals.fullWidthHorizontalRule}>
         <MaxWidthFullscreenContainer className={locals.row}>
-          <strong className={locals.label}>Filters</strong>
-          {filters.map(filter => (
-            <BadgeKeyValue key={filter.key} label={filter.key} value={filter.value} className={locals.badge} />
-          ))}
+          <div className={locals.filterList}>
+            {filters.map(filter => (
+              <BadgeKeyValue key={filter.key} label={filter.key} value={filter.value} className={locals.badge} />
+            ))}
+          </div>
         </MaxWidthFullscreenContainer>
       </div>
     );

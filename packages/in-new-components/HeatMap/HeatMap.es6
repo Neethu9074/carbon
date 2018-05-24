@@ -3,10 +3,13 @@ import { HeatMapCanvas } from '@nivo/heatmap';
 import React from 'react';
 
 import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
+import NivoChartTooltip from 'in-components/Chart/components/NivoChartTooltip';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
-import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
+import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { millis } from 'in-services/formatters/number';
+import { HEIGHT } from 'in-new-components/Axis/HorizontalAxis';
+import { millis, number } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 import locals from './HeatMap.mless';
 
@@ -26,12 +29,17 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
     return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
   }
 
-  width = (customWidth || width) - 60;
-  height = (customHeight || height) - 30;
+  width = (customWidth || width) - 2 * WIDTH;
+  height = (customHeight || height) - HEIGHT;
 
   return (
     <div className={locals.heatMap}>
-      <VerticalAxis formatter={millis} scale={{ from: data[data.length - 1].key, to: data[0].key }} height={height} />
+      <VerticalAxis
+        tickLineColor={theme.lib.colors.N700Medium}
+        formatter={millis}
+        scale={{ from: data[data.length - 1].key, to: data[0].key }}
+        height={height}
+      />
       <div>
         <HeatMapCanvas
           height={height}
@@ -52,8 +60,13 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
           hoverTarget="cell"
           cellOpacity={1}
           cellHoverOthersOpacity={0.75}
+          tooltip={props => <NivoChartTooltip {...props} id="Calls" aggregation={props.xKey} formatter={number} />}
         />
-        <HorizontalTimeAxis scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }} width={width} />
+        <HorizontalTimeAxis
+          tickLineColor={theme.lib.colors.N600Light}
+          scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }}
+          width={width}
+        />
       </div>
       <VerticalAxisPlaceholder />
     </div>
@@ -63,7 +76,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
 // how to recalculate colors
 // import { hexToRGBNormalized, rgbToHex } from 'in-services/formatters/color';
 // import getHeatMapColor from 'in-services/heatMapColors';
-// const HEAT_MAP_BASE_COLORS = [hexToRGBNormalized('#dff2ff'), hexToRGBNormalized('#082366')];
+// const HEAT_MAP_BASE_COLORS = [hexToRGBNormalized('#FBFCFD'), hexToRGBNormalized('#2473AE')];
 // let HEAT_MAP_COLORS = [];
 // for (let i = 0; i <= 100; i++) {
 //   HEAT_MAP_COLORS[i] = getHeatMapColor(null, i / 100, HEAT_MAP_BASE_COLORS);
@@ -73,106 +86,106 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
 
 function getHeatMapColors() {
   return [
-    '#fff',
-    '#dceffd',
-    '#daedfb',
-    '#d8ebfa',
-    '#d6e9f8',
-    '#d4e7f7',
-    '#d2e5f5',
-    '#cfe3f4',
-    '#cde1f2',
-    '#cbdff1',
-    '#c9ddef',
-    '#c7dbee',
-    '#c5d9ec',
-    '#c3d7eb',
-    '#c0d5e9',
-    '#bed2e8',
-    '#bcd0e6',
-    '#bacee4',
-    '#b8cce3',
-    '#b6cae1',
-    '#b3c8e0',
-    '#b1c6de',
-    '#afc4dd',
-    '#adc2db',
-    '#abc0da',
-    '#a9bed8',
-    '#a7bcd7',
-    '#a4bad5',
-    '#a2b8d4',
-    '#a0b5d2',
-    '#9eb3d1',
-    '#9cb1cf',
-    '#9aafce',
-    '#98adcc',
-    '#95abca',
-    '#93a9c9',
-    '#91a7c7',
-    '#8fa5c6',
-    '#8da3c4',
-    '#8ba1c3',
-    '#899fc1',
-    '#869dc0',
-    '#849bbe',
-    '#8298bd',
-    '#8096bb',
-    '#7e94ba',
-    '#7c92b8',
-    '#7990b7',
-    '#778eb5',
-    '#758cb4',
-    '#738ab2',
-    '#7188b0',
-    '#6f86af',
-    '#6d84ad',
-    '#6a82ac',
-    '#6880aa',
-    '#667ea9',
-    '#647ca7',
-    '#6279a6',
-    '#6077a4',
-    '#5e75a3',
-    '#5b73a1',
-    '#5971a0',
-    '#576f9e',
-    '#556d9d',
-    '#536b9b',
-    '#51699a',
-    '#4e6798',
-    '#4c6596',
-    '#4a6395',
-    '#486193',
-    '#465f92',
-    '#445c90',
-    '#425a8f',
-    '#3f588d',
-    '#3d568c',
-    '#3b548a',
-    '#395289',
-    '#375087',
-    '#354e86',
-    '#324c84',
-    '#304a83',
-    '#2e4881',
-    '#2c4680',
-    '#2a447e',
-    '#28427c',
-    '#263f7b',
-    '#233d79',
-    '#213b78',
-    '#1f3976',
-    '#1d3775',
-    '#1b3573',
-    '#193372',
-    '#173170',
-    '#142f6f',
-    '#122d6d',
-    '#102b6c',
-    '#0e296a',
-    '#0c2769',
-    '#0a2567',
-    '#082366'
+    '#fbfcfd',
+    '#f8fafc',
+    '#f6f9fb',
+    '#f4f7fa',
+    '#f2f6f9',
+    '#f0f5f9',
+    '#eef3f8',
+    '#ebf2f7',
+    '#e9f1f6',
+    '#e7eff5',
+    '#e5eef5',
+    '#e3ecf4',
+    '#e1ebf3',
+    '#dfeaf2',
+    '#dce8f1',
+    '#dae7f1',
+    '#d8e6f0',
+    '#d6e4ef',
+    '#d4e3ee',
+    '#d2e1ed',
+    '#d0e0ed',
+    '#cddfec',
+    '#cbddeb',
+    '#c9dcea',
+    '#c7dbea',
+    '#c5d9e9',
+    '#c3d8e8',
+    '#c0d7e7',
+    '#bed5e6',
+    '#bcd4e6',
+    '#bad2e5',
+    '#b8d1e4',
+    '#b6d0e3',
+    '#b4cee2',
+    '#b1cde2',
+    '#afcce1',
+    '#adcae0',
+    '#abc9df',
+    '#a9c7de',
+    '#a7c6de',
+    '#a4c5dd',
+    '#a2c3dc',
+    '#a0c2db',
+    '#9ec1db',
+    '#9cbfda',
+    '#9abed9',
+    '#98bcd8',
+    '#95bbd7',
+    '#93bad7',
+    '#91b8d6',
+    '#8fb7d5',
+    '#8db6d4',
+    '#8bb4d3',
+    '#89b3d3',
+    '#86b2d2',
+    '#84b0d1',
+    '#82afd0',
+    '#80adcf',
+    '#7eaccf',
+    '#7cabce',
+    '#7aa9cd',
+    '#77a8cc',
+    '#75a7cc',
+    '#73a5cb',
+    '#71a4ca',
+    '#6fa2c9',
+    '#6da1c8',
+    '#6aa0c8',
+    '#689ec7',
+    '#669dc6',
+    '#649cc5',
+    '#629ac4',
+    '#6099c4',
+    '#5e97c3',
+    '#5b96c2',
+    '#5995c1',
+    '#5793c0',
+    '#5592c0',
+    '#5391bf',
+    '#518fbe',
+    '#4f8ebd',
+    '#4c8dbd',
+    '#4a8bbc',
+    '#488abb',
+    '#4688ba',
+    '#4487b9',
+    '#4286b9',
+    '#3f84b8',
+    '#3d83b7',
+    '#3b82b6',
+    '#3980b5',
+    '#377fb5',
+    '#357db4',
+    '#337cb3',
+    '#307bb2',
+    '#2e79b1',
+    '#2c78b1',
+    '#2a77b0',
+    '#2875af',
+    '#2674ae',
+    '#2473ae'
   ];
 }

@@ -77,10 +77,10 @@ export default connectTo(
             >
               Filters
               <SvgIcon
-                type={presetsVisible ? 'triangle_up' : 'triangle_down'}
-                height={5}
                 className={`${block}__icon`}
-                color="#6b8088"
+                type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+                width={8}
+                height={8}
               />
             </div>
             <ErrorIndicator />

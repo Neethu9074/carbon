@@ -2,15 +2,16 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { number } from 'in-services/formatters/number';
-import Counter from 'in-new-components/Counter';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import locals from './Row.mless';
+import theme from 'in-themes';
 
 export default function TopListRow({ item, selectedMetricFormatter }) {
   const formattedTraceCount = number.compact(item.traceCount);
   const percent = Math.min(item.contributed / item.total, 1);
   const positionPercent = `${percent * 100}%`;
+  const color = theme.lib.colors.chart.strokeColors100[0];
 
   return (
     <li className={locals.row}>
@@ -31,25 +32,26 @@ export default function TopListRow({ item, selectedMetricFormatter }) {
           </span>
         </Tooltip>
       </div>
-      <div className={locals.hairLine} style={{ marginLeft: positionPercent }} />
+      <div className={locals.hairLine} style={{ marginLeft: positionPercent, background: color }} />
 
       <div className={locals.bar}>
         <div
           className={locals.barInner}
           style={{
-            width: positionPercent
+            width: positionPercent,
+            background: color
           }}
         />
       </div>
 
       <div className={locals.description}>
         <div className={locals.left}>
-          <SvgIcon type="traces" width={16} className={locals.icon} />
+          <SvgIcon type="lib_application_trace" width={24} height={24} className={locals.icon} />
           <Tooltip content="Trace entry">
             <span className={locals.label}>{item.endpoint.label}</span>
           </Tooltip>
           <Tooltip content="Number of traces">
-            <Counter>{formattedTraceCount}</Counter>
+            <span className={locals.numberOfTracesIndicator}>{`(${formattedTraceCount})`}</span>
           </Tooltip>
         </div>
 

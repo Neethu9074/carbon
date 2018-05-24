@@ -3,13 +3,13 @@ import { create } from 'reactive-observables';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { createColorPool } from 'in-services/util/ColorGenerator';
+import { getColorPool } from 'in-services/util/ColorGenerator';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 
 import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
 
-const byServiceEndpointCombinationColorPool = createColorPool('serviceAndEndpointCombination');
+const byServiceEndpointCombinationColorPool = getColorPool('serviceAndEndpointCombination');
 const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 

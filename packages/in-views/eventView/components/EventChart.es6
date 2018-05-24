@@ -1,22 +1,21 @@
 import React from 'react';
 
-import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
+import { getChartTimeframeByEvent, getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
+import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
 import 'in-views/eventView/components/EventChart.less';
 
 // Our current chart implementation can't handle dynamic windowSizes (dynamic = 1change/sec)
-// If an event is open, we will subscribe to live metrics which couses in mocing timewindows
-// To avoid that the cahrt will run out of scope we add an offset to the windowSize
+// If an event is open, we will subscribe to live metrics which causes moving timewindows.
+// To avoid the chart running out of scope we add an offset to the windowSize.
 const block = 'in-event-detail-chart';
 
 export default addSection(
@@ -49,9 +48,13 @@ export default addSection(
               <ChartWrapper
                 key={metricName}
                 metric={metricName}
-                snapshotId={metric.get('snapshotId')}
+                event={event}
+                entityType={event.get('entityType')}
+                entityId={event.get('entityId')}
+                metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeConfig$={always(timeConfig)}
+                timeConfig={getTimeConfigFromEvent(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
@@ -66,14 +69,14 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    return {
-      snapshot: getSnapshot(props.snapshotId, getTimeConfigAtMoment(props.start))
-    };
+    return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.start);
   },
-  function ChartWrapper({ timeConfig$, snapshot, snapshotId, metric, rollup, anomalyConfig }) {
-    if (!snapshot) {
+  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
+    if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
+
+    let chartConfig = getChartConfig(metric, entity, entityType);
 
     let forecastSensitivity;
     let focusedMoment;
@@ -89,11 +92,10 @@ const ChartWrapper = connectTo(
       });
     }
 
-    const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
     return (
       <div className={`${block}__chart`}>
         <Chart
-          snapshotId={snapshotId}
+          snapshotId={metricAccessId}
           timeConfig$={timeConfig$}
           currentRollup={rollup}
           margins={{
@@ -101,9 +103,9 @@ const ChartWrapper = connectTo(
           }}
           y1={{
             metrics: [metric],
-            labels: [chartConfig.getLabel(snapshot, metric)],
-            min: chartConfig.getMin(snapshot),
-            max: chartConfig.getMax(snapshot),
+            labels: [chartConfig.getLabel(entity, metric)],
+            min: chartConfig.getMin(entity),
+            max: chartConfig.getMax(entity),
             type: 'line',
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
@@ -119,4 +121,14 @@ const ChartWrapper = connectTo(
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
+
+function getChartConfig(metric, entity, entityType) {
+  if (entityType === 'Service20') {
+    return getMetricDefinition('service20', metric);
+  } else if (entityType === 'App20') {
+    return getMetricDefinition('application20', metric);
+  }
+  // else assume 'Entity10'
+  return getMetricDefinition(entity.get('plugin'), metric);
 }

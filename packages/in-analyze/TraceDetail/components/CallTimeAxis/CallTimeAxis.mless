@@ -1,5 +1,6 @@
 :local {
   .timeAxis {
-    width: 100%;
+    width: ~'calc(100% - 3px)';
+    margin-left: 2px;
   }
 }

@@ -8,6 +8,7 @@ export default function LatencyDistributionHistogram({ timeConfig, applicationId
     <HistogramCardWrapper
       cardTitle={cardTitle}
       metricId="calls"
+      metricName="Calls"
       subscription={getLatencyDistribution({
         maxLatencyBuckets: 10,
         filter: {

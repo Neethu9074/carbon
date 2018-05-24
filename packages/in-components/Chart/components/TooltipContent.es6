@@ -10,7 +10,8 @@ export default function TooltipContent({ timestamp, chart }) {
   return (
     <div className={locals.tooltipContent}>
       <div className={locals.heading}>
-        {formatDateTime(timestamp)} <span className={locals.rollupLabel}>{chart.config.rollupLabel}</span>
+        {formatDateTime(timestamp)}
+        <span className={locals.rollupLabel}> ({chart.config.rollupLabel})</span>
       </div>
       <MetricSeries config={chart.config} axisName="y1" dataPointsAtTime={dataPointsAtTime} />
       <MetricSeries config={chart.config} axisName="y2" dataPointsAtTime={dataPointsAtTime} addSpacer />
@@ -38,15 +39,14 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
 
             return (
               <li key={label} className={locals.metricValue}>
-                <div
-                  className={locals.entry}
-                  style={{
-                    color: axis.colors100[i]
-                  }}
-                >
-                  <span>{label}</span> <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>{' '}
+                <div className={locals.entry}>
+                  <div
+                    style={{ background: axis.colors100[i] }}
+                    className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
+                  />
+                  {label} <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>
                 </div>
-                <span>
+                <span className={locals.value}>
                   {dataPoint
                     ? axis.tooltipFormatter
                       ? axis.tooltipFormatter(dataPoint[1])

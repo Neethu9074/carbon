@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .matchSpecification {
+    display: flex;
+    align-items: flex-start;
+
+    & + .matchSpecification {
+      margin-top: 1rem;
+    }
+  }
+
+  .formGroup {
+    margin: 0;
+    width: 100%;
+
+    & + .formGroup {
+      margin-left: 1rem;
+    }
+  }
+
+  .removeMatchRule {
+    margin: 1.4rem 0 0 1rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: @grid__gutter * 1px 0 0;
+  }
+
+  .saveErrors {
+    margin: 0 1rem 0 0;
+  }
+
+  .addRuleButton {
+    margin-top: 1rem;
+  }
+
+  .removeMatchRuleIcon {
+    margin: 1.5rem 0 0 0.5rem;
+    fill: @lib__colors__N700Medium;
+  }
+}

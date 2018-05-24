@@ -61,7 +61,7 @@ function mapData(data) {
   for (let iRow = 0; iRow < numMaxRows; iRow++) {
     const firstColumnRow = columnWithMaxBuckets.latencyBuckets[iRow];
     const currentRow = {
-      key: firstColumnRow.from
+      key: String(firstColumnRow.from)
     };
 
     for (let iColumn = 0; iColumn < data.length; iColumn++) {

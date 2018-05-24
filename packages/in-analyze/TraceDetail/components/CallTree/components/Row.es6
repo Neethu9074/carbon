@@ -5,8 +5,8 @@ import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/Call
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import Badge from 'in-new-components/Badge';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
 import connect from 'in-hoc/connectTo';
 
 import locals from './Row.mless';
@@ -107,19 +107,22 @@ function CallInformation(props) {
         {hasChildren && (
           <SvgIcon
             className={locals.expandIcon}
-            type={isExpanded ? 'minus' : 'plus_without_frame'}
+            type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
             aria-label="Expand button for row"
             tabIndex={0}
-            width={12}
-            height={12}
-            color="#ffffff"
+            width={24}
+            height={24}
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
         <span className={locals.label} onClick={() => onCallClicked(call)}>
           {call.label}
         </span>
-        {call.endpoint && <Badge color={getEndpointColor(call.endpoint.type)}>{call.endpoint.type}</Badge>}
+        {call.endpoint && (
+          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+            {call.endpoint.type}
+          </Pill>
+        )}
         <div className={locals.dashedLine} />
       </div>
 

@@ -1,3 +1,4 @@
+import { mapFromServerResponse, mapToServerResponse } from 'in-applications/keys';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -8,7 +9,7 @@ export function getApplicationConfigs() {
     timeout: 1000,
     url: `/api/applicationConfigs`,
     mapToResultObject: true
-  });
+  }).map(mapFromServerResponse);
 }
 
 export function getApplicationConfig(id) {
@@ -17,15 +18,14 @@ export function getApplicationConfig(id) {
     maxRetries: 3,
     url: `/api/applicationConfigs/${encodeURIComponent(id)}`,
     mapToResultObject: true
-  });
+  }).map(mapFromServerResponse);
 }
 
 export function addApplicationConfig(config) {
   return http({
     method: 'POST',
-    maxRetries: 1,
     url: `/api/applicationConfigs`,
-    data: config
+    data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
 }
 
@@ -34,7 +34,7 @@ export function updateApplicationConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/applicationConfigs/${config.id}`,
-    data: config
+    data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
 }
 

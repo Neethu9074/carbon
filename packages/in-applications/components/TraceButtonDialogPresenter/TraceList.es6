@@ -5,6 +5,7 @@ import { getTracesCount } from 'in-applications/components/TracesButton';
 import getApplication from 'in-subscription/application/getApplication';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './TraceList.mless';
@@ -22,69 +23,79 @@ export default connectTo(
     backButtonLabels
   }) {
     return (
-      <section className={locals.traceList}>
-        {allTracesCount && <Row label="All Traces" total={allTracesCount} value={allTracesCount} />}
-        {applicationId && (
-          <Row
-            type="Application"
-            iconType="app_application"
-            getEntity={() =>
-              getApplication({
-                id: applicationId
-              })
-            }
-            applicationId={applicationId}
-            total={allTracesCount}
-            timeConfig={timeConfig}
-            backButtonLabels={backButtonLabels}
-          />
-        )}
-        {serviceId && (
-          <Row
-            type="Service"
-            iconType="app_service"
-            getEntity={() =>
-              getService({
-                id: serviceId,
-                filter: {
-                  application: applicationId,
-                  service: serviceId,
-                  endpoint: endpointId,
-                  timeConfig
-                }
-              })
-            }
-            applicationId={applicationId}
-            serviceId={serviceId}
-            total={allTracesCount}
-            timeConfig={timeConfig}
-            backButtonLabels={backButtonLabels}
-          />
-        )}
-        {endpointId && (
-          <Row
-            type="Endpoint"
-            iconType="app_endpoint"
-            getEntity={() =>
-              getEndpoint({
-                id: endpointId,
-                filter: {
-                  application: applicationId,
-                  service: serviceId,
-                  endpoint: endpointId,
-                  timeConfig
-                }
-              })
-            }
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            total={allTracesCount}
-            timeConfig={timeConfig}
-            backButtonLabels={backButtonLabels}
-          />
-        )}
-      </section>
+      <div className={locals.wrapper}>
+        <div className={locals.header}>
+          <SvgIcon className={locals.backgroundIcon} type="lib_application_trace" width={220} height={220} />
+          <h2 className={locals.title}>Analyze Traces</h2>
+          <p className={locals.text}>
+            Examine the trace data behind your applications, services, and endpoints. Slice and dice trace groups down
+            to individual traces, calls, and errors.
+          </p>
+        </div>
+        <section className={locals.traceList}>
+          {allTracesCount && <Row label="All Traces" total={allTracesCount} value={allTracesCount} />}
+          {applicationId && (
+            <Row
+              type="Application"
+              iconType="lib_application"
+              getEntity={() =>
+                getApplication({
+                  id: applicationId
+                })
+              }
+              applicationId={applicationId}
+              total={allTracesCount}
+              timeConfig={timeConfig}
+              backButtonLabels={backButtonLabels}
+            />
+          )}
+          {serviceId && (
+            <Row
+              type="Service"
+              iconType="lib_application_service"
+              getEntity={() =>
+                getService({
+                  id: serviceId,
+                  filter: {
+                    application: applicationId,
+                    service: serviceId,
+                    endpoint: endpointId,
+                    timeConfig
+                  }
+                })
+              }
+              applicationId={applicationId}
+              serviceId={serviceId}
+              total={allTracesCount}
+              timeConfig={timeConfig}
+              backButtonLabels={backButtonLabels}
+            />
+          )}
+          {endpointId && (
+            <Row
+              type="Endpoint"
+              iconType="lib_application_endpoint"
+              getEntity={() =>
+                getEndpoint({
+                  id: endpointId,
+                  filter: {
+                    application: applicationId,
+                    service: serviceId,
+                    endpoint: endpointId,
+                    timeConfig
+                  }
+                })
+              }
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              total={allTracesCount}
+              timeConfig={timeConfig}
+              backButtonLabels={backButtonLabels}
+            />
+          )}
+        </section>
+      </div>
     );
   }
 );

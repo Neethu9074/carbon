@@ -2,8 +2,12 @@ import React from 'react';
 
 import { applicationsList, servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
-import { ViewSwitcher, Item } from 'in-new-components/ViewSwitcher';
+import TabList from 'in-new-components/TabView/sharedComponents/TabList';
+import Tab from 'in-new-components/TabView/sharedComponents/Tab';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
+
+import locals from './ViewSwitcher.mless';
 
 export default connectTo(
   {
@@ -11,14 +15,20 @@ export default connectTo(
   },
   function AppViewSwitcher({ isServiceViewActive }) {
     return (
-      <ViewSwitcher>
-        <Item href$={getModifiedUrlStream(p => (p.pathname = applicationsList))} active={!isServiceViewActive}>
-          Applications
-        </Item>
-        <Item href$={getModifiedUrlStream(p => (p.pathname = servicesList))} active={isServiceViewActive}>
-          Services
-        </Item>
-      </ViewSwitcher>
+      <div className={locals.viewSwitcher}>
+        <TabList>
+          <Link className={locals.link} href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}>
+            <Tab className={locals.tab} isSelected={!isServiceViewActive}>
+              Applications
+            </Tab>
+          </Link>
+          <Link className={locals.link} href$={getModifiedUrlStream(p => (p.pathname = servicesList))}>
+            <Tab className={locals.tab} isSelected={isServiceViewActive}>
+              Services
+            </Tab>
+          </Link>
+        </TabList>
+      </div>
     );
   }
 );

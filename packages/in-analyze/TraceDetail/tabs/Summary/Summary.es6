@@ -43,22 +43,22 @@ class Summary extends React.Component {
   }
 
   render() {
-    const { data: trace, getColor, callId } = this.props;
+    const { data: trace, getColor, callId, traceId } = this.props;
     return (
       <Fragment>
         {callId && (
           <ErrorBoundary name="call tree sidebar">
             <Sidebar relativeTopOffset={-16}>
-              <CallDetails callId={callId} traceId={trace.id} getColor={getColor} onClose={this.clearSelectedCall} />
+              <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
             </Sidebar>
           </ErrorBoundary>
         )}
         <Row>
           <Col lg={4}>
-            <KpiCard title="Latency" value={millis.compact(trace.duration)} />
+            <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
           </Col>
           <Col lg={4}>
-            <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
+            <KpiCard title="Latency" value={millis.compact(trace.duration)} />
           </Col>
           <Col lg={4}>
             <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
@@ -70,14 +70,14 @@ class Summary extends React.Component {
             <Card title="Timeline" withoutPadding>
               <div className={locals.icicleChartWrapper}>
                 <ServerIcicleChart
-                  traceId={trace.id}
+                  traceId={traceId}
                   getColor={getColor}
                   onCallClicked={this.onSubCallClicked}
                   hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
                 />
               </div>
               <ServiceEndpointList
-                traceId={trace.id}
+                traceId={traceId}
                 getColor={getColor}
                 onListItemMouseEnter={this.onListItemMouseEnter}
                 onListItemMouseLeave={this.onListItemMouseLeave}
@@ -90,7 +90,7 @@ class Summary extends React.Component {
           <Col lg={12}>
             <Card title="Calls">
               <ServerCallTree
-                traceId={trace.id}
+                traceId={traceId}
                 getColor={getColor}
                 selectedCall$={this.selectedCall$}
                 onSubCallClicked={this.onSubCallClicked}

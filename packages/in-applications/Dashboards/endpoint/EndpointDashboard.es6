@@ -6,11 +6,11 @@ import { applicationId, serviceId, endpointId } from 'in-applications/navigation
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import TracesButton from 'in-applications/components/TracesButton';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import TabView from 'in-new-components/TabView/TabView';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

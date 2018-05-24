@@ -36,13 +36,6 @@ export default [
     formatter: number
   },
   {
-    metrics: ['threads_core', 'threads_executed_tasks', 'threads_current_count', 'threads_current_busy'],
-    labels: ['Core threads', 'Executed threads', 'Current threads', 'Busy threads'],
-    min: 0,
-    category: ['Threads'],
-    formatter: number
-  },
-  {
     metrics: [
       'connections_open',
       'connections_overflows',

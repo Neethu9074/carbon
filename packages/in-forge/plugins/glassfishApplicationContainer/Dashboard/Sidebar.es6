@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ConnectionPool from 'in-forge/plugins/glassfishApplicationContainer/ConnectionPool';
-import ThreadPool from 'in-forge/plugins/glassfishApplicationContainer/ThreadPool';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import JdbcPool from 'in-forge/plugins/glassfishApplicationContainer/JdbcPool';
 import AppList from 'in-forge/plugins/glassfishApplicationContainer/AppList';
@@ -34,15 +33,6 @@ export default function GlassfishSidebar({ snapshot }) {
           </Collapsible>
         </div>
       ) : null}
-
-      <Separator />
-
-      <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Thread Pool</Collapsible.Header>
-        <Collapsible.Content>
-          <ThreadPool snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
 
       <Separator />
 

@@ -24,7 +24,7 @@ export const roleViewFilterEnabled = onlyInternally;
 export const cockpitEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
-export const forecastsEnabled = config.tenant === 'edmunds' || betaInstanaTus;
+export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const showTenantSwitcher = config.tenant !== 'edmunds';
 
 // ########################################################################################
@@ -44,6 +44,8 @@ export const oneZeroAppDataEnabled =
 // v2 query param and/or the v2Enabled ui setting of the current user.
 export const twoZeroAppDataEnabled =
   __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled') || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
+
+export const previewTwoZeroWithoutHybrid = !oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
 const v2EnabledUserPreference =
   window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;

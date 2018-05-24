@@ -1,0 +1,30 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tab {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+
+    padding: 0 0.5rem 0;
+    color: @lib__colors__N700Medium;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: 3px solid @lib__colors__N300;
+    }
+  }
+
+  .selectedTab {
+    color: @lib__colors__N900Primary;
+    border-bottom: 3px solid @lib__colors__orange800;
+    cursor: default;
+
+    &:hover {
+      border-bottom: 3px solid @lib__colors__orange800;
+    }
+  }
+}

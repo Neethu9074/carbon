@@ -5,9 +5,9 @@ import React from 'react';
 import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
-import NoContentIcon from 'in-components/Chart/components/NoContentIcon';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Chart/components/Tooltip';
+import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend';
 import { getSetting$ } from 'in-services/settings';
 import Chart from 'in-components/Chart/Chart';
@@ -16,16 +16,14 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './Chart.mless';
 
 export default getElementDimensions(function ChartReactComponent(props) {
-  let { timeConfig, y1, width, customHeight } = props;
+  let { width, customHeight } = props;
   const height = customHeight || 160;
 
-  let content;
-  if (!timeConfig || !y1 || !y1.metrics) {
-    content = <NoContentIcon width={width} height={height} />;
-  } else {
-    content = <ChartReactWrapper {...props} width={width - 100} height={height} />;
-  }
-  return <div className={locals.wrapper}>{content}</div>;
+  return (
+    <div className={locals.wrapper}>
+      <ChartReactWrapper {...props} width={width - 2 * WIDTH} height={height} />
+    </div>
+  );
 });
 
 const enhance = withState('chart', 'setChart', null);

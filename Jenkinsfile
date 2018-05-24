@@ -127,7 +127,7 @@ stage('Deployment') {
 }
 
 stage('Storybook build') {
-  if ( env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH_NAME == 'design_lib' ) {
     node {
       runNodeBuild(gitCommitId, 'yarn && npm run storybookBuild')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
@@ -139,7 +139,7 @@ stage('Storybook build') {
 }
 
 stage('Deploy Storybook to S3') {
-  if ( env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH_NAME == 'design_lib' ) {
     node {
       sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
     }

@@ -1,0 +1,6 @@
+{
+  "name": "TechnologyIndicator",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TechnologyIndicator.es6"
+}

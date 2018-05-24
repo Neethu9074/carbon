@@ -1,3 +1,4 @@
+import { compose } from 'recompose';
 import React from 'react';
 
 import ApplicationSwitcher from 'in-applications/breadcrumbs/ApplicationSwitcher';
@@ -11,8 +12,8 @@ import connect from 'in-hoc/connectTo';
 
 import locals from './ApplicationBreadcrumbWithSwitcher.mless';
 
-export default connect(
-  props => ({
+export default compose(
+  connect(props => ({
     application: getApplication({
       id: props.applicationId
     }),
@@ -32,45 +33,34 @@ export default connect(
         timeConfig: props.timeConfig
       }
     })
-  }),
-  function ApplicationBreadcrumbWithSwitcher(props) {
-    const { application, applications, applicationId } = props;
+  }))
+)(ApplicationBreadcrumbWithSwitcher);
 
-    if (
-      application.progress.loading ||
-      application.errors.length > 0 ||
-      (applications.progress.loading || applications.errors.length > 0)
-    ) {
-      return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
-    } else {
-      return (
-        <Overlay content={ApplicationSwitcher} props={props} withoutWrapper position="fixed">
-          {OverlayActivator}
-        </Overlay>
-      );
-    }
+function ApplicationBreadcrumbWithSwitcher(props) {
+  const { application, applications, applicationId } = props;
+
+  if (
+    application.progress.loading ||
+    application.errors.length > 0 ||
+    (applications.progress.loading || applications.errors.length > 0)
+  ) {
+    return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
   }
-);
 
-function OverlayActivator({ application, applications, applicationId, toggle, refSetter }) {
   return (
-    <Breadcrumb
-      href$={getApplicationDashboard(applicationId)}
-      label={`Application (${applications.data.items.length})`}
-      refSetter={refSetter}
-    >
-      {application.data.label}
-      <span
-        href="#"
-        onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-          toggle();
-        }}
-        className={locals.subMenuToggle}
-      >
-        <SvgIcon type="triangle_down" width={10} height={10} className={locals.subMenuToggleIcon} />
-      </span>
-    </Breadcrumb>
+    <Overlay content={ApplicationSwitcher} props={props} position="fixed">
+      {({ open }) => (
+        <div onMouseEnter={open}>
+          <Breadcrumb
+            className={locals.wrapper}
+            href$={getApplicationDashboard(applicationId)}
+            label={`Application (${applications.data.items.length})`}
+          >
+            <span className={locals.appName}>{application.data.label}</span>
+            <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
+          </Breadcrumb>
+        </div>
+      )}
+    </Overlay>
   );
 }

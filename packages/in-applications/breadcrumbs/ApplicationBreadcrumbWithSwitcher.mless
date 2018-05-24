@@ -1,9 +1,30 @@
+@import '~in-themes/active.less';
+
 :local {
-  .subMenuToggle {
-    margin-left: .3rem;
+  .wrapper {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: @lib__shapes__radius_medium;
+
+    &:hover {
+      border: 1px solid #ffffff52;
+
+      .toggleIcon {
+        fill: #ffffffb8;
+      }
+
+      .appName {
+        color: #ffffffb8;
+      }
+    }
   }
 
-  .subMenuToggleIcon {
-    fill: #fff;
+  .appName {
+    color: #ffffff8f;
+  }
+
+  .toggleIcon {
+    fill: #ffffff8f;
+    margin-left: 0.5rem;
   }
 }

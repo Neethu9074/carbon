@@ -6,7 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './CallFrame.mless';
 
-export const FRAME_HEIGHT = 22;
+export const FRAME_HEIGHT = 24;
 
 export default connect(
   props => ({

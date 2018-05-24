@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .timingChart {
     display: flex;
@@ -10,15 +12,16 @@
     position: absolute;
     height: 100%;
     min-width: 5px;
-    border-right: 1px solid #e7eef0;
+    border-right: 1px solid @lib__colors__N500;
     &:first-child {
-      border-left: 1px solid #e7eef0;
+      border-left: 1px solid @lib__colors__N500;
     }
   }
 
   .timeLabel {
     text-align: center;
-    color: #8c969a;
+
+    color: @lib__colors__N800Dark;
     padding: 0 0 0.5rem 0;
     overflow: hidden;
     white-space: pre-wrap;
@@ -27,14 +30,15 @@
   }
 
   .timeLabel::before {
-    content: ' '
+    content: ' ';
   }
 
   .timeBlock {
     height: 2rem;
-    padding: 0.5rem 0;
+    padding: 0.625rem 0 0.5rem;
     overflow-x: hidden;
     text-overflow: ellipsis;
+    color: #fff;
   }
 
   .timeBlockLabel {
@@ -53,5 +57,4 @@
     margin: 0 0.125rem;
     font-weight: bold;
   }
-
 }

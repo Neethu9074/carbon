@@ -1,0 +1,5 @@
+:local {
+  .tabViewPlaceholder {
+    height: 1rem;
+  }
+}

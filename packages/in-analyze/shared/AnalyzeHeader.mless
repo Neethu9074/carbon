@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .analyzeHeader {
+    background: @lib__colors__N050;
+  }
+}

@@ -1,14 +1,14 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .overlay {
     position: absolute;
     z-index: @z-index__overlays;
 
-    &::after, &::before {
+    &::after,
+    &::before {
       border: solid transparent;
-      content: " ";
+      content: ' ';
       height: 0;
       width: 0;
       position: absolute;
@@ -16,8 +16,8 @@
     }
 
     &.style--popover {
-      border-radius: 3px;
-      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.15);
+      border-radius: @lib__shapes__radius_medium;
+      box-shadow: @lib__shadows__strong;
 
       .overlay-style(#fff, 14px, 1px, #E8EEF0);
     }
@@ -26,14 +26,14 @@
       @arrow-size: 7px;
       @min-size-for-arrow: @arrow-size * 3;
 
-      border-radius: 3px;
+      border-radius: @lib__shapes__radius_small;
       color: #fff;
       display: flex;
       align-items: center;
       min-width: @min-size-for-arrow;
       min-height: @min-size-for-arrow;
 
-      .overlay-style(#0C1415, @arrow-size, 0px, #0C1415);
+      .overlay-style(#0c1415, @arrow-size, 0px, #0c1415);
     }
 
     .overlay-style(@background, @arrow-size, @border-width, @border-color) {
@@ -90,7 +90,8 @@
     }
 
     .alignment-arrow(@opposing-side, @from, @background, @arrow-size, @border-width, @border-color) {
-      &::after, &::before {
+      &::after,
+      &::before {
         @{opposing-side}: 100%;
         @{from}: 50%;
       }

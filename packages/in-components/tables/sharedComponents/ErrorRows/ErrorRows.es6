@@ -5,9 +5,9 @@ import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
 
 import locals from './ErrorRows.mless';
 
-export default function ErrorRows({ cols, errors }) {
+export default function ErrorRows({ cols, size, errors }) {
   return getUniqueErrors(errors).map(error => (
-    <Tr key={error}>
+    <Tr key={error} size={size}>
       <Td colSpan={cols} className={locals.error}>
         {error}
       </Td>

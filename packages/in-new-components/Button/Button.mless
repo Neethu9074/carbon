@@ -8,7 +8,7 @@
     font-size: 0.875rem;
     text-decoration: none;
     border: 0;
-    border-radius: 0.188rem;
+    border-radius: @lib__shapes__radius_small;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -30,69 +30,162 @@
   .primary {
     .buttonStyle(
       // bg
-      #00babb,
+      @lib__colors__primary1,
       // hover bg
-      #00a1a3,
+      #12978e,
       // font
       #fff,
       // hover font
       #fff,
-      );
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      @lib__typography__button__font-weight
+      );;
   }
 
   .secondary {
     .buttonStyle(
       // bg
-      #e7eef0,
+      @lib__colors__N050,
       // hover bg
-      #dde7ec,
+      @lib__colors__N100,
       // font
-      #47626a,
+      @lib__colors__N800Dark,
       // hover font
-      #47626a);
+      @lib__colors__N800Dark,
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      normal
+      );;
+
+    border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      border: 1px solid @lib__colors__N500;
+    }
+  }
+
+  .action {
+    .buttonStyle(
+      // bg
+      @lib__colors__white,
+      // hover bg
+      rgba(0, 189, 203, 0.08),
+      // font
+      @lib__colors__primary1,
+      // hover font
+      @lib__colors__primary1,
+      
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      normal
+      );;
+  }
+
+  .subtle {
+    .buttonStyle(
+      // bg
+      @lib__colors__white,
+      // hover bg
+      @lib__colors__N100,
+      // font
+      @lib__colors__N800Dark,
+      // hover font
+      @lib__colors__N800Dark,
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      200
+      );;
   }
 
   .danger {
-      .buttonStyle(
-        // bg
-        #d9534f,
-        // hover bg
-        #c9302c,
-        // font
-        #fff,
-        // hover font
-        #fff);
-    }
+    .buttonStyle(
+      // bg
+      @lib__colors__failure,
+      // hover bg
+      #cc4238,
+      // font
+      #fff,
+      // hover font
+      #fff,
+            
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      normal
+      );;
+  }
 
   .normal {
-    padding: 0.875rem 1.25rem;
+    padding: 0.5rem 0.625rem;
+
+    .icon {
+      margin: -0.25rem 0.5rem -0.25rem 0;
+    }
   }
 
   .compact {
-    padding: 0.5rem 0.75rem;
+    padding: 0.25rem 0.625rem;
+
+    .icon {
+      margin-right: 0.5rem;
+    }
   }
 
-  .icon {
-    margin: 0 0.5rem 0 0;
-  }
-
-  .disabled, .disabled:focus, .disabled:hover {
-    background: #fff;
-    color: #D5DFE4;
+  .disabled,
+  .disabled:focus,
+  .disabled:hover {
     cursor: not-allowed;
     outline: 0;
-    border: 1px solid #d5dfe4;
 
     svg {
-      fill: #D5DFE4;
+      fill: #d5dfe4;
     }
+  }
+
+  .primaryDisabled,
+  .primaryDisabled:hover,
+  .primaryDisabled:focus {
+    background: #2ca9a07a;
+  }
+
+  .secondaryDisabled,
+  .secondaryDisabled:hover,
+  .secondaryDisabled:focus {
+    color: @lib__colors__N700Medium;
+  }
+
+  .actionDisabled,
+  .actionDisabled:hover,
+  .actionDisabled:focus {
+    color: #2ca9a07a;
+  }
+
+  .subtleDisabled,
+  .subtleDisabled:hover,
+  .subtleDisabled:focus {
+    color: #62757d7a;
+  }
+
+  .dangerDisabled,
+  .dangerDisabled:hover,
+  .dangerDisabled:focus {
+    background: #dc4b417a;
   }
 }
 
-.buttonStyle(@bg, @hoverBg, @font, @hoverFont) {
+.buttonStyle(@bg, @hoverBg, @font, @hoverFont, @fontSize, @fontWeight) {
   & {
     background: @bg;
     color: @font;
+    font-size: @fontSize;
+    font-weight: @fontWeight;
 
     svg {
       fill: @font;

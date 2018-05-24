@@ -8,7 +8,7 @@ import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
 import { homePath } from 'in-stores/navigation/paths/mainPaths';
 import { getView } from 'in-stores/navigation/navigation';
 import Lettering from 'in-components/Lettering';
-import Badge from 'in-new-components/Badge';
+import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
 
 import './AppHeader.less';
@@ -28,9 +28,9 @@ export default function AppHeader() {
       */}
       {twoZeroAppDataEnabled &&
         !isTwoZeroBetaPhase && (
-          <Badge size="mid" color="#06b7ba" className={`${block}__early`}>
+          <Pill color="#06b7ba" className={`${block}__early`}>
             Early access
-          </Badge>
+          </Pill>
         )}
 
       {/* Beta phase/hybrid mode: Let users switch between 1.0 and 2.0 */}

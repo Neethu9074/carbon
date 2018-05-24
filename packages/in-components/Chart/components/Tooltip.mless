@@ -4,10 +4,12 @@
   .tooltip {
     position: absolute;
     top: 0;
-    bottom: 1.875rem;
+    bottom: 2.1875rem;
     left: 3.125rem;
     right: 3.125rem;
     z-index: @z-index__tooltips;
+
+    font-size: 0.875rem;
   }
 
   .glassPane {
@@ -24,14 +26,14 @@
     bottom: 0;
 
     margin-left: -1px;
-    border-left: 1px solid red;
+    border-left: 1px solid #0000003d;
   }
 
   .content {
-    margin-left: 5px;
+    margin-left: 1rem;
   }
 
   .leftAlignedContent {
-    margin-left: ~'calc(-100% - 5px)';
+    margin-left: ~'calc(-100% - 1rem)';
   }
 }

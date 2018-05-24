@@ -14,6 +14,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Endpoints.mless';
@@ -141,7 +142,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, serviceId }) {
       return (
-        <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>{item.endpoint.label}</Link>
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.linkEntityIcon} type="lib_application_endpoint" width={24} height={24} />
+          <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>
+            {item.endpoint.label}
+          </Link>
+        </div>
       );
     }
   },
@@ -149,11 +155,7 @@ const columnDefinitions = [
     id: 'Type',
     sortable: false,
     getContent(item) {
-      return (
-        <Badge size="sm" color={getColor(item.endpoint.type)}>
-          {item.endpoint.type}
-        </Badge>
-      );
+      return <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>;
     }
   },
   {

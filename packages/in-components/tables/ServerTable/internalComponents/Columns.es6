@@ -4,7 +4,7 @@ import { Tr, Th, SortableTh } from 'in-components/tables/sharedComponents';
 
 export default function Columns({ setOrder, orderBy, orderDirection, columnDefinitions }) {
   return (
-    <Tr>
+    <Tr size="compact">
       {columnDefinitions.map(columnDefinition => {
         const label = columnDefinition.label || columnDefinition.id;
         if (columnDefinition.sortable === false) {

@@ -17,7 +17,7 @@ export default function TableSparkChart(props) {
   return (
     <div className={locals.wrapper}>
       <SparkChart {...props} />
-      <MetricValue className={locals.metric} value={aggregationContent} />
+      <MetricValue className={locals.metricValue} value={aggregationContent} />
     </div>
   );
 }

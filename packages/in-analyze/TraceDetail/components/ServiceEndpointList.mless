@@ -1,15 +1,14 @@
+@import '~in-themes/active.less';
+
 :local {
   .cell {
     display: flex;
     align-items: center;
-
-    color: #47626a;
   }
 
   .colorIndicator {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 1px;
+    width: 0.75rem;
+    height: 0.75rem;
     margin-right: 0.5rem;
   }
 
@@ -23,23 +22,17 @@
   }
 
   .aggregatedTime {
-    color: #0c1415;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .timeIcon {
     margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
   }
 
-  .errorIndicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    font-size: 0.625rem;
-    background: #ff5d3b;
-    color: white;
+  .metricValue {
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 }

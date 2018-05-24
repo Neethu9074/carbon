@@ -1,4 +1,8 @@
+@import '~in-themes/active.less';
+
 :local {
+  @lineColor: @lib__colors__N400;
+
   .wrapper {
     position: relative;
   }
@@ -14,7 +18,7 @@
   }
 
   .selectedRow {
-    background: #cef3fd;
+    background: @lib__colors__N300;
   }
 
   .detailGroup {
@@ -33,22 +37,21 @@
   }
 
   .expandIcon {
-    background: #1fb7b9;
-    border-radius: 2px;
-    padding: 0.25rem;
+    border-radius: @lib__shapes__radius_small;
     min-width: 0.75rem;
     min-height: 0.75rem;
     margin-right: 0.5rem;
+    fill: @lib__colors__primary1;
     cursor: pointer;
 
     &:hover {
-      background: #4ceaec;
+      fill: #12978e;
     }
   }
 
   .label {
-    margin-right: 1rem;
-    color: #16363e;
+    margin-right: 0.5rem;
+    color: @lib__colors__primary1;
     font-size: 0.875rem;
 
     overflow-x: hidden;
@@ -58,12 +61,12 @@
   }
 
   .dashedLine {
-    border-bottom: 1px dashed #e8eef0;
+    border-bottom: 1px dashed @lineColor;
     flex-grow: 1;
   }
 
   .leftLine {
-    border-bottom: 1px solid #e8eef0;
+    border-bottom: 1px solid @lineColor;
     margin-right: 4px;
   }
 
@@ -73,8 +76,8 @@
     top: -35px;
 
     margin-left: 8px;
-    border-right: 1px solid #e8eef0;
-    background: #e8eef0;
+    border-right: 1px solid @lineColor;
+    background: @lineColor;
   }
 
   .intermediateLine {

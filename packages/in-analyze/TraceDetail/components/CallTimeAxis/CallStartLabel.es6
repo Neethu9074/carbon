@@ -13,7 +13,7 @@ export default getElementDimensions(({ startTime, call, className }) => {
 
   return (
     <span className={joinClassNames(locals.callStartLabel, className)}>
-      <SvgIcon className={locals.icon} type="time" width={18} height={18} color="#00babb" />
+      <SvgIcon className={locals.icon} type="lib_datetime_time" width={24} height={24} />
       {`Started: ${formatTime(startTime)}`}
     </span>
   );

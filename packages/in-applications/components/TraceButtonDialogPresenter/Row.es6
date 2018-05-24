@@ -64,7 +64,7 @@ function ValueAndPercentage({ value, total, href$, backButtonLabels }) {
       <LinkOrSpan href$={href$} onClick={prepareBackButton}>
         {renderedValue}
       </LinkOrSpan>
-      <LinkOrSpan href$={href$} onClick={prepareBackButton} className={locals.percentage}>
+      <LinkOrSpan onClick={prepareBackButton} className={locals.percentage}>
         {value != null && total != null && `(${percentage.detailed(value / total)})`}
       </LinkOrSpan>
     </div>
@@ -72,6 +72,7 @@ function ValueAndPercentage({ value, total, href$, backButtonLabels }) {
 }
 
 function Bar({ percentage }) {
+  percentage = Math.min(1, Math.max(percentage, 0));
   return (
     <div className={locals.outerBar}>
       <div style={{ width: `${percentage * 100}%` }} className={locals.innerBar} />

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Card from 'in-new-components/Card';
-
 import locals from './KpiCard.mless';
 
 export default function KpiCard({ title, value }) {
@@ -19,9 +17,10 @@ export default function KpiCard({ title, value }) {
   }
 
   return (
-    <Card title={title}>
+    <div className={locals.wrapper}>
+      <div className={locals.title}>{title}</div>
       <span className={locals.major}>{major}</span>
       {minor && <span className={locals.minor}>{minor}</span>}
-    </Card>
+    </div>
   );
 }

@@ -7,8 +7,8 @@ import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
-import { number, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { number } from 'in-services/formatters/number';
 
 describe('in-components/Chart/Configuration', () => {
   let renderCallback;
@@ -60,24 +60,6 @@ describe('in-components/Chart/Configuration', () => {
         colors: [],
         colors100: [],
         valuesNeedToBeStacked: true,
-        valuesDependOnEachOther: true
-      });
-    });
-
-    it('should mark the metrics and set the formatter depend on each other for countErrorBar', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
-      config.update({
-        y1: {
-          renderer: Renderer.countErrorBar
-        },
-        timeConfig: { windowSize: 60000, to: null }
-      });
-      expect(config.y1).to.deep.equal({
-        formatter: [number, percentage],
-        renderer: Renderer.countErrorBar,
-        numOfSeries: 0,
-        colors: ['#c6eaff', '#f06392'],
-        colors100: ['#00bdff', '#f06392'],
         valuesDependOnEachOther: true
       });
     });

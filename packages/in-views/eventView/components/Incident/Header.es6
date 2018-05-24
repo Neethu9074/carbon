@@ -31,7 +31,7 @@ export default connectTo(
     const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
     const numOpenEvents = openEvents ? openEvents.filter(e => e).length : '';
     const affectedEnties = {};
-    recentEvents.forEach(e => (affectedEnties[e.getIn(['problem', 'snapshotId'])] = true));
+    recentEvents.forEach(e => (affectedEnties[e.getIn(['entityId'])] = true));
     const affectedServices = {};
     recentEvents.forEach(e => {
       const affectedServiceId = e.get('affectedService');

@@ -1,9 +1,11 @@
-export const TOTAL_TIME_COLOR = '#47626A';
-export const NETWORK_TIME_COLOR = '#00BBFF';
-export const SELF_TIME_COLOR = '#1A4FFF';
-export const WAITING_TIME_COLOR = '#f4d776';
+import theme from 'in-themes';
 
-export const NETWORK_TIME_COLOR_OPACITY = 0.6;
+export const TOTAL_TIME_COLOR = theme.lib.colors.navy800;
+export const NETWORK_TIME_COLOR = theme.lib.colors.cyan800;
+export const SELF_TIME_COLOR = theme.lib.colors.cyan800;
+export const WAITING_TIME_COLOR = theme.lib.colors.green800;
+
+export const NETWORK_TIME_COLOR_OPACITY = 0.24;
 
 export const TOTAL_TIME_LABEL = 'Total Time';
 export const NETWORK_TIME_LABEL = 'Network';

@@ -15,6 +15,7 @@ import SearchInput from 'in-components/tables/ServerTable/internalComponents/Sea
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import Pagination from 'in-new-components/Pagination';
 import Card from 'in-new-components/Card';
@@ -23,6 +24,9 @@ import locals from './ServerTablePresenter.mless';
 
 export default function ServerTablePresenter(props) {
   const {
+    // custom classnames
+    headerClassName,
+
     // values configurable via the table
     query,
     page,
@@ -38,6 +42,7 @@ export default function ServerTablePresenter(props) {
     rightHeader,
     leftHeader,
     isSearchable = true,
+    size = 'regular',
 
     // events
     onChange,
@@ -58,10 +63,10 @@ export default function ServerTablePresenter(props) {
       </Fragment>
     );
   } else if (hasErrors) {
-    body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} />;
+    body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} size={size} />;
   } else if (result.data.totalHits === 0) {
     body = (
-      <Tr>
+      <Tr size={size}>
         <Td colSpan={columnDefinitions.length}>No data found</Td>
       </Tr>
     );
@@ -70,6 +75,7 @@ export default function ServerTablePresenter(props) {
       <Row
         key={item.id || i}
         item={item}
+        size={size}
         columnDefinitions={columnDefinitions}
         cellOpts={props}
         onMouseEnter={onRowMouseEnter}
@@ -132,7 +138,7 @@ export default function ServerTablePresenter(props) {
   }
   return (
     <Fragment>
-      <div className={locals.header}>
+      <div className={joinClassNames(locals.header, headerClassName)}>
         {leftHeader || <span>&nbsp;</span>}
         {header}
       </div>

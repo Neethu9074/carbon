@@ -3,8 +3,8 @@
 import { expect } from 'chai';
 import { uniq } from 'lodash';
 
-import { createColorPool } from 'in-services/util/ColorGenerator';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import { createColorPool } from 'in-services/util/ColorGenerator';
 import { registry } from 'in-sdk/tracing';
 
 describe('in-stores/colorCoding/spanCategories', () => {

@@ -1,14 +1,11 @@
-:local {
-  .link {
-    display: flex;
-    align-items: center;
-  }
+@import '~in-themes/active.less';
 
-  .icon {
-    margin: 0 .4rem 0 0;
-    fill: #fff;
-    background: #00B7BA;
-    border-radius: 50%;
-    padding: 3px;
+:local {
+  .loadMoreRow {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    margin-top: 0.5rem;
   }
 }

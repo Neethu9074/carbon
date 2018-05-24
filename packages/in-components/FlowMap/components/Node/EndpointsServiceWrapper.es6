@@ -20,7 +20,7 @@ function Header({ data }) {
 
   return (
     <div className={locals.header}>
-      <SvgIcon className={locals.pluginIcon} type="app_service" width={16} height={16} color="#6c8a91" />
+      <SvgIcon className={locals.pluginIcon} type="lib_application_service" width={24} height={24} color="#6c8a91" />
       <ServiceLink className={locals.entityLink} serviceId={data.id}>
         {data.label}
       </ServiceLink>

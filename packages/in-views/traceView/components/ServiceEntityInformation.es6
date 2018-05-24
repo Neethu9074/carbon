@@ -12,7 +12,7 @@ export default function ServiceEntityInformation(props) {
     return (
       <EntityInformation
         {...props}
-        snapshotId={serviceSnapshotId}
+        entityId={serviceSnapshotId}
         timeConfig={getTimeConfigAtMoment(span.get('start'))}
       />
     );

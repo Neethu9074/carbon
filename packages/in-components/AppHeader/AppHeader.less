@@ -1,17 +1,19 @@
+@import '~in-themes/active.less';
+
 .in-app-header {
-  height: 2.5rem;
+  height: 3rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: #172429;
+  background: @lib__colors__navy900;
   position: relative;
 
   &__right {
     position: absolute;
-    top: 5px;
-    right: .5rem;
+    top: 0.625rem;
+    right: 0.5rem;
 
     display: flex;
     align-items: center;
@@ -21,7 +23,7 @@
   &__lettering {
     cursor: pointer;
     position: absolute;
-    top: .813rem;
+    top: 1.125rem;
     left: 1rem;
   }
 
