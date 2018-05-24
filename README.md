@@ -65,7 +65,6 @@ So, you are a UI engineer? Then you will also need the following awesome softwar
  - [Sketch](https://www.sketchapp.com/): This is our tool of choice for mockups and designs. You have to hit the `Free Trial` button to download it. You can get a license from Michael Krumm (just ask via Slack).
  - [SFPro font](https://developer.apple.com/fonts/downloads/SFPro.zip): This is the default MacOS system font that we are using in our product. Unfortunately, this font can only be used in Sketch when installed separately.
 
-
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
 
