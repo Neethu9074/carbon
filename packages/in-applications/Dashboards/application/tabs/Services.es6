@@ -188,7 +188,12 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <Counter>{number.compact(count)}</Counter>;
+      return (
+        <div className={locals.flexWrapper}>
+          <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
+          <Counter>{number.compact(count)}</Counter>
+        </div>
+      );
     }
   },
   {

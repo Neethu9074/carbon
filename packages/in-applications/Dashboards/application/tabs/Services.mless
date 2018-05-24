@@ -15,4 +15,9 @@
     margin-right: 0.25rem;
     fill: @lib__colors__blue800;
   }
+
+  .entityIcon {
+    margin-right: 0.25rem;
+    fill: @lib__colors__N700Medium;
+  }
 }
