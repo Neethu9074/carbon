@@ -10,7 +10,7 @@ import locals from './TimePresenter.mless';
 
 export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter }) {
   return (
-    <Tooltip align="bottomMiddle" content={getTooltipContent(timeConfig)}>
+    <Tooltip themeStyle="light" align="bottomMiddle" content={getTooltipContent(timeConfig)}>
       <a
         className={joinClassNames(locals.wrapper, className)}
         href="#"

@@ -63,10 +63,11 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    color: @lib__colors__N900Primary;
   }
 
   .tooltipLabel {
-    color: @lib__colors__N600Light;
     margin: 0.3rem 0 0.5rem;
   }
 }
