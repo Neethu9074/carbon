@@ -5,10 +5,11 @@ import { ServiceLink } from 'in-components/FlowMap/components/Node/EntityLinks';
 
 import locals from './SmallContent.mless';
 
-export default function SmallContent({ data }) {
+export default function SmallContent(props) {
+  const data = props.data;
   return (
     <div className={locals.smallContent}>
-      <ServiceLink className={locals.entityLink} serviceId={data.id}>
+      <ServiceLink className={locals.entityLink} serviceId={data.id} {...props}>
         {data.label}
       </ServiceLink>
       <div className={locals.spacer} />

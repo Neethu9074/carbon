@@ -7,17 +7,18 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MediumContent.mless';
 
-export default function MediumContent({ data, metrics, serviceLocatorUid }) {
+export default function MediumContent(props) {
   return (
     <div className={locals.mediumContent}>
-      <Header data={data} serviceLocatorUid={serviceLocatorUid} />
+      <Header {...props} />
       <div className={locals.line} />
-      <MetricList className={locals.metrics} metrics={metrics} />
+      <MetricList className={locals.metrics} metrics={props.metrics} />
     </div>
   );
 }
 
-function Header({ data }) {
+function Header(props) {
+  const data = props.data;
   if (!data) {
     return null;
   }
@@ -26,7 +27,7 @@ function Header({ data }) {
     <div className={locals.header}>
       <SvgIcon className={locals.pluginIcon} type="lib_application_service" width={24} height={24} color="#6c8a91" />
       <div>
-        <ServiceLink className={locals.entityLink} serviceId={data.id}>
+        <ServiceLink className={locals.entityLink} serviceId={data.id} {...props}>
           {data.label}
         </ServiceLink>
         <div className={locals.spacer} />

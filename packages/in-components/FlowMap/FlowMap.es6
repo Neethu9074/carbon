@@ -144,6 +144,11 @@ export default class FlowMap {
       'rootNodeId',
       nextFlowMapState.getRootNodeId()
     );
+
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
+      'applicationContext',
+      nextFlowMapState.getApplicationContext()
+    );
   }
 
   disposeSceneGraph() {

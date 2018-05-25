@@ -7,8 +7,8 @@ export default class FlowMapState {
     this.pathFinder = new PathFinder(this.nodes);
   }
 
-  addNode(id, data, metricValues) {
-    const node = createNode(id, data, metricValues);
+  addNode(id, applicationId, data, metricValues) {
+    const node = createNode(id, applicationId, data, metricValues);
     this.nodes.set(node.id, node);
     return node;
   }
@@ -24,11 +24,12 @@ export default class FlowMapState {
     return newChild;
   }
 
-  addRootNode({ id, service, endpoint, metricValues }) {
+  addRootNode({ id, service, endpoint, applicationContext, metricValues }) {
     this.rootNodeId = id;
+    this.applicationContext = applicationContext;
     this.pathFinder.setRootNodeId(id);
 
-    const rootNode = this.addNode(id, service, metricValues);
+    const rootNode = this.addNode(id, applicationContext, service, metricValues);
 
     if (endpoint) {
       return this.addChild(rootNode, endpoint, metricValues);
@@ -38,6 +39,10 @@ export default class FlowMapState {
 
   getRootNodeId() {
     return this.rootNodeId;
+  }
+
+  getApplicationContext() {
+    return this.applicationContext;
   }
 
   addConnected(node, item, direction) {
@@ -76,7 +81,12 @@ export default class FlowMapState {
         const newNode = nodes[i];
         const serviceNode = currentNodes.has(newNode.id)
           ? currentNodes.get(newNode.id)
-          : this.addNode(newNode.id, newNode.service, newNode.metrics);
+          : this.addNode(
+              newNode.id,
+              this.isWithinAppContext(newNode.applications) ? this.applicationContext : null,
+              newNode.service,
+              newNode.metrics
+            );
 
         this.addConnected(node, serviceNode, direction);
 
@@ -114,7 +124,12 @@ export default class FlowMapState {
         const newChild = children[i];
         const serviceNode = currentNodes.has(newChild.id)
           ? currentNodes.get(newChild.id)
-          : this.addNode(newChild.id, newChild.service, newChild.metrics);
+          : this.addNode(
+              newChild.id,
+              this.isWithinAppContext(newChild.applications) ? this.applicationContext : null,
+              newChild.service,
+              newChild.metrics
+            );
 
         this.addConnected(node, serviceNode, direction);
 
@@ -161,6 +176,7 @@ export default class FlowMapState {
       id: this.calculateUniqueIdForNode(n.service.id, path, direction),
       service: n.service,
       endpoint: n.endpoint,
+      applications: n.applications,
       relatedNodesCount: n.relatedNodesCount,
       metrics: n.metrics
     }));
@@ -175,24 +191,33 @@ export default class FlowMapState {
     }
     return path.join(direction === 'incoming' ? '<-' : '->');
   }
+
+  isWithinAppContext(applications) {
+    return (
+      this.applicationContext &&
+      applications &&
+      applications.map(application => application.id).indexOf(this.applicationContext) >= 0
+    );
+  }
 }
 
-function createNode(id, data, metricValues) {
-  const newNode = createBasicNode(id, data, metricValues);
+function createNode(id, applicationId, data, metricValues) {
+  const newNode = createBasicNode(id, applicationId, data, metricValues);
   newNode.__originalId = data ? data.id : id;
   newNode.children = new Map();
   return newNode;
 }
 
 function createChild(parentNode, endpoint, metricValues) {
-  const newNode = createBasicNode(endpoint.id, endpoint, metricValues);
+  const newNode = createBasicNode(endpoint.id, parentNode.applicationId, endpoint, metricValues);
   newNode.nodeId = parentNode.id;
   return newNode;
 }
 
-function createBasicNode(id, data, metricValues) {
+function createBasicNode(id, applicationId, data, metricValues) {
   return {
     id,
+    applicationId,
     data,
     metricValues,
     incoming: [],

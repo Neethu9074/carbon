@@ -64,6 +64,7 @@ export default class SceneGraph {
       const nodeSceneObject = currentNodes.get(node.id);
       nodeSceneObject.setMetrics(node.metricValues);
       nodeSceneObject.setData(node.data);
+      nodeSceneObject.setApplicationId(node.applicationId);
 
       const incomingDirection = 'incoming';
       nodeSceneObject.setConnected(node.incoming.map(_node => currentNodes.get(_node.id)), incomingDirection);

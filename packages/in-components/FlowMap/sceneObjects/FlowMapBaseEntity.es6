@@ -78,6 +78,12 @@ export default class NodeBase extends SceneObject {
     }
   }
 
+  setApplicationId(applicationId) {
+    if (applicationId) {
+      this.applicationId = applicationId;
+    }
+  }
+
   setIsExpanded(isExpanded, direction) {
     this.events$.emit(`isExpanded_${direction}`, isExpanded);
   }

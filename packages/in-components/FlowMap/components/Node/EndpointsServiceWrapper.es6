@@ -5,15 +5,16 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EndpointsServiceWrapper.mless';
 
-export default function EndpointsServiceWrapper({ node, data, serviceLocatorUid }) {
+export default function EndpointsServiceWrapper(props) {
   return (
     <div className={locals.endpointsServiceWrapper}>
-      <Header node={node} data={data} serviceLocatorUid={serviceLocatorUid} />
+      <Header {...props} />
     </div>
   );
 }
 
-function Header({ data }) {
+function Header(props) {
+  const data = props.data;
   if (!data) {
     return null;
   }
@@ -21,7 +22,7 @@ function Header({ data }) {
   return (
     <div className={locals.header}>
       <SvgIcon className={locals.pluginIcon} type="lib_application_service" width={24} height={24} color="#6c8a91" />
-      <ServiceLink className={locals.entityLink} serviceId={data.id}>
+      <ServiceLink className={locals.entityLink} serviceId={data.id} {...props}>
         {data.label}
       </ServiceLink>
     </div>

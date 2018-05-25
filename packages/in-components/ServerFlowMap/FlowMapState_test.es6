@@ -127,6 +127,7 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
               {
                 service: { id: 'service1' },
                 endpoint: 2,
+                applications: ['app1', 'app2'],
                 relatedNodesCount: 3,
                 metrics: 4
               }
@@ -140,6 +141,7 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
           id: 'service1',
           service: { id: 'service1' },
           endpoint: 2,
+          applications: ['app1', 'app2'],
           relatedNodesCount: 3,
           metrics: 4
         }
@@ -152,6 +154,7 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
               {
                 service: { id: 'service1' },
                 endpoint: 2,
+                applications: ['app1', 'app2'],
                 relatedNodesCount: 3,
                 metrics: 4
               }
@@ -165,6 +168,7 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
           id: 'service1<-foo',
           service: { id: 'service1' },
           endpoint: 2,
+          applications: ['app1', 'app2'],
           relatedNodesCount: 3,
           metrics: 4
         }

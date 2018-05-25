@@ -62,6 +62,7 @@ export default connectTo(
               height={height}
               rootNodeData={{
                 id: serviceId,
+                applicationContext: applicationId,
                 service,
                 endpoint: data,
                 metricValues

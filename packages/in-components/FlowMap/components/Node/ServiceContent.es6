@@ -15,23 +15,15 @@ export default connectTo(
     metrics: props.node.events$.on('metricValues'),
     heatMapColor: props.node.events$.on('heatMapColor')
   }),
-  function ServiceContent({
-    node,
-    isRootNode,
-    metrics,
-    data,
-    size,
-    serviceLocatorUid,
-    heatMapColor,
-    expandNodeLeft,
-    expandNodeRight
-  }) {
-    const label = data ? data.label : '';
+  function ServiceContent(props) {
+    const { node, isRootNode, data, size, expandNodeLeft, expandNodeRight } = props;
 
+    let heatMapColor = props.heatMapColor;
     heatMapColor =
       heatMapColor &&
       `rgba(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) | 0}, 0.8)`;
 
+    const label = data ? data.label : '';
     return (
       <Tooltip content={size !== 'mid' ? label : null}>
         <div
@@ -43,7 +35,7 @@ export default connectTo(
           className={locals[size]}
         >
           {isRootNode && <div className={nodeLocals.rootLabel}>In Focus</div>}
-          {getContent(metrics, data, size, serviceLocatorUid)}
+          {getContent(props)}
 
           <ExpandButton direction="incoming" events$={node.events$} onClick={() => expandNodeLeft(node.id)} />
           <ExpandButton direction="outgoing" events$={node.events$} onClick={() => expandNodeRight(node.id)} />
@@ -53,9 +45,9 @@ export default connectTo(
   }
 );
 
-function getContent(metrics, data, size, serviceLocatorUid) {
-  if (size === 'mid') {
-    return <MediumContent metrics={metrics} data={data} serviceLocatorUid={serviceLocatorUid} />;
+function getContent(props) {
+  if (props.size === 'mid') {
+    return <MediumContent {...props} />;
   }
-  return <SmallContent data={data} />;
+  return <SmallContent {...props} />;
 }

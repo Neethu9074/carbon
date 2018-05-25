@@ -44,31 +44,37 @@ const Child = connectTo(
       `rgba(${(heatMapColor.r * 255) | 0}, ${(heatMapColor.g * 255) | 0}, ${(heatMapColor.b * 255) | 0}, 0.8)`;
 
     return (
-      <li
-        style={{
-          border: heatMapColor && `1px solid ${heatMapColor}`,
-          boxShadow: heatMapColor && `0px 0px 0.5rem 0px ${heatMapColor}`,
-          background: heatMapColor
-        }}
-        className={locals.child}
-      >
-        <Tooltip content={data.label}>
-          <EndpointLink className={locals.entityLink} serviceId={child.parentNode.__originalId} endpointId={data.id}>
+      <Tooltip content={data.label}>
+        <li
+          style={{
+            border: heatMapColor && `1px solid ${heatMapColor}`,
+            boxShadow: heatMapColor && `0px 0px 0.5rem 0px ${heatMapColor}`,
+            background: heatMapColor
+          }}
+          className={locals.child}
+        >
+          <EndpointLink
+            className={locals.entityLink}
+            serviceId={child.parentNode.__originalId}
+            endpointId={data.id}
+            applicationId={child.parentNode.applicationId}
+          >
             {data.label || '--'}
           </EndpointLink>
-        </Tooltip>
-        <MetricList className={locals.metrics} metrics={metrics} />
-        <ExpandButton
-          direction="incoming"
-          events$={child.events$}
-          onClick={() => expandChildLeft(child.parentNode.id, child.id)}
-        />
-        <ExpandButton
-          direction="outgoing"
-          events$={child.events$}
-          onClick={() => expandChildRight(child.parentNode.id, child.id)}
-        />
-      </li>
+          <MetricList className={locals.metrics} metrics={metrics} />
+
+          <ExpandButton
+            direction="incoming"
+            events$={child.events$}
+            onClick={() => expandChildLeft(child.parentNode.id, child.id)}
+          />
+          <ExpandButton
+            direction="outgoing"
+            events$={child.events$}
+            onClick={() => expandChildRight(child.parentNode.id, child.id)}
+          />
+        </li>
+      </Tooltip>
     );
   }
 );
