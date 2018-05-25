@@ -18,7 +18,6 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 
 import locals from './Form.mless';
 
@@ -61,118 +60,114 @@ function NewApplicationForm({
     <form onSubmit={e => onSubmitInternal(e, form, updateForm, onSubmit)} className={locals.form} disabled={disabled}>
       <Row>
         <Col lg={12}>
-          <Card title="General">
-            {form.get('label').map(field => (
-              <FormGroup className={locals.formGroup}>
-                <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                  Application Name
-                </Label>
-                <Input
-                  type="text"
-                  id="label"
-                  value={field.value}
-                  onChange={e => setValue(['label'], e.target.value, form, updateForm)}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                  autoFocus
-                  disabled={disabled}
-                />
-                <TouchedMessages field={field} />
+          {form.get('label').map(field => (
+            <FormGroup className={locals.formGroup}>
+              <Label htmlFor="label" hasError={!field.valid && field.touched}>
+                Application Name
+              </Label>
+              <Input
+                type="text"
+                id="label"
+                value={field.value}
+                onChange={e => setValue(['label'], e.target.value, form, updateForm)}
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+                autoFocus
+                disabled={disabled}
+              />
+              <TouchedMessages field={field} />
 
-                {application && (
-                  <HelpText>
-                    Renaming an application is an eventually consistent action within the Instana system. For this
-                    reason, a change to an application name may take <em>up to a few minutes</em> until it has populated
-                    throughout the whole system.
-                  </HelpText>
-                )}
-
+              {application && (
                 <HelpText>
-                  Good application names are names that are already well established within an organization. They
-                  facilitate concise communication and have a defined meaning. What you configure here, will be used
-                  throughout Instana to refer to this application.
+                  Renaming an application is an eventually consistent action within the Instana system. For this reason,
+                  a change to an application name may take <em>up to a few minutes</em> until it has populated
+                  throughout the whole system.
                 </HelpText>
-              </FormGroup>
-            ))}
-          </Card>
+              )}
+
+              <HelpText>
+                {`Application names should have a well established definition within an organization. For example, to
+                model an environment: "Production Blue", to model a set of services "Users", or to model a tenant: "ACME
+                Customer"`}
+              </HelpText>
+            </FormGroup>
+          ))}
         </Col>
       </Row>
 
       <Row>
         <Col lg={12}>
-          <Card title="Matching">
-            <HelpText className={locals.matchHelp}>
-              Select the services that make up your application by specifying what tags they have in common. We call
-              these match conditions. When all conditions match, the service and endpoint are considered to be part of
-              this application.
-            </HelpText>
+          <HelpText className={locals.matchHelp}>
+            {`Define the the application through as many tags (key/value pairs) as desired. For example: key as
+            "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value.
+            When all conditions specified here match a call, it will be considered part of this application."`}
+          </HelpText>
 
-            {matchSpecificationForm.touched && <TouchedMessages field={matchSpecificationForm} />}
+          {matchSpecificationForm.touched && <TouchedMessages field={matchSpecificationForm} />}
 
-            {matchSpecificationForm.map((matchSpecification, i) => (
-              <div className={locals.matchSpecification} key={i}>
-                {matchSpecification.get('key').map(field => (
-                  <FormGroup className={locals.formGroup}>
-                    <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                      Key
-                    </Label>
-                    <Select
-                      id={`match-${i}-key`}
-                      value={field.value}
-                      onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
-                      autoComplete="off"
-                      hasError={!field.valid && field.touched}
-                      disabled={disabled}
-                    >
-                      {getTagValuesAsOptions()}
-                    </Select>
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
+          {matchSpecificationForm.map((matchSpecification, i) => (
+            <div className={locals.matchSpecification} key={i}>
+              {matchSpecification.get('key').map(field => (
+                <FormGroup className={locals.formGroup}>
+                  <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                    Key
+                  </Label>
+                  <Select
+                    id={`match-${i}-key`}
+                    value={field.value}
+                    onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
+                    autoComplete="off"
+                    hasError={!field.valid && field.touched}
+                    disabled={disabled}
+                  >
+                    {getTagValuesAsOptions()}
+                  </Select>
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
 
-                {matchSpecification.get('value').map(field => (
-                  <FormGroup className={locals.formGroup}>
-                    <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
-                      Value
-                    </Label>
-                    <Input
-                      type="text"
-                      id={`match-${i}-value`}
-                      value={field.value}
-                      onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form, updateForm)}
-                      autoComplete="off"
-                      hasError={!field.valid && field.touched}
-                      placeholder=".*"
-                      disabled={disabled}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
+              {matchSpecification.get('value').map(field => (
+                <FormGroup className={locals.formGroup}>
+                  <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
+                    Value
+                  </Label>
+                  <Input
+                    type="text"
+                    id={`match-${i}-value`}
+                    value={field.value}
+                    onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form, updateForm)}
+                    autoComplete="off"
+                    hasError={!field.valid && field.touched}
+                    placeholder=".*"
+                    disabled={disabled}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
 
-                {matchSpecificationForm.size > 1 && (
-                  <Tooltip content="Remove this match condition">
-                    <SvgIcon
-                      className={locals.removeMatchRuleIcon}
-                      type="lib_openclose_cancel"
-                      width={24}
-                      onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
-                      tabIndex={0}
-                      aria-label="Remove this match condition"
-                    />
-                  </Tooltip>
-                )}
-              </div>
-            ))}
+              {matchSpecificationForm.size > 1 && (
+                <Tooltip content="Remove this match condition">
+                  <SvgIcon
+                    className={locals.removeMatchRuleIcon}
+                    type="lib_openclose_cancel"
+                    width={24}
+                    onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
+                    tabIndex={0}
+                    aria-label="Remove this match condition"
+                  />
+                </Tooltip>
+              )}
+            </div>
+          ))}
 
-            <Button
-              className={locals.addRuleButton}
-              kind="action"
-              onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}
-              icon="lib_openclose_add_circle_outline"
-            >
-              Add rule
-            </Button>
-          </Card>
+          <Button
+            className={locals.addRuleButton}
+            kind="action"
+            onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}
+            icon="lib_openclose_add_circle_outline"
+          >
+            Add rule
+          </Button>
         </Col>
       </Row>
 
@@ -201,7 +196,7 @@ function NewApplicationForm({
           type="submit"
           disabled={disabled || (!form.hierarchyValid && form.touched)}
         >
-          {loading ? loadingStateName : 'Save'}
+          {loading ? loadingStateName : 'Create'}
         </Button>
       </div>
     </form>

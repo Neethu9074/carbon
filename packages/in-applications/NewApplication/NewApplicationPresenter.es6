@@ -21,6 +21,7 @@ export default function NewApplicationPresenter({ onSubmit, loading, loadingStat
         that matches the conditions defined below.
       </HelpText>
       <br />
+      <br />
 
       {error && (
         <div className={locals.errorContainer}>
