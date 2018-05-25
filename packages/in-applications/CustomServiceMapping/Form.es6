@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import RemoveSection from 'in-applications/CustomServiceMapping/Remove';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -16,7 +17,6 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 
 import locals from './Form.mless';
 
@@ -42,7 +42,16 @@ function getInitialState({ serviceConfig }) {
   };
 }
 
-function CustomServiceConfigForm({ form, updateForm, onSubmit, loading, loadingStateName, error }) {
+function CustomServiceConfigForm({
+  serviceConfig,
+  form,
+  updateForm,
+  onSubmit,
+  loading,
+  loadingStateName,
+  error,
+  isNewRule
+}) {
   const matchSpecificationForm = form.get('matchSpecification');
   const disabled = loading;
 
@@ -50,53 +59,59 @@ function CustomServiceConfigForm({ form, updateForm, onSubmit, loading, loadingS
     <form onSubmit={e => onSubmitInternal(e, form, updateForm, onSubmit)} className={locals.form} disabled={disabled}>
       <Row>
         <Col lg={12}>
-          <Card title="Matching">
-            {matchSpecificationForm.map((matchSpecification, i) => (
-              <div className={locals.matchSpecification} key={i}>
-                {matchSpecification.get('key').map(field => (
-                  <FormGroup className={locals.formGroup}>
-                    <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                      Key
-                    </Label>
-                    <Select
-                      id={`match-${i}-key`}
-                      value={field.value}
-                      onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
-                      autoComplete="off"
-                      hasError={!field.valid && field.touched}
-                      disabled={disabled}
-                    >
-                      {getTagValuesAsOptions()}
-                    </Select>
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
+          {matchSpecificationForm.map((matchSpecification, i) => (
+            <div className={locals.matchSpecification} key={i}>
+              {matchSpecification.get('key').map(field => (
+                <FormGroup className={locals.formGroup}>
+                  <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                    Key
+                  </Label>
+                  <Select
+                    id={`match-${i}-key`}
+                    value={field.value}
+                    onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form, updateForm)}
+                    autoComplete="off"
+                    hasError={!field.valid && field.touched}
+                    disabled={disabled}
+                  >
+                    {getTagValuesAsOptions()}
+                  </Select>
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
 
-                {matchSpecificationForm.size > 1 && (
-                  <Tooltip content="Remove this match condition">
-                    <SvgIcon
-                      className={locals.removeMatchRuleIcon}
-                      type="lib_openclose_cancel"
-                      width={24}
-                      onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
-                      tabIndex={0}
-                      aria-label="Remove this match condition"
-                    />
-                  </Tooltip>
-                )}
-              </div>
-            ))}
-            <Button
-              className={locals.addRuleButton}
-              kind="action"
-              onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}
-              icon="lib_openclose_add_circle_outline"
-            >
-              Add rule
-            </Button>
-          </Card>
+              {matchSpecificationForm.size > 1 && (
+                <Tooltip content="Remove this match condition">
+                  <SvgIcon
+                    className={locals.removeMatchRuleIcon}
+                    type="lib_openclose_cancel"
+                    width={24}
+                    onClick={disabled ? null : () => removeMatchSpecification(i, form, updateForm)}
+                    tabIndex={0}
+                    aria-label="Remove this match condition"
+                  />
+                </Tooltip>
+              )}
+            </div>
+          ))}
+          <Button
+            className={locals.addRuleButton}
+            kind="action"
+            onClick={disabled ? null : () => addMatchSpecification(form, updateForm)}
+            icon="lib_openclose_add_circle_outline"
+          >
+            Add key
+          </Button>
         </Col>
       </Row>
+
+      {!isNewRule && (
+        <Row>
+          <Col lg={12}>
+            <RemoveSection serviceConfig={serviceConfig} />
+          </Col>
+        </Row>
+      )}
 
       <div className={locals.actions}>
         {error && (

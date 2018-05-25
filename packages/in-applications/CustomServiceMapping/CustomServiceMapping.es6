@@ -65,14 +65,24 @@ export default connectTo(
       }
 
       const serviceConfig = get(serviceConfigs, ['data', 0], newServiceConfig());
+      const isNewRule = get(serviceConfigs, ['data', 0], false);
 
       return (
         <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-          <Title title="Custom Service Rule" />
-          <h1 className={locals.heading}>Custom Service Rule</h1>
+          <Title title="Configure Services" />
+          <h1 className={locals.heading}>Configure Services</h1>
 
           <HelpText>
-            Keys will be concatenated into <strong>{`"{key1}-{key2}"`}</strong> for service names.
+            Instana automatically configures services based on an extensive set of default service configuration rules.
+            A single custom rule can be defined here, which will match before the default rules. Calls which are not
+            tagged with all the keys specified here will be handled by the default service configuration rules. The
+            resulting name of the services will depend on the value of the keys specified, in the form of
+            <strong>{` "#{key1-value}-#{key2-value}-#{keyN-value}"`}</strong>
+            . For example, the key nodejs.app.name is selected, and there are two calls, one tagged with
+            <strong>{` "nodejs.app.name=user service"`}</strong> and one tagged with
+            <strong>{` "nodejs.app.name=cart service"`}</strong>, then
+            <strong>{` "user service" `}</strong>
+            and<strong>{` "cart service"`}</strong> will appear as services.
           </HelpText>
           <br />
 
@@ -101,6 +111,7 @@ export default connectTo(
             onSubmit={this.onSubmit}
             serviceConfig={serviceConfig}
             loading={this.state.loading}
+            isNewRule={isNewRule}
             loadingStateName={this.state.message}
             error={this.state.error}
           />

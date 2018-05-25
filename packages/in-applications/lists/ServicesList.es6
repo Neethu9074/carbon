@@ -53,8 +53,13 @@ export default compose(
 function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
   const rightHeader = (
     <Fragment>
-      <Button className={locals.button} kind="action" href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}>
-        Custom Service Mapping
+      <Button
+        className={locals.button}
+        icon="lib_actions_settings"
+        kind="action"
+        href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
+      >
+        Configure Services
       </Button>
       <ComboBox
         className={locals.filter}
