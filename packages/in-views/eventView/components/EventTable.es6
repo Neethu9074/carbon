@@ -8,12 +8,11 @@ import {
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
-import { getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import getApplication from 'in-subscription/application/getApplication';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
-import getService from 'in-subscription/application/getService';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -154,12 +153,7 @@ const On = connectTo(
       };
     } else if (props.rawEvent.entityType === 'Service20') {
       return {
-        entity: getService({
-          id: props.rawEvent.entityId,
-          filter: {
-            timeConfig: getTimeConfigFromEvent(props.rawEvent)
-          }
-        }),
+        entity: getServiceLabel({ id: props.rawEvent.entityId }),
         app20IconType: just('app_service')
       };
     } else {
