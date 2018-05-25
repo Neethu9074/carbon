@@ -35,7 +35,8 @@ export function getTimeConfigFromEvent(event) {
 
   const toForWs = to || Date.now();
   return {
-    to,
+    to: to,
+    focusedMoment: to,
     windowSize: toForWs - from,
     autoRefresh: false
   };
