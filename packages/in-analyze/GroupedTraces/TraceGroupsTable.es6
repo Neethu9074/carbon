@@ -4,13 +4,15 @@ import { Table, Thead, Tbody, Tr, SortableTh } from 'in-components/tables/shared
 import { LoadMoreRow } from 'in-components/tables/sharedComponents';
 import Groups from 'in-analyze/GroupedTraces/Groups';
 
+import locals from './TraceGroupsTable.mless';
+
 export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore } = props;
   return (
     <Fragment>
-      <Table tableInCard>
+      <Table className={locals.table}>
         <Thead>
-          <Tr>
+          <Tr size="compact">
             <RawTracesSortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}

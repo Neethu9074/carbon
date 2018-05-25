@@ -77,7 +77,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
     <Card title={label} header={<GroupingToggle raw />} withoutPadding>
       <Table tableInCard>
         <Thead>
-          <Tr>
+          <Tr size="compact">
             <RawTracesSortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
