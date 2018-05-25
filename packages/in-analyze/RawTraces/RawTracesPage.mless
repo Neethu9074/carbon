@@ -17,16 +17,7 @@
     fill: @lib__colors__N600Light;
   }
 
-  .timeIcon,
-  .serviceIcon {
-    margin-right: 0.5rem;
-  }
-
-  .serviceIcon {
-    fill: @lib__colors__blue800;
-  }
-
-  .timeIcon {
-    fill: @lib__colors__N700Medium;
+  .link {
+    color: @lib__colors__N900Primary;
   }
 }

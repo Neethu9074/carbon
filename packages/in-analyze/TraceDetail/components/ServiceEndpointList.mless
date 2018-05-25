@@ -19,17 +19,12 @@
   .serviceIcon,
   .endpointIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__blue800;
+    fill: @lib__colors__N600Light;
   }
 
   .aggregatedTime {
     font-size: 0.875rem;
     font-weight: 500;
-  }
-
-  .timeIcon {
-    margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
   }
 
   .metricValue {
