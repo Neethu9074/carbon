@@ -74,7 +74,6 @@ export default pure(function ViewSwitcher() {
         {twoZeroModeEnabled &&
           !previewTwoZeroWithoutHybrid && (
             <View
-              label="Application"
               icon="lib_application_invert"
               isActive$={isView(isApplicationsView, isAnalyzeView)}
               href$={getView(applicationsList)}
@@ -113,7 +112,7 @@ const IncidentsMenuPoint = connectTo(
 
     return (
       <View
-        label={title}
+        label={!twoZeroModeEnabled ? title : null}
         icon="lib_events_inverted"
         href$={getView(eventsPath)}
         color={color}
