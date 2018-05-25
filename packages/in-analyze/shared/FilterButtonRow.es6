@@ -3,7 +3,7 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getApplication from 'in-subscription/application/getApplication';
-import getService from 'in-subscription/application/getService';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import BadgeKeyValue from 'in-new-components/BadgeKeyValue';
 import connectTo from 'in-hoc/connectTo';
 
@@ -27,11 +27,8 @@ export default connectTo(
       }).map(result => get(result, ['data', 'label'], null));
     }
     if (filter.service) {
-      observables.serviceLabel = getService({
-        id: filter.service,
-        filter: {
-          timeConfig: filter.timeConfig
-        }
+      observables.serviceLabel = getServiceLabel({
+        id: filter.service
       }).map(result => get(result, ['data', 'label'], null));
     }
     return observables;
