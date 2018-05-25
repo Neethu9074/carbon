@@ -12,13 +12,14 @@
     margin-right: 0.5rem;
   }
 
-  .label {
+  .link {
     white-space: nowrap;
   }
 
   .serviceIcon,
   .endpointIcon {
     margin-right: 0.5rem;
+    fill: @lib__colors__blue800;
   }
 
   .aggregatedTime {

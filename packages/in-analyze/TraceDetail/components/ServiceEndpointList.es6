@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { millis, number } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './ServiceEndpointList.mless';
 
@@ -17,14 +19,10 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
         return (
           <div className={locals.cell}>
             <div style={{ background: getColor(item) }} className={locals.colorIndicator} />
-            <SvgIcon
-              type="lib_application_service"
-              width={24}
-              height={24}
-              className={locals.serviceIcon}
-              color="#47626A"
-            />
-            <span className={locals.label}>{item.service.label}</span>
+            <SvgIcon type="lib_application_service" width={24} height={24} className={locals.serviceIcon} />
+            <Link className={locals.link} href$={getServiceDashboard(item.service.id)}>
+              {item.service.label}
+            </Link>
           </div>
         );
       }
@@ -35,14 +33,10 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       getContent(item) {
         return (
           <div className={locals.cell}>
-            <SvgIcon
-              type="lib_application_endpoint"
-              width={24}
-              height={24}
-              className={locals.endpointIcon}
-              color="#47626A"
-            />
-            {item.endpoint.label}
+            <SvgIcon type="lib_application_endpoint" width={24} height={24} className={locals.endpointIcon} />
+            <Link className={locals.link} href$={getEndpointDashboard(item.endpoint.id)}>
+              {item.endpoint.label}
+            </Link>
           </div>
         );
       }
