@@ -103,18 +103,16 @@ const IncidentsMenuPoint = connectTo(
   function IncidentsMenuPoint({ events }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
-    let color;
-    let title = 'Incidents';
 
+    let color;
     if (numIncidents > 0) {
-      title = numIncidents === 1 ? `1 Incident` : `${numIncidents} Incidents`;
       color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
     }
 
     return (
       <div className={`${block}__incident-menu`}>
         <View
-          label={!twoZeroModeEnabled ? title : null}
+          label={!twoZeroModeEnabled ? 'Incidents' : null}
           icon="lib_events_inverted"
           href$={getView(eventsPath)}
           color={color}
