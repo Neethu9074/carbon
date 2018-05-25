@@ -69,7 +69,7 @@ export default class extends React.PureComponent {
       return getHistoricMetric({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        timeConfig: getTimeConfigAtMoment(props.timeConfig)
+        timeConfig: getTimeConfigAtMoment(props.time)
       })
         .map(v => v[1])
         .distinct();
