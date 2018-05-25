@@ -8,9 +8,10 @@ export function getChartTimeframeByEvent({
   to = event.get('state') === 'closed' ? event.get('end') : null
 }) {
   const timeConfig = {
-    to: to,
+    to,
     focusedMoment: to,
-    windowSize: event.get('end') - from
+    windowSize: event.get('end') - from,
+    autoRefresh: false
   };
 
   if (event.get('state') === 'open') {
@@ -36,7 +37,7 @@ export function getTimeConfigFromEvent(event) {
 
   const toForWs = to || Date.now();
   return {
-    to: to,
+    to,
     focusedMoment: to,
     windowSize: toForWs - from,
     autoRefresh: false
