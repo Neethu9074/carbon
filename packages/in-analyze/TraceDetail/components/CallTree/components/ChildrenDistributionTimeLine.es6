@@ -28,8 +28,11 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
 }
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
-  const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - left;
+  const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(call.start);
+  const width =
+    scale.getDomainFrom() === scale.getDomainTo()
+      ? scale.getRangeTo()
+      : scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
@@ -95,8 +98,11 @@ function CallDurationLabel({ call }) {
 }
 
 function CallIndicator({ call, scale, getColor, onClick }) {
-  const left = scale.getRange(call.start);
-  const width = scale.getRange(call.start + call.duration) - left;
+  const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(call.start);
+  const width =
+    scale.getDomainFrom() === scale.getDomainTo()
+      ? scale.getRangeTo()
+      : scale.getRange(call.start + call.duration) - left;
 
   return (
     <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
