@@ -28,9 +28,8 @@ export default connectTo(
           <SvgIcon className={locals.backgroundIcon} type="lib_application_trace" width={220} height={220} />
           <h2 className={locals.title}>Analyze Traces</h2>
           <p className={locals.text}>
-            During the selected time window, X traces have touched this application|service|endpoint. Each trace can
-            result in more than one call to this component. Select a set of traces below to analyze them in further
-            detail.
+            During the selected time window, the following traces have touched this component. Each trace may have
+            resulted in more than one call to this component.
           </p>
         </div>
         <section className={locals.traceList}>

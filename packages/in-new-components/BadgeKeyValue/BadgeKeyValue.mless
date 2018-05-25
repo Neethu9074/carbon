@@ -16,6 +16,7 @@
 
     box-sizing: border-box;
     padding: 0.4375rem 0.625rem;
+    font-weight: 100;
 
     color: @lib__colors__N900Primary;
     text-align: center;
@@ -26,10 +27,9 @@
   // Using both classes (.badge and .badgeKey) to get a higher specifity here so that we can override the
   // border-radius set in .mid/.sm.
   .badge.badgeKey {
-    border-right: 1px solid @lib__colors__N400;
-
-    background: @lib__colors__N050;
-    font-size: 0.75rem;
+    background: @lib__colors__primary1;
+    color: #fff;
+    font-size: 0.875rem;
     padding-left: 0.75rem;
   }
 
@@ -38,5 +38,6 @@
   .badge.badgeValue {
     background: #fff;
     font-size: 0.875rem;
+    color: @lib__colors__N800Dark;
   }
 }
