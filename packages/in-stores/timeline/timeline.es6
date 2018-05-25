@@ -114,6 +114,8 @@ export function getCurrentViewWithTimelineFocusedAt(moment) {
 
 export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
   return getModifiedUrlStream(navParams => {
+    navParams.query[urlQueryKeys.autoRefresh] = 'false';
+
     if (!focusedMoment) {
       navParams.query[urlQueryKeys.focusedMoment] = '';
     } else {
@@ -137,5 +139,6 @@ export function getTimeframeLiveUrl() {
     delete navParams.query.fm;
     navParams.query[urlQueryKeys.to] = '';
     navParams.query[urlQueryKeys.focusedMoment] = '';
+    navParams.query[urlQueryKeys.autoRefresh] = 'true';
   });
 }
