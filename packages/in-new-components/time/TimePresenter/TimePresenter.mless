@@ -9,9 +9,12 @@
     &:hover {
       text-decoration: none;
 
-      .timeIcon,
-      .toggleIcon {
-        fill: #fff;
+      .timeIcon {
+        display: none;
+      }
+
+      .timeIconHighlight {
+        display: block;
       }
 
       .timeSetting {
@@ -21,14 +24,27 @@
   }
 
   .timeIcon {
-    fill: @lib__colors__primary1;
+    display: block;
+    fill: #fff;
+  }
+
+  .timeIconHighlight {
+    display: none;
+    fill: #fff;
+  }
+
+  .timeIconExpanded {
+    display: none;
+  }
+
+  .timeIconHighlightExpanded {
+    display: block;
   }
 
   .toggleIcon {
     fill: #7d8b8f;
   }
 
-  .timeIconExpanded,
   .toggleIconExpanded {
     fill: #fff;
   }
@@ -38,6 +54,7 @@
     margin-left: 0.25rem;
     font-size: 0.875rem;
   }
+
   .timeSettingExpanded {
     color: #fff;
   }
@@ -49,7 +66,7 @@
   }
 
   .tooltipLabel {
-    color: #698189;
+    color: @lib__colors__N600Light;
     margin: 0.3rem 0 0.5rem;
   }
 }

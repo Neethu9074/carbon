@@ -26,6 +26,15 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
             [locals.timeIcon]: true,
             [locals.timeIconExpanded]: expanded
           })}
+          type="lib_datetime_time"
+          width={24}
+        />
+
+        <SvgIcon
+          className={evaluateClassNames({
+            [locals.timeIconHighlight]: true,
+            [locals.timeIconHighlightExpanded]: expanded
+          })}
           type="lib_datetime_time_inverted"
           width={24}
         />
@@ -45,7 +54,7 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
             [locals.toggleIcon]: true,
             [locals.toggleIconExpanded]: expanded
           })}
-          type={expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+          type="lib_arrow_drop_down"
         />
       </a>
     </Tooltip>
