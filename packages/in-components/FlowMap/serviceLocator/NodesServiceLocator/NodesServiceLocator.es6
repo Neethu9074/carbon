@@ -19,4 +19,8 @@ export default class NodeServiceLocator extends BaseServiceLocator {
   removeNode(id) {
     return this.service.removeNode(id);
   }
+
+  findConnected(id) {
+    return this.service.findConnected(id);
+  }
 }

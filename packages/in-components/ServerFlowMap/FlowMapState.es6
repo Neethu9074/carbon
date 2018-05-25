@@ -67,16 +67,18 @@ export default class FlowMapState {
     }
 
     const nodes = this.mapResult(result, path, direction);
-    onResult(nodes);
+    const numRemainingNodes = Math.max(0, result.data.totalHits - result.data.page * result.data.pageSize);
+    onResult(nodes, numRemainingNodes, result.data.page);
   }
 
   processServiceResult(nodeId, endpointId, result, direction, path) {
     const currentNodes = this.nodes;
     const node = currentNodes.get(nodeId);
 
-    const onResult = nodes => {
+    const onResult = (nodes, numRemainingNodes, cursor) => {
       node.isLoading[direction] = false;
       node.hasRelatedNodes[direction] = false;
+      node.paginationInformation[direction] = { numRemainingNodes, cursor };
       for (let i = 0; i < nodes.length; i++) {
         const newNode = nodes[i];
         const serviceNode = currentNodes.has(newNode.id)
@@ -116,9 +118,10 @@ export default class FlowMapState {
     const currentNodes = this.nodes;
     const node = currentNodes.get(nodeId);
 
-    const onResult = children => {
+    const onResult = (children, numRemainingNodes, cursor) => {
       const child = node.children.get(endpointId);
       child.hasRelatedNodes[direction] = false;
+      child.paginationInformation[direction] = { numRemainingNodes, cursor };
 
       for (let i = 0; i < children.length; i++) {
         const newChild = children[i];
@@ -172,7 +175,7 @@ export default class FlowMapState {
   }
 
   mapResult(result, path, direction) {
-    return (result.data || []).filter(node => node.service.id).map(n => ({
+    return (result.data.items || []).filter(node => node.service.id).map(n => ({
       id: this.calculateUniqueIdForNode(n.service.id, path, direction),
       service: n.service,
       endpoint: n.endpoint,
@@ -224,6 +227,7 @@ function createBasicNode(id, applicationId, data, metricValues) {
     outgoing: [],
     errors: {},
     isLoading: {},
-    hasRelatedNodes: {}
+    hasRelatedNodes: {},
+    paginationInformation: {}
   };
 }

@@ -70,12 +70,12 @@ export default () => ComposedComponent => {
       this.disposeSubscriptions();
     }
 
-    expandNodeLeft = nodeId => {
-      this.createFlowNodesSubscription(nodeId, 'incoming', this.getIncomingFlowNodes$);
+    expandNodeLeft = (nodeId, cursor) => {
+      this.createFlowNodesSubscription(nodeId, 'incoming', this.getIncomingFlowNodes$, cursor);
     };
 
-    expandNodeRight = nodeId => {
-      this.createFlowNodesSubscription(nodeId, 'outgoing', this.getOutgoingFlowNodes$);
+    expandNodeRight = (nodeId, cursor) => {
+      this.createFlowNodesSubscription(nodeId, 'outgoing', this.getOutgoingFlowNodes$, cursor);
     };
 
     expandChildLeft = (nodeId, childId) => {
@@ -84,6 +84,17 @@ export default () => ComposedComponent => {
 
     expandChildRight = (nodeId, childId) => {
       this.openFlowNodesSubscriptionForEndpoint(nodeId, childId, 'outgoing', this.getOutgoingFlowNodes$);
+    };
+
+    createFlowNodesSubscription = (serviceId, direction, callback, cursor) => {
+      this.setupSubscriptionIfAbsent(
+        serviceId,
+        serviceId,
+        null,
+        direction,
+        servicePath => callback(serviceId, servicePath, cursor),
+        this.flowMapState.processServiceResult.bind(this.flowMapState)
+      );
     };
 
     openFlowNodesSubscriptionForEndpoint = (serviceId, endpointId, direction, callback) => {
@@ -98,26 +109,23 @@ export default () => ComposedComponent => {
       );
     };
 
-    createFlowNodesSubscription = (serviceId, direction, callback) => {
-      this.setupSubscriptionIfAbsent(
-        serviceId,
-        serviceId,
-        null,
-        direction,
-        servicePath => callback(serviceId, servicePath),
-        this.flowMapState.processServiceResult.bind(this.flowMapState)
-      );
+    loadMore = (nodeId, direction, cursor) => {
+      if (direction === 'incoming') {
+        this.expandNodeLeft(nodeId, cursor + 1);
+      } else {
+        this.expandNodeRight(nodeId, cursor + 1);
+      }
     };
 
-    getIncomingFlowNodes$ = (id, path) => {
-      return this.getFlowNodes$(id, path, 'INCOMING');
+    getIncomingFlowNodes$ = (id, path, page) => {
+      return this.getFlowNodes$(id, path, page, 'INCOMING');
     };
 
-    getOutgoingFlowNodes$ = (id, path) => {
-      return this.getFlowNodes$(id, path, 'OUTGOING');
+    getOutgoingFlowNodes$ = (id, path, page) => {
+      return this.getFlowNodes$(id, path, page, 'OUTGOING');
     };
 
-    getFlowNodes$ = (nodeId, path, direction) => {
+    getFlowNodes$ = (nodeId, path, page, direction) => {
       return this.props.getFlowNodes({
         metrics,
         filter: {
@@ -130,7 +138,11 @@ export default () => ComposedComponent => {
           maxDepth: 1
         },
         path,
-        direction
+        direction,
+        pagination: {
+          page: page || 1,
+          pageSize: 10
+        }
       });
     };
 
@@ -187,6 +199,7 @@ export default () => ComposedComponent => {
         expandNodeRight: this.expandNodeRight,
         expandChildLeft: this.expandChildLeft,
         expandChildRight: this.expandChildRight,
+        loadMore: this.loadMore,
         ...this.props,
         ...this.state
       });

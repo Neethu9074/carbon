@@ -16,13 +16,21 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
-  constructor({ canvas, overlayReactComponent, expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight }) {
+  constructor({
+    canvas,
+    overlayReactComponent,
+    expandNodeLeft,
+    expandNodeRight,
+    expandChildLeft,
+    expandChildRight,
+    loadMore
+  }) {
     this.canvas = canvas;
     this.overlayReactComponent = overlayReactComponent;
     this.serviceLocatorUid = generateUniqueShortId();
 
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight);
+    this.initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight, loadMore);
     this.initServiceLocator();
     this.initScene();
     this.initSubscriptions();
@@ -52,14 +60,15 @@ export default class FlowMap {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
   }
 
-  initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight) {
+  initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight, loadMore) {
     this.overlayReactComponentMounter = new OverlayReactComponentMounter(
       this.overlayReactComponent,
       this.serviceLocatorUid,
       expandNodeLeft,
       expandNodeRight,
       expandChildLeft,
-      expandChildRight
+      expandChildRight,
+      loadMore
     );
   }
 

@@ -227,8 +227,10 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeConfi
 
 const PodsTable = connectTo(
   props => ({
-    pods: createPodsForDeploymentConfigSubscription({ snapshotId: props.snapshotId, timeConfig: props.timeConfig })
-      .flatMap(getSnapshots)
+    pods: createPodsForDeploymentConfigSubscription({
+      snapshotId: props.snapshotId,
+      timeConfig: props.timeConfig
+    }).flatMap(getSnapshots)
   }),
   function PodsTable({ pods }) {
     let rows = [];

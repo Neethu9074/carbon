@@ -19,10 +19,27 @@ export default function createNodesService() {
     nodes.clear();
   }
 
+  function findConnected(id) {
+    function find(direction) {
+      const nodesIterator = nodes.objects.values();
+      for (const otherNode of nodesIterator) {
+        for (let iConnected = 0; iConnected < otherNode[direction].length; iConnected++) {
+          const connectedNode = otherNode[direction][iConnected];
+          if (connectedNode.id === id) {
+            return { node: otherNode, index: iConnected, direction };
+          }
+        }
+      }
+    }
+
+    return find('incoming') || find('outgoing');
+  }
+
   return {
     addNode,
     removeNode,
     getNodes,
+    findConnected,
     dispose
   };
 }

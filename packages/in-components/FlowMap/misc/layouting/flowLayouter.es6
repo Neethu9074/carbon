@@ -1,4 +1,5 @@
 import { DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_Y } from 'in-components/FlowMap/misc/layouting/config';
+import RemainingNodesPlaceholderClass from 'in-components/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 
 export default function layout(rootNode, initialPxUnitRation) {
   rootNode.setPosition(0, 0);
@@ -7,6 +8,10 @@ export default function layout(rootNode, initialPxUnitRation) {
   layoutNodesRecursively(rootNode.outgoing, 'outgoing', DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_X);
 
   function layoutNodesRecursively(nodes, direction, xPosition, step) {
+    if (nodes.length > 0) {
+      nodes = nodes.slice().sort(n1 => (n1 instanceof RemainingNodesPlaceholderClass ? 1 : -1));
+    }
+
     const nextIncomingNodes = layoutColumn(nodes, xPosition, direction);
     if (nodesAvailable(nextIncomingNodes)) {
       layoutNodesRecursively(nextIncomingNodes, direction, xPosition + step, step);

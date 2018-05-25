@@ -64,7 +64,8 @@ export default getElementDimensions(
           expandNodeLeft: props.expandNodeLeft,
           expandNodeRight: props.expandNodeRight,
           expandChildLeft: props.expandChildLeft,
-          expandChildRight: props.expandChildRight
+          expandChildRight: props.expandChildRight,
+          loadMore: props.loadMore
         });
       }
     }

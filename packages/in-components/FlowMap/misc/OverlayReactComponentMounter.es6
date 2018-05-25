@@ -11,7 +11,8 @@ export default class OverlayReactComponentMounter {
     expandNodeLeft,
     expandNodeRight,
     expandChildLeft,
-    expandChildRight
+    expandChildRight,
+    loadMore
   ) {
     this.nodesReactComponentWrapper = nodesReactComponentWrapper;
     this.serviceLocatorUid = serviceLocatorUid;
@@ -23,6 +24,7 @@ export default class OverlayReactComponentMounter {
           expandNodeRight={expandNodeRight}
           expandChildLeft={expandChildLeft}
           expandChildRight={expandChildRight}
+          loadMore={loadMore}
         />
         <Controls serviceLocatorUid={this.serviceLocatorUid} />
       </Fragment>,

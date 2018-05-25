@@ -123,15 +123,17 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
       expect(
         flowMapState.mapResult(
           {
-            data: [
-              {
-                service: { id: 'service1' },
-                endpoint: 2,
-                applications: ['app1', 'app2'],
-                relatedNodesCount: 3,
-                metrics: 4
-              }
-            ]
+            data: {
+              items: [
+                {
+                  service: { id: 'service1' },
+                  endpoint: 2,
+                  applications: ['app1', 'app2'],
+                  relatedNodesCount: 3,
+                  metrics: 4
+                }
+              ]
+            }
           },
           [],
           'incoming'
@@ -150,15 +152,17 @@ describe('in-components/ServerFlowMap/FlowMapState', () => {
       expect(
         flowMapState.mapResult(
           {
-            data: [
-              {
-                service: { id: 'service1' },
-                endpoint: 2,
-                applications: ['app1', 'app2'],
-                relatedNodesCount: 3,
-                metrics: 4
-              }
-            ]
+            data: {
+              items: [
+                {
+                  service: { id: 'service1' },
+                  endpoint: 2,
+                  applications: ['app1', 'app2'],
+                  relatedNodesCount: 3,
+                  metrics: 4
+                }
+              ]
+            }
           },
           ['foo'],
           'incoming'

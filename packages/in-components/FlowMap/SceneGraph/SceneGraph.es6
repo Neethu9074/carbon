@@ -1,5 +1,6 @@
 import RoEmitter from 'roemitter';
 
+import RemainingNodesPlaceholder from 'in-components/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import looseLayout from 'in-components/FlowMap/misc/layouting/looseLayouter';
 import flowLayout from 'in-components/FlowMap/misc/layouting/flowLayouter';
@@ -51,7 +52,54 @@ export default class SceneGraph {
       } else {
         nodeSceneObject = currentNodes.get(node.id);
       }
+
+      this.createRemainingNodesPlaceholderIfNeeded(node);
       nodeSceneObject.addChildren(node.children);
+    }
+  }
+
+  createRemainingNodesPlaceholderIfNeeded(node) {
+    const serviceLocatorUid = this.serviceLocatorUid;
+    const nodesServiceLocator = getServiceLocators(serviceLocatorUid).nodesServiceLocator;
+    const currentNodes = nodesServiceLocator.getNodes();
+
+    const placeHolderIncomingNodeId = `${node.id}.incoming.remainingNodes`;
+    if (node.paginationInformation.incoming && node.paginationInformation.incoming.numRemainingNodes > 0) {
+      createRemainingNodesPlaceholderIfNeededForDirection(placeHolderIncomingNodeId, node, 'incoming');
+    } else {
+      checkIfNeedsDeletion(placeHolderIncomingNodeId);
+    }
+
+    const placeHolderOutgoingNodeId = `${node.id}.outgoing.remainingNodes`;
+    if (node.paginationInformation.outgoing && node.paginationInformation.outgoing.numRemainingNodes > 0) {
+      createRemainingNodesPlaceholderIfNeededForDirection(placeHolderOutgoingNodeId, node, 'outgoing');
+    } else {
+      checkIfNeedsDeletion(placeHolderOutgoingNodeId);
+    }
+
+    function checkIfNeedsDeletion(id) {
+      if (currentNodes.has(id)) {
+        nodesServiceLocator.removeNode(id);
+        const connected = getServiceLocators(serviceLocatorUid).nodesServiceLocator.findConnected(id);
+        if (connected) {
+          node[connected.direction].splice(connected.index, 1);
+        }
+      }
+    }
+
+    function createRemainingNodesPlaceholderIfNeededForDirection(placeHolderNodeId, node, direction) {
+      let nodeSceneObject;
+      if (!currentNodes.has(placeHolderNodeId)) {
+        nodeSceneObject = new RemainingNodesPlaceholder(serviceLocatorUid, placeHolderNodeId);
+        nodesServiceLocator.addNode(nodeSceneObject.id, nodeSceneObject);
+        node[direction].push(nodeSceneObject);
+      } else {
+        nodeSceneObject = currentNodes.get(placeHolderNodeId);
+      }
+
+      nodeSceneObject.setData({
+        paginationInformation: node.paginationInformation[direction]
+      });
     }
   }
 
