@@ -82,17 +82,17 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="timestamp"
-              label="Started"
+              defaultDirection="ASC"
+              technicalName="label"
+              label="Trace Name"
             />
             <RawTracesSortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="label"
-              label="Trace Name"
+              defaultDirection="DESC"
+              technicalName="timestamp"
+              label="Started"
             />
             <Th>Started At</Th>
             <RawTracesSortableColumn
@@ -126,14 +126,14 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
             <Tr key={item.traceId} size="compact">
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                  {formatDateTime(item.startTime)}
+                  <SvgIcon className={locals.serviceIcon} type="lib_application_trace" width={24} height={24} />
+                  <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
                 </div>
               </Td>
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon className={locals.serviceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
+                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
+                  {formatDateTime(item.startTime)}
                 </div>
               </Td>
               <Td>
