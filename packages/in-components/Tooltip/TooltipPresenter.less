@@ -21,16 +21,6 @@
   }
 
   @size: 6px;
-  &::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-bottom: @size solid transparent;
-    border-left: @size solid white;
-
-    position: absolute;
-    top: 10px;
-  }
 
   &__leftBottom::after,
   &__leftMiddle::after {
@@ -51,6 +41,17 @@
 .in-tooltip-presenter__light {
   @size: 6px;
   background: white;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: @size solid transparent;
+    border-left: @size solid white;
+
+    position: absolute;
+    top: 10px;
+  }
 
   &__rightbottom::after {
     left: @size * -2;
@@ -94,6 +95,17 @@
   @size: 6px;
   background: @lib__colors__navy900;
   color: white;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @lib__colors__navy900;
+
+    position: absolute;
+    top: 10px;
+  }
 
   &__rightBottom::after {
     left: @size * -2;
