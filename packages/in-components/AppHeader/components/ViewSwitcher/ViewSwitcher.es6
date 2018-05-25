@@ -22,6 +22,7 @@ import { getView, isView } from 'in-stores/navigation/navigation';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
+import Badge from 'in-new-components/Badge';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -111,13 +112,20 @@ const IncidentsMenuPoint = connectTo(
     }
 
     return (
-      <View
-        label={!twoZeroModeEnabled ? title : null}
-        icon="lib_events_inverted"
-        href$={getView(eventsPath)}
-        color={color}
-        isActive$={isView(eventsPath)}
-      />
+      <div className={`${block}__incident-menu`}>
+        <View
+          label={!twoZeroModeEnabled ? title : null}
+          icon="lib_events_inverted"
+          href$={getView(eventsPath)}
+          color={color}
+          isActive$={isView(eventsPath)}
+        />
+        {numIncidents > 0 && (
+          <Badge className={`${block}__counter`} color={color}>
+            {numIncidents}
+          </Badge>
+        )}
+      </div>
     );
   }
 );
