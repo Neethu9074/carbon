@@ -8,7 +8,8 @@ export function getChartTimeframeByEvent({
   to = event.get('state') === 'closed' ? event.get('end') : null
 }) {
   const timeConfig = {
-    to,
+    to: to,
+    focusedMoment: to,
     windowSize: event.get('end') - from
   };
 
