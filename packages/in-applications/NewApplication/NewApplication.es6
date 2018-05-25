@@ -21,7 +21,7 @@ export default connectTo(
     render() {
       return (
         <section>
-          <Title title="New application" />
+          <Title title="Create application" />
 
           {this.state.app == null ? (
             <NewApplicationPresenter

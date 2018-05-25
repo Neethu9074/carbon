@@ -9,7 +9,7 @@ import locals from './NewApplicationPresenter.mless';
 export default function NewApplicationPresenter({ onSubmit, loading, loadingStateName, error }) {
   return (
     <div className={locals.wrapper}>
-      <h1 className={locals.heading}>New Application</h1>
+      <h1 className={locals.heading}>Create Application</h1>
 
       {error && (
         <div className={locals.errorContainer}>
