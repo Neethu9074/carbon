@@ -60,6 +60,14 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
       });
     });
 
+    it('0 duration call', () => {
+      let rootCall = deepFreeze(require('./testData/0durationCalls.es6').default);
+      const callFrames = applyLayout(rootCall);
+
+      const expectedCallFrames = require('./testData/0durationCalls_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
+    });
+
     it('synchronous call', () => {
       let rootCall = deepFreeze(require('./testData/syncCalls.es6').default);
       const callFrames = applyLayout(rootCall);
@@ -89,6 +97,14 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
       const callFrames = applyLayout(rootCall);
 
       const expectedCallFrames = require('./testData/asyncCalls3_expected.es6').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
+    });
+
+    it('child calls outside of the root call', () => {
+      let rootCall = deepFreeze(require('./testData/childCallsOutsideOfRootCall.es6').default);
+      const callFrames = applyLayout(rootCall);
+
+      const expectedCallFrames = require('./testData/childCallsOutsideOfRootCall_expected.es6').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
   });

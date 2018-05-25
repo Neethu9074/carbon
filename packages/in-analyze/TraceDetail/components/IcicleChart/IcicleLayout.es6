@@ -1,11 +1,15 @@
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
+import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import { deepFreeze } from 'in-services/util/object';
 
 export function applyLayout(rootCall) {
   let callFrames = [];
 
-  const totalDuration = rootCall.duration;
-  positionCall(callFrames, rootCall, null, 0, rootCall.start, totalDuration, []);
+  const traceStart = getStart(rootCall);
+  const traceEnd = getEnd(rootCall);
+
+  const totalDuration = traceEnd - traceStart;
+  positionCall(callFrames, rootCall, null, 0, traceStart, totalDuration, []);
 
   return deepFreeze(callFrames);
 }
@@ -22,8 +26,8 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
     duration,
     parent: parentCall ? parentCall.id : null,
     depth: depthWithoutOverlapping,
-    x: (start - traceStart) / totalDuration,
-    dx: duration / totalDuration
+    x: totalDuration ? (start - traceStart) / totalDuration : 0,
+    dx: totalDuration ? duration / totalDuration : 1 // if totalDuration=0, the call should take the whole width (dx=1)
   };
 
   callFrames.push(callFrame);
