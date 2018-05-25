@@ -14,6 +14,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
+import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -79,6 +80,32 @@ function CustomServiceConfigForm({
                   <TouchedMessages field={field} />
                 </FormGroup>
               ))}
+
+              {matchSpecification.get('value').map(field => {
+                const key = matchSpecification.get('key').value;
+                if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'host.tag') {
+                  return null;
+                }
+
+                return (
+                  <FormGroup className={locals.formGroup}>
+                    <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
+                      Value
+                    </Label>
+                    <Input
+                      type="text"
+                      id={`match-${i}-value`}
+                      value={field.value}
+                      onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form, updateForm)}
+                      autoComplete="off"
+                      hasError={!field.valid && field.touched}
+                      placeholder=".*"
+                      disabled={disabled}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                );
+              })}
 
               {matchSpecificationForm.size > 1 && (
                 <Tooltip content="Remove this match condition">
