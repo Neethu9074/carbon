@@ -165,7 +165,7 @@ const On = connectTo(
     } else {
       return {
         entity: getSnapshot(
-          props.rawEvent.snapshotId,
+          props.rawEvent.entityId,
           getTimeConfigAtMoment(props.rawEvent.triggeringTime || props.rawEvent.start)
         )
       };
