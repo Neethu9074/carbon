@@ -7,24 +7,26 @@
     height: 2.5rem;
 
     padding: 0 0.5rem 0;
-    color: @lib__colors__N700Medium;
+    color: @lib__colors__N600Light;
     white-space: nowrap;
     font-size: 0.875rem;
+    font-weight: 400;
     border-bottom: 3px solid transparent;
     cursor: pointer;
 
     &:hover {
-      border-bottom: 3px solid @lib__colors__N300;
+      border-bottom: 3px solid @lib__colors__N600Light;
+      color: @lib__colors__N900Primary;
     }
   }
 
   .selectedTab {
     color: @lib__colors__N900Primary;
-    border-bottom: 3px solid @lib__colors__orange800;
+    border-bottom: 3px solid @lib__colors__cyan800;
     cursor: default;
 
     &:hover {
-      border-bottom: 3px solid @lib__colors__orange800;
+      border-bottom: 3px solid @lib__colors__cyan800;
     }
   }
 }
