@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import {
+  getFixedTimeframeUrl,
+  getTimeframeLiveUrl,
+  setTimeframe,
+  setFocusedMoment,
+  timeConfig$,
+  to$
+} from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { timeConfig$, setTimeframe, setFocusedMoment } from 'in-stores/timeline';
 import TimePresenter from 'in-new-components/time/TimePresenter';
+import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connect from 'in-hoc/connectTo';
 
@@ -28,13 +36,32 @@ function AppHeaderTimeSelection({ timeConfig }) {
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
-    <TimePresenter
-      expanded={isOpen}
-      timeConfig={timeConfig}
-      className={locals.time}
-      onClick={toggle}
-      refSetter={refSetter}
-    />
+    <Fragment>
+      <LiveModeToggle isLive={timeConfig.autoRefresh} />
+      <TimePresenter
+        expanded={isOpen}
+        timeConfig={timeConfig}
+        className={locals.time}
+        onClick={toggle}
+        refSetter={refSetter}
+      />
+    </Fragment>
+  );
+}
+
+function LiveModeToggle({ isLive }) {
+  const href$ = isLive
+    ? to$.flatMap(to =>
+        getFixedTimeframeUrl({
+          to,
+          focusedMoment: to
+        })
+      )
+    : getTimeframeLiveUrl();
+  return (
+    <ToggleButton checked={isLive} href$={href$}>
+      LIVE
+    </ToggleButton>
   );
 }
 

@@ -1,0 +1,72 @@
+@import '~in-themes/active.less';
+
+:local {
+  .toggleButton {
+    line-height: 1;
+    padding: 1px .25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-width: 1px;
+    border-style: solid;
+    border-radius: @lib__shapes__radius_medium;
+
+    font-family: @font-family-sans-serif;
+    font-weight: normal;
+    font-size: 0.75rem;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: 0;
+    }
+
+    & + .toggleButton {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .on {
+    opacity: 1;
+    color: @lib__colors__black;
+    border-color: @lib__colors__green800;
+    background: @lib__colors__green800;
+
+    &:hover:not(.disabled) {
+      color: @lib__colors__green800;
+      background: @lib__colors__black;
+    }
+  }
+
+  .off {
+    opacity: 0.56;
+    color: @lib__colors__white;
+    border-color: @lib__colors__white;
+    background: none;
+
+    &:hover:not(.disabled) {
+      color: @lib__colors__black;
+      background: @lib__colors__white;
+    }
+  }
+
+  .disabled,
+  .disabled:focus,
+  .disabled:hover {
+    cursor: not-allowed;
+  }
+
+  .disabled.on {
+    opacity: 0.56;
+  }
+
+  .disabled.off {
+    opacity: 0.33;
+  }
+}
