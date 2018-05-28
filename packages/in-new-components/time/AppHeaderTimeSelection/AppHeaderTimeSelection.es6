@@ -36,7 +36,6 @@ function AppHeaderTimeSelection({ timeConfig }) {
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
     <Fragment>
-      <LiveModeToggle isLive={timeConfig.autoRefresh} />
       <TimePresenter
         expanded={isOpen}
         timeConfig={timeConfig}
@@ -44,6 +43,7 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
         onClick={toggle}
         refSetter={refSetter}
       />
+      <LiveModeToggle isLive={timeConfig.autoRefresh} />
     </Fragment>
   );
 }
