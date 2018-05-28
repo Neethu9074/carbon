@@ -11,10 +11,13 @@ export default function format(timeConfig) {
   if (timeConfig.to == null) {
     const result = `Last ${formatDurationAccurately(timeConfig.windowSize, 60000, false)}`;
     const match = result.match(/^Last 1 ([a-z]+)$/i);
-    if (!match) {
+    if (match && match[1] === 'day') {
+      return 'Last 24 hours';
+    } else if (match) {
+      return `Last ${match[1]}`;
+    } else {
       return result;
     }
-    return `Last ${match[1]}`;
   }
 
   const fromTime = timeConfig.to - timeConfig.windowSize;

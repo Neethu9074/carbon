@@ -6,6 +6,10 @@ const hour = 60 * minute;
 export function getLivePresets() {
   return [
     {
+      windowSize: minute,
+      to: null
+    },
+    {
       windowSize: minute * 5,
       to: null
     },
