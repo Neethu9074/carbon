@@ -12,7 +12,14 @@
 
   .searchInput {
     border: 0;
+    width: 104px;
+
+    &:focus {
+      width: 142px;
+    }
   }
+
+
 
   .icon {
     fill: @lib__colors__primary1;
