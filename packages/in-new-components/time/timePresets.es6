@@ -1,7 +1,9 @@
 import moment from 'moment';
 
-const minute = 1000 * 60;
+const minute = 60 * 1000;
 const hour = 60 * minute;
+const twentyFourHours = 24 * hour;
+const sevenDays = 7 * twentyFourHours;
 
 export function getLivePresets() {
   return [
@@ -41,7 +43,26 @@ export function getLivePresets() {
 }
 
 export function getFixedTimePresets() {
-  return [getYesterdayPreset(), getDayBeforeYesterdayPreset(), getThisWeekPreset(), getPreviousWeekPreset()];
+  return [
+    getToday(),
+    getYesterdayPreset(),
+    getDayBeforeYesterdayPreset(),
+    getThisWeekPreset(),
+    getPreviousWeekPreset()
+  ];
+}
+
+function getToday() {
+  const to = moment()
+    .startOf('day')
+    .add(1, 'day')
+    .toDate()
+    .getTime();
+  return {
+    label: 'Today',
+    windowSize: twentyFourHours,
+    to
+  };
 }
 
 function getYesterdayPreset() {
@@ -49,13 +70,9 @@ function getYesterdayPreset() {
     .startOf('day')
     .toDate()
     .getTime();
-  const from = moment(to)
-    .subtract(1, 'days')
-    .toDate()
-    .getTime();
   return {
     label: 'Yesterday',
-    windowSize: to - from,
+    windowSize: twentyFourHours,
     to
   };
 }
@@ -66,29 +83,22 @@ function getDayBeforeYesterdayPreset() {
     .subtract(1, 'days')
     .toDate()
     .getTime();
-  const from = moment(to)
-    .subtract(1, 'days')
-    .toDate()
-    .getTime();
   return {
     label: 'Day before Yesterday',
-    windowSize: to - from,
+    windowSize: twentyFourHours,
     to
   };
 }
 
 function getThisWeekPreset() {
   const to = moment()
-    .endOf('week')
-    .toDate()
-    .getTime();
-  const from = moment(to)
-    .subtract(1, 'weeks')
+    .startOf('week')
+    .add(1, 'week')
     .toDate()
     .getTime();
   return {
     label: 'This week',
-    windowSize: to - from,
+    windowSize: sevenDays,
     to
   };
 }
@@ -98,13 +108,9 @@ function getPreviousWeekPreset() {
     .startOf('week')
     .toDate()
     .getTime();
-  const from = moment(to)
-    .subtract(1, 'weeks')
-    .toDate()
-    .getTime();
   return {
     label: 'Previous week',
-    windowSize: to - from,
+    windowSize: sevenDays,
     to
   };
 }
