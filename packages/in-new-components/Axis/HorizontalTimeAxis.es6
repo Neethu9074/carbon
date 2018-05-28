@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { formatTime, formatDateShort } from 'in-services/formatters/date';
+import { formatDateShort } from 'in-services/formatters/date';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
@@ -14,7 +14,7 @@ export default function HorizontalTimeAxis(props) {
   function format(timestamp) {
     return (
       <Fragment>
-        <div className={locals.horizontalTickFirstLabel}>{formatTime(timestamp)}</div>
+        <div className={locals.horizontalTickFirstLabel}>{formattingConfig.formatter(timestamp)}</div>
         <span>{formatDateShort(timestamp)}</span>
       </Fragment>
     );
