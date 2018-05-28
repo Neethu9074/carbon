@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
 
 import {
-  getFixedTimeframeUrl,
+  getTimeframeNonLiveUrl,
   getTimeframeLiveUrl,
   setTimeframe,
   setFocusedMoment,
-  timeConfig$,
-  to$
+  timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import TimePresenter from 'in-new-components/time/TimePresenter';
@@ -50,14 +49,7 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
 }
 
 function LiveModeToggle({ isLive }) {
-  const href$ = isLive
-    ? to$.flatMap(to =>
-        getFixedTimeframeUrl({
-          to,
-          focusedMoment: to
-        })
-      )
-    : getTimeframeLiveUrl();
+  const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
   return (
     <ToggleButton checked={isLive} href$={href$}>
       LIVE

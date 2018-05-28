@@ -142,3 +142,10 @@ export function getTimeframeLiveUrl() {
     navParams.query[urlQueryKeys.autoRefresh] = 'true';
   });
 }
+
+export function getTimeframeNonLiveUrl() {
+  return getModifiedUrlStream(navParams => {
+    delete navParams.query.fm;
+    navParams.query[urlQueryKeys.autoRefresh] = 'false';
+  });
+}
