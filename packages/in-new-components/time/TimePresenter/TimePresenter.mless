@@ -9,36 +9,23 @@
     &:hover {
       text-decoration: none;
 
-      .timeIcon {
-        display: none;
-      }
-
-      .timeIconHighlight {
-        display: block;
-      }
-
       .timeSetting {
         color: #fff;
+      }
+
+      .timeIcon {
+        fill: #fff;
       }
     }
   }
 
   .timeIcon {
     display: block;
-    fill: #fff;
-  }
-
-  .timeIconHighlight {
-    display: none;
-    fill: #fff;
+    fill: #7d8b8f;
   }
 
   .timeIconExpanded {
-    display: none;
-  }
-
-  .timeIconHighlightExpanded {
-    display: block;
+    fill: #fff;
   }
 
   .toggleIcon {

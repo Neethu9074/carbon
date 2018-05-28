@@ -26,15 +26,6 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
             [locals.timeIcon]: true,
             [locals.timeIconExpanded]: expanded
           })}
-          type="lib_datetime_time"
-          width={24}
-        />
-
-        <SvgIcon
-          className={evaluateClassNames({
-            [locals.timeIconHighlight]: true,
-            [locals.timeIconHighlightExpanded]: expanded
-          })}
           type="lib_datetime_time_inverted"
           width={24}
         />
