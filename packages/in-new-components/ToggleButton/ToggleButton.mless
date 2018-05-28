@@ -2,7 +2,7 @@
 
 :local {
   .toggleButton {
-    line-height: 1;
+    line-height: 1rem;
     padding: 1px .25rem;
     display: inline-flex;
     align-items: center;
