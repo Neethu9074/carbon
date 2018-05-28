@@ -27,9 +27,7 @@
   }
 
   .errorIndicator {
-    margin: -0.5rem -0.5rem;
-    width: 1rem;
-    height: 1rem;
-    font-size: 0.625rem;
+    margin-top: -24px;
+    margin-left: -0.5rem;
   }
 }
