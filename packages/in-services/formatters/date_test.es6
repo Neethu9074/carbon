@@ -1,7 +1,13 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { formatDate, formatTime, formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
+import {
+  formatDate,
+  formatTime,
+  formatTimeWithoutSeconds,
+  formatDateTime,
+  formatDurationAccurately
+} from 'in-services/formatters/date';
 
 describe('in-services/formatters/date', () => {
   describe('formatTime', () => {
@@ -9,8 +15,18 @@ describe('in-services/formatters/date', () => {
       expect(formatTime(1467276721092)).to.equal('10:52:01');
     });
 
-    it('should return return null on null input', () => {
+    it('should return null on null input', () => {
       expect(formatTime(null)).to.equal(null);
+    });
+  });
+
+  describe('formatTimeWithoutSeconds', () => {
+    it('should return millis as time of day', () => {
+      expect(formatTimeWithoutSeconds(1467276721092)).to.equal('10:52');
+    });
+
+    it('should return null on null input', () => {
+      expect(formatTimeWithoutSeconds(null)).to.equal(null);
     });
   });
 
