@@ -2,17 +2,13 @@ import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
-import getService from 'in-subscription/application/getService';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    service: getService({
-      id: props.serviceId,
-      filter: {
-        service: props.serviceId,
-        timeConfig: props.timeConfig
-      }
+    service: getServiceLabel({
+      id: props.serviceId
     })
   }),
   function ServiceBreadcrumb({ service, serviceId, applicationId }) {

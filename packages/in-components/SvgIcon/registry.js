@@ -598,7 +598,16 @@ module.exports = {
       'M12,17.5a2,2,0,1,0-2-2A2,2,0,0,0,12,17.5Zm6-9H17v-2a5,5,0,0,0-10,0H8.9a3.1,3.1,0,0,1,6.2,0v2H6a2,2,0,0,0-2,2v10a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2v-10A2,2,0,0,0,18,8.5Zm0,12H6v-10H18Z'
   },
   lib_actions_play: {
+    path: 'M8,5V19l11-7Z'
+  },
+  lib_actions_play_circle: {
     path: 'M10,16.5,16,12,10,7.5ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z'
+  },
+  lib_actions_stop: {
+    path: 'M6,6H18V18H6Z'
+  },
+  lib_actions_pause: {
+    path: 'M6,19h4V5H6ZM14,5V19h4V5Z'
   },
   lib_actions_compare: {
     path: 'M9,14H2v2H9v3l4-4L9,11Zm6-1V10h7V8H15V5L11,9Z'
