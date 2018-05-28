@@ -1,7 +1,6 @@
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import NoContent from 'in-components/Chart/components/NoContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import List from 'in-new-components/TopListCard/List';
 import Card from 'in-new-components/Card';
@@ -36,11 +35,13 @@ export default function TopListCard(props) {
 
   let content;
   let withoutPadding = false;
+  const height = 160;
+
   if (result.progress.loading) {
-    content = <HorizontalIndicator progress={result.progress} />;
+    content = <NoContent height={height} isLoading />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
-    content = <ErroneousResultPresenter errors={result.errors} />;
+    content = <NoContent height={height} errors={result.errors} />;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
     content = <div className={locals.noDataFound}>No data available.</div>;
   } else {
