@@ -21,7 +21,6 @@
 
   .link {
     white-space: nowrap;
-    color: @lib__colors__N700Medium;
     margin-bottom: 0.0625rem;
 
     &:hover {
