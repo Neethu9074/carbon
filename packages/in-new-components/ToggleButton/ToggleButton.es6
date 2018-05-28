@@ -1,22 +1,49 @@
+import { compose } from 'recompose';
 import rpt from 'prop-types';
 import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
+import hover from 'in-new-components/ToggleButton/hover';
 import { emptyObject } from 'in-services/fixedObjects';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 import locals from './ToggleButton.mless';
 
-export default connectTo(props => {
-  if (props.href$) {
-    return {
-      href: props.href$
-    };
-  }
-  return emptyObject;
-}, ToggleButton);
+const iconHeight = 12;
 
-function ToggleButton({ className, checked, onChange, style, children, href, disabled, target }) {
+export default compose(
+  connectTo(props => {
+    if (props.href$) {
+      return {
+        href: props.href$
+      };
+    }
+    return emptyObject;
+  }),
+  hover
+)(ToggleButton);
+
+function ToggleButton({
+  hovered,
+  className,
+  checked,
+  onChange,
+  style,
+  children,
+  href,
+  disabled,
+  target,
+  iconOff,
+  iconOffSpinning,
+  iconOffHover,
+  iconOffHoverSpinning,
+  iconOn,
+  iconOnSpinning,
+  iconOnHover,
+  iconOnHoverSpinning
+}) {
   let classes = `${locals.toggleButton} ${checked ? locals.on : locals.off}`;
   if (className) {
     classes = `${classes} ${className}`;
@@ -24,28 +51,83 @@ function ToggleButton({ className, checked, onChange, style, children, href, dis
 
   if (disabled) {
     classes = `${classes} ${locals.disabled}`;
+    onChange = stopPropagationAndPreventDefault;
   }
 
-  if (disabled) {
-    onChange = stopPropagationAndPreventDefault;
+  // to keep display state of icon and text in sync we do not use the CSS :hover pseudo selector but the value from the
+  // hover hoc
+  if (hovered) {
+    classes = `${classes} ${locals.hover}`;
+  }
+
+  let iconElement = null;
+  if (!checked && !hovered && iconOff) {
+    iconElement = (
+      <SvgIcon
+        type={iconOff}
+        color={theme.lib.colors.black}
+        spinning={iconOffSpinning}
+        maxHeight={iconHeight}
+        className={locals.icon}
+      />
+    );
+  } else if (!checked && hovered && (iconOffHover || iconOff)) {
+    iconElement = (
+      <SvgIcon
+        type={iconOffHover ? iconOffHover : iconOff}
+        color={theme.lib.colors.black}
+        spinning={iconOffHoverSpinning}
+        maxHeight={iconHeight}
+        className={locals.icon}
+      />
+    );
+  } else if (checked && !hovered && iconOn) {
+    iconElement = (
+      <SvgIcon
+        type={iconOn}
+        color={theme.lib.colors.black}
+        spinning={iconOnSpinning}
+        maxHeight={iconHeight}
+        className={locals.icon}
+      />
+    );
+  } else if (checked && hovered && (iconOnHover || iconOn)) {
+    iconElement = (
+      <SvgIcon
+        type={iconOnHover ? iconOnHover : iconOn}
+        color={theme.lib.colors.black}
+        spinning={iconOnHoverSpinning}
+        maxHeight={iconHeight}
+        className={locals.icon}
+      />
+    );
   }
 
   if (!href) {
     return (
       <button className={classes} onClick={onChange} style={style}>
-        {children}
+        {iconElement} {children}
       </button>
     );
   } else {
     return (
       <a href={href} target={target} className={classes} onClick={onChange ? onChange : stopPropagation} style={style}>
-        {children}
+        {iconElement} {children}
       </a>
     );
   }
 }
 
 ToggleButton.propTypes = {
+  hovered: rpt.bool,
+  iconOff: rpt.string,
+  iconOffSpinning: rpt.string,
+  iconOffHover: rpt.string,
+  iconOffHoverSpinning: rpt.string,
+  iconOn: rpt.string,
+  iconOnSpinning: rpt.string,
+  iconOnHover: rpt.string,
+  iconOnHoverSpinning: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

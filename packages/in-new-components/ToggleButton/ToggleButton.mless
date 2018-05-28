@@ -1,6 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .mouseEventsWrapper {
+    display: inline-block;
+  }
+
   .toggleButton {
     line-height: 1rem;
     padding: 1px .25rem;
@@ -19,7 +23,9 @@
 
     cursor: pointer;
 
-    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+    transition:
+      background 0.25s ease-in-out, color 0.25s ease-in-out,
+      opacity 0.25s ease-in-out, color 0.25s ease-in-out;
 
     &:hover,
     &:focus {
@@ -32,27 +38,31 @@
     }
   }
 
+  .icon {
+    margin: -0.25rem 0.5rem -0.25rem 0;
+  }
+
   .on {
     opacity: 1;
     color: @lib__colors__black;
     border-color: @lib__colors__green800;
     background: @lib__colors__green800;
 
-    &:hover:not(.disabled) {
-      color: @lib__colors__green800;
-      background: @lib__colors__black;
+    &.hover:not(.disabled) {
+      background: @lib__colors__white;
+      color: @lib__colors__black;
+      border-color: @lib__colors__white;
     }
   }
 
   .off {
     opacity: 0.56;
-    color: @lib__colors__white;
+    color: @lib__colors__black;
     border-color: @lib__colors__white;
-    background: none;
+    background: @lib__colors__white;
 
-    &:hover:not(.disabled) {
-      color: @lib__colors__black;
-      background: @lib__colors__white;
+    &.hover:not(.disabled) {
+      opacity: 1;
     }
   }
 

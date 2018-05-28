@@ -64,8 +64,12 @@ export default function SvgIcon({
     classNames += ` ${className}`;
   }
 
-  if (spinning) {
-    classNames += ` ${block}--spinning`;
+  if (spinning && spinning === 'clockwise') {
+    classNames += ` ${block}--spinning-clockwise`;
+  } else if (spinning && spinning === 'counter-clockwise') {
+    classNames += ` ${block}--spinning-counter-clockwise`;
+  } else if (spinning) {
+    classNames += ` ${block}--spinning-counter-clockwise`;
   }
 
   if (onClick) {

@@ -5,14 +5,14 @@ import ComboBox from 'in-components/ComboBox';
 import Root from '../_helpers/Root';
 
 storiesOf('components/ComboBox', module)
-  .add('empty', () => <StatefullComboBox options={[]} />)
+  .add('empty', () => <StatefulComboBox options={[]} />)
   .add('with entries', () => (
-    <StatefullComboBox
+    <StatefulComboBox
       options={[{ value: '1', label: 'Hello' }, { value: '2', label: 'World' }, { value: '3', label: '!' }]}
     />
   ));
 
-class StatefullComboBox extends React.Component {
+class StatefulComboBox extends React.Component {
   static displayName = 'Statefull ComboBox';
 
   state = {

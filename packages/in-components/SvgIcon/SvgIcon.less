@@ -1,6 +1,10 @@
 .in-svg-icon {
-  &--spinning {
-    animation: svg-icon-spin 2s infinite linear;
+  &--spinning-counter-clockwise {
+    animation: svg-icon-spin-counter-clockwise 2s infinite linear;
+  }
+
+  &--spinning-clockwise  {
+    animation: svg-icon-spin-clockwise 2s infinite linear;
   }
 
   &--clickable {
@@ -14,9 +18,18 @@
   }
 }
 
-@keyframes svg-icon-spin {
+@keyframes svg-icon-spin-counter-clockwise {
   0% {
     transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes svg-icon-spin-clockwise {
+  0% {
+    transform: rotate(-359deg);
   }
   100% {
     transform: rotate(0deg);
