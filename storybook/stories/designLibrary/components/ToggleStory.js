@@ -40,6 +40,13 @@ function ToggleButtonStory() {
         The ToggleButton is currently only used in the top navigation to toggle between live and non-live. It is always
         rendered on a black background, that's why we render it on a black background here as well.
       </p>
+
+      <Section title="With icons and hover effects">
+        <BlackBackground>
+          <StatefulToggleButton />
+        </BlackBackground>
+      </Section>
+
       <Section title="On">
         <BlackBackground>
           <ToggleButton checked onChange={() => {}}>
@@ -94,4 +101,31 @@ function BlackBackground({ children }) {
       {children}
     </div>
   );
+}
+
+class StatefulToggleButton extends React.Component {
+  static displayName = 'ToggleButtonWithState';
+
+  state = {
+    checked: false
+  };
+
+  render() {
+    return (
+      <Root>
+        <ToggleButton
+          checked={this.state.checked}
+          onChange={() => {
+            this.setState({ checked: !this.state.checked });
+          }}
+          iconOff="lib_actions_play"
+          iconOn="lib_actions_loading"
+          iconOnSpinning="clockwise"
+          iconOnHover="lib_actions_stop"
+        >
+          LIVE
+        </ToggleButton>
+      </Root>
+    );
+  }
 }

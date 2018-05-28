@@ -2,4 +2,8 @@
   .time {
     margin: 0 1rem;
   }
+
+  .liveToggle {
+    width: 3.75rem;
+  }
 }

@@ -51,7 +51,15 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
 function LiveModeToggle({ isLive }) {
   const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
   return (
-    <ToggleButton checked={isLive} href$={href$}>
+    <ToggleButton
+      checked={isLive}
+      href$={href$}
+      iconOff="lib_actions_play"
+      iconOn="lib_actions_loading"
+      iconOnSpinning="clockwise"
+      iconOnHover="lib_actions_stop"
+      className={locals.liveToggle}
+    >
       LIVE
     </ToggleButton>
   );
