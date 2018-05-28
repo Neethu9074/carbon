@@ -10,6 +10,7 @@ describe('in-new-components/time/timeframeFormatter', () => {
     expect(format({ to: null, windowSize: 120000 })).to.equal('Last 2 minutes');
     expect(format({ to: null, windowSize: 3600000 })).to.equal('Last hour');
     expect(format({ to: null, windowSize: 3662000 })).to.equal('Last 1 hour 1 minute');
+    expect(format({ to: null, windowSize: 86400000 })).to.equal('Last 24 hours');
   });
 
   it('must format fixed time modes', () => {
