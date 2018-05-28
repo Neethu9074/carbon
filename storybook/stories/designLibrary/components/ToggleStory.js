@@ -118,10 +118,10 @@ class StatefulToggleButton extends React.Component {
           onChange={() => {
             this.setState({ checked: !this.state.checked });
           }}
-          iconOff="triangle_right"
-          iconOn="refresh"
+          iconOff="lib_actions_play"
+          iconOn="lib_actions_loading"
           iconOnSpinning="clockwise"
-          iconOnHover="cancel"
+          iconOnHover="lib_actions_stop"
         >
           LIVE
         </ToggleButton>

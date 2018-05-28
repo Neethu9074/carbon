@@ -54,10 +54,10 @@ function LiveModeToggle({ isLive }) {
     <ToggleButton
       checked={isLive}
       href$={href$}
-      iconOff="triangle_right"
-      iconOn="refresh"
+      iconOff="lib_actions_play"
+      iconOn="lib_actions_loading"
       iconOnSpinning="clockwise"
-      iconOnHover="cancel"
+      iconOnHover="lib_actions_stop"
       className={locals.liveToggle}
     >
       LIVE
