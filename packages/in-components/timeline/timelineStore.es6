@@ -261,9 +261,9 @@ combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeConfig$]).
 
 // automatically show a message when the focused moment is changed
 timeConfig$
-  .skipFirst()
   .map(timeConfig => timeConfig.windowSize)
   .distinct()
+  .skipFirst()
   .subscribe(windowSize => {
     addMessage(
       {
