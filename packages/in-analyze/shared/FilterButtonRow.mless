@@ -21,8 +21,15 @@
     margin-right: 0.5rem;
   }
 
-  .badge {
-    margin-right: 0.5rem;
+  .badgeWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .hairLine {
+    width: 1rem;
+    height: 1px;
+    background: @lib__colors__N400;
   }
 
   .filterList {

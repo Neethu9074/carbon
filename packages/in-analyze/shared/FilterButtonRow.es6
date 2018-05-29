@@ -51,9 +51,19 @@ export default connectTo(
       <div className={locals.fullWidthHorizontalRule}>
         <MaxWidthFullscreenContainer className={locals.row}>
           <div className={locals.filterList}>
-            {filters.map(filter => (
-              <BadgeKeyValue key={filter.key} label={filter.key} value={filter.value} className={locals.badge} />
-            ))}
+            {filters.map((filter, i) => {
+              const badge = <BadgeKeyValue key={filter.key} label={filter.key} value={filter.value} />;
+              const isLastItem = i === filters.length - 1;
+              if (!isLastItem) {
+                return (
+                  <div className={locals.badgeWrapper}>
+                    {badge}
+                    <div className={locals.hairLine} />
+                  </div>
+                );
+              }
+              return badge;
+            })}
           </div>
         </MaxWidthFullscreenContainer>
       </div>
