@@ -13,7 +13,11 @@ export default connectTo(
   }),
   function ServiceBreadcrumb({ service, serviceId, applicationId }) {
     return (
-      <Breadcrumb href$={getServiceDashboard(serviceId, { applicationId })} label="Service">
+      <Breadcrumb
+        href$={getServiceDashboard(serviceId, { applicationId })}
+        label="Service"
+        icon="lib_application_service"
+      >
         {service.data && service.data.label}
       </Breadcrumb>
     );

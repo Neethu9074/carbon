@@ -44,23 +44,24 @@ function ApplicationBreadcrumbWithSwitcher(props) {
     application.errors.length > 0 ||
     (applications.progress.loading || applications.errors.length > 0)
   ) {
-    return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" />;
+    return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" icon="lib_application" />;
   }
 
   return (
-    <Overlay content={ApplicationSwitcher} props={props} position="fixed">
-      {({ open }) => (
-        <div onMouseEnter={open}>
-          <Breadcrumb
-            className={locals.wrapper}
-            href$={getApplicationDashboard(applicationId)}
-            label={`Application (${applications.data.items.length})`}
-          >
+    <Breadcrumb
+      className={locals.wrapper}
+      href$={getApplicationDashboard(applicationId)}
+      label={`Application (${applications.data.items.length})`}
+      icon="lib_application"
+    >
+      <Overlay content={ApplicationSwitcher} props={props} position="fixed">
+        {({ open }) => (
+          <div onMouseEnter={open}>
             <span className={locals.appName}>{application.data.label}</span>
             <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
-          </Breadcrumb>
-        </div>
-      )}
-    </Overlay>
+          </div>
+        )}
+      </Overlay>
+    </Breadcrumb>
   );
 }

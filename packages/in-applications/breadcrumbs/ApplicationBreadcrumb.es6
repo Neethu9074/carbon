@@ -13,7 +13,7 @@ export default connectTo(
   }),
   function ApplicationBreadcrumb({ application, applicationId }) {
     return (
-      <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application">
+      <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" icon="lib_application">
         {application.data && application.data.label}
       </Breadcrumb>
     );
