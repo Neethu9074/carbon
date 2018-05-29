@@ -20,11 +20,10 @@ export default connectTo(
     applicationId,
     serviceId,
     endpointId,
-    backButtonLabels,
-    close
+    backButtonLabels
   }) {
     return (
-      <div className={locals.wrapper} onMouseLeave={close}>
+      <div className={locals.wrapper}>
         <div className={locals.header}>
           <SvgIcon className={locals.backgroundIcon} type="lib_application_trace" width={220} height={220} />
           <h2 className={locals.title}>Analyze Traces</h2>

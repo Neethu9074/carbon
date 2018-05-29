@@ -26,13 +26,11 @@ export default connect(
   }
 );
 
-function TraceButton({ size, kind = 'primary', traceCount, open, toggle }) {
+function TraceButton({ size, kind = 'primary', traceCount, toggle }) {
   return (
-    <div onMouseEnter={open}>
-      <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle}>
-        {number.compact(traceCount)} Traces
-      </Button>
-    </div>
+    <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle}>
+      {number.compact(traceCount)} Traces
+    </Button>
   );
 }
 
