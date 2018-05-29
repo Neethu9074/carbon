@@ -7,28 +7,19 @@
   white-space: nowrap;
   cursor: pointer;
 
-  &__avatar-wrapper {
-    background: transparent;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    padding: 0;
-    overflow: hidden;
-    margin: 0 0 0 1.5rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    outline: none;
-    transition: background 0.25s ease-in-out;
+  &:hover {
+    .in-account__avatar {
+      fill: #fff;
+    }
 
-    &--active {
-      background: #7d8b8f;
-      border-color: #fff;
+    .in-account__icon {
+      fill: white;
     }
   }
 
-  &:hover {
-    .in-account__avatar-wrapper {
-      background: #7d8b8f;
-      border-color: #fff;
+  &__expanded {
+    .in-account__avatar {
+      fill: #fff;
     }
 
     .in-account__icon {
@@ -41,8 +32,8 @@
   }
 
   &__avatar {
-    width: 100%;
-    height: 100%;
+    margin-left: 1.5rem;
+    fill: #7d8b8f;
   }
 }
 

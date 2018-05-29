@@ -28,7 +28,7 @@
     }
 
     &:hover {
-      background: @lib__colors__N100;
+      background: #2483b314;
     }
 
     &.depth-2 {
