@@ -46,6 +46,11 @@
     margin-left: 0.5rem;
   }
 
+  .subSectionHeading {
+    margin: 0 0 1rem 0.75rem;
+    color: @lib__colors__N600Light;
+  }
+
   .menu {
     width: 25rem;
     margin: 0;
