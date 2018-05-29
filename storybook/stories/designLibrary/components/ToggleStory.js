@@ -57,7 +57,7 @@ function ToggleButtonStory() {
 
       <Section title="Off">
         <BlackBackground>
-          <ToggleButton checked={false} onChange={() => {}}>
+          <ToggleButton checked={false} onChange={() => {}} style={{ fontWeight: 'bold' }}>
             LIVE
           </ToggleButton>
         </BlackBackground>
@@ -65,7 +65,7 @@ function ToggleButtonStory() {
 
       <Section title="On-disabled">
         <BlackBackground>
-          <ToggleButton checked disabled onChange={() => {}}>
+          <ToggleButton checked disabled onChange={() => {}} style={{ fontWeight: 'bold' }}>
             LIVE
           </ToggleButton>
         </BlackBackground>
@@ -73,7 +73,7 @@ function ToggleButtonStory() {
 
       <Section title="Off-disabled">
         <BlackBackground>
-          <ToggleButton checked={false} disabled onChange={() => {}}>
+          <ToggleButton checked={false} disabled onChange={() => {}} style={{ fontWeight: 'bold' }}>
             LIVE
           </ToggleButton>
         </BlackBackground>
@@ -81,7 +81,7 @@ function ToggleButtonStory() {
 
       <Section title="Toggle by link (rendered as anchor instead of button)">
         <BlackBackground>
-          <ToggleButton checked href={'#'}>
+          <ToggleButton checked href={'#'} style={{ fontWeight: 'bold' }}>
             LIVE
           </ToggleButton>
         </BlackBackground>
@@ -122,6 +122,7 @@ class StatefulToggleButton extends React.Component {
           iconOn="lib_actions_loading"
           iconOnSpinning="clockwise"
           iconOnHover="lib_actions_stop"
+          style={{ fontWeight: 'bold' }}
         >
           LIVE
         </ToggleButton>

@@ -11,7 +11,7 @@ import theme from 'in-themes';
 
 import locals from './ToggleButton.mless';
 
-const iconHeight = 12;
+const iconHeight = 16;
 
 export default compose(
   connectTo(props => {
