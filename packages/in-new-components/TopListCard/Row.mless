@@ -21,7 +21,6 @@
     height: 0.1875rem;
     margin: 0.25rem 0 1.5rem 0;
     background: @lib__colors__N300;
-    overflow: hidden;
     border-radius: 0.125rem;
   }
 
@@ -31,6 +30,27 @@
     left: 0;
     bottom: 0;
     border-radius: 0.125rem 0 0 0.125rem;
+  }
+
+  .hairLine {
+    position: absolute;
+    width: 1px;
+    height: 12px;
+    left: -1px;
+  }
+
+  .contributedContentLeftAligned,
+  .contributedContentRightAligned {
+    position: absolute;
+    top: 0.25rem;
+  }
+
+  .contributedContentLeftAligned {
+    left: 0.25rem;
+  }
+
+  .contributedContentRightAligned {
+    right: 0.25rem;
   }
 
   .label {
