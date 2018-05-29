@@ -89,7 +89,7 @@
       // bg
       @lib__colors__white,
       // hover bg
-      @lib__colors__N100,
+      @lib__colors__N300,
       // font
       @lib__colors__N800Dark,
       // hover font
