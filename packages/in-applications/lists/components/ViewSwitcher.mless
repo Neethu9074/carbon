@@ -2,26 +2,58 @@
 
 :local {
   .viewSwitcher {
-    margin-top: 1rem;
-    border-bottom: 2px solid @lib__colors__N300;
+    background: @lib__colors__navy800;
+    font-size: 22px;
+    font-weight: lighter;
+    overflow: hidden;
   }
 
-  .link {
-    padding-top: 0.5rem;
-    line-height: 1.8125rem;
-    text-decoration: none;
+  .tabList {
+    display: flex;
+    align-items: flex-end;
 
-    &:hover {
-      text-decoration: none;
-    }
+    height: 4rem;
   }
 
   .tab {
+    display: flex;
+    align-items: center;
+
     font-size: 1rem;
+    padding: 0 1rem 0.75rem;
+    border-bottom: 3px solid transparent;
+
+    &:hover {
+      border-bottom: 3px solid #fff;
+
+      .icon {
+        fill: #fff;
+      }
+    }
   }
 
-  .numberItemsIndicator {
-    color: @lib__colors__N600Light;
-    margin-left: 0.25rem;
+  .tabSelected {
+    color: #fff;
+    border-bottom: 3px solid #fff;
+    cursor: default;
+
+    .icon {
+      fill: #fff;
+    }
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: #ffffff8f;
+  }
+
+  .link {
+    text-decoration: none;
+    color: #ffffff8f;
+
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
   }
 }

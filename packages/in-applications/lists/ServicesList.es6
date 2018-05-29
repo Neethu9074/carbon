@@ -9,7 +9,6 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
-import ListViewHeader from 'in-applications/lists/components/ListViewHeader';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -71,12 +70,13 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
       />
     </Fragment>
   );
+
+  const leftHeader = <h1 className={locals.title}>Services</h1>;
+
   return (
-    <Sticky header={<ListViewHeader title="Services" />}>
+    <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer>
         <Title title="Services" />
-
-        <ViewSwitcher />
 
         <ServerTableWithUrlBoundState
           get={getTableData}
@@ -87,9 +87,9 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
           endpointTypes={endpointTypes}
           paginationResettingProps={['timeConfig', 'endpointTypes']}
           rightHeader={rightHeader}
+          leftHeader={leftHeader}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
-          headerClassName={locals.tableHeader}
         />
       </MaxWidthFullscreenContainer>
     </Sticky>

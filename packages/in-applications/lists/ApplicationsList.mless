@@ -1,6 +1,12 @@
 @import '~in-themes/active.less';
 
 :local {
+  .title {
+    font-size: 1.375rem;
+    margin-top: 1.5rem;
+    font-weight: 500;
+  }
+
   .flexWrapper {
     display: flex;
     align-items: center;
@@ -26,9 +32,5 @@
   .noApplicationsDefined {
     margin-top: 2rem;
     font-size: larger;
-  }
-
-  .tableHeader {
-    margin-top: -3.1875rem;
   }
 }

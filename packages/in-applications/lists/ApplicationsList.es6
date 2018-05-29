@@ -5,7 +5,6 @@ import { getApplicationDashboard, newApplicationView, applicationsList } from 'i
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
-import ListViewHeader from 'in-applications/lists/components/ListViewHeader';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -42,12 +41,12 @@ export default connectTo(
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
+    const leftHeader = <h1 className={locals.title}>Applications</h1>;
+
     return (
-      <Sticky header={<ListViewHeader title="Applications" />}>
+      <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
           <Title title="Applications" />
-
-          <ViewSwitcher />
 
           <ServerTableWithUrlBoundState
             get={getTableData}
@@ -56,10 +55,10 @@ export default connectTo(
             columnDefinitions={columnDefinitions}
             timeConfig={timeConfig}
             rightHeader={rightHeader}
+            leftHeader={leftHeader}
             paginationResettingProps={{ timeConfig }}
             defaultOrderBy="callsAgg"
             defaultOrderDirection="DESC"
-            headerClassName={locals.tableHeader}
           />
           {showNoApplicationsDefinedIndicator &&
             role.canConfigureApplications && (
