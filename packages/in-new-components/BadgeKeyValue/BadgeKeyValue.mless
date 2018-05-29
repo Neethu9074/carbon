@@ -4,9 +4,7 @@
   .badgeWrapper {
     display: flex;
 
-    border-radius: 1rem;
     box-shadow: 0px 2px 1px 0px @lib__colors__N200;
-    border: 1px solid @lib__colors__N400;
     overflow: hidden;
   }
 
@@ -31,6 +29,7 @@
     color: #fff;
     font-size: 0.875rem;
     padding-left: 0.75rem;
+    border-radius: 1rem 0 0 1rem;
   }
 
   // Using both classes (.badge and .badgeValue) to get a higher specifity here so that we can override the
@@ -39,5 +38,9 @@
     background: #fff;
     font-size: 0.875rem;
     color: @lib__colors__N800Dark;
+
+    border-radius: 0 1rem 1rem 0;
+    border: 1px solid @lib__colors__N400;
+    border-left: 0;
   }
 }
