@@ -9,6 +9,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
+import { technologyComboBoxItems } from 'in-applications/technologyRegistry';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -36,20 +37,25 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => servicesList,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes'],
-    getInitialState: () => ({ endpointTypes: [] }),
-    reducerName: 'setEndpointTypes',
-    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
-    getParsedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    boundKeys: ['endpointTypes', 'technologies'],
+    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+    reducerName: 'setFilter',
+    reducer: (prevState, { endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
+      technologies: technologies ? technologies : prevState.technologies
     }),
-    getSerializedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
+      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
+      technologies: technologies == null ? null : technologies.join(',')
     })
   })
 )(ServicesList);
 
-function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
+function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
   const rightHeader = (
     <Fragment>
       <Button
@@ -63,10 +69,18 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
       <ComboBox
         className={locals.filter}
         value={endpointTypes}
-        onChange={t => setEndpointTypes(t.map(a => a.value))}
+        onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
         placeholder="Type…"
         multi
         options={getEndpointTypesComboBoxItems()}
+      />
+      <ComboBox
+        className={locals.filter}
+        value={technologies}
+        onChange={t => setFilter({ technologies: t.map(a => a.value) })}
+        placeholder="Technology…"
+        multi
+        options={technologyComboBoxItems}
       />
     </Fragment>
   );

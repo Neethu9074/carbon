@@ -35,3 +35,7 @@ export function getLabel(groupTypeId) {
   }
   return null;
 }
+
+export const technologyComboBoxItems = Object.values(registry).map(registryValue => {
+  return { value: registryValue.label, label: registryValue.label };
+});
