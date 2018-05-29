@@ -1,0 +1,6 @@
+{
+  "name": "DescriptionText",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DescriptionText.es6"
+}

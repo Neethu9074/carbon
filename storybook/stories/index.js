@@ -34,7 +34,6 @@ import './components/SparkChart';
 import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
-import './newComponents/application/NewApplicationStory';
 import './newComponents/Axis';
 import './newComponents/BadgeKeyValueStory';
 import './newComponents/HeatMap';
@@ -59,7 +58,6 @@ import './designLibrary/components/CardStory';
 import './designLibrary/components/ChartStory';
 import './designLibrary/components/DashboardHeaderStory';
 import './designLibrary/components/EntityWithTypeAndIconStory';
-import './designLibrary/components/FormFieldsStory';
 import './designLibrary/components/KpiCardStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';
@@ -70,3 +68,8 @@ import './designLibrary/components/TopListCardStory';
 import './designLibrary/components/time/TimePresenterStory';
 import './designLibrary/components/time/TimeSelectionDialogPresenterStory';
 import './designLibrary/components/ViewSwitcherStory';
+
+import './designLibrary/forms/ApplicationConfigurationStory';
+import './designLibrary/forms/ServiceConfigurationStory';
+import './designLibrary/forms/FormFieldsStory';
+import './designLibrary/forms/BasicFormStory';

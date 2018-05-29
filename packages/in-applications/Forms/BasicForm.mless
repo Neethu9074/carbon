@@ -1,0 +1,64 @@
+@import '~in-themes/active.less';
+
+:local {
+  .maxWidthFullscreenContainer {
+    max-width: 38rem;
+    padding-bottom: 5rem;
+  }
+
+  .header {
+    display: flex;
+    margin-top: 2.5rem;
+  }
+
+  .heading {
+    margin-bottom: 0;
+  }
+
+  .temporyMessageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  .notificationIconSuccess,
+  .notificationIconError {
+    margin-right: 0.5rem;
+  }
+
+  .notificationIconSuccess {
+    fill: @lib__colors__success;
+  }
+
+  .notificationIconError {
+    margin-right: 0.5rem;
+    fill: @lib__colors__failure;
+  }
+
+  .notificationLabelSuccess {
+    color: @lib__colors__success;
+  }
+
+  .notificationLabelError {
+    color: @lib__colors__failure;
+  }
+
+  .helpTextIcon {
+    fill: @lib__colors__primary1;
+    margin-left: 0.5rem;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+}

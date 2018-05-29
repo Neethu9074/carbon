@@ -1,5 +1,4 @@
 import { mapFromServerResponse, mapToServerResponse } from 'in-applications/keys';
-import { generateUniqueShortId } from 'in-services/util/id';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -37,16 +36,15 @@ export function deleteServiceConfig(id) {
   });
 }
 
-export function newServiceConfig() {
+export function createNewServiceConfig() {
   return {
-    id: generateUniqueShortId(),
-    name: 'new custom rule name',
-    label: 'new custom rule label',
+    name: 'custom rule name',
+    label: 'custom rule label',
     enabled: true,
     matchSpecification: [
       {
         key: '',
-        value: '/(.*)' // the user can't configure the value and empty is not allowed
+        value: '/(.*)' // the user maybe can't configure the value and empty is not allowed
       }
     ]
   };

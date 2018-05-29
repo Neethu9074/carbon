@@ -45,3 +45,10 @@ export function deleteApplicationConfig(id) {
     url: `/api/applicationConfigs/${id}`
   });
 }
+
+export function createNewApplicationConfig() {
+  return {
+    label: '',
+    matchSpecification: [{}]
+  };
+}

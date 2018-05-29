@@ -10,7 +10,7 @@ import Input from 'in-components/form/Input';
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/FormFields', module)
+storiesOf('designLibrary/Forms/FormFields', module)
   .add('Input', () => <InputStory />)
   .add('Select', () => <SelectStory />);
 

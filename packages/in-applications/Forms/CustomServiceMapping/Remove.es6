@@ -1,13 +1,13 @@
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
-import HelpParagraph from 'in-forge/plugins/browserLogicalService/Dashboard/new/tabs/Config/HelpParagraph';
-import { deleteApplicationConfig } from 'in-api/applicationConfigs';
-import { applicationsList } from 'in-applications/navigation/paths';
+import { deleteServiceConfig } from 'in-api/serviceConfiguration';
+import DescriptionText from 'in-components/form/DescriptionText';
+import { servicesList } from 'in-applications/navigation/paths';
+import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
-import Card from 'in-new-components/Card';
 import Button from 'in-components/Button';
 
 import locals from './Remove.less';
@@ -29,19 +29,20 @@ export default class Remove extends React.PureComponent {
   }
 
   render() {
-    const { application } = this.props;
-    if (!application) {
+    const { serviceConfig } = this.props;
+    if (!serviceConfig) {
       return null;
     }
 
     const { removeError, loading } = this.state;
 
     return (
-      <Card title="Remove Application">
-        <HelpParagraph>
-          If you no longer wish to monitor the application <strong>{application.label}</strong>, please use the button
-          below to remove it. Removing an application may take up to a few minutes.
-        </HelpParagraph>
+      <Fragment>
+        <Spacer type="light" />
+        <DescriptionText>
+          If you no longer wish to apply a custom rule to extract services, please use the button below to remove it.
+          Removing a custom rule may take up to a few minutes.
+        </DescriptionText>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
         {removeError && <SaveError>{removeError}</SaveError>}
@@ -51,9 +52,9 @@ export default class Remove extends React.PureComponent {
           onClick={this.remove}
           className={locals.removeButton}
         >
-          Remove Application
+          Remove Rule
         </Button>
-      </Card>
+      </Fragment>
     );
   }
 
@@ -69,14 +70,14 @@ export default class Remove extends React.PureComponent {
       removeError: null
     });
 
-    this.subscription = combineDataAndError(deleteApplicationConfig(this.props.application.id)).once(({ error }) => {
+    this.subscription = combineDataAndError(deleteServiceConfig(this.props.serviceConfig.id)).once(({ error }) => {
       if (error) {
         this.setState({
           loading: false,
           saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
         });
       } else {
-        goToPath(applicationsList);
+        goToPath(servicesList);
       }
     });
   };

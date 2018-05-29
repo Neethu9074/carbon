@@ -103,6 +103,25 @@
       );;
   }
 
+  .create {
+    .buttonStyle(
+      // bg
+      @lib__colors__success,
+      // hover bg
+      #31a56b,
+      // font
+      #fff,
+      // hover font
+      #fff,
+            
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      normal
+      );;
+  }
+
   .danger {
     .buttonStyle(
       // bg
