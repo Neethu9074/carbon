@@ -1,9 +1,9 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/keys';
+import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 
-describe('in-applications/keys', () => {
+describe('in-applications/tags', () => {
   describe('mapFromServerResponse', () => {
     it('should do nothing of there is no data in the result', () => {
       const response = { foo: 'bar' };

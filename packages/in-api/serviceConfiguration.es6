@@ -1,4 +1,4 @@
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/keys';
+import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 

@@ -13,7 +13,7 @@ import RemoveSection from 'in-applications/Forms/CustomServiceMapping/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
-import { getTagValuesAsOptions } from 'in-applications/keys';
+import { getTagValuesAsOptions } from 'in-applications/tags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';

@@ -13,7 +13,7 @@ import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } fro
 import RemoveSection from 'in-applications/Forms/NewApplication/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { getTagValuesAsOptions } from 'in-applications/keys';
+import { getTagValuesAsOptions } from 'in-applications/tags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';

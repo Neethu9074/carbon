@@ -1,7 +1,7 @@
 import { assign } from 'lodash';
 import React from 'react';
 
-export const keys = [
+const tagKeys = [
   'cassandra.cluster.name',
   'docker.containerName',
   'docker.image',
@@ -31,7 +31,7 @@ export const keys = [
 ];
 
 export function getTagValuesAsOptions() {
-  return [{ value: '', label: 'Please select' }].concat(keys.map(label => ({ label }))).map(tag => (
+  return [{ value: '', label: 'Please select' }].concat(tagKeys.map(label => ({ label }))).map(tag => (
     <option key={tag.label} value={tag.value || tag.label}>
       {tag.label}
     </option>
