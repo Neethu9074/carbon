@@ -3,7 +3,7 @@
 :local {
   .skeleton {
     background: #f2f2f2;
-    background: linear-gradient(90deg, lib__colors__N200, lib__colors__N100, lib__colors__N200);
+    background: linear-gradient(90deg, @lib__colors__N200, @lib__colors__N100, @lib__colors__N200);
     background-size: 200% 100%;
     animation: indeterminate 5s ease infinite;
   }
