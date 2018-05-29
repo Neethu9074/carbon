@@ -15,8 +15,6 @@
     justify-content: center;
     line-height: 1.1;
 
-    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
-
     &:hover,
     &:focus {
       text-decoration: none;

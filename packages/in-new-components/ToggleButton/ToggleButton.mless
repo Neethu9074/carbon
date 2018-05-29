@@ -7,7 +7,7 @@
 
   .toggleButton {
     line-height: 1rem;
-    padding: 1px .25rem;
+    padding: 1px 0.25rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -22,10 +22,6 @@
     text-decoration: none;
 
     cursor: pointer;
-
-    transition:
-      background 0.25s ease-in-out, color 0.25s ease-in-out,
-      opacity 0.25s ease-in-out, color 0.25s ease-in-out;
 
     &:hover,
     &:focus {

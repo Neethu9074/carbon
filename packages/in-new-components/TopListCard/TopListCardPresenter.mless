@@ -21,8 +21,6 @@
     font-size: 0.875rem;
     border-radius: @lib__shapes__radius_small;
 
-    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
-
     &:hover {
       background: @lib__colors__N300;
       text-decoration: none;
