@@ -198,7 +198,7 @@ function TemporaryMessage({ type = 'success', message }) {
   );
 }
 
-export function getMatchSpecificationForm(matchSpecification = {}) {
+export function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
   return createMapForm()
     .put(
       'key',
@@ -210,7 +210,7 @@ export function getMatchSpecificationForm(matchSpecification = {}) {
     .put(
       'value',
       createField({
-        value: get(matchSpecification, 'value', ''),
+        value: get(matchSpecification, 'value', defaultValue),
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );
