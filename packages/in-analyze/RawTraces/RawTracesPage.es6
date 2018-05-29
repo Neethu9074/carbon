@@ -126,7 +126,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
             <Tr key={item.traceId} size="compact">
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon className={locals.serviceIcon} type="lib_application_trace" width={24} height={24} />
+                  <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
                   <Link href$={getLinkToTraceDetail(item.traceId)}>{item.label}</Link>
                 </div>
               </Td>
@@ -139,7 +139,7 @@ function RawTracesPage({ items, errors, progress, loadMore, canLoadMore, orderBy
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
-                  <Link className={locals.link} href$={getServiceDashboard(item.service.id)}>
+                  <Link className={locals.serviceLink} href$={getServiceDashboard(item.service.id)}>
                     {item.service.label}
                   </Link>
                 </div>
