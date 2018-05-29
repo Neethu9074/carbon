@@ -1,33 +1,31 @@
+import { get } from 'lodash';
+
 import { getIconSvgPath as getIconSvgPathForPlugin } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 const registry = {};
 export default registry;
-registry[plugins.mongodb] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'MongoDB' };
-registry[plugins.redis] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Redis' };
-registry[plugins.elasticsearchCluster] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Elasticsearch' };
-registry[plugins.postgresql] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'PostgreSQL' };
-registry[plugins.rabbitmq] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'RabbitMQ' };
-registry[plugins.activemq] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'ActiveMQ' };
-registry[plugins.kafkaCluster] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Kafka' };
-registry[plugins.hbase] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'HBase' };
-registry[plugins.mariaDbDatabase] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'MariaDB' };
-registry[plugins.mssql] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'MSSQL' };
-registry[plugins.mysql] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'MySQL' };
-registry[plugins.oracledb] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'OracleDB' };
-registry[plugins.cassandraCluster] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Cassandra' };
-registry[plugins.clickHouse] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'ClickHouse' };
-registry[plugins.dropwizard] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Dropwizard' };
-registry[plugins.springboot] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Springboot' };
-registry[plugins.tomcat] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Tomcat' };
-registry[plugins.glassfish] = { getIconSvgPath: getIconSvgPathForPlugin, label: 'Glassfish' };
+registry[plugins.mongodb] = { label: 'MongoDB' };
+registry[plugins.redis] = { label: 'Redis' };
+registry[plugins.elasticsearchCluster] = { label: 'Elasticsearch' };
+registry[plugins.postgresql] = { label: 'PostgreSQL' };
+registry[plugins.rabbitmq] = { label: 'RabbitMQ' };
+registry[plugins.activemq] = { label: 'ActiveMQ' };
+registry[plugins.kafkaCluster] = { label: 'Kafka' };
+registry[plugins.hbase] = { label: 'HBase' };
+registry[plugins.mariaDbDatabase] = { label: 'MariaDB' };
+registry[plugins.mssql] = { label: 'MSSQL' };
+registry[plugins.mysql] = { label: 'MySQL' };
+registry[plugins.oracledb] = { label: 'OracleDB' };
+registry[plugins.cassandraCluster] = { label: 'Cassandra' };
+registry[plugins.clickHouse] = { label: 'ClickHouse' };
+registry[plugins.dropwizard] = { label: 'Dropwizard' };
+registry[plugins.springboot] = { label: 'Springboot' };
+registry[plugins.tomcat] = { label: 'Tomcat' };
+registry[plugins.glassfish] = { label: 'Glassfish' };
 
 export function getIconSvgPath(groupTypeId) {
-  const config = registry[groupTypeId];
-  if (config) {
-    return config.getIconSvgPath(groupTypeId);
-  }
-  return null;
+  return get(registry[groupTypeId], ['getIconSvgPath'], getIconSvgPathForPlugin)(groupTypeId);
 }
 
 export function getLabel(groupTypeId) {
