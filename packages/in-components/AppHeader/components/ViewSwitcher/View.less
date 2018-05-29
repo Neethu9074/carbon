@@ -1,16 +1,16 @@
 @import '~in-themes/active.less';
 
 .in-view-switcher-view {
-  padding: 0.25rem 0;
-
   text-transform: capitalize;
   font-size: 0.6875rem;
 
   color: #9aa7ad;
   transition: color 0.25s ease-in-out;
+  border-bottom: 3px solid transparent;
 
   &:hover,
   &__active {
+    border-bottom: 3px solid #fff;
     color: white;
 
     .in-view-switcher-view__link {
@@ -23,6 +23,8 @@
   }
 
   &:hover {
+    border-bottom: 3px solid #ffffff66;
+
     .in-view-switcher-view__menu {
       display: block;
     }
@@ -33,12 +35,17 @@
     align-items: center;
 
     text-decoration: none;
-    padding: 0.188rem 1rem 0.188rem 0;
+    padding: 0.25rem 0.5rem;
     color: #9aa7ad;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &__icon {
-    margin: 0.125rem 0.2rem 0.188rem;
+    margin: 0.125rem 0.2rem 0.188rem 0;
+    padding-left: 0.2rem;
     fill: #9aa7ad;
   }
 
