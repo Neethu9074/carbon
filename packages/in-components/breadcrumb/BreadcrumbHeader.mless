@@ -4,7 +4,7 @@
   .breadcrumbHeader {
     background: @lib__colors__navy800;
     overflow: hidden;
-    color: @lib__colors__N600Light;
+    color: #ffffff8f;
     font-size: 0.875rem;
     font-weight: lighter;
     box-shadow: @lib__shadows__pronounced;
