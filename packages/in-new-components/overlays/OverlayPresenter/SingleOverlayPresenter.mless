@@ -19,7 +19,7 @@
       border-radius: @lib__shapes__radius_medium;
       box-shadow: @lib__shadows__strong;
 
-      .overlay-style(#fff, 14px, 1px, #E8EEF0);
+      .overlay-style(#fff, 14px, 1px, rgba(0, 0, 0, 0.161));
     }
 
     &.style--tooltip {

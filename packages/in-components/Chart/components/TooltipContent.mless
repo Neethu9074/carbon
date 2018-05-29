@@ -7,7 +7,9 @@
     background: @lib__colors__white;
     color: @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_large;
+
     box-shadow: @lib__shadows__subtle;
+    border: 1px solid #00000029;
   }
 
   .heading {

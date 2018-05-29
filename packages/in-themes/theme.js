@@ -117,9 +117,9 @@ function buildLib() {
     },
 
     shadows: {
-      subtle: '0px 3px 6px 0px #bababa',
-      pronounced: '0px 4px 6px 0px #bababa',
-      strong: '0px 8px 10px 0px #bababa'
+      subtle: '0px 1px 4px 0px rgba(0, 0, 0, 0.16)',
+      pronounced: '0px 2px 5px 0px rgba(0, 0, 0, 0.24)',
+      strong: '0px 3px 10px 0px rgba(0, 0, 0, 0.24)'
     },
 
     typography: {
