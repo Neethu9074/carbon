@@ -6,16 +6,15 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
-import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -28,30 +27,26 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => pathSegment,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes'],
-    getInitialState: () => ({ endpointTypes: [] }),
-    reducerName: 'setEndpointTypes',
-    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
-    getParsedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    boundKeys: ['endpointTypes', 'technologies'],
+    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+    reducerName: 'setFilter',
+    reducer: (prevState, { endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
+      technologies: technologies ? technologies : prevState.technologies
     }),
-    getSerializedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
+      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
+      technologies: technologies == null ? null : technologies.join(',')
     })
   })
 )(ServiceList);
 
-function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
-  const rightHeader = (
-    <ComboBox
-      value={endpointTypes}
-      onChange={t => setEndpointTypes(t.map(a => a.value))}
-      placeholder="Type…"
-      multi
-      options={getEndpointTypesComboBoxItems()}
-      className={locals.filter}
-    />
-  );
+function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
+  const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
   return (
     <ServerTableWithUrlBoundState
       pathSegment={pathSegment}

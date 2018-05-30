@@ -8,8 +8,6 @@ import { getServiceDashboard, servicesList, newServiceView } from 'in-applicatio
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
-import { technologyComboBoxItems } from 'in-applications/technologyRegistry';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -17,11 +15,11 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
-import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -66,22 +64,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
       >
         Configure Services
       </Button>
-      <ComboBox
-        className={locals.filter}
-        value={endpointTypes}
-        onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
-        placeholder="Type…"
-        multi
-        options={getEndpointTypesComboBoxItems()}
-      />
-      <ComboBox
-        className={locals.filter}
-        value={technologies}
-        onChange={t => setFilter({ technologies: t.map(a => a.value) })}
-        placeholder="Technology…"
-        multi
-        options={technologyComboBoxItems}
-      />
+      <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />
     </Fragment>
   );
 

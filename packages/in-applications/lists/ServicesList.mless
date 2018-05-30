@@ -6,12 +6,7 @@
     margin-top: 1.5rem;
     font-weight: 500;
   }
-
-  .filter {
-    z-index: 4;
-  }
-
-  .filter,
+  
   .button {
     margin-right: 0.5rem;
   }
