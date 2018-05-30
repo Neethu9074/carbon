@@ -136,7 +136,7 @@ export default function CustomServiceMappingDialog() {
                           onClick={() => addMatchSpecification(form, updateForm)}
                           icon="lib_openclose_add_circle_outline"
                         >
-                          add tag
+                          add key
                         </Button>
                       </div>
                     </div>
