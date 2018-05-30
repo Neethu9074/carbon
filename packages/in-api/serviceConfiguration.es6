@@ -15,7 +15,7 @@ export function addServiceConfig(config) {
   return http({
     method: 'POST',
     url: `/api/serviceConfigs`,
-    data: enrichWithLabel(mapToServerResponse(config))
+    data: enrichWithLabel(fillEmptyValues(mapToServerResponse(config)))
   }).map(response => deepFreeze(response.body));
 }
 
@@ -24,7 +24,7 @@ export function updateServiceConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/serviceConfigs/${config.id}`,
-    data: enrichWithLabel(mapToServerResponse(config))
+    data: enrichWithLabel(fillEmptyValues(mapToServerResponse(config)))
   }).map(response => deepFreeze(response.body));
 }
 
@@ -52,5 +52,13 @@ export function createNewServiceConfig() {
 
 export function enrichWithLabel(config) {
   config.label = config.matchSpecification.map(config => `{${config.key}}`).join('-');
+  return config;
+}
+
+export function fillEmptyValues(config) {
+  for (let i = 0; i < config.matchSpecification.length; i++) {
+    const element = config.matchSpecification[i];
+    element.value = element.value || '.*';
+  }
   return config;
 }
