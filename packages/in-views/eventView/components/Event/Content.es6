@@ -18,7 +18,7 @@ export default function EventContent({ event }) {
 
       <EventChart event={event} sectionized />
 
-      {twoZeroModeEnabled && <EventTraces event={event} sectionized />}
+      {!twoZeroModeEnabled && <EventTraces event={event} sectionized />}
 
       <EventDependecyGraph event={event} sectionized />
     </div>
