@@ -50,6 +50,7 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
       endpointTypes={endpointTypes}
       restrictedEndpointTypes={data.types}
       technologies={technologies}
+      restrictedTechnologies={data.technologies}
       setFilter={setFilter}
     />
   );

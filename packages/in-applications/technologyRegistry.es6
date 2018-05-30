@@ -36,6 +36,12 @@ export function getLabel(groupTypeId) {
   return null;
 }
 
-export const technologyComboBoxItems = Object.values(registry).map(registryValue => {
-  return { value: registryValue.label, label: registryValue.label };
-});
+export function getTechnologyComboBoxItems(restrict = null) {
+  return Object.keys(registry)
+    .filter(key => restrict == null || restrict.indexOf(key) !== -1)
+    .sort()
+    .map(key => {
+      const registryValue = registry[key];
+      return { value: registryValue.label, label: registryValue.label };
+    });
+}

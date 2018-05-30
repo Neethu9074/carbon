@@ -1,12 +1,18 @@
 import React, { Fragment } from 'react';
 
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
-import { technologyComboBoxItems } from 'in-applications/technologyRegistry';
+import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import ComboBox from 'in-components/ComboBox';
 
 import locals from './Filters.mless';
 
-export default function Filters({ endpointTypes, restrictedEndpointTypes, technologies, setFilter }) {
+export default function Filters({
+  endpointTypes,
+  restrictedEndpointTypes,
+  technologies,
+  restrictedTechnologies,
+  setFilter
+}) {
   return (
     <Fragment>
       <ComboBox
@@ -22,7 +28,7 @@ export default function Filters({ endpointTypes, restrictedEndpointTypes, techno
         onChange={t => setFilter({ technologies: t.map(a => a.value) })}
         placeholder="Technology…"
         multi
-        options={technologyComboBoxItems}
+        options={getTechnologyComboBoxItems(restrictedTechnologies)}
         className={locals.filter}
       />
     </Fragment>
