@@ -7,6 +7,7 @@ import './awsDynamoDb';
 import './awsEc';
 import './awsElb';
 import './awsKinesis';
+import './awsLambda';
 import './awsRds';
 import './awsSqs';
 import './azure';
