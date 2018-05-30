@@ -1,11 +1,6 @@
 import { overlayClassName } from 'in-new-components/overlays/OverlayPresenter/SingleOverlayPresenter';
+import { findParentNodeByClassName } from 'in-services/util/dom';
 
 export function identifyOverlay(node) {
-  while (node != null && node !== document) {
-    if (node.classList.contains(overlayClassName)) {
-      return node;
-    }
-    node = node.parentNode;
-  }
-  return null;
+  return findParentNodeByClassName(node, overlayClassName);
 }

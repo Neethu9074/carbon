@@ -1,0 +1,6 @@
+
+:local {
+  .label {
+    display: inline-block;
+  }
+}

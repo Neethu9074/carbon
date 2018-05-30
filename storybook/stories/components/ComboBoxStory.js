@@ -27,6 +27,12 @@ class StatefulComboBox extends React.Component {
           options={this.props.options}
           onChange={e => this.setState({ value: e.value })}
         />
+        <ComboBox
+          value={['hello', 'world']}
+          options={this.props.options}
+          multi
+          onChange={e => this.setState({ value: e.value })}
+        />
       </Root>
     );
   }
