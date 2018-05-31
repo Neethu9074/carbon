@@ -7,14 +7,15 @@
     background: @lib__colors__white;
     z-index: 4;
     width: 12rem;
-    padding: 1rem;
+    padding: 1rem 0 0.5rem 1rem;
     border: 1px solid rgba(0, 0, 0, 0.161);
     border-radius: @lib__shapes__radius_medium;
     box-shadow: @lib__shadows__strong;
   }
 
   .rowWrapper {
-  
+    max-height: 12rem;
+    overflow-y: auto;
   }
 
   .selectAllButton {
@@ -25,6 +26,5 @@
   .setButton {
     float: right;
     margin-top: -0.125rem;
-    margin-right: -0.625rem;
   }
 }
