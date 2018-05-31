@@ -43,3 +43,14 @@ export function findParentNodeByClassName(node, className) {
   }
   return null;
 }
+
+export function isInsideOf(child, parent) {
+  let node = child;
+  while (node != null && node !== document) {
+    if (node == parent) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
+}

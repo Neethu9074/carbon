@@ -1,10 +1,9 @@
-import React from 'react';
 import { pull } from 'lodash';
+import React from 'react';
 
-import OptionRow from 'in-new-components/MultiSelectDropdown/OptionRow';
-import { findParentNodeByClassName } from 'in-services/util/dom';
-import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
+import DropdownButton from 'in-new-components/MultiSelectDropdown/components/DropdownButton';
+import DropdownList from 'in-new-components/MultiSelectDropdown/components/DropdownList';
+import { isInsideOf } from 'in-services/util/dom';
 
 import locals from './MultiSelectDropdown.mless';
 
@@ -39,41 +38,34 @@ export default class MultiSelectDropdown extends React.Component {
 
   clickOutsideDropdown = target => {
     return (
-      findParentNodeByClassName(target, locals.dropdownList) == null &&
-      findParentNodeByClassName(target, locals.dropdownButton) == null
+      !isInsideOf(target, this.dropdownListRef ? this.dropdownListRef.domElement : null) &&
+      !isInsideOf(target, this.dropdownButtonRef.domElement)
     );
   };
 
   render() {
-    const { placeholder = '', options = [], labelRenderer = null } = this.props;
+    const { className, placeholder = '', options = [], labelRenderer = null } = this.props;
     const { isOpen, selectedValues } = this.state;
 
     return (
       <div className={locals.dropdown}>
-        <button className={locals.dropdownButton} onClick={() => this.toggle()}>
-          {placeholder}
-          <SvgIcon width={16} height={16} type="lib_arrow_drop_down" />
-        </button>
+        <DropdownButton
+          className={className}
+          placeholder={placeholder}
+          toggle={this.toggle}
+          ref={element => (this.dropdownButtonRef = element)}
+        />
 
         {isOpen ? (
-          <div className={locals.dropdownList}>
-            {options.map(option => (
-              <OptionRow
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                labelRenderer={labelRenderer}
-                checked={selectedValues.indexOf(option.value) >= 0}
-                onChange={this.handleOptionChange}
-              />
-            ))}
-            <Button kind="subtle" size="compact" className={locals.selectAllButton} onClick={this.handleSelectAllClick}>
-              Select All
-            </Button>
-            <Button kind="action" size="compact" className={locals.setButton} onClick={this.handleSetClick}>
-              Set
-            </Button>
-          </div>
+          <DropdownList
+            options={options}
+            selectedValues={selectedValues}
+            labelRenderer={labelRenderer}
+            handleOptionChange={this.handleOptionChange}
+            handleSelectAllClick={this.handleSelectAllClick}
+            handleSetClick={this.handleSetClick}
+            ref={element => (this.dropdownListRef = element)}
+          />
         ) : null}
       </div>
     );

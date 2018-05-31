@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
+import MultiSelectDropdown from 'in-new-components/MultiSelectDropdown/MultiSelectDropdown';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
-import ComboBox from 'in-components/ComboBox';
 
 import locals from './Filters.mless';
 
@@ -15,16 +15,15 @@ export default function Filters({
 }) {
   return (
     <Fragment>
-      <ComboBox
-        value={endpointTypes}
-        onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
+      <MultiSelectDropdown
+        values={endpointTypes}
+        apply={values => setFilter({ endpointTypes: values })}
         placeholder="Type…"
-        multi
         options={getEndpointTypesComboBoxItems(restrictedEndpointTypes)}
         className={locals.filter}
       />
-      <ComboBox
-        value={technologies}
+      <MultiSelectDropdown
+        values={technologies}
         onChange={t => setFilter({ technologies: t.map(a => a.value) })}
         placeholder="Technology…"
         multi
