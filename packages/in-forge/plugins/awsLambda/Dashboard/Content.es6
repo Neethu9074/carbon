@@ -22,32 +22,6 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Errors">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          y1={{
-            min: 0,
-            metrics: ['errors'],
-            labels: ['Errors'],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Dead Letter Error">
-        <Chart
-          snapshotId={snapshotId}
-          timeframe={timeframe}
-          y1={{
-            min: 0,
-            metrics: ['dead_letter_error'],
-            labels: ['Dead Letter Error'],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
       <DashboardSection title="Duration">
         <Chart
           snapshotId={snapshotId}
@@ -68,6 +42,19 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Errors">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['errors'],
+            labels: ['Errors'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
       <DashboardSection title="Throttles">
         <Chart
           snapshotId={snapshotId}
@@ -76,6 +63,19 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
             min: 0,
             metrics: ['throttles'],
             labels: ['Throttles'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Dead Letter Error">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['dead_letter_error'],
+            labels: ['Dead Letter Error'],
             type: 'line',
             formatter: number.compact
           }}

@@ -83,6 +83,13 @@ export const kiloBytes = {
   detailed: kiloBytesTwoDecimalPlaces
 };
 
+export const megaBytesZeroDecimalPlaces = d => formatBytes(d * byteBase * byteBase, 0);
+export const megaBytesTwoDecimalPlaces = d => formatBytes(d * byteBase * byteBase, 2);
+export const megaBytes = {
+  compact: megaBytesZeroDecimalPlaces,
+  detailed: megaBytesTwoDecimalPlaces
+};
+
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
 export const withSiPrefixZeroDecimalPlaces = d => {
