@@ -53,9 +53,11 @@ export default class MultiSelectDropdown extends React.Component {
 
     return (
       <div className={locals.dropdown}>
-        <button onClick={() => this.toggle()}>{placeholder}</button>
+        <button className={locals.button} onClick={() => this.toggle()}>
+          {placeholder}
+        </button>
         {isOpen ? (
-          <div>
+          <div className={locals.dropdownList}>
             {options.map(option => (
               <OptionRow
                 key={option.value}
@@ -66,6 +68,12 @@ export default class MultiSelectDropdown extends React.Component {
                 onChange={this.handleOptionChange}
               />
             ))}
+            <button className={locals.button} onClick={this.handleSelectAllClick}>
+              Select All
+            </button>
+            <button className={locals.button} onClick={this.handleSetClick}>
+              Set
+            </button>
           </div>
         ) : null}
       </div>
@@ -86,5 +94,16 @@ export default class MultiSelectDropdown extends React.Component {
         selectedValues: pull(selectedValues, value)
       });
     }
+  };
+
+  handleSelectAllClick = () => {
+    this.setState({
+      selectedValues: this.props.options.map(option => option.value)
+    });
+  };
+
+  handleSetClick = () => {
+    this.close();
+    this.props.apply(this.state.selectedValues);
   };
 }

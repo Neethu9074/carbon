@@ -27,6 +27,7 @@ function Default() {
         placeholder="type"
         options={options}
         values={['option1']}
+        apply={() => {}}
       />
     </Root>
   );
@@ -50,6 +51,7 @@ function CustomRenderer() {
         options={options}
         values={[]}
         labelRenderer={labelRenderer}
+        apply={() => {}}
       />
     </Root>
   );
