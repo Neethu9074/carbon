@@ -3,6 +3,8 @@ import { pull } from 'lodash';
 
 import OptionRow from 'in-new-components/MultiSelectDropdown/OptionRow';
 import { findParentNodeByClassName } from 'in-services/util/dom';
+import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MultiSelectDropdown.mless';
 
@@ -36,7 +38,10 @@ export default class MultiSelectDropdown extends React.Component {
   };
 
   clickOutsideDropdown = target => {
-    return findParentNodeByClassName(target, locals.dropdown) == null;
+    return (
+      findParentNodeByClassName(target, locals.dropdownList) == null &&
+      findParentNodeByClassName(target, locals.dropdownButton) == null
+    );
   };
 
   render() {
@@ -45,9 +50,11 @@ export default class MultiSelectDropdown extends React.Component {
 
     return (
       <div className={locals.dropdown}>
-        <button className={locals.button} onClick={() => this.toggle()}>
+        <button className={locals.dropdownButton} onClick={() => this.toggle()}>
           {placeholder}
+          <SvgIcon width={16} height={16} type="lib_arrow_drop_down" />
         </button>
+
         {isOpen ? (
           <div className={locals.dropdownList}>
             {options.map(option => (
@@ -60,12 +67,12 @@ export default class MultiSelectDropdown extends React.Component {
                 onChange={this.handleOptionChange}
               />
             ))}
-            <button className={locals.button} onClick={this.handleSelectAllClick}>
+            <Button kind="subtle" size="compact" className={locals.selectAllButton} onClick={this.handleSelectAllClick}>
               Select All
-            </button>
-            <button className={locals.button} onClick={this.handleSetClick}>
+            </Button>
+            <Button kind="action" size="compact" className={locals.setButton} onClick={this.handleSetClick}>
               Set
-            </button>
+            </Button>
           </div>
         ) : null}
       </div>

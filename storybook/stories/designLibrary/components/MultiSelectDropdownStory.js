@@ -24,7 +24,7 @@ function Default() {
   return (
     <Root>
       <MultiSelectDropdown
-        placeholder="type"
+        placeholder="Type"
         options={options}
         values={['database']}
         apply={() => {}}
@@ -39,7 +39,7 @@ function CustomRenderer() {
     return (
       <div >
         <div style={{display: 'inline-block', background: 'blue', width: '0.75rem', height: '0.75rem'}} />
-        <span>{label}</span>
+        <span style={{marginLeft: '0.5rem'}}>{label}</span>
       </div>
     );
   };
@@ -47,7 +47,7 @@ function CustomRenderer() {
   return (
     <Root>
       <MultiSelectDropdown
-        placeholder="type"
+        placeholder="Type"
         options={options}
         labelRenderer={labelRenderer}
         apply={() => {}}

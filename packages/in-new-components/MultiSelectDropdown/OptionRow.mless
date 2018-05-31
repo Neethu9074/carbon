@@ -1,6 +1,24 @@
 
 :local {
+
+  .row {
+    margin-bottom: 1rem;
+  }
+
   .label {
-    display: inline-block;
+    width: 100%;
+
+    & > * {
+      display: inline-block
+    }
+  }
+
+  .checkbox {
+    float: right;
+
+    & :checked {
+      color: yellow;
+      background: red;
+    }
   }
 }
