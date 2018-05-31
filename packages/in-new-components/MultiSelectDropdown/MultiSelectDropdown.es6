@@ -13,7 +13,7 @@ export default class MultiSelectDropdown extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
-      selectedValues: []
+      selectedValues: props.values ? props.values : []
     };
   }
 
@@ -38,14 +38,6 @@ export default class MultiSelectDropdown extends React.Component {
   clickOutsideDropdown = target => {
     return findParentNodeByClassName(target, locals.dropdown) == null;
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.values) {
-      this.setState({
-        selectedValues: nextProps.values
-      });
-    }
-  }
 
   render() {
     const { placeholder = '', options = [], labelRenderer = null } = this.props;

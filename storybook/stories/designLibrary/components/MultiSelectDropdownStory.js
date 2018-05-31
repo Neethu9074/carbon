@@ -11,12 +11,12 @@ storiesOf('designLibrary/Components/MultiSelectDropdown', module)
 
 const options= [
   {
-    value: 'option1',
-    label: 'option1'
+    value: 'HTTP',
+    label: 'HTTP'
   },
   {
-    value: 'option2',
-    label: 'option2'
+    value: 'database',
+    label: 'Database'
   }
 ];
 
@@ -26,7 +26,7 @@ function Default() {
       <MultiSelectDropdown
         placeholder="type"
         options={options}
-        values={['option1']}
+        values={['database']}
         apply={() => {}}
       />
     </Root>
@@ -49,7 +49,6 @@ function CustomRenderer() {
       <MultiSelectDropdown
         placeholder="type"
         options={options}
-        values={[]}
         labelRenderer={labelRenderer}
         apply={() => {}}
       />
