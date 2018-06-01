@@ -97,12 +97,12 @@ export const bigBangTimestamp$ = bigBangTimestamp;
 
 export function getCurrentViewWithTimelineFocusedAt(moment) {
   return timeConfig$.flatMap(({ to, windowSize }) => {
-    if (to) {
-      to = moment + windowSize / 2;
-    } else {
+    if (moment == null) {
+      moment = '';
       to = '';
+    } else {
+      to = moment + windowSize / 2;
     }
-    moment = moment == null ? '' : String(moment);
 
     return getModifiedUrlStream(params => {
       params.query[urlQueryKeys.to] = to;
