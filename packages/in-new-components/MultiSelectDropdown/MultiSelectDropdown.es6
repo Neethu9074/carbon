@@ -33,6 +33,7 @@ export default class MultiSelectDropdown extends React.Component {
   handleMouseClick = e => {
     if (this.clickOutsideDropdown(e.target)) {
       this.close();
+      this.setState({ selectedValues: this.props.values });
     }
   };
 

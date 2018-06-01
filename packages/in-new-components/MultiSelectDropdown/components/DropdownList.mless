@@ -16,6 +16,7 @@
   .rowWrapper {
     max-height: 12rem;
     overflow-y: auto;
+    margin-bottom: 0.5rem;
   }
 
   .selectAllButton {
