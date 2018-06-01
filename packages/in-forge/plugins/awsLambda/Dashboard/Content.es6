@@ -68,14 +68,14 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Dead Letter Error">
+      <DashboardSection title="Dead Letter Errors">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
           y1={{
             min: 0,
             metrics: ['dead_letter_error'],
-            labels: ['Dead Letter Error'],
+            labels: ['Dead Letter Errors'],
             type: 'line',
             formatter: number.compact
           }}
