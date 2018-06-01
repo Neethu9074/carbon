@@ -3,7 +3,7 @@ import React from 'react';
 
 import DropdownButton from 'in-new-components/MultiSelectDropdown/components/DropdownButton';
 import DropdownList from 'in-new-components/MultiSelectDropdown/components/DropdownList';
-import { isInsideOf } from 'in-services/util/dom';
+import { deepCopy } from 'in-services/util/object';
 
 export default class MultiSelectDropdown extends React.Component {
   static displayName = 'MultiSelectDropdown';
@@ -12,7 +12,7 @@ export default class MultiSelectDropdown extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
-      selectedValues: props.values ? props.values : []
+      selectedValues: props.values || []
     };
   }
 
@@ -30,16 +30,17 @@ export default class MultiSelectDropdown extends React.Component {
 
   handleMouseClick = e => {
     if (this.clickOutsideDropdown(e.target)) {
-      this.close();
-      this.setState({ selectedValues: this.props.values || [] });
+      this.setState({
+        isOpen: false,
+        selectedValues: this.props.values || []
+      });
     }
   };
 
   clickOutsideDropdown = target => {
-    return (
-      !isInsideOf(target, this.dropdownListRef ? this.dropdownListRef.domElement : null) &&
-      !isInsideOf(target, this.dropdownButtonRef.domElement)
-    );
+    const isInsideOfButton = this.dropdownButtonRef ? this.dropdownButtonRef.domElement.contains(target) : false;
+    const isInsideOfList = this.dropdownListRef ? this.dropdownListRef.domElement.contains(target) : false;
+    return !isInsideOfButton && !isInsideOfList;
   };
 
   render() {
@@ -81,7 +82,7 @@ export default class MultiSelectDropdown extends React.Component {
 
     if (!selected && selectedValues.indexOf(value) >= 0) {
       this.setState({
-        selectedValues: pull(selectedValues, value)
+        selectedValues: pull(deepCopy(selectedValues), value)
       });
     }
   };
