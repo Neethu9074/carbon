@@ -60,6 +60,7 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       cardTitle="Services"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
+      technologies={technologies}
       paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
@@ -77,6 +78,7 @@ function getTableData({
   serviceId,
   endpointId,
   endpointTypes,
+  technologies,
   timeConfig
 }) {
   return getServices({
@@ -127,6 +129,7 @@ function getTableData({
       service: serviceId,
       endpoint: endpointId,
       endpointTypes,
+      technologies,
       timeConfig
     }
   });

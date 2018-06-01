@@ -42,6 +42,6 @@ export function getTechnologyComboBoxItems(restrict = null) {
     .sort()
     .map(key => {
       const registryValue = registry[key];
-      return { value: registryValue.label, label: registryValue.label };
+      return { value: key, label: registryValue.label };
     });
 }

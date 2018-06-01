@@ -82,6 +82,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
           columnDefinitions={columnDefinitions}
           timeConfig={timeConfig}
           endpointTypes={endpointTypes}
+          technologies={technologies}
           paginationResettingProps={['timeConfig', 'endpointTypes']}
           rightHeader={rightHeader}
           leftHeader={leftHeader}
@@ -93,9 +94,18 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes, technologies }) {
   return getServices(
-    getServiceListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query, endpointTypes)
+    getServiceListSubscribeEvent(
+      timeConfig,
+      page,
+      pageSize,
+      orderBy,
+      orderDirection,
+      query,
+      endpointTypes,
+      technologies
+    )
   );
 }
 
@@ -225,7 +235,8 @@ export function getServiceListSubscribeEvent(
   orderBy = 'callsAgg',
   orderDirection = 'DESC',
   query = '',
-  endpointTypes = []
+  endpointTypes = [],
+  technologies = []
 ) {
   return {
     pagination: {
@@ -276,7 +287,8 @@ export function getServiceListSubscribeEvent(
     filter: {
       label: query,
       timeConfig,
-      endpointTypes
+      endpointTypes,
+      technologies
     }
   };
 }

@@ -24,9 +24,8 @@ export default function Filters({
       />
       <MultiSelectDropdown
         values={technologies}
-        onChange={t => setFilter({ technologies: t.map(a => a.value) })}
+        apply={values => setFilter({ technologies: values })}
         placeholder="Technology…"
-        multi
         options={getTechnologyComboBoxItems(restrictedTechnologies)}
         className={locals.filter}
       />
