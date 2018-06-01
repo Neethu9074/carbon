@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .dropdown {
-    display: block;
-  }
-}

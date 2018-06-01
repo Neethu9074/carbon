@@ -5,8 +5,6 @@ import DropdownButton from 'in-new-components/MultiSelectDropdown/components/Dro
 import DropdownList from 'in-new-components/MultiSelectDropdown/components/DropdownList';
 import { isInsideOf } from 'in-services/util/dom';
 
-import locals from './MultiSelectDropdown.mless';
-
 export default class MultiSelectDropdown extends React.Component {
   static displayName = 'MultiSelectDropdown';
 
@@ -49,7 +47,7 @@ export default class MultiSelectDropdown extends React.Component {
     const { isOpen, selectedValues } = this.state;
 
     return (
-      <div className={locals.dropdown}>
+      <div>
         <DropdownButton
           className={className}
           placeholder={placeholder}

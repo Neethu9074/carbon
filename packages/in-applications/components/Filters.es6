@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
 import MultiSelectDropdown from 'in-new-components/MultiSelectDropdown/MultiSelectDropdown';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
+import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 
 import locals from './Filters.mless';
 

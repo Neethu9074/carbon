@@ -7,7 +7,7 @@ import Root from '../../_helpers/Root';
 
 storiesOf('designLibrary/Components/MultiSelectDropdown', module)
 .add('Default', () => <Default />)
-.add('Custom option renderer', () => <CustomRenderer />);
+.add('Custom label renderer', () => <CustomRenderer />);
 
 const options= [
   {
