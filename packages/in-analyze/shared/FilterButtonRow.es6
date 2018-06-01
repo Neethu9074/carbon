@@ -56,7 +56,7 @@ export default connectTo(
               const isLastItem = i === filters.length - 1;
               if (!isLastItem) {
                 return (
-                  <div className={locals.badgeWrapper}>
+                  <div key={`filterItem_${i}`} className={locals.badgeWrapper}>
                     {badge}
                     <div className={locals.hairLine} />
                   </div>
