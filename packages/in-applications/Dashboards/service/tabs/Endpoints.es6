@@ -1,9 +1,9 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
-import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
@@ -163,7 +163,7 @@ const columnDefinitions = [
     id: 'Technology',
     sortable: false,
     getContent(item) {
-      return <TechnologyIndicator pluginOrGroupType={item.endpoint.technology} />;
+      return <TechnologyIndicatorList technologies={item.endpoint.technologies} />;
     }
   },
   {
