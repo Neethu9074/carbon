@@ -100,8 +100,8 @@ export default connectTo(
                   <EventChart event={event} />
                   <Spacer />
                   <EventDependecyGraph event={event} />
-                  {twoZeroModeEnabled && <Spacer />}
-                  {twoZeroModeEnabled && <EventTraces event={event} />}
+                  {!twoZeroModeEnabled && <Spacer />}
+                  {!twoZeroModeEnabled && <EventTraces event={event} />}
                 </div>
               ) : null}
             </div>

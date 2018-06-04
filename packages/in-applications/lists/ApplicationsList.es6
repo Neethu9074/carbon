@@ -7,6 +7,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
+import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
@@ -48,25 +49,22 @@ export default connectTo(
         <MaxWidthFullscreenContainer>
           <Title title="Applications" />
 
-          <ServerTableWithUrlBoundState
-            get={getTableData}
-            pathSegment={applicationsList}
-            matrixPrefix="app."
-            columnDefinitions={columnDefinitions}
-            timeConfig={timeConfig}
-            rightHeader={rightHeader}
-            leftHeader={leftHeader}
-            paginationResettingProps={{ timeConfig }}
-            defaultOrderBy="callsAgg"
-            defaultOrderDirection="DESC"
-          />
-          {showNoApplicationsDefinedIndicator &&
-            role.canConfigureApplications && (
-              <p className={locals.noApplicationsDefined}>
-                No applications have been configured. You can add applications by clicking on the &quot;Create
-                Application&quot; button above.
-              </p>
-            )}
+          {!showNoApplicationsDefinedIndicator && (
+            <ServerTableWithUrlBoundState
+              get={getTableData}
+              pathSegment={applicationsList}
+              matrixPrefix="app."
+              columnDefinitions={columnDefinitions}
+              timeConfig={timeConfig}
+              rightHeader={rightHeader}
+              leftHeader={leftHeader}
+              paginationResettingProps={{ timeConfig }}
+              defaultOrderBy="callsAgg"
+              defaultOrderDirection="DESC"
+            />
+          )}
+
+          {showNoApplicationsDefinedIndicator && <EmptyAppList />}
         </MaxWidthFullscreenContainer>
       </Sticky>
     );

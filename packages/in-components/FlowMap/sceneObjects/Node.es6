@@ -63,22 +63,48 @@ export default class Node extends FlowMapBaseEntity {
   }
 
   addChildren(children) {
-    let childrenChanged = false;
-    const childrenIterator = children.values();
-    for (const child of childrenIterator) {
-      if (!this.children.has(child.id)) {
-        const newChildSceneObject = new Child(this, child.id);
-        newChildSceneObject.setMetrics(child.metricValues);
-        newChildSceneObject.setData(child.data);
+    let childrenChanged = !children;
 
-        this.children.set(child.id, newChildSceneObject);
-        childrenChanged = true;
+    if (children) {
+      const childrenIterator = children.values();
+      for (const child of childrenIterator) {
+        if (this.addChild(child)) {
+          childrenChanged = true;
+        }
       }
     }
 
     if (childrenChanged) {
       this.events$.emit('children', this.children);
     }
+  }
+
+  addChild(child) {
+    if (!this.children.has(child.id)) {
+      const newChildSceneObject = new Child(this, child.id);
+      newChildSceneObject.setMetrics(child.metricValues);
+      newChildSceneObject.setData(child.data);
+
+      this.children.set(child.id, newChildSceneObject);
+      return newChildSceneObject;
+    }
+  }
+
+  findConnectedChild(childId) {
+    const children = this.children;
+    function find(direction) {
+      const childIterator = children.values();
+      for (const otherChild of childIterator) {
+        for (let iConnected = 0; iConnected < otherChild[direction].length; iConnected++) {
+          const connectedChild = otherChild[direction][iConnected];
+          if (connectedChild.id === childId) {
+            return { child: otherChild, index: iConnected, direction };
+          }
+        }
+      }
+    }
+
+    return find('incoming') || find('outgoing');
   }
 
   dispose() {

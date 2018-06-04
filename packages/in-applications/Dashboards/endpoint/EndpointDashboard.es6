@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
-import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -70,7 +70,7 @@ function SubTypes({ result }) {
   return (
     <Fragment>
       <EndpointTypeBadgeList types={[result.data.type]} />
-      <TechnologyIndicator pluginOrGroupType={result.data.technology} />
+      <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
     </Fragment>
   );
 }

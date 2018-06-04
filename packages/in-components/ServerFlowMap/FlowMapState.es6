@@ -1,10 +1,31 @@
 import PathFinder from 'in-components/ServerFlowMap/PathFinder';
+import { generateUniqueShortId } from 'in-services/util/id';
 import { find } from 'in-services/arrayUtils';
+
+const placeHolderNodeIdPrephrase = 'placeholder_';
 
 export default class FlowMapState {
   constructor() {
     this.nodes = new Map();
     this.pathFinder = new PathFinder(this.nodes);
+  }
+
+  getNode(nodeConfig) {
+    if (this.nodes.has(nodeConfig.id)) {
+      return this.nodes.get(nodeConfig.id);
+    }
+
+    if (nodeConfig.isRemainingNodesPlaceHolder) {
+      this.nodes.set(nodeConfig.id, nodeConfig);
+      return nodeConfig;
+    }
+
+    return this.addNode(
+      nodeConfig.id,
+      this.isWithinAppContext(nodeConfig.applications) ? this.applicationContext : null,
+      nodeConfig.service,
+      nodeConfig.metrics
+    );
   }
 
   addNode(id, applicationId, data, metricValues) {
@@ -66,29 +87,34 @@ export default class FlowMapState {
       return;
     }
 
+    this.clearCurrentNodesFromDummies();
+
     const nodes = this.mapResult(result, path, direction);
-    const numRemainingNodes = Math.max(0, result.data.totalHits - result.data.page * result.data.pageSize);
-    onResult(nodes, numRemainingNodes, result.data.page);
+    onResult(nodes);
+  }
+
+  mutateNodesWithPlaceHolderIfNecessary(node, nodes, result, direction, createPlaceHolderNodeFunction) {
+    const cursor = result.data.page;
+    const numRemainingNodes = Math.max(0, result.data.totalHits - cursor * result.data.pageSize);
+    if (numRemainingNodes > 0) {
+      const placeHolderNode = createPlaceHolderNodeFunction();
+      placeHolderNode.paginationInformation = { connectedNode: node, direction, numRemainingNodes, cursor };
+      nodes.push(placeHolderNode);
+    }
   }
 
   processServiceResult(nodeId, endpointId, result, direction, path) {
-    const currentNodes = this.nodes;
-    const node = currentNodes.get(nodeId);
+    const node = this.nodes.get(nodeId);
 
-    const onResult = (nodes, numRemainingNodes, cursor) => {
+    const onResult = nodes => {
       node.isLoading[direction] = false;
       node.hasRelatedNodes[direction] = false;
-      node.paginationInformation[direction] = { numRemainingNodes, cursor };
+
+      this.mutateNodesWithPlaceHolderIfNecessary(node, nodes, result, direction, createPlaceHolderNode);
+
       for (let i = 0; i < nodes.length; i++) {
         const newNode = nodes[i];
-        const serviceNode = currentNodes.has(newNode.id)
-          ? currentNodes.get(newNode.id)
-          : this.addNode(
-              newNode.id,
-              this.isWithinAppContext(newNode.applications) ? this.applicationContext : null,
-              newNode.service,
-              newNode.metrics
-            );
+        const serviceNode = this.getNode(newNode);
 
         this.addConnected(node, serviceNode, direction);
 
@@ -115,24 +141,17 @@ export default class FlowMapState {
   }
 
   processEndpointResult(nodeId, endpointId, result, direction, path) {
-    const currentNodes = this.nodes;
-    const node = currentNodes.get(nodeId);
+    const node = this.nodes.get(nodeId);
 
-    const onResult = (children, numRemainingNodes, cursor) => {
+    const onResult = children => {
       const child = node.children.get(endpointId);
       child.hasRelatedNodes[direction] = false;
-      child.paginationInformation[direction] = { numRemainingNodes, cursor };
+
+      this.mutateNodesWithPlaceHolderIfNecessary(node, children, result, direction, createPlaceHolderNodeWithEndpoint);
 
       for (let i = 0; i < children.length; i++) {
         const newChild = children[i];
-        const serviceNode = currentNodes.has(newChild.id)
-          ? currentNodes.get(newChild.id)
-          : this.addNode(
-              newChild.id,
-              this.isWithinAppContext(newChild.applications) ? this.applicationContext : null,
-              newChild.service,
-              newChild.metrics
-            );
+        const serviceNode = this.getNode(newChild);
 
         this.addConnected(node, serviceNode, direction);
 
@@ -185,6 +204,15 @@ export default class FlowMapState {
     }));
   }
 
+  clearCurrentNodesFromDummies() {
+    const nodesIterator = this.nodes.values();
+    for (const node of nodesIterator) {
+      if (node.id.indexOf(placeHolderNodeIdPrephrase) === 0) {
+        this.nodes.delete(node.id);
+      }
+    }
+  }
+
   calculateUniqueIdForNode(id, previousNodesPath, direction) {
     let path;
     if (direction === 'incoming') {
@@ -227,7 +255,21 @@ function createBasicNode(id, applicationId, data, metricValues) {
     outgoing: [],
     errors: {},
     isLoading: {},
-    hasRelatedNodes: {},
-    paginationInformation: {}
+    hasRelatedNodes: {}
   };
+}
+
+function createPlaceHolderNode() {
+  const node = createBasicNode(`${placeHolderNodeIdPrephrase}${generateUniqueShortId()}`);
+  node.isRemainingNodesPlaceHolder = true;
+  node.children = new Map();
+  return node;
+}
+
+function createPlaceHolderNodeWithEndpoint() {
+  const node = createPlaceHolderNode();
+  node.endpoint = {
+    id: generateUniqueShortId()
+  };
+  return node;
 }

@@ -10,6 +10,7 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Spacer from 'in-applications/Forms/components/Spacer';
+import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -77,6 +78,10 @@ class BasicForm extends React.Component {
         saving: false,
         error: false
       });
+
+      if (this.props.onSavePath) {
+        goToPath(this.props.onSavePath);
+      }
     });
 
     result$.errors().once(() => {
@@ -198,7 +203,7 @@ function TemporaryMessage({ type = 'success', message }) {
   );
 }
 
-export function getMatchSpecificationForm(matchSpecification = {}) {
+export function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
   return createMapForm()
     .put(
       'key',
@@ -210,7 +215,7 @@ export function getMatchSpecificationForm(matchSpecification = {}) {
     .put(
       'value',
       createField({
-        value: get(matchSpecification, 'value', ''),
+        value: get(matchSpecification, 'value', defaultValue),
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
     );

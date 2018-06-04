@@ -1,0 +1,23 @@
+import React from 'react';
+
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsLambda/Info';
+
+export default function AwsLambdaSidebar({ snapshot }) {
+  return (
+    <div>
+      <Separator />
+
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>Lambda Info</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
+      <TagList snapshot={snapshot} />
+    </div>
+  );
+}

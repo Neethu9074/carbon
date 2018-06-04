@@ -39,6 +39,7 @@ export default function CustomServiceMappingDialog() {
       "#{key1-value}-#{key2-value}-#{keyN-value}"`}
       saveButtonLabel="Save"
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
+      onSavePath={servicesList}
       getEntity={() =>
         getServiceConfigs().map(result => {
           if (result.data) {
@@ -93,22 +94,26 @@ export default function CustomServiceMappingDialog() {
                             </FormGroup>
                           ))}
 
-                          {matchSpecification.get('value').map(field => (
-                            <FormGroup className={locals.matchSpecificationGroupValue}>
-                              <Label htmlFor={`match-${i}-value`} hasError={!field.valid && field.touched}>
-                                Value
-                              </Label>
-                              <Input
-                                type="text"
-                                id={`match-${i}-value`}
-                                value={field.value}
-                                onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form)}
-                                autoComplete="off"
-                                hasError={!field.valid && field.touched}
-                              />
-                              <TouchedMessages field={field} />
-                            </FormGroup>
-                          ))}
+                          {matchSpecification.get('value').map(field => {
+                            const key = matchSpecification.get('key').value;
+                            if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'host.tag') {
+                              return null;
+                            }
+
+                            return (
+                              <FormGroup className={locals.matchSpecificationGroupValue}>
+                                <Input
+                                  type="text"
+                                  id={`match-${i}-value`}
+                                  value={field.value}
+                                  onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form)}
+                                  autoComplete="off"
+                                  hasError={!field.valid && field.touched}
+                                />
+                                <TouchedMessages field={field} />
+                              </FormGroup>
+                            );
+                          })}
 
                           {form.get('matchSpecification').size > 1 && (
                             <Tooltip content="Remove this match condition">
@@ -131,7 +136,7 @@ export default function CustomServiceMappingDialog() {
                           onClick={() => addMatchSpecification(form, updateForm)}
                           icon="lib_openclose_add_circle_outline"
                         >
-                          add tag
+                          add key
                         </Button>
                       </div>
                     </div>
@@ -148,7 +153,7 @@ export default function CustomServiceMappingDialog() {
 }
 
 function addMatchSpecification(form, updateForm) {
-  const additionalSubForm = getMatchSpecificationForm();
+  const additionalSubForm = getMatchSpecificationForm({}, 'a=b');
   updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
 }
 

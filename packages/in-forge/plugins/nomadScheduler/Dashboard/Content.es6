@@ -85,6 +85,34 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
             />
           </DashboardSection>
         </Columize>
+        <Columize>
+          <DashboardSection title="Allocated/Unallocated disk">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['nomad.client.allocated.disk', 'nomad.client.unallocated.disk'],
+                labels: ['Allocated disk', 'Unallocated disk'],
+                formatter: withSiPrefixZeroDecimalPlaces,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Allocated/Unallocated IOPS">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['nomad.client.allocated.iops', 'nomad.client.unallocated.iops'],
+                labels: ['Allocated IOPS', 'Unallocated IOPS'],
+                formatter: withSiPrefixZeroDecimalPlaces,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
         <DashboardSection title="Allocations">
           <Chart
             snapshotId={snapshotId}
