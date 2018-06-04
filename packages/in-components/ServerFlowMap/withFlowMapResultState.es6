@@ -70,6 +70,22 @@ export default () => ComposedComponent => {
       this.disposeSubscriptions();
     }
 
+    loadMore = ({ nodeId, childId, direction, cursor }) => {
+      if (childId) {
+        if (direction === 'incoming') {
+          this.expandChildLeft(nodeId, childId, cursor + 1);
+        } else {
+          this.expandChildRight(nodeId, childId, cursor + 1);
+        }
+      } else {
+        if (direction === 'incoming') {
+          this.expandNodeLeft(nodeId, cursor + 1);
+        } else {
+          this.expandNodeRight(nodeId, cursor + 1);
+        }
+      }
+    };
+
     expandNodeLeft = (nodeId, cursor) => {
       this.createFlowNodesSubscription(nodeId, 'incoming', this.getIncomingFlowNodes$, cursor);
     };
@@ -78,12 +94,12 @@ export default () => ComposedComponent => {
       this.createFlowNodesSubscription(nodeId, 'outgoing', this.getOutgoingFlowNodes$, cursor);
     };
 
-    expandChildLeft = (nodeId, childId) => {
-      this.openFlowNodesSubscriptionForEndpoint(nodeId, childId, 'incoming', this.getIncomingFlowNodes$);
+    expandChildLeft = (nodeId, childId, cursor) => {
+      this.openFlowNodesSubscriptionForEndpoint(nodeId, childId, 'incoming', this.getIncomingFlowNodes$, cursor);
     };
 
-    expandChildRight = (nodeId, childId) => {
-      this.openFlowNodesSubscriptionForEndpoint(nodeId, childId, 'outgoing', this.getOutgoingFlowNodes$);
+    expandChildRight = (nodeId, childId, cursor) => {
+      this.openFlowNodesSubscriptionForEndpoint(nodeId, childId, 'outgoing', this.getOutgoingFlowNodes$, cursor);
     };
 
     createFlowNodesSubscription = (serviceId, direction, callback, cursor) => {
@@ -97,24 +113,16 @@ export default () => ComposedComponent => {
       );
     };
 
-    openFlowNodesSubscriptionForEndpoint = (serviceId, endpointId, direction, callback) => {
+    openFlowNodesSubscriptionForEndpoint = (serviceId, endpointId, direction, callback, cursor) => {
       const path = this.flowMapState.pathFinder.findChild(serviceId, endpointId, direction);
       this.setupSubscriptionIfAbsent(
         `${serviceId}__${endpointId}`,
         serviceId,
         endpointId,
         direction,
-        () => callback(endpointId, path),
+        () => callback(endpointId, path, cursor),
         this.flowMapState.processEndpointResult.bind(this.flowMapState)
       );
-    };
-
-    loadMore = (nodeId, direction, cursor) => {
-      if (direction === 'incoming') {
-        this.expandNodeLeft(nodeId, cursor + 1);
-      } else {
-        this.expandNodeRight(nodeId, cursor + 1);
-      }
     };
 
     getIncomingFlowNodes$ = (id, path, page) => {

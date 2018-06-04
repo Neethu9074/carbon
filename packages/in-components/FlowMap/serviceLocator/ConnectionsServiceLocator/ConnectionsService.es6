@@ -69,6 +69,7 @@ export default function createConnectionsService(serviceLocatorUid) {
 
   function setConnections(nextConnectionConfigs) {
     const difference = diff(Array.from(connections.keys()), nextConnectionConfigs.map(config => config.id));
+
     remove(difference.uniqueItemsA);
     add(nextConnectionConfigs);
     updateAllConnectionPositions();
@@ -97,10 +98,11 @@ export default function createConnectionsService(serviceLocatorUid) {
 
   function remove(ids) {
     for (let i = 0; i < ids.length; i++) {
-      const connection = connections.get(ids[i]);
+      const idToDelete = ids[i];
+      const connection = connections.get(idToDelete);
       if (connection) {
         connection.dispose();
-        connections.delete(connection.id);
+        connections.delete(idToDelete);
       }
     }
   }
@@ -220,7 +222,10 @@ export default function createConnectionsService(serviceLocatorUid) {
         const fromPos = cFrom.parentNode.position.clone();
         const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
 
-        fromPos.y -= yOffset + iChild * yOffsetStep;
+        fromPos.y -= iChild * yOffsetStep;
+        if (!cFrom.parentNode.isRemainingNodesPlaceHolder) {
+          fromPos.y -= yOffset;
+        }
         fromPos.x += xOffset;
         connections.push(getChildConnection(cFrom, cSource, fromPos, sourcePos, 'incoming'));
       }
@@ -232,7 +237,10 @@ export default function createConnectionsService(serviceLocatorUid) {
         const toPos = cTo.parentNode.position.clone();
         const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
 
-        toPos.y -= yOffset + iChild * yOffsetStep;
+        toPos.y -= iChild * yOffsetStep;
+        if (!cTo.parentNode.isRemainingNodesPlaceHolder) {
+          toPos.y -= yOffset;
+        }
         toPos.x -= xOffset;
         connections.push(getChildConnection(cSource, cTo, sourcePos, toPos, 'outgoing'));
       }
@@ -241,7 +249,10 @@ export default function createConnectionsService(serviceLocatorUid) {
 
   function getChildConnection(from, to, fromPos, toPos, direction) {
     const config = getConnectionConfig(from, to, fromPos, toPos, direction);
-    config.id = createConnectionId({ id: from.parentNode.id + '_' + from.id }, { id: to.parentNode.id + '_' + to.id });
+    config.id = createConnectionId(
+      { id: `${from.parentNode.id}_${from.id}` },
+      { id: `${from.parentNode.id}_${to.id}` }
+    );
     return config;
   }
 

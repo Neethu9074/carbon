@@ -1,7 +1,7 @@
 import React from 'react';
 
+import RemainingEndpointsNodePlaceholderNode from 'in-components/FlowMap/components/Node/RemainingEndpointsNodePlaceholderNode';
 import RemainingNodesPlaceholderNode from 'in-components/FlowMap/components/Node/RemainingNodesPlaceholderNode';
-import RemainingNodesPlaceholderClass from 'in-components/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { DISTANCE_BETWEEN_NODES_X } from 'in-components/FlowMap/misc/layouting/config';
 import Node from 'in-components/FlowMap/components/Node/Node';
@@ -38,9 +38,11 @@ export default connectTo(
     }
 
     return nodesArray.map(node => {
-      const isRemainingNodePlaceholder = node instanceof RemainingNodesPlaceholderClass;
-      if (isRemainingNodePlaceholder) {
-        return <RemainingNodesPlaceholderNode key={node.id} node={node} size={nodesSize} {...props} />;
+      if (node.isRemainingNodesPlaceHolder) {
+        if (node.children.size === 0) {
+          return <RemainingNodesPlaceholderNode key={node.id} node={node} size={nodesSize} {...props} />;
+        }
+        return <RemainingEndpointsNodePlaceholderNode key={node.id} node={node} size={nodesSize} {...props} />;
       }
       return (
         <Node

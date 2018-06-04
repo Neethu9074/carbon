@@ -33,6 +33,7 @@ export default class SceneGraph {
   updateState(nextFlowMapState) {
     this.rootNodeId = nextFlowMapState.getRootNodeId();
 
+    this.removeVanishedNodes(nextFlowMapState.nodes);
     this.createNewNodes(nextFlowMapState.nodes);
 
     // we have to iterate over all nodes twice because we first need to create all nodes until we can connect them by reference
@@ -41,65 +42,34 @@ export default class SceneGraph {
     this.requestLayout();
   }
 
+  removeVanishedNodes(nodes) {
+    const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
+    const currentNodes = nodesServiceLocator.getNodes();
+    const nodesIterator = currentNodes.objects.values();
+    for (const node of nodesIterator) {
+      if (!nodes.has(node.id)) {
+        nodesServiceLocator.removeNode(node.id);
+      }
+    }
+  }
+
   createNewNodes(nodes) {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const currentNodes = nodesServiceLocator.getNodes();
     const nodesIterator = nodes.values();
     for (const node of nodesIterator) {
       let nodeSceneObject;
-      if (!currentNodes.has(node.id)) {
-        nodeSceneObject = this.addNode(nodesServiceLocator, node);
-      } else {
+      if (currentNodes.has(node.id)) {
         nodeSceneObject = currentNodes.get(node.id);
-      }
-
-      this.createRemainingNodesPlaceholderIfNeeded(node);
-      nodeSceneObject.addChildren(node.children);
-    }
-  }
-
-  createRemainingNodesPlaceholderIfNeeded(node) {
-    const serviceLocatorUid = this.serviceLocatorUid;
-    const nodesServiceLocator = getServiceLocators(serviceLocatorUid).nodesServiceLocator;
-    const currentNodes = nodesServiceLocator.getNodes();
-
-    const placeHolderIncomingNodeId = `${node.id}.incoming.remainingNodes`;
-    if (node.paginationInformation.incoming && node.paginationInformation.incoming.numRemainingNodes > 0) {
-      createRemainingNodesPlaceholderIfNeededForDirection(placeHolderIncomingNodeId, node, 'incoming');
-    } else {
-      checkIfNeedsDeletion(placeHolderIncomingNodeId);
-    }
-
-    const placeHolderOutgoingNodeId = `${node.id}.outgoing.remainingNodes`;
-    if (node.paginationInformation.outgoing && node.paginationInformation.outgoing.numRemainingNodes > 0) {
-      createRemainingNodesPlaceholderIfNeededForDirection(placeHolderOutgoingNodeId, node, 'outgoing');
-    } else {
-      checkIfNeedsDeletion(placeHolderOutgoingNodeId);
-    }
-
-    function checkIfNeedsDeletion(id) {
-      if (currentNodes.has(id)) {
-        nodesServiceLocator.removeNode(id);
-        const connected = getServiceLocators(serviceLocatorUid).nodesServiceLocator.findConnected(id);
-        if (connected) {
-          node[connected.direction].splice(connected.index, 1);
-        }
-      }
-    }
-
-    function createRemainingNodesPlaceholderIfNeededForDirection(placeHolderNodeId, node, direction) {
-      let nodeSceneObject;
-      if (!currentNodes.has(placeHolderNodeId)) {
-        nodeSceneObject = new RemainingNodesPlaceholder(serviceLocatorUid, placeHolderNodeId);
-        nodesServiceLocator.addNode(nodeSceneObject.id, nodeSceneObject);
-        node[direction].push(nodeSceneObject);
+      } else if (node.isRemainingNodesPlaceHolder) {
+        nodeSceneObject = new RemainingNodesPlaceholder(this.serviceLocatorUid, node.id);
+        nodeSceneObject.paginationInformation = node.paginationInformation;
+        nodesServiceLocator.addNode(node.id, nodeSceneObject);
       } else {
-        nodeSceneObject = currentNodes.get(placeHolderNodeId);
+        nodeSceneObject = this.addNode(nodesServiceLocator, node);
       }
 
-      nodeSceneObject.setData({
-        paginationInformation: node.paginationInformation[direction]
-      });
+      nodeSceneObject.addChildren(node.children);
     }
   }
 
@@ -115,18 +85,22 @@ export default class SceneGraph {
       nodeSceneObject.setApplicationId(node.applicationId);
 
       const incomingDirection = 'incoming';
-      nodeSceneObject.setConnected(node.incoming.map(_node => currentNodes.get(_node.id)), incomingDirection);
+      nodeSceneObject.setConnected(mapToSceneObjectNodes(node.incoming), incomingDirection);
       nodeSceneObject.setIsExpanded(node.hasRelatedNodes.incoming == false, incomingDirection);
       nodeSceneObject.setErrors(node.errors.incoming, incomingDirection);
       nodeSceneObject.setIsLoadingData(node.isLoading.incoming, incomingDirection);
 
       const outgoingDirection = 'outgoing';
-      nodeSceneObject.setConnected(node.outgoing.map(_node => currentNodes.get(_node.id)), outgoingDirection);
+      nodeSceneObject.setConnected(mapToSceneObjectNodes(node.outgoing), outgoingDirection);
       nodeSceneObject.setIsExpanded(node.hasRelatedNodes.outgoing == false, outgoingDirection);
       nodeSceneObject.setErrors(node.errors.outgoing, outgoingDirection);
       nodeSceneObject.setIsLoadingData(node.isLoading.outgoing, outgoingDirection);
 
       this.updateChildConnections(currentNodes, nodeSceneObject, node);
+    }
+
+    function mapToSceneObjectNodes(nodes) {
+      return nodes.map(_node => currentNodes.get(_node.id)).filter(n => n);
     }
   }
 
@@ -136,20 +110,26 @@ export default class SceneGraph {
       const childSceneObject = nodeSceneObject.children.get(child.id);
 
       const incomingDirection = 'incoming';
-      childSceneObject.setConnected(
-        child.incoming.map(_child => currentNodes.get(_child.nodeId).children.get(_child.id)),
-        incomingDirection
-      );
+      childSceneObject.setConnected(mapToSceneObjectNodes(child.incoming), incomingDirection);
       childSceneObject.setIsExpanded(child.hasRelatedNodes.incoming == false, incomingDirection);
       childSceneObject.setIsLoadingData(child.isLoading.incoming, incomingDirection);
 
       const outgoingDirection = 'outgoing';
-      childSceneObject.setConnected(
-        child.outgoing.map(_child => currentNodes.get(_child.nodeId).children.get(_child.id)),
-        outgoingDirection
-      );
+      childSceneObject.setConnected(mapToSceneObjectNodes(child.outgoing), outgoingDirection);
       childSceneObject.setIsExpanded(child.hasRelatedNodes.outgoing == false, outgoingDirection);
       childSceneObject.setIsLoadingData(child.isLoading.outgoing, outgoingDirection);
+    }
+
+    function mapToSceneObjectNodes(children) {
+      return children
+        .map(_child => {
+          const node = currentNodes.get(_child.nodeId);
+          if (!node) {
+            return null;
+          }
+          return node.children.get(_child.id);
+        })
+        .filter(n => n);
     }
   }
 

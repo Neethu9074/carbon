@@ -15,31 +15,19 @@ export default function createNodesService() {
     return nodes;
   }
 
-  function dispose() {
-    nodes.clear();
+  function getNode(id) {
+    return nodes.objects.get(id);
   }
 
-  function findConnected(id) {
-    function find(direction) {
-      const nodesIterator = nodes.objects.values();
-      for (const otherNode of nodesIterator) {
-        for (let iConnected = 0; iConnected < otherNode[direction].length; iConnected++) {
-          const connectedNode = otherNode[direction][iConnected];
-          if (connectedNode.id === id) {
-            return { node: otherNode, index: iConnected, direction };
-          }
-        }
-      }
-    }
-
-    return find('incoming') || find('outgoing');
+  function dispose() {
+    nodes.clear();
   }
 
   return {
     addNode,
     removeNode,
     getNodes,
-    findConnected,
+    getNode,
     dispose
   };
 }

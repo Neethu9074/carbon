@@ -4,7 +4,6 @@
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     left: -7.8125rem;
     top: -1.5rem;
@@ -14,8 +13,5 @@
     padding: 0.5rem 0.75rem;
 
     background: white;
-    color: #16363e;
-    font-weight: 300;
-    font-size: 0.875rem;
   }
 }
