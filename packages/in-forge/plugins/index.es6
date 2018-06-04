@@ -10,6 +10,7 @@ import './awsKinesis';
 import './awsLambda';
 import './awsRds';
 import './awsSqs';
+import './awsS3';
 import './azure';
 import './batchServiceInstance';
 import './browserLogicalConnection';
