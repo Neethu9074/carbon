@@ -22,7 +22,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Duration">
+      <DashboardSection title="Durations">
         <Chart
           snapshotId={snapshotId}
           timeframe={timeframe}
