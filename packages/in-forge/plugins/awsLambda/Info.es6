@@ -2,6 +2,7 @@ import React from 'react';
 
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { formatDateTime } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -15,7 +16,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
       <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
       <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
-      <DescriptionItem title="Last Modified">{data.get('last_modified')}</DescriptionItem>
+      <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
     </DescriptionList>
   );
