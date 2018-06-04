@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import LogMessageTopList from 'in-applications/Dashboards/commonTabs/errors/logging/LogMessageTopList';
+import LogMessageTopList from 'in-applications/Dashboards/commonTabs/messages/logging/LogMessageTopList';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -15,7 +15,7 @@ export default function LoggingSections({ applicationId, serviceId, endpointId, 
     <Fragment>
       <Row>
         <Col lg={12}>
-          <Card title="Log Level Breakdown">
+          <Card title="Messages Breakdown">
             <ChartWrapper
               timeConfig={timeConfig}
               y1={{
