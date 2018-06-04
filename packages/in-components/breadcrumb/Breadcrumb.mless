@@ -5,22 +5,6 @@
   .twoRowWrapper {
     display: flex;
     align-items: center;
-
-    &:last-child {
-      & > .breadcrumb {
-        display: flex;
-        align-items: center;
-        color: #fff;
-      }
-
-      & > .label {
-        color: #ffffff8f;
-      }
-
-      .icon {
-        display: none;
-      }
-    }
   }
 
   .label {
@@ -44,6 +28,18 @@
     &:hover {
       color: #ffffffb8;
       text-decoration: none;
+    }
+
+    &:last-child {
+      color: #fff;
+
+      .label {
+        color: #ffffff8f;
+      }
+
+      .icon {
+        display: none;
+      }
     }
   }
 }
