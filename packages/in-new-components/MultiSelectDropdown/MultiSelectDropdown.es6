@@ -48,8 +48,8 @@ export default class MultiSelectDropdown extends React.Component {
   };
 
   clickOutsideDropdown = target => {
-    const isInsideOfButton = this.dropdownButtonRef ? this.dropdownButtonRef.domElement.contains(target) : false;
-    const isInsideOfList = this.dropdownListRef ? this.dropdownListRef.domElement.contains(target) : false;
+    const isInsideOfButton = this.dropdownButtonRef ? this.dropdownButtonRef.contains(target) : false;
+    const isInsideOfList = this.dropdownListRef ? this.dropdownListRef.contains(target) : false;
     return !isInsideOfButton && !isInsideOfList;
   };
 
@@ -59,23 +59,21 @@ export default class MultiSelectDropdown extends React.Component {
 
     return (
       <div>
-        <DropdownButton
-          className={className}
-          placeholder={placeholder}
-          toggle={this.toggle}
-          ref={this.setDropdownButtonRef}
-        />
+        <span ref={this.setDropdownButtonRef}>
+          <DropdownButton className={className} placeholder={placeholder} toggle={this.toggle} />
+        </span>
 
         {isOpen ? (
-          <DropdownList
-            options={options}
-            selectedValues={selectedValues}
-            labelRenderer={labelRenderer}
-            handleOptionChange={this.handleOptionChange}
-            handleSelectAllClick={this.handleSelectAllClick}
-            handleSetClick={this.handleSetClick}
-            ref={this.setDropdownListRef}
-          />
+          <div ref={this.setDropdownListRef}>
+            <DropdownList
+              options={options}
+              selectedValues={selectedValues}
+              labelRenderer={labelRenderer}
+              handleOptionChange={this.handleOptionChange}
+              handleSelectAllClick={this.handleSelectAllClick}
+              handleSetClick={this.handleSetClick}
+            />
+          </div>
         ) : null}
       </div>
     );
