@@ -14,6 +14,16 @@ export default class MultiSelectDropdown extends React.Component {
       isOpen: false,
       selectedValues: props.values || []
     };
+
+    this.dropdownButtonRef = null;
+    this.dropdownListRef = null;
+
+    this.setDropdownButtonRef = element => {
+      this.dropdownButtonRef = element;
+    };
+    this.setDropdownListRef = element => {
+      this.dropdownListRef = element;
+    };
   }
 
   toggle = () => this.setState({ isOpen: !this.state.isOpen });
@@ -53,7 +63,7 @@ export default class MultiSelectDropdown extends React.Component {
           className={className}
           placeholder={placeholder}
           toggle={this.toggle}
-          ref={element => (this.dropdownButtonRef = element)}
+          ref={this.setDropdownButtonRef}
         />
 
         {isOpen ? (
@@ -64,7 +74,7 @@ export default class MultiSelectDropdown extends React.Component {
             handleOptionChange={this.handleOptionChange}
             handleSelectAllClick={this.handleSelectAllClick}
             handleSetClick={this.handleSetClick}
-            ref={element => (this.dropdownListRef = element)}
+            ref={this.setDropdownListRef}
           />
         ) : null}
       </div>

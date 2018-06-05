@@ -8,6 +8,11 @@ import locals from './DropdownList.mless';
 export default class DropdownList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.domElement = null;
+    this.setDomElement = element => {
+      this.domElement = element;
+    };
   }
 
   render() {
@@ -21,7 +26,7 @@ export default class DropdownList extends React.Component {
     } = this.props;
 
     return (
-      <div className={locals.dropdownList} ref={element => (this.domElement = element)}>
+      <div className={locals.dropdownList} ref={this.setDomElement}>
         <div className={locals.rowWrapper}>
           {options.map(option => (
             <OptionRow
