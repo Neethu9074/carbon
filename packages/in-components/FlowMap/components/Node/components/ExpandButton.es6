@@ -14,7 +14,7 @@ export default connectTo(
     isExpanded: props.events$.on(`isExpanded_${props.direction}`).distinct(),
     errors: props.events$.on(`errors_${props.direction}`).distinct()
   }),
-  function ExpandButton({ isLoading, isExpanded, errors, onClick, direction }) {
+  function ExpandButton({ className, isLoading, isExpanded, errors, onClick, direction }) {
     if (isExpanded) {
       return null;
     }
@@ -25,14 +25,16 @@ export default connectTo(
           className={evaluateClassNames({
             [locals.expandButtonRight]: direction === 'outgoing',
             [locals.expandButtonLeft]: direction === 'incoming',
-            [locals.errorneousExpandIcon]: errors && errors.length > 0
+            [locals.errorneousExpandIcon]: errors && errors.length > 0,
+            [className]: className
           })}
           onClick={onClick}
         >
           <SvgIcon
-            type={isLoading ? 'spinner' : 'plus_without_frame'}
-            height={isLoading ? 14 : 10}
-            color="#ffffff"
+            className={locals.expandIcon}
+            type={isLoading ? 'lib_actions_loading' : 'lib_openclose_add'}
+            width={24}
+            height={24}
             spinning={isLoading}
           />
         </div>

@@ -1,8 +1,10 @@
+@import '~in-themes/active.less';
+
 :local {
   .expandButtonRight,
   .expandButtonLeft {
     position: absolute;
-    top: ~'calc(50% - 11px)';
+    bottom: 0.5rem;
 
     display: flex;
     align-items: center;
@@ -10,13 +12,13 @@
 
     width: 1.375rem;
     height: 1.375rem;
-    background: #1fb7b9;
+    background: @lib__colors__primary1;
     border-radius: 50%;
 
     cursor: pointer;
 
     &:hover {
-      background: #5bdee0;
+      background: #12978e;
     }
   }
 
@@ -28,7 +30,11 @@
     left: -1.5625rem;
   }
 
+  .expandIcon {
+    fill: #fff;
+  }
+
   .errorneousExpandIcon {
-    background: #ff4229;
+    background: @lib__colors__failure;
   }
 }

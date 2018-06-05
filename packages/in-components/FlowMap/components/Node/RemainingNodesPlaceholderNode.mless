@@ -1,17 +1,18 @@
 :local {
   .wrapper {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 
     display: flex;
     align-items: center;
 
-    left: -7.8125rem;
-    top: -1.5rem;
     width: 15.625rem;
-    height: 3rem;
-
-    padding: 0.5rem 0.75rem;
+    height: 2rem;
+    padding: 0 0.5rem;
 
     background: white;
+    border-radius: 3px;
   }
 }

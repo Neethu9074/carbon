@@ -10,7 +10,8 @@ export default class Connection extends SceneObject {
     this.from = from;
     this.to = to;
     this.direction = direction;
-    this.particleEmitter = new ParticleEmitter(from, serviceLocatorUid);
+
+    this.particleEmitter = new ParticleEmitter(direction === 'incoming' ? from : to, serviceLocatorUid);
 
     this.initStartSubscriptions(connectionService);
   }

@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .bottomLeftControls {
     position: absolute;
@@ -12,5 +14,31 @@
 
     display: flex;
     align-items: center;
+  }
+
+  .heatMapButton {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+
+    text-decoration: none;
+    font-size: 0.875rem;
+    border-radius: @lib__shapes__radius_small;
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__N300;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N400;
+      text-decoration: none;
+    }
+  }
+
+  .selectedHeatMapButton {
+    background: @lib__colors__light-blue800;
+    color: #fff;
+
+    &:hover {
+      background: #178cc7;
+    }
   }
 }

@@ -6,31 +6,39 @@ import Button from 'in-new-components/Button';
 
 import locals from './RemainingNodesPlaceholderNode.mless';
 
-export default function RemainingNodesPlaceholderNode(props) {
-  const onClickCallback = props.onClickCallback || defaultOnClick;
-  const numRemainingNodes = props.node.paginationInformation.numRemainingNodes;
+import connectTo from 'in-hoc/connectTo';
 
-  return (
-    <ScreenPositionWrapper {...props}>
-      <div className={locals.wrapper}>
-        <Button
-          kind="action"
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            onClickCallback(props);
-          }}
-        >
-          Load {numRemainingNodes} more node{numRemainingNodes > 1 ? 's' : ''}
-        </Button>
-      </div>
-    </ScreenPositionWrapper>
-  );
-}
+export default connectTo(
+  props => ({
+    paginationInformation: props.node.events$.on('paginationInformation')
+  }),
+  function RemainingNodesPlaceholderNode(props) {
+    const onClickCallback = props.onClickCallback || defaultOnClick;
+    const numRemainingNodes = props.paginationInformation.numRemainingNodes;
 
-function defaultOnClick({ serviceLocatorUid, node, loadMore }) {
+    return (
+      <ScreenPositionWrapper {...props}>
+        <div className={locals.wrapper}>
+          <Button
+            kind="action"
+            size="compact"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClickCallback(props);
+            }}
+          >
+            Load {numRemainingNodes} more
+          </Button>
+        </div>
+      </ScreenPositionWrapper>
+    );
+  }
+);
+
+function defaultOnClick({ serviceLocatorUid, paginationInformation, loadMore }) {
   const connectedNode = getServiceLocators(serviceLocatorUid).nodesServiceLocator.getNode(
-    node.paginationInformation.connectedNode.id
+    paginationInformation.connectedNode.id
   );
   if (!connectedNode) {
     return;
@@ -38,7 +46,7 @@ function defaultOnClick({ serviceLocatorUid, node, loadMore }) {
 
   loadMore({
     nodeId: connectedNode.id,
-    direction: node.paginationInformation.direction,
-    cursor: node.paginationInformation.cursor
+    direction: paginationInformation.direction,
+    cursor: paginationInformation.cursor
   });
 }

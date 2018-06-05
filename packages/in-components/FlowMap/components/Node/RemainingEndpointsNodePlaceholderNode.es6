@@ -7,9 +7,9 @@ export default function RemainingEndpointsNodePlaceholderNode(props) {
   return (
     <RemainingNodesPlaceholderNode
       {...props}
-      onClickCallback={({ serviceLocatorUid, node, loadMore }) => {
+      onClickCallback={({ serviceLocatorUid, node, paginationInformation, loadMore }) => {
         const connectedNode = getServiceLocators(serviceLocatorUid).nodesServiceLocator.getNode(
-          node.paginationInformation.connectedNode.id
+          paginationInformation.connectedNode.id
         );
         if (!connectedNode) {
           return;
@@ -24,8 +24,8 @@ export default function RemainingEndpointsNodePlaceholderNode(props) {
         loadMore({
           nodeId: connectedNode.id,
           childId: connectedChild.child.id,
-          direction: node.paginationInformation.direction,
-          cursor: node.paginationInformation.cursor
+          direction: paginationInformation.direction,
+          cursor: paginationInformation.cursor
         });
       }}
     />

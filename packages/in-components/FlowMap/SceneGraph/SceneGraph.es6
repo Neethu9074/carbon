@@ -61,9 +61,13 @@ export default class SceneGraph {
       let nodeSceneObject;
       if (currentNodes.has(node.id)) {
         nodeSceneObject = currentNodes.get(node.id);
+
+        if (node.isRemainingNodesPlaceHolder) {
+          nodeSceneObject.setPaginationInformation(node.paginationInformation);
+        }
       } else if (node.isRemainingNodesPlaceHolder) {
         nodeSceneObject = new RemainingNodesPlaceholder(this.serviceLocatorUid, node.id);
-        nodeSceneObject.paginationInformation = node.paginationInformation;
+        nodeSceneObject.setPaginationInformation(node.paginationInformation);
         nodesServiceLocator.addNode(node.id, nodeSceneObject);
       } else {
         nodeSceneObject = this.addNode(nodesServiceLocator, node);
@@ -142,7 +146,7 @@ export default class SceneGraph {
     const currentNodes = serviceLocators.nodesServiceLocator.getNodes();
 
     if (this.rootNodeId) {
-      flowLayout(currentNodes.get(this.rootNodeId), serviceLocators.sceneServiceLocator.getScene().initialPxUnitRation);
+      flowLayout(currentNodes.get(this.rootNodeId));
     } else {
       looseLayout();
     }

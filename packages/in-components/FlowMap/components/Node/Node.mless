@@ -1,34 +1,49 @@
+@import '~in-themes/active.less';
+
 :local {
   .node {
     position: absolute;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 
-    font-weight: 500;
-    border-radius: 3px;
-    box-shadow: 0px 0px 0.875rem 0px rgba(0, 0, 0, 0.1);
-
-    border: 1px solid transparent;
+    height: 2.5rem;
+    top: -1.25rem;
+    width: 15.625rem;
+    left: -7.8125rem;
   }
 
-  .rootLabel {
+  .serviceLabel {
     position: absolute;
-    top: -0.8125rem;
+    bottom: 100%;
 
     display: flex;
     align-items: center;
-    justify-content: center;
 
-    width: 5.3125rem;
-    height: 0.8125rem;
+    color: @lib__colors__N600Light;
+  }
 
-    background: #1fb7b9;
-    color: white;
-    font-size: 0.625rem;
-    font-weight: 300;
-    border-radius: 0.25rem 0.25rem 0 0;
-    left: ~'calc(50% - 5.3125rem / 2)';
+  .serviceLabelHeatMapEnabled {
+    bottom: ~'calc(100% + .5rem)';
+  }
+
+  .serviceIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .childList {
+    position: relative;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .childWrapper {
+    position: relative;
+
+    margin-bottom: 2.5rem;
   }
 }

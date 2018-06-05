@@ -118,7 +118,7 @@ export default class MainScene {
     const pixelsPer3DUnit = width / cameraSize;
 
     const distanceBetweenNodesInPx = DISTANCE_BETWEEN_NODES_X * pixelsPer3DUnit;
-    const wantedGapInPx = 4 * pixelsPer3DUnit;
+    const wantedGapInPx = 3 * pixelsPer3DUnit;
     return distanceBetweenNodesInPx - wantedGapInPx;
   }
 

@@ -6,4 +6,8 @@ export default class RemainingNodesPlaceholder extends Node {
 
     this.isRemainingNodesPlaceHolder = true;
   }
+
+  setPaginationInformation(paginationInformation) {
+    this.events$.emit('paginationInformation', paginationInformation);
+  }
 }
