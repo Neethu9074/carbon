@@ -33,3 +33,13 @@ export function getCoords(elem) {
 
   return { top: Math.round(top), left: Math.round(left) };
 }
+
+export function findParentNodeByClassName(node, className) {
+  while (node != null && node !== document) {
+    if (node.classList.contains(className)) {
+      return node;
+    }
+    node = node.parentNode;
+  }
+  return null;
+}

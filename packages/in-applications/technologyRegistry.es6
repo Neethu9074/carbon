@@ -35,3 +35,13 @@ export function getLabel(groupTypeId) {
   }
   return null;
 }
+
+export function getTechnologyComboBoxItems(restrict = null) {
+  return Object.keys(registry)
+    .filter(key => restrict == null || restrict.indexOf(key) !== -1)
+    .sort()
+    .map(key => {
+      const registryValue = registry[key];
+      return { value: key, label: registryValue.label };
+    });
+}

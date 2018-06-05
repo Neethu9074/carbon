@@ -63,6 +63,7 @@ import './designLibrary/components/ChartStory';
 import './designLibrary/components/DashboardHeaderStory';
 import './designLibrary/components/EntityWithTypeAndIconStory';
 import './designLibrary/components/KpiCardStory';
+import './designLibrary/components/MultiSelectDropdownStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';
 import './designLibrary/components/TagStory';

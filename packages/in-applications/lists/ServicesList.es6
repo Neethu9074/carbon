@@ -8,7 +8,6 @@ import { getServiceDashboard, servicesList, newServiceView } from 'in-applicatio
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -16,11 +15,11 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
-import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -36,20 +35,25 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => servicesList,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes'],
-    getInitialState: () => ({ endpointTypes: [] }),
-    reducerName: 'setEndpointTypes',
-    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
-    getParsedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    boundKeys: ['endpointTypes', 'technologies'],
+    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+    reducerName: 'setFilter',
+    reducer: (prevState, { endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
+      technologies: technologies ? technologies : prevState.technologies
     }),
-    getSerializedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
+      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
+      technologies: technologies == null ? null : technologies.join(',')
     })
   })
 )(ServicesList);
 
-function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
+function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
   const rightHeader = (
     <Fragment>
       <Button
@@ -60,14 +64,7 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
       >
         Configure Services
       </Button>
-      <ComboBox
-        className={locals.filter}
-        value={endpointTypes}
-        onChange={t => setEndpointTypes(t.map(a => a.value))}
-        placeholder="Type…"
-        multi
-        options={getEndpointTypesComboBoxItems()}
-      />
+      <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />
     </Fragment>
   );
 
@@ -85,6 +82,7 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
           columnDefinitions={columnDefinitions}
           timeConfig={timeConfig}
           endpointTypes={endpointTypes}
+          technologies={technologies}
           paginationResettingProps={['timeConfig', 'endpointTypes']}
           rightHeader={rightHeader}
           leftHeader={leftHeader}
@@ -96,9 +94,18 @@ function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes, technologies }) {
   return getServices(
-    getServiceListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query, endpointTypes)
+    getServiceListSubscribeEvent(
+      timeConfig,
+      page,
+      pageSize,
+      orderBy,
+      orderDirection,
+      query,
+      endpointTypes,
+      technologies
+    )
   );
 }
 
@@ -228,7 +235,8 @@ export function getServiceListSubscribeEvent(
   orderBy = 'callsAgg',
   orderDirection = 'DESC',
   query = '',
-  endpointTypes = []
+  endpointTypes = [],
+  technologies = []
 ) {
   return {
     pagination: {
@@ -279,7 +287,8 @@ export function getServiceListSubscribeEvent(
     filter: {
       label: query,
       timeConfig,
-      endpointTypes
+      endpointTypes,
+      technologies
     }
   };
 }
