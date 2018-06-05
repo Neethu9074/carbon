@@ -5,5 +5,10 @@ import { applicationsList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 
 export default function NewApplication() {
-  return <CreateApplicationDialog onCancelHref$={getModifiedUrlStream(p => (p.pathname = applicationsList))} />;
+  return (
+    <CreateApplicationDialog
+      onCancelHref$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
+      onSavePath={applicationsList}
+    />
+  );
 }

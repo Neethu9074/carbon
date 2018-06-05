@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { enrichWithLabel } from 'in-api/serviceConfiguration';
+import { enrichWithLabel, fillEmptyValues } from 'in-api/serviceConfiguration';
 
 describe('in-api/serviceConfiguration', () => {
   describe('enrichWithLabel', () => {
@@ -49,6 +49,34 @@ describe('in-api/serviceConfiguration', () => {
       expect(config.id).to.equal(mappedResult.id);
       expect(config.label).to.equal('{host.zone}-{foo}');
       expect(config.matchSpecification).to.equal(mappedResult.matchSpecification);
+    });
+  });
+
+  describe('fillEmptyValues', () => {
+    it('fill empty value caused by the mapping', () => {
+      let config = {
+        id: 1,
+        label: '',
+        matchSpecification: []
+      };
+      let mappedResult = fillEmptyValues(config);
+      expect(config.id).to.equal(mappedResult.id);
+      expect(config.label).to.equal('');
+      expect(config.matchSpecification).to.equal(mappedResult.matchSpecification);
+
+      config = {
+        id: 1,
+        label: '',
+        matchSpecification: [
+          {
+            key: 'foo',
+            value: ''
+          }
+        ]
+      };
+      mappedResult = fillEmptyValues(config);
+      expect(config.id).to.equal(mappedResult.id);
+      expect(config.matchSpecification[0].value).to.equal('.*');
     });
   });
 });

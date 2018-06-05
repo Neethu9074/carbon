@@ -98,9 +98,10 @@ export default connectTo(
       );
     }
 
-    const rows = events.map(rawEvent => {
+    const rows = events.map((rawEvent, i) => {
       return {
-        key: rawEvent.id,
+        key: i,
+        eventId: rawEvent.id,
         rawEvent,
         isSelected: selectedEventId === rawEvent.id
       };
@@ -112,14 +113,14 @@ export default connectTo(
         rows={rows}
         loadMoreData={loadMoreRawEvents}
         rowSubscriptions={row => ({
-          event: getEvent(row.key)
+          event: getEvent(row.eventId)
         })}
         sortBy$={sortBy$}
         sortDirection$={sortDirection$}
         furtherDataAvailable$={furtherDataAvailable$}
         isLoading$={isLoading$}
         onSortingChanged={setSortBy}
-        onRowClicked={row => (row.key === selectedEventId ? clearSelectedEvent() : focusEvent(row.key))}
+        onRowClicked={row => (row.eventId === selectedEventId ? clearSelectedEvent() : focusEvent(row.eventId))}
       />
     );
   }

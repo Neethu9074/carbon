@@ -26,13 +26,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CreateApplicationDialog.mless';
 
-export default function CreateApplicationDialog({ applicationId, onCancelHref$ }) {
+export default function CreateApplicationDialog({ applicationId, onCancelHref$, onSavePath }) {
   return (
     <BasicForm
       title="Create Application"
       generalHelpText="Applications provide a means to model environments, sets of services, tenants, or just about anything. They can be thought of as perspectives on services and their endpoints."
       saveButtonLabel={applicationId ? 'Save' : 'Create'}
       onCancelHref$={onCancelHref$}
+      onSavePath={onSavePath}
       getEntity={() =>
         applicationId
           ? getApplicationConfig(applicationId)
@@ -146,7 +147,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$ }
                           onClick={() => addMatchSpecification(form, updateForm)}
                           icon="lib_openclose_add_circle_outline"
                         >
-                          add tag
+                          add key
                         </Button>
                       </div>
                     </div>

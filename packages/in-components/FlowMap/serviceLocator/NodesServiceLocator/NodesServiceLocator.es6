@@ -16,11 +16,11 @@ export default class NodeServiceLocator extends BaseServiceLocator {
     return this.service.getNodes();
   }
 
-  removeNode(id) {
-    return this.service.removeNode(id);
+  getNode(id) {
+    return this.service.getNode(id);
   }
 
-  findConnected(id) {
-    return this.service.findConnected(id);
+  removeNode(id) {
+    return this.service.removeNode(id);
   }
 }

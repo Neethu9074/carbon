@@ -6,10 +6,6 @@ import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const metrics = [
-  'nomad.client.allocated.disk',
-  'nomad.client.allocated.iops',
-  'nomad.client.unallocated.disk',
-  'nomad.client.unallocated.iops',
   'nomad.nomad.heartbeat.active',
   'nomad.nomad.plan.queue_depth',
   'nomad.nomad.vault.distributed_tokens_revoking',

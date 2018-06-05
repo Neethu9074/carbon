@@ -9,6 +9,8 @@ export default function PythonInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Name">{data.get('snapshot.name')}</DescriptionItem>
       <DescriptionItem title="Runtime Version">{data.get('snapshot.version')}</DescriptionItem>
+      <DescriptionItem title="Flavor">{data.get('snapshot.f')}</DescriptionItem>
+      <DescriptionItem title="Architecture">{data.get('snapshot.a')}</DescriptionItem>
       <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
     </DescriptionList>
   );
