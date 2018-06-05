@@ -47,7 +47,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
         <Chart
           snapshotId={snapshotId}
-          timeConfig={timeframe}
+          timeConfig={timeConfig}
           y1={{
             metrics: ['free_storage_space'],
             labels: ['Available storage space'],
