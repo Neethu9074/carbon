@@ -36,7 +36,7 @@ const cols = [
       getMetricName(row) {
         return `core_stats.${row.key}.avg_requests`;
       },
-      getContent: number.compact,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -52,7 +52,7 @@ const cols = [
       getMetricName(row) {
         return `core_stats.${row.key}.avg_time_request`;
       },
-      getContent: millis.compact,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -68,7 +68,7 @@ const cols = [
       getMetricName(row) {
         return `core_stats.${row.key}.hitratio`;
       },
-      getContent: percentage.compact,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
