@@ -33,8 +33,8 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['disk_queue_depth', 'free_storage_space'],
-            labels: ['Disk queue depth', 'Available storage space'],
+            metrics: ['disk_queue_depth'],
+            labels: ['Disk queue depth'],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -42,6 +42,16 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             metrics: ['burst_balance'],
             labels: ['Burst Balance'],
             formatter: percentage.detailed,
+            type: 'line'
+          }}
+        />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeframe}
+          y1={{
+            metrics: ['free_storage_space'],
+            labels: ['Available storage space'],
+            formatter: bytes.detailed,
             type: 'line'
           }}
         />
