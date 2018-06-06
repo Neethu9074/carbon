@@ -1,6 +1,7 @@
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -95,6 +96,11 @@ export function goToPath(path) {
 export function getView(path) {
   return getModifiedUrlStream(params => {
     params.pathname = path;
+
+    // In 2.0 mode, whenever we are navigating between views, we will drop the DF query
+    if (twoZeroModeEnabled) {
+      delete params.query.q;
+    }
   });
 }
 
