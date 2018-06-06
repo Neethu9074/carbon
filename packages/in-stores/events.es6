@@ -196,6 +196,14 @@ export function getColorForEventAtFocusedMomentAsStream(event, theme) {
   return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, theme }));
 }
 
+export function getColorByEventState({ event, theme = 'night' }) {
+  if (event.get('state') === 'open') {
+    return getColorBySeverity(event.getIn(['problem', 'severity'], 0), { theme });
+  } else {
+    return getColorBySeverity(0, { theme });
+  }
+}
+
 export function getColorForMostSevereEvents(events) {
   let eventWithMaxSeverity = null;
   let maxSeverity = 0;
