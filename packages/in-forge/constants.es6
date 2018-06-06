@@ -140,6 +140,8 @@ export const servicePlugins = {
   logicalMessagePublisherConnection: 'logicalMessagePublisherConnection',
   logicalMongoDbConnection: 'logicalMongoDbConnection',
   logicalMongoDbDatabase: 'logicalMongoDbDatabase',
+  logicalMsmqConsumerConnection: 'logicalMsmqConsumerConnection',
+  logicalMsmqPublisherConnection: 'logicalMsmqPublisherConnection',
   logicalPdoConnection: 'logicalPdoConnection',
   logicalRabbitMqConsumerConnection: 'logicalRabbitMqConsumerConnection',
   logicalRabbitMqPublisherConnection: 'logicalRabbitMqPublisherConnection',
@@ -268,6 +270,10 @@ export const fullyQualifiedPlugins = {
   logicalMessagePublisherConnection: 'com.instana.forge.connection.messaging.LogicalMessagePublisherConnection',
   logicalMongoDbConnection: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbConnection',
   logicalMongoDbDatabase: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbDatabase',
+  logicalMsmqConsumerConnection:
+    'com.instana.forge.connection.messaging.msmq.LogicalMsmqConsumerConnection',
+  logicalMsmqPublisherConnection:
+    'com.instana.forge.connection.messaging.msmq.LogicalMsmqPublisherConnection',
   logicalPdoConnection: 'com.instana.forge.connection.database.pdo.LogicalPdoConnection',
   logicalRabbitMqConsumerConnection:
     'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqConsumerConnection',

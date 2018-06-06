@@ -97,6 +97,8 @@ import './logicalMessageConsumerConnection';
 import './logicalMessagePublisherConnection';
 import './logicalMongoDbConnection';
 import './logicalMongoDbDatabase';
+import './logicalMsmqConsumerConnection';
+import './logicalMsmqPublisherConnection';
 import './logicalPdoConnection';
 import './logicalRabbitMqConsumerConnection';
 import './logicalRabbitMqPublisherConnection';

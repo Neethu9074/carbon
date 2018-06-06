@@ -5,7 +5,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.logicalRabbitMqPublisherConnection,
+  plugin: plugins.logicalMsmqPublisherConnection,
 
   iconSvgPath,
   metricDefinitions,
@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Rabbit MQ Publisher Connection',
-    plural: 'Rabbit MQ Publisher Connections'
+    singular: 'MSMQ Publisher Connection',
+    plural: 'MSMQ Publisher Connections'
   }
 });
