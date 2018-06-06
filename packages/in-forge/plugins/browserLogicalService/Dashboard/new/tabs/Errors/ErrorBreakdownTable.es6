@@ -4,6 +4,7 @@ import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths
 import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
@@ -50,7 +51,7 @@ const cols = [
       getContent: number.compact
     }
   },
-  {
+  !twoZeroModeEnabled && {
     title: '',
     type: 'linkButton',
     disableSorting: true,
@@ -68,7 +69,7 @@ const cols = [
       }
     }
   }
-];
+].filter(Boolean);
 
 export default function ErrorBreakdownTable({ result, websiteLabel, pageName, snapshot, errorHash }) {
   const browserRows = result.data

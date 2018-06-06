@@ -8,6 +8,7 @@ import { getSubDashboardLink } from 'in-sdk/components/dashboard/TabView/links';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Kpi from 'in-sdk/components/dashboard/summary/Kpi';
@@ -21,7 +22,7 @@ export default function Summary({ snapshot, timeConfig, pageName, metricPrefix }
   if (pageName) {
     viewTracesQuery = `${viewTracesQuery} span.website.page:"${luceneEscapeString(pageName)}"`;
   }
-  const viewTracesButton = (
+  const viewTracesButton = !twoZeroModeEnabled && (
     <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
       Traces
     </Button>

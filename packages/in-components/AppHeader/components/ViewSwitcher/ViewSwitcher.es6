@@ -82,14 +82,12 @@ export default pure(function ViewSwitcher() {
             />
           )}
 
-        {!twoZeroModeEnabled && (
-          <View
-            label="Websites"
-            icon="lib_website_inverted"
-            href$={getView(websitePath)}
-            isActive$={isView(websitePath)}
-          />
-        )}
+        <View
+          label="Websites"
+          icon="lib_website_inverted"
+          href$={getView(websitePath)}
+          isActive$={isView(websitePath)}
+        />
 
         {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
       </ul>
