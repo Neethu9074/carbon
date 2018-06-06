@@ -95,7 +95,14 @@ export default connectTo(
           <Separator />
 
           <form action="/auth/signOut" method="post">
-            <button type="submit" className={block + '__signout'}>
+            <button
+              type="submit"
+              className={block + '__signout'}
+              // Do not close the popup. This would disconnect the <form /> from the HTML tree and therefore break
+              // sign out behavior with the error:
+              // > Form submission canceled because the form is not connected
+              onClick={e => e.stopPropagation()}
+            >
               Sign Out
             </button>
           </form>
