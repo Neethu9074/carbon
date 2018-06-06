@@ -1,7 +1,10 @@
+import { createLogger } from 'instalog';
 import Favico from 'favico.js';
 
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
+
+const logger = createLogger('favicon');
 
 const noIncidents = {
   count: 0,
@@ -31,10 +34,24 @@ export function init() {
     .distinct(
       (prev, next) => prev.color !== next.color || prev.count !== next.count || prev.textColor !== next.textColor
     )
+    // Browsers may throttle down favicon updates. It might happen though, that we execute a whole bunch of favicon
+    // updates in a very small amount of time. In these cases, favico.js will queue up the favicon change requests
+    // and execute them at a later time. This queue is bounded to at most 100 items. When the queue is full, an
+    // error is thrown.
+    //
+    // Therefore we apply two strategies:
+    //
+    // 1. Throttle down favicon updates.
+    // 2. Protect against these synchronous exceptions
+    .throttle(1000 * 5)
     .subscribe(config => {
-      favicon.badge(config.count, {
-        bgColor: config.color,
-        textColor: config.textColor
-      });
+      try {
+        favicon.badge(config.count, {
+          bgColor: config.color,
+          textColor: config.textColor
+        });
+      } catch (e) {
+        logger.info('Failed to set favicon', e);
+      }
     });
 }
