@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     position: absolute;
@@ -7,6 +9,7 @@
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     width: 15.625rem;
     height: 2rem;
@@ -14,5 +17,18 @@
 
     background: white;
     border-radius: 3px;
+  }
+
+  .loadingIcon,
+  .errorIcon {
+    margin-left: 0.5rem;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__primary2;
+  }
+
+  .errorIcon {
+    fill: @lib__colors__failure;
   }
 }

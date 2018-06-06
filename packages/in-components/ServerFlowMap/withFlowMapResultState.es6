@@ -149,7 +149,7 @@ export default () => ComposedComponent => {
         direction,
         pagination: {
           page: page || 1,
-          pageSize: 10
+          pageSize: 1
         }
       });
     };

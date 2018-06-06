@@ -1,6 +1,8 @@
 import PathFinder from 'in-components/ServerFlowMap/PathFinder';
 import { find } from 'in-services/arrayUtils';
 
+const emptyChildrenMap = new Map();
+
 export default class FlowMapState {
   constructor() {
     this.nodes = new Map();
@@ -197,6 +199,7 @@ export default class FlowMapState {
         child.errors[direction] = errors;
       }
     };
+
     const onLoad = isLoading => {
       const child = node.children.get(endpointId);
       if (child) {
@@ -277,7 +280,7 @@ function createBasicNode(id, applicationId, data, metricValues) {
 function createPlaceHolderNode(nodeId, endpointId) {
   const node = createBasicNode(createRemainingPlaceholderId(nodeId, endpointId));
   node.isRemainingNodesPlaceHolder = true;
-  node.children = new Map();
+  node.children = emptyChildrenMap;
   return node;
 }
 

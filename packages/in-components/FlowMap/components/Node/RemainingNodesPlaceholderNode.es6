@@ -1,18 +1,50 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import ScreenPositionWrapper from 'in-components/FlowMap/components/Node/ScreenPositionWrapper';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './RemainingNodesPlaceholderNode.mless';
 
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  props => ({
-    paginationInformation: props.node.events$.on('paginationInformation')
-  }),
+  props => {
+    const paginationInformation$ = props.node.events$.on('paginationInformation');
+
+    const connectedNodeConfig$ = combineLatest([
+      paginationInformation$,
+      getServiceLocators(props.serviceLocatorUid).nodesServiceLocator.getNodes().stream
+    ])
+      .map(([paginationInformation, currentNodes]) => {
+        const connectedNode = currentNodes.get(paginationInformation.connectedNode.id);
+        if (!connectedNode) {
+          return null;
+        }
+        return {
+          connectedNode,
+          isLoading$: connectedNode.events$.on(`isLoadingData_${paginationInformation.direction}`).distinct(),
+          errors$: connectedNode.events$.on(`errors_${paginationInformation.direction}`).distinct()
+        };
+      })
+      .distinct();
+
+    return {
+      paginationInformation: paginationInformation$,
+      connectedNodeConfig: connectedNodeConfig$,
+      isLoading: connectedNodeConfig$.flatMap(config => (config ? config.isLoading$ : alwaysNull)),
+      errors: connectedNodeConfig$.flatMap(config => (config ? config.errors$ : alwaysNull))
+    };
+  },
   function RemainingNodesPlaceholderNode(props) {
+    const { isLoading, errors } = props;
+    const hasErrors = errors && errors.length > 0;
+
     const onClickCallback = props.onClickCallback || defaultOnClick;
     const numRemainingNodes = props.paginationInformation.numRemainingNodes;
 
@@ -30,22 +62,27 @@ export default connectTo(
           >
             Load {numRemainingNodes} more
           </Button>
+          {isLoading && (
+            <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" width={24} height={24} spinning />
+          )}
+          {hasErrors && (
+            <Tooltip content={<ErroneousResultPresenter errors={errors} />}>
+              <SvgIcon className={locals.errorIcon} type="lib_help_error_warning" width={24} height={24} />
+            </Tooltip>
+          )}
         </div>
       </ScreenPositionWrapper>
     );
   }
 );
 
-function defaultOnClick({ serviceLocatorUid, paginationInformation, loadMore }) {
-  const connectedNode = getServiceLocators(serviceLocatorUid).nodesServiceLocator.getNode(
-    paginationInformation.connectedNode.id
-  );
-  if (!connectedNode) {
+function defaultOnClick({ connectedNodeConfig, paginationInformation, loadMore }) {
+  if (!connectedNodeConfig) {
     return;
   }
 
   loadMore({
-    nodeId: connectedNode.id,
+    nodeId: connectedNodeConfig.connectedNode.id,
     direction: paginationInformation.direction,
     cursor: paginationInformation.cursor
   });
