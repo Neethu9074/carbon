@@ -41,9 +41,10 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        {semver.satisfies(consulVersion, '>=1.0.0') && (
-          <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
-        )}
+        {semver.valid(consulVersion) &&
+          semver.satisfies(consulVersion, '>=1.0.0') && (
+            <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
+          )}
         <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
         <KpiKeyValue label="AdvertiseAddr">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
         {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
@@ -57,12 +58,14 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
         <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={runtimeMetrics} title="Runtime Metrics" />
       )}
       <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={serfLanMetrics} title="SerfLan" />
-      {semver.satisfies(consulVersion, '>=1.0.0') && (
-        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={raftMetrics} title="Raft" />
-      )}
-      {semver.satisfies(consulVersion, '>=1.0.0') && (
-        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={autopilotMetrics} title="Autopilot" />
-      )}
+      {semver.valid(consulVersion) &&
+        semver.satisfies(consulVersion, '>=1.0.0') && (
+          <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={raftMetrics} title="Raft" />
+        )}
+      {semver.valid(consulVersion) &&
+        semver.satisfies(consulVersion, '>=1.0.0') && (
+          <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={autopilotMetrics} title="Autopilot" />
+        )}
       {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
         <DashboardNotification type="warning">
           <strong>Consul version too old</strong>
