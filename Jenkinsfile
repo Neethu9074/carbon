@@ -133,7 +133,7 @@ stage('Deployment') {
           string(name: 'VERSION', value: instanaVersion)
         ]
 
-        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult)
+        slackNotification('Deploy Sensors', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
   }
