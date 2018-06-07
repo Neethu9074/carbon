@@ -1,9 +1,16 @@
+import { compose, lifecycle } from 'recompose';
 import React from 'react';
 
+import {
+  init as initEventsInTimeframe,
+  disposeSubscription as disposeEventsInTimeframeSubscription
+} from 'in-stores/eventsInTimeframe';
 import TimelineCanvasReactWrapper from 'in-views/eventView/components/timeline/components/TimelineCanvasReactWrapper';
+import { init as initEvents, disposeSubscription as disposeEventsSubscription } from 'in-stores/events';
 import TimelineNavigation from 'in-views/eventView/components/timeline/components/TimelineNavigation';
 import TimelineMenu from 'in-views/eventView/components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-views/eventView/components/timeline/components/EventTooltip';
+import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
 import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getSetting$ } from 'in-services/settings';
@@ -13,32 +20,44 @@ import './Timeline.less';
 
 const block = 'in-events-timeline';
 
-export default connectTo(
-  {
+export default compose(
+  connectTo({
     isCollapsed: isCollapsed$,
     autoCollapseTimeline: getSetting$('autoCollapseTimeline')
-  },
-  function Timeline({ isCollapsed, autoCollapseTimeline }) {
-    return (
-      <div className={`${block}__wrapper`}>
-        <EventTooltip />
+  }),
+  lifecycle({
+    componentDidMount() {
+      initTimelineStore();
+      initEvents();
+      initEventsInTimeframe();
+    },
+    componentWillUnmount() {
+      disposeEventsInTimeframeSubscription();
+      disposeEventsSubscription();
+    }
+  })
+)(Timeline);
 
-        <div
-          className={evaluateClassNames({
-            [block]: true,
-            [`${block}--expanded`]: !isCollapsed,
-            [`${block}--no-auto-collapse`]: !autoCollapseTimeline
-          })}
-        >
-          <div className={`${block}__menu`}>
-            <TimelineMenu />
-            <TimelineCanvasReactWrapper />
-          </div>
-          <div className={block + '__bottom'}>
-            <TimelineNavigation />
-          </div>
+function Timeline({ isCollapsed, autoCollapseTimeline }) {
+  return (
+    <div className={`${block}__wrapper`}>
+      <EventTooltip />
+
+      <div
+        className={evaluateClassNames({
+          [block]: true,
+          [`${block}--expanded`]: !isCollapsed,
+          [`${block}--no-auto-collapse`]: !autoCollapseTimeline
+        })}
+      >
+        <div className={`${block}__menu`}>
+          <TimelineMenu />
+          <TimelineCanvasReactWrapper />
+        </div>
+        <div className={block + '__bottom'}>
+          <TimelineNavigation />
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+}

@@ -3,9 +3,9 @@ import { Map } from 'immutable';
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
-import createEventObservable from 'in-subscription/event';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { navigationParameters$ } from 'in-stores/navigation';
+import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -23,8 +23,10 @@ const openEventsAtServerTime = createStore({
 });
 export const openEventsAtServerTime$ = openEventsAtServerTime.observable.distinct();
 
+let totalRawEventsSubscription;
+
 export function init() {
-  createTotalRawEventsSubscription({
+  totalRawEventsSubscription = createTotalRawEventsSubscription({
     timeConfig: { to: null, windowSize: 1 }
   }).subscribe(result => openEventsAtServerTime.mutateTo(result));
 }
@@ -298,5 +300,12 @@ export function getEventType(event) {
     }
     default:
       return EVENT_TYPES.CHANGE;
+  }
+}
+
+export function disposeSubscription() {
+  if (totalRawEventsSubscription) {
+    totalRawEventsSubscription.dispose();
+    totalRawEventsSubscription = null;
   }
 }
