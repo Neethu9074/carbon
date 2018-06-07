@@ -64,7 +64,7 @@ import './missing';
 import './mongo';
 import './msmq';
 import './mule.client';
-import './mule.http.client';
+import './mule.client.http';
 import './mule.server';
 import './mysql';
 import './mysqli';
