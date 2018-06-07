@@ -3,8 +3,8 @@ import React from 'react';
 
 const tagKeys = [
   'cassandra.cluster.name',
-  'docker.containerName',
-  'docker.image',
+  'docker.container.name',
+  'docker.image.name',
   'docker.label',
   'dropwizard.name',
   'elasticsearch.cluster.name',
@@ -14,7 +14,7 @@ const tagKeys = [
   'host.tag',
   'host.zone',
   'agent.zone',
-  'ec2.zone',
+  'aws.ec2.zone',
   'azure.zone',
   'gce.zone',
   'nova.zone',
@@ -22,10 +22,10 @@ const tagKeys = [
   'kafka.cluster.name',
   'kubernetes.container.name',
   'kubernetes.pod.label',
-  'marathon.appId',
+  'marathon.app.id',
   'nodejs.app.name',
-  'nomad.jobName',
-  'nomad.taskName',
+  'nomad.job.name',
+  'nomad.task.name',
   'ruby.name',
   'springboot.name'
 ];
