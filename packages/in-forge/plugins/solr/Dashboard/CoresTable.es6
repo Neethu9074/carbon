@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  msZeroDecimalPlaces,
-  number,
-  millis,
-  percentage
-} from 'in-services/formatters/number';
+import { number, millis, percentage, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
@@ -34,9 +26,9 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `core_stats.${row.key}.avg_requests`;
+        return `core_stats.${row.key}.requests`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -68,7 +60,7 @@ const cols = [
       getMetricName(row) {
         return `core_stats.${row.key}.hitratio`;
       },
-      getContent: percentage.detailed,
+      getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -142,10 +134,10 @@ function getRowDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
-              metrics: ['core_stats.' + row.key + '.avg_requests'],
-              labels: ['Average Requests'],
+              metrics: ['core_stats.' + row.key + '.requests'],
+              labels: ['Requests'],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -158,7 +150,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.avg_time_request'],
               labels: ['Average Request Time'],
               type: 'line',
-              formatter: msZeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -174,7 +166,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.lookups'],
               labels: ['Lookups'],
               type: 'line',
-              formatter: twoDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -187,7 +179,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.hitratio'],
               labels: ['Hit-rate'],
               type: 'line',
-              formatter: percentageZeroDecimalPlaces
+              formatter: hitRateZeroDecimalPlaces
             }}
           />
         </DashboardSection>
@@ -203,7 +195,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.inserts'],
               labels: ['Inserts'],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -216,7 +208,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.evictions'],
               labels: ['Evictions'],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -232,7 +224,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.errors'],
               labels: ['Errors'],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -245,7 +237,7 @@ function getRowDetails(row) {
               metrics: ['core_stats.' + row.key + '.timeouts'],
               labels: ['Timeouts'],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -260,7 +252,7 @@ function getRowDetails(row) {
             metrics: ['core_stats.' + row.key + '.docs_added', 'core_stats.' + row.key + '.docs_pending'],
             labels: ['Documents added', 'Documents pending'],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
         />
       </DashboardSection>
