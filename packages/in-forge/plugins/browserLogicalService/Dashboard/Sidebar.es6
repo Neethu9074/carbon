@@ -6,6 +6,7 @@ import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths
 import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { getTraceCount } from 'in-stores/traces';
 
 export default function ServiceDashboardSidebar({ snapshot }) {
@@ -14,15 +15,17 @@ export default function ServiceDashboardSidebar({ snapshot }) {
 
   return (
     <div>
-      <TracesButtonWrapper>
-        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
-        <CountBasedJumpToButton
-          href$={getTraceViewLinkWithQuery(query)}
-          count$={getTraceCount(query)}
-          title="Errors"
-          tooltip="View traces for errors"
-        />
-      </TracesButtonWrapper>
+      {!twoZeroModeEnabled && (
+        <TracesButtonWrapper>
+          <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
+          <CountBasedJumpToButton
+            href$={getTraceViewLinkWithQuery(query)}
+            count$={getTraceCount(query)}
+            title="Errors"
+            tooltip="View traces for errors"
+          />
+        </TracesButtonWrapper>
+      )}
 
       <ClusterMemberList snapshotId={snapshotId} />
 

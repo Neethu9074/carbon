@@ -55,8 +55,8 @@ export default (
 
     {!previewTwoZeroWithoutHybrid && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
     {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TableView)} path={tablePath} />}
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />}
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
+    <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
+    <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
     {!twoZeroModeEnabled && <Route component={GraphView} path={graphPath} />}
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
     {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />}

@@ -6,6 +6,7 @@ import { getTraceViewLinkWithQuery } from 'in-stores/navigation/paths/tracePaths
 import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import { number, ms } from 'in-services/formatters/number';
 import { getTraceCount } from 'in-stores/traces';
@@ -16,15 +17,17 @@ export default function BrowserServiceSidebar({ snapshot }) {
 
   return (
     <div>
-      <TracesButtonWrapper>
-        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
-        <CountBasedJumpToButton
-          href$={getTraceViewLinkWithQuery(query)}
-          count$={getTraceCount(query)}
-          title="Errors"
-          tooltip="View traces for errors"
-        />
-      </TracesButtonWrapper>
+      {!twoZeroModeEnabled && (
+        <TracesButtonWrapper>
+          <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
+          <CountBasedJumpToButton
+            href$={getTraceViewLinkWithQuery(query)}
+            count$={getTraceCount(query)}
+            title="Errors"
+            tooltip="View traces for errors"
+          />
+        </TracesButtonWrapper>
+      )}
 
       <Separator />
 
