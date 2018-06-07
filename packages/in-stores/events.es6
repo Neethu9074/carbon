@@ -23,10 +23,8 @@ const openEventsAtServerTime = createStore({
 });
 export const openEventsAtServerTime$ = openEventsAtServerTime.observable.distinct();
 
-let totalRawEventsSubscription;
-
 export function init() {
-  totalRawEventsSubscription = createTotalRawEventsSubscription({
+  createTotalRawEventsSubscription({
     timeConfig: { to: null, windowSize: 1 }
   }).subscribe(result => openEventsAtServerTime.mutateTo(result));
 }
@@ -300,12 +298,5 @@ export function getEventType(event) {
     }
     default:
       return EVENT_TYPES.CHANGE;
-  }
-}
-
-export function disposeSubscription() {
-  if (totalRawEventsSubscription) {
-    totalRawEventsSubscription.dispose();
-    totalRawEventsSubscription = null;
   }
 }

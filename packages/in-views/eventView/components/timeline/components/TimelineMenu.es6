@@ -31,6 +31,8 @@ export default connectTo(
           />
         </Tooltip>
 
+        <div className={block + '__heading'} />
+
         <TimelineMenuEventLine
           title={'Incidents'}
           count={events ? events.incidents.length : 0}
