@@ -1,7 +1,6 @@
-import Config from 'in-components/Chart/Configuration';
-
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import clearRender from 'in-components/Chart/renderer/clear';
+import Config from 'in-components/Chart/Configuration';
 
 const emptyDataSeries = [];
 

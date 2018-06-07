@@ -7,14 +7,15 @@ export function getChartTimeframeByEvent({
   from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - 1000 * 60),
   to = event.get('state') === 'closed' ? event.get('end') : null
 }) {
+  const isOpen = event.get('state') === 'open';
   const timeConfig = {
     to,
     focusedMoment: to,
     windowSize: event.get('end') - from,
-    autoRefresh: false
+    autoRefresh: isOpen
   };
 
-  if (event.get('state') === 'open') {
+  if (isOpen) {
     timeConfig.windowSize += chartOffset;
   }
 
