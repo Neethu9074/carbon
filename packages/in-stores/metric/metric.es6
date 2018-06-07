@@ -71,8 +71,13 @@ function getLiveMetrics({ snapshotId, metric, timeConfig = null, rollup }) {
 }
 
 function getHistoricMetrics({ snapshotId, metric, timeConfig, rollup }) {
-  if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
+  if (timeConfig) {
+    return createHistoricMetricsObservable({
+      snapshotId,
+      metric,
+      timeConfig,
+      rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup
+    });
   }
 
   return timeConfig$.flatMap(timeConfig =>
@@ -80,7 +85,7 @@ function getHistoricMetrics({ snapshotId, metric, timeConfig, rollup }) {
       snapshotId,
       metric,
       timeConfig,
-      rollup
+      rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup
     })
   );
 }
