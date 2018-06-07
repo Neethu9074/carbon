@@ -37,7 +37,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
       <VerticalAxis
         tickLineColor={theme.lib.colors.N700Medium}
         formatter={millis}
-        scale={{ from: data[data.length - 1].key, to: data[0].key }}
+        scale={calculateScale(data)}
         height={height}
       />
       <div>
@@ -71,6 +71,13 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
       <VerticalAxisPlaceholder />
     </div>
   );
+}
+
+function calculateScale(data) {
+  if (!data || data.length === 0) {
+    return { from: 0, to: 0 };
+  }
+  return { from: data[data.length - 1].key, to: data[0].key };
 }
 
 // how to recalculate colors
