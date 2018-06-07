@@ -14,10 +14,10 @@ export default function AwsDynamoDbSidebar({ snapshot }) {
         <Collapsible.Header>DynamoDB Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
-
-          <TagList snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }

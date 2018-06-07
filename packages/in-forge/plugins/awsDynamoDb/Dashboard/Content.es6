@@ -1,7 +1,8 @@
 import React from 'react';
-import { number, bytes, millis } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
 export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
@@ -9,93 +10,317 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Returned items">
+      <Columize>
+        <DashboardSection title="Read capacity">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['provisioned_read', 'consumed_read'],
+              labels: ['Provisioned', 'Consumed'],
+              type: 'line',
+              formatter: number.detailed
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Throttled read requests">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['throttled_get', 'throttled_scan', 'throttled_query', 'throttled_batch_get'],
+              labels: ['Get', 'Scan', 'Query', 'Batch get'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Write capacity">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['provisioned_write', 'consumed_write'],
+              labels: ['Provisioned', 'Consumed'],
+              type: 'line',
+              formatter: number.detailed
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Throttled write requests">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['throttled_put', 'throttled_update', 'throttled_delete', 'throttled_batch_write'],
+              labels: ['Put', 'Update', 'Delete', 'Batch write'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <DashboardSection title="Get latency">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['returned_item_count', 'returned_records_count'],
-            labels: ['Returned Items', 'Returned Records'],
-            type: 'line',
-            formatter: number.compact
-          }}
-          y2={{
-            min: 0,
-            metrics: ['returned_bytes'],
-            labels: ['Returned Bytes'],
-            type: 'line',
-            formatter: bytes.compact
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Throttle Events">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['read_throttle_events', 'write_throttle_events'],
-            labels: ['Read Throttle Events', 'Write Throttle Events'],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Consumed capacity units">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['consumed_read_capacity_units', 'consumed_write_capacity_units'],
-            labels: ['Consumed read capacity units', 'Consumed write capacity units'],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Requests">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['throttled_requests', 'cond_check_failed_requests'],
-            labels: ['Throttled requests', 'Conditional Check Failed Requests'],
-            type: 'line',
-            formatter: number.compact
-          }}
-          y2={{
-            min: 0,
-            metrics: ['successful_request_latency'],
-            labels: ['Successful Request Latency'],
+            metrics: ['lat_get_max', 'lat_get_min', 'lat_get_avg', 'lat_get_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
             type: 'line',
             formatter: millis.detailed
           }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Errors">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
+          y2={{
             min: 0,
-            metrics: ['system_errors', 'user_errors'],
-            labels: ['System Errors', 'User Errors'],
+            metrics: ['lat_get_sc'],
+            labels: ['Request count'],
             type: 'line',
             formatter: number.compact
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Time To Live Deleted Item Count">
+      <DashboardSection title="Put latency">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['time_to_live_deleted_item_count'],
-            labels: ['TTL Deleted Items'],
+            metrics: ['lat_put_max', 'lat_put_min', 'lat_put_avg', 'lat_put_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_put_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Query latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_query_max', 'lat_query_min', 'lat_query_avg', 'lat_query_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_query_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Scan latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_scan_max', 'lat_scan_min', 'lat_scan_avg', 'lat_scan_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_scan_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Update latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_up_max', 'lat_up_min', 'lat_up_avg', 'lat_up_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_up_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Delete latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_del_max', 'lat_del_min', 'lat_del_avg', 'lat_del_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_del_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Batch get latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_batch_get_max', 'lat_batch_get_min', 'lat_batch_get_avg', 'lat_batch_get_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_batch_get_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Batch write latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['lat_batch_write_max', 'lat_batch_write_min', 'lat_batch_write_avg', 'lat_batch_write_sum'],
+            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['lat_batch_write_sc'],
+            labels: ['Request count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+
+      <Columize>
+        <DashboardSection title="Returned scan item count">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['scan_ret_item_max', 'scan_ret_item_min', 'scan_ret_item_avg', 'scan_ret_item_sum'],
+              labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Returned query item count">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['query_ret_item_max', 'query_ret_item_min', 'query_ret_item_avg', 'query_ret_item_sum'],
+              labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title="Conditional check failed">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['con_check_fail'],
+              labels: ['Count'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="User error">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['user_err'],
+              labels: ['Count'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="System errors write">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sys_err_put', 'sys_err_update', 'sys_err_delete', 'sys_err_batch_write'],
+              labels: ['Put', 'Update', 'Delete', 'Batch write'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="System errors read">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sys_err_get', 'sys_err_scan', 'sys_err_query', 'sys_err_batch_get'],
+              labels: ['Get', 'Scan', 'Query', 'Batch get'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <DashboardSection title="TTL Deleted Item">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['ttl'],
+            labels: ['Count'],
             type: 'line',
             formatter: number.compact
           }}
