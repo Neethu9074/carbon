@@ -1,34 +1,52 @@
 import { assign } from 'lodash';
 
+import { getTenantsWithUnits } from 'in-api/account';
 import { noop } from 'in-services/util/function';
+import { find } from 'in-services/arrayUtils';
+import { tenant, user } from 'in-stores/user';
 import { config } from 'in-services/config';
 
-export const selectedMomentPlacedViaTimeline = buildTransmitter('time.selectedMoment.viaTimeline');
-export const selectedMomentPlacedViaTimeSelector = buildTransmitter('time.selectedMoment.viaTimeSelector');
-
+const mixpanel = window.mixpanel;
 const sharedTransmitterProperties = {
   token: config.mixpanelToken
 };
+const registeredTrackers = [];
 
-function buildTransmitter(event, defaultProperties = {}) {
-  if (!config.mixpanelToken) {
-    return noop;
+export function init() {
+  if (mixpanel) {
+    mixpanel.identify(user.id);
+    mixpanel.register({
+      tenantId: tenant.id
+    });
+    getTenantsWithUnits().once(tenantWithUnits => {
+      const units = tenantWithUnits[tenant.name];
+      if (!units) {
+        return;
+      }
+      const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
+      if (!currentUnit) {
+        return;
+      }
+      mixpanel.register({
+        tenantUnitId: currentUnit.id
+      });
+    });
+
+    // give getTenantsWithUnits a chance to complete before logging the page load/page reload event
+    // TODO Add mixpanel to butler to count actual successful sign ins?
+    setTimeout(() => {
+      mixpanel.track('pageLoadOrPageReload');
+    }, 5000);
   }
-  return props => send(event, assign({}, props, defaultProperties, sharedTransmitterProperties));
 }
 
-function send(event, properties) {
-  const data = encodeURIComponent(
-    btoa(
-      JSON.stringify({
-        event,
-        properties
-      })
-    )
-  );
-
-  const xhr = new XMLHttpRequest();
-  xhr.timeout = 60000;
-  xhr.open('GET', `https://api.mixpanel.com/track/?data=${data}`);
-  xhr.send();
+export function createTracker(event, defaultProperties = {}) {
+  if (registeredTrackers.indexOf(event) >= 0) {
+    throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
+  }
+  registeredTrackers.push(event);
+  if (!mixpanel || !config.mixpanelToken) {
+    return noop;
+  }
+  return props => mixpanel.track(event, assign({}, props, defaultProperties, sharedTransmitterProperties));
 }

@@ -19,11 +19,13 @@ import {
 } from 'in-stores/timeline';
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
-import { selectedMomentPlacedViaTimeline } from 'in-services/tracking';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
+import { createTracker } from 'in-services/tracking';
 import { serverTime$ } from 'in-stores/serverTime';
+
+export const trackSelectedMomentPlacedViaTimeline = createTracker('time.selectedMoment.viaTimeline');
 
 export default function createMouseEvents(domElement, scale, realtimeDrawStream) {
   const changeSignal = true;
@@ -135,7 +137,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     } else {
       // if there is no event and the user clicked, set the focused moment to the time at pixel clicked
       setFocusedMoment(scale.getDomain(e.offsetX));
-      selectedMomentPlacedViaTimeline();
+      trackSelectedMomentPlacedViaTimeline();
     }
   }
 
