@@ -3,6 +3,7 @@ import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -22,6 +23,7 @@ history.listen(location => {
     url: location.pathname,
     status: 'completed'
   });
+  onRouteChange();
 });
 
 export function mutateUrl(mutator, replace = false) {

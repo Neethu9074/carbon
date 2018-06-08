@@ -136,7 +136,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     "script-src 'self' " +
       cspExtensions +
       nonces.map(n => "'nonce-" + n + "'").join(' ') +
-      ' https://www.google-analytics.com *.instana.io'
+      ' https://www.google-analytics.com https://fast.appcues.com *.instana.io'
   );
 
   res.send(compiledTemplate({
@@ -145,6 +145,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     indexCssChecksum,
     nonces,
     googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
+    appcuesId: serverConfig.appcuesId,
     eumTrackingDomain: serverConfig.eum.domain,
     eumTrackingApiKey: serverConfig.eum.apiKey,
     backendTraceId: req.get('x-instana-t') || '',

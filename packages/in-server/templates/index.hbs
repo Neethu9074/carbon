@@ -57,6 +57,10 @@
     ineum('meta', 'build-date', window.instana.build.date);
   </script>
   {{/if}}
+
+  {{#if appcuesId}}
+  <script id="appcuesScript" async src="//fast.appcues.com/{{appcuesId}}.js"></script>
+  {{/if}}
 </head>
 <body>
   <div id="main">
