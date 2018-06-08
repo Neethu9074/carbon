@@ -19,6 +19,7 @@ import theme from 'in-themes';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30.38; // 30.38 days per average per month
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
+const timelineFooterHeights = twoZeroModeEnabled ? theme.footerTimelineEvents20 : theme.footer;
 
 let maxAvailableWindowSize = undefined;
 let currentBigBangTimestamp;
@@ -69,11 +70,11 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
     if (twoZeroModeEnabled && !isEventsView) {
       return 0;
     } else if (autoCollapseTimeline) {
-      return theme.footer.height;
+      return timelineFooterHeights.height;
     } else if (!isCollapsed) {
-      return theme.footer.heightOpen;
+      return timelineFooterHeights.heightOpen;
     }
-    return theme.footer.heightExpanded;
+    return timelineFooterHeights.heightExpanded;
   })
   .distinct();
 
@@ -81,9 +82,9 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
 export const interactableTimelineHeight$ = isCollapsed$
   .map(isCollapsed => {
     if (!isCollapsed) {
-      return theme.footer.heightOpen;
+      return timelineFooterHeights.heightOpen;
     }
-    return theme.footer.heightExpanded;
+    return timelineFooterHeights.heightExpanded;
   })
   .distinct();
 
