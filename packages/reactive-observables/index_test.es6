@@ -326,6 +326,24 @@ describe('reactive-observables', () => {
     });
   });
 
+  describe('skipUntil', () => {
+    it('should skip until a condition is reached value', () => {
+      const subscriber = sinon.stub();
+      const observable = create();
+
+      observable.skipUntil(v => v >= 3).subscribe(subscriber);
+
+      observable.emit(1);
+      observable.emit(2);
+      observable.emit(3);
+      observable.emit(4);
+      observable.emit(5);
+      expect(subscriber.getCall(0).args[0]).to.equal(3);
+      expect(subscriber.getCall(1).args[0]).to.equal(4);
+      expect(subscriber.getCall(2).args[0]).to.equal(5);
+    });
+  });
+
   describe('interval', () => {
     it('should call every 100 millis', done => {
       const start = Date.now();

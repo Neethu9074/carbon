@@ -70,7 +70,9 @@ export default class Remove extends React.PureComponent {
       removeError: null
     });
 
-    this.subscription = combineDataAndError(deleteApplicationConfig(this.props.application.id)).once(({ error }) => {
+    this.subscription = combineDataAndError(
+      deleteApplicationConfig(this.props.application.id, this.props.application.label)
+    ).once(({ error }) => {
       if (error) {
         this.setState({
           loading: false,

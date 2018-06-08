@@ -3,8 +3,10 @@ import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { createTracker } from 'in-services/tracking';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
@@ -13,6 +15,8 @@ import connectTo from 'in-hoc/connectTo';
 import './ApplyButton.less';
 
 const block = 'in-chart-apply-button';
+
+const trackWindowSizeChartZoom = twoZeroModeEnabled ? createTracker('time.windowSize.viaZoom') : null;
 
 export default connectTo(
   {
@@ -52,7 +56,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <Button className={`${block}__button`} kind="secondary" href={href} onClick={onButtonClicked}>
+        <Button className={`${block}__button`} kind="secondary" href={href} onClick={onZoomApplied}>
           <SvgIcon type="search" height={12} color="#172429" />
         </Button>
         <Button className={`${block}__button`} kind="secondary" onClick={onButtonClicked}>
@@ -63,8 +67,14 @@ export default connectTo(
   }
 );
 
+function onZoomApplied(e) {
+  onButtonClicked(e);
+  if (twoZeroModeEnabled) {
+    trackWindowSizeChartZoom();
+  }
+}
+
 function onButtonClicked(e) {
   e.stopPropagation();
-
   clearHighlightedTimeframe();
 }

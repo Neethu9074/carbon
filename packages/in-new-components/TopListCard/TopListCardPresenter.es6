@@ -3,9 +3,12 @@ import React from 'react';
 import NoContent from 'in-components/Chart/components/NoContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import List from 'in-new-components/TopListCard/List';
+import { createTracker } from 'in-services/tracking';
 import Card from 'in-new-components/Card';
 
 import locals from './TopListCardPresenter.mless';
+
+const trackTopListMetricChanged = createTracker('toplist.metricChanged');
 
 export default function TopListCard(props) {
   const { result, title, metrics, labels, onChangeMetric, selectedMetric, List: ListRenderer = List } = props;
@@ -23,6 +26,7 @@ export default function TopListCard(props) {
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
+              trackTopListMetricChanged({ title, metric: labels[i] });
               onChangeMetric(metric);
             }}
           >

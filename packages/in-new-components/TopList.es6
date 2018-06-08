@@ -1,6 +1,7 @@
 import { compose } from 'recompose';
 
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { createTracker } from 'in-services/tracking';
 import connect from 'in-hoc/connectTo';
 
 // Sample Usage
@@ -10,6 +11,8 @@ import connect from 'in-hoc/connectTo';
 //          formatters={[ms.compact, ms.compact, number.compact, percentage.compact]}
 //          getList={()}
 //          render={({result, selectedMetric, selectedMetricFormatter}) => <span />}/>
+
+export const trackTopListNavigation = createTracker('toplist.rowNavigation');
 
 export default compose(
   withPropDependingState({

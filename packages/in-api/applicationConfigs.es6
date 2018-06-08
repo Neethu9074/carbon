@@ -1,6 +1,11 @@
 import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 import { deepFreeze } from 'in-services/util/object';
-import http from 'in-services/http';
+import { createTracker } from 'in-services/tracking';
+import http, { isSuccess } from 'in-services/http';
+
+const trackCreateApplication = createTracker('application.create');
+const trackUpdateApplication = createTracker('application.update');
+const trackDeleteApplication = createTracker('application.delete');
 
 export function getApplicationConfigs() {
   return http({
@@ -26,7 +31,11 @@ export function addApplicationConfig(config) {
     method: 'POST',
     url: `/api/applicationConfigs`,
     data: mapToServerResponse(config)
-  }).map(response => deepFreeze(response.body));
+  })
+    .tap(response => {
+      trackOnSuccess(response, trackCreateApplication, config);
+    })
+    .map(response => deepFreeze(response.body));
 }
 
 export function updateApplicationConfig(config) {
@@ -35,14 +44,20 @@ export function updateApplicationConfig(config) {
     maxRetries: 3,
     url: `/api/applicationConfigs/${config.id}`,
     data: mapToServerResponse(config)
-  }).map(response => deepFreeze(response.body));
+  })
+    .tap(response => {
+      trackOnSuccess(response, trackUpdateApplication, config);
+    })
+    .map(response => deepFreeze(response.body));
 }
 
-export function deleteApplicationConfig(id) {
+export function deleteApplicationConfig(id, label) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/applicationConfigs/${id}`
+  }).tap(response => {
+    trackOnSuccess(response, trackDeleteApplication, { id, label });
   });
 }
 
@@ -51,4 +66,10 @@ export function createNewApplicationConfig() {
     label: '',
     matchSpecification: [{}]
   };
+}
+
+function trackOnSuccess(response, tracker, config = {}) {
+  if (isSuccess(response)) {
+    tracker(config);
+  }
 }
