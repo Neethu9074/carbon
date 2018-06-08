@@ -6,7 +6,6 @@ import {
   disposeSubscription as disposeEventsInTimeframeSubscription
 } from 'in-stores/eventsInTimeframe';
 import TimelineCanvasReactWrapper from 'in-views/eventView/components/timeline/components/TimelineCanvasReactWrapper';
-import TimelineNavigation from 'in-views/eventView/components/timeline/components/TimelineNavigation';
 import TimelineMenu from 'in-views/eventView/components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-views/eventView/components/timeline/components/EventTooltip';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
@@ -52,9 +51,6 @@ function Timeline({ isCollapsed, autoCollapseTimeline }) {
         <div className={`${block}__menu`}>
           <TimelineMenu />
           <TimelineCanvasReactWrapper />
-        </div>
-        <div className={block + '__bottom'}>
-          <TimelineNavigation />
         </div>
       </div>
     </div>
