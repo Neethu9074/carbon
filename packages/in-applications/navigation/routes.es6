@@ -2,6 +2,7 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { role } from 'in-stores/user';
 
 // the following components are all part of the same bundle (application)
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMappingDialog';
@@ -24,10 +25,14 @@ import {
 
 export default (
   <Fragment>
-    <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
+    {role.canConfigureApplications && (
+      <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
+    )}
+    {role.canConfigureServiceMapping && (
+      <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
+    )}
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
-    <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />

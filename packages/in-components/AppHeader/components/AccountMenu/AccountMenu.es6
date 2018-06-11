@@ -16,16 +16,18 @@ export default connectTo(
   },
   function AccountMenu({ isOpen }) {
     return (
-      <div
-        className={evaluateClassNames({
-          [block]: true,
-          [`${block}__expanded`]: isOpen
-        })}
-        onClick={toggleMenu}
-      >
+      <div>
         <Menu />
-        <SvgIcon className={`${block}__avatar`} type="lib_menu_account" width={32} height={32} />
-        <SvgIcon className={`${block}__icon`} type="lib_arrow_drop_down" width={24} height={34} />
+        <div
+          className={evaluateClassNames({
+            [block]: true,
+            [`${block}__expanded`]: isOpen
+          })}
+          onClick={toggleMenu}
+        >
+          <SvgIcon className={`${block}__avatar`} type="lib_menu_account" width={32} height={32} />
+          <SvgIcon className={`${block}__icon`} type="lib_arrow_drop_down" width={24} height={34} />
+        </div>
       </div>
     );
   }

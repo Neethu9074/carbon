@@ -56,7 +56,7 @@ export default connectTo(
 export function getEntityOfType(entityId, entityType, timeConfig) {
   if (entityType === 'App20') {
     return {
-      entity: getApplication({ id: entityId })
+      entity: getApplication({ id: entityId }).startWith(null)
     };
   } else if (entityType === 'Service20') {
     if (!timeConfig) {
@@ -71,11 +71,11 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
         filter: {
           timeConfig: timeConfig
         }
-      })
+      }).startWith(null)
     };
   } else {
     return {
-      entity: getSnapshot(entityId, timeConfig)
+      entity: getSnapshot(entityId, timeConfig).startWith(null)
     };
   }
 }

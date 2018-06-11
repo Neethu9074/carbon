@@ -25,6 +25,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import locals from './ServicesList.mless';
@@ -52,14 +53,16 @@ export default compose(
 function ServicesList({ timeConfig, setEndpointTypes, endpointTypes }) {
   const rightHeader = (
     <Fragment>
-      <Button
-        className={locals.button}
-        icon="lib_actions_settings"
-        kind="action"
-        href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
-      >
-        Configure Services
-      </Button>
+      {role.canConfigureServiceMapping && (
+        <Button
+          className={locals.button}
+          icon="lib_actions_settings"
+          kind="action"
+          href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
+        >
+          Configure Services
+        </Button>
+      )}
       <ComboBox
         className={locals.filter}
         value={endpointTypes}
