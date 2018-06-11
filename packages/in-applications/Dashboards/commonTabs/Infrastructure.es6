@@ -1,23 +1,31 @@
+import { withState } from 'recompose';
 import React from 'react';
 
+import InfraTypeSelectButtonGroup from 'in-applications/Dashboards/commonTabs/InfraTypeSelectButtonGroup';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
-import Tooltip from 'in-components/Tooltip';
+import PluginIcon from 'in-components/PluginIcon';
 import Link from 'in-components/Link';
 
-export default function Infrastructure({ applicationId, serviceId, endpointId, timeConfig }) {
+import locals from './Infrastructure.mless';
+
+export default withState('selectedType', 'setType', 'PROCESS')(Infrastructure);
+
+function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   return (
     <MaxWidthFullscreenContainer>
       <ServerTable
         get={getTableData}
+        type={selectedType}
         pageSize={25}
-        columnDefinitions={columnDefinitions}
+        columnDefinitions={getColumnDefinitions(selectedType)}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
@@ -26,6 +34,7 @@ export default function Infrastructure({ applicationId, serviceId, endpointId, t
         defaultOrderBy="callsAgg"
         defaultOrderDirection="DESC"
         size="compact"
+        rightHeader={<InfraTypeSelectButtonGroup selectedType={selectedType} setType={setType} />}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -40,9 +49,11 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
-  timeConfig
+  timeConfig,
+  type
 }) {
   return getInfrastructure({
+    category: type,
     pagination: {
       page,
       pageSize
@@ -90,66 +101,106 @@ function getTableData({
   });
 }
 
-const columnDefinitions = [
-  {
-    id: 'process',
-    label: 'Process',
-    getContent(item) {
-      if (twoZeroModeEnabled) {
+const getColumnDefinitions = type => {
+  let infraColumnDefinition;
+  if (type == 'PROCESS') {
+    infraColumnDefinition = {
+      id: 'process',
+      label: 'Process',
+      getContent(item) {
+        if (twoZeroModeEnabled) {
+          return <EntityLink entity={item.physicalContext.process} />;
+        }
+        return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
+      }
+    };
+  } else if (type == 'DOCKER') {
+    infraColumnDefinition = {
+      id: 'container',
+      label: 'Container',
+      getContent(item) {
+        if (twoZeroModeEnabled) {
+          return <EntityLink entity={item.physicalContext.container} />;
+        }
+        return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
+      }
+    };
+  } else if (type == 'HOST') {
+    infraColumnDefinition = {
+      id: 'host',
+      label: 'Host',
+      getContent(item) {
+        if (twoZeroModeEnabled) {
+          return <EntityLink entity={item.physicalContext.host} />;
+        }
+        return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
+      }
+    };
+  }
+  return [
+    infraColumnDefinition,
+    {
+      id: 'callsAgg',
+      label: 'Calls',
+      getContent(item, { result, timeConfig }) {
         return (
-          <Tooltip content="Coming soon">
-            <Link href="" onClick={e => e.preventDefault()}>
-              {item.physicalContext.process.label}
-            </Link>
-          </Tooltip>
+          <SparkChart
+            rollup={getSparkChartGranularity(timeConfig)}
+            timeConfig={getResolvedTimeConfig(timeConfig, result)}
+            metrics={item.metrics.calls}
+            metric={item.metrics.callsAgg}
+            tooltipFormatter={number.compact}
+          />
         );
       }
-      return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
+    },
+    {
+      id: 'latencyAgg',
+      label: 'Latency',
+      getContent(item, { result, timeConfig }) {
+        return (
+          <SparkChart
+            rollup={getSparkChartGranularity(timeConfig)}
+            timeConfig={getResolvedTimeConfig(timeConfig, result)}
+            metrics={item.metrics.latency}
+            metric={item.metrics.latencyAgg}
+            tooltipFormatter={ms.compact}
+          />
+        );
+      }
+    },
+    {
+      id: 'errorsAgg',
+      label: 'Errors',
+      getContent(item, { result, timeConfig }) {
+        return (
+          <SparkChart
+            rollup={getSparkChartGranularity(timeConfig)}
+            timeConfig={getResolvedTimeConfig(timeConfig, result)}
+            metrics={item.metrics.errors}
+            metric={item.metrics.errorsAgg}
+            tooltipFormatter={percentage.detailed}
+          />
+        );
+      }
     }
-  },
-  {
-    id: 'callsAgg',
-    label: 'Calls',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
-          tooltipFormatter={number.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'latencyAgg',
-    label: 'Latency',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          metrics={item.metrics.latency}
-          metric={item.metrics.latencyAgg}
-          tooltipFormatter={ms.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'errorsAgg',
-    label: 'Errors',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.detailed}
-        />
-      );
-    }
+  ];
+};
+
+function EntityLink({ entity }) {
+  if (!entity.id) {
+    return null;
   }
-];
+
+  return (
+    <Link
+      className={locals.link}
+      href$={getDashboardLink(entity.id, {
+        pathname: '/physical/dashboard'
+      })}
+    >
+      <PluginIcon className={locals.pluginIcon} dimension={18} plugin={entity.plugin} />
+      {entity.label}
+    </Link>
+  );
+}
