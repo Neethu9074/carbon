@@ -47,6 +47,8 @@ function ApplicationBreadcrumbWithSwitcher(props) {
     return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" icon="lib_application" />;
   }
 
+  const hasOnlyOneApplication = applications.data.items.length == 1;
+
   return (
     <Breadcrumb
       className={locals.wrapper}
@@ -54,14 +56,17 @@ function ApplicationBreadcrumbWithSwitcher(props) {
       label={`Application (${applications.data.items.length})`}
       icon="lib_application"
     >
-      <Overlay content={ApplicationSwitcher} props={props} position="fixed">
-        {({ open }) => (
-          <div onMouseEnter={open}>
-            <span className={locals.appName}>{application.data.label}</span>
-            <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
-          </div>
-        )}
-      </Overlay>
+      {hasOnlyOneApplication && <span className={locals.appName}>{application.data.label}</span>}
+      {!hasOnlyOneApplication && (
+        <Overlay content={ApplicationSwitcher} props={props} position="fixed">
+          {({ open }) => (
+            <div onMouseEnter={open}>
+              <span className={locals.appName}>{application.data.label}</span>
+              <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
+            </div>
+          )}
+        </Overlay>
+      )}
     </Breadcrumb>
   );
 }
