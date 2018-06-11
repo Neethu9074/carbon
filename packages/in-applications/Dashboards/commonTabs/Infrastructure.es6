@@ -7,6 +7,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -105,7 +106,7 @@ const getColumnDefinitions = type => {
       label: 'Process',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return <Link>{item.physicalContext.process.label}</Link>;
+          return <Link href$={getLinkHref(item.physicalContext.process.id)}>{item.physicalContext.process.label}</Link>;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
       }
@@ -116,7 +117,9 @@ const getColumnDefinitions = type => {
       label: 'Container',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return <Link>{item.physicalContext.container.label}</Link>;
+          return (
+            <Link href$={getLinkHref(item.physicalContext.container.id)}>{item.physicalContext.container.label}</Link>
+          );
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
       }
@@ -127,7 +130,7 @@ const getColumnDefinitions = type => {
       label: 'Host',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return <Link>{item.physicalContext.host.label}</Link>;
+          return <Link href$={getLinkHref(item.physicalContext.host.id)}>{item.physicalContext.host.label}</Link>;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
       }
@@ -182,3 +185,9 @@ const getColumnDefinitions = type => {
     }
   ];
 };
+
+function getLinkHref(snapshotId) {
+  return getDashboardLink(snapshotId, {
+    pathname: '/physical/dashboard'
+  });
+}
