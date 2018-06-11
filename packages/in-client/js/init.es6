@@ -15,10 +15,10 @@ import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDia
 import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayouterStorage';
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
 import { init as initDebuggingBackchannel } from 'in-services/debuggingBackchannel';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/timers';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initTwoZeroBetaPhaseQueryParam } from 'in-services/betaPhase';
 import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
