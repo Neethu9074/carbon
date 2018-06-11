@@ -13,6 +13,7 @@ import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } fro
 import RemoveSection from 'in-applications/Forms/NewApplication/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { getTagValuesAsOptions } from 'in-applications/tags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -23,6 +24,9 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+
+const trackCreateApplication = createTracker('application.create');
+const trackUpdateApplication = createTracker('application.update');
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -42,9 +46,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
       updateEntity={applicationConfig => {
         const isNewConfig = !applicationConfig.id ? true : false;
         if (isNewConfig) {
-          return addApplicationConfig(applicationConfig);
+          return addApplicationConfig(applicationConfig).tap(() => trackCreateApplication(applicationConfig));
         }
-        return updateApplicationConfig(applicationConfig);
+        return updateApplicationConfig(applicationConfig).tap(() => trackUpdateApplication(applicationConfig));
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {

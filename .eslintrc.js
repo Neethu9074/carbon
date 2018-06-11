@@ -39,7 +39,6 @@ module.exports = {
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.preval = false;
-    globals.mixpanl = false;
     return globals;
   })(),
 
