@@ -10,7 +10,7 @@ import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineS
 import { closeTimeSelector } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

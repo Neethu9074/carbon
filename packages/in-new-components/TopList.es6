@@ -1,7 +1,7 @@
 import { compose } from 'recompose';
 
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import connect from 'in-hoc/connectTo';
 
 // Sample Usage

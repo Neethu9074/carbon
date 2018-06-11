@@ -3,7 +3,7 @@ import React from 'react';
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 

@@ -11,7 +11,7 @@ import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDi
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import connect from 'in-hoc/connectTo';
 
 import locals from './AppHeaderTimeSelection.mless';

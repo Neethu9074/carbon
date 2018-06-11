@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 

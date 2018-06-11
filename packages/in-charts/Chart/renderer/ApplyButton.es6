@@ -6,7 +6,7 @@ import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';

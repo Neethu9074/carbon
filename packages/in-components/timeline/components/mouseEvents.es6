@@ -22,7 +22,7 @@ import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { serverTime$ } from 'in-stores/serverTime';
 
 export const trackSelectedMomentPlacedViaTimeline = createTracker('time.selectedMoment.viaTimeline');

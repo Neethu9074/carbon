@@ -26,7 +26,7 @@ import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initFaviconHandling } from 'in-services/favicon';
-import { init as initTracking } from 'in-services/tracking';
+import { init as initTracking } from 'in-services/tracking/mixpanel';
 import { init as initConnection } from 'in-connection';
 import history from 'in-stores/navigation/history';
 

@@ -3,7 +3,7 @@ import React from 'react';
 import NoContent from 'in-components/Chart/components/NoContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import List from 'in-new-components/TopListCard/List';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Card from 'in-new-components/Card';
 
 import locals from './TopListCardPresenter.mless';

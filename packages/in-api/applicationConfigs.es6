@@ -1,6 +1,6 @@
 import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 import { deepFreeze } from 'in-services/util/object';
-import { createTracker } from 'in-services/tracking';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import http, { isSuccess } from 'in-services/http';
 
 const trackCreateApplication = createTracker('application.create');
