@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import { v2UsageDurationTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
 import { setIn } from 'in-services/settings';
 
