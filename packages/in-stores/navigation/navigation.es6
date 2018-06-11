@@ -1,3 +1,4 @@
+import { physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -95,13 +96,21 @@ export function goToPath(path) {
 
 export function getView(path) {
   return getModifiedUrlStream(params => {
-    params.pathname = path;
-
-    // In 2.0 mode, whenever we are navigating between views, we will drop the DF query
-    if (twoZeroModeEnabled) {
+    if (
+      twoZeroModeEnabled &&
+      params.query.q != undefined &&
+      // delete the DF query when navigation from an infrastructure view (map, table) to another,
+      // non-infrastructure view, or the other way around
+      isInfrastructurePath(path) !== isInfrastructurePath(params.pathname)
+    ) {
       delete params.query.q;
     }
+
+    params.pathname = path;
   });
+}
+function isInfrastructurePath(path) {
+  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0;
 }
 
 export function isView(...args) {

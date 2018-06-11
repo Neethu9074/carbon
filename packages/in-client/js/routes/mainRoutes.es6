@@ -3,9 +3,6 @@ import React from 'react';
 
 import {
   agentsPath,
-  asciiContainerPath,
-  asciiLogicalPath,
-  asciiPhysicalPath,
   cockpitPath,
   settingsPath,
   containerPath,
@@ -39,22 +36,18 @@ import applicationRoutes from 'in-applications/navigation/routes';
 import GraphView from 'in-components/graphView/GraphView';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import Cockpit from 'in-views/cockpit/Cockpit';
-import AsciiMap from 'in-map/AsciiMap';
 import { role } from 'in-stores/user';
 import Map from 'in-map/index';
 
 export default (
   <FragmentSupportingSwitch>
     <Route path={cockpitPath} component={Cockpit} />
-    {!twoZeroModeEnabled && <Route path={asciiPhysicalPath} component={AsciiMap} />}
-    {!twoZeroModeEnabled && <Route path={asciiLogicalPath} component={AsciiMap} />}
-    {!twoZeroModeEnabled && <Route path={asciiContainerPath} component={AsciiMap} />}
-    {!twoZeroModeEnabled && <Route path={physicalPath} component={Map} />}
+    <Route path={physicalPath} component={Map} />
     {!twoZeroModeEnabled && <Route path={logicalPath} component={Map} />}
     {!twoZeroModeEnabled && <Route path={containerPath} component={Map} />}
 
     {!previewTwoZeroWithoutHybrid && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TableView)} path={tablePath} />}
+    <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
     <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
     {!twoZeroModeEnabled && <Route component={GraphView} path={graphPath} />}

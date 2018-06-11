@@ -72,8 +72,8 @@ function search(timeOpened, eventTypes, query) {
   }
 
   return getEventsInTimeframeSubscription({
-    focusedMoment: timeOpened,
     timeConfig: {
+      focusedMoment: timeOpened,
       to: timeOpened,
       windowSize: 1000 * 60 * 60 * 24 * 7 * 2 // 2 weeks
     },

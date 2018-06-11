@@ -36,24 +36,22 @@ export default pure(function ViewSwitcher() {
           <View label="cockpit" icon="dashboard" isActive$={isView(containerPath)} href$={getView(cockpitPath)} />
         ) : null}
 
-        {!twoZeroModeEnabled && (
-          <View
-            label="infrastructure"
-            icon="lib_infrastructure_inverted"
-            isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-          >
-            <SubMenuItem
-              label="Map"
-              href$={getView(physicalPath)}
-              isActive$={combine(isView(physicalPath), isView(containerPath))}
-            />
-            <SubMenuItem
-              label="Comparison Table"
-              href$={getView(physicalTablePath)}
-              isActive$={isTableView('physical')}
-            />
-          </View>
-        )}
+        <View
+          label="infrastructure"
+          icon="lib_infrastructure_inverted"
+          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+        >
+          <SubMenuItem
+            label="Map"
+            href$={getView(physicalPath)}
+            isActive$={combine(isView(physicalPath), isView(containerPath))}
+          />
+          <SubMenuItem
+            label="Comparison Table"
+            href$={getView(physicalTablePath)}
+            isActive$={isTableView('physical')}
+          />
+        </View>
 
         {!twoZeroModeEnabled && (
           <View
