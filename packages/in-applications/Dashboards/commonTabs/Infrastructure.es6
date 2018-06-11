@@ -11,7 +11,10 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
+import PluginIcon from 'in-components/PluginIcon';
 import Link from 'in-components/Link';
+
+import locals from './Infrastructure.mless';
 
 export default withState('selectedType', 'setType', 'PROCESS')(Infrastructure);
 
@@ -106,7 +109,7 @@ const getColumnDefinitions = type => {
       label: 'Process',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return <Link href$={getLinkHref(item.physicalContext.process.id)}>{item.physicalContext.process.label}</Link>;
+          return <EntityLink entity={item.physicalContext.process} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
       }
@@ -117,9 +120,7 @@ const getColumnDefinitions = type => {
       label: 'Container',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return (
-            <Link href$={getLinkHref(item.physicalContext.container.id)}>{item.physicalContext.container.label}</Link>
-          );
+          return <EntityLink entity={item.physicalContext.container} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
       }
@@ -130,7 +131,7 @@ const getColumnDefinitions = type => {
       label: 'Host',
       getContent(item) {
         if (twoZeroModeEnabled) {
-          return <Link href$={getLinkHref(item.physicalContext.host.id)}>{item.physicalContext.host.label}</Link>;
+          return <EntityLink entity={item.physicalContext.host} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
       }
@@ -186,8 +187,16 @@ const getColumnDefinitions = type => {
   ];
 };
 
-function getLinkHref(snapshotId) {
-  return getDashboardLink(snapshotId, {
-    pathname: '/physical/dashboard'
-  });
+function EntityLink({ entity }) {
+  return (
+    <Link
+      className={locals.link}
+      href$={getDashboardLink(entity.id, {
+        pathname: '/physical/dashboard'
+      })}
+    >
+      <PluginIcon className={locals.pluginIcon} dimension={18} plugin={entity.plugin} />
+      {entity.label}
+    </Link>
+  );
 }
