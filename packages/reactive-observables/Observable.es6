@@ -49,8 +49,6 @@ export interface Observable<T> {
 
   skipFirst: () => Observable<T>;
 
-  skipUntil: (predicate: (?T) => boolean) => Observable<T>;
-
   startWith: (initialValue: T) => Observable<T>;
 
   startWithFn: (initialValueProvider: () => T) => Observable<T>;

@@ -12,7 +12,6 @@ import nextFrame from './nextFrame';
 import once from './once';
 import scan from './scan';
 import skipFirst from './skipFirst';
-import skipUntil from './skipUntil';
 import startWith from './startWith';
 import startWithFn from './startWithFn';
 import subscribe from './subscribe';
@@ -36,7 +35,6 @@ export function applyOperators(constructorFunction: Function) {
   proto.once = once;
   proto.scan = scan;
   proto.skipFirst = skipFirst;
-  proto.skipUntil = skipUntil;
   proto.startWith = startWith;
   proto.startWithFn = startWithFn;
   proto.subscribe = subscribe;

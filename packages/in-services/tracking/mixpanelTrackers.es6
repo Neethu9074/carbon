@@ -104,7 +104,7 @@ function trackApplicationUsageDuration() {
     .flatMap(
       appId =>
         appId
-          ? getApplication({ id: appId }).skipUntil(data => data.progress && !data.progress.loading)
+          ? getApplication({ id: appId }).filter(data => data.progress && !data.progress.loading)
           : just({ data: { label: 'no application context' } })
     )
     .map(result => result.data.label)

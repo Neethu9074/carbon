@@ -61,7 +61,6 @@ export default class Observer<C, E> implements Observable<E> {
   ) => TerminalObserver<E>;
   scan: <R>(accumulator: (?R, ?E) => R, seed: ?R) => Observable<R>;
   skipFirst: () => Observable<E>;
-  skipUntil: (predicate: (?E) => boolean) => Observable<E>;
   startWith: (initialValue: E) => Observable<E>;
   startWithFn: (initialValueProvider: () => E) => Observable<E>;
   subscribe: (
