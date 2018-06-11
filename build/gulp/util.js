@@ -18,21 +18,20 @@ exports.getBanner = function getBanner() {
   return util.format(
     'instana ui-client v%s | (c) %s instana Inc. | commit %s',
     exports.getVersion(),
-    (year === 2014 ? 2014 : '2014 - ' + year),
+    year === 2014 ? 2014 : '2014 - ' + year,
     exports.getRevision()
   );
 };
-
 
 exports.getVersion = function getVersion() {
   return require('../../package.json').version;
 };
 
-
 exports.getRevision = function getRevision() {
-  return execSync('git rev-parse HEAD').toString().trim();
+  return execSync('git rev-parse HEAD')
+    .toString()
+    .trim();
 };
-
 
 exports.startProxrox = function startProxrox(config) {
   var configLocation = path.join(os.tmpdir(), '.proxrox.json');
@@ -47,7 +46,6 @@ exports.startProxrox = function startProxrox(config) {
   });
 };
 
-
 exports.openBrowser = opn;
 
 exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
@@ -60,8 +58,5 @@ exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
     analyticsTrackingId: 'UA-66215232-4',
     operationMode: 'saas'
   };
-  fs.writeFileSync(
-    path.join(paths.assetDir, 'config.json'),
-    JSON.stringify(devConfig)
-  );
+  fs.writeFileSync(path.join(paths.assetDir, 'config.json'), JSON.stringify(devConfig));
 };
