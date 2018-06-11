@@ -10,9 +10,9 @@ import { urlQueryKeys } from 'in-stores/time/config';
 import { getTenantsWithUnits } from 'in-api/account';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
-import { tenant, user } from 'in-stores/user';
 import { config } from 'in-services/config';
 import { just } from 'reactive-observables';
+import { tenant } from 'in-stores/user';
 
 const mixpanel = window.mixpanel;
 const sharedTransmitterProperties = {
@@ -31,7 +31,22 @@ export function init() {
 }
 
 function initMixpanel() {
-  mixpanel.identify(user.id);
+  // TODO: If and how we identify the user is currently in discussion. Possible options include:
+  // a) Sending the GK user id (Christian would prefer this for Portal-Mixpanel integration purposes.
+  //    mixpanel.identify(user.id);
+  // b) Sending the email address.
+  //    mixpanel.identify(user.email);
+  // c) Do not send email or user id at all, in which case we would just omit the mixpanel.identify call. Mixpanel
+  //    then generate its own ID and keeps it persistent via a Cookie for individual users (per device/browser).
+  // d) Truly anonymize all actions by setting the same fixed, hard coded distinct ID for all Mixpanel tracking calls,
+  //    see https://help.mixpanel.com/hc/en-us/articles/360000791746-Tracking-Truly-Anonymous-Data, section
+  //    "Send the Same Distinct_id for All Events".
+  //    mixpanel.identify('some-arbitrary-but-fixed-string');
+  // For now, we got with the most defensive option that has the highest probability of being legally safe and
+  // acceptable without getting explicit consent from individual users. This option, on the other hand, has the least
+  // acceptance from our business stakeholders (PM, sales, success).
+  mixpanel.identify('anonymous');
+
   mixpanel.register({
     tenantId: tenant.id
   });
