@@ -147,7 +147,6 @@ const getColumnDefinitions = type => {
           <SparkChart
             rollup={getSparkChartGranularity(timeConfig)}
             timeConfig={getResolvedTimeConfig(timeConfig, result)}
-            aggregation="SUM"
             metrics={item.metrics.calls}
             metric={item.metrics.callsAgg}
             tooltipFormatter={number.compact}
