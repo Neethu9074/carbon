@@ -134,7 +134,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     "script-src 'self' " +
       cspExtensions +
       nonces.map(n => "'nonce-" + n + "'").join(' ') +
-      ' https://www.google-analytics.com https://cdn.mxpnl.com *.instana.io'
+      ' https://www.google-analytics.com https://cdn.mxpnl.com https://fast.appcues.com *.instana.io'
   );
 
   res.send(
@@ -144,9 +144,10 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       indexCssChecksum,
       nonces,
       googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
+      appcuesId: serverConfig.appcuesId,
+      mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
-      mixpanelToken: serverConfig.mixpanelToken,
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,

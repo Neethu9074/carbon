@@ -47,6 +47,7 @@ export default connectTo(
 
     const onClickCallback = props.onClickCallback || defaultOnClick;
     const numRemainingNodes = props.paginationInformation.numRemainingNodes;
+    const pageSize = 10;
 
     return (
       <ScreenPositionWrapper {...props}>
@@ -60,7 +61,10 @@ export default connectTo(
               onClickCallback(props);
             }}
           >
-            Load {numRemainingNodes} more
+            Load {numRemainingNodes > pageSize ? pageSize : numRemainingNodes} more
+            {numRemainingNodes > pageSize && (
+              <span className={locals.totalReminaingNodesLabel}>(total: {numRemainingNodes})</span>
+            )}
           </Button>
           {isLoading && (
             <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" width={24} height={24} spinning />

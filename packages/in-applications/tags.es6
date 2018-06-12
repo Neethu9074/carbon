@@ -95,27 +95,33 @@ export function mapToServerResponse(config) {
 
   for (let i = 0; i < config.matchSpecification.length; i++) {
     const matchSpecification = config.matchSpecification[i];
-    if (matchSpecification.key === 'docker.label') {
+    if (
+      matchSpecification.key === 'docker.label' ||
+      matchSpecification.key === 'kubernetes.pod.label' ||
+      matchSpecification.key === 'host.tag'
+    ) {
       const indexOfFirstEqual = matchSpecification.value.indexOf('=');
       const stringBeforeEqual = matchSpecification.value.slice(0, Math.max(0, indexOfFirstEqual));
       const stringAfterEqual = indexOfFirstEqual >= 0 ? matchSpecification.value.slice(indexOfFirstEqual + 1) : '';
 
-      matchSpecification.key = `docker.label.${stringBeforeEqual}`;
-      matchSpecification.value = stringAfterEqual;
-    } else if (matchSpecification.key === 'kubernetes.pod.label') {
-      const indexOfFirstEqual = matchSpecification.value.indexOf('=');
-      const stringBeforeEqual = matchSpecification.value.slice(0, Math.max(0, indexOfFirstEqual));
-      const stringAfterEqual = indexOfFirstEqual >= 0 ? matchSpecification.value.slice(indexOfFirstEqual + 1) : '';
-
-      matchSpecification.key = `kubernetes.pod.label.${stringBeforeEqual}`;
-      matchSpecification.value = stringAfterEqual;
-    } else if (matchSpecification.key === 'host.tag') {
-      const indexOfFirstEqual = matchSpecification.value.indexOf('=');
-      const stringBeforeEqual = matchSpecification.value.slice(0, Math.max(0, indexOfFirstEqual));
-      const stringAfterEqual = indexOfFirstEqual >= 0 ? matchSpecification.value.slice(indexOfFirstEqual + 1) : '';
-
-      matchSpecification.key = `host.tag.${stringBeforeEqual}`;
-      matchSpecification.value = stringAfterEqual;
+      if (matchSpecification.key === 'docker.label') {
+        matchSpecification.key = `docker.label.${stringBeforeEqual}`;
+        matchSpecification.value = stringAfterEqual;
+      } else if (matchSpecification.key === 'kubernetes.pod.label') {
+        matchSpecification.key = `kubernetes.pod.label.${stringBeforeEqual}`;
+        matchSpecification.value = stringAfterEqual;
+      } else if (matchSpecification.key === 'host.tag') {
+        if (indexOfFirstEqual === -1) {
+          matchSpecification.key = `host.tag`;
+          matchSpecification.value = matchSpecification.value;
+        } else if (indexOfFirstEqual === 0) {
+          matchSpecification.key = `host.tag`;
+          matchSpecification.value = matchSpecification.value.slice(1);
+        } else {
+          matchSpecification.key = `host.tag.${stringBeforeEqual}`;
+          matchSpecification.value = stringAfterEqual;
+        }
+      }
     }
   }
   return config;

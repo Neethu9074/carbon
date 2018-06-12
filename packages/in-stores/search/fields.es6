@@ -1,4 +1,4 @@
-import { blackListedSearchFieldValues, blackListedSearchFieldKeywords } from 'in-services/featureFlags';
+import { blackListedSearchFieldValues, getBlackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -80,6 +80,7 @@ export function buildCategorizedFields(fields) {
   fields = fields || window.instana.searchFields;
 
   fields.forEach(field => {
+    const blackListedSearchFieldKeywords = getBlackListedSearchFieldKeywords();
     for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
       if (field.keyword.indexOf(blackListedSearchFieldKeywords[i]) === 0) {
         return;

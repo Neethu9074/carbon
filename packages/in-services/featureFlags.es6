@@ -66,7 +66,13 @@ export const twoZeroModeEnabled =
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
-export const blackListedSearchFieldKeywords = ['log'];
+export function getBlackListedSearchFieldKeywords() {
+  if (twoZeroModeEnabled) {
+    return ['log', 'span', 'trace'];
+  } else {
+    return ['log'];
+  }
+}
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
