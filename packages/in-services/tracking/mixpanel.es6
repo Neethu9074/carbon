@@ -40,19 +40,24 @@ function initMixpanel() {
   mixpanel.register({
     tenantId: tenant.id
   });
-  getTenantsWithUnits().once(tenantWithUnits => {
-    const units = tenantWithUnits[tenant.name];
-    if (!units) {
-      return;
+  getTenantsWithUnits().once(
+    tenantWithUnits => {
+      const units = tenantWithUnits[tenant.name];
+      if (!units) {
+        return;
+      }
+      const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
+      if (!currentUnit) {
+        return;
+      }
+      mixpanel.register({
+        tenantUnitId: currentUnit.id
+      });
+    },
+    () => {
+      /* suppress "unhandled error in observable chain" message when tenant unit cannot be fetched */
     }
-    const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
-    if (!currentUnit) {
-      return;
-    }
-    mixpanel.register({
-      tenantUnitId: currentUnit.id
-    });
-  });
+  );
 
   // give getTenantsWithUnits a chance to complete before logging the page load/page reload event
   setTimeout(() => {
