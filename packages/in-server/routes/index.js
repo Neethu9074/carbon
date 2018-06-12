@@ -14,7 +14,9 @@ const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
 
-const compiledTemplate = Handlebars.compile(fs.readFileSync(paths.indexHtmlTemplate, { encoding: 'utf8' }));
+const indexHtmlTemplate = fs.readFileSync(paths.indexHtmlTemplate, { encoding: 'utf8' });
+const maxNonces = findMaxNonces(indexHtmlTemplate);
+const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
 
 const indexJsSri = checkSumMod.getSriIntegrityForFile(paths.indexJs);
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
@@ -116,8 +118,9 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     return;
   }
 
-  // doing this exactly three times as the template requires three nonces
-  const nonces = [uuid.v4(), uuid.v4(), uuid.v4()];
+  const nonces = Array(maxNonces)
+    .fill(maxNonces)
+    .map(i => uuid.v4());
 
   let cspExtensions = '';
   // Ff this route was called by safari -> add the unsafe inline Content-Security-Policy
@@ -131,7 +134,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     "script-src 'self' " +
       cspExtensions +
       nonces.map(n => "'nonce-" + n + "'").join(' ') +
-      ' https://www.google-analytics.com *.instana.io'
+      ' https://www.google-analytics.com https://cdn.mxpnl.com *.instana.io'
   );
 
   res.send(
@@ -143,6 +146,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
+      mixpanelToken: serverConfig.mixpanelToken,
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,
@@ -152,4 +156,13 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       settings: userSettings
     })
   );
+}
+
+function findMaxNonces(indexHtmlTemplate) {
+  const nonceMatches = indexHtmlTemplate.match(/nonces\.\[\d+\]/gi);
+  if (nonceMatches) {
+    const nonceIndices = nonceMatches.map(match => parseInt(/nonces\.\[(\d+)\]/i.exec(match)[1]));
+    return Math.max(...nonceIndices) + 1;
+  }
+  return 0;
 }
