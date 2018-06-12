@@ -9,10 +9,13 @@ import backButtonStore from 'in-analyze/stores/backButtonStore';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Row.mless';
+
+const trackTracesButton = createTracker('application.tracesButton');
 
 export default connectTo(
   ({ label, value, getEntity, timeConfig, applicationId, serviceId, endpointId }) => {
@@ -32,9 +35,9 @@ export default connectTo(
 
     const linkToAnalyze =
       applicationId || serviceId || endpointId ? getLinkToAnalyze({ applicationId, serviceId, endpointId }) : null;
-    const prepareBackButton = storeBackButtonParameters.bind(null, backButtonLabels);
+    const trackAndPrepareBackButton = trackAndStoreBackButtonParameters.bind(null, backButtonLabels);
     return (
-      <Link className={locals.link} href$={linkToAnalyze} onClick={prepareBackButton}>
+      <Link className={locals.link} href$={linkToAnalyze} onClick={trackAndPrepareBackButton}>
         <div
           className={evaluateClassNames({
             [locals.row]: true,
@@ -52,7 +55,9 @@ export default connectTo(
   }
 );
 
-function storeBackButtonParameters(backButtonLabels) {
+function trackAndStoreBackButtonParameters(backButtonLabels) {
+  trackTracesButton();
+
   // In the analyze traces views, we need to render a breadcrumb item that takes the user back to the last
   // explore dashboard (from which they went to analyze traces). We simply store the current route and the labels
   // of the currently right-most breadcrumb item. We fetch the current route from the URL stream (without modifications,

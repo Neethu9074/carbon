@@ -130,3 +130,7 @@ function formatUrl(url, queryParams = {}) {
 
   return url + '?' + queryPart;
 }
+
+export function isSuccess(response) {
+  return response && response.status >= 200 && response.status < 300;
+}

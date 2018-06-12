@@ -2,9 +2,9 @@ import React from 'react';
 
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { millis, percentage, number } from 'in-services/formatters/number';
 import getEndpoints from 'in-subscription/application/getEndpoints';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];
@@ -76,7 +76,11 @@ function ViewAll({ applicationId, serviceId, selectedMetric }, className) {
 
 function Label({ item, applicationId, serviceId }, _item, className) {
   return (
-    <Link className={className} href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>
+    <Link
+      className={className}
+      href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}
+      onClick={() => trackTopListNavigation()}
+    >
       {item.endpoint.label}
     </Link>
   );

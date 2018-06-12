@@ -46,6 +46,7 @@ export const twoZeroAppDataEnabled =
   __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled') || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 
 export const previewTwoZeroWithoutHybrid = !oneZeroAppDataEnabled && twoZeroAppDataEnabled;
+export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
 const v2EnabledUserPreference =
   window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
@@ -61,8 +62,6 @@ export const twoZeroModeEnabled =
   (oneZeroAppDataEnabled && twoZeroAppDataEnabled && v2EnabledViaQueryParam) ||
   // tenant in beta phase, 1.0/2.0 not specified via URL query param, 2.0 enabled in user's ui settings.
   (oneZeroAppDataEnabled && twoZeroAppDataEnabled && !v2DisabledViaQueryParam && v2EnabledUserPreference);
-
-export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
 // ########################################################################################
 // Dynamic focus keywords

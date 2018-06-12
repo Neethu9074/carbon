@@ -3,8 +3,11 @@ import React from 'react';
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+
+export const trackApplicationSwitcher = createTracker('application.applicationSwitcherUsed');
 
 import locals from './ApplicationSwitcher.mless';
 
@@ -31,6 +34,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
                   href$={getModifiedUrlStream(params =>
                     setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
                   )}
+                  onClick={() => trackApplicationSwitcher()}
                   icon="lib_application"
                 >
                   {item.application.label}
