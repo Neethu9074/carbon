@@ -3,8 +3,8 @@ import { assign } from 'lodash';
 import { getTenantsWithUnits } from 'in-api/account';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
+import { tenant, user } from 'in-stores/user';
 import { config } from 'in-services/config';
-import { tenant } from 'in-stores/user';
 
 const mixpanel = window.mixpanel;
 const registeredTrackers = [];
@@ -27,10 +27,9 @@ function initMixpanel() {
   //    see https://help.mixpanel.com/hc/en-us/articles/360000791746-Tracking-Truly-Anonymous-Data, section
   //    "Send the Same Distinct_id for All Events".
   //    mixpanel.identify('some-arbitrary-but-fixed-string');
-  // PM decided to go with option (c) so we do not need to get explicit content from each user, implement opt-in/opt-out
-  // and change all our data processing agreements with customers. This, however, will break some Mixpanel reports (as
-  // explained in the the link given for option c).
-  mixpanel.identify('anonymous');
+  // PM decided to go with option a/GK user ID, which still avoids GDPR and does not require explicit consent because
+  // we do not send personal information (like email adress or user name) to third parties.
+  mixpanel.identify(user.id);
 
   mixpanel.register({
     tenantId: tenant.id

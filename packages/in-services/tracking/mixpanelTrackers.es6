@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
+import { createDurationTracker, createTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { applicationDashboard, serviceDashboard, endpointDashboard } from 'in-applications/navigation/paths';
-import { createDurationTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
@@ -15,7 +15,19 @@ export const v2UsageDurationTracker = createDurationTracker('hybrid.v2');
 export function init() {
   if (initMixpanelCore()) {
     initUsageDurationTrackers();
+    initActivityHeartbeat();
   }
+}
+
+/**
+ * Send an activity beacon once each hour. This is used by the portal to track which users have used Instana on which
+ * day. Just tracking the sign in would not be good enough, since a user can use Instana up to 7 days without signing
+ * in again.
+ */
+function initActivityHeartbeat() {
+  const trackActivity = createTracker('user.isActive');
+  trackActivity();
+  setInterval(trackActivity, 60 * 60 * 1000);
 }
 
 function initUsageDurationTrackers() {
