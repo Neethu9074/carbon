@@ -33,7 +33,6 @@ function onAppcuesLoaded() {
   Appcues = window.Appcues;
 
   const targetingProperties = {
-    email: user.email,
     tenant: config.tenant,
     unit: config.tenantUnit,
 
