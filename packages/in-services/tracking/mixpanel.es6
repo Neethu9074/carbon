@@ -1,9 +1,8 @@
 import { assign } from 'lodash';
 
-import { getTenantsWithUnits } from 'in-api/account';
+import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
-import { tenant, user } from 'in-stores/user';
 import { config } from 'in-services/config';
 
 const mixpanel = window.mixpanel;
@@ -34,29 +33,27 @@ function initMixpanel() {
   mixpanel.register({
     tenantId: tenant.id
   });
-  getTenantsWithUnits().once(
+  tenantUnitStructure$.once(
     tenantWithUnits => {
       const units = tenantWithUnits[tenant.name];
       if (!units) {
+        mixpanel.track('pageLoadOrPageReload');
         return;
       }
       const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
       if (!currentUnit) {
+        mixpanel.track('pageLoadOrPageReload');
         return;
       }
       mixpanel.register({
         tenantUnitId: currentUnit.id
       });
+      mixpanel.track('pageLoadOrPageReload');
     },
     () => {
-      /* suppress "unhandled error in observable chain" message when tenant unit cannot be fetched */
+      mixpanel.track('pageLoadOrPageReload');
     }
   );
-
-  // give getTenantsWithUnits a chance to complete before logging the page load/page reload event
-  setTimeout(() => {
-    mixpanel.track('pageLoadOrPageReload');
-  }, 10000);
 }
 
 export function createTracker(event, defaultProperties = {}) {
