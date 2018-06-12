@@ -77,6 +77,46 @@ describe('in-applications/tags', () => {
         }
       ]);
     });
+
+    it('should map specific host tags to docker.tag', () => {
+      const response = {
+        data: {
+          id: 1,
+          label: 'foobar',
+          matchSpecification: [
+            {
+              key: 'host.tag.foo',
+              value: 'bar'
+            },
+            {
+              key: 'host.tag',
+              value: 'a=b'
+            },
+            {
+              key: 'host.tag',
+              value: 'c'
+            }
+          ]
+        }
+      };
+      let mappedResult = mapFromServerResponse(response);
+      expect(mappedResult.data.id).to.equal(1);
+      expect(mappedResult.data.label).to.equal('foobar');
+      expect(mappedResult.data.matchSpecification).to.deep.equal([
+        {
+          key: 'host.tag',
+          value: 'foo=bar'
+        },
+        {
+          key: 'host.tag',
+          value: 'a=b'
+        },
+        {
+          key: 'host.tag',
+          value: 'c'
+        }
+      ]);
+    });
   });
 
   describe('mapToServerResponse', () => {
@@ -193,6 +233,10 @@ describe('in-applications/tags', () => {
           {
             key: 'host.tag',
             value: '=d'
+          },
+          {
+            key: 'host.tag',
+            value: 'foobar'
           }
         ]
       };
@@ -205,8 +249,12 @@ describe('in-applications/tags', () => {
           value: 'nginx'
         },
         {
-          key: 'host.tag.',
+          key: 'host.tag',
           value: 'd'
+        },
+        {
+          key: 'host.tag',
+          value: 'foobar'
         }
       ]);
     });
