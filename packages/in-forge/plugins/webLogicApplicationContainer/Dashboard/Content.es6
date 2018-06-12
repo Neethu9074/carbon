@@ -4,6 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
+import JMSDestinationsTable from './JMSDestinationsTable';
 import DatasourcesTable from './DatasourcesTable';
 import WebAppsTable from './WebAppsTable';
 
@@ -27,6 +28,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
+
       <DashboardSection title="Thread Pool">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -39,6 +41,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
       {serverLogRuntimeMBeanAvailable ? (
         <DashboardSection title="Server Log Messages by Severity">
           <Chart
@@ -53,13 +56,16 @@ export default function Dashboard({ snapshot, timeConfig }) {
                 'serverLogMessages.criticals',
                 'serverLogMessages.emergencies'
               ],
-              labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergencie'],
+              labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
               type: 'line'
             }}
           />
         </DashboardSection>
       ) : null}
+
       <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <JMSDestinationsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

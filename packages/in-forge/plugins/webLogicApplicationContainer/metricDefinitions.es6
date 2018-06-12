@@ -23,7 +23,7 @@ export default [
       'serverLogMessages.criticals',
       'serverLogMessages.emergencies'
     ],
-    labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergencie'],
+    labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
     min: 0,
     formatter: number
   },
@@ -46,6 +46,12 @@ export default [
     formatter: number
   },
   {
+    metric: getMetricMatch('datasources', 'currentActiveConnections'),
+    label: 'Current Active Connections',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: getMetricMatch('datasources', 'connectionsInPool'),
     label: 'Connections in Pool',
     min: 0,
@@ -64,6 +70,12 @@ export default [
     formatter: number
   },
   {
+    metric: getMetricMatch('datasources', 'leakedConnections'),
+    label: 'Leaked Connections',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: getMetricMatch('servlets', 'requests'),
     label: 'Requests',
     min: 0,
@@ -74,5 +86,23 @@ export default [
     label: 'Average Response Time',
     min: 0,
     formatter: millis
+  },
+  {
+    metric: getMetricMatch('jmsDestinations', 'messagesCurrentCount'),
+    label: 'Messages Current Count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('jmsDestinations', 'messagesPendingCount'),
+    label: 'Messages Pending Count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('jmsDestinations', 'messagesReceivedCount'),
+    label: 'Messages Received Count',
+    min: 0,
+    formatter: number
   }
 ];
