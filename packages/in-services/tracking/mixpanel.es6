@@ -21,20 +21,18 @@ export function init() {
 }
 
 function initMixpanel() {
-  // TODO: If and how we identify the user is currently in discussion. Possible options include:
-  // a) Sending the GK user id (Christian would prefer this for Portal-Mixpanel integration purposes.
-  //    mixpanel.identify(user.id);
-  // b) Sending the email address.
-  //    mixpanel.identify(user.email);
-  // c) Do not send email or user id at all, in which case we would just omit the mixpanel.identify call. Mixpanel
-  //    then generate its own ID and keeps it persistent via a Cookie for individual users (per device/browser).
-  // d) Truly anonymize all actions by setting the same fixed, hard coded distinct ID for all Mixpanel tracking calls,
+  // Possible options for anonymizing or identifying users for mixpanel tracking:
+  // a) Sending either the GK user ID () or the email address.
+  //    mixpanel.identify(user.id)/mixpanel.identify(user.email)
+  // b) Do not send email or user ID, instead, omit the mixpanel.identify call completely. In this case, Mixpanel will
+  //    then generate its own ID and keep it persistent via a Cookie for individual users (per device/browser).
+  // c) Truly anonymize all actions by setting the same fixed, hard coded distinct ID for all Mixpanel tracking calls,
   //    see https://help.mixpanel.com/hc/en-us/articles/360000791746-Tracking-Truly-Anonymous-Data, section
   //    "Send the Same Distinct_id for All Events".
   //    mixpanel.identify('some-arbitrary-but-fixed-string');
-  // For now, we got with the most defensive option that has the highest probability of being legally safe and
-  // acceptable without getting explicit consent from individual users. This option, on the other hand, has the least
-  // acceptance from our business stakeholders (PM, sales, success).
+  // PM decided to go with option (c) so we do not need to get explicit content from each user, implement opt-in/opt-out
+  // and change all our data processing agreements with customers. This, however, will break some Mixpanel reports (as
+  // explained in the the link given for option c).
   mixpanel.identify('anonymous');
 
   mixpanel.register({
