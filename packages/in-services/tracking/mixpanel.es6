@@ -7,9 +7,6 @@ import { config } from 'in-services/config';
 import { tenant } from 'in-stores/user';
 
 const mixpanel = window.mixpanel;
-const sharedTransmitterProperties = {
-  token: config.mixpanelToken
-};
 const registeredTrackers = [];
 
 export function init() {
@@ -68,10 +65,10 @@ export function createTracker(event, defaultProperties = {}) {
     throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
   }
   registeredTrackers.push(event);
-  if (!mixpanel || !config.mixpanelToken) {
+  if (!mixpanel) {
     return noop;
   }
-  return props => mixpanel.track(event, assign({}, props, defaultProperties, sharedTransmitterProperties));
+  return props => mixpanel.track(event, assign({}, props, defaultProperties));
 }
 
 export function createDurationTracker(event, defaultProperties = {}) {
@@ -79,7 +76,7 @@ export function createDurationTracker(event, defaultProperties = {}) {
     throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
   }
   registeredTrackers.push(event);
-  if (!mixpanel || !config.mixpanelToken) {
+  if (!mixpanel) {
     return {
       start: noop,
       stop: noop
@@ -88,6 +85,6 @@ export function createDurationTracker(event, defaultProperties = {}) {
 
   return {
     start: () => mixpanel.time_event(event),
-    stop: props => mixpanel.track(event, assign({}, props, defaultProperties, sharedTransmitterProperties))
+    stop: props => mixpanel.track(event, assign({}, props, defaultProperties))
   };
 }
