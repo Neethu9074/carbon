@@ -33,6 +33,22 @@ const cols = [
     }
   },
   {
+    title: 'Current Active Connections',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.currentActiveConnections';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'Connections in Pool',
     type: 'metric',
     typeArgs: {
@@ -41,6 +57,22 @@ const cols = [
       },
       getMetricName(row) {
         return 'datasources.' + row.key + '.connectionsInPool';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Connections Created',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'datasources.' + row.key + '.connectionsCreated';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -65,14 +97,14 @@ const cols = [
     }
   },
   {
-    title: 'Connections Created',
+    title: 'Leaked Connections',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'datasources.' + row.key + '.connectionsCreated';
+        return 'datasources.' + row.key + '.leakedConnections';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -113,15 +145,19 @@ function getRowDetails(row) {
           formatter: zeroDecimalPlaces,
           metrics: [
             'datasources.' + row.key + '.availableConnections',
+            'datasources.' + row.key + '.currentActiveConnections',
             'datasources.' + row.key + '.connectionsInPool',
+            'datasources.' + row.key + '.connectionsCreated',
             'datasources.' + row.key + '.requestsWaitingForConnection',
-            'datasources.' + row.key + '.connectionsCreated'
+            'datasources.' + row.key + '.leakedConnections'
           ],
           labels: [
             'Available Connections',
+            'Current Active Connections',
             'Connections in Pool',
+            'Connections Created',
             'Requests Waiting for Connection',
-            'Connections Created'
+            'Leaked Connections'
           ],
           type: 'line'
         }}
