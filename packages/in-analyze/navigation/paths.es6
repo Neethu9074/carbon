@@ -3,11 +3,13 @@ import {
   applicationId as appIdMatrixParameter,
   serviceId as serviceIdMatrixParameter,
   endpointId as endpointIdMatrixParameter,
-  traceGroupName as traceGroupNameMatrixParameter
+  traceGroupName as traceGroupNameMatrixParameter,
+  groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { isQueryBuilderEnabled } from 'in-services/featureFlags';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const analyze = '/analyze';
@@ -20,7 +22,14 @@ export const isAnalyzeView = getRootPathPredicate(analyze);
 
 export function getLinkToAnalyze({ applicationId, serviceId, endpointId, traceGroupName, raw } = emptyObject) {
   return getModifiedUrlStream(params => {
-    params.pathname = raw ? analyzeRaw : analyzeGroups;
+    if (!isQueryBuilderEnabled) {
+      params.pathname = raw ? analyzeRaw : analyzeGroups;
+    } else {
+      params.pathname = analyze;
+      if (raw) {
+        setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter);
+      }
+    }
     if (applicationId !== undefined) {
       setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
     }

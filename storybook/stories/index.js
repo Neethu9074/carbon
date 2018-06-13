@@ -44,6 +44,8 @@ import './analyse/IcicleChart';
 import './analyse/TraceConverter';
 import './analyse/TimingChart';
 
+import './designLibrary/analyze/FilterStory';
+
 import './designLibrary/application/AppHeaderStory';
 import './designLibrary/application/EmptyAppListStory';
 
@@ -75,6 +77,7 @@ import './designLibrary/components/time/TimeSelectionDialogPresenterStory';
 import './designLibrary/components/ViewSwitcherStory';
 
 import './designLibrary/forms/ApplicationConfigurationStory';
-import './designLibrary/forms/ServiceConfigurationStory';
-import './designLibrary/forms/FormFieldsStory';
 import './designLibrary/forms/BasicFormStory';
+import './designLibrary/forms/FormFieldsStory';
+import './designLibrary/forms/ServiceConfigurationStory';
+import './designLibrary/forms/TagFilterEditFormStory';

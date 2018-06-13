@@ -17,11 +17,13 @@ export default function Dialog({ childrenOutsideOfContentFlow, children, header,
       {childrenOutsideOfContentFlow}
 
       <div className={`${block}__content-wrapper`}>
-        <header className={`${block}__header`}>
-          {header}
+        {header && (
+          <header className={`${block}__header`}>
+            {header}
 
-          {onClose ? <SvgIcon type="x" width={14} className={`${block}__close`} onClick={onClose} /> : null}
-        </header>
+            {onClose ? <SvgIcon type="x" width={14} className={`${block}__close`} onClick={onClose} /> : null}
+          </header>
+        )}
 
         <div className={contentClasses}>{children}</div>
       </div>
