@@ -21,6 +21,7 @@ const tagKeys = [
   'jvm.app.name',
   'kafka.cluster.name',
   'kubernetes.container.name',
+  'kubernetes.namespace',
   'kubernetes.pod.label',
   'marathon.appId',
   'nodejs.app.name',
