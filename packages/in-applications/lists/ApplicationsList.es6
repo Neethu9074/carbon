@@ -4,14 +4,14 @@ import React from 'react';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -106,24 +106,51 @@ const columnDefinitions = [
     id: 'callsAgg',
     label: 'Calls',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={number.compact(item.metrics.callsAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.calls}
+          metric={item.metrics.callsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
     }
   },
   {
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={ms.compact(item.metrics.latencyAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.latency}
+          metric={item.metrics.latencyAgg}
+          tooltipFormatter={ms.compact}
+        />
+      );
     }
   },
   {
     id: 'errorsAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={percentage.detailed(item.metrics.errorsAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.errors}
+          metric={item.metrics.errorsAgg}
+          tooltipFormatter={percentage.detailed}
+        />
+      );
     }
   }
 ];
