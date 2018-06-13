@@ -1,7 +1,7 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
+import { assign, get } from 'lodash';
 
 import {
   createNewApplicationConfig,
@@ -46,9 +46,13 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
       updateEntity={applicationConfig => {
         const isNewConfig = !applicationConfig.id ? true : false;
         if (isNewConfig) {
-          return addApplicationConfig(applicationConfig).tap(() => trackCreateApplication(applicationConfig));
+          return addApplicationConfig(applicationConfig).tap(() =>
+            trackCreateApplication(mapTagsForTracking(applicationConfig))
+          );
         }
-        return updateApplicationConfig(applicationConfig).tap(() => trackUpdateApplication(applicationConfig));
+        return updateApplicationConfig(applicationConfig).tap(() =>
+          trackUpdateApplication(mapTagsForTracking(applicationConfig))
+        );
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {
@@ -200,4 +204,12 @@ function getInitialForm(application) {
         })
       )
     );
+}
+
+function mapTagsForTracking(applicationConfig) {
+  const configForTracking = assign({}, applicationConfig);
+  configForTracking.tags = applicationConfig.matchSpecification
+    ? applicationConfig.matchSpecification.map(matchSpec => matchSpec.key)
+    : [];
+  return configForTracking;
 }
