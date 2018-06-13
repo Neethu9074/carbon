@@ -31,7 +31,9 @@ function initMixpanel() {
   mixpanel.identify(user.id);
 
   mixpanel.register({
-    tenantId: tenant.id
+    tenant: tenant.name,
+    tenantId: tenant.id,
+    tenantUnit: config.tenantUnit
   });
   tenantUnitStructure$.once(
     tenantWithUnits => {
