@@ -5,6 +5,7 @@ import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metri
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
+import { deepCopy } from 'in-services/util/object';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { createLogger } from 'instalog';
@@ -43,7 +44,7 @@ export default connectTo(
     }
 
     updateDatasource = props => {
-      props = Object.create(props);
+      props = deepCopy(props);
       props.rollup = getPixelAwareRollupSize(props.timeConfig, props.width);
 
       if (props.aggregation) {
