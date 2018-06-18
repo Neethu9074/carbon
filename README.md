@@ -14,7 +14,6 @@
 - [Code Style](#code-style)
   * [Simon Sort](#simon-sort)
   * [Running Prettier On Save](#running-prettier-on-save)
-    + [Code](#code)
     + [VIM](#vim)
     + [IntelliJ & Co](#intellij--co)
 - [Upgrading Node.js](#upgrading-nodejs)
@@ -133,10 +132,6 @@ export default function CallTree({
 
 ### Running Prettier On Save
 
-#### Code
-
-Ask Simon or Ben to share their setup.
-
 #### VIM
 
 * Install https://github.com/prettier/vim-prettier
@@ -202,7 +197,9 @@ Object.keys(instana.dev.storeStates).forEach(key => {
 ```
 
 ### How can I get a list of metrics?
-You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which writes the metrics to files in the CWD. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+
+The generated files' names are `metricOverview*`.
 
 ### I am getting flow type checking errors even though everything should be fine?
 This can happen when switching between two branches with a lot of changes while the development server is running. To fix this, stop the development server and then execute the following:
