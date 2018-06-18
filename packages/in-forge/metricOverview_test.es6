@@ -39,4 +39,25 @@ function doGenerate() {
     fs.writeFileSync(targetFileName, str.trim());
     console.log('Metric overview written to %s', targetFileName);
   });
+
+  it('must generate a metric overview for Grafana plugin', () => {
+    const result = Object.keys(allMetricDefinitions).reduce((plugins, pluginName) => {
+      const metrics = allMetricDefinitions[pluginName]
+        .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
+        .reduce((agg, metric) => {
+          agg[metric.metric] = metric.label;
+          return agg;
+        }, {});
+      plugins[pluginName] = {
+        label: getPlural(pluginName),
+        metrics
+      };
+      return plugins;
+    }, {});
+
+    const targetFileName = path.join(process.cwd(), 'metricOverviewForGrafana.ts');
+    const content = `export default ${JSON.stringify(result, 0, 2)};`;
+    fs.writeFileSync(targetFileName, content);
+    console.log('Metric overview for Grafana written to %s', targetFileName);
+  });
 }
