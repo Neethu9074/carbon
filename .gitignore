@@ -10,6 +10,7 @@
 /packages/in-themes/active*
 /packages/in-server/node_modules
 /packages/in-server/serverConfig.json
+/metricOverviewForDocs.md
 
 .npmrc
 git-env.properties

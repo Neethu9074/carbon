@@ -1,6 +1,9 @@
 /* eslint-env mocha, node */
 /* eslint-disable no-console, mocha/no-exclusive-tests */
 
+import path from 'path';
+import fs from 'fs';
+
 import { metricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { getPlural } from 'in-sdk/pluginName';
 
@@ -9,7 +12,7 @@ if (process.env.GENERATE_METRIC_OVERVIEW) {
 }
 
 function doGenerate() {
-  it('must generate a metric overview', () => {
+  it('must generate a metric overview for docs', () => {
     const plugins = Object.keys(metricDefinitions).sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
 
     let str = '';
@@ -28,6 +31,8 @@ function doGenerate() {
       str += '\n\n';
     });
 
-    console.log(str.trim());
+    const targetFileName = path.join(process.cwd(), 'metricOverviewForDocs.md');
+    fs.writeFileSync(targetFileName, str.trim());
+    console.log('Metric overview written to %s', targetFileName);
   });
 }
