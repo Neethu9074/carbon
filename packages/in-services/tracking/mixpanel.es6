@@ -29,6 +29,10 @@ function initMixpanel() {
   // PM decided to go with option a/GK user ID, which still avoids GDPR and does not require explicit consent because
   // we do not send personal information (like email adress or user name) to third parties.
   mixpanel.identify(user.id);
+  mixpanel.people.set({
+    $id: user.id,
+    last_page_load: new Date()
+  });
 
   mixpanel.register({
     tenant: tenant.name,
