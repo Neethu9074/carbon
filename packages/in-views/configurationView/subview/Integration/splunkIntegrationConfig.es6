@@ -111,7 +111,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="url"
               type="url"
-              placeholder="http://your.splunk.server:8088/services/collector?token=your-token"
+              placeholder="http://your.splunk.server:8088/services/collector"
               value={field.value}
               onChange={e => onChange('url', e.target.value)}
             />
