@@ -4,7 +4,7 @@
 import path from 'path';
 import fs from 'fs';
 
-import { metricDefinitions } from 'in-sdk/metrics/metricDefinitions';
+import { metricDefinitions as allMetricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { getPlural } from 'in-sdk/pluginName';
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
@@ -13,12 +13,12 @@ if (process.env.GENERATE_METRIC_OVERVIEW) {
 
 function doGenerate() {
   it('must generate a metric overview for docs', () => {
-    const plugins = Object.keys(metricDefinitions).sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+    const plugins = Object.keys(allMetricDefinitions).sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
 
     let str = '';
 
     plugins.forEach(plugin => {
-      const metrics = metricDefinitions[plugin]
+      const metrics = allMetricDefinitions[plugin]
         .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
         .sort((a, b) => a.label.localeCompare(b.label));
 
@@ -27,6 +27,10 @@ function doGenerate() {
       }
 
       str += `**${getPlural(plugin)}** *(${plugin})*\n\n`;
+
+      metrics.forEach(metric => {
+        str += ` - **${metric.label}:** \`${metric.metric}\`\n`;
+      });
 
       str += '\n\n';
     });

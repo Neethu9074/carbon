@@ -1,7 +1,7 @@
 // require all forge modules inside this one, as
 // this is the only module required by the application.
 import './activeMQ';
-import './application20';
+import './application';
 import './availabilityZone';
 import './awsDynamoDb';
 import './awsEc';
@@ -141,7 +141,7 @@ import './sapHana';
 import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
-import './service20';
+import './service';
 import './shellLogicalConnection';
 import './shellLogicalService';
 import './solr';

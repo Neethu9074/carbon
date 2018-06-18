@@ -1,24 +1,24 @@
 import { get } from 'lodash';
 
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { app_service } from 'in-components/SvgIcon/registry';
+import { app_application } from 'in-components/SvgIcon/registry';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.service20,
+  plugin: plugins.application,
 
-  iconSvgPath: app_service,
+  iconSvgPath: app_application,
   metricDefinitions,
 
   pluginName: {
-    singular: 'Service',
-    plural: 'Services'
+    singular: 'Application',
+    plural: 'Applications'
   },
 
   chartWiggleRoom: 20000,
 
   getLabel(entity) {
-    return get(entity, ['data', 'label'], 'Service');
+    return get(entity, ['data', 'label'], 'Application');
   }
 });
