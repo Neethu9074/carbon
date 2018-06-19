@@ -48,7 +48,7 @@ function doGenerate() {
           agg[metric.metric] = metric.label;
           return agg;
         }, {});
-      plugins[pluginName] = {
+      plugins[pluginName.toLowerCase()] = {
         label: getPlural(pluginName),
         metrics
       };
