@@ -128,9 +128,11 @@ function getRowDetails(row) {
 
   const chartTimeframe$ = __DEV__
     ? timeConfig$.map(timeConfig => {
+        const to = (timeConfig.to || Date.now()) + oneDay;
         return {
           ...timeConfig,
-          to: (timeConfig.to || Date.now()) + oneDay,
+          to: to,
+          focusedMoment: to,
           windowSize: timeConfig.windowSize + oneDay
         };
       })
