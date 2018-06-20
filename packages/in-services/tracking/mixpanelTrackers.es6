@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 import { createDurationTracker, createTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
-import { applicationDashboard, serviceDashboard, endpointDashboard } from 'in-applications/navigation/paths';
+import { applicationDashboard, endpointDashboard, serviceDashboard } from 'in-applications/navigation/paths';
 import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
@@ -9,6 +9,19 @@ import { navigationParameters$ } from 'in-stores/navigation';
 import { analyze } from 'in-analyze/navigation/paths';
 import { urlQueryKeys } from 'in-stores/time/config';
 import { just } from 'reactive-observables';
+
+const dashboardNames = [applicationDashboard, serviceDashboard, endpointDashboard];
+
+const tabNames = [
+  '/summary',
+  '/services',
+  '/performance',
+  '/messages',
+  '/infrastructure',
+  '/configuration',
+  '/flowMap',
+  '/endpoints'
+];
 
 export const v2UsageDurationTracker = createDurationTracker('hybrid.v2');
 
@@ -35,6 +48,7 @@ function initUsageDurationTrackers() {
   trackLiveModeUsageDuration();
   trackWindowSizeUsageDuration();
   trackApplicationUsageDuration();
+  trackServiceAndEndpointDashboardsVsServiceUsageDuration();
   trackDashboardAndTabUsageDuration();
 }
 
@@ -100,12 +114,7 @@ function trackApplicationUsageDuration() {
           location.pathname.indexOf('/service/') === 0 ||
           location.pathname.indexOf('/endpoint/') === 0 ||
           location.pathname.indexOf('/analyze/') === 0);
-      const appId =
-        get(location, ['matrix', applicationDashboard, applicationId]) ||
-        get(location, ['matrix', serviceDashboard, applicationId]) ||
-        get(location, ['matrix', endpointDashboard, applicationId]) ||
-        get(location, ['matrix', analyze, applicationId]) ||
-        null;
+      const appId = getAppIdFromLocation(location);
       return { pathCanHaveApplicationContext, appId };
     })
     .distinct(
@@ -130,18 +139,56 @@ function trackApplicationUsageDuration() {
     });
 }
 
-const dashboardNames = [applicationDashboard, serviceDashboard, endpointDashboard];
-
-const tabNames = [
-  '/summary',
-  '/services',
-  '/performance',
-  '/messages',
-  '/infrastructure',
-  '/configuration',
-  '/flowMap',
-  '/endpoints'
-];
+function trackServiceAndEndpointDashboardsVsServiceUsageDuration() {
+  if (!twoZeroModeEnabled) {
+    return;
+  }
+  let isCurrentlyInApplicationContext = null;
+  let timerIsActive = false;
+  const serviceOrEndpointInContextOfApplicationDurationTracker = createDurationTracker(
+    'application.serviceOrEndpoint.inApplicationContext'
+  );
+  navigationParameters$
+    .map(location => {
+      const isOnServiceOrEndpointDashboard =
+        location.pathname &&
+        (location.pathname.indexOf('/service/') === 0 || location.pathname.indexOf('/endpoint/') === 0);
+      const hasApplicationContext = !!getAppIdFromLocation(location);
+      return { isOnServiceOrEndpointDashboard, hasApplicationContext };
+    })
+    .distinct(
+      (
+        {
+          isOnServiceOrEndpointDashboard: isOnServiceOrEndpointDashboard1,
+          hasApplicationContext: hasApplicationContext1
+        },
+        {
+          isOnServiceOrEndpointDashboard: isOnServiceOrEndpointDashboard2,
+          hasApplicationContext: hasApplicationContext2
+        }
+      ) => {
+        return (
+          isOnServiceOrEndpointDashboard1 !== isOnServiceOrEndpointDashboard2 ||
+          hasApplicationContext1 !== hasApplicationContext2
+        );
+      }
+    )
+    .subscribe(({ isOnServiceOrEndpointDashboard, hasApplicationContext }) => {
+      if (timerIsActive) {
+        // stop the timer when leaving service/endpoint dashboards or when leaving the application context
+        serviceOrEndpointInContextOfApplicationDurationTracker.stop({
+          hasApplicationContext: isCurrentlyInApplicationContext
+        });
+        timerIsActive = false;
+      }
+      if (isOnServiceOrEndpointDashboard) {
+        // only start a new timer when inside a service/endpoint dashboard application
+        isCurrentlyInApplicationContext = hasApplicationContext;
+        timerIsActive = true;
+        serviceOrEndpointInContextOfApplicationDurationTracker.start();
+      }
+    });
+}
 
 function trackDashboardAndTabUsageDuration() {
   if (!twoZeroModeEnabled) {
@@ -183,4 +230,14 @@ function trackDashboardAndTabUsageDuration() {
         dashboardTabUsageDurationTracker.start();
       }
     });
+}
+
+function getAppIdFromLocation(location) {
+  return (
+    get(location, ['matrix', applicationDashboard, applicationId]) ||
+    get(location, ['matrix', serviceDashboard, applicationId]) ||
+    get(location, ['matrix', endpointDashboard, applicationId]) ||
+    get(location, ['matrix', analyze, applicationId]) ||
+    null
+  );
 }
