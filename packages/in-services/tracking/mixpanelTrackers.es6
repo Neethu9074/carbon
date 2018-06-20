@@ -161,7 +161,7 @@ function trackDashboardAndTabUsageDuration() {
     })
     .distinct()
     .subscribe(({ dashboard, tab }) => {
-      if (currentDashboard && currentTab) {
+      if (currentDashboard && currentTab && (dashboard !== currentDashboard || tab !== currentTab)) {
         dashboardTabUsageDurationTracker.stop({ dashboard: currentDashboard, tab: currentTab });
       }
       currentDashboard = dashboard;
