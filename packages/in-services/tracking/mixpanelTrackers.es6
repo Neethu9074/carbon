@@ -35,7 +35,7 @@ function initUsageDurationTrackers() {
   trackLiveModeUsageDuration();
   trackWindowSizeUsageDuration();
   trackApplicationUsageDuration();
-  trackDashboardTabUsageDuration();
+  trackDashboardAndTabUsageDuration();
 }
 
 function trackV2UsageDuration() {
@@ -117,20 +117,24 @@ function trackApplicationUsageDuration() {
     });
 }
 
-function trackDashboardTabUsageDuration() {
+const dashboardNames = [applicationDashboard, serviceDashboard, endpointDashboard];
+
+const tabNames = [
+  '/summary',
+  '/services',
+  '/performance',
+  '/messages',
+  '/infrastructure',
+  '/configuration',
+  '/flowMap',
+  '/endpoints'
+];
+
+function trackDashboardAndTabUsageDuration() {
   if (!twoZeroModeEnabled) {
     return;
   }
-  const tabNames = [
-    '/summary',
-    '/services',
-    '/performance',
-    '/messages',
-    '/infrastructure',
-    '/configuration',
-    '/flowMap',
-    '/endpoints'
-  ];
+  let currentDashboard = null;
   let currentTab = null;
   const dashboardTabUsageDurationTracker = createDurationTracker('dashboard.tab');
   navigationParameters$
@@ -139,19 +143,31 @@ function trackDashboardTabUsageDuration() {
       if (!matrix) {
         return null;
       }
-      for (let i = 0; i < tabNames.length; i++) {
-        if (matrix[tabNames[i]]) {
-          return tabNames[i];
+      let dashboard = null;
+      for (let i = 0; i < dashboardNames.length; i++) {
+        if (matrix[dashboardNames[i]]) {
+          dashboard = dashboardNames[i];
+          break;
         }
       }
-      return null;
+      let tab = null;
+      for (let i = 0; i < tabNames.length; i++) {
+        if (matrix[tabNames[i]]) {
+          tab = tabNames[i];
+          break;
+        }
+      }
+      return { dashboard, tab };
     })
     .distinct()
-    .subscribe(tab => {
-      if (currentTab) {
-        dashboardTabUsageDurationTracker.stop({ tab: currentTab });
+    .subscribe(({ dashboard, tab }) => {
+      if (currentDashboard && currentTab) {
+        dashboardTabUsageDurationTracker.stop({ dashboard: currentDashboard, tab: currentTab });
       }
+      currentDashboard = dashboard;
       currentTab = tab;
-      dashboardTabUsageDurationTracker.start();
+      if (currentDashboard && currentTab) {
+        dashboardTabUsageDurationTracker.start();
+      }
     });
 }
