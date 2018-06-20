@@ -85,10 +85,25 @@ newgrp docker
 
 #### Preferences/Environment Variables
 
-A few environment variables are used to tweak the UI development workflow to your personal preferences:
+A few environment variables are used to tweak the UI development workflow to your personal preferences. These are used for `yarn run dev`:
 
+* `TARGET`:
+    * If this is set to `test` (non case-sensitive) the UI client will connect to the test environment automatically instead of asking you for the target environment.
+    * If this is set to `local` (non case-sensitive) the UI client will connect to the your local back end instead of asking.
+    * Otherwise, `yarn run dev` will ask for the target environment during startup.
+* `BUILD_MODE`:
+    * If this is set to `prod` (non case-sensitive), sources will be compiled in production mode.
+    * If this is set to `ask` (non case-sensitive), you will be asked and can choose between production mode or development mode.
+    * Otherwise, sources will be compiled in development mode.
 * `HOT_RELOAD`: If this is set to a non-empty string and the build is running in development mode, the build will trigger a browser reload automatically when a file is changed and saved and the project has been recompiled. Without this, you'll have to refresh manually.
 * `DONT_OPEN_BROWSER`: If this is set to a non-empty string, the UI build will not open a new browser window when the build is finished.
+
+For maximum convenience, you can create aliases like this for your shell:
+
+```
+alias uit="cd /Users/name/path/to/ui-client && TARGET=test yarn run dev"
+alias uil="cd /Users/name/path/to/ui-client && TARGET=local yarn run dev"
+```
 
 ## Branching Model
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
