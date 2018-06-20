@@ -36,10 +36,15 @@ export function getTimeConfigFromEvent(event) {
       ? event.get('state') === 'closed' ? event.get('end') : null
       : event.state === 'closed' ? event.end : null;
 
+  const focusedMoment =
+    typeof event.get === 'function'
+      ? event.get('triggeringTime', event.get('start'))
+      : event.triggeringTime || event.start;
+
   const toForWs = to || Date.now();
   return {
     to,
-    focusedMoment: to,
+    focusedMoment,
     windowSize: toForWs - from,
     autoRefresh: false
   };
