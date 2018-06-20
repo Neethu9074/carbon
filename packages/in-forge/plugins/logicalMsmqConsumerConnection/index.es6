@@ -6,11 +6,7 @@ import iconSvgPath from 'in-forge/plugins/logicalMsmqPublisherConnection/iconPat
 import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
-<<<<<<< HEAD
   plugin: plugins.logicalMsmqConsumerConnection,
-=======
-  plugin: plugins.logicalRabbitMqConsumerConnection,
->>>>>>> fc10f69... ADd plugins for MSMQ connections to forge
 
   iconSvgPath,
   metricDefinitions,
