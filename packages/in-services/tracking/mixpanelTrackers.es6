@@ -92,20 +92,33 @@ function trackApplicationUsageDuration() {
   let currentApplicationContext = null;
   const applicationUsageDurationTracker = createDurationTracker('application.context');
   navigationParameters$
-    .map(
-      location =>
+    .map(location => {
+      const pathCanHaveApplicationContext =
+        location.pathname &&
+        (location.pathname.indexOf('/services') >= 0 ||
+          location.pathname.indexOf('/application/') === 0 ||
+          location.pathname.indexOf('/service/') === 0 ||
+          location.pathname.indexOf('/endpoint/') === 0 ||
+          location.pathname.indexOf('/analyze/') === 0);
+      const appId =
         get(location, ['matrix', applicationDashboard, applicationId]) ||
         get(location, ['matrix', serviceDashboard, applicationId]) ||
         get(location, ['matrix', endpointDashboard, applicationId]) ||
         get(location, ['matrix', analyze, applicationId]) ||
-        null
+        null;
+      return { pathCanHaveApplicationContext, appId };
+    })
+    .distinct(
+      (
+        { pathCanHaveApplicationContext: pathCanHaveApplicationContext1, appId: appId1 },
+        { pathCanHaveApplicationContext: pathCanHaveApplicationContext2, appId: appId2 }
+      ) => pathCanHaveApplicationContext1 !== pathCanHaveApplicationContext2 || appId1 !== appId2
     )
-    .distinct()
     .flatMap(
-      appId =>
+      ({ pathCanHaveApplicationContext, appId }) =>
         appId
           ? getApplication({ id: appId }).filter(data => data.progress && !data.progress.loading)
-          : just({ data: { label: 'no application context' } })
+          : just({ data: { label: pathCanHaveApplicationContext ? 'no application context' : 'not applicable' } })
     )
     .map(result => result.data.label)
     .subscribe(applicationLabel => {
