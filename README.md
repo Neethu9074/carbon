@@ -23,6 +23,7 @@
   * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
   * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
+- [The Node.js Front End Server](#the-nodejs-front-end-server)
 
 <!-- tocstop -->
 
@@ -224,3 +225,20 @@ yarn run cleanup-flow
 ```
 
 If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
+
+## The Node.js Front End Server
+
+During development you will mostly work with `yarn run dev`, but in production the assets are served by a small Node.js app which you can find in `packages/in-server`. This component also makes a few preliminary requests, for example to `/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these requests will be injected into the Handlebars template for index.html (`packages/in-server/templates/index.hbs`, which is also only used in production while `packages/in-client/index.html` is used during development).
+
+It is rather rare, but if need to start `in-server` locally, here's how:
+
+* `yarn run try-build`
+* `yarn run try-build-without-building` can also be used after the first successful Gulp/Webpack build
+
+If the build fails while trying to start the Proxy (Proxrox) with something like:
+
+```
+error, no objects specified in config file,
+```
+
+this might be due to an incompatibility between Proxrox and MacOS' default openssl executable. Check `openssl version`, if it says something like `LibreSsl 2.xx`, consider doing `brew install openssl`/`brew upgrade openssl` and (important!) adding its path to your shell's init scripts (`export PATH="/usr/local/opt/openssl/bin:$PATH"`). After that, `openssl version` should say something like `OpenSSL 1.0.2o  27 Mar 2018`.
