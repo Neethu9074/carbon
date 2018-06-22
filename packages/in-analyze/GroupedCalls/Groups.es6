@@ -27,9 +27,9 @@ export default function Groups({
         />
       ))}
 
-      <HorizontalIndicatorRow cols={4} progress={progress} />
-      <ErrorRows cols={4} errors={errors} size="compact" />
-      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
+      <HorizontalIndicatorRow cols={5} progress={progress} />
+      <ErrorRows cols={5} errors={errors} size="compact" />
+      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
     </Fragment>
   );
 }
