@@ -89,6 +89,18 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item) {
+      return (
+        <div>
+          Open issues: {item.metrics.openIssues[0][1]} / max severity: {item.metrics.maxSeverity[0][1]}
+        </div>
+      );
+    }
+  },
+  {
     id: 'services',
     label: 'Services',
     defaultOrderDirection: 'DESC',
@@ -203,6 +215,14 @@ export function getApplicationListSubscribeEvent(
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
       }
     },
     filter: {

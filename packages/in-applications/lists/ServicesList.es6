@@ -98,18 +98,67 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
 }
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes, technologies }) {
-  return getServices(
-    getServiceListSubscribeEvent(
-      timeConfig,
+  return getServices({
+    pagination: {
       page,
-      pageSize,
-      orderBy,
-      orderDirection,
-      query,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {
+      applications: {
+        metric: 'applications',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      endpoints: {
+        metric: 'endpoints',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      latencyAgg: {
+        metric: 'latency',
+        aggregation: 'MEAN'
+      },
+      latency: {
+        metric: 'latency',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'MEAN'
+      },
+      errors: {
+        metric: 'errors',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'MAX'
+      }
+    },
+    filter: {
+      label: query,
+      timeConfig,
       endpointTypes,
       technologies
-    )
-  );
+    }
+  });
 }
 
 const columnDefinitions = [
@@ -121,6 +170,18 @@ const columnDefinitions = [
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
           <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
+        </div>
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item) {
+      return (
+        <div>
+          Open issues: {item.metrics.openIssues[0][1]} / max severity: {item.metrics.maxSeverity[0][1]}
         </div>
       );
     }
@@ -230,68 +291,3 @@ const columnDefinitions = [
     }
   }
 ];
-
-export function getServiceListSubscribeEvent(
-  timeConfig,
-  page = 1,
-  pageSize = 20,
-  orderBy = 'callsAgg',
-  orderDirection = 'DESC',
-  query = '',
-  endpointTypes = [],
-  technologies = []
-) {
-  return {
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    },
-    filter: {
-      label: query,
-      timeConfig,
-      endpointTypes,
-      technologies
-    }
-  };
-}
