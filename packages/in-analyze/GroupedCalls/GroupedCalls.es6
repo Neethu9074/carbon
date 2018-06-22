@@ -1,7 +1,6 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallGroupsTable from 'in-analyze/GroupedCalls/CallGroupsTable';
 import CallGroupCharts from 'in-analyze/GroupedCalls/CallGroupCharts';
@@ -34,7 +33,7 @@ export default compose(
   }),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ cursor, filters, orderBy, orderDirection }) => {
+    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection }) => {
       const timeConfig = filters.get('timeConfig');
       const granularity = getChartGranularity(timeConfig);
       return getCallGroups({
@@ -47,10 +46,7 @@ export default compose(
           direction: orderDirection
         },
         filter: {
-          timeConfig,
-          application: filters.getIn(['applicationFilter', APPLICATION.id, 'value']),
-          service: filters.getIn(['applicationFilter', SERVICE.id, 'value']),
-          endpoint: filters.getIn(['applicationFilter', ENDPOINT.id, 'value'])
+          timeConfig
         },
         metrics: {
           calls: {
@@ -81,7 +77,7 @@ export default compose(
             granularity
           }
         },
-        tagFilters: [],
+        tagFilters: tagFiltersForSubscription,
         groupbyTag: filters.getIn(['group', 'technicalName'])
       });
     }
