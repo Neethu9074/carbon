@@ -4,8 +4,8 @@ import {
   endpointId as endpointIdMatrixParameter,
   traceGroupName as traceGroupNameMatrixParameter
 } from 'in-analyze/navigation/matrix';
-import { analyze } from 'in-analyze/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { analyze } from 'in-analyze/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
 
 // builds a filter object for backend data retrieval. Object is

@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+  .filter {
+    border: 1px solid @lib__colors__navy800;
+    background: @lib__colors__navy800;
+    color: #fff;
+
+    cursor: not-allowed;
+
+    &:hover {
+      border: 1px solid @lib__colors__navy800;
+      background: @lib__colors__navy800;
+      color: #fff;
+    }
+  }
+}

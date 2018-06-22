@@ -1,0 +1,6 @@
+{
+  "name": "FilterPreview",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FilterPreview.es6"
+}

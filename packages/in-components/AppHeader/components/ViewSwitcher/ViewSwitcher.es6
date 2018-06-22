@@ -14,12 +14,17 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
-import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import {
+  isQueryBuilderEnabled,
+  cockpitEnabled,
+  previewTwoZeroWithoutHybrid,
+  twoZeroModeEnabled
+} from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
-import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
@@ -74,7 +79,11 @@ export default pure(function ViewSwitcher() {
             <View
               label="application"
               icon="lib_application_invert"
-              isActive$={isView(isApplicationsView, isAnalyzeView)}
+              isActive$={
+                isQueryBuilderEnabled
+                  ? isView(isApplicationsView)
+                  : combine(isView(isApplicationsView), isView(isAnalyzeView))
+              }
               href$={getView(applicationsList)}
             />
           )}
@@ -87,6 +96,16 @@ export default pure(function ViewSwitcher() {
         />
 
         {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
+
+        {twoZeroModeEnabled &&
+          isQueryBuilderEnabled && (
+            <View
+              label="Analyze"
+              icon="lib_application_trace_invert"
+              isActive$={isView(isAnalyzeView)}
+              href$={getLinkToAnalyze()}
+            />
+          )}
       </ul>
     </div>
   );

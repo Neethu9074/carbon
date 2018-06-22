@@ -7,9 +7,9 @@ import { number, percentage } from 'in-services/formatters/number';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import backButtonStore from 'in-analyze/stores/backButtonStore';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 

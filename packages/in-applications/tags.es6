@@ -1,5 +1,8 @@
-import { assign } from 'lodash';
+import { get, assign } from 'lodash';
 import React from 'react';
+
+import { compareIgnoreCase } from 'in-services/util/string';
+import { deepCopy } from 'in-services/util/object';
 
 const tagKeys = [
   'agent.tag',
@@ -126,4 +129,187 @@ export function mapToServerResponse(config) {
     }
   }
   return config;
+}
+
+const tagBlackList = {
+  'application.id': true,
+  'application.name': true,
+  'service.id': true,
+  'service.name': true,
+  'endpoint.id': true,
+  'endpoint.name': true
+};
+function isBlacklisted(serverTag) {
+  if (tagBlackList[serverTag.name]) {
+    return false;
+  }
+  return true;
+}
+
+let tagTree = null;
+export function getTagTree() {
+  if (tagTree == null) {
+    buildTagTree();
+  }
+
+  return tagTree;
+}
+
+export function clearTagTree() {
+  tagTree = null;
+}
+
+function buildTagTree() {
+  const rootNode = createNode('root');
+  tagTree = rootNode;
+
+  let tags = get(window, ['instana', 'tags'], []);
+  if (!(tags instanceof Array)) {
+    tags = [];
+  }
+  tags = deepCopy(tags)
+    .filter(isBlacklisted)
+    .sort((a, b) => compareIgnoreCase(a.name, b.name));
+
+  const tagsAsMap = {};
+  for (let i = 0; i < tags.length; i++) {
+    tagsAsMap[tags[i].name] = tags[i];
+  }
+  buildNodes(rootNode, tags, tagsAsMap);
+}
+
+function buildNodes(parentNode, level, tagsAsMap) {
+  const categories = buildCategories('', level);
+  // mergeCategories(categories, tagsAsMap);
+  markTags('', categories, tagsAsMap);
+  mapCategoriesToNodes(parentNode, categories);
+}
+
+function buildCategories(path, tags) {
+  if (tags.length === 0) {
+    return [];
+  }
+
+  let categories = {};
+
+  for (let i = 0; i < tags.length; i++) {
+    const tag = tags[i];
+    const tagCategory = tag.name.split('.')[0];
+    if (!tagCategory) {
+      continue;
+    }
+
+    if (!categories[tagCategory]) {
+      categories[tagCategory] = {
+        path,
+        prefix: tagCategory,
+        children: []
+      };
+    }
+    tag.name = tag.name.slice(tagCategory.length + 1);
+    if (tag.name.length > 0) {
+      categories[tagCategory].children.push(tag);
+    }
+  }
+
+  categories = Object.keys(categories).map(key => categories[key]);
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    category.children = buildCategories(path + category.prefix + '.', category.children);
+  }
+
+  return categories;
+}
+
+// function mergeCategories(categories, tagsAsMap) {
+//   if (!categories) {
+//     return;
+//   }
+
+//   for (let i = 0; i < categories.length; i++) {
+//     const category = categories[i];
+//     mergeCategories(category.children, tagsAsMap);
+
+//     const fullyQualifiedPath = category.path + category.prefix;
+//     const tagDefinition = tagsAsMap[fullyQualifiedPath];
+//     if (tagDefinition) {
+//       category.type = tagDefinition.type;
+//     } else if (category.children.length === 1) {
+//       // it's not a tag and only has one child? flat/merge
+//       const child = category.children[0];
+//       category.prefix = category.prefix + '.' + child.prefix;
+//       category.type = tagsAsMap[category.prefix] ? tagsAsMap[category.prefix].type : null;
+//       category.children = child.children;
+//     }
+//   }
+// }
+
+function markTags(path, categories, tagsAsMap) {
+  if (!categories) {
+    return;
+  }
+
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    const fullyQualifiedPath = path ? path + '.' + category.prefix : category.prefix;
+    const tagDefinition = tagsAsMap[fullyQualifiedPath];
+    if (tagDefinition) {
+      category.isTag = true;
+      category.type = tagDefinition.type;
+    }
+
+    markTags(fullyQualifiedPath, category.children, tagsAsMap);
+  }
+}
+
+function mapCategoriesToNodes(parentNode, categories) {
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+
+    const node = createNode(category.prefix, {
+      fullyQualifiedName: category.path + category.prefix,
+      parentNode
+    });
+
+    if (category.isTag) {
+      node.isTag = true;
+      node.type = category.type;
+    }
+    parentNode.children.push(node);
+
+    mapCategoriesToNodes(node, category.children);
+  }
+}
+
+function createNode(name, props = {}) {
+  return {
+    name,
+    children: props.children || [],
+    parentNode: props.parentNode,
+    fullyQualifiedName: props.fullyQualifiedName
+  };
+}
+
+export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
+  const tree = getTagTree();
+  return findInNode(tree, fullyQualifiedName);
+}
+
+function findInNode(treeNode, fullyQualifiedName) {
+  if (treeNode.fullyQualifiedName === fullyQualifiedName) {
+    return treeNode;
+  }
+
+  if (!treeNode.children || treeNode.children.length === 0) {
+    return null;
+  }
+
+  for (let i = 0; i < treeNode.children.length; i++) {
+    const match = findInNode(treeNode.children[i], fullyQualifiedName);
+    if (match) {
+      return match;
+    }
+  }
+
+  return null;
 }

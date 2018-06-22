@@ -1,0 +1,108 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .filter {
+    position: relative;
+
+    padding: 0 1rem;
+
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__N400;
+    border-left: 4px solid @lib__colors__N800Dark;
+    border-radius: @lib__shapes__radius_medium;
+    color: @lib__colors__N900Primary;
+
+    font-size: 0.875rem;
+
+    cursor: pointer;
+
+    &:first-child,
+    & + .filter {
+      margin-right: 0.5rem;
+    }
+
+    &:hover {
+      box-shadow: @lib__shadows__subtle;
+
+      .removeButton {
+        display: flex;
+      }
+    }
+  }
+
+  .static {
+    &:hover {
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .deactivated {
+    background: #fff;
+    color: @lib__colors__N500;
+
+    &:hover {
+      background: @lib__colors__N100;
+    }
+
+    .icon {
+      fill: @lib__colors__N400;
+    }
+  }
+
+  .default {
+    height: 3.5rem;
+
+    .withIcon {
+      padding-left: 0;
+    }
+  }
+
+  .compact {
+    height: 2rem;
+    .withIcon {
+      padding-left: 0;
+    }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+
+    height: 100%;
+
+    .ellipsis();
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+    margin-right: 0.5rem;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+  }
+
+  .removeButton {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    height: 1rem;
+    width: 1rem;
+    background: @lib__colors__N600Light;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N700Medium;
+    }
+  }
+
+  .removeIcon {
+    fill: #fff;
+  }
+}

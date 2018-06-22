@@ -2,8 +2,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getMetrics from 'in-subscription/application/getMetrics';
-import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { buildFilter } from 'in-analyze/shared/filterBuilder';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { number } from 'in-services/formatters/number';
 import connect from 'in-hoc/connectTo';
