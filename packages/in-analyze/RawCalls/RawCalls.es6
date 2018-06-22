@@ -14,7 +14,6 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/RawCalls/SortableCallColumn';
@@ -62,10 +61,7 @@ export default compose(
           direction: orderDirection
         },
         filter: {
-          timeConfig: filters.get('timeConfig'),
-          application: filters.getIn(['applicationFilter', APPLICATION.id, 'value']),
-          service: filters.getIn(['applicationFilter', SERVICE.id, 'value']),
-          endpoint: filters.getIn(['applicationFilter', ENDPOINT.id, 'value'])
+          timeConfig: filters.get('timeConfig')
         },
         tagFilters: tagFiltersForSubscription
       })
