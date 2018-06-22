@@ -81,8 +81,8 @@ export default compose(
             granularity
           }
         },
-        groupbyTag: filters.getIn(['group', 'technicalName']),
-        tagFilters: tagFiltersForSubscription
+        tagFilters: tagFiltersForSubscription,
+        groupbyTag: filters.getIn(['group', 'technicalName'])
       });
     }
   })
