@@ -11,7 +11,7 @@ export default function Groups({
   progress,
   orderBy,
   orderDirection,
-  traceGroupColors
+  callGroupColors
 }) {
   return (
     <Fragment>
@@ -23,7 +23,7 @@ export default function Groups({
           item={item}
           filters={filters}
           onChangeFilters={onChangeFilters}
-          dotColor={traceGroupColors[groupIndex]}
+          dotColor={callGroupColors[groupIndex]}
         />
       ))}
 

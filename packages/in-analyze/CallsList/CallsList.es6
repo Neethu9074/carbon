@@ -114,19 +114,19 @@ function getTagFilterList(filters) {
   const tagFilters = filters
     .get('tagFilter')
     .toJS()
-    .map(tag => ({ name: tag.name, value: tag.value }));
+    .map(tag => ({ name: tag.name, stringValue: tag.value }));
 
   const application = filters.getIn(['applicationFilter', applicationIdMatrixParameter]);
   const service = filters.getIn(['applicationFilter', serviceIdMatrixParameter]);
   const endpoint = filters.getIn(['applicationFilter', endpointIdMatrixParameter]);
   if (application) {
-    tagFilters.push({ name: application.get('name'), value: application.get('value') });
+    tagFilters.push({ name: application.get('name'), stringValue: application.get('value') });
   }
   if (service) {
-    tagFilters.push({ name: service.get('name'), value: service.get('value') });
+    tagFilters.push({ name: service.get('name'), stringValue: service.get('value') });
   }
   if (endpoint) {
-    tagFilters.push({ name: endpoint.get('name'), value: endpoint.get('value') });
+    tagFilters.push({ name: endpoint.get('name'), stringValue: endpoint.get('value') });
   }
 
   return tagFilters;
