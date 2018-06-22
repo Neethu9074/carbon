@@ -82,7 +82,7 @@ export default compose(
           }
         },
         tagFilters: [],
-        groupbyTag: filters.getIn(['group', 'label'])
+        groupbyTag: filters.getIn(['group', 'technicalName'])
       });
     }
   })
