@@ -64,7 +64,7 @@ export default withUrlDependingState({
     if (urlReadyTagFilter.length === 0) {
       urlReadyTagFilter = null;
     } else {
-      urlReadyTagFilter = JSON.stringify(urlReadyTagFilter, 0, 2);
+      urlReadyTagFilter = JSON.stringify(urlReadyTagFilter);
     }
 
     const objectToStore = {};
