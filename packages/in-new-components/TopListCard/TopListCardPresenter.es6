@@ -2,8 +2,9 @@ import React from 'react';
 
 import NoContent from 'in-components/Chart/components/NoContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import List from 'in-new-components/TopListCard/List';
 import { createTracker } from 'in-services/tracking/mixpanel';
+import List from 'in-new-components/TopListCard/List';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 
 import locals from './TopListCardPresenter.mless';
@@ -17,11 +18,11 @@ export default function TopListCard(props) {
     <ul className={locals.metrics}>
       {metrics.map((metric, i) => (
         <li key={metric} className={locals.metric}>
-          <a
+          <Button
             className={evaluateClassNames({
-              [locals.metricLink]: true,
               [locals.active]: selectedMetric === metric
             })}
+            kind="secondary"
             href="#"
             onClick={e => {
               e.preventDefault();
@@ -31,7 +32,7 @@ export default function TopListCard(props) {
             }}
           >
             {labels[i]}
-          </a>
+          </Button>
         </li>
       ))}
     </ul>

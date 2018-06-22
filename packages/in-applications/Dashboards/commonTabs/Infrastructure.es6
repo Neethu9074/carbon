@@ -12,6 +12,7 @@ import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
 import PluginIcon from 'in-components/PluginIcon';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
@@ -21,21 +22,27 @@ export default withState('selectedType', 'setType', 'PROCESS')(Infrastructure);
 function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   return (
     <MaxWidthFullscreenContainer>
-      <ServerTable
-        get={getTableData}
-        type={selectedType}
-        pageSize={25}
-        columnDefinitions={getColumnDefinitions(selectedType)}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        timeConfig={timeConfig}
-        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-        defaultOrderBy="callsAgg"
-        defaultOrderDirection="DESC"
-        size="compact"
-        rightHeader={<InfraTypeSelectButtonGroup selectedType={selectedType} setType={setType} />}
-      />
+      <Card
+        title="Infrastructure"
+        header={<InfraTypeSelectButtonGroup selectedType={selectedType} setType={setType} />}
+        withoutPadding
+      >
+        <ServerTable
+          get={getTableData}
+          type={selectedType}
+          pageSize={25}
+          columnDefinitions={getColumnDefinitions(selectedType)}
+          applicationId={applicationId}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          timeConfig={timeConfig}
+          paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
+          defaultOrderBy="callsAgg"
+          defaultOrderDirection="DESC"
+          size="compact"
+          isSearchable={false}
+        />
+      </Card>
     </MaxWidthFullscreenContainer>
   );
 }

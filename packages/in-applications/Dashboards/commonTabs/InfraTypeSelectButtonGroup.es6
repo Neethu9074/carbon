@@ -19,9 +19,7 @@ function InfraTypeSelectButton({ type, label, selectedType, setType }) {
   return (
     <Button
       kind="secondary"
-      size="normal"
       className={evaluateClassNames({
-        [locals.infraTypeSelectButton]: true,
         [locals.selected]: type === selectedType
       })}
       onClick={() => setType(type)}
