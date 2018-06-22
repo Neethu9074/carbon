@@ -85,15 +85,15 @@ describe('in-applications/tags', () => {
           label: 'foobar',
           matchSpecification: [
             {
-              key: 'host.tag.foo',
+              key: 'agent.tag.foo',
               value: 'bar'
             },
             {
-              key: 'host.tag',
+              key: 'agent.tag',
               value: 'a=b'
             },
             {
-              key: 'host.tag',
+              key: 'agent.tag',
               value: 'c'
             }
           ]
@@ -104,15 +104,15 @@ describe('in-applications/tags', () => {
       expect(mappedResult.data.label).to.equal('foobar');
       expect(mappedResult.data.matchSpecification).to.deep.equal([
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'foo=bar'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'a=b'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'c'
         }
       ]);
@@ -221,21 +221,21 @@ describe('in-applications/tags', () => {
       ]);
     });
 
-    it('should map specific host.tag to specific host tags', () => {
+    it('should map specific agent.tag to specific agent tags', () => {
       const config = {
         id: 1,
         label: 'foobar',
         matchSpecification: [
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: 'env=nginx'
           },
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: '=d'
           },
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: 'foobar'
           }
         ]
@@ -245,15 +245,15 @@ describe('in-applications/tags', () => {
       expect(mappedResult.label).to.equal('foobar');
       expect(mappedResult.matchSpecification).to.deep.equal([
         {
-          key: 'host.tag.env',
+          key: 'agent.tag.env',
           value: 'nginx'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'd'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'foobar'
         }
       ]);

@@ -2,6 +2,7 @@ import { assign } from 'lodash';
 import React from 'react';
 
 const tagKeys = [
+  'agent.tag',
   'cassandra.cluster.name',
   'docker.container.name',
   'docker.image.name',
@@ -11,7 +12,6 @@ const tagKeys = [
   'host.fqdn',
   'host.name',
   'host.os.name',
-  'host.tag',
   'host.zone',
   'agent.zone',
   'aws.ec2.zone',
@@ -75,9 +75,9 @@ function mapConfig(config) {
         matchSpecification.value
       }`;
       matchSpecification.key = 'kubernetes.pod.label';
-    } else if (matchSpecification.key.indexOf('host.tag.') === 0) {
-      matchSpecification.value = `${matchSpecification.key.slice('host.tag.'.length)}=${matchSpecification.value}`;
-      matchSpecification.key = 'host.tag';
+    } else if (matchSpecification.key.indexOf('agent.tag.') === 0) {
+      matchSpecification.value = `${matchSpecification.key.slice('agent.tag.'.length)}=${matchSpecification.value}`;
+      matchSpecification.key = 'agent.tag';
     }
   }
 
@@ -99,7 +99,7 @@ export function mapToServerResponse(config) {
     if (
       matchSpecification.key === 'docker.label' ||
       matchSpecification.key === 'kubernetes.pod.label' ||
-      matchSpecification.key === 'host.tag'
+      matchSpecification.key === 'agent.tag'
     ) {
       const indexOfFirstEqual = matchSpecification.value.indexOf('=');
       const stringBeforeEqual = matchSpecification.value.slice(0, Math.max(0, indexOfFirstEqual));
@@ -111,15 +111,15 @@ export function mapToServerResponse(config) {
       } else if (matchSpecification.key === 'kubernetes.pod.label') {
         matchSpecification.key = `kubernetes.pod.label.${stringBeforeEqual}`;
         matchSpecification.value = stringAfterEqual;
-      } else if (matchSpecification.key === 'host.tag') {
+      } else if (matchSpecification.key === 'agent.tag') {
         if (indexOfFirstEqual === -1) {
-          matchSpecification.key = `host.tag`;
+          matchSpecification.key = `agent.tag`;
           matchSpecification.value = matchSpecification.value;
         } else if (indexOfFirstEqual === 0) {
-          matchSpecification.key = `host.tag`;
+          matchSpecification.key = `agent.tag`;
           matchSpecification.value = matchSpecification.value.slice(1);
         } else {
-          matchSpecification.key = `host.tag.${stringBeforeEqual}`;
+          matchSpecification.key = `agent.tag.${stringBeforeEqual}`;
           matchSpecification.value = stringAfterEqual;
         }
       }
