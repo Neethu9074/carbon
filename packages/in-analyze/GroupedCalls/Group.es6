@@ -3,13 +3,11 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
 import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { isQueryBuilderEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Group.mless';
 
@@ -55,15 +53,6 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
         </Td>
 
         <Td>{formatDateTime(item.timestamp)}</Td>
-
-        <Td>
-          <div className={locals.cell}>
-            <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
-            <Link className={locals.serviceLink} href$={getServiceDashboard(item.service.id)}>
-              {item.service.label}
-            </Link>
-          </div>
-        </Td>
 
         <Td>
           <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</span>
