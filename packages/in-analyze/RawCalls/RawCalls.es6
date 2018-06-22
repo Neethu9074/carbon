@@ -51,7 +51,7 @@ export default compose(
   }),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ cursor, filters, orderBy, orderDirection }) =>
+    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection }) =>
       getCalls({
         pagination: {
           cursor,
@@ -67,7 +67,7 @@ export default compose(
           service: filters.getIn(['applicationFilter', SERVICE.id, 'value']),
           endpoint: filters.getIn(['applicationFilter', ENDPOINT.id, 'value'])
         },
-        tagFilters: []
+        tagFilters: tagFiltersForSubscription
       })
   })
 )(RawCalls);

@@ -91,15 +91,43 @@ function CallList(props) {
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
+  const tagFiltersForSubscription = getTagFilterList(filters);
+
   return (
     <Fragment>
       <Title title="Calls" />
       <Sticky header={<AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} />}>
         <MaxWidthFullscreenContainer className={locals.callsList}>
-          {filters.get('group') && <GroupedCalls {...props} filters={filters} />}
-          {!filters.get('group') && <RawCalls {...props} filters={filters} />}
+          {filters.get('group') && (
+            <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          )}
+          {!filters.get('group') && (
+            <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          )}
         </MaxWidthFullscreenContainer>
       </Sticky>
     </Fragment>
   );
+}
+
+function getTagFilterList(filters) {
+  const tagFilters = filters
+    .get('tagFilter')
+    .toJS()
+    .map(tag => ({ name: tag.name, value: tag.value }));
+
+  const application = filters.getIn(['applicationFilter', applicationIdMatrixParameter]);
+  const service = filters.getIn(['applicationFilter', serviceIdMatrixParameter]);
+  const endpoint = filters.getIn(['applicationFilter', endpointIdMatrixParameter]);
+  if (application) {
+    tagFilters.push({ name: application.get('name'), value: application.get('value') });
+  }
+  if (service) {
+    tagFilters.push({ name: service.get('name'), value: service.get('value') });
+  }
+  if (endpoint) {
+    tagFilters.push({ name: endpoint.get('name'), value: endpoint.get('value') });
+  }
+
+  return tagFilters;
 }

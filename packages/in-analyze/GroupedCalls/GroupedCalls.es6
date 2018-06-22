@@ -34,7 +34,7 @@ export default compose(
   }),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ cursor, filters, orderBy, orderDirection }) => {
+    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection }) => {
       const timeConfig = filters.get('timeConfig');
       const granularity = getChartGranularity(timeConfig);
       return getCallGroups({
@@ -81,8 +81,8 @@ export default compose(
             granularity
           }
         },
-        tagFilters: [],
-        groupbyTag: filters.getIn(['group', 'technicalName'])
+        groupbyTag: filters.getIn(['group', 'technicalName']),
+        tagFilters: tagFiltersForSubscription
       });
     }
   })
