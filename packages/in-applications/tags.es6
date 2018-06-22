@@ -131,6 +131,21 @@ export function mapToServerResponse(config) {
   return config;
 }
 
+const tagBlackList = {
+  'application.id': true,
+  'application.name': true,
+  'service.id': true,
+  'service.name': true,
+  'endpoint.id': true,
+  'endpoint.name': true
+};
+function isBlacklisted(serverTag) {
+  if (tagBlackList[serverTag.name]) {
+    return false;
+  }
+  return true;
+}
+
 let tagTree = null;
 export function getTagTree() {
   if (tagTree == null) {
@@ -152,7 +167,9 @@ function buildTagTree() {
   if (!(tags instanceof Array)) {
     tags = [];
   }
-  tags = deepCopy(tags).sort((a, b) => compareIgnoreCase(a.name, b.name));
+  tags = deepCopy(tags)
+    .filter(isBlacklisted)
+    .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
   const tagsAsMap = {};
   for (let i = 0; i < tags.length; i++) {
