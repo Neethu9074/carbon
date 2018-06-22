@@ -96,15 +96,15 @@ function GroupedCalls(props) {
     label += ` (${items.length})`;
   }
 
-  const traceGroupColors = items.map(
+  const callGroupColors = items.map(
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
 
   return (
     <Card title={label} withoutPadding>
-      <CallGroupCharts {...props} traceGroupColors={traceGroupColors} />
-      <CallGroupsTable {...props} traceGroupColors={traceGroupColors} />
+      <CallGroupCharts {...props} callGroupColors={callGroupColors} />
+      <CallGroupsTable {...props} callGroupColors={callGroupColors} />
     </Card>
   );
 }

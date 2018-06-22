@@ -12,18 +12,9 @@ import locals from './CallGroupCharts.mless';
 
 export default withState('selectedChart', 'setSelectedChart', 'latencyChartData')(CallGroupCharts);
 
-function CallGroupCharts({
-  items,
-  errors,
-  progress,
-  time,
-  filters,
-  traceGroupColors,
-  selectedChart,
-  setSelectedChart
-}) {
+function CallGroupCharts({ items, errors, progress, time, filters, callGroupColors, selectedChart, setSelectedChart }) {
   if (errors.length > 0) {
-    // the errors of this loading stage will be rendered by the trace group table, no need to render them twice.
+    // the errors of this loading stage will be rendered by the call group table, no need to render them twice.
     return null;
   } else if (progress.loading) {
     return (
@@ -62,8 +53,8 @@ function CallGroupCharts({
       </div>
 
       <CallGroupChartElement
-        traceGroups={items}
-        traceGroupColors={traceGroupColors}
+        callGroups={items}
+        callGroupColors={callGroupColors}
         timeConfig={filters.get('timeConfig')}
         time={time}
         selectedChart={selectedChart}
@@ -104,19 +95,19 @@ const chartDefinitions = {
   }
 };
 
-function CallGroupChartElement({ traceGroups, traceGroupColors, timeConfig, time, selectedChart }) {
+function CallGroupChartElement({ callGroups, callGroupColors, timeConfig, time, selectedChart }) {
   const chartDefinition = chartDefinitions[selectedChart];
 
   const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
   const granularity = getChartGranularity(timeConfig);
-  const groupNames = traceGroups.map(group => group.name);
+  const groupNames = callGroups.map(group => group.name);
   const y1 = {
     labels: groupNames,
     renderer: chartDefinition.renderer,
     formatter: chartDefinition.formatter,
-    colors: traceGroupColors,
-    metrics: traceGroups.map(group => group.metrics[selectedChart]),
-    aggregations: Array(traceGroups.length).fill(chartDefinition.aggregation),
+    colors: callGroupColors,
+    metrics: callGroups.map(group => group.metrics[selectedChart]),
+    aggregations: Array(callGroups.length).fill(chartDefinition.aggregation),
     min: chartDefinition.min
   };
 

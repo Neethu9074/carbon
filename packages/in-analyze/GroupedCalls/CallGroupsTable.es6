@@ -36,14 +36,6 @@ export default function CallGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="call"
-              label="Call"
-            />
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
               technicalName="duration"
               label="Avg. Duration"
             />
