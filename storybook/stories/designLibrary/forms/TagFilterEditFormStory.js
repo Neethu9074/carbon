@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import EditForm, { getTagEditForm } from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditForm';
+import EditForm, { getTagEditForm } from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditFilterForm';
 
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
