@@ -1,7 +1,8 @@
 import React from 'react';
 
-import EditDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditDialog';
+import EditApplicationFilterDialog from 'in-analyze/Filter/Dialogs/EditApplicationFilterDialog';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import EditFilterDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import StaticFilter from 'in-analyze/Filter/StaticFilter';
@@ -64,7 +65,9 @@ export default function ExpandedContent({
               icon={tag.get('icon')}
               onRemove={() => onRemoveTagFilter(tag.get('id'))}
               onClick={() =>
-                setActiveDialog(<EditDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />)
+                setActiveDialog(
+                  <EditFilterDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />
+                )
               }
             >
               {tag.get('value')}
@@ -100,10 +103,9 @@ function ApplicationFilterOrPlaceholder({
   }
   function onClicked() {
     setActiveDialog(
-      <EditDialog
+      <EditApplicationFilterDialog
         tag={{ name: filterPreset.name, value: filter ? filter.get('value', '') : '' }}
         onSave={_tag => onUpdateApplicationTag(filterPreset.id, _tag, filterPreset.icon)}
-        restrictKeys
       />
     );
   }

@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .editView {
+  .editForm {
     display: flex;
     align-items: flex-start;
   }

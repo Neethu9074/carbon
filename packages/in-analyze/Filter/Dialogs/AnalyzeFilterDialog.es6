@@ -1,15 +1,13 @@
 import React from 'react';
 
-import EditForm, { getTagEditForm } from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditForm';
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Dialog from 'in-components/Dialog';
 
-import locals from './EditDialog.mless';
+import locals from './AnalyzeFilterDialog.mless';
 
-export default function EditDialog(props) {
+export default function AnalyzeFilterDialog(props) {
   return (
     <Dialog
       onClose={() => {
@@ -19,24 +17,24 @@ export default function EditDialog(props) {
         }
       }}
     >
-      <EditViewForm {...props} />
+      <AnalyzeFilterBasicDialog {...props} />
     </Dialog>
   );
 }
 
-class EditViewForm extends React.Component {
-  static displayName = 'EditViewForm';
+class AnalyzeFilterBasicDialog extends React.Component {
+  static displayName = 'AnalyzeFilterBasicDialog';
 
   constructor(props) {
     super(props);
     this.state = {
-      form: getTagEditForm(props.tag.name, props.tag.value, props.restrictKeys)
+      form: props.getInitialForm()
     };
   }
 
   render() {
+    const { onCancel, renderForm } = this.props;
     const { form } = this.state;
-    const { onCancel, restrictKeys } = this.props;
 
     return (
       <form onSubmit={e => this.onSubmit(e, form)} className={locals.form}>
@@ -57,12 +55,11 @@ class EditViewForm extends React.Component {
             />
           </div>
 
-          <EditForm
-            form={form}
-            onNameChanged={name => this.onChange('name', name)}
-            onValueChanged={value => this.onChange('value', value)}
-            restrictKeys={restrictKeys}
-          />
+          {renderForm({
+            form,
+            onValueChanged: value => this.onChange('value', value),
+            onNameChanged: name => this.onChange('name', name)
+          })}
 
           <div className={locals.footer}>
             <Button kind="create" type="submit" disabled={!form.hierarchyValid && form.touched}>
@@ -75,16 +72,13 @@ class EditViewForm extends React.Component {
   }
 
   onChange = (fieldName, value) => {
-    let form = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-    if (fieldName === 'name') {
-      const node = findSubTreeByFullyQualifiedName(value);
-      if (node && node.type) {
-        form = form.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
-      }
+    let form = this.state.form;
+    if (this.props.onChange) {
+      form = this.props.onChange(form, fieldName, value);
     }
 
     this.setState({
-      form
+      form: form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
     });
   };
 

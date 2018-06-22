@@ -8,10 +8,10 @@ import { isBlank } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 
-import locals from './EditForm.mless';
+import locals from './EditFilterForm.mless';
 
 export default class extends React.Component {
-  static displayName = 'EditForm';
+  static displayName = 'EditFilterForm';
 
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ export default class extends React.Component {
     const { form, onValueChanged } = this.props;
 
     return (
-      <div className={locals.editView}>
+      <div className={locals.editForm}>
         {form.get('name').map(field => (
           <FormGroup>
             <ol className={locals.keyList}>
@@ -104,11 +104,7 @@ function getDeepestPossibleNodePath(name) {
 }
 
 function KeySelection(props) {
-  const { restrictKeys, treeNodesTillName, field, onNameChanged } = props;
-
-  if (restrictKeys) {
-    return <RestrictedKeySelection {...props} name={field.value} />;
-  }
+  const { treeNodesTillName, field, onNameChanged } = props;
   if (treeNodesTillName) {
     return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
   }
@@ -194,19 +190,6 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
   );
 }
 
-function RestrictedKeySelection({ name }) {
-  const parts = name.split('.');
-  return parts.map(part => (
-    <li key={part} className={locals.key}>
-      <Select className={locals.selectBox} id={part} value={part} onChange={() => {}} autoComplete="off">
-        <option key={part} value={part}>
-          {part}
-        </option>
-      </Select>
-    </li>
-  ));
-}
-
 function findChildByName(children, childName) {
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
@@ -233,7 +216,7 @@ function getTreeNodesTillName(name) {
   return nodesTillRoot.reverse();
 }
 
-export function getTagEditForm(name, value, restrictKeys) {
+export function getTagEditForm(name, value) {
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : 'STRING';
   return createMapForm()
@@ -241,7 +224,7 @@ export function getTagEditForm(name, value, restrictKeys) {
       'name',
       createField({
         value: name,
-        validator: restrictKeys ? null : nameValidator
+        validator: nameValidator
       })
     )
     .put(

@@ -11,8 +11,8 @@ import {
 } from 'in-analyze/navigation/matrix';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import CollapsedContent from 'in-analyze/CallsList/components/CollapsedContent';
-import EditDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditDialog';
 import ExpandedContent from 'in-analyze/CallsList/components/ExpandedContent';
+import EditFilterDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -65,7 +65,7 @@ function onAddFilter(filters, onChangeFilters) {
   const tag = createFilter({});
 
   setActiveDialog(
-    <EditDialog
+    <EditFilterDialog
       tag={tag}
       onSave={_tag => {
         tag.name = _tag.name;
