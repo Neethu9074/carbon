@@ -58,7 +58,7 @@ function createObservable<PARAM, RESULT>(
     payload: getData(subscriptionId, opts),
     disposeSubscriptionOnDocumentHidden,
     listener: onData,
-    initializationCallStack: new Error('Error to log the subscription initialization path')
+    initializationCallStack: new Error('Subscription failed')
   };
 
   const observable = create({
