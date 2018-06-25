@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -94,9 +95,10 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       return (
-        <div>
-          Open issues: {item.metrics.openIssues[0][1]} / max severity: {item.metrics.maxSeverity[0][1]}
-        </div>
+        <ApplicationEntityHealthBadge
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+        />
       );
     }
   },

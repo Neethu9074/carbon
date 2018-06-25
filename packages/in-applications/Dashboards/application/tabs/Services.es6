@@ -4,6 +4,7 @@ import { get } from 'lodash';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
@@ -121,6 +122,14 @@ function getTableData({
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
       }
     },
     filter: {
@@ -152,6 +161,19 @@ const columnDefinitions = [
             {item.service.label}
           </Link>
         </div>
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item) {
+      return (
+        <ApplicationEntityHealthBadge
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+        />
       );
     }
   },

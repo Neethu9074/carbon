@@ -9,7 +9,7 @@ import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import locals from './ApplicationEntityHealthBadge.less';
+import locals from './ApplicationEntityHealthBadge.mless';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, openIssues, maxSeverity }) => {
