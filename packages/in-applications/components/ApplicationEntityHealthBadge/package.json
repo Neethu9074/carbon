@@ -1,0 +1,6 @@
+{
+  "name": "ApplicationEntityHealthBadge",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ApplicationEntityHealthBadge.es6"
+}
