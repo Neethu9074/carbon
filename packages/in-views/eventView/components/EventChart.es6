@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getChartTimeframeByEvent, getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
+import { getChartTimeframeByEvent, getTimeConfigFromEventForCharts } from 'in-views/eventView/services/timeframe';
 import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -54,7 +54,7 @@ export default addSection(
                 metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeConfig$={always(timeConfig)}
-                timeConfig={getTimeConfigFromEvent(event)}
+                timeConfig={getTimeConfigFromEventForCharts(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
