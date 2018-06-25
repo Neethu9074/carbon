@@ -182,6 +182,7 @@ const columnDefinitions = [
     getContent(item) {
       return (
         <ApplicationEntityHealthBadge
+          serviceId={item.service.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
         />

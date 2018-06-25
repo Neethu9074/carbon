@@ -18,6 +18,7 @@ export default connectTo(
         })
       )
       .filter(healthInfo => healthInfo.data != null)
+      .map(healthInfo => healthInfo.data)
   }),
   function ApplicationEntityOpenIssuesList({ healthInfo }) {
     if (!healthInfo) {
