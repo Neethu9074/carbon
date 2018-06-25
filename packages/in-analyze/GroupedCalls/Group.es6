@@ -24,31 +24,36 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                 <span className={locals.rectPlaceHolder} />
               )}
             </span>
-            <Link
-              href$={!isQueryBuilderEnabled ? getLinkToAnalyze({ traceGroupName: item.name, raw: true }) : null}
-              onClick={() => {
-                if (!isQueryBuilderEnabled) {
-                  return;
-                }
-
-                const currentGroupName = filters.getIn(['group', 'technicalName']);
-                const tagFilter = filters.get('tagFilter');
-
-                for (let i = 0; i < tagFilter.size; i++) {
-                  const filter = tagFilter.get(i);
-                  if (filter.get('name') === currentGroupName && filter.get('value') === item.name) {
-                    // dont add filter twice
+            {isQueryBuilderEnabled && (
+              <span
+                className={locals.groupLabel}
+                onClick={() => {
+                  if (!isQueryBuilderEnabled) {
                     return;
                   }
-                }
 
-                onChangeFilters({
-                  tagFilter: tagFilter.push(fromJS(createFilter({ name: currentGroupName, value: item.name }))).toJS()
-                });
-              }}
-            >
-              {item.name}
-            </Link>
+                  const currentGroupName = filters.getIn(['group', 'technicalName']);
+                  const tagFilter = filters.get('tagFilter');
+
+                  for (let i = 0; i < tagFilter.size; i++) {
+                    const filter = tagFilter.get(i);
+                    if (filter.get('name') === currentGroupName && filter.get('value') === item.name) {
+                      // dont add filter twice
+                      return;
+                    }
+                  }
+
+                  onChangeFilters({
+                    tagFilter: tagFilter.push(fromJS(createFilter({ name: currentGroupName, value: item.name }))).toJS()
+                  });
+                }}
+              >
+                {item.name}
+              </span>
+            )}
+            {!isQueryBuilderEnabled && (
+              <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
+            )}
           </div>
         </Td>
 

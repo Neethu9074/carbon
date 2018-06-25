@@ -3,9 +3,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import {
-  applicationId as applicationIdMatrixParameter,
-  serviceId as serviceIdMatrixParameter,
-  endpointId as endpointIdMatrixParameter,
+  applicationFilter as applicationFilterMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
@@ -100,28 +98,28 @@ function onRemoveTagFilter(id, filters, onChangeFilters) {
 }
 
 function onUpdateApplicationTag(id, tag, filters, onChangeFilters) {
-  const newState = {};
-  newState[id] = tag.value;
+  const applicationFilter = filters.get('applicationFilter').toJS();
+  applicationFilter[id] = { name: tag.name, value: tag.value };
 
   if (id === SERVICE.id) {
     const hasValueChanged = filters.getIn(['applicationFilter', SERVICE.id, 'value']) !== tag.value;
     if (hasValueChanged) {
-      newState[ENDPOINT.id] = null;
+      applicationFilter[ENDPOINT.id] = null;
     }
   }
 
-  onChangeFilters(newState);
+  onChangeFilters({ applicationFilter });
 }
 
 function onResetApplicationFilter(id, filters, onChangeFilters) {
-  const newState = {};
-  newState[id] = null;
+  const applicationFilter = filters.get('applicationFilter').toJS();
+  applicationFilter[id] = null;
 
   if (id === SERVICE.id) {
-    newState[ENDPOINT.id] = null;
+    applicationFilter[ENDPOINT.id] = null;
   }
 
-  onChangeFilters(newState);
+  onChangeFilters({ applicationFilter });
 }
 
 function onGroupToggled(isEnabled, onChangeFilters) {
@@ -134,9 +132,7 @@ function clearFilters(onChangeFilters) {
   const newState = {};
   newState[groupByMatrixParameter] = null;
   newState[tagFilterMatrixParameter] = [];
-  newState[applicationIdMatrixParameter] = null;
-  newState[serviceIdMatrixParameter] = null;
-  newState[endpointIdMatrixParameter] = null;
+  newState[applicationFilterMatrixParameter] = {};
   onChangeFilters(newState);
 }
 

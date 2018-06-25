@@ -147,6 +147,7 @@ function isBlacklisted(serverTag) {
 }
 
 let tagTree = null;
+let tagMap = null;
 export function getTagTree() {
   if (tagTree == null) {
     buildTagTree();
@@ -162,6 +163,7 @@ export function clearTagTree() {
 function buildTagTree() {
   const rootNode = createNode('root');
   tagTree = rootNode;
+  tagMap = {};
 
   let tags = get(window, ['instana', 'tags'], []);
   if (!(tags instanceof Array)) {
@@ -271,6 +273,7 @@ function mapCategoriesToNodes(parentNode, categories) {
       parentNode
     });
 
+    tagMap[node.fullyQualifiedName] = node;
     if (category.isTag) {
       node.isTag = true;
       node.type = category.type;
@@ -291,25 +294,6 @@ function createNode(name, props = {}) {
 }
 
 export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
-  const tree = getTagTree();
-  return findInNode(tree, fullyQualifiedName);
-}
-
-function findInNode(treeNode, fullyQualifiedName) {
-  if (treeNode.fullyQualifiedName === fullyQualifiedName) {
-    return treeNode;
-  }
-
-  if (!treeNode.children || treeNode.children.length === 0) {
-    return null;
-  }
-
-  for (let i = 0; i < treeNode.children.length; i++) {
-    const match = findInNode(treeNode.children[i], fullyQualifiedName);
-    if (match) {
-      return match;
-    }
-  }
-
-  return null;
+  getTagTree();
+  return tagMap[fullyQualifiedName];
 }

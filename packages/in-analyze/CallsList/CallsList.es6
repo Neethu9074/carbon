@@ -2,14 +2,19 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import {
-  applicationId as applicationIdMatrixParameter,
-  serviceId as serviceIdMatrixParameter,
-  endpointId as endpointIdMatrixParameter,
+  applicationFilter as applicationFilterMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
+import {
+  getApplicationFilterToURLString,
+  getTagFilterToURLString,
+  getApplicationFilter,
+  getTagFilter
+} from 'in-analyze/CallsList/filterBuilder';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getApplicationFilter, getTagFilter } from 'in-analyze/CallsList/filterBuilder';
+import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getGroupByTechnicalName } from 'in-analyze/CallsList/groups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/CallsList/AnalyzeHeader';
@@ -25,17 +30,12 @@ import locals from './CallsList.mless';
 export default withUrlDependingState({
   getPathSegment: () => analyze,
   getMatrixPrefix: () => '',
-  boundKeys: [
-    applicationIdMatrixParameter,
-    serviceIdMatrixParameter,
-    endpointIdMatrixParameter,
-    tagFilterMatrixParameter,
-    groupByMatrixParameter
-  ],
+  boundKeys: [applicationFilterMatrixParameter, tagFilterMatrixParameter, groupByMatrixParameter],
   getResettingProps: () => [],
   getInitialState: () => {
     const initialState = {};
     initialState[tagFilterMatrixParameter] = [];
+    initialState[applicationFilterMatrixParameter] = {};
     return initialState;
   },
   reducerName: 'onChangeFilters',
@@ -46,7 +46,11 @@ export default withUrlDependingState({
     const urlGroup = values[groupByMatrixParameter];
     const group = getGroupByTechnicalName(urlGroup);
 
+    const urlApplicationFilters = values[applicationFilterMatrixParameter];
+    const applicationFilter = getApplicationFilter(urlApplicationFilters);
+
     const objectToReturn = {};
+    objectToReturn[applicationFilterMatrixParameter] = applicationFilter;
     objectToReturn[tagFilterMatrixParameter] = tagFilter;
     objectToReturn[groupByMatrixParameter] = group;
     return objectToReturn;
@@ -56,23 +60,15 @@ export default withUrlDependingState({
     group = group ? group.technicalName : null;
 
     const tagFilter = props[tagFilterMatrixParameter];
-    const application = props[applicationIdMatrixParameter];
-    const service = props[serviceIdMatrixParameter];
-    const endpoint = props[endpointIdMatrixParameter];
+    const urlReadyTagFilter = getTagFilterToURLString(tagFilter);
 
-    let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value }));
-    if (urlReadyTagFilter.length === 0) {
-      urlReadyTagFilter = null;
-    } else {
-      urlReadyTagFilter = JSON.stringify(urlReadyTagFilter);
-    }
+    const applicationFilter = props[applicationFilterMatrixParameter];
+    const urlReadyApplicationFilter = getApplicationFilterToURLString(applicationFilter);
 
     const objectToStore = {};
     objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
+    objectToStore[applicationFilterMatrixParameter] = urlReadyApplicationFilter;
     objectToStore[groupByMatrixParameter] = group;
-    objectToStore[applicationIdMatrixParameter] = application;
-    objectToStore[serviceIdMatrixParameter] = service;
-    objectToStore[endpointIdMatrixParameter] = endpoint;
     return objectToStore;
   }
 })(CallList);
@@ -80,13 +76,12 @@ export default withUrlDependingState({
 function CallList(props) {
   const { onChangeFilters, location } = props;
 
+  const tagFilter = props[tagFilterMatrixParameter];
+  const applicationFilter = props[applicationFilterMatrixParameter];
+
   let filters = fromJS({
-    tagFilter: props[tagFilterMatrixParameter],
-    applicationFilter: getApplicationFilter(
-      props[applicationIdMatrixParameter],
-      props[serviceIdMatrixParameter],
-      props[endpointIdMatrixParameter]
-    ),
+    tagFilter,
+    applicationFilter,
     group: props[groupByMatrixParameter]
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
@@ -114,20 +109,36 @@ function getTagFilterList(filters) {
   const tagFilters = filters
     .get('tagFilter')
     .toJS()
-    .map(tag => ({ name: tag.name, stringValue: tag.value }));
+    .map(tag => {
+      const backendTagFilter = { name: tag.name };
+      getValueByTag(backendTagFilter, tag);
+      return backendTagFilter;
+    });
 
-  const application = filters.getIn(['applicationFilter', applicationIdMatrixParameter]);
-  const service = filters.getIn(['applicationFilter', serviceIdMatrixParameter]);
-  const endpoint = filters.getIn(['applicationFilter', endpointIdMatrixParameter]);
+  const application = filters.getIn(['applicationFilter', APPLICATION.id]);
+  const service = filters.getIn(['applicationFilter', SERVICE.id]);
+  const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
   if (application) {
-    tagFilters.push({ name: application.get('name'), stringValue: application.get('value') });
+    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
   }
   if (service) {
-    tagFilters.push({ name: service.get('name'), stringValue: service.get('value') });
+    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
   }
   if (endpoint) {
-    tagFilters.push({ name: endpoint.get('name'), stringValue: endpoint.get('value') });
+    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
   }
 
   return tagFilters;
+}
+
+function getValueByTag(backendTagFilter, tag) {
+  const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
+  const type = node ? node.type : 'STRING';
+  if (type === 'NUMBER') {
+    backendTagFilter.numberValue = tag.value;
+  } else if (type === 'BOOLEAN') {
+    backendTagFilter.booleanValue = tag.value;
+  } else {
+    backendTagFilter.stringValue = tag.value;
+  }
 }

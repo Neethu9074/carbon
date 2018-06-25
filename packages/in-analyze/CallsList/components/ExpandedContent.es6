@@ -113,7 +113,7 @@ function ApplicationFilterOrPlaceholder({
     return (
       <Filter
         className={locals.filter}
-        title={filter.get('name')}
+        title={filterPreset.label}
         icon={filterPreset.icon}
         removeIcon="lib_actions_revert"
         onRemove={() => onResetApplicationFilter(filter.get('id'))}

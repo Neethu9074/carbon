@@ -2,7 +2,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getTracesCount } from 'in-applications/components/TracesButton';
+import getApplication from 'in-subscription/application/getApplication';
 import { number, percentage } from 'in-services/formatters/number';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import backButtonStore from 'in-analyze/stores/backButtonStore';
@@ -18,24 +20,63 @@ import locals from './Row.mless';
 const trackTracesButton = createTracker('application.tracesButton');
 
 export default connectTo(
-  ({ label, value, getEntity, timeConfig, applicationId, serviceId, endpointId }) => {
-    const observables = {};
-    if (!value) {
-      observables.value = getTracesCount({ timeConfig, applicationId, serviceId, endpointId });
+  ({ timeConfig, applicationId, serviceId, endpointId }) => {
+    const observables = {
+      value: getTracesCount({ timeConfig, applicationId, serviceId, endpointId })
+    };
+
+    if (applicationId) {
+      observables.applicationLabel = getApplication({ id: applicationId }).map(result =>
+        get(result, ['data', 'label'], null)
+      );
     }
-    if (!label) {
-      observables.label = getEntity().map(result => get(result, ['data', 'label'], null));
+    if (serviceId) {
+      observables.serviceLabel = getServiceLabel({ id: serviceId }).map(result => get(result, ['data', 'label'], null));
     }
+
     return observables;
   },
-  function Row({ label, value, total, iconType, type, applicationId, serviceId, endpointId, backButtonLabels }) {
-    if (!label || value == null) {
+  function Row({
+    value,
+    total,
+    iconType,
+    type,
+    applicationId,
+    serviceId,
+    endpointId,
+    applicationLabel,
+    serviceLabel,
+    backButtonLabels
+  }) {
+    if (value == null || (serviceId && !serviceLabel) || (applicationId && !applicationLabel)) {
       return null;
     }
 
     const linkToAnalyze =
-      applicationId || serviceId || endpointId ? getLinkToAnalyze({ applicationId, serviceId, endpointId }) : null;
+      applicationId || serviceId || endpointId
+        ? getLinkToAnalyze({
+            applicationId,
+            serviceId,
+            endpointId,
+            applicationName: applicationLabel,
+            serviceName: serviceLabel,
+            endpointName: endpointId
+          })
+        : null;
     const trackAndPrepareBackButton = trackAndStoreBackButtonParameters.bind(null, backButtonLabels);
+
+    const isEndpointRow = endpointId ? true : false;
+    const isServiceRow = !isEndpointRow && serviceId;
+    const isApplicationRow = !isServiceRow && !isEndpointRow;
+    let label;
+    if (isApplicationRow) {
+      label = applicationLabel;
+    } else if (isServiceRow) {
+      label = serviceLabel;
+    } else {
+      label = endpointId;
+    }
+
     return (
       <Link className={locals.link} href$={linkToAnalyze} onClick={trackAndPrepareBackButton}>
         <div

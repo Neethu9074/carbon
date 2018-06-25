@@ -135,7 +135,9 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.traceId)}>{item.call.label}</Link>
+                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
+                    {item.call.label}
+                  </Link>
                 </div>
               </Td>
 

@@ -4,6 +4,7 @@
   .analyzeHeader {
     position: relative;
     height: 7.5rem;
+    background: #fff;
   }
 
   .heading {
