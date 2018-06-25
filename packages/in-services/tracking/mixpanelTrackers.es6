@@ -126,7 +126,14 @@ function trackApplicationUsageDuration() {
     .flatMap(
       ({ pathCanHaveApplicationContext, appId }) =>
         appId
-          ? getApplication({ id: appId }).filter(data => data.progress && !data.progress.loading)
+          ? getApplication({ id: appId })
+              .filter(data => data.progress && !data.progress.loading)
+              .map(
+                data =>
+                  data.errors && data.errors.length > 0
+                    ? { data: { label: `unable to load application label for ID ${appId}` } }
+                    : data
+              )
           : just({ data: { label: pathCanHaveApplicationContext ? 'no application context' : 'not applicable' } })
     )
     .map(result => result.data.label)
