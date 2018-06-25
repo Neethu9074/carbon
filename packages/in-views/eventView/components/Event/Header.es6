@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import StartedMarker from 'in-views/eventView/components/marker/StartedMarker';
-import { getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import EntityInformation from 'in-components/EntityInformation';
 import Header from 'in-views/eventView/components/Header';
@@ -13,7 +13,7 @@ import './Header.less';
 const block = 'in-event-view-event-header';
 
 export default function EventHeader({ event }) {
-  const timeConfigFromEvent = getTimeConfigFromEvent(event);
+  const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
   return (
     <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
       <div>
