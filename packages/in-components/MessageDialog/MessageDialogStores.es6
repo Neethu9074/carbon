@@ -29,7 +29,9 @@ function onNewMessage(msg: Message) {
       'Technical error received from backend',
       msg,
       getInitializationCallStack(msg.subscriptionId),
-      getSubscriptionPayload(msg.subscriptionId)
+      {
+        subscriptionPayload: getSubscriptionPayload(msg.subscriptionId)
+      }
     ].filter(Boolean);
     logger.error(...args);
   } else {
