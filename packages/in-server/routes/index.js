@@ -51,10 +51,10 @@ router.get('/', (req, res) => {
 
   getCurrentUser(req)
     .then(([statusCode, userStr]) =>
-      Promise.all([getUserSettings(req, res, statusCode, userStr), getSearchFields(req, res)])
+      Promise.all([getUserSettings(req, res, statusCode, userStr), getSearchFields(req, res), getFilterTags(req, res)])
     )
-    .then(([[statusCode, userStr, userSettings], searchFieldsStr]) =>
-      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr)
+    .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags]) =>
+      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags)
     )
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
@@ -104,7 +104,28 @@ function getSearchFields(req) {
   });
 }
 
-function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr) {
+function getFilterTags(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: serverConfig.uiBackendBaseUrl + '/api/tags',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 5000
+      },
+      (error, response, tags) => {
+        if (error) {
+          reject(new Error('Failed to retrieve filter tags from ui-backend: ' + String(error)));
+        } else {
+          resolve(tags);
+        }
+      }
+    );
+  });
+}
+
+function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags) {
   if (getUserStatusCode === 401) {
     const requestedAbsoluteUrl = serverConfig.baseUrl + req.originalUrl;
     res.redirect(serverConfig.baseUrl + '/auth/signIn?returnUrl=' + encodeURIComponent(requestedAbsoluteUrl));
@@ -154,7 +175,8 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       config: stringifiedClientConfig,
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,
-      settings: userSettings
+      settings: userSettings,
+      tags: filterTags
     })
   );
 }
