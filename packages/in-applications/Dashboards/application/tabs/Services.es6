@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -263,7 +263,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       return (
-        <ApplicationEntityHealthBadge
+        <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}

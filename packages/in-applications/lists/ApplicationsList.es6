@@ -3,10 +3,11 @@ import React from 'react';
 
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
@@ -163,10 +164,11 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       return (
-        <ApplicationEntityHealthBadge
+        <ApplicationEntityHealthIndicatorBehavior
           applicationId={item.application.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
         />
       );
     }

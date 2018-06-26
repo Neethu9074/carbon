@@ -1,5 +1,0 @@
-:local {
-  .link, .link:hover {
-    text-decoration: none;
-  }
-}

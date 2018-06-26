@@ -246,12 +246,19 @@ export function getColorBySeverity(severity, params = {}) {
 }
 
 export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
-  if (severity >= 10) {
-    return theme.lib.colors.red800;
-  } else if (severity > 5) {
-    return theme.lib.colors.orange800;
+  if (severity > 5) {
+    return theme.lib.colors.failure;
   } else if (severity > 0) {
-    return theme.lib.colors.yellow800;
+    return theme.lib.colors.warning;
+  }
+  return fallback;
+}
+
+export function getButtonKindBySeverity(severity, fallback = 'secondary') {
+  if (severity > 5) {
+    return 'danger';
+  } else if (severity > 0) {
+    return 'warning';
   }
   return fallback;
 }

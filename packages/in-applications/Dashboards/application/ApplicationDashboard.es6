@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
-import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import HealthIndicatorBadgePresenter from 'in-new-components/health/HealthIndicatorBadgePresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -56,7 +57,12 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
           label2: result.data ? result.data.label : 'Dashboard'
         }}
       />
-      <ApplicationEntityHealthBadge applicationId={applicationId} serviceId={serviceId} endpointId={endpointId} />
+      <ApplicationEntityHealthIndicatorBehavior
+        IndicatorPresenter={HealthIndicatorBadgePresenter}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+      />
     </Fragment>
   );
 }
