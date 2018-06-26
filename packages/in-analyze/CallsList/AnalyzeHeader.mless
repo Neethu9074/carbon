@@ -28,7 +28,7 @@
 
   .title {
     max-width: 70vw;
-    margin: 0;
+    margin: 0 0.25rem 0 0;
 
     color: @lib__colors__N900Primary;
     font-size: @lib__typography__h300__font-size;

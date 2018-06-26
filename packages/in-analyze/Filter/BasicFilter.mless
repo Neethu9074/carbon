@@ -17,11 +17,6 @@
 
     cursor: pointer;
 
-    &:first-child,
-    & + .filter {
-      margin-right: 0.5rem;
-    }
-
     &:hover {
       box-shadow: @lib__shadows__subtle;
 
