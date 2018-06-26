@@ -9,6 +9,10 @@
     font-size: @lib__typography__body__font-size;
     font-weight: 600;
     color: #3D464D;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   .icon {

@@ -96,5 +96,5 @@ Button.propTypes = {
   href$: rpt.object,
   target: rpt.string,
   disabled: rpt.bool,
-  refSetter: rpt.fn
+  refSetter: rpt.func
 };
