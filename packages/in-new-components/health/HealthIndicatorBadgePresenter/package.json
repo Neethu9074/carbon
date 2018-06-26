@@ -1,0 +1,6 @@
+{
+  "name": "HealthIndicatorBadgePresenter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HealthIndicatorBadgePresenter.es6"
+}

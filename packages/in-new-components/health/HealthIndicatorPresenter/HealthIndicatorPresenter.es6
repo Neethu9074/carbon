@@ -5,11 +5,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './HealthIndicatorPresenter.mless';
 
-export default function HealthIndicator({ openIssues, maxSeverity }) {
-  const color = maxSeverity > 0 ? getDesignLibraryColorBySeverity(maxSeverity) : '#92A5AE';
+export default function HealthIndicatorPresenter({ openIssues, maxSeverity, active }) {
+  let color = getDesignLibraryColorBySeverity(maxSeverity);
+  if (active) {
+    color = '#031F29';
+  }
 
   return (
-    <div className={locals.badge} style={{ color }}>
+    <div className={locals.badge}>
       <SvgIcon type="lib_events_inverted" width={24} color={color} className={locals.icon} />
       {openIssues}
     </div>

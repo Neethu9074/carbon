@@ -8,7 +8,8 @@
     border-radius: @lib__shapes__radius_medium;
     font-size: @lib__typography__body__font-size;
     font-weight: 600;
-    color: #3D464D;
+    color: #fff;
+    padding: 1px 6px 1px 3px;
   }
 
   .icon {

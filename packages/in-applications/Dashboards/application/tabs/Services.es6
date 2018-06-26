@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
@@ -150,17 +151,19 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-          <Link
-            href$={getServiceDashboard(item.service.id, {
-              applicationId,
-              endpointId
-            })}
-          >
-            {item.service.label}
-          </Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
+            <Link
+              href$={getServiceDashboard(item.service.id, {
+                applicationId,
+                endpointId
+              })}
+            >
+              {item.service.label}
+            </Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },

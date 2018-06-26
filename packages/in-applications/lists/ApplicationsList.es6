@@ -4,6 +4,7 @@ import React from 'react';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -82,10 +83,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application" width={24} height={24} />
-          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application" width={24} height={24} />
+            <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
