@@ -23,3 +23,9 @@ export const ENDPOINT = {
   label: 'Endpoint Name',
   icon: 'lib_application_endpoint'
 };
+
+export const TAG_TYPES = {
+  STRING: 'STRING',
+  NUMBER: 'NUMBER',
+  BOOLEAN: 'BOOLEAN'
+};

@@ -9,6 +9,7 @@ import AnalyzeFilterForm, {
   ValueGroup
 } from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 
@@ -55,7 +56,7 @@ export default class extends React.Component {
         {form.get('value').map(field => (
           <ValueGroup field={field}>
             <Input
-              type={form.get('type').value === 'NUMBER' ? 'number' : 'text'}
+              type={form.get('type').value === TAG_TYPES.NUMBER ? 'number' : 'text'}
               id="value"
               value={field.value}
               onChange={e => onValueChanged(e.target.value)}
@@ -206,7 +207,7 @@ function getTreeNodesTillName(name) {
 
 export function getTagEditForm(name, value) {
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree ? nodeInTree.type : 'STRING';
+  const type = nodeInTree.type;
   return createMapForm()
     .put(
       'name',

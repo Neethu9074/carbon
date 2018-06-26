@@ -13,7 +13,7 @@ import {
   getTagFilter
 } from 'in-analyze/CallsList/filterBuilder';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { TAG_TYPES, APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getGroupByTechnicalName } from 'in-analyze/CallsList/groups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -131,10 +131,10 @@ function getTagFilterList(filters) {
 
 function getValueByTag(backendTagFilter, tag) {
   const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
-  const type = node ? node.type : 'STRING';
-  if (type === 'NUMBER') {
+  const type = node ? node.type : TAG_TYPES.STRING;
+  if (type === TAG_TYPES.NUMBER) {
     backendTagFilter.numberValue = tag.value;
-  } else if (type === 'BOOLEAN') {
+  } else if (type === TAG_TYPES.BOOLEAN) {
     backendTagFilter.booleanValue = tag.value;
   } else {
     backendTagFilter.stringValue = tag.value;
