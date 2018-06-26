@@ -8,6 +8,7 @@ import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import StaticFilter from 'in-analyze/Filter/StaticFilter';
 import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
+import Tooltip from 'in-components/Tooltip';
 import Filter from 'in-analyze/Filter';
 
 import locals from './ExpandedContent.mless';
@@ -50,6 +51,7 @@ export default function ExpandedContent({
           <ApplicationFilterOrPlaceholder
             filter={endpoint}
             isStatic={!service}
+            staticToolTip="Please define a service first"
             filterPreset={ENDPOINT}
             placeholderText="Endpoint"
             onUpdateApplicationTag={onUpdateApplicationTag}
@@ -91,15 +93,18 @@ function ApplicationFilterOrPlaceholder({
   filter,
   filterPreset,
   isStatic,
+  staticToolTip,
   placeholderText,
   onResetApplicationFilter,
   onUpdateApplicationTag
 }) {
   if (isStatic) {
     return (
-      <FilterPlaceholder className={locals.filter} isStatic={isStatic}>
-        {placeholderText}
-      </FilterPlaceholder>
+      <Tooltip themeStyle="light" content={staticToolTip}>
+        <FilterPlaceholder className={locals.filter} isStatic={isStatic}>
+          {placeholderText}
+        </FilterPlaceholder>
+      </Tooltip>
     );
   }
   function onClicked() {
