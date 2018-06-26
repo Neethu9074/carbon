@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import ApplicationEntityHealthBadge from 'in-applications/components/ApplicationEntityHealthBadge';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -54,16 +55,19 @@ function Header(props) {
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
-    <TracesButton
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      timeConfig={timeConfig}
-      backButtonLabels={{
-        label1: 'Service',
-        label2: result.data ? result.data.label : 'Dashboard'
-      }}
-    />
+    <Fragment>
+      <TracesButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        backButtonLabels={{
+          label1: 'Service',
+          label2: result.data ? result.data.label : 'Dashboard'
+        }}
+      />
+      <ApplicationEntityHealthBadge applicationId={applicationId} serviceId={serviceId} endpointId={endpointId} />
+    </Fragment>
   );
 }
 

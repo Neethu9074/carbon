@@ -36,6 +36,7 @@ import './components/sdk/Descriptions';
 
 import './newComponents/Axis';
 import './newComponents/BadgeKeyValueStory';
+import './newComponents/health/HealthIndicatorStory';
 import './newComponents/HeatMap';
 import './newComponents/overlays/OverlayStory';
 
