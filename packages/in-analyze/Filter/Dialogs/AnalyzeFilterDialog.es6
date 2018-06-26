@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
@@ -60,7 +61,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
             form,
             onValueChanged: value => this.onChange('value', value),
             onNameChanged: name => this.onChange('name', name),
-            onCustomNameChanged: this.onCustomNameChanged
+            onCustomNameChanged: name => this.onChange('customName', name)
           })}
 
           <div className={locals.footer}>
@@ -73,25 +74,31 @@ class AnalyzeFilterBasicDialog extends React.Component {
     );
   }
 
-  onCustomNameChanged = newName => {
-    let form = this.state.form;
-
-    this.setState({
-      form: form.updateIn(['customNameSubform'], subForm => {
-        const updatedSubForm = subForm.value.updateIn(['customName'], field =>
-          field.setValue(newName).setTouched(true)
-        );
-        return subForm.setValue(updatedSubForm).setTouched(true);
-      })
-    });
-  };
-
   onChange = (fieldName, value) => {
     let form = this.state.form;
-    if (this.props.onChange) {
-      form = this.props.onChange(form, fieldName, value);
+    if (fieldName === 'customName') {
+      this.setState({
+        form: form.updateIn(['customNameSubform'], subForm => {
+          const updatedSubForm = subForm.value.updateIn(['customName'], field =>
+            field.setValue(value).setTouched(true)
+          );
+          return subForm.setValue(updatedSubForm).setTouched(true);
+        })
+      });
+      return;
     }
 
+    if (fieldName === 'name') {
+      const node = findSubTreeByFullyQualifiedName(value);
+      if (node && node.type) {
+        form = form.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+
+        form = form.updateIn(['customNameSubform'], subForm => {
+          const updatedSubForm = subForm.value.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+          return subForm.setValue(updatedSubForm).setTouched(true);
+        });
+      }
+    }
     this.setState({
       form: form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
     });
