@@ -36,6 +36,8 @@
     }
 
     &:last-child {
+      margin-right: 0;
+
       &:after {
         width: 0;
         height: 0;
@@ -43,13 +45,13 @@
     }
   }
 
-  .keyValueSeperator {
+  .fieldSeperator {
     display: flex;
     align-items: center;
     justify-content: center;
 
     padding: 0.125rem 0.5rem 0.25rem;
-    margin: 0.25rem 0.5rem 0 0;
+    margin: 0.25rem 0.25rem 0;
 
     color: @lib__colors__N600Light;
     font-size: 1rem;
@@ -58,20 +60,5 @@
 
   .valueFormGroup {
     flex-grow: 1;
-  }
-
-  .customNameFormGroup {
-    position: relative;
-
-    &:before {
-      position: absolute;
-      right: 100%;
-      top: 50%;
-
-      content: '';
-      width: 0.5rem;
-      height: 1px;
-      background: @lib__colors__N400;
-    }
   }
 }

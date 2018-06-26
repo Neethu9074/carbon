@@ -36,7 +36,7 @@ export default function ExpandedContent({
 
       <FilterGroup className={locals.filtersFilterGroup} name="Filters">
         <div className={locals.filterListing}>
-          <And>
+          <AppendAnd>
             <ApplicationFilterOrPlaceholder
               filter={application}
               filterPreset={APPLICATION}
@@ -44,8 +44,8 @@ export default function ExpandedContent({
               onUpdateApplicationTag={onUpdateApplicationTag}
               onResetApplicationFilter={onResetApplicationFilter}
             />
-          </And>
-          <And>
+          </AppendAnd>
+          <AppendAnd>
             <ApplicationFilterOrPlaceholder
               filter={service}
               filterPreset={SERVICE}
@@ -53,8 +53,8 @@ export default function ExpandedContent({
               onUpdateApplicationTag={onUpdateApplicationTag}
               onResetApplicationFilter={onResetApplicationFilter}
             />
-          </And>
-          <And>
+          </AppendAnd>
+          <AppendAnd>
             <ApplicationFilterOrPlaceholder
               filter={endpoint}
               isStatic={!service}
@@ -64,10 +64,10 @@ export default function ExpandedContent({
               onUpdateApplicationTag={onUpdateApplicationTag}
               onResetApplicationFilter={onResetApplicationFilter}
             />
-          </And>
+          </AppendAnd>
 
           {filters.get('tagFilter').map((tag, i) => (
-            <And key={i}>
+            <AppendAnd key={i}>
               <Filter
                 className={locals.filter}
                 key={i}
@@ -82,7 +82,7 @@ export default function ExpandedContent({
               >
                 {tag.get('value')}
               </Filter>
-            </And>
+            </AppendAnd>
           ))}
 
           <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
@@ -146,7 +146,7 @@ function ApplicationFilterOrPlaceholder({
   );
 }
 
-function And({ children }) {
+function AppendAnd({ children }) {
   return (
     <div className={locals.flexWrapper}>
       {children}

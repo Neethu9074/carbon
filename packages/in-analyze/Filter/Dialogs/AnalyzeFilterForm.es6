@@ -33,16 +33,8 @@ export function SelectBox({ children, id, value, onChange }) {
   );
 }
 
-export function KeyValueSeperator() {
-  return <div className={locals.keyValueSeperator}>:</div>;
-}
-
-export function CustomNameGroup({ field, children }) {
-  return (
-    <ValueGroup className={locals.customNameFormGroup} field={field}>
-      {children}{' '}
-    </ValueGroup>
-  );
+export function FieldSeperator({ label }) {
+  return <div className={locals.fieldSeperator}>{label}</div>;
 }
 
 export function ValueGroup({ className, field, children }) {

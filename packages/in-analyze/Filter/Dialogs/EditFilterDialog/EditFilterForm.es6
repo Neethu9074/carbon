@@ -5,8 +5,7 @@ import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   SelectBox,
-  KeyValueSeperator,
-  CustomNameGroup,
+  FieldSeperator,
   ValueGroup
 } from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
@@ -52,9 +51,8 @@ export default class extends React.Component {
           </KeyListGroup>
         ))}
 
+        <FieldSeperator label=":" />
         <CustomKey {...this.props} treeNodesTillName={treeNodesTillName} onCustomNameChanged={onCustomNameChanged} />
-
-        <KeyValueSeperator />
 
         {form.get('value').map(field => (
           <ValueGroup field={field}>
@@ -195,7 +193,7 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
     <Fragment>
       {form.get('customNameSubform').map(subForm =>
         subForm.value.get('customName').map(field => (
-          <CustomNameGroup field={subForm}>
+          <ValueGroup field={subForm}>
             <Input
               type="text"
               id="customName"
@@ -203,9 +201,10 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
               onChange={e => onCustomNameChanged(e.target.value)}
               autoComplete="off"
             />
-          </CustomNameGroup>
+          </ValueGroup>
         ))
       )}
+      <FieldSeperator label="=" />
     </Fragment>
   );
 }
