@@ -25,6 +25,10 @@
     }
   }
 
+  .block {
+    display: flex;
+  }
+
   .default {
     .buttonStyle(
       // bg
