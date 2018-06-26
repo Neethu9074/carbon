@@ -146,7 +146,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
           </div>
           <EntityInformation
             entityId={event.get('entityId')}
-            entitType={event.get('entitType')}
+            entityType={event.get('entityType')}
             timeConfig={timeConfig}
           />
         </div>
