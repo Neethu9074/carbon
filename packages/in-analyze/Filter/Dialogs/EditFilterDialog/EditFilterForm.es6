@@ -207,7 +207,7 @@ function getTreeNodesTillName(name) {
 
 export function getTagEditForm(name, value) {
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree.type;
+  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;
   return createMapForm()
     .put(
       'name',

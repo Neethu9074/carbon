@@ -4,9 +4,6 @@
     align-items: center;
     flex-wrap: wrap;
 
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     cursor: pointer;
   }
 }
