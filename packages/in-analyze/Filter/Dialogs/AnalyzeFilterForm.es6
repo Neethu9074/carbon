@@ -2,6 +2,7 @@ import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { joinClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 
@@ -36,9 +37,17 @@ export function KeyValueSeperator() {
   return <div className={locals.keyValueSeperator}>:</div>;
 }
 
-export function ValueGroup({ field, children }) {
+export function CustomNameGroup({ field, children }) {
   return (
-    <FormGroup className={locals.valueFormGroup}>
+    <ValueGroup className={locals.customNameFormGroup} field={field}>
+      {children}{' '}
+    </ValueGroup>
+  );
+}
+
+export function ValueGroup({ className, field, children }) {
+  return (
+    <FormGroup className={joinClassNames(locals.valueFormGroup, className)}>
       {children}
       <TouchedMessages field={field} />
     </FormGroup>

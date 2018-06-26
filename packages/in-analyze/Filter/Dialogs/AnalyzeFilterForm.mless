@@ -59,4 +59,19 @@
   .valueFormGroup {
     flex-grow: 1;
   }
+
+  .customNameFormGroup {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      right: 100%;
+      top: 50%;
+
+      content: '';
+      width: 0.5rem;
+      height: 1px;
+      background: @lib__colors__N400;
+    }
+  }
 }

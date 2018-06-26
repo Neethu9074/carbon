@@ -27,5 +27,6 @@ export const ENDPOINT = {
 export const TAG_TYPES = {
   STRING: 'STRING',
   NUMBER: 'NUMBER',
-  BOOLEAN: 'BOOLEAN'
+  BOOLEAN: 'BOOLEAN',
+  KEY_VALUE_PAIR: 'KEY_VALUE_PAIR'
 };

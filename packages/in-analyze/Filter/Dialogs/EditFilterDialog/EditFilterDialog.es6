@@ -20,6 +20,11 @@ function onChange(form, fieldName, value) {
     const node = findSubTreeByFullyQualifiedName(value);
     if (node && node.type) {
       form = form.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+
+      form = form.updateIn(['customNameSubform'], subForm => {
+        const updatedSubForm = subForm.value.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+        return subForm.setValue(updatedSubForm).setTouched(true);
+      });
     }
   }
   return form;

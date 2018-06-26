@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { close } from 'in-components/DialogPresenter/store';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Dialog from 'in-components/Dialog';
@@ -58,7 +59,8 @@ class AnalyzeFilterBasicDialog extends React.Component {
           {renderForm({
             form,
             onValueChanged: value => this.onChange('value', value),
-            onNameChanged: name => this.onChange('name', name)
+            onNameChanged: name => this.onChange('name', name),
+            onCustomNameChanged: this.onCustomNameChanged
           })}
 
           <div className={locals.footer}>
@@ -70,6 +72,19 @@ class AnalyzeFilterBasicDialog extends React.Component {
       </form>
     );
   }
+
+  onCustomNameChanged = newName => {
+    let form = this.state.form;
+
+    this.setState({
+      form: form.updateIn(['customNameSubform'], subForm => {
+        const updatedSubForm = subForm.value.updateIn(['customName'], field =>
+          field.setValue(newName).setTouched(true)
+        );
+        return subForm.setValue(updatedSubForm).setTouched(true);
+      })
+    });
+  };
 
   onChange = (fieldName, value) => {
     let form = this.state.form;
@@ -95,6 +110,12 @@ class AnalyzeFilterBasicDialog extends React.Component {
     close();
 
     const tag = form.toJS();
+    if (tag.type === TAG_TYPES.KEY_VALUE_PAIR && tag.customNameSubform) {
+      const customNameSubform = tag.customNameSubform.toJS();
+      if (customNameSubform.customName) {
+        tag.value = `${customNameSubform.customName}=${tag.value}`;
+      }
+    }
     this.props.onSave(tag);
   }
 }
