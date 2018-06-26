@@ -19,16 +19,6 @@
     margin-bottom: 0.75rem;
   }
 
-  .addFilterIcon {
-    margin: 1rem 0.5rem;
-    cursor: pointer;
-
-    fill: @lib__colors__primary1;
-    &:hover {
-      fill: #12978e;
-    }
-  }
-
   .filter {
     margin-bottom: 0.25rem;
   }

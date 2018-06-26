@@ -1,6 +1,15 @@
+@import '~in-themes/active.less';
+
 :local {
   .filter {
     min-width: 17rem;
     max-width: 17rem;
+
+    color: @lib__colors__primary1;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__primary1;
   }
 }

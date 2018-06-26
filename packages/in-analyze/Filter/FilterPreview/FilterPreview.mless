@@ -6,6 +6,7 @@
     align-items: center;
 
     color: @lib__colors__N900Primary;
+    margin-bottom: 0.25rem;
 
     &:first-child,
     & + .filterPreview:not(:last-child) {
@@ -16,6 +17,8 @@
   .title {
     margin-right: 0.5rem;
     color: @lib__colors__N500;
+    min-width: 2.5rem;
+    max-width: 2.5rem;
   }
 
   .items {

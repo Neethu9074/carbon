@@ -8,7 +8,6 @@ import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import StaticFilter from 'in-analyze/Filter/StaticFilter';
 import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
-import SvgIcon from 'in-components/SvgIcon';
 import Filter from 'in-analyze/Filter';
 
 import locals from './ExpandedContent.mless';
@@ -73,7 +72,9 @@ export default function ExpandedContent({
               {tag.get('value')}
             </Filter>
           ))}
-          <AddFilterButton onClick={onAddFilter} />
+          <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
+            Filter
+          </FilterPlaceholder>
         </div>
       </FilterGroup>
 
@@ -96,7 +97,7 @@ function ApplicationFilterOrPlaceholder({
 }) {
   if (isStatic) {
     return (
-      <FilterPlaceholder className={locals.filter} isStatic={isStatic} icon={filterPreset.icon}>
+      <FilterPlaceholder className={locals.filter} isStatic={isStatic}>
         {placeholderText}
       </FilterPlaceholder>
     );
@@ -124,20 +125,8 @@ function ApplicationFilterOrPlaceholder({
     );
   }
   return (
-    <FilterPlaceholder className={locals.filter} icon={filterPreset.icon} onClick={onClicked}>
+    <FilterPlaceholder className={locals.filter} onClick={onClicked}>
       {placeholderText}
     </FilterPlaceholder>
-  );
-}
-
-function AddFilterButton({ onClick }) {
-  return (
-    <SvgIcon
-      className={locals.addFilterIcon}
-      type="lib_openclose_add_circle"
-      width={24}
-      height={24}
-      onClick={onClick}
-    />
   );
 }

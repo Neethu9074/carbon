@@ -2,8 +2,6 @@
 
 :local {
   .analyzeHeader {
-    position: relative;
-    height: 7.5rem;
     background: #fff;
   }
 
@@ -13,7 +11,7 @@
     justify-content: space-between;
 
     height: 4.5rem;
-    padding-bottom: 0.25rem;
+    padding-bottom: 1rem;
   }
 
   .titleWrapper {
@@ -42,16 +40,10 @@
   }
 
   .filterRow {
-    position: absolute;
-    top: 4.5rem;
-    left: 0;
-    right: 0;
-
-    padding: 0.5rem 0;
+    padding: 0.5rem 0 0.25rem;
 
     background: #fff;
     border-bottom: 1px solid @lib__colors__N300;
-    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
 
     transition: height 0.125s ease-in-out;
   }

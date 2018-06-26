@@ -25,7 +25,7 @@ function AnalyzeHeader({ isExpanded, setIsExpanded, filters, onChangeFilters }) 
   return (
     <div className={locals.analyzeHeader}>
       <MaxWidthFullscreenContainer>
-        <header className={locals.heading}>
+        <div className={locals.heading}>
           <div className={locals.titleWrapper} onClick={() => setIsExpanded(!isExpanded)}>
             <h1 className={locals.title}>Analyze</h1>
             <SvgIcon
@@ -36,7 +36,7 @@ function AnalyzeHeader({ isExpanded, setIsExpanded, filters, onChangeFilters }) 
             />
           </div>
           <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
-        </header>
+        </div>
       </MaxWidthFullscreenContainer>
 
       <div className={locals.filterRow}>

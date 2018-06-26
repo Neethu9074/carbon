@@ -22,7 +22,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import GroupedCalls from 'in-analyze/GroupedCalls';
 import RawCalls from 'in-analyze/RawCalls';
-import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
 import locals from './CallsList.mless';
@@ -91,16 +90,15 @@ function CallList(props) {
   return (
     <Fragment>
       <Title title="Calls" />
-      <Sticky header={<AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} />}>
-        <MaxWidthFullscreenContainer className={locals.callsList}>
-          {filters.get('group') && (
-            <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-          )}
-          {!filters.get('group') && (
-            <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-          )}
-        </MaxWidthFullscreenContainer>
-      </Sticky>
+      <AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} />
+      <MaxWidthFullscreenContainer className={locals.callsList}>
+        {filters.get('group') && (
+          <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+        )}
+        {!filters.get('group') && (
+          <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+        )}
+      </MaxWidthFullscreenContainer>
     </Fragment>
   );
 }

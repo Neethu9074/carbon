@@ -55,8 +55,8 @@ function FilterStory() {
 
       <Section title="Placeholder">
         <FilterGroup>
-          <FilterPlaceholder>I{`'`}m a placeholder </FilterPlaceholder>
-          <FilterPlaceholder icon="lib_application">Application</FilterPlaceholder>
+          <FilterPlaceholder>Application</FilterPlaceholder>
+          <FilterPlaceholder>Filter</FilterPlaceholder>
         </FilterGroup>
       </Section>
 
@@ -78,6 +78,7 @@ function FilterStory() {
             My awesome application
           </Filter>
           <Filter title="docker.label">some docker label</Filter>
+          <FilterPlaceholder>Filter</FilterPlaceholder>
         </FilterGroup>
         <FilterGroup name="Group">
           <ToggleFilter size="compact">Trace Name</ToggleFilter>
