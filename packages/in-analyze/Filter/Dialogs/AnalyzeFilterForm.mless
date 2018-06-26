@@ -4,6 +4,7 @@
   .editForm {
     display: flex;
     align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .selectBox {
@@ -56,6 +57,6 @@
   }
 
   .valueFormGroup {
-    width: 100%;
+    flex-grow: 1;
   }
 }

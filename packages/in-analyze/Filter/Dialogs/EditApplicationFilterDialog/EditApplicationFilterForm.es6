@@ -1,40 +1,39 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React from 'react';
 
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
+import AnalyzeFilterForm, {
+  KeyListGroup,
+  KeyPart,
+  SelectBox,
+  KeyValueSeperator,
+  ValueGroup
+} from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import Input from 'in-components/form/Input';
-
-import locals from './EditApplicationFilterForm.mless';
 
 export default function EditApplicationFilterForm({ form, onValueChanged }) {
   return (
-    <div className={locals.editForm}>
+    <AnalyzeFilterForm>
       {form.get('name').map(field => {
         const parts = field.value.split('.');
         return (
-          <FormGroup>
-            <ol className={locals.keyList}>
-              {parts.map(part => (
-                <li key={part} className={locals.key}>
-                  <Select className={locals.selectBox} id={part} value={part} onChange={() => {}} autoComplete="off">
-                    <option key={part} value={part}>
-                      {part}
-                    </option>
-                  </Select>
-                </li>
-              ))}
-            </ol>
-            <TouchedMessages field={field} />
-          </FormGroup>
+          <KeyListGroup field={field}>
+            {parts.map(part => (
+              <KeyPart key={part}>
+                <SelectBox id={part} value={part} onChange={() => {}}>
+                  <option key={part} value={part}>
+                    {part}
+                  </option>
+                </SelectBox>
+              </KeyPart>
+            ))}
+          </KeyListGroup>
         );
       })}
 
-      <div className={locals.keyValueSeperator}>:</div>
+      <KeyValueSeperator />
 
       {form.get('value').map(field => (
-        <FormGroup className={locals.valueFormGroup}>
+        <ValueGroup field={field}>
           <Input
             type="text"
             id="value"
@@ -43,10 +42,9 @@ export default function EditApplicationFilterForm({ form, onValueChanged }) {
             autoComplete="off"
             autoFocus
           />
-          <TouchedMessages field={field} />
-        </FormGroup>
+        </ValueGroup>
       ))}
-    </div>
+    </AnalyzeFilterForm>
   );
 }
 

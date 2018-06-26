@@ -1,14 +1,16 @@
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import AnalyzeFilterForm, {
+  KeyListGroup,
+  KeyPart,
+  SelectBox,
+  KeyValueSeperator,
+  ValueGroup
+} from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
 import { isBlank } from 'in-services/util/string';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
-
-import locals from './EditFilterForm.mless';
 
 export default class extends React.Component {
   static displayName = 'EditFilterForm';
@@ -36,25 +38,22 @@ export default class extends React.Component {
     const { form, onValueChanged } = this.props;
 
     return (
-      <div className={locals.editForm}>
+      <AnalyzeFilterForm>
         {form.get('name').map(field => (
-          <FormGroup>
-            <ol className={locals.keyList}>
-              <KeySelection
-                {...this.props}
-                treeNodesTillName={treeNodesTillName}
-                field={field}
-                onNameChanged={this.onNameChanged}
-              />
-            </ol>
-            <TouchedMessages field={field} />
-          </FormGroup>
+          <KeyListGroup field={field}>
+            <KeySelection
+              {...this.props}
+              treeNodesTillName={treeNodesTillName}
+              field={field}
+              onNameChanged={this.onNameChanged}
+            />
+          </KeyListGroup>
         ))}
 
-        <div className={locals.keyValueSeperator}>:</div>
+        <KeyValueSeperator />
 
         {form.get('value').map(field => (
-          <FormGroup className={locals.valueFormGroup}>
+          <ValueGroup field={field}>
             <Input
               type={form.get('type').value === 'NUMBER' ? 'number' : 'text'}
               id="value"
@@ -63,10 +62,9 @@ export default class extends React.Component {
               autoComplete="off"
               autoFocus
             />
-            <TouchedMessages field={field} />
-          </FormGroup>
+          </ValueGroup>
         ))}
-      </div>
+      </AnalyzeFilterForm>
     );
   }
 
@@ -105,19 +103,18 @@ function getDeepestPossibleNodePath(name) {
 
 function KeySelection(props) {
   const { treeNodesTillName, field, onNameChanged } = props;
-  if (treeNodesTillName) {
-    return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
+  if (!treeNodesTillName) {
+    return <UnknownKeySelection {...props} name={field.value} onNameChanged={onNameChanged} />;
   }
-  return <UnknownKeySelection {...props} name={field.value} onNameChanged={onNameChanged} />;
+  return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
 }
 
 function UnknownKeySelection({ name, onNameChanged }) {
   const rootNode = getTagTree();
   const parts = name.split('.');
   return parts.map((part, i) => (
-    <li key={part} className={locals.key}>
-      <Select
-        className={locals.selectBox}
+    <KeyPart key={part}>
+      <SelectBox
         id={part}
         value={part}
         onChange={e => {
@@ -125,7 +122,6 @@ function UnknownKeySelection({ name, onNameChanged }) {
             onNameChanged(getTagTree(), e.target.value);
           }
         }}
-        autoComplete="off"
       >
         <option key={part} value={part}>
           {part}
@@ -136,8 +132,8 @@ function UnknownKeySelection({ name, onNameChanged }) {
               {childNode.name}
             </option>
           ))}
-      </Select>
-    </li>
+      </SelectBox>
+    </KeyPart>
   ));
 }
 
@@ -147,35 +143,27 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
   return (
     <Fragment>
       {treeNodesTillName.map(node => (
-        <li key={node.fullyQualifiedName} className={locals.key}>
-          <Select
-            className={locals.selectBox}
-            id={node.name}
-            value={node.name}
-            onChange={e => onNameChanged(node, e.target.value)}
-            autoComplete="off"
-          >
+        <KeyPart key={node.fullyQualifiedName}>
+          <SelectBox id={node.name} value={node.name} onChange={e => onNameChanged(node, e.target.value)}>
             {node.parentNode.isTag && <option key="" value="" />}
             {node.parentNode.children.map(childNode => (
               <option key={childNode.name} value={childNode.name}>
                 {childNode.name}
               </option>
             ))}
-          </Select>
-        </li>
+          </SelectBox>
+        </KeyPart>
       ))}
 
       {lastNode.children.length > 0 && (
-        <li key={lastNode.fullyQualifiedName} className={locals.key}>
-          <Select
-            className={locals.selectBox}
+        <KeyPart key={lastNode.fullyQualifiedName}>
+          <SelectBox
             id={lastNode.name}
             value=""
             onChange={e => {
               const childNode = findChildByName(lastNode.children, e.target.value);
               onNameChanged(childNode, e.target.value);
             }}
-            autoComplete="off"
           >
             {lastNode.children.length > 1 && <option key="" value="" />}
             {lastNode.children.map(childNode => (
@@ -183,8 +171,8 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
                 {childNode.name}
               </option>
             ))}
-          </Select>
-        </li>
+          </SelectBox>
+        </KeyPart>
       )}
     </Fragment>
   );

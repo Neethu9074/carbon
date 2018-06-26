@@ -1,0 +1,63 @@
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import React from 'react';
+
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import FormGroup from 'in-components/form/FormGroup';
+import Select from 'in-components/form/Select';
+
+import locals from './AnalyzeFilterForm.mless';
+
+export default function AnalyzeFilterForm({ children }) {
+  return <div className={locals.editForm}>{children}</div>;
+}
+
+export function KeyListGroup({ field, children }) {
+  return (
+    <FormGroup>
+      <ol className={locals.keyList}>{children}</ol>
+      <TouchedMessages field={field} />
+    </FormGroup>
+  );
+}
+
+export function KeyPart({ children }) {
+  return <li className={locals.key}>{children}</li>;
+}
+
+export function SelectBox({ children, id, value, onChange }) {
+  return (
+    <Select className={locals.selectBox} id={id} value={value} onChange={onChange} autoComplete="off">
+      {children}
+    </Select>
+  );
+}
+
+export function KeyValueSeperator() {
+  return <div className={locals.keyValueSeperator}>:</div>;
+}
+
+export function ValueGroup({ field, children }) {
+  return (
+    <FormGroup className={locals.valueFormGroup}>
+      {children}
+      <TouchedMessages field={field} />
+    </FormGroup>
+  );
+}
+
+export function getTagEditForm(name, value) {
+  return createMapForm()
+    .put(
+      'name',
+      createField({
+        value: name
+      })
+    )
+    .put(
+      'value',
+      createField({
+        value: value,
+        validator: notBlankValidator
+      })
+    );
+}
