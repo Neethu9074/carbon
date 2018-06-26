@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import { range } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorBadgePresenter from 'in-new-components/health/HealthIndicatorBadgePresenter';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import Root from '../../_helpers/Root';
 
@@ -22,16 +22,15 @@ function Default() {
         </div>
       )}
 
-      <h1>Health Indicator Badge</h1>
+      <h1>Health Indicator Button</h1>
       <div>
-        <HealthIndicatorBadgePresenter openIssues={0} maxSeverity={0} active /> (active / hover state)
+        <HealthIndicatorButtonPresenter openIssues={0} maxSeverity={0} active /> (active / hover state)
       </div>
       {range(0, 11).map(severity =>
         <div>
-          <HealthIndicatorBadgePresenter openIssues={severity} maxSeverity={severity} />
+          <HealthIndicatorButtonPresenter openIssues={severity} maxSeverity={severity} />
         </div>
       )}
     </Root>
   );
 }
-

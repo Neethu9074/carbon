@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import HealthIndicatorBadgePresenter from 'in-new-components/health/HealthIndicatorBadgePresenter';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
@@ -68,7 +68,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         }}
       />
       <ApplicationEntityHealthIndicatorBehavior
-        IndicatorPresenter={HealthIndicatorBadgePresenter}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
