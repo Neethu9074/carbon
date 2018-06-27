@@ -2,7 +2,7 @@
 
 :local {
   .analyzeHeader {
-    background: #fff;
+    background: @lib__colors__N100;
   }
 
   .heading {
@@ -41,9 +41,6 @@
 
   .filterRow {
     padding: 0.5rem 0;
-
-    background: #fff;
-    border-bottom: 1px solid @lib__colors__N300;
 
     transition: height 0.125s ease-in-out;
   }
