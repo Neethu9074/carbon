@@ -230,7 +230,7 @@ export function getApplicationListSubscribeEvent(
       },
       maxSeverity: {
         metric: 'maxSeverity',
-        aggregation: 'DISTINCT_COUNT'
+        aggregation: 'MAX'
       }
     },
     filter: {
