@@ -3,7 +3,7 @@ import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matr
 export const APPLICATION = {
   id: applicationId,
   name: 'application.name',
-  technicalName: 'application.id',
+  technicalName: 'application.name',
   label: 'Application Name',
   icon: 'lib_application'
 };
