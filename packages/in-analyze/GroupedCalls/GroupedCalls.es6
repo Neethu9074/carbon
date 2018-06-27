@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallGroupsTable from 'in-analyze/GroupedCalls/CallGroupsTable';
@@ -8,7 +8,6 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes/theme';
 
 const orderTranslation = {
@@ -87,20 +86,15 @@ export default compose(
 function GroupedCalls(props) {
   const { items } = props;
 
-  let label = 'Call Groups';
-  if (items && items.length > 0) {
-    label += ` (${items.length})`;
-  }
-
   const callGroupColors = items.map(
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
 
   return (
-    <Card title={label} withoutPadding>
+    <Fragment>
       <CallGroupCharts {...props} callGroupColors={callGroupColors} />
       <CallGroupsTable {...props} callGroupColors={callGroupColors} />
-    </Card>
+    </Fragment>
   );
 }

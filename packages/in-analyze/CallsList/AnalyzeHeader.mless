@@ -17,13 +17,6 @@
   .titleWrapper {
     display: flex;
     align-items: center;
-
-    cursor: pointer;
-    &:hover {
-      .expandIcon {
-        fill: @lib__colors__N600Light;
-      }
-    }
   }
 
   .title {
@@ -31,8 +24,13 @@
     margin: 0 0.25rem 0 0;
 
     color: @lib__colors__N900Primary;
-    font-size: @lib__typography__h300__font-size;
-    font-weight: 600;
+  }
+
+  .numberOfCalls {
+    color: @lib__colors__N700Medium;
+    font-size: 1rem;
+    margin-left: 0.75rem;
+    font-weight: 300;
   }
 
   .expandIcon {
