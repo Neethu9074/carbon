@@ -16,7 +16,7 @@ export default function Header({ openIssuesResult, maxIssuesToShow }) {
     <h1 className={locals.header}>
       {openIssues.length} Open {openIssues.length === 1 ? 'Issue' : 'Issues'}
       {openIssues.length > maxIssuesToShow && (
-        <span className={locals.more}>(displaying {openIssues.length} most severe)</span>
+        <span className={locals.more}>(displaying {maxIssuesToShow} most severe)</span>
       )}
     </h1>
   );
