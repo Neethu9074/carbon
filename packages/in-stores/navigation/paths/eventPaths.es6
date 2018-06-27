@@ -49,3 +49,20 @@ export function getEventsViewFilteredByEntity(entityId) {
     }
   });
 }
+
+export function getEventsViewFilteredBy({ applicationId = null, serviceId = null, eventId = null }) {
+  return getModifiedUrlStream(params => {
+    let query = '';
+    if (applicationId) {
+      query += ` entity.application.id:"${luceneEscapeString(applicationId)}"`;
+    }
+    if (serviceId) {
+      query += ` entity.service.id:"${luceneEscapeString(serviceId)}"`;
+    }
+    params.pathname = eventsPath;
+    params.query.q = query.trim();
+    if (eventId) {
+      params.query.eventId = eventId;
+    }
+  });
+}

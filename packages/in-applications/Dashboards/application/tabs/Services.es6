@@ -2,8 +2,10 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
@@ -121,6 +123,14 @@ function getTableData({
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
       }
     },
     filter: {
@@ -141,17 +151,19 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-          <Link
-            href$={getServiceDashboard(item.service.id, {
-              applicationId,
-              endpointId
-            })}
-          >
-            {item.service.label}
-          </Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
+            <Link
+              href$={getServiceDashboard(item.service.id, {
+                applicationId,
+                endpointId
+              })}
+            >
+              {item.service.label}
+            </Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
@@ -241,6 +253,20 @@ const columnDefinitions = [
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.detailed}
+        />
+      );
+    }
+  },
+  {
+    id: 'openIssues',
+    label: 'Issues',
+    defaultOrderDirection: 'DESC',
+    getContent(item) {
+      return (
+        <ApplicationEntityHealthIndicatorBehavior
+          serviceId={item.service.id}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
         />
       );
     }

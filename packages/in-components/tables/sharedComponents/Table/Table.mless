@@ -39,11 +39,22 @@
   }
 
   .trRegular {
-    height: 3.5rem;
+    & > .td, & > .th {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
   }
 
-  .trCompcat {
-    height: 2.5rem;
+  .trCompact {
+    & > .td, & > .th {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
+      top: -4px;
+      bottom: -4px;
+    }
   }
 
   .th {
@@ -74,5 +85,17 @@
     .tr:first-child > .tr {
       border-top: 0;
     }
+  }
+
+  .severityIndicatorCellContentWrapper {
+    position: relative;
+  }
+
+  .severityIndicatorCellContentWrapperIndicator {
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    width: 2px;
   }
 }

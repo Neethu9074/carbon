@@ -1,0 +1,63 @@
+@import '~in-themes/active.less';
+
+:local {
+  .issue {
+    margin: 0;
+    padding: 1rem 0.75rem 1.5rem 3.1rem;
+    list-style: none;
+    border-top: 1px solid @lib__colors__N300;
+    position: relative;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .link, .link:hover, .link:active, .link:focus {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .clickable:hover {
+    cursor: pointer;
+    background: @lib__colors__N100;
+  }
+
+  .stripe {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 8px;
+  }
+
+  .title {
+    font-size: @lib__typography__h200__font-size;
+    color: @lib__colors__N900Primary;
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .icon {
+    position: absolute;
+    margin-left: -30px;
+  }
+
+  .description {
+    margin: 0;
+    font-size: @lib__typography__h100__font-size;
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .descriptionTooLong {
+    margin: 0;
+    font-style: italic;
+    display: block;
+  }
+}

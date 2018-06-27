@@ -1,22 +1,27 @@
 import React from 'react';
 
+import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
 import Button from 'in-new-components/Button';
 
 import locals from './LoadMoreRow.mless';
 
-export default function LoadMoreRow({ loadMore, label = 'Load More' }) {
+export default function LoadMoreRow({ depth, cols, loadMore, label = 'Load More', size }) {
   return (
-    <div className={locals.loadMoreRow}>
-      <Button
-        kind="action"
-        onClick={e => {
-          e.preventDefault();
-          e.stopPropagation();
-          loadMore();
-        }}
-      >
-        {label}
-      </Button>
-    </div>
+    <Tr depth={depth} size={size}>
+      <Td colSpan={cols}>
+        <div className={locals.wrapper}>
+          <Button
+            kind="action"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              loadMore();
+            }}
+          >
+            {label}
+          </Button>
+        </div>
+      </Td>
+    </Tr>
   );
 }

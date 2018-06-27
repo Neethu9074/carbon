@@ -188,6 +188,7 @@ function buildLib() {
   // success & failure
   lib.colors.success = lib.colors.green800;
   lib.colors.failure = lib.colors.red800;
+  lib.colors.warning = lib.colors.yellow800;
 
   // stroke colors
   lib.colors.chart.strokeColors100 = [

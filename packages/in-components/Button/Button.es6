@@ -31,7 +31,8 @@ function Button({
   href,
   disabled,
   autoFocus,
-  outlineOnly
+  outlineOnly,
+  asBlock
 }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
@@ -42,6 +43,10 @@ function Button({
   // sorry usability :(.
   if (disabled) {
     classes = `${classes} ${locals.disabled}`;
+  }
+
+  if (asBlock) {
+    classes = `${classes} ${locals.block}`;
   }
 
   if (outlineOnly) {
@@ -88,5 +93,6 @@ Button.propTypes = {
   href$: rpt.object,
   disabled: rpt.bool,
   autoFocus: rpt.bool,
-  outlineOnly: rpt.bool
+  outlineOnly: rpt.bool,
+  asBlock: rpt.bool
 };

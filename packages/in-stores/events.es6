@@ -9,6 +9,7 @@ import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
+import theme from 'in-themes';
 
 const noProblemsHealthInfo = Map({
   maxSeverity: 0,
@@ -243,6 +244,25 @@ export function getColorBySeverity(severity, params = {}) {
   }
   return healthColors[Math.max(0, severity) | 0];
 }
+
+export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
+  if (severity > 5) {
+    return theme.lib.colors.failure;
+  } else if (severity > 0) {
+    return theme.lib.colors.warning;
+  }
+  return fallback;
+}
+
+export function getButtonKindBySeverity(severity, fallback = 'secondary') {
+  if (severity > 5) {
+    return 'danger';
+  } else if (severity > 0) {
+    return 'warning';
+  }
+  return fallback;
+}
+
 export const EVENT_TYPES = {
   CHANGE: 0,
   ISSUE_WARNING: 1,

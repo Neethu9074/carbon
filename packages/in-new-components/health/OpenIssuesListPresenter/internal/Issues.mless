@@ -1,0 +1,21 @@
+:local {
+  .issues {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+
+    @height-of-header-and-actions: 8.75rem;
+    max-height: calc(70vh - @height-of-header-and-actions);
+  }
+
+  .skeleton {
+    height: 3.5rem;
+    display: block;
+    margin: .5rem .625rem;
+  }
+
+  .errors {
+    margin: 0.75rem 1rem;
+  }
+}

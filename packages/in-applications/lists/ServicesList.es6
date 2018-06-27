@@ -2,11 +2,14 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -98,18 +101,67 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
 }
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, endpointTypes, technologies }) {
-  return getServices(
-    getServiceListSubscribeEvent(
-      timeConfig,
+  return getServices({
+    pagination: {
       page,
-      pageSize,
-      orderBy,
-      orderDirection,
-      query,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {
+      applications: {
+        metric: 'applications',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      endpoints: {
+        metric: 'endpoints',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      latencyAgg: {
+        metric: 'latency',
+        aggregation: 'MEAN'
+      },
+      latency: {
+        metric: 'latency',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'MEAN'
+      },
+      errors: {
+        metric: 'errors',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'MAX'
+      }
+    },
+    filter: {
+      label: query,
+      timeConfig,
       endpointTypes,
       technologies
-    )
-  );
+    }
+  });
 }
 
 const columnDefinitions = [
@@ -118,10 +170,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-          <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
+            <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
@@ -228,70 +282,20 @@ const columnDefinitions = [
         />
       );
     }
+  },
+  {
+    id: 'openIssues',
+    label: 'Issues',
+    defaultOrderDirection: 'DESC',
+    getContent(item) {
+      return (
+        <ApplicationEntityHealthIndicatorBehavior
+          serviceId={item.service.id}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+        />
+      );
+    }
   }
 ];
-
-export function getServiceListSubscribeEvent(
-  timeConfig,
-  page = 1,
-  pageSize = 20,
-  orderBy = 'callsAgg',
-  orderDirection = 'DESC',
-  query = '',
-  endpointTypes = [],
-  technologies = []
-) {
-  return {
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    },
-    filter: {
-      label: query,
-      timeConfig,
-      endpointTypes,
-      technologies
-    }
-  };
-}
