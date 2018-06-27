@@ -2,7 +2,6 @@ import React from 'react';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
-// import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

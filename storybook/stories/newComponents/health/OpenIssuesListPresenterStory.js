@@ -3,9 +3,13 @@ import { range } from 'lodash';
 import React from 'react';
 
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
+import { success } from 'in-services/util/result';
 import Root from '../../_helpers/Root';
 
 storiesOf('newComponents/health/OpenIssuesListPresenter', module)
+  .add('loading', () => <LoadingIndeterminate />)
+  .add('error', () => <Errors />)
   .add('design library case', () => <DesignLibraryCase />)
   .add('Markdown description', () => <MarkdownDescription />)
   .add('Long Fix Suggestion', () => <LongFixSuggestion />)
@@ -27,10 +31,10 @@ function Wrapper({children}) {
 function DesignLibraryCase() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter openIssues={[
+      <OpenIssuesListPresenter openIssuesResult={success([
         getIssue({severity: 5}),
         getIssue({severity: 10})
-      ]} />
+      ])} />
     </Wrapper>
   );
 }
@@ -38,10 +42,10 @@ function DesignLibraryCase() {
 function LongFixSuggestion() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter openIssues={[
+      <OpenIssuesListPresenter openIssuesResult={success([
         getIssue({description: range(0, 2000).map(() => 'a').join()}),
         getIssue({severity: 10})
-      ]} />
+      ])} />
     </Wrapper>
   );
 }
@@ -49,8 +53,9 @@ function LongFixSuggestion() {
 function MarkdownDescription() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter openIssues={[
+      <OpenIssuesListPresenter openIssuesResult={success([
         getIssue({
+          title: 'With lists',
           description: `
 Something really terrible went down 😿
 
@@ -58,8 +63,14 @@ Something really terrible went down 😿
  - fishy was **too fast**
  - the end
 `.trim()
-        })
-      ]} />
+}),
+getIssue({
+  title: 'Paragraph as last item',
+  description: `
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+`.trim()
+})
+      ])} />
     </Wrapper>
   );
 }
@@ -67,10 +78,35 @@ Something really terrible went down 😿
 function LargeNumberOfIsses() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter openIssues={range(1, 20).map(() => Math.round(Math.random() * 10)).map(severity => getIssue({
+      <OpenIssuesListPresenter openIssuesResult={success(range(1, 20).map(() => Math.round(Math.random() * 10)).map(severity => getIssue({
         severity,
         title: `Issue with severity ${severity}`
-      }))} />
+      })))} />
+    </Wrapper>
+  );
+}
+
+function LoadingIndeterminate() {
+  return (
+    <Wrapper>
+      <OpenIssuesListPresenter openIssuesResult={pendingResult} />
+    </Wrapper>
+  );
+}
+
+function Errors() {
+  return (
+    <Wrapper>
+      <OpenIssuesListPresenter openIssuesResult={{
+        data: null,
+        progress: finishedProgress,
+        errors: [
+          {
+            message: 'Unexpected server error',
+            code: 'SERVER'
+          }
+        ]
+      }} />
     </Wrapper>
   );
 }

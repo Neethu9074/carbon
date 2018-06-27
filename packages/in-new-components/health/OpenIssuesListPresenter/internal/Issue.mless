@@ -3,7 +3,7 @@
 :local {
   .issue {
     margin: 0;
-    padding: 1rem 0.75rem .5rem 3.1rem;
+    padding: 1rem 0.75rem 1.5rem 3.1rem;
     list-style: none;
     border-top: 1px solid @lib__colors__N300;
     position: relative;
@@ -38,6 +38,10 @@
   .description {
     margin: 0;
     font-size: @lib__typography__h100__font-size;
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .descriptionTooLong {

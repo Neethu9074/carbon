@@ -20,7 +20,7 @@ export default function Issue({ issue }) {
         {issue.problem.problemText}
       </h2>
 
-      <p className={locals.description}>
+      <div className={locals.description}>
         {issue.problem.fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH ? (
           <span className={locals.descriptionTooLong}>
             Issue description omitted. More details are visible within the {`event's`} detail view.
@@ -28,7 +28,7 @@ export default function Issue({ issue }) {
         ) : (
           <DangerousHtmlPresenter html={toHtml(issue.problem.fixSuggestion)} />
         )}
-      </p>
+      </div>
     </li>
   );
 }

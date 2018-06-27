@@ -1,14 +1,16 @@
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
-import EventListingPresenter from 'in-components/EventListing/EventListingPresenter';
+import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { indeterminateProgress } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
+import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId }) => ({
-    healthInfo: timeConfig$
+    openIssuesResult: timeConfig$
       .flatMap(timeConfig =>
         getApplicationEntityHealthInfo({
           applicationId,
@@ -17,14 +19,19 @@ export default connectTo(
           timeConfig
         })
       )
-      .filter(healthInfo => healthInfo.data != null)
-      .map(healthInfo => healthInfo.data)
+      .startWith(indeterminateProgress)
+      .map(result => mapData(result, data => data.openIssues))
   }),
-  function ApplicationEntityOpenIssuesList({ healthInfo }) {
-    if (!healthInfo) {
-      return null;
-    }
-
-    return <EventListingPresenter events={fromJS(healthInfo.openIssues)} />;
+  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId }) {
+    return (
+      <OpenIssuesListPresenter
+        openIssuesResult={openIssuesResult}
+        analyzeLink$={getEventsViewFilteredBy({
+          applicationId,
+          serviceId,
+          endpointId
+        })}
+      />
+    );
   }
 );
