@@ -1,11 +1,11 @@
-import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   SelectBox,
-  KeyValueSeperator,
+  FieldSeperator,
   ValueGroup
 } from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
@@ -36,7 +36,7 @@ export default class extends React.Component {
 
   render() {
     const treeNodesTillName = this.state.treeNodesTillName;
-    const { form, onValueChanged } = this.props;
+    const { form, onCustomNameChanged, onValueChanged } = this.props;
 
     return (
       <AnalyzeFilterForm>
@@ -51,7 +51,8 @@ export default class extends React.Component {
           </KeyListGroup>
         ))}
 
-        <KeyValueSeperator />
+        <FieldSeperator label=":" />
+        <CustomKey {...this.props} treeNodesTillName={treeNodesTillName} onCustomNameChanged={onCustomNameChanged} />
 
         {form.get('value').map(field => (
           <ValueGroup field={field}>
@@ -179,6 +180,35 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
   );
 }
 
+function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
+  if (!treeNodesTillName) {
+    return null;
+  }
+  const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
+  const currentSelectedNode = findSubTreeByFullyQualifiedName(lastNode.fullyQualifiedName);
+  if (currentSelectedNode.type !== TAG_TYPES.KEY_VALUE_PAIR) {
+    return null;
+  }
+  return (
+    <Fragment>
+      {form.get('customNameSubform').map(subForm =>
+        subForm.value.get('customName').map(field => (
+          <ValueGroup field={subForm}>
+            <Input
+              type="text"
+              id="customName"
+              value={field.value}
+              onChange={e => onCustomNameChanged(e.target.value)}
+              autoComplete="off"
+            />
+          </ValueGroup>
+        ))
+      )}
+      <FieldSeperator label="=" />
+    </Fragment>
+  );
+}
+
 function findChildByName(children, childName) {
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
@@ -207,13 +237,44 @@ function getTreeNodesTillName(name) {
 
 export function getTagEditForm(name, value) {
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree.type;
+  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;
+
+  let customName = '';
+  if (type === TAG_TYPES.KEY_VALUE_PAIR) {
+    const parts = value.split('=');
+    if (parts.length > 1) {
+      customName = parts[0];
+      value = value.slice(customName.length + 1); // also remove the =
+    }
+  }
+
+  const customNameSubform = createMapForm()
+    .put(
+      'customName',
+      createField({
+        value: customName
+      })
+    )
+    .put(
+      'type',
+      createField({
+        value: type
+      })
+    );
+
   return createMapForm()
     .put(
       'name',
       createField({
         value: name,
         validator: nameValidator
+      })
+    )
+    .put(
+      'customNameSubform',
+      createField({
+        value: customNameSubform,
+        validator: customNameSubformValidator
       })
     )
     .put(
@@ -226,7 +287,7 @@ export function getTagEditForm(name, value) {
       'value',
       createField({
         value: value,
-        validator: getValueValidatorByType(type)
+        validator: notBlankValidator
       })
     );
 }
@@ -263,50 +324,18 @@ function nameValidator(name) {
   return null;
 }
 
-function getValueValidatorByType(type) {
-  if (type === 'KEY_VALUE_PAIRS') {
-    return composeValidators(keyValuePairValidator, notBlankValidator);
-  }
-  return notBlankValidator;
-}
-
-function keyValuePairValidator(v) {
-  if (v == null || isBlank(v)) {
+function customNameSubformValidator(customNameSubform) {
+  const type = customNameSubform.get('type').value;
+  if (type !== TAG_TYPES.KEY_VALUE_PAIR) {
     return null;
   }
 
-  if (v.indexOf('=') === -1) {
-    return null;
-  }
-
-  const keyAndValue = v.split('=');
-  const containsMultipleEquals = keyAndValue.length > 2;
-  if (containsMultipleEquals) {
+  const customName = customNameSubform.get('customName').value;
+  if (isBlank(customName)) {
     return [
       {
         severity: 'error',
-        message: "The value is not allowed to contains multiple '=' characters."
-      }
-    ];
-  }
-
-  const subKey = keyAndValue[0];
-  const value = keyAndValue[1];
-
-  if (!subKey) {
-    return [
-      {
-        severity: 'error',
-        message: "When using the '=' character, you need to define a key in the form of key=value."
-      }
-    ];
-  }
-
-  if (!value) {
-    return [
-      {
-        severity: 'error',
-        message: "When using the '=' character, you need to define a value in the form of key=value."
+        message: 'Please define a sub-key.'
       }
     ];
   }

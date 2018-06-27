@@ -6,6 +6,7 @@
     align-items: center;
 
     color: @lib__colors__N900Primary;
+
     margin-bottom: 0.25rem;
 
     &:first-child,
@@ -37,6 +38,7 @@
     margin-right: 0.25rem;
     padding: 0.3125rem 0.5rem;
 
+    background: @lib__colors__N050;
     border: 1px solid @lib__colors__N400;
     border-left: 3px solid @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_medium;

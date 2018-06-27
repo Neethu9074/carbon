@@ -20,9 +20,9 @@ import locals from './Row.mless';
 const trackTracesButton = createTracker('application.tracesButton');
 
 export default connectTo(
-  ({ timeConfig, applicationId, serviceId, endpointId }) => {
+  ({ timeConfig, applicationId, serviceId, endpointId, value }) => {
     const observables = {
-      value: getTracesCount({ timeConfig, applicationId, serviceId, endpointId })
+      value: value == null ? getTracesCount({ timeConfig, applicationId, serviceId, endpointId }) : undefined
     };
 
     if (applicationId) {
@@ -41,11 +41,13 @@ export default connectTo(
     total,
     iconType,
     type,
+    label,
     applicationId,
     serviceId,
     endpointId,
     applicationLabel,
     serviceLabel,
+    endpointLabel,
     backButtonLabels
   }) {
     if (value == null || (serviceId && !serviceLabel) || (applicationId && !applicationLabel)) {
@@ -67,14 +69,13 @@ export default connectTo(
 
     const isEndpointRow = endpointId ? true : false;
     const isServiceRow = !isEndpointRow && serviceId;
-    const isApplicationRow = !isServiceRow && !isEndpointRow;
-    let label;
+    const isApplicationRow = !isServiceRow && !isEndpointRow && applicationId;
     if (isApplicationRow) {
       label = applicationLabel;
     } else if (isServiceRow) {
       label = serviceLabel;
-    } else {
-      label = endpointId;
+    } else if (isEndpointRow) {
+      label = endpointLabel;
     }
 
     return (

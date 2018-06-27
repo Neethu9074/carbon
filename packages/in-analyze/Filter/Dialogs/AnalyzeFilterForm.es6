@@ -2,6 +2,7 @@ import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { joinClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 
@@ -32,13 +33,13 @@ export function SelectBox({ children, id, value, onChange }) {
   );
 }
 
-export function KeyValueSeperator() {
-  return <div className={locals.keyValueSeperator}>:</div>;
+export function FieldSeperator({ label }) {
+  return <div className={locals.fieldSeperator}>{label}</div>;
 }
 
-export function ValueGroup({ field, children }) {
+export function ValueGroup({ className, field, children }) {
   return (
-    <FormGroup className={locals.valueFormGroup}>
+    <FormGroup className={joinClassNames(locals.valueFormGroup, className)}>
       {children}
       <TouchedMessages field={field} />
     </FormGroup>

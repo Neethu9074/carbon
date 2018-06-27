@@ -9,7 +9,9 @@ import StaticFilter from 'in-analyze/Filter/StaticFilter';
 import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-new-components/Pill';
 import Filter from 'in-analyze/Filter';
+import theme from 'in-themes/theme';
 
 import locals from './ExpandedContent.mless';
 
@@ -34,46 +36,55 @@ export default function ExpandedContent({
 
       <FilterGroup className={locals.filtersFilterGroup} name="Filters">
         <div className={locals.filterListing}>
-          <ApplicationFilterOrPlaceholder
-            filter={application}
-            filterPreset={APPLICATION}
-            placeholderText="Application"
-            onUpdateApplicationTag={onUpdateApplicationTag}
-            onResetApplicationFilter={onResetApplicationFilter}
-          />
-          <ApplicationFilterOrPlaceholder
-            filter={service}
-            filterPreset={SERVICE}
-            placeholderText="Service"
-            onUpdateApplicationTag={onUpdateApplicationTag}
-            onResetApplicationFilter={onResetApplicationFilter}
-          />
-          <ApplicationFilterOrPlaceholder
-            filter={endpoint}
-            isStatic={!service}
-            staticToolTip="Please define a service first"
-            filterPreset={ENDPOINT}
-            placeholderText="Endpoint"
-            onUpdateApplicationTag={onUpdateApplicationTag}
-            onResetApplicationFilter={onResetApplicationFilter}
-          />
+          <AppendAnd>
+            <ApplicationFilterOrPlaceholder
+              filter={application}
+              filterPreset={APPLICATION}
+              placeholderText="Application"
+              onUpdateApplicationTag={onUpdateApplicationTag}
+              onResetApplicationFilter={onResetApplicationFilter}
+            />
+          </AppendAnd>
+          <AppendAnd>
+            <ApplicationFilterOrPlaceholder
+              filter={service}
+              filterPreset={SERVICE}
+              placeholderText="Service"
+              onUpdateApplicationTag={onUpdateApplicationTag}
+              onResetApplicationFilter={onResetApplicationFilter}
+            />
+          </AppendAnd>
+          <AppendAnd>
+            <ApplicationFilterOrPlaceholder
+              filter={endpoint}
+              isStatic={!service}
+              staticToolTip="Please define a service first"
+              filterPreset={ENDPOINT}
+              placeholderText="Endpoint"
+              onUpdateApplicationTag={onUpdateApplicationTag}
+              onResetApplicationFilter={onResetApplicationFilter}
+            />
+          </AppendAnd>
 
           {filters.get('tagFilter').map((tag, i) => (
-            <Filter
-              className={locals.filter}
-              key={i}
-              title={tag.get('name')}
-              icon={tag.get('icon')}
-              onRemove={() => onRemoveTagFilter(tag.get('id'))}
-              onClick={() =>
-                setActiveDialog(
-                  <EditFilterDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />
-                )
-              }
-            >
-              {tag.get('value')}
-            </Filter>
+            <AppendAnd key={i}>
+              <Filter
+                className={locals.filter}
+                key={i}
+                title={tag.get('name')}
+                icon={tag.get('icon')}
+                onRemove={() => onRemoveTagFilter(tag.get('id'))}
+                onClick={() =>
+                  setActiveDialog(
+                    <EditFilterDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />
+                  )
+                }
+              >
+                {tag.get('value')}
+              </Filter>
+            </AppendAnd>
           ))}
+
           <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
             Filter
           </FilterPlaceholder>
@@ -132,5 +143,16 @@ function ApplicationFilterOrPlaceholder({
     <FilterPlaceholder className={locals.filter} onClick={onClicked}>
       {placeholderText}
     </FilterPlaceholder>
+  );
+}
+
+function AppendAnd({ children }) {
+  return (
+    <div className={locals.flexWrapper}>
+      {children}
+      <Pill className={locals.andIndicator} color={theme.lib.colors.N400}>
+        AND
+      </Pill>
+    </div>
   );
 }

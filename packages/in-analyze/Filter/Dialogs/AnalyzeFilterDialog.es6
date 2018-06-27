@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Dialog from 'in-components/Dialog';
@@ -58,7 +60,8 @@ class AnalyzeFilterBasicDialog extends React.Component {
           {renderForm({
             form,
             onValueChanged: value => this.onChange('value', value),
-            onNameChanged: name => this.onChange('name', name)
+            onNameChanged: name => this.onChange('name', name),
+            onCustomNameChanged: name => this.onChange('customName', name)
           })}
 
           <div className={locals.footer}>
@@ -73,10 +76,29 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
   onChange = (fieldName, value) => {
     let form = this.state.form;
-    if (this.props.onChange) {
-      form = this.props.onChange(form, fieldName, value);
+    if (fieldName === 'customName') {
+      this.setState({
+        form: form.updateIn(['customNameSubform'], subForm => {
+          const updatedSubForm = subForm.value.updateIn(['customName'], field =>
+            field.setValue(value).setTouched(true)
+          );
+          return subForm.setValue(updatedSubForm).setTouched(true);
+        })
+      });
+      return;
     }
 
+    if (fieldName === 'name') {
+      const node = findSubTreeByFullyQualifiedName(value);
+      if (node && node.type) {
+        form = form.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+
+        form = form.updateIn(['customNameSubform'], subForm => {
+          const updatedSubForm = subForm.value.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
+          return subForm.setValue(updatedSubForm).setTouched(true);
+        });
+      }
+    }
     this.setState({
       form: form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
     });
@@ -95,6 +117,12 @@ class AnalyzeFilterBasicDialog extends React.Component {
     close();
 
     const tag = form.toJS();
+    if (tag.type === TAG_TYPES.KEY_VALUE_PAIR && tag.customNameSubform) {
+      const customNameSubform = tag.customNameSubform.toJS();
+      if (customNameSubform.customName) {
+        tag.value = `${customNameSubform.customName}=${tag.value}`;
+      }
+    }
     this.props.onSave(tag);
   }
 }

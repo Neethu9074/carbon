@@ -5,7 +5,7 @@ import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   SelectBox,
-  KeyValueSeperator,
+  FieldSeperator,
   ValueGroup
 } from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
 import Input from 'in-components/form/Input';
@@ -30,7 +30,7 @@ export default function EditApplicationFilterForm({ form, onValueChanged }) {
         );
       })}
 
-      <KeyValueSeperator />
+      <FieldSeperator label=":" />
 
       {form.get('value').map(field => (
         <ValueGroup field={field}>

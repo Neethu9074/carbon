@@ -6,6 +6,7 @@
     background: @lib__colors__navy800;
     color: #fff;
 
+    font-weight: 300;
     cursor: not-allowed;
 
     &:hover {
