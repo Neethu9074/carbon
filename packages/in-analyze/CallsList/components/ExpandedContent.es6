@@ -73,7 +73,11 @@ export default function ExpandedContent({
                 onRemove={() => onRemoveTagFilter(tag.get('id'))}
                 onClick={() =>
                   setActiveDialog(
-                    <EditFilterDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />
+                    <EditFilterDialog
+                      tag={tag.toJS()}
+                      onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)}
+                      onRemove={() => onRemoveTagFilter(tag.get('id'))}
+                    />
                   )
                 }
               >
@@ -83,7 +87,7 @@ export default function ExpandedContent({
           ))}
 
           <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
-            Filter
+            Custom Filter
           </FilterPlaceholder>
         </div>
       </FilterGroup>
@@ -120,6 +124,8 @@ function ApplicationFilterOrPlaceholder({
       <EditApplicationFilterDialog
         tag={{ name: filterPreset.name, value: filter ? filter.get('value', '') : '' }}
         onSave={_tag => onUpdateApplicationTag(filterPreset.id, _tag, filterPreset.icon)}
+        onRemove={filter ? () => onResetApplicationFilter(filter.get('id')) : null}
+        removePostPhrase="Filter"
       />
     );
   }
@@ -130,6 +136,7 @@ function ApplicationFilterOrPlaceholder({
         title={filterPreset.label}
         icon={filterPreset.icon}
         onRemove={() => onResetApplicationFilter(filter.get('id'))}
+        removePostPhrase="Filter"
         onClick={onClicked}
       >
         {filter.get('value')}
