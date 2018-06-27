@@ -284,8 +284,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'openIssues',
-    label: 'Issues',
+    id: 'maxSeverity',
+    label: 'Health',
     defaultOrderDirection: 'DESC',
     getContent(item) {
       return (

@@ -17,7 +17,12 @@ export default function OpenIssuesListPresenter({ openIssuesResult, analyzeLink$
     <section>
       <Header openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} />
       <Issues openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} getIssueLink={getIssueLink} />
-      <Actions openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} analyzeLink$={analyzeLink$} />
+      <Actions
+        openIssuesResult={openIssuesResult}
+        maxIssuesToShow={maxIssuesToShow}
+        analyzeLink$={analyzeLink$}
+        getIssueLink={getIssueLink}
+      />
     </section>
   );
 }

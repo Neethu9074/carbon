@@ -5,12 +5,12 @@ import Button from 'in-new-components/Button';
 
 import locals from './Actions.mless';
 
-export default function Actions({ openIssuesResult, analyzeLink$ }) {
+export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink }) {
   if (openIssuesResult.data == null) {
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
-          Analyze issues
+          Analyze Issues
         </Button>
       </div>
     );
@@ -18,6 +18,12 @@ export default function Actions({ openIssuesResult, analyzeLink$ }) {
 
   const openIssues = openIssuesResult.data;
   const maxSeverity = openIssues[0].problem.severity;
+
+  let href$ = analyzeLink$;
+  if (openIssues.length === 1) {
+    href$ = getIssueLink(openIssues[0].id);
+  }
+
   return (
     <div className={locals.actions}>
       <Button
@@ -25,9 +31,9 @@ export default function Actions({ openIssuesResult, analyzeLink$ }) {
         kind={getButtonKindBySeverity(maxSeverity)}
         className={locals.button}
         asBlock
-        href$={analyzeLink$}
+        href$={href$}
       >
-        Analyze {openIssues.length} {openIssues.length === 1 ? 'issue' : 'issues'}
+        View {openIssues.length} {openIssues.length === 1 ? 'Issue' : 'Issues'}
       </Button>
     </div>
   );
