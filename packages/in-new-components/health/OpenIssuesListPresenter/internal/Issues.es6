@@ -7,7 +7,7 @@ import Skeleton from 'in-components/Progress/Skeleton';
 
 import locals from './Issues.mless';
 
-export default function Issues({ openIssuesResult, maxIssuesToShow }) {
+export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink }) {
   if (openIssuesResult.progress.loading) {
     return (
       <div>
@@ -26,7 +26,9 @@ export default function Issues({ openIssuesResult, maxIssuesToShow }) {
 
   return (
     <ol className={locals.issues}>
-      {openIssues.slice(0, maxIssuesToShow).map(issue => <Issue key={issue.id} issue={issue} />)}
+      {openIssues
+        .slice(0, maxIssuesToShow)
+        .map(issue => <Issue key={issue.id} getIssueLink={getIssueLink} issue={issue} />)}
     </ol>
   );
 }

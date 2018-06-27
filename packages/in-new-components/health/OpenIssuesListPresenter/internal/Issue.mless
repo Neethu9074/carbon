@@ -13,6 +13,17 @@
     }
   }
 
+  .link, .link:hover, .link:active, .link:focus {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .clickable:hover {
+    cursor: pointer;
+    background: @lib__colors__N100;
+  }
+
   .stripe {
     top: 0;
     bottom: 0;

@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/react';
+import { just } from 'reactive-observables';
 import { range } from 'lodash';
 import React from 'react';
 
@@ -34,7 +35,7 @@ function DesignLibraryCase() {
       <OpenIssuesListPresenter openIssuesResult={success([
         getIssue({severity: 5}),
         getIssue({severity: 10})
-      ])} />
+      ])} getIssueLink={() => just('#')} />
     </Wrapper>
   );
 }

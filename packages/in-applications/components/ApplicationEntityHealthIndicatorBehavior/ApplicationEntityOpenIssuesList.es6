@@ -22,15 +22,24 @@ export default connectTo(
       .startWith(indeterminateProgress)
       .map(result => mapData(result, data => data.openIssues))
   }),
-  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId }) {
+  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId, eventId }) {
     return (
       <OpenIssuesListPresenter
         openIssuesResult={openIssuesResult}
         analyzeLink$={getEventsViewFilteredBy({
           applicationId,
           serviceId,
-          endpointId
+          endpointId,
+          eventId
         })}
+        getIssueLink={eventId =>
+          getEventsViewFilteredBy({
+            applicationId,
+            serviceId,
+            endpointId,
+            eventId
+          })
+        }
       />
     );
   }

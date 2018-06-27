@@ -50,7 +50,7 @@ export function getEventsViewFilteredByEntity(entityId) {
   });
 }
 
-export function getEventsViewFilteredBy({ applicationId = null, serviceId = null }) {
+export function getEventsViewFilteredBy({ applicationId = null, serviceId = null, eventId = null }) {
   return getModifiedUrlStream(params => {
     let query = '';
     if (applicationId) {
@@ -61,5 +61,8 @@ export function getEventsViewFilteredBy({ applicationId = null, serviceId = null
     }
     params.pathname = eventsPath;
     params.query.q = query.trim();
+    if (eventId) {
+      params.query.eventId = eventId;
+    }
   });
 }
