@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
 import {
   Table,
@@ -24,7 +24,6 @@ import getCalls from 'in-subscription/application/getCalls';
 import { millis } from 'in-services/formatters/number';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 
 import locals from './RawCalls.mless';
 
@@ -69,13 +68,9 @@ export default compose(
 )(RawCalls);
 
 function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
-  let label = 'Calls';
-  if (items && items.length > 0) {
-    label += ` (${items.length})`;
-  }
   return (
-    <Card title={label} withoutPadding>
-      <Table tableInCard>
+    <Fragment>
+      <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
             <SortableCallColumn
@@ -157,6 +152,7 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
         </Tbody>
       </Table>
-    </Card>
+      {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
+    </Fragment>
   );
 }

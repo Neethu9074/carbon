@@ -8,7 +8,7 @@ export default function FilterGroup({ name, children, className }) {
   return (
     <div className={joinClassNames(locals.filterGroup, className)}>
       {name && <span className={locals.name}>{name} </span>}
-      {children}
+      <div>{children}</div>
     </div>
   );
 }

@@ -35,7 +35,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
   }
 
   render() {
-    const { onCancel, renderForm } = this.props;
+    const { onCancel, renderForm, onRemove, removePostPhrase } = this.props;
     const { form } = this.state;
 
     return (
@@ -68,6 +68,19 @@ class AnalyzeFilterBasicDialog extends React.Component {
             <Button kind="create" type="submit" disabled={!form.hierarchyValid && form.touched}>
               Save
             </Button>
+            {onRemove && (
+              <Button
+                kind="subtle"
+                size="compact"
+                icon="lib_actions_delete"
+                onClick={() => {
+                  close();
+                  onRemove();
+                }}
+              >
+                Delete {removePostPhrase && ` ${removePostPhrase}`}
+              </Button>
+            )}
           </div>
         </div>
       </form>

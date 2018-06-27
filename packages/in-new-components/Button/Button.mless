@@ -139,9 +139,9 @@
       // hover bg
       @lib__colors__N300,
       // font
-      @lib__colors__N800Dark,
+      @lib__colors__N600Light,
       // hover font
-      @lib__colors__N800Dark,
+      @lib__colors__N600Light,
       //font size
       @lib__typography__button__font-size,
       //font weight

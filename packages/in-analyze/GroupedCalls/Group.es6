@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
 import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { isQueryBuilderEnabled } from 'in-services/featureFlags';
@@ -43,9 +44,12 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                     }
                   }
 
-                  onChangeFilters({
+                  const newState = {
                     tagFilter: tagFilter.push(fromJS(createFilter({ name: currentGroupName, value: item.name }))).toJS()
-                  });
+                  };
+                  newState[groupByMatrixParameter] = null;
+
+                  onChangeFilters(newState);
                 }}
               >
                 {item.name}

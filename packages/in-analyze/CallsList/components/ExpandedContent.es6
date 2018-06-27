@@ -5,7 +5,6 @@ import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import EditFilterDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
-import StaticFilter from 'in-analyze/Filter/StaticFilter';
 import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
@@ -30,10 +29,6 @@ export default function ExpandedContent({
 
   return (
     <div className={locals.content}>
-      <FilterGroup name="Source">
-        <StaticFilter size="compact">Calls</StaticFilter>
-      </FilterGroup>
-
       <FilterGroup className={locals.filtersFilterGroup} name="Filters">
         <div className={locals.filterListing}>
           <AppendAnd>
@@ -65,7 +60,9 @@ export default function ExpandedContent({
               onResetApplicationFilter={onResetApplicationFilter}
             />
           </AppendAnd>
+        </div>
 
+        <div className={locals.filterListing}>
           {filters.get('tagFilter').map((tag, i) => (
             <AppendAnd key={i}>
               <Filter
@@ -76,7 +73,11 @@ export default function ExpandedContent({
                 onRemove={() => onRemoveTagFilter(tag.get('id'))}
                 onClick={() =>
                   setActiveDialog(
-                    <EditFilterDialog tag={tag.toJS()} onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)} />
+                    <EditFilterDialog
+                      tag={tag.toJS()}
+                      onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)}
+                      onRemove={() => onRemoveTagFilter(tag.get('id'))}
+                    />
                   )
                 }
               >
@@ -86,7 +87,7 @@ export default function ExpandedContent({
           ))}
 
           <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
-            Filter
+            Custom Filter
           </FilterPlaceholder>
         </div>
       </FilterGroup>
@@ -123,6 +124,8 @@ function ApplicationFilterOrPlaceholder({
       <EditApplicationFilterDialog
         tag={{ name: filterPreset.name, value: filter ? filter.get('value', '') : '' }}
         onSave={_tag => onUpdateApplicationTag(filterPreset.id, _tag, filterPreset.icon)}
+        onRemove={filter ? () => onResetApplicationFilter(filter.get('id')) : null}
+        removePostPhrase="Filter"
       />
     );
   }
@@ -133,6 +136,7 @@ function ApplicationFilterOrPlaceholder({
         title={filterPreset.label}
         icon={filterPreset.icon}
         onRemove={() => onResetApplicationFilter(filter.get('id'))}
+        removePostPhrase="Filter"
         onClick={onClicked}
       >
         {filter.get('value')}
