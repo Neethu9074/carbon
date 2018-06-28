@@ -7,16 +7,14 @@ import MetricValue from 'in-components/MetricValue';
 import Chart from 'in-components/Chart';
 
 import DatabaseSizesTable from './DatabaseSizesTable';
-import ReplicationSetTable from './ReplicationSetTable';
 
-import { bytesZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
-  const replicaSet = snapshot.getIn(['data', 'repl.membersList'], emptyList);
 
   if (sensorConnectionProblems.size > 0) {
     return (
@@ -46,16 +44,6 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
             timeWindowAggregation="mean"
           />
         </KpiKeyValue>
-        {replicaSet.size > 0 ? (
-          <KpiKeyValue label="Replication Lag">
-            <MetricValue
-              snapshotId={snapshotId}
-              metric="repl.replication_lag"
-              formatter={millis.compact}
-              timeWindowAggregation="mean"
-            />
-          </KpiKeyValue>
-        ) : null}
       </KpiSection>
 
       <DashboardSection title="Database Activity">
@@ -87,8 +75,6 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <DatabaseSizesTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <ReplicationSetTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

@@ -20,6 +20,7 @@ const tagKeys = [
   'nova.zone',
   'jvm.app.name',
   'kafka.cluster.name',
+  'mongodb.cluster.name',
   'kubernetes.container.name',
   'kubernetes.pod.label',
   'marathon.appId',
