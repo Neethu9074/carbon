@@ -133,13 +133,10 @@ export function mapToServerResponse(config) {
 
 const filterBlackList = {
   application: true,
-  'application.id': true,
   'application.name': true,
   service: true,
-  'service.id': true,
   'service.name': true,
   endpoint: true,
-  'endpoint.id': true,
   'endpoint.name': true
 };
 const generalBlacklist = {
