@@ -9,6 +9,18 @@ export default function EditFilterDialog(props) {
       {...props}
       getInitialForm={() => getInitialForm(props.tag.name, props.tag.value)}
       renderForm={formProps => <EditFilterForm {...formProps} />}
+      onChange={onChange}
     />
   );
+}
+
+function onChange(form, fieldName, value) {
+  if (fieldName === 'name') {
+    form = form.updateIn(['customNameSubform'], subForm => {
+      const updatedSubForm = subForm.value.updateIn(['name'], field => field.setValue(value).setTouched(true));
+      return subForm.setValue(updatedSubForm).setTouched(true);
+    });
+  }
+
+  return form;
 }

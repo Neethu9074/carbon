@@ -32,8 +32,8 @@ export default class extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    const oldName = this.props.form.get('name').value;
-    const newName = nextProps.form.get('name').value;
+    const oldName = this.props.form.get('customNameSubform').value.get('name').value;
+    const newName = nextProps.form.get('customNameSubform').value.get('name').value;
     if (oldName !== newName) {
       this.setState({
         treeNodesTillName: getTreeNodesTillName(newName)
@@ -47,16 +47,19 @@ export default class extends React.Component {
 
     return (
       <AnalyzeFilterForm>
-        {form.get('name').map(field => (
-          <KeyListGroup field={field}>
-            <KeySelection
-              {...this.props}
-              treeNodesTillName={treeNodesTillName}
-              field={field}
-              onNameChanged={this.onNameChanged}
-            />
-          </KeyListGroup>
-        ))}
+        {form
+          .get('customNameSubform')
+          .value.get('name')
+          .map(field => (
+            <KeyListGroup field={field}>
+              <KeySelection
+                {...this.props}
+                treeNodesTillName={treeNodesTillName}
+                field={field}
+                onNameChanged={this.onNameChanged}
+              />
+            </KeyListGroup>
+          ))}
 
         <FieldSeperator label=":" />
         <CustomKey {...this.props} treeNodesTillName={treeNodesTillName} onCustomNameChanged={onCustomNameChanged} />
@@ -203,6 +206,13 @@ export function getInitialForm(name, value) {
 
   const customNameSubform = createMapForm()
     .put(
+      'name',
+      createField({
+        value: name,
+        validator: nameValidator
+      })
+    )
+    .put(
       'customName',
       createField({
         value: customName
@@ -278,6 +288,13 @@ function customNameSubformValidator(customNameSubform) {
   }
 
   const customName = customNameSubform.get('customName').value;
+  const keyName = customNameSubform.get('name').value;
+
+  // for backwards compatibility reasons, we need to support agent.tag tags with an empty 2nd level key
+  if (keyName === 'agent.tag') {
+    return null;
+  }
+
   if (isBlank(customName)) {
     return [
       {

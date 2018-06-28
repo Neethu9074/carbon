@@ -10,6 +10,18 @@ export default function EditGroupDialog(props) {
       title="Group"
       getInitialForm={() => getInitialForm(props.group)}
       renderForm={formProps => <EditGroupFrom {...formProps} />}
+      onChange={onChange}
     />
   );
+}
+
+function onChange(form, fieldName, value) {
+  if (fieldName === 'name') {
+    form = form.updateIn(['customNameSubform'], subForm => {
+      const updatedSubForm = subForm.value.updateIn(['name'], field => field.setValue(value).setTouched(true));
+      return subForm.setValue(updatedSubForm).setTouched(true);
+    });
+  }
+
+  return form;
 }

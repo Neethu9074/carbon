@@ -183,6 +183,13 @@ export function getInitialForm(group) {
 
   const customNameSubform = createMapForm()
     .put(
+      'name',
+      createField({
+        value: name,
+        validator: nameValidator
+      })
+    )
+    .put(
       'customName',
       createField({
         value: customName
@@ -251,6 +258,13 @@ function customNameSubformValidator(customNameSubform) {
   }
 
   const customName = customNameSubform.get('customName').value;
+  const keyName = customNameSubform.get('name').value;
+
+  // for backwards compatibility reasons, we need to support agent.tag tags with an empty 2nd level key
+  if (keyName === 'agent.tag') {
+    return null;
+  }
+
   if (isBlank(customName)) {
     return [
       {
