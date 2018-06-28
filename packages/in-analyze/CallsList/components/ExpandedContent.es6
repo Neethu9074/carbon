@@ -158,7 +158,7 @@ function GroupSection({ group, onAddGroup, onUpdateGroup, onRemoveGroup }) {
     );
   }
   return (
-    <Filter size="compact" onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)}>
+    <Filter size="compact" onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)} removePostPhrase="Group">
       {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
     </Filter>
   );

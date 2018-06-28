@@ -127,6 +127,15 @@ function onUpdateGroup(onChangeFilters, group) {
         newState[groupByMatrixParameter] = { name: _group.name, value: _group.value };
         onChangeFilters(newState);
       }}
+      onRemove={
+        group
+          ? () => {
+              const newState = {};
+              newState[groupByMatrixParameter] = null;
+              onChangeFilters(newState);
+            }
+          : null
+      }
     />
   );
 }
