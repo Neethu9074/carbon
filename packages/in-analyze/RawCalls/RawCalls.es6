@@ -79,9 +79,9 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="timestamp"
-              label="Started"
+              label="Timestamp"
             />
-            <Th>Started At</Th>
+            <Th>Service</Th>
             <SortableCallColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
@@ -96,7 +96,7 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="duration"
-              label="Duration"
+              label="Latency"
             />
             <SortableCallColumn
               orderBy={orderBy}

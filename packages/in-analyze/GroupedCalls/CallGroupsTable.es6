@@ -22,22 +22,14 @@ export default function CallGroupsTable(props) {
               technicalName="label"
               label="Group"
             />
-            <Th>Started At</Th>
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="calls"
-              label="Calls"
-            />
+            <Th>Time</Th>
             <SortableCallColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="duration"
-              label="Avg. Duration"
+              label="Latency"
             />
             <SortableCallColumn
               orderBy={orderBy}

@@ -63,8 +63,6 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
 
         <Td>{formatDateTime(item.timestamp)}</Td>
 
-        <Td>{get(item, ['metrics', 'calls', 0, 1])}</Td>
-
         <Td>
           <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</span>
         </Td>
