@@ -39,21 +39,30 @@
   }
 
   .trRegular {
+    @padding: 1.25rem;
+
     & > .td, & > .th {
-      padding-top: 1.25rem;
-      padding-bottom: 1.25rem;
+      padding-top: @padding;
+      padding-bottom: @padding;
+    }
+
+    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
+      top: @padding * -1px;
+      bottom: @padding * -1px;
     }
   }
 
   .trCompact {
+    @padding: 0.75rem;
+
     & > .td, & > .th {
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
+      padding-top: @padding;
+      padding-bottom: @padding;
     }
 
     & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
-      top: -4px;
-      bottom: -4px;
+      top: @padding * -1px;
+      bottom: @padding * -1px;
     }
   }
 
@@ -93,9 +102,7 @@
 
   .severityIndicatorCellContentWrapperIndicator {
     position: absolute;
-    top: -10px;
-    bottom: -10px;
-    left: -10px;
+    left: -1rem;
     width: 2px;
   }
 }

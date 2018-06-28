@@ -7,7 +7,7 @@ export default function HealthIndicatorButtonPresenter({ openIssues, maxSeverity
   return (
     <Button
       kind={getButtonKindBySeverity(maxSeverity)}
-      icon="lib_events_inverted"
+      icon="lib_help_error_warning"
       onClick={onClick}
       refSetter={refSetter}
     >

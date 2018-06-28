@@ -8,14 +8,14 @@ import { mapData } from 'in-services/util/result';
 
 const maxIssuesToShow = 10;
 
-export default function OpenIssuesListPresenter({ openIssuesResult, analyzeLink$, getIssueLink }) {
+export default function OpenIssuesListPresenter({ openIssuesResult, analyzeLink$, getIssueLink, close }) {
   openIssuesResult = mapData(openIssuesResult, openIssues =>
     openIssues.slice().sort((a, b) => compare(b.problem.severity, a.problem.severity))
   );
 
   return (
     <section>
-      <Header openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} />
+      <Header openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} close={close} />
       <Issues openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} getIssueLink={getIssueLink} />
       <Actions
         openIssuesResult={openIssuesResult}

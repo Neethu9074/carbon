@@ -21,15 +21,38 @@
 
   .clickable:hover {
     cursor: pointer;
-    background: @lib__colors__N100;
+    background: @lib__colors__N050;
+
+    .stripe {
+      // overwrite background color defined via style attribute on DOM node
+      background-color: @lib__colors__blue800 !important;
+      width: 2.5rem;
+    }
+
+    .stripeIcon {
+      opacity: 1;
+    }
   }
 
   .stripe {
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    position: absolute;
-    width: 8px;
+    width: .5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // position above warning icon
+    z-index: 1;
+    transition: width .2s ease-in-out, background-color .2s ease-in-out;
+  }
+
+  .stripeIcon {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity .2s ease-in-out .05s;
   }
 
   .title {
@@ -43,7 +66,7 @@
 
   .icon {
     position: absolute;
-    margin-left: -30px;
+    margin-left: -2.188rem;
   }
 
   .description {

@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Header.mless';
 
-export default function Header({ openIssuesResult, maxIssuesToShow }) {
+export default function Header({ openIssuesResult, maxIssuesToShow, close }) {
+  let title = null;
   if (openIssuesResult.progress.loading) {
-    return <h1 className={locals.header}>Loading Open Issues…</h1>;
+    title = 'Loading Open Issues…';
+  } else if (openIssuesResult.errors.length > 0) {
+    title = 'Failed To Load Open Issues';
+  } else {
+    const openIssueCount = openIssuesResult.data.length;
+    title = (
+      <Fragment>
+        {openIssueCount} Open {openIssueCount === 1 ? 'Issue' : 'Issues'}
+        {openIssueCount > maxIssuesToShow && (
+          <span className={locals.more}>(displaying {maxIssuesToShow} most severe)</span>
+        )}
+      </Fragment>
+    );
   }
 
-  if (openIssuesResult.errors.length > 0) {
-    return <h1 className={locals.header}>Failed To Load Open Issues</h1>;
-  }
-
-  const openIssues = openIssuesResult.data;
   return (
     <h1 className={locals.header}>
-      {openIssues.length} Open {openIssues.length === 1 ? 'Issue' : 'Issues'}
-      {openIssues.length > maxIssuesToShow && (
-        <span className={locals.more}>(displaying {maxIssuesToShow} most severe)</span>
-      )}
+      <div className={locals.title}>{title}</div>
+      <SvgIcon type="lib_openclose_cancel" width={32} className={locals.close} onClick={close} />
     </h1>
   );
 }

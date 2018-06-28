@@ -4,27 +4,24 @@ import getApplicationEntityHealthInfo from 'in-subscription/application/getAppli
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import { timeConfig$ } from 'in-stores/time/config';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId }) => ({
-    openIssuesResult: timeConfig$
-      .flatMap(timeConfig =>
-        getApplicationEntityHealthInfo({
-          applicationId,
-          serviceId,
-          endpointId,
-          timeConfig
-        })
-      )
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
+    openIssuesResult: getApplicationEntityHealthInfo({
+      applicationId,
+      serviceId,
+      endpointId,
+      timeConfig
+    })
       .startWith(indeterminateProgress)
       .map(result => mapData(result, data => data.openIssues))
   }),
-  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId, eventId }) {
+  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId, eventId, close }) {
     return (
       <OpenIssuesListPresenter
+        close={close}
         openIssuesResult={openIssuesResult}
         analyzeLink$={getEventsViewFilteredBy({
           applicationId,

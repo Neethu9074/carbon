@@ -27,7 +27,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink }
   return (
     <div className={locals.actions}>
       <Button
-        icon="lib_events_inverted"
+        icon="lib_help_error_warning"
         kind={getButtonKindBySeverity(maxSeverity)}
         className={locals.button}
         asBlock

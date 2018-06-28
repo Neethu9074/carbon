@@ -8,6 +8,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import TracesButton from 'in-applications/components/TracesButton';
@@ -72,6 +73,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
       />
     </Fragment>
   );

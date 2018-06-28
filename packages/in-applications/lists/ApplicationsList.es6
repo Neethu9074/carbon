@@ -11,6 +11,7 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -162,13 +163,14 @@ const columnDefinitions = [
     id: 'maxSeverity',
     label: 'Health',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
+    getContent(item, { result, timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={item.application.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
         />
       );
     }

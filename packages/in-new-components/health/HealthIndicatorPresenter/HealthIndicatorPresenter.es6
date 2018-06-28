@@ -22,7 +22,7 @@ export default function HealthIndicatorPresenter({ openIssues, maxSeverity, acti
       className={locals.badge}
       ref={refSetter}
     >
-      <SvgIcon type="lib_events_inverted" width={24} color={color} className={locals.icon} />
+      <SvgIcon type="lib_help_error_warning" width={24} color={color} className={locals.icon} />
       {openIssues}
     </a>
   );

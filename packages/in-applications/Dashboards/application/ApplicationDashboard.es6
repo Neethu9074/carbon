@@ -6,6 +6,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
@@ -62,6 +63,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
       />
     </Fragment>
   );

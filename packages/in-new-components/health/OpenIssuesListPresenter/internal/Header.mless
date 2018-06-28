@@ -2,17 +2,37 @@
 
 :local {
   .header {
-    font-size: @lib__typography__h300__font-size;
-    color: @lib__colors__N900Primary;
-    padding: 1.375rem 2.188rem;
+    position: relative;
+    padding: 0;
     margin: 0;
-    background: #fff;
     border-bottom: 1px solid @lib__colors__N300;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: @lib__typography__h200__font-size;
+    font-weight: 300;
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__N200;
+  }
+
+  .title {
+    padding: 0.75rem 1rem;
   }
 
   .more {
     font-size: @lib__typography__h100__font-size;
     color: @lib__colors__N700Medium;
     display: block;
+  }
+
+  .close {
+    fill: @lib__colors__N500;
+    padding: 0.5rem;
+
+    &:hover {
+      fill: @lib__colors__N800Dark;
+    }
   }
 }
