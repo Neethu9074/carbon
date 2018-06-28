@@ -30,7 +30,7 @@ function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, sele
         <ServerTable
           get={getTableData}
           type={selectedType}
-          pageSize={25}
+          defaultPageSize={10}
           columnDefinitions={getColumnDefinitions(selectedType)}
           applicationId={applicationId}
           serviceId={serviceId}
@@ -195,7 +195,7 @@ const getColumnDefinitions = type => {
 };
 
 function EntityLink({ entity }) {
-  if (!entity.id) {
+  if (!entity.id || !entity.plugin) {
     return null;
   }
 
