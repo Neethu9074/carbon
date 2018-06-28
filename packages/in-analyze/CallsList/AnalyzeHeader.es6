@@ -15,6 +15,7 @@ import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import Controls from 'in-analyze/CallsList/components/Controls';
+import { number } from 'in-services/formatters/number';
 
 import locals from './AnalyzeHeader.mless';
 
@@ -26,7 +27,9 @@ function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfCalls }) {
         <div className={locals.heading}>
           <div className={locals.titleWrapper}>
             <h2 className={locals.title}>Analyze</h2>
-            {totalNumberOfCalls && <span className={locals.numberOfCalls}>{totalNumberOfCalls} Calls</span>}
+            {totalNumberOfCalls && (
+              <span className={locals.numberOfCalls}>{number.compact(totalNumberOfCalls)} Calls</span>
+            )}
           </div>
           <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
         </div>
