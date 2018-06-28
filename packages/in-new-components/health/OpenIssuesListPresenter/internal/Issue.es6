@@ -3,8 +3,10 @@ import React, { Fragment } from 'react';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
 
 import locals from './Issue.mless';
@@ -33,6 +35,13 @@ export default function Issue({ issue, getIssueLink }) {
         ) : (
           <DangerousHtmlPresenter html={toHtml(issue.problem.fixSuggestion)} />
         )}
+      </div>
+
+      <div className={locals.timeSection}>
+        <Pill kind="lighter">Started</Pill>
+        <time dateTime={new Date(issue.start).toISOString()} className={locals.startTime}>
+          {formatDateTime(issue.start)}
+        </time>
       </div>
     </Fragment>
   );

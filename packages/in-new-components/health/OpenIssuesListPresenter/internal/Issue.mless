@@ -3,7 +3,7 @@
 :local {
   .issue {
     margin: 0;
-    padding: 1rem 0.75rem 1.5rem 3.1rem;
+    padding: 1rem 0.75rem 1rem 3.1rem;
     list-style: none;
     border-top: 1px solid @lib__colors__N300;
     position: relative;
@@ -82,5 +82,14 @@
     margin: 0;
     font-style: italic;
     display: block;
+  }
+
+  .startTime {
+    padding: 0 0 0 0.25rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .timeSection {
+    margin: 1rem 0 0;
   }
 }

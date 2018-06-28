@@ -115,10 +115,12 @@ function Errors() {
 function getIssue({
   severity = 5,
   title = 'It is a paradisematic country',
-  description = 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.'
+  description = 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.',
+  start = Date.now()
 }) {
   return {
     id: String(Math.random()),
+    start,
     problem: {
       problemText: title,
       fixSuggestion: description,

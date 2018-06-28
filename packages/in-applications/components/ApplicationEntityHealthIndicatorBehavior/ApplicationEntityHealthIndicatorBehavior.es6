@@ -7,8 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, openIssues, maxSeverity, timeConfig }) => {
-    // openIssues and maxSeverity may be provided externally in cases where this component is used in
-    // lists.
+    // openIssues and maxSeverity may be provided externally in cases where this component is used in lists.
     if (openIssues != null && maxSeverity != null) {
       return {};
     }
