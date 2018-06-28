@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import EditForm, { getTagEditForm } from 'in-analyze/Filter/Dialogs/EditFilterDialog/EditFilterForm';
+import EditForm, { getInitialForm } from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
 
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
@@ -44,5 +44,5 @@ const StatefulEditView = compose(
 )(StatefulEditViewComponent);
 
 function StatefulEditViewComponent({ name, value, setName, setValue }) {
-  return <EditForm form={getTagEditForm(name, value)} onNameChanged={setName} onValueChanged={setValue} />;
+  return <EditForm form={getInitialForm(name, value)} onNameChanged={setName} onValueChanged={setValue} />;
 }

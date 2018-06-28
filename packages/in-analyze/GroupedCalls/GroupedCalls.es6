@@ -77,7 +77,10 @@ export default compose(
           }
         },
         tagFilters: tagFiltersForSubscription,
-        groupbyTag: filters.getIn(['group', 'technicalName'])
+        group: {
+          groupbyTag: filters.getIn(['group', 'name']),
+          groupbyTagSecondLevelKey: filters.getIn(['group', 'value'])
+        }
       });
     }
   })

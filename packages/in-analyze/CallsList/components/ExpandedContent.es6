@@ -1,11 +1,10 @@
 import React from 'react';
 
-import EditApplicationFilterDialog from 'in-analyze/Filter/Dialogs/EditApplicationFilterDialog';
+import EditApplicationFilterDialog from 'in-analyze/Dialogs/EditApplicationFilterDialog';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import EditFilterDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
-import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
+import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -14,18 +13,20 @@ import theme from 'in-themes/theme';
 
 import locals from './ExpandedContent.mless';
 
-export default function ExpandedContent({
-  filters,
-  onAddFilter,
-  onGroupToggled,
-  onUpdateTagFilter,
-  onRemoveTagFilter,
-  onUpdateApplicationTag,
-  onResetApplicationFilter
-}) {
+export default function ExpandedContent(props) {
+  const {
+    filters,
+    onAddFilter,
+    onUpdateTagFilter,
+    onRemoveTagFilter,
+    onUpdateApplicationTag,
+    onResetApplicationFilter
+  } = props;
   const application = filters.getIn(['applicationFilter', APPLICATION.id]);
   const service = filters.getIn(['applicationFilter', SERVICE.id]);
   const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
+
+  const group = filters.get('group');
 
   return (
     <div className={locals.content}>
@@ -93,9 +94,7 @@ export default function ExpandedContent({
       </FilterGroup>
 
       <FilterGroup name="Group">
-        <ToggleFilter size="compact" onClick={onGroupToggled} isEnabled={filters.get('group')}>
-          {filters.getIn(['group', 'label'], 'Trace Name')}
-        </ToggleFilter>
+        <GroupSection {...props} group={group} />
       </FilterGroup>
     </div>
   );
@@ -147,6 +146,21 @@ function ApplicationFilterOrPlaceholder({
     <FilterPlaceholder className={locals.filter} onClick={onClicked}>
       {placeholderText}
     </FilterPlaceholder>
+  );
+}
+
+function GroupSection({ group, onAddGroup, onUpdateGroup, onRemoveGroup }) {
+  if (!group) {
+    return (
+      <FilterPlaceholder size="compact" onClick={onAddGroup}>
+        Group
+      </FilterPlaceholder>
+    );
+  }
+  return (
+    <Filter size="compact" onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)}>
+      {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
+    </Filter>
   );
 }
 

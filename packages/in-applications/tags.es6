@@ -297,3 +297,61 @@ export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
   getTagTree();
   return tagMap[fullyQualifiedName];
 }
+
+export function getTreeNodesTillName(name) {
+  const treeNode = findSubTreeByFullyQualifiedName(name);
+  if (!treeNode) {
+    return null;
+  }
+
+  const nodesTillRoot = [];
+  let nodeCursor = treeNode;
+  while (nodeCursor) {
+    if (nodeCursor.parentNode) {
+      nodesTillRoot.push(nodeCursor);
+    }
+    nodeCursor = nodeCursor.parentNode;
+  }
+  return nodesTillRoot.reverse();
+}
+
+export function getFullPathTillNode(node, name) {
+  let cursor = node.parentNode;
+  while (cursor) {
+    if (cursor && cursor.parentNode) {
+      if (name) {
+        name = `${cursor.name}.${name}`;
+      } else {
+        name = cursor.name;
+      }
+    }
+    cursor = cursor.parentNode;
+  }
+  return name;
+}
+
+export function getDeepestPossibleNodePath(name) {
+  let cursor = findSubTreeByFullyQualifiedName(name);
+  while (cursor) {
+    if (cursor.children.length !== 1) {
+      break;
+    }
+
+    cursor = cursor.children[0];
+    name = `${name}.${cursor.name}`;
+  }
+  return name;
+}
+
+export function findChildByName(node, childName) {
+  if (!node) {
+    return null;
+  }
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    if (child.name === childName) {
+      return child;
+    }
+  }
+  return null;
+}

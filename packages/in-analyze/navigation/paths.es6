@@ -8,7 +8,7 @@ import {
   groupBy as groupByMatrixParameter,
   callId as callIdMatrixParameter
 } from 'in-analyze/navigation/matrix';
-import { getApplicationFilterToURLString, getApplicationFilter } from 'in-analyze/CallsList/filterBuilder';
+import { getApplicationFilterToUrlString, getApplicationFilterFromUrlString } from 'in-analyze/CallsList/filterBuilder';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -44,7 +44,7 @@ export function getLinkToAnalyze(
         setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter, null);
       }
 
-      let applicationFilter = deepCopy(getApplicationFilter(params));
+      let applicationFilter = deepCopy(getApplicationFilterFromUrlString(params));
       if (applicationName) {
         applicationFilter[APPLICATION.id] = { name: APPLICATION.name, value: applicationName };
       }
@@ -59,7 +59,7 @@ export function getLinkToAnalyze(
         params,
         analyze,
         applicationFilterMatrixParameter,
-        getApplicationFilterToURLString(applicationFilter)
+        getApplicationFilterToUrlString(applicationFilter)
       );
     } else {
       params.pathname = raw ? analyzeRaw : analyzeGroups;

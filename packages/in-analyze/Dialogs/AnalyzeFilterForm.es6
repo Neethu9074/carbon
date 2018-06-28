@@ -46,7 +46,7 @@ export function ValueGroup({ className, field, children }) {
   );
 }
 
-export function getTagEditForm(name, value) {
+export function getInitialForm(name, value) {
   return createMapForm()
     .put(
       'name',

@@ -152,7 +152,6 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
         </Tbody>
       </Table>
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
     </Fragment>
   );
 }

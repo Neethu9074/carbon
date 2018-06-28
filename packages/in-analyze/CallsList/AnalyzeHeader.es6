@@ -9,12 +9,12 @@ import {
 } from 'in-analyze/navigation/matrix';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ExpandedContent from 'in-analyze/CallsList/components/ExpandedContent';
-import EditFilterDialog from 'in-analyze/Filter/Dialogs/EditFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
+import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import Controls from 'in-analyze/CallsList/components/Controls';
-import groups from 'in-analyze/CallsList/groups';
 
 import locals from './AnalyzeHeader.mless';
 
@@ -41,7 +41,9 @@ function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfCalls }) {
             onUpdateApplicationTag={(id, tag) => onUpdateApplicationTag(id, tag, filters, onChangeFilters)}
             onResetApplicationFilter={id => onResetApplicationFilter(id, filters, onChangeFilters)}
             onAddFilter={() => onAddFilter(filters, onChangeFilters)}
-            onGroupToggled={isEnabled => onGroupToggled(isEnabled, onChangeFilters)}
+            onAddGroup={() => onUpdateGroup(onChangeFilters)}
+            onUpdateGroup={group => onUpdateGroup(onChangeFilters, group)}
+            onRemoveGroup={() => onRemoveGroup(onChangeFilters)}
           />
         </MaxWidthFullscreenContainer>
       </div>
@@ -112,9 +114,23 @@ function onResetApplicationFilter(id, filters, onChangeFilters) {
   onChangeFilters({ applicationFilter });
 }
 
-function onGroupToggled(isEnabled, onChangeFilters) {
+function onUpdateGroup(onChangeFilters, group) {
+  setActiveDialog(
+    <EditGroupDialog
+      group={group ? group.toJS() : createFilter({})}
+      onSave={_group => {
+        const newState = {};
+
+        newState[groupByMatrixParameter] = { name: _group.name, value: _group.value };
+        onChangeFilters(newState);
+      }}
+    />
+  );
+}
+
+function onRemoveGroup(onChangeFilters) {
   const newState = {};
-  newState[groupByMatrixParameter] = isEnabled ? groups.name : null;
+  newState[groupByMatrixParameter] = null;
   onChangeFilters(newState);
 }
 

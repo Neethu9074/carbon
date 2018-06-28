@@ -1,16 +1,23 @@
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { generateUniqueShortId } from 'in-services/util/id';
 
-export function getApplicationFilter(urlTagFilter) {
-  try {
-    urlTagFilter = JSON.parse(urlTagFilter);
-  } catch (error) {
-    urlTagFilter = [];
+export function getTagFilterFromUrlString(urlString) {
+  const parsedTagFilter = parsedUrlOrDefault(urlString, []);
+
+  const tagFilter = [];
+  for (let i = 0; i < parsedTagFilter.length; i++) {
+    tagFilter.push(createFilter(parsedTagFilter[i]));
   }
 
+  return tagFilter;
+}
+
+export function getApplicationFilterFromUrlString(urlString) {
+  const parsedApplicationFilter = parsedUrlOrDefault(urlString, []);
+
   const applicationFilter = {};
-  for (let i = 0; i < urlTagFilter.length; i++) {
-    const urlTag = urlTagFilter[i];
+  for (let i = 0; i < parsedApplicationFilter.length; i++) {
+    const urlTag = parsedApplicationFilter[i];
     if (urlTag.name === APPLICATION.name) {
       applicationFilter[APPLICATION.id] = createFilter({
         id: APPLICATION.id,
@@ -35,43 +42,45 @@ export function getApplicationFilter(urlTagFilter) {
   return applicationFilter;
 }
 
-export function getTagFilter(urlTagFilter) {
-  try {
-    urlTagFilter = JSON.parse(urlTagFilter);
-  } catch (error) {
-    urlTagFilter = [];
-  }
-
-  const tagFilter = [];
-  for (let i = 0; i < urlTagFilter.length; i++) {
-    tagFilter.push(createFilter(urlTagFilter[i]));
-  }
-
-  return tagFilter;
+export function getGroupFromUrlString(urlString) {
+  return parsedUrlOrDefault(urlString, null);
 }
 
-export function getTagFilterToURLString(tagFilter) {
+export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value }));
-  if (urlReadyTagFilter.length === 0) {
-    urlReadyTagFilter = null;
-  } else {
-    urlReadyTagFilter = JSON.stringify(urlReadyTagFilter);
-  }
-  return urlReadyTagFilter;
+
+  return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
 }
 
-export function getApplicationFilterToURLString(applicationFilter) {
+export function getApplicationFilterToUrlString(applicationFilter) {
   const keys = Object.keys(applicationFilter);
   let urlReadyTagFilter = keys
     .map(key => applicationFilter[key])
     .filter(tag => tag)
     .map(tag => ({ name: tag.name, value: tag.value }));
-  if (urlReadyTagFilter.length === 0) {
-    urlReadyTagFilter = null;
-  } else {
-    urlReadyTagFilter = JSON.stringify(urlReadyTagFilter);
+
+  return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
+}
+
+export function getGroupToUrlString(group) {
+  return stringifyIfTrue(group, group);
+}
+
+function parsedUrlOrDefault(urlString, defaultValue) {
+  let parsedValue;
+  try {
+    parsedValue = JSON.parse(urlString);
+  } catch (error) {
+    parsedValue = defaultValue;
   }
-  return urlReadyTagFilter;
+  return parsedValue;
+}
+
+function stringifyIfTrue(value, condition) {
+  if (condition) {
+    return JSON.stringify(value);
+  }
+  return null;
 }
 
 export function createFilter(config = {}) {

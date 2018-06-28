@@ -7,7 +7,7 @@ import AnalyzeFilterForm, {
   SelectBox,
   FieldSeperator,
   ValueGroup
-} from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
+} from 'in-analyze/Dialogs/AnalyzeFilterForm';
 import Input from 'in-components/form/Input';
 
 export default function EditApplicationFilterForm({ form, onValueChanged }) {
@@ -48,7 +48,7 @@ export default function EditApplicationFilterForm({ form, onValueChanged }) {
   );
 }
 
-export function getTagEditForm(name, value) {
+export function getInitialForm(name, value) {
   return createMapForm()
     .put(
       'name',

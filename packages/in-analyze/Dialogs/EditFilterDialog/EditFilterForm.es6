@@ -7,8 +7,15 @@ import AnalyzeFilterForm, {
   SelectBox,
   FieldSeperator,
   ValueGroup
-} from 'in-analyze/Filter/Dialogs/AnalyzeFilterForm';
-import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
+} from 'in-analyze/Dialogs/AnalyzeFilterForm';
+import {
+  getTreeNodesTillName,
+  getFullPathTillNode,
+  getDeepestPossibleNodePath,
+  findChildByName,
+  findSubTreeByFullyQualifiedName,
+  getTagTree
+} from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
@@ -57,7 +64,7 @@ export default class extends React.Component {
         {form.get('value').map(field => (
           <ValueGroup field={field}>
             <Input
-              type={form.get('type').value === TAG_TYPES.NUMBER ? 'number' : 'text'}
+              type={form.get('customNameSubform').value.get('type') === TAG_TYPES.NUMBER ? 'number' : 'text'}
               id="value"
               value={field.value}
               onChange={e => onValueChanged(e.target.value)}
@@ -73,34 +80,6 @@ export default class extends React.Component {
   onNameChanged = (oldNode, newName) => {
     this.props.onNameChanged(getDeepestPossibleNodePath(getFullPathTillNode(oldNode, newName)));
   };
-}
-
-function getFullPathTillNode(node, name) {
-  let cursor = node.parentNode;
-  while (cursor) {
-    if (cursor && cursor.parentNode) {
-      if (name) {
-        name = `${cursor.name}.${name}`;
-      } else {
-        name = cursor.name;
-      }
-    }
-    cursor = cursor.parentNode;
-  }
-  return name;
-}
-
-function getDeepestPossibleNodePath(name) {
-  let cursor = findSubTreeByFullyQualifiedName(name);
-  while (cursor) {
-    if (cursor.children.length !== 1) {
-      break;
-    }
-
-    cursor = cursor.children[0];
-    name = `${name}.${cursor.name}`;
-  }
-  return name;
 }
 
 function KeySelection(props) {
@@ -163,7 +142,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
             id={lastNode.name}
             value=""
             onChange={e => {
-              const childNode = findChildByName(lastNode.children, e.target.value);
+              const childNode = findChildByName(lastNode, e.target.value);
               onNameChanged(childNode, e.target.value);
             }}
           >
@@ -209,33 +188,7 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
   );
 }
 
-function findChildByName(children, childName) {
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    if (child.name === childName) {
-      return child;
-    }
-  }
-}
-
-function getTreeNodesTillName(name) {
-  const treeNode = findSubTreeByFullyQualifiedName(name);
-  if (!treeNode) {
-    return null;
-  }
-
-  const nodesTillRoot = [];
-  let nodeCursor = treeNode;
-  while (nodeCursor) {
-    if (nodeCursor.parentNode) {
-      nodesTillRoot.push(nodeCursor);
-    }
-    nodeCursor = nodeCursor.parentNode;
-  }
-  return nodesTillRoot.reverse();
-}
-
-export function getTagEditForm(name, value) {
+export function getInitialForm(name, value) {
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;
 
@@ -275,12 +228,6 @@ export function getTagEditForm(name, value) {
       createField({
         value: customNameSubform,
         validator: customNameSubformValidator
-      })
-    )
-    .put(
-      'type',
-      createField({
-        value: type
       })
     )
     .put(

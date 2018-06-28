@@ -1,15 +1,22 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import BasicFilter from 'in-analyze/Filter/BasicFilter';
 
 import locals from './Filter.mless';
 
 export default function Filter(props) {
-  const { title, children, className } = props;
+  const { title, children, size, className } = props;
 
   return (
-    <BasicFilter {...props} className={joinClassNames(className, locals.filter)}>
+    <BasicFilter
+      {...props}
+      className={evaluateClassNames({
+        [locals.filter]: true,
+        [locals[size]]: true,
+        [className]: className
+      })}
+    >
       {title && (
         <div className={locals.rowWrapper}>
           <span className={locals.title}>{title}</span>

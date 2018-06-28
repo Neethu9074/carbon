@@ -35,14 +35,14 @@ class AnalyzeFilterBasicDialog extends React.Component {
   }
 
   render() {
-    const { onCancel, renderForm, onRemove, removePostPhrase } = this.props;
+    const { onCancel, renderForm, onRemove, removePostPhrase, title = 'Filter' } = this.props;
     const { form } = this.state;
 
     return (
       <form onSubmit={e => this.onSubmit(e, form)} className={locals.form}>
         <div className={locals.dialog}>
           <div className={locals.heading}>
-            <h1 className={locals.title}>Filter</h1>
+            <h1 className={locals.title}>{title}</h1>
             <SvgIcon
               className={locals.cancelIcon}
               type="lib_openclose_cancel"
@@ -104,8 +104,6 @@ class AnalyzeFilterBasicDialog extends React.Component {
     if (fieldName === 'name') {
       const node = findSubTreeByFullyQualifiedName(value);
       if (node && node.type) {
-        form = form.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
-
         form = form.updateIn(['customNameSubform'], subForm => {
           const updatedSubForm = subForm.value.updateIn(['type'], field => field.setValue(node.type).setTouched(true));
           return subForm.setValue(updatedSubForm).setTouched(true);
@@ -130,10 +128,14 @@ class AnalyzeFilterBasicDialog extends React.Component {
     close();
 
     const tag = form.toJS();
-    if (tag.type === TAG_TYPES.KEY_VALUE_PAIR && tag.customNameSubform) {
-      const customNameSubform = tag.customNameSubform.toJS();
+    const customNameSubform = tag.customNameSubform ? tag.customNameSubform.toJS() : {};
+    if (customNameSubform.type === TAG_TYPES.KEY_VALUE_PAIR) {
       if (customNameSubform.customName) {
-        tag.value = `${customNameSubform.customName}=${tag.value}`;
+        if (tag.value) {
+          tag.value = `${customNameSubform.customName}=${tag.value}`;
+        } else {
+          tag.value = customNameSubform.customName;
+        }
       }
     }
     this.props.onSave(tag);

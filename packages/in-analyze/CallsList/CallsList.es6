@@ -9,15 +9,16 @@ import {
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import {
-  getApplicationFilterToURLString,
-  getTagFilterToURLString,
-  getApplicationFilter,
-  getTagFilter
+  getApplicationFilterToUrlString,
+  getTagFilterToUrlString,
+  getGroupToUrlString,
+  getApplicationFilterFromUrlString,
+  getTagFilterFromUrlString,
+  getGroupFromUrlString
 } from 'in-analyze/CallsList/filterBuilder';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { TAG_TYPES, APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import { getGroupByTechnicalName } from 'in-analyze/CallsList/groups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/CallsList/AnalyzeHeader';
 import getCalls from 'in-subscription/application/getCalls';
@@ -45,13 +46,13 @@ export default compose(
     reducerName: 'onChangeFilters',
     getParsedUrlValues: values => {
       const urlFilters = values[tagFilterMatrixParameter];
-      const tagFilter = getTagFilter(urlFilters);
+      const tagFilter = getTagFilterFromUrlString(urlFilters);
 
       const urlGroup = values[groupByMatrixParameter];
-      const group = getGroupByTechnicalName(urlGroup);
+      const group = getGroupFromUrlString(urlGroup);
 
       const urlApplicationFilters = values[applicationFilterMatrixParameter];
-      const applicationFilter = getApplicationFilter(urlApplicationFilters);
+      const applicationFilter = getApplicationFilterFromUrlString(urlApplicationFilters);
 
       const objectToReturn = {};
       objectToReturn[applicationFilterMatrixParameter] = applicationFilter;
@@ -60,19 +61,19 @@ export default compose(
       return objectToReturn;
     },
     getSerializedUrlValues: props => {
-      let group = props[groupByMatrixParameter];
-      group = group ? group.technicalName : null;
-
       const tagFilter = props[tagFilterMatrixParameter];
-      const urlReadyTagFilter = getTagFilterToURLString(tagFilter);
+      const urlReadyTagFilter = getTagFilterToUrlString(tagFilter);
+
+      const group = props[groupByMatrixParameter];
+      const urlReadyGroup = getGroupToUrlString(group);
 
       const applicationFilter = props[applicationFilterMatrixParameter];
-      const urlReadyApplicationFilter = getApplicationFilterToURLString(applicationFilter);
+      const urlReadyApplicationFilter = getApplicationFilterToUrlString(applicationFilter);
 
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
       objectToStore[applicationFilterMatrixParameter] = urlReadyApplicationFilter;
-      objectToStore[groupByMatrixParameter] = group;
+      objectToStore[groupByMatrixParameter] = urlReadyGroup;
       return objectToStore;
     }
   }),

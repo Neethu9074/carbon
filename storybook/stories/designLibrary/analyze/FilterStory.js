@@ -4,7 +4,6 @@ import React from 'react';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import FilterPreview from 'in-analyze/Filter/FilterPreview';
 import StaticFilter from 'in-analyze/Filter/StaticFilter';
-import ToggleFilter from 'in-analyze/Filter/ToggleFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Filter from 'in-analyze/Filter';
 
@@ -44,15 +43,6 @@ function FilterStory() {
         </FilterGroup>
       </Section>
 
-      <Section title="Toggle">
-        <FilterGroup>
-          <ToggleFilter size="compact">Toggle Me</ToggleFilter>
-          <ToggleFilter size="compact" isEnabled>
-            Also Me
-          </ToggleFilter>
-        </FilterGroup>
-      </Section>
-
       <Section title="Placeholder">
         <FilterGroup>
           <FilterPlaceholder>Application</FilterPlaceholder>
@@ -79,9 +69,6 @@ function FilterStory() {
           </Filter>
           <Filter title="docker.label">some docker label</Filter>
           <FilterPlaceholder>Filter</FilterPlaceholder>
-        </FilterGroup>
-        <FilterGroup name="Group">
-          <ToggleFilter size="compact">Trace Name</ToggleFilter>
         </FilterGroup>
       </Section>
     </Root>

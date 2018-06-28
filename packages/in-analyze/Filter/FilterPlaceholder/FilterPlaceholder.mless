@@ -8,6 +8,11 @@
     color: @lib__colors__primary1;
   }
 
+  .compact {
+    min-width: auto;
+    max-width: auto;
+  }
+
   .icon {
     margin-right: 0.5rem;
     fill: @lib__colors__primary1;
