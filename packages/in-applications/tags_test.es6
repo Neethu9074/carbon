@@ -293,31 +293,73 @@ describe('in-applications/tags', () => {
 
       expect(tree).to.not.equal(null);
 
-      expect(tree.children).to.have.length(5);
-      expect(tree.children[0].name).to.equal('a');
-      expect(tree.children[1].name).to.equal('b');
-      expect(tree.children[2].name).to.equal('this');
-      expect(tree.children[3].name).to.equal('x');
-      expect(tree.children[4].name).to.equal('z');
+      expect(tree.getChildren()).to.have.length(5);
+      expect(tree.getChildren()[0].name).to.equal('a');
+      expect(tree.getChildren()[1].name).to.equal('b');
+      expect(tree.getChildren()[2].name).to.equal('this');
+      expect(tree.getChildren()[3].name).to.equal('x');
+      expect(tree.getChildren()[4].name).to.equal('z');
 
-      expect(tree.children[0].children).to.have.length(1);
-      expect(tree.children[0].children[0].name).to.equal('b');
+      expect(tree.getChildren()[0].getChildren()).to.have.length(1);
+      expect(tree.getChildren()[0].getChildren()[0].name).to.equal('b');
 
-      expect(tree.children[0].children[0].isTag).to.equal(true);
-      expect(tree.children[0].children[0].children).to.have.length(2);
-      expect(tree.children[0].children[0].children[0].name).to.equal('c');
-      expect(tree.children[0].children[0].children[1].name).to.equal('d');
+      expect(tree.getChildren()[0].getChildren()[0].isTag).to.equal(true);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(2);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('c');
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[1].name
+      ).to.equal('d');
 
-      expect(tree.children[0].children[0].children[0].isTag).to.equal(true);
-      expect(tree.children[0].children[0].children[0].children).to.have.length(1);
-      expect(tree.children[0].children[0].children[0].children[0].name).to.equal('d');
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].isTag
+      ).to.equal(true);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(1);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('d');
 
-      expect(tree.children[1].isTag).to.equal(true);
-      expect(tree.children[1].children).to.have.length(1);
-      expect(tree.children[1].children[0].name).to.equal('c');
+      expect(tree.getChildren()[1].isTag).to.equal(true);
+      expect(tree.getChildren()[1].getChildren()).to.have.length(1);
+      expect(tree.getChildren()[1].getChildren()[0].name).to.equal('c');
 
-      expect(tree.children[1].children[0].children).to.have.length(1);
-      expect(tree.children[1].children[0].children[0].name).to.equal('d');
+      expect(
+        tree
+          .getChildren()[1]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(1);
+      expect(
+        tree
+          .getChildren()[1]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('d');
     });
 
     // it('should deep merge keys', () => {

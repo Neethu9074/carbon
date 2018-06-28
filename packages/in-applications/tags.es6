@@ -131,16 +131,24 @@ export function mapToServerResponse(config) {
   return config;
 }
 
-const tagBlackList = {
+const filterBlackList = {
+  application: true,
   'application.id': true,
   'application.name': true,
+  service: true,
   'service.id': true,
   'service.name': true,
+  endpoint: true,
   'endpoint.id': true,
   'endpoint.name': true
 };
-function isBlacklisted(serverTag) {
-  if (tagBlackList[serverTag.name]) {
+const generalBlacklist = {
+  'application.id': true,
+  'service.id': true,
+  'endpoint.id': true
+};
+function isOnBlacklist(serverTag, blacklist) {
+  if (blacklist[serverTag.name || serverTag.fullyQualifiedName]) {
     return false;
   }
   return true;
@@ -170,7 +178,7 @@ function buildTagTree() {
     tags = [];
   }
   tags = deepCopy(tags)
-    .filter(isBlacklisted)
+    .filter(tag => isOnBlacklist(tag, generalBlacklist))
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
   const tagsAsMap = {};
@@ -278,18 +286,27 @@ function mapCategoriesToNodes(parentNode, categories) {
       node.isTag = true;
       node.type = category.type;
     }
-    parentNode.children.push(node);
+    parentNode.addChild(node);
 
     mapCategoriesToNodes(node, category.children);
   }
 }
 
 function createNode(name, props = {}) {
+  let children = props.children || [];
   return {
     name,
-    children: props.children || [],
     parentNode: props.parentNode,
-    fullyQualifiedName: props.fullyQualifiedName
+    fullyQualifiedName: props.fullyQualifiedName,
+    getChildren() {
+      return children;
+    },
+    getFilteredChildren() {
+      return children.filter(tag => isOnBlacklist(tag, filterBlackList));
+    },
+    addChild(child) {
+      children.push(child);
+    }
   };
 }
 
@@ -333,11 +350,11 @@ export function getFullPathTillNode(node, name) {
 export function getDeepestPossibleNodePath(name) {
   let cursor = findSubTreeByFullyQualifiedName(name);
   while (cursor) {
-    if (cursor.children.length !== 1) {
+    if (cursor.getChildren().length !== 1) {
       break;
     }
 
-    cursor = cursor.children[0];
+    cursor = cursor.getChildren()[0];
     name = `${name}.${cursor.name}`;
   }
   return name;
@@ -347,8 +364,9 @@ export function findChildByName(node, childName) {
   if (!node) {
     return null;
   }
-  for (let i = 0; i < node.children.length; i++) {
-    const child = node.children[i];
+  const children = node.getChildren();
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
     if (child.name === childName) {
       return child;
     }

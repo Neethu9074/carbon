@@ -103,7 +103,7 @@ function UnknownKeySelection({ name, onNameChanged }) {
         value={part}
         onChange={e => {
           if (i === 0) {
-            onNameChanged(getTagTree(), e.target.value);
+            onNameChanged(rootNode, e.target.value);
           }
         }}
       >
@@ -111,7 +111,7 @@ function UnknownKeySelection({ name, onNameChanged }) {
           {part}
         </option>
         {i === 0 &&
-          rootNode.children.map(childNode => (
+          rootNode.getFilteredChildren().map(childNode => (
             <option key={childNode.name} value={childNode.name}>
               {childNode.name}
             </option>
@@ -130,7 +130,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
         <KeyPart key={node.fullyQualifiedName}>
           <SelectBox id={node.name} value={node.name} onChange={e => onNameChanged(node, e.target.value)}>
             {node.parentNode.isTag && <option key="" value="" />}
-            {node.parentNode.children.map(childNode => (
+            {node.parentNode.getFilteredChildren().map(childNode => (
               <option key={childNode.name} value={childNode.name}>
                 {childNode.name}
               </option>
@@ -139,7 +139,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
         </KeyPart>
       ))}
 
-      {lastNode.children.length > 0 && (
+      {lastNode.getFilteredChildren().length > 0 && (
         <KeyPart key={lastNode.fullyQualifiedName}>
           <SelectBox
             id={lastNode.name}
@@ -149,8 +149,8 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
               onNameChanged(childNode, e.target.value);
             }}
           >
-            {lastNode.children.length > 1 && <option key="" value="" />}
-            {lastNode.children.map(childNode => (
+            {lastNode.getFilteredChildren().length > 1 && <option key="" value="" />}
+            {lastNode.getFilteredChildren().map(childNode => (
               <option key={childNode.name} value={childNode.name}>
                 {childNode.name}
               </option>
