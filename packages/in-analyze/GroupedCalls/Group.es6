@@ -33,7 +33,11 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                     return;
                   }
 
-                  const currentGroupName = filters.getIn(['group', 'technicalName']);
+                  const group = filters.get('group');
+                  const currentGroupName = group.get('value')
+                    ? `${group.get('name')}.${group.get('value')}`
+                    : group.get('name');
+
                   const tagFilter = filters.get('tagFilter');
 
                   for (let i = 0; i < tagFilter.size; i++) {
