@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .text {
+    margin: 1.5rem 0;
+
+    color: @lib__colors__navy900;
+    font-size: 1rem;
+  }
+}

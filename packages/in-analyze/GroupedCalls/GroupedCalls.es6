@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import { get } from 'lodash';
 
+import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallGroupsTable from 'in-analyze/GroupedCalls/CallGroupsTable';
 import CallGroupCharts from 'in-analyze/GroupedCalls/CallGroupCharts';
@@ -87,7 +89,9 @@ export default compose(
 )(GroupedCalls);
 
 function GroupedCalls(props) {
-  const { items } = props;
+  const { items, totalHits } = props;
+
+  const totalCounts = items.map(item => get(item, ['metrics', 'calls', 0, 1], 0)).reduce((a, b) => a + b, 0);
 
   const callGroupColors = items.map(
     (group, groupIndex) =>
@@ -96,6 +100,7 @@ function GroupedCalls(props) {
 
   return (
     <Fragment>
+      <CallsAndGroupsIndicator numCalls={totalCounts} numGroups={totalHits} />
       <CallGroupCharts {...props} callGroupColors={callGroupColors} />
       <CallGroupsTable {...props} callGroupColors={callGroupColors} />
     </Fragment>

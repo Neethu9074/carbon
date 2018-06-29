@@ -14,6 +14,7 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
+import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/RawCalls/SortableCallColumn';
@@ -67,9 +68,20 @@ export default compose(
   })
 )(RawCalls);
 
-function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder }) {
+function RawCalls({
+  items,
+  totalHits,
+  errors,
+  progress,
+  loadMore,
+  canLoadMore,
+  orderBy,
+  orderDirection,
+  onChangeOrder
+}) {
   return (
     <Fragment>
+      <CallsAndGroupsIndicator numCalls={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

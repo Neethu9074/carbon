@@ -29,8 +29,6 @@ import RawCalls from 'in-analyze/RawCalls';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 
-import locals from './CallsList.mless';
-
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
@@ -114,7 +112,7 @@ function CallList(props) {
     <Fragment>
       <Title title="Calls" />
       <AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalNumberOfCalls} />
-      <MaxWidthFullscreenContainer className={locals.callsList}>
+      <MaxWidthFullscreenContainer>
         {filters.get('group') && (
           <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
         )}
