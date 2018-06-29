@@ -1,5 +1,5 @@
 import { config, isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEngineer } from 'in-stores/user';
+import { user, isInstanaEngineer } from 'in-stores/user';
 
 // ########################################################################################
 // Reusable helpers for feature (de-) activation
@@ -93,4 +93,9 @@ export const allowedMillisGapsInOneSecondResolution =
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
 
-export const isQueryBuilderEnabled = config.tenant === 'instana' && config.tenantUnit === 'test';
+export const isQueryBuilderEnabled =
+  (config.tenant === 'instana' && config.tenantUnit === 'test') ||
+  user.email === 'matthias.luebken@instana.com' ||
+  isInstanaEngineer;
+
+export const isInfrastructureProcessTagEnabled = isInstanaEngineer;
