@@ -29,9 +29,9 @@ import locals from './RawCalls.mless';
 
 const orderTranslation = {
   timestamp: 't',
-  label: 'concat_dest_service_endpoint',
+  label: 'destination_endpoint',
   duration: 'duration',
-  errors: 'total_error_count'
+  errors: 'errorCount'
 };
 
 const defaultOrder = orderTranslation['timestamp'];
