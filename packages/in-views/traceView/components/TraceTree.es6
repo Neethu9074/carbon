@@ -36,11 +36,10 @@ export default connectTo(
       return <ErroneousResultPresenter className={`${block}__no-trace`} errors={errors} />;
     }
 
-    if (!longTrace.span || longTrace.span.get('traceId') !== traceId) {
+    const trace = traceResult.get('data');
+    if (!longTrace.span || longTrace.span.get('traceId') !== traceId || !trace) {
       return <LoadingIndicator type="dark" />;
     }
-
-    const trace = traceResult.get('data');
 
     return (
       <div className={block}>
