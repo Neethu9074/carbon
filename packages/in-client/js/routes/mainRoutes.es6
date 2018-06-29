@@ -51,7 +51,7 @@ export default (
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
     {!twoZeroModeEnabled && <Route component={GraphView} path={graphPath} />}
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />}
+    <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
