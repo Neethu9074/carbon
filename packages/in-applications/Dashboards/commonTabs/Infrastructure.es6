@@ -12,6 +12,7 @@ import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
 import PluginIcon from 'in-components/PluginIcon';
+import { plugins } from 'in-forge/constants';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
@@ -115,6 +116,14 @@ const getColumnDefinitions = type => {
       id: 'process',
       label: 'Process',
       getContent(item) {
+        if (!item.physicalContext.process.id) {
+          return (
+            <div className={locals.cell}>
+              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
+              {item.physicalContext.process.label}
+            </div>
+          );
+        }
         if (twoZeroModeEnabled) {
           return <EntityLink entity={item.physicalContext.process} />;
         }
@@ -126,6 +135,14 @@ const getColumnDefinitions = type => {
       id: 'container',
       label: 'Container',
       getContent(item) {
+        if (!item.physicalContext.container.id) {
+          return (
+            <div className={locals.cell}>
+              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.docker} />
+              {item.physicalContext.container.label}
+            </div>
+          );
+        }
         if (twoZeroModeEnabled) {
           return <EntityLink entity={item.physicalContext.container} />;
         }
@@ -137,6 +154,14 @@ const getColumnDefinitions = type => {
       id: 'host',
       label: 'Host',
       getContent(item) {
+        if (!item.physicalContext.host.id) {
+          return (
+            <div className={locals.cell}>
+              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.host} />
+              {item.physicalContext.host.label}
+            </div>
+          );
+        }
         if (twoZeroModeEnabled) {
           return <EntityLink entity={item.physicalContext.host} />;
         }
