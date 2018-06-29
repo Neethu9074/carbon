@@ -1,4 +1,5 @@
 import { withState } from 'recompose';
+import { get } from 'lodash';
 import React from 'react';
 
 import InfraTypeSelectButtonGroup from 'in-applications/Dashboards/commonTabs/InfraTypeSelectButtonGroup';
@@ -123,7 +124,7 @@ const getColumnDefinitions = type => {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
-              {item.physicalContext.process.label}
+              {get(item, ['physicalContext', 'process', 'label']) || 'Unknown'}
             </div>
           );
         }
@@ -142,7 +143,7 @@ const getColumnDefinitions = type => {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.docker} />
-              {item.physicalContext.container.label}
+              {get(item, ['physicalContext', 'container', 'label']) || 'Unknown'}
             </div>
           );
         }
@@ -161,7 +162,7 @@ const getColumnDefinitions = type => {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.host} />
-              {item.physicalContext.host.label}
+              {get(item, ['physicalContext', 'host', 'label']) || 'Unknown'}
             </div>
           );
         }
