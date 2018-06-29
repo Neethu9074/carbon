@@ -46,7 +46,7 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
         />
         <ChartSelectButton
           chartId="errorsChartData"
-          label="Errors"
+          label="Error Rate"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />

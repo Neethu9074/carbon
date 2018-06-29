@@ -30,7 +30,7 @@ export default function ExpandedContent(props) {
 
   return (
     <div className={locals.content}>
-      <FilterGroup className={locals.filtersFilterGroup} name="Filters">
+      <FilterGroup className={locals.filtersFilterGroup} name="Filter by">
         <div className={locals.filterListing}>
           <AppendAnd>
             <ApplicationFilterOrPlaceholder
@@ -94,7 +94,7 @@ export default function ExpandedContent(props) {
         </div>
       </FilterGroup>
 
-      <FilterGroup name="Group">
+      <FilterGroup name="Group by">
         <GroupSection {...props} group={group} />
       </FilterGroup>
     </div>

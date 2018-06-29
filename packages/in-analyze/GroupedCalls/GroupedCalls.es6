@@ -22,7 +22,7 @@ const defaultOrder = orderTranslation['calls'];
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'traces.',
+    getMatrixPrefix: () => 'calls.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,

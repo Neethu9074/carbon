@@ -77,19 +77,22 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="timestamp"
-              label="Timestamp"
-            />
-            <Th>Service</Th>
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
               technicalName="label"
               label="Call"
             />
+
+            <Th>Service</Th>
+
+            <SortableCallColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="DESC"
+              technicalName="timestamp"
+              label="Timestamp"
+            />
+
             <SortableCallColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
@@ -113,8 +116,10 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
             <Tr key={item.call.id + i} size="compact">
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                  {formatDateTime(item.call.started)}
+                  <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
+                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
+                    {item.call.label}
+                  </Link>
                 </div>
               </Td>
 
@@ -129,10 +134,8 @@ function RawCalls({ items, errors, progress, loadMore, canLoadMore, orderBy, ord
 
               <Td>
                 <div className={locals.cell}>
-                  <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
-                    {item.call.label}
-                  </Link>
+                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
+                  {formatDateTime(item.call.started)}
                 </div>
               </Td>
 
