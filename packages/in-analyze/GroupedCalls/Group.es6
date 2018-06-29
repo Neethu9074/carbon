@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
-import { millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
@@ -72,6 +72,8 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
         </Td>
 
         <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errors', 0, 1]))}</Td>
+
+        <Td>{number.compact(get(item, ['metrics', 'calls', 0, 1]))}</Td>
       </Tr>
     </Fragment>
   );

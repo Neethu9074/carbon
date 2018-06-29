@@ -39,6 +39,7 @@ export default function CallGroupsTable(props) {
               technicalName="errors"
               label="Error Rate"
             />
+            <Th>Subcalls</Th>
           </Tr>
         </Thead>
         <Tbody>
