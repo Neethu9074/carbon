@@ -103,7 +103,7 @@ export default pure(function ViewSwitcher() {
               label="Analyze"
               icon="lib_application_trace_invert"
               isActive$={isView(isAnalyzeView)}
-              href$={getLinkToAnalyze()}
+              href$={getLinkToAnalyze({ preGrouped: true })}
             />
           )}
       </ul>
