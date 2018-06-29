@@ -79,7 +79,7 @@ export default compose(
         tagFilters: tagFiltersForSubscription,
         group: {
           groupbyTag: filters.getIn(['group', 'name']),
-          groupbyTagSecondLevelKey: filters.getIn(['group', 'value'])
+          groupbyTagSecondLevelKey: filters.getIn(['group', 'value'], '')
         }
       });
     }
