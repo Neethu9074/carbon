@@ -34,22 +34,22 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                   }
 
                   const group = filters.get('group');
-                  const currentGroupName = group.get('value')
-                    ? `${group.get('name')}.${group.get('value')}`
-                    : group.get('name');
+                  const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
 
                   const tagFilter = filters.get('tagFilter');
 
                   for (let i = 0; i < tagFilter.size; i++) {
                     const filter = tagFilter.get(i);
-                    if (filter.get('name') === currentGroupName && filter.get('value') === item.name) {
+                    if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
                       // dont add filter twice
                       return;
                     }
                   }
 
                   const newState = {
-                    tagFilter: tagFilter.push(fromJS(createFilter({ name: currentGroupName, value: item.name }))).toJS()
+                    tagFilter: tagFilter
+                      .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
+                      .toJS()
                   };
                   newState[groupByMatrixParameter] = null;
 
