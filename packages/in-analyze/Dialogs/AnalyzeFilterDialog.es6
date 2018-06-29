@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
@@ -10,8 +10,28 @@ import Dialog from 'in-components/Dialog';
 import locals from './AnalyzeFilterDialog.mless';
 
 export default function AnalyzeFilterDialog(props) {
+  const { onCancel, title = 'Filter' } = props;
+
   return (
     <Dialog
+      customHeaderClassName={locals.customHeader}
+      customHeader={
+        <Fragment>
+          <h1 className={locals.title}>{title}</h1>
+          <SvgIcon
+            className={locals.cancelIcon}
+            type="lib_openclose_cancel"
+            width={32}
+            height={32}
+            onClick={() => {
+              close();
+              if (onCancel) {
+                onCancel();
+              }
+            }}
+          />
+        </Fragment>
+      }
       onClose={() => {
         close();
         if (props.onCancel) {
@@ -35,34 +55,20 @@ class AnalyzeFilterBasicDialog extends React.Component {
   }
 
   render() {
-    const { onCancel, renderForm, onRemove, removePostPhrase, title = 'Filter' } = this.props;
+    const { renderForm, onRemove, removePostPhrase } = this.props;
     const { form } = this.state;
 
     return (
       <form onSubmit={e => this.onSubmit(e, form)} className={locals.form}>
         <div className={locals.dialog}>
-          <div className={locals.heading}>
-            <h1 className={locals.title}>{title}</h1>
-            <SvgIcon
-              className={locals.cancelIcon}
-              type="lib_openclose_cancel"
-              width={32}
-              height={32}
-              onClick={() => {
-                close();
-                if (onCancel) {
-                  onCancel();
-                }
-              }}
-            />
+          <div className={locals.content}>
+            {renderForm({
+              form,
+              onValueChanged: value => this.onChange('value', value),
+              onNameChanged: name => this.onChange('name', name),
+              onCustomNameChanged: name => this.onChange('customName', name)
+            })}
           </div>
-
-          {renderForm({
-            form,
-            onValueChanged: value => this.onChange('value', value),
-            onNameChanged: name => this.onChange('name', name),
-            onCustomNameChanged: name => this.onChange('customName', name)
-          })}
 
           <div className={locals.footer}>
             <Button kind="create" type="submit" disabled={!form.hierarchyValid && form.touched}>
@@ -70,6 +76,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
             </Button>
             {onRemove && (
               <Button
+                style={{ marginLeft: 0 }}
                 kind="subtle"
                 size="compact"
                 icon="lib_actions_delete"

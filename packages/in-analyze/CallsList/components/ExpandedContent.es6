@@ -78,6 +78,7 @@ export default function ExpandedContent(props) {
                       tag={tag.toJS()}
                       onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)}
                       onRemove={() => onRemoveTagFilter(tag.get('id'))}
+                      removePostPhrase="Filter"
                     />
                   )
                 }
