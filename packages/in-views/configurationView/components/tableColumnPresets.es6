@@ -3,6 +3,7 @@ import React from 'react';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Button from 'in-components/Button';
+import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 
 export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
@@ -16,6 +17,28 @@ export function getLinkColumn(getLink, propertyName = 'name', linkParams) {
           return {
             value: row.entity.get(propertyName),
             content: <Link href={href}>{row.entity.get(propertyName)}</Link>
+          };
+        });
+      }
+    }
+  };
+}
+
+export function getLinkColumnWithBadge(getLink, badgeCheck, badgeContent, propertyName = 'name') {
+  return {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get$(row) {
+        return getLink(row.key).map(href => {
+          return {
+            value: row.entity.get(propertyName),
+            content: (
+              <Link href={href}>
+                {row.entity.get(propertyName)} {badgeCheck(row.entity) && <Badge size="sm">{badgeContent}</Badge>}
+              </Link>
+            )
           };
         });
       }

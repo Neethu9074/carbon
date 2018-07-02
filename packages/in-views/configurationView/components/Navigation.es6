@@ -114,21 +114,21 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureCustomAlerts && !twoZeroModeEnabled ? (
+        {role.canConfigureCustomAlerts ? (
           <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
             <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
             <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
-            {forecastsEnabled ? (
+            {forecastsEnabled && (
               <NavItem
                 title="Custom Dynamic Rules"
                 href$={getView(dynamicRulesPath)}
                 isActive$={isView(dynamicRulePath)}
               />
-            ) : null}
+            )}
           </NavItem>
         ) : null}
 
-        {(role.canConfigureIntegrations || role.canConfigureCustomAlerts) ? (
+        {role.canConfigureIntegrations || role.canConfigureCustomAlerts ? (
           <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
             {role.canConfigureCustomAlerts && (
               <NavItem
