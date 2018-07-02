@@ -4,11 +4,11 @@ import React from 'react';
 import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
-  SelectBox,
   FieldSeperator,
   AutoCompletedSelect,
   ValueGroup
 } from 'in-analyze/Dialogs/AnalyzeFilterForm';
+import Input from 'in-components/form/Input/Input';
 
 export default function EditApplicationFilterForm({ form, onValueChanged, tagSuggestionOptions }) {
   return (
@@ -19,11 +19,7 @@ export default function EditApplicationFilterForm({ form, onValueChanged, tagSug
           <KeyListGroup field={field}>
             {parts.map(part => (
               <KeyPart key={part}>
-                <SelectBox id={part} value={part} onChange={() => {}}>
-                  <option key={part} value={part}>
-                    {part}
-                  </option>
-                </SelectBox>
+                <Input id={part} value={part} onChange={() => {}} autoComplete="off" />
               </KeyPart>
             ))}
           </KeyListGroup>
