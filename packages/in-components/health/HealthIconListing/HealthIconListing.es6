@@ -30,7 +30,7 @@ export default connectTo(
     const numberOfOpenIssues = healthInfo ? healthInfo.get('numberOfOpenEvents') : 0;
 
     const counter = (
-      <Link href$={getEventsViewFilteredByEntity(snapshotId)} className={`${block}__link`}>
+      <Link href$={getEventsViewFilteredByEntity(snapshotId, 'issue')} className={`${block}__link`}>
         <HealthBadge className={className} openIssues={numberOfOpenIssues} maxSeverity={maxSeverity} />
       </Link>
     );

@@ -1,4 +1,5 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
@@ -33,7 +34,7 @@ export function getEventViewWithEvent(eventId) {
   });
 }
 
-export function getEventsViewFilteredByEntity(entityId) {
+export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
   return getModifiedUrlStream(params => {
     const query = `entity.id:"${luceneEscapeString(entityId)}"`;
     params.pathname = eventsPath;
@@ -47,10 +48,19 @@ export function getEventsViewFilteredByEntity(entityId) {
     } else {
       params.query.q = query;
     }
+
+    if (eventTypeFilter) {
+      setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);
+    }
   });
 }
 
-export function getEventsViewFilteredBy({ applicationId = null, serviceId = null, eventId = null }) {
+export function getEventsViewFilteredBy({
+  applicationId = null,
+  serviceId = null,
+  eventId = null,
+  eventTypeFilter = null
+}) {
   return getModifiedUrlStream(params => {
     let query = '';
     if (applicationId) {
@@ -63,6 +73,10 @@ export function getEventsViewFilteredBy({ applicationId = null, serviceId = null
     params.query.q = query.trim();
     if (eventId) {
       params.query.eventId = eventId;
+    }
+
+    if (eventTypeFilter) {
+      setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);
     }
   });
 }

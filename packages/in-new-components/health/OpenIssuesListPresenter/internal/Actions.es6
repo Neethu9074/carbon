@@ -10,7 +10,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink }
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
-          Analyze Issues
+          View Issues
         </Button>
       </div>
     );
