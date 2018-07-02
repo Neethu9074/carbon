@@ -27,14 +27,16 @@ export default connectTo(
           applicationId,
           serviceId,
           endpointId,
-          eventId
+          eventId,
+          eventTypeFilter: 'issue'
         })}
         getIssueLink={eventId =>
           getEventsViewFilteredBy({
             applicationId,
             serviceId,
             endpointId,
-            eventId
+            eventId,
+            eventTypeFilter: 'issue'
           })
         }
       />
