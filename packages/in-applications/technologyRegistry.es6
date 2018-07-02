@@ -16,6 +16,7 @@ registry[plugins.hbase] = { label: 'HBase' };
 registry[plugins.mariaDbDatabase] = { label: 'MariaDB' };
 registry[plugins.mssql] = { label: 'MSSQL' };
 registry[plugins.mysql] = { label: 'MySQL' };
+registry[plugins.mongodbReplicaSet] = { label: 'MongoDb Replica Set' };
 registry[plugins.oracledb] = { label: 'OracleDB' };
 registry[plugins.cassandraCluster] = { label: 'Cassandra' };
 registry[plugins.clickHouse] = { label: 'ClickHouse' };

@@ -113,6 +113,7 @@ import './messageBrokerServiceInstance';
 import './messageConsumerServiceInstance';
 import './mongoDb';
 import './mongoDbDatabaseServiceInstance';
+import './mongoDbReplicaSet';
 import './msiis';
 import './msSqlDatabase';
 import './mule';
