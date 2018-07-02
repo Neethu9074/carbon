@@ -118,6 +118,7 @@ function CallGroupChartElement({ callGroups, callGroupColors, timeConfig, time, 
       granularity={granularity}
       renderLegend={false}
       legendColorIndicatorShape="rect"
+      restrictTooltipItemsTo={5}
     />
   );
 }
