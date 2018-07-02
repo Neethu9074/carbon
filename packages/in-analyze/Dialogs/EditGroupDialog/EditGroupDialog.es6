@@ -9,7 +9,7 @@ export default function EditGroupDialog(props) {
       {...props}
       title="Group"
       getInitialForm={() => getInitialForm(props.group)}
-      renderForm={formProps => <EditGroupFrom {...formProps} />}
+      renderForm={formProps => <EditGroupFrom {...props} {...formProps} />}
       onChange={onChange}
     />
   );

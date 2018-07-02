@@ -1,7 +1,9 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React from 'react';
+import CreatableSelect from 'react-select/lib/Creatable';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import FilterConnector from 'in-analyze/Filter/FilterConnector';
 import { joinClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -33,8 +35,8 @@ export function SelectBox({ children, id, value, onChange }) {
   );
 }
 
-export function FieldSeperator({ label }) {
-  return <div className={locals.fieldSeperator}>{label}</div>;
+export function FieldSeperator({ children }) {
+  return <FilterConnector className={locals.fieldSeperator}>{children}</FilterConnector>;
 }
 
 export function ValueGroup({ className, field, children }) {
@@ -43,6 +45,34 @@ export function ValueGroup({ className, field, children }) {
       {children}
       <TouchedMessages field={field} />
     </FormGroup>
+  );
+}
+
+export function AutoCompletedSelect({ field, onValueChanged, autoCompletedOptions }) {
+  let isValueInsideOptions = false;
+  for (let i = 0; i < autoCompletedOptions.length; i++) {
+    const option = autoCompletedOptions[i];
+    if (option.value === field.value) {
+      isValueInsideOptions = true;
+      break;
+    }
+  }
+
+  if (!isValueInsideOptions) {
+    autoCompletedOptions = autoCompletedOptions.concat([{ label: field.value, value: field.value }]);
+  }
+
+  return (
+    <CreatableSelect
+      id="value"
+      value={field.value}
+      onChange={e => onValueChanged(e ? e.value : '')}
+      options={autoCompletedOptions}
+      placeholder=""
+      isClearable
+      autoFocus
+      searchable
+    />
   );
 }
 

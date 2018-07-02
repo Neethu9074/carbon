@@ -2,7 +2,7 @@
 
 :local {
   .analyzeHeader {
-    background: @lib__colors__N100;
+    background: @lib__colors__N200;
   }
 
   .heading {

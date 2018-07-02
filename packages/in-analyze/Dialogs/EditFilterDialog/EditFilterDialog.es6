@@ -8,7 +8,7 @@ export default function EditFilterDialog(props) {
     <AnalyzeFilterDialog
       {...props}
       getInitialForm={() => getInitialForm(props.tag.name, props.tag.value)}
-      renderForm={formProps => <EditFilterForm {...formProps} />}
+      renderForm={formProps => <EditFilterForm {...props} {...formProps} />}
       onChange={onChange}
     />
   );

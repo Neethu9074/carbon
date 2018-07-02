@@ -7,7 +7,8 @@
 
     padding: 0 1rem;
 
-    background: @lib__colors__N050;
+    background: #fff;
+
     border: 1px solid @lib__colors__N400;
     border-left: 4px solid @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_medium;
@@ -34,7 +35,7 @@
   }
 
   .deactivated {
-    background: #fff;
+    background: @lib__colors__N050;
     color: @lib__colors__N500;
 
     &:hover {

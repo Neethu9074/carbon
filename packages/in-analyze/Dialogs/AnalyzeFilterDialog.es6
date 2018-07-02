@@ -15,6 +15,8 @@ export default function AnalyzeFilterDialog(props) {
   return (
     <Dialog
       customHeaderClassName={locals.customHeader}
+      contentWrapperClassName={locals.contentWrapper}
+      contentClassName={locals.content}
       customHeader={
         <Fragment>
           <h1 className={locals.title}>{title}</h1>

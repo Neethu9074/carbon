@@ -6,11 +6,11 @@ import AnalyzeFilterForm, {
   KeyPart,
   SelectBox,
   FieldSeperator,
+  AutoCompletedSelect,
   ValueGroup
 } from 'in-analyze/Dialogs/AnalyzeFilterForm';
-import Input from 'in-components/form/Input';
 
-export default function EditApplicationFilterForm({ form, onValueChanged }) {
+export default function EditApplicationFilterForm({ form, onValueChanged, tagSuggestionOptions }) {
   return (
     <AnalyzeFilterForm>
       {form.get('name').map(field => {
@@ -30,17 +30,15 @@ export default function EditApplicationFilterForm({ form, onValueChanged }) {
         );
       })}
 
-      <FieldSeperator label=":" />
+      <FieldSeperator>:</FieldSeperator>
 
       {form.get('value').map(field => (
         <ValueGroup field={field}>
-          <Input
-            type="text"
-            id="value"
-            value={field.value}
-            onChange={e => onValueChanged(e.target.value)}
-            autoComplete="off"
-            autoFocus
+          <AutoCompletedSelect
+            field={field}
+            onValueChanged={onValueChanged}
+            autoCompletedOptions={tagSuggestionOptions}
+            clearable
           />
         </ValueGroup>
       ))}

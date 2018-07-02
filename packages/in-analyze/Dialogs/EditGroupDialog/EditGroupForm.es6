@@ -4,8 +4,8 @@ import React, { Fragment } from 'react';
 import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
-  SelectBox,
   FieldSeperator,
+  SelectBox,
   ValueGroup
 } from 'in-analyze/Dialogs/AnalyzeFilterForm';
 import {
@@ -156,7 +156,8 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
   }
   return (
     <Fragment>
-      <FieldSeperator label=":" />
+      <FieldSeperator>:</FieldSeperator>
+
       {form.get('customNameSubform').map(subForm =>
         subForm.value.get('customName').map(field => (
           <ValueGroup field={subForm}>

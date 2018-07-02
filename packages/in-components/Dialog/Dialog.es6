@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Dialog.less';
@@ -13,7 +14,8 @@ export default function Dialog({
   customHeaderClassName,
   customHeader,
   onClose,
-  contentClassName
+  contentClassName,
+  contentWrapperClassName
 }) {
   let contentClasses = `${block}__content`;
   if (contentClassName) {
@@ -24,7 +26,7 @@ export default function Dialog({
     <section className={block} onClick={onClickOutside}>
       {childrenOutsideOfContentFlow}
 
-      <div className={`${block}__content-wrapper`}>
+      <div className={joinClassNames(`${block}__content-wrapper`, contentWrapperClassName)}>
         {header && (
           <header className={`${block}__header`}>
             {header}

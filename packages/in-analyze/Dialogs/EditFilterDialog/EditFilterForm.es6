@@ -2,10 +2,10 @@ import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import AnalyzeFilterForm, {
+  FieldSeperator,
   KeyListGroup,
   KeyPart,
   SelectBox,
-  FieldSeperator,
   ValueGroup
 } from 'in-analyze/Dialogs/AnalyzeFilterForm';
 import {
@@ -61,7 +61,7 @@ export default class extends React.Component {
             </KeyListGroup>
           ))}
 
-        <FieldSeperator label=":" />
+        <FieldSeperator>:</FieldSeperator>
         <CustomKey {...this.props} treeNodesTillName={treeNodesTillName} onCustomNameChanged={onCustomNameChanged} />
 
         {form.get('value').map(field => (
@@ -186,7 +186,7 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
           </ValueGroup>
         ))
       )}
-      <FieldSeperator label="=" />
+      <FieldSeperator>=</FieldSeperator>
     </Fragment>
   );
 }
