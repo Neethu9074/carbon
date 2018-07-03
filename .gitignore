@@ -2,7 +2,6 @@
 *.log*
 !/packages/in-forge/tracing/log.log4j
 !/packages/in-forge/tracing/log.log4j2
-
 /node_modules
 /target
 /storybookTarget
@@ -16,3 +15,6 @@
 .npmrc
 git-env.properties
 /licenses.txt
+
+*.iml
+/.idea
