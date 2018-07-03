@@ -10,7 +10,6 @@ import {
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import RemoveSection from 'in-applications/Forms/NewApplication/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { createTracker } from 'in-services/tracking/mixpanel';
@@ -33,7 +32,7 @@ import locals from './CreateApplicationDialog.mless';
 export default function CreateApplicationDialog({ applicationId, onCancelHref$, onSavePath }) {
   return (
     <BasicForm
-      title="Create Application"
+      title={applicationId ? 'Update Application' : 'Create Application'}
       generalHelpText="Applications provide a means to model environments, sets of services, tenants, or just about anything. They can be thought of as perspectives on services and their endpoints."
       saveButtonLabel={applicationId ? 'Save' : 'Create'}
       onCancelHref$={onCancelHref$}
@@ -163,7 +162,6 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                 }
               ]}
             />
-            {applicationId && <RemoveSection application={appConfig} />}
           </Fragment>
         );
       }}
