@@ -17,6 +17,7 @@ import { getTagValuesAsOptions } from 'in-applications/tags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
+import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
@@ -83,6 +84,14 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                       to model an environment: "Production Blue", to model a set of services "Users", or to model a
                       tenant: "ACME Customer."`}
                       </DescriptionText>
+
+                      {applicationId && (
+                        <HelpText>
+                          Renaming an application is an eventually consistent action within the Instana system. For this
+                          reason, a change to an application name may take <em>up to a few minutes</em> until it has
+                          populated throughout the whole system.
+                        </HelpText>
+                      )}
                     </FormGroup>
                   ))
                 },
