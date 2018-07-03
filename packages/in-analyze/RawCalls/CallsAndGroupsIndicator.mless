@@ -1,7 +1,17 @@
 @import '~in-themes/active.less';
 
 :local {
+  .result {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: @lib__colors__N900Primary;
+  }
+
   .text {
+    display: flex;
+    align-items: center;
+
     margin: 1.5rem 0;
 
     color: @lib__colors__N700Medium;
