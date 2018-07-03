@@ -1,6 +1,5 @@
 /* global process:false */
-import createMemoryHistory from 'history/createMemoryHistory';
-import createHashHistory from 'history/createHashHistory';
+import { createMemoryHistory, createHashHistory } from 'history';
 
 import { wrap } from 'in-stores/navigation/routing/matrixAwareHistory';
 

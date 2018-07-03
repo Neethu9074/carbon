@@ -23,14 +23,7 @@ export function wrap(history) {
 }
 
 function wrapListener(listener) {
-  // The parameter isURIDecoded=true of parseUrl is a workaround of issue
-  // https://github.com/ReactTraining/history/issues/505 in history
-  // a decodeURI() method has been applied to the location.pathname here but not to location.search
-  // so we should not apply decodeURIComponent() again to its matrix parameters
-  // but we still have to decode the reserved characters for URI
-  // to fill the gap between decodeURI() and decodeURIComponent()
-  // TODO if the above issue is solved, need to update history and remove the workaround here and in parser.es6
-  return location => listener(parseUrl(location.pathname + (location.search || ''), true));
+  return location => listener(parseUrl(location.pathname + (location.search || '')));
 }
 
 function translate(location, currentLocation) {
@@ -43,15 +36,9 @@ function translate(location, currentLocation) {
     location = parseUrl(location);
   }
 
-  // The parameter workaroundHistoryUrlDecodingIssue=true of stringify is a workaround of issue
-  // https://github.com/ReactTraining/history/issues/505 in history mentioned above in wrapListener()
-  // TODO if the above issue is solved, need to update history and remove the workaround here and in stringifier.es6
-  return stringify(
-    {
-      pathname: location.pathname || currentLocation.pathname || '',
-      query: location.query || currentLocation.query || emptyObject,
-      matrix: location.matrix || currentLocation.matrix || emptyObject
-    },
-    true
-  );
+  return stringify({
+    pathname: location.pathname || currentLocation.pathname || '',
+    query: location.query || currentLocation.query || emptyObject,
+    matrix: location.matrix || currentLocation.matrix || emptyObject
+  });
 }

@@ -1,0 +1,3 @@
+[submodule "packages/history"]
+	path = packages/history
+	url = http://github.com/instana/history

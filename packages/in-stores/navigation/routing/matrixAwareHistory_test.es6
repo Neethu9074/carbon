@@ -64,21 +64,6 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
     });
   });
 
-  // this test is for testing a workaround of the issue in history.js
-  it('must handle URL with percent encoded characters', () => {
-    history.push('/first;k=a%2Fb%20c/second?a=b%20c');
-    expect(getLastEmittedLocation()).to.deep.equal({
-      pathname: '/first/second',
-      query: { a: 'b c' }, // query param should not be encoded
-      matrix: {
-        '/first': {
-          k: 'a/b%20c' // matrix param should be encoded
-        },
-        '/second': {}
-      }
-    });
-  });
-
   function getLastEmittedLocation() {
     return getLastCallArg(listener);
   }
