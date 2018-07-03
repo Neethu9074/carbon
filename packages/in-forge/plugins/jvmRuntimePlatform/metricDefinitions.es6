@@ -3,15 +3,8 @@ import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'threads.new',
-      'threads.runnable',
-      'threads.timed-waiting',
-      'threads.waiting',
-      'threads.blocked',
-      'threads.terminated'
-    ],
-    labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked', 'Terminated'],
+    metrics: ['threads.new', 'threads.runnable', 'threads.timed-waiting', 'threads.waiting', 'threads.blocked'],
+    labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked'],
     min: 0,
     category: ['Threads'],
     formatter: number
