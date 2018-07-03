@@ -301,7 +301,7 @@ function Group({ children, helpText, isWarning }) {
   return (
     <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
       {helpText ? (
-        <Tooltip content={helpText} align="leftMiddle">
+        <Tooltip content={helpText} align="rightMiddle">
           <SvgIcon
             className={`${block}__info-icon`}
             type="info"
