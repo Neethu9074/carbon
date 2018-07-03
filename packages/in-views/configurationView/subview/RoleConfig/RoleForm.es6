@@ -3,6 +3,7 @@ import React from 'react';
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import { twoZeroModeEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
+import { ownerRoleId, fallbackRoleId, defaultRole } from 'in-stores/user';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -18,7 +19,9 @@ import './RoleForm.less';
 
 const block = 'in-role-form';
 
-export default function RoleForm({ form, onChange, disabled }) {
+export default function RoleForm({ form, onChange, roleId }) {
+  const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
+
   return (
     <fieldset disabled={disabled}>
       <Section>
@@ -34,7 +37,7 @@ export default function RoleForm({ form, onChange, disabled }) {
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid && field.touched}
-              disabled={disabled}
+              disabled={disabled || roleId === defaultRole}
               autoFocus
             />
             <TouchedMessages field={field} />
