@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/new/components/ButtonSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogStreamer';
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
@@ -83,7 +83,8 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],
               labels: ['Sensor time', 'Discovery time'],
-              type: 'line'
+              type: 'line',
+              formatter: millis.compact
             }}
             y2={{
               min: 0,
