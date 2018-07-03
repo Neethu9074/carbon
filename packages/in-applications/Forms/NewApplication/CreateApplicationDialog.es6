@@ -79,12 +79,6 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                       />
                       <TouchedMessages field={field} />
 
-                      <DescriptionText className={locals.applicationNameText}>
-                        {`Application names should have a well established definition within an organization. For example,
-                      to model an environment: "Production Blue", to model a set of services "Users", or to model a
-                      tenant: "ACME Customer."`}
-                      </DescriptionText>
-
                       {applicationId && (
                         <HelpText>
                           Renaming an application is an eventually consistent action within the Instana system. For this
@@ -92,6 +86,12 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                           populated throughout the whole system.
                         </HelpText>
                       )}
+
+                      <DescriptionText className={locals.applicationNameText}>
+                        {`Application names should have a well established definition within an organization. For example,
+                      to model an environment: "Production Blue", to model a set of services "Users", or to model a
+                      tenant: "ACME Customer."`}
+                      </DescriptionText>
                     </FormGroup>
                   ))
                 },
