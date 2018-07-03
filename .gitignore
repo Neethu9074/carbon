@@ -15,6 +15,3 @@
 .npmrc
 git-env.properties
 /licenses.txt
-
-*.iml
-/.idea
