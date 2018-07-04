@@ -188,6 +188,7 @@ function ValueInputByType({ form, field, onValueChanged }) {
   if (form.get('customNameSubform').value.get('type').value === TAG_TYPES.BOOLEAN) {
     return (
       <SelectBox id="value" value={field.value} onChange={e => onValueChanged(e.target.value)}>
+        {field.value == '' && <option key="" value="" />}
         <option key="true" value="true">
           true
         </option>
