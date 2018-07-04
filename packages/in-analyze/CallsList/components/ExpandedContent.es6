@@ -113,7 +113,7 @@ function ApplicationFilterOrPlaceholder({
   function onClicked() {
     setActiveDialog(
       <EditApplicationFilterDialog
-        timeConfig={filters.get('timeConfig')}
+        filters={filters}
         name={filterPreset.name}
         value={filter ? filter.get('value', '') : ''}
         onSave={_tag => onUpdateApplicationTag(filterPreset.id, _tag, filterPreset.icon)}

@@ -1,6 +1,7 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
+import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 
@@ -69,9 +70,9 @@ export default () => ComposedComponent => {
 
       this.tagSuggestions$ = getTagSuggestions({
         filter: {
-          timeConfig: this.props.timeConfig
+          timeConfig: this.props.filters.get('timeConfig')
         },
-        tagFilters: [],
+        tagFilters: getTagFilterList(this.props.filters),
         tagName: this.state.name,
         secondLevelKeyTagName: null,
         requestingSecondaryKeySuggestions: false,
@@ -99,4 +100,23 @@ export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
     value: suggestion,
     label: suggestion
   }));
+}
+
+function getTagFilterList(filters) {
+  const tagFilters = [];
+
+  const application = filters.getIn(['applicationFilter', APPLICATION.id]);
+  const service = filters.getIn(['applicationFilter', SERVICE.id]);
+  const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
+  if (application) {
+    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
+  }
+  if (service) {
+    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
+  }
+  if (endpoint) {
+    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
+  }
+
+  return tagFilters;
 }
