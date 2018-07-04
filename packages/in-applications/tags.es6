@@ -137,6 +137,7 @@ const filterBlackList = {
   'application.name': true,
   service: true,
   'service.name': true,
+  endpoint: true,
   'endpoint.name': true
 };
 const generalBlacklist = {
