@@ -13,19 +13,30 @@
     width: 0.5rem;
   }
 
+  .labelCell {
+    position: relative;
+
+    &:hover {
+      .filterButton {
+        display: block;
+      }
+    }
+  }
+
   .cell {
     display: flex;
     align-items: center;
   }
 
-  .groupLabel {
-    color: @lib__colors__blue800;
-    text-decoration: @links__decoration;
-    cursor: pointer;
+  .filterButton {
+    position: absolute;
+    right: 1rem;
 
-    &:hover {
-      text-decoration: @links__hover__decoration;
-    }
+    display: none;
+  }
+
+  .groupLabel {
+    color: @lib__colors__navy900;
   }
 
   .metricValue {

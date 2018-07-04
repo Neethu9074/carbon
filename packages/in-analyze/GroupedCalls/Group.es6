@@ -9,6 +9,7 @@ import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { isQueryBuilderEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
+import Button from 'in-new-components/Button';
 
 import locals from './Group.mless';
 
@@ -16,7 +17,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return (
     <Fragment>
       <Tr size="compact">
-        <Td>
+        <Td className={locals.labelCell}>
           <div className={locals.cell}>
             <span className={locals.dot}>
               {dotColor ? (
@@ -26,38 +27,42 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
               )}
             </span>
             {isQueryBuilderEnabled && (
-              <span
-                className={locals.groupLabel}
-                onClick={() => {
-                  if (!isQueryBuilderEnabled) {
-                    return;
-                  }
-
-                  const group = filters.get('group');
-                  const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
-
-                  const tagFilter = filters.get('tagFilter');
-
-                  for (let i = 0; i < tagFilter.size; i++) {
-                    const filter = tagFilter.get(i);
-                    if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-                      // dont add filter twice
+              <Fragment>
+                <span className={locals.groupLabel}>{item.name}</span>
+                <Button
+                  size="compact"
+                  className={locals.filterButton}
+                  onClick={() => {
+                    if (!isQueryBuilderEnabled) {
                       return;
                     }
-                  }
 
-                  const newState = {
-                    tagFilter: tagFilter
-                      .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
-                      .toJS()
-                  };
-                  newState[groupByMatrixParameter] = null;
+                    const group = filters.get('group');
+                    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
 
-                  onChangeFilters(newState);
-                }}
-              >
-                {item.name}
-              </span>
+                    const tagFilter = filters.get('tagFilter');
+
+                    for (let i = 0; i < tagFilter.size; i++) {
+                      const filter = tagFilter.get(i);
+                      if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
+                        // dont add filter twice
+                        return;
+                      }
+                    }
+
+                    const newState = {
+                      tagFilter: tagFilter
+                        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
+                        .toJS()
+                    };
+                    newState[groupByMatrixParameter] = null;
+
+                    onChangeFilters(newState);
+                  }}
+                >
+                  Filter by
+                </Button>
+              </Fragment>
             )}
             {!isQueryBuilderEnabled && (
               <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
