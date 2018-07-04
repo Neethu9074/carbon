@@ -33,7 +33,6 @@ const Form = entityForm(function IntegrationForm(props) {
   const { entity, form, message, error, loading } = props;
 
   const roleId = form ? form.get('id').value : null;
-  // do not allow editing of the owner or fallback role
 
   return (
     <div>
