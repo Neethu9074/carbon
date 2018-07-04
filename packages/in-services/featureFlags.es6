@@ -97,5 +97,3 @@ export const isQueryBuilderEnabled =
   (config.tenant === 'instana' && config.tenantUnit === 'test') ||
   user.email === 'matthias.luebken@instana.com' ||
   isInstanaEngineer;
-
-export const isInfrastructureProcessTagEnabled = isInstanaEngineer;

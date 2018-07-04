@@ -8,7 +8,6 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
-import { isInfrastructureProcessTagEnabled } from 'in-services/featureFlags';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
@@ -20,9 +19,7 @@ import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
 
-export default withState('selectedType', 'setType', isInfrastructureProcessTagEnabled ? 'PROCESS' : 'DOCKER')(
-  Infrastructure
-);
+export default withState('selectedType', 'setType', 'PROCESS')(Infrastructure);
 
 function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   return (
