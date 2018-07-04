@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
+import { defaultProps, compose } from 'recompose';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
@@ -30,6 +30,9 @@ import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
+  defaultProps({
+    repalceHistory: false
+  }),
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => '',
