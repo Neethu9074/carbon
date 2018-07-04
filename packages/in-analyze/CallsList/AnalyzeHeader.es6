@@ -1,4 +1,3 @@
-import { withState } from 'recompose';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -8,7 +7,7 @@ import {
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import ExpandedContent from 'in-analyze/CallsList/components/ExpandedContent';
+import QueryBuilderWorkspace from 'in-analyze/CallsList/components/QueryBuilderWorkspace';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
@@ -19,8 +18,7 @@ import { number } from 'in-services/formatters/number';
 
 import locals from './AnalyzeHeader.mless';
 
-export default withState('isExpanded', 'setIsExpanded', true)(AnalyzeHeader);
-function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfCalls }) {
+export default function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfCalls }) {
   return (
     <div className={locals.analyzeHeader}>
       <MaxWidthFullscreenContainer>
@@ -37,7 +35,7 @@ function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfCalls }) {
 
       <div className={locals.filterRow}>
         <MaxWidthFullscreenContainer>
-          <ExpandedContent
+          <QueryBuilderWorkspace
             filters={filters}
             onUpdateTagFilter={(id, tag) => onUpdateTagFilter(id, tag, filters, onChangeFilters)}
             onRemoveTagFilter={id => onRemoveTagFilter(id, filters, onChangeFilters)}
@@ -63,12 +61,12 @@ function onAddFilter(filters, onChangeFilters) {
       onSave={_tag => {
         tag.name = _tag.name;
         tag.value = _tag.value;
-        onChangeFilters({
-          tagFilter: filters
-            .get('tagFilter')
-            .push(fromJS(tag))
-            .toJS()
-        });
+        const newState = {};
+        newState[tagFilterMatrixParameter] = filters
+          .get('tagFilter')
+          .push(fromJS(tag))
+          .toJS();
+        onChangeFilters(newState);
       }}
     />
   );
@@ -82,14 +80,18 @@ function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
     value: tag.value
   });
 
-  onChangeFilters({ tagFilter });
+  const newState = {};
+  newState[tagFilterMatrixParameter] = tagFilter;
+  onChangeFilters(newState);
 }
 
 function onRemoveTagFilter(id, filters, onChangeFilters) {
   const tagFilter = filters.get('tagFilter').toJS();
   tagFilter.splice(findTagIndexById(tagFilter, id), 1);
 
-  onChangeFilters({ tagFilter });
+  const newState = {};
+  newState[tagFilterMatrixParameter] = tagFilter;
+  onChangeFilters(newState);
 }
 
 function onUpdateApplicationTag(id, tag, filters, onChangeFilters) {
@@ -103,7 +105,9 @@ function onUpdateApplicationTag(id, tag, filters, onChangeFilters) {
     }
   }
 
-  onChangeFilters({ applicationFilter });
+  const newState = {};
+  newState[applicationFilterMatrixParameter] = applicationFilter;
+  onChangeFilters(newState);
 }
 
 function onResetApplicationFilter(id, filters, onChangeFilters) {
@@ -114,7 +118,9 @@ function onResetApplicationFilter(id, filters, onChangeFilters) {
     applicationFilter[ENDPOINT.id] = null;
   }
 
-  onChangeFilters({ applicationFilter });
+  const newState = {};
+  newState[applicationFilterMatrixParameter] = applicationFilter;
+  onChangeFilters(newState);
 }
 
 function onUpdateGroup(onChangeFilters, group) {

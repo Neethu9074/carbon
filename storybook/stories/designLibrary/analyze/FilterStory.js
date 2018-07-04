@@ -2,8 +2,6 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
-import FilterPreview from 'in-analyze/Filter/FilterPreview';
-import StaticFilter from 'in-analyze/Filter/StaticFilter';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Filter from 'in-analyze/Filter';
 
@@ -15,14 +13,6 @@ storiesOf('designLibrary/Analyze/FilterStory', module).add('Filter', () => <Filt
 function FilterStory() {
   return (
     <Root>
-      <Section title="Preview">
-        <FilterGroup>
-          <FilterPreview title="Source" isStatic items={[{ label: 'Calls' }]} />
-          <FilterPreview title="Filter" items={[{ label: 'Filter A' }, { label: 'Filter B' }, { label: 'Filter B' }]} />
-          <FilterPreview title="Group" items={[{ label: 'Trace Name', color: '#39BF7C' }]} />
-        </FilterGroup>
-      </Section>
-
       <Section title="Sizes">
         <FilterGroup>
           <Filter size="compact">Compact</Filter>
@@ -33,13 +23,6 @@ function FilterStory() {
           <Filter title="Size" icon="lib_actions_star">
             Default with icon
           </Filter>
-        </FilterGroup>
-      </Section>
-
-      <Section title="Static">
-        <FilterGroup>
-          <StaticFilter size="compact">You cannot change me</StaticFilter>
-          <StaticFilter size="compact">One does not simply change a static filter</StaticFilter>
         </FilterGroup>
       </Section>
 
@@ -60,9 +43,7 @@ function FilterStory() {
       </Section>
 
       <Section title="Filter Group">
-        <FilterGroup name="Source">
-          <StaticFilter size="compact">Calls</StaticFilter>
-        </FilterGroup>
+        <FilterGroup name="Source">Calls</FilterGroup>
         <FilterGroup name="Group 2">
           <Filter title="Application Name" icon="lib_application">
             My awesome application

@@ -99,12 +99,9 @@ export default compose(
 function CallList(props) {
   const { onChangeFilters, location, totalNumberOfCalls } = props;
 
-  const tagFilter = props[tagFilterMatrixParameter];
-  const applicationFilter = props[applicationFilterMatrixParameter];
-
   let filters = fromJS({
-    tagFilter,
-    applicationFilter,
+    tagFilter: props[tagFilterMatrixParameter],
+    applicationFilter: props[applicationFilterMatrixParameter],
     group: props[groupByMatrixParameter]
   });
   filters = filters.set('timeConfig', getTimeConfig(location));

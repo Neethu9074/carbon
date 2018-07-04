@@ -1,6 +1,7 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
+import { applicationFilter as applicationFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
@@ -105,9 +106,9 @@ export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
 function getTagFilterList(filters) {
   const tagFilters = [];
 
-  const application = filters.getIn(['applicationFilter', APPLICATION.id]);
-  const service = filters.getIn(['applicationFilter', SERVICE.id]);
-  const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
+  const application = filters.getIn([applicationFilterMatrixParameter, APPLICATION.id]);
+  const service = filters.getIn([applicationFilterMatrixParameter, SERVICE.id]);
+  const endpoint = filters.getIn([applicationFilterMatrixParameter, ENDPOINT.id]);
   if (application) {
     tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
   }
