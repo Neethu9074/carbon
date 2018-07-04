@@ -232,10 +232,7 @@ export default function createAnimatableContentRenderer(config) {
     let max = Number.NEGATIVE_INFINITY;
     let min = Number.POSITIVE_INFINITY;
 
-    if (axisConfig.min != null && axisConfig.max != null) {
-      max = axisConfig.max;
-      min = axisConfig.min;
-    } else {
+    if (axisConfig.min == null && axisConfig.max == null) {
       const getBounds = config.axisContentRenderers[axisName].getBoundsForRow || getBoundsForRow;
 
       for (let i = 0, len = dataColumns.length; i < len; i++) {
@@ -246,7 +243,7 @@ export default function createAnimatableContentRenderer(config) {
       }
 
       const rangeBeforeOverride = max - min;
-      min = Math.max(0, min - rangeBeforeOverride * 0.1); // when expanding the scale, don't go to negative values
+      min = min - rangeBeforeOverride * 0.1;
 
       if (axisConfig.min != null) {
         min = axisConfig.min;
@@ -261,6 +258,13 @@ export default function createAnimatableContentRenderer(config) {
         min = min / 2;
         max = max * 2;
       }
+    }
+
+    if (axisConfig.min != null) {
+      min = axisConfig.min;
+    }
+    if (axisConfig.max != null) {
+      max = axisConfig.max;
     }
 
     if (min >= max) {
