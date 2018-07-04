@@ -137,7 +137,6 @@ const filterBlackList = {
   'application.name': true,
   service: true,
   'service.name': true,
-  endpoint: true,
   'endpoint.name': true
 };
 const generalBlacklist = {
@@ -146,7 +145,7 @@ const generalBlacklist = {
   'endpoint.id': true
 };
 function isOnBlacklist(serverTag, blacklist) {
-  if (blacklist[serverTag.name || serverTag.fullyQualifiedName]) {
+  if (blacklist[serverTag.fullyQualifiedName || serverTag.name]) {
     return false;
   }
   return true;
@@ -345,14 +344,15 @@ export function getFullPathTillNode(node, name) {
   return name;
 }
 
-export function getDeepestPossibleNodePath(name) {
+export function getDeepestPossibleNodePath(name, filtered = false) {
   let cursor = findSubTreeByFullyQualifiedName(name);
   while (cursor) {
-    if (cursor.getChildren().length !== 1) {
+    const children = filtered ? cursor.getFilteredChildren() : cursor.getChildren();
+    if (children.length !== 1) {
       break;
     }
 
-    cursor = cursor.getChildren()[0];
+    cursor = children[0];
     name = `${name}.${cursor.name}`;
   }
   return name;

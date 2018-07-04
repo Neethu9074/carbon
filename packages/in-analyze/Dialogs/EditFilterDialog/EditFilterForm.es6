@@ -74,7 +74,7 @@ export default class extends React.Component {
   }
 
   onNameChanged = (oldNode, newName) => {
-    this.props.onNameChanged(getDeepestPossibleNodePath(getFullPathTillNode(oldNode, newName)));
+    this.props.onNameChanged(getDeepestPossibleNodePath(getFullPathTillNode(oldNode, newName), true));
   };
 }
 
