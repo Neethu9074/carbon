@@ -66,14 +66,7 @@ export default class extends React.Component {
 
         {form.get('value').map(field => (
           <ValueGroup field={field}>
-            <Input
-              type={form.get('customNameSubform').value.get('type') === TAG_TYPES.NUMBER ? 'number' : 'text'}
-              id="value"
-              value={field.value}
-              onChange={e => onValueChanged(e.target.value)}
-              autoComplete="off"
-              autoFocus
-            />
+            <ValueInputByType form={form} field={field} onValueChanged={onValueChanged} />
           </ValueGroup>
         ))}
       </AnalyzeFilterForm>
@@ -188,6 +181,31 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
       )}
       <FieldSeperator>=</FieldSeperator>
     </Fragment>
+  );
+}
+
+function ValueInputByType({ form, field, onValueChanged }) {
+  if (form.get('customNameSubform').value.get('type').value === TAG_TYPES.BOOLEAN) {
+    return (
+      <SelectBox id="value" value={field.value} onChange={e => onValueChanged(e.target.value)}>
+        <option key="true" value="true">
+          true
+        </option>
+        <option key="false" value="false">
+          false
+        </option>
+      </SelectBox>
+    );
+  }
+  return (
+    <Input
+      type={form.get('customNameSubform').value.get('type').value === TAG_TYPES.NUMBER ? 'number' : 'text'}
+      id="value"
+      value={field.value}
+      onChange={e => onValueChanged(e.target.value)}
+      autoComplete="off"
+      autoFocus
+    />
   );
 }
 
