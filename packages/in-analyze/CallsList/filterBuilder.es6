@@ -19,23 +19,11 @@ export function getApplicationFilterFromUrlString(urlString) {
   for (let i = 0; i < parsedApplicationFilter.length; i++) {
     const urlTag = parsedApplicationFilter[i];
     if (urlTag.name === APPLICATION.name) {
-      applicationFilter[APPLICATION.id] = createFilter({
-        id: APPLICATION.id,
-        name: APPLICATION.name,
-        value: urlTag.value
-      });
+      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(urlTag.value);
     } else if (urlTag.name === SERVICE.name) {
-      applicationFilter[SERVICE.id] = createFilter({
-        id: SERVICE.id,
-        name: SERVICE.name,
-        value: urlTag.value
-      });
+      applicationFilter[SERVICE.id] = SERVICE.createFilter(urlTag.value);
     } else if (urlTag.name === ENDPOINT.name) {
-      applicationFilter[ENDPOINT.id] = createFilter({
-        id: ENDPOINT.id,
-        name: ENDPOINT.name,
-        value: urlTag.value
-      });
+      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(urlTag.value);
     }
   }
 

@@ -2,8 +2,12 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
+import {
+  groupBy as groupByMatrixParameter,
+  applicationFilter as applicationFilterMatrixParameter
+} from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import { groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
+import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { isQueryBuilderEnabled } from 'in-services/featureFlags';
@@ -39,24 +43,33 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
 
                     const group = filters.get('group');
                     const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
+                    const applicationFilter = filters.get(applicationFilterMatrixParameter).toJS();
+                    const newState = {};
+                    newState[applicationFilterMatrixParameter] = applicationFilter;
 
-                    const tagFilter = filters.get('tagFilter');
+                    if (group.get('name') === APPLICATION.name) {
+                      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(item.name);
+                    } else if (group.get('name') === SERVICE.name) {
+                      applicationFilter[SERVICE.id] = SERVICE.createFilter(item.name);
+                    } else if (group.get('name') === ENDPOINT.name) {
+                      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(item.name);
+                    } else {
+                      const tagFilter = filters.get('tagFilter');
 
-                    for (let i = 0; i < tagFilter.size; i++) {
-                      const filter = tagFilter.get(i);
-                      if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-                        // dont add filter twice
-                        return;
+                      for (let i = 0; i < tagFilter.size; i++) {
+                        const filter = tagFilter.get(i);
+                        if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
+                          // dont add filter twice if they have the same name and value
+                          return;
+                        }
                       }
+
+                      newState.tagFilter = tagFilter
+                        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
+                        .toJS();
                     }
 
-                    const newState = {
-                      tagFilter: tagFilter
-                        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
-                        .toJS()
-                    };
                     newState[groupByMatrixParameter] = null;
-
                     onChangeFilters(newState);
                   }}
                 >
