@@ -51,16 +51,20 @@ export function ValueGroup({ className, field, children }) {
 
 export function AutoCompletedSelect({ field, onValueChanged, autoCompletedOptions }) {
   let isValueInsideOptions = false;
-  for (let i = 0; i < autoCompletedOptions.length; i++) {
-    const option = autoCompletedOptions[i];
-    if (option.value === field.value) {
-      isValueInsideOptions = true;
-      break;
+  if (field.value) {
+    for (let i = 0; i < autoCompletedOptions.length; i++) {
+      const option = autoCompletedOptions[i];
+      if (option.value === field.value) {
+        isValueInsideOptions = true;
+        break;
+      }
     }
+  } else {
+    isValueInsideOptions = true;
   }
 
   if (!isValueInsideOptions) {
-    autoCompletedOptions = autoCompletedOptions.concat([{ label: field.value, value: field.value }]);
+    autoCompletedOptions = [{ label: field.value, value: field.value }].concat(autoCompletedOptions);
   }
 
   return (
