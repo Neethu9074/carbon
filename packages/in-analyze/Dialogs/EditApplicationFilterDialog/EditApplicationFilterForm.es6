@@ -5,10 +5,10 @@ import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   FieldSeperator,
+  FixedSelection,
   AutoCompletedSelect,
   ValueGroup
 } from 'in-analyze/Dialogs/AnalyzeFilterForm';
-import Input from 'in-components/form/Input/Input';
 
 export default function EditApplicationFilterForm({ form, onValueChanged, tagSuggestionOptions }) {
   return (
@@ -19,7 +19,7 @@ export default function EditApplicationFilterForm({ form, onValueChanged, tagSug
           <KeyListGroup field={field}>
             {parts.map(part => (
               <KeyPart key={part}>
-                <Input id={part} value={part} onChange={() => {}} autoComplete="off" />
+                <FixedSelection value={part} />
               </KeyPart>
             ))}
           </KeyListGroup>

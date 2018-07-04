@@ -6,6 +6,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FilterConnector from 'in-analyze/Filter/FilterConnector';
 import { joinClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
+import Input from 'in-components/form/Input/Input';
 import Select from 'in-components/form/Select';
 
 import locals from './AnalyzeFilterForm.mless';
@@ -74,6 +75,10 @@ export function AutoCompletedSelect({ field, onValueChanged, autoCompletedOption
       searchable
     />
   );
+}
+
+export function FixedSelection({ value }) {
+  return <Input className={locals.fixedValue} id={value} value={value} autoComplete="off" disabled />;
 }
 
 export function getInitialForm(name, value) {

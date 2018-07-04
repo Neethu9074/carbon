@@ -54,4 +54,10 @@
     flex-grow: 1;
     min-width: 12.5rem;
   }
+
+  .fixedValue {
+    &[disabled] {
+      color: @lib__colors__navy900;
+    }
+  }
 }
