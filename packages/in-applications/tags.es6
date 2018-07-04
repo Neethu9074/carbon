@@ -142,7 +142,10 @@ const filterBlackList = {
 const generalBlacklist = {
   'application.id': true,
   'service.id': true,
-  'endpoint.id': true
+  'endpoint.id': true,
+  'host.snapshotId': true,
+  'docker.snapshotId': true,
+  'process.snapshotId': true
 };
 function isOnBlacklist(serverTag, blacklist) {
   if (blacklist[serverTag.fullyQualifiedName || serverTag.name]) {
