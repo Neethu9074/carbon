@@ -44,7 +44,7 @@ export default (
     <Route path={cockpitPath} component={Cockpit} />
     <Route path={physicalPath} component={Map} />
     {!twoZeroModeEnabled && <Route path={logicalPath} component={Map} />}
-    {!twoZeroModeEnabled && <Route path={containerPath} component={Map} />}
+    <Route path={containerPath} component={Map} />
 
     {!previewTwoZeroWithoutHybrid && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
