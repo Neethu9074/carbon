@@ -5,6 +5,10 @@
     margin-top: 1rem;
   }
 
+  .descriptionTextList {
+    list-style-type: disc;
+  }
+
   .matchSpecification {
     display: flex;
     align-items: flex-end;

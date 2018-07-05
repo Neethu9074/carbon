@@ -1,6 +1,9 @@
+import { physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
 import { ineum } from 'in-services/eum';
@@ -20,6 +23,7 @@ history.listen(location => {
     url: location.pathname,
     status: 'completed'
   });
+  onRouteChange();
 });
 
 export function mutateUrl(mutator, replace = false) {
@@ -94,8 +98,21 @@ export function goToPath(path) {
 
 export function getView(path) {
   return getModifiedUrlStream(params => {
+    if (
+      twoZeroModeEnabled &&
+      params.query.q != undefined &&
+      // delete the DF query when navigation from an infrastructure view (map, table) to another,
+      // non-infrastructure view, or the other way around
+      isInfrastructurePath(path) !== isInfrastructurePath(params.pathname)
+    ) {
+      delete params.query.q;
+    }
+
     params.pathname = path;
   });
+}
+function isInfrastructurePath(path) {
+  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0;
 }
 
 export function isView(...args) {

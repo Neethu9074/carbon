@@ -1,10 +1,12 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     position: relative;
 
     width: 100%;
     height: 100%;
-    background: #f1f6f9;
+    background: @lib__colors__N050;
     overflow: hidden;
   }
 
@@ -20,7 +22,5 @@
     left: 0;
     right: 0;
     bottom: 0;
-
-    border: 1px solid rgb(203, 217, 226);
   }
 }

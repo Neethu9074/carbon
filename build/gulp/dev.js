@@ -48,43 +48,57 @@ gulp.task('dev', cb => {
 });
 
 gulp.task('askForDevOptions', cb => {
-  var questions = [
-    {
+  var testEnvironment = {
+    uiBackendUrl: 'https://test-instana.instana.io',
+    groundskeeperUrl: 'https://test-fullstack-0-us-west-2.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'test',
+    environment: 'internal',
+    butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
+  };
+  var localBackendEnvironment = {
+    uiBackendUrl: 'http://localhost:8080',
+    websocketEndpoint: 'http://localhost:8082/',
+    groundskeeperUrl: 'http://localhost:8480',
+    withoutAuthPrefix: true,
+    local: true,
+    tenant: 'instana',
+    tenantUnit: 'test',
+    environment: 'local',
+    butlerDomain: 'local-instana.instana.io'
+  };
+
+  var target = null;
+  if (/^test$/i.test(process.env.TARGET)) {
+    target = testEnvironment;
+  } else if (/^local$/i.test(process.env.TARGET)) {
+    target = localBackendEnvironment;
+  }
+
+  var questions = [];
+  if (!target) {
+    questions.push({
       type: 'list',
       name: 'target',
       message: 'Where would you like to get data from?',
       choices: [
         {
           name: 'Test environment',
-          value: {
-            uiBackendUrl: 'https://test-instana.instana.io',
-            groundskeeperUrl: 'https://test-fullstack-0-us-west-2.instana.io',
-            tenant: 'instana',
-            tenantUnit: 'test',
-            environment: 'internal',
-            butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
-          }
+          value: testEnvironment
         },
         {
           name: 'Local backend',
-          value: {
-            uiBackendUrl: 'http://localhost:8080',
-            websocketEndpoint: 'http://localhost:8082/',
-            groundskeeperUrl: 'http://localhost:8480',
-            withoutAuthPrefix: true,
-            local: true,
-            tenant: 'instana',
-            tenantUnit: 'test',
-            environment: 'local',
-            butlerDomain: 'local-instana.instana.io'
-          }
+          value: localBackendEnvironment
         },
         {
           name: 'From a specific (SAAS) tenant unit',
           value: {}
         }
       ]
-    },
+    });
+  }
+
+  questions = questions.concat([
     {
       type: 'list',
       name: 'environment',
@@ -99,6 +113,9 @@ gulp.task('askForDevOptions', cb => {
         }
       ],
       when(answers) {
+        if (target) {
+          answers.target = target;
+        }
         return answers.target.groundskeeperUrl == null;
       }
     },
@@ -117,17 +134,26 @@ gulp.task('askForDevOptions', cb => {
       when(answers) {
         return answers.target.tenantUnit == null;
       }
-    },
-    {
+    }
+  ]);
+
+  var buildMode = null;
+  if (/^prod$/i.test(process.env.BUILD_MODE)) {
+    buildMode = 'production';
+  } else if (/^ask$/i.test(process.env.BUILD_MODE)) {
+    questions.push({
       type: 'list',
       name: 'buildMode',
       message: 'In which mode would you like to compile the source code (you will almost always want development)?',
       choices: ['development', 'production'],
       default: 'development'
-    }
-  ];
+    });
+  } else {
+    buildMode = 'development';
+  }
 
   inquirer.prompt(questions, selectedOptions => {
+    selectedOptions.buildMode = buildMode || selectedOptions.buildMode;
     // no premade target selected, we need to build it up!
     if (selectedOptions.target.groundskeeperUrl == null) {
       selectedOptions.target = {

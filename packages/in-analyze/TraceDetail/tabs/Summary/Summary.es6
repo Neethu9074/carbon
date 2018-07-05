@@ -6,6 +6,7 @@ import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/Ser
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
+import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
@@ -134,7 +135,7 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => traceDetail,
     getMatrixPrefix: () => '',
-    boundKeys: ['callId'],
+    boundKeys: [callIdMatrixParameter],
     getInitialState: () => ({ callId: null }),
     reducerName: 'setCall',
     resets: [

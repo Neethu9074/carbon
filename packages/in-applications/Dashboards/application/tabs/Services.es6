@@ -2,20 +2,23 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
-import ComboBox from 'in-components/ComboBox';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -28,30 +31,26 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => pathSegment,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes'],
-    getInitialState: () => ({ endpointTypes: [] }),
-    reducerName: 'setEndpointTypes',
-    reducer: (_, endpointTypes) => ({ endpointTypes: endpointTypes }),
-    getParsedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank)
+    boundKeys: ['endpointTypes', 'technologies'],
+    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+    reducerName: 'setFilter',
+    reducer: (prevState, { endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
+      technologies: technologies ? technologies : prevState.technologies
     }),
-    getSerializedUrlValues: ({ endpointTypes }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(',')
+    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
+      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
+    }),
+    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
+      technologies: technologies == null ? null : technologies.join(',')
     })
   })
 )(ServiceList);
 
-function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, setEndpointTypes }) {
-  const rightHeader = (
-    <ComboBox
-      value={endpointTypes}
-      onChange={t => setEndpointTypes(t.map(a => a.value))}
-      placeholder="Type…"
-      multi
-      options={getEndpointTypesComboBoxItems()}
-      className={locals.filter}
-    />
-  );
+function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
+  const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
   return (
     <ServerTableWithUrlBoundState
       pathSegment={pathSegment}
@@ -65,6 +64,7 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       cardTitle="Services"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
+      technologies={technologies}
       paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
@@ -82,6 +82,7 @@ function getTableData({
   serviceId,
   endpointId,
   endpointTypes,
+  technologies,
   timeConfig
 }) {
   return getServices({
@@ -124,6 +125,14 @@ function getTableData({
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
       }
     },
     filter: {
@@ -132,6 +141,7 @@ function getTableData({
       service: serviceId,
       endpoint: endpointId,
       endpointTypes,
+      technologies,
       timeConfig
     }
   });
@@ -143,17 +153,19 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-          <Link
-            href$={getServiceDashboard(item.service.id, {
-              applicationId,
-              endpointId
-            })}
-          >
-            {item.service.label}
-          </Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
+            <Link
+              href$={getServiceDashboard(item.service.id, {
+                applicationId,
+                endpointId
+              })}
+            >
+              {item.service.label}
+            </Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
@@ -243,6 +255,22 @@ const columnDefinitions = [
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.detailed}
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <ApplicationEntityHealthIndicatorBehavior
+          serviceId={item.service.id}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          IndicatorPresenter={HealthIndicatorPresenter}
         />
       );
     }

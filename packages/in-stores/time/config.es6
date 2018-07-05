@@ -64,3 +64,12 @@ export function getTimeConfigAtMoment(moment) {
     autoRefresh: false
   };
 }
+
+export function getTimeConfigAlignedToResultTime(timeConfig, result) {
+  return {
+    windowSize: timeConfig.windowSize,
+    autoRefresh: timeConfig.autoRefresh && result.time == null,
+    to: result.time,
+    focusedMoment: result.time
+  };
+}

@@ -1,0 +1,11 @@
+:local {
+  .item {
+    margin-bottom: 7px;
+    border-bottom: 1px solid #394a50;
+
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+}

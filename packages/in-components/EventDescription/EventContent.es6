@@ -22,7 +22,9 @@ export default function EventContent({ showFullTextIfToLong, snapshotId, event, 
       </div>
 
       <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
-      <SnapshotDescription snapshotId={snapshotId} timeConfig={getTimeConfigAtMoment(event.get('start'))} />
+      {snapshotId && (
+        <SnapshotDescription snapshotId={snapshotId} timeConfig={getTimeConfigAtMoment(event.get('start'))} />
+      )}
     </div>
   );
 }

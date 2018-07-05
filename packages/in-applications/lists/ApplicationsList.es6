@@ -1,17 +1,21 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getApplications from 'in-subscription/application/getApplications';
 import Counter from 'in-components/tables/ServerTable/components/Counter';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -81,10 +85,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application" width={24} height={24} />
-          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
-        </div>
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <div className={locals.flexWrapper}>
+            <SvgIcon className={locals.linkEntityIcon} type="lib_application" width={24} height={24} />
+            <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
@@ -106,24 +112,67 @@ const columnDefinitions = [
     id: 'callsAgg',
     label: 'Calls',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={number.compact(item.metrics.callsAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.calls}
+          metric={item.metrics.callsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
     }
   },
   {
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={ms.compact(item.metrics.latencyAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.latency}
+          metric={item.metrics.latencyAgg}
+          tooltipFormatter={ms.compact}
+        />
+      );
     }
   },
   {
     id: 'errorsAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
-    getContent(item) {
-      return <MetricValue value={percentage.detailed(item.metrics.errorsAgg[0][1])} />;
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.errors}
+          metric={item.metrics.errorsAgg}
+          tooltipFormatter={percentage.detailed}
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <ApplicationEntityHealthIndicatorBehavior
+          applicationId={item.application.id}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+        />
+      );
     }
   }
 ];
@@ -176,6 +225,14 @@ export function getApplicationListSubscribeEvent(
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'MAX'
       }
     },
     filter: {

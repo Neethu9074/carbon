@@ -1,6 +1,7 @@
-import { blackListedSearchFieldValues, blackListedSearchFieldKeywords } from 'in-services/featureFlags';
+import { blackListedSearchFieldValues, getBlackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { find } from 'in-services/arrayUtils';
 
@@ -77,9 +78,10 @@ export function node(name, props = {}) {
 
 export function buildCategorizedFields(fields) {
   const root = node('root');
-  fields = fields || window.instana.searchFields;
+  fields = fields || getGlobalFields();
 
   fields.forEach(field => {
+    const blackListedSearchFieldKeywords = getBlackListedSearchFieldKeywords();
     for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
       if (field.keyword.indexOf(blackListedSearchFieldKeywords[i]) === 0) {
         return;
@@ -183,7 +185,7 @@ export const operatorTree = node('root', {
 });
 
 export function getValueSuggestions(keyword, currentValue) {
-  const field = find(window.instana.searchFields, field => field.keyword === keyword);
+  const field = find(getGlobalFields(), field => field.keyword === keyword);
   if (!field) {
     return emptyArray;
   }
@@ -202,4 +204,14 @@ export function getValueSuggestions(keyword, currentValue) {
     .filter(
       value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
     );
+}
+
+function getGlobalFields() {
+  const fieldsKey = twoZeroModeEnabled ? 'v2' : 'v1';
+  if (window.instana.searchFields[fieldsKey]) {
+    return window.instana.searchFields[fieldsKey];
+  }
+  // fallback to non-versioned search fields object can be removed when https://github.com/instana/backend/pull/2048
+  // has been merged.
+  return window.instana.searchFields;
 }

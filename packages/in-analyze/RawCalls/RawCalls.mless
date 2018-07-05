@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .table {
+    border-top: 1px solid @lib__colors__N400;
+  }
+
+  .cell {
+    display: flex;
+    align-items: center;
+  }
+
+  .metricValue {
+    font-size: 0.875rem;
+  }
+
+  .serviceIcon,
+  .traceIcon,
+  .timeIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .traceIcon {
+    fill: @lib__colors__blue800;
+  }
+
+  .link {
+    color: @lib__colors__N900Primary;
+  }
+
+  .serviceLink {
+    color: @lib__colors__N600Light;
+  }
+}

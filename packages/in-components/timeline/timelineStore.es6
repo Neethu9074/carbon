@@ -11,6 +11,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
+import { isView } from 'in-stores/navigation/navigation';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
@@ -18,6 +19,7 @@ import theme from 'in-themes';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30.38; // 30.38 days per average per month
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
+const timelineFooterHeights = twoZeroModeEnabled ? theme.footerTimelineEvents20 : theme.footer;
 
 let maxAvailableWindowSize = undefined;
 let currentBigBangTimestamp;
@@ -63,16 +65,16 @@ const isCollapsedStore = createStore({
 });
 export const isCollapsed$ = isCollapsedStore.observable;
 
-export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline')])
-  .map(([isCollapsed, autoCollapseTimeline]) => {
-    if (twoZeroModeEnabled) {
+export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCollapseTimeline'), isView('/events')])
+  .map(([isCollapsed, autoCollapseTimeline, isEventsView]) => {
+    if (twoZeroModeEnabled && !isEventsView) {
       return 0;
     } else if (autoCollapseTimeline) {
-      return theme.footer.height;
+      return timelineFooterHeights.height;
     } else if (!isCollapsed) {
-      return theme.footer.heightOpen;
+      return timelineFooterHeights.heightOpen;
     }
-    return theme.footer.heightExpanded;
+    return timelineFooterHeights.heightExpanded;
   })
   .distinct();
 
@@ -80,9 +82,9 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getSetting$('autoCol
 export const interactableTimelineHeight$ = isCollapsed$
   .map(isCollapsed => {
     if (!isCollapsed) {
-      return theme.footer.heightOpen;
+      return timelineFooterHeights.heightOpen;
     }
-    return theme.footer.heightExpanded;
+    return timelineFooterHeights.heightExpanded;
   })
   .distinct();
 

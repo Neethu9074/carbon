@@ -1,12 +1,13 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
+import Chart from 'in-components/Chart';
 import {
+  percentage,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
@@ -61,17 +62,17 @@ const capacityColumn = {
     getContent: kiloBytesTwoDecimalPlaces
   }
 };
-const freeColumn = {
-  title: 'Free',
+const usedColumn = {
+  title: 'Used',
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
       return row.snapshotId;
     },
     getMetricName(row) {
-      return `fs.${row.key}.free`;
+      return `fs.${row.key}.used`;
     },
-    getContent: kiloBytesTwoDecimalPlaces,
+    getContent: percentage.compact,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -135,7 +136,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, freeColumn, leakedColumn];
+  const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, usedColumn, leakedColumn];
 
   if (!windows) {
     cols.splice(1, 0, mountColumn);
@@ -144,7 +145,13 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
   return (
     <DashboardSection title="Filesystems">
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
+      <Table
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+        initialSortDirection="desc"
+        initialSortColumn={cols.indexOf(usedColumn)}
+      />
     </DashboardSection>
   );
 }

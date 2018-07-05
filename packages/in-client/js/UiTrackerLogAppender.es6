@@ -13,26 +13,6 @@ export default class UiTrackerLogAppender {
     if (totalNumberOfReportedErrors >= 5) {
       return;
     }
-    const formattedPayload = opts.params
-      .map(part => {
-        if (part instanceof Error) {
-          return JSON.stringify(
-            {
-              type: 'error',
-              message: part.message,
-              name: part.name,
-              stack: part.stack
-            },
-            0,
-            2
-          );
-        } else if (typeof part === 'object') {
-          return JSON.stringify(part, 0, 2);
-        }
-
-        return part;
-      })
-      .join('\n');
 
     const message = {
       logger: opts.name,
@@ -46,8 +26,9 @@ export default class UiTrackerLogAppender {
       userAgent: window.navigator.userAgent,
       platform: window.navigator.platform,
       level: opts.severity,
-      message: formattedPayload,
-      serverTimeInClient: window.instana.dev.storeStates.serverTime
+      message: opts.params.filter(p => typeof p === 'string')[0],
+      serverTimeInClient: window.instana.dev.storeStates.serverTime,
+      params: opts.params
     };
 
     const error = opts.params.filter(p => p instanceof Error)[0];

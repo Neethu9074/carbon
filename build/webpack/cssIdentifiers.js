@@ -8,7 +8,7 @@ const { isDevModeBuild } = require('./opts');
 
 const componentPathPrefix = path.join(__dirname, '..', '..', 'packages');
 const minimumHashLength = 1;
-const hashClassPrefix = 'i_';
+const hashClassPrefix = '🖖🏾';
 
 // Maps the readable identifier to the full hash and the used short hash.
 // Example:

@@ -1,6 +1,5 @@
-import { create, combineLatest } from 'reactive-observables';
-
 import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
+import { create, combineLatest } from 'reactive-observables';
 import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';
@@ -8,9 +7,10 @@ import { getEvent } from 'in-stores/events';
 const data = new Map();
 export const data$ = create().emit(data);
 export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
+let subscription;
 
 export function init() {
-  combineLatest([timeConfig$, query$])
+  subscription = combineLatest([timeConfig$, query$])
     .flatMap(([timeConfig, query]) =>
       getEventsInTimeframeSubscription({
         timeConfig,
@@ -100,4 +100,14 @@ function categorize(_data) {
   });
 
   return categories;
+}
+
+export function disposeSubscription() {
+  if (subscription) {
+    subscription.dispose();
+    subscription = null;
+  }
+  data.forEach((row, key) => {
+    remove(key, row);
+  });
 }

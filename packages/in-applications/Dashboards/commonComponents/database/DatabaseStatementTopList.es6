@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { ms, number } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];
@@ -66,6 +66,7 @@ function Label({ item }, _item, className) {
         href$={getModifiedUrlStream(params => {
           params.pathname += `/database/statements/${item.id}`;
         })}
+        onClick={() => trackTopListNavigation()}
       >
         {shorten(item.statement, 64)}
       </Link>

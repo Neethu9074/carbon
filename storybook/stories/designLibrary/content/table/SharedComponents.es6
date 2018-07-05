@@ -12,7 +12,8 @@ import {
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
   ErrorRows,
-  LoadMoreRow
+  LoadMoreRow,
+  SeverityIndicatorCellContentWrapper
 } from 'in-components/tables/sharedComponents';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -36,19 +37,35 @@ function Default() {
             </Thead>
             <Tbody>
               <Tr>
-                <Td>Foo</Td>
+                <Td>
+                  <SeverityIndicatorCellContentWrapper severity={10}>Foo</SeverityIndicatorCellContentWrapper>
+                </Td>
                 <Td>1</Td>
                 <Td>2</Td>
                 <Td>3</Td>
               </Tr>
               <Tr>
-                <Td>Bar</Td>
+                <Td>
+                  <SeverityIndicatorCellContentWrapper severity={null}>Bar</SeverityIndicatorCellContentWrapper>
+                </Td>
                 <Td>1</Td>
                 <Td>2</Td>
                 <Td>3</Td>
               </Tr>
               <Tr>
-                <Td>Example</Td>
+                <Td>
+                  <SeverityIndicatorCellContentWrapper severity={0}>Foo</SeverityIndicatorCellContentWrapper>
+                </Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <SeverityIndicatorCellContentWrapper severity={5}>
+                    Kevelaer, <br /> Kleve
+                  </SeverityIndicatorCellContentWrapper>
+                </Td>
                 <Td>1</Td>
                 <Td>2</Td>
                 <Td>3</Td>

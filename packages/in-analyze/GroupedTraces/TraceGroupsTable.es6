@@ -49,9 +49,9 @@ export default function TraceGroupsTable(props) {
         </Thead>
         <Tbody>
           <Groups {...props} />
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} size="compact" />}
         </Tbody>
       </Table>
-      {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} size="compact" />}
     </Fragment>
   );
 }

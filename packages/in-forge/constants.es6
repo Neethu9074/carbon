@@ -62,6 +62,7 @@ export const nonServicePlugins = {
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
   mongodb: 'mongoDb',
+  mongodbReplicaSet: 'mongoDbReplicaSet',
   msiis: 'msiis',
   mssql: 'msSqlDatabase',
   mule: 'mule',
@@ -98,7 +99,7 @@ export const nonServicePlugins = {
 };
 
 export const servicePlugins = {
-  application20: 'application20',
+  application: 'application',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
@@ -161,7 +162,7 @@ export const servicePlugins = {
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
-  service20: 'service20',
+  service: 'service',
   shellLogicalConnection: 'shellLogicalConnection',
   shellLogicalService: 'shellLogicalService',
   unknownService: 'unknownService',
@@ -172,7 +173,7 @@ export const plugins = assign({}, servicePlugins, nonServicePlugins);
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
-  application20: 'com.instana.forge.application.Application',
+  application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
@@ -270,10 +271,8 @@ export const fullyQualifiedPlugins = {
   logicalMessagePublisherConnection: 'com.instana.forge.connection.messaging.LogicalMessagePublisherConnection',
   logicalMongoDbConnection: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbConnection',
   logicalMongoDbDatabase: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbDatabase',
-  logicalMsmqConsumerConnection:
-    'com.instana.forge.connection.messaging.msmq.LogicalMsmqConsumerConnection',
-  logicalMsmqPublisherConnection:
-    'com.instana.forge.connection.messaging.msmq.LogicalMsmqPublisherConnection',
+  logicalMsmqConsumerConnection: 'com.instana.forge.connection.messaging.msmq.LogicalMsmqConsumerConnection',
+  logicalMsmqPublisherConnection: 'com.instana.forge.connection.messaging.msmq.LogicalMsmqPublisherConnection',
   logicalPdoConnection: 'com.instana.forge.connection.database.pdo.LogicalPdoConnection',
   logicalRabbitMqConsumerConnection:
     'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqConsumerConnection',
@@ -290,6 +289,7 @@ export const fullyQualifiedPlugins = {
   messageConsumerServiceInstance: 'com.instana.forge.connection.messaging.MessageConsumerServiceInstance',
   mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mongoDbDatabaseServiceInstance: 'com.instana.forge.connection.database.mongodb.MongoDbDatabaseServiceInstance',
+  mongoDbReplicaSet: 'com.instana.forge.connection.database.mongodb.MongoDbReplicaSet',
   msiis: 'com.instana.forge.infrastructure.webserver.msiis.Msiis',
   msSqlDatabase: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase',
   mule: 'com.instana.forge.infrastructure.messaging.mule.Mule',
@@ -319,7 +319,7 @@ export const fullyQualifiedPlugins = {
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
-  service20: 'com.instana.forge.application.Service',
+  service: 'com.instana.forge.application.Service',
   shellLogicalService: 'com.instana.forge.connection.shell.ShellLogicalService',
   shellLogicalConnection: 'com.instana.forge.connection.shell.ShellLogicalConnection',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',

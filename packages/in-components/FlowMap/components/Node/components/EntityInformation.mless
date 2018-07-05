@@ -1,0 +1,38 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+    height: 2rem;
+  }
+
+  .entityInformation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    background: white;
+    border-radius: 3px;
+    box-shadow: @lib__shadows__subtle;
+  }
+
+  .rootEntity {
+    box-shadow: 0px 0px 6px 0px @lib__colors__cyan800;
+  }
+
+  .heatMapEnabled {
+    padding-top: 0.5rem;
+    margin-top: -0.5rem;
+    height: 3rem;
+  }
+
+  .entityLink {
+    margin-right: 0.5rem;
+  }
+}

@@ -14,11 +14,6 @@ export default function MongoDBSidebar({ snapshot }) {
     .toArray()
     .sort();
 
-  const replicaSet = snapshot
-    .getIn(['data', 'repl.membersList'], emptyList)
-    .toArray()
-    .sort();
-
   return (
     <div>
       <Separator />
@@ -30,31 +25,13 @@ export default function MongoDBSidebar({ snapshot }) {
       </Collapsible>
 
       <Separator />
-
-      <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Databases</Collapsible.Header>
-        <Collapsible.Content>
-          <List>{databases.map(database => <List.Item key={database}>{database}</List.Item>)}</List>
-        </Collapsible.Content>
-      </Collapsible>
-
-      {replicaSet.length > 0 ? (
-        <div>
-          <Separator />
-
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Replica Set</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {replicaSet.map(rsmember => (
-                  <List.Item key={rsmember.get('id')}>
-                    {'[ ' + rsmember.get('id') + ':' + rsmember.get('state') + ' ]' + ' - ' + rsmember.get('name')}
-                  </List.Item>
-                ))}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
+      {databases.length > 0 ? (
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Databases</Collapsible.Header>
+          <Collapsible.Content>
+            <List>{databases.map(database => <List.Item key={database}>{database}</List.Item>)}</List>
+          </Collapsible.Content>
+        </Collapsible>
       ) : null}
 
       <ServiceInstancesList snapshot={snapshot} />

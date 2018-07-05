@@ -23,6 +23,7 @@ export default function IntegrationSwitch({ onClick, selectedType }) {
       </Row>
       <Row>
         <IntegrationButton type="hipChat" selectedType={selectedType} onClick={onClick} />
+        <IntegrationButton type="splunk" selectedType={selectedType} onClick={onClick} />
       </Row>
     </div>
   );

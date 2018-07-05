@@ -2,10 +2,14 @@ import React from 'react';
 
 import NoContent from 'in-components/Chart/components/NoContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import List from 'in-new-components/TopListCard/List';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 
 import locals from './TopListCardPresenter.mless';
+
+const trackTopListMetricChanged = createTracker('toplist.metricChanged');
 
 export default function TopListCard(props) {
   const { result, title, metrics, labels, onChangeMetric, selectedMetric, List: ListRenderer = List } = props;
@@ -14,20 +18,21 @@ export default function TopListCard(props) {
     <ul className={locals.metrics}>
       {metrics.map((metric, i) => (
         <li key={metric} className={locals.metric}>
-          <a
+          <Button
             className={evaluateClassNames({
-              [locals.metricLink]: true,
               [locals.active]: selectedMetric === metric
             })}
+            kind="secondary"
             href="#"
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
+              trackTopListMetricChanged({ title, metric: labels[i] });
               onChangeMetric(metric);
             }}
           >
             {labels[i]}
-          </a>
+          </Button>
         </li>
       ))}
     </ul>

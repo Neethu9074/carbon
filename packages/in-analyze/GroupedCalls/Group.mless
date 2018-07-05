@@ -1,0 +1,44 @@
+@import '~in-themes/active.less';
+
+:local {
+  .rect {
+    width: 0.75rem;
+    height: 0.75rem;
+
+    margin-right: 0.5rem;
+  }
+
+  .rectPlaceHolder {
+    display: inline-block;
+    width: 0.5rem;
+  }
+
+  .cell {
+    display: flex;
+    align-items: center;
+  }
+
+  .groupLabel {
+    color: @lib__colors__blue800;
+    text-decoration: @links__decoration;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: @links__hover__decoration;
+    }
+  }
+
+  .metricValue {
+    font-size: 0.875rem;
+  }
+
+  .serviceIcon,
+  .timeIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .serviceLink {
+    color: @lib__colors__N600Light;
+  }
+}

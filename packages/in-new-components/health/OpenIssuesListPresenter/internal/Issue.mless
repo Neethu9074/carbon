@@ -1,0 +1,95 @@
+@import '~in-themes/active.less';
+
+:local {
+  .issue {
+    margin: 0;
+    padding: 1rem 0.75rem 1rem 3.1rem;
+    list-style: none;
+    border-top: 1px solid @lib__colors__N300;
+    position: relative;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .link, .link:hover, .link:active, .link:focus {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .clickable:hover {
+    cursor: pointer;
+    background: @lib__colors__N050;
+
+    .stripe {
+      // overwrite background color defined via style attribute on DOM node
+      background-color: @lib__colors__blue800 !important;
+      width: 2.5rem;
+    }
+
+    .stripeIcon {
+      opacity: 1;
+    }
+  }
+
+  .stripe {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: .5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // position above warning icon
+    z-index: 1;
+    transition: width .2s ease-in-out, background-color .2s ease-in-out;
+  }
+
+  .stripeIcon {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity .2s ease-in-out .05s;
+  }
+
+  .title {
+    font-size: @lib__typography__h200__font-size;
+    color: @lib__colors__N900Primary;
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .icon {
+    position: absolute;
+    margin-left: -2.188rem;
+  }
+
+  .description {
+    margin: 0;
+    font-size: @lib__typography__h100__font-size;
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .descriptionTooLong {
+    margin: 0;
+    font-style: italic;
+    display: block;
+  }
+
+  .startTime {
+    padding: 0 0 0 0.25rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .timeSection {
+    margin: 1rem 0 0;
+  }
+}

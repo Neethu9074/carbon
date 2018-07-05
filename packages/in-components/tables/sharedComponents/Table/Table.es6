@@ -1,8 +1,8 @@
 import { assign } from 'lodash';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import locals from './Table.mless';
 
 export function Table(props) {
@@ -10,7 +10,8 @@ export function Table(props) {
   delete reducedProps.tableInCard;
 
   const className = evaluateClassNames({
-    [joinClassNames(props.className, locals.table)]: true,
+    [props.className]: true,
+    [locals.table]: true,
     [locals.tableInCard]: props.tableInCard
   });
   return <table {...reducedProps} className={className} cellSpacing="0" />;
@@ -29,8 +30,10 @@ export function Tr(props) {
     <tr
       {...props}
       className={evaluateClassNames({
-        [joinClassNames(props.className, locals.tr, locals[`depth-${props.depth || 1}`])]: true,
-        [locals.trCompcat]: props.size === 'compact',
+        [props.className]: true,
+        [locals.tr]: true,
+        [locals[`depth-${props.depth || 1}`]]: true,
+        [locals.trCompact]: props.size === 'compact',
         [locals.trRegular]: props.size !== 'compact'
       })}
     />
@@ -43,4 +46,20 @@ export function Th(props) {
 
 export function Td(props) {
   return <td {...props} className={joinClassNames(props.className, locals.td)} />;
+}
+
+export function SeverityIndicatorCellContentWrapper({ severity, children }) {
+  if (severity == null || severity <= 0) {
+    return children;
+  }
+
+  const background = getDesignLibraryColorBySeverity(severity);
+  return (
+    <div className={locals.severityIndicatorCellContentWrapper}>
+      <div className={locals.severityIndicatorCellContentWrapperIndicator} style={{ background }}>
+        &nbsp;
+      </div>
+      {children}
+    </div>
+  );
 }

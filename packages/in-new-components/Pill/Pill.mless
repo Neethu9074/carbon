@@ -9,7 +9,7 @@
     vertical-align: baseline;
     font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.1875rem 0.25rem 0.125rem;
+    padding: 0.1275rem 0.25rem 0.1875rem;
     border-radius: @lib__shapes__radius_medium;
     color: @lib__colors__deep-purple800;
   }

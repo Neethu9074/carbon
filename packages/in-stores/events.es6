@@ -3,12 +3,13 @@ import { Map } from 'immutable';
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
-import createEventObservable from 'in-subscription/event';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { navigationParameters$ } from 'in-stores/navigation';
+import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
+import theme from 'in-themes';
 
 const noProblemsHealthInfo = Map({
   maxSeverity: 0,
@@ -196,6 +197,14 @@ export function getColorForEventAtFocusedMomentAsStream(event, theme) {
   return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, theme }));
 }
 
+export function getColorByEventState({ event, theme = 'night' }) {
+  if (event.get('state') === 'open') {
+    return getColorBySeverity(event.getIn(['problem', 'severity'], 0), { theme });
+  } else {
+    return getColorBySeverity(0, { theme });
+  }
+}
+
 export function getColorForMostSevereEvents(events) {
   let eventWithMaxSeverity = null;
   let maxSeverity = 0;
@@ -235,6 +244,25 @@ export function getColorBySeverity(severity, params = {}) {
   }
   return healthColors[Math.max(0, severity) | 0];
 }
+
+export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
+  if (severity > 5) {
+    return theme.lib.colors.failure;
+  } else if (severity > 0) {
+    return theme.lib.colors.warning;
+  }
+  return fallback;
+}
+
+export function getButtonKindBySeverity(severity, fallback = 'secondary') {
+  if (severity > 5) {
+    return 'danger';
+  } else if (severity > 0) {
+    return 'warning';
+  }
+  return fallback;
+}
+
 export const EVENT_TYPES = {
   CHANGE: 0,
   ISSUE_WARNING: 1,

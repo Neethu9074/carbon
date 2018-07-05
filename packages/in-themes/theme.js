@@ -7,11 +7,11 @@ let zIndex = 1;
 
 module.exports = {
   zIndex: {
-    stickyHeader: (zIndex += 20),
     timeline: zIndex++,
+    tooltips: zIndex++,
+    stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
-    tooltips: zIndex++,
     overlays: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,
@@ -50,6 +50,11 @@ module.exports = {
     height: 36,
     heightExpanded: 97,
     heightOpen: 171
+  },
+  footerTimelineEvents20: {
+    height: 36,
+    heightExpanded: 73,
+    heightOpen: 147
   },
   header: {
     height: 88
@@ -183,6 +188,7 @@ function buildLib() {
   // success & failure
   lib.colors.success = lib.colors.green800;
   lib.colors.failure = lib.colors.red800;
+  lib.colors.warning = lib.colors.yellow800;
 
   // stroke colors
   lib.colors.chart.strokeColors100 = [

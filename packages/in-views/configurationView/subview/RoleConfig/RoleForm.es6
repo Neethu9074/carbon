@@ -11,6 +11,8 @@ import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import './RoleForm.less';
 
@@ -70,6 +72,7 @@ export default function RoleForm({ form, onChange, disabled }) {
             onChange={onChange}
             name="canConfigureServiceMapping"
             label="Service Mapper"
+            helpText="Permits configuration of services."
           />
         )}
 
@@ -79,6 +82,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureEumApplications"
           label="Website Monitoring configuration"
+          helpText="Permits configuration of website monitoring functionality."
         />
 
         <Permission
@@ -87,6 +91,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureUsers"
           label="User management"
+          helpText="Permits inviting, modifying and removing user accounts."
         />
 
         <Permission
@@ -95,6 +100,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureRoles"
           label="Access role configration"
+          helpText="Permits configuration of access roles and permissions for all users."
         />
 
         <Permission
@@ -103,6 +109,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canInstallNewAgents"
           label="Agent download and agent key visibility"
+          helpText="Permits access to agent and configuration."
         />
 
         <Permission
@@ -111,6 +118,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canSeeUsageInformation"
           label="Access to license usage"
+          helpText="Permits access to license usage information."
         />
 
         {isOnPremise ? (
@@ -120,6 +128,7 @@ export default function RoleForm({ form, onChange, disabled }) {
             onChange={onChange}
             name="canSeeOnPremLicenseInformation"
             label="Access to on prem license usage"
+            helpText="Permits access to on prem license usage information."
           />
         ) : null}
 
@@ -129,6 +138,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureIntegrations"
           label="Configuration of integrations"
+          helpText="Permits creation and configuration of integrations for use in alerting."
         />
 
         <Permission
@@ -137,6 +147,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureCustomAlerts"
           label="Configuration of custom alerts"
+          helpText="Permits creation and configuration of custom alerts and associated integrations."
         />
 
         <Permission
@@ -145,6 +156,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureApiTokens"
           label="Configuration of API tokens"
+          helpText="Permits creation and configuration of API tokens."
         />
 
         <Permission
@@ -153,6 +165,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureAgentRunMode"
           label="Configuration of agent mode"
+          helpText="Permits configuration of agent mode through the UI."
         />
 
         <Permission
@@ -161,6 +174,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canViewAuditLog"
           label="Access to audit log"
+          helpText="Permits access to audit log for all users."
         />
 
         <Permission
@@ -169,6 +183,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureAgents"
           label="Configuration of agents"
+          helpText="Permits agent configuration of all agents through the UI."
         />
 
         <Permission
@@ -177,6 +192,7 @@ export default function RoleForm({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureAuthenticationMethods"
           label="Configuration of authentication methods"
+          helpText="Permits configuration of team authentication methods (eg. 2FA/SSO)."
         />
 
         {twoZeroModeEnabled && (
@@ -186,6 +202,7 @@ export default function RoleForm({ form, onChange, disabled }) {
             onChange={onChange}
             name="canConfigureApplications"
             label="Configuration of applications"
+            helpText="Permits creation and configuration of applications."
           />
         )}
       </Section>
@@ -193,7 +210,7 @@ export default function RoleForm({ form, onChange, disabled }) {
   );
 }
 
-function Permission({ form, onChange, name, label, disabled }) {
+function Permission({ form, onChange, name, label, helpText, disabled }) {
   const field = form.get(name);
 
   return (
@@ -204,7 +221,11 @@ function Permission({ form, onChange, name, label, disabled }) {
         onChange={e => onChange(name, e.target.checked)}
         disabled={disabled}
       />
-
+      {helpText ? (
+        <Tooltip content={helpText} align="rightMiddle">
+          <SvgIcon type="info" width={16} height={16} color="#172429" />
+        </Tooltip>
+      ) : null}
       <Label htmlFor={`role-${name}`}>{label}</Label>
     </HorizontalFormGroupWithBackground>
   );

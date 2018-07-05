@@ -2,7 +2,6 @@
 *.log*
 !/packages/in-forge/tracing/log.log4j
 !/packages/in-forge/tracing/log.log4j2
-
 /node_modules
 /target
 /storybookTarget
@@ -10,6 +9,8 @@
 /packages/in-themes/active*
 /packages/in-server/node_modules
 /packages/in-server/serverConfig.json
+/metricOverviewForDocs.md
+/metricOverviewForGrafana.ts
 
 .npmrc
 git-env.properties

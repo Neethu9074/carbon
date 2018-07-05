@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import RoundButton from 'in-components/FlowMap/components/Controls/Button';
-import Button from 'in-new-components/Button';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Controls.mless';
@@ -49,9 +49,9 @@ export default function Controls({ serviceLocatorUid }) {
         </HeatmapButton>
       </div>
       <div className={locals.bottomLeftControls}>
-        <RoundButton onClick={toggleParticles} iconType="particles" />
-        <RoundButton onClick={() => zoomIn(serviceLocatorUid)} iconType="plus_without_frame" />
-        <RoundButton onClick={() => zoomOut(serviceLocatorUid)} iconType="minus" />
+        <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
+        <RoundButton onClick={() => zoomIn(serviceLocatorUid)} iconType="lib_openclose_add" />
+        <RoundButton onClick={() => zoomOut(serviceLocatorUid)} iconType="lib_openclose_remove" />
       </div>
     </Fragment>
   );
@@ -85,6 +85,15 @@ export default function Controls({ serviceLocatorUid }) {
   }
 }
 
+const ParticlesButton = connectTo(
+  props => ({
+    isEnabled: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.PARTICLES)
+  }),
+  function ParticlesButton({ onClick, isEnabled }) {
+    return <RoundButton isEnabled={isEnabled} onClick={onClick} iconType="particles" width={16} height={16} />;
+  }
+);
+
 const HeatmapButton = connectTo(
   props => ({
     isEnabled: getServiceLocators(props.serviceLocatorUid)
@@ -93,9 +102,16 @@ const HeatmapButton = connectTo(
   }),
   function HeatmapButton({ isEnabled, children, onClick, disabled }) {
     return (
-      <Button kind={isEnabled ? 'primary' : 'secondary'} size="compact" onClick={onClick} disabled={disabled}>
+      <div
+        className={evaluateClassNames({
+          [locals.heatMapButton]: true,
+          [locals.selectedHeatMapButton]: isEnabled
+        })}
+        onClick={onClick}
+        disabled={disabled}
+      >
         {children}
-      </Button>
+      </div>
     );
   }
 );

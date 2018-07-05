@@ -31,12 +31,7 @@ import locals from './CustomServiceMappingDialog.mless';
 export default function CustomServiceMappingDialog() {
   return (
     <BasicForm
-      title="Configure Services"
-      generalHelpText={`Instana automatically configures services based on an extensive set of default service configuration rules.
-      A single custom rule can be defined here, which will match before the default rules. Calls which are not
-      tagged with all the keys specified here will be handled by the default service configuration rules. The
-      resulting name of the services will depend on the value of the keys specified, in the form of
-      "#{key1-value}-#{key2-value}-#{keyN-value}"`}
+      title="Configure Custom Services"
       saveButtonLabel="Save"
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
       onSavePath={servicesList}
@@ -60,16 +55,23 @@ export default function CustomServiceMappingDialog() {
             <Steps
               steps={[
                 {
-                  stepTitle:
-                    'Define a set of custom keys that will be used instead of the Instana default rules to tag calls.',
+                  stepTitle: 'Instana automatically configures services based on an extensive set of tag-based rules.',
                   content: (
                     <div>
                       <DescriptionText>
-                        For example, the key nodejs.app.name is selected, and there are two calls, one tagged with
-                        <strong>{` "nodejs.app.name=user service"`}</strong> and one tagged with
+                        For example, if the tag nodejs.app.name is found, and there are calls tagged with
+                        <strong>{` "nodejs.app.name=user service" `}</strong>and with
                         <strong>{` "nodejs.app.name=cart service"`}</strong>, then
-                        <strong>{` "user service" `}</strong>
-                        and<strong>{` "cart service"`}</strong> will appear as services.
+                        <strong>{` "user service" `}</strong> and
+                        <strong>{` "cart service" `}</strong> will appear as services.
+                        <br />
+                        <br />
+                        To extend the default configuration, define a custom rule below:
+                        <ol className={locals.descriptionTextList}>
+                          <li>Select a set of tags</li>
+                          <li>If all tags are present on a call, the service will appear</li>
+                          <li>If not, the call will be mapped using the default configuration</li>
+                        </ol>
                       </DescriptionText>
 
                       <Spacer />
@@ -96,7 +98,7 @@ export default function CustomServiceMappingDialog() {
 
                           {matchSpecification.get('value').map(field => {
                             const key = matchSpecification.get('key').value;
-                            if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'host.tag') {
+                            if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'agent.tag') {
                               return null;
                             }
 

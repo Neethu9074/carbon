@@ -1,9 +1,12 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
     display: flex;
     align-items: center;
+
+    overflow: hidden;
   }
 
   .entityIcon {
@@ -20,14 +23,18 @@
   .labelWrapper {
     display: flex;
     flex-direction: column;
+
+    overflow: hidden;
   }
 
   .label {
     color: @lib__colors__N900Primary;
     font-size: 0.875rem;
+    .ellipsis();
   }
 
   .link {
     font-size: 0.875rem;
+    .ellipsis();
   }
 }

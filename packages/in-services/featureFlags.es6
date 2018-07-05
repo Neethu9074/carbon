@@ -1,5 +1,5 @@
 import { config, isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEngineer } from 'in-stores/user';
+import { user, isInstanaEngineer } from 'in-stores/user';
 
 // ########################################################################################
 // Reusable helpers for feature (de-) activation
@@ -46,6 +46,7 @@ export const twoZeroAppDataEnabled =
   __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled') || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
 
 export const previewTwoZeroWithoutHybrid = !oneZeroAppDataEnabled && twoZeroAppDataEnabled;
+export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
 const v2EnabledUserPreference =
   window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
@@ -62,12 +63,16 @@ export const twoZeroModeEnabled =
   // tenant in beta phase, 1.0/2.0 not specified via URL query param, 2.0 enabled in user's ui settings.
   (oneZeroAppDataEnabled && twoZeroAppDataEnabled && !v2DisabledViaQueryParam && v2EnabledUserPreference);
 
-export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
-
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
-export const blackListedSearchFieldKeywords = ['log'];
+export function getBlackListedSearchFieldKeywords() {
+  if (twoZeroModeEnabled) {
+    return ['log', 'span', 'trace'];
+  } else {
+    return ['log'];
+  }
+}
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
@@ -87,3 +92,10 @@ export const allowedMillisGapsInOneSecondResolution =
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
+
+export const isQueryBuilderEnabled =
+  (config.tenant === 'instana' && config.tenantUnit === 'test') ||
+  user.email === 'matthias.luebken@instana.com' ||
+  isInstanaEngineer;
+
+export const isInfrastructureProcessTagEnabled = isInstanaEngineer;

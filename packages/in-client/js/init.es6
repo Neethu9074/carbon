@@ -15,16 +15,18 @@ import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDia
 import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayouterStorage';
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
 import { init as initDebuggingBackchannel } from 'in-services/debuggingBackchannel';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/timers';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initTwoZeroBetaPhaseQueryParam } from 'in-services/betaPhase';
 import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
+import { init as initTracking } from 'in-services/tracking/mixpanelTrackers';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
+import { init as initAppcues } from 'in-services/tracking/appcues';
 import { init as initFaviconHandling } from 'in-services/favicon';
 import { init as initConnection } from 'in-connection';
 import history from 'in-stores/navigation/history';
@@ -86,6 +88,8 @@ initAutoFocus();
 initFaviconHandling();
 initErrorBoundary();
 initDebuggingBackchannel();
+initTracking();
+initAppcues();
 
 ReactDOM.render(
   <Router history={history}>

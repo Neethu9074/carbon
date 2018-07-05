@@ -10,45 +10,52 @@ import ServerFlowMap from 'in-components/ServerFlowMap';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
-    service: getService({
-      id: serviceId,
-      filter: {
-        service: serviceId,
-        timeConfig
-      }
-    }).map(result => result.data),
-    metricValues: getMetrics({
-      filter: {
-        application: applicationId,
-        service: serviceId,
-        endpoint: endpointId,
-        timeConfig
-      },
-      metrics: {
-        callsAgg: {
-          metric: 'calls',
-          aggregation: 'SUM'
+  ({ applicationId, serviceId, endpointId, timeConfig }) => {
+    const observables = {
+      metricValues: getMetrics({
+        filter: {
+          application: applicationId,
+          service: serviceId,
+          endpoint: endpointId,
+          timeConfig
         },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
+        metrics: {
+          callsAgg: {
+            metric: 'calls',
+            aggregation: 'SUM'
+          },
+          latencyAgg: {
+            metric: 'latency',
+            aggregation: 'MEAN'
+          },
+          errorsAgg: {
+            metric: 'errors',
+            aggregation: 'MEAN'
+          }
         }
-      }
-    }).map(result => {
-      if (result.data) {
-        return result.data;
-      }
-      if (result.errors && result.errors.length > 0) {
-        return {};
-      }
-      return null;
-    })
-  }),
+      }).map(result => {
+        if (result.data) {
+          return result.data;
+        }
+        if (result.errors && result.errors.length > 0) {
+          return {};
+        }
+        return null;
+      })
+    };
+
+    if (serviceId) {
+      observables.service = getService({
+        id: serviceId,
+        filter: {
+          service: serviceId,
+          timeConfig
+        }
+      }).map(result => result.data);
+    }
+
+    return observables;
+  },
   function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, service, metricValues }) {
     if (!service || !metricValues) {
       return null;

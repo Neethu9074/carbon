@@ -1,7 +1,7 @@
 import { DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_Y } from 'in-components/FlowMap/misc/layouting/config';
 import RemainingNodesPlaceholderClass from 'in-components/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 
-export default function layout(rootNode, initialPxUnitRation) {
+export default function layout(rootNode) {
   rootNode.setPosition(0, 0);
 
   layoutNodesRecursively(rootNode.incoming, 'incoming', -DISTANCE_BETWEEN_NODES_X, -DISTANCE_BETWEEN_NODES_X);
@@ -49,7 +49,13 @@ export default function layout(rootNode, initialPxUnitRation) {
 
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
-      node.__height = DISTANCE_BETWEEN_NODES_Y + node.children.size * (initialPxUnitRation * 21);
+
+      if (node.children.size > 0) {
+        node.__height = node.children.size * 2;
+        node.__height += 1;
+      } else {
+        node.__height = DISTANCE_BETWEEN_NODES_Y;
+      }
 
       if (i < nodes.length - 1) {
         totalColumnHeight += node.__height;

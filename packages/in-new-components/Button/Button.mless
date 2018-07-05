@@ -25,120 +25,6 @@
     }
   }
 
-  .primary {
-    .buttonStyle(
-      // bg
-      @lib__colors__primary1,
-      // hover bg
-      #12978e,
-      // font
-      #fff,
-      // hover font
-      #fff,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      @lib__typography__button__font-weight
-      );;
-  }
-
-  .secondary {
-    .buttonStyle(
-      // bg
-      @lib__colors__N050,
-      // hover bg
-      @lib__colors__N100,
-      // font
-      @lib__colors__N800Dark,
-      // hover font
-      @lib__colors__N800Dark,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      normal
-      );;
-
-    border: 1px solid @lib__colors__N400;
-
-    &:hover {
-      border: 1px solid @lib__colors__N500;
-    }
-  }
-
-  .action {
-    .buttonStyle(
-      // bg
-      @lib__colors__white,
-      // hover bg
-      rgba(0, 189, 203, 0.08),
-      // font
-      @lib__colors__primary1,
-      // hover font
-      @lib__colors__primary1,
-      
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      normal
-      );;
-  }
-
-  .subtle {
-    .buttonStyle(
-      // bg
-      @lib__colors__white,
-      // hover bg
-      @lib__colors__N300,
-      // font
-      @lib__colors__N800Dark,
-      // hover font
-      @lib__colors__N800Dark,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      200
-      );;
-  }
-
-  .create {
-    .buttonStyle(
-      // bg
-      @lib__colors__success,
-      // hover bg
-      #31a56b,
-      // font
-      #fff,
-      // hover font
-      #fff,
-            
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      normal
-      );;
-  }
-
-  .danger {
-    .buttonStyle(
-      // bg
-      @lib__colors__failure,
-      // hover bg
-      #cc4238,
-      // font
-      #fff,
-      // hover font
-      #fff,
-            
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      normal
-      );;
-  }
-
   .normal {
     padding: 0.5rem 0.625rem;
 
@@ -166,34 +52,183 @@
     }
   }
 
-  .primaryDisabled,
-  .primaryDisabled:hover,
-  .primaryDisabled:focus {
-    background: #2ca9a07a;
+  .primary {
+    .buttonStyle(
+      // bg
+      @lib__colors__primary1,
+      // hover bg
+      #12978e,
+      // font
+      #fff,
+      // hover font
+      #fff,
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      @lib__typography__button__font-weight
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #2ca9a07a;
+    }
   }
 
-  .secondaryDisabled,
-  .secondaryDisabled:hover,
-  .secondaryDisabled:focus {
-    color: @lib__colors__N700Medium;
+  .secondary {
+    .buttonStyle(
+      // bg
+      @lib__colors__N050,
+      // hover bg
+      @lib__colors__N100,
+      // font
+      @lib__colors__N800Dark,
+      // hover font
+      @lib__colors__N800Dark,
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      normal
+      );
+
+    border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      border: 1px solid @lib__colors__N500;
+    }
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: @lib__colors__N700Medium;
+      border: 1px solid #E2E4E6;
+      background: #FCFCFD;
+    }
   }
 
-  .actionDisabled,
-  .actionDisabled:hover,
-  .actionDisabled:focus {
-    color: #2ca9a07a;
+  .action {
+    .buttonStyle(
+      // bg
+      @lib__colors__white,
+      // hover bg
+      rgba(0, 189, 203, 0.08),
+      // font
+      @lib__colors__primary1,
+      // hover font
+      @lib__colors__primary1,
+
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      normal
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: #2ca9a07a;
+      background: @lib__colors__white;
+    }
   }
 
-  .subtleDisabled,
-  .subtleDisabled:hover,
-  .subtleDisabled:focus {
-    color: #62757d7a;
+  .subtle {
+    .buttonStyle(
+      // bg
+      @lib__colors__white,
+      // hover bg
+      @lib__colors__N300,
+      // font
+      @lib__colors__N600Light,
+      // hover font
+      @lib__colors__N600Light,
+      //font size
+      @lib__typography__button__font-size,
+      //font weight
+      200
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: #62757d7a;
+      background: @lib__colors__white;
+    }
   }
 
-  .dangerDisabled,
-  .dangerDisabled:hover,
-  .dangerDisabled:focus {
-    background: #dc4b417a;
+  .create {
+    .buttonStyle(
+      // bg
+      @lib__colors__success,
+      // hover bg
+      #31a56b,
+      // font
+      #fff,
+      // hover font
+      #fff,
+
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      normal
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #91DAB0;
+    }
+  }
+
+  .danger {
+    .buttonStyle(
+      // bg
+      @lib__colors__failure,
+      // hover bg
+      #cc4238,
+      // font
+      #fff,
+      // hover font
+      #fff,
+
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      @lib__typography__button__font-weight
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #dc4b417a;
+    }
+  }
+
+  .warning {
+    .buttonStyle(
+      // bg
+      @lib__colors__warning,
+      // hover bg
+      #f0bc00,
+      // font
+      #fff,
+      // hover font
+      #fff,
+
+      //font size
+      @lib__typography__button__font-size,
+
+      //font weight
+      @lib__typography__button__font-weight
+      );
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #FFD86D;
+    }
   }
 }
 

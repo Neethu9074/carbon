@@ -8,7 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Button.mless';
 
-export const kinds = ['primary', 'secondary', 'action', 'subtle', 'create', 'danger'];
+export const kinds = ['primary', 'secondary', 'action', 'subtle', 'create', 'danger', 'warning'];
 export const sizes = ['normal', 'compact'];
 
 const iconDimensions = {
@@ -37,7 +37,8 @@ function Button({
   children,
   href,
   disabled,
-  target
+  target,
+  refSetter
 }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
@@ -47,7 +48,7 @@ function Button({
   // Do not use the disabled attribute as we want to continue to retrieve mouse events
   // sorry usability :(.
   if (disabled) {
-    classes = `${classes} ${locals.disabled} ${locals[kind + 'Disabled']}`;
+    classes = `${classes} ${locals.disabled}`;
   }
 
   if (disabled) {
@@ -60,14 +61,21 @@ function Button({
 
   if (!href) {
     return (
-      <button className={classes} onClick={onClick} style={style} type={type}>
+      <button className={classes} onClick={onClick} style={style} type={type} ref={refSetter}>
         {iconElement} {children}
       </button>
     );
   }
 
   return (
-    <a href={href} target={target} className={classes} onClick={onClick ? onClick : stopPropagation} style={style}>
+    <a
+      href={href}
+      target={target}
+      className={classes}
+      onClick={onClick ? onClick : stopPropagation}
+      style={style}
+      ref={refSetter}
+    >
       {iconElement} {children}
     </a>
   );
@@ -87,5 +95,6 @@ Button.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   href$: rpt.object,
   target: rpt.string,
-  disabled: rpt.bool
+  disabled: rpt.bool,
+  refSetter: rpt.func
 };

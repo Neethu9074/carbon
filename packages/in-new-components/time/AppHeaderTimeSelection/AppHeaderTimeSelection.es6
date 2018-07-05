@@ -11,9 +11,12 @@ import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDi
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import connect from 'in-hoc/connectTo';
 
 import locals from './AppHeaderTimeSelection.mless';
+
+export const trackWindowSizeViaPicker = createTracker('time.windowSize.viaPicker');
 
 export default connect({
   timeConfig: timeConfig$
@@ -72,5 +75,6 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close }) {
     close();
     setTimeframe(timeConfig.windowSize, timeConfig.to);
     setFocusedMoment(timeConfig.to);
+    trackWindowSizeViaPicker();
   }
 }

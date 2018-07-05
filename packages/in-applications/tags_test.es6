@@ -1,7 +1,17 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
+import {
+  getTreeNodesTillName,
+  getFullPathTillNode,
+  getDeepestPossibleNodePath,
+  findChildByName,
+  findSubTreeByFullyQualifiedName,
+  getTagTree,
+  clearTagTree,
+  mapFromServerResponse,
+  mapToServerResponse
+} from 'in-applications/tags';
 
 describe('in-applications/tags', () => {
   describe('mapFromServerResponse', () => {
@@ -85,15 +95,15 @@ describe('in-applications/tags', () => {
           label: 'foobar',
           matchSpecification: [
             {
-              key: 'host.tag.foo',
+              key: 'agent.tag.foo',
               value: 'bar'
             },
             {
-              key: 'host.tag',
+              key: 'agent.tag',
               value: 'a=b'
             },
             {
-              key: 'host.tag',
+              key: 'agent.tag',
               value: 'c'
             }
           ]
@@ -104,15 +114,15 @@ describe('in-applications/tags', () => {
       expect(mappedResult.data.label).to.equal('foobar');
       expect(mappedResult.data.matchSpecification).to.deep.equal([
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'foo=bar'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'a=b'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'c'
         }
       ]);
@@ -221,21 +231,21 @@ describe('in-applications/tags', () => {
       ]);
     });
 
-    it('should map specific host.tag to specific host tags', () => {
+    it('should map specific agent.tag to specific agent tags', () => {
       const config = {
         id: 1,
         label: 'foobar',
         matchSpecification: [
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: 'env=nginx'
           },
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: '=d'
           },
           {
-            key: 'host.tag',
+            key: 'agent.tag',
             value: 'foobar'
           }
         ]
@@ -245,18 +255,180 @@ describe('in-applications/tags', () => {
       expect(mappedResult.label).to.equal('foobar');
       expect(mappedResult.matchSpecification).to.deep.equal([
         {
-          key: 'host.tag.env',
+          key: 'agent.tag.env',
           value: 'nginx'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'd'
         },
         {
-          key: 'host.tag',
+          key: 'agent.tag',
           value: 'foobar'
         }
       ]);
+    });
+  });
+
+  describe('tag tree', () => {
+    beforeEach(() => {
+      clearTagTree();
+      window.instana.tags = [
+        { name: 'a.b.c' },
+        { name: 'a.b.c.d' },
+        { name: 'a.b' },
+        { name: 'a.b.d' },
+        { name: 'b' },
+        { name: 'b.c.d' },
+        { name: 'x.c.d' },
+        { name: 'x.y.z' },
+        { name: 'z.a.c' },
+        { name: 'z.a.b' },
+        { name: 'this.is.a.unique.path' }
+      ];
+    });
+
+    it('should build a categorized tag tree', () => {
+      const tree = getTagTree();
+
+      expect(tree).to.not.equal(null);
+
+      expect(tree.getChildren()).to.have.length(5);
+      expect(tree.getChildren()[0].name).to.equal('a');
+      expect(tree.getChildren()[1].name).to.equal('b');
+      expect(tree.getChildren()[2].name).to.equal('this');
+      expect(tree.getChildren()[3].name).to.equal('x');
+      expect(tree.getChildren()[4].name).to.equal('z');
+
+      expect(tree.getChildren()[0].getChildren()).to.have.length(1);
+      expect(tree.getChildren()[0].getChildren()[0].name).to.equal('b');
+
+      expect(tree.getChildren()[0].getChildren()[0].isTag).to.equal(true);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(2);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('c');
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[1].name
+      ).to.equal('d');
+
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].isTag
+      ).to.equal(true);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(1);
+      expect(
+        tree
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('d');
+
+      expect(tree.getChildren()[1].isTag).to.equal(true);
+      expect(tree.getChildren()[1].getChildren()).to.have.length(1);
+      expect(tree.getChildren()[1].getChildren()[0].name).to.equal('c');
+
+      expect(
+        tree
+          .getChildren()[1]
+          .getChildren()[0]
+          .getChildren()
+      ).to.have.length(1);
+      expect(
+        tree
+          .getChildren()[1]
+          .getChildren()[0]
+          .getChildren()[0].name
+      ).to.equal('d');
+    });
+
+    // it('should deep merge keys', () => {
+    //   window.instana.tags = [{ name: 'a.b.c.d' }, { name: 'b.c.d' }];
+    //   const tree = getTagTree();
+
+    //   expect(tree).to.not.equal(null);
+
+    //   expect(tree.children).to.have.length(2);
+    //   expect(tree.children[0].name).to.equal('a.b.c.d');
+    //   expect(tree.children[1].name).to.equal('b.c.d');
+    // });
+
+    it('should find tree node by given fully qualified name', () => {
+      expect(findSubTreeByFullyQualifiedName('a')).to.not.equal(null);
+
+      let match = findSubTreeByFullyQualifiedName('a.b');
+      expect(match).to.not.equal(null);
+      expect(match.name).to.equal('b');
+      expect(match.fullyQualifiedName).to.equal('a.b');
+
+      match = findSubTreeByFullyQualifiedName('a.b.c.d');
+      expect(match).to.not.equal(null);
+      expect(match.name).to.equal('d');
+      expect(match.fullyQualifiedName).to.equal('a.b.c.d');
+    });
+
+    it('should find tree node by given fully qualified name (findSubTreeByFullyQualifiedName)', () => {
+      expect(findSubTreeByFullyQualifiedName('foo.bar')).to.equal(undefined);
+      expect(findSubTreeByFullyQualifiedName('a.b.c').name).to.equal('c');
+      expect(findSubTreeByFullyQualifiedName('a.b').name).to.equal('b');
+      expect(findSubTreeByFullyQualifiedName('a.b.d').name).to.equal('d');
+      expect(findSubTreeByFullyQualifiedName('b').name).to.equal('b');
+      expect(findSubTreeByFullyQualifiedName('b.c.d').name).to.equal('d');
+    });
+
+    it('should find tree nodes till the given name', () => {
+      expect(getTreeNodesTillName('foo.bar')).to.equal(null);
+      expect(
+        getTreeNodesTillName('a.b.c')
+          .map(n => n.name)
+          .join('.')
+      ).to.equal('a.b.c');
+      expect(getTreeNodesTillName('foo.bar')).to.equal(null);
+      expect(
+        getTreeNodesTillName('a.b.c.d')
+          .map(n => n.name)
+          .join('.')
+      ).to.equal('a.b.c.d');
+    });
+
+    it('should return the full path till node (getFullPathTillNode)', () => {
+      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('a.b.c.d'))).to.equal('a.b.c');
+      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('a.b.c.d'), 'f')).to.equal('a.b.c.f');
+      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('b'), 'f')).to.equal('f');
+    });
+
+    it('should resolve to the deepest possible node path (getDeepestPossibleNodePath)', () => {
+      expect(getDeepestPossibleNodePath('unknown')).to.equal('unknown');
+      expect(getDeepestPossibleNodePath('x')).to.equal('x');
+      expect(getDeepestPossibleNodePath('a')).to.equal('a.b');
+      expect(getDeepestPossibleNodePath('this.is.a.unique.path')).to.equal('this.is.a.unique.path');
+    });
+
+    it('should find child by name (findChildByName)', () => {
+      expect(findChildByName(findSubTreeByFullyQualifiedName('unknown'), 'unknown')).to.equal(null);
+      expect(findChildByName(findSubTreeByFullyQualifiedName('a.b'), 'unknown')).to.equal(null);
+      expect(findChildByName(findSubTreeByFullyQualifiedName('a.b'), 'c').name).to.equal('c');
+      expect(findChildByName(findSubTreeByFullyQualifiedName('this.is.a'), 'unique').name).to.equal('unique');
     });
   });
 });

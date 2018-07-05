@@ -431,11 +431,17 @@ module.exports = {
   lib_arrow_drop_circle_up: {
     path: 'M12,22A10,10,0,1,0,2,12,10,10,0,0,0,12,22Zm0-12,4,4H8Z'
   },
+  lib_arrow_drop_up: {
+    path: 'M7,14.5l5-5,5,5Z'
+  },
   lib_arrow_drop_down: {
     path: 'M7,9.5l5,5,5-5Z'
   },
-  lib_arrow_drop_up: {
-    path: 'M7,14.5l5-5,5,5Z'
+  lib_arrow_drop_left: {
+    path: 'M14.5,7l-5,5l5,5V7z'
+  },
+  lib_arrow_drop_right: {
+    path: 'M9.5,17l5-5l-5-5V17z'
   },
   lib_arrow_dropdown: {
     path: 'M15.3,10H8.7L12,6L15.3,10z M12,18l3.3-4H8.7L12,18z'

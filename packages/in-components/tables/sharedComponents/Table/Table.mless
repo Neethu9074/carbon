@@ -39,11 +39,31 @@
   }
 
   .trRegular {
-    height: 3.5rem;
+    @padding: 1.25rem;
+
+    & > .td, & > .th {
+      padding-top: @padding;
+      padding-bottom: @padding;
+    }
+
+    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
+      top: @padding * -1px;
+      bottom: @padding * -1px;
+    }
   }
 
-  .trCompcat {
-    height: 2.5rem;
+  .trCompact {
+    @padding: 0.75rem;
+
+    & > .td, & > .th {
+      padding-top: @padding;
+      padding-bottom: @padding;
+    }
+
+    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
+      top: @padding * -1px;
+      bottom: @padding * -1px;
+    }
   }
 
   .th {
@@ -74,5 +94,15 @@
     .tr:first-child > .tr {
       border-top: 0;
     }
+  }
+
+  .severityIndicatorCellContentWrapper {
+    position: relative;
+  }
+
+  .severityIndicatorCellContentWrapperIndicator {
+    position: absolute;
+    left: -1rem;
+    width: 2px;
   }
 }

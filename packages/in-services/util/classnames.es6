@@ -23,7 +23,7 @@ export function joinClassNames() {
 export function evaluateClassNames(definition) {
   let classes = '';
   for (const key in definition) {
-    if (definition[key]) {
+    if (key != null && key !== 'undefined' && key != 'null' && definition[key]) {
       classes += ' ' + key;
     }
   }

@@ -1,5 +1,6 @@
 // @flow
 
+import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import getClientMessages from 'in-subscription/getClientMessages';
 import type { Message } from 'in-subscription/getClientMessages';
 import { isTechnicalError } from 'in-types/error';
@@ -24,7 +25,15 @@ export function init() {
 
 function onNewMessage(msg: Message) {
   if (isTechnicalError(msg.errorCode)) {
-    logger.error('Technical error received from backend', msg);
+    const args = [
+      'Technical error received from backend',
+      msg,
+      getInitializationCallStack(msg.subscriptionId),
+      {
+        subscriptionPayload: getSubscriptionPayload(msg.subscriptionId)
+      }
+    ].filter(Boolean);
+    logger.error(...args);
   } else {
     messageStore.mutateTo(msg);
   }

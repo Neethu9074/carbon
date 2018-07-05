@@ -36,6 +36,8 @@ import './components/sdk/Descriptions';
 
 import './newComponents/Axis';
 import './newComponents/BadgeKeyValueStory';
+import './newComponents/health/HealthIndicatorStory';
+import './newComponents/health/OpenIssuesListPresenterStory';
 import './newComponents/HeatMap';
 import './newComponents/overlays/OverlayStory';
 
@@ -43,6 +45,8 @@ import './analyse/CallTree';
 import './analyse/IcicleChart';
 import './analyse/TraceConverter';
 import './analyse/TimingChart';
+
+import './designLibrary/analyze/FilterStory';
 
 import './designLibrary/application/AppHeaderStory';
 import './designLibrary/application/EmptyAppListStory';
@@ -63,6 +67,7 @@ import './designLibrary/components/ChartStory';
 import './designLibrary/components/DashboardHeaderStory';
 import './designLibrary/components/EntityWithTypeAndIconStory';
 import './designLibrary/components/KpiCardStory';
+import './designLibrary/components/MultiSelectDropdownStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';
 import './designLibrary/components/TagStory';
@@ -74,6 +79,7 @@ import './designLibrary/components/time/TimeSelectionDialogPresenterStory';
 import './designLibrary/components/ViewSwitcherStory';
 
 import './designLibrary/forms/ApplicationConfigurationStory';
-import './designLibrary/forms/ServiceConfigurationStory';
-import './designLibrary/forms/FormFieldsStory';
 import './designLibrary/forms/BasicFormStory';
+import './designLibrary/forms/FormFieldsStory';
+import './designLibrary/forms/ServiceConfigurationStory';
+import './designLibrary/forms/TagFilterEditFormStory';

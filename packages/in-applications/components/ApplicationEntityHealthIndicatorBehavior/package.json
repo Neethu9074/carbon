@@ -1,0 +1,6 @@
+{
+  "name": "ApplicationEntityHealthIndicatorBehavior",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ApplicationEntityHealthIndicatorBehavior.es6"
+}

@@ -14,7 +14,6 @@
 - [Code Style](#code-style)
   * [Simon Sort](#simon-sort)
   * [Running Prettier On Save](#running-prettier-on-save)
-    + [Code](#code)
     + [VIM](#vim)
     + [IntelliJ & Co](#intellij--co)
 - [Upgrading Node.js](#upgrading-nodejs)
@@ -24,6 +23,7 @@
   * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
   * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
+- [The Node.js Front End Server](#the-nodejs-front-end-server)
 
 <!-- tocstop -->
 
@@ -86,10 +86,25 @@ newgrp docker
 
 #### Preferences/Environment Variables
 
-A few environment variables are used to tweak the UI development workflow to your personal preferences:
+A few environment variables are used to tweak the UI development workflow to your personal preferences. These are used for `yarn run dev`:
 
+* `TARGET`:
+    * If this is set to `test` (non case-sensitive) the UI client will connect to the test environment automatically instead of asking you for the target environment.
+    * If this is set to `local` (non case-sensitive) the UI client will connect to the your local back end instead of asking.
+    * Otherwise, `yarn run dev` will ask for the target environment during startup.
+* `BUILD_MODE`:
+    * If this is set to `prod` (non case-sensitive), sources will be compiled in production mode.
+    * If this is set to `ask` (non case-sensitive), you will be asked and can choose between production mode or development mode.
+    * Otherwise, sources will be compiled in development mode.
 * `HOT_RELOAD`: If this is set to a non-empty string and the build is running in development mode, the build will trigger a browser reload automatically when a file is changed and saved and the project has been recompiled. Without this, you'll have to refresh manually.
 * `DONT_OPEN_BROWSER`: If this is set to a non-empty string, the UI build will not open a new browser window when the build is finished.
+
+For maximum convenience, you can create aliases like this for your shell:
+
+```
+alias uit="cd /Users/name/path/to/ui-client && TARGET=test yarn run dev"
+alias uil="cd /Users/name/path/to/ui-client && TARGET=local yarn run dev"
+```
 
 ## Branching Model
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
@@ -132,10 +147,6 @@ export default function CallTree({
 ```
 
 ### Running Prettier On Save
-
-#### Code
-
-Ask Simon or Ben to share their setup.
 
 #### VIM
 
@@ -202,7 +213,9 @@ Object.keys(instana.dev.storeStates).forEach(key => {
 ```
 
 ### How can I get a list of metrics?
-You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which writes the metrics to files in the CWD. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+
+The generated files' names are `metricOverview*`.
 
 ### I am getting flow type checking errors even though everything should be fine?
 This can happen when switching between two branches with a lot of changes while the development server is running. To fix this, stop the development server and then execute the following:
@@ -212,3 +225,20 @@ yarn run cleanup-flow
 ```
 
 If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
+
+## The Node.js Front End Server
+
+During development you will mostly work with `yarn run dev`, but in production the assets are served by a small Node.js app which you can find in `packages/in-server`. This component also makes a few preliminary requests, for example to `/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these requests will be injected into the Handlebars template for index.html (`packages/in-server/templates/index.hbs`, which is also only used in production while `packages/in-client/index.html` is used during development).
+
+It is rather rare, but if need to start `in-server` locally, here's how:
+
+* `yarn run try-build`
+* `yarn run try-build-without-building` can also be used after the first successful Gulp/Webpack build
+
+If the build fails while trying to start the Proxy (Proxrox) with something like:
+
+```
+error, no objects specified in config file,
+```
+
+this might be due to an incompatibility between Proxrox and MacOS' default openssl executable. Check `openssl version`, if it says something like `LibreSsl 2.xx`, consider doing `brew install openssl`/`brew upgrade openssl` and (important!) adding its path to your shell's init scripts (`export PATH="/usr/local/opt/openssl/bin:$PATH"`). After that, `openssl version` should say something like `OpenSSL 1.0.2o  27 Mar 2018`.

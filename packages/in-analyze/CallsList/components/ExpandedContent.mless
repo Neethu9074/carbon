@@ -1,0 +1,32 @@
+@import '~in-themes/active.less';
+
+:local {
+  .content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-bottom: 1rem;
+  }
+
+  .filterListing {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filtersFilterGroup {
+    margin-bottom: 0.75rem;
+  }
+
+  .filter {
+    margin-bottom: 0.25rem;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+}

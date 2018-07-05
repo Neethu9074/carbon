@@ -5,6 +5,7 @@ import webhookIntegrationConfig from 'in-views/configurationView/subview/Integra
 import slackIntegrationConfig from 'in-views/configurationView/subview/Integration/slackIntegrationConfig';
 import emailIntegrationConfig from 'in-views/configurationView/subview/Integration/emailIntegrationConfig';
 import hipChatIntegrationConfig from 'in-views/configurationView/subview/Integration/hipChatIntegrationConfig';
+import splunkIntegrationConfig from 'in-views/configurationView/subview/Integration/splunkIntegrationConfig';
 
 export const configs = {
   email: emailIntegrationConfig,
@@ -13,7 +14,8 @@ export const configs = {
   pagerduty: PagerdutyIntegrationConfig,
   office365: office365IntegrationConfig,
   webhook: webhookIntegrationConfig,
-  hipChat: hipChatIntegrationConfig
+  hipChat: hipChatIntegrationConfig,
+  splunk: splunkIntegrationConfig
 };
 
 export const fullyQualified = {};
@@ -24,5 +26,6 @@ fullyQualified[configs.pagerduty.name] = configs.pagerduty;
 fullyQualified[configs.slack.name] = configs.slack;
 fullyQualified[configs.webhook.name] = configs.webhook;
 fullyQualified[configs.hipChat.name] = configs.hipChat;
+fullyQualified[configs.splunk.name] = configs.splunk;
 
 export default configs;
