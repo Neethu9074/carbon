@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -17,7 +17,7 @@ export default function ReplicaSetSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <ClusterMemberList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }
