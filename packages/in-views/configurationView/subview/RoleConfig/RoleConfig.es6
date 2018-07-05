@@ -4,7 +4,7 @@ import React from 'react';
 
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
-import { rolesConfigPath } from 'in-stores/navigation/paths/settingPaths';
+import { rolesConfigsPath } from 'in-stores/navigation/paths/settingPaths';
 import { getRole, saveRole, createRole } from 'in-api/roles';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
@@ -23,7 +23,7 @@ export default function AlertingConfiguration(props) {
       createDefaultEntity={createRole}
       createForm={createForm}
       getEntityFromApi={getRole}
-      openEntities={() => goToPath(rolesConfigPath)}
+      openEntities={() => goToPath(rolesConfigsPath)}
       saveEntity={save}
     />
   );
