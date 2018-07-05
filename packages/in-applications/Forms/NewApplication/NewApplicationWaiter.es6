@@ -14,10 +14,9 @@ import locals from './NewApplicationWaiter.mless';
 export default connectTo(
   props => {
     const appId = props.match.params.appId;
-    console.log(appId);
     return {
       result: interval(3000)
-        .flatMap(() => getApp(props))
+        .flatMap(() => getApp(appId))
         .flatMap(result => {
           if (result.progress.loading || result.errors.length > 0) {
             return just(result);
@@ -56,7 +55,7 @@ export default connectTo(
   }
 );
 
-function getApp({ applicationId }) {
+function getApp(applicationId) {
   return getApplication({
     id: applicationId,
     requestTime: Date.now() // subscription cache busting
