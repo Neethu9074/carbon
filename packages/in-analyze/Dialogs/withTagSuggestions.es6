@@ -73,7 +73,7 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: this.props.filters.get('timeConfig')
         },
-        tagFilters: getTagFilterList(this.props.filters),
+        tagFilters: getTagFilterList(this.state.name, this.props.filters),
         tagName: this.state.name,
         secondLevelKeyTagName: null,
         requestingSecondaryKeySuggestions: false,
@@ -103,19 +103,24 @@ export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   }));
 }
 
-function getTagFilterList(filters) {
+function getTagFilterList(tagName, filters) {
   const tagFilters = [];
 
   const application = filters.getIn([applicationFilterMatrixParameter, APPLICATION.id]);
   const service = filters.getIn([applicationFilterMatrixParameter, SERVICE.id]);
   const endpoint = filters.getIn([applicationFilterMatrixParameter, ENDPOINT.id]);
-  if (application) {
+
+  const isApplicationTag = tagName !== APPLICATION.name;
+  const isServiceTag = tagName !== SERVICE.name;
+  const isEndpointTag = tagName !== ENDPOINT.name;
+
+  if (application && isApplicationTag) {
     tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
   }
-  if (service) {
+  if (service && (isApplicationTag && isServiceTag)) {
     tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
   }
-  if (endpoint) {
+  if (endpoint && (isApplicationTag && isServiceTag && isEndpointTag)) {
     tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
   }
 
