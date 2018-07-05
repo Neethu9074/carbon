@@ -56,8 +56,10 @@ export default function SvgIcon({
   }
 
   style = style || {};
-  style.width = `${iconWidth}px`;
-  style.height = `${iconHeight}px`;
+  style.minHeight = `${iconHeight}px`;
+  style.maxHeight = style.minHeight;
+  style.minWidth = `${iconWidth}px`;
+  style.maxWidth = style.minWidth;
 
   let classNames = block;
   if (className) {
