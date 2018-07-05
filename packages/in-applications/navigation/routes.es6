@@ -7,6 +7,7 @@ import { role } from 'in-stores/user';
 // the following components are all part of the same bundle (application)
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMappingDialog';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
+import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
@@ -20,6 +21,7 @@ import {
   serviceDashboard,
   endpointDashboard,
   newApplicationView,
+  newApplicationWaiterView,
   newServiceView
 } from 'in-applications/navigation/paths';
 
@@ -28,9 +30,12 @@ export default (
     {role.canConfigureApplications && (
       <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
     )}
+    <Route path={`${newApplicationWaiterView}/:appId`} component={createAsyncViewComponent(NewApplicationWaiter)} />
+
     {role.canConfigureServiceMapping && (
       <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
     )}
+
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
     <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
+import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-subscription/application/getApplication';
 import { interval, just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
@@ -12,17 +12,21 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './NewApplicationWaiter.mless';
 
 export default connectTo(
-  props => ({
-    result: interval(3000)
-      .flatMap(() => getApp(props))
-      .flatMap(result => {
-        if (result.progress.loading || result.errors.length > 0) {
-          return just(result);
-        } else {
-          return getApplicationDashboard(result.data.id);
-        }
-      })
-  }),
+  props => {
+    const appId = props.match.params.appId;
+    console.log(appId);
+    return {
+      result: interval(3000)
+        .flatMap(() => getApp(props))
+        .flatMap(result => {
+          if (result.progress.loading || result.errors.length > 0) {
+            return just(result);
+          } else {
+            return getApplicationDashboard(result.data.id);
+          }
+        })
+    };
+  },
   function NewApplicationWaiter({ result, label }) {
     if (typeof result === 'string') {
       return <Redirect to={result.substring(2)} />;
