@@ -12,7 +12,6 @@ import Notification from 'in-sdk/components/dashboard/Notification';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { getErrorBreakdownForWebsite } from 'in-api/eumErrors';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { combineDataAndError } from 'in-services/util/ro';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { getLabel } from 'in-sdk/snapshot';
@@ -76,11 +75,9 @@ export default connectTo(
         <Title title="Error Details" dynamic={message} />
         <div className={`${block}__actions`}>
           <BackButton label="Back to error list" href$={getSubDashboardLink(backButtonPath)} />
-          {!twoZeroModeEnabled && (
-            <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
-              Traces
-            </Button>
-          )}
+          <Button kind="secondary" size="sm" href$={getTraceViewLinkWithQuery(viewTracesQuery)}>
+            Traces
+          </Button>
         </div>
 
         <DashboardTile>

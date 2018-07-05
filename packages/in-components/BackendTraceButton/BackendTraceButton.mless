@@ -1,0 +1,13 @@
+:local {
+  .button {
+    width: 10rem;
+  }
+
+  .spinner {
+    fill: #fff;
+  }
+
+  .waitingText {
+    display: block;
+  }
+}
