@@ -191,11 +191,13 @@ describe('in-components/SearchBar/misc/fields', () => {
     });
   });
 
-  /*describe('in hybrid mode with v2=true and searchContext=traces', () => {
+  describe('in hybrid mode with v2=true and searchContext=traces', () => {
+    const ctx = 'traces';
+
     beforeEach(() => {
       mod = proxyquire('in-stores/search/fields', {});
 
-      mod.buildCategorizedFields([
+      mod.buildCategorizedFields(ctx, [
         { keyword: 'entity' },
         { keyword: 'span' },
         { keyword: 'graph' },
@@ -221,67 +223,67 @@ describe('in-components/SearchBar/misc/fields', () => {
         { keyword: 'trace.type' },
         { keyword: 'trace.errorCount' },
         { keyword: 'trace.eum.pageLoad', termType: 'id' }
-      ], 'traces');
+      ]);
 
       setHybridModeV2Enabled(true);
     });
 
     it('must return root on empty null', () => {
-      expect(mod.findNode().name).to.equal('root');
+      expect(mod.findNode(undefined, ctx).name).to.equal('root');
     });
 
     it('must return root on empty string', () => {
-      expect(mod.findNode('').name).to.equal('root');
+      expect(mod.findNode('', ctx).name).to.equal('root');
     });
 
     it('must return matching nodes', () => {
-      expect(mod.findNode('e').name).to.equal('root');
+      expect(mod.findNode('e', ctx).name).to.equal('root');
     });
 
     it('must return all children for valid first stage', () => {
-      expect(mod.findNode('entity').name).to.equal('root');
-      expect(mod.findNode('span').name).to.equal('root');
-      expect(mod.findNode('graph').name).to.equal('root');
-      expect(mod.findNode('trace').name).to.equal('root');
-      expect(mod.findNode('event').name).to.equal('root');
+      expect(mod.findNode('entity', ctx).name).to.equal('root');
+      expect(mod.findNode('span', ctx).name).to.equal('root');
+      expect(mod.findNode('graph', ctx).name).to.equal('root');
+      expect(mod.findNode('trace', ctx).name).to.equal('root');
+      expect(mod.findNode('event', ctx).name).to.equal('root');
     });
 
     it('must only enter the matching node on dot', () => {
-      expect(mod.findNode('entity.').name).to.equal('entity');
-      expect(mod.findNode('span.').name).to.equal('span');
-      expect(mod.findNode('graph.').name).to.equal('graph');
-      expect(mod.findNode('trace.').name).to.equal('trace');
-      expect(mod.findNode('event.').name).to.equal('event');
+      expect(mod.findNode('entity.', ctx).name).to.equal('entity');
+      expect(mod.findNode('span.', ctx).name).to.equal('span');
+      expect(mod.findNode('graph.', ctx).name).to.equal('graph');
+      expect(mod.findNode('trace.', ctx).name).to.equal('trace');
+      expect(mod.findNode('event.', ctx).name).to.equal('event');
     });
 
     it('must return all children for valid second stage', () => {
-      expect(mod.findNode('span.location').name).to.equal('span');
-      expect(mod.findNode('span.location.').name).to.equal('location');
+      expect(mod.findNode('span.location', ctx).name).to.equal('span');
+      expect(mod.findNode('span.location.', ctx).name).to.equal('location');
     });
 
     it('must return all children for valid third stage', () => {
-      expect(mod.findNode('span.location.country').name).to.equal('location');
-      expect(mod.findNode('span.location.country.')).to.equal(null);
+      expect(mod.findNode('span.location.country', ctx).name).to.equal('location');
+      expect(mod.findNode('span.location.country.', ctx)).to.equal(null);
     });
 
     it('must skip unknown path', () => {
-      expect(mod.findNode('span.unknown')).to.equal(null);
+      expect(mod.findNode('span.unknown', ctx)).to.equal(null);
     });
 
     it('must skip unknown path', () => {
-      expect(mod.findNode('unknown.')).to.equal(null);
-      expect(mod.findNode('ent.')).to.equal(null);
-      expect(mod.findNode('.')).to.equal(null);
+      expect(mod.findNode('unknown.', ctx)).to.equal(null);
+      expect(mod.findNode('ent.', ctx)).to.equal(null);
+      expect(mod.findNode('.', ctx)).to.equal(null);
     });
 
     it('must skip blacklisted items', () => {
-      expect(mod.findNode('log')).to.equal(null);
+      expect(mod.findNode('log', ctx)).to.equal(null);
     });
 
     it('must skip groups if children only contains termtype-id items', () => {
-      expect(mod.findNode('trace.eum')).to.equal(null);
+      expect(mod.findNode('trace.eum', ctx)).to.equal(null);
     });
-  });*/
+  });
 
   function setHybridModeV2Enabled(v2Enabled) {
     config.featureFlags['oneZeroAppDataEnabled'] = true;
