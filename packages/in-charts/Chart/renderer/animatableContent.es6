@@ -232,7 +232,7 @@ export default function createAnimatableContentRenderer(config) {
     let max = Number.NEGATIVE_INFINITY;
     let min = Number.POSITIVE_INFINITY;
 
-    if (axisConfig.min == null && axisConfig.max == null) {
+    if (axisConfig.min == null || axisConfig.max == null) {
       const getBounds = config.axisContentRenderers[axisName].getBoundsForRow || getBoundsForRow;
 
       for (let i = 0, len = dataColumns.length; i < len; i++) {
