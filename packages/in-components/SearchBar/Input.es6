@@ -40,7 +40,8 @@ export default getElementDimensions(
           mode: 'instanaSearch',
           value: this.props.query,
           autofocus: false,
-          scrollbarStyle: null
+          scrollbarStyle: null,
+          searchContext: this.props.searchContext
         }));
 
         let autocompleteShownForCursorPosition = null;
@@ -292,6 +293,7 @@ export default getElementDimensions(
                 eventEmitter={this.state.eventEmitter}
                 onSelectSuggestion={this.onSelectSuggestion}
                 config={this.state.suggestionConfig}
+                searchContext={this.props.searchContext}
               />
             </div>
           </ErrorBoundary>

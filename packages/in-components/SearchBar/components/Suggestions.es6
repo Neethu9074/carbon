@@ -24,7 +24,7 @@ export default class extends React.Component {
 
   state = {
     currentHighlightedRowIndex: 0,
-    availableChildren: getChildrenForConfig(this.props.config)
+    availableChildren: getChildrenForConfig(this.props.searchContext, this.props.config)
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class extends React.Component {
     if (this.props.config !== nextProps.config) {
       this.setState({
         currentHighlightedRowIndex: 0,
-        availableChildren: getChildrenForConfig(nextProps.config)
+        availableChildren: getChildrenForConfig(this.props.searchContext, nextProps.config)
       });
     }
   }
@@ -198,7 +198,7 @@ function TermType({ node }) {
   return <span className={`${block}__term-type`}>{node.termType}</span>;
 }
 
-function getChildrenForConfig(config) {
+function getChildrenForConfig(searchContext, config) {
   if (!config) {
     return emptyArray;
   }
@@ -210,7 +210,9 @@ function getChildrenForConfig(config) {
     if (tokenAtCursor && config.cursor - tokenAtCursor.start >= 0) {
       cappedValueAtCursor = config.fieldValue.substr(0, config.cursor - tokenAtCursor.start);
     }
-    return getValueSuggestions(config.field, cappedValueAtCursor).map(field => createNode(field, { isPreset: true }));
+    return getValueSuggestions(config.field, cappedValueAtCursor, searchContext).map(field =>
+      createNode(field, { isPreset: true })
+    );
   }
 
   if (
@@ -221,13 +223,13 @@ function getChildrenForConfig(config) {
   }
 
   if (isWhitespace(tokenAtCursor)) {
-    return findNode().children;
+    return findNode(undefined, searchContext).children;
   } else if (isOperator(tokenAtCursor)) {
     return operatorTree.children;
   }
 
   const cappedLexemeAtCursor = tokenAtCursor.lexeme.substr(0, config.cursor - tokenAtCursor.start);
-  const node = findNode(cappedLexemeAtCursor);
+  const node = findNode(cappedLexemeAtCursor, searchContext);
   if (!node) {
     return emptyArray;
   }

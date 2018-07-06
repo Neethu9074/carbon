@@ -36,7 +36,7 @@ export default function TraceView() {
 
 function TraceViewInternal() {
   return (
-    <Sticky header={<SearchBar />}>
+    <Sticky header={<SearchBar searchContext="traces" />}>
       <LegacyView />
       <Title title="Traces" />
       <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />

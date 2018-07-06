@@ -31,7 +31,7 @@ export default connectTo(
     }
 
     render() {
-      const { query, presetsVisible, keywordsVisible } = this.props;
+      const { query, presetsVisible, keywordsVisible, searchContext } = this.props;
       const hasContent = query.length > 0;
       const collapseClass = `${block}__expand-collapse-wrapper`;
 
@@ -51,7 +51,7 @@ export default connectTo(
             </div>
 
             <div className={`${block}__input-wrapper`}>
-              <Input />
+              <Input searchContext={searchContext} />
             </div>
 
             <ClearQueryButton />
