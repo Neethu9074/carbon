@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
-import { unvalidatedQuery$, query$, setInputString } from 'in-stores/search/query';
+import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
@@ -31,7 +31,7 @@ export default connectTo(
     }
 
     render() {
-      const { query, presetsVisible, keywordsVisible, searchContext } = this.props;
+      const { query, presetsVisible, keywordsVisible } = this.props;
       const hasContent = query.length > 0;
       const collapseClass = `${block}__expand-collapse-wrapper`;
 
@@ -51,7 +51,7 @@ export default connectTo(
             </div>
 
             <div className={`${block}__input-wrapper`}>
-              <Input searchContext={searchContext} />
+              <Input />
             </div>
 
             <ClearQueryButton />
@@ -106,12 +106,11 @@ const ClearQueryButton = connectTo(
     query: unvalidatedQuery$
   },
   function ClearQueryButton({ query }) {
-    if (!query || query.length === 0) {
+    if (!query || !query.query || query.query.length === 0) {
       return null;
     }
-
     return (
-      <div className={`${block}__delete-query-button`} onClick={() => setInputString('')}>
+      <div className={`${block}__delete-query-button`} onClick={() => setQueryInput('', query.searchContext)}>
         <SvgIcon type="x" height={10} color="#6b8088" />
       </div>
     );

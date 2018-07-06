@@ -7,7 +7,10 @@ import { createStore } from 'in-stores/store';
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
-  initialValue: ''
+  initialValue: {
+    query: '',
+    searchContext: undefined
+  }
 });
 export const unvalidatedQuery$ = unvalidatedQueryStore.observable.distinct();
 
@@ -31,11 +34,23 @@ const errorStore = createStore({
 export const error$ = errorStore.observable;
 
 navigationParameters$.subscribe(params => {
-  const query = params.query;
-  if ('q' in query) {
-    unvalidatedQueryStore.mutateTo(query.q);
+  // TODO: there must be a more elegant way to set search context
+  let context;
+  if (params.pathname === '/traces') {
+    context = 'traces';
+  }
+
+  const queryParams = params.query;
+  if ('q' in queryParams) {
+    unvalidatedQueryStore.mutateTo({
+      query: queryParams.q,
+      searchContext: context
+    });
   } else {
-    unvalidatedQueryStore.mutateTo('');
+    unvalidatedQueryStore.mutateTo({
+      query: '',
+      searchContext: context
+    });
   }
 });
 
@@ -44,23 +59,25 @@ unvalidatedQuery$
   .debounce(500)
   .subscribe(query => {
     mutateUrl(navParams => {
-      navParams.query.q = query;
+      navParams.query.q = query.query;
       return navParams;
     });
   });
 
 unvalidatedQuery$
-  .map(query => {
+  .map(contextQuery => {
     try {
-      const parsedQuery = parse(query);
+      const parsedQuery = parse(contextQuery.query);
       return {
-        query: query.trim(),
+        query: contextQuery.query.trim(),
+        searchContext: contextQuery.searchContext,
         parsedQuery,
         error: null
       };
     } catch (e) {
       return {
-        query: query.trim(),
+        query: contextQuery.query.trim(),
+        searchContext: contextQuery.searchContext,
         parsedQuery: null,
         error: 'Invalid lucene query.'
       };
@@ -73,8 +90,7 @@ unvalidatedQuery$
     } else if (previousResult.query.length === 0) {
       return always(previousResult);
     }
-
-    return validate(previousResult.query).map(validationResult => {
+    return validate(previousResult.query, previousResult.searchContext).map(validationResult => {
       return {
         query: previousResult.query,
         parsedQuery: previousResult.parsedQuery,
@@ -92,8 +108,13 @@ unvalidatedQuery$
     }
   });
 
-export function setInputString(newString) {
-  unvalidatedQueryStore.mutateTo(newString);
+export function setQueryInput(query, context) {
+  const contextQuery = {
+    query: query,
+    searchContext: context
+  };
+
+  unvalidatedQueryStore.mutateTo(contextQuery);
 }
 
 export function mutateQuery(fn) {
