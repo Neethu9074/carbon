@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  getLinkColumn,
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
@@ -23,7 +22,7 @@ export default function AlertingConfigurations() {
   return (
     <BasicEntitiesOverview
       title="Alerting Configurations"
-      getEntities={getAlertingConfigs}
+      getEntities={() => getAlertingConfigs().flatMap(configs => )}
       deleteEntity={deleteAlertingConfig}
       setEnabled={setEnabled}
       openEntityConfiguration={() => goToPath(alertingConfigurationPath)}
@@ -40,6 +39,33 @@ export default function AlertingConfigurations() {
   );
 }
 
+function validateConfigs(configs){
+  configs
+  .map(config =>  {
+    if(config.get('query')){
+
+    }
+  })
+}
+
 function getRowDetails(row) {
   return <AlertingConfigurationDetails config={row.entity} />;
+}
+
+function getLinkColumn(getLink, propertyName = 'name', linkParams) {
+  return {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get$(row) {
+        return getLink(row.key, linkParams).map(href => {
+          return {
+            value: row.entity.get(propertyName),
+            content: <Link href={href}>{row.entity.get(propertyName)}</Link>
+          };
+        });
+      }
+    }
+  };
 }

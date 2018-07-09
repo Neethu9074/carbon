@@ -2,6 +2,8 @@ import { create } from 'reactive-observables';
 import React from 'react';
 
 import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframeBothModes';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
@@ -33,10 +35,10 @@ export default class FormDataEnrichment extends React.Component {
     this.subscription = this.debouncedQuery
       .debounce(1000)
       .flatMap(query => {
-        return validate(query, true);
+        return combineLatest([validate(query, false), validate(query, true)]);
       })
-      .subscribe(validationResponse => {
-        this.props.onChange('valid', validationResponse.body.valid == null ? false : validationResponse.body.valid);
+      .subscribe(([validationResponse10, validationResponse20]) => {
+        this.props.onChange('validationResult', combinedValidationResults(validationResponse10.body, validationResponse20.body));
       });
   }
 
@@ -64,6 +66,18 @@ export default class FormDataEnrichment extends React.Component {
 
   render() {
     return null;
+  }
+}
+
+function combinedValidationResults(validationResult10, validationResult20) {
+  if(twoZeroModeEnabled){
+    return validationResult20;
+  } else {
+    if(validationResult20.valid){
+      return validationResult20;
+    } else {
+      return validationResult10;
+    }
   }
 }
 

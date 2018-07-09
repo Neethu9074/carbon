@@ -128,7 +128,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {(role.canConfigureIntegrations || role.canConfigureCustomAlerts) && !twoZeroModeEnabled ? (
+        {(role.canConfigureIntegrations || role.canConfigureCustomAlerts) ? (
           <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
             {role.canConfigureCustomAlerts && (
               <NavItem

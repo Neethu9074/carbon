@@ -137,9 +137,12 @@ function createForm(config) {
       })
     )
     .put(
-      'valid',
+      'validationResult',
       createField({
-        value: true
+        value: {
+          valid:true,
+          error:null
+        }
       })
     )
     .put(
