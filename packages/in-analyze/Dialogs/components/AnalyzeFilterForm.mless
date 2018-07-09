@@ -7,10 +7,6 @@
     flex-wrap: wrap;
   }
 
-  .selectBox {
-    min-width: 6.25rem;
-  }
-
   .keyList {
     display: flex;
     align-items: center;

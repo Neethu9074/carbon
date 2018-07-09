@@ -33,7 +33,6 @@ export function KeyPart({ children }) {
 export function SelectBox({ options, id, value, onChange }) {
   return (
     <ComboBox
-      className={locals.selectBox}
       id={id}
       value={value}
       onChange={e => onChange(e.value ? e : { value: '' })}
