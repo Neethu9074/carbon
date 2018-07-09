@@ -8,7 +8,7 @@ import { joinClassNames } from 'in-services/util/classnames';
 import { getTagCategories } from 'in-applications/tags';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
-import Select from 'in-components/form/Select';
+import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
 
 import locals from './AnalyzeFilterForm.mless';
@@ -30,11 +30,18 @@ export function KeyPart({ children }) {
   return <li className={locals.key}>{children}</li>;
 }
 
-export function SelectBox({ children, id, value, onChange }) {
+export function SelectBox({ options, id, value, onChange }) {
   return (
-    <Select className={locals.selectBox} id={id} value={value} onChange={onChange} autoComplete="off">
-      {children}
-    </Select>
+    <ComboBox
+      className={locals.selectBox}
+      id={id}
+      value={value}
+      onChange={e => onChange(e.value ? e : { value: '' })}
+      autoComplete="off"
+      hasValue={false}
+      options={options}
+      clearable={false}
+    />
   );
 }
 

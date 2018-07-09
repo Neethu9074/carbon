@@ -5,10 +5,10 @@ import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   FieldSeperator,
-  SelectBox,
   ValueGroup,
   TagCategorySwitcher,
-  NamedSection
+  NamedSection,
+  SelectBox
 } from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
 import {
   getTreeNodesTillName,
@@ -94,29 +94,30 @@ function KeySelection(props) {
 function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
   const rootNode = getTagTree();
   const parts = name.split('.');
-  return parts.map((part, i) => (
-    <KeyPart key={part}>
-      <SelectBox
-        id={part}
-        value={part}
-        onChange={e => {
-          if (i === 0) {
-            onNameChanged(getTagTree(), e.target.value);
-          }
-        }}
-      >
-        <option key={part} value={part}>
-          {part}
-        </option>
-        {i === 0 &&
-          getNodesChildren(rootNode, selectedCategory).map(childNode => (
-            <option key={childNode.name} value={childNode.name}>
-              {childNode.name}
-            </option>
-          ))}
-      </SelectBox>
-    </KeyPart>
-  ));
+  return parts.map((part, i) => {
+    let options = getNodesChildren(rootNode, selectedCategory).map(childNode => ({
+      label: childNode.name,
+      value: childNode.name
+    }));
+    if (part) {
+      options = [{ value: part, label: part }].concat(options);
+    }
+
+    return (
+      <KeyPart key={part}>
+        <SelectBox
+          id={part}
+          value={part}
+          onChange={e => {
+            if (i === 0) {
+              onNameChanged(getTagTree(), e.value);
+            }
+          }}
+          options={options}
+        />
+      </KeyPart>
+    );
+  });
 }
 
 function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory }) {
@@ -126,14 +127,15 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
     <Fragment>
       {treeNodesTillName.map(node => (
         <KeyPart key={node.fullyQualifiedName}>
-          <SelectBox id={node.name} value={node.name} onChange={e => onNameChanged(node, e.target.value)}>
-            {node.parentNode.isTag && <option key="" value="" />}
-            {getNodesChildren(node.parentNode, selectedCategory).map(childNode => (
-              <option key={childNode.name} value={childNode.name}>
-                {childNode.name}
-              </option>
-            ))}
-          </SelectBox>
+          <SelectBox
+            id={node.name}
+            value={node.name}
+            onChange={e => onNameChanged(node, e.value)}
+            options={getNodesChildren(node.parentNode, selectedCategory).map(childNode => ({
+              label: childNode.name,
+              value: childNode.name
+            }))}
+          />
         </KeyPart>
       ))}
 
@@ -143,17 +145,14 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
             id={lastNode.name}
             value=""
             onChange={e => {
-              const childNode = findChildByName(lastNode, e.target.value);
-              onNameChanged(childNode, e.target.value);
+              const childNode = findChildByName(lastNode, e.value);
+              onNameChanged(childNode, e.value);
             }}
-          >
-            {getNodesChildren(lastNode, selectedCategory).length > 1 && <option key="" value="" />}
-            {getNodesChildren(lastNode, selectedCategory).map(childNode => (
-              <option key={childNode.name} value={childNode.name}>
-                {childNode.name}
-              </option>
-            ))}
-          </SelectBox>
+            options={getNodesChildren(lastNode, selectedCategory).map(childNode => ({
+              label: childNode.name,
+              value: childNode.name
+            }))}
+          />
         </KeyPart>
       )}
     </Fragment>
