@@ -13,10 +13,14 @@ export default function Dialog({
   header,
   customHeaderClassName,
   customHeader,
+  contentClassName,
   onClose,
   contentWrapperClassName
 }) {
   let contentClasses = `${block}__content`;
+  if (contentClassName) {
+    contentClasses = `${contentClasses} ${contentClassName}`;
+  }
 
   return (
     <section className={block} onClick={onClickOutside}>
