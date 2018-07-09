@@ -59,7 +59,13 @@ unvalidatedQuery$
   .debounce(500)
   .subscribe(query => {
     mutateUrl(navParams => {
-      navParams.query.q = query.query;
+      if (!query || !query.query || query.query.length === 1) {
+        // remove empty `q` query-param from URL
+        delete navParams.query.q;
+      } else {
+        navParams.query.q = query.query;
+      }
+
       return navParams;
     });
   });
