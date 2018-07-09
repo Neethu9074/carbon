@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { colorTranslation, endpointNameTranslations } from 'in-applications/endpointTypes';
+import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { lighten } from 'in-services/formatters/color';
 import { millis } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
@@ -40,9 +39,15 @@ export default connectTo(
       });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
-      const colors = endpointTypes.map(
-        (type, i) => (type === 'SELF' ? lighten(colorTranslation.SELF, 0.25) : theme.lib.colors.chart.strokeColors25[i])
-      );
+      const colors = endpointTypes.map((type, i) => {
+        let idx = i;
+
+        if (type === 'SELF') {
+          idx = theme.lib.colors.chart.strokeColors25.length - 1;
+        }
+
+        return theme.lib.colors.chart.strokeColors25[idx];
+      });
 
       config = {
         cardTitle: config.cardTitle,
