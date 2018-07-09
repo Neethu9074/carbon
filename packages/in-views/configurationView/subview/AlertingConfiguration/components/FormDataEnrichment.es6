@@ -1,7 +1,8 @@
 import { create } from 'reactive-observables';
 import React from 'react';
 
-import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
+import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframeBothModes';
+import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -28,6 +29,14 @@ export default class FormDataEnrichment extends React.Component {
       })
       .subscribe(events => {
         this.props.onChange('matchingEntities', events ? events.length : events);
+      });
+    this.subscription = this.debouncedQuery
+      .debounce(1000)
+      .flatMap(query => {
+        return validate(query, true);
+      })
+      .subscribe(validationResponse => {
+        this.props.onChange('valid', validationResponse.body.valid == null ? false : validationResponse.body.valid);
       });
   }
 

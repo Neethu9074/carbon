@@ -137,6 +137,12 @@ function createForm(config) {
       })
     )
     .put(
+      'valid',
+      createField({
+        value: true
+      })
+    )
+    .put(
       'timeOpened',
       createField({
         value: Date.now()

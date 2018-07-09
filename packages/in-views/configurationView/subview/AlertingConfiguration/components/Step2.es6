@@ -60,7 +60,7 @@ export default function Step2({ form, onChange }) {
                     className={`${block}__input`}
                     value={eventQueryField.value}
                     onChange={e => onChange('query', e.target.value)}
-                    hasError={!eventQueryField.valid && eventQueryField.touched}
+                    hasError={!eventQueryField.valid && eventQueryField.touched && !form.get('valid')}
                   />
                   <TouchedMessages field={eventQueryField} />
                   <MatchingEntitiesIndicator form={form} />
