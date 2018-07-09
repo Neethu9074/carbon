@@ -9,7 +9,7 @@ import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
 
-  return class StatefulFlowMapComponent extends Component {
+  return class StatefulWithTagSuggestionsComponent extends Component {
     static displayName = getDisplayName('withTagSuggestions', ComposedComponent);
 
     constructor(props) {

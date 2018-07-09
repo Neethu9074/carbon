@@ -7,38 +7,41 @@ import AnalyzeFilterForm, {
   FieldSeperator,
   FixedSelection,
   AutoCompletedSelect,
-  ValueGroup
-} from 'in-analyze/Dialogs/AnalyzeFilterForm';
+  ValueGroup,
+  NamedSection
+} from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
 
 export default function EditApplicationFilterForm({ form, onValueChanged, tagSuggestionOptions }) {
   return (
-    <AnalyzeFilterForm>
-      {form.get('name').map(field => {
-        const parts = field.value.split('.');
-        return (
-          <KeyListGroup field={field}>
-            {parts.map(part => (
-              <KeyPart key={part}>
-                <FixedSelection value={part} />
-              </KeyPart>
-            ))}
-          </KeyListGroup>
-        );
-      })}
+    <NamedSection name="Tag">
+      <AnalyzeFilterForm>
+        {form.get('name').map(field => {
+          const parts = field.value.split('.');
+          return (
+            <KeyListGroup field={field}>
+              {parts.map(part => (
+                <KeyPart key={part}>
+                  <FixedSelection value={part} />
+                </KeyPart>
+              ))}
+            </KeyListGroup>
+          );
+        })}
 
-      <FieldSeperator>:</FieldSeperator>
+        <FieldSeperator>:</FieldSeperator>
 
-      {form.get('value').map(field => (
-        <ValueGroup field={field}>
-          <AutoCompletedSelect
-            field={field}
-            onValueChanged={onValueChanged}
-            autoCompletedOptions={tagSuggestionOptions}
-            clearable
-          />
-        </ValueGroup>
-      ))}
-    </AnalyzeFilterForm>
+        {form.get('value').map(field => (
+          <ValueGroup field={field}>
+            <AutoCompletedSelect
+              field={field}
+              onValueChanged={onValueChanged}
+              autoCompletedOptions={tagSuggestionOptions}
+              clearable
+            />
+          </ValueGroup>
+        ))}
+      </AnalyzeFilterForm>
+    </NamedSection>
   );
 }
 

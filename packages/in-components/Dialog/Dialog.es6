@@ -14,13 +14,9 @@ export default function Dialog({
   customHeaderClassName,
   customHeader,
   onClose,
-  contentClassName,
   contentWrapperClassName
 }) {
   let contentClasses = `${block}__content`;
-  if (contentClassName) {
-    contentClasses = `${contentClasses} ${contentClassName}`;
-  }
 
   return (
     <section className={block} onClick={onClickOutside}>

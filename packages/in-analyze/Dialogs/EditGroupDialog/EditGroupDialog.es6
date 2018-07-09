@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EditGroupFrom, { getInitialForm } from 'in-analyze/Dialogs/EditGroupDialog/EditGroupForm';
-import AnalyzeFilterDialog from 'in-analyze/Dialogs/AnalyzeFilterDialog';
+import AnalyzeFilterDialog from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
 
 export default function EditGroupDialog(props) {
   return (
@@ -9,6 +9,7 @@ export default function EditGroupDialog(props) {
       {...props}
       title="Group"
       getInitialForm={() => getInitialForm(props.group)}
+      getClearForm={() => getInitialForm({})}
       renderForm={formProps => <EditGroupFrom {...props} {...formProps} />}
       onChange={onChange}
     />

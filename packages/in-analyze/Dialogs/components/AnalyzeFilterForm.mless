@@ -60,4 +60,58 @@
       color: @lib__colors__navy900;
     }
   }
+
+  .categoryList {
+    display: flex;
+    align-items: center;
+
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .categoryButton {
+    margin-right: 0.25rem;
+    border: none;
+    background: @lib__colors__N200;
+    font-weight: 100;
+    text-transform: capitalize;
+
+    &:hover {
+      border: none;
+      background: @lib__colors__N300;
+    }
+  }
+
+  .activeCategoryButton {
+    background: #000;
+    border: none;
+    color: #fff;
+    cursor: default;
+
+    &:hover {
+      border: none;
+      background: #000;
+      color: #fff;
+    }
+  }
+
+  .namedSection {
+    display: flex;
+    align-items: flex-start;
+
+    &:last-child {
+      min-height: 5rem;
+    }
+  }
+
+  .name {
+    margin-top: 0.625rem;
+    min-width: 5rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .content {
+    width: 100%;
+  }
 }
