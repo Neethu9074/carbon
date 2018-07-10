@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import { getEnableToggleColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
@@ -10,6 +11,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { combineLatest, just } from 'reactive-observables';
 import { goToPath } from 'in-stores/navigation';
 import { validate } from 'in-api/search';
+import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 
 export default function AlertingConfigurations() {
@@ -24,7 +26,11 @@ export default function AlertingConfigurations() {
   return (
     <BasicEntitiesOverview
       title="Alerting Configurations"
-      getEntities={() => getAlertingConfigs().flatMap(configs => combineLatest(configs.toArray().map(validateConfig)))}
+      getEntities={() =>
+        getAlertingConfigs()
+          .flatMap(configs => combineLatest(configs.toArray().map(validateConfig)))
+          .map(configs => fromJS(configs))
+      }
       deleteEntity={deleteAlertingConfig}
       setEnabled={setEnabled}
       openEntityConfiguration={() => goToPath(alertingConfigurationPath)}
@@ -42,8 +48,10 @@ export default function AlertingConfigurations() {
 }
 
 function validateConfig(config) {
-  if (twoZeroModeEnabled && config.get('query')) {
-    return validate(config.get('query'), true).map(response => config.set('valid', response.body.valid));
+  if (twoZeroModeEnabled && config.getIn(['eventFilteringConfiguration', 'query'])) {
+    return validate(config.getIn(['eventFilteringConfiguration', 'query']), true).map(response =>
+      config.set('valid', response.body.valid)
+    );
   } else {
     return just(config.set('valid', true));
   }
@@ -65,7 +73,8 @@ function getLinkColumn(getLink, propertyName = 'name', linkParams) {
             value: row.entity.get(propertyName),
             content: (
               <Link href={href}>
-                {row.entity.get(propertyName)} {row.entity.get('valid')}
+                {row.entity.get(propertyName)}{' '}
+                {!row.entity.get('valid') && <Badge size="sm">invalid in application preview mode</Badge>}
               </Link>
             )
           };
