@@ -29,7 +29,7 @@ export default function AlertingConfigurations() {
       getEntities={() =>
         getAlertingConfigs()
           .flatMap(configs => combineLatest(configs.toArray().map(validateConfig)))
-          .map(configs => fromJS(configs))
+          .map(fromJS)
       }
       deleteEntity={deleteAlertingConfig}
       setEnabled={setEnabled}

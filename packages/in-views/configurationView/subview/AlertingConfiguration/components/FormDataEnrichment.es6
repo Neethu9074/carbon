@@ -1,9 +1,8 @@
-import { create } from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframeBothModes';
+import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import { combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
@@ -38,7 +37,10 @@ export default class FormDataEnrichment extends React.Component {
         return combineLatest([validate(query, false), validate(query, true)]);
       })
       .subscribe(([validationResponse10, validationResponse20]) => {
-        this.props.onChange('validationResult', combinedValidationResults(validationResponse10.body, validationResponse20.body));
+        this.props.onChange(
+          'validationResult',
+          combinedValidationResults(validationResponse10.body, validationResponse20.body)
+        );
       });
   }
 
@@ -70,10 +72,10 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function combinedValidationResults(validationResult10, validationResult20) {
-  if(twoZeroModeEnabled){
+  if (twoZeroModeEnabled) {
     return validationResult20;
   } else {
-    if(validationResult20.valid){
+    if (validationResult20.valid) {
       return validationResult20;
     } else {
       return validationResult10;

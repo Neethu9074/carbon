@@ -1,8 +1,7 @@
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import http from 'in-services/http';
 
-export function validate(query, explicitTwoZeroModeEnabled) {
-  const twoZeroModeEnabledActual = explicitTwoZeroModeEnabled == null ? twoZeroModeEnabled : explicitTwoZeroModeEnabled;
+export function validate(query, twoZeroModeEnabledActual = twoZeroModeEnabled) {
   return http({
     method: 'GET',
     url: `/api/search/validate`,
